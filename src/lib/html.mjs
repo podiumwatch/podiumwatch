@@ -107,6 +107,12 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
   };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+  window.si = window.si || function () {
+    (window.siq = window.siq || []).push(arguments);
+  };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body class="${bodyClass}">
 <a class="skip-link" href="#main-content">Skip to main content</a>
