@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Welcome to the New Podium Watch Stories Section",
+    "date": "2026-07-29",
+    "description": "A new home for Ohio high school running rankings, athlete interviews, meet coverage, and the stories behind the performances.",
+    "category": "Podium Watch",
+    "author": "Podium Watch",
+    "image": "",
+    "slug": "welcome-to-podium-watch"
+  },
+  {
+    "title": "The Stories Behind Ohio High School Running",
+    "date": "2026-07-22",
+    "description": "Podium Watch is about more than rankings and finish times. It is also about the athletes, coaches, teams, and moments that make the sport special.",
+    "category": "Beyond the Podium",
+    "author": "Podium Watch",
+    "image": "",
+    "slug": "stories-behind-ohio-running"
+  }
+]
