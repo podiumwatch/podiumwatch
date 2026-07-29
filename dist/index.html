@@ -1,147 +1,155 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Podium Watch covers Ohio high school cross country and track and field with rankings, results, stories, and athlete spotlights.">
-  <title>Podium Watch | Ohio High School Running</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090909">
+<title>Podium Watch</title>
+<meta name="description" content="Ohio high school cross country and track and field rankings, stories, interviews, and athlete coverage.">
+<link rel="canonical" href="https://podiumwatch.vercel.app/">
+<meta property="og:site_name" content="Podium Watch">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Podium Watch">
+<meta property="og:description" content="Ohio high school cross country and track and field rankings, stories, interviews, and athlete coverage.">
+<meta property="og:url" content="https://podiumwatch.vercel.app/">
+<meta property="og:image" content="https://podiumwatch.vercel.app/images/stories/d3_boys_top_25.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Podium Watch">
+<meta name="twitter:description" content="Ohio high school cross country and track and field rankings, stories, interviews, and athlete coverage.">
+<meta name="twitter:image" content="https://podiumwatch.vercel.app/images/stories/d3_boys_top_25.svg">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Podium Watch","url":"https://podiumwatch.vercel.app","description":"Ohio high school cross country and track and field rankings, stories, interviews, and athlete coverage.","publisher":{"@type":"Organization","name":"Podium Watch","logo":"https://podiumwatch.vercel.app/images/branding/podium_watch_logo_dark.png"},"potentialAction":{"@type":"SearchAction","target":"https://podiumwatch.vercel.app/stories/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Podium Watch","url":"https://podiumwatch.vercel.app","logo":"https://podiumwatch.vercel.app/images/branding/podium_watch_logo_dark.png","sameAs":["https://www.instagram.com/podiumwatch/","https://www.youtube.com/@podiumwatchohio"]}</script>
+<link rel="icon" href="/images/branding/favicon.ico" sizes="any">
+<link rel="icon" href="/images/branding/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
+<link rel="stylesheet" href="/styles/main.css">
+<script src="/scripts/site.js" defer></script>
 </head>
-<body>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a class="brand" href="/" aria-label="Podium Watch home">
-        <img src="assets/podium-watch-logo.png" alt="Podium Watch logo">
-        <span>Podium Watch</span>
-      </a>
-      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
-        <span></span><span></span><span></span><span class="sr-only">Open navigation</span>
-      </button>
-      <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-        <a href="#rankings">Rankings</a>
-        <a href="#cross-country">Cross Country</a>
-        <a href="#track">Track and Field</a>
-        <a href="#spotlights">Athlete Spotlights</a>
-        <a href="/blog/">Stories</a>
-        <a href="#about">About</a>
-      </nav>
+<body class="">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<header class="site-header" data-header>
+  <div class="container nav-wrap">
+    <a class="brand" href="/" aria-label="Podium Watch home">
+      <img src="/images/branding/podium_watch_logo_light.png" width="48" height="48" alt="">
+      <span>Podium Watch</span>
+    </a>
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation" data-menu-button>
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation" data-site-nav data-open="false">
+      <a href="/" aria-current="page">Home</a><a href="/rankings/">Rankings</a><a href="/athlete-spotlights/">Athlete Spotlights</a><a href="/stories/">Stories</a><a href="/about/">About</a>
+      <div class="nav-social">
+        <a href="https://www.instagram.com/podiumwatch/" target="_blank" rel="noopener noreferrer" aria-label="Podium Watch on Instagram"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm11.5 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg></a>
+        <a href="https://www.youtube.com/@podiumwatchohio" target="_blank" rel="noopener noreferrer" aria-label="Podium Watch on YouTube"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.8 15.2V8.8l5.6 3.2-5.6 3.2Z"/></svg></a>
+      </div>
+    </nav>
+  </div>
+  <div class="nav-overlay" data-nav-overlay></div>
+</header>
+<main id="main-content"><section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Ohio high school running</p>
+        <h1>The home of Ohio high school running.</h1>
+        <p class="hero-text">Rankings, stories, interviews, and coverage of Ohio high school cross country and track and field.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/rankings/">View latest rankings</a>
+          <a class="button button-outline" href="/stories/">Read latest stories</a>
+        </div>
+        <div class="hero-proof" aria-label="Coverage information">
+          <div><strong>4</strong><span>Cross country divisions</span></div>
+          <div><strong>5</strong><span>Track divisions</span></div>
+          <div><strong>1</strong><span>Ohio running community</span></div>
+        </div>
+      </div>
+      <div class="hero-logo-panel" aria-hidden="true">
+        <img src="/images/branding/podium_watch_logo_dark.png" width="520" height="520" alt="">
+        <p>Rankings. Results. Stories.</p>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main id="top">
-    <section class="hero">
-      <div class="track-lines" aria-hidden="true"></div>
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow">Ohio high school running</p>
-          <h1>The home of Ohio high school running.</h1>
-          <p class="hero-text">Rankings, results, athlete stories, meet coverage, and the biggest moments from cross country and track and field.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#rankings">See latest rankings</a>
-            <a class="button button-secondary" href="/blog/">Read latest stories</a>
-          </div>
-          <div class="hero-proof">
-            <div><strong>5</strong><span>OHSAA divisions</span></div>
-            <div><strong>2</strong><span>sports covered</span></div>
-            <div><strong>1</strong><span>Ohio running community</span></div>
-          </div>
-        </div>
-        <div class="hero-mark">
-          <div class="logo-card">
-            <img src="assets/podium-watch-logo.png" alt="">
-            <p>Rankings. Results. Stories.</p>
-          </div>
-        </div>
+  <section class="section" aria-labelledby="latest-rankings-title">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">Latest rankings</p><h2 id="latest-rankings-title">Who is rising in Ohio?</h2></div>
+        <a class="text-link" href="/rankings/">View all rankings <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a>
       </div>
-    </section>
-
-    <section class="quick-links" aria-label="Featured sections">
-      <div class="container quick-grid">
-        <a href="#rankings"><span>01</span><strong>Statewide Rankings</strong><small>Returning athletes and teams</small></a>
-        <a href="#results"><span>02</span><strong>Meet Results</strong><small>Championship and postseason coverage</small></a>
-        <a href="/blog/"><span>03</span><strong>Latest Stories</strong><small>Rankings, interviews, and meet coverage</small></a>
+      <div class="rankings-grid"><article class="ranking-card">
+    <p>Cross Country</p>
+    <h3>2026 Division 3 Boys Top 25</h3>
+    <span>Top 25 returning runners</span>
+    <small>Updated July 29, 2026</small>
+    <a href="/rankings/cross-country/boys/division-3/2026-top-25-returning-runners/">View rankings <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a>
+  </article>
+        <article class="ranking-card"><p>Cross Country</p><h3>Browse every division</h3><span>Boys and girls, Divisions 1 through 4</span><a href="/rankings/cross-country/">Explore cross country <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a></article>
+        <article class="ranking-card"><p>Track and Field</p><h3>Browse every event</h3><span>Boys and girls, Divisions 1 through 5</span><a href="/rankings/track-and-field/">Explore track <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a></article>
       </div>
-    </section>
-
-    <section id="rankings" class="section">
-      <div class="container">
-        <div class="section-heading">
-          <div><p class="eyebrow">Latest rankings</p><h2>Who is rising in Ohio?</h2></div>
-          <a class="text-link" href="#">View all rankings <span>→</span></a>
-        </div>
-        <div class="rankings-grid">
-          <article class="ranking-card featured-card">
-            <div class="card-label">Featured</div><p>Track and Field</p>
-            <h3>Division 4 Boys Returning State Rankings</h3><span>Top 8 by event</span><a href="#">View rankings</a>
-          </article>
-          <article class="ranking-card"><p>Cross Country</p><h3>Division 1 Boys</h3><span>Top 25 returning runners</span><a href="#">View rankings</a></article>
-          <article class="ranking-card"><p>Cross Country</p><h3>Division 1 Girls</h3><span>Top 25 returning runners</span><a href="#">View rankings</a></article>
-          <article class="ranking-card"><p>Track and Field</p><h3>Division 5 Boys</h3><span>Top 8 by event</span><a href="#">View rankings</a></article>
-          <article class="ranking-card"><p>Track and Field</p><h3>Division 5 Girls</h3><span>Top 8 by event</span><a href="#">View rankings</a></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="stories" class="section section-dark">
-      <div class="container">
-        <div class="section-heading light">
-          <div><p class="eyebrow">Featured stories</p><h2>More than a finish time.</h2></div>
-          <a class="text-link" href="/blog/">From the newsroom <span>→</span></a>
-        </div>
-        <div class="stories-grid">
-          <article class="story-card story-main">
-            <div class="story-art"><span>Beyond the Podium</span></div>
-            <div class="story-content"><p class="story-meta">Athlete interview</p><h3>What great runners learn after the biggest race of their lives</h3><p>Honest conversations about pressure, goals, setbacks, faith, and the person behind the athlete.</p><a href="/blog/">Read the latest stories</a></div>
-          </article>
-          <article class="story-card"><div class="story-art secondary-art"><span>Rankings</span></div><div class="story-content"><p class="story-meta">Track and field</p><h3>The returning athletes to watch next spring</h3><a href="/blog/">Read the latest stories</a></div></article>
-          <article class="story-card"><div class="story-art third-art"><span>Meet Coverage</span></div><div class="story-content"><p class="story-meta">Cross country</p><h3>The races that could shape the season</h3><a href="/blog/">Read the latest stories</a></div></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="cross-country" class="section sport-section">
-      <div class="container sport-grid">
-        <div class="sport-copy"><p class="eyebrow">Cross country</p><h2>Every mile matters.</h2><p>Follow team rankings, individual rankings, course previews, meet recaps, and the road to the state championship.</p><a class="button button-primary" href="#">Explore cross country</a></div>
-        <div class="course-card" aria-label="Decorative cross country course graphic"><span class="mile mile-one">1</span><span class="mile mile-two">2</span><span class="mile mile-three">3</span><div class="course-line"></div><strong>XC</strong></div>
-      </div>
-    </section>
-
-    <section id="track" class="section track-section">
-      <div class="container sport-grid reverse">
-        <div class="track-card" aria-label="Decorative track graphic"><div class="oval"><div class="oval-inner"></div></div><strong>TRACK</strong></div>
-        <div class="sport-copy"><p class="eyebrow">Track and field</p><h2>Every event. Every division.</h2><p>Sprints, distance, hurdles, relays, jumps, and throws. Podium Watch brings Ohio's returning athletes into one clear picture.</p><a class="button button-dark" href="#">Explore track and field</a></div>
-      </div>
-    </section>
-
-    <section id="spotlights" class="section spotlight-section">
-      <div class="container spotlight-grid">
-        <div><p class="eyebrow">Athlete spotlight</p><h2>The story behind the result.</h2><p>Podium Watch gives Ohio athletes a place to tell their story, share what drives them, and help the next generation of runners.</p></div>
-        <div class="spotlight-quote"><blockquote>“The best performances are worth celebrating. The people behind them are worth knowing.”</blockquote><a href="/blog/">See athlete stories</a></div>
-      </div>
-    </section>
-
-    <section id="results" class="results-banner"><div class="container results-content"><div><p class="eyebrow">Meet results</p><h2>Find the performances that matter.</h2></div><a class="button button-light" href="#">Browse results</a></div></section>
-
-    <section id="about" class="section about-section">
-      <div class="container about-grid">
-        <div><p class="eyebrow">About Podium Watch</p><h2>Built for Ohio runners.</h2></div>
-        <div><p>Podium Watch covers Ohio high school cross country and track and field with rankings, stories, meet coverage, and athlete interviews.</p><p>The goal is simple: give athletes, teams, coaches, and fans one place to follow the sport and celebrate the people who make it special.</p></div>
-      </div>
-    </section>
-
-    <section class="social-section"><div class="container social-grid"><div><p class="eyebrow">Follow the coverage</p><h2>@podiumwatch</h2></div><div class="social-actions"><a class="button button-dark" href="#">Instagram</a><a class="button button-secondary" href="#">YouTube</a></div></div></section>
-    <section class="sponsor-section"><div class="container sponsor-grid"><div><p class="eyebrow">Sponsors and advertising</p><h2>Reach Ohio's running community.</h2></div><a class="button button-primary" href="mailto:hello@podiumwatch.com">Partner with Podium Watch</a></div></section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div class="footer-brand"><img src="assets/podium-watch-logo.png" alt="Podium Watch"><p>Ohio high school running, all in one place.</p></div>
-      <div><strong>Coverage</strong><a href="#rankings">Rankings</a><a href="#cross-country">Cross country</a><a href="#track">Track and field</a></div>
-      <div><strong>Podium Watch</strong><a href="/blog/">Stories</a><a href="#spotlights">Athlete spotlights</a><a href="#about">About</a></div>
-      <div><strong>Connect</strong><a href="#">Instagram</a><a href="#">YouTube</a><a href="mailto:hello@podiumwatch.com">Email</a></div>
     </div>
-    <div class="container footer-bottom"><span>© <span id="year"></span> Podium Watch</span><span>Made for Ohio running.</span></div>
-  </footer>
-  <script src="script.js"></script>
+  </section>
+
+  <section class="section section-paper" aria-labelledby="spotlight-title">
+    <div class="container spotlight-panel">
+      <div class="spotlight-copy"><p class="eyebrow">Athlete spotlights</p><h2 id="spotlight-title">The story behind the result.</h2><p>Podium Watch gives Ohio athletes a place to tell their story, share what drives them, and help the next generation of runners.</p><a class="button button-dark" href="/athlete-spotlights/">Explore athlete spotlights</a></div>
+      <div class="spotlight-card"><blockquote>“The best performances are worth celebrating. The people behind them are worth knowing.”</blockquote><p>New athlete profiles will appear here as they are published.</p><a class="text-link" href="/athlete-spotlights/">See the spotlight section <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a></div>
+    </div>
+  </section>
+
+  <section class="section section-dark" aria-labelledby="latest-stories-title">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">Latest stories</p><h2 id="latest-stories-title">More than a finish time.</h2></div><a class="text-link" href="/stories/">From the newsroom <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a></div>
+      <div class="stories-grid"><article class="story-card story-card-featured" data-story-card data-category="cross country" data-search="2026 division 3 boys cross country top 25 podium watch ranks the top 25 returning division 3 boys for the 2026 ohio high school cross country season using 2025 cross country results, 2026 track performances, and championship experience. cross country division 3 boys cross country 2026 rankings">
+    <a class="story-card-image" href="/stories/2026-division-3-boys-cross-country-top-25/" aria-label="Read 2026 Division 3 Boys Cross Country Top 25">
+      <img src="/images/stories/d3_boys_top_25.svg" data-fallback="/images/stories/story_fallback.svg" alt="2026 Division 3 boys cross country top 25 graphic" loading="lazy" width="960" height="540">
+    </a>
+    <div class="story-card-body">
+      <div class="story-meta"><span class="category">Cross Country</span><span>July 29, 2026</span><span>15 min read</span></div>
+      <h3><a href="/stories/2026-division-3-boys-cross-country-top-25/">2026 Division 3 Boys Cross Country Top 25</a></h3>
+      <p>Podium Watch ranks the top 25 returning Division 3 boys for the 2026 Ohio high school cross country season using 2025 cross country results, 2026 track performances, and championship experience.</p>
+      <a class="read-link" href="/stories/2026-division-3-boys-cross-country-top-25/">Read story <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a>
+    </div>
+  </article><article class="story-card" data-story-card data-category="podium watch" data-search="welcome to the new podium watch stories section a new home for ohio high school running rankings, athlete interviews, meet coverage, and the stories behind the performances. podium watch podium watch ohio high school running">
+    <a class="story-card-image" href="/stories/welcome-to-podium-watch/" aria-label="Read Welcome to the New Podium Watch Stories Section">
+      <img src="/images/stories/welcome_to_podium_watch.svg" data-fallback="/images/stories/story_fallback.svg" alt="Podium Watch Stories welcome graphic" loading="lazy" width="960" height="540">
+    </a>
+    <div class="story-card-body">
+      <div class="story-meta"><span class="category">Podium Watch</span><span>July 29, 2026</span><span>1 min read</span></div>
+      <h3><a href="/stories/welcome-to-podium-watch/">Welcome to the New Podium Watch Stories Section</a></h3>
+      <p>A new home for Ohio high school running rankings, athlete interviews, meet coverage, and the stories behind the performances.</p>
+      <a class="read-link" href="/stories/welcome-to-podium-watch/">Read story <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg></a>
+    </div>
+  </article></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="sports-title">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">Coverage</p><h2 id="sports-title">Choose your sport.</h2></div></div>
+      <div class="sport-cards">
+        <article class="sport-card"><p class="eyebrow">Cross country</p><h3>Every mile matters.</h3><p>Individual rankings, team rankings, season previews, meet stories, and the road to the state championship.</p><a class="button button-primary" href="/rankings/cross-country/">Explore cross country</a></article>
+        <article class="sport-card track"><p class="eyebrow">Track and field</p><h3>Every event. Every division.</h3><p>Sprints, distance, hurdles, relays, jumps, and throws across all five Ohio divisions.</p><a class="button button-primary" href="/rankings/track-and-field/">Explore track and field</a></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="social-band"><div class="container social-grid"><div><p class="eyebrow">Follow the coverage</p><h2>@podiumwatch</h2><p>Daily Ohio cross country and track coverage, rankings, interviews, and athlete stories.</p></div><div class="social-actions"><a class="button button-dark" href="https://www.instagram.com/podiumwatch/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm11.5 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg> Follow on Instagram</a><a class="button button-outline" href="https://www.youtube.com/@podiumwatchohio" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.8 15.2V8.8l5.6 3.2-5.6 3.2Z"/></svg> Subscribe on YouTube</a></div></div></section>
+
+  <section class="section section-paper" aria-labelledby="about-preview-title"><div class="container content-grid"><div><p class="eyebrow">About Podium Watch</p><h2 id="about-preview-title">Built for Ohio runners.</h2></div><div><p>Podium Watch covers Ohio high school cross country and track and field through rankings, stories, interviews, and meet coverage. The goal is to give athletes, teams, coaches, families, and fans one place to follow the sport and celebrate the people who make it special.</p><a class="button button-dark" href="/about/">Learn more</a></div></div></section>
+
+  <section class="sponsor-band"><div class="container sponsor-grid"><div><p class="eyebrow">Sponsors and advertising</p><h2>Put your brand in front of Ohio's running community.</h2></div><a class="button button-primary" href="/sponsors/">Sponsor Podium Watch</a></div></section></main>
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <img src="/images/branding/podium_watch_logo_light.png" width="112" height="112" alt="Podium Watch">
+      <p>Ohio high school running, all in one place.</p>
+    </div>
+    <div class="footer-column"><strong>Coverage</strong><a href="/rankings/">Rankings</a><a href="/rankings/cross-country/">Cross Country</a><a href="/rankings/track-and-field/">Track and Field</a></div><div class="footer-column"><strong>Podium Watch</strong><a href="/stories/">Stories</a><a href="/athlete-spotlights/">Athlete Spotlights</a><a href="/about/">About</a></div><div class="footer-column"><strong>Connect</strong><a href="https://www.instagram.com/podiumwatch/" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://www.youtube.com/@podiumwatchohio" target="_blank" rel="noopener noreferrer">YouTube</a><a href="/contact/">Contact</a></div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© <span data-year></span> Podium Watch</span>
+    <span>Independent Ohio high school running coverage.</span>
+  </div>
+</footer>
 </body>
 </html>

@@ -1,10 +1,17 @@
 {
-  "name": "podium-watch-site",
+  "name": "podium-watch-website",
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "Podium Watch Ohio high school cross country and track media website",
   "scripts": {
-    "build": "node scripts/build-blog.mjs",
+    "dev": "node scripts/serve.mjs --watch",
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "npm run check",
     "preview": "node scripts/serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
