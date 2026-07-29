@@ -101,6 +101,12 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
 <link rel="stylesheet" href="/styles/main.css">
 <script src="/scripts/site.js" defer></script>
+<script>
+  window.va = window.va || function () {
+    (window.vaq = window.vaq || []).push(arguments);
+  };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="${bodyClass}">
 <a class="skip-link" href="#main-content">Skip to main content</a>
