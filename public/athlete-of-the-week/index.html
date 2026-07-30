@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Nominate and vote for the Podium Watch Athlete of the Week."
+  >
+
+  <title>Athlete of the Week | Podium Watch</title>
+
+  <link
+    rel="stylesheet"
+    href="/athlete-of-the-week/athlete-of-the-week.css"
+  >
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark">PW</span>
+
+        <span class="brand-text">
+          <strong>Podium Watch</strong>
+          <small>Ohio High School Running</small>
+        </span>
+      </a>
+
+      <nav class="main-navigation" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/blog/">Stories</a>
+        <a
+          href="/athlete-of-the-week/"
+          aria-current="page"
+        >
+          Athlete of the Week
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="page-container hero-content">
+        <p class="eyebrow">Podium Watch</p>
+
+        <h1>Athlete of the Week</h1>
+
+        <p class="hero-description">
+          Nominate an Ohio high school athlete who delivered an outstanding
+          performance, then return to vote when the weekly finalists are
+          announced.
+        </p>
+
+        <div
+          id="week-status-card"
+          class="week-status-card"
+          aria-live="polite"
+        >
+          <p class="loading-message">
+            Loading the current Athlete of the Week period...
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="winner-section"
+      class="content-section winner-section hidden"
+    >
+      <div class="page-container">
+        <div class="section-heading">
+          <p class="eyebrow">Current winner</p>
+          <h2>This week’s Athlete of the Week</h2>
+        </div>
+
+        <div id="current-winner"></div>
+      </div>
+    </section>
+
+    <section
+      id="nomination-section"
+      class="content-section nomination-section hidden"
+    >
+      <div class="page-container">
+        <div class="section-heading">
+          <p class="eyebrow">Submit an athlete</p>
+          <h2>Nominate an Athlete of the Week</h2>
+
+          <p>
+            Submit an athlete who produced an outstanding performance during
+            the current nomination period.
+          </p>
+        </div>
+
+        <form
+          id="nomination-form"
+          class="podium-form"
+          novalidate
+        >
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="athlete-name">
+                Athlete name
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="athlete-name"
+                name="athlete_name"
+                type="text"
+                maxlength="120"
+                required
+                autocomplete="off"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="school">
+                School
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="school"
+                name="school"
+                type="text"
+                maxlength="120"
+                required
+                autocomplete="organization"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="grade">
+                Grade
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <select
+                id="grade"
+                name="grade"
+                required
+              >
+                <option value="">Select grade</option>
+                <option value="Freshman">Freshman</option>
+                <option value="Sophomore">Sophomore</option>
+                <option value="Junior">Junior</option>
+                <option value="Senior">Senior</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="gender">
+                Athlete group
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <select
+                id="gender"
+                name="gender"
+                required
+              >
+                <option value="">Select group</option>
+                <option value="Boys">Boys</option>
+                <option value="Girls">Girls</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="event-name">
+                Event or race
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="event-name"
+                name="event_name"
+                type="text"
+                maxlength="120"
+                required
+                placeholder="Example: 5K, 1600 meters, pole vault"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="performance">
+                Performance
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="performance"
+                name="performance"
+                type="text"
+                maxlength="120"
+                required
+                placeholder="Example: 15:42 or 16 feet"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="meet-name">
+                Meet name
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="meet-name"
+                name="meet_name"
+                type="text"
+                maxlength="160"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="performance-date">
+                Performance date
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="performance-date"
+                name="performance_date"
+                type="date"
+                required
+              >
+            </div>
+
+            <div class="form-field form-field-full">
+              <label for="reason">
+                Why should this athlete be selected?
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <textarea
+                id="reason"
+                name="reason"
+                rows="6"
+                maxlength="2000"
+                required
+                placeholder="Explain the performance and why it deserves recognition."
+              ></textarea>
+            </div>
+
+            <div class="form-field">
+              <label for="result-url">
+                Results link
+              </label>
+
+              <input
+                id="result-url"
+                name="result_url"
+                type="url"
+                maxlength="500"
+                placeholder="https://"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="photo-url">
+                Athlete photo link
+              </label>
+
+              <input
+                id="photo-url"
+                name="photo_url"
+                type="url"
+                maxlength="500"
+                placeholder="https://"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="nominator-name">
+                Your name
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="nominator-name"
+                name="nominator_name"
+                type="text"
+                maxlength="120"
+                required
+                autocomplete="name"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="nominator-email">
+                Your email
+                <span aria-hidden="true">*</span>
+              </label>
+
+              <input
+                id="nominator-email"
+                name="nominator_email"
+                type="email"
+                maxlength="254"
+                required
+                autocomplete="email"
+              >
+            </div>
+          </div>
+
+          <div
+            class="honeypot-field"
+            aria-hidden="true"
+          >
+            <label for="nomination-website">
+              Website
+            </label>
+
+            <input
+              id="nomination-website"
+              name="website"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            >
+          </div>
+
+          <label class="confirmation-field">
+            <input
+              name="permission"
+              type="checkbox"
+              required
+            >
+
+            <span>
+              I confirm this information is accurate and may be used by
+              Podium Watch.
+            </span>
+          </label>
+
+          <p class="privacy-notice">
+            Podium Watch uses submitted information to review Athlete of the
+            Week nominations. Nominator contact information will not be
+            displayed publicly.
+          </p>
+
+          <button
+            id="nomination-submit-button"
+            class="primary-button"
+            type="submit"
+          >
+            Submit nomination
+          </button>
+
+          <div
+            id="nomination-message"
+            class="form-message"
+            aria-live="polite"
+          ></div>
+        </form>
+      </div>
+    </section>
+
+    <section
+      id="voting-section"
+      class="content-section voting-section hidden"
+    >
+      <div class="page-container">
+        <div class="section-heading">
+          <p class="eyebrow">Vote now</p>
+          <h2>Choose this week’s winner</h2>
+
+          <p>
+            Unlimited voting is allowed. Vote as many times as you would like
+            before voting closes.
+          </p>
+        </div>
+
+        <div
+          id="finalist-grid"
+          class="finalist-grid"
+        ></div>
+
+        <div
+          id="voting-message"
+          class="form-message"
+          aria-live="polite"
+        ></div>
+      </div>
+    </section>
+
+    <section
+      id="closed-section"
+      class="content-section closed-section hidden"
+    >
+      <div class="page-container">
+        <div class="closed-card">
+          <p class="eyebrow">Weekly update</p>
+
+          <h2 id="closed-heading">
+            Athlete of the Week update
+          </h2>
+
+          <p id="closed-message">
+            Check back soon for the next stage of Athlete of the Week.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section archive-section">
+      <div class="page-container">
+        <div class="section-heading">
+          <p class="eyebrow">Past winners</p>
+          <h2>Athlete of the Week archive</h2>
+        </div>
+
+        <div
+          id="winner-archive"
+          class="winner-archive"
+        >
+          <p class="loading-message">
+            Loading past winners...
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rules-section">
+      <div class="page-container rules-grid">
+        <div>
+          <p class="eyebrow">How it works</p>
+          <h2>Weekly process</h2>
+        </div>
+
+        <div class="rules-list">
+          <article>
+            <span>1</span>
+            <div>
+              <h3>Submit nominations</h3>
+              <p>
+                Athletes may be nominated based on performances from the
+                current competition period.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span>2</span>
+            <div>
+              <h3>Finalists are selected</h3>
+              <p>
+                Podium Watch reviews the nominations and selects the weekly
+                finalists.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span>3</span>
+            <div>
+              <h3>The community votes</h3>
+              <p>
+                Voting is unlimited during the posted voting period.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span>4</span>
+            <div>
+              <h3>The winner is announced</h3>
+              <p>
+                The weekly winner is featured by Podium Watch and added to the
+                archive.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-container footer-content">
+      <div>
+        <strong>Podium Watch</strong>
+        <p>Ohio high school running, all in one place.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/blog/">Stories</a>
+        <a href="/athlete-of-the-week/">
+          Athlete of the Week
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script
+    src="/athlete-of-the-week/athlete-of-the-week.js"
+    defer
+  ></script>
+</body>
+</html>
