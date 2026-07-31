@@ -15,6 +15,7 @@ export const site = {
   navigation: [
     { label: "Home", href: "/" },
     { label: "Rankings", href: "/rankings/" },
+    { label: "Meets", href: "/meets/" },
     { label: "Athlete Spotlights", href: "/athlete-spotlights/" },
     { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
     { label: "Team of the Week", href: "/team-of-the-week/" },
@@ -24,6 +25,7 @@ export const site = {
   footerLinks: {
     Coverage: [
       { label: "Rankings", href: "/rankings/" },
+      { label: "Meets", href: "/meets/" },
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" }
     ],

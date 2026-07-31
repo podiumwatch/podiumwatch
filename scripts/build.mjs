@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+﻿import fs from "node:fs/promises";
 import path from "node:path";
 import { site } from "../src/config/site.mjs";
 import sponsors from "../src/data/sponsors.json" with { type: "json" };
@@ -29,6 +29,8 @@ import {
   storyCard,
   websiteJsonLd
 } from "../src/lib/html.mjs";
+import { meetsIndexPage } from "../src/pages/meets.mjs";
+import { meetDetailPage } from "../src/pages/meetdetail.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -174,7 +176,7 @@ function homePage(stories, rankings) {
   <section class="section section-paper" aria-labelledby="spotlight-title">
     <div class="container spotlight-panel">
       <div class="spotlight-copy"><p class="eyebrow">Athlete spotlights</p><h2 id="spotlight-title">The story behind the result.</h2><p>Podium Watch gives Ohio athletes a place to tell their story, share what drives them, and help the next generation of runners.</p><a class="button button-dark" href="/athlete-spotlights/">Explore athlete spotlights</a></div>
-      <div class="spotlight-card"><blockquote>“The best performances are worth celebrating. The people behind them are worth knowing.”</blockquote><p>New athlete profiles will appear here as they are published.</p><a class="text-link" href="/athlete-spotlights/">See the spotlight section ${icon("arrow")}</a></div>
+      <div class="spotlight-card"><blockquote>â€œThe best performances are worth celebrating. The people behind them are worth knowing.â€</blockquote><p>New athlete profiles will appear here as they are published.</p><a class="text-link" href="/athlete-spotlights/">See the spotlight section ${icon("arrow")}</a></div>
     </div>
   </section>
 
@@ -360,6 +362,8 @@ async function build() {
     await writePage(page.pathname, page.html);
   }
 
+  await writePage("/meets/", meetsIndexPage(site));
+  await writePage("/meetdetail/", meetDetailPage(site));
   await writePage("/rankings/", rankingsIndexPage());
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));
@@ -396,3 +400,4 @@ build().catch((error) => {
   console.error(`\nBuild failed:\n${error.message}\n`);
   process.exit(1);
 });
+
