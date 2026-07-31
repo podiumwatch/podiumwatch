@@ -17,6 +17,7 @@ export const site = {
     { label: "Rankings", href: "/rankings/" },
     { label: "Athlete Spotlights", href: "/athlete-spotlights/" },
     { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
+    { label: "Team of the Week", href: "/team-of-the-week/" },
     { label: "Stories", href: "/stories/" },
     { label: "About", href: "/about/" }
   ],
@@ -30,6 +31,7 @@ export const site = {
       { label: "Stories", href: "/stories/" },
       { label: "Athlete Spotlights", href: "/athlete-spotlights/" },
       { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
+      { label: "Team of the Week", href: "/team-of-the-week/" },
       { label: "About", href: "/about/" }
     ],
     Connect: [

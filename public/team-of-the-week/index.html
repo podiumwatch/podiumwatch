@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Nominate and vote for the Podium Watch Boys and Girls Teams of the Week."
+  >
+
+  <title>Team of the Week | Podium Watch</title>
+
+  <link
+    rel="icon"
+    href="/images/branding/podium_watch_logo_light.png"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/team-of-the-week/team-of-the-week.css"
+  >
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a
+        class="brand-link"
+        href="/"
+        aria-label="Podium Watch home"
+      >
+        <img
+          class="brand-logo"
+          src="/images/branding/podium_watch_logo_light.png"
+          alt="Podium Watch"
+        >
+      </a>
+
+      <nav
+        class="main-navigation"
+        aria-label="Main navigation"
+      >
+        <a href="/">Home</a>
+        <a href="/rankings/">Rankings</a>
+        <a href="/athlete-spotlights/">
+          Athlete Spotlights
+        </a>
+        <a href="/athlete-of-the-week/">
+          Athlete of the Week
+        </a>
+        <a
+          href="/team-of-the-week/"
+          aria-current="page"
+        >
+          Team of the Week
+        </a>
+        <a href="/stories/">Stories</a>
+        <a href="/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            Podium Watch Weekly Award
+          </p>
+
+          <h1>
+            Team of the Week
+          </h1>
+
+          <p class="hero-description">
+            Nominate an Ohio high school team that delivered
+            an outstanding performance. Each week, Podium Watch
+            will recognize one boys team and one girls team.
+          </p>
+        </div>
+
+        <aside
+          id="week-status-card"
+          class="status-card"
+          aria-live="polite"
+        >
+          <p class="status-label">
+            Current status
+          </p>
+
+          <p class="status-title">
+            Loading
+          </p>
+
+          <p class="status-details">
+            Loading the current Team of the Week information.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section
+      id="winner-section"
+      class="content-section hidden"
+    >
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="section-kicker">
+            Weekly Winners
+          </p>
+
+          <h2>
+            Teams of the Week
+          </h2>
+
+          <p>
+            Congratulations to the newest Podium Watch
+            Boys and Girls Teams of the Week.
+          </p>
+        </div>
+
+        <div class="winner-category">
+          <div class="category-heading">
+            <p class="category-label">
+              Boys
+            </p>
+
+            <h3>
+              Boys Team of the Week
+            </h3>
+          </div>
+
+          <div id="boys-current-winner"></div>
+        </div>
+
+        <div class="winner-category">
+          <div class="category-heading">
+            <p class="category-label">
+              Girls
+            </p>
+
+            <h3>
+              Girls Team of the Week
+            </h3>
+          </div>
+
+          <div id="girls-current-winner"></div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="nomination-section"
+      class="content-section hidden"
+    >
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="section-kicker">
+            Submit a Team
+          </p>
+
+          <h2>
+            Team of the Week Nomination
+          </h2>
+
+          <p>
+            Tell us which team deserves recognition and what
+            made its performance stand out.
+          </p>
+        </div>
+
+        <form
+          id="nomination-form"
+          class="nomination-form"
+        >
+          <div class="form-grid">
+            <div class="form-field full-width">
+              <label for="category">
+                Category
+              </label>
+
+              <select
+                id="category"
+                name="category"
+                required
+              >
+                <option value="">
+                  Choose a category
+                </option>
+
+                <option value="boys">
+                  Boys Team of the Week
+                </option>
+
+                <option value="girls">
+                  Girls Team of the Week
+                </option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="team-name">
+                Team name
+              </label>
+
+              <input
+                id="team-name"
+                name="team_name"
+                type="text"
+                maxlength="150"
+                placeholder="Enter the team name"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="school">
+                School
+              </label>
+
+              <input
+                id="school"
+                name="school"
+                type="text"
+                maxlength="150"
+                placeholder="Example: Russia"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="sport">
+                Sport
+              </label>
+
+              <select
+                id="sport"
+                name="sport"
+                required
+              >
+                <option value="">
+                  Choose a sport
+                </option>
+
+                <option value="Cross Country">
+                  Cross Country
+                </option>
+
+                <option value="Indoor Track and Field">
+                  Indoor Track and Field
+                </option>
+
+                <option value="Outdoor Track and Field">
+                  Outdoor Track and Field
+                </option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="division">
+                Division
+              </label>
+
+              <select
+                id="division"
+                name="division"
+              >
+                <option value="">
+                  Choose a division
+                </option>
+
+                <option value="Division 1">
+                  Division 1
+                </option>
+
+                <option value="Division 2">
+                  Division 2
+                </option>
+
+                <option value="Division 3">
+                  Division 3
+                </option>
+
+                <option value="Division 4">
+                  Division 4
+                </option>
+
+                <option value="Division 5">
+                  Division 5
+                </option>
+              </select>
+            </div>
+
+            <div class="form-field full-width">
+              <label for="achievement">
+                Team performance or achievement
+              </label>
+
+              <textarea
+                id="achievement"
+                name="achievement"
+                rows="4"
+                maxlength="500"
+                placeholder="Example: Won the invitational with five runners finishing in the top 20."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-field">
+              <label for="meet-name">
+                Meet or competition
+              </label>
+
+              <input
+                id="meet-name"
+                name="meet_name"
+                type="text"
+                maxlength="200"
+                placeholder="Enter the meet or competition name"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="performance-date">
+                Performance date
+              </label>
+
+              <input
+                id="performance-date"
+                name="performance_date"
+                type="date"
+              >
+            </div>
+
+            <div class="form-field full-width">
+              <label for="reason">
+                Why should this team be selected?
+              </label>
+
+              <textarea
+                id="reason"
+                name="reason"
+                rows="6"
+                maxlength="2500"
+                placeholder="Explain what made the performance impressive, important, or memorable."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-field">
+              <label for="result-url">
+                Results link
+              </label>
+
+              <input
+                id="result-url"
+                name="result_url"
+                type="url"
+                maxlength="1000"
+                placeholder="https://"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="photo-url">
+                Team photo link
+              </label>
+
+              <input
+                id="photo-url"
+                name="photo_url"
+                type="url"
+                maxlength="1000"
+                placeholder="https://"
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="nominator-name">
+                Your name
+              </label>
+
+              <input
+                id="nominator-name"
+                name="nominator_name"
+                type="text"
+                maxlength="150"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="nominator-email">
+                Your email
+              </label>
+
+              <input
+                id="nominator-email"
+                name="nominator_email"
+                type="email"
+                maxlength="254"
+                required
+              >
+            </div>
+
+            <div
+              class="honeypot-field"
+              aria-hidden="true"
+            >
+              <label for="website">
+                Website
+              </label>
+
+              <input
+                id="website"
+                name="website"
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+              >
+            </div>
+
+            <div class="form-field full-width">
+              <label class="permission-field">
+                <input
+                  name="permission"
+                  type="checkbox"
+                  required
+                >
+
+                <span>
+                  I confirm that this information may be reviewed
+                  and published by Podium Watch.
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <button
+            id="nomination-submit-button"
+            class="primary-button"
+            type="submit"
+          >
+            Submit team nomination
+          </button>
+
+          <p
+            id="nomination-message"
+            class="form-message"
+            aria-live="polite"
+          ></p>
+        </form>
+      </div>
+    </section>
+
+    <section
+      id="voting-section"
+      class="content-section hidden"
+    >
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="section-kicker">
+            Cast Your Votes
+          </p>
+
+          <h2>
+            Team of the Week Finalists
+          </h2>
+
+          <p>
+            You may vote once every 45 seconds in each category.
+            You can vote for one boys team and one girls team
+            without waiting between the two categories.
+          </p>
+        </div>
+
+        <p
+          id="voting-message"
+          class="form-message"
+          aria-live="polite"
+        ></p>
+
+        <div class="voting-category">
+          <div class="category-heading">
+            <p class="category-label">
+              Boys
+            </p>
+
+            <h3>
+              Boys Team Finalists
+            </h3>
+          </div>
+
+          <div
+            id="boys-finalist-grid"
+            class="finalist-grid"
+          ></div>
+        </div>
+
+        <div class="voting-category">
+          <div class="category-heading">
+            <p class="category-label">
+              Girls
+            </p>
+
+            <h3>
+              Girls Team Finalists
+            </h3>
+          </div>
+
+          <div
+            id="girls-finalist-grid"
+            class="finalist-grid"
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="closed-section"
+      class="content-section hidden"
+    >
+      <div class="section-inner">
+        <div class="closed-card">
+          <p class="section-kicker">
+            Team of the Week
+          </p>
+
+          <h2 id="closed-heading">
+            Weekly update
+          </h2>
+
+          <p id="closed-message">
+            Check back soon for the next Team of the Week update.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section archive-section">
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="section-kicker">
+            Previous Winners
+          </p>
+
+          <h2>
+            Team of the Week Archive
+          </h2>
+
+          <p>
+            Browse previous boys and girls Team of the Week winners.
+          </p>
+        </div>
+
+        <div
+          id="winner-archive"
+          class="archive-grid"
+        >
+          <div class="empty-state">
+            Loading past winners.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section process-section">
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="section-kicker">
+            Weekly Process
+          </p>
+
+          <h2>
+            How Team of the Week Works
+          </h2>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-card">
+            <span class="process-number">
+              1
+            </span>
+
+            <h3>
+              Nominate
+            </h3>
+
+            <p>
+              Submit an Ohio high school boys or girls team
+              that delivered an outstanding performance.
+            </p>
+          </article>
+
+          <article class="process-card">
+            <span class="process-number">
+              2
+            </span>
+
+            <h3>
+              Finalists
+            </h3>
+
+            <p>
+              Podium Watch reviews the nominations and selects
+              separate boys and girls finalists.
+            </p>
+          </article>
+
+          <article class="process-card">
+            <span class="process-number">
+              3
+            </span>
+
+            <h3>
+              Vote
+            </h3>
+
+            <p>
+              The public votes for the boys and girls teams
+              they believe deserve the weekly honor.
+            </p>
+          </article>
+
+          <article class="process-card">
+            <span class="process-number">
+              4
+            </span>
+
+            <h3>
+              Winners
+            </h3>
+
+            <p>
+              One boys team and one girls team are announced
+              and added to the Podium Watch archive.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <img
+          class="footer-logo"
+          src="/images/branding/podium_watch_logo_light.png"
+          alt="Podium Watch"
+        >
+
+        <p>
+          Ohio high school cross country and track and field
+          rankings, stories, interviews, and athlete coverage.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="/rankings/">
+          Rankings
+        </a>
+
+        <a href="/stories/">
+          Stories
+        </a>
+
+        <a href="/athlete-of-the-week/">
+          Athlete of the Week
+        </a>
+
+        <a href="/team-of-the-week/">
+          Team of the Week
+        </a>
+
+        <a href="/about/">
+          About
+        </a>
+
+        <a href="/contact/">
+          Contact
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © 2026 Podium Watch. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script
+    src="/team-of-the-week/team-of-the-week.js"
+    defer
+  ></script>
+</body>
+</html>
