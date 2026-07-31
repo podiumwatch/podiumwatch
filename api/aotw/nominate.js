@@ -19,7 +19,11 @@ function isValidOptionalUrl(value) {
 
   try {
     const url = new URL(value);
-    return url.protocol === "http:" || url.protocol === "https:";
+
+    return (
+      url.protocol === "http:" ||
+      url.protocol === "https:"
+    );
   } catch {
     return false;
   }
@@ -62,18 +66,66 @@ export default async function handler(request, response) {
       });
     }
 
-    const athleteName = cleanText(body.athlete_name, 120);
-    const school = cleanText(body.school, 120);
-    const grade = cleanText(body.grade, 30);
-    const gender = cleanText(body.gender, 30);
-    const eventName = cleanText(body.event_name, 120);
-    const performance = cleanText(body.performance, 120);
-    const meetName = cleanText(body.meet_name, 160);
-    const performanceDate = cleanText(body.performance_date, 20);
-    const reason = cleanText(body.reason, 2000);
-    const resultUrl = cleanText(body.result_url, 500);
-    const photoUrl = cleanText(body.photo_url, 500);
-    const nominatorName = cleanText(body.nominator_name, 120);
+    const athleteName = cleanText(
+      body.athlete_name,
+      120
+    );
+
+    const school = cleanText(
+      body.school,
+      120
+    );
+
+    const grade = cleanText(
+      body.grade,
+      30
+    );
+
+    const gender = cleanText(
+      body.gender,
+      30
+    );
+
+    const eventName = cleanText(
+      body.event_name,
+      120
+    );
+
+    const performance = cleanText(
+      body.performance,
+      120
+    );
+
+    const meetName = cleanText(
+      body.meet_name,
+      160
+    );
+
+    const performanceDate = cleanText(
+      body.performance_date,
+      20
+    );
+
+    const reason = cleanText(
+      body.reason,
+      2000
+    );
+
+    const resultUrl = cleanText(
+      body.result_url,
+      500
+    );
+
+    const photoUrl = cleanText(
+      body.photo_url,
+      500
+    );
+
+    const nominatorName = cleanText(
+      body.nominator_name,
+      120
+    );
+
     const nominatorEmail = cleanText(
       body.nominator_email,
       254
@@ -93,27 +145,35 @@ export default async function handler(request, response) {
       nominatorEmail
     ];
 
-    if (requiredValues.some((value) => !value)) {
+    if (
+      requiredValues.some(
+        (value) => !value
+      )
+    ) {
       return response.status(400).json({
-        error: "Please complete every required field."
+        error:
+          "Please complete every required field."
       });
     }
 
     if (!isValidEmail(nominatorEmail)) {
       return response.status(400).json({
-        error: "Please enter a valid email address."
+        error:
+          "Please enter a valid email address."
       });
     }
 
     if (!isValidOptionalUrl(resultUrl)) {
       return response.status(400).json({
-        error: "The result link must be a valid web address."
+        error:
+          "The result link must be a valid web address."
       });
     }
 
     if (!isValidOptionalUrl(photoUrl)) {
       return response.status(400).json({
-        error: "The photo link must be a valid web address."
+        error:
+          "The photo link must be a valid web address."
       });
     }
 
@@ -121,13 +181,24 @@ export default async function handler(request, response) {
       `${performanceDate}T12:00:00`
     );
 
-    if (Number.isNaN(parsedPerformanceDate.getTime())) {
+    if (
+      Number.isNaN(
+        parsedPerformanceDate.getTime()
+      )
+    ) {
       return response.status(400).json({
-        error: "Please enter a valid performance date."
+        error:
+          "Please enter a valid performance date."
       });
     }
 
-    const { data: week, error: weekError } = await supabaseAdmin
+    const currentTime =
+      new Date().toISOString();
+
+    const {
+      data: week,
+      error: weekError
+    } = await supabaseAdmin
       .from("aotw_weeks")
       .select(`
         id,
@@ -135,7 +206,12 @@ export default async function handler(request, response) {
         nomination_opens,
         nomination_closes
       `)
-      .order("nomination_opens", { ascending: false })
+      .eq("status", "nominations_open")
+      .lte("nomination_opens", currentTime)
+      .gte("nomination_closes", currentTime)
+      .order("nomination_opens", {
+        ascending: false
+      })
       .limit(1)
       .maybeSingle();
 
@@ -145,26 +221,36 @@ export default async function handler(request, response) {
 
     if (!week) {
       return response.status(400).json({
-        error: "There is not an active nomination period."
+        error:
+          "There is not an active nomination period."
       });
     }
 
-    const currentTime = new Date();
-    const nominationOpens = new Date(week.nomination_opens);
-    const nominationCloses = new Date(week.nomination_closes);
+    const currentDate = new Date();
+
+    const nominationOpens = new Date(
+      week.nomination_opens
+    );
+
+    const nominationCloses = new Date(
+      week.nomination_closes
+    );
 
     const nominationsAreOpen =
       week.status === "nominations_open" &&
-      currentTime >= nominationOpens &&
-      currentTime <= nominationCloses;
+      currentDate >= nominationOpens &&
+      currentDate <= nominationCloses;
 
     if (!nominationsAreOpen) {
       return response.status(400).json({
-        error: "Nominations are currently closed."
+        error:
+          "Nominations are currently closed."
       });
     }
 
-    const { error: insertError } = await supabaseAdmin
+    const {
+      error: insertError
+    } = await supabaseAdmin
       .from("aotw_nominations")
       .insert({
         week_id: week.id,
@@ -193,10 +279,14 @@ export default async function handler(request, response) {
         "Your nomination has been submitted. Thank you for supporting Ohio high school athletes."
     });
   } catch (error) {
-    console.error("Athlete of the Week nomination error:", error);
+    console.error(
+      "Athlete of the Week nomination error:",
+      error
+    );
 
     return response.status(500).json({
-      error: "Unable to submit the nomination right now."
+      error:
+        "Unable to submit the nomination right now."
     });
   }
 }

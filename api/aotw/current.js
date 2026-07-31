@@ -12,6 +12,8 @@ export default async function handler(request, response) {
   }
 
   try {
+    const currentTime = new Date().toISOString();
+
     const { data: week, error: weekError } = await supabaseAdmin
       .from("aotw_weeks")
       .select(`
@@ -24,7 +26,10 @@ export default async function handler(request, response) {
         voting_closes,
         status
       `)
-      .order("nomination_opens", { ascending: false })
+      .lte("nomination_opens", currentTime)
+      .order("nomination_opens", {
+        ascending: false
+      })
       .limit(1)
       .maybeSingle();
 
@@ -49,23 +54,29 @@ export default async function handler(request, response) {
     ].includes(week.status);
 
     if (shouldShowFinalists) {
-      const { data: finalistData, error: finalistError } =
-        await supabaseAdmin
-          .from("aotw_finalists")
-          .select(`
-            id,
-            athlete_name,
-            school,
-            grade,
-            image_url,
-            achievement,
-            description,
-            sort_order,
-            winner
-          `)
-          .eq("week_id", week.id)
-          .order("sort_order", { ascending: true })
-          .order("athlete_name", { ascending: true });
+      const {
+        data: finalistData,
+        error: finalistError
+      } = await supabaseAdmin
+        .from("aotw_finalists")
+        .select(`
+          id,
+          athlete_name,
+          school,
+          grade,
+          image_url,
+          achievement,
+          description,
+          sort_order,
+          winner
+        `)
+        .eq("week_id", week.id)
+        .order("sort_order", {
+          ascending: true
+        })
+        .order("athlete_name", {
+          ascending: true
+        });
 
       if (finalistError) {
         throw finalistError;
@@ -75,7 +86,9 @@ export default async function handler(request, response) {
     }
 
     const winner =
-      finalists.find((finalist) => finalist.winner === true) ?? null;
+      finalists.find(
+        (finalist) => finalist.winner === true
+      ) ?? null;
 
     return response.status(200).json({
       week,
@@ -83,10 +96,14 @@ export default async function handler(request, response) {
       winner
     });
   } catch (error) {
-    console.error("Athlete of the Week current route error:", error);
+    console.error(
+      "Athlete of the Week current route error:",
+      error
+    );
 
     return response.status(500).json({
-      error: "Unable to load Athlete of the Week right now."
+      error:
+        "Unable to load Athlete of the Week right now."
     });
   }
 }

@@ -272,6 +272,9 @@ export default async function handler(request, response) {
       });
     }
 
+    const currentTime =
+      new Date().toISOString();
+
     const {
       data: week,
       error: weekError
@@ -283,10 +286,12 @@ export default async function handler(request, response) {
         nomination_opens,
         nomination_closes
       `)
-      .order(
-        "nomination_opens",
-        { ascending: false }
-      )
+      .eq("status", "nominations_open")
+      .lte("nomination_opens", currentTime)
+      .gte("nomination_closes", currentTime)
+      .order("nomination_opens", {
+        ascending: false
+      })
       .limit(1)
       .maybeSingle();
 
@@ -301,18 +306,20 @@ export default async function handler(request, response) {
       });
     }
 
-    const currentTime = new Date();
+    const currentDate = new Date();
+
     const nominationOpens = new Date(
       week.nomination_opens
     );
+
     const nominationCloses = new Date(
       week.nomination_closes
     );
 
     const nominationsAreOpen =
       week.status === "nominations_open" &&
-      currentTime >= nominationOpens &&
-      currentTime <= nominationCloses;
+      currentDate >= nominationOpens &&
+      currentDate <= nominationCloses;
 
     if (!nominationsAreOpen) {
       return response.status(400).json({

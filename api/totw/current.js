@@ -12,6 +12,8 @@ export default async function handler(request, response) {
   }
 
   try {
+    const currentTime = new Date().toISOString();
+
     const { data: week, error: weekError } = await supabaseAdmin
       .from("totw_weeks")
       .select(`
@@ -25,7 +27,10 @@ export default async function handler(request, response) {
         status,
         created_at
       `)
-      .order("nomination_opens", { ascending: false })
+      .lte("nomination_opens", currentTime)
+      .order("nomination_opens", {
+        ascending: false
+      })
       .limit(1)
       .maybeSingle();
 
@@ -72,9 +77,15 @@ export default async function handler(request, response) {
           winner
         `)
         .eq("week_id", week.id)
-        .order("category", { ascending: true })
-        .order("sort_order", { ascending: true })
-        .order("team_name", { ascending: true });
+        .order("category", {
+          ascending: true
+        })
+        .order("sort_order", {
+          ascending: true
+        })
+        .order("team_name", {
+          ascending: true
+        });
 
       if (finalistsError) {
         throw finalistsError;
@@ -119,7 +130,8 @@ export default async function handler(request, response) {
     );
 
     return response.status(500).json({
-      error: "Unable to load Team of the Week right now."
+      error:
+        "Unable to load Team of the Week right now."
     });
   }
 }
