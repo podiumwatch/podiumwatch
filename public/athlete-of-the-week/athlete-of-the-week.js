@@ -1,14 +1,23 @@
+const VOTE_COOLDOWN_SECONDS = 45;
+const VOTER_TOKEN_STORAGE_KEY = "podiumWatchAotwVoterToken";
+
 const weekStatusCard = document.querySelector("#week-status-card");
 
 const winnerSection = document.querySelector("#winner-section");
 const currentWinner = document.querySelector("#current-winner");
 
-const nominationSection = document.querySelector("#nomination-section");
-const nominationForm = document.querySelector("#nomination-form");
+const nominationSection = document.querySelector(
+  "#nomination-section"
+);
+const nominationForm = document.querySelector(
+  "#nomination-form"
+);
 const nominationSubmitButton = document.querySelector(
   "#nomination-submit-button"
 );
-const nominationMessage = document.querySelector("#nomination-message");
+const nominationMessage = document.querySelector(
+  "#nomination-message"
+);
 
 const votingSection = document.querySelector("#voting-section");
 const finalistGrid = document.querySelector("#finalist-grid");
@@ -19,6 +28,12 @@ const closedHeading = document.querySelector("#closed-heading");
 const closedMessage = document.querySelector("#closed-message");
 
 const winnerArchive = document.querySelector("#winner-archive");
+
+let activeVotingWeekId = "";
+let voteCooldownUntil = 0;
+let voteCooldownTimer = null;
+let voteRequestInProgress = false;
+let memoryVoterToken = "";
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -94,6 +109,209 @@ function setMessage(element, message, type = "") {
   }
 }
 
+function createRandomVoterToken() {
+  if (
+    globalThis.crypto &&
+    typeof globalThis.crypto.randomUUID === "function"
+  ) {
+    return `pw_${globalThis.crypto.randomUUID()}`;
+  }
+
+  if (
+    globalThis.crypto &&
+    typeof globalThis.crypto.getRandomValues === "function"
+  ) {
+    const bytes = new Uint8Array(24);
+
+    globalThis.crypto.getRandomValues(bytes);
+
+    const randomText = Array.from(bytes, (byte) =>
+      byte.toString(16).padStart(2, "0")
+    ).join("");
+
+    return `pw_${randomText}`;
+  }
+
+  return `pw_${Date.now()}_${Math.random()
+    .toString(36)
+    .slice(2)}_${Math.random()
+    .toString(36)
+    .slice(2)}`;
+}
+
+function voterTokenIsValid(value) {
+  return (
+    typeof value === "string" &&
+    value.length >= 20 &&
+    value.length <= 200 &&
+    /^[a-zA-Z0-9._-]+$/.test(value)
+  );
+}
+
+function getVoterToken() {
+  try {
+    const storedToken = localStorage.getItem(
+      VOTER_TOKEN_STORAGE_KEY
+    );
+
+    if (voterTokenIsValid(storedToken)) {
+      return storedToken;
+    }
+
+    const newToken = createRandomVoterToken();
+
+    localStorage.setItem(
+      VOTER_TOKEN_STORAGE_KEY,
+      newToken
+    );
+
+    return newToken;
+  } catch {
+    if (!voterTokenIsValid(memoryVoterToken)) {
+      memoryVoterToken = createRandomVoterToken();
+    }
+
+    return memoryVoterToken;
+  }
+}
+
+function getCooldownStorageKey() {
+  const weekKey = activeVotingWeekId || "current";
+
+  return `podiumWatchAotwCooldownUntil:${weekKey}`;
+}
+
+function readStoredCooldownUntil() {
+  try {
+    const storedValue = Number(
+      localStorage.getItem(getCooldownStorageKey())
+    );
+
+    if (
+      Number.isFinite(storedValue) &&
+      storedValue > Date.now()
+    ) {
+      return storedValue;
+    }
+  } catch {
+    return 0;
+  }
+
+  return 0;
+}
+
+function saveCooldownUntil(value) {
+  try {
+    if (value > Date.now()) {
+      localStorage.setItem(
+        getCooldownStorageKey(),
+        String(value)
+      );
+    } else {
+      localStorage.removeItem(
+        getCooldownStorageKey()
+      );
+    }
+  } catch {
+    /*
+      The server still enforces the cooldown when
+      browser storage is unavailable.
+    */
+  }
+}
+
+function getRemainingCooldownSeconds() {
+  return Math.max(
+    0,
+    Math.ceil(
+      (voteCooldownUntil - Date.now()) / 1000
+    )
+  );
+}
+
+function updateVoteButtons() {
+  const remainingSeconds =
+    getRemainingCooldownSeconds();
+
+  finalistGrid
+    ?.querySelectorAll(".vote-button")
+    .forEach((button) => {
+      const athleteName =
+        button.dataset.athleteName || "athlete";
+
+      if (voteRequestInProgress) {
+        button.disabled = true;
+        button.textContent = "Recording vote...";
+        return;
+      }
+
+      if (remainingSeconds > 0) {
+        button.disabled = true;
+        button.textContent =
+          `Vote again in ${remainingSeconds}s`;
+        return;
+      }
+
+      button.disabled = false;
+      button.textContent =
+        `Vote for ${athleteName}`;
+    });
+
+  if (
+    remainingSeconds <= 0 &&
+    voteCooldownTimer
+  ) {
+    clearInterval(voteCooldownTimer);
+    voteCooldownTimer = null;
+    voteCooldownUntil = 0;
+    saveCooldownUntil(0);
+  }
+}
+
+function ensureVoteCooldownTimer() {
+  if (getRemainingCooldownSeconds() <= 0) {
+    updateVoteButtons();
+    return;
+  }
+
+  updateVoteButtons();
+
+  if (voteCooldownTimer) {
+    return;
+  }
+
+  voteCooldownTimer = window.setInterval(() => {
+    updateVoteButtons();
+  }, 250);
+}
+
+function startVoteCooldown(seconds) {
+  const safeSeconds = Math.max(
+    1,
+    Math.ceil(
+      Number(seconds) || VOTE_COOLDOWN_SECONDS
+    )
+  );
+
+  voteCooldownUntil =
+    Date.now() + safeSeconds * 1000;
+
+  saveCooldownUntil(voteCooldownUntil);
+  ensureVoteCooldownTimer();
+}
+
+function restoreVoteCooldown() {
+  voteCooldownUntil = readStoredCooldownUntil();
+
+  if (voteCooldownUntil > Date.now()) {
+    ensureVoteCooldownTimer();
+  } else {
+    voteCooldownUntil = 0;
+    saveCooldownUntil(0);
+    updateVoteButtons();
+  }
+}
+
 function renderStatusCard(week) {
   if (!week) {
     weekStatusCard.innerHTML = `
@@ -123,7 +341,10 @@ function renderStatusCard(week) {
 
     voting_open: {
       title: "Voting Open",
-      details: `Voting closes ${formatDateTime(week.voting_closes)}.`
+      details:
+        `Voting closes ${formatDateTime(
+          week.voting_closes
+        )}. You may vote once every ${VOTE_COOLDOWN_SECONDS} seconds.`
     },
 
     voting_closed: {
@@ -146,8 +367,12 @@ function renderStatusCard(week) {
 
   weekStatusCard.innerHTML = `
     <p class="status-label">Current status</p>
-    <p class="status-title">${escapeHtml(content.title)}</p>
-    <p class="status-details">${escapeHtml(content.details)}</p>
+    <p class="status-title">
+      ${escapeHtml(content.title)}
+    </p>
+    <p class="status-details">
+      ${escapeHtml(content.details)}
+    </p>
   `;
 }
 
@@ -177,10 +402,14 @@ function renderWinner(winner) {
 
       <div class="winner-copy">
         <p class="athlete-school">
-          ${escapeHtml(winner.school)} · ${escapeHtml(winner.grade)}
+          ${escapeHtml(winner.school)}
+          ·
+          ${escapeHtml(winner.grade)}
         </p>
 
-        <h3>${escapeHtml(winner.athlete_name)}</h3>
+        <h3>
+          ${escapeHtml(winner.athlete_name)}
+        </h3>
 
         <p class="achievement">
           ${escapeHtml(winner.achievement)}
@@ -197,7 +426,10 @@ function renderWinner(winner) {
 }
 
 function renderFinalists(finalists) {
-  if (!Array.isArray(finalists) || finalists.length === 0) {
+  if (
+    !Array.isArray(finalists) ||
+    finalists.length === 0
+  ) {
     finalistGrid.innerHTML = `
       <div class="empty-state">
         Finalists will be posted soon.
@@ -213,7 +445,9 @@ function renderFinalists(finalists) {
         ? `
           <img
             src="${escapeHtml(finalist.image_url)}"
-            alt="${escapeHtml(finalist.athlete_name)}"
+            alt="${escapeHtml(
+              finalist.athlete_name
+            )}"
           >
         `
         : `
@@ -230,10 +464,14 @@ function renderFinalists(finalists) {
 
           <div class="finalist-content">
             <p class="finalist-school">
-              ${escapeHtml(finalist.school)} · ${escapeHtml(finalist.grade)}
+              ${escapeHtml(finalist.school)}
+              ·
+              ${escapeHtml(finalist.grade)}
             </p>
 
-            <h3>${escapeHtml(finalist.athlete_name)}</h3>
+            <h3>
+              ${escapeHtml(finalist.athlete_name)}
+            </h3>
 
             <p class="finalist-achievement">
               ${escapeHtml(finalist.achievement)}
@@ -246,10 +484,15 @@ function renderFinalists(finalists) {
             <button
               class="vote-button"
               type="button"
-              data-finalist-id="${escapeHtml(finalist.id)}"
-              data-athlete-name="${escapeHtml(finalist.athlete_name)}"
+              data-finalist-id="${escapeHtml(
+                finalist.id
+              )}"
+              data-athlete-name="${escapeHtml(
+                finalist.athlete_name
+              )}"
             >
-              Vote for ${escapeHtml(finalist.athlete_name)}
+              Vote for
+              ${escapeHtml(finalist.athlete_name)}
             </button>
 
             <p
@@ -265,62 +508,123 @@ function renderFinalists(finalists) {
   finalistGrid
     .querySelectorAll(".vote-button")
     .forEach((button) => {
-      button.addEventListener("click", submitVote);
+      button.addEventListener(
+        "click",
+        submitVote
+      );
     });
+
+  restoreVoteCooldown();
+}
+
+async function readJsonResponse(response) {
+  try {
+    return await response.json();
+  } catch {
+    return {};
+  }
 }
 
 async function submitVote(event) {
+  if (voteRequestInProgress) {
+    return;
+  }
+
+  const remainingSeconds =
+    getRemainingCooldownSeconds();
+
+  if (remainingSeconds > 0) {
+    setMessage(
+      votingMessage,
+      `Please wait ${remainingSeconds} seconds before voting again.`,
+      "error"
+    );
+
+    ensureVoteCooldownTimer();
+    return;
+  }
+
   const button = event.currentTarget;
   const finalistId = button.dataset.finalistId;
-  const athleteName = button.dataset.athleteName;
+  const athleteName =
+    button.dataset.athleteName;
+
   const confirmation = button
     .closest(".finalist-content")
     ?.querySelector(".vote-confirmation");
 
-  button.disabled = true;
-  button.textContent = "Recording vote...";
+  voteRequestInProgress = true;
+  updateVoteButtons();
 
   if (confirmation) {
     confirmation.textContent = "";
   }
 
   try {
-    const response = await fetch("/api/aotw/vote", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        finalist_id: finalistId,
-        website: ""
-      })
-    });
+    const response = await fetch(
+      "/api/aotw/vote",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          finalist_id: finalistId,
+          voter_token: getVoterToken(),
+          website: ""
+        })
+      }
+    );
 
-    const result = await response.json();
+    const result =
+      await readJsonResponse(response);
+
+    const retryAfterSeconds = Math.max(
+      0,
+      Number(result.retry_after_seconds) || 0
+    );
 
     if (!response.ok) {
-      throw new Error(result.error || "Unable to record your vote.");
+      if (retryAfterSeconds > 0) {
+        startVoteCooldown(
+          retryAfterSeconds
+        );
+      }
+
+      throw new Error(
+        result.error ||
+          "Unable to record your vote."
+      );
     }
 
+    startVoteCooldown(
+      retryAfterSeconds ||
+        VOTE_COOLDOWN_SECONDS
+    );
+
     if (confirmation) {
-      confirmation.textContent = `Your vote for ${athleteName} was recorded. Vote again at any time.`;
+      confirmation.textContent =
+        `Your vote for ${athleteName} was recorded. ` +
+        `You can vote again in ${VOTE_COOLDOWN_SECONDS} seconds.`;
     }
 
     setMessage(
       votingMessage,
-      result.message || "Your vote has been recorded.",
+      result.message ||
+        `Your vote has been recorded. You can vote again in ${VOTE_COOLDOWN_SECONDS} seconds.`,
       "success"
     );
   } catch (error) {
     setMessage(
       votingMessage,
-      error.message || "Unable to record your vote.",
+      error.message ||
+        "Unable to record your vote.",
       "error"
     );
   } finally {
-    button.disabled = false;
-    button.textContent = `Vote for ${athleteName}`;
+    voteRequestInProgress = false;
+    updateVoteButtons();
   }
 }
 
@@ -332,28 +636,37 @@ async function submitNomination(event) {
   }
 
   nominationSubmitButton.disabled = true;
-  nominationSubmitButton.textContent = "Submitting...";
+  nominationSubmitButton.textContent =
+    "Submitting...";
 
   setMessage(nominationMessage, "");
 
-  const formData = new FormData(nominationForm);
-  const submission = Object.fromEntries(formData.entries());
+  const formData =
+    new FormData(nominationForm);
+
+  const submission =
+    Object.fromEntries(formData.entries());
 
   try {
-    const response = await fetch("/api/aotw/nominate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(submission)
-    });
+    const response = await fetch(
+      "/api/aotw/nominate",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(submission)
+      }
+    );
 
-    const result = await response.json();
+    const result =
+      await readJsonResponse(response);
 
     if (!response.ok) {
       throw new Error(
-        result.error || "Unable to submit the nomination."
+        result.error ||
+          "Unable to submit the nomination."
       );
     }
 
@@ -368,12 +681,14 @@ async function submitNomination(event) {
   } catch (error) {
     setMessage(
       nominationMessage,
-      error.message || "Unable to submit the nomination.",
+      error.message ||
+        "Unable to submit the nomination.",
       "error"
     );
   } finally {
     nominationSubmitButton.disabled = false;
-    nominationSubmitButton.textContent = "Submit nomination";
+    nominationSubmitButton.textContent =
+      "Submit nomination";
   }
 }
 
@@ -389,6 +704,18 @@ function renderCurrentWeek(data) {
   const week = data.week;
   const finalists = data.finalists ?? [];
   const winner = data.winner;
+  const nextVotingWeekId = week?.id || "";
+
+  if (
+    activeVotingWeekId !== nextVotingWeekId &&
+    voteCooldownTimer
+  ) {
+    clearInterval(voteCooldownTimer);
+    voteCooldownTimer = null;
+    voteCooldownUntil = 0;
+  }
+
+  activeVotingWeekId = nextVotingWeekId;
 
   renderStatusCard(week);
 
@@ -447,25 +774,36 @@ function renderCurrentWeek(data) {
 
 async function loadCurrentWeek() {
   try {
-    const response = await fetch("/api/aotw/current", {
-      headers: {
-        Accept: "application/json"
+    const response = await fetch(
+      "/api/aotw/current",
+      {
+        headers: {
+          Accept: "application/json"
+        }
       }
-    });
+    );
 
-    const result = await response.json();
+    const result =
+      await readJsonResponse(response);
 
     if (!response.ok) {
       throw new Error(
-        result.error || "Unable to load Athlete of the Week."
+        result.error ||
+          "Unable to load Athlete of the Week."
       );
     }
 
     renderCurrentWeek(result);
   } catch (error) {
     weekStatusCard.innerHTML = `
-      <p class="status-label">Current status</p>
-      <p class="status-title">Unable to load</p>
+      <p class="status-label">
+        Current status
+      </p>
+
+      <p class="status-title">
+        Unable to load
+      </p>
+
       <p class="status-details">
         Athlete of the Week information is temporarily unavailable.
       </p>
@@ -481,7 +819,10 @@ async function loadCurrentWeek() {
 }
 
 function renderArchive(winners) {
-  if (!Array.isArray(winners) || winners.length === 0) {
+  if (
+    !Array.isArray(winners) ||
+    winners.length === 0
+  ) {
     winnerArchive.innerHTML = `
       <div class="empty-state">
         The Athlete of the Week archive will appear here after the first winner is announced.
@@ -498,8 +839,12 @@ function renderArchive(winners) {
       const imageContent = athlete.image_url
         ? `
           <img
-            src="${escapeHtml(athlete.image_url)}"
-            alt="${escapeHtml(athlete.athlete_name)}"
+            src="${escapeHtml(
+              athlete.image_url
+            )}"
+            alt="${escapeHtml(
+              athlete.athlete_name
+            )}"
           >
         `
         : `
@@ -516,17 +861,29 @@ function renderArchive(winners) {
 
           <div class="archive-content">
             <p class="archive-date">
-              ${escapeHtml(formatDate(winnerItem.voting_closes))}
+              ${escapeHtml(
+                formatDate(
+                  winnerItem.voting_closes
+                )
+              )}
             </p>
 
-            <h3>${escapeHtml(athlete.athlete_name)}</h3>
+            <h3>
+              ${escapeHtml(
+                athlete.athlete_name
+              )}
+            </h3>
 
             <p class="archive-school">
-              ${escapeHtml(athlete.school)} · ${escapeHtml(athlete.grade)}
+              ${escapeHtml(athlete.school)}
+              ·
+              ${escapeHtml(athlete.grade)}
             </p>
 
             <p class="archive-achievement">
-              ${escapeHtml(athlete.achievement)}
+              ${escapeHtml(
+                athlete.achievement
+              )}
             </p>
           </div>
         </article>
@@ -537,17 +894,22 @@ function renderArchive(winners) {
 
 async function loadArchive() {
   try {
-    const response = await fetch("/api/aotw/archive", {
-      headers: {
-        Accept: "application/json"
+    const response = await fetch(
+      "/api/aotw/archive",
+      {
+        headers: {
+          Accept: "application/json"
+        }
       }
-    });
+    );
 
-    const result = await response.json();
+    const result =
+      await readJsonResponse(response);
 
     if (!response.ok) {
       throw new Error(
-        result.error || "Unable to load past winners."
+        result.error ||
+          "Unable to load past winners."
       );
     }
 
@@ -563,7 +925,10 @@ async function loadArchive() {
   }
 }
 
-nominationForm?.addEventListener("submit", submitNomination);
+nominationForm?.addEventListener(
+  "submit",
+  submitNomination
+);
 
 loadCurrentWeek();
 loadArchive();

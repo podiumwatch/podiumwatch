@@ -1,4 +1,7 @@
+import { createHmac } from "node:crypto";
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
+
+const COOLDOWN_SECONDS = 45;
 
 function cleanText(value, maximumLength) {
   if (typeof value !== "string") {
@@ -18,6 +21,20 @@ function readBody(request) {
   }
 
   return request.body ?? {};
+}
+
+function createVoterHash(voterToken) {
+  const voteHashSecret = process.env.VOTE_HASH_SECRET;
+
+  if (!voteHashSecret || voteHashSecret.length < 32) {
+    throw new Error(
+      "VOTE_HASH_SECRET is missing or is not long enough."
+    );
+  }
+
+  return createHmac("sha256", voteHashSecret)
+    .update(`aotw-browser:${voterToken}`)
+    .digest("hex");
 }
 
 export default async function handler(request, response) {
@@ -41,15 +58,27 @@ export default async function handler(request, response) {
     if (cleanText(body.website, 200)) {
       return response.status(200).json({
         success: true,
-        message: "Your vote has been recorded."
+        message: "Your vote has been recorded.",
+        retry_after_seconds: COOLDOWN_SECONDS
       });
     }
 
     const finalistId = cleanText(body.finalist_id, 100);
+    const voterToken = cleanText(body.voter_token, 200);
 
     if (!finalistId) {
       return response.status(400).json({
         error: "Please choose an athlete."
+      });
+    }
+
+    if (
+      !voterToken ||
+      voterToken.length < 20 ||
+      !/^[a-zA-Z0-9._-]+$/.test(voterToken)
+    ) {
+      return response.status(400).json({
+        error: "Your browser could not be verified. Refresh the page and try again."
       });
     }
 
@@ -75,21 +104,6 @@ export default async function handler(request, response) {
       });
     }
 
-    const currentTime = new Date();
-    const votingOpens = new Date(week.voting_opens);
-    const votingCloses = new Date(week.voting_closes);
-
-    const votingIsOpen =
-      week.status === "voting_open" &&
-      currentTime >= votingOpens &&
-      currentTime <= votingCloses;
-
-    if (!votingIsOpen) {
-      return response.status(400).json({
-        error: "Voting is currently closed."
-      });
-    }
-
     const { data: finalist, error: finalistError } =
       await supabaseAdmin
         .from("aotw_finalists")
@@ -112,24 +126,73 @@ export default async function handler(request, response) {
       });
     }
 
-    const { error: voteError } = await supabaseAdmin
-      .from("aotw_votes")
-      .insert({
-        week_id: week.id,
-        finalist_id: finalist.id,
-        email_hash: null
+    const voterHash = createVoterHash(voterToken);
+
+    const { data: voteResults, error: voteError } =
+      await supabaseAdmin.rpc("cast_aotw_vote", {
+        p_finalist_id: finalist.id,
+        p_voter_hash: voterHash,
+        p_cooldown_seconds: COOLDOWN_SECONDS
       });
 
     if (voteError) {
       throw voteError;
     }
 
+    const voteResult = Array.isArray(voteResults)
+      ? voteResults[0]
+      : voteResults;
+
+    if (!voteResult) {
+      throw new Error("The voting function returned no result.");
+    }
+
+    const retryAfterSeconds = Math.max(
+      1,
+      Number(voteResult.retry_after_seconds) ||
+        COOLDOWN_SECONDS
+    );
+
+    if (!voteResult.accepted) {
+      if (voteResult.reason === "cooldown") {
+        response.setHeader(
+          "Retry-After",
+          String(retryAfterSeconds)
+        );
+
+        return response.status(429).json({
+          error: `Please wait ${retryAfterSeconds} seconds before voting again.`,
+          retry_after_seconds: retryAfterSeconds
+        });
+      }
+
+      if (voteResult.reason === "voting_closed") {
+        return response.status(400).json({
+          error: "Voting is currently closed."
+        });
+      }
+
+      if (voteResult.reason === "finalist_not_found") {
+        return response.status(400).json({
+          error: "That athlete is not a finalist for the current week."
+        });
+      }
+
+      return response.status(400).json({
+        error: "Your vote could not be accepted."
+      });
+    }
+
     return response.status(201).json({
       success: true,
-      message: `Your vote for ${finalist.athlete_name} has been recorded. You may vote again.`
+      message: `Your vote for ${finalist.athlete_name} has been recorded. You can vote again in ${COOLDOWN_SECONDS} seconds.`,
+      retry_after_seconds: COOLDOWN_SECONDS
     });
   } catch (error) {
-    console.error("Athlete of the Week voting error:", error);
+    console.error(
+      "Athlete of the Week voting error:",
+      error
+    );
 
     return response.status(500).json({
       error: "Unable to record your vote right now."
