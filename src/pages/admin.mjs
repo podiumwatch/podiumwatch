@@ -732,6 +732,241 @@ export function adminPage(site) {
 
           <div
             class="info-card"
+            data-meet-filter-controls
+            style="
+              margin-bottom:24px;
+            "
+          >
+            <div
+              style="
+                display:flex;
+                flex-wrap:wrap;
+                align-items:end;
+                gap:16px;
+              "
+            >
+              <label
+                style="
+                  flex:2 1 280px;
+                "
+              >
+                <strong>Search meets</strong>
+
+                <input
+                  type="search"
+                  data-meet-search
+                  placeholder="Search name, city, host, or venue"
+                  style="
+                    display:block;
+                    width:100%;
+                    margin-top:8px;
+                    padding:11px;
+                    font:inherit;
+                  "
+                >
+              </label>
+
+              <label
+                style="
+                  flex:1 1 180px;
+                "
+              >
+                <strong>Sport</strong>
+
+                <select
+                  data-meet-sport-filter
+                  style="
+                    display:block;
+                    width:100%;
+                    margin-top:8px;
+                    padding:11px;
+                    font:inherit;
+                  "
+                >
+                  <option value="">
+                    All sports
+                  </option>
+
+                  <option value="Cross Country">
+                    Cross Country
+                  </option>
+
+                  <option value="Track and Field">
+                    Track and Field
+                  </option>
+                </select>
+              </label>
+
+              <label
+                style="
+                  flex:1 1 170px;
+                "
+              >
+                <strong>Status</strong>
+
+                <select
+                  data-meet-status-filter
+                  style="
+                    display:block;
+                    width:100%;
+                    margin-top:8px;
+                    padding:11px;
+                    font:inherit;
+                  "
+                >
+                  <option value="">
+                    All statuses
+                  </option>
+
+                  <option value="published">
+                    Published
+                  </option>
+
+                  <option value="draft">
+                    Draft
+                  </option>
+                </select>
+              </label>
+
+              <label
+                style="
+                  flex:1 1 170px;
+                "
+              >
+                <strong>Featured</strong>
+
+                <select
+                  data-meet-featured-filter
+                  style="
+                    display:block;
+                    width:100%;
+                    margin-top:8px;
+                    padding:11px;
+                    font:inherit;
+                  "
+                >
+                  <option value="">
+                    All meets
+                  </option>
+
+                  <option value="featured">
+                    Featured
+                  </option>
+
+                  <option value="notfeatured">
+                    Not featured
+                  </option>
+                </select>
+              </label>
+
+              <label
+                style="
+                  flex:1 1 150px;
+                "
+              >
+                <strong>Year</strong>
+
+                <select
+                  data-meet-year-filter
+                  style="
+                    display:block;
+                    width:100%;
+                    margin-top:8px;
+                    padding:11px;
+                    font:inherit;
+                  "
+                >
+                  <option value="">
+                    All years
+                  </option>
+                </select>
+              </label>
+
+              <label
+                style="
+                  flex:1 1 210px;
+                "
+              >
+                <strong>Sort</strong>
+
+                <select
+                  data-meet-sort
+                  style="
+                    display:block;
+                    width:100%;
+                    margin-top:8px;
+                    padding:11px;
+                    font:inherit;
+                  "
+                >
+                  <option value="date-ascending">
+                    Date, earliest first
+                  </option>
+
+                  <option value="date-descending">
+                    Date, latest first
+                  </option>
+
+                  <option value="name-ascending">
+                    Meet name
+                  </option>
+
+                  <option value="city-ascending">
+                    City
+                  </option>
+                </select>
+              </label>
+            </div>
+
+            <div
+              style="
+                display:flex;
+                flex-wrap:wrap;
+                align-items:center;
+                gap:12px;
+                margin-top:20px;
+              "
+            >
+              <button
+                class="button button-outline"
+                type="button"
+                data-clear-meet-filters
+              >
+                Clear filters
+              </button>
+
+              <button
+                class="button button-primary"
+                type="button"
+                data-export-meets
+              >
+                Export shown meets
+              </button>
+
+              <strong
+                data-filtered-meet-count
+                style="
+                  margin-left:auto;
+                "
+              >
+                Loading meets
+              </strong>
+            </div>
+
+            <p
+              data-meet-filter-empty
+              hidden
+              style="
+                margin-top:20px;
+                margin-bottom:0;
+              "
+            >
+              No meets match the selected filters.
+            </p>
+          </div>
+
+          <div
+            class="info-card"
             data-bulk-action-controls
             style="
               display:flex;
@@ -825,6 +1060,16 @@ export function adminPage(site) {
 
   <script
     src="/scripts/admin.js"
+    defer
+  ></script>
+
+  <script
+    src="/scripts/admin-meet-tools.js"
+    defer
+  ></script>
+
+  <script
+    src="/scripts/admin-meet-extras.js"
     defer
   ></script>`;
 

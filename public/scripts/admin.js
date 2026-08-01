@@ -949,7 +949,35 @@
                 : "";
 
             return (
-              '<article class="story-card">' +
+              '<article class="story-card" data-meet-card data-meet-id="' +
+                escapeText(meet.id) +
+                '" data-meet-name="' +
+                escapeText(meet.name || "") +
+                '" data-meet-sport="' +
+                escapeText(meet.sport || "") +
+                '" data-meet-status="' +
+                (
+                  meet.published
+                    ? "published"
+                    : "draft"
+                ) +
+                '" data-meet-featured="' +
+                (
+                  meet.featured
+                    ? "featured"
+                    : "notfeatured"
+                ) +
+                '" data-meet-year="' +
+                escapeText(meet.year || "") +
+                '" data-meet-date="' +
+                escapeText(meet.meet_date || "") +
+                '" data-meet-city="' +
+                escapeText(meet.city || "") +
+                '" data-meet-host="' +
+                escapeText(meet.host_school || "") +
+                '" data-meet-venue="' +
+                escapeText(meet.venue_name || "") +
+                '">' +
                 '<div class="story-card-body">' +
                   '<label style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">' +
                     '<input type="checkbox" data-select-meet="' +
@@ -984,7 +1012,7 @@
                     escapeText(status) +
                     (
                       featured
-                        ? " Â· " +
+                        ? " Ã‚Â· " +
                           escapeText(
                             featured
                           )
@@ -1036,6 +1064,20 @@
             );
           })
           .join("");
+
+      window.podiumAdminMeets =
+        meetsCache;
+
+      document.dispatchEvent(
+        new CustomEvent(
+          "podiumadminmeetsloaded",
+          {
+            detail: {
+              meets: meetsCache
+            }
+          }
+        )
+      );
 
       updateBulkSelectionUi();
     } catch (error) {

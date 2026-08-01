@@ -268,7 +268,11 @@ export function meetDetailPage(site) {
             throw new Error("Meet address is missing.");
           }
 
-          const response = await fetch("/api/meets/");
+          const response = await fetch(new URLSearchParams(
+            window.location.search
+          ).get("preview") === "1"
+            ? "/api/admin/meets/"
+            : "/api/meets/");
 
           const data = await response.json();
 
