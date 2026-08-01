@@ -553,6 +553,171 @@ export function adminPage(site) {
           </div>
         </form>
 
+        <form
+          class="info-card"
+          data-bulk-form
+          style="margin-bottom:34px;"
+        >
+          <p class="eyebrow">CSV Import</p>
+          <h2>Bulk add meets</h2>
+
+          <p>
+            Upload a CSV file to create multiple meet pages at once.
+            The required columns are name, sport, and meet_date.
+          </p>
+
+          <p>
+            The meet_date column should use the format 2026-08-25.
+            A blank slug will be created automatically from the meet name.
+          </p>
+
+          <div
+            style="
+              display:grid;
+              grid-template-columns:repeat(
+                auto-fit,
+                minmax(260px, 1fr)
+              );
+              gap:18px;
+              margin-top:22px;
+            "
+          >
+            <label>
+              <strong>CSV file</strong>
+              <input
+                type="file"
+                name="csv_file"
+                accept=".csv,text/csv"
+                required
+                style="
+                  display:block;
+                  width:100%;
+                  margin-top:8px;
+                  padding:12px;
+                  font:inherit;
+                "
+              >
+            </label>
+
+            <div>
+              <strong>CSV template</strong>
+
+              <div style="margin-top:8px;">
+                <button
+                  class="button button-outline"
+                  type="button"
+                  data-download-template
+                >
+                  Download template
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <label
+            style="
+              display:block;
+              margin-top:22px;
+            "
+          >
+            <input
+              type="checkbox"
+              name="publish_all"
+            >
+            Publish imported meets when the published column is blank
+          </label>
+
+          <p
+            data-bulk-message
+            aria-live="polite"
+            style="margin-top:18px;"
+          ></p>
+
+          <div
+            data-bulk-results
+            style="margin-top:16px;"
+          ></div>
+
+          <button
+            class="button button-primary"
+            type="submit"
+            style="margin-top:18px;"
+          >
+            Import meets
+          </button>
+        </form>
+
+        <dialog
+          data-delete-dialog
+          style="
+            width:min(560px, calc(100% - 32px));
+            padding:0;
+            border:0;
+            border-radius:16px;
+            box-shadow:0 24px 80px rgba(0, 0, 0, 0.35);
+          "
+        >
+          <form
+            data-delete-form
+            style="padding:28px;"
+          >
+            <p class="eyebrow">Permanent action</p>
+            <h2>Delete meet?</h2>
+
+            <p>
+              This permanently deletes
+              <strong data-delete-name></strong>.
+            </p>
+
+            <p>
+              Type the complete meet name below to confirm.
+            </p>
+
+            <input
+              type="text"
+              data-delete-confirmation
+              autocomplete="off"
+              style="
+                display:block;
+                width:100%;
+                margin-top:12px;
+                padding:12px;
+                font:inherit;
+              "
+            >
+
+            <p
+              data-delete-message
+              aria-live="polite"
+              style="margin-top:14px;"
+            ></p>
+
+            <div
+              style="
+                display:flex;
+                flex-wrap:wrap;
+                gap:12px;
+                margin-top:20px;
+              "
+            >
+              <button
+                class="button button-outline"
+                type="button"
+                data-cancel-delete
+              >
+                Cancel
+              </button>
+
+              <button
+                class="button button-dark"
+                type="submit"
+              >
+                Delete permanently
+              </button>
+            </div>
+          </form>
+        </dialog>
+
         <section>
           <div class="section-heading">
             <div>

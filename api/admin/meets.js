@@ -17,6 +17,22 @@ function cleanSlug(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+function cleanBoolean(value) {
+  if (value === true || value === 1) {
+    return true;
+  }
+
+  const cleaned = cleanText(value).toLowerCase();
+
+  return [
+    "true",
+    "1",
+    "yes",
+    "y",
+    "on"
+  ].includes(cleaned);
+}
+
 function parseBody(request) {
   if (typeof request.body === "string") {
     return JSON.parse(request.body);
@@ -51,10 +67,14 @@ function buildMeetRecord(body) {
 
   const year = suppliedYear
     ? Number(suppliedYear)
-    : new Date(meetDate + "T12:00:00").getFullYear();
+    : new Date(
+        meetDate + "T12:00:00"
+      ).getFullYear();
 
   if (!Number.isInteger(year)) {
-    throw new Error("Meet year must be a valid number.");
+    throw new Error(
+      "Meet year must be a valid number."
+    );
   }
 
   return {
@@ -63,20 +83,42 @@ function buildMeetRecord(body) {
     year,
     sport,
     meet_date: meetDate,
-    start_time: cleanNullableText(body.start_time),
-    end_date: cleanNullableText(body.end_date),
-    venue_name: cleanNullableText(body.venue_name),
-    address: cleanNullableText(body.address),
-    city: cleanNullableText(body.city),
-    state: cleanNullableText(body.state),
-    zip_code: cleanNullableText(body.zip_code),
+    start_time: cleanNullableText(
+      body.start_time
+    ),
+    end_date: cleanNullableText(
+      body.end_date
+    ),
+    venue_name: cleanNullableText(
+      body.venue_name
+    ),
+    address: cleanNullableText(
+      body.address
+    ),
+    city: cleanNullableText(
+      body.city
+    ),
+    state: cleanNullableText(
+      body.state
+    ),
+    zip_code: cleanNullableText(
+      body.zip_code
+    ),
     google_maps_url: cleanNullableText(
       body.google_maps_url
     ),
-    meet_type: cleanNullableText(body.meet_type),
-    division: cleanNullableText(body.division),
-    host_school: cleanNullableText(body.host_school),
-    description: cleanNullableText(body.description),
+    meet_type: cleanNullableText(
+      body.meet_type
+    ),
+    division: cleanNullableText(
+      body.division
+    ),
+    host_school: cleanNullableText(
+      body.host_school
+    ),
+    description: cleanNullableText(
+      body.description
+    ),
     schedule_text: cleanNullableText(
       body.schedule_text
     ),
@@ -95,8 +137,12 @@ function buildMeetRecord(body) {
     course_description: cleanNullableText(
       body.course_description
     ),
-    teams_text: cleanNullableText(body.teams_text),
-    results_url: cleanNullableText(body.results_url),
+    teams_text: cleanNullableText(
+      body.teams_text
+    ),
+    results_url: cleanNullableText(
+      body.results_url
+    ),
     athleticnet_url: cleanNullableText(
       body.athleticnet_url
     ),
@@ -118,7 +164,9 @@ function buildMeetRecord(body) {
     schedule_pdf_url: cleanNullableText(
       body.schedule_pdf_url
     ),
-    logo_url: cleanNullableText(body.logo_url),
+    logo_url: cleanNullableText(
+      body.logo_url
+    ),
     banner_image_url: cleanNullableText(
       body.banner_image_url
     ),
@@ -131,14 +179,191 @@ function buildMeetRecord(body) {
     instagram_url: cleanNullableText(
       body.instagram_url
     ),
-    featured: body.featured === true,
-    published: body.published === true,
+    featured: cleanBoolean(
+      body.featured
+    ),
+    published: cleanBoolean(
+      body.published
+    ),
     updated_at: new Date().toISOString()
   };
 }
 
-export default async function handler(request, response) {
-  response.setHeader("Cache-Control", "no-store");
+async function createSingleMeet(body) {
+  const meetRecord = buildMeetRecord(body);
+
+  const {
+    data: existingMeet,
+    error: existingError
+  } = await supabaseAdmin
+    .from("meets")
+    .select("id")
+    .eq("slug", meetRecord.slug)
+    .maybeSingle();
+
+  if (existingError) {
+    throw existingError;
+  }
+
+  if (existingMeet) {
+    const duplicateError = new Error(
+      "A meet already uses that page slug."
+    );
+
+    duplicateError.status = 409;
+    throw duplicateError;
+  }
+
+  const {
+    data: meet,
+    error
+  } = await supabaseAdmin
+    .from("meets")
+    .insert(meetRecord)
+    .select("*")
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return meet;
+}
+
+async function createBulkMeets(rows) {
+  if (!Array.isArray(rows) || rows.length === 0) {
+    const error = new Error(
+      "The bulk import does not contain any meets."
+    );
+
+    error.status = 400;
+    throw error;
+  }
+
+  if (rows.length > 500) {
+    const error = new Error(
+      "A bulk import can contain no more than 500 meets."
+    );
+
+    error.status = 400;
+    throw error;
+  }
+
+  const validRows = [];
+  const errors = [];
+  const seenSlugs = new Map();
+
+  rows.forEach((row, index) => {
+    const csvRow = index + 2;
+
+    try {
+      const record = buildMeetRecord(row);
+
+      if (seenSlugs.has(record.slug)) {
+        errors.push({
+          row: csvRow,
+          name: record.name,
+          error:
+            "This page slug appears more than once in the file."
+        });
+
+        return;
+      }
+
+      seenSlugs.set(record.slug, csvRow);
+
+      validRows.push({
+        row: csvRow,
+        record
+      });
+    } catch (error) {
+      errors.push({
+        row: csvRow,
+        name: cleanText(row?.name),
+        error: error.message
+      });
+    }
+  });
+
+  if (validRows.length === 0) {
+    return {
+      created: [],
+      errors
+    };
+  }
+
+  const slugs = validRows.map(
+    (item) => item.record.slug
+  );
+
+  const {
+    data: existingMeets,
+    error: existingError
+  } = await supabaseAdmin
+    .from("meets")
+    .select("slug")
+    .in("slug", slugs);
+
+  if (existingError) {
+    throw existingError;
+  }
+
+  const existingSlugs = new Set(
+    (existingMeets || []).map(
+      (meet) => meet.slug
+    )
+  );
+
+  const recordsToInsert = [];
+
+  validRows.forEach((item) => {
+    if (existingSlugs.has(item.record.slug)) {
+      errors.push({
+        row: item.row,
+        name: item.record.name,
+        error:
+          "A meet already uses this page slug."
+      });
+
+      return;
+    }
+
+    recordsToInsert.push(item.record);
+  });
+
+  if (recordsToInsert.length === 0) {
+    return {
+      created: [],
+      errors
+    };
+  }
+
+  const {
+    data: created,
+    error: insertError
+  } = await supabaseAdmin
+    .from("meets")
+    .insert(recordsToInsert)
+    .select("*");
+
+  if (insertError) {
+    throw insertError;
+  }
+
+  return {
+    created: created || [],
+    errors
+  };
+}
+
+export default async function handler(
+  request,
+  response
+) {
+  response.setHeader(
+    "Cache-Control",
+    "no-store"
+  );
 
   if (!isAdminRequest(request)) {
     return response.status(401).json({
@@ -148,7 +373,10 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     try {
-      const { data: meets, error } = await supabaseAdmin
+      const {
+        data: meets,
+        error
+      } = await supabaseAdmin
         .from("meets")
         .select("*")
         .order("meet_date", {
@@ -166,10 +394,14 @@ export default async function handler(request, response) {
         meets: meets ?? []
       });
     } catch (error) {
-      console.error("Admin meet list error:", error);
+      console.error(
+        "Admin meet list error:",
+        error
+      );
 
       return response.status(500).json({
-        error: "Unable to load the meet list."
+        error:
+          "Unable to load the meet list."
       });
     }
   }
@@ -177,50 +409,51 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const body = parseBody(request);
-      const meetRecord = buildMeetRecord(body);
 
-      const { data: existingMeet, error: existingError } =
-        await supabaseAdmin
-          .from("meets")
-          .select("id")
-          .eq("slug", meetRecord.slug)
-          .maybeSingle();
+      if (Array.isArray(body.meets)) {
+        const result = await createBulkMeets(
+          body.meets
+        );
 
-      if (existingError) {
-        throw existingError;
-      }
-
-      if (existingMeet) {
-        return response.status(409).json({
-          error: "A meet already uses that page slug."
+        return response.status(200).json({
+          created: result.created,
+          errors: result.errors,
+          created_count:
+            result.created.length,
+          error_count:
+            result.errors.length
         });
       }
 
-      const { data: meet, error } = await supabaseAdmin
-        .from("meets")
-        .insert(meetRecord)
-        .select("*")
-        .single();
-
-      if (error) {
-        throw error;
-      }
+      const meet = await createSingleMeet(
+        body
+      );
 
       return response.status(201).json({
         meet
       });
     } catch (error) {
-      console.error("Admin create meet error:", error);
+      console.error(
+        "Admin create meet error:",
+        error
+      );
 
       const status =
-        error.message?.includes("required") ||
-        error.message?.includes("valid number")
-          ? 400
-          : 500;
+        error.status ||
+        (
+          error.message?.includes(
+            "required"
+          ) ||
+          error.message?.includes(
+            "valid number"
+          )
+            ? 400
+            : 500
+        );
 
       return response.status(status).json({
         error:
-          status === 400
+          status < 500
             ? error.message
             : "Unable to create the meet."
       });
@@ -238,14 +471,17 @@ export default async function handler(request, response) {
         });
       }
 
-      const meetRecord = buildMeetRecord(body);
+      const meetRecord =
+        buildMeetRecord(body);
 
-      const { data: currentMeet, error: currentError } =
-        await supabaseAdmin
-          .from("meets")
-          .select("id")
-          .eq("id", id)
-          .maybeSingle();
+      const {
+        data: currentMeet,
+        error: currentError
+      } = await supabaseAdmin
+        .from("meets")
+        .select("id")
+        .eq("id", id)
+        .maybeSingle();
 
       if (currentError) {
         throw currentError;
@@ -257,13 +493,15 @@ export default async function handler(request, response) {
         });
       }
 
-      const { data: duplicateMeet, error: duplicateError } =
-        await supabaseAdmin
-          .from("meets")
-          .select("id")
-          .eq("slug", meetRecord.slug)
-          .neq("id", id)
-          .maybeSingle();
+      const {
+        data: duplicateMeet,
+        error: duplicateError
+      } = await supabaseAdmin
+        .from("meets")
+        .select("id")
+        .eq("slug", meetRecord.slug)
+        .neq("id", id)
+        .maybeSingle();
 
       if (duplicateError) {
         throw duplicateError;
@@ -271,11 +509,15 @@ export default async function handler(request, response) {
 
       if (duplicateMeet) {
         return response.status(409).json({
-          error: "Another meet already uses that page slug."
+          error:
+            "Another meet already uses that page slug."
         });
       }
 
-      const { data: meet, error } = await supabaseAdmin
+      const {
+        data: meet,
+        error
+      } = await supabaseAdmin
         .from("meets")
         .update(meetRecord)
         .eq("id", id)
@@ -290,11 +532,18 @@ export default async function handler(request, response) {
         meet
       });
     } catch (error) {
-      console.error("Admin update meet error:", error);
+      console.error(
+        "Admin update meet error:",
+        error
+      );
 
       const status =
-        error.message?.includes("required") ||
-        error.message?.includes("valid number")
+        error.message?.includes(
+          "required"
+        ) ||
+        error.message?.includes(
+          "valid number"
+        )
           ? 400
           : 500;
 
@@ -307,7 +556,80 @@ export default async function handler(request, response) {
     }
   }
 
-  response.setHeader("Allow", "GET, POST, PUT");
+  if (request.method === "DELETE") {
+    try {
+      const body = parseBody(request);
+      const id = cleanText(body.id);
+      const confirmName = cleanText(
+        body.confirm_name
+      );
+
+      if (!id) {
+        return response.status(400).json({
+          error: "Meet ID is required."
+        });
+      }
+
+      const {
+        data: currentMeet,
+        error: currentError
+      } = await supabaseAdmin
+        .from("meets")
+        .select("id, name")
+        .eq("id", id)
+        .maybeSingle();
+
+      if (currentError) {
+        throw currentError;
+      }
+
+      if (!currentMeet) {
+        return response.status(404).json({
+          error: "Meet not found."
+        });
+      }
+
+      if (confirmName !== currentMeet.name) {
+        return response.status(400).json({
+          error:
+            "The confirmation name does not match the meet name."
+        });
+      }
+
+      const {
+        data: deletedMeet,
+        error: deleteError
+      } = await supabaseAdmin
+        .from("meets")
+        .delete()
+        .eq("id", id)
+        .select("id, name, slug")
+        .single();
+
+      if (deleteError) {
+        throw deleteError;
+      }
+
+      return response.status(200).json({
+        deleted: true,
+        meet: deletedMeet
+      });
+    } catch (error) {
+      console.error(
+        "Admin delete meet error:",
+        error
+      );
+
+      return response.status(500).json({
+        error: "Unable to delete the meet."
+      });
+    }
+  }
+
+  response.setHeader(
+    "Allow",
+    "GET, POST, PUT, DELETE"
+  );
 
   return response.status(405).json({
     error: "Method not allowed."
