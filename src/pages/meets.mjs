@@ -7,205 +7,273 @@ export function meetsIndexPage(site) {
   const content = `${pageHero({
     eyebrow: "Podium Watch Meet Center",
     title: "Find your next meet.",
-    description: "Browse upcoming and past Ohio high school cross country and track and field meets."
+    description:
+      "Browse upcoming and completed Ohio cross country and track meets."
   })}
+
+  <style>
+    .meet-center-controls {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(190px, 1fr)
+      );
+      gap: 16px;
+    }
+
+    .meet-center-controls label {
+      display: block;
+    }
+
+    .meet-center-controls input,
+    .meet-center-controls select {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px;
+      border: 1px solid rgba(15, 23, 42, 0.2);
+      border-radius: 8px;
+      background: #ffffff;
+      font: inherit;
+    }
+
+    .meet-center-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .meet-center-toolbar strong {
+      margin-left: auto;
+    }
+
+    .meet-section {
+      margin-top: 44px;
+    }
+
+    .meet-section-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .meet-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .meet-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(0, 191, 99, 0.12);
+      font-size: 0.78rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .meet-badge-dark {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    .meet-badge-featured {
+      background: #00bf63;
+      color: #07130d;
+    }
+
+    .meet-card-details {
+      display: grid;
+      gap: 8px;
+      margin: 18px 0;
+    }
+
+    .meet-card-details p {
+      margin: 0;
+    }
+
+    .meet-empty {
+      padding: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .meet-center-toolbar {
+        align-items: stretch;
+      }
+
+      .meet-center-toolbar .button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .meet-center-toolbar strong {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  </style>
 
   <section class="section section-paper">
     <div class="container">
-      <div class="story-toolbar">
-        <label class="search-field">
-          <span class="visually-hidden">Search meets</span>
-          <input
-            type="search"
-            placeholder="Search by meet, city, venue, or school"
-            data-meet-search
+      <div class="info-card">
+        <div class="meet-center-controls">
+          <label>
+            <strong>Search</strong>
+
+            <input
+              type="search"
+              data-public-meet-search
+              placeholder="Meet, host, venue, or city"
+            >
+          </label>
+
+          <label>
+            <strong>Sport</strong>
+
+            <select data-public-meet-sport>
+              <option value="">
+                All sports
+              </option>
+
+              <option value="Cross Country">
+                Cross Country
+              </option>
+
+              <option value="Track and Field">
+                Track and Field
+              </option>
+            </select>
+          </label>
+
+          <label>
+            <strong>Year</strong>
+
+            <select data-public-meet-year>
+              <option value="">
+                All years
+              </option>
+            </select>
+          </label>
+
+          <label>
+            <strong>City</strong>
+
+            <select data-public-meet-city>
+              <option value="">
+                All cities
+              </option>
+            </select>
+          </label>
+
+          <label>
+            <strong>Division</strong>
+
+            <select data-public-meet-division>
+              <option value="">
+                All divisions
+              </option>
+            </select>
+          </label>
+
+          <label>
+            <strong>Meet type</strong>
+
+            <select data-public-meet-type>
+              <option value="">
+                All meet types
+              </option>
+            </select>
+          </label>
+        </div>
+
+        <div class="meet-center-toolbar">
+          <button
+            class="button button-outline"
+            type="button"
+            data-clear-public-meet-filters
           >
-        </label>
+            Clear filters
+          </button>
 
-        <label>
-          <span class="visually-hidden">Filter by sport</span>
-          <select class="category-filter" data-meet-sport>
-            <option value="all">All sports</option>
-            <option value="cross country">Cross Country</option>
-            <option value="track and field">Track and Field</option>
-          </select>
-        </label>
+          <strong data-public-meet-count>
+            Loading meets
+          </strong>
+        </div>
       </div>
 
-      <div class="results-summary" aria-live="polite">
-        <span data-meet-count>Loading meets...</span>
+      <div
+        class="info-card"
+        data-meet-center-status
+        style="margin-top:24px;"
+      >
+        <h2>Loading the Meet Center</h2>
+        <p>
+          Podium Watch is gathering the latest meet information.
+        </p>
       </div>
 
-      <div class="stories-grid" data-meet-list></div>
+      <section
+        class="meet-section"
+        data-upcoming-meet-section
+        hidden
+      >
+        <div class="meet-section-heading">
+          <div>
+            <p class="eyebrow">Coming up</p>
+            <h2>Upcoming meets</h2>
+          </div>
 
-      <div class="empty-state no-results" data-meet-empty hidden>
-        <div class="empty-state-mark">PW</div>
-        <h2>No meets found</h2>
-        <p>Try a different meet name, city, venue, school, or sport.</p>
-      </div>
+          <strong data-upcoming-meet-count></strong>
+        </div>
+
+        <div
+          class="stories-grid"
+          data-upcoming-meet-list
+        ></div>
+      </section>
+
+      <section
+        class="meet-section"
+        data-completed-meet-section
+        hidden
+      >
+        <div class="meet-section-heading">
+          <div>
+            <p class="eyebrow">Past events</p>
+            <h2>Completed meets</h2>
+          </div>
+
+          <strong data-completed-meet-count></strong>
+        </div>
+
+        <div
+          class="stories-grid"
+          data-completed-meet-list
+        ></div>
+      </section>
     </div>
   </section>
 
-  <script>
-    (() => {
-      const meetList = document.querySelector("[data-meet-list]");
-      const meetCount = document.querySelector("[data-meet-count]");
-      const meetEmpty = document.querySelector("[data-meet-empty]");
-      const searchInput = document.querySelector("[data-meet-search]");
-      const sportSelect = document.querySelector("[data-meet-sport]");
-
-      let meets = [];
-
-      function escapeText(value) {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      }
-
-      function formatMeetDate(value) {
-        if (!value) return "Date to be announced";
-
-        const date = new Date(value + "T12:00:00");
-
-        return new Intl.DateTimeFormat("en-US", {
-          month: "long",
-          day: "numeric",
-          year: "numeric"
-        }).format(date);
-      }
-
-      function renderMeets() {
-        const searchValue = searchInput.value.trim().toLowerCase();
-        const sportValue = sportSelect.value.toLowerCase();
-
-        const filtered = meets.filter((meet) => {
-          const searchable = [
-            meet.name,
-            meet.city,
-            meet.state,
-            meet.venue_name,
-            meet.host_school,
-            meet.meet_type
-          ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
-
-          const matchesSearch =
-            !searchValue || searchable.includes(searchValue);
-
-          const matchesSport =
-            sportValue === "all" ||
-            String(meet.sport ?? "").toLowerCase() === sportValue;
-
-          return matchesSearch && matchesSport;
-        });
-
-        meetCount.textContent =
-          filtered.length +
-          (filtered.length === 1 ? " meet" : " meets");
-
-        meetEmpty.hidden = filtered.length !== 0;
-
-        meetList.innerHTML = filtered
-          .map((meet) => {
-            const location = [
-              meet.venue_name,
-              meet.city,
-              meet.state
-            ]
-              .filter(Boolean)
-              .join(", ");
-
-            return \`
-              <article class="story-card">
-                \${
-                  meet.banner_image_url
-                    ? \`
-                      <img
-                        class="story-card-image"
-                        src="\${escapeText(meet.banner_image_url)}"
-                        alt=""
-                        width="800"
-                        height="450"
-                      >
-                    \`
-                    : ""
-                }
-
-                <div class="story-card-body">
-                  <p class="eyebrow">
-                    \${escapeText(meet.sport || "Ohio Meet")}
-                  </p>
-
-                  <h2>
-                    <a href="/meetdetail/?slug=\${encodeURIComponent(meet.slug)}">
-                      \${escapeText(meet.name)}
-                    </a>
-                  </h2>
-
-                  <p>
-                    <strong>\${escapeText(formatMeetDate(meet.meet_date))}</strong>
-                  </p>
-
-                  \${
-                    location
-                      ? \`<p>\${escapeText(location)}</p>\`
-                      : ""
-                  }
-
-                  \${
-                    meet.description
-                      ? \`<p>\${escapeText(meet.description)}</p>\`
-                      : ""
-                  }
-
-                  <a
-                    class="button button-dark"
-                    href="/meetdetail/?slug=\${encodeURIComponent(meet.slug)}"
-                  >
-                    View meet page
-                  </a>
-                </div>
-              </article>
-            \`;
-          })
-          .join("");
-      }
-
-      async function loadMeets() {
-        try {
-          const response = await fetch("/api/meets");
-
-          if (!response.ok) {
-            throw new Error("Meet request failed.");
-          }
-
-          const data = await response.json();
-          meets = Array.isArray(data.meets) ? data.meets : [];
-          renderMeets();
-        } catch (error) {
-          console.error("Meet directory error:", error);
-          meetCount.textContent = "Unable to load meets right now.";
-          meetEmpty.hidden = false;
-        }
-      }
-
-      searchInput.addEventListener("input", renderMeets);
-      sportSelect.addEventListener("change", renderMeets);
-
-      loadMeets();
-    })();
-  </script>`;
+  <script
+    src="/scripts/meet-center.js"
+    defer
+  ></script>`;
 
   return layout({
     site,
     title: "Meet Center",
     description:
-      "Browse upcoming and past Ohio high school cross country and track and field meets.",
+      "Browse upcoming and completed Ohio cross country and track meets.",
     pathname: "/meets/",
     content
   });

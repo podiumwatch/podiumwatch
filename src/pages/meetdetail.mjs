@@ -1,496 +1,279 @@
-import { layout } from "../lib/html.mjs";
+import {
+  layout,
+  pageHero
+} from "../lib/html.mjs";
 
 export function meetDetailPage(site) {
-  const content = `
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <p class="eyebrow" data-meet-sport>Podium Watch Meet Center</p>
-        <h1 data-meet-name>Loading meet...</h1>
-        <p class="hero-text" data-meet-description>
-          Meet information is loading.
-        </p>
+  const content = `${pageHero({
+    eyebrow: "Podium Watch Meet Center",
+    title: "Meet information.",
+    description:
+      "Schedules, directions, results, maps, and important meet details."
+  })}
 
-        <div class="hero-actions" data-meet-actions></div>
-      </div>
+  <style>
+    .meet-detail-shell {
+      display: grid;
+      gap: 26px;
+    }
 
-      <div class="hero-logo-panel">
-        <img
-          data-meet-logo
-          src="${site.logo}"
-          alt=""
-          width="520"
-          height="520"
-        >
-        <p data-meet-countdown>Loading meet date...</p>
-      </div>
-    </div>
-  </section>
+    .meet-preview-banner {
+      padding: 16px 20px;
+      border: 2px solid #00bf63;
+      border-radius: 12px;
+      background: rgba(0, 191, 99, 0.1);
+      font-weight: 800;
+    }
+
+    .meet-detail-banner {
+      width: 100%;
+      max-height: 440px;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+
+    .meet-detail-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: start;
+      gap: 22px;
+    }
+
+    .meet-detail-logo {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .meet-detail-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .meet-detail-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(0, 191, 99, 0.14);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .meet-detail-badge-dark {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    .meet-detail-facts {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(190px, 1fr)
+      );
+      gap: 16px;
+    }
+
+    .meet-detail-fact {
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.045);
+    }
+
+    .meet-detail-fact p {
+      margin: 6px 0 0;
+    }
+
+    .meet-detail-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+    }
+
+    .meet-detail-section {
+      padding: 25px;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+    }
+
+    .meet-detail-copy {
+      white-space: pre-line;
+    }
+
+    .meet-detail-message {
+      padding: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      .meet-detail-header {
+        grid-template-columns: 1fr;
+      }
+
+      .meet-detail-logo {
+        width: 90px;
+        height: 90px;
+      }
+
+      .meet-detail-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .meet-detail-actions .button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 
   <section class="section section-paper">
     <div class="container">
-      <div class="content-grid">
-        <div>
-          <p class="eyebrow">Meet details</p>
-          <h2 data-meet-date>Date to be announced</h2>
-          <p data-meet-location></p>
-          <p data-meet-host></p>
+      <div
+        class="info-card meet-detail-message"
+        data-meet-detail-status
+      >
+        <h2>Loading meet information</h2>
+
+        <p>
+          Podium Watch is gathering the complete meet page.
+        </p>
+      </div>
+
+      <article
+        class="meet-detail-shell"
+        data-meet-detail
+        hidden
+      >
+        <div
+          class="meet-preview-banner"
+          data-meet-preview-banner
+          hidden
+        >
+          Private draft preview. This meet is not visible in the public Meet Center.
         </div>
+
+        <img
+          class="meet-detail-banner"
+          data-meet-banner
+          alt=""
+          hidden
+        >
 
         <div class="info-card">
-          <h3>Quick information</h3>
-          <p data-meet-type></p>
-          <p data-meet-division></p>
-          <p data-meet-time></p>
+          <div class="meet-detail-header">
+            <img
+              class="meet-detail-logo"
+              data-meet-logo
+              alt=""
+              hidden
+            >
+
+            <div>
+              <div
+                class="meet-detail-badges"
+                data-meet-badges
+              ></div>
+
+              <h1 data-meet-name></h1>
+
+              <p
+                data-meet-description
+                hidden
+              ></p>
+
+              <p>
+                <strong data-meet-countdown></strong>
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div
-        class="content-grid"
-        style="margin-top: 34px"
-        data-information-grid
-      >
-        <article class="info-card" data-section="schedule" hidden>
-          <p class="eyebrow">Schedule</p>
-          <h2>Race schedule</h2>
-          <p data-meet-schedule></p>
-        </article>
+        <div
+          class="meet-detail-facts"
+          data-meet-facts
+        ></div>
 
-        <article class="info-card" data-section="parking" hidden>
-          <p class="eyebrow">Parking</p>
-          <h2>Arrival information</h2>
-          <p data-meet-parking></p>
-        </article>
+        <div
+          class="meet-detail-actions"
+          data-primary-meet-actions
+        ></div>
 
-        <article class="info-card" data-section="admission" hidden>
-          <p class="eyebrow">Admission</p>
-          <h2>Spectator information</h2>
-          <p data-meet-admission></p>
-        </article>
+        <section
+          class="meet-detail-section"
+          data-calendar-section
+        >
+          <p class="eyebrow">
+            Save and share
+          </p>
 
-        <article class="info-card" data-section="bus" hidden>
-          <p class="eyebrow">Teams</p>
-          <h2>Bus information</h2>
-          <p data-meet-bus></p>
-        </article>
+          <h2>Keep this meet handy</h2>
 
-        <article class="info-card" data-section="awards" hidden>
-          <p class="eyebrow">Awards</p>
-          <h2>Awards information</h2>
-          <p data-meet-awards></p>
-        </article>
+          <div
+            class="meet-detail-actions"
+            data-calendar-actions
+          ></div>
 
-        <article class="info-card" data-section="course" hidden>
-          <p class="eyebrow">Course</p>
-          <h2>Course information</h2>
-          <p data-meet-course></p>
-        </article>
-      </div>
+          <p
+            data-share-message
+            aria-live="polite"
+            style="margin-bottom:0;"
+          ></p>
+        </section>
 
-      <div
-        class="empty-state"
-        data-meet-error
-        hidden
-        style="margin-top: 34px"
-      >
-        <div class="empty-state-mark">PW</div>
-        <h2>Meet information unavailable</h2>
-        <p data-meet-error-message>
-          This meet could not be loaded.
-        </p>
-        <a class="button button-dark" href="/meets/">
-          Return to Meet Center
-        </a>
-      </div>
+        <div data-meet-information></div>
+
+        <section
+          class="meet-detail-section"
+          data-meet-results-section
+        >
+          <p class="eyebrow">
+            Results and coverage
+          </p>
+
+          <h2>Meet links</h2>
+
+          <div
+            class="meet-detail-actions"
+            data-result-actions
+          ></div>
+
+          <p
+            data-result-empty
+            hidden
+          >
+            Results and coverage links will be added when they become available.
+          </p>
+        </section>
+
+        <div class="meet-detail-actions">
+          <a
+            class="button button-outline"
+            href="/meets/"
+          >
+            Back to Meet Center
+          </a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <script>
-    (() => {
-      const pageParts = window.location.pathname
-        .split("/")
-        .filter(Boolean);
-
-      const querySlug = new URLSearchParams(
-        window.location.search
-      ).get("slug");
-
-      const slug = String(
-        querySlug ||
-        pageParts[pageParts.length - 1] ||
-        ""
-      ).trim();
-
-      function escapeText(value) {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      }
-
-      function formatDate(value) {
-        if (!value) {
-          return "Date to be announced";
-        }
-
-        return new Intl.DateTimeFormat("en-US", {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-          year: "numeric"
-        }).format(new Date(value + "T12:00:00"));
-      }
-
-      function formatTime(value) {
-        if (!value) {
-          return "";
-        }
-
-        const parts = String(value).split(":");
-        const hour = Number(parts[0]);
-        const minute = parts[1] || "00";
-        const suffix = hour >= 12 ? "PM" : "AM";
-        const displayHour = hour % 12 || 12;
-
-        return displayHour + ":" + minute + " " + suffix;
-      }
-
-      function setText(selector, value) {
-        const element = document.querySelector(selector);
-
-        if (element) {
-          element.textContent = value || "";
-        }
-      }
-
-      function showSection(name, selector, value) {
-        if (!value) {
-          return;
-        }
-
-        const section = document.querySelector(
-          '[data-section="' + name + '"]'
-        );
-
-        const content = document.querySelector(selector);
-
-        if (section && content) {
-          section.hidden = false;
-          content.innerHTML = escapeText(value)
-            .replaceAll("\\n", "<br>");
-        }
-      }
-
-      function safeUrl(value) {
-        if (!value) {
-          return "";
-        }
-
-        try {
-          const parsed = new URL(value, window.location.origin);
-
-          if (
-            parsed.protocol === "http:" ||
-            parsed.protocol === "https:"
-          ) {
-            return parsed.href;
-          }
-        } catch {
-          return "";
-        }
-
-        return "";
-      }
-
-      function addButton(container, label, value, primary = false) {
-        const url = safeUrl(value);
-
-        if (!url) {
-          return;
-        }
-
-        const link = document.createElement("a");
-        link.className = primary
-          ? "button button-primary"
-          : "button button-outline";
-        link.href = url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = label;
-
-        container.appendChild(link);
-      }
-
-      function setCountdown(meet) {
-        if (!meet.meet_date) {
-          setText("[data-meet-countdown]", "Date to be announced");
-          return;
-        }
-
-        const meetTime = meet.start_time || "00:00:00";
-        const meetDate = new Date(
-          meet.meet_date + "T" + meetTime
-        );
-
-        const difference = meetDate.getTime() - Date.now();
-        const days = Math.ceil(
-          difference / (1000 * 60 * 60 * 24)
-        );
-
-        if (days > 1) {
-          setText(
-            "[data-meet-countdown]",
-            days + " days until race day"
-          );
-        } else if (days === 1) {
-          setText(
-            "[data-meet-countdown]",
-            "Race day is tomorrow"
-          );
-        } else if (days === 0) {
-          setText(
-            "[data-meet-countdown]",
-            "Race day is here"
-          );
-        } else {
-          setText(
-            "[data-meet-countdown]",
-            "Meet complete"
-          );
-        }
-      }
-
-      async function loadMeet() {
-        try {
-          if (!slug || slug === "meetdetail") {
-            throw new Error("Meet address is missing.");
-          }
-
-          const response = await fetch(new URLSearchParams(
-            window.location.search
-          ).get("preview") === "1"
-            ? "/api/admin/meets/"
-            : "/api/meets/");
-
-          const data = await response.json();
-
-          if (!response.ok) {
-            throw new Error(
-              data.error || "Meet could not be loaded."
-            );
-          }
-
-          const meet = Array.isArray(data.meets)
-            ? data.meets.find(
-                (item) =>
-                  String(item.slug || "").trim() === slug
-              )
-            : null;
-
-          if (!meet) {
-            throw new Error("Meet not found.");
-          }
-
-          document.title =
-            meet.name + " | Podium Watch";
-
-          setText(
-            "[data-meet-sport]",
-            meet.sport || "Podium Watch Meet Center"
-          );
-
-          setText("[data-meet-name]", meet.name);
-
-          setText(
-            "[data-meet-description]",
-            meet.description ||
-              "Complete meet information from Podium Watch."
-          );
-
-          setText(
-            "[data-meet-date]",
-            formatDate(meet.meet_date)
-          );
-
-          const location = [
-            meet.venue_name,
-            meet.address,
-            meet.city,
-            meet.state,
-            meet.zip_code
-          ]
-            .filter(Boolean)
-            .join(", ");
-
-          setText("[data-meet-location]", location);
-
-          setText(
-            "[data-meet-host]",
-            meet.host_school
-              ? "Hosted by " + meet.host_school
-              : ""
-          );
-
-          setText(
-            "[data-meet-type]",
-            meet.meet_type
-              ? "Meet type: " + meet.meet_type
-              : ""
-          );
-
-          setText(
-            "[data-meet-division]",
-            meet.division
-              ? "Division: " + meet.division
-              : ""
-          );
-
-          setText(
-            "[data-meet-time]",
-            meet.start_time
-              ? "Starting time: " +
-                  formatTime(meet.start_time)
-              : ""
-          );
-
-          const logo = document.querySelector(
-            "[data-meet-logo]"
-          );
-
-          if (logo && meet.logo_url) {
-            logo.src = safeUrl(meet.logo_url);
-            logo.alt = meet.name + " logo";
-          }
-
-          const actions = document.querySelector(
-            "[data-meet-actions]"
-          );
-
-          addButton(
-            actions,
-            "View Results",
-            meet.results_url,
-            true
-          );
-
-          addButton(
-            actions,
-            "AthleticNet Results",
-            meet.athleticnet_url
-          );
-
-          addButton(
-            actions,
-            "MileSplit Results",
-            meet.milesplit_url
-          );
-
-          addButton(
-            actions,
-            "Directions",
-            meet.google_maps_url
-          );
-
-          addButton(
-            actions,
-            "Course Map",
-            meet.course_map_url
-          );
-
-          addButton(
-            actions,
-            "Parking Map",
-            meet.parking_map_url
-          );
-
-          addButton(
-            actions,
-            "Meet Schedule",
-            meet.schedule_pdf_url
-          );
-
-          addButton(
-            actions,
-            "Registration",
-            meet.registration_url
-          );
-
-          showSection(
-            "schedule",
-            "[data-meet-schedule]",
-            meet.schedule_text
-          );
-
-          showSection(
-            "parking",
-            "[data-meet-parking]",
-            meet.parking_text
-          );
-
-          showSection(
-            "admission",
-            "[data-meet-admission]",
-            meet.admission_text
-          );
-
-          showSection(
-            "bus",
-            "[data-meet-bus]",
-            meet.bus_information
-          );
-
-          showSection(
-            "awards",
-            "[data-meet-awards]",
-            meet.awards_text
-          );
-
-          showSection(
-            "course",
-            "[data-meet-course]",
-            meet.course_description
-          );
-
-          setCountdown(meet);
-        } catch (error) {
-          console.error("Meet page error:", error);
-
-          const errorBox = document.querySelector(
-            "[data-meet-error]"
-          );
-
-          if (errorBox) {
-            errorBox.hidden = false;
-          }
-
-          setText(
-            "[data-meet-error-message]",
-            error.message
-          );
-
-          setText(
-            "[data-meet-name]",
-            "Meet not found"
-          );
-
-          setText(
-            "[data-meet-description]",
-            "Return to the Meet Center to browse published meets."
-          );
-        }
-      }
-
-      loadMeet();
-    })();
-  </script>`;
+  <script
+    src="/scripts/meet-detail.js"
+    defer
+  ></script>`;
 
   return layout({
     site,
     title: "Meet Details",
     description:
-      "Podium Watch meet information for Ohio high school cross country and track and field.",
+      "Schedules, directions, results, maps, and important Ohio meet information.",
     pathname: "/meetdetail/",
     content
   });
