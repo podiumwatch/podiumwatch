@@ -41,6 +41,36 @@ function parseBody(request) {
   return request.body || {};
 }
 
+function cleanMeetIds(value) {
+  if (!Array.isArray(value)) {
+    throw new Error(
+      "Select at least one meet."
+    );
+  }
+
+  const ids = [
+    ...new Set(
+      value
+        .map((id) => cleanText(id))
+        .filter(Boolean)
+    )
+  ];
+
+  if (ids.length === 0) {
+    throw new Error(
+      "Select at least one meet."
+    );
+  }
+
+  if (ids.length > 500) {
+    throw new Error(
+      "No more than 500 meets can be changed at once."
+    );
+  }
+
+  return ids;
+}
+
 function buildMeetRecord(body) {
   const name = cleanText(body.name);
   const slug = cleanSlug(body.slug || body.name);
@@ -556,6 +586,91 @@ export default async function handler(
     }
   }
 
+  if (request.method === "PATCH") {
+    try {
+      const body = parseBody(request);
+      const ids = cleanMeetIds(body.ids);
+      const action = cleanText(
+        body.action
+      ).toLowerCase();
+
+      const allowedActions = new Set([
+        "publish",
+        "draft",
+        "feature",
+        "unfeature"
+      ]);
+
+      if (!allowedActions.has(action)) {
+        return response.status(400).json({
+          error: "Choose a valid bulk action."
+        });
+      }
+
+      const updates = {
+        updated_at: new Date().toISOString()
+      };
+
+      if (action === "publish") {
+        updates.published = true;
+      }
+
+      if (action === "draft") {
+        updates.published = false;
+      }
+
+      if (action === "feature") {
+        updates.featured = true;
+      }
+
+      if (action === "unfeature") {
+        updates.featured = false;
+      }
+
+      const {
+        data: updatedMeets,
+        error
+      } = await supabaseAdmin
+        .from("meets")
+        .update(updates)
+        .in("id", ids)
+        .select("*");
+
+      if (error) {
+        throw error;
+      }
+
+      return response.status(200).json({
+        action,
+        updated_count:
+          updatedMeets?.length || 0,
+        meets: updatedMeets || []
+      });
+    } catch (error) {
+      console.error(
+        "Admin bulk meet action error:",
+        error
+      );
+
+      const status =
+        error.message?.includes(
+          "Select at least"
+        ) ||
+        error.message?.includes(
+          "500 meets"
+        )
+          ? 400
+          : 500;
+
+      return response.status(status).json({
+        error:
+          status === 400
+            ? error.message
+            : "Unable to update the selected meets."
+      });
+    }
+  }
+
   if (request.method === "DELETE") {
     try {
       const body = parseBody(request);
@@ -628,7 +743,7 @@ export default async function handler(
 
   response.setHeader(
     "Allow",
-    "GET, POST, PUT, DELETE"
+    "GET, POST, PUT, PATCH, DELETE"
   );
 
   return response.status(405).json({

@@ -731,6 +731,90 @@ export function adminPage(site) {
           </div>
 
           <div
+            class="info-card"
+            data-bulk-action-controls
+            style="
+              display:flex;
+              flex-wrap:wrap;
+              align-items:end;
+              gap:16px;
+              margin-bottom:24px;
+            "
+          >
+            <label
+              style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                margin-right:auto;
+              "
+            >
+              <input
+                type="checkbox"
+                data-select-all-meets
+              >
+              <strong>Select all meets</strong>
+            </label>
+
+            <span data-selected-meet-count>
+              0 selected
+            </span>
+
+            <label>
+              <strong>Bulk action</strong>
+
+              <select
+                data-bulk-action
+                style="
+                  display:block;
+                  min-width:210px;
+                  margin-top:8px;
+                  padding:11px;
+                  font:inherit;
+                "
+              >
+                <option value="">
+                  Choose an action
+                </option>
+
+                <option value="publish">
+                  Publish selected
+                </option>
+
+                <option value="draft">
+                  Move selected to draft
+                </option>
+
+                <option value="feature">
+                  Feature selected
+                </option>
+
+                <option value="unfeature">
+                  Remove featured status
+                </option>
+              </select>
+            </label>
+
+            <button
+              class="button button-primary"
+              type="button"
+              data-apply-bulk-action
+              disabled
+            >
+              Apply action
+            </button>
+
+            <p
+              data-bulk-action-message
+              aria-live="polite"
+              style="
+                flex-basis:100%;
+                margin:0;
+              "
+            ></p>
+          </div>
+
+          <div
             class="stories-grid"
             data-admin-meet-list
           ></div>

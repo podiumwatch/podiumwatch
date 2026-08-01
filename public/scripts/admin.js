@@ -35,6 +35,28 @@
     "[data-meet-count]"
   );
 
+  const selectAllMeets = document.querySelector(
+    "[data-select-all-meets]"
+  );
+
+  const selectedMeetCount = document.querySelector(
+    "[data-selected-meet-count]"
+  );
+
+  const bulkActionSelect = document.querySelector(
+    "[data-bulk-action]"
+  );
+
+  const applyBulkActionButton =
+    document.querySelector(
+      "[data-apply-bulk-action]"
+    );
+
+  const bulkActionMessage =
+    document.querySelector(
+      "[data-bulk-action-message]"
+    );
+
   const nameInput = meetForm.querySelector(
     '[name="name"]'
   );
@@ -117,6 +139,7 @@
   let slugWasEdited = false;
   let meetsCache = [];
   let deleteTarget = null;
+  let selectedMeetIds = new Set();
 
   const templateHeaders = [
     "name",
@@ -709,6 +732,161 @@
       "</div>";
   }
 
+  function updateBulkSelectionUi() {
+    const totalMeets = meetsCache.length;
+    const selectedTotal =
+      selectedMeetIds.size;
+
+    selectedMeetCount.textContent =
+      selectedTotal +
+      (
+        selectedTotal === 1
+          ? " selected"
+          : " selected"
+      );
+
+    selectAllMeets.checked =
+      totalMeets > 0 &&
+      selectedTotal === totalMeets;
+
+    selectAllMeets.indeterminate =
+      selectedTotal > 0 &&
+      selectedTotal < totalMeets;
+
+    applyBulkActionButton.disabled =
+      selectedTotal === 0 ||
+      !bulkActionSelect.value;
+  }
+
+  function clearMeetSelection() {
+    selectedMeetIds.clear();
+
+    meetList
+      .querySelectorAll(
+        "[data-select-meet]"
+      )
+      .forEach((checkbox) => {
+        checkbox.checked = false;
+      });
+
+    updateBulkSelectionUi();
+  }
+
+  function getBulkActionDescription(action) {
+    const descriptions = {
+      publish: "publish",
+      draft: "move to draft",
+      feature: "feature",
+      unfeature:
+        "remove featured status from"
+    };
+
+    return descriptions[action] || action;
+  }
+
+  function getBulkActionResult(action) {
+    const results = {
+      publish: "published",
+      draft: "moved to draft",
+      feature: "featured",
+      unfeature:
+        "removed from featured status"
+    };
+
+    return results[action] || "updated";
+  }
+
+  async function applyBulkMeetAction() {
+    const action =
+      bulkActionSelect.value;
+
+    const ids = [
+      ...selectedMeetIds
+    ];
+
+    if (!action || ids.length === 0) {
+      bulkActionMessage.textContent =
+        "Select meets and choose an action.";
+
+      return;
+    }
+
+    const actionDescription =
+      getBulkActionDescription(action);
+
+    const confirmed = window.confirm(
+      "Are you sure you want to " +
+      actionDescription +
+      " " +
+      ids.length +
+      (
+        ids.length === 1
+          ? " selected meet?"
+          : " selected meets?"
+      )
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    applyBulkActionButton.disabled = true;
+
+    bulkActionMessage.textContent =
+      "Updating selected meets...";
+
+    try {
+      const response = await fetch(
+        "/api/admin/meets/",
+        {
+          method: "PATCH",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+          body: JSON.stringify({
+            ids,
+            action
+          })
+        }
+      );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error ||
+          "Unable to update the selected meets."
+        );
+      }
+
+      const resultDescription =
+        getBulkActionResult(action);
+
+      clearMeetSelection();
+      bulkActionSelect.value = "";
+
+      await loadMeets();
+
+      bulkActionMessage.textContent =
+        data.updated_count +
+        (
+          data.updated_count === 1
+            ? " meet was "
+            : " meets were "
+        ) +
+        resultDescription +
+        ".";
+    } catch (error) {
+      bulkActionMessage.textContent =
+        error.message;
+
+      updateBulkSelectionUi();
+    }
+  }
+
   async function loadMeets() {
     meetCount.textContent =
       "Loading meets...";
@@ -736,6 +914,19 @@
           ? data.meets
           : [];
 
+      const currentMeetIds = new Set(
+        meetsCache.map(
+          (meet) => meet.id
+        )
+      );
+
+      selectedMeetIds = new Set(
+        [...selectedMeetIds].filter(
+          (id) =>
+            currentMeetIds.has(id)
+        )
+      );
+
       meetCount.textContent =
         meetsCache.length +
         (
@@ -760,6 +951,18 @@
             return (
               '<article class="story-card">' +
                 '<div class="story-card-body">' +
+                  '<label style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">' +
+                    '<input type="checkbox" data-select-meet="' +
+                      escapeText(meet.id) +
+                    '"' +
+                    (
+                      selectedMeetIds.has(meet.id)
+                        ? " checked"
+                        : ""
+                    ) +
+                    '>' +
+                    '<strong>Select meet</strong>' +
+                  '</label>' +
                   '<p class="eyebrow">' +
                     escapeText(
                       meet.sport || "Meet"
@@ -781,7 +984,7 @@
                     escapeText(status) +
                     (
                       featured
-                        ? " · " +
+                        ? " Â· " +
                           escapeText(
                             featured
                           )
@@ -833,6 +1036,8 @@
             );
           })
           .join("");
+
+      updateBulkSelectionUi();
     } catch (error) {
       console.error(
         "Admin meet list error:",
@@ -955,6 +1160,70 @@
         showLogin();
       }
     }
+  );
+
+  meetList.addEventListener(
+    "change",
+    (event) => {
+      const checkbox =
+        event.target.closest(
+          "[data-select-meet]"
+        );
+
+      if (!checkbox) {
+        return;
+      }
+
+      const id =
+        checkbox.dataset.selectMeet;
+
+      if (checkbox.checked) {
+        selectedMeetIds.add(id);
+      } else {
+        selectedMeetIds.delete(id);
+      }
+
+      updateBulkSelectionUi();
+    }
+  );
+
+  selectAllMeets.addEventListener(
+    "change",
+    () => {
+      if (selectAllMeets.checked) {
+        selectedMeetIds = new Set(
+          meetsCache.map(
+            (meet) => meet.id
+          )
+        );
+      } else {
+        selectedMeetIds.clear();
+      }
+
+      meetList
+        .querySelectorAll(
+          "[data-select-meet]"
+        )
+        .forEach((checkbox) => {
+          checkbox.checked =
+            selectAllMeets.checked;
+        });
+
+      updateBulkSelectionUi();
+    }
+  );
+
+  bulkActionSelect.addEventListener(
+    "change",
+    () => {
+      bulkActionMessage.textContent = "";
+      updateBulkSelectionUi();
+    }
+  );
+
+  applyBulkActionButton.addEventListener(
+    "click",
+    applyBulkMeetAction
   );
 
   meetList.addEventListener(
