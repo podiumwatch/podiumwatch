@@ -258,7 +258,7 @@
                   escapeText(status) +
                   (
                     featured
-                      ? " · " +
+                      ? " Â· " +
                         escapeText(featured)
                       : ""
                   ) +
@@ -315,7 +315,7 @@
   async function checkSession() {
     try {
       const response = await fetch(
-        "/api/admin/session/",
+        "/api/admin/auth/",
         {
           credentials: "same-origin"
         }
@@ -360,7 +360,7 @@
 
       try {
         const response = await fetch(
-          "/api/admin/login/",
+          "/api/admin/auth/",
           {
             method: "POST",
             credentials: "same-origin",
@@ -403,7 +403,7 @@
 
       try {
         await fetch(
-          "/api/admin/logout/",
+          "/api/admin/auth/",
           {
             method: "POST",
             credentials: "same-origin"
