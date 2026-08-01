@@ -1,4 +1,4 @@
-﻿import fs from "node:fs/promises";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { site } from "../src/config/site.mjs";
 import sponsors from "../src/data/sponsors.json" with { type: "json" };
@@ -31,6 +31,7 @@ import {
 } from "../src/lib/html.mjs";
 import { meetsIndexPage } from "../src/pages/meets.mjs";
 import { meetDetailPage } from "../src/pages/meetdetail.mjs";
+import { adminPage } from "../src/pages/admin.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -364,6 +365,7 @@ async function build() {
 
   await writePage("/meets/", meetsIndexPage(site));
   await writePage("/meetdetail/", meetDetailPage(site));
+  await writePage("/admin/", adminPage(site));
   await writePage("/rankings/", rankingsIndexPage());
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));
