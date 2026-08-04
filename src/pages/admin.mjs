@@ -66,13 +66,86 @@ export function adminPage(site) {
             <h2>Meet Manager</h2>
           </div>
 
-          <button
-            class="button button-outline"
-            type="button"
-            data-admin-logout
-          >
-            Sign out
-          </button>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <a
+              class="button button-primary"
+              href="/admin/operations/"
+            >
+              Operations Center
+            </a>
+
+            <a
+              class="button button-outline"
+              href="/admin/teams/"
+            >
+              Bulk Team Import
+            </a>
+
+            <a
+              class="button button-outline"
+              href="/admin/statewide-data/"
+            >
+              Statewide Data
+            </a>
+
+            <a
+              class="button button-outline"
+              href="/admin/athletes/"
+            >
+              Athlete Data
+            </a>
+
+            <a
+              class="button button-outline"
+              href="/admin/recruiting/"
+            >
+              Recruit Ratings
+            </a>
+
+            <a
+              class="button button-primary"
+              href="/admin/team-manager/"
+            >
+              Team Manager
+            </a>
+
+            <a
+              class="button button-outline"
+              href="/admin/team-schedules/"
+            >
+              Team Schedules
+            </a>
+
+            <a
+              class="button button-outline"
+              href="/admin/team-rosters/"
+            >
+              Team Rosters
+            </a>
+
+            <a
+              class="button button-outline"
+              href="/admin/team-content/"
+            >
+              Team Content
+            </a>
+
+
+            <a
+              class="button button-outline"
+              href="/admin/engagement/"
+            >
+              Engagement Center
+            </a>
+
+            <button
+              class="button button-outline"
+              type="button"
+              data-admin-logout
+            >
+              Sign out
+            </button>
+          </div>
         </div>
 
         <form

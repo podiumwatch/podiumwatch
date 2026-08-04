@@ -8,15 +8,19 @@
     "dev": "node scripts/serve.mjs --watch",
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
-    "test": "npm run check",
+    "test": "npm run check && npm run test:results",
+    "test:results": "node scripts/test-results-ingestion.mjs",
     "preview": "node scripts/serve.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": "24.x"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.111.0",
     "@vercel/analytics": "^2.0.1",
-    "@vercel/speed-insights": "^2.0.0"
+    "@vercel/speed-insights": "^2.0.0",
+    "cheerio": "^1.1.2",
+    "pdfjs-dist": "^5.4.149",
+    "read-excel-file": "^9.3.5"
   }
 }

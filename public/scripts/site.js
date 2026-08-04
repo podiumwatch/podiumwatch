@@ -2,7 +2,7 @@
   const menuButton = document.querySelector("[data-menu-button]");
   const nav = document.querySelector("[data-site-nav]");
   const overlay = document.querySelector("[data-nav-overlay]");
-  const mobileQuery = window.matchMedia("(max-width: 980px)");
+  const mobileQuery = window.matchMedia("(max-width: 1120px)");
 
   const setNavigationState = (open, returnFocus = false) => {
     if (!menuButton || !nav) return;
@@ -38,6 +38,50 @@
     });
     mobileQuery.addEventListener("change", () => setNavigationState(false));
   }
+
+
+  const searchDialog = document.querySelector("[data-search-dialog]");
+  const searchOpenButtons = [...document.querySelectorAll("[data-search-open]")];
+  const searchCloseButton = document.querySelector("[data-search-close]");
+  const searchDialogInput = document.querySelector("[data-search-dialog-input]");
+  let searchReturnFocus = null;
+
+  const openSearch = (trigger = null) => {
+    if (!searchDialog) return;
+    searchReturnFocus = trigger || document.activeElement;
+    setNavigationState(false);
+    if (typeof searchDialog.showModal === "function") searchDialog.showModal();
+    else searchDialog.setAttribute("open", "");
+    window.setTimeout(() => searchDialogInput?.focus(), 0);
+  };
+
+  const closeSearch = () => {
+    if (!searchDialog) return;
+    if (typeof searchDialog.close === "function" && searchDialog.open) searchDialog.close();
+    else searchDialog.removeAttribute("open");
+    if (searchReturnFocus instanceof HTMLElement) searchReturnFocus.focus();
+  };
+
+  searchOpenButtons.forEach((button) => button.addEventListener("click", () => openSearch(button)));
+  searchCloseButton?.addEventListener("click", closeSearch);
+  searchDialog?.addEventListener("click", (event) => {
+    if (event.target === searchDialog) closeSearch();
+  });
+  searchDialog?.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeSearch();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    const target = event.target;
+    const typing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement || target?.isContentEditable;
+    const shortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k";
+    const slash = event.key === "/" && !typing && !event.ctrlKey && !event.metaKey && !event.altKey;
+    if (shortcut || slash) {
+      event.preventDefault();
+      openSearch();
+    }
+  });
 
   document.querySelectorAll("[data-year]").forEach((node) => {
     node.textContent = String(new Date().getFullYear());

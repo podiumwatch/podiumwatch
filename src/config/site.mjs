@@ -16,7 +16,11 @@ export const site = {
     { label: "Home", href: "/" },
     { label: "Rankings", href: "/rankings/" },
     { label: "Meets", href: "/meets/" },
-    { label: "Athlete Spotlights", href: "/athlete-spotlights/" },
+    { label: "Teams", href: "/teams/" },
+    { label: "Ohio Schools", href: "/ohio-schools/" },
+    { label: "Tournament Hub", href: "/tournament-hub/" },
+    { label: "Athletes", href: "/athletes/" },
+    { label: "Recruiting", href: "/recruiting/" },
     { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
     { label: "Team of the Week", href: "/team-of-the-week/" },
     { label: "Stories", href: "/stories/" },
@@ -26,15 +30,25 @@ export const site = {
     Coverage: [
       { label: "Rankings", href: "/rankings/" },
       { label: "Meets", href: "/meets/" },
+      { label: "Teams", href: "/teams/" },
+      { label: "Ohio Schools", href: "/ohio-schools/" },
+      { label: "Claim Your Team", href: "/claim-your-team/" },
+      { label: "Athletes", href: "/athletes/" },
+      { label: "Recruiting", href: "/recruiting/" },
+      { label: "Recruit Rating Methodology", href: "/recruiting/methodology/" },
+      { label: "Tournament Hub", href: "/tournament-hub/" },
+      { label: "Ranking Methodology", href: "/rankings/methodology/" },
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" }
     ],
     "Podium Watch": [
       { label: "Stories", href: "/stories/" },
-      { label: "Athlete Spotlights", href: "/athlete-spotlights/" },
+      { label: "Athletes", href: "/athletes/" },
+      { label: "Recruiting", href: "/recruiting/" },
       { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
       { label: "Team of the Week", href: "/team-of-the-week/" },
-      { label: "About", href: "/about/" }
+      { label: "About", href: "/about/" },
+      { label: "Privacy", href: "/privacy/" }
     ],
     Connect: [
       { label: "Instagram", href: "https://www.instagram.com/podiumwatch/", external: true },

@@ -1,0 +1,5006 @@
+[
+  {
+    "school_id": 972,
+    "school_name": "MASON",
+    "city": "Mason",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 1310,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 550,
+    "school_name": "FAIRFIELD",
+    "city": "Fairfield",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 1223,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 837,
+    "school_name": "LAKOTA WEST",
+    "city": "West Chester",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 1191,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1388,
+    "school_name": "ST XAVIER",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 1092,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1354,
+    "school_name": "ST IGNATIUS",
+    "city": "Cleveland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 1032,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 836,
+    "school_name": "LAKOTA EAST",
+    "city": "Liberty Township",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 1028,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 876,
+    "school_name": "GAHANNA LINCOLN",
+    "city": "Gahanna",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 1002,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 336,
+    "school_name": "CENTERVILLE",
+    "city": "Centerville",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 988,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 178,
+    "school_name": "BEAVERCREEK",
+    "city": "Beavercreek",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 970,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1188,
+    "school_name": "OAK HILLS",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 873,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1677,
+    "school_name": "WEST CLERMONT",
+    "city": "Batavia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 868,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 807,
+    "school_name": "KETTERING FAIRMONT",
+    "city": "Kettering",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 863,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 486,
+    "school_name": "DUBLIN JEROME",
+    "city": "Dublin",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 825,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 306,
+    "school_name": "CANTON McKINLEY SENIOR",
+    "city": "Canton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 814,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1704,
+    "school_name": "WHITMER",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 808,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1016,
+    "school_name": "MENTOR",
+    "city": "Mentor",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 774,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1686,
+    "school_name": "WESTLAND",
+    "city": "Galloway",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 767,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1254,
+    "school_name": "PICKERINGTON HIGH SCHOOL CENTRAL",
+    "city": "Pickerington",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 764,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1201,
+    "school_name": "OLENTANGY BERLIN",
+    "city": "Delaware",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 754,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1274,
+    "school_name": "PRINCETON",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 749,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 680,
+    "school_name": "GROVE CITY",
+    "city": "Grove City",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 737,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 268,
+    "school_name": "BRUNSWICK",
+    "city": "Brunswick",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 736,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1470,
+    "school_name": "SPRINGBORO",
+    "city": "Springboro",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 736,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1203,
+    "school_name": "OLENTANGY LIBERTY",
+    "city": "Powell",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 732,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1255,
+    "school_name": "PICKERINGTON HIGH SCHOOL NORTH",
+    "city": "Pickerington",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 731,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 716,
+    "school_name": "HILLIARD DAVIDSON",
+    "city": "Hilliard",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 730,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1211,
+    "school_name": "OLENTANGY ORANGE",
+    "city": "Lewis Center",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 730,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1572,
+    "school_name": "UPPER ARLINGTON",
+    "city": "Upper Arlington",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 727,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1006,
+    "school_name": "MEDINA",
+    "city": "Medina",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 727,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1346,
+    "school_name": "ST EDWARD",
+    "city": "Lakewood",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 725,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1034,
+    "school_name": "MILFORD",
+    "city": "Milford",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 710,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 713,
+    "school_name": "HILLIARD BRADLEY",
+    "city": "Hilliard",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 709,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1056,
+    "school_name": "ARCHBISHOP MOELLER",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 705,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 474,
+    "school_name": "DUBLIN COFFMAN",
+    "city": "Dublin",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 704,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 838,
+    "school_name": "LANCASTER",
+    "city": "Lancaster",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 702,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 894,
+    "school_name": "LORAIN",
+    "city": "Lorain",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 701,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1498,
+    "school_name": "STRONGSVILLE",
+    "city": "Strongsville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 701,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 650,
+    "school_name": "GLENOAK",
+    "city": "Canton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 698,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1638,
+    "school_name": "WAYNE",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 691,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 884,
+    "school_name": "LITTLE MIAMI",
+    "city": "Morrow",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 684,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1202,
+    "school_name": "OLENTANGY",
+    "city": "Lewis Center",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 676,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1508,
+    "school_name": "SYCAMORE",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 672,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1026,
+    "school_name": "MIDDLETOWN",
+    "city": "Middletown",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 671,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1248,
+    "school_name": "Perrysburg High School",
+    "city": "Perrysburg",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 669,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 846,
+    "school_name": "LEBANON",
+    "city": "Lebanon",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 668,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 970,
+    "school_name": "MARYSVILLE",
+    "city": "Marysville",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 665,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 764,
+    "school_name": "JACKSON",
+    "city": "Massillon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 665,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 717,
+    "school_name": "HILLIARD DARBY",
+    "city": "Hilliard",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 663,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 345,
+    "school_name": "CENTRAL CROSSING",
+    "city": "Grove City",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 649,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 522,
+    "school_name": "ELDER",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 649,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1088,
+    "school_name": "NEWARK",
+    "city": "Newark",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 647,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 396,
+    "school_name": "COLERAIN",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 638,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 704,
+    "school_name": "DELAWARE HAYES",
+    "city": "Delaware",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 628,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1671,
+    "school_name": "WESTERVILLE CENTRAL",
+    "city": "WESTERVILLE",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 621,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1741,
+    "school_name": "WORTHINGTON KILBOURNE",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 621,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1738,
+    "school_name": "THOMAS WORTHINGTON",
+    "city": "Worthington",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 616,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 200,
+    "school_name": "BEREA-MIDPARK",
+    "city": "Berea",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 615,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1672,
+    "school_name": "WESTERVILLE NORTH",
+    "city": "Westerville",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 613,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1610,
+    "school_name": "WALNUT HILLS",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 613,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1674,
+    "school_name": "WESTERVILLE SOUTH",
+    "city": "Westerville",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 608,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1020,
+    "school_name": "MIAMISBURG",
+    "city": "Miamisburg",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 608,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1428,
+    "school_name": "SOLON",
+    "city": "Solon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 607,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 868,
+    "school_name": "LICKING HEIGHTS",
+    "city": "Pataskala",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 600,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1492,
+    "school_name": "STOW-MUNROE FALLS",
+    "city": "Stow",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 595,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1118,
+    "school_name": "NORMANDY",
+    "city": "Parma",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 590,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 532,
+    "school_name": "ELYRIA",
+    "city": "Elyria",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 584,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1086,
+    "school_name": "NEW ALBANY",
+    "city": "New Albany",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 583,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1632,
+    "school_name": "WATKINS MEMORIAL",
+    "city": "Pataskala",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 577,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1152,
+    "school_name": "NORTH RIDGEVILLE",
+    "city": "North Ridgeville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 571,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 810,
+    "school_name": "KINGS",
+    "city": "Kings Mills",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 570,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1342,
+    "school_name": "ST CHARLES",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 558,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1142,
+    "school_name": "NORTHMONT",
+    "city": "Clayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 558,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1719,
+    "school_name": "WINTON WOODS",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 557,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 610,
+    "school_name": "FRANKLIN HEIGHTS",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 552,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1526,
+    "school_name": "TEAYS VALLEY",
+    "city": "Ashville",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 532,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 150,
+    "school_name": "AVON",
+    "city": "Avon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 529,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1154,
+    "school_name": "NORTH ROYALTON",
+    "city": "North Royalton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 523,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 124,
+    "school_name": "ANTHONY WAYNE",
+    "city": "Whitehouse",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 523,
+    "division_2026_27_2027_28": "Division I",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 475,
+    "school_name": "DUBLIN SCIOTO",
+    "city": "Dublin",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 519,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 730,
+    "school_name": "HOOVER",
+    "city": "North Canton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 515,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 586,
+    "school_name": "FINDLAY",
+    "city": "Findlay",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 513,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 740,
+    "school_name": "HUDSON",
+    "city": "Hudson",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 508,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 832,
+    "school_name": "LAKEWOOD",
+    "city": "Lakewood",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 508,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1408,
+    "school_name": "SHAKER HEIGHTS",
+    "city": "Shaker Heights",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 507,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 696,
+    "school_name": "HARRISON",
+    "city": "Harrison",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 507,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 214,
+    "school_name": "BIG WALNUT",
+    "city": "Sunbury",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 504,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1552,
+    "school_name": "TROY",
+    "city": "Troy",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 498,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1606,
+    "school_name": "WADSWORTH",
+    "city": "Wadsworth",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 495,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division I"
+  },
+  {
+    "school_id": 1698,
+    "school_name": "WHETSTONE",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 486,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 148,
+    "school_name": "AUSTINTOWN-FITCH",
+    "city": "Austintown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 484,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 904,
+    "school_name": "LOVELAND",
+    "city": "Loveland",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 474,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1510,
+    "school_name": "SYLVANIA NORTHVIEW",
+    "city": "Sylvania",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 466,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 980,
+    "school_name": "MAYFIELD",
+    "city": "Mayfield Village",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 465,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1486,
+    "school_name": "STEELE",
+    "city": "Amherst",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 463,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1244,
+    "school_name": "PERRY",
+    "city": "Massillon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 459,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 548,
+    "school_name": "FAIRBORN",
+    "city": "Fairborn",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 457,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1312,
+    "school_name": "RIVERSIDE",
+    "city": "Painesville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 456,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1624,
+    "school_name": "WASHINGTON",
+    "city": "Massillon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 448,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 670,
+    "school_name": "GREEN",
+    "city": "Uniontown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 443,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1078,
+    "school_name": "MOUNT VERNON",
+    "city": "Mt Vernon",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 442,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 302,
+    "school_name": "CANAL WINCHESTER",
+    "city": "Canal Winchester",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 438,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 801,
+    "school_name": "GARFIELD COMMUNITY LEARNING CENTER",
+    "city": "Akron",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 436,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1122,
+    "school_name": "NORTH",
+    "city": "Eastlake",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 432,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 350,
+    "school_name": "TWINSBURG",
+    "city": "Twinsburg",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 429,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 372,
+    "school_name": "CLAY",
+    "city": "Oregon",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 427,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1746,
+    "school_name": "XENIA",
+    "city": "Xenia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 427,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 238,
+    "school_name": "BOARDMAN",
+    "city": "Youngstown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 421,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1146,
+    "school_name": "NORTH OLMSTED",
+    "city": "North Olmsted",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 421,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 888,
+    "school_name": "LOGAN",
+    "city": "Logan",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 420,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1204,
+    "school_name": "OLMSTED FALLS",
+    "city": "Olmsted Falls",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 416,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 248,
+    "school_name": "BRECKSVILLE-BROADVIEW HTS",
+    "city": "Brecksville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 415,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 138,
+    "school_name": "ASHLAND",
+    "city": "Ashland",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 411,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1512,
+    "school_name": "SYLVANIA SOUTHVIEW",
+    "city": "Sylvania",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 411,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1608,
+    "school_name": "WAITE",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 410,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 118,
+    "school_name": "ANDERSON",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 408,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 690,
+    "school_name": "MARION HARDING",
+    "city": "Marion",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 406,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 592,
+    "school_name": "FIRESTONE COMMUNITY LEARNING CENTER",
+    "city": "Akron",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 406,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1292,
+    "school_name": "RHODES SCHOOL OF ENVIRONMENTAL STUDIES",
+    "city": "Cleveland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 406,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 160,
+    "school_name": "BARBERTON",
+    "city": "Barberton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 402,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1350,
+    "school_name": "ST FRANCIS de SALES",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 402,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1360,
+    "school_name": "ST JOHN'S JESUIT",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 399,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 710,
+    "school_name": "HIGHLAND",
+    "city": "Medina",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 398,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 822,
+    "school_name": "LAKE",
+    "city": "Uniontown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 398,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1476,
+    "school_name": "SPRINGFIELD",
+    "city": "Holland",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 390,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 244,
+    "school_name": "BOWSHER",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 388,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 152,
+    "school_name": "AVON LAKE",
+    "city": "Avon Lake",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 387,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 616,
+    "school_name": "FREMONT ROSS",
+    "city": "Fremont",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 384,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 270,
+    "school_name": "BRUSH",
+    "city": "Lyndhurst",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 382,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1484,
+    "school_name": "STEBBINS",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 382,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1258,
+    "school_name": "PIQUA",
+    "city": "Piqua",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 381,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 686,
+    "school_name": "HAMILTON TOWNSHIP",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 379,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 444,
+    "school_name": "CUYAHOGA FALLS",
+    "city": "Cuyahoga Falls",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 379,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 106,
+    "school_name": "AIKEN",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 379,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 724,
+    "school_name": "ARCHBISHOP HOBAN",
+    "city": "Akron",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 377,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1554,
+    "school_name": "TURPIN",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 376,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1324,
+    "school_name": "ROGERS",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 375,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 292,
+    "school_name": "BUTLER",
+    "city": "Vandalia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 371,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1422,
+    "school_name": "SIDNEY",
+    "city": "Sidney",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 370,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1116,
+    "school_name": "NORDONIA",
+    "city": "Macedonia",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 367,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1330,
+    "school_name": "ROSS",
+    "city": "Hamilton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 366,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1736,
+    "school_name": "WOOSTER",
+    "city": "Wooster",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 365,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1684,
+    "school_name": "WESTLAKE",
+    "city": "Westlake",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 360,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1394,
+    "school_name": "SANDUSKY",
+    "city": "Sandusky",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 359,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 902,
+    "school_name": "LOUISVILLE",
+    "city": "Louisville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 358,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1520,
+    "school_name": "TALAWANDA",
+    "city": "Oxford",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 358,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 842,
+    "school_name": "LA SALLE",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 355,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1164,
+    "school_name": "NORTHWEST",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 351,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 528,
+    "school_name": "ELLET COMMUNITY LEARNING CENTER",
+    "city": "Akron",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 349,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1440,
+    "school_name": "SOUTH",
+    "city": "Willoughby",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 345,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1660,
+    "school_name": "WEST CARROLLTON",
+    "city": "West Carrollton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 345,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1528,
+    "school_name": "TECUMSEH",
+    "city": "New Carlisle",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 343,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 242,
+    "school_name": "BOWLING GREEN",
+    "city": "Bowling Green",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 339,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1062,
+    "school_name": "Monroe High School",
+    "city": "Monroe",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 338,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1288,
+    "school_name": "REVERE",
+    "city": "Richfield",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 337,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 184,
+    "school_name": "BELLBROOK",
+    "city": "Bellbrook",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 337,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1106,
+    "school_name": "NEW PHILADELPHIA",
+    "city": "New Philadelphia",
+    "athletic_district": "East",
+    "boys_base_enrollment": 334,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 112,
+    "school_name": "ALLIANCE",
+    "city": "Alliance",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 334,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1614,
+    "school_name": "WALSH JESUIT",
+    "city": "Cuyahoga Falls",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 333,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 224,
+    "school_name": "BISHOP WATTERSON",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 331,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 146,
+    "school_name": "AURORA",
+    "city": "Aurora",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 330,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 666,
+    "school_name": "GRANVILLE",
+    "city": "Granville",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 329,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1616,
+    "school_name": "WAPAKONETA",
+    "city": "Wapakoneta",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 326,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 360,
+    "school_name": "CHARDON",
+    "city": "Chardon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 323,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 608,
+    "school_name": "FRANKLIN",
+    "city": "Franklin",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 322,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1348,
+    "school_name": "ST FRANCIS DeSALES",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 317,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 698,
+    "school_name": "HARVEY",
+    "city": "Painesville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 317,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1544,
+    "school_name": "TRI-VALLEY",
+    "city": "Dresden",
+    "athletic_district": "East",
+    "boys_base_enrollment": 313,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1571,
+    "school_name": "UNIVERSITY SCHOOL",
+    "city": "Hunting Valley",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 313,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1664,
+    "school_name": "WESTERN BROWN",
+    "city": "Mount Orab",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 312,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1534,
+    "school_name": "TIPPECANOE",
+    "city": "Tipp City",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 311,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1326,
+    "school_name": "THEODORE ROOSEVELT",
+    "city": "Kent",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 309,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 472,
+    "school_name": "DOVER",
+    "city": "Dover",
+    "athletic_district": "East",
+    "boys_base_enrollment": 308,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 922,
+    "school_name": "MADISON",
+    "city": "Madison",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 306,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 364,
+    "school_name": "CHILLICOTHE",
+    "city": "Chillicothe",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 305,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1420,
+    "school_name": "SHERIDAN",
+    "city": "Thornville",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 303,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 232,
+    "school_name": "Bloom-Carroll High School",
+    "city": "Carroll",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 302,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 390,
+    "school_name": "CLOVERLEAF",
+    "city": "Seville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 301,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 406,
+    "school_name": "COLUMBIAN",
+    "city": "Tiffin",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 300,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1030,
+    "school_name": "MIDVIEW",
+    "city": "Grafton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 299,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 212,
+    "school_name": "BEXLEY",
+    "city": "Bexley",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 296,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 735,
+    "school_name": "HORIZON SCIENCE ACADEMY",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 295,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 164,
+    "school_name": "BATAVIA",
+    "city": "Batavia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 295,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 926,
+    "school_name": "MADISON COMPREHENSIVE",
+    "city": "Mansfield",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 294,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 464,
+    "school_name": "DEFIANCE",
+    "city": "Defiance",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 293,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1022,
+    "school_name": "MIAMI TRACE",
+    "city": "Washington C.H.",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 292,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 802,
+    "school_name": "KENSTON",
+    "city": "Chagrin Falls",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 290,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1522,
+    "school_name": "TALLMADGE",
+    "city": "Tallmadge",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 289,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 956,
+    "school_name": "MARIETTA",
+    "city": "Marietta",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 289,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 304,
+    "school_name": "CANFIELD",
+    "city": "Canfield",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 288,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1224,
+    "school_name": "PADUA FRANCISCAN",
+    "city": "Parma",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 288,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1412,
+    "school_name": "SHAWNEE",
+    "city": "Lima",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 288,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 762,
+    "school_name": "JACKSON",
+    "city": "Jackson",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 288,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 422,
+    "school_name": "COPLEY",
+    "city": "Copley",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 287,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 330,
+    "school_name": "CELINA",
+    "city": "Celina",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 285,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 796,
+    "school_name": "JONATHAN ALDER",
+    "city": "Plain City",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 280,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 856,
+    "school_name": "LEXINGTON",
+    "city": "Lexington",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 279,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 998,
+    "school_name": "ARCHBISHOP McNICHOLAS",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 278,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 736,
+    "school_name": "HOWLAND",
+    "city": "Warren",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 275,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 332,
+    "school_name": "CENTENNIAL",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 273,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 678,
+    "school_name": "GREENVILLE",
+    "city": "Greenville",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 272,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 870,
+    "school_name": "LICKING VALLEY",
+    "city": "Newark",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 268,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 976,
+    "school_name": "MAUMEE",
+    "city": "Maumee",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 268,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 158,
+    "school_name": "BADIN",
+    "city": "Hamilton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 268,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 144,
+    "school_name": "ATHENS",
+    "city": "The Plains",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 265,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1618,
+    "school_name": "WARREN",
+    "city": "Vincent",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 265,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 206,
+    "school_name": "BETHEL",
+    "city": "Tipp City",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 265,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1160,
+    "school_name": "NORWALK",
+    "city": "Norwalk",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 264,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 188,
+    "school_name": "BELLEFONTAINE",
+    "city": "Bellefontaine",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 262,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 634,
+    "school_name": "GENEVA",
+    "city": "Geneva",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 259,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1012,
+    "school_name": "ST MARYS MEMORIAL",
+    "city": "St. Marys",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 258,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 752,
+    "school_name": "INDIAN HILL",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 258,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 448,
+    "school_name": "CUYAHOGA VALLEY CHRISTIAN ACADEMY",
+    "city": "Cuyahoga Falls",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 257,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1320,
+    "school_name": "ROCKY RIVER",
+    "city": "Rocky River",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 256,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 352,
+    "school_name": "CHAMINADE JULIENNE",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 255,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 718,
+    "school_name": "HILLSBORO",
+    "city": "Hillsboro",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 253,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 622,
+    "school_name": "GALLIA ACADEMY",
+    "city": "Gallipolis",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 253,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 218,
+    "school_name": "BISHOP HARTLEY",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 250,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 276,
+    "school_name": "BUCKEYE",
+    "city": "Medina",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 248,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 342,
+    "school_name": "CENTRAL CATHOLIC",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 248,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 320,
+    "school_name": "ARCHBISHOP CARROLL",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 248,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1392,
+    "school_name": "SALEM",
+    "city": "Salem",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 247,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 196,
+    "school_name": "BENEDICTINE HIGH SCHOOL",
+    "city": "Cleveland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 247,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1568,
+    "school_name": "UNIOTO",
+    "city": "Chillicothe",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 245,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 286,
+    "school_name": "BUCKEYE VALLEY",
+    "city": "Delaware",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 244,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1158,
+    "school_name": "NORTON",
+    "city": "Norton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 241,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 788,
+    "school_name": "JOHN GLENN",
+    "city": "New Concord",
+    "athletic_district": "East",
+    "boys_base_enrollment": 240,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1208,
+    "school_name": "ORANGE",
+    "city": "Pepper Pike",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 240,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 526,
+    "school_name": "ELIDA",
+    "city": "Elida",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 240,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1080,
+    "school_name": "NAPOLEON",
+    "city": "Napoleon",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 239,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1214,
+    "school_name": "OTTAWA-GLANDORF",
+    "city": "Ottawa",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 239,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1714,
+    "school_name": "WILMINGTON",
+    "city": "Wilmington",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 239,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 168,
+    "school_name": "BAY",
+    "city": "Bay Village",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 238,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1206,
+    "school_name": "ONTARIO",
+    "city": "Ontario",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 238,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1678,
+    "school_name": "WEST GEAUGA",
+    "city": "Chesterland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 236,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 322,
+    "school_name": "CARROLLTON",
+    "city": "Carrollton",
+    "athletic_district": "East",
+    "boys_base_enrollment": 235,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 590,
+    "school_name": "FIRELANDS",
+    "city": "Oberlin",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 234,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 702,
+    "school_name": "HAWKEN",
+    "city": "Gates Mills",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 232,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1416,
+    "school_name": "SHELBY",
+    "city": "Shelby",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 232,
+    "division_2026_27_2027_28": "Division II",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 554,
+    "school_name": "FAIRFIELD UNION",
+    "city": "Lancaster",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 231,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 502,
+    "school_name": "EASTMOOR ACADEMY",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 230,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 964,
+    "school_name": "MARLINGTON",
+    "city": "Alliance",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 228,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1496,
+    "school_name": "STREETSBORO",
+    "city": "Streetsboro",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 228,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1634,
+    "school_name": "WAUSEON",
+    "city": "Wauseon",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 228,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1384,
+    "school_name": "ST VINCENT-ST MARY",
+    "city": "Akron",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 227,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1724,
+    "school_name": "WOODRIDGE",
+    "city": "Peninsula",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 227,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1524,
+    "school_name": "TAYLOR",
+    "city": "Cleves",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 227,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 392,
+    "school_name": "CLYDE",
+    "city": "Clyde",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 226,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 500,
+    "school_name": "EAST LIVERPOOL",
+    "city": "East Liverpool",
+    "athletic_district": "East",
+    "boys_base_enrollment": 225,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 728,
+    "school_name": "HOLY NAME",
+    "city": "Parma Heights",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 225,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1314,
+    "school_name": "RIVER VALLEY",
+    "city": "Caledonia",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 224,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 176,
+    "school_name": "BEAVER",
+    "city": "East Liverpool",
+    "athletic_district": "East",
+    "boys_base_enrollment": 224,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 262,
+    "school_name": "BROOKSIDE",
+    "city": "Sheffield",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 224,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 370,
+    "school_name": "CIRCLEVILLE",
+    "city": "Circleville",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 224,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1190,
+    "school_name": "OAKWOOD",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 224,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 892,
+    "school_name": "LONDON",
+    "city": "London",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 221,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 914,
+    "school_name": "LUTHERAN WEST",
+    "city": "Rocky River",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 219,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1680,
+    "school_name": "WEST HOLMES",
+    "city": "Millersburg",
+    "athletic_district": "East",
+    "boys_base_enrollment": 218,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 774,
+    "school_name": "JEFFERSON AREA",
+    "city": "Jefferson",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 218,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 190,
+    "school_name": "BELLEVUE",
+    "city": "Bellevue",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 217,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1636,
+    "school_name": "WAVERLY",
+    "city": "Waverly",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 217,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1518,
+    "school_name": "TAFT",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 217,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1590,
+    "school_name": "VALLEY VIEW",
+    "city": "Germantown",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 217,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1744,
+    "school_name": "WYOMING",
+    "city": "Wyoming",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 217,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1658,
+    "school_name": "WEST BRANCH",
+    "city": "Beloit",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 216,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1240,
+    "school_name": "PERKINS",
+    "city": "Sandusky",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 216,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 388,
+    "school_name": "CLINTON-MASSIE",
+    "city": "Clarksville",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 216,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1432,
+    "school_name": "CANTON SOUTH",
+    "city": "Canton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 214,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1578,
+    "school_name": "URBANA",
+    "city": "Urbana",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 213,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1212,
+    "school_name": "OTSEGO",
+    "city": "Bowling Green",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 211,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 300,
+    "school_name": "CAMBRIDGE",
+    "city": "Cambridge",
+    "athletic_district": "East",
+    "boys_base_enrollment": 208,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 988,
+    "school_name": "MC CLAIN",
+    "city": "Greenfield",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 208,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1344,
+    "school_name": "ST CLAIRSVILLE",
+    "city": "St. Clairsville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 206,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 534,
+    "school_name": "ELYRIA CATHOLIC",
+    "city": "Elyria",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 206,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 824,
+    "school_name": "LAKE CATHOLIC",
+    "city": "Mentor",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 206,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 804,
+    "school_name": "KENTON",
+    "city": "Kenton",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 206,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1596,
+    "school_name": "VAN WERT",
+    "city": "Van Wert",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 206,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 794,
+    "school_name": "JOHNSTOWN",
+    "city": "Johnstown",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 205,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1180,
+    "school_name": "NOTRE DAME-CATHEDRAL LATIN",
+    "city": "Chardon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 205,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1626,
+    "school_name": "WASHINGTON",
+    "city": "Washington Court House",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 205,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 751,
+    "school_name": "INDIAN CREEK",
+    "city": "Wintersville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 204,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 1210,
+    "school_name": "ORRVILLE",
+    "city": "Orrville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 203,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1332,
+    "school_name": "ROSSFORD",
+    "city": "Rossford",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 203,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 712,
+    "school_name": "HIGHLAND",
+    "city": "Marengo",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 201,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 514,
+    "school_name": "EDGEWOOD",
+    "city": "Ashtabula",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 201,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1284,
+    "school_name": "READING",
+    "city": "Reading",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 201,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 830,
+    "school_name": "LAKEWOOD",
+    "city": "Hebron",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 200,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1574,
+    "school_name": "UPPER SANDUSKY",
+    "city": "Upper Sandusky",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 200,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 820,
+    "school_name": "LAKE",
+    "city": "Millbury",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 199,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 132,
+    "school_name": "ARCHBISHOP ALTER",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 199,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 706,
+    "school_name": "HEATH",
+    "city": "Heath",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 198,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1264,
+    "school_name": "POLAND SEMINARY",
+    "city": "Poland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 198,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 510,
+    "school_name": "EATON",
+    "city": "Eaton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 198,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 376,
+    "school_name": "CLAYMONT",
+    "city": "Uhrichsville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 197,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1046,
+    "school_name": "MINERVA",
+    "city": "Minerva",
+    "athletic_district": "East",
+    "boys_base_enrollment": 197,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 428,
+    "school_name": "COVENTRY",
+    "city": "Coventry Township",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 197,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1322,
+    "school_name": "ROGER BACON",
+    "city": "Saint Bernard",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 197,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1162,
+    "school_name": "NORTHWEST",
+    "city": "Canal Fulton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 196,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division II"
+  },
+  {
+    "school_id": 738,
+    "school_name": "HUBBARD",
+    "city": "Hubbard",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 196,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 272,
+    "school_name": "BRYAN",
+    "city": "Bryan",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 196,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1644,
+    "school_name": "WAYNESVILLE",
+    "city": "Waynesville",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 194,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 264,
+    "school_name": "BROOKVILLE",
+    "city": "Brookville",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 193,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 954,
+    "school_name": "MARIEMONT",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 193,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 606,
+    "school_name": "FOSTORIA",
+    "city": "Fostoria",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 192,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 416,
+    "school_name": "CONNEAUT",
+    "city": "Conneaut",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 190,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 570,
+    "school_name": "FAIRVIEW",
+    "city": "Fairview Park",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 190,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 166,
+    "school_name": "BATH",
+    "city": "Lima",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 190,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1956,
+    "school_name": "CLARK MONTESSORI",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 190,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 198,
+    "school_name": "BENJAMIN LOGAN",
+    "city": "Bellefontaine",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 189,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1566,
+    "school_name": "UNION LOCAL",
+    "city": "Belmont",
+    "athletic_district": "East",
+    "boys_base_enrollment": 188,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1168,
+    "school_name": "NORTHWESTERN",
+    "city": "Springfield",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 188,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1246,
+    "school_name": "PERRY",
+    "city": "Perry",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 187,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 890,
+    "school_name": "LOGAN ELM",
+    "city": "Circleville",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 187,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1676,
+    "school_name": "WESTFALL",
+    "city": "Williamsport",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 187,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 642,
+    "school_name": "GILMOUR ACADEMY",
+    "city": "Gates Mills",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 186,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1604,
+    "school_name": "VINTON COUNTY",
+    "city": "McArthur",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 186,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 660,
+    "school_name": "GRAHAM LOCAL",
+    "city": "Saint Paris",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 185,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 170,
+    "school_name": "BEACHWOOD",
+    "city": "Beachwood",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 184,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1560,
+    "school_name": "TUSLAW",
+    "city": "Massillon",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 184,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 346,
+    "school_name": "CHAGRIN FALLS",
+    "city": "Chagrin Falls",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 183,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1580,
+    "school_name": "URSULINE",
+    "city": "Youngstown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 183,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1316,
+    "school_name": "RIVER VIEW",
+    "city": "Warsaw",
+    "athletic_district": "East",
+    "boys_base_enrollment": 182,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 508,
+    "school_name": "EASTWOOD",
+    "city": "Pemberville",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 182,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1548,
+    "school_name": "TRIWAY",
+    "city": "Wooster",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 181,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 816,
+    "school_name": "RIVER VALLEY",
+    "city": "Bidwell",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 178,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 369,
+    "school_name": "CINCINNATI HILLS CHRISTIAN ACADEMY",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 178,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1448,
+    "school_name": "SOUTHEAST",
+    "city": "Ravenna",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 177,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1266,
+    "school_name": "PORT CLINTON",
+    "city": "Port Clinton",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 176,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1000,
+    "school_name": "MEADOWBROOK",
+    "city": "Byesville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 174,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 828,
+    "school_name": "LAKEVIEW",
+    "city": "Cortland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 174,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 162,
+    "school_name": "BARNESVILLE",
+    "city": "Barnesville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 173,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1018,
+    "school_name": "MIAMI EAST",
+    "city": "Casstown",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 172,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1068,
+    "school_name": "MORGAN",
+    "city": "McConnelsville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 171,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 760,
+    "school_name": "IRONTON",
+    "city": "Ironton",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 171,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 620,
+    "school_name": "GALION",
+    "city": "Galion",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 170,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1696,
+    "school_name": "WHEELERSBURG",
+    "city": "Wheelersburg",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 170,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1156,
+    "school_name": "NORTH UNION",
+    "city": "Richwood",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 167,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 202,
+    "school_name": "BERKSHIRE",
+    "city": "Burton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 167,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1042,
+    "school_name": "MILTON-UNION",
+    "city": "West Milton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 166,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 519,
+    "school_name": "EDISON",
+    "city": "Richmond",
+    "athletic_district": "East",
+    "boys_base_enrollment": 165,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 808,
+    "school_name": "KEYSTONE",
+    "city": "Lagrange",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 165,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 410,
+    "school_name": "COLUMBUS ACADEMY",
+    "city": "Gahanna",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 164,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 920,
+    "school_name": "MADEIRA",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 164,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 676,
+    "school_name": "GREENON",
+    "city": "Enon",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 163,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 644,
+    "school_name": "GIRARD",
+    "city": "Girard",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 162,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 754,
+    "school_name": "INDIAN LAKE",
+    "city": "Lewistown",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 162,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 382,
+    "school_name": "CLERMONT NORTHEASTERN",
+    "city": "Batavia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 161,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 936,
+    "school_name": "MANCHESTER",
+    "city": "New Franklin",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 160,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 518,
+    "school_name": "EDISON",
+    "city": "Milan",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 160,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1584,
+    "school_name": "UTICA",
+    "city": "Utica",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 159,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 862,
+    "school_name": "LIBERTY-BENTON",
+    "city": "Findlay",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 159,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1272,
+    "school_name": "PREBLE SHAWNEE",
+    "city": "Camden",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 159,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1710,
+    "school_name": "WILLARD",
+    "city": "Willard",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 158,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 394,
+    "school_name": "COLDWATER",
+    "city": "Coldwater",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 157,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 672,
+    "school_name": "GREENEVIEW",
+    "city": "Jamestown",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 157,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 968,
+    "school_name": "MARTINS FERRY",
+    "city": "Martins Ferry",
+    "athletic_district": "East",
+    "boys_base_enrollment": 156,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 556,
+    "school_name": "FAIRLAND",
+    "city": "Proctorville",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 156,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 636,
+    "school_name": "GENOA AREA",
+    "city": "Genoa",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 154,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1256,
+    "school_name": "PIKETON",
+    "city": "Piketon",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 153,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 236,
+    "school_name": "BLUFFTON",
+    "city": "Bluffton",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 152,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1688,
+    "school_name": "WEST LIBERTY-SALEM",
+    "city": "West Liberty",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 151,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1174,
+    "school_name": "NORWAYNE",
+    "city": "Creston",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 150,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 544,
+    "school_name": "FAIRBANKS",
+    "city": "Milford Center",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 149,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 440,
+    "school_name": "CRESTWOOD",
+    "city": "Mantua",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 149,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 208,
+    "school_name": "BETHEL-TATE",
+    "city": "Bethel",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 148,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 490,
+    "school_name": "EAST CLINTON",
+    "city": "Sabina",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 148,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1694,
+    "school_name": "WEST UNION",
+    "city": "West Union",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 147,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1600,
+    "school_name": "VERSAILLES",
+    "city": "Versailles",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 146,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 950,
+    "school_name": "MARGARETTA",
+    "city": "Castalia",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 145,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 582,
+    "school_name": "BISHOP FENWICK",
+    "city": "Franklin",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 145,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 560,
+    "school_name": "FAIRLESS",
+    "city": "Brewster",
+    "athletic_district": "East",
+    "boys_base_enrollment": 144,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1558,
+    "school_name": "TUSCARAWAS VALLEY",
+    "city": "Zoarville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 144,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 134,
+    "school_name": "ARCHBOLD",
+    "city": "Archbold",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 144,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 630,
+    "school_name": "GARFIELD",
+    "city": "Garrettsville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 143,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1396,
+    "school_name": "SANDY VALLEY",
+    "city": "Magnolia",
+    "athletic_district": "East",
+    "boys_base_enrollment": 142,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 530,
+    "school_name": "ELMWOOD",
+    "city": "Bloomdale",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 142,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1740,
+    "school_name": "WORTHINGTON CHRISTIAN",
+    "city": "Westerville",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 141,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1280,
+    "school_name": "PYMATUNING VALLEY",
+    "city": "Andover",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 141,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 130,
+    "school_name": "ARCANUM",
+    "city": "Arcanum",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 141,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 182,
+    "school_name": "BELLAIRE",
+    "city": "Bellaire",
+    "athletic_district": "East",
+    "boys_base_enrollment": 140,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 746,
+    "school_name": "HURON",
+    "city": "Huron",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 140,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1504,
+    "school_name": "SUMMIT COUNTRY DAY",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 140,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1752,
+    "school_name": "ZANE TRACE",
+    "city": "Chillicothe",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 138,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 102,
+    "school_name": "ADENA",
+    "city": "Frankfort",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 138,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1150,
+    "school_name": "NORTHRIDGE",
+    "city": "Johnstown",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 137,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 334,
+    "school_name": "CENTERBURG",
+    "city": "Centerburg",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 137,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1318,
+    "school_name": "ROCK HILL",
+    "city": "Ironton",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 137,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1712,
+    "school_name": "WILLIAMSBURG",
+    "city": "Williamsburg",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 137,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1640,
+    "school_name": "WAYNEDALE",
+    "city": "Apple Creek",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 136,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 256,
+    "school_name": "BROOKFIELD",
+    "city": "Brookfield",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 135,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 310,
+    "school_name": "CARDINAL MOONEY",
+    "city": "Youngstown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 135,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 542,
+    "school_name": "EVERGREEN",
+    "city": "Metamora",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 135,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 614,
+    "school_name": "FREDERICKTOWN",
+    "city": "Fredericktown",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 134,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 598,
+    "school_name": "FORT FRYE",
+    "city": "Beverly",
+    "athletic_district": "East",
+    "boys_base_enrollment": 134,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 340,
+    "school_name": "CANTON CENTRAL CATHOLIC",
+    "city": "Canton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 134,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1186,
+    "school_name": "OAK HILL",
+    "city": "Oak Hill",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 134,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 354,
+    "school_name": "CHAMPION",
+    "city": "Warren",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 133,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 812,
+    "school_name": "KIRTLAND",
+    "city": "Kirtland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 132,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1236,
+    "school_name": "PAULDING",
+    "city": "Paulding",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 132,
+    "division_2026_27_2027_28": "Division III",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1682,
+    "school_name": "WEST JEFFERSON",
+    "city": "West Jefferson",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 131,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 860,
+    "school_name": "LIBERTY",
+    "city": "Youngstown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 131,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 864,
+    "school_name": "LIBERTY CENTER",
+    "city": "Liberty Center",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 131,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 638,
+    "school_name": "GEORGETOWN",
+    "city": "Georgetown",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 131,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 290,
+    "school_name": "BUCYRUS",
+    "city": "Bucyrus",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 130,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 916,
+    "school_name": "LYNCHBURG-CLAY",
+    "city": "Lynchburg",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 130,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 496,
+    "school_name": "EASTERN",
+    "city": "Winchester",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 130,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 624,
+    "school_name": "GARAWAY",
+    "city": "Sugarcreek",
+    "athletic_district": "East",
+    "boys_base_enrollment": 129,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 7488,
+    "school_name": "STIVERS SCHOOL FOR THE ARTS",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 128,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 866,
+    "school_name": "LIBERTY UNION",
+    "city": "Baltimore",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 127,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 744,
+    "school_name": "HUNTINGTON",
+    "city": "Chillicothe",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 126,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1450,
+    "school_name": "SOUTHEASTERN",
+    "city": "Chillicothe",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 126,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 664,
+    "school_name": "GRANDVIEW HEIGHTS",
+    "city": "Columbus",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 125,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1532,
+    "school_name": "TINORA",
+    "city": "Defiance,",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 125,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1722,
+    "school_name": "WOODMORE",
+    "city": "Elmore",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 125,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 120,
+    "school_name": "ANNA",
+    "city": "Anna",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 125,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1460,
+    "school_name": "SOUTH RANGE",
+    "city": "Canfield",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 124,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1586,
+    "school_name": "VALLEY",
+    "city": "Lucasville",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 124,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1170,
+    "school_name": "NORTHWESTERN",
+    "city": "WEST SALEM",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 123,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1592,
+    "school_name": "VAN BUREN",
+    "city": "Van Buren",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 123,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1216,
+    "school_name": "OTTAWA HILLS",
+    "city": "Ottawa Hills",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 122,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1084,
+    "school_name": "NELSONVILLE-YORK",
+    "city": "Nelsonville",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 122,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 110,
+    "school_name": "ALLEN EAST",
+    "city": "Harrod",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 121,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1400,
+    "school_name": "SENECA EAST",
+    "city": "Attica",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 121,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 498,
+    "school_name": "EAST KNOX",
+    "city": "Howard",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 120,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 928,
+    "school_name": "MADISON-PLAINS",
+    "city": "London",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 120,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 314,
+    "school_name": "CARDINGTON-LINCOLN",
+    "city": "Cardington",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 119,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1072,
+    "school_name": "MOUNT GILEAD",
+    "city": "Mount Gilead",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 118,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1044,
+    "school_name": "MINERAL RIDGE",
+    "city": "Mineral Ridge",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 118,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1328,
+    "school_name": "ROOTSTOWN",
+    "city": "Rootstown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 118,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 466,
+    "school_name": "DELTA",
+    "city": "Delta",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 118,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 1230,
+    "school_name": "PARKWAY",
+    "city": "Rockford",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 118,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 460,
+    "school_name": "DAYTON CHRISTIAN",
+    "city": "Miamisburg",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 118,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1144,
+    "school_name": "NORTHMOR",
+    "city": "Galion",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 117,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1650,
+    "school_name": "WELLINGTON",
+    "city": "Wellington",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 115,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division III"
+  },
+  {
+    "school_id": 316,
+    "school_name": "CAREY",
+    "city": "Carey",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 115,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 662,
+    "school_name": "GRAND VALLEY",
+    "city": "Orwell",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 114,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 834,
+    "school_name": "LAKOTA",
+    "city": "Kansas",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 114,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1340,
+    "school_name": "ST BERNARD-ELMWOOD PLACE",
+    "city": "Saint Bernard",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 113,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 408,
+    "school_name": "COLUMBIANA",
+    "city": "Columbiana",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 112,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1742,
+    "school_name": "WYNFORD",
+    "city": "Bucyrus",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 112,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 430,
+    "school_name": "COVINGTON",
+    "city": "Covington",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 112,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 823,
+    "school_name": "LAKE CENTER CHRISTIAN SCHOOL",
+    "city": "Hartville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 110,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1352,
+    "school_name": "ST HENRY",
+    "city": "St. Henry",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 110,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 226,
+    "school_name": "BLACK RIVER",
+    "city": "Sullivan",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 109,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 470,
+    "school_name": "DIXIE",
+    "city": "New Lebanon",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 109,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 818,
+    "school_name": "LABRAE",
+    "city": "Leavittsburg",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 108,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 400,
+    "school_name": "COLONEL CRAWFORD",
+    "city": "Crestline",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 108,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 572,
+    "school_name": "FAIRVIEW",
+    "city": "Sherwood",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 108,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 250,
+    "school_name": "BRIDGEPORT",
+    "city": "Bridgeport",
+    "athletic_district": "East",
+    "boys_base_enrollment": 107,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1418,
+    "school_name": "SHENANDOAH",
+    "city": "Sarahsville",
+    "athletic_district": "East",
+    "boys_base_enrollment": 107,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 438,
+    "school_name": "CRESTVIEW",
+    "city": "Convoy",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 107,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 412,
+    "school_name": "COLUMBUS GROVE",
+    "city": "Columbus Grove",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 106,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1404,
+    "school_name": "SEVEN HILLS",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 106,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1670,
+    "school_name": "WESTERN RESERVE",
+    "city": "Collins",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 105,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1478,
+    "school_name": "SPRINGFIELD",
+    "city": "New Middletown",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 104,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1294,
+    "school_name": "RICHMOND HEIGHTS",
+    "city": "Richmond Heights",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 102,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 9015,
+    "school_name": "OYLER",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 102,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 750,
+    "school_name": "INDEPENDENCE",
+    "city": "Independence",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 101,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 450,
+    "school_name": "DALTON",
+    "city": "Dalton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 100,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1546,
+    "school_name": "TRI-VILLAGE",
+    "city": "New Madison",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 100,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 296,
+    "school_name": "CALDWELL",
+    "city": "Caldwell",
+    "athletic_district": "East",
+    "boys_base_enrollment": 99,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 434,
+    "school_name": "CRESTVIEW",
+    "city": "Ashland",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 99,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1308,
+    "school_name": "RIVERDALE",
+    "city": "Mt. Blanchard",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 99,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1426,
+    "school_name": "SMITHVILLE",
+    "city": "Smithville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 98,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 878,
+    "school_name": "LINCOLNVIEW",
+    "city": "Van Wert",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 98,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1192,
+    "school_name": "OBERLIN",
+    "city": "Oberlin",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 97,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 194,
+    "school_name": "BELPRE",
+    "city": "Belpre",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 97,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1628,
+    "school_name": "WATERFORD",
+    "city": "Waterford",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 97,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1538,
+    "school_name": "TRIAD",
+    "city": "North Lewisburg",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 97,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1058,
+    "school_name": "MOGADORE",
+    "city": "Mogadore",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 95,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1304,
+    "school_name": "RITTMAN",
+    "city": "Rittman",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 94,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1302,
+    "school_name": "RIPLEY-UNION-LEWIS-HUNTINGTON",
+    "city": "Ripley",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 94,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1102,
+    "school_name": "NEW LONDON",
+    "city": "New London",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 93,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 708,
+    "school_name": "HICKSVILLE",
+    "city": "Hicksville",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 92,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1646,
+    "school_name": "WAYNE TRACE",
+    "city": "Haviland",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 92,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1536,
+    "school_name": "TORONTO",
+    "city": "Toronto",
+    "athletic_district": "East",
+    "boys_base_enrollment": 91,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 946,
+    "school_name": "MAPLETON",
+    "city": "Ashland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 91,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1092,
+    "school_name": "NEW BREMEN",
+    "city": "New Bremen",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 91,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 938,
+    "school_name": "MANCHESTER",
+    "city": "Manchester",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 91,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1553,
+    "school_name": "TROY CHRISTIAN",
+    "city": "Troy",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 91,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1052,
+    "school_name": "MINSTER",
+    "city": "Minster",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 90,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 552,
+    "school_name": "FAIRFIELD",
+    "city": "Leesburg",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 90,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 492,
+    "school_name": "EASTERN",
+    "city": "Beaver",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 89,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 122,
+    "school_name": "ANSONIA",
+    "city": "Ansonia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 88,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 154,
+    "school_name": "AYERSVILLE",
+    "city": "Defiance",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 87,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 732,
+    "school_name": "HOPEWELL-LOUDON",
+    "city": "Bascom",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 87,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 854,
+    "school_name": "LEIPSIC",
+    "city": "Leipsic",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 87,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1454,
+    "school_name": "SOUTHERN",
+    "city": "Racine",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 84,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 602,
+    "school_name": "FORT LORAMIE",
+    "city": "Fort Loramie",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 84,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 488,
+    "school_name": "EAST CANTON",
+    "city": "East Canton",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 83,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 992,
+    "school_name": "MCDONALD",
+    "city": "McDonald",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 83,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 958,
+    "school_name": "MARION LOCAL",
+    "city": "Maria Stein",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 83,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1514,
+    "school_name": "SYMMES VALLEY",
+    "city": "Willow Wood",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 83,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1540,
+    "school_name": "TRIMBLE",
+    "city": "Glouster",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 83,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 278,
+    "school_name": "BUCKEYE CENTRAL",
+    "city": "New Washington",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 81,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 942,
+    "school_name": "MANSFIELD CHRISTIAN",
+    "city": "Mansfield",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 81,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 230,
+    "school_name": "SOUTH WEBSTER",
+    "city": "South Webster",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 81,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 368,
+    "school_name": "CINCINNATI COUNTRY DAY",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 81,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 768,
+    "school_name": "JACKSON-MILTON",
+    "city": "North Jackson",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 80,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 640,
+    "school_name": "GIBSONBURG",
+    "city": "Gibsonburg",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 80,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 604,
+    "school_name": "FORT RECOVERY",
+    "city": "Fort Recovery",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 80,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1748,
+    "school_name": "YELLOW SPRINGS",
+    "city": "Yellow Springs",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 80,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 240,
+    "school_name": "BOTKINS",
+    "city": "Botkins",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 79,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 446,
+    "school_name": "CUYAHOGA HEIGHTS",
+    "city": "Cuyahoga Heights",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 78,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 343,
+    "school_name": "TOLEDO CHRISTIAN",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 78,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1702,
+    "school_name": "WHITEOAK",
+    "city": "Mowrystown",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 77,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1747,
+    "school_name": "LEGACY CHRISTIAN ACADEMY",
+    "city": "Xenia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 77,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1023,
+    "school_name": "MIAMI VALLEY CHRISTIAN ACADEMY",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 77,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1090,
+    "school_name": "NEWARK CATHOLIC",
+    "city": "Newark",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 76,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 948,
+    "school_name": "MAPLEWOOD",
+    "city": "Cortland",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 76,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1525,
+    "school_name": "ANDREWS OSBORNE ACADEMY",
+    "city": "Willoughby",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 75,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1130,
+    "school_name": "NORTH BALTIMORE",
+    "city": "North Baltimore",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 75,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1374,
+    "school_name": "ST PAUL",
+    "city": "Norwalk",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 75,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1372,
+    "school_name": "SANDUSKY CENTRAL CATHOLIC",
+    "city": "Sandusky",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 74,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1452,
+    "school_name": "SOUTHEASTERN LOCAL",
+    "city": "South Charleston",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 74,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 328,
+    "school_name": "CEDARVILLE",
+    "city": "Cedarville",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 73,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1466,
+    "school_name": "SPENCER CENTER",
+    "city": "Cincinnati",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 73,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 934,
+    "school_name": "MALVERN",
+    "city": "Malvern",
+    "athletic_district": "East",
+    "boys_base_enrollment": 72,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1226,
+    "school_name": "PAINT VALLEY",
+    "city": "Bainbridge",
+    "athletic_district": "Southeast",
+    "boys_base_enrollment": 72,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 798,
+    "school_name": "KALIDA",
+    "city": "Kalida",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 71,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1114,
+    "school_name": "NEWTON LOCAL",
+    "city": "Pleasant Hill",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 71,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1200,
+    "school_name": "OLD FORT",
+    "city": "Old Fort",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 70,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1336,
+    "school_name": "RUSSIA",
+    "city": "Russia",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 70,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 612,
+    "school_name": "FRANKLIN MONROE",
+    "city": "Arcanum",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 69,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1262,
+    "school_name": "PLYMOUTH",
+    "city": "Plymouth",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 68,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 156,
+    "school_name": "BADGER",
+    "city": "Kinsman",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 67,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 424,
+    "school_name": "CORY-RAWSON",
+    "city": "Rawson",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 67,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1228,
+    "school_name": "PANDORA-GILBOA",
+    "city": "Pandora",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 67,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 852,
+    "school_name": "LEHMAN CATHOLIC",
+    "city": "Sidney",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 67,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 126,
+    "school_name": "ANTWERP",
+    "city": "Antwerp",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 66,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 9594,
+    "school_name": "Horizon Science Academy",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 66,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1359,
+    "school_name": "ST JOHN SCHOOL",
+    "city": "Ashtabula",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 65,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 512,
+    "school_name": "EDGERTON",
+    "city": "Edgerton",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 64,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1358,
+    "school_name": "ST JOHN'S",
+    "city": "Delphos",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 64,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1576,
+    "school_name": "UPPER SCIOTO VALLEY",
+    "city": "McGuffey",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 64,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 766,
+    "school_name": "JACKSON CENTER",
+    "city": "Jackson Center",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 61,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1207,
+    "school_name": "OPEN DOOR CHRISTIAN",
+    "city": "Elyria",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 60,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 726,
+    "school_name": "HOLGATE",
+    "city": "Holgate",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 59,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1024,
+    "school_name": "MIAMI VALLEY SCHOOL",
+    "city": "Dayton",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 59,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 9388,
+    "school_name": "LIBERTY CHRISTIAN ACADEMY",
+    "city": "Pataskala",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 58,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 254,
+    "school_name": "BRISTOL",
+    "city": "Bristolville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 57,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1250,
+    "school_name": "PETTISVILLE",
+    "city": "Pettisville",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 53,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1110,
+    "school_name": "NEW RIEGEL",
+    "city": "New Riegel",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 52,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 906,
+    "school_name": "LOWELLVILLE",
+    "city": "Lowellville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 51,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 977,
+    "school_name": "MAUMEE VALLEY COUNTRY DAY",
+    "city": "Toledo",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 51,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 341,
+    "school_name": "CENTRAL CHRISTIAN",
+    "city": "Kidron",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 49,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 703,
+    "school_name": "HEARTLAND CHRISTIAN SCHOOL",
+    "city": "Columbiana",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 49,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1642,
+    "school_name": "WAYNESFIELD-GOSHEN",
+    "city": "Waynesfield",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 49,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 694,
+    "school_name": "HARDIN NORTHERN",
+    "city": "Dola",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 48,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 594,
+    "school_name": "FISHER CATHOLIC",
+    "city": "Lancaster",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 47,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 591,
+    "school_name": "EMMANUEL CHRISTIAN ACADEMY",
+    "city": "Springfield",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 47,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 553,
+    "school_name": "FAIRFIELD CHRISTIAN ACADEMY",
+    "city": "Lancaster",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 43,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 1098,
+    "school_name": "NEW KNOXVILLE",
+    "city": "New Knoxville",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 42,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 9276,
+    "school_name": "CALVARY CHRISTIAN SCHOOL",
+    "city": "Bellefontaine",
+    "athletic_district": "Southwest",
+    "boys_base_enrollment": 36,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 656,
+    "school_name": "FAYETTE",
+    "city": "Fayette",
+    "athletic_district": "Northwest",
+    "boys_base_enrollment": 35,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 925,
+    "school_name": "MADISON CHRISTIAN",
+    "city": "Groveport",
+    "athletic_district": "Central",
+    "boys_base_enrollment": 31,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  },
+  {
+    "school_id": 827,
+    "school_name": "LAKE RIDGE ACADEMY",
+    "city": "North Ridgeville",
+    "athletic_district": "Northeast",
+    "boys_base_enrollment": 30,
+    "division_2026_27_2027_28": "Division IV",
+    "division_2025_26": "Division IV"
+  }
+]

@@ -37,7 +37,15 @@ function tableCells(line) {
 export function renderMarkdown(markdown = "") {
   const lines = markdown.replace(/\r\n/g, "\n").split("\n");
   const output = [];
+  const headingIds = new Map();
   let index = 0;
+
+  function uniqueHeadingId(text) {
+    const base = slugify(text) || "section";
+    const count = headingIds.get(base) || 0;
+    headingIds.set(base, count + 1);
+    return count === 0 ? base : `${base}-${count + 1}`;
+  }
 
   while (index < lines.length) {
     const line = lines[index];
@@ -60,7 +68,7 @@ export function renderMarkdown(markdown = "") {
     if (heading) {
       const level = heading[1].length;
       const text = heading[2].trim();
-      output.push(`<h${level} id="${slugify(text)}">${inlineMarkdown(text)}</h${level}>`);
+      output.push(`<h${level} id="${uniqueHeadingId(text)}">${inlineMarkdown(text)}</h${level}>`);
       index += 1;
       continue;
     }

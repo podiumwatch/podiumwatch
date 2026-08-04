@@ -1012,7 +1012,7 @@
                     escapeText(status) +
                     (
                       featured
-                        ? " Ã‚Â· " +
+                        ? " | " +
                           escapeText(
                             featured
                           )

@@ -1,0 +1,238 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { assessParsedResults, canonicalizeResultUrl, classifyDocument, extractScoredLinks, fetchPage, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
+import { extractDocument, parsePastedOrDelimitedText, parserInternals } from "../lib/result_parsers.mjs";
+
+test("canonical URLs remove fragments and trackers", () => {
+  assert.equal(canonicalizeResultUrl("https://www.baumspage.com/cc/event/results.html?utm_source=x&id=7#top"), "https://www.baumspage.com/cc/event/results.html?id=7");
+});
+
+test("approved legacy HTTP provider links are safely upgraded", () => {
+  assert.equal(canonicalizeResultUrl("http://www.baumspage.com/cc/results.pdf"), "https://www.baumspage.com/cc/results.pdf");
+});
+
+test("unsafe and unapproved hosts are rejected", () => {
+  assert.throws(() => canonicalizeResultUrl("http://localhost/test"));
+  assert.throws(() => canonicalizeResultUrl("https://example.com/results"));
+});
+
+test("providers are recognized", () => {
+  assert.equal(recognizeProvider("https://oh.milesplit.com/meets/1"), "milesplit_ohio");
+  assert.equal(recognizeProvider("https://runsignup.com/Race/Results/1"), "runsignup");
+});
+
+test("result links outrank navigation", () => {
+  const result = scoreResultLink({ anchor: "2025 Complete Results PDF", surrounding: "Boys and Girls Cross Country", url: "https://www.baumspage.com/cc/a/results.pdf", parentProvider: "baumspage" });
+  const privacy = scoreResultLink({ anchor: "Privacy and Login", url: "https://www.baumspage.com/privacy", parentProvider: "baumspage" });
+  assert.ok(result.score >= 70);
+  assert.ok(privacy.score < result.score);
+});
+
+test("Baumspage event routes outrank generic archive navigation", () => {
+  const meet = scoreResultLink({ anchor: "Willard Early Bird Cross Country Invitational", surrounding: "08/20/25", url: "https://www.baumspage.com/cc/ccevent.php?peventid=2&table=C", parentProvider: "baumspage" });
+  const archive = scoreResultLink({ anchor: "Regional", surrounding: "2021 archived results", url: "https://www.baumspage.com/cc/regional.php", parentProvider: "baumspage" });
+  assert.ok(meet.score > archive.score);
+  assert.ok(meet.score >= 60);
+});
+
+test("intermediate result links are extracted without meet identity", () => {
+  const links = extractScoredLinks('<nav><a href="/privacy">Privacy</a></nav><main><p>2025 race files</p><a href="next.html">Live Results</a></main>', "https://www.baumspage.com/cc/event/");
+  assert.equal(links[0].url, "https://www.baumspage.com/cc/event/next.html");
+  assert.ok(links[0].score >= 24);
+});
+
+test("document signatures override extensions", () => {
+  assert.equal(classifyDocument({ contentType: "application/octet-stream", url: "https://www.baumspage.com/cc/file", bytes: Buffer.from("%PDF-1.7") }), "pdf");
+});
+
+test("controlled network integration follows and records safe redirects", async () => {
+  const calls = [];
+  const fakeFetch = async (url) => {
+    calls.push(url);
+    if (calls.length === 1) return new Response(null, { status: 302, headers: { location: "/cc/final-results.csv" } });
+    return new Response("place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:30.20", { status: 200, headers: { "content-type": "text/csv" } });
+  };
+  const result = await fetchPage("https://www.baumspage.com/cc/start", { timeoutMs: 1000, retries: 0 }, fakeFetch, async () => {});
+  assert.equal(result.finalUrl, "https://www.baumspage.com/cc/final-results.csv");
+  assert.deepEqual(result.redirects, ["https://www.baumspage.com/cc/final-results.csv"]);
+  assert.equal(result.bytes.toString("utf8").split("\n").length, 2);
+});
+
+test("controlled network integration rejects unsafe redirect handoffs", async () => {
+  const fakeFetch = async () => new Response(null, { status: 302, headers: { location: "http://127.0.0.1/private" } });
+  await assert.rejects(() => fetchPage("https://www.baumspage.com/cc/start", { timeoutMs: 1000, retries: 0 }, fakeFetch, async () => {}), /public HTTPS|approved provider/i);
+});
+
+test("result verification requires combined evidence", () => {
+  const verified = verifyResultContent({ documentType: "text", text: "Official Results 5K Boys Place Name School Time\n1 John Runner Central 15:30.20\n2 Sam Fast North 15:40.10\n3 Eli Pace South 15:50.00\n4 Max Swift East 16:00.00" });
+  const weak = verifyResultContent({ documentType: "text", text: "Welcome to our privacy policy and contact page" });
+  assert.ok(verified.score >= 52);
+  assert.ok(weak.score < 52);
+});
+
+test("generic CSV parser creates stable normalized rows", () => {
+  const csv = "athlete_name,school_name,event_name,mark_text,place\nJohn Runner,Central,5K,15:30.20,1";
+  const rows = parseGenericRows({ text: csv, documentType: "csv", metadata: { meetName: "Sample Invitational", meetDate: "2025-09-01", sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].athleteName, "John Runner");
+  assert.equal(rows[0].place, 1);
+  assert.equal(rows[0].warningCodes.length, 0);
+  assert.match(rows[0].resultFingerprint, /^[a-f0-9]{64}$/);
+});
+
+test("HTML tables parse through the normalized contract", async () => {
+  const html = `<html><head><title>Firelands Conference Championship</title></head><body><h2>High School Boys 5K</h2><table><tr><th>Place</th><th>Name</th><th>School</th><th>Time</th></tr><tr><td>1</td><td>John Runner</td><td>New London</td><td>15:30.20</td></tr><tr><td>2</td><td>Sam Fast</td><td>Western Reserve</td><td>15:40.10</td></tr></table></body></html>`;
+  const result = await extractDocument({ bytes: Buffer.from(html), text: html, documentType: "html", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(result.rows.length, 2); assert.equal(result.rows[0].meetName, "Firelands Conference Championship"); assert.equal(result.rows[0].place, 1);
+});
+
+test("HTML table headings carry event and gender context into rows", async () => {
+  const html = `<html><head><title>Gibsonburg Invitational</title></head><body><h2>Girls Shot Put</h2><table><tr><th>Place</th><th>Name</th><th>School</th><th>Mark</th></tr><tr><td>1</td><td>Ava Thrower</td><td>Central</td><td>31-00.00</td></tr></table></body></html>`;
+  const result = await extractDocument({ bytes: Buffer.from(html), text: html, documentType: "html", metadata: { sport: "outdoor_track", seasonYear: 2026 } });
+  assert.equal(result.rows[0].eventCode, "shot_put");
+  assert.equal(result.rows[0].gender, "girls");
+  assert.ok(Math.abs(result.rows[0].markValue - 9.4488) < 0.00001);
+});
+
+test("project event keys and human dates normalize for performance history", async () => {
+  const csv = "meet_date,place,athlete_name,school_name,event_name,mark_text\nOctober 11 2025,1,John Runner,Central,5K,15:30.20";
+  const result = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(result.rows[0].eventCode, "xc_5k");
+  assert.equal(result.rows[0].meetDate, "2025-10-11");
+});
+
+test("normalized compound headers are accepted as school and mark columns", async () => {
+  const csv = "Athlete Name,School / Team,Event Name,Result Time,Place\nJohn Runner,Central,5K,15:30.20,1";
+  const result = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(result.rows[0].schoolName, "Central");
+  assert.equal(result.rows[0].markText, "15:30.20");
+  assert.deepEqual(result.rows[0].warningCodes, []);
+});
+
+test("preformatted result pages parse without a meet identity on the intermediate page", async () => {
+  const html = `<html><body><h2>Boys 5K Results</h2><pre>Place  Name  School  Time\n1  John Runner  Central  15:30.20\n2  Sam Fast  North  15:40.10</pre></body></html>`;
+  const result = await extractDocument({ bytes: Buffer.from(html), text: html, documentType: "html", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(result.rows.length, 2); assert.equal(result.rows[1].athleteName, "Sam Fast");
+});
+
+test("pasted track text keeps event, gender, status, and wind", () => {
+  const text = "High School Girls 100 Hurdles\nPlace  Name  School  Time  Wind\n1  Ava Swift  Central  14.52  +1.2\n2  Mia Fast  North  DQ";
+  const rows = parsePastedOrDelimitedText(text, { sport: "outdoor_track", seasonYear: 2026 });
+  assert.equal(rows.length, 2); assert.equal(rows[0].gender, "girls"); assert.match(rows[0].eventName, /hurdles/i); assert.equal(rows[1].resultStatus, "DQ");
+});
+
+test("field event and no mark values are preserved", () => {
+  const rows = parsePastedOrDelimitedText("Boys High Jump\nPlace  Name  School  Mark\n1  Eli Jumper  West  6.50\n2  Max Leaper  East  NM", { sport: "outdoor_track", seasonYear: 2026 });
+  assert.equal(rows.length, 2); assert.equal(rows[0].eventCode, "high_jump"); assert.equal(rows[1].resultStatus, "NM");
+});
+
+test("relay rows can use relay team identity", async () => {
+  const csv = "place,relay_team,school,event,mark\n1,Central A,Central,4x800 Relay,8:01.22";
+  const result = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv", metadata: { sport: "outdoor_track", seasonYear: 2026 } });
+  assert.equal(result.rows.length, 1); assert.equal(result.rows[0].relayTeam, "Central A"); assert.ok(!result.rows[0].warningCodes.includes("ATHLETE_OR_RELAY_MISSING"));
+});
+
+test("spreadsheet workbooks parse every sheet", async () => {
+  const fixture = "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";
+  const bytes = Buffer.from(fixture, "base64"); const result = await extractDocument({ bytes, documentType: "spreadsheet", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(result.rows.length, 2); assert.deepEqual(result.rows.map((row) => row.athleteName).sort(), ["Ava Runner","John Runner"]);
+});
+
+test("repeated CSV imports produce identical fingerprints", async () => {
+  const csv = "place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:30.20";
+  const first = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv", metadata: { meetName: "Invite", meetDate: "2025-09-01" } });
+  const second = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv", metadata: { meetName: "Invite", meetDate: "2025-09-01" } });
+  assert.equal(first.rows[0].resultFingerprint, second.rows[0].resultFingerprint);
+});
+
+test("corrected marks create a different result fingerprint", async () => {
+  const before = await extractDocument({ bytes: Buffer.from("place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:30.20"), text: "place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:30.20", documentType: "csv", metadata: { meetName: "Invite", meetDate: "2025-09-01" } });
+  const after = await extractDocument({ bytes: Buffer.from("place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:29.20"), text: "place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:29.20", documentType: "csv", metadata: { meetName: "Invite", meetDate: "2025-09-01" } });
+  assert.notEqual(before.rows[0].resultFingerprint, after.rows[0].resultFingerprint);
+});
+
+test("duplicate links and fragments collapse to one canonical URL", () => {
+  const values = ["https://www.baumspage.com/cc/a/results.html#boys","https://www.baumspage.com/cc/a/results.html#girls","https://www.baumspage.com/cc/a/results.html?utm_source=x"];
+  assert.equal(new Set(values.map((value) => canonicalizeResultUrl(value))).size, 1);
+});
+
+test("crawl loops are representable without duplicate canonical pages", () => {
+  const first = extractScoredLinks('<a href="b.html">Results</a>', "https://www.baumspage.com/a.html")[0];
+  const second = extractScoredLinks('<a href="a.html">Results</a>', first.url)[0];
+  assert.equal(second.url, "https://www.baumspage.com/a.html");
+});
+
+test("misleading and empty documents do not verify", () => {
+  assert.ok(verifyResultContent({ text: "Results are coming soon. Login and register for updates.", documentType: "text" }).score < 52);
+  assert.ok(verifyResultContent({ text: "", documentType: "text" }).score < 52);
+});
+
+test("all named providers and handoffs are recognized", () => {
+  const examples = [["https://www.baumspage.com/cc/","baumspage"],["https://oh.milesplit.com/meets/1/results","milesplit_ohio"],["https://www.athletic.net/CrossCountry/meet/1/results","athletic_net"],["https://finishtiming.trackscoreboard.com/meets/1","finish_timing"],["https://results.timingfirst.com/meets/1","timing_first"],["https://runsignup.com/Race/Results/1","runsignup"]];
+  for (const [url, provider] of examples) assert.equal(recognizeProvider(url), provider);
+});
+
+test("bulk fixture parses twenty five meets and one thousand unique rows twice", async () => {
+  const fingerprints = new Set();
+  for (let meet = 1; meet <= 25; meet += 1) {
+    const lines = ["place,athlete_name,school_name,event_name,mark_text"];
+    for (let athlete = 1; athlete <= 40; athlete += 1) lines.push(`${athlete},Runner ${meet} ${athlete},School ${meet},5K,${15 + Math.floor(athlete / 20)}:${String(athlete % 60).padStart(2,"0")}.10`);
+    const csv = lines.join("\n"); const metadata = { meetName: `Meet ${meet}`, meetDate: `2025-09-${String(meet).padStart(2,"0")}`, sport: "cross_country", seasonYear: 2025 };
+    const first = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv", metadata }); const second = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv", metadata });
+    assert.equal(first.rows.length, 40); assert.deepEqual(first.rows.map((row) => row.resultFingerprint), second.rows.map((row) => row.resultFingerprint)); first.rows.forEach((row) => fingerprints.add(row.resultFingerprint));
+  }
+  assert.equal(fingerprints.size, 1000);
+});
+
+test("raw source rows are preserved for audit", async () => {
+  const csv = "place,athlete_name,school_name,event_name,mark_text,points\n1,John Runner,Central,5K,15:30.20,10"; const result = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv" });
+  assert.equal(result.rows[0].rawRow.points, "10"); assert.match(result.rows[0].sourceFingerprint, /^[a-f0-9]{64}$/);
+});
+
+test("unsafe protocols and IP addresses fail before fetch", () => {
+  for (const url of ["ftp://www.baumspage.com/file.csv","https://127.0.0.1/file.csv","https://192.168.1.1/file.csv"]) assert.throws(() => canonicalizeResultUrl(url));
+});
+
+test("header normalization handles punctuation and merged labels", () => {
+  assert.deepEqual(parserInternals.delimitedRows("Athlete Name,School / Team,Result Time\nJohn Runner,Central,15:30.20")[0], { athlete_name: "John Runner", school_team: "Central", result_time: "15:30.20", _row_number: 2 });
+});
+
+test("athlete directory names never become staged result rows", async () => {
+  const html = `<html><title>Ohio Athlete Rankings</title><body><h2>Athletes</h2><table><tr><th>Rank</th><th>Name</th><th>Profile</th></tr><tr><td>1</td><td>Mercy Alamina</td><td>View athlete</td></tr><tr><td>2</td><td>Emily Chen</td><td>View athlete</td></tr></table></body></html>`;
+  const result = await extractDocument({ bytes: Buffer.from(html), text: html, documentType: "html", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(result.rows.length, 0);
+  assert.ok(result.warnings.includes("NO_RESULT_ROWS_PARSED"));
+});
+
+test("MileSplit completed raw HY TEK results stage complete fixed width rows", async () => {
+  const html = `<html><head><title>OHSAA Division 2 State Championship 2025</title></head><body><pre>High School Boys Division 2 5KM Run Finals\n=======================================================================\n    Name                    Year School                  Finals  Points\n=======================================================================\n  1 Landon Kimmel             12 Tippecanoe            15:12.70    1\n  2 Jacob Proctor             12 Anthony Wayne         15:28.74    2\n  3 Grant Hamilton            12 Canal Winchester      15:33.65</pre></body></html>`;
+  const result = await extractDocument({ bytes: Buffer.from(html), text: html, documentType: "html", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  const assessment = assessParsedResults(result.rows, result.rejectedRows);
+  assert.equal(result.rows.length, 3);
+  assert.equal(assessment.valid, true);
+  assert.ok(result.rows.every((row) => row.athleteName && row.schoolName && row.eventName && row.markText));
+  assert.equal(result.rows[0].athleteName, "Landon Kimmel");
+  assert.equal(result.rows[0].schoolName, "Tippecanoe");
+  assert.equal(result.rows[0].athleteGrade, "12");
+  assert.equal(result.rows[0].eventCode, "xc_5k");
+});
+
+test("MileSplit formatted seeds automatically include completed raw results", () => {
+  const seeds = providerSeedVariants("https://oh.milesplit.com/meets/699322-state-2025/results/1239242/formatted");
+  assert.deepEqual(seeds, ["https://oh.milesplit.com/meets/699322-state-2025/results/1239242/formatted", "https://oh.milesplit.com/meets/699322-state-2025/results/1239242/raw"]);
+});
+
+test("provider profile and ranking links are excluded while direct results rank highly", () => {
+  const profile = scoreResultLink({ anchor: "Athlete Profile and Rankings", url: "https://oh.milesplit.com/athletes/123/profile", parentProvider: "milesplit_ohio" });
+  const results = scoreResultLink({ anchor: "Formatted Results", url: "https://oh.milesplit.com/meets/647746-meet-2025/results/1241790/formatted", parentProvider: "milesplit_ohio" });
+  assert.ok(profile.score < 24);
+  assert.ok(results.score >= 52);
+});
+
+test("performance import template columns parse into the normalized contract", async () => {
+  const csv = "athlete_name,school_name,gender,graduation_year,sport,season_year,event_name,mark_text,meet_name,meet_date,place,source_label,source_url,source_type,verification_status,public_visible,course_context,wind_text,wind_legal,notes\nAva Runner,Central,girls,2027,cross_country,2025,5K,18:20.10,Sample Invite,2025-09-01,1,Official Results,https://oh.milesplit.com/meets/1/results,official,source_linked,false,,,,";
+  const result = await extractDocument({ bytes: Buffer.from(csv), text: csv, documentType: "csv" });
+  assert.equal(result.rows.length, 1);
+  assert.equal(result.rows[0].eventCode, "xc_5k");
+  assert.equal(result.rows[0].meetName, "Sample Invite");
+});
