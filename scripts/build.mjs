@@ -1,7 +1,21 @@
+import { adminTeamsPage } from "../src/pages/adminteams.mjs";
+import { adminTeamManagerPage } from "../src/pages/adminteammanager.mjs";
+import { adminTeamSchedulesPage } from "../src/pages/adminteamschedules.mjs";
+import { adminTeamRostersPage } from "../src/pages/adminteamrosters.mjs";
+import { adminTeamContentPage } from "../src/pages/adminteamcontent.mjs";
+import { adminEngagementPage } from "../src/pages/adminengagement.mjs";
+import { adminOperationsPage } from "../src/pages/adminoperations.mjs";
+import { adminStatewideDataPage } from "../src/pages/adminstatewidedata.mjs";
+import { followPage } from "../src/pages/follow.mjs";
+import { teamInsightsPage } from "../src/pages/teaminsights.mjs";
+import { privacyPage } from "../src/pages/privacy.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { site } from "../src/config/site.mjs";
 import sponsors from "../src/data/sponsors.json" with { type: "json" };
+import ohioSchoolFoundation from "../public/data/ohio-school-foundation-2026-27.json" with { type: "json" };
+import athleteFoundationSeed from "../public/data/athlete-foundation-seed-2026.json" with { type: "json" };
+import { displaySchoolName } from "../lib/ohio_foundation_service.mjs";
 import {
   copyDirectory,
   escapeHtml,
@@ -32,10 +46,52 @@ import {
 import { meetsIndexPage } from "../src/pages/meets.mjs";
 import { meetDetailPage } from "../src/pages/meetdetail.mjs";
 import { adminPage } from "../src/pages/admin.mjs";
+import { teamLoginPage } from "../src/pages/teamlogin.mjs";
+import { teamDashboardPage } from "../src/pages/teamdashboard.mjs";
+import { teamSchedulePage } from "../src/pages/teamschedule.mjs";
+import { teamRosterPage } from "../src/pages/teamroster.mjs";
+import { teamContentPage } from "../src/pages/teamcontent.mjs";
+import { teamEditorPage } from "../src/pages/teameditor.mjs";
+import { teamProfilePage } from "../src/pages/teamprofile.mjs";
+import { teamsPage } from "../src/pages/teams.mjs";
+import { searchPage } from "../src/pages/search.mjs";
+import { athleteOfTheWeekPage, teamOfTheWeekPage } from "../src/pages/weeklyawards.mjs";
+import { tournamentHubPage } from "../src/pages/tournamenthub.mjs";
+import { ohioSchoolsPage } from "../src/pages/ohioschools.mjs";
+import { claimTeamPage } from "../src/pages/claimteam.mjs";
+import { rankingMethodologyPage } from "../src/pages/rankingmethodology.mjs";
+import { athletesPage } from "../src/pages/athletes.mjs";
+import { athleteDetailPage } from "../src/pages/athletedetail.mjs";
+import { adminAthletesPage } from "../src/pages/adminathletes.mjs";
+import { adminRecruitingPage } from "../src/pages/adminrecruiting.mjs";
+import { adminResultsSourcesPage } from "../src/pages/adminresultssources.mjs";
+import { recruitingPage } from "../src/pages/recruiting.mjs";
+import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
 const generatedPaths = new Set();
+const athleteSeedRows = Array.isArray(athleteFoundationSeed.athletes)
+  ? athleteFoundationSeed.athletes
+  : [];
+const athleteSeedByRankingRow = new Map(
+  athleteSeedRows.map((athlete) => [
+    [
+      athlete.ranking?.ranking_slug,
+      slugify(athlete.display_name),
+      slugify(athlete.school_name)
+    ].join("|"),
+    athlete
+  ])
+);
+
+function athleteSeedForRankingRow(ranking, row) {
+  return athleteSeedByRankingRow.get([
+    ranking.slug,
+    slugify(row.athlete),
+    slugify(row.school)
+  ].join("|")) || null;
+}
 
 async function writeFile(relativePath, content) {
   const clean = relativePath.replace(/^\/+/, "");
@@ -112,6 +168,11 @@ async function loadRankings() {
       slug: slugify(first.slug),
       title: first.title,
       subtitle: first.subtitle,
+      rankingType: first.rankingType || "Editorial ranking",
+      sourceLabel: first.sourceLabel || "Published results and Podium Watch analysis",
+      sourceUrl: first.sourceUrl || "",
+      methodologyNote: first.methodologyNote || "",
+      storySlug: slugify(first.storySlug || ""),
       href,
       sportPath,
       genderPath,
@@ -138,28 +199,30 @@ function homePage(stories, rankings) {
     actionHref: "/stories/"
   });
 
-  const content = `<section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <p class="eyebrow">Ohio high school running</p>
-        <h1>The home of Ohio high school running.</h1>
-        <p class="hero-text">Rankings, stories, interviews, and coverage of Ohio high school cross country and track and field.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="/rankings/">View latest rankings</a>
-          <a class="button button-outline" href="/stories/">Read latest stories</a>
-        </div>
-        <div class="hero-proof" aria-label="Coverage information">
-          <div><strong>4</strong><span>Cross country divisions</span></div>
-          <div><strong>5</strong><span>Track divisions</span></div>
-          <div><strong>1</strong><span>Ohio running community</span></div>
-        </div>
-      </div>
-      <div class="hero-logo-panel" aria-hidden="true">
-        <img src="${site.logo}" width="520" height="520" alt="">
-        <p>Rankings. Results. Stories.</p>
-      </div>
-    </div>
-  </section>
+  const leadTitle = featuredStory?.title || "The teams and runners set to define Ohio cross country";
+  const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
+  const leadHref = featuredStory ? `/stories/${featuredStory.slug}/` : "/rankings/";
+  const leadImage = featuredStory?.featuredImage || "/images/social/podium_watch_default_social.png";
+  const powerRankingData = {
+    boys: {
+      1: [["Thomas Worthington", "Division I Boys"], ["Springboro", "Division I Boys"], ["Dublin Coffman", "Division I Boys"], ["Olentangy Berlin", "Division I Boys"]],
+      2: [["Kenston", "Division II Boys"], ["Toledo St. Francis", "Division II Boys"], ["Hoover", "Division II Boys"], ["Turpin", "Division II Boys"]],
+      3: [["Fairless", "Division III Boys"], ["Minerva", "Division III Boys"], ["Mount Gilead", "Division III Boys"], ["Unioto", "Division III Boys"]],
+      4: [["Convoy Crestview", "Division IV Boys"], ["Russia", "Division IV Boys"], ["Botkins", "Division IV Boys"], ["Tinora", "Division IV Boys"]]
+    },
+    girls: {
+      1: [["Division I rankings", "Girls team preview"], ["Updated teams coming soon", "Podium Watch"], ["Follow the season", "2026 Cross Country"], ["View full rankings", "All divisions"]],
+      2: [["Division II rankings", "Girls team preview"], ["Updated teams coming soon", "Podium Watch"], ["Follow the season", "2026 Cross Country"], ["View full rankings", "All divisions"]],
+      3: [["Division III rankings", "Girls team preview"], ["Updated teams coming soon", "Podium Watch"], ["Follow the season", "2026 Cross Country"], ["View full rankings", "All divisions"]],
+      4: [["Ottawa Hills", "Division IV Girls"], ["Liberty Center", "Division IV Girls"], ["Grandview Heights", "Division IV Girls"], ["Versailles", "Division IV Girls"]]
+    }
+  };
+  const initialPowerRows = powerRankingData.boys[1].map(([team, label], index) => `<a class="power-row" href="/rankings/cross-country/"><b>${index + 1}</b><span><strong>${escapeHtml(team)}</strong><small>${escapeHtml(label)}</small></span></a>`).join("");
+  const content = `<section class="sports-home"><div class="container sports-home-grid">
+    <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/"><span>02</span>Meet Calendar</a><a href="/meets/"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><div class="home-newsletter"><p class="eyebrow">The Morning Lap</p><h3>Ohio running in your inbox.</h3><p>Rankings, results, and stories from across the state.</p><a href="/follow/">Join the Fleet</a></div></aside>
+    <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560"><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadDescription)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article><div class="home-section-title"><h2>Latest Stories</h2><a href="/stories/">View all ${icon("arrow")}</a></div><div class="stories-grid">${storyContent}</div></div>
+    <aside class="home-right"><section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="/rankings/cross-country/"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section><section class="home-panel"><div class="home-panel-title"><h2>Upcoming Meets</h2></div><a class="home-meet" href="/meets/"><b>AUG 22</b><span><strong>OHSAA Early Season Invitational</strong><small>Obetz, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 25</b><span><strong>Shelby County Preview</strong><small>Russia, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 29</b><span><strong>Pickerington North Classic</strong><small>Pickerington, Ohio</small></span></a><a class="home-panel-link" href="/meets/">Full meet calendar ${icon("arrow")}</a></section></aside>
+  </div></section>
 
   <section class="section" aria-labelledby="latest-rankings-title">
     <div class="container">
@@ -174,10 +237,21 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
+  <section class="section" aria-labelledby="trust-title">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">Clear and trustworthy</p><h2 id="trust-title">Know what the information means.</h2></div><a class="text-link" href="/rankings/methodology/">Read the ranking method ${icon("arrow")}</a></div>
+      <div class="trust-strip">
+        <article><h3>Verified facts</h3><p>Results, divisions, dates, and assignments are labeled and tied to supplied or official sources when available.</p></article>
+        <article><h3>Editorial projections</h3><p>Podium Watch rankings are clearly separated from official results and explained as analysis.</p></article>
+        <article><h3>Corrections welcome</h3><p>Readers can report factual corrections with a source so pages stay useful and current.</p></article>
+      </div>
+    </div>
+  </section>
+
   <section class="section section-paper" aria-labelledby="spotlight-title">
     <div class="container spotlight-panel">
       <div class="spotlight-copy"><p class="eyebrow">Athlete spotlights</p><h2 id="spotlight-title">The story behind the result.</h2><p>Podium Watch gives Ohio athletes a place to tell their story, share what drives them, and help the next generation of runners.</p><a class="button button-dark" href="/athlete-spotlights/">Explore athlete spotlights</a></div>
-      <div class="spotlight-card"><blockquote>â€œThe best performances are worth celebrating. The people behind them are worth knowing.â€</blockquote><p>New athlete profiles will appear here as they are published.</p><a class="text-link" href="/athlete-spotlights/">See the spotlight section ${icon("arrow")}</a></div>
+      <div class="spotlight-card"><blockquote>"The best performances are worth celebrating. The people behind them are worth knowing."</blockquote><p>New athlete profiles will appear here as they are published.</p><a class="text-link" href="/athlete-spotlights/">See the spotlight section ${icon("arrow")}</a></div>
     </div>
   </section>
 
@@ -296,13 +370,36 @@ function divisionPage({ sportName, sportPath, division, divisionCount, gender, r
   return { pathname, html: layout({ site, title: `Division ${division} ${gender} ${sportName} Rankings`, description: `Podium Watch Division ${division} ${gender.toLowerCase()} ${sportName.toLowerCase()} rankings.`, pathname, content }) };
 }
 
-function rankingDetailPage(ranking) {
+function rankingDetailPage(ranking, stories) {
   const pathname = ranking.href;
   const sportName = ranking.sportPath === "cross-country" ? "Cross Country" : "Track and Field";
   const crumbs = [{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName, href: `/rankings/${ranking.sportPath}/` }, { label: `${ranking.division} ${ranking.gender}`, href: `/rankings/${ranking.sportPath}/${ranking.genderPath}/division-${ranking.divisionNumber}/` }, { label: ranking.title }];
-  const rows = ranking.rows.map((row) => `<article class="ranking-row"><div class="ranking-number">${escapeHtml(row.rank)}</div><div class="ranking-athlete"><strong>${escapeHtml(row.athlete)}</strong><span>${escapeHtml(row.school)}</span></div><div class="ranking-grade">${escapeHtml(row.grade || "")}</div><div class="ranking-mark"><strong>${escapeHtml(row.timeOrMark)}</strong><small>${escapeHtml(row.event)}</small></div>${row.rankingExplanation ? `<p class="ranking-explanation">${escapeHtml(row.rankingExplanation)}</p>` : ""}</article>`).join("");
+  const rows = ranking.rows.map((row) => {
+    const athleteSeed = athleteSeedForRankingRow(ranking, row);
+    const athleteName = athleteSeed
+      ? `<a href="/athletes/${athleteSeed.profile_slug}/">${escapeHtml(row.athlete)}</a>`
+      : escapeHtml(row.athlete);
+
+    return `<article class="ranking-row"><div class="ranking-number">${escapeHtml(row.rank)}</div><div class="ranking-athlete"><strong>${athleteName}</strong><span>${escapeHtml(row.school)}</span></div><div class="ranking-grade">${escapeHtml(row.grade || "")}</div><div class="ranking-mark"><strong>${escapeHtml(row.timeOrMark)}</strong><small>${escapeHtml(row.event)}</small></div>${row.rankingExplanation ? `<p class="ranking-explanation">${escapeHtml(row.rankingExplanation)}</p>` : ""}</article>`;
+  }).join("");
+  const rankingType = String(ranking.rankingType || "Editorial ranking");
+  const isVerifiedList = /verified|performance list|official/i.test(rankingType);
+  const sourceUrl = /^https?:\/\//i.test(ranking.sourceUrl || "") ? ranking.sourceUrl : "";
+  const relatedStory = stories.find((story) => story.slug === ranking.storySlug || (!ranking.storySlug && story.slug === ranking.slug));
+  const trustCopy = isVerifiedList
+    ? "This page organizes published performance data. It is not an official OHSAA ranking unless the source label explicitly says so."
+    : "This order is Podium Watch editorial analysis. It is a projection based on verified information available at the time of publication, not an official OHSAA ranking.";
+  const methodCopy = ranking.methodologyNote || "The full season resume matters more than one isolated result. Championship performance, consistency, head to head results, relevant track performances, returning status, and verified roster information may all be considered when they apply.";
+  const sourceActions = `${sourceUrl ? `<a class="button button-outline" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Open source</a>` : ""}<a class="button button-outline" href="/rankings/methodology/">Full methodology</a><a class="button button-outline" href="mailto:${site.contactEmail}?subject=${encodeURIComponent(`Ranking correction: ${ranking.title}`)}">Report a correction</a>`;
+  const storyAction = relatedStory ? `<a class="share-button" href="/stories/${relatedStory.slug}/">Read the full ranking story</a>` : "";
   const content = `${pageHero({ eyebrow: `${ranking.sport} rankings`, title: ranking.title, description: ranking.subtitle || `${ranking.gender} ${ranking.division} rankings for the ${ranking.season} season.` })}
-  <section class="section section-paper"><div class="container">${breadcrumb(crumbs)}<div class="ranking-detail-header"><div><p class="eyebrow">${escapeHtml(ranking.gender)} ${escapeHtml(ranking.division)}</p><h2>${escapeHtml(ranking.event)}</h2></div><p class="ranking-updated">Last updated ${formatDate(ranking.updatedDate)}</p></div><div class="info-card" style="margin-bottom:22px"><h3>How this ranking works</h3><p>Rankings are based on verified results and the Podium Watch ranking method. State championship performance receives the most weight, followed by the complete season resume and relevant track performances. Rankings may change when new verified results become available.</p></div><div class="ranking-list">${rows}</div><div class="article-actions"><a class="share-button" href="/stories/${ranking.slug}/">Read the full ranking story</a></div></div></section>`;
+  <section class="section section-paper"><div class="container">${breadcrumb(crumbs)}
+    <div class="ranking-detail-header"><div><p class="eyebrow">${escapeHtml(ranking.gender)} ${escapeHtml(ranking.division)}</p><h2>${escapeHtml(ranking.event)}</h2></div><p class="ranking-updated">Last updated ${formatDate(ranking.updatedDate)}</p></div>
+    <div class="info-card ranking-source-panel"><div><p><span class="ranking-trust-badge ${isVerifiedList ? "verified" : "editorial"}">${escapeHtml(rankingType)}</span></p><h3>Source and status</h3><p><strong>${escapeHtml(ranking.sourceLabel)}</strong></p><p>${escapeHtml(trustCopy)}</p></div><div class="ranking-source-actions">${sourceActions}</div></div>
+    <div class="info-card" style="margin-bottom:22px"><h3>How this ranking works</h3><p>${escapeHtml(methodCopy)}</p></div>
+    <div class="ranking-list">${rows}</div>
+    <div class="article-actions">${storyAction}<button class="share-button" type="button" data-copy-link>Copy ranking link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(absoluteUrl(site, pathname))}" target="_blank" rel="noopener noreferrer">Share on Facebook</a></div>
+  </div></section>`;
   return layout({ site, title: ranking.title, description: `${ranking.title}. Updated ${formatDate(ranking.updatedDate)}.`, pathname, image: `/images/stories/d${ranking.divisionNumber}_${ranking.genderPath}_top_25.svg`, content, jsonLd: breadcrumbsJsonLd(site, crumbs) });
 }
 
@@ -316,8 +413,8 @@ async function aboutPage() {
 }
 
 function athletePage() {
-  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}<section class="section section-paper"><div class="container">${emptyState({ title: "Athlete spotlights are coming", description: "No athlete profiles are published yet, so this page does not display invented names or achievements. Published profiles will appear here automatically when the athlete content workflow is added.", actionLabel: "Read current stories", actionHref: "/stories/" })}</div></section>`;
-  return layout({ site, title: "Athlete Spotlights", description: "Podium Watch athlete spotlights from Ohio high school cross country and track and field.", pathname: "/athlete-spotlights/", content });
+  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}<section class="section section-paper"><div class="container content-grid"><div><p class="eyebrow">Athlete profiles</p><h2>Start with the statewide directory.</h2><p>Find athletes by name, school, graduation year, division, event, and source status.</p><a class="button button-primary" href="/athletes/">Open athlete directory</a></div><div>${emptyState({ title: "Long form spotlights are being prepared", description: "Published athlete interviews and personal stories will appear here without inventing quotes, achievements, or background information.", actionLabel: "Read current stories", actionHref: "/stories/" })}</div></div></section>`;
+  return layout({ site, title: "Athlete Spotlights", description: "Podium Watch athlete spotlights and athlete profile directory for Ohio high school cross country and track and field.", pathname: "/athlete-spotlights/", content });
 }
 
 function interviewsPage() {
@@ -366,7 +463,47 @@ async function build() {
   await writePage("/meets/", meetsIndexPage(site));
   await writePage("/meetdetail/", meetDetailPage(site));
   await writePage("/admin/", adminPage(site));
+await writePage("/admin/teams/", adminTeamsPage(site));
+await writePage("/admin/team-manager/", adminTeamManagerPage(site));
+await writePage("/admin/team-schedules/", adminTeamSchedulesPage(site));
+await writePage("/admin/team-rosters/", adminTeamRostersPage(site));
+await writePage("/admin/team-content/", adminTeamContentPage(site));
+await writePage("/admin/engagement/", adminEngagementPage(site));
+await writePage("/admin/operations/", adminOperationsPage(site, { stories, rankings }));
+await writePage("/admin/statewide-data/", adminStatewideDataPage(site));
+await writePage("/admin/athletes/", adminAthletesPage(site));
+await writePage("/admin/recruiting/", adminRecruitingPage(site));
+await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
+await writePage("/team-login/", teamLoginPage(site));
+await writePage("/team-dashboard/", teamDashboardPage(site));
+await writePage("/team-schedule/", teamSchedulePage(site));
+await writePage("/team-roster/", teamRosterPage(site));
+await writePage("/team-content/", teamContentPage(site));
+await writePage("/team-insights/", teamInsightsPage(site));
+await writePage("/follow/", followPage(site));
+await writePage("/privacy/", privacyPage(site));
+await writePage("/team-editor/", teamEditorPage(site));
+await writePage("/team/", teamProfilePage(site));
+await writePage("/teams/", teamsPage(site));
+await writePage("/ohio-schools/", ohioSchoolsPage(site));
+await writePage("/claim-your-team/", claimTeamPage(site));
+await writePage("/athletes/", athletesPage(site));
+await writePage("/recruiting/", recruitingPage(site));
+await writePage("/recruiting/methodology/", recruitingMethodologyPage(site));
+await writePage("/athlete/", athleteDetailPage(site));
+for (const athlete of athleteSeedRows) {
+  const athletePath = `/athletes/${athlete.profile_slug}/`;
+  await writePage(
+    athletePath,
+    athleteDetailPage(site, { seed: athlete, pathname: athletePath })
+  );
+}
+await writePage("/search/", searchPage(site));
+await writePage("/athlete-of-the-week/", athleteOfTheWeekPage(site));
+await writePage("/team-of-the-week/", teamOfTheWeekPage(site));
+  await writePage("/tournament-hub/", tournamentHubPage(site));
   await writePage("/rankings/", rankingsIndexPage());
+  await writePage("/rankings/methodology/", rankingMethodologyPage(site));
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));
   for (const [sportName, sportPath, count] of [["Cross Country", "cross-country", 4], ["Track and Field", "track-and-field", 5]]) {
@@ -377,7 +514,7 @@ async function build() {
       }
     }
   }
-  for (const ranking of rankings) await writePage(ranking.href, rankingDetailPage(ranking));
+  for (const ranking of rankings) await writePage(ranking.href, rankingDetailPage(ranking, stories));
 
   await writePage("/athlete-spotlights/", athletePage());
   await writePage("/interviews/", interviewsPage());
@@ -386,14 +523,60 @@ async function build() {
   await writePage("/contact/", contactPage());
   await writeFile("404.html", notFoundPage());
 
-  const paths = [...generatedPaths].filter((pathname) => !pathname.endsWith("404.html")).sort();
+  const searchIndex = [
+    { type: "Page", title: "Home", subtitle: site.description, href: "/", searchText: "Ohio cross country track running home" },
+    { type: "Page", title: "Rankings", subtitle: "Ohio cross country and track rankings", href: "/rankings/", searchText: "rankings boys girls divisions cross country track field" },
+    { type: "Page", title: "Ranking Methodology", subtitle: "How Podium Watch rankings are created", href: "/rankings/methodology/", searchText: "ranking method sources corrections projections verified" },
+    { type: "Page", title: "Meet Center", subtitle: "Meets, schedules, and results", href: "/meets/", searchText: "meets results schedule timing course" },
+    { type: "Page", title: "Team Directory", subtitle: "Ohio team profiles", href: "/teams/", searchText: "teams schools coaches rosters schedules results" },
+    { type: "Page", title: "Athlete Directory", subtitle: "Ohio athlete profiles, rankings, and sourced performances", href: "/athletes/", searchText: "athletes runners profiles recruiting graduation year performances results rankings" },
+    { type: "Page", title: "Recruiting Database", subtitle: "Podium Watch Recruit Ratings and verified performance search", href: "/recruiting/", searchText: "recruiting recruits ratings stars college distance sprints hurdles jumps pole vault throws offers commitments" },
+    { type: "Page", title: "Recruit Rating Methodology", subtitle: "How Podium Watch scores and verifies recruit ratings", href: "/recruiting/methodology/", searchText: "recruiting methodology stars score verified performance evaluation corrections no pay to play" },
+    { type: "Page", title: "Ohio School and Division Directory", subtitle: "Official 2026 and 2027 boys cross country school assignments", href: "/ohio-schools/", searchText: "Ohio schools OHSAA boys cross country divisions school directory athletic districts enrollment" },
+    { type: "Page", title: "Claim Your Team", subtitle: "Coach and team representative access", href: "/claim-your-team/", searchText: "claim team coach account manage school page roster schedule results" },
+    { type: "Page", title: "Ohio Tournament Hub", subtitle: "Boys cross country divisions and track regional sites", href: "/tournament-hub/", searchText: "OHSAA divisions regional sites representation tournament boys cross country track" },
+    { type: "Page", title: "Athlete of the Week", subtitle: "Nominate, vote, and view winners", href: "/athlete-of-the-week/", searchText: "athlete week nominations finalists voting winner" },
+    { type: "Page", title: "Team of the Week", subtitle: "Nominate, vote, and view winners", href: "/team-of-the-week/", searchText: "team week nominations finalists voting winner boys girls" },
+    { type: "Page", title: "Athlete Spotlights", subtitle: "The story behind the result", href: "/athlete-spotlights/", searchText: "athletes profiles interviews stories" },
+    { type: "Page", title: "Stories", subtitle: "Podium Watch articles and coverage", href: "/stories/", searchText: "articles news stories coverage" },
+    ...stories.map((story) => ({ type: "Story", title: story.title, subtitle: `${story.category} | ${story.description}`, href: `/stories/${story.slug}/`, searchText: `${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")} ${story.author}` })),
+    ...rankings.map((ranking) => ({ type: "Ranking", title: ranking.title, subtitle: `${ranking.sport} | ${ranking.gender} | ${ranking.division} | Updated ${ranking.updatedDate}`, href: ranking.href, searchText: `${ranking.title} ${ranking.sport} ${ranking.gender} ${ranking.division} ${ranking.season} ${ranking.event} ${ranking.rows.map((row) => `${row.athlete} ${row.school}`).join(" ")}` })),
+    ...athleteSeedRows.map((athlete) => ({
+      type: "Athlete",
+      title: athlete.display_name,
+      subtitle: `${athlete.school_name} | Class of ${athlete.graduation_year} | ${athlete.division}`,
+      href: `/athletes/${athlete.profile_slug}/`,
+      searchText: `${athlete.display_name} ${athlete.school_name} ${athlete.official_school_name || ""} ${athlete.school_city || ""} ${athlete.gender} ${athlete.graduation_year} ${athlete.division} ${athlete.event} ${athlete.ranking?.title || ""}`
+    })),
+    ...(ohioSchoolFoundation.schools || []).map((school) => ({
+      type: "Ohio School",
+      title: displaySchoolName(school.school_name),
+      subtitle: `${school.city} | ${school.athletic_district} | ${school.division_2026_27_2027_28}`,
+      href: `/ohio-schools/?search=${encodeURIComponent(school.school_name)}`,
+      searchText: `${school.school_name} ${school.city} ${school.athletic_district} ${school.school_id} ${school.division_2026_27_2027_28} ${school.division_2025_26}`
+    }))
+  ];
+  await writeFile("search-index.json", JSON.stringify(searchIndex, null, 2));
+
+  const privateSitemapPrefixes = ["/admin/", "/team-login/", "/team-dashboard/", "/team-editor/", "/team-schedule/", "/team-roster/", "/team-content/", "/team-insights/", "/follow/"];
+  const paths = [...generatedPaths].filter((pathname) => !pathname.endsWith("404.html") && !privateSitemapPrefixes.some((prefix) => pathname.startsWith(prefix))).sort();
   const lastMod = stories[0]?.updatedDate || stories[0]?.date || new Date().toISOString().slice(0, 10);
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((pathname) => `  <url><loc>${xmlEscape(absoluteUrl(site, pathname))}</loc><lastmod>${lastMod}</lastmod></url>`).join("\n")}\n</urlset>\n`;
   await writeFile("sitemap.xml", sitemap);
   await writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${site.siteUrl}/sitemap.xml\n`);
   const rssItems = stories.slice(0, 30).map((story) => `<item><title>${xmlEscape(story.title)}</title><link>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</link><guid>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</guid><pubDate>${new Date(`${story.date}T12:00:00Z`).toUTCString()}</pubDate><description>${xmlEscape(story.description)}</description><category>${xmlEscape(story.category)}</category></item>`).join("");
   await writeFile("rss.xml", `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${xmlEscape(site.name)}</title><link>${xmlEscape(site.siteUrl)}</link><description>${xmlEscape(site.description)}</description><language>en-us</language>${rssItems}</channel></rss>`);
-  await writeFile("site-data.json", JSON.stringify({ generatedAt: new Date().toISOString(), stories: stories.map(({ html, body, ...story }) => story), rankings: rankings.map(({ rows, filePath, ...ranking }) => ({ ...ranking, count: rows.length })) }, null, 2));
+  await writeFile("site-data.json", JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    stories: stories.map(({ html, body, ...story }) => story),
+    rankings: rankings.map(({ rows, filePath, ...ranking }) => ({ ...ranking, count: rows.length })),
+    athleteFoundation: {
+      datasetKey: athleteFoundationSeed.dataset_key,
+      recordCount: athleteSeedRows.length,
+      sourceType: athleteFoundationSeed.source_type,
+      lastReviewedDate: athleteFoundationSeed.last_reviewed_date
+    }
+  }, null, 2));
 
   console.log(`Built ${paths.length} pages, ${stories.length} published stories, and ${rankings.length} ranking files.`);
 }
@@ -402,4 +585,3 @@ build().catch((error) => {
   console.error(`\nBuild failed:\n${error.message}\n`);
   process.exit(1);
 });
-
