@@ -19,28 +19,39 @@ export function icon(name) {
 }
 
 export function header(site, currentPath = "/") {
-  const navLinks = site.navigation.map((link) => {
+  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Ohio Schools", "Athletes", "Recruiting", "Stories"]);
+  const navLinks = site.navigation.filter((link) => primaryLabels.has(link.label)).map((link) => {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
     return `<a href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
   }).join("");
-  return `<header class="site-header" data-header>
+  return `<div class="sports-ticker"><div class="container sports-ticker-inner"><span class="ticker-live">LIVE</span><strong>OHIO XC SEASON</strong><span>Practice underway statewide</span><span>First meets August 22</span><a href="/meets/">View calendar ${icon("arrow")}</a></div></div><header class="site-header" data-header>
   <div class="container nav-wrap">
     <a class="brand" href="/" aria-label="Podium Watch home">
       <img src="${site.logoMark}" width="48" height="48" alt="">
-      <span>Podium Watch</span>
+      <span><b>Podium</b><b>Watch</b></span>
     </a>
     <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation" data-menu-button>
       <span></span><span></span><span></span>
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Main navigation" data-site-nav data-open="false">
       ${navLinks}
-      <div class="nav-social">
-        <a href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer" aria-label="Podium Watch on Instagram">${icon("instagram")}</a>
-        <a href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Podium Watch on YouTube">${icon("youtube")}</a>
-      </div>
+      <button class="nav-search-button" type="button" aria-haspopup="dialog" data-search-open>${icon("search")}<span>Search</span></button>
+      <a class="nav-watch" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch</a>
+      <a class="nav-instagram" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a>
     </nav>
   </div>
+  <div class="section-nav"><div class="container"><strong>Explore</strong><a href="/rankings/cross-country/">Boys XC</a><a href="/rankings/cross-country/">Girls XC</a><a href="/rankings/track-and-field/">Track and Field</a><a href="/tournament-hub/">Tournament Hub</a><a href="/athlete-of-the-week/">Athlete of the Week</a><a href="/team-of-the-week/">Team of the Week</a><a href="/about/">About</a></div></div>
   <div class="nav-overlay" data-nav-overlay></div>
+  <dialog class="search-dialog" aria-labelledby="search-dialog-title" data-search-dialog>
+    <div class="search-dialog-inner">
+      <div class="search-dialog-heading"><div><p class="eyebrow">Search Podium Watch</p><h2 id="search-dialog-title">Find what you need.</h2></div><button class="search-dialog-close" type="button" aria-label="Close search" data-search-close>Close</button></div>
+      <form class="global-search-form" action="/search/" method="get" role="search">
+        <label class="search-field search-field-large"><span class="visually-hidden">Search Podium Watch</span>${icon("search")}<input type="search" name="q" placeholder="Athlete, school, team, meet, ranking, or story" autocomplete="off" data-search-dialog-input></label>
+        <button class="button button-primary" type="submit">Search</button>
+      </form>
+      <p class="search-shortcut-note">Press Ctrl and K or the slash key to open search from anywhere.</p>
+    </div>
+  </dialog>
 </header>`;
 }
 
@@ -61,11 +72,20 @@ export function footer(site) {
 </footer>`;
 }
 
+function mobileDock() {
+  return `<nav class="mobile-dock" aria-label="Mobile quick navigation">
+    <a href="/" aria-label="Home"><span aria-hidden="true">⌂</span><b>Home</b></a>
+    <a href="/rankings/" aria-label="Rankings"><span aria-hidden="true">★</span><b>Rankings</b></a>
+    <a href="/meets/" aria-label="Meets and results"><span aria-hidden="true">▦</span><b>Meets</b></a>
+    <a href="/stories/" aria-label="Latest stories"><span aria-hidden="true">▤</span><b>Stories</b></a>
+  </nav>`;
+}
+
 export function breadcrumb(items) {
   return `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol>${items.map((item, index) => `<li>${item.href && index !== items.length - 1 ? `<a href="${item.href}">${escapeHtml(item.label)}</a>` : `<span aria-current="page">${escapeHtml(item.label)}</span>`}</li>`).join("")}</ol></nav>`;
 }
 
-export function metadata({ site, title, description, pathname, image, canonicalUrl, type = "website", publishedTime, modifiedTime, jsonLd = [] }) {
+export function metadata({ site, title, description, pathname, image, canonicalUrl, type = "website", publishedTime, modifiedTime, jsonLd = [], robots = "index, follow" }) {
   const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
   const canonical = canonicalUrl || absoluteUrl(site, pathname);
   const socialImage = absoluteUrl(site, image || site.defaultSocialImage);
@@ -73,6 +93,7 @@ export function metadata({ site, title, description, pathname, image, canonicalU
   const scripts = (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).filter(Boolean).map((data) => `<script type="application/ld+json">${JSON.stringify(data).replaceAll("<", "\\u003c")}</script>`).join("\n");
   return `<title>${escapeHtml(fullTitle)}</title>
 <meta name="description" content="${escapeHtml(description)}">
+<meta name="robots" content="${escapeHtml(robots)}">
 <link rel="canonical" href="${canonical}">
 <meta property="og:site_name" content="${escapeHtml(site.name)}">
 <meta property="og:type" content="${type}">
@@ -80,6 +101,7 @@ export function metadata({ site, title, description, pathname, image, canonicalU
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${socialImage}">
+<meta property="og:image:alt" content="${escapeHtml(`${title} from ${site.name}`)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(fullTitle)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
@@ -88,14 +110,26 @@ ${articleMeta}
 ${scripts}`;
 }
 
-export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "" }) {
+export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots }) {
+  const privatePrefixes = [
+    "/admin/",
+    "/team-login/",
+    "/team-dashboard/",
+    "/team-editor/",
+    "/team-schedule/",
+    "/team-roster/",
+    "/team-content/",
+    "/team-insights/",
+    "/follow/"
+  ];
+  const resolvedRobots = robots || (privatePrefixes.some((prefix) => pathname.startsWith(prefix)) ? "noindex, nofollow" : "index, follow");
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090909">
-${metadata({ site, title, description, pathname, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd })}
+${metadata({ site, title, description, pathname, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, robots: resolvedRobots })}
 <link rel="icon" href="/images/branding/favicon.ico" sizes="any">
 <link rel="icon" href="/images/branding/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
@@ -119,6 +153,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 ${header(site, pathname)}
 <main id="main-content">${content}</main>
 ${footer(site)}
+${mobileDock()}
 </body>
 </html>`;
 }
@@ -164,7 +199,7 @@ export function websiteJsonLd(site) {
     url: site.siteUrl,
     description: site.description,
     publisher: { "@type": "Organization", name: site.name, logo: absoluteUrl(site, site.logo) },
-    potentialAction: { "@type": "SearchAction", target: `${site.siteUrl}/stories/?q={search_term_string}`, "query-input": "required name=search_term_string" }
+    potentialAction: { "@type": "SearchAction", target: `${site.siteUrl}/search/?q={search_term_string}`, "query-input": "required name=search_term_string" }
   };
 }
 
