@@ -32,6 +32,29 @@ Verified against a real, complete 213-athlete dataset (the actual 2025 OHSAA Div
 
 A second real meet (2025 OHSAA Division 1 Boys Cross Country) exposed a gap in this exception's matching logic, not its creation logic: an existing profile ("Calvin Watson") is linked to a school by its official name ("Thomas Worthington"), but the results page printed the abbreviated form ("Thom. Worthington"). The school alias lookup this decision introduced was being used to help *create* new profiles against a resolved official school, but was never used to help *match* against existing ones -- so the existing profile was invisible to the matcher, and committing the import crashed on a duplicate slug. Fixed the same day: the alias lookup now loads unconditionally and is tried as a second match key before a row is treated as having no match. See `docs/SESSION_LOG.md`, 2026-08-05 "Second real meet" entry, for the full diagnosis.
 
+## 2026 08 05 Schools missing from the official source stay unmatched, not invented
+
+### Decision
+
+When an unmatched school name on a results page turns out not to exist anywhere in `public/data/ohio-school-foundation-2026-27.json` (the parsed copy of the actual official OHSAA boys cross country division document that the entire `ohio_schools` table is sourced from) -- as opposed to simply being an abbreviated form of a school that does exist -- do not add a new `ohio_schools` row for it. Leave the performance rows for that school unmatched (skipped, nothing saved) unless and until a genuine official source confirms the school and its division.
+
+### Reason
+
+Discovered while resolving the 2025 OHSAA Division 3 Boys Cross Country meet's 39 unmatched rows: 4 school names (Dawson-Bryant, "Ak. Springfield," "Spr. Shawnee," Pleasant) do not appear anywhere in the 556-school official document at all, most likely because they do not sponsor their own boys cross country program (a runner's home school still prints on results even when running unattached or on another school's co-op team). Two concrete facts ruled out adding them as ordinary new rows: `ohsaa_school_id` is `not null unique` in the schema, so a real-looking placeholder would have to be invented; and that field is displayed on the live public `/schools/` directory page, so a placeholder would appear as a visibly fake OHSAA ID sitting next to 556 genuine ones. Presented to the user with the concrete public-page consequence; they chose to leave the 4 schools unmatched rather than add anything invented to a public, authoritative-looking directory.
+
+### Alternatives considered
+
+1. Add the 4 schools with a placeholder `ohsaa_school_id` (for example a negative number) and metadata flagging them as manually added. Rejected by the user once it was clear this number is public-facing, not just internal bookkeeping.
+2. Loosen the `ohsaa_school_id not null unique` constraint to allow schools without one. Not pursued -- a bigger schema change than this narrow case justified, and every other row's provenance would be undermined if the column's meaning became inconsistent.
+
+### Files or systems affected
+
+None changed. `ohio_school_aliases` (data only) gained 11 new confident entries from the same meet, unrelated to this decision. See `docs/SESSION_LOG.md`, 2026-08-05 "Third real meet" entry.
+
+### Follow up
+
+If any of these 4 schools is later confirmed (for example, OHSAA adds them to a future division document, or they are found under a different official display name already in the table), add the alias or new row then, with that real source cited.
+
 ## 2026 08 05 Recruiting Phase Three: scoring assist approved, claims deferred
 
 ### Decision

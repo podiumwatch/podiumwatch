@@ -2,7 +2,9 @@
 
 ## Current priority
 
-The second real meet (2025 OHSAA Division 1 Boys Cross Country) is fully committed. The user previewed and resolved it themselves (180 rows: 97 ready, 14 duplicate, 69 unmatched -- all 69 later resolved via 17 new `ohio_school_aliases` rows), hit a real duplicate-slug crash on the first commit attempt (see "Statewide results import" below), and after the fix was verified and committed (`8f5cfa3`), re-clicked "Import ready results" successfully. Batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`: 180 rows imported, 149 new hidden profiles created, confirmed by direct database query. Open question for the user: push the accumulated statewide-import feature to production now, or keep gathering more meets locally first.
+The second real meet (2025 OHSAA Division 1 Boys Cross Country) is fully committed (batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`, 180 rows, 149 new hidden profiles), and the statewide-import feature plus every bug fix found so far has been pushed to production and confirmed live.
+
+A third real meet (2025 OHSAA Division 3 Boys Cross Country, 215 rows) is in progress: 39 of 215 rows were unmatched, 11 school-name aliases were added (clearing 35 rows -- see "Third real meet" below), and 4 rows (Dawson-Bryant, "Ak. Springfield," "Spr. Shawnee," Pleasant) were deliberately left unmatched because they do not appear in the official OHSAA source document at all, and the user chose not to add placeholder school records to the public schools directory. Next action: ask the user to re-preview the D3 meet and commit it.
 
 ## Current working state
 
@@ -81,6 +83,12 @@ Built and tested against a real, complete dataset (the actual 2025 OHSAA Divisio
 2. The 69 initially unmatched school names were resolved one at a time against the live `ohio_schools` table -- 17 confirmed real schools under an abbreviated display name, added as `ohio_school_aliases` rows (never guessed; only added on a single confident candidate). One ("Mass. Jackson" / Massillon Jackson) needed the official OHSAA division PDF to disambiguate from an unrelated "Jackson" school.
 3. Committing the now-fully-matched preview crashed on a real duplicate-slug error: an existing seed profile ("Calvin Watson," linked to "Thomas Worthington" by its official name) was invisible to the matcher because the row printed the abbreviated "Thom. Worthington," and the school alias lookup was only being used to help create new profiles, never to help match existing ones. Fixed the same day (see `docs/DECISIONS.md`, 2026-08-05 follow-up note), verified live against the real data that caused the crash, committed as `8f5cfa3`.
 4. The user re-clicked "Import ready results" and it committed successfully: batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`, 180 rows imported (31 attached to existing profiles, 149 to newly created ones), all hidden and unverified, confirmed by direct database query -- including confirming Calvin Watson still has exactly one profile, not a duplicate.
+
+### Third real meet (2025 OHSAA Division 3 Boys Cross Country, 215 rows)
+
+1. 11 of 39 unmatched school names resolved the same way as D1 -- exactly one confident candidate in `ohio_schools`, verified live: Cin. CHCA, Mar. Highland, Ash. Edgewood, Alter, WCH Washington, Genoa, Bid. River Valley, Fenwick, Col. Academy, Beaver Local, Fair. Park Fairview. Clears 35 of the 39 rows since several repeat across the meet.
+2. The remaining 4 (Dawson-Bryant, "Ak. Springfield," "Spr. Shawnee," Pleasant) are absent from `public/data/ohio-school-foundation-2026-27.json`, the parsed official OHSAA document the whole `ohio_schools` table is sourced from -- not a typo or missing alias, but schools that most likely do not sponsor their own boys cross country program. `ohsaa_school_id` is `not null unique` in the schema and is shown on the real public `/schools/` directory page, so a placeholder ID would put a visibly fake OHSAA number next to 556 genuine ones. The user chose to leave all 4 unmatched rather than add anything invented to that public page. See `docs/DECISIONS.md` for the fuller reasoning.
+3. This is a new category worth watching for in future meets: an unmatched school name is not always an aliasing gap. Check the parsed OHSAA JSON (`public/data/ohio-school-foundation-2026-27.json`) before assuming a real school is just missing an alias.
 
 ### To continue toward "thousands of athletes"
 

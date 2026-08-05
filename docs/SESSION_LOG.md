@@ -2,6 +2,44 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Third real meet (D3 boys): aliases, and a real directory gap
+
+### Date
+
+2026 08 05
+
+### Goal
+
+Resolve the 39 unmatched school names the user hit previewing a third real meet (2025 OHSAA Division 3 Boys Cross Country State Championship, 215 rows).
+
+### Completed
+
+1. Resolved 11 of 39 unmatched school names against the live `ohio_schools` table, the same way as the D1 meet: only added an alias when exactly one confident candidate existed. Added: Cin. CHCA (Cincinnati Hills Christian Academy), Mar. Highland (Highland, Marengo), Ash. Edgewood (Edgewood, Ashtabula), Alter (Archbishop Alter), WCH Washington (Washington, Washington Court House), Genoa (Genoa Area), Bid. River Valley (River Valley, Bidwell), Fenwick (Bishop Fenwick), Col. Academy (Columbus Academy), Beaver Local (Beaver, East Liverpool), Fair. Park Fairview (Fairview, Fairview Park). Verified live: all 11 correctly resolve through the real API. Since several of these repeat across the meet (Cin. CHCA, Mar. Highland, Ash. Edgewood, and Col. Academy each appear 7 times), this clears 35 of the 39 rows.
+2. The remaining 4 (Dawson-Bryant, "Ak. Springfield," "Spr. Shawnee," Pleasant) turned out to be a different kind of problem, not a typo: none of them appear anywhere in `public/data/ohio-school-foundation-2026-27.json`, the parsed copy of the actual official OHSAA document (556 schools) that the entire `ohio_schools` table was built from. Checked directly against that source rather than guessed. This most likely means these schools do not sponsor their own OHSAA boys cross country program (so the document never assigns them a division), and a results page still prints the athlete's home school even when they are running unattached or as part of another school's co-op team.
+3. Found and confirmed a second real constraint before proposing to add them anyway: `ohsaa_school_id` on `ohio_schools` is `not null unique` in the schema, and -- more importantly -- it is displayed on the real public `/schools/` directory page, not just used internally. Giving these 4 schools a placeholder ID would put a visibly fake OHSAA ID number on a real public page next to 556 genuine ones.
+4. Presented this finding to the user with the concrete public-page consequence shown; they chose to leave all 4 unmatched rather than add anything invented or odd-looking to the public schools directory. No schema change, no placeholder rows, and no code changes were needed -- `previewPerformanceImport` already treats an unresolved school as `unmatched` by design.
+
+### Files changed
+
+None. 11 rows added to `ohio_school_aliases` directly in Supabase (data only, no migration, no code change).
+
+### Database migrations
+
+None.
+
+### Automated testing
+
+No code changed; existing `npm test` suite still passes (unaffected).
+
+### Manual testing
+
+All 11 new aliases verified live against the real local API (a synthetic 15-row preview covering every new alias, all correctly resolved to `creatable`; the 4 unresolved names correctly stayed `unmatched`).
+
+### Remaining work
+
+1. Ask the user to re-preview the D3 meet; the 35 newly-resolved rows should now show as Ready or Creatable, and the same 4 (Dawson-Bryant, Springfield/Akron, Shawnee/Springfield, Pleasant) will still show Unmatched by design.
+2. If any of these 4 schools turns out to genuinely sponsor boys cross country (for example under a different display name or as part of a merged district), revisit with real evidence before adding anything to `ohio_schools`.
+
 ## 2026 08 05 Import preview error visibility fix
 
 ### Date
