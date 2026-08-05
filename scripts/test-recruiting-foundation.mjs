@@ -50,6 +50,7 @@ const mainStyles = await read("src/styles/main.css");
 const packageFile = await read("package.json");
 const template = await read("public/data/performance-import-template.csv");
 const operationsApi = await read("api/admin/operations.js");
+const recruitingServiceSource = await read("lib/recruiting_service.mjs");
 
 includesAll(
   migration,
@@ -669,6 +670,44 @@ includesAll(
   "Recruiting admin page official results import markup"
 );
 
+// Bug found and fixed 2026-08-05, from a real production error: importing
+// the 2025 D1 boys cross country meet crashed with a duplicate slug on
+// "Calvin Watson". He already had a profile linked to "Thomas Worthington"
+// (its official name), but the results page printed the abbreviated
+// "Thom. Worthington" -- the matcher only compared that raw abbreviated
+// text, never found the existing profile, and tried to create a duplicate
+// instead. Fixed by loading the school alias lookup unconditionally (not
+// only when profile creation is enabled) and trying a second match key
+// built from the resolved official school name before giving up. Checked
+// here as a source guard because this path depends on live Supabase data
+// (an existing profile plus a real alias row) that this fixture-only test
+// file cannot stand up on its own; it was verified live against the real
+// database before this guard was added.
+const previewFunctionStart = recruitingServiceSource.indexOf(
+  "export async function previewPerformanceImport"
+);
+const commitFunctionStart = recruitingServiceSource.indexOf(
+  "export async function commitPerformanceImport"
+);
+assert.ok(
+  previewFunctionStart > -1 && commitFunctionStart > previewFunctionStart,
+  "previewPerformanceImport must be found before commitPerformanceImport to isolate its source."
+);
+const previewFunctionSource = recruitingServiceSource.slice(previewFunctionStart, commitFunctionStart);
+assert.ok(
+  !/if\s*\(createProfiles[^)]*\)\s*\{\s*(\/\/[^\n]*\n\s*)*const schoolLookup/.test(previewFunctionSource),
+  "The school alias lookup must be loaded unconditionally, not only when profile creation is enabled, or an existing profile linked through an alias-abbreviated school name will never be matched and will be duplicated instead."
+);
+includesAll(
+  previewFunctionSource,
+  [
+    "const schoolLookup = await loadOhioSchoolLookup();",
+    "const resolvedSchool = schoolLookup.resolve(row.school_name);",
+    "normalizeAthleteName(resolvedSchool.school_name)"
+  ],
+  "Performance import matching must resolve an abbreviated school name to its official school and try it as a second match key before concluding a row is unmatched."
+);
+
 console.log("Recruit Ratings and Performance History validation passed.");
 console.log(`Event definitions checked: ${eventDefinitions().length}`);
 console.log("Star boundaries checked: 70 through 100");
@@ -679,3 +718,4 @@ console.log("Privacy, admin authentication, migration security, and build routes
 console.log("Phase Two taxonomy checked: nine event groups, no event left in a retired group");
 console.log("Phase Two media and preview checked: admin actions, migration safety, and admin/public markup");
 console.log("Official results text import checked: real meet parsing, grade to graduation year, and narrow official-source profile creation");
+console.log("Alias-abbreviated school matching checked: school lookup loads unconditionally and is tried as a second match key");
