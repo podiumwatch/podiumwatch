@@ -2,7 +2,7 @@
 
 ## Current priority
 
-The user is trying the next batch of official results themselves through the browser UI (paste box + checkbox on `/admin/recruiting/`), following the OHSAA Division 4 Boys Cross Country State Championship 2025 import committed on 2026-08-05 (see "Statewide results import" below). No further action needed until they report back.
+The user previewed and resolved a second real meet themselves (2025 OHSAA Division 1 Boys Cross Country, 180 rows: 97 ready, 14 duplicate, 69 unmatched -- all 69 later resolved via 17 new `ohio_school_aliases` rows) and clicked "Import ready results," which crashed on a real duplicate-slug bug (see "Statewide results import" below). The bug is fixed, verified live, and committed (`8f5cfa3`). The user has not yet been told or retried the commit -- that is the next action: confirm the fix with them and ask them to click "Import ready results" for the D1 meet again.
 
 ## Current working state
 
@@ -75,12 +75,20 @@ Built and tested against a real, complete dataset (the actual 2025 OHSAA Divisio
 6. **Committed on 2026-08-05, with the user's explicit approval**: the real 213-row import. 171 performance records created (18 attached to existing profiles, 153 attached to newly created ones), all hidden (`public_visible: false`, confirmed by direct query). 153 new athlete profiles created, all hidden and marked `unverified` (confirmed by direct query, including a specific check on the Luke Snyder profile). The 42 unmatched rows were correctly not saved and created nothing. Import batch id `194fc161-c20c-40e8-ad63-d41d77c46cfa`.
 7. This was the first real (non-seed, non-test) data written by any of this project's Claude-assisted sessions.
 
+### Second real meet (2025 OHSAA Division 1 Boys Cross Country, 180 rows)
+
+1. A case-insensitive grade regex bug corrupted "Kenneth Morgan Jr" (matched the name suffix "Jr" as the grade marker). Fixed same day, real row added as a permanent fixture. Committed as `95d4a04`.
+2. The 69 initially unmatched school names were resolved one at a time against the live `ohio_schools` table -- 17 confirmed real schools under an abbreviated display name, added as `ohio_school_aliases` rows (never guessed; only added on a single confident candidate). One ("Mass. Jackson" / Massillon Jackson) needed the official OHSAA division PDF to disambiguate from an unrelated "Jackson" school.
+3. Committing the now-fully-matched preview crashed on a real duplicate-slug error: an existing seed profile ("Calvin Watson," linked to "Thomas Worthington" by its official name) was invisible to the matcher because the row printed the abbreviated "Thom. Worthington," and the school alias lookup was only being used to help create new profiles, never to help match existing ones. Fixed the same day (see `docs/DECISIONS.md`, 2026-08-05 follow-up note), verified live against the real data that caused the crash, committed as `8f5cfa3`. The user has not yet retried the commit since this fix.
+
 ### To continue toward "thousands of athletes"
 
-1. Get more OHSAA cross country 2025 and track 2026 results the same way (paste copied results into the same tool), one meet at a time -- there is no bulk/automated route today. The user is trying the next batch themselves through the browser.
-2. Review the 42 unmatched school names from this meet (and any future ones) and add `ohio_school_aliases` entries for the ones that are real schools under an abbreviated display name, to raise future match rates.
-3. Every imported performance and every created profile stays hidden until separately reviewed and published -- nothing from this import is public yet, and reviewing/publishing is a distinct, still-outstanding step whenever the user wants to do it.
-4. Revisit `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` section 3 (scaling beyond the first launch) once there is real volume to plan against.
+1. Ask the user to retry "Import ready results" for the D1 meet now that the matching fix is committed.
+2. Get more OHSAA cross country 2025 and track 2026 results the same way (paste copied results into the same tool), one meet at a time -- there is no bulk/automated route today.
+3. Add more `ohio_school_aliases` entries as new abbreviated names are found in future meets.
+4. Every imported performance and every created profile stays hidden until separately reviewed and published -- nothing from either real import is public yet, and reviewing/publishing is a distinct, still-outstanding step whenever the user wants to do it.
+5. Revisit `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` section 3 (scaling beyond the first launch) once there is real volume to plan against.
+6. Decide whether to push the accumulated statewide-import feature (D4 + D1 + the matching fix) to production now that it has been exercised through two real meets -- not yet answered by the user.
 
 ## Known limitations
 

@@ -30,6 +30,8 @@ The user asked to build a statewide performance database ("thousands of athletes
 
 Verified against a real, complete 213-athlete dataset (the actual 2025 OHSAA Division 4 Boys Cross Country State Championship) using only the read-only preview action before committing: 18 matched the existing seed, 153 would create new hidden profiles, 42 remained unmatched pending school name cleanup. Committed on 2026-08-05 with the user's explicit approval: 171 performances and 153 new profiles created, all confirmed hidden and unverified by direct database query afterward. This was the first real (non-seed, non-test) data written by any of this project's Claude-assisted sessions.
 
+A second real meet (2025 OHSAA Division 1 Boys Cross Country) exposed a gap in this exception's matching logic, not its creation logic: an existing profile ("Calvin Watson") is linked to a school by its official name ("Thomas Worthington"), but the results page printed the abbreviated form ("Thom. Worthington"). The school alias lookup this decision introduced was being used to help *create* new profiles against a resolved official school, but was never used to help *match* against existing ones -- so the existing profile was invisible to the matcher, and committing the import crashed on a duplicate slug. Fixed the same day: the alias lookup now loads unconditionally and is tried as a second match key before a row is treated as having no match. See `docs/SESSION_LOG.md`, 2026-08-05 "Second real meet" entry, for the full diagnosis.
+
 ## 2026 08 05 Recruiting Phase Three: scoring assist approved, claims deferred
 
 ### Decision

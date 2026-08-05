@@ -2,6 +2,47 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Second real meet: school aliases, two more bugs, matching fix
+
+### Date
+
+2026 08 05
+
+### Goal
+
+Help the user import a second real meet themselves through the browser UI (the 2025 OHSAA Division 1 Boys Cross Country State Championship, 180 rows), following the first real import (D4, 213 rows) committed earlier the same day.
+
+### Completed
+
+1. Diagnosed a real second-meet parsing bug from the user's pasted data: "Kenneth Morgan Jr" has "Jr" as a mixed-case name suffix, but the row parser's grade regex was case-insensitive, so it matched "Jr" as the grade marker "JR" and corrupted both the athlete's name and the school name that followed. Fixed by making the regex case sensitive (every provider seen so far renders the real grade marker in all caps); added the real row as a permanent fixture. Committed as `95d4a04`.
+2. Diagnosed a Vercel-production-vs-localhost mixup: the user tried the new feature on the deployed site, where it does not exist yet (only committed locally, never pushed). Confirmed via direct request to `localhost:3000` and a `grep` of the local build output that the local server and build were both correct; the user confirmed they had the wrong tab open.
+3. Reviewed the full real D1 preview (180 rows: 97 ready, 14 duplicate, 69 unmatched, 0 creatable, 0 ambiguous, 0 invalid) and resolved the 69 unmatched abbreviated school names against the live `ohio_schools` table one at a time -- never guessed; only added an `ohio_school_aliases` row when exactly one confident candidate existed. Found and confirmed 17 real schools this way (for example "Thom. Worthington" to "Thomas Worthington," "Dub. Jerome" to "Dublin Jerome"). One name ("Mass. Jackson") initially looked unmatched because the search only checked `normalized_name`; re-checked against the official OHSAA division PDF and a corrected `school_name ilike` search, confirmed it is Massillon Jackson (disambiguated from an unrelated "Jackson" school in Jackson, Ohio), and added the alias.
+4. User re-previewed with the new aliases in place and got down to 0 unmatched, then clicked "Import ready results" to commit.
+5. That commit crashed with a real production error: a `23505` duplicate-key violation on `athlete_profiles_slug_key` for "Calvin Watson." Diagnosed by reading the dev server's log, then querying the database directly: Calvin Watson already had a hidden profile from the original 2026-08-03 editorial seed, linked to the school's official name ("Thomas Worthington"), but the import only ever compared the raw abbreviated text from the results page ("Thom. Worthington") against that official name -- these never match, so the existing profile was invisible to the matcher and a duplicate creation was attempted, colliding on the auto-generated slug. Root cause: the school alias lookup was helping profile *creation* (matching a row's school name to an official school so a new profile could be created against it) but was never being used to help profile *matching* (finding an existing profile in the first place).
+6. Fixed `previewPerformanceImport` to load the school alias lookup unconditionally and try a second match key built from the resolved official school name before concluding a row has no match; hardened `createOfficialSourceProfile` to retry once with a disambiguated slug on a slug-specific collision instead of crashing the whole commit. Verified live against the real data that caused the crash: Calvin Watson's row now correctly resolves to `ready` against his real existing profile. Committed as `8f5cfa3`, with a source-guard regression test (this path depends on live Supabase data a fixture-only test file cannot stand up on its own).
+
+### Files changed
+
+`lib/recruiting_service.mjs`, `scripts/test-recruiting-foundation.mjs`. 17 rows added to `ohio_school_aliases` directly in Supabase (data only, no migration).
+
+### Database migrations
+
+None. The 17 school alias rows are ordinary data additions to the existing `ohio_school_aliases` table, not a schema change.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` all pass after each fix, including the new Kenneth Morgan Jr fixture case and the new alias-matching source guard.
+
+### Manual testing
+
+The Kenneth Morgan Jr fix and the alias-matching fix were both verified live against the real data that exposed them, via the actual HTTP API path. The user has not yet re-clicked "Import ready results" for the D1 meet since the matching fix; that is the next step.
+
+### Remaining work
+
+1. Ask the user to retry committing the D1 import (their last preview already showed 0 unmatched).
+2. Continue gathering more official results the same way, adding school aliases as new abbreviations are found.
+3. Decide whether to push the accumulated statewide-import feature (D4 + D1 + this matching fix) to production now that it has been exercised through two real meets.
+
 ## 2026 08 05 Statewide results import: OHSAA official results, real data
 
 ### Date
