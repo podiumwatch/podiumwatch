@@ -2,9 +2,7 @@
 
 ## Current priority
 
-The second real meet (2025 OHSAA Division 1 Boys Cross Country) is fully committed (batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`, 180 rows, 149 new hidden profiles), and the statewide-import feature plus every bug fix found so far has been pushed to production and confirmed live.
-
-A third real meet (2025 OHSAA Division 3 Boys Cross Country, 215 rows) is in progress: 39 of 215 rows were unmatched, 11 school-name aliases were added (clearing 35 rows -- see "Third real meet" below), and 4 rows (Dawson-Bryant, "Ak. Springfield," "Spr. Shawnee," Pleasant) were deliberately left unmatched because they do not appear in the official OHSAA source document at all, and the user chose not to add placeholder school records to the public schools directory. Next action: ask the user to re-preview the D3 meet and commit it.
+Three real meets are fully committed: D4 boys (213 rows), D1 boys (180 rows, batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`), and D3 boys (215 rows, batch `3c6249e5-e146-4f9d-a588-d5a6fe680a60`, 211 imported, 4 correctly left unmatched -- see "Third real meet" below). The statewide-import feature plus every bug fix found so far is pushed to production and confirmed live. The user is now moving on to the 2025 OHSAA Division 2 Boys Cross Country meet. No open questions -- continue resolving unmatched school names the same way (check `ohio_schools` for a confident alias first, then check `public/data/ohio-school-foundation-2026-27.json` for a school genuinely missing from the official source before concluding it needs an alias vs. staying unmatched).
 
 ## Current working state
 

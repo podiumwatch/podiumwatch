@@ -37,8 +37,11 @@ All 11 new aliases verified live against the real local API (a synthetic 15-row 
 
 ### Remaining work
 
-1. Ask the user to re-preview the D3 meet; the 35 newly-resolved rows should now show as Ready or Creatable, and the same 4 (Dawson-Bryant, Springfield/Akron, Shawnee/Springfield, Pleasant) will still show Unmatched by design.
-2. If any of these 4 schools turns out to genuinely sponsor boys cross country (for example under a different display name or as part of a merged district), revisit with real evidence before adding anything to `ohio_schools`.
+1. If any of these 4 schools turns out to genuinely sponsor boys cross country (for example under a different display name or as part of a merged district), revisit with real evidence before adding anything to `ohio_schools`.
+
+### Update: committed successfully
+
+The user re-previewed and committed the D3 meet themselves. Verified directly against the database afterward (batch `3c6249e5-e146-4f9d-a588-d5a6fe680a60`): 211 of 215 rows imported (24 attached to existing profiles, 187 to newly created ones), the same 4 rows correctly stayed unmatched and were not saved, and every performance and created profile confirmed hidden (created profiles also confirmed `unverified`). Note: querying the batch mid-commit briefly showed `status: "started"` with profiles already created but zero performances yet -- this was just the commit still in progress (it took about 66 seconds for 215 rows, longer than D1's 41 seconds for 180, likely due to the higher creatable-row count), not a bug; re-checking after it finished confirmed a clean, complete commit.
 
 ## 2026 08 05 Import preview error visibility fix
 
