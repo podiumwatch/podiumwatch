@@ -337,6 +337,17 @@
     });
   }
 
+  // The main status message sits near the top of the page, far from this
+  // import section -- once a full meet's results are pasted in, that
+  // message can be scrolled well out of view. A preview error is shown
+  // here too, right next to the button that was just clicked, so it is
+  // never missed.
+  function showImportError(text) {
+    importSummary.innerHTML =
+      "<p class=\"recruit-admin-import-error\">" + escapeHtml(text) + "</p>";
+    importRows.innerHTML = "";
+  }
+
   function renderImportPreview(preview) {
     importPreview = preview;
     const summary = preview.summary || {};
@@ -807,6 +818,7 @@
       );
     } catch (error) {
       showMessage(error.message, "error");
+      showImportError(error.message);
     } finally {
       setBusy(false);
     }
@@ -818,6 +830,7 @@
 
     if (!payload.official_results_text?.trim()) {
       showMessage("Paste results copied from an official results page first.", "error");
+      showImportError("Paste results copied from an official results page first.");
       return;
     }
 
@@ -836,6 +849,7 @@
       );
     } catch (error) {
       showMessage(error.message, "error");
+      showImportError(error.message);
     } finally {
       setBusy(false);
     }
