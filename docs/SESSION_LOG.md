@@ -2,6 +2,43 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Import preview error visibility fix
+
+### Date
+
+2026 08 05
+
+### Goal
+
+Diagnose why the user, previewing a new meet's pasted results on the live production site, reported seeing no summary counts or per-row status ("I do not see the check list of which ones failed or were good").
+
+### Completed
+
+1. Reproduced the likely cause live against the local API: `preview_official_results_text` requires Season Year and returns a 400 error if it is blank (for example `"Season year must be between 2000 and 2200."`), confirmed with a direct request.
+2. Found the real UX gap causing the confusion: the "Preview pasted official results" button is a plain button, not a form submit, so it never gets free browser required-field validation for Meet Name, Meet Date, or Season Year the way the older submit-based "Preview meet results" button does. When the API rejects a missing field, the only place that error appeared was the page's single status message near the very top of `/admin/recruiting/` -- far above the meet import section, especially once a full meet's pasted results push everything below the textarea further down the page. The result looked like the preview silently did nothing.
+3. Fixed both preview paths (the CSV/manual form submit and the pasted-official-text button) to also render the error directly above the preview table, right next to the button that was just clicked, in addition to the existing top banner. Added a small `.recruit-admin-import-error` style using the existing `--danger` color variable.
+4. Verified locally: rebuilt, confirmed the built and locally served `admin-recruiting.js` contain the fix.
+
+### Files changed
+
+`public/scripts/admin-recruiting.js`, `src/styles/main.css`.
+
+### Database migrations
+
+None.
+
+### Automated testing
+
+`npm test` (all 36+ checks) passes.
+
+### Manual testing
+
+Verified locally that the fix is present in the built output and served by the local dev server, then committed and pushed to production immediately (the user was actively blocked by this on the live site while gathering the next meet).
+
+### Remaining work
+
+1. Confirm with the user which field was actually blank (most likely Season Year) so the specific meet they were trying can be retried.
+
 ## 2026 08 05 Second real meet: school aliases, two more bugs, matching fix
 
 ### Date
