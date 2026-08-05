@@ -21,6 +21,8 @@
   const recruitRating = root.querySelector("[data-athlete-recruit-rating]");
   const recruitTimelinePanel = root.querySelector("[data-athlete-recruit-timeline-panel]");
   const recruitTimeline = root.querySelector("[data-athlete-recruit-timeline]");
+  const mediaPanel = root.querySelector("[data-athlete-media-panel]");
+  const media = root.querySelector("[data-athlete-media]");
   const correctionForm = root.querySelector("[data-athlete-correction-form]");
   const urlSlug = new URLSearchParams(window.location.search).get("slug") || "";
   const slug = root.dataset.athleteSlug || urlSlug || window.PODIUM_ATHLETE_SEED?.profile_slug || "";
@@ -213,6 +215,38 @@
       '">' + items.join("") + "</span>";
   }
 
+  function rankMovementText(current, previous) {
+    if (!Number.isFinite(Number(current)) || !Number.isFinite(Number(previous))) {
+      return "";
+    }
+
+    const change = Number(previous) - Number(current);
+
+    if (change > 0) return " (up " + change + ")";
+    if (change < 0) return " (down " + Math.abs(change) + ")";
+    return " (no change)";
+  }
+
+  function renderMedia(items) {
+    mediaPanel.hidden = !items.length;
+
+    if (!items.length) {
+      media.innerHTML = "";
+      return;
+    }
+
+    media.innerHTML = items.map((item) => (
+      '<article class="athlete-profile-entry">' +
+        '<div class="athlete-profile-entry-top"><h3>' + escapeHtml(item.title || titleCase(item.content_type)) + '</h3>' +
+        (item.featured ? '<span class="athlete-profile-badge">Featured</span>' : "") +
+        "</div>" +
+        (item.caption ? "<p>" + escapeHtml(item.caption) + "</p>" : "") +
+        (item.credit ? '<p class="athlete-profile-entry-meta">Credit: ' + escapeHtml(item.credit) + "</p>" : "") +
+        link(item.url, "Open " + titleCase(item.content_type).toLowerCase()) +
+      "</article>"
+    )).join("");
+  }
+
   function renderRecruitRating(items) {
     const rating = items?.[0] || null;
     recruitRatingPanel.hidden = !rating;
@@ -244,9 +278,11 @@
       '<div class="athlete-recruit-ranks">' +
         "<div><span>Ohio class rank</span><strong>No. " +
           escapeHtml(rating.state_class_rank || "—") +
+          escapeHtml(rankMovementText(rating.state_class_rank, rating.previous_state_class_rank)) +
         "</strong></div>" +
         "<div><span>Event group rank</span><strong>No. " +
           escapeHtml(rating.event_group_rank || "—") +
+          escapeHtml(rankMovementText(rating.event_group_rank, rating.previous_event_group_rank)) +
         "</strong></div>" +
       "</div>" +
       (rating.evaluation ? "<p>" + escapeHtml(rating.evaluation) + "</p>" : "") +
@@ -293,6 +329,7 @@
     renderSocial(data.social_links || []);
     renderRecruitRating(data.recruit_ratings || []);
     renderRecruitTimeline(data.recruiting_activity || []);
+    renderMedia(data.content_items || []);
     content.hidden = false;
     showMessage(data.source_note || "Athlete profile loaded.", data.source_mode === "bundled_editorial_seed" ? "warning" : "success");
   }
@@ -398,6 +435,7 @@
       recruit_ratings: [],
       recruiting_activity: [],
       best_performances: [],
+      content_items: [],
       source_note:
         "This profile is using the bundled Podium Watch editorial ranking seed. No verified performance history has been imported."
     };

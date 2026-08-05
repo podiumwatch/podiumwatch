@@ -29,16 +29,22 @@ Athlete identity, performance evidence, editorial ratings, and recruiting activi
 
 ## 3. Event groups
 
-The system uses these broad recruiting groups:
+As of methodology version 2026.2 (2026-08-04), the system uses these nine recruiting groups, plus an other fallback:
 
-1. Distance
-2. Sprints
-3. Hurdles
-4. Jumps
-5. Pole vault
-6. Throws
-7. Multis
-8. Other
+1. Cross Country
+2. Distance
+3. Middle Distance
+4. Sprints
+5. Hurdles
+6. Jumps
+7. Pole vault
+8. Throws
+9. Combined Events
+10. Other
+
+Cross country events are always Cross Country, regardless of distance. Track 800 meters, 1000 meters, 1600 meters, and one mile are Middle Distance. Track 3200 meters, two mile, and 5000 meters are Distance. Track 600 meters and shorter are Sprints. This keeps cross country and track distance runners from ever being ranked against each other, since `athlete_published_recruit_ratings` partitions ranks by event group.
+
+The original 2026.1 methodology used a smaller taxonomy without Cross Country or Middle Distance, and used Multis instead of Combined Events. See `docs/DECISIONS.md` (2026-08-04, Recruiting Phase One architecture approved) for why the taxonomy changed and why it was released as a new methodology version instead of an edit to the retired one.
 
 Each performance also keeps a normalized specific event key such as `track_1600`, `track_3200`, `high_jump`, or `pole_vault`.
 
@@ -152,21 +158,49 @@ The public recruiting database does not return personal email addresses, phone n
 
 Athlete profile recruiting controls from the Athlete Foundation remain consent based and disabled by default.
 
-## 11. Main files
+## 11. Athlete media
+
+`athlete_content_items` (migration 06) holds photos, video, and articles for an athlete profile, mirroring the existing `team_content_items` shape.
+
+1. Content types are photo, video, article, and other.
+2. Status is draft, published, hidden, or archived. Only published, unarchived items appear on the public athlete profile.
+3. Each item keeps its own title, caption, credit, source label, and source URL.
+4. An item can be marked featured for prominent display.
+5. Media is managed from the athlete editor on `/admin/recruiting/`, using the same save-then-list pattern as ratings and recruiting activity.
+
+## 12. Ranking movement
+
+`athlete_recruit_rating_rank_snapshots` (migration 06) records a profile's class rank and event group rank every time its rating is saved, the same way `athlete_ranking_entries.previous_rank` already tracks movement for editorial rankings.
+
+1. A snapshot is written after every rating save, for every event group the profile currently has a published rating in.
+2. The public API and the athlete profile page compare the live computed rank against the most recently stored snapshot to show whether a rank went up, down, or stayed the same.
+3. A rating that has never been saved while published has no snapshot yet, so no movement is shown until the second time it is published or updated.
+
+## 13. Public profile preview
+
+The admin recruiting page includes a preview action that shows exactly what an athlete's rating, recruiting activity, and media would look like to the public if everything currently in draft were published right now, without changing or publishing anything.
+
+A draft rating's rank cannot be shown in the preview, because a draft is intentionally excluded from `athlete_published_recruit_ratings` and its eventual rank depends on what else is published by the time it goes live.
+
+## 14. Main files
 
 1. `install/03_RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.sql`
-2. `lib/recruiting_service.mjs`
-3. `api/recruiting/index.js`
-4. `api/admin/recruiting.js`
-5. `src/pages/recruiting.mjs`
-6. `src/pages/recruitingmethodology.mjs`
-7. `src/pages/adminrecruiting.mjs`
-8. `public/scripts/recruiting-directory.js`
-9. `public/scripts/admin-recruiting.js`
-10. `public/data/performance-import-template.csv`
-11. `scripts/test-recruiting-foundation.mjs`
+2. `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql`
+3. `lib/recruiting_service.mjs`
+4. `api/recruiting/index.js`
+5. `api/admin/recruiting.js`
+6. `api/athletes/detail.js`
+7. `src/pages/recruiting.mjs`
+8. `src/pages/recruitingmethodology.mjs`
+9. `src/pages/adminrecruiting.mjs`
+10. `src/pages/athletedetail.mjs`
+11. `public/scripts/recruiting-directory.js`
+12. `public/scripts/admin-recruiting.js`
+13. `public/scripts/athlete-profile.js`
+14. `public/data/performance-import-template.csv`
+15. `scripts/test-recruiting-foundation.mjs`
 
-## 12. Main routes
+## 15. Main routes
 
 1. `/recruiting/`
 2. `/recruiting/methodology/`
@@ -174,15 +208,16 @@ Athlete profile recruiting controls from the Athlete Foundation remain consent b
 4. `/api/recruiting`
 5. `/api/admin/recruiting`
 
-## 13. Recommended first use
+## 16. Recommended first use
 
-1. Run migration 03.
+1. Run migration 03, then migration 06.
 2. Open the Recruiting Center.
 3. Download the CSV template.
 4. Import a small official result set.
 5. Review every import row.
 6. Confirm the sourced performance appears on the athlete profile.
-7. Create a draft Recruit Rating.
+7. Create a draft Recruit Rating using the current event group taxonomy.
 8. Review the score and written evaluation.
-9. Publish one test rating.
-10. Confirm the athlete appears in the public recruiting database.
+9. Use the public profile preview to review the rating, activity, and media before publishing.
+10. Publish one test rating.
+11. Confirm the athlete appears in the public recruiting database and the rank shown matches expectations.

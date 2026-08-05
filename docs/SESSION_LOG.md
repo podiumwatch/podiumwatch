@@ -2,6 +2,50 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 04 Recruiting Phase Two implementation
+
+### Date
+
+2026 08 04
+
+### Goal
+
+Implement the recruiting architecture approved earlier the same session in `docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md`: the nine group event taxonomy, athlete media, ranking movement, and an admin public profile preview, without running any database change or deploying anything yet.
+
+### Completed
+
+1. Wrote `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql`: widens then re-narrows the event group check constraints on three tables, backfills the event catalog and any existing performance or rating rows into the new taxonomy, retires methodology `2026.1` and adds active methodology `2026.2`, and creates `athlete_content_items` and `athlete_recruit_rating_rank_snapshots` with the same RLS and grant pattern as every other table in the project.
+2. Updated `lib/recruiting_service.mjs`: the `EVENT_GROUPS` set and every event definition's group now match the approved taxonomy (800 meters to Middle Distance, 600 meters to Sprints, cross country events to Cross Country, decathlon and similar to Combined Events). Added `recordRecruitRatingRankSnapshots` and `loadLatestRankSnapshots` for ranking movement, and `CONTENT_ITEM_TYPES`/`CONTENT_ITEM_STATUSES` for media.
+3. Extended `api/admin/recruiting.js` with `save_content_item`, `archive_content_item`, and `preview_public_profile` actions, and recorded a rank snapshot after every rating save.
+4. Extended `api/recruiting/index.js` and `api/athletes/detail.js` to surface rank movement, and `api/athletes/detail.js` to surface published media.
+5. Extended `src/pages/adminrecruiting.mjs` and `public/scripts/admin-recruiting.js` with a media form and a "preview public profile" panel, and updated the rating form's event group options.
+6. Extended `src/pages/recruiting.mjs` with the new event group filters, and `src/pages/athletedetail.mjs` and `public/scripts/athlete-profile.js` with a media panel and rank movement indicator.
+7. Extended `scripts/test-recruiting-foundation.mjs` with assertions for the new taxonomy, the new migration, and the new admin actions and markup.
+8. Found and fixed one bug during self-review: `PERFORMANCE_SOURCE_TYPES` was used in the new media save action without being imported, which would have failed at runtime the first time an admin saved a media item. Added the import, added a test assertion that would catch a regression, and reused the already-imported `CONTENT_ITEM_STATUSES` set instead of a duplicate hardcoded list.
+9. Updated `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md` with the new taxonomy, media, ranking movement, and profile preview sections, and updated the main files and recommended first use lists.
+
+### Files changed
+
+`install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql` (new), `lib/recruiting_service.mjs`, `api/admin/recruiting.js`, `api/recruiting/index.js`, `api/athletes/detail.js`, `src/pages/adminrecruiting.mjs`, `public/scripts/admin-recruiting.js`, `src/pages/recruiting.mjs`, `src/pages/athletedetail.mjs`, `public/scripts/athlete-profile.js`, `scripts/test-recruiting-foundation.mjs`, `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md`, `docs/DECISIONS.md`, `docs/NEXT_SESSION.md`.
+
+### Database migrations
+
+`install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql` was written and is additive only, but has not been run against Supabase yet.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` (check plus Athlete Foundation, Recruit Ratings, and 36 results ingestion tests) all pass locally.
+
+### Manual testing
+
+Not yet performed. See "Manual testing still required for Phase Two" in `docs/NEXT_SESSION.md`.
+
+### Remaining work
+
+1. Run migration 06 in Supabase.
+2. Complete the manual testing checklist in `docs/NEXT_SESSION.md`.
+3. Commit, push, and deploy only after explicit approval.
+
 ## 2026 08 04 Phase Zero cleanup verification
 
 ### Date

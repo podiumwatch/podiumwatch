@@ -2,13 +2,13 @@
 
 ## Current priority
 
-Begin Phase One recruiting architecture work. The Phase Zero safety cleanup is deployed and confirmed live.
+Manually test the Recruiting Phase Two implementation (event group taxonomy, athlete media, ranking movement, admin public profile preview), then run migration 06 in Supabase, then commit, push, and deploy only after explicit approval.
 
 ## Current working state
 
-The cleaned source passes the production build, complete quality checker, Athlete Foundation validation, Recruit Ratings validation, and all 36 results ingestion tests. Full manual testing (desktop, mobile, menu, Explore row, and both admin recruiting import scenarios) was completed and confirmed on 2026-08-04.
+The Phase Zero safety cleanup remains deployed and confirmed live. The Phase One architecture report was audited and approved on 2026-08-04 (`docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md`). Phase Two implementation has been written on top of that approval: `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql`, updated `lib/recruiting_service.mjs`, admin and public recruiting API and page changes, and expanded automated tests. The full build, check, and test command all pass locally.
 
-The cleanup was merged to `main` and pushed on 2026-08-04. Vercel deployed it and the live site was confirmed working on both desktop and phone. No athlete ratings or performances were created.
+Migration 06 was run successfully in Supabase on 2026-08-04 (after one failed attempt caused by a backfill that missed a row outside the expected event key list; the migration was made defensive and re-run successfully — the failed attempt rolled back cleanly with no lasting effect). None of this work has been committed, pushed, or deployed yet.
 
 ## Database work still required
 
@@ -37,9 +37,22 @@ Migrations 01 and 02 should already be installed. Confirm migration 03 is applie
 11. Previewed one deliberately incomplete row (missing place) and confirmed it was invalid.
 12. Previewed one complete exact athlete match and confirmed it was ready but hidden.
 
+## Manual testing still required for Phase Two
+
+1. Run migration 06 in Supabase (after migrations 01, 02, and 03). Done 2026-08-04.
+2. Confirm the full local build and test command still pass.
+3. Open `/admin/recruiting/`, confirm the rating form's event group list shows the nine new groups.
+4. Add one media item to a test athlete, confirm it is saved as draft and does not appear on the public profile.
+5. Publish that media item, confirm it appears on the athlete's public profile page.
+6. Click "Preview public profile" on a test athlete with a draft rating, confirm the preview shows the rating content but explains the rank cannot be shown yet.
+7. Publish a rating, confirm it appears on `/recruiting/` and the athlete's profile page with a class rank and event group rank.
+8. Edit and re-save that rating, confirm the profile page shows rank movement compared to the first publish.
+9. Commit, push, and deploy only after explicit approval.
+10. Confirm the Vercel build and the live recruiting pages after deployment.
+
 ## Remaining work
 
-1. Begin Phase One recruiting architecture work.
+1. After Phase Two is tested and deployed, begin whatever Phase Three recruiting work is identified next (for example, the deferred results-ingestion connection or hand curated ranking sets, if priorities change).
 
 ## Known limitations
 

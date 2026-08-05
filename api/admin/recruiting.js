@@ -5,6 +5,8 @@ import {
   normalizeAthleteGender
 } from "../../lib/athlete_foundation_service.mjs";
 import {
+  CONTENT_ITEM_STATUSES,
+  CONTENT_ITEM_TYPES,
   EVENT_GROUPS,
   RECRUIT_ACTIVITY_STATUSES,
   RECRUIT_ACTIVITY_TYPES,
@@ -12,7 +14,10 @@ import {
   commitPerformanceImport,
   eventDefinitions,
   isMissingRecruitingFoundationError,
+  loadLatestRankSnapshots,
+  PERFORMANCE_SOURCE_TYPES,
   previewPerformanceImport,
+  recordRecruitRatingRankSnapshots,
   starLabel,
   starRatingForScore
 } from "../../lib/recruiting_service.mjs";
@@ -357,7 +362,8 @@ async function loadAthleteContext(profileId) {
     ratingResult,
     activitiesResult,
     bestResult,
-    performanceResult
+    performanceResult,
+    contentItemResult
   ] = await Promise.all([
     supabaseAdmin
       .from("athlete_profiles")
@@ -389,7 +395,14 @@ async function loadAthleteContext(profileId) {
       .eq("profile_id", id)
       .is("archived_at", null)
       .order("meet_date", { ascending: false })
-      .limit(300)
+      .limit(300),
+    supabaseAdmin
+      .from("athlete_content_items")
+      .select("*")
+      .eq("profile_id", id)
+      .is("archived_at", null)
+      .order("sort_order", { ascending: true })
+      .order("created_at", { ascending: false })
   ]);
 
   for (const result of [
@@ -397,20 +410,26 @@ async function loadAthleteContext(profileId) {
     ratingResult,
     activitiesResult,
     bestResult,
-    performanceResult
+    performanceResult,
+    contentItemResult
   ]) {
     if (result.error) throw result.error;
   }
+
+  const latestSnapshots = await loadLatestRankSnapshots([id]);
 
   return {
     profile: profileResult.data,
     ratings: (ratingResult.data || []).map((rating) => ({
       ...rating,
-      star_label: starLabel(rating.star_rating)
+      star_label: starLabel(rating.star_rating),
+      previous_rank_snapshot:
+        latestSnapshots.get(`${id}|${rating.event_group}`) || null
     })),
     activities: activitiesResult.data || [],
     best_performances: bestResult.data || [],
-    performances: performanceResult.data || []
+    performances: performanceResult.data || [],
+    content_items: contentItemResult.data || []
   };
 }
 
@@ -578,6 +597,11 @@ async function saveRating(body) {
     throw result.error;
   }
 
+  // Record where this profile's ranks stand right after the save, so a later
+  // read can compare the live computed rank against this stored snapshot to
+  // show movement. Safe no-op when the profile has no published rating yet.
+  await recordRecruitRatingRankSnapshots(profileId);
+
   return {
     rating: {
       ...result.data,
@@ -697,6 +721,190 @@ async function archiveActivity(body) {
   return loadAthleteContext(profileId);
 }
 
+async function saveContentItem(body) {
+  await requireInstalled();
+  const profileId = cleanUuid(body.profile_id, "Athlete profile ID");
+  const contentItemId = cleanAthleteText(body.content_item_id, 100)
+    ? cleanUuid(body.content_item_id, "Media item ID")
+    : null;
+  const contentType = cleanAthleteText(body.content_type, 40).toLowerCase();
+  const status = cleanAthleteText(body.status, 40).toLowerCase() || "draft";
+  const url = cleanUrl(body.url, "Media URL");
+  const sourceType = cleanAthleteText(body.source_type, 50).toLowerCase() || "community";
+
+  if (!CONTENT_ITEM_TYPES.has(contentType)) {
+    fail("Choose a valid media type.");
+  }
+
+  if (!CONTENT_ITEM_STATUSES.has(status)) {
+    fail("Choose Draft, Published, Hidden, or Archived.");
+  }
+
+  if (!url) {
+    fail("A media URL is required.");
+  }
+
+  const payload = {
+    profile_id: profileId,
+    content_type: contentType,
+    title: cleanAthleteText(body.title, 300) || null,
+    url,
+    caption: cleanAthleteText(body.caption, 1000) || null,
+    credit: cleanAthleteText(body.credit, 300) || null,
+    source_label: cleanAthleteText(body.source_label, 300) || null,
+    source_url: cleanUrl(body.source_url, "Source URL"),
+    source_type: PERFORMANCE_SOURCE_TYPES.has(sourceType) ? sourceType : "community",
+    status,
+    featured: cleanBoolean(body.featured),
+    sort_order: cleanInteger(body.sort_order, "Sort order", 0, 100000, true) ?? 100,
+    updated_by: "Podium Watch Admin"
+  };
+
+  let result;
+
+  if (contentItemId) {
+    result = await supabaseAdmin
+      .from("athlete_content_items")
+      .update(payload)
+      .eq("id", contentItemId)
+      .eq("profile_id", profileId)
+      .select("*")
+      .single();
+  } else {
+    result = await supabaseAdmin
+      .from("athlete_content_items")
+      .insert({ ...payload, created_by: "Podium Watch Admin" })
+      .select("*")
+      .single();
+  }
+
+  if (result.error) throw result.error;
+
+  return {
+    content_item: result.data,
+    context: await loadAthleteContext(profileId)
+  };
+}
+
+async function archiveContentItem(body) {
+  await requireInstalled();
+  const profileId = cleanUuid(body.profile_id, "Athlete profile ID");
+  const contentItemId = cleanUuid(body.content_item_id, "Media item ID");
+  const { data, error } = await supabaseAdmin
+    .from("athlete_content_items")
+    .update({
+      archived_at: new Date().toISOString(),
+      status: "archived",
+      updated_by: "Podium Watch Admin"
+    })
+    .eq("id", contentItemId)
+    .eq("profile_id", profileId)
+    .select("id")
+    .maybeSingle();
+
+  if (error) throw error;
+  if (!data) fail("Media item was not found.", 404);
+
+  return loadAthleteContext(profileId);
+}
+
+// Shows an admin exactly what the public site would display for this athlete
+// if every current draft rating, activity, and media item were published
+// right now, without changing anything. Ranks are only shown when a rating
+// is already published, since a draft rating is intentionally excluded from
+// the ranking view and its eventual rank cannot be known before publication.
+async function previewPublicProfile(body) {
+  await requireInstalled();
+  const profileId = cleanUuid(body.profile_id, "Athlete profile ID");
+
+  const [
+    profileResult,
+    ratingResult,
+    publishedRatingResult,
+    activityResult,
+    bestResult,
+    contentItemResult
+  ] = await Promise.all([
+    supabaseAdmin
+      .from("athlete_profiles")
+      .select("id, slug, display_name, gender, graduation_year, college_commitment, recruiting_enabled, recruiting_consent_confirmed")
+      .eq("id", profileId)
+      .single(),
+    supabaseAdmin
+      .from("athlete_recruit_ratings")
+      .select("*")
+      .eq("profile_id", profileId)
+      .is("archived_at", null)
+      .order("updated_at", { ascending: false }),
+    supabaseAdmin
+      .from("athlete_published_recruit_ratings")
+      .select("*")
+      .eq("profile_id", profileId),
+    supabaseAdmin
+      .from("athlete_recruiting_activity")
+      .select("*")
+      .eq("profile_id", profileId)
+      .is("archived_at", null)
+      .order("activity_date", { ascending: false }),
+    supabaseAdmin
+      .from("athlete_best_performances")
+      .select("*")
+      .eq("profile_id", profileId),
+    supabaseAdmin
+      .from("athlete_content_items")
+      .select("*")
+      .eq("profile_id", profileId)
+      .is("archived_at", null)
+      .order("sort_order", { ascending: true })
+  ]);
+
+  for (const result of [
+    profileResult,
+    ratingResult,
+    publishedRatingResult,
+    activityResult,
+    bestResult,
+    contentItemResult
+  ]) {
+    if (result.error) throw result.error;
+  }
+
+  const publishedByGroup = new Map(
+    (publishedRatingResult.data || []).map((row) => [row.event_group, row])
+  );
+
+  return {
+    profile: profileResult.data,
+    would_be_public: Boolean(
+      profileResult.data.recruiting_enabled &&
+      profileResult.data.recruiting_consent_confirmed
+    ),
+    ratings: (ratingResult.data || []).map((rating) => {
+      const publishedRow = publishedByGroup.get(rating.event_group);
+
+      return {
+        ...rating,
+        star_label: starLabel(rating.star_rating),
+        would_show_on_public_directory: rating.status === "published",
+        state_class_rank: rating.status === "published" ? publishedRow?.state_class_rank ?? null : null,
+        event_group_rank: rating.status === "published" ? publishedRow?.event_group_rank ?? null : null,
+        rank_note: rating.status === "published"
+          ? null
+          : "This rating is a draft. Its rank cannot be shown until it is published."
+      };
+    }),
+    activities: (activityResult.data || []).map((activity) => ({
+      ...activity,
+      would_show_on_public_profile: activity.public_visible
+    })),
+    best_performances: bestResult.data || [],
+    content_items: (contentItemResult.data || []).map((item) => ({
+      ...item,
+      would_show_on_public_profile: item.status === "published"
+    }))
+  };
+}
+
 async function previewImport(body) {
   await requireInstalled();
   return previewPerformanceImport(body.rows, {
@@ -779,6 +987,12 @@ export default async function handler(request, response) {
       data = await saveActivity(body);
     } else if (action === "archive_activity") {
       data = await archiveActivity(body);
+    } else if (action === "save_content_item") {
+      data = await saveContentItem(body);
+    } else if (action === "archive_content_item") {
+      data = await archiveContentItem(body);
+    } else if (action === "preview_public_profile") {
+      data = await previewPublicProfile(body);
     } else if (action === "preview_performance_import") {
       data = await previewImport(body);
     } else if (action === "commit_performance_import") {

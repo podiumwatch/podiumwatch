@@ -23,6 +23,11 @@
   const importRows = root.querySelector("[data-performance-import-rows]");
   const resultsLinkButton = root.querySelector("[data-results-link-import]");
   const resultsFileInput = importForm?.querySelector('[name="results_file"]');
+  const contentForm = root.querySelector("[data-recruit-content-form]");
+  const contentRows = root.querySelector("[data-recruit-content-rows]");
+  const previewButton = root.querySelector("[data-recruit-preview-button]");
+  const previewPanel = root.querySelector("[data-recruit-preview-panel]");
+  const previewBody = root.querySelector("[data-recruit-preview-body]");
   let statusData = null;
   let selected = null;
   let importPreview = null;
@@ -197,6 +202,11 @@
     activityForm.reset();
     activityForm.elements.profile_id.value = profile.id || "";
 
+    contentForm.reset();
+    contentForm.elements.profile_id.value = profile.id || "";
+    previewPanel.hidden = true;
+    previewBody.innerHTML = "";
+
     const best = context.best_performances || [];
     bestRows.innerHTML = best.length
       ? best.map((item) =>
@@ -237,6 +247,19 @@
           escapeHtml(item.id) + '">Archive</button></td></tr>'
         ).join("")
       : '<tr><td colspan="6">No recruiting activity yet.</td></tr>';
+
+    contentRows.innerHTML = (context.content_items || []).length
+      ? context.content_items.map((item) =>
+          "<tr><td>" + escapeHtml(titleCase(item.content_type)) +
+          "</td><td>" + escapeHtml(item.title || "Untitled") +
+          "</td><td>" + escapeHtml(titleCase(item.status)) +
+          "</td><td>" + (item.featured ? "Yes" : "No") +
+          '</td><td><button class="button button-outline" type="button" data-content-edit="' +
+          escapeHtml(item.id) +
+          '">Edit</button> <button class="button button-outline" type="button" data-content-archive="' +
+          escapeHtml(item.id) + '">Archive</button></td></tr>'
+        ).join("")
+      : '<tr><td colspan="5">No media items yet.</td></tr>';
 
     athleteEditor.scrollIntoView({
       behavior: "smooth",
@@ -528,6 +551,131 @@
       activityForm.elements.profile_id.value = result.context.profile.id;
       showMessage("Recruiting activity saved.");
       await loadStatus(true);
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  contentForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (busy) return;
+    const payload = formPayload(contentForm);
+
+    if (
+      payload.status === "published" &&
+      !window.confirm("Publish this media item on the athlete's public profile?")
+    ) {
+      return;
+    }
+
+    setBusy(true);
+
+    try {
+      const result = await api({
+        action: "save_content_item",
+        ...payload
+      });
+      renderSelected(result.context);
+      showMessage("Media item saved.");
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  contentRows.addEventListener("click", async (event) => {
+    const edit = event.target.closest("[data-content-edit]");
+    const archive = event.target.closest("[data-content-archive]");
+
+    if ((!edit && !archive) || !selected || busy) return;
+    const id = edit?.dataset.contentEdit || archive?.dataset.contentArchive;
+    const item = selected.content_items?.find((row) => row.id === id);
+
+    if (edit && item) {
+      fillForm(contentForm, item);
+      contentForm.elements.profile_id.value = selected.profile.id;
+      contentForm.elements.content_item_id.value = item.id;
+      contentForm.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!window.confirm("Archive this media item?")) return;
+    setBusy(true);
+
+    try {
+      renderSelected(await api({
+        action: "archive_content_item",
+        profile_id: selected.profile.id,
+        content_item_id: id
+      }));
+      showMessage("Media item archived.");
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  function renderPreview(data) {
+    const profile = data.profile || {};
+    const rows = (data.ratings || []).map((rating) =>
+      "<tr><td>" + escapeHtml(titleCase(rating.event_group)) +
+      "</td><td>" + escapeHtml(rating.rating_score ?? "Not rated") +
+      "</td><td>" + escapeHtml(stars(rating.star_rating)) +
+      "</td><td>" + escapeHtml(titleCase(rating.status)) +
+      "</td><td>" + escapeHtml(
+        rating.would_show_on_public_directory
+          ? "Class No. " + (rating.state_class_rank ?? "—") + ", group No. " + (rating.event_group_rank ?? "—")
+          : rating.rank_note
+      ) + "</td></tr>"
+    ).join("") || '<tr><td colspan="5">No ratings yet.</td></tr>';
+
+    const activityRowsMarkup = (data.activities || []).map((activity) =>
+      "<tr><td>" + escapeHtml(titleCase(activity.activity_type)) +
+      "</td><td>" + escapeHtml(activity.college_name) +
+      "</td><td>" + escapeHtml(activity.would_show_on_public_profile ? "Would be public" : "Stays private") +
+      "</td></tr>"
+    ).join("") || '<tr><td colspan="3">No recruiting activity yet.</td></tr>';
+
+    const contentRowsMarkup = (data.content_items || []).map((item) =>
+      "<tr><td>" + escapeHtml(titleCase(item.content_type)) +
+      "</td><td>" + escapeHtml(item.title || "Untitled") +
+      "</td><td>" + escapeHtml(item.would_show_on_public_profile ? "Would be public" : "Stays private") +
+      "</td></tr>"
+    ).join("") || '<tr><td colspan="3">No media items yet.</td></tr>';
+
+    previewBody.innerHTML =
+      "<p><strong>" + escapeHtml(profile.display_name) + "</strong> — " +
+      escapeHtml(
+        data.would_be_public
+          ? "Recruiting information is enabled and consent confirmed, so published items would appear publicly."
+          : "Recruiting is not enabled or consent is not confirmed, so nothing would appear publicly yet, even if published."
+      ) + "</p>" +
+      "<div class=\"recruit-admin-table-wrap\"><table class=\"recruit-admin-table\"><thead><tr><th>Group</th><th>Score</th><th>Stars</th><th>Status</th><th>Rank if published</th></tr></thead><tbody>" +
+      rows + "</tbody></table></div>" +
+      "<div class=\"recruit-admin-table-wrap\"><table class=\"recruit-admin-table\"><thead><tr><th>Activity</th><th>College</th><th>Public preview</th></tr></thead><tbody>" +
+      activityRowsMarkup + "</tbody></table></div>" +
+      "<div class=\"recruit-admin-table-wrap\"><table class=\"recruit-admin-table\"><thead><tr><th>Media</th><th>Title</th><th>Public preview</th></tr></thead><tbody>" +
+      contentRowsMarkup + "</tbody></table></div>";
+  }
+
+  previewButton?.addEventListener("click", async () => {
+    if (busy || !selected) return;
+    setBusy(true);
+
+    try {
+      const data = await api({
+        action: "preview_public_profile",
+        profile_id: selected.profile.id
+      });
+      renderPreview(data);
+      previewPanel.hidden = false;
+      previewPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      showMessage("Public profile preview generated. Nothing was published.");
     } catch (error) {
       showMessage(error.message, "error");
     } finally {

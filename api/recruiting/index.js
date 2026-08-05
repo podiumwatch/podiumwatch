@@ -8,6 +8,7 @@ import {
   EVENT_GROUPS,
   eventDefinitions,
   isMissingRecruitingFoundationError,
+  loadLatestRankSnapshots,
   starLabel
 } from "../../lib/recruiting_service.mjs";
 
@@ -334,6 +335,9 @@ export default async function handler(request, response) {
   try {
     const input = parseInput(request);
     const data = await loadRecruitingRows();
+    const latestSnapshots = await loadLatestRankSnapshots(
+      [...new Set(data.ratings.map((rating) => rating.profile_id))]
+    );
     const joined = data.ratings
       .map((rating) => {
         const athlete = data.profiles.get(rating.profile_id);
@@ -368,6 +372,10 @@ export default async function handler(request, response) {
           updated_at: rating.updated_at,
           state_class_rank: Number(rating.state_class_rank),
           event_group_rank: Number(rating.event_group_rank),
+          previous_state_class_rank:
+            latestSnapshots.get(`${rating.profile_id}|${rating.event_group}`)?.state_class_rank ?? null,
+          previous_event_group_rank:
+            latestSnapshots.get(`${rating.profile_id}|${rating.event_group}`)?.event_group_rank ?? null,
           athlete,
           school,
           team,

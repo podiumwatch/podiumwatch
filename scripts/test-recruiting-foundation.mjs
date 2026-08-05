@@ -8,10 +8,13 @@ process.env.SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 
 const {
+  EVENT_GROUPS,
   eventDefinitions,
+  loadLatestRankSnapshots,
   normalizePerformanceImportRow,
   parseMark,
   performanceDuplicateKey,
+  recordRecruitRatingRankSnapshots,
   resolveEvent,
   starRatingForScore,
   validatePerformanceImportRow
@@ -29,6 +32,9 @@ function includesAll(text, values, label) {
 
 const migration = await read(
   "install/03_RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.sql"
+);
+const taxonomyMigration = await read(
+  "install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql"
 );
 const publicApi = await read("api/recruiting/index.js");
 const adminApi = await read("api/admin/recruiting.js");
@@ -242,6 +248,108 @@ assert.notEqual(
 
 assert.ok(eventDefinitions().length >= 30, "Expected a complete event catalog.");
 
+// Phase Two: nine group taxonomy (Cross Country, Distance, Middle Distance,
+// Sprints, Hurdles, Jumps, Pole Vault, Throws, Combined Events) plus an
+// "other" fallback, approved 2026-08-04.
+assert.deepEqual(
+  [...EVENT_GROUPS].sort(),
+  [
+    "combined_events",
+    "cross_country",
+    "distance",
+    "hurdles",
+    "jumps",
+    "middle_distance",
+    "other",
+    "pole_vault",
+    "sprints",
+    "throws"
+  ],
+  "Event group taxonomy must match the approved Phase One architecture decision."
+);
+
+const eventGroupByKey = new Map(
+  eventDefinitions().map((event) => [event.event_key, event.event_group])
+);
+assert.equal(eventGroupByKey.get("xc_5k"), "cross_country");
+assert.equal(eventGroupByKey.get("xc_2_mile"), "cross_country");
+assert.equal(eventGroupByKey.get("track_800"), "middle_distance");
+assert.equal(eventGroupByKey.get("track_1600"), "middle_distance");
+assert.equal(eventGroupByKey.get("track_mile"), "middle_distance");
+assert.equal(eventGroupByKey.get("track_600"), "sprints");
+assert.equal(eventGroupByKey.get("track_3200"), "distance");
+assert.equal(eventGroupByKey.get("track_5000"), "distance");
+assert.equal(eventGroupByKey.get("decathlon"), "combined_events");
+assert.equal(eventGroupByKey.get("heptathlon"), "combined_events");
+assert.ok(
+  ![...eventGroupByKey.values()].includes("multis"),
+  "No event should remain assigned to the retired 'multis' group."
+);
+
+assert.equal(typeof recordRecruitRatingRankSnapshots, "function");
+assert.equal(typeof loadLatestRankSnapshots, "function");
+
+includesAll(
+  taxonomyMigration,
+  [
+    "'cross_country'",
+    "'middle_distance'",
+    "'combined_events'",
+    "podium-watch-recruit-ratings-2026-2",
+    "status = 'retired'",
+    "create table if not exists public.athlete_content_items",
+    "create table if not exists public.athlete_recruit_rating_rank_snapshots",
+    "enable row level security",
+    "grant all on table public.athlete_content_items to service_role",
+    "grant all on table public.athlete_recruit_rating_rank_snapshots to service_role"
+  ],
+  "Recruiting taxonomy and media migration"
+);
+assert.ok(
+  !/insert\s+into\s+public\.athlete_content_items\s*\(/i.test(taxonomyMigration),
+  "Migration must not invent or seed athlete media."
+);
+
+includesAll(
+  adminApi,
+  [
+    "save_content_item",
+    "archive_content_item",
+    "preview_public_profile",
+    "recordRecruitRatingRankSnapshots",
+    "CONTENT_ITEM_TYPES",
+    "PERFORMANCE_SOURCE_TYPES"
+  ],
+  "Recruiting admin API media and preview actions"
+);
+assert.ok(
+  adminApi.includes("cannot be shown until it is published"),
+  "Preview action must explain why a draft rating has no public rank yet."
+);
+
+includesAll(
+  adminPage,
+  [
+    "cross_country",
+    "middle_distance",
+    "combined_events",
+    "data-recruit-content-form",
+    "data-recruit-preview-button",
+    "data-recruit-preview-panel"
+  ],
+  "Recruiting admin page media and preview markup"
+);
+
+includesAll(
+  publicPage,
+  [
+    "cross_country",
+    "middle_distance",
+    "combined_events"
+  ],
+  "Public recruiting directory event group filters"
+);
+
 includesAll(
   buildScript,
   [
@@ -393,3 +501,5 @@ console.log("Performance parsing checked: time, distance, and height");
 console.log("Performance import safety checked: required fields, defaults, hidden records, and duplicates");
 console.log("Responsive header breakpoints checked: menu behavior and CSS stay aligned");
 console.log("Privacy, admin authentication, migration security, and build routes checked");
+console.log("Phase Two taxonomy checked: nine event groups, no event left in a retired group");
+console.log("Phase Two media and preview checked: admin actions, migration safety, and admin/public markup");
