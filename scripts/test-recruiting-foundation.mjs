@@ -578,6 +578,7 @@ PLACE VIDEO ATHLETE TEAM MARK POINTS
 115 Logan Kister JR Central Christian (Kidron) 17:30.44
 200 A. j. Doseck SO Columbus Grove 19:17.07 152
 213 Zachary Delka FR McDonald 22:55.60 165
+18 Kenneth Morgan Jr SR Perrysburg 15:51.32 15
 Division 4 Boys 5000 Meter Run Team Scores
 
 PLACE TEAM PTS 1 2 3 4 5 6 7 AVG SPREAD
@@ -586,14 +587,14 @@ PLACE TEAM PTS 1 2 3 4 5 6 7 AVG SPREAD
 
 const officialResultsRows = parseOfficialResultsText(officialResultsFixture, { season_year: 2025 });
 
-assert.equal(officialResultsRows.length, 7, "Team Scores rows must be skipped, not parsed as individual results.");
+assert.equal(officialResultsRows.length, 8, "Team Scores rows must be skipped, not parsed as individual results.");
 assert.deepEqual(
   officialResultsRows.map((row) => row.athlete_name),
-  ["Bennett Lehman", "Luke Snyder", "Lincoln Smith", "Eli Etchill", "Logan Kister", "A. j. Doseck", "Zachary Delka"]
+  ["Bennett Lehman", "Luke Snyder", "Lincoln Smith", "Eli Etchill", "Logan Kister", "A. j. Doseck", "Zachary Delka", "Kenneth Morgan Jr"]
 );
 includesAll(
   officialResultsRows.map((row) => row.school_name).join("|"),
-  ["Ansonia", "Rittman", "Con. Crestview", "Sandusky Central Catholic", "Central Christian (Kidron)", "Columbus Grove", "McDonald"],
+  ["Ansonia", "Rittman", "Con. Crestview", "Sandusky Central Catholic", "Central Christian (Kidron)", "Columbus Grove", "McDonald", "Perrysburg"],
   "Multi-word team names with periods and parentheses"
 );
 assert.ok(
@@ -602,13 +603,24 @@ assert.ok(
 );
 assert.deepEqual(
   officialResultsRows.map((row) => row.mark_text),
-  ["15:17.91", "15:24.05", "16:07.37", "16:57.64", "17:30.44", "19:17.07", "22:55.60"]
+  ["15:17.91", "15:24.05", "16:07.37", "16:57.64", "17:30.44", "19:17.07", "22:55.60", "15:51.32"]
 );
 assert.deepEqual(
   officialResultsRows.map((row) => row.graduation_year),
-  [2027, 2026, 2026, 2027, 2027, 2028, 2029],
+  [2027, 2026, 2026, 2027, 2027, 2028, 2029, 2026],
   "JR/SR/SO/FR in a 2025 fall season must derive next spring's graduation year onward."
 );
+
+// Bug found and fixed 2026-08-05, against a real second meet: a generational
+// name suffix like "Jr" (mixed case) was being matched case-insensitively as
+// the grade marker "JR", corrupting both the athlete's name and the team
+// name that followed it. The real grade marker is always rendered in all
+// caps by every provider seen so far, so the row pattern must be case
+// sensitive.
+const kennethMorganRow = officialResultsRows.find((row) => row.athlete_name === "Kenneth Morgan Jr");
+assert.ok(kennethMorganRow, "A name suffix must not be misread as the grade marker.");
+assert.equal(kennethMorganRow.school_name, "Perrysburg");
+assert.equal(kennethMorganRow.graduation_year, 2026, "SR in the 2025 season must derive graduation year 2026, not JR's 2027.");
 
 assert.equal(deriveGraduationYearFromGrade("SR", 2025), 2026);
 assert.equal(deriveGraduationYearFromGrade("JR", 2025), 2027);
