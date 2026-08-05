@@ -2,6 +2,29 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 05 Baumspage crawler stays match-only, does not create profiles
+
+### Decision
+
+The Results Ingestion Engine's identity resolution (`resolveJobIdentities`) does not create new athlete profiles from unmatched Baumspage rows, and this stays as-is for now. It only ever attaches a crawled performance to an athlete who already has an existing profile; an unmatched row remains staged, requiring either a pre-existing profile or a separate roster/official import before it can ever be imported.
+
+### Reason
+
+The narrow profile-creation exception approved earlier the same day (see "Narrow exception: create hidden profiles from official results" below) was scoped specifically to `source_type === "official"` rows -- verified, single-governing-body results like the OHSAA state meet pages copy-pasted into the recruiting admin tool. Baumspage is classified in this project as a lower-trust `archive` provider (`import_policy: "review_required"`), aggregating results from many different meet hosts and timing companies with less centralized quality control than a single governing body's own site. Extending automatic profile creation to it would have meant a real, separate trust-boundary decision, not just flipping the existing flag. Confirmed live the same day: a real 100-page Baumspage catalog crawl staged 3,098 rows with 0 matched athletes, since almost no regular-season meet's runners already have profiles -- so as things stand, Baumspage crawls are useful mainly for adding performances to athletes who already exist (for example, state qualifiers already imported from an OHSAA meet, competing earlier in the season at a Baumspage-tracked meet), not for growing the athlete database on their own.
+
+### Alternatives considered
+
+1. Extend the same official-source profile-creation exception to Baumspage rows. Rejected for now -- would let a much less centrally-verified, multi-host archive create new athlete identities with the same trust currently reserved for a single state governing body.
+2. Require rosters to exist before any Baumspage data is useful at all. Not adopted as a hard rule, since matching against athletes already imported from official sources is still useful without a full roster project.
+
+### Files or systems affected
+
+None changed -- `lib/result_ingestion_engine.mjs`'s `resolveJobIdentities` already behaved this way; this records the decision to keep it that way rather than extend it.
+
+### Follow up
+
+Revisit if Baumspage (or a specific sub-source within it) is later judged trustworthy enough for its own narrow profile-creation exception, or once real usage shows the athlete database is growing enough through official sources that Baumspage's match-only role becomes limiting.
+
 ## 2026 08 05 Narrow exception: create hidden profiles from official results
 
 ### Decision
