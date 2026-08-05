@@ -39,9 +39,18 @@ Verified live, twice, through the real admin ingestion job API against the real 
 
 ### Remaining work
 
-1. Identity resolution, review, approval, and import into `athlete_performances` for a real ingestion job have not yet been exercised -- only crawl through staging.
-2. Consider a crawler improvement to prioritize a discovered page's own children over undiscovered sibling pages, so provider-wide catalog crawls reach real result documents without needing a very large page budget. Not attempted this session given the shared, widely-used crawler logic and limited time to validate a bigger change.
-3. Decide whether to push tonight's accumulated commits (this fix plus the statewide-import work from earlier) to production.
+1. A full successful review-approve-import round trip (matched athlete + actual import) has not been exercised, since no real crawl this session happened to include a previously-known athlete. Will be naturally proven the first time a real production crawl includes one.
+2. Decide whether to push tonight's accumulated commits to production.
+
+### Update: catalog-root crawls, a third bug, and full autonomous validation
+
+Continued past the first success. Diagnosed why a provider-wide catalog crawl (seeded at the bare `https://www.baumspage.com/cc/` root, not one specific event) never reached any result documents at 10 or 30 pages: `maxPages` was capping how many pages could ever be *discovered*, not just fetched, so one page's fan-out across dozens of sibling events exhausted the whole discovery budget before any individual event's linked result files were ever queued. Fixed by decoupling discovery capacity (now roughly 10x `maxPages`) from the visit budget (`maxPages` still gates fetches). Verified live: a 100-page catalog-root crawl -- no manual per-event seeding at all -- reached **24 real documents and staged 3,098 rows with zero errors**, spot-checked clean across three different real meets.
+
+Also exercised identity resolution and the import safety refusal live for the first time: school-level matching succeeded correctly, athlete-level matching correctly reported every row unmatched (none of these small local schools' runners have existing profiles yet) rather than guessing, and manually approving unmatched rows then attempting to import correctly failed with a 409 safety refusal instead of importing anything unverified.
+
+A background `vercel dev` process crashed mid-session from an unrelated Node.js/undici internal bug during the heaviest crawl; restarted cleanly, not a project code issue.
+
+Committed the crawler fix (`7e7d2e0`) and this documentation update. Everything from tonight remains local-only, per the user's new standing permissions -- nothing pushed, no Vercel deploy, no direct SQL, nothing published.
 
 ## 2026 08 05 Fourth real meet (D2 boys): 13 more aliases, applying the precedent
 

@@ -15,12 +15,25 @@ Seeded directly at one real event page (the 2025 Willard Early Bird Cross Countr
 
 Both fixed and verified: (a) via a permanent regression test using the actual PDF that exposed them, saved as a real fixture (`tests/fixtures/baumspage-boys-hs-results.pdf`), exercising the real `extractDocument()` pipeline directly, not a reimplementation; (b) live, end to end, through the real admin ingestion job API -- a fresh crawl of the same real meet now stages 39 correct rows per document with no column drift and no team-scores leak, down from 127 rows including corrupted names and 10 fake rows before the fix.
 
+### Third bug found and fixed: catalog crawls never reached real results at all
+
+A 10-page and then a 30-page job seeded at the bare catalog root (`https://www.baumspage.com/cc/`) both discovered only event-index pages and zero result documents. The real cause: `maxPages` capped how many pages could ever be *discovered* (queued), not just how many got fetched. Baumspage's catalog links to dozens of sibling event pages from one page, so that single page's fan-out alone exhausted the entire discovery budget before any individual event's own linked result files (PDFs, HTML result pages) were ever queued -- those children only become visible once their parent page is visited, by which point there was no discovery capacity left for them.
+
+Fixed by decoupling discovery capacity from the visit budget: discovery is now capped much more generously (roughly 10x `maxPages`, floor 200, ceiling 2000) while `maxPages` continues to gate how many pages are actually fetched. Real result files already score far higher than navigation pages, so the existing score-first fetch order naturally prioritizes them once they exist in the queue -- they only needed the chance to be discovered.
+
+**Verified live, seeded at nothing more than the bare catalog root URL:**
+- 30-page budget: still 0 documents (the fix let discovery continue past the old artificial ceiling, but 30 fetches was not enough to also reach the now-discoverable real result files one hop further out -- confirmed by direct inspection: real, high-scoring result-file links existed in the queue, just not yet visited when the budget ran out).
+- 100-page budget: **24 real documents, 3,098 rows staged, zero errors** -- fully autonomous, no manual per-event seeding required. Spot-checked several rows across three different real meets (including a large multi-division invitational): correct athlete names, schools, and marks, no column drift, no Team Scores leak.
+
+**Practical page-budget guidance going forward:** seeding at a specific known event page (as in the first success above) reaches real results within 10-15 pages. Seeding at the bare provider catalog root needs a substantially larger budget (100 pages was sufficient in this real test; 30 was not) since it must first fan out across every currently-listed event before any single one's results become reachable.
+
 ### Honest current state
 
-1. The crawler, PDF/HTML/text extraction, verification scoring, and staging pipeline are now confirmed working end to end against a real Baumspage meet, for the first time with real evidence rather than fixture-only testing.
-2. Provider-wide catalog crawls (seeded at `https://www.baumspage.com/cc/`) will mostly discover event-index pages within a small page budget, not result documents -- a future improvement (prioritizing already-discovered pages' own children over undiscovered siblings) would help this scale without needing a very large page budget, but was not attempted this session to avoid destabilizing the widely-shared crawler logic without more time to validate it.
-3. Identity resolution (`resolveJobIdentities`), review, approval, and import into `athlete_performances` for a real ingestion job have not yet been exercised this session -- only crawl through staging.
+1. The crawler, PDF/HTML/text extraction, verification scoring, and staging pipeline are now confirmed working end to end against multiple real Baumspage meets, for the first time with real evidence rather than fixture-only testing -- both seeded at one specific event page and seeded at the bare provider catalog root.
+2. Identity resolution (`resolveJobIdentities`) was exercised live against a real job: school-level matching succeeded correctly (an "Old Fort" row resolved to its real `ohio_schools` row), and athlete-level matching correctly reported every row `IDENTITY_UNMATCHED` rather than guessing, since none of these particular small local schools' runners have existing profiles yet. The import safety refusal was also confirmed live: manually marking unmatched rows "approved" and attempting `import_ingestion_job` correctly returned a 409 `NO_IMPORTABLE_ROWS` rather than importing anything without a real identity match.
+3. A full successful review-approve-import round trip (a row that both matches a real existing profile and gets imported into `athlete_performances`) has still not been exercised, since no real crawl this session happened to include an athlete already in the database. This will naturally get proven the first time a real production crawl includes a previously-known athlete.
 4. No SQL was run directly against Supabase for any of this; every check and job action went through the real admin API, exactly as the deployed product exposes it.
+5. A background `vercel dev` process crashed mid-session from an unrelated Node.js/undici internal assertion error (`assert(!this.paused)` in the HTTP parser), most likely triggered by the sustained volume of real outbound requests during the bigger catalog crawl. Restarted cleanly; not a code bug in this project.
 
 ## 2026 08 03, version 3 verification update
 
