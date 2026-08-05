@@ -18,15 +18,7 @@ All three fixes are committed locally to the `recruiting-phase-two-taxonomy-medi
 
 ## Database work still required
 
-Run migrations in order:
-
-```text
-install/01_STATEWIDE_FOUNDATION_DATABASE.sql
-install/02_ATHLETE_PROFILE_FOUNDATION_DATABASE.sql
-install/03_RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.sql
-```
-
-Migrations 01 and 02 should already be installed. Confirm migration 03 is applied to the production Supabase project before pushing or deploying this cleanup — the admin recruiting page depends on it.
+Migrations 01 through 06 are all installed in production Supabase as of 2026-08-04. No database work is currently outstanding. The next migration, if Phase Three's self-service claims are approved and built, would be numbered 07.
 
 ## Manual testing completed (2026-08-04)
 
@@ -59,19 +51,20 @@ Migrations 01 and 02 should already be installed. Confirm migration 03 is applie
 
 ## Remaining work
 
-1. After Phase Two is tested and deployed, begin whatever Phase Three recruiting work is identified next (for example, the deferred results-ingestion connection or hand curated ranking sets, if priorities change).
+1. Finish Phase Two manual testing (write paths) per the checklist above.
+2. Review and approve, adjust, or reject `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` (self-service athlete/parent claims, scaling beyond the first launch, a scoring assist tool for admins). Nothing in it is built yet.
+3. Begin Phase Three implementation only after that approval, following its section 6 implementation order.
 
 ## Known limitations
 
-1. Recruit Ratings are manually evaluated and are not automatically generated.
+1. Recruit Ratings are manually evaluated and are not automatically generated. Phase Three proposes a read-only comparison aid, not automatic scoring; see `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` section 4.
 2. Performance import matching is intentionally exact and may require school name cleanup.
-3. The first release does not include athlete or parent self service claims for recruiting activity.
-4. The first release does not calculate a score from a fixed formula.
+3. The first release does not include athlete or parent self service claims for recruiting activity. Phase Three proposes a design reusing the existing team-claim pattern; see section 2.
+4. The first release does not calculate a score from a fixed formula, and Phase Three does not change that.
 5. Cross country course differences require editorial context.
 6. The public maximum time filter uses the rating selected top performance.
-7. Real Supabase and browser testing is still required.
-8. The corrected Baumspage reader still requires one live local 50 link batch before any discovered sources are approved.
-9. Phase One recruiting architecture must wait until the cleanup is installed and live verification passes.
+7. Real Supabase and browser testing is still required for the Phase Two write paths specifically (see "Manual testing still required for Phase Two" above); read-only paths were verified overnight 2026-08-05.
+8. The corrected Baumspage reader still requires one live local 50 link batch before any discovered sources are approved. This is part of the separate Results Ingestion roadmap (`docs/RESULTS_INGESTION_STATUS.md`), not the recruiting system.
 
 ## Do not change yet
 
