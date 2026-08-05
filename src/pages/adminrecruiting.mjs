@@ -87,7 +87,7 @@ export function adminRecruitingPage(site) {
 
           <section class="info-card recruit-admin-panel">
             <div><p class="eyebrow">Meet results import</p><h2>Upload a complete meet</h2></div>
-            <p class="recruit-admin-help">Enter the meet information once, then upload a CSV or paste the complete results. Podium Watch will match athletes and teams, calculate class years from grade, identify duplicates, and stop uncertain rows for review.</p>
+            <p class="recruit-admin-help">Enter the meet information once, then upload a CSV or paste the complete results. Podium Watch will match existing athletes, identify duplicates, and stop uncertain rows for review. Every imported performance is saved hidden until you approve it for publication.</p>
             <form class="recruit-admin-form" data-performance-import-form>
               <div class="recruit-admin-fields">
                 <label>Meet name<input name="meet_name" required placeholder="OHSAA Division 4 State Championship"></label>
@@ -103,7 +103,7 @@ export function adminRecruitingPage(site) {
                 </div>
                 <label class="recruit-admin-wide recruit-admin-upload">Upload official results file<input type="file" name="results_file" accept=".csv,.txt,.html,.htm,text/csv,text/plain,text/html"></label>
                 <label class="recruit-admin-wide">Or paste complete results<textarea class="recruit-admin-code" name="csv_data" placeholder="Place,Athlete,Team,Grade,Time,Event,Gender"></textarea></label>
-                <label class="recruit-admin-wide recruit-admin-check"><input type="checkbox" name="create_unmatched">Create public athlete profiles when an official row has a complete athlete name, school, gender, and class</label>
+                <p class="recruit-admin-wide recruit-admin-help">Unmatched rows are never saved and never create athlete profiles. Connect or create the athlete in Athlete Data, then preview the import again.</p>
               </div>
               <details class="recruit-admin-advanced"><summary>Advanced source settings</summary><div class="recruit-admin-fields">
                 <label>Source label<input name="source_label" value="Official meet results"></label>

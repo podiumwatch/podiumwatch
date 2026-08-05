@@ -1,0 +1,124 @@
+PODIUM WATCH ENGAGEMENT SYSTEM SETUP
+
+The website code and database can be installed before email delivery is connected. The database starts with notifications paused and public following turned off.
+
+SECTION 1: CREATE THE RESEND CONNECTION
+
+1. Create or open your Resend account.
+
+2. Create an API key that can send email.
+
+3. For private testing, you may use the Resend testing sender:
+
+Podium Watch <onboarding@resend.dev>
+
+The testing sender can only send to the email address connected to your Resend account.
+
+4. Before public launch, add and verify a domain or sending subdomain in Resend. A sending subdomain such as updates.yourdomain.com keeps alert mail separate from other mail. Add the SPF and DKIM records Resend provides at your domain host.
+
+5. After the domain is verified, use a sender such as:
+
+Podium Watch <alerts@updates.yourdomain.com>
+
+SECTION 2: CREATE THE CRON SECRET
+
+Open a separate PowerShell window and run:
+
+$Bytes = New-Object byte[] 32
+[System.Security.Cryptography.RandomNumberGenerator]::Fill($Bytes)
+[Convert]::ToBase64String($Bytes)
+
+Copy the generated value. Do not share it in chat or place it directly in website code.
+
+SECTION 3: ADD VERCEL ENVIRONMENT VARIABLES
+
+Open your podiumwatch project in Vercel.
+
+Go to Settings, then Environment Variables.
+
+Add each variable for Development, Preview, and Production.
+
+RESEND_API_KEY
+Your Resend API key
+
+RESEND_FROM_EMAIL
+Podium Watch <onboarding@resend.dev> during private testing, or your verified sender for public delivery
+
+RESEND_REPLY_TO
+podiumwatchohio@gmail.com
+
+CRON_SECRET
+The random value created in PowerShell
+
+SITE_URL
+https://podiumwatch.vercel.app
+
+After saving the variables, redeploy the production website so the new values are available.
+
+SECTION 4: TEST SAFELY
+
+1. Open the Podium Watch admin page.
+
+2. Open Engagement Center.
+
+3. Leave public following turned off.
+
+4. Set Notification Mode to Testing only.
+
+5. Enter the email connected to your Resend account as the test email.
+
+6. Save the settings.
+
+7. Click Send Test Email.
+
+8. Confirm the test arrives.
+
+9. Create or publish a test team update and use Process Notification Queue to confirm the update email works.
+
+SECTION 5: OPEN PUBLIC FOLLOWING
+
+Only do this after a verified sender can deliver to addresses outside your own Resend account.
+
+1. Change Notification Mode to Live.
+
+2. Turn on Public Following.
+
+3. Save the settings.
+
+4. Test the public follow form with an email you control.
+
+5. Confirm the email, open notification settings, change a preference, and test unsubscribe.
+
+SECTION 6: AUTOMATIC TASKS
+
+Vercel will call the immediate notification queue every 15 minutes.
+
+Vercel will call the weekly digest every Monday at 13:00 UTC. During Eastern Daylight Time this is 9:00 AM in Ohio. During Eastern Standard Time this is 8:00 AM in Ohio.
+
+The CRON_SECRET protects both automatic task endpoints.
+
+SECTION 7: IMPORTANT STARTING SETTINGS
+
+Notification Mode: Paused
+
+Public Following: Off
+
+Analytics: On
+
+Sponsor Display: On
+
+These defaults prevent accidental public email delivery during setup.
+
+SECTION 8: MAIN PAGES
+
+Admin Engagement Center
+https://podiumwatch.vercel.app/admin/engagement/
+
+Team Insights
+https://podiumwatch.vercel.app/team-insights/
+
+Follower Notification Settings
+https://podiumwatch.vercel.app/follow/
+
+Privacy Page
+https://podiumwatch.vercel.app/privacy/
