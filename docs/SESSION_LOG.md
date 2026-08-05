@@ -21,7 +21,8 @@ Apply and verify the Phase Zero import and release safety cleanup in the real re
 5. Opened `/admin/recruiting/`, reviewed the new import safety explanation, previewed one deliberately incomplete row (missing place) and confirmed it was invalid, then previewed one complete exact athlete match and confirmed it was ready but hidden.
 6. Removed three leftover one-time installer scripts (`install/INSTALL_RESULTS_INGESTION_V5.ps1`, `V6.ps1`, `V8.ps1`) that had already done their job of applying the cleanup package.
 7. Updated `docs/NEXT_SESSION.md` and `docs/DECISIONS.md` to record that manual testing is complete.
-8. Committed the reviewed changes to a local branch.
+8. Committed the reviewed changes to a local branch, confirmed production Supabase is the same project used locally (so migration 03 was already installed), merged to `main`, and pushed.
+9. Vercel deployed the push automatically; the live site was confirmed working on desktop and phone.
 
 ### Files changed
 
@@ -41,10 +42,7 @@ Desktop homepage, phone-width homepage, Explore row, mobile menu (button, overla
 
 ### Remaining work
 
-1. Push and deploy only after explicit approval.
-2. Confirm migration 03 is installed on the production Supabase project before deployment.
-3. Confirm the Vercel build and live desktop and phone pages after deployment.
-4. Begin Phase One recruiting architecture work.
+1. Begin Phase One recruiting architecture work.
 
 ## Session template
 

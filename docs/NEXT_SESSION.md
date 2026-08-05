@@ -2,13 +2,13 @@
 
 ## Current priority
 
-Push and deploy the verified Phase Zero safety cleanup after explicit approval, confirm the live site, then begin recruiting architecture work.
+Begin Phase One recruiting architecture work. The Phase Zero safety cleanup is deployed and confirmed live.
 
 ## Current working state
 
 The cleaned source passes the production build, complete quality checker, Athlete Foundation validation, Recruit Ratings validation, and all 36 results ingestion tests. Full manual testing (desktop, mobile, menu, Explore row, and both admin recruiting import scenarios) was completed and confirmed on 2026-08-04.
 
-The cleanup is committed to a local branch. It is not pushed, deployed, or installed in production. No athlete ratings or performances were created.
+The cleanup was merged to `main` and pushed on 2026-08-04. Vercel deployed it and the live site was confirmed working on both desktop and phone. No athlete ratings or performances were created.
 
 ## Database work still required
 
@@ -39,8 +39,7 @@ Migrations 01 and 02 should already be installed. Confirm migration 03 is applie
 
 ## Remaining work
 
-1. Push and deploy only after explicit approval.
-2. Confirm the Vercel build and live desktop and phone pages after deployment.
+1. Begin Phase One recruiting architecture work.
 
 ## Known limitations
 
