@@ -1,7 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { assessParsedResults, canonicalizeResultUrl, classifyDocument, extractScoredLinks, fetchPage, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
 import { extractDocument, parsePastedOrDelimitedText, parserInternals } from "../lib/result_parsers.mjs";
+
+const fixturesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures");
 
 test("canonical URLs remove fragments and trackers", () => {
   assert.equal(canonicalizeResultUrl("https://www.baumspage.com/cc/event/results.html?utm_source=x&id=7#top"), "https://www.baumspage.com/cc/event/results.html?id=7");
@@ -107,6 +112,53 @@ test("normalized compound headers are accepted as school and mark columns", asyn
   assert.equal(result.rows[0].schoolName, "Central");
   assert.equal(result.rows[0].markText, "15:30.20");
   assert.deepEqual(result.rows[0].warningCodes, []);
+});
+
+test("a real Baumspage HY-TEK results PDF parses names and schools without column drift", async () => {
+  // Bug found and fixed 2026-08-05, from a real Baumspage crawl of the 2025
+  // Willard Early Bird Cross Country Invitational: pdfText() joined PDF
+  // text items with exactly one space per item boundary, so the number of
+  // spaces between reconstructed columns depended on how many separate
+  // text runs the PDF happened to split a field into, not on the real
+  // pixel gap between them. The fixed-column parser then sliced at
+  // character positions taken from the header line, which almost never
+  // lined up with a data line's actual column boundaries once place
+  // numbers and names of different lengths shifted everything after them.
+  // Real symptom: "Roberson, Jeremiah" / "Buckeye Central" came out as
+  // athleteName "Rober" and schoolName "son, Jeremiah Buckeye Central".
+  const bytes = fs.readFileSync(path.join(fixturesDir, "baumspage-boys-hs-results.pdf"));
+  const result = await extractDocument({ bytes, documentType: "pdf", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  // The real fixture's finishers are already in place order; indexing by
+  // array position (rather than grouping by the place number) avoids a
+  // separate, real issue this fixture also exposed -- its Team Scores
+  // table is not yet recognized and produces a few extra rows whose place
+  // numbers collide with real finishers (see the follow-up test below).
+  assert.ok(result.rows.length >= 8, "The real fixture has at least 8 finishers on its first page.");
+  assert.equal(result.rows[0].athleteName, "Hull, Cale");
+  assert.equal(result.rows[0].schoolName, "Old Fort");
+  assert.equal(result.rows[0].markText, "18:26.30");
+  assert.equal(result.rows[1].athleteName, "Roberson, Jeremiah", "A name split across a PDF text run boundary must not be truncated.");
+  assert.equal(result.rows[1].schoolName, "Buckeye Central", "The truncated tail of a name must not leak into the school column.");
+  assert.equal(result.rows[1].markText, "18:30.62");
+  assert.equal(result.rows[2].athleteName, "Hessick, Dalton");
+  assert.equal(result.rows[2].schoolName, "Old Fort");
+});
+
+test("a real Baumspage PDF's Team Scores table does not leak fake individual results", async () => {
+  // Bug found and fixed 2026-08-05 in the same real fixture: the generic
+  // text-row parser has no notion of a HY-TEK Team Scores table (rank,
+  // team name, total, and each scoring runner's place), so a line like
+  // "1 Old Fort  21  1 2 5 6 7" satisfied the generic place/name/mark row
+  // pattern and was staged as a fake individual result with athleteName
+  // "Old Fort" and schoolName "1 2 5 6 7". The real fixture has exactly
+  // 39 finishers and a three-team Team Scores table on its second page.
+  const bytes = fs.readFileSync(path.join(fixturesDir, "baumspage-boys-hs-results.pdf"));
+  const result = await extractDocument({ bytes, documentType: "pdf", metadata: { sport: "cross_country", seasonYear: 2025 } });
+  assert.equal(result.rows.length, 39, "Team Scores rows must be skipped, not staged as extra finishers.");
+  assert.ok(
+    !result.rows.some((row) => row.schoolName && /^\d+(\s+\d+)+$/.test(row.schoolName)),
+    "No staged row should have a school name that is really a list of scoring places."
+  );
 });
 
 test("preformatted result pages parse without a meet identity on the intermediate page", async () => {
