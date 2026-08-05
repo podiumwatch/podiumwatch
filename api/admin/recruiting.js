@@ -123,10 +123,18 @@ function cleanStringArray(value, maxItems = 20) {
 }
 
 async function requireInstalled() {
+  // Look up whichever methodology is currently active rather than a
+  // hardcoded key. A hardcoded key silently breaks the moment a new
+  // methodology version is activated and the old one is retired (as
+  // happened when 2026.2 replaced 2026.1) -- every action gated by this
+  // function would keep operating under the retired version instead of
+  // failing loudly.
   const { data, error } = await supabaseAdmin
     .from("athlete_recruit_rating_methodologies")
     .select("id")
-    .eq("methodology_key", "podium-watch-recruit-ratings-2026-1")
+    .eq("status", "active")
+    .order("effective_date", { ascending: false })
+    .limit(1)
     .maybeSingle();
 
   if (error) {

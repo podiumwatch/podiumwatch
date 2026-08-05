@@ -43,6 +43,7 @@ const publicPage = await read("src/pages/recruiting.mjs");
 const methodologyPage = await read("src/pages/recruitingmethodology.mjs");
 const adminPage = await read("src/pages/adminrecruiting.mjs");
 const siteScript = await read("public/scripts/site.js");
+const recruitingDirectoryScript = await read("public/scripts/recruiting-directory.js");
 const mainStyles = await read("src/styles/main.css");
 const packageFile = await read("package.json");
 const template = await read("public/data/performance-import-template.csv");
@@ -348,6 +349,44 @@ includesAll(
     "combined_events"
   ],
   "Public recruiting directory event group filters"
+);
+
+// Bug found and fixed 2026-08-05: the admin recruiting API's requireInstalled
+// gate looked up the methodology by a hardcoded key instead of by whichever
+// version is active. That silently broke the instant 2026.2 replaced 2026.1
+// as the active methodology -- every admin action (including creating a new
+// rating) would have kept operating under the retired 2026.1 row instead of
+// failing loudly, because the retired row was never deleted, only marked
+// retired, so the hardcoded lookup kept finding it.
+assert.ok(
+  !adminApi.includes('.eq("methodology_key", "podium-watch-recruit-ratings-2026-1")'),
+  "Admin recruiting API must not hardcode a specific methodology key."
+);
+assert.ok(
+  adminApi.includes('.eq("status", "active")') &&
+    adminApi.includes("async function requireInstalled"),
+  "Admin recruiting API must look up the active methodology, not a hardcoded version."
+);
+
+// Bug found and fixed 2026-08-05: the public recruiting API hardcoded the
+// retired 2026.1 methodology key and label instead of reading whichever
+// methodology is actually active, so it would silently go stale the moment a
+// new methodology version (like 2026.2) was activated.
+assert.ok(
+  publicApi.includes('.eq("status", "active")') &&
+    publicApi.includes("athlete_recruit_rating_methodologies") &&
+    publicApi.includes("activeMethodology"),
+  "Public recruiting API must read the active methodology from the database, not hardcode it."
+);
+
+// Bug found and fixed 2026-08-05: vercel.json sets trailingSlash: true, so a
+// browser fetch to an /api/ path without a trailing slash gets redirected,
+// and Vercel's redirect Location header drops the query string entirely.
+// This silently broke the recruiting directory's search filters (they were
+// simply ignored, always returning page one unfiltered).
+assert.ok(
+  recruitingDirectoryScript.includes('"/api/recruiting/?" + query.toString()'),
+  "Recruiting directory fetch must include the trailing slash trailingSlash routing requires before its query string."
 );
 
 includesAll(

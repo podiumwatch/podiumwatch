@@ -335,6 +335,15 @@ export default async function handler(request, response) {
   try {
     const input = parseInput(request);
     const data = await loadRecruitingRows();
+    const { data: activeMethodology, error: methodologyError } = await supabaseAdmin
+      .from("athlete_recruit_rating_methodologies")
+      .select("methodology_key, name, version_label, metadata")
+      .eq("status", "active")
+      .order("effective_date", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (methodologyError) throw methodologyError;
     const latestSnapshots = await loadLatestRankSnapshots(
       [...new Set(data.ratings.map((rating) => rating.profile_id))]
     );
@@ -428,11 +437,13 @@ export default async function handler(request, response) {
     return response.status(200).json({
       source_mode: "database",
       methodology: {
-        key: "podium-watch-recruit-ratings-2026-1",
-        label: "Podium Watch Recruit Ratings 2026.1",
+        key: activeMethodology?.methodology_key || "podium-watch-recruit-ratings-2026-1",
+        label: activeMethodology
+          ? `${activeMethodology.name} ${activeMethodology.version_label}`
+          : "Podium Watch Recruit Ratings 2026.1",
         public_path: "/recruiting/methodology/",
-        pay_to_play: false,
-        offers_affect_score: false
+        pay_to_play: activeMethodology?.metadata?.pay_to_play ?? false,
+        offers_affect_score: activeMethodology?.metadata?.offers_affect_score ?? false
       },
       events: eventDefinitions(),
       summary: summary(displayRows),

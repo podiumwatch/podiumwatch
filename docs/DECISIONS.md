@@ -2,6 +2,29 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 05 Overnight verification: no new database writes without the user present
+
+### Decision
+
+While verifying Phase Two overnight without the user available to review each step, do not create any new rows in Supabase, including throwaway or self-cleaned-up test data, even against an obviously fake profile. Limit verification to read-only API calls against existing data and careful code review of the write paths.
+
+### Reason
+
+The local dev server and production point to the same Supabase project. A write made during unsupervised testing is a real write to the live database with no one available to catch a mistake before it happens. This is different from the earlier Phase Zero pattern of preview-only testing, which never wrote anything at all regardless of supervision.
+
+### Alternatives considered
+
+1. Create a throwaway, obviously fake athlete profile, exercise every write action against it, then delete everything afterward.
+2. Skip verification entirely until the user returns.
+
+### Files or systems affected
+
+None directly. This is a process decision, not a code change.
+
+### Follow up
+
+The write paths (media save and publish, rating draft and publish, rank movement on a second save) still need the user's own hands-on testing. See `docs/NEXT_SESSION.md`.
+
 ## 2026 08 04 Recruiting Phase Two implementation written, not yet installed
 
 ### Decision

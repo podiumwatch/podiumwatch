@@ -448,7 +448,7 @@
     }
 
     try {
-      const response = await fetch("/api/athletes/detail?slug=" + encodeURIComponent(slug), {
+      const response = await fetch("/api/athletes/detail/?slug=" + encodeURIComponent(slug), {
         headers: { Accept: "application/json" }
       });
       const payload = await response.json().catch(() => ({}));

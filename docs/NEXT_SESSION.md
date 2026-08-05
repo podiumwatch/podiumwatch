@@ -2,13 +2,19 @@
 
 ## Current priority
 
-Manually test the Recruiting Phase Two implementation (event group taxonomy, athlete media, ranking movement, admin public profile preview), then run migration 06 in Supabase, then commit, push, and deploy only after explicit approval.
+Manually test the write paths of the Recruiting Phase Two implementation (media save/publish, rating draft/publish, rank movement) — read-only paths were already verified overnight on 2026-08-05. Then merge, push, and deploy only after explicit approval. A Phase Three architecture report is also waiting for review.
 
 ## Current working state
 
-The Phase Zero safety cleanup remains deployed and confirmed live. The Phase One architecture report was audited and approved on 2026-08-04 (`docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md`). Phase Two implementation has been written on top of that approval: `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql`, updated `lib/recruiting_service.mjs`, admin and public recruiting API and page changes, and expanded automated tests. The full build, check, and test command all pass locally.
+The Phase Zero safety cleanup remains deployed and confirmed live. The Phase One architecture report was audited and approved on 2026-08-04 (`docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md`). Phase Two was implemented on top of that approval and migration 06 was run successfully in Supabase on 2026-08-04.
 
-Migration 06 was run successfully in Supabase on 2026-08-04 (after one failed attempt caused by a backfill that missed a row outside the expected event key list; the migration was made defensive and re-run successfully — the failed attempt rolled back cleanly with no lasting effect). None of this work has been committed, pushed, or deployed yet.
+Overnight on 2026-08-05, while diagnosing an athlete-profile-link error, three real bugs were found and fixed (see `docs/SESSION_LOG.md` for full detail):
+
+1. A `trailingSlash: true` routing issue silently dropped query strings on three public-facing fetch calls (athlete profile, athlete directory search, recruiting directory search). Fixed, and a general guard was added to `scripts/check.mjs` so it cannot recur silently.
+2. The public recruiting API hardcoded the retired methodology label. Fixed to read the active methodology from the database.
+3. The admin recruiting API's install-check hardcoded the retired methodology key, meaning every admin action would have silently attached new data to the retired 2026.1 methodology instead of the active 2026.2 one. Fixed to look up whichever methodology is active.
+
+All three fixes are committed locally to the `recruiting-phase-two-taxonomy-media` branch (not `main`, not pushed). No new database rows were created overnight — the write paths still need your own hands-on testing.
 
 ## Database work still required
 
@@ -40,15 +46,16 @@ Migrations 01 and 02 should already be installed. Confirm migration 03 is applie
 ## Manual testing still required for Phase Two
 
 1. Run migration 06 in Supabase (after migrations 01, 02, and 03). Done 2026-08-04.
-2. Confirm the full local build and test command still pass.
-3. Open `/admin/recruiting/`, confirm the rating form's event group list shows the nine new groups.
-4. Add one media item to a test athlete, confirm it is saved as draft and does not appear on the public profile.
-5. Publish that media item, confirm it appears on the athlete's public profile page.
-6. Click "Preview public profile" on a test athlete with a draft rating, confirm the preview shows the rating content but explains the rank cannot be shown yet.
-7. Publish a rating, confirm it appears on `/recruiting/` and the athlete's profile page with a class rank and event group rank.
-8. Edit and re-save that rating, confirm the profile page shows rank movement compared to the first publish.
-9. Commit, push, and deploy only after explicit approval.
-10. Confirm the Vercel build and the live recruiting pages after deployment.
+2. Confirm the full local build and test command still pass. Done repeatedly, most recently 2026-08-05.
+3. Open `/admin/recruiting/`, confirm the rating form's event group list shows the nine new groups. Done 2026-08-04.
+4. Open `/athletes/`, search a real athlete, click into their profile, and confirm the page loads correctly (this was broken and is now fixed — worth a quick re-check first).
+5. Add one media item to a test athlete, confirm it is saved as draft and does not appear on the public profile.
+6. Publish that media item, confirm it appears on the athlete's public profile page.
+7. Click "Preview public profile" on a test athlete with a draft rating, confirm the preview shows the rating content but explains the rank cannot be shown yet.
+8. Publish a rating, confirm it appears on `/recruiting/` and the athlete's profile page with a class rank and event group rank, and confirm the methodology label shown reads 2026.2, not 2026.1.
+9. Edit and re-save that rating, confirm the profile page shows rank movement compared to the first publish.
+10. Commit to `main`, push, and deploy only after explicit approval.
+11. Confirm the Vercel build and the live recruiting pages after deployment.
 
 ## Remaining work
 

@@ -2,6 +2,48 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Recruiting Phase Two verification (overnight)
+
+### Date
+
+2026 08 05
+
+### Goal
+
+Diagnose the athlete profile link error found during Phase Two manual testing, verify Phase Two end to end at the API level while the user was away, and fix whatever was found. No new database writes, commits to `main`, pushes, or deploys.
+
+### Completed
+
+1. Diagnosed the athlete profile link error by reproducing it directly against the local API instead of guessing: confirmed with curl that `vercel.json`'s `trailingSlash: true` makes Vercel 308-redirect any `/api/...` request missing its trailing slash, and that redirect's `Location` header drops the query string entirely.
+2. Found this affected three client-side fetch calls, not just the one reported: `public/scripts/athlete-profile.js` (individual athlete profile, completely broken), `public/scripts/athlete-directory.js` (public athlete search filters, silently ignored), and `public/scripts/recruiting-directory.js` (public recruiting search filters, silently ignored). Fixed all three by adding the trailing slash, matching the convention already used correctly everywhere else in the codebase.
+3. Added a general guard to `scripts/check.mjs` that scans every browser script for this exact pattern (an `/api/...` fetch target with a `?` not immediately preceded by `/`) so this class of bug cannot silently reappear. Verified the guard actually catches the bug by temporarily reintroducing it, then restored the fix.
+4. While verifying the fix, found the public recruiting API (`api/recruiting/index.js`) hardcoded the retired `2026.1` methodology key and label in its response instead of reading whichever methodology is active. Fixed it to query the active methodology from the database.
+5. While testing the admin status dashboard read-only, found a second, more serious instance of the same class of bug: `api/admin/recruiting.js`'s `requireInstalled()` gate looked up the methodology by the same hardcoded `2026.1` key. Because the migration retires old methodology rows instead of deleting them, this was not caught by any error — it silently kept resolving to the retired methodology, which meant every admin action (including creating a new rating) would have attached to the wrong, retired methodology version. Fixed it to look up `status = 'active'` instead, confirmed the fix live against the read-only status endpoint.
+6. Added regression tests for all of the above to `scripts/test-recruiting-foundation.mjs` and `scripts/test-athlete-foundation.mjs`.
+7. Made a deliberate decision not to create any new database rows overnight, even throwaway or self-cleaned-up test data, since the local dev server and production point to the same Supabase project and the user was not available to review a write before it happened. Verification of the actual write paths (media save, rating publish, rank movement) was limited to careful code review plus live testing of every read-only path (search, get, status, directory listing, profile detail). The write paths still need the user's own hands-on testing.
+
+### Files changed
+
+`api/admin/recruiting.js`, `api/recruiting/index.js`, `public/scripts/athlete-directory.js`, `public/scripts/athlete-profile.js`, `public/scripts/recruiting-directory.js`, `scripts/check.mjs`, `scripts/test-athlete-foundation.mjs`, `scripts/test-recruiting-foundation.mjs`.
+
+### Database migrations
+
+None run. Migration 06 (run successfully by the user on 2026-08-04) was not modified.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` all pass, including new regression tests for both bug classes found tonight.
+
+### Manual testing
+
+Read-only API paths were verified directly (admin search, admin get, admin status, public athlete directory with a real filter, public athlete detail, public recruiting listing). Write paths (media save/publish, rating draft/publish, rank movement on a second save) were reviewed in code but not executed, and still need the user's own click-through testing.
+
+### Remaining work
+
+1. User to manually test the write paths per the checklist in `docs/NEXT_SESSION.md`.
+2. Commit this checkpoint (already committed locally to `recruiting-phase-two-taxonomy-media`) and merge/push/deploy only after explicit approval.
+3. Review the Phase Three architecture report drafted the same night.
+
 ## 2026 08 04 Recruiting Phase Two implementation
 
 ### Date

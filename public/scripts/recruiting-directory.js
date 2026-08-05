@@ -214,7 +214,7 @@
     try {
       const query = formQuery(page);
       const response = await fetch(
-        "/api/recruiting?" + query.toString(),
+        "/api/recruiting/?" + query.toString(),
         { headers: { Accept: "application/json" } }
       );
       const payload = await response.json().catch(() => ({}));
