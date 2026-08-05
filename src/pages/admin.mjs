@@ -103,6 +103,13 @@ export function adminPage(site) {
             </a>
 
             <a
+              class="button button-outline"
+              href="/admin/results-sources/"
+            >
+              Results Source Manager
+            </a>
+
+            <a
               class="button button-primary"
               href="/admin/team-manager/"
             >
