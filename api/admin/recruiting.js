@@ -707,7 +707,11 @@ async function previewImport(body) {
       cleanAthleteText(body.verification_status, 50).toLowerCase() ||
       "source_linked",
     sport: cleanAthleteText(body.sport, 100),
-    season_year: body.season_year
+    season_year: body.season_year,
+    gender: cleanAthleteText(body.gender, 50),
+    event_name: cleanAthleteText(body.event_name, 150),
+    meet_name: cleanAthleteText(body.meet_name, 300),
+    meet_date: cleanAthleteText(body.meet_date, 30)
   });
 }
 
@@ -728,7 +732,11 @@ async function commitImport(body) {
         cleanAthleteText(body.verification_status, 50).toLowerCase() ||
         "source_linked",
       sport: cleanAthleteText(body.sport, 100),
-      season_year: body.season_year
+      season_year: body.season_year,
+      gender: cleanAthleteText(body.gender, 50),
+      event_name: cleanAthleteText(body.event_name, 150),
+      meet_name: cleanAthleteText(body.meet_name, 300),
+      meet_date: cleanAthleteText(body.meet_date, 30)
     },
     actor: "Podium Watch Admin"
   });

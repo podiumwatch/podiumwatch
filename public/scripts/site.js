@@ -2,7 +2,7 @@
   const menuButton = document.querySelector("[data-menu-button]");
   const nav = document.querySelector("[data-site-nav]");
   const overlay = document.querySelector("[data-nav-overlay]");
-  const mobileQuery = window.matchMedia("(max-width: 1120px)");
+  const mobileQuery = window.matchMedia("(max-width: 1320px)");
 
   const setNavigationState = (open, returnFocus = false) => {
     if (!menuButton || !nav) return;

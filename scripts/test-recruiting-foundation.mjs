@@ -9,9 +9,12 @@ process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 
 const {
   eventDefinitions,
+  normalizePerformanceImportRow,
   parseMark,
+  performanceDuplicateKey,
   resolveEvent,
-  starRatingForScore
+  starRatingForScore,
+  validatePerformanceImportRow
 } = await import("../lib/recruiting_service.mjs");
 
 async function read(relativePath) {
@@ -32,6 +35,10 @@ const adminApi = await read("api/admin/recruiting.js");
 const buildScript = await read("scripts/build.mjs");
 const publicPage = await read("src/pages/recruiting.mjs");
 const methodologyPage = await read("src/pages/recruitingmethodology.mjs");
+const adminPage = await read("src/pages/adminrecruiting.mjs");
+const siteScript = await read("public/scripts/site.js");
+const mainStyles = await read("src/styles/main.css");
+const packageFile = await read("package.json");
 const template = await read("public/data/performance-import-template.csv");
 const operationsApi = await read("api/admin/operations.js");
 
@@ -144,6 +151,95 @@ assert.equal(parseMark("6'4\"", highJump).mark_sort_value, 1.9304);
 assert.equal(parseMark("9:75", track3200).valid, false);
 assert.equal(parseMark("6'12\"", highJump).valid, false);
 
+const safeImportDefaults = {
+  gender: "girls",
+  sport: "cross_country",
+  season_year: 2025,
+  event_name: "5K",
+  meet_name: "OHSAA State Championship",
+  meet_date: "2025-11-01",
+  source_label: "Official results",
+  source_url: "https://example.com/results",
+  source_type: "official",
+  verification_status: "source_linked"
+};
+const normalizedImport = normalizePerformanceImportRow({
+  athlete_name: "Example Athlete",
+  school_name: "Example High School",
+  gender: "",
+  graduation_year: 2027,
+  sport: "",
+  season_year: "",
+  event_name: "",
+  mark_text: "18:45.20",
+  meet_name: "",
+  meet_date: "",
+  place: "12",
+  source_label: "",
+  source_url: "",
+  source_type: "",
+  verification_status: "",
+  public_visible: "true"
+}, 0, safeImportDefaults);
+
+assert.equal(normalizedImport.gender, "girls");
+assert.equal(normalizedImport.event_key, "xc_5k");
+assert.equal(normalizedImport.meet_name, safeImportDefaults.meet_name);
+assert.equal(normalizedImport.meet_date, safeImportDefaults.meet_date);
+assert.equal(normalizedImport.place, 12);
+assert.equal(normalizedImport.public_visible, false);
+assert.deepEqual(validatePerformanceImportRow(normalizedImport), []);
+
+const incompleteImport = normalizePerformanceImportRow({
+  athlete_name: "Example Athlete",
+  school_name: "Example High School",
+  gender: "boys",
+  graduation_year: 2027,
+  sport: "cross_country",
+  season_year: 2025,
+  event_name: "5K",
+  mark_text: "16:00",
+  source_label: "Official results"
+}, 0);
+const incompleteErrors = validatePerformanceImportRow(incompleteImport);
+
+includesAll(
+  incompleteErrors.join(" "),
+  [
+    "Meet name is required.",
+    "Meet date is required.",
+    "Place is required."
+  ],
+  "Required performance import fields"
+);
+
+const duplicateBase = {
+  profile_id: "profile-1",
+  school_id: "school-1",
+  event_key: "xc_5k",
+  mark_text: "16:00.00",
+  meet_name: "State Championship",
+  meet_date: "2025-11-01",
+  place: 5
+};
+
+assert.equal(
+  performanceDuplicateKey({
+    ...duplicateBase,
+    source_label: "Source A",
+    source_url: "https://example.com/a"
+  }),
+  performanceDuplicateKey({
+    ...duplicateBase,
+    source_label: "Source B",
+    source_url: "https://example.com/b"
+  })
+);
+assert.notEqual(
+  performanceDuplicateKey(duplicateBase),
+  performanceDuplicateKey({ ...duplicateBase, place: 6 })
+);
+
 assert.ok(eventDefinitions().length >= 30, "Expected a complete event catalog.");
 
 includesAll(
@@ -192,6 +288,28 @@ assert.ok(
     adminApi.includes("commitPerformanceImport"),
   "Recruiting admin API must use preview first imports."
 );
+includesAll(
+  adminApi,
+  [
+    "gender: cleanAthleteText(body.gender",
+    "event_name: cleanAthleteText(body.event_name",
+    "meet_name: cleanAthleteText(body.meet_name",
+    "meet_date: cleanAthleteText(body.meet_date"
+  ],
+  "Performance import defaults"
+);
+assert.ok(
+  !adminPage.includes('name="create_unmatched"'),
+  "Recruiting admin must not offer to create public athletes from unmatched rows."
+);
+includesAll(
+  adminPage,
+  [
+    "Every imported performance is saved hidden until you approve it for publication.",
+    "Unmatched rows are never saved and never create athlete profiles."
+  ],
+  "Performance import safety explanation"
+);
 assert.ok(
   adminApi.includes("performance.event_group === eventGroup"),
   "Published rating evidence must match the selected event group."
@@ -232,6 +350,30 @@ includesAll(
   "CSV template"
 );
 
+assert.ok(
+  siteScript.includes('window.matchMedia("(max-width: 1320px)")'),
+  "Navigation behavior and responsive menu CSS must use the same breakpoint."
+);
+includesAll(
+  mainStyles,
+  [
+    ".sports-ticker { display:none; }",
+    ".site-nav { top:98px; width:min(92vw,390px); height:calc(100dvh - 98px); }",
+    ".nav-overlay { inset:98px 0 0; }",
+    ".section-nav { display:block; position:relative; }"
+  ],
+  "Responsive header cleanup"
+);
+includesAll(
+  packageFile,
+  [
+    '"test:athletes": "node scripts/test-athlete-foundation.mjs"',
+    '"test:recruiting": "node scripts/test-recruiting-foundation.mjs"',
+    'npm run test:athletes && npm run test:recruiting && npm run test:results'
+  ],
+  "Complete test command"
+);
+
 includesAll(
   operationsApi,
   [
@@ -248,4 +390,6 @@ console.log("Recruit Ratings and Performance History validation passed.");
 console.log(`Event definitions checked: ${eventDefinitions().length}`);
 console.log("Star boundaries checked: 70 through 100");
 console.log("Performance parsing checked: time, distance, and height");
+console.log("Performance import safety checked: required fields, defaults, hidden records, and duplicates");
+console.log("Responsive header breakpoints checked: menu behavior and CSS stay aligned");
 console.log("Privacy, admin authentication, migration security, and build routes checked");

@@ -1,11 +1,19 @@
 node_modules/
-.DS_Store
-.env
-.env.local
-.vercel/
-*.log
-
 dist/
+.vercel/
 
-.vercel
 .env*
+!.env.example
+
+.DS_Store
+*.log
+*.zip
+*.backup
+*.bak
+
+.backups/
+backups/
+design-backup-*/
+.team-manager-backup-*/
+
+performance-import-ready.csv
