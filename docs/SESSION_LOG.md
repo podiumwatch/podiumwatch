@@ -2,6 +2,41 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Fourth real meet (D2 boys): 13 more aliases, applying the precedent
+
+### Date
+
+2026 08 05
+
+### Goal
+
+Resolve the 44 unmatched school names from a fourth real meet (2025 OHSAA Division 2 Boys Cross Country State Championship, 215 rows).
+
+### Completed
+
+1. Resolved 13 of 44 unmatched school names against the live `ohio_schools` table, same standard as before (exactly one confident candidate, verified live): Dub. Scioto (Dublin Scioto), CF Northwest (Northwest, Canal Fulton), CVCA (Cuyahoga Valley Christian Academy -- already known from the D3 "Col. Academy" search), Tol. St. Francis (St. Francis de Sales, Toledo), Watterson (Bishop Watterson), Hoban (Archbishop Hoban -- already known from the D3 Akron-city search), Carroll (Bloom-Carroll High School, whose city is literally "Carroll"), Hartley (Bishop Hartley), Hol. Springfield (Springfield, Holland -- already known from the D3 investigation), Brecksville (Brecksville-Broadview Hts), Roosevelt (Theodore Roosevelt, Kent), Syl. Northview (Sylvania Northview), Lima Shawnee (Shawnee, Lima -- the same real school already confirmed as a genuine gap-adjacent case in D3, just referenced in city-first word order here). Clears 43 of the 44 rows since several repeat across the meet.
+2. The 44th ("New Richmond") checked against `public/data/ohio-school-foundation-2026-27.json` and is not in the official document at all -- applied the 2026-08-05 "schools missing from the official source stay unmatched, not invented" decision directly, without re-asking, since the precedent was already set and documented for D3.
+
+### Files changed
+
+None. 13 rows added to `ohio_school_aliases` directly in Supabase (data only).
+
+### Database migrations
+
+None.
+
+### Automated testing
+
+No code changed; existing suite unaffected.
+
+### Manual testing
+
+All 13 new aliases verified live against the real local API (synthetic 14-row preview covering every new alias plus New Richmond); all 13 resolved to `creatable`, New Richmond correctly stayed `unmatched`.
+
+### Remaining work
+
+1. Ask the user to re-preview the D2 meet and commit it.
+
 ## 2026 08 05 Third real meet (D3 boys): aliases, and a real directory gap
 
 ### Date

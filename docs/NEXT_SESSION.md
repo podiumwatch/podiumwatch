@@ -2,7 +2,11 @@
 
 ## Current priority
 
-Three real meets are fully committed: D4 boys (213 rows), D1 boys (180 rows, batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`), and D3 boys (215 rows, batch `3c6249e5-e146-4f9d-a588-d5a6fe680a60`, 211 imported, 4 correctly left unmatched -- see "Third real meet" below). The statewide-import feature plus every bug fix found so far is pushed to production and confirmed live. The user is now moving on to the 2025 OHSAA Division 2 Boys Cross Country meet. No open questions -- continue resolving unmatched school names the same way (check `ohio_schools` for a confident alias first, then check `public/data/ohio-school-foundation-2026-27.json` for a school genuinely missing from the official source before concluding it needs an alias vs. staying unmatched).
+Three real meets are fully committed: D4 boys (213 rows), D1 boys (180 rows, batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`), and D3 boys (215 rows, batch `3c6249e5-e146-4f9d-a588-d5a6fe680a60`, 211 imported, 4 correctly left unmatched). The statewide-import feature plus every bug fix found so far is pushed to production and confirmed live.
+
+A fourth meet (2025 OHSAA Division 2 Boys Cross Country, 215 rows) has its school names resolved: 13 new aliases added and verified (see "Fourth real meet" below), 1 ("New Richmond") correctly left unmatched per the existing missing-from-official-source precedent. Next action: ask the user to re-preview and commit the D2 meet.
+
+Pattern holding across four meets now: check `ohio_schools` for a confident alias first (increasingly, the same school recurs across divisions -- CVCA, Hoban, and the Holland Springfield were all already known by the time D2 came up), then check `public/data/ohio-school-foundation-2026-27.json` before concluding a school is genuinely missing from the official source rather than just abbreviated.
 
 ## Current working state
 
