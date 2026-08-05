@@ -2,6 +2,32 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 05 Recruiting Phase Three: scoring assist approved, claims deferred
+
+### Decision
+
+Of the five decisions in `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`, build only the read-only scoring assist tool now. Defer self-service athlete and parent claims until there is real demand for it, and defer a rank snapshot retention rule until real usage data exists. The scoring assist tool was implemented the same session: a `load_rating_comparison` admin action and a "Compare to rated athletes in this group" panel on the rating form, showing already published ratings in the same graduation year, gender, and event group, sorted by score.
+
+### Reason
+
+Self-service claims is the largest item in the report and nothing indicates real demand for it yet. A rank snapshot retention rule is premature with zero published ratings to observe real growth patterns against. The scoring assist tool is small, purely additive, read-only, and directly useful for the manual review work still ahead.
+
+### Alternatives considered
+
+1. Build all of Phase Three now, including claims.
+2. Skip the scoring assist tool too and revisit the whole report later.
+
+### Files or systems affected
+
+1. `api/admin/recruiting.js` (`load_rating_comparison` action)
+2. `src/pages/adminrecruiting.mjs`, `public/scripts/admin-recruiting.js`
+3. `scripts/test-recruiting-foundation.mjs`
+4. `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md`
+
+### Follow up
+
+Manually test the comparison panel once real ratings exist. Revisit self-service claims and rank snapshot retention per `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` sections 2 and 5 whenever their trigger conditions are met.
+
 ## 2026 08 05 Overnight verification: no new database writes without the user present
 
 ### Decision

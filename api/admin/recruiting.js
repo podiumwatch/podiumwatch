@@ -913,6 +913,78 @@ async function previewPublicProfile(body) {
   };
 }
 
+// Read-only comparison aid, approved as Phase Three decision 5 (2026-08-05).
+// Shows an admin the currently published ratings in the same graduation
+// year, gender, and event group as the rating they are writing, sorted by
+// score, so they have fast side-by-side context. This must never become a
+// formula that produces a score -- it only ever returns already-published,
+// already-reviewed ratings for a human to look at.
+async function loadRatingComparison(body) {
+  await requireInstalled();
+  const graduationYear = cleanInteger(body.graduation_year, "Graduation year", 2000, 2200);
+  const gender = normalizeAthleteGender(body.gender);
+  const eventGroup = cleanAthleteText(body.event_group, 80).toLowerCase();
+  const excludeProfileId = cleanAthleteText(body.exclude_profile_id, 100)
+    ? cleanUuid(body.exclude_profile_id, "Athlete profile ID")
+    : null;
+
+  if (!EVENT_GROUPS.has(eventGroup)) {
+    fail("Choose a valid event group.");
+  }
+
+  if (gender === "unspecified") {
+    fail("Choose boys or girls.");
+  }
+
+  let query = supabaseAdmin
+    .from("athlete_published_recruit_ratings")
+    .select(
+      "profile_id, rating_score, star_rating, top_verified_mark_text, top_verified_event_key, state_class_rank, event_group_rank"
+    )
+    .eq("graduation_year", graduationYear)
+    .eq("gender", gender)
+    .eq("event_group", eventGroup)
+    .order("rating_score", { ascending: false })
+    .limit(50);
+
+  if (excludeProfileId) {
+    query = query.neq("profile_id", excludeProfileId);
+  }
+
+  const { data: ratings, error } = await query;
+
+  if (error) throw error;
+
+  const profileIds = [...new Set((ratings || []).map((row) => row.profile_id))];
+  const { data: profiles, error: profileError } = profileIds.length
+    ? await supabaseAdmin
+        .from("athlete_profiles")
+        .select("id, display_name")
+        .in("id", profileIds)
+    : { data: [], error: null };
+
+  if (profileError) throw profileError;
+
+  const nameByProfileId = new Map((profiles || []).map((row) => [row.id, row.display_name]));
+
+  return {
+    graduation_year: graduationYear,
+    gender,
+    event_group: eventGroup,
+    comparisons: (ratings || []).map((row) => ({
+      profile_id: row.profile_id,
+      display_name: nameByProfileId.get(row.profile_id) || "Unknown athlete",
+      rating_score: row.rating_score,
+      star_rating: row.star_rating,
+      star_label: starLabel(row.star_rating),
+      mark_text: row.top_verified_mark_text,
+      event_key: row.top_verified_event_key,
+      state_class_rank: row.state_class_rank,
+      event_group_rank: row.event_group_rank
+    }))
+  };
+}
+
 async function previewImport(body) {
   await requireInstalled();
   return previewPerformanceImport(body.rows, {
@@ -1001,6 +1073,8 @@ export default async function handler(request, response) {
       data = await archiveContentItem(body);
     } else if (action === "preview_public_profile") {
       data = await previewPublicProfile(body);
+    } else if (action === "load_rating_comparison") {
+      data = await loadRatingComparison(body);
     } else if (action === "preview_performance_import") {
       data = await previewImport(body);
     } else if (action === "commit_performance_import") {

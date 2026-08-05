@@ -176,13 +176,19 @@ Athlete profile recruiting controls from the Athlete Foundation remain consent b
 2. The public API and the athlete profile page compare the live computed rank against the most recently stored snapshot to show whether a rank went up, down, or stayed the same.
 3. A rating that has never been saved while published has no snapshot yet, so no movement is shown until the second time it is published or updated.
 
-## 13. Public profile preview
+## 13. Scoring assist
+
+The admin rating form includes a read-only "Compare to rated athletes in this group" action. It shows every currently published rating in the same graduation year, gender, and event group, sorted by score, with each athlete's name, mark, score, stars, and current ranks.
+
+This is reference context only. It never computes, suggests, or pre-fills a score — it only ever displays ratings that were already reviewed and published by an administrator. Per the existing rule, no athlete receives a rating automatically, and this tool does not change that.
+
+## 14. Public profile preview
 
 The admin recruiting page includes a preview action that shows exactly what an athlete's rating, recruiting activity, and media would look like to the public if everything currently in draft were published right now, without changing or publishing anything.
 
 A draft rating's rank cannot be shown in the preview, because a draft is intentionally excluded from `athlete_published_recruit_ratings` and its eventual rank depends on what else is published by the time it goes live.
 
-## 14. Main files
+## 15. Main files
 
 1. `install/03_RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.sql`
 2. `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql`
@@ -200,7 +206,7 @@ A draft rating's rank cannot be shown in the preview, because a draft is intenti
 14. `public/data/performance-import-template.csv`
 15. `scripts/test-recruiting-foundation.mjs`
 
-## 15. Main routes
+## 16. Main routes
 
 1. `/recruiting/`
 2. `/recruiting/methodology/`
@@ -208,7 +214,7 @@ A draft rating's rank cannot be shown in the preview, because a draft is intenti
 4. `/api/recruiting`
 5. `/api/admin/recruiting`
 
-## 16. Recommended first use
+## 17. Recommended first use
 
 1. Run migration 03, then migration 06.
 2. Open the Recruiting Center.

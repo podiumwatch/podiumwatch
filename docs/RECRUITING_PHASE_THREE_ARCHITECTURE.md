@@ -93,26 +93,26 @@ What actually needs deciding before scaling up:
 
 Flagged in `docs/NEXT_SESSION.md` limitation 4: "The first release does not calculate a score from a fixed formula." This must stay true — the project rule is explicit that no athlete receives a rating automatically, and the score must not be reduced to a formula. What can help without crossing that line is a **read-only comparison aid** shown next to the rating form, not a calculator that produces a number:
 
-- When an admin opens the rating form for an athlete in a given event group, show the current published ratings and scores of other athletes already rated in the same graduation year, gender, and event group, sorted by mark, so the admin has fast side-by-side context ("this athlete's 5K is 12 seconds faster than the last 4-star rating in this class") without the system suggesting a score.
-- This is a read-only extension of data that already exists (`athlete_published_recruit_ratings`, `athlete_best_performances`) surfaced in the admin UI — no new table, no new write path, no scoring logic. It is the smallest possible version of "assist" that cannot drift into "automatic."
+- When an admin opens the rating form for an athlete in a given event group, show the current published ratings of other athletes already rated in the same graduation year, gender, and event group, sorted by score (which lines up with their actual published rank), each row showing the athlete's name, mark, score, stars, and current ranks. This gives fast side-by-side context ("here's where a score like this would land among athletes already rated in this class") without the system suggesting a score.
+- This is a read-only extension of data that already exists (`athlete_published_recruit_ratings`) surfaced in the admin UI — no new table, no new write path, no scoring logic. It is the smallest possible version of "assist" that cannot drift into "automatic."
 
-## 5. Major decisions I need you to approve
+## 5. Major decisions — decided 2026-08-05
 
-1. **Build self-service claims now, or defer further?** This is the largest single item in this report — two new tables, one new RPC, a new public claim flow, a new (small) claimant dashboard, and new admin review actions. Recommend building it once you have enough published ratings that athletes/parents are actually asking for this, rather than ahead of demand.
-2. **Claim approval should always be manual, never auto-approved, unlike some team claims** — confirming this before it is built, since it is a real difference in trust model between a public team institution and an individual (often minor) athlete's information.
-3. **What exactly can an approved claim edit?** Section 2.3 proposes a narrow, specific list. Confirm or adjust that list before anything is built — this is the single most consequential privacy/trust decision in this report.
-4. **Rank snapshot retention** — defer deciding a specific retention rule until real usage data exists (recommended), or set a rule now.
-5. **Scoring assist tool** — build it, or is manual review without any comparison aid sufficient for now?
+1. **Self-service claims: deferred.** Not building this now. Revisit once there are enough published ratings that athletes/parents are actually asking for it. Sections 2.2-2.3's design stays in this report as the reference plan for whenever that happens.
+2. **Claim approval process**: not decided, since claims are deferred. Section 2.3's recommendation (always manual, never auto-approved) stands as the default to revisit alongside decision 1.
+3. **Claim edit permissions**: not decided, since claims are deferred. Section 2.3's narrow list stands as the default to revisit alongside decision 1.
+4. **Rank snapshot retention: deferred.** No cleanup rule yet. Revisit once real usage data exists.
+5. **Scoring assist tool: approved.** Building it now, as the entire scope of this Phase Three round. See section 4 for the design; it stays strictly read-only comparison context sorted by score, never a formula that produces a score.
 
-## 6. Controlled implementation order, if approved
+## 6. Controlled implementation order
 
-Nothing below is built. This is the recommended order once decisions in section 5 are made, matching the discipline used for Phases Zero, One, and Two: written and tested locally first, migrations run manually in Supabase by you, manual testing before any commit is pushed, and deploy only after explicit approval.
+Per the 2026-08-05 decisions, only the scoring assist tool is being built in this round. Steps 1-5 below (self-service claims) are recorded for whenever decision 1 is revisited, but are not being executed now.
 
-1. Write and manually test the claims migration (`athlete_profile_claims`, `athlete_profile_claim_access`, `claim_athlete_profile_v1`), reusing `claim_team_page_v3` as the direct template.
-2. Extend `api/admin/athletes.js` with the claims review actions.
-3. Build `/claim-your-profile/` and the claimant submission endpoints, enforcing the narrow permission list from section 2.3 at the API layer (not just hidden in the UI).
-4. Build the small claimant dashboard.
-5. Manually test the full loop: submit a claim, approve it as admin, confirm the claimant can only do what section 2.3 allows and nothing else, confirm a rejected/revoked claim immediately loses access.
-6. Add the scoring assist read-only panel to the admin rating form (independent of the claims work above; can be done in any order relative to it).
+1. ~~Write and manually test the claims migration~~ — deferred with decision 1.
+2. ~~Extend `api/admin/athletes.js` with claims review actions~~ — deferred with decision 1.
+3. ~~Build `/claim-your-profile/` and claimant submission endpoints~~ — deferred with decision 1.
+4. ~~Build the claimant dashboard~~ — deferred with decision 1.
+5. ~~Manually test the claims loop~~ — deferred with decision 1.
+6. **Add the scoring assist read-only panel to the admin rating form. Building this now.**
 7. Update `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md`, `docs/DECISIONS.md`, `docs/NEXT_SESSION.md`, and `docs/SESSION_LOG.md` to match, the same as every prior phase.
-8. Commit, push, and deploy only after your explicit approval, then confirm the live site the same way every prior phase was confirmed.
+8. Commit locally (this branch is already ahead of `main`; still not pushed or deployed). Push and deploy only after explicit approval, then confirm the live site the same way every prior phase was confirmed.

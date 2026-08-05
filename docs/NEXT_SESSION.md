@@ -16,6 +16,8 @@ Overnight on 2026-08-05, while diagnosing an athlete-profile-link error, three r
 
 All three fixes are committed locally to the `recruiting-phase-two-taxonomy-media` branch (not `main`, not pushed). No new database rows were created overnight — the write paths still need your own hands-on testing.
 
+A Phase Three architecture report was also drafted overnight (`docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`). Of its five decisions, self-service claims and rank snapshot retention were deferred; the read-only scoring assist tool was approved and built the same session (a "Compare to rated athletes in this group" panel on the admin rating form). It is read-only and was verified live against real (currently empty) data — add it to the manual testing list below once real ratings exist.
+
 ## Database work still required
 
 Migrations 01 through 06 are all installed in production Supabase as of 2026-08-04. No database work is currently outstanding. The next migration, if Phase Three's self-service claims are approved and built, would be numbered 07.
@@ -46,8 +48,9 @@ Migrations 01 through 06 are all installed in production Supabase as of 2026-08-
 7. Click "Preview public profile" on a test athlete with a draft rating, confirm the preview shows the rating content but explains the rank cannot be shown yet.
 8. Publish a rating, confirm it appears on `/recruiting/` and the athlete's profile page with a class rank and event group rank, and confirm the methodology label shown reads 2026.2, not 2026.1.
 9. Edit and re-save that rating, confirm the profile page shows rank movement compared to the first publish.
-10. Commit to `main`, push, and deploy only after explicit approval.
-11. Confirm the Vercel build and the live recruiting pages after deployment.
+10. With at least one published rating in a class/gender/event group, open the rating form for a second athlete in the same group and click "Compare to rated athletes in this group," confirm it shows the first athlete's mark, score, stars, and ranks, and confirm it never suggests or pre-fills a score.
+11. Commit to `main`, push, and deploy only after explicit approval.
+12. Confirm the Vercel build and the live recruiting pages after deployment.
 
 ## Remaining work
 

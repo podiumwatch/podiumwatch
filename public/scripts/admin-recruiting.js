@@ -28,6 +28,9 @@
   const previewButton = root.querySelector("[data-recruit-preview-button]");
   const previewPanel = root.querySelector("[data-recruit-preview-panel]");
   const previewBody = root.querySelector("[data-recruit-preview-body]");
+  const comparisonButton = root.querySelector("[data-recruit-comparison-button]");
+  const comparisonPanel = root.querySelector("[data-recruit-comparison-panel]");
+  const comparisonRows = root.querySelector("[data-recruit-comparison-rows]");
   let statusData = null;
   let selected = null;
   let importPreview = null;
@@ -206,6 +209,8 @@
     contentForm.elements.profile_id.value = profile.id || "";
     previewPanel.hidden = true;
     previewBody.innerHTML = "";
+    comparisonPanel.hidden = true;
+    comparisonRows.innerHTML = "";
 
     const best = context.best_performances || [];
     bestRows.innerHTML = best.length
@@ -676,6 +681,55 @@
       previewPanel.hidden = false;
       previewPanel.scrollIntoView({ behavior: "smooth", block: "start" });
       showMessage("Public profile preview generated. Nothing was published.");
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  comparisonButton?.addEventListener("click", async () => {
+    if (busy || !selected) return;
+    const eventGroup = ratingForm.elements.event_group.value;
+    const gender = selected.profile.gender;
+    const graduationYear = selected.profile.graduation_year;
+
+    if (!eventGroup) {
+      showMessage("Choose an event group first.", "error");
+      return;
+    }
+
+    if (!graduationYear || !gender || gender === "unspecified") {
+      showMessage("This athlete needs a graduation year and gender before comparing.", "error");
+      return;
+    }
+
+    setBusy(true);
+
+    try {
+      const data = await api({
+        action: "load_rating_comparison",
+        graduation_year: graduationYear,
+        gender,
+        event_group: eventGroup,
+        exclude_profile_id: selected.profile.id
+      });
+
+      comparisonRows.innerHTML = (data.comparisons || []).length
+        ? data.comparisons.map((item) =>
+            "<tr><td>" + escapeHtml(item.display_name) +
+            "</td><td>" + escapeHtml(item.mark_text || "Not listed") +
+            "</td><td>" + escapeHtml(item.rating_score ?? "Not rated") +
+            "</td><td>" + escapeHtml(stars(item.star_rating)) +
+            "</td><td>No. " + escapeHtml(item.state_class_rank ?? "—") +
+            "</td><td>No. " + escapeHtml(item.event_group_rank ?? "—") +
+            "</td></tr>"
+          ).join("")
+        : '<tr><td colspan="6">No other published ratings exist yet in this class, gender, and event group.</td></tr>';
+
+      comparisonPanel.hidden = false;
+      comparisonPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+      showMessage("Comparison loaded. This is reference context only -- it does not suggest a score.");
     } catch (error) {
       showMessage(error.message, "error");
     } finally {

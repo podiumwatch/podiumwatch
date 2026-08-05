@@ -157,6 +157,11 @@ export function adminRecruitingPage(site) {
                 </div>
                 <button class="button button-primary" type="submit">Save recruit rating</button>
               </form>
+              <div class="recruit-admin-actions">
+                <button class="button button-outline" type="button" data-recruit-comparison-button>Compare to rated athletes in this group</button>
+                <small>Shows already published ratings in the same class, gender, and event group as a side-by-side reference. It never suggests a score.</small>
+              </div>
+              <div class="recruit-admin-table-wrap" data-recruit-comparison-panel hidden><table class="recruit-admin-table"><thead><tr><th>Athlete</th><th>Mark</th><th>Score</th><th>Stars</th><th>Class rank</th><th>Group rank</th></tr></thead><tbody data-recruit-comparison-rows></tbody></table></div>
             </section>
 
             <section class="recruit-admin-panel">

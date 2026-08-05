@@ -323,6 +323,29 @@ includesAll(
   ],
   "Recruiting admin API media and preview actions"
 );
+
+// Phase Three decision 5 (2026-08-05): a read-only scoring assist tool that
+// shows already published ratings for side-by-side context. It must never
+// compute or suggest a score itself.
+assert.ok(
+  adminApi.includes("load_rating_comparison") &&
+    adminApi.includes("async function loadRatingComparison"),
+  "Recruiting admin API must expose the read-only rating comparison action."
+);
+assert.ok(
+  adminApi.includes('.from("athlete_published_recruit_ratings")') &&
+    /async function loadRatingComparison[\s\S]*?\n}/.test(adminApi),
+  "Rating comparison must read from already published ratings only."
+);
+includesAll(
+  adminPage,
+  [
+    "data-recruit-comparison-button",
+    "data-recruit-comparison-panel",
+    "It never suggests a score."
+  ],
+  "Recruiting admin page scoring assist markup"
+);
 assert.ok(
   adminApi.includes("cannot be shown until it is published"),
   "Preview action must explain why a draft rating has no public rank yet."
