@@ -1,5 +1,27 @@
 # Results Ingestion Status
 
+## 2026 08 05, first real Baumspage crawl job run
+
+### What was run
+
+Confirmed the engine was already installed (`status` action returned `installed: true`; no migration re-run was needed). Ran the "Exact next action" from the version 3 entry below for real: created and ran a Baumspage provider job through the real admin API (`create_ingestion_job` / `run_ingestion_job`), first at 10 pages against the Baumspage cross country catalog, then seeded directly at one real event page once the catalog-level run showed why: with ~30+ sibling event pages all discovered at once from the catalog, a small page budget is consumed entirely on that one layer before any single event's actual result files ever get queued. This is a real characteristic of Baumspage's two-hop structure (catalog -> event page -> linked result files), not a bug, and is worth knowing when sizing future provider-wide jobs.
+
+Seeded directly at one real event page (the 2025 Willard Early Bird Cross Country Invitational), the crawler correctly reached and parsed four real result PDFs end to end: fetched, classified as PDF, extracted, verified (score 73-97, evidence including `COMPLETE_RESULT_ROWS`), and staged as rows -- the first real, non-fixture proof that fetch -> classify -> extract -> verify -> stage works for a real Baumspage host.
+
+### Two real bugs found and fixed
+
+1. **PDF column drift.** `pdfText()` (in `lib/result_parsers.mjs`) joined PDF text items with exactly one space per item boundary rather than a pixel-proportional gap, so the number of spaces between reconstructed columns depended on how many separate text runs a PDF happened to split a field into, not on the real gap. The existing fixed-column parser then sliced data rows at character positions taken from the header line, which rarely lined up once place numbers and names of different lengths shifted everything after them. Real symptom: "Roberson, Jeremiah" / "Buckeye Central" parsed as athleteName "Rober" and schoolName "son, Jeremiah Buckeye Central". Fixed by padding each item out to the character column its real pixel x-coordinate corresponds to, so the same physical column lands at the same character column on every line.
+2. **Team Scores leak.** The generic text-row parser had no notion of a HY-TEK Team Scores table, so summary rows like "1 Old Fort  21  1 2 5 6 7" satisfied the generic place/name/mark pattern and were staged as fake individual results. Fixed with the same "Team Scores" section boundary already used by the separate manual-paste importer (`lib/recruiting_service.mjs`).
+
+Both fixed and verified: (a) via a permanent regression test using the actual PDF that exposed them, saved as a real fixture (`tests/fixtures/baumspage-boys-hs-results.pdf`), exercising the real `extractDocument()` pipeline directly, not a reimplementation; (b) live, end to end, through the real admin ingestion job API -- a fresh crawl of the same real meet now stages 39 correct rows per document with no column drift and no team-scores leak, down from 127 rows including corrupted names and 10 fake rows before the fix.
+
+### Honest current state
+
+1. The crawler, PDF/HTML/text extraction, verification scoring, and staging pipeline are now confirmed working end to end against a real Baumspage meet, for the first time with real evidence rather than fixture-only testing.
+2. Provider-wide catalog crawls (seeded at `https://www.baumspage.com/cc/`) will mostly discover event-index pages within a small page budget, not result documents -- a future improvement (prioritizing already-discovered pages' own children over undiscovered siblings) would help this scale without needing a very large page budget, but was not attempted this session to avoid destabilizing the widely-shared crawler logic without more time to validate it.
+3. Identity resolution (`resolveJobIdentities`), review, approval, and import into `athlete_performances` for a real ingestion job have not yet been exercised this session -- only crawl through staging.
+4. No SQL was run directly against Supabase for any of this; every check and job action went through the real admin API, exactly as the deployed product exposes it.
+
 ## 2026 08 03, version 3 verification update
 
 ### Repairs made after the Version 2 audit

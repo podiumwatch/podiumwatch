@@ -8,6 +8,8 @@ A fourth meet (2025 OHSAA Division 2 Boys Cross Country, 215 rows) has its schoo
 
 Pattern holding across four meets now: check `ohio_schools` for a confident alias first (increasingly, the same school recurs across divisions -- CVCA, Hoban, and the Holland Springfield were all already known by the time D2 came up), then check `public/data/ohio-school-foundation-2026-27.json` before concluding a school is genuinely missing from the official source rather than just abbreviated.
 
+Separately, the user set standing autonomy permissions this session (see `.claude/settings.json` and the memory note on standing permissions) and asked for progress on the separate Results Ingestion Engine (Baumspage crawler). First real, non-fixture, end-to-end success achieved: a real Baumspage event page crawled, its result PDFs fetched and parsed, rows staged correctly. Two real bugs found and fixed along the way (PDF column drift, a Team Scores leak) -- full detail in `docs/RESULTS_INGESTION_STATUS.md`, 2026-08-05 entry. Not yet exercised: identity resolution, review, approval, and import into `athlete_performances` for a real ingestion job (only crawl-to-staging has been verified). This work is committed locally but not yet pushed to production.
+
 ## Current working state
 
 The Phase Zero safety cleanup remains deployed and confirmed live. The Phase One architecture report was audited and approved on 2026-08-04 (`docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md`). Phase Two was implemented on top of that approval and migration 06 was run successfully in Supabase on 2026-08-04.

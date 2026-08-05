@@ -2,6 +2,47 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 First real Baumspage results ingestion crawl, two bugs fixed
+
+### Date
+
+2026 08 05
+
+### Goal
+
+With new standing autonomy permissions in place (see `.claude/settings.json` and the memory note on standing permissions), get as far as possible toward running a first real Baumspage crawl job for the separate Results Ingestion Engine, stopping only for git push, Vercel deploys, direct Supabase SQL, publishing/approving anything for public visibility, destructive git commands, or deleting files from before this session.
+
+### Completed
+
+1. Read `docs/RESULTS_INGESTION_STATUS.md`, `docs/RESULTS_INGESTION_PLAN.md`, and `docs/RESULTS_PROVIDER_MATRIX.md`. Confirmed via the real admin API (not direct SQL) that the engine was already installed, so no migration re-run was needed.
+2. Ran a 10-page Baumspage provider job at the catalog root, then a 30-page one, both of which discovered only event-index pages and zero result documents -- diagnosed this as an expected characteristic of Baumspage's two-hop catalog structure (many sibling event pages consume a small page budget before any single event's linked result files get queued), not a bug.
+3. Seeded a job directly at one real event page (the 2025 Willard Early Bird Cross Country Invitational) and got the first real, non-fixture, end-to-end success: 4 real result PDFs fetched, classified, extracted, verified, and staged.
+4. Found and fixed two real bugs in the shared parsing library exposed by real data: (a) PDF column drift, where `pdfText()`'s naive one-space-per-item joining corrupted athlete names and school names whenever a PDF happened to split a field across multiple text runs; (b) a Team Scores table leaking three fake "individual result" rows per document. Full technical detail in `docs/RESULTS_INGESTION_STATUS.md`.
+5. Fixed both, added a real fixture (the actual PDF that exposed them) and two permanent regression tests exercising the real pipeline, and verified end to end through the real admin API a second time: a fresh crawl of the same real meet now stages exactly 39 correct rows per document.
+6. Created `.claude/settings.json` at the user's explicit direction, recording standing permission rules (free rein for file edits and local git/npm/node/build commands; always ask before push, deploy, direct Supabase SQL, publishing, destructive git, or deleting pre-session files). Broadened its Bash allow rule from specific command prefixes to all Bash after the narrower version still prompted for plain `grep`/`rm`.
+
+### Files changed
+
+`lib/result_parsers.mjs`, `tests/results-ingestion.test.mjs`, `tests/fixtures/baumspage-boys-hs-results.pdf` (new), `.claude/settings.json` (new), `docs/RESULTS_INGESTION_STATUS.md`.
+
+### Database migrations
+
+None. No SQL was run directly against Supabase for any of this session's results-ingestion work -- every check and job action went through the real admin API (`/api/admin/results-sources/`), the same one the deployed product exposes. Several test ingestion jobs were created this way and left in the database (dry-run, not public, matching several similar leftover test jobs already there from 2026-08-04).
+
+### Automated testing
+
+`npm test` (all 38 checks, including the two new PDF regression tests) passes.
+
+### Manual testing
+
+Verified live, twice, through the real admin ingestion job API against the real Baumspage host: once to discover both bugs, once after fixing them to confirm clean staged rows.
+
+### Remaining work
+
+1. Identity resolution, review, approval, and import into `athlete_performances` for a real ingestion job have not yet been exercised -- only crawl through staging.
+2. Consider a crawler improvement to prioritize a discovered page's own children over undiscovered sibling pages, so provider-wide catalog crawls reach real result documents without needing a very large page budget. Not attempted this session given the shared, widely-used crawler logic and limited time to validate a bigger change.
+3. Decide whether to push tonight's accumulated commits (this fix plus the statewide-import work from earlier) to production.
+
 ## 2026 08 05 Fourth real meet (D2 boys): 13 more aliases, applying the precedent
 
 ### Date
