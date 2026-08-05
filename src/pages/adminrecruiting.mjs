@@ -124,6 +124,15 @@ export function adminRecruitingPage(site) {
         <section class="info-card recruit-admin-panel" data-recruit-athlete-editor hidden>
           <div><p class="eyebrow">Recruit evaluation</p><h2 data-recruit-athlete-title>Edit athlete recruiting information</h2></div>
 
+          <div class="recruit-admin-actions">
+            <button class="button button-outline" type="button" data-recruit-preview-button>Preview public profile</button>
+            <small>Shows exactly what would appear publicly if every current draft were published right now. Nothing is changed or published by this preview.</small>
+          </div>
+          <div class="recruit-admin-panel" data-recruit-preview-panel hidden>
+            <h3>Public profile preview</h3>
+            <div data-recruit-preview-body></div>
+          </div>
+
           <div class="recruit-admin-grid">
             <section class="recruit-admin-panel">
               <h3>Podium Watch recruit rating</h3>
@@ -131,7 +140,7 @@ export function adminRecruitingPage(site) {
                 <input type="hidden" name="profile_id">
                 <input type="hidden" name="rating_id">
                 <div class="recruit-admin-fields">
-                  <label>Event group<select name="event_group" required><option value="distance">Distance</option><option value="sprints">Sprints</option><option value="hurdles">Hurdles</option><option value="jumps">Jumps</option><option value="pole_vault">Pole Vault</option><option value="throws">Throws</option><option value="multis">Multis</option><option value="other">Other</option></select></label>
+                  <label>Event group<select name="event_group" required><option value="cross_country">Cross Country</option><option value="distance">Distance</option><option value="middle_distance">Middle Distance</option><option value="sprints">Sprints</option><option value="hurdles">Hurdles</option><option value="jumps">Jumps</option><option value="pole_vault">Pole Vault</option><option value="throws">Throws</option><option value="combined_events">Combined Events</option><option value="other">Other</option></select></label>
                   <label>Primary event<select name="primary_event_key" data-recruit-event-options></select></label>
                   <label>Secondary event keys<input name="secondary_event_keys" placeholder="track_1600, track_3200"></label>
                   <label>Rating score<input type="number" name="rating_score" min="70" max="100" step=".01"></label>
@@ -148,6 +157,11 @@ export function adminRecruitingPage(site) {
                 </div>
                 <button class="button button-primary" type="submit">Save recruit rating</button>
               </form>
+              <div class="recruit-admin-actions">
+                <button class="button button-outline" type="button" data-recruit-comparison-button>Compare to rated athletes in this group</button>
+                <small>Shows already published ratings in the same class, gender, and event group as a side-by-side reference. It never suggests a score.</small>
+              </div>
+              <div class="recruit-admin-table-wrap" data-recruit-comparison-panel hidden><table class="recruit-admin-table"><thead><tr><th>Athlete</th><th>Mark</th><th>Score</th><th>Stars</th><th>Class rank</th><th>Group rank</th></tr></thead><tbody data-recruit-comparison-rows></tbody></table></div>
             </section>
 
             <section class="recruit-admin-panel">
@@ -178,6 +192,27 @@ export function adminRecruitingPage(site) {
           </div>
 
           <section class="recruit-admin-panel"><h3>Recruiting timeline</h3><div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Type</th><th>College</th><th>Date</th><th>Verification</th><th>Public</th><th>Action</th></tr></thead><tbody data-recruit-activity-rows></tbody></table></div></section>
+
+          <section class="recruit-admin-panel">
+            <h3>Athlete media</h3>
+            <form class="recruit-admin-form" data-recruit-content-form>
+              <input type="hidden" name="profile_id">
+              <input type="hidden" name="content_item_id">
+              <div class="recruit-admin-fields">
+                <label>Media type<select name="content_type" required><option value="photo">Photo</option><option value="video">Video</option><option value="article">Article</option><option value="other">Other</option></select></label>
+                <label>Status<select name="status"><option value="draft">Draft</option><option value="published">Published</option><option value="hidden">Hidden</option><option value="archived">Archived</option></select></label>
+                <label class="recruit-admin-wide">Media URL<input type="url" name="url" required placeholder="https://"></label>
+                <label>Title<input name="title"></label>
+                <label>Credit<input name="credit" placeholder="Photographer or source name"></label>
+                <label class="recruit-admin-wide">Caption<textarea name="caption"></textarea></label>
+                <label>Source label<input name="source_label"></label>
+                <label>Source URL<input type="url" name="source_url" placeholder="https://"></label>
+                <label class="recruit-admin-check"><input type="checkbox" name="featured">Feature on profile</label>
+              </div>
+              <button class="button button-dark" type="submit">Save media item</button>
+            </form>
+            <div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Type</th><th>Title</th><th>Status</th><th>Featured</th><th>Action</th></tr></thead><tbody data-recruit-content-rows></tbody></table></div>
+          </section>
         </section>
       </div>
     </div>

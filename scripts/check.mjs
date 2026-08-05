@@ -79,6 +79,27 @@ for (const file of sourceScripts) {
   }
 }
 
+// vercel.json sets trailingSlash: true, so a request to an API route without a
+// trailing slash gets a 308 redirect whose Location header drops the query
+// string, silently discarding every filter or slug parameter. This has
+// already happened three times (the athlete directory, the athlete profile
+// page, and the recruiting directory all called an API path without the
+// trailing slash their own query string needed). Flag any browser fetch call
+// that builds an /api/ URL with a "?" not immediately preceded by "/".
+const browserScripts = sourceScripts.filter((file) =>
+  path.relative(root, file).replaceAll("\\", "/").startsWith("public/scripts/")
+);
+for (const file of browserScripts) {
+  const text = await fs.readFile(file, "utf8");
+  for (const match of text.matchAll(/\/api\/[a-zA-Z0-9_\-/]*\?/g)) {
+    if (!match[0].endsWith("/?")) {
+      errors.push(
+        `${path.relative(root, file)}: fetch target "${match[0]}" is missing the trailing slash trailingSlash routing requires before its query string, which silently drops the query string after Vercel's redirect`
+      );
+    }
+  }
+}
+
 const jsonFiles = await walk(root, (file) => path.extname(file) === ".json");
 for (const file of jsonFiles) {
   try {

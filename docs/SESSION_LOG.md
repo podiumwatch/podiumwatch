@@ -2,6 +2,131 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Recruiting Phase Two write-path verification and merge
+
+### Date
+
+2026 08 05
+
+### Goal
+
+With the user present, verify the Phase Two and Phase Three write paths that overnight verification deliberately did not touch (media save/publish, rating draft/publish, rank movement, the scoring comparison tool), then merge, push, and deploy once confirmed.
+
+### Completed
+
+1. Created one throwaway, obviously fake test athlete profile ("ZZTEST VerificationAthlete", never a real person) with the user's explicit approval, to exercise every write path without touching real athlete data.
+2. Verified, in order, against the real (but disposable) profile: performance import (confirmed the new `cross_country` taxonomy resolves correctly), a draft rating (confirmed it stays unranked with the correct explanatory note), publishing that rating (confirmed it attaches to the active `2026.2` methodology, not the retired one -- this is live confirmation of the most serious bug fixed overnight), the public recruiting directory and the individual athlete profile page both showing the published rating correctly, a draft media item (confirmed hidden), publishing it (confirmed it appears), a second rating save to confirm the rank snapshot mechanism records correctly, and the scoring comparison tool (confirmed it surfaces the published rating as reference context).
+3. Every check passed. No bugs found during this pass.
+4. Deleted the entire throwaway profile and everything attached to it (performance, import batch and its audit rows, rating, media, rank snapshots -- most cascaded automatically via the existing foreign key `on delete cascade` rules). Verified with a direct count query that zero rows remain, and confirmed the test athlete no longer appears in either public search endpoint.
+5. Merged `recruiting-phase-two-taxonomy-media` into `main`, pushed, and deployed (see git log for the merge commit).
+
+### Files changed
+
+None beyond what Phase Two, the bug fixes, and Phase Three already changed. This session was verification and cleanup only.
+
+### Database migrations
+
+None. Migration 06 (run 2026-08-04) is unaffected. All test data created during verification was fully deleted; the schema and all pre-existing data are unchanged.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` all pass.
+
+### Manual testing
+
+All Phase Two and Phase Three write paths verified live, as described above. This closes out the manual testing checklist in `docs/NEXT_SESSION.md`.
+
+### Remaining work
+
+1. Confirm the live site after deployment (desktop and phone), matching the discipline used after Phase Zero's deployment.
+2. Self-service claims and rank snapshot retention remain deferred per `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`; revisit when their trigger conditions are met.
+
+## 2026 08 05 Recruiting Phase Two verification (overnight)
+
+### Date
+
+2026 08 05
+
+### Goal
+
+Diagnose the athlete profile link error found during Phase Two manual testing, verify Phase Two end to end at the API level while the user was away, and fix whatever was found. No new database writes, commits to `main`, pushes, or deploys.
+
+### Completed
+
+1. Diagnosed the athlete profile link error by reproducing it directly against the local API instead of guessing: confirmed with curl that `vercel.json`'s `trailingSlash: true` makes Vercel 308-redirect any `/api/...` request missing its trailing slash, and that redirect's `Location` header drops the query string entirely.
+2. Found this affected three client-side fetch calls, not just the one reported: `public/scripts/athlete-profile.js` (individual athlete profile, completely broken), `public/scripts/athlete-directory.js` (public athlete search filters, silently ignored), and `public/scripts/recruiting-directory.js` (public recruiting search filters, silently ignored). Fixed all three by adding the trailing slash, matching the convention already used correctly everywhere else in the codebase.
+3. Added a general guard to `scripts/check.mjs` that scans every browser script for this exact pattern (an `/api/...` fetch target with a `?` not immediately preceded by `/`) so this class of bug cannot silently reappear. Verified the guard actually catches the bug by temporarily reintroducing it, then restored the fix.
+4. While verifying the fix, found the public recruiting API (`api/recruiting/index.js`) hardcoded the retired `2026.1` methodology key and label in its response instead of reading whichever methodology is active. Fixed it to query the active methodology from the database.
+5. While testing the admin status dashboard read-only, found a second, more serious instance of the same class of bug: `api/admin/recruiting.js`'s `requireInstalled()` gate looked up the methodology by the same hardcoded `2026.1` key. Because the migration retires old methodology rows instead of deleting them, this was not caught by any error — it silently kept resolving to the retired methodology, which meant every admin action (including creating a new rating) would have attached to the wrong, retired methodology version. Fixed it to look up `status = 'active'` instead, confirmed the fix live against the read-only status endpoint.
+6. Added regression tests for all of the above to `scripts/test-recruiting-foundation.mjs` and `scripts/test-athlete-foundation.mjs`.
+7. Made a deliberate decision not to create any new database rows overnight, even throwaway or self-cleaned-up test data, since the local dev server and production point to the same Supabase project and the user was not available to review a write before it happened. Verification of the actual write paths (media save, rating publish, rank movement) was limited to careful code review plus live testing of every read-only path (search, get, status, directory listing, profile detail). The write paths still need the user's own hands-on testing.
+
+### Files changed
+
+`api/admin/recruiting.js`, `api/recruiting/index.js`, `public/scripts/athlete-directory.js`, `public/scripts/athlete-profile.js`, `public/scripts/recruiting-directory.js`, `scripts/check.mjs`, `scripts/test-athlete-foundation.mjs`, `scripts/test-recruiting-foundation.mjs`.
+
+### Database migrations
+
+None run. Migration 06 (run successfully by the user on 2026-08-04) was not modified.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` all pass, including new regression tests for both bug classes found tonight.
+
+### Manual testing
+
+Read-only API paths were verified directly (admin search, admin get, admin status, public athlete directory with a real filter, public athlete detail, public recruiting listing). Write paths (media save/publish, rating draft/publish, rank movement on a second save) were reviewed in code but not executed, and still need the user's own click-through testing.
+
+### Remaining work
+
+1. User to manually test the write paths per the checklist in `docs/NEXT_SESSION.md`.
+2. Commit this checkpoint (already committed locally to `recruiting-phase-two-taxonomy-media`) and merge/push/deploy only after explicit approval.
+3. Review the Phase Three architecture report drafted the same night.
+
+## 2026 08 04 Recruiting Phase Two implementation
+
+### Date
+
+2026 08 04
+
+### Goal
+
+Implement the recruiting architecture approved earlier the same session in `docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md`: the nine group event taxonomy, athlete media, ranking movement, and an admin public profile preview, without running any database change or deploying anything yet.
+
+### Completed
+
+1. Wrote `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql`: widens then re-narrows the event group check constraints on three tables, backfills the event catalog and any existing performance or rating rows into the new taxonomy, retires methodology `2026.1` and adds active methodology `2026.2`, and creates `athlete_content_items` and `athlete_recruit_rating_rank_snapshots` with the same RLS and grant pattern as every other table in the project.
+2. Updated `lib/recruiting_service.mjs`: the `EVENT_GROUPS` set and every event definition's group now match the approved taxonomy (800 meters to Middle Distance, 600 meters to Sprints, cross country events to Cross Country, decathlon and similar to Combined Events). Added `recordRecruitRatingRankSnapshots` and `loadLatestRankSnapshots` for ranking movement, and `CONTENT_ITEM_TYPES`/`CONTENT_ITEM_STATUSES` for media.
+3. Extended `api/admin/recruiting.js` with `save_content_item`, `archive_content_item`, and `preview_public_profile` actions, and recorded a rank snapshot after every rating save.
+4. Extended `api/recruiting/index.js` and `api/athletes/detail.js` to surface rank movement, and `api/athletes/detail.js` to surface published media.
+5. Extended `src/pages/adminrecruiting.mjs` and `public/scripts/admin-recruiting.js` with a media form and a "preview public profile" panel, and updated the rating form's event group options.
+6. Extended `src/pages/recruiting.mjs` with the new event group filters, and `src/pages/athletedetail.mjs` and `public/scripts/athlete-profile.js` with a media panel and rank movement indicator.
+7. Extended `scripts/test-recruiting-foundation.mjs` with assertions for the new taxonomy, the new migration, and the new admin actions and markup.
+8. Found and fixed one bug during self-review: `PERFORMANCE_SOURCE_TYPES` was used in the new media save action without being imported, which would have failed at runtime the first time an admin saved a media item. Added the import, added a test assertion that would catch a regression, and reused the already-imported `CONTENT_ITEM_STATUSES` set instead of a duplicate hardcoded list.
+9. Updated `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md` with the new taxonomy, media, ranking movement, and profile preview sections, and updated the main files and recommended first use lists.
+
+### Files changed
+
+`install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql` (new), `lib/recruiting_service.mjs`, `api/admin/recruiting.js`, `api/recruiting/index.js`, `api/athletes/detail.js`, `src/pages/adminrecruiting.mjs`, `public/scripts/admin-recruiting.js`, `src/pages/recruiting.mjs`, `src/pages/athletedetail.mjs`, `public/scripts/athlete-profile.js`, `scripts/test-recruiting-foundation.mjs`, `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md`, `docs/DECISIONS.md`, `docs/NEXT_SESSION.md`.
+
+### Database migrations
+
+`install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql` was written and is additive only, but has not been run against Supabase yet.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` (check plus Athlete Foundation, Recruit Ratings, and 36 results ingestion tests) all pass locally.
+
+### Manual testing
+
+Not yet performed. See "Manual testing still required for Phase Two" in `docs/NEXT_SESSION.md`.
+
+### Remaining work
+
+1. Run migration 06 in Supabase.
+2. Complete the manual testing checklist in `docs/NEXT_SESSION.md`.
+3. Commit, push, and deploy only after explicit approval.
+
 ## 2026 08 04 Phase Zero cleanup verification
 
 ### Date

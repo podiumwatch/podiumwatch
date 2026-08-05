@@ -2,6 +2,118 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 05 Recruiting Phase Three: scoring assist approved, claims deferred
+
+### Decision
+
+Of the five decisions in `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`, build only the read-only scoring assist tool now. Defer self-service athlete and parent claims until there is real demand for it, and defer a rank snapshot retention rule until real usage data exists. The scoring assist tool was implemented the same session: a `load_rating_comparison` admin action and a "Compare to rated athletes in this group" panel on the rating form, showing already published ratings in the same graduation year, gender, and event group, sorted by score.
+
+### Reason
+
+Self-service claims is the largest item in the report and nothing indicates real demand for it yet. A rank snapshot retention rule is premature with zero published ratings to observe real growth patterns against. The scoring assist tool is small, purely additive, read-only, and directly useful for the manual review work still ahead.
+
+### Alternatives considered
+
+1. Build all of Phase Three now, including claims.
+2. Skip the scoring assist tool too and revisit the whole report later.
+
+### Files or systems affected
+
+1. `api/admin/recruiting.js` (`load_rating_comparison` action)
+2. `src/pages/adminrecruiting.mjs`, `public/scripts/admin-recruiting.js`
+3. `scripts/test-recruiting-foundation.mjs`
+4. `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md`
+
+### Follow up
+
+Manually test the comparison panel once real ratings exist. Revisit self-service claims and rank snapshot retention per `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` sections 2 and 5 whenever their trigger conditions are met.
+
+## 2026 08 05 Overnight verification: no new database writes without the user present
+
+### Decision
+
+While verifying Phase Two overnight without the user available to review each step, do not create any new rows in Supabase, including throwaway or self-cleaned-up test data, even against an obviously fake profile. Limit verification to read-only API calls against existing data and careful code review of the write paths.
+
+### Reason
+
+The local dev server and production point to the same Supabase project. A write made during unsupervised testing is a real write to the live database with no one available to catch a mistake before it happens. This is different from the earlier Phase Zero pattern of preview-only testing, which never wrote anything at all regardless of supervision.
+
+### Alternatives considered
+
+1. Create a throwaway, obviously fake athlete profile, exercise every write action against it, then delete everything afterward.
+2. Skip verification entirely until the user returns.
+
+### Files or systems affected
+
+None directly. This is a process decision, not a code change.
+
+### Follow up
+
+The write paths (media save and publish, rating draft and publish, rank movement on a second save) still need the user's own hands-on testing. See `docs/NEXT_SESSION.md`.
+
+## 2026 08 04 Recruiting Phase Two implementation written, not yet installed
+
+### Decision
+
+Implement the approved Phase One architecture: write migration `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql` (nine group taxonomy, methodology version 2026.2, `athlete_content_items`, `athlete_recruit_rating_rank_snapshots`), extend `lib/recruiting_service.mjs` and the admin and public recruiting APIs and pages, and extend the automated tests. Do not run the migration against Supabase, commit, push, or deploy until reviewed and explicitly approved.
+
+### Reason
+
+The Phase One report recommended the smallest additive change that closes the identified gaps while reusing every existing table, service, admin pattern, and security boundary. Writing the code first and testing it locally, the same way Phase Zero was handled, lets the migration be reviewed before it touches the real database.
+
+### Alternatives considered
+
+1. Run the migration immediately after writing it.
+2. Skip the admin preview action and only fix the taxonomy.
+3. Build hand curated ranking sets instead of the rank snapshot table (rejected in Phase One decision 3).
+
+### Files or systems affected
+
+1. `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql` (new, not yet run)
+2. `lib/recruiting_service.mjs`
+3. `api/admin/recruiting.js`
+4. `api/recruiting/index.js`
+5. `api/athletes/detail.js`
+6. `src/pages/adminrecruiting.mjs`, `public/scripts/admin-recruiting.js`
+7. `src/pages/recruiting.mjs`
+8. `src/pages/athletedetail.mjs`, `public/scripts/athlete-profile.js`
+9. `scripts/test-recruiting-foundation.mjs`
+10. `docs/RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.md`
+
+### Follow up
+
+Migration 06 was run in Supabase on 2026-08-04. The first attempt failed with a check constraint violation because the taxonomy backfill only updated rows matching a hardcoded list of the 35 expected event keys instead of every row in the table; the transaction rolled back cleanly with no lasting effect. The backfill was rewritten to apply to every row with a safety net for any leftover retired value, and the corrected migration ran successfully on the second attempt. Manually test the admin media form, the public profile preview, one rating publish and its rank movement on a second save, and the individual athlete profile's new media panel, before committing, pushing, or deploying.
+
+## 2026 08 04 Recruiting Phase One architecture approved
+
+### Decision
+
+Approve the Phase One recruiting architecture report (`docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md`) without building anything yet. Adopt a new 9 value event group taxonomy (Cross Country, Distance, Middle Distance, Sprints, Hurdles, Jumps, Pole Vault, Throws, Combined Events) as methodology version 2026-2, classify 800 meters as Middle Distance and 600 meters as Sprints while keeping an other fallback bucket, rely on the existing live computed ranking view instead of hand curated ranking sets, keep the recruiting performance importer and the Results Source Manager permanently separate for now, and confirm the first launch scope as one graduation class, about 25 athletes, and one gender.
+
+### Reason
+
+An audit of the existing statewide school, athlete profile, and Recruit Ratings systems found that most of a recruiting platform already exists and is wired end to end, including the public recruiter search, the methodology page, and the recruit rating panel on the individual athlete profile page. The real gaps were a taxonomy mismatch, missing ranking movement history, no athlete media table, no admin preview before publishing, duplicated college interest storage, and two disconnected performance import pipelines. A small additive migration reusing every existing table, service, and security pattern was recommended instead of a rebuild.
+
+### Alternatives considered
+
+1. Keep the current 8 value event group taxonomy and accept that cross country and track distance share one ranking bucket.
+2. Build hand curated ranking sets that can override score based sort order.
+3. Connect the Results Source Manager crawler to the recruiting performance importer now instead of later.
+4. Launch with a broader scope covering more than one graduation class or both genders.
+
+### Files or systems affected
+
+1. Recruit Ratings event catalog and event group taxonomy
+2. Recruit rating methodology versioning
+3. Future athlete media table
+4. Future rank snapshot table
+5. Admin recruiting workflow
+6. Public recruiting directory and individual athlete profile page
+
+### Follow up
+
+Phase Two implementation (the migration, service, and admin changes listed in report sections 8 and 10) has not started. Begin only when explicitly requested, following the controlled implementation order in section 10 of the report, and update this log again when methodology version 2026-2 is actually created in the database.
+
 ## 2026 08 04 Phase Zero import and release safety cleanup
 
 ### Decision

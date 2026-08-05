@@ -8,10 +8,13 @@ process.env.SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 
 const {
+  EVENT_GROUPS,
   eventDefinitions,
+  loadLatestRankSnapshots,
   normalizePerformanceImportRow,
   parseMark,
   performanceDuplicateKey,
+  recordRecruitRatingRankSnapshots,
   resolveEvent,
   starRatingForScore,
   validatePerformanceImportRow
@@ -30,6 +33,9 @@ function includesAll(text, values, label) {
 const migration = await read(
   "install/03_RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.sql"
 );
+const taxonomyMigration = await read(
+  "install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql"
+);
 const publicApi = await read("api/recruiting/index.js");
 const adminApi = await read("api/admin/recruiting.js");
 const buildScript = await read("scripts/build.mjs");
@@ -37,6 +43,7 @@ const publicPage = await read("src/pages/recruiting.mjs");
 const methodologyPage = await read("src/pages/recruitingmethodology.mjs");
 const adminPage = await read("src/pages/adminrecruiting.mjs");
 const siteScript = await read("public/scripts/site.js");
+const recruitingDirectoryScript = await read("public/scripts/recruiting-directory.js");
 const mainStyles = await read("src/styles/main.css");
 const packageFile = await read("package.json");
 const template = await read("public/data/performance-import-template.csv");
@@ -242,6 +249,169 @@ assert.notEqual(
 
 assert.ok(eventDefinitions().length >= 30, "Expected a complete event catalog.");
 
+// Phase Two: nine group taxonomy (Cross Country, Distance, Middle Distance,
+// Sprints, Hurdles, Jumps, Pole Vault, Throws, Combined Events) plus an
+// "other" fallback, approved 2026-08-04.
+assert.deepEqual(
+  [...EVENT_GROUPS].sort(),
+  [
+    "combined_events",
+    "cross_country",
+    "distance",
+    "hurdles",
+    "jumps",
+    "middle_distance",
+    "other",
+    "pole_vault",
+    "sprints",
+    "throws"
+  ],
+  "Event group taxonomy must match the approved Phase One architecture decision."
+);
+
+const eventGroupByKey = new Map(
+  eventDefinitions().map((event) => [event.event_key, event.event_group])
+);
+assert.equal(eventGroupByKey.get("xc_5k"), "cross_country");
+assert.equal(eventGroupByKey.get("xc_2_mile"), "cross_country");
+assert.equal(eventGroupByKey.get("track_800"), "middle_distance");
+assert.equal(eventGroupByKey.get("track_1600"), "middle_distance");
+assert.equal(eventGroupByKey.get("track_mile"), "middle_distance");
+assert.equal(eventGroupByKey.get("track_600"), "sprints");
+assert.equal(eventGroupByKey.get("track_3200"), "distance");
+assert.equal(eventGroupByKey.get("track_5000"), "distance");
+assert.equal(eventGroupByKey.get("decathlon"), "combined_events");
+assert.equal(eventGroupByKey.get("heptathlon"), "combined_events");
+assert.ok(
+  ![...eventGroupByKey.values()].includes("multis"),
+  "No event should remain assigned to the retired 'multis' group."
+);
+
+assert.equal(typeof recordRecruitRatingRankSnapshots, "function");
+assert.equal(typeof loadLatestRankSnapshots, "function");
+
+includesAll(
+  taxonomyMigration,
+  [
+    "'cross_country'",
+    "'middle_distance'",
+    "'combined_events'",
+    "podium-watch-recruit-ratings-2026-2",
+    "status = 'retired'",
+    "create table if not exists public.athlete_content_items",
+    "create table if not exists public.athlete_recruit_rating_rank_snapshots",
+    "enable row level security",
+    "grant all on table public.athlete_content_items to service_role",
+    "grant all on table public.athlete_recruit_rating_rank_snapshots to service_role"
+  ],
+  "Recruiting taxonomy and media migration"
+);
+assert.ok(
+  !/insert\s+into\s+public\.athlete_content_items\s*\(/i.test(taxonomyMigration),
+  "Migration must not invent or seed athlete media."
+);
+
+includesAll(
+  adminApi,
+  [
+    "save_content_item",
+    "archive_content_item",
+    "preview_public_profile",
+    "recordRecruitRatingRankSnapshots",
+    "CONTENT_ITEM_TYPES",
+    "PERFORMANCE_SOURCE_TYPES"
+  ],
+  "Recruiting admin API media and preview actions"
+);
+
+// Phase Three decision 5 (2026-08-05): a read-only scoring assist tool that
+// shows already published ratings for side-by-side context. It must never
+// compute or suggest a score itself.
+assert.ok(
+  adminApi.includes("load_rating_comparison") &&
+    adminApi.includes("async function loadRatingComparison"),
+  "Recruiting admin API must expose the read-only rating comparison action."
+);
+assert.ok(
+  adminApi.includes('.from("athlete_published_recruit_ratings")') &&
+    /async function loadRatingComparison[\s\S]*?\n}/.test(adminApi),
+  "Rating comparison must read from already published ratings only."
+);
+includesAll(
+  adminPage,
+  [
+    "data-recruit-comparison-button",
+    "data-recruit-comparison-panel",
+    "It never suggests a score."
+  ],
+  "Recruiting admin page scoring assist markup"
+);
+assert.ok(
+  adminApi.includes("cannot be shown until it is published"),
+  "Preview action must explain why a draft rating has no public rank yet."
+);
+
+includesAll(
+  adminPage,
+  [
+    "cross_country",
+    "middle_distance",
+    "combined_events",
+    "data-recruit-content-form",
+    "data-recruit-preview-button",
+    "data-recruit-preview-panel"
+  ],
+  "Recruiting admin page media and preview markup"
+);
+
+includesAll(
+  publicPage,
+  [
+    "cross_country",
+    "middle_distance",
+    "combined_events"
+  ],
+  "Public recruiting directory event group filters"
+);
+
+// Bug found and fixed 2026-08-05: the admin recruiting API's requireInstalled
+// gate looked up the methodology by a hardcoded key instead of by whichever
+// version is active. That silently broke the instant 2026.2 replaced 2026.1
+// as the active methodology -- every admin action (including creating a new
+// rating) would have kept operating under the retired 2026.1 row instead of
+// failing loudly, because the retired row was never deleted, only marked
+// retired, so the hardcoded lookup kept finding it.
+assert.ok(
+  !adminApi.includes('.eq("methodology_key", "podium-watch-recruit-ratings-2026-1")'),
+  "Admin recruiting API must not hardcode a specific methodology key."
+);
+assert.ok(
+  adminApi.includes('.eq("status", "active")') &&
+    adminApi.includes("async function requireInstalled"),
+  "Admin recruiting API must look up the active methodology, not a hardcoded version."
+);
+
+// Bug found and fixed 2026-08-05: the public recruiting API hardcoded the
+// retired 2026.1 methodology key and label instead of reading whichever
+// methodology is actually active, so it would silently go stale the moment a
+// new methodology version (like 2026.2) was activated.
+assert.ok(
+  publicApi.includes('.eq("status", "active")') &&
+    publicApi.includes("athlete_recruit_rating_methodologies") &&
+    publicApi.includes("activeMethodology"),
+  "Public recruiting API must read the active methodology from the database, not hardcode it."
+);
+
+// Bug found and fixed 2026-08-05: vercel.json sets trailingSlash: true, so a
+// browser fetch to an /api/ path without a trailing slash gets redirected,
+// and Vercel's redirect Location header drops the query string entirely.
+// This silently broke the recruiting directory's search filters (they were
+// simply ignored, always returning page one unfiltered).
+assert.ok(
+  recruitingDirectoryScript.includes('"/api/recruiting/?" + query.toString()'),
+  "Recruiting directory fetch must include the trailing slash trailingSlash routing requires before its query string."
+);
+
 includesAll(
   buildScript,
   [
@@ -393,3 +563,5 @@ console.log("Performance parsing checked: time, distance, and height");
 console.log("Performance import safety checked: required fields, defaults, hidden records, and duplicates");
 console.log("Responsive header breakpoints checked: menu behavior and CSS stay aligned");
 console.log("Privacy, admin authentication, migration security, and build routes checked");
+console.log("Phase Two taxonomy checked: nine event groups, no event left in a retired group");
+console.log("Phase Two media and preview checked: admin actions, migration safety, and admin/public markup");

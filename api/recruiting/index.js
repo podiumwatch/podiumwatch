@@ -8,6 +8,7 @@ import {
   EVENT_GROUPS,
   eventDefinitions,
   isMissingRecruitingFoundationError,
+  loadLatestRankSnapshots,
   starLabel
 } from "../../lib/recruiting_service.mjs";
 
@@ -334,6 +335,18 @@ export default async function handler(request, response) {
   try {
     const input = parseInput(request);
     const data = await loadRecruitingRows();
+    const { data: activeMethodology, error: methodologyError } = await supabaseAdmin
+      .from("athlete_recruit_rating_methodologies")
+      .select("methodology_key, name, version_label, metadata")
+      .eq("status", "active")
+      .order("effective_date", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (methodologyError) throw methodologyError;
+    const latestSnapshots = await loadLatestRankSnapshots(
+      [...new Set(data.ratings.map((rating) => rating.profile_id))]
+    );
     const joined = data.ratings
       .map((rating) => {
         const athlete = data.profiles.get(rating.profile_id);
@@ -368,6 +381,10 @@ export default async function handler(request, response) {
           updated_at: rating.updated_at,
           state_class_rank: Number(rating.state_class_rank),
           event_group_rank: Number(rating.event_group_rank),
+          previous_state_class_rank:
+            latestSnapshots.get(`${rating.profile_id}|${rating.event_group}`)?.state_class_rank ?? null,
+          previous_event_group_rank:
+            latestSnapshots.get(`${rating.profile_id}|${rating.event_group}`)?.event_group_rank ?? null,
           athlete,
           school,
           team,
@@ -420,11 +437,13 @@ export default async function handler(request, response) {
     return response.status(200).json({
       source_mode: "database",
       methodology: {
-        key: "podium-watch-recruit-ratings-2026-1",
-        label: "Podium Watch Recruit Ratings 2026.1",
+        key: activeMethodology?.methodology_key || "podium-watch-recruit-ratings-2026-1",
+        label: activeMethodology
+          ? `${activeMethodology.name} ${activeMethodology.version_label}`
+          : "Podium Watch Recruit Ratings 2026.1",
         public_path: "/recruiting/methodology/",
-        pay_to_play: false,
-        offers_affect_score: false
+        pay_to_play: activeMethodology?.metadata?.pay_to_play ?? false,
+        offers_affect_score: activeMethodology?.metadata?.offers_affect_score ?? false
       },
       events: eventDefinitions(),
       summary: summary(displayRows),

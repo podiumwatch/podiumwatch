@@ -114,6 +114,7 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
           <section class="info-card athlete-profile-panel"><div><p class="eyebrow">Podium Watch coverage</p><h2>Stories and recognition</h2></div><div class="athlete-profile-list" data-athlete-stories></div></section>
           <section class="info-card athlete-profile-panel" data-athlete-recruiting-panel hidden><div><p class="eyebrow">Approved recruiting information</p><h2>Recruiting profile</h2></div><div class="athlete-profile-list" data-athlete-recruiting></div></section>
           <section class="info-card athlete-profile-panel" data-athlete-social-panel hidden><div><p class="eyebrow">Approved links</p><h2>Athlete social links</h2></div><div class="athlete-profile-list" data-athlete-social></div></section>
+          <section class="info-card athlete-profile-panel" data-athlete-media-panel hidden><div><p class="eyebrow">Media</p><h2>Photos, video, and articles</h2></div><div class="athlete-profile-list" data-athlete-media></div></section>
         </div>
 
         <section class="info-card athlete-profile-panel">

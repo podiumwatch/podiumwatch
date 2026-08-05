@@ -6,6 +6,7 @@ import {
 } from "../../lib/athlete_foundation_service.mjs";
 import {
   isMissingRecruitingFoundationError,
+  loadLatestRankSnapshots,
   starLabel
 } from "../../lib/recruiting_service.mjs";
 
@@ -156,6 +157,7 @@ function fallbackProfile(seed) {
     recruit_ratings: [],
     recruiting_activity: [],
     best_performances: [],
+    content_items: [],
     source_note:
       "This profile is currently loaded from the bundled 2026 Podium Watch ranking seed. No verified performance history has been imported."
   };
@@ -353,12 +355,14 @@ async function loadDatabaseProfile(slug) {
   let recruitRatings = [];
   let recruitingActivity = [];
   let bestPerformances = [];
+  let contentItems = [];
 
   try {
     const [
       recruitRatingResult,
       recruitingActivityResult,
-      bestPerformanceResult
+      bestPerformanceResult,
+      contentItemResult
     ] = await Promise.all([
       supabaseAdmin
         .from("athlete_published_recruit_ratings")
@@ -404,25 +408,51 @@ async function loadDatabaseProfile(slug) {
           verification_status
         `)
         .eq("profile_id", profile.id)
-        .order("event_key", { ascending: true })
+        .order("event_key", { ascending: true }),
+      supabaseAdmin
+        .from("athlete_content_items")
+        .select(`
+          id,
+          content_type,
+          title,
+          url,
+          caption,
+          credit,
+          source_label,
+          source_url,
+          featured,
+          sort_order
+        `)
+        .eq("profile_id", profile.id)
+        .eq("status", "published")
+        .is("archived_at", null)
+        .order("sort_order", { ascending: true })
     ]);
 
     for (const result of [
       recruitRatingResult,
       recruitingActivityResult,
-      bestPerformanceResult
+      bestPerformanceResult,
+      contentItemResult
     ]) {
       if (result.error) {
         throw result.error;
       }
     }
 
+    const latestSnapshots = await loadLatestRankSnapshots([profile.id]);
+
     recruitRatings = (recruitRatingResult.data || []).map((rating) => ({
       ...rating,
-      star_label: starLabel(rating.star_rating)
+      star_label: starLabel(rating.star_rating),
+      previous_state_class_rank:
+        latestSnapshots.get(`${profile.id}|${rating.event_group}`)?.state_class_rank ?? null,
+      previous_event_group_rank:
+        latestSnapshots.get(`${profile.id}|${rating.event_group}`)?.event_group_rank ?? null
     }));
     recruitingActivity = recruitingActivityResult.data || [];
     bestPerformances = bestPerformanceResult.data || [];
+    contentItems = contentItemResult.data || [];
   } catch (error) {
     if (!isMissingRecruitingFoundationError(error)) {
       throw error;
@@ -471,6 +501,7 @@ async function loadDatabaseProfile(slug) {
     recruit_ratings: recruitRatings,
     recruiting_activity: recruitingActivity,
     best_performances: bestPerformances,
+    content_items: contentItems,
     source_note:
       "Every performance and ranking keeps its own source and verification label. A verified athlete identity does not automatically verify every listed mark."
   };

@@ -366,7 +366,7 @@
 
       try {
         const response = await fetch(
-          "/api/athletes/index?" + query.toString(),
+          "/api/athletes/?" + query.toString(),
           {
             headers: { Accept: "application/json" }
           }

@@ -19,6 +19,18 @@ const buildPath = path.join(
   "scripts",
   "build.mjs"
 );
+const directoryScriptPath = path.join(
+  root,
+  "public",
+  "scripts",
+  "athlete-directory.js"
+);
+const profileScriptPath = path.join(
+  root,
+  "public",
+  "scripts",
+  "athlete-profile.js"
+);
 
 function assert(condition, message) {
   if (!condition) {
@@ -30,10 +42,12 @@ function uniqueCount(values) {
   return new Set(values).size;
 }
 
-const [seedText, migration, build] = await Promise.all([
+const [seedText, migration, build, directoryScript, profileScript] = await Promise.all([
   fs.readFile(seedPath, "utf8"),
   fs.readFile(migrationPath, "utf8"),
-  fs.readFile(buildPath, "utf8")
+  fs.readFile(buildPath, "utf8"),
+  fs.readFile(directoryScriptPath, "utf8"),
+  fs.readFile(profileScriptPath, "utf8")
 ]);
 
 const dataset = JSON.parse(seedText);
@@ -198,6 +212,21 @@ assert(
     build.includes('writePage("/admin/athletes/"') &&
     build.includes("athleteDetailPage"),
   "The build is missing athlete directory or profile routes."
+);
+
+// Bug found and fixed 2026-08-05: vercel.json sets trailingSlash: true, so a
+// browser fetch to an /api/ path without a trailing slash gets redirected,
+// and Vercel's redirect Location header drops the query string entirely.
+// This silently broke the athlete directory's search filters (ignored,
+// always showing page one unfiltered) and completely broke the individual
+// athlete profile page (every profile showed "Choose an athlete profile.").
+assert(
+  directoryScript.includes('"/api/athletes/?" + query.toString()'),
+  "Athlete directory fetch must include the trailing slash trailingSlash routing requires before its query string."
+);
+assert(
+  profileScript.includes('"/api/athletes/detail/?slug="'),
+  "Athlete profile fetch must include the trailing slash trailingSlash routing requires before its query string."
 );
 
 console.log("");
