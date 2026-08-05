@@ -28,7 +28,7 @@ The user asked to build a statewide performance database ("thousands of athletes
 
 ### Follow up
 
-Verified against a real, complete 213-athlete dataset (the actual 2025 OHSAA Division 4 Boys Cross Country State Championship) using only the read-only preview action: 18 matched the existing seed, 153 would create new hidden profiles, 42 remain unmatched pending school name cleanup. Nothing has been committed. Commit only after the user's explicit approval, following the same discipline used for every prior phase.
+Verified against a real, complete 213-athlete dataset (the actual 2025 OHSAA Division 4 Boys Cross Country State Championship) using only the read-only preview action before committing: 18 matched the existing seed, 153 would create new hidden profiles, 42 remained unmatched pending school name cleanup. Committed on 2026-08-05 with the user's explicit approval: 171 performances and 153 new profiles created, all confirmed hidden and unverified by direct database query afterward. This was the first real (non-seed, non-test) data written by any of this project's Claude-assisted sessions.
 
 ## 2026 08 05 Recruiting Phase Three: scoring assist approved, claims deferred
 

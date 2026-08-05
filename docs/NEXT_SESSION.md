@@ -2,7 +2,7 @@
 
 ## Current priority
 
-Decide whether to commit the real OHSAA Division 4 Boys Cross Country State Championship 2025 import (213 real athletes: 18 already matched to the existing seed, 153 would create new hidden profiles, 42 remain unmatched pending school name cleanup). Nothing has been committed. See "Statewide results import" below for full detail before deciding.
+The user is trying the next batch of official results themselves through the browser UI (paste box + checkbox on `/admin/recruiting/`), following the OHSAA Division 4 Boys Cross Country State Championship 2025 import committed on 2026-08-05 (see "Statewide results import" below). No further action needed until they report back.
 
 ## Current working state
 
@@ -70,19 +70,17 @@ Built and tested against a real, complete dataset (the actual 2025 OHSAA Divisio
 1. `parseOfficialResultsText` (`lib/recruiting_service.mjs`) parses text copied straight out of a browser -- place, athlete name, grade (FR/SO/JR/SR embedded between name and school), school, mark -- and derives graduation year from grade and season year. Handles multi-word school names with periods and parentheses, and skips Team Scores sections automatically.
 2. A narrow, explicit exception to "never create profiles from unmatched rows": when an admin opts in for an import with Source type Official, an otherwise-unmatched row whose school resolves to exactly one official Ohio school (by exact name or existing alias) becomes "creatable" instead of "unmatched." The created profile is always hidden (`public_visible: false`), marked Unverified, and looked up by a stable `source_identity_key` first so a later re-import of the same athlete reuses the same profile instead of ever overwriting or duplicating it. See `docs/DECISIONS.md` (2026-08-05) for the full reasoning and the boundary this does not cross.
 3. New admin UI: a "paste results copied from an official results page" box and a "Create hidden profiles for unmatched rows from this official source" checkbox on `/admin/recruiting/`, both wired to a new `preview_official_results_text` admin action.
-4. Verified against the real 213-row dataset via the actual HTTP API path (read-only preview only, no commit): **18 ready** (matched the existing seed, including Bennett Lehman, confirming the exact-match logic), **153 creatable** (real athletes with no profile yet, school resolved cleanly), **42 still unmatched** (abbreviated team names like "Con. Crestview," "Ft. Loramie," "Spring. ECA" that do not exactly match OHSAA's official directory -- expected, not a bug; candidates for `ohio_school_aliases` entries).
+4. Verified against the real 213-row dataset via the actual HTTP API path (read-only preview only, before committing): **18 ready** (matched the existing seed, including Bennett Lehman, confirming the exact-match logic), **153 creatable** (real athletes with no profile yet, school resolved cleanly), **42 still unmatched** (abbreviated team names like "Con. Crestview," "Ft. Loramie," "Spring. ECA" that do not exactly match OHSAA's official directory -- expected, not a bug; candidates for `ohio_school_aliases` entries).
 5. Found and fixed two real bugs during this build, both the same class caught once already this session: running `cleanAthleteText` (which collapses all whitespace, including newlines) on a whole pasted blob before splitting it into lines destroys the line structure the parser depends on. Hit it once in the parser itself, then again in the admin API action that calls it. Fixed both, and a test now guards the exact API-layer regression by name. Also found and fixed a `Number(null) === 0` edge case in the grade-to-graduation-year formula that let a missing season year silently produce graduation year 1 instead of failing -- caught by a test written for this exact feature, not discovered live.
-6. Nothing has been committed. This was deliberately built and verified using only the read-only preview action against real data, following the same no-writes-without-the-user-present discipline as the 2026-08-05 overnight session.
+6. **Committed on 2026-08-05, with the user's explicit approval**: the real 213-row import. 171 performance records created (18 attached to existing profiles, 153 attached to newly created ones), all hidden (`public_visible: false`, confirmed by direct query). 153 new athlete profiles created, all hidden and marked `unverified` (confirmed by direct query, including a specific check on the Luke Snyder profile). The 42 unmatched rows were correctly not saved and created nothing. Import batch id `194fc161-c20c-40e8-ad63-d41d77c46cfa`.
+7. This was the first real (non-seed, non-test) data written by any of this project's Claude-assisted sessions.
 
-### Decision needed
+### To continue toward "thousands of athletes"
 
-Commit the real 213-row import (18 matches + 153 new hidden profiles)? Nothing becomes public from this regardless -- created profiles and all imported performances stay hidden until separately reviewed and published, the same as every other import this project has ever done. This would be the first real (non-seed, non-test) data written by any of this session's work.
-
-### After that decision, to continue toward "thousands of athletes"
-
-1. Get more OHSAA cross country 2025 and track 2026 results the same way (paste copied results into the same tool), one meet at a time -- there is no bulk/automated route today.
-2. Review the 42 unmatched school names per meet and add `ohio_school_aliases` entries for the ones that are real schools under an abbreviated display name, to raise future match rates.
-3. Revisit `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` section 3 (scaling beyond the first launch) once there is real volume to plan against.
+1. Get more OHSAA cross country 2025 and track 2026 results the same way (paste copied results into the same tool), one meet at a time -- there is no bulk/automated route today. The user is trying the next batch themselves through the browser.
+2. Review the 42 unmatched school names from this meet (and any future ones) and add `ohio_school_aliases` entries for the ones that are real schools under an abbreviated display name, to raise future match rates.
+3. Every imported performance and every created profile stays hidden until separately reviewed and published -- nothing from this import is public yet, and reviewing/publishing is a distinct, still-outstanding step whenever the user wants to do it.
+4. Revisit `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` section 3 (scaling beyond the first launch) once there is real volume to plan against.
 
 ## Known limitations
 

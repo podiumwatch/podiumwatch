@@ -21,7 +21,7 @@ Begin building a statewide performance database ("thousands of athletes and thei
 5. Added the admin UI for it: a paste box for raw official results text and a "Create hidden profiles for unmatched rows from this official source" checkbox on `/admin/recruiting/`.
 6. Verified the complete real 213-row dataset through the actual HTTP API path (read-only preview only): 18 ready (matched the existing seed, including Bennett Lehman), 153 creatable (real athletes, school resolved), 42 unmatched (abbreviated school names needing alias cleanup, e.g. "Ft. Loramie," "Spring. ECA," "Rac. Southern").
 7. Found and fixed two real bugs while building this, both self-caught before anything went live: (a) the same "cleanAthleteText collapses newlines" mistake from earlier in the session, hit twice more (the parser itself, then the new admin API action that calls it) -- both fixed, with a named regression test guarding the API-layer case specifically; (b) `Number(null) === 0` in the grade-to-graduation-year formula let a missing season year silently produce graduation year 1 instead of failing -- caught by a test written for this feature, not discovered live.
-8. Nothing was committed. Every verification used only the read-only preview action against real data, following the same no-writes-without-the-user-present discipline established the same day.
+8. With the user's explicit approval, committed the real 213-row import via the real HTTP API path (the same one the browser UI uses): 171 performance records created (18 attached to existing profiles, 153 attached to newly created ones) and 153 new athlete profiles created. Verified directly against the database afterward: every performance in the batch is hidden, every created profile is hidden and marked `unverified`, and a specific check on the Luke Snyder profile (grade SR in the 2025 season) confirmed graduation year 2026. The 42 unmatched rows correctly created nothing. Import batch id `194fc161-c20c-40e8-ad63-d41d77c46cfa`.
 
 ### Files changed
 
@@ -37,13 +37,13 @@ None. No new tables were needed; this reuses `athlete_profiles` and the existing
 
 ### Manual testing
 
-Not yet performed by the user. The feature was verified end to end via the real HTTP API path (read-only preview against the real 213-row dataset), but no one has clicked through the browser UI for it yet.
+The import itself was executed and verified via the real HTTP API path (the same endpoint the browser UI calls) against the real 213-row dataset, with direct database verification afterward. The user has not yet clicked through the browser UI for this feature themselves; they are trying the next batch of results that way.
 
 ### Remaining work
 
-1. Decide whether to commit the real 213-row import (see `docs/NEXT_SESSION.md`, "Statewide results import").
-2. If approved, the user should also click through the new UI once in the browser before it is considered fully verified, matching the discipline used for every other feature this project has shipped.
-3. Continue gathering more official results the same way, and add school aliases for the 42 unmatched names as real corrections are confirmed.
+1. User to try the next batch of official results through the browser UI.
+2. Continue gathering more official results the same way, and add school aliases for the 42 unmatched names as real corrections are confirmed.
+3. Review and publish the imported performances and created profiles whenever ready -- everything from this import stays hidden until that separate step happens.
 
 ## 2026 08 05 Recruiting Phase Two write-path verification and merge
 
