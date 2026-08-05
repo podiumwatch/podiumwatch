@@ -20,6 +20,7 @@ Help the user import a second real meet themselves through the browser UI (the 2
 4. User re-previewed with the new aliases in place and got down to 0 unmatched, then clicked "Import ready results" to commit.
 5. That commit crashed with a real production error: a `23505` duplicate-key violation on `athlete_profiles_slug_key` for "Calvin Watson." Diagnosed by reading the dev server's log, then querying the database directly: Calvin Watson already had a hidden profile from the original 2026-08-03 editorial seed, linked to the school's official name ("Thomas Worthington"), but the import only ever compared the raw abbreviated text from the results page ("Thom. Worthington") against that official name -- these never match, so the existing profile was invisible to the matcher and a duplicate creation was attempted, colliding on the auto-generated slug. Root cause: the school alias lookup was helping profile *creation* (matching a row's school name to an official school so a new profile could be created against it) but was never being used to help profile *matching* (finding an existing profile in the first place).
 6. Fixed `previewPerformanceImport` to load the school alias lookup unconditionally and try a second match key built from the resolved official school name before concluding a row has no match; hardened `createOfficialSourceProfile` to retry once with a disambiguated slug on a slug-specific collision instead of crashing the whole commit. Verified live against the real data that caused the crash: Calvin Watson's row now correctly resolves to `ready` against his real existing profile. Committed as `8f5cfa3`, with a source-guard regression test (this path depends on live Supabase data a fixture-only test file cannot stand up on its own).
+7. User re-clicked "Import ready results" for the D1 meet and it committed successfully. Confirmed directly against the database afterward: batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`, all 180 rows imported (31 attached to existing profiles, 149 attached to newly created ones), every performance and every created profile hidden (and every created profile marked `unverified`), and specifically confirmed Calvin Watson still has exactly one profile in the database (his original 2026-08-03 seed profile) -- no duplicate was created.
 
 ### Files changed
 
@@ -35,13 +36,12 @@ None. The 17 school alias rows are ordinary data additions to the existing `ohio
 
 ### Manual testing
 
-The Kenneth Morgan Jr fix and the alias-matching fix were both verified live against the real data that exposed them, via the actual HTTP API path. The user has not yet re-clicked "Import ready results" for the D1 meet since the matching fix; that is the next step.
+The Kenneth Morgan Jr fix and the alias-matching fix were both verified live against the real data that exposed them, via the actual HTTP API path. The user then re-clicked "Import ready results" for the D1 meet themselves in the browser and it committed successfully, confirmed by direct database query afterward (see item 7 above).
 
 ### Remaining work
 
-1. Ask the user to retry committing the D1 import (their last preview already showed 0 unmatched).
-2. Continue gathering more official results the same way, adding school aliases as new abbreviations are found.
-3. Decide whether to push the accumulated statewide-import feature (D4 + D1 + this matching fix) to production now that it has been exercised through two real meets.
+1. Continue gathering more official results the same way, adding school aliases as new abbreviations are found.
+2. Decide whether to push the accumulated statewide-import feature (D4 + D1 + this matching fix) to production now that it has been exercised through two real meets, both fully committed.
 
 ## 2026 08 05 Statewide results import: OHSAA official results, real data
 
