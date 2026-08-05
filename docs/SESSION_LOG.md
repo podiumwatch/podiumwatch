@@ -2,6 +2,45 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Recruiting Phase Two write-path verification and merge
+
+### Date
+
+2026 08 05
+
+### Goal
+
+With the user present, verify the Phase Two and Phase Three write paths that overnight verification deliberately did not touch (media save/publish, rating draft/publish, rank movement, the scoring comparison tool), then merge, push, and deploy once confirmed.
+
+### Completed
+
+1. Created one throwaway, obviously fake test athlete profile ("ZZTEST VerificationAthlete", never a real person) with the user's explicit approval, to exercise every write path without touching real athlete data.
+2. Verified, in order, against the real (but disposable) profile: performance import (confirmed the new `cross_country` taxonomy resolves correctly), a draft rating (confirmed it stays unranked with the correct explanatory note), publishing that rating (confirmed it attaches to the active `2026.2` methodology, not the retired one -- this is live confirmation of the most serious bug fixed overnight), the public recruiting directory and the individual athlete profile page both showing the published rating correctly, a draft media item (confirmed hidden), publishing it (confirmed it appears), a second rating save to confirm the rank snapshot mechanism records correctly, and the scoring comparison tool (confirmed it surfaces the published rating as reference context).
+3. Every check passed. No bugs found during this pass.
+4. Deleted the entire throwaway profile and everything attached to it (performance, import batch and its audit rows, rating, media, rank snapshots -- most cascaded automatically via the existing foreign key `on delete cascade` rules). Verified with a direct count query that zero rows remain, and confirmed the test athlete no longer appears in either public search endpoint.
+5. Merged `recruiting-phase-two-taxonomy-media` into `main`, pushed, and deployed (see git log for the merge commit).
+
+### Files changed
+
+None beyond what Phase Two, the bug fixes, and Phase Three already changed. This session was verification and cleanup only.
+
+### Database migrations
+
+None. Migration 06 (run 2026-08-04) is unaffected. All test data created during verification was fully deleted; the schema and all pre-existing data are unchanged.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` all pass.
+
+### Manual testing
+
+All Phase Two and Phase Three write paths verified live, as described above. This closes out the manual testing checklist in `docs/NEXT_SESSION.md`.
+
+### Remaining work
+
+1. Confirm the live site after deployment (desktop and phone), matching the discipline used after Phase Zero's deployment.
+2. Self-service claims and rank snapshot retention remain deferred per `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`; revisit when their trigger conditions are met.
+
 ## 2026 08 05 Recruiting Phase Two verification (overnight)
 
 ### Date

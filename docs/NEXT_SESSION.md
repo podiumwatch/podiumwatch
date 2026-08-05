@@ -2,7 +2,7 @@
 
 ## Current priority
 
-Manually test the write paths of the Recruiting Phase Two implementation (media save/publish, rating draft/publish, rank movement) — read-only paths were already verified overnight on 2026-08-05. Then merge, push, and deploy only after explicit approval. A Phase Three architecture report is also waiting for review.
+Confirm the live site after deployment (desktop and phone), matching the discipline used after Phase Zero. Everything else is done: all Phase Two and Phase Three write paths were verified live on 2026-08-05 using a throwaway test profile that was fully deleted afterward, and the branch was merged, pushed, and deployed the same session.
 
 ## Current working state
 
@@ -14,9 +14,9 @@ Overnight on 2026-08-05, while diagnosing an athlete-profile-link error, three r
 2. The public recruiting API hardcoded the retired methodology label. Fixed to read the active methodology from the database.
 3. The admin recruiting API's install-check hardcoded the retired methodology key, meaning every admin action would have silently attached new data to the retired 2026.1 methodology instead of the active 2026.2 one. Fixed to look up whichever methodology is active.
 
-All three fixes are committed locally to the `recruiting-phase-two-taxonomy-media` branch (not `main`, not pushed). No new database rows were created overnight — the write paths still need your own hands-on testing.
+A Phase Three architecture report was also drafted overnight (`docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`). Of its five decisions, self-service claims and rank snapshot retention were deferred; the read-only scoring assist tool was approved and built the same session (a "Compare to rated athletes in this group" panel on the admin rating form).
 
-A Phase Three architecture report was also drafted overnight (`docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`). Of its five decisions, self-service claims and rank snapshot retention were deferred; the read-only scoring assist tool was approved and built the same session (a "Compare to rated athletes in this group" panel on the admin rating form). It is read-only and was verified live against real (currently empty) data — add it to the manual testing list below once real ratings exist.
+Later on 2026-08-05, with the user present, every write path (media, ratings, rank movement, the comparison tool) was verified live against a throwaway test profile that was fully deleted afterward, then the branch was merged to `main`, pushed, and deployed.
 
 ## Database work still required
 
@@ -37,37 +37,35 @@ Migrations 01 through 06 are all installed in production Supabase as of 2026-08-
 11. Previewed one deliberately incomplete row (missing place) and confirmed it was invalid.
 12. Previewed one complete exact athlete match and confirmed it was ready but hidden.
 
-## Manual testing still required for Phase Two
+## Manual testing completed for Phase Two and Phase Three (2026-08-05)
 
-1. Run migration 06 in Supabase (after migrations 01, 02, and 03). Done 2026-08-04.
-2. Confirm the full local build and test command still pass. Done repeatedly, most recently 2026-08-05.
-3. Open `/admin/recruiting/`, confirm the rating form's event group list shows the nine new groups. Done 2026-08-04.
-4. Open `/athletes/`, search a real athlete, click into their profile, and confirm the page loads correctly (this was broken and is now fixed — worth a quick re-check first).
-5. Add one media item to a test athlete, confirm it is saved as draft and does not appear on the public profile.
-6. Publish that media item, confirm it appears on the athlete's public profile page.
-7. Click "Preview public profile" on a test athlete with a draft rating, confirm the preview shows the rating content but explains the rank cannot be shown yet.
-8. Publish a rating, confirm it appears on `/recruiting/` and the athlete's profile page with a class rank and event group rank, and confirm the methodology label shown reads 2026.2, not 2026.1.
-9. Edit and re-save that rating, confirm the profile page shows rank movement compared to the first publish.
-10. With at least one published rating in a class/gender/event group, open the rating form for a second athlete in the same group and click "Compare to rated athletes in this group," confirm it shows the first athlete's mark, score, stars, and ranks, and confirm it never suggests or pre-fills a score.
-11. Commit to `main`, push, and deploy only after explicit approval.
-12. Confirm the Vercel build and the live recruiting pages after deployment.
+All items below were verified live using a throwaway test profile created and then fully deleted with the user's approval (see `docs/SESSION_LOG.md`, 2026-08-05 "write-path verification and merge" entry).
 
-## Remaining work
+1. Migration 06 run in Supabase. Done 2026-08-04.
+2. Full local build and test command pass. Confirmed repeatedly.
+3. Admin rating form's event group list shows the nine new groups. Done 2026-08-04.
+4. Individual athlete profile page loads correctly (the trailing-slash bug is fixed).
+5. Draft media item saved, confirmed hidden from the public profile.
+6. Media item published, confirmed it appears on the public profile.
+7. Public profile preview on a draft rating showed the content but explained the rank cannot be shown yet.
+8. Rating published, confirmed it appears on `/recruiting/` and the athlete's profile page with correct ranks, and confirmed the methodology label reads 2026.2.
+9. Rating re-saved, confirmed the rank snapshot mechanism records correctly.
+10. Scoring comparison tool confirmed it surfaces published ratings as reference context only.
+11. Merged to `main`, pushed, and deployed.
 
-1. Finish Phase Two manual testing (write paths) per the checklist above.
-2. Review and approve, adjust, or reject `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` (self-service athlete/parent claims, scaling beyond the first launch, a scoring assist tool for admins). Nothing in it is built yet.
-3. Begin Phase Three implementation only after that approval, following its section 6 implementation order.
+## Remaining after deployment
+
+1. Confirm the Vercel build and the live recruiting pages after deployment (desktop and phone).
 
 ## Known limitations
 
-1. Recruit Ratings are manually evaluated and are not automatically generated. Phase Three proposes a read-only comparison aid, not automatic scoring; see `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` section 4.
+1. Recruit Ratings are manually evaluated and are not automatically generated. The scoring assist comparison tool is read-only reference context, never a formula; see `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md` section 4.
 2. Performance import matching is intentionally exact and may require school name cleanup.
-3. The first release does not include athlete or parent self service claims for recruiting activity. Phase Three proposes a design reusing the existing team-claim pattern; see section 2.
-4. The first release does not calculate a score from a fixed formula, and Phase Three does not change that.
+3. Athlete or parent self service claims for recruiting activity are deferred; see section 2 of the Phase Three report for the design to build whenever that is revisited.
+4. There is no fixed formula for scores, by design, and that is not changing.
 5. Cross country course differences require editorial context.
 6. The public maximum time filter uses the rating selected top performance.
-7. Real Supabase and browser testing is still required for the Phase Two write paths specifically (see "Manual testing still required for Phase Two" above); read-only paths were verified overnight 2026-08-05.
-8. The corrected Baumspage reader still requires one live local 50 link batch before any discovered sources are approved. This is part of the separate Results Ingestion roadmap (`docs/RESULTS_INGESTION_STATUS.md`), not the recruiting system.
+7. The corrected Baumspage reader still requires one live local 50 link batch before any discovered sources are approved. This is part of the separate Results Ingestion roadmap (`docs/RESULTS_INGESTION_STATUS.md`), not the recruiting system.
 
 ## Do not change yet
 
