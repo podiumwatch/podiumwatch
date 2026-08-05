@@ -2,6 +2,34 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 05 Narrow exception: create hidden profiles from official results
+
+### Decision
+
+Add one narrow, explicit exception to the standing rule "never create an athlete profile from an unmatched performance row." A new profile can now be created automatically only when all of the following are true: the admin explicitly opted in for this specific import, the row's source type is Official, the row is otherwise complete and valid, and the row's school resolves to exactly one official Ohio school by exact name or an existing alias (never a fuzzy or partial match). A created profile is always saved hidden (`public_visible: false`), marked `unverified`, and looked up by a stable `source_identity_key` first, so importing the same athlete again later reuses the same profile and never overwrites anything an admin has since reviewed, verified, or published.
+
+### Reason
+
+The user asked to build a statewide performance database ("thousands of athletes... to rank them"), starting with OHSAA cross country and track results, and does not have team rosters loaded. Every existing profile-creation path in this project (the athlete seed, team roster sync) requires an upstream identity source; the recruiting performance importer and the separate Results Ingestion engine both only ever match against profiles that already exist. Without team rosters, importing real meet results would mostly produce rows with nowhere to attach, defeating the purpose. Official, state-governing-body-sourced results with a complete name, school, gender, and grade are treated with the same trust already extended to a team's own roster entry -- both are institutional facts about real identity, not an inference from fuzzy text.
+
+### Alternatives considered
+
+1. Require team rosters to be populated first, before any performance import (the original two-stage plan). Rejected for now because the user does not have rosters and wants to start with results directly; this remains the safer default path and is not removed as an option.
+2. Allow profile creation from any unmatched row regardless of source type. Rejected -- this would remove the "official source only" guardrail entirely and treat community-submitted or unverified data with the same trust as a state championship result.
+3. Auto-publish created profiles. Rejected outright -- every created profile stays hidden until a human reviews and publishes it, with no exception, matching every other import in this project.
+
+### Files or systems affected
+
+1. `lib/recruiting_service.mjs` (`parseOfficialResultsText`, `deriveGraduationYearFromGrade`, `loadOhioSchoolLookup`, `createOfficialSourceProfile`, and the `previewPerformanceImport`/`commitPerformanceImport` extensions)
+2. `api/admin/recruiting.js` (`preview_official_results_text` action)
+3. `src/pages/adminrecruiting.mjs`, `public/scripts/admin-recruiting.js`
+4. `scripts/test-recruiting-foundation.mjs`
+5. `docs/NEXT_SESSION.md` (see "Statewide results import")
+
+### Follow up
+
+Verified against a real, complete 213-athlete dataset (the actual 2025 OHSAA Division 4 Boys Cross Country State Championship) using only the read-only preview action: 18 matched the existing seed, 153 would create new hidden profiles, 42 remain unmatched pending school name cleanup. Nothing has been committed. Commit only after the user's explicit approval, following the same discipline used for every prior phase.
+
 ## 2026 08 05 Recruiting Phase Three: scoring assist approved, claims deferred
 
 ### Decision

@@ -15,6 +15,7 @@ import {
   eventDefinitions,
   isMissingRecruitingFoundationError,
   loadLatestRankSnapshots,
+  parseOfficialResultsText,
   PERFORMANCE_SOURCE_TYPES,
   previewPerformanceImport,
   recordRecruitRatingRankSnapshots,
@@ -987,20 +988,68 @@ async function loadRatingComparison(body) {
 
 async function previewImport(body) {
   await requireInstalled();
-  return previewPerformanceImport(body.rows, {
-    source_label: cleanAthleteText(body.source_label, 300),
-    source_url: cleanUrl(body.source_url, "Source URL"),
-    source_type: cleanAthleteText(body.source_type, 50).toLowerCase() || "official",
-    verification_status:
-      cleanAthleteText(body.verification_status, 50).toLowerCase() ||
-      "source_linked",
-    sport: cleanAthleteText(body.sport, 100),
-    season_year: body.season_year,
-    gender: cleanAthleteText(body.gender, 50),
-    event_name: cleanAthleteText(body.event_name, 150),
-    meet_name: cleanAthleteText(body.meet_name, 300),
-    meet_date: cleanAthleteText(body.meet_date, 30)
-  });
+  return previewPerformanceImport(
+    body.rows,
+    {
+      source_label: cleanAthleteText(body.source_label, 300),
+      source_url: cleanUrl(body.source_url, "Source URL"),
+      source_type: cleanAthleteText(body.source_type, 50).toLowerCase() || "official",
+      verification_status:
+        cleanAthleteText(body.verification_status, 50).toLowerCase() ||
+        "source_linked",
+      sport: cleanAthleteText(body.sport, 100),
+      season_year: body.season_year,
+      gender: cleanAthleteText(body.gender, 50),
+      event_name: cleanAthleteText(body.event_name, 150),
+      meet_name: cleanAthleteText(body.meet_name, 300),
+      meet_date: cleanAthleteText(body.meet_date, 30)
+    },
+    {
+      createProfilesForUnmatchedOfficialRows: cleanBoolean(body.create_profiles_for_unmatched_official_rows)
+    }
+  );
+}
+
+// Converts results copy-pasted from an official results page (MileSplit,
+// SEO Timing, and similar sites that only render results with client-side
+// JavaScript, so they can never be fetched directly) into rows, then runs
+// the exact same preview used for CSV rows. The parsed rows are returned
+// alongside the preview so the browser can hold onto them for the later
+// commit step, the same way it already does for CSV rows.
+async function previewOfficialResultsText(body) {
+  await requireInstalled();
+  const seasonYear = cleanInteger(body.season_year, "Season year", 2000, 2200);
+  const parsedRows = parseOfficialResultsText(
+    String(body.official_results_text ?? "").slice(0, 2000000),
+    { season_year: seasonYear }
+  );
+
+  if (!parsedRows.length) {
+    fail("No recognizable result rows were found in that pasted text. Confirm you copied the place, athlete, grade, team, and mark for each row.");
+  }
+
+  const preview = await previewPerformanceImport(
+    parsedRows,
+    {
+      source_label: cleanAthleteText(body.source_label, 300),
+      source_url: cleanUrl(body.source_url, "Source URL"),
+      source_type: cleanAthleteText(body.source_type, 50).toLowerCase() || "official",
+      verification_status:
+        cleanAthleteText(body.verification_status, 50).toLowerCase() ||
+        "source_linked",
+      sport: cleanAthleteText(body.sport, 100),
+      season_year: seasonYear,
+      gender: cleanAthleteText(body.gender, 50),
+      event_name: cleanAthleteText(body.event_name, 150),
+      meet_name: cleanAthleteText(body.meet_name, 300),
+      meet_date: cleanAthleteText(body.meet_date, 30)
+    },
+    {
+      createProfilesForUnmatchedOfficialRows: cleanBoolean(body.create_profiles_for_unmatched_official_rows)
+    }
+  );
+
+  return { ...preview, submitted_rows: parsedRows };
 }
 
 async function commitImport(body) {
@@ -1026,7 +1075,8 @@ async function commitImport(body) {
       meet_name: cleanAthleteText(body.meet_name, 300),
       meet_date: cleanAthleteText(body.meet_date, 30)
     },
-    actor: "Podium Watch Admin"
+    actor: "Podium Watch Admin",
+    createProfilesForUnmatchedOfficialRows: cleanBoolean(body.create_profiles_for_unmatched_official_rows)
   });
 }
 
@@ -1075,6 +1125,8 @@ export default async function handler(request, response) {
       data = await previewPublicProfile(body);
     } else if (action === "load_rating_comparison") {
       data = await loadRatingComparison(body);
+    } else if (action === "preview_official_results_text") {
+      data = await previewOfficialResultsText(body);
     } else if (action === "preview_performance_import") {
       data = await previewImport(body);
     } else if (action === "commit_performance_import") {

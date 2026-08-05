@@ -22,6 +22,7 @@
   const importSummary = root.querySelector("[data-performance-import-summary]");
   const importRows = root.querySelector("[data-performance-import-rows]");
   const resultsLinkButton = root.querySelector("[data-results-link-import]");
+  const officialTextPreviewButton = root.querySelector("[data-official-text-preview]");
   const resultsFileInput = importForm?.querySelector('[name="results_file"]');
   const contentForm = root.querySelector("[data-recruit-content-form]");
   const contentRows = root.querySelector("[data-recruit-content-rows]");
@@ -56,7 +57,7 @@
 
     root.querySelectorAll("button").forEach((button) => {
       button.disabled = value ||
-        (button === importCommit && !importPreview?.summary?.ready);
+        (button === importCommit && !importPreview?.summary?.ready && !importPreview?.summary?.creatable);
     });
   }
 
@@ -342,6 +343,7 @@
     const summaryItems = [
       ["Total", summary.total],
       ["Ready", summary.ready],
+      ["Creatable", summary.creatable],
       ["Duplicates", summary.duplicate],
       ["Unmatched", summary.unmatched],
       ["Ambiguous", summary.ambiguous],
@@ -353,6 +355,12 @@
       "</strong><span>" + escapeHtml(label) + "</span></div>"
     ).join("");
 
+    const statusNote = (item) => {
+      if (item.row_status === "ready") return "Ready";
+      if (item.row_status === "creatable") return "Will create a new hidden profile at " + (item.resolved_school_name || item.school_name);
+      return (item.errors || []).join(" ");
+    };
+
     importRows.innerHTML = (preview.rows || []).map((item) =>
       "<tr><td>" + escapeHtml(item.row_number) +
       "</td><td>" + escapeHtml(item.athlete_name) +
@@ -360,11 +368,11 @@
       "</small></td><td>" + escapeHtml(item.event_name) +
       "</td><td>" + escapeHtml(item.mark_text) +
       "</td><td>" + escapeHtml(titleCase(item.row_status)) +
-      "</td><td>" + escapeHtml((item.errors || []).join(" ") || "Ready") +
+      "</td><td>" + escapeHtml(statusNote(item)) +
       "</td></tr>"
     ).join("");
 
-    importCommit.disabled = !summary.ready;
+    importCommit.disabled = !summary.ready && !summary.creatable;
   }
 
   async function loadStatus(force = false) {
@@ -795,7 +803,36 @@
       preview.submitted_rows = rows;
       renderImportPreview(preview);
       showMessage(
-        "Performance import preview completed. Only rows marked Ready can be imported."
+        "Performance import preview completed. Only rows marked Ready or Creatable can be imported."
+      );
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  officialTextPreviewButton?.addEventListener("click", async () => {
+    if (busy || !statusData?.installed) return;
+    const payload = formPayload(importForm);
+
+    if (!payload.official_results_text?.trim()) {
+      showMessage("Paste results copied from an official results page first.", "error");
+      return;
+    }
+
+    setBusy(true);
+    importPreview = null;
+    importCommit.disabled = true;
+
+    try {
+      const preview = await api({
+        action: "preview_official_results_text",
+        ...payload
+      });
+      renderImportPreview(preview);
+      showMessage(
+        "Performance import preview completed. Only rows marked Ready or Creatable can be imported."
       );
     } catch (error) {
       showMessage(error.message, "error");
@@ -805,13 +842,13 @@
   });
 
   importCommit.addEventListener("click", async () => {
-    if (busy || !importPreview?.summary?.ready) return;
+    if (busy || (!importPreview?.summary?.ready && !importPreview?.summary?.creatable)) return;
+    const creatableCount = importPreview?.summary?.creatable || 0;
+    const confirmMessage = creatableCount
+      ? `Import the reviewed performance rows now? This will also create ${creatableCount} new hidden athlete profile${creatableCount === 1 ? "" : "s"} from this official source. Every created profile stays hidden until you review and publish it.`
+      : "Import the reviewed performance rows now? Only exact safe matches marked Ready will be saved.";
 
-    if (
-      !window.confirm(
-        "Import the reviewed performance rows now? Only exact safe matches marked Ready will be saved."
-      )
-    ) {
+    if (!window.confirm(confirmMessage)) {
       return;
     }
 

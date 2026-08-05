@@ -8,11 +8,13 @@ process.env.SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 
 const {
+  deriveGraduationYearFromGrade,
   EVENT_GROUPS,
   eventDefinitions,
   loadLatestRankSnapshots,
   normalizePerformanceImportRow,
   parseMark,
+  parseOfficialResultsText,
   performanceDuplicateKey,
   recordRecruitRatingRankSnapshots,
   resolveEvent,
@@ -476,7 +478,7 @@ includesAll(
   adminPage,
   [
     "Every imported performance is saved hidden until you approve it for publication.",
-    "Unmatched rows are never saved and never create athlete profiles."
+    "Unmatched rows are never saved and never create athlete profiles by default."
   ],
   "Performance import safety explanation"
 );
@@ -556,6 +558,105 @@ includesAll(
   "Operations Center integration"
 );
 
+// Official results text parsing, approved 2026-08-05 to help build a
+// statewide performance database from official meet results (OHSAA
+// championship series, published on MileSplit/SEO Timing pages that only
+// render results with client-side JavaScript, so the raw page can never be
+// fetched directly -- copy-pasting the rendered results is the only
+// reliable route). This fixture is a real excerpt of the 2025 OHSAA
+// Division 4 Boys Cross Country State Championship results, used exactly
+// as it was copied out of a browser: single-space-separated tokens, grade
+// squeezed between the athlete's name and their school, and a Team Scores
+// section that must be recognized and skipped.
+const officialResultsFixture = `Division 4 Boys 5000 Meter Run
+
+PLACE VIDEO ATHLETE TEAM MARK POINTS
+1 Bennett Lehman JR Ansonia 15:17.91
+2 Luke Snyder SR Rittman 15:24.05 1
+17 Lincoln Smith SR Con. Crestview 16:07.37 5
+72 Eli Etchill JR Sandusky Central Catholic 16:57.64
+115 Logan Kister JR Central Christian (Kidron) 17:30.44
+200 A. j. Doseck SO Columbus Grove 19:17.07 152
+213 Zachary Delka FR McDonald 22:55.60 165
+Division 4 Boys 5000 Meter Run Team Scores
+
+PLACE TEAM PTS 1 2 3 4 5 6 7 AVG SPREAD
+1 Con. Crestview 86 5 11 12 22 36 (73) (102) 16:29 0:46
+2 Columbus Grove 99 4 8 20 23 44 (109) (152) 16:30 0:56`;
+
+const officialResultsRows = parseOfficialResultsText(officialResultsFixture, { season_year: 2025 });
+
+assert.equal(officialResultsRows.length, 7, "Team Scores rows must be skipped, not parsed as individual results.");
+assert.deepEqual(
+  officialResultsRows.map((row) => row.athlete_name),
+  ["Bennett Lehman", "Luke Snyder", "Lincoln Smith", "Eli Etchill", "Logan Kister", "A. j. Doseck", "Zachary Delka"]
+);
+includesAll(
+  officialResultsRows.map((row) => row.school_name).join("|"),
+  ["Ansonia", "Rittman", "Con. Crestview", "Sandusky Central Catholic", "Central Christian (Kidron)", "Columbus Grove", "McDonald"],
+  "Multi-word team names with periods and parentheses"
+);
+assert.ok(
+  officialResultsRows.every((row) => row.gender === "boys"),
+  "Gender must be inferred from the section header for every row."
+);
+assert.deepEqual(
+  officialResultsRows.map((row) => row.mark_text),
+  ["15:17.91", "15:24.05", "16:07.37", "16:57.64", "17:30.44", "19:17.07", "22:55.60"]
+);
+assert.deepEqual(
+  officialResultsRows.map((row) => row.graduation_year),
+  [2027, 2026, 2026, 2027, 2027, 2028, 2029],
+  "JR/SR/SO/FR in a 2025 fall season must derive next spring's graduation year onward."
+);
+
+assert.equal(deriveGraduationYearFromGrade("SR", 2025), 2026);
+assert.equal(deriveGraduationYearFromGrade("JR", 2025), 2027);
+assert.equal(deriveGraduationYearFromGrade("SO", 2025), 2028);
+assert.equal(deriveGraduationYearFromGrade("FR", 2025), 2029);
+assert.equal(deriveGraduationYearFromGrade("SR", null), null, "A missing season year must not produce a guessed graduation year.");
+assert.equal(deriveGraduationYearFromGrade(null, 2025), null, "A missing grade must not produce a guessed graduation year.");
+
+assert.equal(
+  parseOfficialResultsText("not a results page, just some text", { season_year: 2025 }).length,
+  0,
+  "Unrecognizable pasted text must produce zero rows rather than guessing."
+);
+
+// Bug found and fixed 2026-08-05, twice in two different places: running
+// cleanAthleteText (which collapses all whitespace, including newlines)
+// on the whole pasted blob before splitting it into lines destroys the
+// line structure the parser depends on. Guard both the parser itself and
+// the admin API action that calls it.
+assert.ok(
+  !adminApi.includes("cleanAthleteText(body.official_results_text"),
+  "The admin API must not collapse whitespace in pasted official results text before parsing it into lines."
+);
+
+// The narrow official-source profile creation exception approved
+// 2026-08-05 (see docs/DECISIONS.md): a new profile can only be created
+// when the row is complete, sourced as official, and its school resolves
+// to exactly one official Ohio school -- never a fuzzy guess, and never
+// from a non-official source.
+includesAll(
+  adminApi,
+  [
+    "preview_official_results_text",
+    "create_profiles_for_unmatched_official_rows",
+    "parseOfficialResultsText"
+  ],
+  "Recruiting admin API official results text import"
+);
+includesAll(
+  adminPage,
+  [
+    "data-official-text-preview",
+    'name="create_profiles_for_unmatched_official_rows"',
+    "official_results_text"
+  ],
+  "Recruiting admin page official results import markup"
+);
+
 console.log("Recruit Ratings and Performance History validation passed.");
 console.log(`Event definitions checked: ${eventDefinitions().length}`);
 console.log("Star boundaries checked: 70 through 100");
@@ -565,3 +666,4 @@ console.log("Responsive header breakpoints checked: menu behavior and CSS stay a
 console.log("Privacy, admin authentication, migration security, and build routes checked");
 console.log("Phase Two taxonomy checked: nine event groups, no event left in a retired group");
 console.log("Phase Two media and preview checked: admin actions, migration safety, and admin/public markup");
+console.log("Official results text import checked: real meet parsing, grade to graduation year, and narrow official-source profile creation");

@@ -103,7 +103,14 @@ export function adminRecruitingPage(site) {
                 </div>
                 <label class="recruit-admin-wide recruit-admin-upload">Upload official results file<input type="file" name="results_file" accept=".csv,.txt,.html,.htm,text/csv,text/plain,text/html"></label>
                 <label class="recruit-admin-wide">Or paste complete results<textarea class="recruit-admin-code" name="csv_data" placeholder="Place,Athlete,Team,Grade,Time,Event,Gender"></textarea></label>
-                <p class="recruit-admin-wide recruit-admin-help">Unmatched rows are never saved and never create athlete profiles. Connect or create the athlete in Athlete Data, then preview the import again.</p>
+                <p class="recruit-admin-wide recruit-admin-help">Unmatched rows are never saved and never create athlete profiles by default. Connect or create the athlete in Athlete Data, then preview the import again.</p>
+                <label class="recruit-admin-wide">Or paste results copied straight from an official results page (MileSplit, SEO Timing, and similar sites that render results with JavaScript and cannot be fetched directly)<textarea class="recruit-admin-code" name="official_results_text" placeholder="Paste everything you copied from the page, including the PLACE / ATHLETE / TEAM / MARK header line and any Team Scores section -- both are handled automatically."></textarea></label>
+                <div class="recruit-admin-wide recruit-admin-actions">
+                  <button class="button button-outline" type="button" data-official-text-preview>Preview pasted official results</button>
+                  <small>Reads the meet name, date, sport, season year, and source settings above. Grade (FR/SO/JR/SR) is converted to graduation year using the season year.</small>
+                </div>
+                <label class="recruit-admin-wide recruit-admin-check"><input type="checkbox" name="create_profiles_for_unmatched_official_rows"><span>Create hidden profiles for unmatched rows from this official source</span></label>
+                <p class="recruit-admin-wide recruit-admin-help">Only applies to rows with Source type set to Official, and only when the row's school resolves to exactly one official Ohio school by exact name or an existing alias. Created profiles are marked Unverified and stay hidden from every public page until an administrator reviews and publishes them, the same as every other import.</p>
               </div>
               <details class="recruit-admin-advanced"><summary>Advanced source settings</summary><div class="recruit-admin-fields">
                 <label>Source label<input name="source_label" value="Official meet results"></label>

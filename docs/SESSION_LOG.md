@@ -2,6 +2,49 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 05 Statewide results import: OHSAA official results, real data
+
+### Date
+
+2026 08 05
+
+### Goal
+
+Begin building a statewide performance database ("thousands of athletes and their times and marks... to rank them"), starting with OHSAA cross country 2025 and track 2026 results, per the user's request.
+
+### Completed
+
+1. Investigated rather than trusted the existing Results Ingestion system's own documentation: confirmed it does write into `athlete_performances` (correcting a wrong claim from the 2026-08-04 Phase One report), but confirmed it only ever attaches results to athletes who already have a profile, never creating one. With zero team rosters loaded, this made the existing system unable to help without a large separate rosters project first.
+2. Confirmed live, with a real request, that MileSplit (`milesplit.com` and `milesplit.live`) renders results with client-side JavaScript and cannot be fetched directly by any query-string trick; copy-pasting the rendered page is the only reliable route today, and fully automated bulk scraping is not realistic without a data partnership or browser automation (the latter raising real terms-of-service concerns).
+3. Built and tested `parseOfficialResultsText` against a real, complete dataset: the actual 2025 OHSAA Division 4 Boys Cross Country State Championship, 213 athletes, pasted directly from a browser by the user. Handles grade embedded between name and school (FR/SO/JR/SR), multi-word school names with periods and parentheses ("Con. Crestview," "Sandusky Central Catholic," "Central Christian (Kidron)"), and automatically skips Team Scores sections.
+4. Added a narrow, explicit exception to "never create profiles from unmatched rows" (full reasoning in `docs/DECISIONS.md`): admin-opted-in, official-source-only, exact-school-match-only profile creation, always hidden, looked up by a stable identity key first so re-imports never duplicate or overwrite review work.
+5. Added the admin UI for it: a paste box for raw official results text and a "Create hidden profiles for unmatched rows from this official source" checkbox on `/admin/recruiting/`.
+6. Verified the complete real 213-row dataset through the actual HTTP API path (read-only preview only): 18 ready (matched the existing seed, including Bennett Lehman), 153 creatable (real athletes, school resolved), 42 unmatched (abbreviated school names needing alias cleanup, e.g. "Ft. Loramie," "Spring. ECA," "Rac. Southern").
+7. Found and fixed two real bugs while building this, both self-caught before anything went live: (a) the same "cleanAthleteText collapses newlines" mistake from earlier in the session, hit twice more (the parser itself, then the new admin API action that calls it) -- both fixed, with a named regression test guarding the API-layer case specifically; (b) `Number(null) === 0` in the grade-to-graduation-year formula let a missing season year silently produce graduation year 1 instead of failing -- caught by a test written for this feature, not discovered live.
+8. Nothing was committed. Every verification used only the read-only preview action against real data, following the same no-writes-without-the-user-present discipline established the same day.
+
+### Files changed
+
+`lib/recruiting_service.mjs`, `api/admin/recruiting.js`, `src/pages/adminrecruiting.mjs`, `public/scripts/admin-recruiting.js`, `scripts/test-recruiting-foundation.mjs`, `docs/DECISIONS.md`, `docs/NEXT_SESSION.md`.
+
+### Database migrations
+
+None. No new tables were needed; this reuses `athlete_profiles` and the existing performance import tables exactly as they are.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` all pass, including new tests for the real-data parsing fixture, the grade-to-graduation-year formula (including the null-handling bug fix), and both new admin API/page markers.
+
+### Manual testing
+
+Not yet performed by the user. The feature was verified end to end via the real HTTP API path (read-only preview against the real 213-row dataset), but no one has clicked through the browser UI for it yet.
+
+### Remaining work
+
+1. Decide whether to commit the real 213-row import (see `docs/NEXT_SESSION.md`, "Statewide results import").
+2. If approved, the user should also click through the new UI once in the browser before it is considered fully verified, matching the discipline used for every other feature this project has shipped.
+3. Continue gathering more official results the same way, and add school aliases for the 42 unmatched names as real corrections are confirmed.
+
 ## 2026 08 05 Recruiting Phase Two write-path verification and merge
 
 ### Date
