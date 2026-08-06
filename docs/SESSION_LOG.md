@@ -2,6 +2,49 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 Public results submission path (no admin account required)
+
+### Date
+
+2026 08 06
+
+### Goal
+
+The user wanted a way to stop being the only path for results into Podium Watch. After researching how bigger recruiting platforms (Athletic.net specifically) actually source data -- not by scraping anyone, but by giving coaches and meet hosts a place to upload the same file their timing software already exports -- build Podium Watch's own version of that: a public page where anyone can submit raw results without an admin account.
+
+### Completed
+
+1. Built `/submit-results/`: a public page (meet name, date, sport, season, optional location/gender, a paste box or file upload, required submitter name/email, optional organization/note, a honeypot field) and a new public API route, `api/results-submissions/`, that requires no admin login.
+2. Every safety rule already established this project holds here too: always a dry run, always lands in the same hidden admin review queue an admin already uses, never creates or publishes anything automatically. Added one new rule specific to this path: `importApprovedRows` now tags a public submission's eventual performance as `source_type: "community"` rather than the `"official"` trust every other import in this project carries, reading this from the job instead of hardcoding it.
+3. Anti-abuse follows the exact pattern already used by the public athlete-correction endpoint: a honeypot field, required contact information, and a per-address daily rate limit keyed off an HMAC-hashed address (never a raw IP) rather than inventing a new approach.
+4. Found and fixed two real bugs while building and live-testing this end to end:
+   - `createContentIngestionJob` never forwarded a caller-supplied meet name or date into row metadata (only sport/season), so typing "Meet name: ..." into the new form was silently dropped. Fixed; the existing admin content-upload action gained the same fields as a side benefit.
+   - A real, well-formed OHSAA/MileSplit-style paste ("PLACE ATHLETE TEAM MARK POINTS", single-space separated, grade embedded between name and school -- the exact format used all session for the manual OHSAA imports) silently produced zero staged rows through the general Results Ingestion Engine. Its header detection matched this as a real header line, but splitting it produced only one cell (no 2+ space run to split on), which then made every data line beneath it also collapse to one garbage cell instead of falling through to a pattern that could parse it. Fixed with a grade-anchored fallback pattern adapted directly from the admin recruiting importer's own proven copy of this pattern (case-sensitive, so "Kenneth Morgan Jr" is never mistaken for grade marker "JR" again), and by only accepting a header match as real multi-column headers when it actually splits into more than one cell.
+5. Verified live, end to end, through the real running server: a complete submission with real results text staged correctly, meet name/date on every row, submitter contact info attached, and a hashed (not raw) address recorded for rate limiting. Also verified the honeypot short-circuits with no real work, and that every required-field validation rejects correctly.
+6. Added 8 regression tests (46 total in this suite now) covering the parser fix, the metadata-forwarding fix, every validation rule, the honeypot, the hashed-not-raw-IP rate limiting, the community-trust tagging, and the presence of the new page/script's safety markers.
+
+### Files changed
+
+`api/results-submissions/index.js` (new), `src/pages/submitresults.mjs` (new), `public/scripts/submit-results.js` (new), `lib/result_ingestion_engine.mjs`, `lib/result_parsers.mjs`, `api/admin/results-sources.js`, `public/scripts/admin-results-sources.js`, `scripts/build.mjs`, `tests/results-ingestion.test.mjs`.
+
+### Database migrations
+
+None. Reuses the existing `result_ingestion_jobs`/`result_staging_rows` tables and their existing `job_type` enum values (`paste`, `upload`) exactly as they already were.
+
+### Automated testing
+
+`npm test` (46 results-ingestion tests, all passing) plus the full project suite.
+
+### Manual testing
+
+Verified live through the real running local server: honeypot short-circuit, every required-field rejection, and a complete real submission staging correctly with the parser fix in place. Confirmed the resulting job surfaces correctly in the admin Results Source Manager with submitter name/email/organization/note clearly labeled.
+
+### Remaining work
+
+1. Decide whether/when to link `/submit-results/` from elsewhere on the site (footer, contact page, team pages) so real submitters can actually find it -- it exists and works, but nothing yet points to it.
+2. Decide whether to push this (and the rest of tonight's accumulated commits) to production.
+3. Consider adding a public-facing "why we ask for your email" or privacy note near the submitter fields if this gets real traffic and questions arise.
+
 ## 2026 08 05 First real Baumspage results ingestion crawl, two bugs fixed
 
 ### Date

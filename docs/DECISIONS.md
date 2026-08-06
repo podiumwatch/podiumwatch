@@ -2,6 +2,29 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 06 Public results submissions are community trust, not official trust
+
+### Decision
+
+A performance imported from the new public results submission path (`/submit-results/`, no admin account required) is tagged `source_type: "community"` when it is eventually approved and imported, not `"official"`. `importApprovedRows` now derives this from the job it came from (`provider_key === "public_submission"` or `options.is_public_submission`) instead of hardcoding `"official"` for every source the Results Ingestion Engine ever imports from.
+
+### Reason
+
+Everything the Results Ingestion Engine has imported so far (Baumspage crawls) came from an admin-run, reviewed action. A public submission is different in kind: anyone can submit it, with only a name, email, and a honeypot field standing between a real coach and a bad-faith submission. It still goes through the exact same hidden-review-queue safety as everything else, and identity matching still refuses to invent an athlete -- but the trust label on the eventual performance should reflect where it actually came from, the same distinction this project already draws elsewhere between official and community-submitted recruiting activity.
+
+### Alternatives considered
+
+1. Tag every import "official" regardless of source, as the code already did. Rejected once the public submission path existed, since it would put a Baumspage crawl and an anonymous public web form at the same trust level, no matter how convincing that mismatch would look.
+2. Require additional verification (email confirmation, a moderation step before staging) before a public submission is even staged. Not adopted for now -- the existing hidden-review-queue step (an admin already has to manually match identities, review, and approve every row) already provides that gate; a stricter one can be added later if abuse becomes a real problem.
+
+### Files or systems affected
+
+`lib/result_ingestion_engine.mjs` (`importApprovedRows`, `createPublicResultsSubmission`), `api/results-submissions/index.js`, `src/pages/submitresults.mjs`, `public/scripts/submit-results.js`.
+
+### Follow up
+
+`/submit-results/` is not yet linked from anywhere else on the site. Decide where (if anywhere) to link it once it has been tried.
+
 ## 2026 08 05 Baumspage crawler stays match-only, does not create profiles
 
 ### Decision

@@ -2,6 +2,8 @@
 
 ## Current priority
 
+A new public results submission path exists and is verified working: `/submit-results/` plus `api/results-submissions/`, letting anyone (coach, timer, meet host) submit raw results without an admin account, following the same hidden-review-queue safety as everything else. Nothing links to this page yet from anywhere else on the site -- it exists and works but is not discoverable. Decide whether/where to link it (footer, contact page, team pages), and whether to push this and the rest of tonight's work to production. Full detail in `docs/SESSION_LOG.md`, 2026-08-06 entry, and the trust-tagging decision in `docs/DECISIONS.md`.
+
 Three real meets are fully committed: D4 boys (213 rows), D1 boys (180 rows, batch `65e7bec0-869e-47ad-8728-4c7bf290a26a`), and D3 boys (215 rows, batch `3c6249e5-e146-4f9d-a588-d5a6fe680a60`, 211 imported, 4 correctly left unmatched). The statewide-import feature plus every bug fix found so far is pushed to production and confirmed live.
 
 A fourth meet (2025 OHSAA Division 2 Boys Cross Country, 215 rows) has its school names resolved: 13 new aliases added and verified (see "Fourth real meet" below), 1 ("New Richmond") correctly left unmatched per the existing missing-from-official-source precedent. Next action: ask the user to re-preview and commit the D2 meet.
