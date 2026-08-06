@@ -110,6 +110,13 @@ export function adminPage(site) {
             </a>
 
             <a
+              class="button button-outline"
+              href="/admin/team-instagram/"
+            >
+              Team Instagram Changes
+            </a>
+
+            <a
               class="button button-primary"
               href="/admin/team-manager/"
             >

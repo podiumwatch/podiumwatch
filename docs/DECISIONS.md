@@ -2,6 +2,32 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 06 Team Instagram submissions: instant, automated, and reversible
+
+### Decision
+
+Built a public, no-login "submit your team's Instagram" feature that is deliberately different from every other submission path in this project: a valid, verified submission takes effect immediately, with no admin approval step. This is only safe because of what still gates it: real automated validation (handle format, a basic blocklist, and confirmation the handle is a real Instagram account, checked live against Instagram itself), a per-team-per-address rate limit, and a fully logged, one-click-reversible change history. Three narrower decisions made building it:
+
+1. **A new `instagram_handle` column on `team_pages`, separate from the existing coach-managed `instagram_url` / `team_social_links`.** Both can be shown on a team's page at once (the user's explicit choice over two safer-looking alternatives -- see the conversation this session for the other two options considered). This means a claimed team's own verified link is never at risk of being overwritten by an anonymous submission, at the cost of the page needing to display two Instagram references distinctly if both exist.
+2. **Reused the existing `public.team_change_log` table (via `lib/team_audit.mjs`'s `writeTeamChange()`) as the required change history, instead of building a second, redundant table.** That table already stores exactly what this feature needs: team, actor, old value, new value, and timestamp. `actor_id` holds a hashed submitter address for rate limiting, matching the pattern already used by the public athlete-correction endpoint -- never a raw IP, never displayed publicly.
+3. **Instagram's real account existence check uses a `<title>` tag signal, not the HTTP status code.** Verified live: both real and made-up Instagram handles return HTTP 200 (the profile page is a JavaScript application, not server-rendered), but the page's title still differs server-side -- a real account's title names the account; a nonexistent one is the bare site title "Instagram". A fetch failure or timeout is treated the same as "does not exist" -- this feature never accepts a handle it could not actually confirm.
+
+### Reason
+
+The user explicitly asked for this exact instant-live model for this one feature, contrasted directly against the hidden-until-approved pattern this project uses everywhere else. Given that, the safety burden moves entirely onto the automated checks and the ability to instantly and completely undo any mistake -- which is why the revert action writes a *new* change log entry rather than editing history, and why the admin page and the weekly digest both read from the same underlying data so they can never disagree.
+
+### Alternatives considered
+
+See the two rejected field-scope options recorded in the session transcript: writing straight into the existing `instagram_url` (rejected -- would let an anonymous submission silently overwrite a real coach's own verified account) and a new field shown only on unclaimed teams (not chosen -- the user preferred showing it on every team regardless of claim status).
+
+### Files or systems affected
+
+`install/07_TEAM_INSTAGRAM_SUBMISSIONS.sql` (not yet run), `lib/team_instagram_service.mjs`, `api/team-instagram/index.js`, `api/admin/team-instagram.js`, `api/cron/team-instagram-digest.js`, `src/pages/teamprofile.mjs`, `public/scripts/team-profile.js`, `src/pages/adminteaminstagram.mjs`, `public/scripts/admin-team-instagram.js`, `src/pages/admin.mjs`, `vercel.json`, `scripts/test-team-instagram.mjs`.
+
+### Follow up
+
+Requires `install/07_TEAM_INSTAGRAM_SUBMISSIONS.sql` to be run in Supabase, and a `TEAM_INSTAGRAM_DIGEST_EMAIL` environment variable in Vercel (the address that should receive the weekly digest) before the digest cron can send anything. Full live end-to-end verification of the submit/revert/digest flow against the real database is still outstanding until the migration is run.
+
 ## 2026 08 06 Public results submissions are community trust, not official trust
 
 ### Decision

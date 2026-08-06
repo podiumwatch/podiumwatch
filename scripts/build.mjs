@@ -66,6 +66,7 @@ import { athleteDetailPage } from "../src/pages/athletedetail.mjs";
 import { adminAthletesPage } from "../src/pages/adminathletes.mjs";
 import { adminRecruitingPage } from "../src/pages/adminrecruiting.mjs";
 import { adminResultsSourcesPage } from "../src/pages/adminresultssources.mjs";
+import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { recruitingPage } from "../src/pages/recruiting.mjs";
 import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mjs";
 
@@ -475,6 +476,7 @@ await writePage("/admin/statewide-data/", adminStatewideDataPage(site));
 await writePage("/admin/athletes/", adminAthletesPage(site));
 await writePage("/admin/recruiting/", adminRecruitingPage(site));
 await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
+await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
 await writePage("/team-login/", teamLoginPage(site));
 await writePage("/team-dashboard/", teamDashboardPage(site));
 await writePage("/team-schedule/", teamSchedulePage(site));

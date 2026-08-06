@@ -8,10 +8,11 @@
     "dev": "node scripts/serve.mjs --watch",
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
-    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results",
+    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:team-instagram",
     "test:athletes": "node scripts/test-athlete-foundation.mjs",
     "test:recruiting": "node scripts/test-recruiting-foundation.mjs",
     "test:results": "node scripts/test-results-ingestion.mjs",
+    "test:team-instagram": "node scripts/test-team-instagram.mjs",
     "preview": "node scripts/serve.mjs"
   },
   "engines": {

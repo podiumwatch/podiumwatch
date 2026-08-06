@@ -32,6 +32,21 @@
   const socials = document.querySelector(
     "[data-team-profile-socials]"
   );
+  const instagramCurrent = document.querySelector(
+    "[data-team-instagram-current]"
+  );
+  const instagramEmpty = document.querySelector(
+    "[data-team-instagram-empty]"
+  );
+  const instagramForm = document.querySelector(
+    "[data-team-instagram-form]"
+  );
+  const instagramMessage = document.querySelector(
+    "[data-team-instagram-message]"
+  );
+  const instagramButton = document.querySelector(
+    "[data-team-instagram-button]"
+  );
   const completionText = document.querySelector(
     "[data-team-profile-completion]"
   );
@@ -629,6 +644,25 @@
       "Support the Team",
       team.fundraiser_url
     );
+  }
+
+  function renderInstagram(team) {
+    const handle = String(team.instagram_handle || "").trim();
+    if (instagramForm) instagramForm.dataset.teamId = team.id || "";
+
+    if (handle) {
+      instagramCurrent.innerHTML =
+        "Instagram: <a href=\"https://www.instagram.com/" +
+        encodeURIComponent(handle) +
+        "/\" target=\"_blank\" rel=\"noopener noreferrer\">@" +
+        escapeHtml(handle) +
+        "</a>";
+      instagramCurrent.hidden = false;
+      instagramEmpty.hidden = true;
+    } else {
+      instagramCurrent.hidden = true;
+      instagramEmpty.hidden = false;
+    }
   }
 
   function getTodayDate() {
@@ -1235,6 +1269,7 @@
       .join(" · ");
 
     renderSocialLinks(team, socialLinks);
+    renderInstagram(team);
 
     const score = Math.max(
       0,
@@ -1498,6 +1533,47 @@
     "submit",
     submitReport
   );
+
+  function showInstagramMessage(text, tone = "success") {
+    instagramMessage.textContent = text;
+    instagramMessage.dataset.tone = tone;
+    instagramMessage.hidden = false;
+  }
+
+  instagramForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const teamId = instagramForm.dataset.teamId || currentTeam?.id;
+
+    if (!teamId) {
+      showInstagramMessage("This team could not be identified.", "error");
+      return;
+    }
+
+    const values = Object.fromEntries(new FormData(instagramForm).entries());
+    instagramButton.disabled = true;
+    showInstagramMessage("Checking the handle.");
+
+    try {
+      const response = await fetch("/api/team-instagram/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ team_id: teamId, handle: values.handle, website: values.website })
+      });
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(payload.error || "The Instagram handle could not be updated.");
+      }
+
+      instagramForm.reset();
+      showInstagramMessage(payload.message || "Instagram updated.");
+      if (payload.handle) renderInstagram({ ...currentTeam, instagram_handle: payload.handle, id: teamId });
+    } catch (error) {
+      showInstagramMessage(error.message, "error");
+    } finally {
+      instagramButton.disabled = false;
+    }
+  });
 
   initialize();
 })();

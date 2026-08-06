@@ -202,6 +202,18 @@ export function teamProfilePage(site) {
       box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
     }
 
+    .team-instagram-current { font-weight: 800; font-size: 1.05rem; }
+    .team-instagram-current a { color: inherit; }
+    .team-instagram-help { color: rgba(15, 23, 42, .68); font-weight: 500; margin: 8px 0; }
+    .team-instagram-details summary { cursor: pointer; font-weight: 800; margin-top: 10px; }
+    .team-instagram-form { display: grid; gap: 12px; max-width: 360px; margin-top: 12px; }
+    .team-instagram-form label { display: grid; gap: 6px; font-weight: 800; }
+    .team-instagram-form input { width: 100%; padding: 10px 12px; border: 1px solid rgba(15,23,42,.22); border-radius: 9px; background: #fff; font: inherit; }
+    .team-instagram-honeypot { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+    .team-instagram-message { padding: 10px 12px; border-radius: 8px; font-weight: 700; }
+    .team-instagram-message[data-tone="success"] { background: rgba(0,191,99,.13); color: #08130d; }
+    .team-instagram-message[data-tone="error"] { background: rgba(226,58,58,.12); color: #7a1414; }
+
     .engagement-sponsor-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -653,6 +665,22 @@ export function teamProfilePage(site) {
           </div>
           <div class="team-profile-socials" data-team-profile-socials></div>
         </header>
+
+        <section class="team-profile-section team-instagram-section">
+          <div><p class="eyebrow">Community submitted</p><h2>Team Instagram</h2></div>
+          <p data-team-instagram-current class="team-instagram-current" hidden></p>
+          <p data-team-instagram-empty class="team-instagram-help">No Instagram handle has been submitted for this team yet.</p>
+          <details class="team-instagram-details">
+            <summary>Submit or update this team's Instagram</summary>
+            <p class="team-instagram-help">No account needed. Submissions are checked automatically (a valid handle format, and that the account is real) and take effect right away. One submission is accepted per team every few hours.</p>
+            <form class="team-instagram-form" data-team-instagram-form>
+              <label>Instagram handle<input type="text" name="handle" required maxlength="60" placeholder="@teamhandle"></label>
+              <label class="team-instagram-honeypot" aria-hidden="true">Leave this blank<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+              <p class="team-instagram-message" data-team-instagram-message role="status" hidden></p>
+              <button class="button button-dark" type="submit" data-team-instagram-button>Submit</button>
+            </form>
+          </details>
+        </section>
 
         <section class="team-profile-meta">
           <div>

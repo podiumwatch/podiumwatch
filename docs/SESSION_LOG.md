@@ -2,6 +2,51 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 Team Instagram submissions (instant, validated, reversible)
+
+### Date
+
+2026 08 06
+
+### Goal
+
+Build a public, no-login team Instagram submission feature per the user's detailed spec: automated validation, immediate effect (no admin approval step, unlike every other feature in this project), full change logging, one-click admin revert, and a weekly email digest.
+
+### Completed
+
+1. Read `docs/ATHLETE_PROFILE_FOUNDATION.md`, `docs/STATEWIDE_DATA_FOUNDATION.md`, `AGENTS.md`, and (per AGENTS.md's own instruction) `docs/ARCHITECTURE.md` and `docs/DATA_SOURCES.md` before starting.
+2. Found real existing infrastructure before writing anything: `team_pages.instagram_url` and `team_social_links` (coach-managed, authenticated), and `public.team_change_log` with a ready-made `writeTeamChange()` helper in `lib/team_audit.mjs` -- exactly the change-history shape the user asked for. Flagged the resulting design fork (would an anonymous instant-write feature risk overwriting a real coach's verified link?) rather than guessing, and got an explicit decision: a new, separate `instagram_handle` field, shown on every team page regardless of claim status.
+3. Empirically verified, before designing validation around it, that Instagram account existence can be checked without a browser: both real and nonexistent handles return HTTP 200 (the profile page is a JavaScript application), but the page's `<title>` tag still differs server side. Tested against several known-real accounts (Nike, NASA, Instagram itself) and several made-up handles.
+4. Built `lib/team_instagram_service.mjs`: handle normalization (accepts `@handle`, a bare handle, or a pasted profile URL), format validation (Instagram's real username rules), a basic blocklist, the title-tag existence check (with an injectable fetch for testing), submission (validate -> blocklist -> rate limit -> existence check -> write -> log, in that order so a rate-limited request never triggers an outbound network call), one-click revert (writes a new log entry, never edits history), a cross-team change list, and the weekly digest email content builder.
+5. Built the public path: `/submit-results/`-style page at the bottom of `/team/`, a public API (`api/team-instagram/`, no admin auth, honeypot, hashed-address rate limiting matching the existing athlete-correction endpoint's pattern), and client-side rendering/submission wiring in `team-profile.js`.
+6. Built the admin path: `api/admin/team-instagram.js` (list, revert), a new admin page `/admin/team-instagram/` with a one-click revert per change, and linked it from `/admin/` (learned from an earlier oversight this project already hit once with the Results Source Manager page).
+7. Built the weekly digest: `api/cron/team-instagram-digest.js`, reusing the existing `sendResendEmail`/`getSiteUrl`/`escapeHtml` exports from `lib/engagement_service.mjs` rather than reimplementing the Resend integration, and a new Monday 13:30 UTC cron entry in `vercel.json` (offset from the existing 13:00 UTC follower digest).
+8. Wrote `install/07_TEAM_INSTAGRAM_SUBMISSIONS.sql`: adds `instagram_handle` and `instagram_handle_updated_at` to `team_pages`, and one supporting partial index on `team_change_log` for the rate-limit and history queries. Never issues `create table` for either table, since both already exist outside this repo's migration history.
+9. Added `scripts/test-team-instagram.mjs` (registered as `npm run test:team-instagram`, included in `npm test`): full coverage of the pure validation functions, the existence check via dependency-injected fetch (no live network call in the suite), the digest email builder, and source guards for the parts that need a live database connection this fixture-only suite does not have.
+
+### Files changed
+
+`install/07_TEAM_INSTAGRAM_SUBMISSIONS.sql` (new, not run), `lib/team_instagram_service.mjs` (new), `api/team-instagram/index.js` (new), `api/admin/team-instagram.js` (new), `api/cron/team-instagram-digest.js` (new), `src/pages/adminteaminstagram.mjs` (new), `public/scripts/admin-team-instagram.js` (new), `scripts/test-team-instagram.mjs` (new), `src/pages/teamprofile.mjs`, `public/scripts/team-profile.js`, `src/pages/admin.mjs`, `scripts/build.mjs`, `vercel.json`, `package.json`.
+
+### Database migrations
+
+`install/07_TEAM_INSTAGRAM_SUBMISSIONS.sql` written but **not run** -- the user asked to run it themselves after reviewing it.
+
+### Automated testing
+
+`npm run build`, `npm run check`, and `npm test` (including the new `test:team-instagram` suite, 20+ new checks) all pass.
+
+### Manual testing
+
+The new pages (`/admin/team-instagram/`) were confirmed reachable and rendering correctly on the local dev server. The full live submit/revert/digest flow against a real database could not be tested yet -- the `instagram_handle` column does not exist until install/07 is run.
+
+### Remaining work
+
+1. User to review and run `install/07_TEAM_INSTAGRAM_SUBMISSIONS.sql` in Supabase.
+2. Set `TEAM_INSTAGRAM_DIGEST_EMAIL` in Vercel before the weekly digest cron can send anything (in addition to the `RESEND_API_KEY` / `RESEND_FROM_EMAIL` / `CRON_SECRET` this project already needs configured for any cron email to send).
+3. Once the migration is run, live-verify the full submit -> validate -> write -> log -> revert -> digest loop against a real (disposable) team, the same discipline used for every other live-database feature this project has shipped.
+4. Nothing here is pushed or deployed -- the user asked to review the diff first.
+
 ## 2026 08 06 Public results submission path (no admin account required)
 
 ### Date
