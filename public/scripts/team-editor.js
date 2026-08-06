@@ -63,6 +63,22 @@
     "[data-team-image-preview]"
   );
 
+  const logoFileInput = document.querySelector(
+    "[data-team-logo-file]"
+  );
+
+  const bannerFileInput = document.querySelector(
+    "[data-team-banner-file]"
+  );
+
+  const logoUploadStatus = document.querySelector(
+    "[data-team-logo-upload-status]"
+  );
+
+  const bannerUploadStatus = document.querySelector(
+    "[data-team-banner-upload-status]"
+  );
+
   const headCoachSetup =
     profileForm.querySelector(
       '[name="head_coach_setup"]'
@@ -100,6 +116,10 @@
     !logoPreview ||
     !bannerPreview ||
     !imagePreview ||
+    !logoFileInput ||
+    !bannerFileInput ||
+    !logoUploadStatus ||
+    !bannerUploadStatus ||
     !headCoachSetup ||
     !combinedHeadCoachField ||
     !boysHeadCoachField ||
@@ -232,7 +252,10 @@
     }
   }
 
-  async function apiFetch(payload) {
+  async function apiFetch(
+    payload,
+    path = "/api/team/detail/"
+  ) {
     let accessToken = "";
 
     if (!adminMode) {
@@ -263,7 +286,7 @@
     }
 
     const response = await fetch(
-      "/api/team/detail/",
+      path,
       {
         method: "POST",
         headers,
@@ -627,6 +650,112 @@
     }
   }
 
+  function fileToBase64(file) {
+    return new Promise(
+      (resolve, reject) => {
+        const reader =
+          new FileReader();
+
+        reader.onload = () => {
+          const result = String(
+            reader.result || ""
+          );
+
+          const commaIndex =
+            result.indexOf(",");
+
+          resolve(
+            commaIndex >= 0
+              ? result.slice(
+                  commaIndex + 1
+                )
+              : result
+          );
+        };
+
+        reader.onerror = () => {
+          reject(
+            new Error(
+              "That file could not be read."
+            )
+          );
+        };
+
+        reader.readAsDataURL(file);
+      }
+    );
+  }
+
+  async function uploadTeamMedia(
+    field,
+    file
+  ) {
+    const content = await fileToBase64(
+      file
+    );
+
+    return apiFetch(
+      {
+        team_id: teamId,
+        field,
+        file_name: file.name,
+        encoding: "base64",
+        content
+      },
+      "/api/team/upload-media/"
+    );
+  }
+
+  async function handleMediaFileChange(
+    field,
+    fileInput,
+    statusEl
+  ) {
+    const file =
+      fileInput.files &&
+      fileInput.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const urlInput =
+      profileForm.querySelector(
+        `[name="${field}"]`
+      );
+
+    statusEl.hidden = false;
+    statusEl.textContent =
+      "Uploading image...";
+
+    fileInput.disabled = true;
+
+    try {
+      const data =
+        await uploadTeamMedia(
+          field,
+          file
+        );
+
+      urlInput.value = data.url;
+
+      urlInput.dispatchEvent(
+        new Event("input", {
+          bubbles: true
+        })
+      );
+
+      statusEl.textContent =
+        "Image uploaded. Press Save changes below to publish it.";
+    } catch (error) {
+      statusEl.textContent =
+        error.message;
+    } finally {
+      fileInput.disabled = false;
+      fileInput.value = "";
+    }
+  }
+
   async function loadTeam() {
     const data = await apiFetch({
       action: "get",
@@ -871,6 +1000,26 @@
       "input",
       updateImagePreviews
     );
+
+  logoFileInput.addEventListener(
+    "change",
+    () =>
+      handleMediaFileChange(
+        "logo_url",
+        logoFileInput,
+        logoUploadStatus
+      )
+  );
+
+  bannerFileInput.addEventListener(
+    "change",
+    () =>
+      handleMediaFileChange(
+        "banner_image_url",
+        bannerFileInput,
+        bannerUploadStatus
+      )
+  );
 
   signOutButton.addEventListener(
     "click",

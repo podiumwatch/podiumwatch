@@ -2,6 +2,35 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 06 Team logo and banner uploads, alongside the existing URL fields
+
+### Decision
+
+Let a signed-in coach of a claimed team upload an actual image file for their team's logo or banner, instead of only being able to paste a URL to an image already hosted somewhere else. The existing URL text fields stay exactly as they were -- a coach who already has a hosted image can still paste its address -- an upload just fills the same field in for them.
+
+1. **A new public Supabase Storage bucket, `team-media`**, created the same way `install/05_RESULTS_INGESTION_ENGINE.sql` already created `result-source-documents`. That bucket is private, for internal audit copies nobody outside Podium Watch should read directly; this one is the opposite case on purpose, so it is created `public = true` -- every file it holds is meant to be shown on a public team page.
+2. **The new upload endpoint (`api/team/upload-media.js`) never writes to `team_pages` itself.** It only validates and stores the file, then returns a public URL. The team editor drops that URL into the same `logo_url` / `banner_image_url` text field a coach could paste into by hand, and the existing "save" action in `api/team/detail.js` is what actually persists it -- the same audited path as any other profile edit, not a new one. Nothing is public until the coach presses Save.
+3. **Every uploaded file is classified by its own magic bytes (`lib/team_media_service.mjs`'s `classifyImageBytes`), never by the browser-supplied content type or file extension** -- the same principle `lib/result_parsers.mjs` already uses for results documents. Only PNG, JPEG, GIF, and WEBP are accepted; SVG is deliberately excluded (it is XML and can carry a script). A 5 MB size limit is enforced both before decoding the base64 payload (so an oversized upload never gets fully allocated in memory just to be rejected) and again after.
+4. **Reused the existing team auth and membership pattern exactly** (`requireTeamUser` + a `requireMembership` check against `team_members`, matching `api/team/detail.js`), rather than inventing a new access model for this one endpoint.
+
+### Reason
+
+The user asked specifically to convert the existing URL-paste-only logo/banner fields into a real upload capability. Keeping the upload endpoint itself "dumb" (validate, store, return a URL) and letting the existing, already-audited save action be the only thing that ever writes to `team_pages` avoids a second, parallel way for that table to change, and means the new code that touches a database column at all is zero.
+
+### Alternatives considered
+
+1. Have the upload endpoint save directly to `team_pages` on successful upload. Rejected: would create a second write path into the same field the profile form already saves, and would mean an uploaded-but-not-yet-reviewed image could go live before the coach presses Save on the rest of their edits.
+2. Also let unclaimed teams (555 of 556 team pages) submit a photo with no login, mirroring the team Instagram feature's public submission model. Not built here -- the user's request read as upgrading the existing claimed-team editor, not opening a new anonymous submission surface; worth asking about separately if wanted.
+3. Accept SVG uploads. Rejected: SVG is XML and can embed `<script>`, an XSS risk for a public image field with no server-side render sanitation step.
+
+### Files or systems affected
+
+`install/08_TEAM_MEDIA_UPLOADS.sql` (not yet run), `lib/team_media_service.mjs`, `api/team/upload-media.js`, `src/pages/teameditor.mjs`, `public/scripts/team-editor.js`, `scripts/test-team-media.mjs`.
+
+### Follow up
+
+Requires `install/08_TEAM_MEDIA_UPLOADS.sql` to be run in Supabase before any upload will succeed. Live end-to-end verification (uploading a real file through the editor, confirming it appears on the public team page after Save) is still outstanding until the migration is run.
+
 ## 2026 08 06 Team Instagram submissions: instant, automated, and reversible
 
 ### Decision

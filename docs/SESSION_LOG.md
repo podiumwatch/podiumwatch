@@ -2,6 +2,52 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 Team logo and banner file uploads
+
+### Date
+
+2026 08 06
+
+### Goal
+
+Convert the team editor's existing URL-paste-only logo and banner fields into a real file upload capability, per the user's request ("Can we make it so they can upload an image as a profile picture?").
+
+### Completed
+
+1. Investigated the existing flow first: confirmed `/team-editor/`'s logo/banner fields were plain text URL inputs, confirmed the public team page already rendered `logo_url` as an `<img>` correctly (so once a valid URL exists, display needed no changes), and confirmed the exact existing auth pattern to reuse (`requireTeamUser` + a `requireMembership` check against `team_members`, matching `api/team/detail.js`).
+2. Found the direct precedent to follow: `install/05_RESULTS_INGESTION_ENGINE.sql` already creates a Supabase Storage bucket (`result-source-documents`, private) via plain SQL, and `lib/result_ingestion_engine.mjs` shows the exact base64-upload, pre-decode size check, and magic-byte classification pattern already used for results documents.
+3. Wrote `install/08_TEAM_MEDIA_UPLOADS.sql`: creates a new **public** Storage bucket, `team-media` (public, unlike the private results-documents bucket, since every file here is meant to be shown on a public team page), 5 MB file size limit, restricted MIME types at the bucket level as defense in depth. Additive only -- no table created or altered. Not yet run.
+4. Wrote `lib/team_media_service.mjs`: `classifyImageBytes` reads real magic bytes (PNG, JPEG, GIF, WEBP signatures) rather than trusting the browser's declared content type or file name -- SVG is deliberately excluded since it is XML and can carry a script. `decodeImageUpload` checks size from the base64 length before ever decoding (avoids allocating memory for an oversized payload just to reject it), then again after decoding. `storeTeamMediaUpload` uploads to the new bucket with a content-addressed storage key (team id + field + a short hash of the bytes) and returns the public URL.
+5. Wrote `api/team/upload-media.js`: requires a signed-in, active team member (or an admin), validates and stores the file, and returns only a public URL -- it deliberately never writes to `team_pages` itself. The existing "save" action in `api/team/detail.js` is what actually persists the URL, the same audited path as any other profile edit, so nothing is public until the coach presses Save.
+6. Updated `src/pages/teameditor.mjs`: added a real file input (styled as a button via a hidden input nested in a labeled `.button`) next to each existing URL field, plus a status line and a hint explaining upload fills the URL field but Save still publishes it.
+7. Updated `public/scripts/team-editor.js`: refactored `apiFetch` to accept an optional path (was hardcoded to `/api/team/detail/`) so the same token-fetching and 401-handling logic could be reused for the new upload endpoint instead of duplicated. Added `fileToBase64`, `uploadTeamMedia`, and `handleMediaFileChange`, wired to each file input's `change` event. On success, the returned URL is written into the matching text field and a real `input` event is dispatched so the existing preview-update logic (`updateImagePreviews`) fires unchanged.
+8. Wrote `scripts/test-team-media.mjs`: real magic-byte fixtures for all four accepted formats plus rejection cases (plain text, SVG, empty, truncated signature, mislabeled file), upload decoding checks (field validation, empty content, non-image content, oversized content caught pre-decode, encoding), and source guards for the parts needing a live Supabase connection (auth requirement, and that the endpoint never touches `team_pages` directly). Registered as `npm run test:team-media`, included in `npm test`.
+
+### Files changed
+
+`install/08_TEAM_MEDIA_UPLOADS.sql` (new), `lib/team_media_service.mjs` (new), `api/team/upload-media.js` (new), `scripts/test-team-media.mjs` (new), `src/pages/teameditor.mjs`, `public/scripts/team-editor.js`, `package.json`, `docs/DECISIONS.md`, `docs/NEXT_SESSION.md`.
+
+### Database migrations
+
+`install/08_TEAM_MEDIA_UPLOADS.sql` is written and ready but **not yet run**. No upload will succeed in Supabase until it is.
+
+### Automated testing
+
+1. `npm run build`: 265 pages, 9 published stories, 8 ranking files.
+2. `npm run check`: 162 JavaScript files, 10 JSON files, 286 HTML files, 14,027 internal links, 630 local images -- no problems found.
+3. `npm test`: all suites passed, including the new 12-assertion `test:team-media` suite.
+
+### Manual testing
+
+Not yet done -- requires `install/08_TEAM_MEDIA_UPLOADS.sql` to be run in Supabase first, then uploading a real file through `/team-editor/` against a real claimed team and confirming it appears on the public team page after Save.
+
+### Remaining work
+
+1. Run `install/08_TEAM_MEDIA_UPLOADS.sql` in Supabase.
+2. Live-verify: upload a real logo/banner through the editor, confirm the preview updates, confirm Save persists it, confirm it renders on the public team page.
+3. Decide whether unclaimed teams (555 of 556) should get any photo-submission path too -- not built here; the literal request read as upgrading the existing claimed-team editor, not opening a new anonymous submission surface.
+4. Not pushed or deployed -- awaiting review and explicit approval, same as the rest of tonight's local-only work.
+
 ## 2026 08 06 Team Directory was empty: 556 real teams existed, none published
 
 ### Date

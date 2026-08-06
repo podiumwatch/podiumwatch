@@ -153,6 +153,29 @@ export function teamEditorPage(site) {
       border-radius: 14px;
     }
 
+    .team-image-upload {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .team-image-upload-button {
+      cursor: pointer;
+    }
+
+    .team-image-upload-status {
+      margin: 0;
+      font-size: 0.9em;
+      color: rgba(15, 23, 42, 0.7);
+    }
+
+    .team-editor-hint {
+      margin: -6px 0 0;
+      font-size: 0.9em;
+      color: rgba(15, 23, 42, 0.65);
+    }
+
     @media (max-width: 640px) {
       .team-editor-actions {
         display: grid;
@@ -778,6 +801,25 @@ export function teamEditorPage(site) {
                   name="logo_url"
                   placeholder="https://"
                 >
+
+                <div class="team-image-upload">
+                  <label class="button button-outline team-image-upload-button">
+                    Upload a logo image
+
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/gif,image/webp"
+                      data-team-logo-file
+                      hidden
+                    >
+                  </label>
+
+                  <p
+                    class="team-image-upload-status"
+                    data-team-logo-upload-status
+                    hidden
+                  ></p>
+                </div>
               </label>
 
               <label>
@@ -788,8 +830,33 @@ export function teamEditorPage(site) {
                   name="banner_image_url"
                   placeholder="https://"
                 >
+
+                <div class="team-image-upload">
+                  <label class="button button-outline team-image-upload-button">
+                    Upload a banner image
+
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/gif,image/webp"
+                      data-team-banner-file
+                      hidden
+                    >
+                  </label>
+
+                  <p
+                    class="team-image-upload-status"
+                    data-team-banner-upload-status
+                    hidden
+                  ></p>
+                </div>
               </label>
             </div>
+
+            <p class="team-editor-hint">
+              Images upload instantly to Podium Watch and fill in the URL field above --
+              nothing is saved to your public team page until you press Save changes below.
+              Files must be a JPEG, PNG, GIF, or WEBP under 5&nbsp;MB.
+            </p>
 
             <div
               class="team-image-preview"
