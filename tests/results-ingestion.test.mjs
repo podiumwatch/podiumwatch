@@ -3,10 +3,21 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { assessParsedResults, canonicalizeResultUrl, classifyDocument, extractScoredLinks, fetchPage, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
+import { assessParsedResults, canonicalizeResultUrl, classifyDocument, createPublicResultsSubmission, extractScoredLinks, fetchPage, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
 import { extractDocument, parsePastedOrDelimitedText, parserInternals } from "../lib/result_parsers.mjs";
 
 const fixturesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures");
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ingestionEngineSource = fs.readFileSync(path.join(root, "lib/result_ingestion_engine.mjs"), "utf8");
+const publicSubmissionsApi = fs.readFileSync(path.join(root, "api/results-submissions/index.js"), "utf8");
+const submitResultsPageSource = fs.readFileSync(path.join(root, "src/pages/submitresults.mjs"), "utf8");
+const submitResultsScriptSource = fs.readFileSync(path.join(root, "public/scripts/submit-results.js"), "utf8");
+
+function includesAll(text, values, label) {
+  for (const value of values) {
+    assert.ok(text.includes(value), `${label} is missing ${value}`);
+  }
+}
 
 test("canonical URLs remove fragments and trackers", () => {
   assert.equal(canonicalizeResultUrl("https://www.baumspage.com/cc/event/results.html?utm_source=x&id=7#top"), "https://www.baumspage.com/cc/event/results.html?id=7");
@@ -287,4 +298,112 @@ test("performance import template columns parse into the normalized contract", a
   assert.equal(result.rows.length, 1);
   assert.equal(result.rows[0].eventCode, "xc_5k");
   assert.equal(result.rows[0].meetName, "Sample Invite");
+});
+
+// Bug found and fixed 2026-08-05: the general ingestion parser's header
+// detection matched "PLACE VIDEO ATHLETE TEAM MARK POINTS" as a real
+// header line, but since this OHSAA/MileSplit-style format is single-space
+// separated (not the 2+ space columns this parser otherwise expects), it
+// split into exactly one cell -- which then made every data line beneath
+// it also produce one garbage cell, matching a length check that was only
+// meant to guard against genuinely empty lines. A public results
+// submission in this exact real format therefore silently produced zero
+// rows. Fixed with a grade-anchored fallback pattern (adapted from the
+// admin recruiting importer's own proven copy of this same pattern) and by
+// only accepting a HEADER-matched line as real multi-column headers when
+// splitting it actually produces more than one cell.
+test("OHSAA and MileSplit-style single-space results with an embedded grade parse correctly", () => {
+  const text = `Division 3 Boys 5000 Meter Run
+
+PLACE VIDEO ATHLETE TEAM MARK POINTS
+1 Bennett Lehman JR Ansonia 15:17.91
+18 Kenneth Morgan Jr SR Perrysburg 15:51.32 15`;
+  const rows = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2025 });
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].athleteName, "Bennett Lehman");
+  assert.equal(rows[0].schoolName, "Ansonia");
+  assert.equal(rows[0].markText, "15:17.91");
+  assert.equal(rows[1].athleteName, "Kenneth Morgan Jr", "A mixed-case name suffix must not be mistaken for the grade marker.");
+  assert.equal(rows[1].schoolName, "Perrysburg");
+});
+
+// A caller-supplied meetName/meetDate (for example, a submitter typing them
+// into a form, rather than the pasted content stating them per row) must
+// still reach every row. rowContract() already falls back to this context;
+// this confirms extractDocument() actually passes it through for a document
+// that never states the meet name or date itself.
+test("caller-supplied meet name and date reach every row when the document does not state them", async () => {
+  const csv = "place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:30.20\n2,Sam Fast,North,5K,15:40.10";
+  const result = await extractDocument({
+    bytes: Buffer.from(csv),
+    text: csv,
+    documentType: "csv",
+    metadata: { sport: "cross_country", seasonYear: 2025, meetName: "Coach-Submitted Invite", meetDate: "2025-09-20" }
+  });
+  assert.equal(result.rows.length, 2);
+  assert.ok(result.rows.every((row) => row.meetName === "Coach-Submitted Invite"), "Every row must carry the caller-supplied meet name.");
+  assert.ok(result.rows.every((row) => row.meetDate === "2025-09-20"), "Every row must carry the caller-supplied meet date.");
+});
+
+// 2026-08-05: a public, unauthenticated submission path (createPublicResultsSubmission)
+// lets a coach, timer, or meet host submit results without an admin account.
+// These checks exercise only the validation that runs before any database
+// call, since the rest of the function (rate limiting, staging) requires a
+// real Supabase connection this fixture-only test file does not have.
+test("public results submission rejects a filled honeypot silently, with no error", async () => {
+  const result = await createPublicResultsSubmission({ website: "http://spam.example", text: "irrelevant" });
+  assert.deepEqual(result, { accepted: true, job_id: null, rows_found: 0 });
+});
+
+test("public results submission requires a meet name, date, sport, season, submitter name, and a valid email", async () => {
+  const base = {
+    meetName: "Test Invite", meetDate: "2025-09-20", sport: "cross_country", seasonYear: 2025,
+    submitterName: "Coach Example", submitterEmail: "coach@example.com", text: "1 John Runner Central 15:30.20"
+  };
+  await assert.rejects(() => createPublicResultsSubmission({ ...base, meetName: "" }), /Meet name is required/);
+  await assert.rejects(() => createPublicResultsSubmission({ ...base, meetDate: "" }), /Meet date is required/);
+  await assert.rejects(() => createPublicResultsSubmission({ ...base, sport: "swimming" }), /Choose cross country, indoor track, or outdoor track/);
+  await assert.rejects(() => createPublicResultsSubmission({ ...base, seasonYear: NaN }), /Season year is required/);
+  await assert.rejects(() => createPublicResultsSubmission({ ...base, submitterName: "" }), /Your name is required/);
+  await assert.rejects(() => createPublicResultsSubmission({ ...base, submitterEmail: "not-an-email" }), /valid email address is required/);
+  await assert.rejects(() => createPublicResultsSubmission({ ...base, text: "" }), /Paste the results text/);
+});
+
+// Source guards: the parts of this feature that do require a live database
+// connection (rate limiting by a hashed IP, forwarding meet metadata into
+// createContentIngestionJob, and tagging public-submission-derived
+// performances with community trust rather than official trust) were
+// verified live against the real API during development. These guard
+// against the exact regressions found and fixed then.
+test("public submissions are rate limited by a hashed address, never a raw IP", () => {
+  assert.ok(publicSubmissionsApi.includes("createHmac"), "The public submission API must hash the submitter's address, not store it raw.");
+  assert.ok(!publicSubmissionsApi.includes("submitter_ip:"), "No raw submitter IP field should exist alongside the hashed one.");
+  assert.ok(ingestionEngineSource.includes("submitter_ip_hash"), "Rate limiting must key off a hashed address field.");
+});
+
+test("createContentIngestionJob forwards caller-supplied meet identity into row metadata", () => {
+  assert.ok(ingestionEngineSource.includes("meetName: input.meetName"), "Meet name must flow from the caller into every parsed row.");
+  assert.ok(ingestionEngineSource.includes("meetDate: input.meetDate"), "Meet date must flow from the caller into every parsed row.");
+});
+
+test("importApprovedRows tags public-submission performances as community trust, not official", () => {
+  const importFunctionStart = ingestionEngineSource.indexOf("export async function importApprovedRows");
+  const importFunctionEnd = ingestionEngineSource.indexOf("export async function reverseImportedJob");
+  assert.ok(importFunctionStart > -1 && importFunctionEnd > importFunctionStart, "importApprovedRows must be found before reverseImportedJob to isolate its source.");
+  const importFunctionSource = ingestionEngineSource.slice(importFunctionStart, importFunctionEnd);
+  assert.ok(importFunctionSource.includes("isPublicSubmission"), "Import must distinguish public submissions from admin-controlled sources.");
+  assert.ok(/source_type:\s*sourceType/.test(importFunctionSource), "The saved performance's source_type must not be hardcoded to \"official\" regardless of where the row came from.");
+});
+
+test("the public submit-results page and script exist with the expected safety markers", () => {
+  includesAll(
+    submitResultsPageSource,
+    ["/submit-results/", 'name="meet_name"', 'name="meet_date"', 'name="submitter_name"', 'name="submitter_email"', "submit-results-honeypot", 'name="website"'],
+    "Public submit-results page"
+  );
+  includesAll(
+    submitResultsScriptSource,
+    ["/api/results-submissions", "fileAsBase64"],
+    "Public submit-results client script"
+  );
 });

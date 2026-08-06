@@ -59,6 +59,7 @@ import { athleteOfTheWeekPage, teamOfTheWeekPage } from "../src/pages/weeklyawar
 import { tournamentHubPage } from "../src/pages/tournamenthub.mjs";
 import { ohioSchoolsPage } from "../src/pages/ohioschools.mjs";
 import { claimTeamPage } from "../src/pages/claimteam.mjs";
+import { submitResultsPage } from "../src/pages/submitresults.mjs";
 import { rankingMethodologyPage } from "../src/pages/rankingmethodology.mjs";
 import { athletesPage } from "../src/pages/athletes.mjs";
 import { athleteDetailPage } from "../src/pages/athletedetail.mjs";
@@ -487,6 +488,7 @@ await writePage("/team/", teamProfilePage(site));
 await writePage("/teams/", teamsPage(site));
 await writePage("/ohio-schools/", ohioSchoolsPage(site));
 await writePage("/claim-your-team/", claimTeamPage(site));
+await writePage("/submit-results/", submitResultsPage(site));
 await writePage("/athletes/", athletesPage(site));
 await writePage("/recruiting/", recruitingPage(site));
 await writePage("/recruiting/methodology/", recruitingMethodologyPage(site));
@@ -534,6 +536,7 @@ await writePage("/team-of-the-week/", teamOfTheWeekPage(site));
     { type: "Page", title: "Recruit Rating Methodology", subtitle: "How Podium Watch scores and verifies recruit ratings", href: "/recruiting/methodology/", searchText: "recruiting methodology stars score verified performance evaluation corrections no pay to play" },
     { type: "Page", title: "Ohio School and Division Directory", subtitle: "Official 2026 and 2027 boys cross country school assignments", href: "/ohio-schools/", searchText: "Ohio schools OHSAA boys cross country divisions school directory athletic districts enrollment" },
     { type: "Page", title: "Claim Your Team", subtitle: "Coach and team representative access", href: "/claim-your-team/", searchText: "claim team coach account manage school page roster schedule results" },
+    { type: "Page", title: "Submit Results", subtitle: "Send Podium Watch your meet results, no account required", href: "/submit-results/", searchText: "submit results coach timer meet host upload paste hy-tek semi colon delimited" },
     { type: "Page", title: "Ohio Tournament Hub", subtitle: "Boys cross country divisions and track regional sites", href: "/tournament-hub/", searchText: "OHSAA divisions regional sites representation tournament boys cross country track" },
     { type: "Page", title: "Athlete of the Week", subtitle: "Nominate, vote, and view winners", href: "/athlete-of-the-week/", searchText: "athlete week nominations finalists voting winner" },
     { type: "Page", title: "Team of the Week", subtitle: "Nominate, vote, and view winners", href: "/team-of-the-week/", searchText: "team week nominations finalists voting winner boys girls" },
