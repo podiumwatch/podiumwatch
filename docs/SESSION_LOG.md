@@ -2,6 +2,44 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 Team Directory was empty: 556 real teams existed, none published
+
+### Date
+
+2026 08 06
+
+### Goal
+
+Diagnose the user's report that searching the Team Directory (`/teams/`, reached from "Claim Your Team" -> "Find your team") returned nothing, no matter what they searched.
+
+### Completed
+
+1. Reproduced live against the real API (`/api/teams/`): an empty search returned zero results, ruling out anything specific to the exact search text the user tried.
+2. Checked the real numbers via the Operations Center (`api/admin/operations.js`'s teams subsystem): 556 team pages exist (one for every official Ohio school, created by the statewide school import on 2026-08-03), 0 published, 1 claimed. The search code itself was correct -- it filters to `published = true` by design, and nothing had ever been published.
+3. Confirmed there was no existing bulk-publish action; found the correct single-team mechanism (`api/admin/teams.js`'s `set_status` action, the same one the real admin UI uses, which validates and logs to both `team_change_log` and the general admin audit log).
+4. With the user's explicit approval, called `set_status` (field `published`, value `true`) once per unpublished, non-suspended, non-archived, non-merged team page (`status: "draft"`, 556 of them) through the real admin API. All 556 succeeded, 0 failures.
+5. Verified live: an empty search and a real school name search (e.g. "Worthington") both now return real results.
+
+### Files changed
+
+None. This was a data-only fix (556 `team_pages.published` updates through the existing, reviewed admin action), not a code change.
+
+### Database migrations
+
+None.
+
+### Automated testing
+
+Not applicable -- no code changed.
+
+### Manual testing
+
+Verified live through the real running server: before the fix, every search (including empty) returned zero teams; after, both an empty search and a specific school name search return real results.
+
+### Remaining work
+
+1. The 555 unclaimed team pages are still very incomplete (no coach, no logo, no description -- the Operations Center's existing "556 active team profiles below 65 percent completion" task already tracks this). Publishing them makes them findable; filling them in is a separate, ongoing effort for coaches claiming their own pages.
+
 ## 2026 08 06 Team Instagram submissions (instant, validated, reversible)
 
 ### Date
