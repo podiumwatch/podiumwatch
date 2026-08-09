@@ -19,7 +19,7 @@ export function icon(name) {
 }
 
 export function header(site, currentPath = "/") {
-  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Ohio Schools", "Athletes", "Recruiting", "Stories"]);
+  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Ohio Schools", "Fan Poll", "Athletes", "Recruiting", "Stories"]);
   const navLinks = site.navigation.filter((link) => primaryLabels.has(link.label)).map((link) => {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
     return `<a href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
@@ -40,7 +40,7 @@ export function header(site, currentPath = "/") {
       <a class="nav-instagram" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a>
     </nav>
   </div>
-  <div class="section-nav"><div class="container"><strong>Explore</strong><a href="/rankings/cross-country/">Boys XC</a><a href="/rankings/cross-country/">Girls XC</a><a href="/rankings/track-and-field/">Track and Field</a><a href="/tournament-hub/">Tournament Hub</a><a href="/athlete-of-the-week/">Athlete of the Week</a><a href="/team-of-the-week/">Team of the Week</a><a href="/about/">About</a></div></div>
+  <div class="section-nav"><div class="container"><strong>Explore</strong><a href="/rankings/cross-country/">Boys XC</a><a href="/rankings/cross-country/">Girls XC</a><a href="/rankings/track-and-field/">Track and Field</a><a href="/fan-poll/">Fan Poll</a><a href="/tournament-hub/">Tournament Hub</a><a href="/athlete-of-the-week/">Athlete of the Week</a><a href="/team-of-the-week/">Team of the Week</a><a href="/about/">About</a></div></div>
   <div class="nav-overlay" data-nav-overlay></div>
   <dialog class="search-dialog" aria-labelledby="search-dialog-title" data-search-dialog>
     <div class="search-dialog-inner">

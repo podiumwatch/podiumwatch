@@ -23,17 +23,6 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
   })}
 
   <style>
-    .fan-poll-disclaimer {
-      background: #fff4e5;
-      border: 1px solid #e8a23d;
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 0.92em;
-      color: #6b4a12;
-    }
-
-    .fan-poll-disclaimer strong { color: #4a3208; }
-
     .fan-poll-results-table {
       width: 100%;
       border-collapse: collapse;
@@ -64,6 +53,18 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
 
     @media (max-width: 760px) {
       .fan-poll-builder { grid-template-columns: 1fr; }
+      /* On a phone, show the ballot-in-progress above the team search --
+         voters can see it fill up without scrolling past it every time
+         they add a team. */
+      .fan-poll-ballot-panel { order: -1; }
+    }
+
+    .fan-poll-panel-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 1.05em;
     }
 
     .fan-poll-team-list, .fan-poll-ballot-list {
@@ -72,7 +73,7 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
       padding: 0;
       display: grid;
       gap: 8px;
-      max-height: 480px;
+      max-height: 50vh;
       overflow-y: auto;
     }
 
@@ -81,41 +82,59 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      padding: 8px 12px;
+      padding: 10px 12px;
       border: 1px solid rgba(15, 23, 42, 0.15);
       border-radius: 8px;
       background: #fff;
+      font-size: 0.95em;
     }
 
-    .fan-poll-ballot-row-controls { display: flex; align-items: center; gap: 4px; }
+    .fan-poll-team-row .button { min-height: 40px; padding: 8px 16px; }
+
+    .fan-poll-ballot-panel {
+      border: 1px solid rgba(0, 191, 99, 0.35);
+      border-radius: 12px;
+      background: rgba(0, 191, 99, 0.06);
+      padding: 14px;
+    }
+
+    .fan-poll-ballot-row-controls { display: flex; align-items: center; gap: 6px; }
     .fan-poll-ballot-row-controls button {
-      width: 30px; height: 30px; border-radius: 6px; border: 1px solid rgba(15,23,42,0.25);
-      background: #fff; cursor: pointer; font: inherit;
+      /* At least a 44px touch target -- these are the primary controls
+         voters use repeatedly while building a ballot on a phone. */
+      width: 44px; height: 44px; border-radius: 8px; border: 1px solid rgba(15,23,42,0.25);
+      background: #fff; cursor: pointer; font: inherit; font-size: 1.1em;
     }
     .fan-poll-ballot-row-controls button:disabled { opacity: 0.35; cursor: not-allowed; }
-    .fan-poll-ballot-rank { font-weight: 700; width: 26px; text-align: center; }
+    .fan-poll-ballot-rank { font-weight: 700; width: 26px; text-align: center; flex-shrink: 0; }
 
     .fan-poll-ballot-count { font-weight: 700; }
     .fan-poll-ballot-count.fan-poll-ballot-count-ready { color: #0a8a3f; }
 
+    .fan-poll-team-search {
+      display: block; width: 100%; margin-top: 8px; padding: 12px;
+      border: 1px solid rgba(15,23,42,0.22); border-radius: 8px; font: inherit;
+    }
+
     .fan-poll-form-fields { margin-top: 20px; display: grid; gap: 14px; max-width: 480px; }
+    .fan-poll-form-fields input[type="email"] {
+      padding: 12px; border: 1px solid rgba(15,23,42,0.22); border-radius: 8px; font: inherit;
+    }
     .fan-poll-honeypot { position: absolute; left: -9999px; }
+
+    @media (max-width: 760px) {
+      .fan-poll-team-list, .fan-poll-ballot-list { max-height: 340px; }
+      [data-fan-poll-submit] { width: 100%; justify-content: center; }
+    }
   </style>
-
-  <div class="container" style="margin-top:-10px; margin-bottom:24px;">
-    ${breadcrumb([
-      { label: "Home", href: "/" },
-      { label: "Fan Poll", href: "/fan-poll/" },
-      { label: title }
-    ])}
-  </div>
-
-  <section class="section"><div class="container">
-    <p class="fan-poll-disclaimer"><strong>Unofficial fan poll.</strong> This is Podium Watch's own reader-voted poll, separate from and not affiliated with the official OATCCC Coaches Poll.</p>
-  </div></section>
 
   <section class="section section-paper" aria-labelledby="fan-poll-results-title">
     <div class="container">
+      ${breadcrumb([
+        { label: "Home", href: "/" },
+        { label: "Fan Poll", href: "/fan-poll/" },
+        { label: title }
+      ])}
       <div class="section-heading"><div><p class="eyebrow">This week's results</p><h2 id="fan-poll-results-title">${title}</h2></div></div>
       <p data-fan-poll-week-status></p>
       <div data-fan-poll-results-empty hidden><p>No ballots have been counted for this division yet. Be the first to vote below.</p></div>
@@ -133,13 +152,13 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
       <div data-fan-poll-ballot-form-wrap>
         <p>Add exactly 16 real ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} teams below, then use the up and down arrows to put them in your order. Team 1 gets 16 points, team 16 gets 1 point.</p>
         <div class="fan-poll-builder">
-          <div>
+          <div class="fan-poll-team-panel">
             <strong>Available teams</strong>
-            <input type="search" placeholder="Search teams" data-fan-poll-team-search style="display:block;width:100%;margin-top:8px;padding:10px;border:1px solid rgba(15,23,42,0.22);border-radius:8px;font:inherit;">
+            <input type="search" placeholder="Search teams" data-fan-poll-team-search class="fan-poll-team-search">
             <ul class="fan-poll-team-list" data-fan-poll-team-list></ul>
           </div>
-          <div>
-            <strong>Your ballot (<span class="fan-poll-ballot-count" data-fan-poll-ballot-count>0</span> of 16)</strong>
+          <div class="fan-poll-ballot-panel">
+            <p class="fan-poll-panel-heading"><strong>Your ballot</strong><span><span class="fan-poll-ballot-count" data-fan-poll-ballot-count>0</span> of 16</span></p>
             <ul class="fan-poll-ballot-list" data-fan-poll-ballot-list></ul>
           </div>
         </div>
@@ -165,7 +184,7 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
     html: layout({
       site,
       title: `${title} | Podium Watch`,
-      description: `Vote and see this week's fan-voted top 16 ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} ${divisionLabel(divisionNumber).toLowerCase()} teams. Unofficial, separate from the OATCCC Coaches Poll.`,
+      description: `Vote and see this week's fan-voted top 16 ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} ${divisionLabel(divisionNumber).toLowerCase()} teams.`,
       pathname,
       content
     })
@@ -179,12 +198,11 @@ export function fanPollIndexPage(site) {
   const content = `${pageHero({
     eyebrow: "Podium Watch Fan Poll",
     title: "Vote in the Podium Watch Fan Poll.",
-    description: "A weekly, reader-voted top 16 ranking per division -- unofficial, and separate from the real OATCCC Coaches Poll."
+    description: "A weekly, reader-voted top 16 ranking per division."
   })}
 
   <section class="section section-paper"><div class="container">
-    <p class="fan-poll-disclaimer" style="background:#fff4e5;border:1px solid #e8a23d;border-radius:10px;padding:14px 18px;font-size:0.92em;color:#6b4a12;"><strong>Unofficial fan poll.</strong> Podium Watch's own reader-voted poll, not affiliated with the official OATCCC Coaches Poll.</p>
-    <div class="section-heading" style="margin-top:24px;"><div><p class="eyebrow">Cross Country</p><h2>Boys and girls, Divisions I through IV</h2></div></div>
+    <div class="section-heading"><div><p class="eyebrow">Cross Country</p><h2>Boys and girls, Divisions I through IV</h2></div></div>
     <div class="gender-tabs"><a href="/fan-poll/cross-country/boys/division-1/">Boys</a><a href="/fan-poll/cross-country/girls/division-1/">Girls</a></div>
     <div class="division-grid" style="margin-top:16px;">
       ${divisions.map((division) => `<a class="division-card" href="/fan-poll/cross-country/boys/division-${division}/"><strong>Division ${DIVISION_LABELS[division - 1]}</strong><span>Boys fan poll</span></a>`).join("")}
@@ -199,7 +217,7 @@ export function fanPollIndexPage(site) {
     html: layout({
       site,
       title: "Podium Watch Fan Poll",
-      description: "Vote in Podium Watch's unofficial, weekly fan-voted top 16 cross country rankings.",
+      description: "Vote in Podium Watch's weekly fan-voted top 16 cross country rankings.",
       pathname,
       content
     })
