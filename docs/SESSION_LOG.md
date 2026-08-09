@@ -2,6 +2,40 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 Fan Poll migration run and live end-to-end verification
+
+### Date
+
+2026 08 06
+
+### Goal
+
+Run `install/09_FAN_POLL.sql` in Supabase and verify the Fan Poll actually works end to end against the real database, not just against unit tests.
+
+### Completed
+
+1. User ran `install/09_FAN_POLL.sql` in the Supabase SQL Editor. Verified immediately after: all 4 tables (`fan_poll_weeks`, `fan_poll_ballots`, `fan_poll_ballot_entries`, `fan_poll_email_subscribers`), the `fan_poll_week_results` view, and the `cast_fan_poll_ballot_v1` function are all live and queryable. Called the RPC with a nonexistent week id specifically to confirm the function's actual logic runs (not just that it exists): correctly returned a clean `{"accepted":false,"reason":"week_not_found"}` instead of erroring.
+2. Ran a full, real, live end-to-end test through the actual HTTP API layer (the same temporary local server built for the 2026-08-05 health check, recreated and deleted again after use, since `vercel dev` still can't be used directly in this environment): admin login through the real `/api/admin/auth/` form logic, created a real Cross Country Boys Division I week through `/api/admin/fan-poll/`, opened voting, fetched the public poll payload (78 real eligible teams returned), submitted a real 16-team ballot through `/api/fan-poll/ballot/`, attempted a second ballot from the same email (correctly rejected, HTTP 409, "already submitted a ballot for this week's poll" -- proving the one-ballot-per-email database constraint works atomically under real conditions, not just in a unit test), and re-fetched results: rank #1 had exactly 16 points and matched the team ranked first on the submitted ballot, rank #16 had exactly 1 point and matched the team ranked last, movement correctly showed `null` for every team (no previous week exists yet for this division).
+3. Asked the user whether to keep the resulting real, currently-open voting week and its one test ballot (voted under the clearly-labeled `e2e-test-vote@podiumwatch.invalid`) or reset it before a real launch. The user chose to keep it as the real first week -- Cross Country Boys Division I is open for voting in the live database right now, not reachable by real visitors until the code itself is pushed.
+
+### Database migrations
+
+`install/09_FAN_POLL.sql` run in production Supabase on 2026-08-06. Confirmed live.
+
+### Automated testing
+
+Not applicable -- no code changed in this entry; `npm test` already covered the code itself before the migration was run (see the entry above).
+
+### Manual testing
+
+The full live end-to-end flow described above (admin login, create week, open voting, fetch eligible teams, submit ballot, duplicate-vote rejection, results correctness) was run against the real database and passed completely. Not yet tested: the actual public `/fan-poll/cross-country/boys/division-1/` page in a real browser (the end-to-end test exercised the API layer directly, not the page's own client-side rendering) -- worth a quick look once this is pushed and deployed.
+
+### Remaining work
+
+1. Push the code so the already-open Cross Country Boys Division I week becomes reachable by real visitors -- awaiting the user's go-ahead, per usual.
+2. Schedule and open the remaining 7 division/gender combinations through `/admin/fan-poll/`.
+3. Everything else already listed in the previous entry's Remaining work still applies (the 46 unmatched schools, the results-email sending mechanism, track and field).
+
 ## 2026 08 06 Podium Watch Fan Poll (cross country launch) plus real girls division data
 
 ### Date
