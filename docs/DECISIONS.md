@@ -2,6 +2,36 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 06 Podium Watch Fan Poll: launched cross country only, track ready
+
+### Decision
+
+Built a weekly, fan-voted top 16 team poll per sport, gender, and division -- modeled after the real OATCCC Coaches Poll but built and labeled everywhere as Podium Watch's own unofficial poll, never presented as official. Shaped after AOTW/TOTW's existing pattern (a `*_weeks` table with a voting window and status field, an atomic RPC vote-cast function, a hashed voter identifier) but reverse-engineered from `api/aotw/vote.js`, `api/aotw/current.js`, and `api/aotw/archive.js` rather than copied from an install/ migration -- `aotw_weeks`/`totw_weeks` predate this repository's migration convention and were never written to an install/*.sql file. A few decisions made building it:
+
+1. **Only cross country actually launched, both genders, divisions 1-4 -- track and field is schema-ready but not turned on.** The user's original request was "all 8 divisions launch together... for both cross country and track and field," but before writing any schema, checking the real data found: the only official statewide division dataset in this project (`public/data/ohio-school-foundation-2026-27.json`) is explicitly boys-cross-country-only by its own stated scope, and `team_pages`' self-reported division fields showed 0 of 556 teams with a girls cross country or any track division assigned. Flagged this to the user before writing any code rather than silently building 8 pages knowing 6 had no real data behind them. The user chose to source the missing division data themselves and scope this build to cross country only for now; track and field (which uses 5 divisions elsewhere on this site, not 4, confirmed in `scripts/build.mjs`) will use its own real 5-division structure once turned on. The schema (`division_number between 1 and 5`, a `sport` enum already including the track values) needs no changes when that happens -- just new `fan_poll_weeks` rows.
+2. **Girls cross country division data was sourced and loaded the same session**, closing most of the gap. The user supplied 8 official OHSAA PDFs (`2026BXC-D1..D4`, `2026GXC-D1..D4`), one boys and one girls per division. Extracted via `pdfjs-dist` (already a project dependency, used the same column-reconstruction technique as `lib/result_parsers.mjs`'s PDF results parsing) and matched to real `team_pages` rows by the numeric official OHSAA school ID (`ohio_schools.ohsaa_school_id`), never by fuzzy name matching. The boys extraction was cross-checked against the already-live boys data first as a correctness proof: 556/556 matched exactly, 0 mismatches. Girls: 422 of 468 real girls cross country programs matched to an existing `team_pages` row and were written to `team_pages.cross_country_girls_division`, logged via the existing `writeTeamChange` audit trail. The remaining 46 are real schools (mostly all-girls schools like Magnificat, Hathaway Brown, Mount Notre Dame, Ursuline Academy) that were never in `ohio_schools`/`team_pages` at all, since that table was originally seeded from the boys-only dataset -- listed in full for the user rather than silently created or silently dropped; creating new school/team records for them is a separate, smaller follow-up, not part of this build.
+3. **A ballot is a foreign-keyed list of real `team_pages` rows, never free text**, unlike TOTW's finalists (plain `team_name`/`school` text columns, no `team_id` reference) -- a deliberate departure from that specific part of the TOTW pattern, directly serving the "no free text school names" requirement.
+4. **The results-email opt-in writes to a fully separate table, `fan_poll_email_subscribers`, never to the ballot table itself.** `fan_poll_ballots` only ever stores a hashed email (for the one-ballot-per-email-per-week database constraint); a real, sendable address is only ever written when a voter explicitly checks "Email me when this week's poll results are published," and voting works identically either way. The actual sending mechanism (a weekly digest cron, matching the pattern already used for the team Instagram digest) was not built in this pass -- only the opt-in capture -- and is flagged as a follow-up.
+5. **No existing admin action to open/close a voting window was found to copy.** `api/admin/operations.js` only ever reads `aotw_weeks`/`totw_weeks` for its status dashboard; there is no write action anywhere in this codebase that opens or closes an AOTW/TOTW week, meaning that has evidently been done by hand in Supabase up to now. `api/admin/fan-poll.js` is a new, original design for this specific need, shaped consistent with this project's other admin action files (`api/admin/team-instagram.js`) rather than copied from a nonexistent precedent.
+6. **Scoring points (16 for 1st down to 1 for 16th) are computed inside the database function itself** (`cast_fan_poll_ballot_v1`), never trusted from the client -- the same principle already applied everywhere else client-supplied values touch scoring or money in this project.
+
+### Reason
+
+The user asked for this to follow the AOTW/TOTW pattern closely rather than invent new conventions, and to design the schema for permanent, queryable history from the start. Both held throughout, with the one necessary original piece (admin open/close) built to match this project's other admin action files instead, once it was confirmed nothing existing could be reused. Real, verified data (not guessed or partial) was treated as a launch prerequisite per division rather than shipping ballot pages with no real teams behind them.
+
+### Alternatives considered
+
+1. Launch all 8 (or 10, accounting for track's real 5th division) pages immediately with an undivided, statewide fallback list wherever real division data doesn't exist yet. Rejected by the user -- not a real division poll for most of the site until better data exists.
+2. Store the ballot's teams as free text, matching TOTW's existing `finalists` pattern. Rejected -- the user's spec explicitly required real schools only, no free text, which a foreign key enforces and free text cannot.
+
+### Files or systems affected
+
+`install/09_FAN_POLL.sql` (not yet run), `lib/fan_poll_service.mjs`, `api/fan-poll/index.js`, `api/fan-poll/ballot.js`, `api/admin/fan-poll.js`, `src/pages/fanpoll.mjs`, `public/scripts/fan-poll.js`, `src/pages/adminfanpoll.mjs`, `public/scripts/admin-fan-poll.js`, `src/pages/admin.mjs`, `src/config/site.mjs`, `scripts/build.mjs`, `scripts/test-fan-poll.mjs`. Also, outside this feature's own files: 422 `team_pages.cross_country_girls_division` values populated from real official data (already live, a data change, not a code change).
+
+### Follow up
+
+Requires `install/09_FAN_POLL.sql` to be run in Supabase before any ballot can be cast. After that: schedule and open the first real cross country voting weeks; decide what to do about the 46 girls-only-program schools with no team page; build the actual results-email sending mechanism (capture is done, sending is not); and turn on track and field once real division data exists for it.
+
 ## 2026 08 06 Team logo and banner uploads, alongside the existing URL fields
 
 ### Decision

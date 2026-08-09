@@ -67,6 +67,8 @@ import { adminAthletesPage } from "../src/pages/adminathletes.mjs";
 import { adminRecruitingPage } from "../src/pages/adminrecruiting.mjs";
 import { adminResultsSourcesPage } from "../src/pages/adminresultssources.mjs";
 import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
+import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
+import { fanPollDivisionPage, fanPollIndexPage } from "../src/pages/fanpoll.mjs";
 import { recruitingPage } from "../src/pages/recruiting.mjs";
 import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mjs";
 
@@ -477,6 +479,24 @@ await writePage("/admin/athletes/", adminAthletesPage(site));
 await writePage("/admin/recruiting/", adminRecruitingPage(site));
 await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
 await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
+await writePage("/admin/fan-poll/", adminFanPollPage(site));
+await writePage("/fan-poll/", fanPollIndexPage(site).html);
+// Only cross country is turned on for voters right now -- see
+// docs/DECISIONS.md, 2026-08-06. fanPollDivisionPage itself is already
+// sport-aware, so track and field (5 divisions) can be added here later
+// with no changes to the page function.
+for (const gender of ["boys", "girls"]) {
+  for (let division = 1; division <= 4; division += 1) {
+    const page = fanPollDivisionPage(site, {
+      sport: "cross_country",
+      sportLabel: "Cross Country",
+      sportPath: "cross-country",
+      gender,
+      divisionNumber: division
+    });
+    await writePage(page.pathname, page.html);
+  }
+}
 await writePage("/team-login/", teamLoginPage(site));
 await writePage("/team-dashboard/", teamDashboardPage(site));
 await writePage("/team-schedule/", teamSchedulePage(site));

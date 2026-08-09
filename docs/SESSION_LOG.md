@@ -2,6 +2,54 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 Podium Watch Fan Poll (cross country launch) plus real girls division data
+
+### Date
+
+2026 08 06
+
+### Goal
+
+Build a weekly, fan-voted top 16 team poll per sport/gender/division, modeled closely on the existing AOTW/TOTW pattern, per the user's detailed spec.
+
+### Completed
+
+1. Read the four files/sections the user pointed to before writing anything. Found the AOTW/TOTW schema pattern isn't actually in `install/02_ATHLETE_PROFILE_FOUNDATION_DATABASE.sql` (that migration is entirely about athlete profiles) -- `aotw_weeks`/`totw_weeks` predate this repo's `install/` convention and were created directly in Supabase, so there's no earlier migration file to read. Reverse-engineered the real schema and RPC interface instead from `api/aotw/vote.js`, `api/totw/vote.js`, `api/aotw/current.js`, and `api/aotw/archive.js`. Also found `api/admin/operations.js`'s AOTW/TOTW sections are read-only status reporting -- there is no existing admin action anywhere in the codebase that opens or closes an AOTW/TOTW week, so the admin open/close UI this feature needed had no precedent to copy.
+2. Found a real, launch-blocking data gap before writing any schema: the only official statewide division dataset in this project is explicitly boys-cross-country-only (its own file states "This dataset does not represent girls cross country or track and field school divisions"), and a live query showed 0 of 556 teams had a girls cross country or any track division assigned in `team_pages` either. Flagged this to the user with real numbers rather than silently building 8 pages knowing 6 had nothing behind them, and asked how to scope the launch. The user chose to source the missing data themselves and scope this build to cross country only for now.
+3. The user then attached 8 real OHSAA divisional alignment PDFs (boys and girls, divisions 1-4). Extracted them with `pdfjs-dist` (already a project dependency) using the same column-reconstruction technique `lib/result_parsers.mjs` already uses for results PDFs, matched to real `team_pages` rows by the numeric official OHSAA school ID (never fuzzy name matching). Verified the extraction was accurate by cross-checking the boys data against what was already live: 556/556 matched exactly, 0 mismatches. With the user's explicit approval, populated `team_pages.cross_country_girls_division` for 422 of 468 real girls programs (logged via the existing `writeTeamChange` audit trail); the remaining 46 (mostly all-girls schools with no boys program, so never in the boys-only source dataset) were listed out for the user rather than silently created or dropped.
+4. Wrote `install/09_FAN_POLL.sql`: four new tables (`fan_poll_weeks`, `fan_poll_ballots`, `fan_poll_ballot_entries`, `fan_poll_email_subscribers`), a view (`fan_poll_week_results`, pre-aggregated points per team per week, always live-derived so history can never drift out of sync), and an atomic RPC (`cast_fan_poll_ballot_v1`) that validates the voting window, ballot size, and team distinctness, then inserts a ballot and its 16 entries together, relying on a real unique constraint (`week_id`, `voter_email_hash`) to atomically reject a repeat vote -- the same principle as AOTW/TOTW's own cooldown enforcement, adapted to a hard one-per-week limit instead of a time-based cooldown. `division_number` already allows up to 5 and `sport` already includes the track values, so track and field (5 divisions elsewhere on this site, not 4) needs no schema change to turn on later, only new data. Not yet run.
+5. Wrote `lib/fan_poll_service.mjs`: division/sport/gender labeling, the sport+gender-to-`team_pages`-column mapping that sources ballot options, HMAC email hashing (same approach and `VOTE_HASH_SECRET` as AOTW/TOTW, keyed on a normalized email instead of a browser token), ballot shape validation, real-team eligibility checking before the RPC is ever called, results aggregation with previous-week movement (pulled out as a pure `computeMovement` function specifically so it's unit-testable without a database), and the admin week-scheduling/open/close functions (a new, original design following this project's other admin action files, since no AOTW/TOTW precedent existed to copy).
+6. Built the public side: `api/fan-poll/index.js` (results + eligible teams in one request), `api/fan-poll/ballot.js` (honeypot, hashed IP, ballot submission), `src/pages/fanpoll.mjs` (an index page plus one page per cross country division/gender, all clearly labeled as an unofficial fan poll separate from the real OATCCC Coaches Poll), and `public/scripts/fan-poll.js` (a searchable team list with add buttons, an ordered ballot list with up/down/remove controls -- no drag-and-drop, per the spec, since most traffic is mobile).
+7. Built the admin side: `api/admin/fan-poll.js` (list/create/open/close), `src/pages/adminfanpoll.mjs`, `public/scripts/admin-fan-poll.js`, and a link from `/admin/`.
+8. Wrote `scripts/test-fan-poll.mjs`: pure-function tests for labeling, division-to-column mapping, division bounds per sport, email normalization/hashing determinism, and the full movement matrix (first-ever week, newly ranked, up, down, unchanged), plus source guards for validation order, hashed-not-raw email in the vote table, opt-in email separation, honeypot, and admin auth. Registered as `npm run test:fan-poll`, included in `npm test`.
+
+### Files changed
+
+`install/09_FAN_POLL.sql` (new), `lib/fan_poll_service.mjs` (new), `api/fan-poll/index.js` (new), `api/fan-poll/ballot.js` (new), `api/admin/fan-poll.js` (new), `src/pages/fanpoll.mjs` (new), `public/scripts/fan-poll.js` (new), `src/pages/adminfanpoll.mjs` (new), `public/scripts/admin-fan-poll.js` (new), `scripts/test-fan-poll.mjs` (new), `src/pages/admin.mjs`, `src/config/site.mjs`, `scripts/build.mjs`, `package.json`, `docs/DECISIONS.md`.
+
+### Database migrations
+
+`install/09_FAN_POLL.sql` is written and ready but **not yet run**. No ballot can be cast in Supabase until it is. Separately, 422 `team_pages.cross_country_girls_division` values were written live this session (a data change through the existing service, not a schema migration) -- already done, already live.
+
+### Automated testing
+
+1. `npm run build`: 274 pages, 9 published stories, 8 ranking files.
+2. `npm run check`: 171 JavaScript files, 10 JSON files, 296 HTML files, 14,802 internal links, 650 local images -- no problems found.
+3. `npm test`: all suites passed, including the new `test:fan-poll` suite.
+
+### Manual testing
+
+Not yet done -- requires `install/09_FAN_POLL.sql` to be run in Supabase first, then scheduling and opening a real voting week through the admin page and casting a real ballot through a public division page.
+
+### Remaining work
+
+1. Run `install/09_FAN_POLL.sql` in Supabase.
+2. Schedule and open the first real cross country voting weeks through `/admin/fan-poll/`, then live-verify a full ballot submission and the results/movement display.
+3. Decide what to do about the 46 girls-only-program schools with no team page yet.
+4. Build the actual results-email sending mechanism (the opt-in capture is done; nothing sends yet).
+5. Turn on track and field once real division data exists for it -- no schema changes needed, just new `fan_poll_weeks` rows and updating `scripts/build.mjs`'s page-generation loop.
+6. Not pushed or deployed -- awaiting review and explicit approval, per the user's instruction for this feature.
+
 ## 2026 08 06 Push scope mistake: migrations run to fix the resulting live breakage
 
 ### Date

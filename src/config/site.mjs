@@ -32,6 +32,7 @@ export const site = {
       { label: "Meets", href: "/meets/" },
       { label: "Teams", href: "/teams/" },
       { label: "Ohio Schools", href: "/ohio-schools/" },
+      { label: "Fan Poll", href: "/fan-poll/" },
       { label: "Claim Your Team", href: "/claim-your-team/" },
       { label: "Athletes", href: "/athletes/" },
       { label: "Recruiting", href: "/recruiting/" },
