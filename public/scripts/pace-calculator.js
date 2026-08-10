@@ -190,4 +190,51 @@
   renderEventChips();
   renderQuickPicks();
   render();
+
+  // Best-effort first-party usage tracking, feeding the same
+  // team_analytics_events table and admin Engagement Center dashboard
+  // public/scripts/engagement.js already uses for team pages -- reuses
+  // its exact localStorage/sessionStorage visitor/session id keys so a
+  // visitor is counted consistently whether they're on a team page or
+  // this tool, but is otherwise self-contained rather than importing
+  // engagement.js itself, since that script's own activation and its
+  // /api/engagement/public call are both gated on team-page-specific
+  // page state that doesn't apply here.
+  (function trackPaceCalculatorUse() {
+    try {
+      let visitorId = localStorage.getItem("podium_visitor_id");
+      if (!visitorId) {
+        visitorId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        localStorage.setItem("podium_visitor_id", visitorId);
+      }
+
+      let sessionId = sessionStorage.getItem("podium_session_id");
+      if (!sessionId) {
+        sessionId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        sessionStorage.setItem("podium_session_id", sessionId);
+      }
+
+      // Once per browser tab session, matching how team_profile_view is
+      // deduped -- tweaking inputs or reloading the page repeatedly in
+      // one sitting should count as one use, not many.
+      const viewKey = `podium_tool_view_pace_calculator_${sessionId}`;
+      if (sessionStorage.getItem(viewKey)) return;
+      sessionStorage.setItem(viewKey, "1");
+
+      fetch("/api/engagement/track", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event_type: "pace_calculator_use",
+          visitor_id: visitorId,
+          session_id: sessionId,
+          section: "tools",
+          path: window.location.pathname
+        })
+      }).catch(() => {});
+    } catch {
+      // Analytics must never interrupt the calculator.
+    }
+  })();
 })();

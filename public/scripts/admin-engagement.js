@@ -147,7 +147,8 @@
       recruiting_click: "Recruiting clicks",
       follow_submit: "Follow requests",
       sponsor_impression: "Sponsor impressions",
-      sponsor_click: "Sponsor clicks"
+      sponsor_click: "Sponsor clicks",
+      pace_calculator_use: "Pace calculator uses"
     };
 
     activitySummary.innerHTML = Object.entries(eventCounts)
