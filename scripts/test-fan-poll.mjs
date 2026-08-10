@@ -10,6 +10,7 @@ process.env.VOTE_HASH_SECRET ||= "test-vote-hash-secret-at-least-32-characters-l
 
 const {
   computeMovement,
+  countBallotsByWeekId,
   createVoterEmailHash,
   divisionColumnFor,
   divisionLabel,
@@ -126,6 +127,43 @@ assert.equal(
   "Staying at the same rank is zero movement, not null or \"new\"."
 );
 
+// --- countBallotsByWeekId ----------------------------------------------------
+// The admin dashboard's "how many ballots per division" count -- a
+// different number than fan_poll_week_results.ballot_count, which counts
+// (per team) how many ballots included that specific team, not the total
+// number of voters who voted in that week/division at all.
+
+{
+  const counts = countBallotsByWeekId([
+    { week_id: "week-a" },
+    { week_id: "week-b" },
+    { week_id: "week-a" },
+    { week_id: "week-a" }
+  ]);
+
+  assert.equal(counts.get("week-a"), 3, "Three ballot rows for week-a must count as 3, not deduplicated or overwritten.");
+  assert.equal(counts.get("week-b"), 1);
+  assert.equal(counts.get("week-c"), undefined, "A week with no ballot rows at all must simply be absent from the map, not zero.");
+}
+
+assert.deepEqual(
+  [...countBallotsByWeekId([]).entries()],
+  [],
+  "An empty ballot list must produce an empty map, not throw."
+);
+
+assert.deepEqual(
+  [...countBallotsByWeekId(null).entries()],
+  [],
+  "A null/missing ballot list must be treated the same as empty, never throw."
+);
+
+{
+  const counts = countBallotsByWeekId([{ week_id: "week-a" }, { week_id: null }, {}, { week_id: "week-a" }]);
+  assert.equal(counts.get("week-a"), 2);
+  assert.equal(counts.size, 1, "Rows with a missing/null week_id must be skipped entirely, never counted under a fake key.");
+}
+
 // --- Source guards for the parts that need a live database ----------------
 // getEligibleTeams, submitBallot, and the admin week-management functions
 // all require a real Supabase connection this fixture-only test file does
@@ -137,7 +175,27 @@ const serviceSource = await read("lib/fan_poll_service.mjs");
 const ballotApiSource = await read("api/fan-poll/ballot.js");
 const resultsApiSource = await read("api/fan-poll/index.js");
 const adminApiSource = await read("api/admin/fan-poll.js");
+const adminPageSource = await read("src/pages/adminfanpoll.mjs");
+const adminScriptSource = await read("public/scripts/admin-fan-poll.js");
 const migrationSource = await read("install/09_FAN_POLL.sql");
+
+includesAll(
+  serviceSource,
+  ["getBallotCountsByWeek(weeks.map", "ballot_count: ballotCounts.get(week.id) || 0"],
+  "listWeeks must attach a real per-week ballot_count -- the admin dashboard's \"ballots per division\" figure -- to every week it returns"
+);
+
+includesAll(
+  adminPageSource,
+  ["<th>Ballots</th>"],
+  "The admin fan poll table must have a Ballots column header"
+);
+
+includesAll(
+  adminScriptSource,
+  ["Number(week.ballot_count) || 0"],
+  "The admin fan poll table must render each week's real ballot_count, defaulting safely to 0 rather than showing \"undefined\""
+);
 
 includesAll(
   serviceSource,

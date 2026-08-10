@@ -48,7 +48,7 @@ export function adminFanPollPage(site) {
 
       <section class="info-card">
         <div><p class="eyebrow">All scheduled weeks</p><h2>Open and close voting</h2></div>
-        <div class="fan-poll-admin-table-wrap"><table class="fan-poll-admin-table"><thead><tr><th>Poll</th><th>Voting window</th><th>Status</th><th>Action</th></tr></thead><tbody data-fan-poll-admin-rows></tbody></table></div>
+        <div class="fan-poll-admin-table-wrap"><table class="fan-poll-admin-table"><thead><tr><th>Poll</th><th>Voting window</th><th>Status</th><th>Ballots</th><th>Action</th></tr></thead><tbody data-fan-poll-admin-rows></tbody></table></div>
       </section>
     </div>
   </div></section>

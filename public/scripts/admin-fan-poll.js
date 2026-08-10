@@ -57,10 +57,11 @@
             <td>${escapeHtml(week.title)}</td>
             <td>${escapeHtml(formatDate(week.voting_opens))} &rarr; ${escapeHtml(formatDate(week.voting_closes))}</td>
             <td><span class="fan-poll-admin-badge" data-status="${escapeHtml(week.status)}">${statusLabel(week.status)}</span></td>
+            <td>${Number(week.ballot_count) || 0}</td>
             <td>${actionButton}</td>
           </tr>`;
         }).join("")
-      : '<tr><td colspan="4">No fan poll weeks scheduled yet.</td></tr>';
+      : '<tr><td colspan="5">No fan poll weeks scheduled yet.</td></tr>';
   }
 
   async function loadWeeks() {
