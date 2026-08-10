@@ -22,6 +22,7 @@ export const site = {
     { label: "Tournament Hub", href: "/tournament-hub/" },
     { label: "Athletes", href: "/athletes/" },
     { label: "Recruiting", href: "/recruiting/" },
+    { label: "Pace Calculator", href: "/pace-calculator/" },
     { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
     { label: "Team of the Week", href: "/team-of-the-week/" },
     { label: "Stories", href: "/stories/" },
