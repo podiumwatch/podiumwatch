@@ -2,6 +2,43 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 All 8 divisions opened, then the 46 missing girls schools created
+
+### Date
+
+2026 08 06
+
+### Goal
+
+Confirm every real cross country team is actually available in the Fan Poll, open voting for the remaining 7 divisions, and fill the one known real gap: 46 real Ohio schools with a girls program and no team page at all.
+
+### Completed
+
+1. Opened voting for the remaining 7 division/gender combinations (Boys II-IV, Girls I-IV) through the real production admin API, same setup as Boys I (opens now, closes in 7 days). Verified live: all 8 divisions `voting_open`, correct eligible-team counts on each (matching official data), zero ballots to start.
+2. Ran a full data integrity audit before doing anything else: confirmed all 556 boys and 422 (at the time) girls teams with a division assigned are actually eligible for voting -- zero silently excluded by unpublished/suspended/archived/merged status, no duplicate teams, no malformed division values. The only gap found was the already-known 46 schools with no team page at all.
+3. **Created real, permanent records for those 46 schools**, per explicit request. Studied the existing pattern first rather than improvising: `api/admin/statewide-data.js` (`buildOfficialSchoolRows` + `syncTeamPages`) is the real tool that created the original 556 boys records, and revealed a more complete data model than the shortcut used earlier this session -- a dedicated `ohio_school_divisions` table (school + sport + gender + season + division), not just the flat `team_pages.cross_country_*_division` columns. That existing admin tool is hardcoded to boys-only throughout (source key, field names) and wasn't safe to repurpose live for a one-time 46-row job, so a standalone script mirrored its exact field conventions instead, reusing its real shared helpers (`displaySchoolName`, `normalizeLookup`, `slugifySchool` from `lib/ohio_foundation_service.mjs`) rather than reinventing them.
+4. Re-extracted the 46 schools' full data (name, city, athletic district, enrollment, division) fresh from the official PDFs rather than trusting the earlier summary shown in chat -- split name/city/district using the same column-gap technique as the original 8-PDF extraction, cross-checked to exactly 46 rows, matching the previously identified set.
+5. Created, in order: 1 new `ohio_data_sources` row (`ohsaa-girls-xc-divisions-2026-27`, attributing this data to its real source, same as the boys dataset does), 46 `ohio_schools` rows, 46 `ohio_school_aliases` rows, 46 `ohio_school_divisions` rows (`gender: girls`), and 46 `team_pages` rows (published, `cross_country_girls_division` set, linked via `ohio_school_id`) -- each new team page logged individually to `team_change_log`, matching the audit pattern the real import tool itself uses.
+6. Verified live: `team_pages` and `ohio_schools` both went from 556 to 602. Boys cross country division count unchanged at 556 (confirming nothing was disturbed). Girls cross country division count is now 468 -- the true, complete total from the official source, not the partial 422 from earlier. Spot-checked specific schools (Magnificat, Seton, Cleveland Heights) appear in the real Fan Poll API response and their public team pages load correctly.
+
+### Database migrations
+
+None new. All of this used existing tables (`ohio_schools`, `ohio_school_aliases`, `ohio_school_divisions`, `ohio_data_sources`, `team_pages`, `team_change_log`) already created by earlier migrations.
+
+### Automated testing
+
+Not applicable -- no application code changed in this entry, only data, created through a reviewed one-off script mirroring an existing, tested admin tool's conventions.
+
+### Manual testing
+
+Verified against the real, live production API and site: all 8 divisions' voting status and eligible-team counts, the new total record counts, three individual new schools' presence in their division's ballot picker, and one new team's public page loading correctly.
+
+### Remaining work
+
+1. The Fan Poll is now fully, completely populated for cross country -- no known data gaps remain.
+2. The 46 new team pages are unclaimed, unverified, and have no coach, logo, or description yet, same as most of the original 556 were at first -- normal, expected state for a freshly created official-source team page.
+3. Everything else from earlier entries' Remaining work still applies (the results-email sending mechanism, track and field).
+
 ## 2026 08 06 Fan Poll: pushed, live feedback fixes, and a real bug caught post-deploy
 
 ### Date
