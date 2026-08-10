@@ -2,7 +2,16 @@
 
 ## Current priority
 
-A race pace calculator shipped: `/pace-calculator/`, in the main nav, committed locally (`848490e`, not yet pushed). Public, no-login, entirely client-side (no API, no database) -- enter a goal time for 800m/1600m/3200m (track) or 5K/3 mile/10K (XC), see live mile/km/lap splits with no submit button. Built from a working React prototype the user supplied, restyled to the site's real CSS variables and system font stack instead of the prototype's hardcoded hex values and Google Fonts import. The split-math itself is a separate, reusable, unit-tested file (`public/scripts/pace-splits.js`, `window.PodiumPaceSplits`) rather than embedded in the page script, matching this project's existing `window.PodiumTeamAuth` cross-script pattern since nothing here uses ES module import/export client-side. Live-verified with Playwright (default state, live updates on both event change and typing, quick-picks, both remainder-distance partial-segment labels). Not built, deliberately, per the user's explicit list: shareable URL params, print/share view, team mode, saving to a profile, PR comparisons, training-pace targets. Next step: push once reviewed.
+The user supplied a 5-phase feature roadmap (`docs/FEATURE_ROADMAP.md`, committed locally `63b75f3`, not yet pushed) and chose to work through Phase 1 (public race-math tools) first, picking the goal-pace splits builder as the first tool.
+
+Both Phase 1 tools built so far are live in the main nav / footer:
+
+1. **Race pace calculator** (`/pace-calculator/`, main nav) -- the 6 fixed HS track/XC events (800m/1600m/3200m, 5K/3 mile/10K), goal time in, mile/km/lap splits out. Pushed, deployed, and confirmed live, including a post-deploy title-duplication bug that was found and fixed live.
+2. **Splits calculator** (`/splits-calculator/`, footer only -- header nav was already at 10 items) -- any goal time + any distance (marathon, half marathon, training run, custom), mile or 400m splits out. Companion to the pace calculator for anything outside its 6 fixed events. Committed locally (`8af7353`), **not yet pushed**. Both tools now cross-link to each other via a small styled callout inside each tool's own section (not in `pageHero`'s description, which is HTML-escaped and can't hold a real link).
+
+Both share one reusable, unit-tested split-math file (`public/scripts/pace-splits.js`, `window.PodiumPaceSplits`) rather than duplicating logic -- exactly the reuse it was built for. Building the splits calculator surfaced and fixed two real display bugs in that shared file (`formatWholeTime` and `formatSplitTime` never rolled minutes into hours, so a 1:45:00 half marathon goal displayed as "105:00"); both are now covered by regression tests and confirmed not to affect the pace calculator's own display (which never reaches an hour).
+
+Next step: push the splits calculator once reviewed. Then the roadmap's remaining Phase 1 tools: training pace calculator, equivalent performance calculator, recruiting standards checker, and dual/invitational scoring calculator -- three of the four need a decision from the user first (a training-pace formula, an equivalent-performance formula, and real recruiting-standards reference data) before responsible building can start.
 
 ---
 
