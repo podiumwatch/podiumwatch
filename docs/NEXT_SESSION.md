@@ -2,16 +2,17 @@
 
 ## Current priority
 
-The user supplied a 5-phase feature roadmap (`docs/FEATURE_ROADMAP.md`, committed locally `63b75f3`, not yet pushed) and chose to work through Phase 1 (public race-math tools) first, picking the goal-pace splits builder as the first tool.
-
-Both Phase 1 tools built so far are live in the main nav / footer:
+The user supplied a 5-phase feature roadmap (`docs/FEATURE_ROADMAP.md`, committed locally `63b75f3`, not yet pushed) and chose to work through Phase 1 (public race-math tools) first. Three of its five tools are now built:
 
 1. **Race pace calculator** (`/pace-calculator/`, main nav) -- the 6 fixed HS track/XC events (800m/1600m/3200m, 5K/3 mile/10K), goal time in, mile/km/lap splits out. Pushed, deployed, and confirmed live, including a post-deploy title-duplication bug that was found and fixed live.
-2. **Splits calculator** (`/splits-calculator/`, footer only -- header nav was already at 10 items) -- any goal time + any distance (marathon, half marathon, training run, custom), mile or 400m splits out. Companion to the pace calculator for anything outside its 6 fixed events. Committed locally (`8af7353`), **not yet pushed**. Both tools now cross-link to each other via a small styled callout inside each tool's own section (not in `pageHero`'s description, which is HTML-escaped and can't hold a real link).
+2. **Splits calculator** (`/splits-calculator/`, footer only) -- any goal time + any distance (marathon, half marathon, training run, custom), mile or 400m splits out. Companion to the pace calculator for anything outside its 6 fixed events. Pushed, deployed, and confirmed live.
+3. **Meet scoring calculator** (`/scoring-calculator/`, footer only) -- add teams, tap off finishers in order as they cross the line, get live dual/invitational cross country team scores (standard NFHS rules: top-5 sum, displacers, 5-finisher minimum, deterministic tie-break). The only remaining Phase 1 tool that didn't need a formula/data decision first. Client-side only, nothing saved -- a live-meet scratchpad. Committed locally (`a18d5b7`), **not yet pushed**.
 
-Both share one reusable, unit-tested split-math file (`public/scripts/pace-splits.js`, `window.PodiumPaceSplits`) rather than duplicating logic -- exactly the reuse it was built for. Building the splits calculator surfaced and fixed two real display bugs in that shared file (`formatWholeTime` and `formatSplitTime` never rolled minutes into hours, so a 1:45:00 half marathon goal displayed as "105:00"); both are now covered by regression tests and confirmed not to affect the pace calculator's own display (which never reaches an hour).
+All three cross-link to each other via a shared `toolsCrosslink()` helper (`src/lib/tools.mjs`) that lists every Phase 1 tool once, rendered as a small styled callout inside each tool's own section (not in `pageHero`'s description, which is HTML-escaped and can't hold a real link) -- built when the 3rd tool made the earlier pairwise hardcoded links unmaintainable.
 
-Next step: push the splits calculator once reviewed. Then the roadmap's remaining Phase 1 tools: training pace calculator, equivalent performance calculator, recruiting standards checker, and dual/invitational scoring calculator -- three of the four need a decision from the user first (a training-pace formula, an equivalent-performance formula, and real recruiting-standards reference data) before responsible building can start.
+The pace and splits calculators share one reusable, unit-tested split-math file (`public/scripts/pace-splits.js`, `window.PodiumPaceSplits`); the scoring calculator has its own equivalent (`public/scripts/meet-scoring.js`, `window.PodiumMeetScoring`), same pattern. Two real bugs were found and fixed by Playwright testing before ever reaching production: `formatWholeTime`/`formatSplitTime` never rolled minutes into hours (a 1:45:00 half marathon goal displayed as "105:00"), and the scoring calculator's standings table showed a team's internal id ("t1") instead of its real name. Both are now covered by regression tests.
+
+Next step: push the scoring calculator once reviewed. Of the roadmap's original 5 Phase 1 tools, 2 are now built (goal-pace splits builder, dual/invitational scoring calculator); the remaining 3 -- training pace calculator, equivalent performance calculator, and recruiting standards checker -- each need a decision from the user first (two formula choices and one real reference-data set) before responsible building can start on any of them.
 
 ---
 
