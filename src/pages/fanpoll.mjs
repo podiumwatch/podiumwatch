@@ -183,7 +183,7 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
     pathname,
     html: layout({
       site,
-      title: `${title} | Podium Watch`,
+      title,
       description: `Vote and see this week's fan-voted top 16 ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} ${divisionLabel(divisionNumber).toLowerCase()} teams.`,
       pathname,
       content
@@ -216,7 +216,7 @@ export function fanPollIndexPage(site) {
     pathname,
     html: layout({
       site,
-      title: "Podium Watch Fan Poll",
+      title: "Fan Poll",
       description: "Vote in Podium Watch's weekly fan-voted top 16 cross country rankings.",
       pathname,
       content

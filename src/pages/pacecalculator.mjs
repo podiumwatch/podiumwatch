@@ -121,7 +121,7 @@ export function paceCalculatorPage(site) {
 
   return layout({
     site,
-    title: "Race Pace Calculator: 5K, Cross Country, and Track Splits | Podium Watch",
+    title: "Race Pace Calculator: 5K, Cross Country, and Track Splits",
     description: "Free 5K pace calculator, cross country pace calculator, and track pace calculator. Enter a goal time for 800m, 1600m, 3200m, 5K, 3 mile, or 10K and get instant mile, kilometer, or lap splits.",
     pathname,
     content
