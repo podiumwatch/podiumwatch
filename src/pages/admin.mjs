@@ -124,6 +124,13 @@ export function adminPage(site) {
             </a>
 
             <a
+              class="button button-outline"
+              href="/admin/path-to-state/"
+            >
+              Path to State
+            </a>
+
+            <a
               class="button button-primary"
               href="/admin/team-manager/"
             >

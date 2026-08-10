@@ -1,5 +1,6 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 import { calculateTeamCompletion } from "../../lib/team_audit.mjs";
+import { loadTeamPathToState, isMissingPathToStateError } from "../../lib/path_to_state_service.mjs";
 
 function cleanSlug(value) {
   return String(value ?? "")
@@ -27,6 +28,7 @@ const PUBLIC_TEAM_FIELDS = `
   id,
   school_name,
   slug,
+  ohio_school_id,
   mascot,
   city,
   state,
@@ -219,7 +221,7 @@ export default async function handler(request, response) {
       throw error;
     }
 
-    const [socialResult, memberResult, schedule] = await Promise.all([
+    const [socialResult, memberResult, schedule, pathToState] = await Promise.all([
       supabaseAdmin
         .from("team_social_links")
         .select(
@@ -244,7 +246,15 @@ export default async function handler(request, response) {
         .select("id", { count: "exact", head: true })
         .eq("team_id", requestedTeam.id)
         .eq("status", "active"),
-      loadPublicSchedule(requestedTeam.id)
+      loadPublicSchedule(requestedTeam.id),
+      // Guarded so a missing migration (install/10_PATH_TO_STATE.sql not
+      // run yet) or any other Path to State failure never breaks the
+      // whole team page -- it just quietly shows no roadmap section.
+      loadTeamPathToState({ team: requestedTeam }).catch((error) => {
+        if (isMissingPathToStateError(error)) return null;
+        console.error("Path to State could not be loaded:", error);
+        return null;
+      })
     ]);
 
     if (socialResult.error) {
@@ -265,7 +275,8 @@ export default async function handler(request, response) {
         completion_score: calculateTeamCompletion(requestedTeam, socialLinks)
       },
       social_links: socialLinks,
-      schedule
+      schedule,
+      path_to_state: pathToState
     });
   } catch (error) {
     const status = Number(error?.status) || 500;

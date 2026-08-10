@@ -2,6 +2,49 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 10 Path to State: OHSAA cross country tournament advancement roadmap
+
+### Date
+
+2026 08 10
+
+### Goal
+
+Build "Path to State" from the user's own pre-written feature spec and a real 2026 OHSAA Cross Country Tournament Regulations PDF: a team/athlete-page roadmap showing the real district/regional/state advancement path and qualifying thresholds.
+
+### Completed
+
+1. The spec itself flagged three open questions it explicitly said should not be silently assumed. Resolved all three with the user directly before writing any code: (a) advancement status is manually admin-set, not auto-computed from the still-early results-ingestion pipeline; (b) both team pages and athlete pages ship together, not deferred; (c) district/regional site/date/manager info -- after real research (live fetches against all 6 OHSAA District Athletic Board pages, one real PDF pulled and read directly) found only 3 of 6 districts have confirmed current-2026 data published -- was paused for this pass rather than shipped inconsistent.
+2. Entered plan mode given the size (new migration, multiple pages, an admin tool, real architectural decisions). An Explore subagent mapped the exact team/athlete page insertion points and confirmed no horizontal stepper UI pattern existed anywhere in this codebase to reuse. A Plan subagent produced a detailed file-by-file design, reviewed and refined before implementation began.
+3. Discovered `ohio_schools.athletic_district` and `ohio_school_divisions` (602 real cross country rows) already existed and were fully populated -- no new import needed for the join key or division data, contrary to what the spec assumed. Discovered `team_pages.ohio_school_id` was a real, populated FK that `api/teams/detail.js` simply never selected.
+4. `install/10_PATH_TO_STATE.sql` -- 4 new additive tables (`ohio_tournament_stage_calendar`, `ohio_tournament_qualification_thresholds`, `ohio_tournament_regional_assignments`, `team_advancement_status`), seeded with real 2026 data transcribed directly from the regs PDF (16 calendar rows, 66 threshold rows, 24 regional-assignment rows). `qualifying_teams`/`qualifying_individuals` constrained `> 0` (never `>= 0`) so the real gap (no Division 1 Northwest regional) can never be stored as a fabricated zero. Handed to the user as exact SQL, run in Supabase, confirmed live.
+5. `lib/path_to_state_service.mjs` -- pure/DB-split service (matching `lib/fan_poll_service.mjs`'s pattern). The pure half (`stageSequenceFor`, `resolveThresholdForStage`, `qualifyingText`, `pickCurrentNodeKey`, `buildPathToState`, etc.) was written and fully unit-tested *before* any database wiring, per the plan's own rollout order. Found and fixed a real logic bug in `pickCurrentNodeKey` during that pure-testing pass (it stopped at the first non-`qualified_team` node instead of finding the LAST genuinely decided stage) before it ever touched real data.
+6. Wired `api/teams/detail.js` and `api/athletes/detail.js`, both guarded so a Path to State failure (including the migration simply not having run yet) can never break the whole team or athlete page -- confirmed by calling the real, local handlers directly against real production Supabase data before the migration was run, and again after.
+7. **A real bug caught only by that pre-migration live check, not by unit tests**: Supabase's REST layer (PostgREST) throws its own `PGRST205` ("Could not find the table '...' in the schema cache") for a missing table, not raw Postgres `42P01`. The first version of `isMissingPathToStateError` only recognized `42P01`, meaning every team/athlete page load would have logged a spurious server error for as long as the migration was pending, even though the page itself degraded correctly either way. Fixed and reverified live.
+8. Shared renderer `public/scripts/path-to-state.js` (`window.PodiumPathToState`, matching the `window.PodiumPaceSplits`/`window.PodiumTeamAuth` pattern) and one shared stepper component in `src/styles/main.css` -- loaded by both the team and athlete pages rather than duplicated, since no horizontal progress-indicator pattern existed anywhere in this project to reuse.
+9. New admin tool at `/admin/path-to-state/` (`api/admin/path-to-state.js`, `src/pages/adminpathtostate.mjs`, `public/scripts/admin-path-to-state.js`): team search, a per-gender stage table generated directly from each team's real `path.nodes` (so a Division 1 team's editor has no District row to even click), status set/clear, and a read-only seeded-thresholds table for verifying the migration's data landed correctly. `setTeamAdvancementStatus` validates the stage server-side against the team's real division sequence -- confirmed live that it actually rejects a District status for a real Division 1 team (Mason), not just in a test fixture.
+10. Full live verification against real production Supabase, post-migration: exact real seed row counts (16/66/24), a real Division 1 team (Mason) building a correct 3-node path with no district stage, a real Division 3 team (Fairfield Union) building a correct 4-node path with the exact real threshold text ("Top 11 teams and the next 22 individuals advance to the regional." -- matching its real Southeast-district seed row precisely), and a full admin write -> read -> clear round trip verified through the real `api/teams/detail.js` handler, not just the service layer directly. Also verified client-side rendering with Playwright using realistic real-shaped data (screenshots checked at desktop and mobile widths) since the local static preview server can't route `/api/*`.
+
+### Database migrations
+
+`install/10_PATH_TO_STATE.sql` -- run in Supabase by the user, confirmed live via direct queries and the full live-verification pass above.
+
+### Automated testing
+
+New `scripts/test-path-to-state.mjs` (registered as `npm run test:path-to-state`): the pure path-builder logic (3-node vs. 4-node shape, all three threshold-resolution outcomes, status resolution order including the athlete-row-beats-admin-row forward hook, `pickCurrentNodeKey`'s real decided-stage logic), the never-render-zero guarantee at both the logic layer and the presentation layer (checked directly against the real Division 1 / Northwest gap), and source guards for the migration, service, both APIs, both pages, and the shared CSS. `npm run build`, `npm run check`, and the full `npm test` chain all pass.
+
+### Manual testing
+
+Full live verification against real production Supabase as described above, plus a local Playwright pass confirming the team page, athlete page, and new admin page all load their static shell cleanly with the shared renderer correctly exposed and zero real console errors, and a rendering check with realistic injected data confirmed visually correct at both desktop and mobile widths.
+
+### Remaining work
+
+1. Not yet pushed to production -- code review and commit approval still pending.
+2. District/regional site address and tournament-manager contact info remains paused (see `docs/DECISIONS.md`, 2026-08-10) -- 3 of 6 OHSAA athletic districts have no confirmed 2026 data published anywhere fetchable yet.
+3. Advancement status is 100% manually set by an admin right now -- nothing auto-populates it from results ingestion. Once that pipeline is more mature, this is a real follow-on phase, not a rebuild (the `athleteStatusRows` forward hook is already proven working).
+4. Track and field is schema-ready (every table is `sport`-aware) but has no seeded calendar/threshold rows yet -- adding it later is new rows only, never a migration.
+5. Division 1 teams in the East, Southeast, and Northwest athletic districts show no regional threshold number (real, honest gap -- `assignment_status = 'unknown'` in `ohio_tournament_regional_assignments`) until a real, confirmed source states which regional they feed into.
+
 ## 2026 08 06 All 8 divisions opened, then the 46 missing girls schools created
 
 ### Date

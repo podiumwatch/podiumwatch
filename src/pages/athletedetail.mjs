@@ -82,6 +82,9 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
     .athlete-correction-form textarea { min-height:130px; resize:vertical; }
     .athlete-correction-wide { grid-column:1 / -1; }
     .athlete-honeypot { position:absolute !important; left:-10000px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
+    .athlete-path-panel { grid-column: 1 / -1; }
+    .athlete-path-team { margin:0; font-weight:850; }
+    .athlete-path-note { margin:0; padding:12px 14px; border-left:5px solid #e6a700; background:#fff8db; font-size:.9rem; font-weight:750; }
     @media (max-width:850px) { .athlete-profile-top, .athlete-profile-grid { grid-template-columns:1fr; } .athlete-recruit-rating-top { grid-template-columns:1fr; } .athlete-recruit-score { width:72px; height:72px; } }
     @media (max-width:600px) { .athlete-profile-identity { grid-template-columns:1fr; } .athlete-profile-facts, .athlete-correction-fields { grid-template-columns:1fr; } .athlete-correction-wide { grid-column:auto; } }
   </style>
@@ -108,6 +111,13 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
         </section>
 
         <div class="athlete-profile-grid">
+          <section class="info-card athlete-profile-panel athlete-path-panel" data-athlete-path-panel hidden>
+            <div><p class="eyebrow">OHSAA cross country tournament</p><h2>Path to State</h2></div>
+            <p class="athlete-path-team" data-athlete-path-team></p>
+            <ol class="path-to-state" data-athlete-path-roadmap></ol>
+            <p class="athlete-path-note" data-athlete-path-note hidden></p>
+            <p class="path-to-state-source" data-athlete-path-source></p>
+          </section>
           <section class="info-card athlete-profile-panel"><div><p class="eyebrow">Podium Watch rankings</p><h2>Editorial ranking history</h2></div><div class="athlete-profile-list" data-athlete-rankings></div></section>
           <section class="info-card athlete-profile-panel"><div><p class="eyebrow">Performances</p><h2>Source linked results</h2></div><div class="athlete-profile-list" data-athlete-performances></div></section>
           <section class="info-card athlete-profile-panel"><div><p class="eyebrow">School history</p><h2>Team connections</h2></div><div class="athlete-profile-list" data-athlete-schools></div></section>
@@ -136,6 +146,7 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
   </section>
 
   <script>window.PODIUM_ATHLETE_SEED = ${jsonForScript(seed)};</script>
+  <script src="/scripts/path-to-state.js" defer></script>
   <script src="/scripts/athlete-profile.js" defer></script>`;
 
   return layout({

@@ -9,6 +9,10 @@ import {
   loadLatestRankSnapshots,
   starLabel
 } from "../../lib/recruiting_service.mjs";
+import {
+  loadAthletePathToState,
+  isMissingPathToStateError
+} from "../../lib/path_to_state_service.mjs";
 
 function parseInput(request) {
   if (request.method === "GET") {
@@ -224,7 +228,7 @@ async function loadDatabaseProfile(slug) {
     profile.current_team_id
       ? supabaseAdmin
           .from("team_pages")
-          .select("id, school_name, slug, mascot, city, state, logo_url, published")
+          .select("id, school_name, slug, mascot, city, state, logo_url, published, ohio_school_id, cross_country_boys_division, cross_country_girls_division")
           .eq("id", profile.current_team_id)
           .maybeSingle()
       : Promise.resolve({ data: null, error: null }),
@@ -313,6 +317,24 @@ async function loadDatabaseProfile(slug) {
   ]) {
     if (result.error) {
       throw result.error;
+    }
+  }
+
+  // Guarded so a missing migration (install/10_PATH_TO_STATE.sql not run
+  // yet) or any other Path to State failure never breaks the whole
+  // athlete page -- it just quietly shows no roadmap panel.
+  // loadAthletePathToState itself returns null for profile.gender ===
+  // "unspecified" and when there's no school/team to build a path from.
+  let pathToState = null;
+  try {
+    pathToState = await loadAthletePathToState({
+      profile,
+      school: schoolResult.data,
+      team: teamResult.data
+    });
+  } catch (error) {
+    if (!isMissingPathToStateError(error)) {
+      console.error("Path to State could not be loaded for athlete:", error);
     }
   }
 
@@ -489,6 +511,7 @@ async function loadDatabaseProfile(slug) {
     status: profileStatus(profile),
     school: schoolResult.data || null,
     team: teamResult.data || null,
+    path_to_state: pathToState,
     school_history: historyResult.data || [],
     performances: performanceResult.data || [],
     rankings: (rankingResult.data || []).map((ranking) => ({

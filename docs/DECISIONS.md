@@ -2,6 +2,40 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 10 Path to State: OHSAA cross country tournament advancement roadmap
+
+### Decision
+
+Built a horizontal roadmap on team and athlete pages showing the real OHSAA cross country tournament advancement path -- Regular Season -> District -> Regional -> State for Divisions 2/3/4, or Regular Season -> Regional -> State for Division 1, which skips the district round entirely (2026 OHSAA regulation 3.1) -- with the real qualifying threshold at each stage, sourced from the real 2026 OHSAA Cross Country Tournament Regulations PDF the user supplied. The user's own pre-written feature spec flagged three open questions it explicitly said should not be silently assumed; all three were resolved directly with the user before any code was written:
+
+1. **Advancement status is manually set by a Podium Watch admin for this launch, not auto-computed from results ingestion.** The results-ingestion pipeline is still early and largely unverified (see the statewide-import decisions below); auto-publishing tournament outcomes from unvetted data would repeat exactly the caution this project already applies to performance imports. `team_advancement_status` is shaped so a future `athlete_advancement_status` table (identical columns, keyed by `athlete_profile_id`) can slot into the same builder later with zero rework -- proven working now via `buildPathToState`'s already-present `athleteStatusRows` parameter (always empty in this launch, but its resolution-order precedence over the admin's team-wide status is real and tested).
+2. **District/regional exact site address and tournament-manager contact info is out of scope for this launch.** Real research (live fetches against all 6 OHSAA District Athletic Board pages, plus a real PDF pulled and read directly) found only 3 of 6 districts have confirmed, current-2026 site data published; the rest are stale (2025), unpublished, or locked behind Google Docs/Sheets that can't be reliably read. Rather than ship 3 real districts and 3 fabricated or silently-missing ones, the user chose to pause this sub-feature. `public.ohio_tournament_sites` already exists in this project's schema for exactly this kind of data but currently holds zero cross country rows and uses a different (integer) regional numbering scheme than the named regionals (Central/Northeast/Northwest/Southwest) cross country actually uses -- a future site-info pass needs a naming reconciliation, not a new table, and must not duplicate this migration's tables.
+3. **Both team pages (primary) and athlete pages (secondary) shipped in the same pass**, not deferred -- the athlete page's version reuses the exact same shared renderer and shows a derived "divergence" note (an individual advanced further than their team) which an admin's own note on that status row can override.
+
+A few other decisions made while building it:
+
+4. **`ohio_tournament_regional_assignments` bridges two key spaces that don't otherwise connect**: district thresholds are keyed by athletic district, regional thresholds are keyed by named regional, and nothing else in the official source data links them. Division 2/3/4's mapping came directly from the official district-to-regional table's own `regional` column (confidently `published`). Division 1 has no district round, so this mapping is not stated anywhere in the source document -- only the 3 athletic districts sharing an identically-named regional (Central, Northeast, Southwest) were recorded as `published`; East, Southeast, and Northwest were recorded as `unknown` rather than guessed.
+5. **`qualifying_teams`/`qualifying_individuals` are constrained `> 0`, never `>= 0`.** A combination that does not exist in real life (there is no Division 1 Northwest regional -- confirmed by its absence from the official regional-to-state table) must be unrepresentable as a real-looking zero at the database level, not just handled correctly by application code. `resolveThresholdForStage` in `lib/path_to_state_service.mjs` additionally never averages or maxes across disagreeing rows when an exact scope isn't known -- it only ever reports a division-wide number when every real row for that division genuinely agrees, otherwise the UI shows "not published yet," never a fabricated count. This exact real gap (Division 1, Northwest) is the concrete test case for this guarantee, both in `scripts/test-path-to-state.mjs` and re-verified live against production Supabase after the migration ran.
+6. **A real bug found live-testing against production, not caught by unit tests alone**: Supabase's REST layer (PostgREST) throws its own `PGRST205` with a completely different message shape ("Could not find the table '...' in the schema cache") for a missing table, not raw Postgres `42P01`. `isMissingPathToStateError`'s first version only recognized `42P01`, which would have meant every team/athlete page load logged a spurious error before the migration ran, even though the page itself degraded correctly. Fixed and reverified live before commit.
+
+### Reason
+
+The user's own spec explicitly instructed against silently assuming the three open questions, and separately asked to "chase down" the real per-district site data before accepting that it was genuinely unavailable for half the state -- both were honored by doing the real research (or, for status auto-computation, applying the same caution this project already uses for unverified imports) rather than guessing or shipping a partial/inconsistent picture.
+
+### Alternatives considered
+
+1. Auto-compute advancement status from the results-ingestion pipeline now. Rejected -- that pipeline is still early, and this project's established pattern (see the statewide-import and Recruit Ratings decisions) is to keep unverified data hidden or manual until a pipeline is proven, not to publish tournament outcomes from it by default.
+2. Ship site/date/manager info for the 3 confirmed districts and leave the other 3 blank or stale. Rejected by the user in favor of pausing the whole sub-feature rather than presenting an inconsistent picture.
+3. Guess Division 1's East/Southeast/Northwest regional assignment by analogy to the Division 2/3/4 mapping (same athletic district, same regional). Rejected -- the source document does not state this, and a wrong regional would mean a wrong, confidently-displayed qualifying number for a real team.
+
+### Files or systems affected
+
+`install/10_PATH_TO_STATE.sql` (run in Supabase, confirmed live), `lib/path_to_state_service.mjs`, `api/teams/detail.js`, `api/athletes/detail.js`, `api/admin/path-to-state.js`, `src/pages/teamprofile.mjs`, `src/pages/athletedetail.mjs`, `src/pages/adminpathtostate.mjs`, `src/pages/admin.mjs`, `public/scripts/path-to-state.js` (new shared renderer), `public/scripts/team-profile.js`, `public/scripts/athlete-profile.js`, `public/scripts/admin-path-to-state.js`, `src/styles/main.css`, `scripts/build.mjs`, `scripts/test-path-to-state.mjs`.
+
+### Follow up
+
+Cross country only for now -- track and field can follow later with new `ohio_tournament_stage_calendar`/`ohio_tournament_qualification_thresholds` rows only, no schema change, once it has the same level of real division data cross country already does. District/regional site and manager info remains paused pending either OHSAA publishing the other 3 districts' 2026 data or a dedicated future research pass. Auto-computed advancement status from results ingestion is a later phase once that pipeline is more mature. Division 1's East/Southeast/Northwest regional assignment stays `unknown` until a real, confirmed source is found.
+
 ## 2026 08 06 Podium Watch Fan Poll: launched cross country only, track ready
 
 ### Decision

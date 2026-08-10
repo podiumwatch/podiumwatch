@@ -338,6 +338,13 @@ export function teamProfilePage(site) {
       border-left: 5px solid var(--team-primary);
     }
 
+    .team-profile-path-intro { margin: 0 0 4px; font-weight: 800; }
+    .team-profile-path-tabs { margin: 14px 0 4px; }
+    .team-profile-path-note {
+      margin: 18px 0 0; padding: 13px 15px; border-left: 5px solid var(--team-primary);
+      border-radius: 10px; background: rgba(15, 23, 42, 0.05); font-weight: 750;
+    }
+
     .team-profile-schedule-grid,
     .team-profile-schedule-list {
       display: grid;
@@ -720,6 +727,19 @@ export function teamProfilePage(site) {
           <div class="team-profile-division-grid" data-team-divisions></div>
         </section>
 
+        <section class="team-profile-section" data-team-path-section hidden>
+          <p class="eyebrow">OHSAA cross country tournament</p>
+          <h2>Path to State</h2>
+          <p class="team-profile-path-intro" data-team-path-intro></p>
+          <div class="gender-tabs tournament-tabs team-profile-path-tabs" role="group" aria-label="Choose a program" data-team-path-tabs hidden>
+            <button type="button" data-team-path-gender="boys" aria-pressed="true">Boys</button>
+            <button type="button" data-team-path-gender="girls" aria-pressed="false">Girls</button>
+          </div>
+          <ol class="path-to-state" data-team-path-roadmap></ol>
+          <p class="team-profile-path-note" data-team-path-note hidden></p>
+          <p class="path-to-state-source" data-team-path-source></p>
+        </section>
+
         <section class="team-profile-section" data-team-history-section hidden>
           <p class="eyebrow">Program history</p>
           <h2>Team history</h2>
@@ -864,6 +884,7 @@ export function teamProfilePage(site) {
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
   <script src="/scripts/team-auth-client.js" defer></script>
+  <script src="/scripts/path-to-state.js" defer></script>
   <script src="/scripts/team-profile.js" defer></script>
   <script src="/scripts/team-content-public.js" defer></script>
   <script src="/scripts/engagement.js" defer></script>`;

@@ -80,6 +80,24 @@
   const divisions = document.querySelector(
     "[data-team-divisions]"
   );
+  const pathSection = document.querySelector(
+    "[data-team-path-section]"
+  );
+  const pathIntro = document.querySelector(
+    "[data-team-path-intro]"
+  );
+  const pathTabs = document.querySelector(
+    "[data-team-path-tabs]"
+  );
+  const pathRoadmap = document.querySelector(
+    "[data-team-path-roadmap]"
+  );
+  const pathNote = document.querySelector(
+    "[data-team-path-note]"
+  );
+  const pathSource = document.querySelector(
+    "[data-team-path-source]"
+  );
   const historySection = document.querySelector(
     "[data-team-history-section]"
   );
@@ -167,6 +185,12 @@
     !contactActions ||
     !divisionsSection ||
     !divisions ||
+    !pathSection ||
+    !pathIntro ||
+    !pathTabs ||
+    !pathRoadmap ||
+    !pathNote ||
+    !pathSource ||
     !historySection ||
     !history ||
     !traditionsSection ||
@@ -204,6 +228,7 @@
     params.get("admin") === "1";
 
   let currentTeam = null;
+  let currentPathData = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -1138,7 +1163,66 @@
     rosterSection.hidden = false;
   }
 
-  function renderProfile(team, socialLinks, schedule, rosterData) {
+  // Renders the Path to State roadmap for whichever gender is currently
+  // selected (a toggle only appears when both boys and girls paths are
+  // available). The actual <li> markup comes from the shared
+  // public/scripts/path-to-state.js renderer -- everything here is just
+  // picking which gender's already-computed path to hand it.
+  function renderPathToState(pathData) {
+    currentPathData = pathData;
+
+    const boysPath = pathData?.boys || null;
+    const girlsPath = pathData?.girls || null;
+    const boysAvailable = Boolean(boysPath?.available);
+    const girlsAvailable = Boolean(girlsPath?.available);
+
+    if (!boysAvailable && !girlsAvailable) {
+      pathSection.hidden = true;
+      return;
+    }
+
+    pathTabs.hidden = !(boysAvailable && girlsAvailable);
+
+    let selectedGender = pathTabs.dataset.selectedGender || (boysAvailable ? "boys" : "girls");
+    if (selectedGender === "boys" && !boysAvailable) selectedGender = "girls";
+    if (selectedGender === "girls" && !girlsAvailable) selectedGender = "boys";
+    pathTabs.dataset.selectedGender = selectedGender;
+
+    pathTabs.querySelectorAll("[data-team-path-gender]").forEach((button) => {
+      button.setAttribute("aria-pressed", button.dataset.teamPathGender === selectedGender ? "true" : "false");
+    });
+
+    const activePath = selectedGender === "boys" ? boysPath : girlsPath;
+    const genderLabel = selectedGender === "boys" ? "Boys" : "Girls";
+    const divisionBit = activePath.division_label ? ` · ${activePath.division_label}` : "";
+    const districtBit = activePath.athletic_district ? ` · ${activePath.athletic_district} District` : "";
+    const selfReportedBit = activePath.division_source === "team_pages_self_reported"
+      ? " (division self-reported by the team)"
+      : "";
+    pathIntro.textContent = `${genderLabel} cross country${divisionBit}${districtBit}${selfReportedBit}`;
+
+    const rendered = window.PodiumPathToState
+      ? window.PodiumPathToState.renderRoadmap(pathRoadmap, activePath)
+      : false;
+    pathSection.hidden = !rendered;
+
+    if (!rendered) {
+      return;
+    }
+
+    pathSource.textContent = activePath.source_note || "";
+    pathNote.hidden = !activePath.summary;
+    pathNote.textContent = activePath.summary || "";
+  }
+
+  pathTabs.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-team-path-gender]");
+    if (!button) return;
+    pathTabs.dataset.selectedGender = button.dataset.teamPathGender;
+    renderPathToState(currentPathData);
+  });
+
+  function renderProfile(team, socialLinks, schedule, rosterData, pathData) {
     currentTeam = team;
     document.title =
       team.school_name +
@@ -1390,6 +1474,8 @@
     divisionsSection.hidden =
       divisions.children.length === 0;
 
+    renderPathToState(pathData);
+
     historySection.hidden =
       !team.history_text;
     history.textContent =
@@ -1515,7 +1601,8 @@
         Array.isArray(data.schedule)
           ? data.schedule
           : [],
-        rosterData
+        rosterData,
+        data.path_to_state || null
       );
     } catch (error) {
       loadingBox.innerHTML =

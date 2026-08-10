@@ -23,6 +23,11 @@
   const recruitTimeline = root.querySelector("[data-athlete-recruit-timeline]");
   const mediaPanel = root.querySelector("[data-athlete-media-panel]");
   const media = root.querySelector("[data-athlete-media]");
+  const pathPanel = root.querySelector("[data-athlete-path-panel]");
+  const pathTeam = root.querySelector("[data-athlete-path-team]");
+  const pathRoadmap = root.querySelector("[data-athlete-path-roadmap]");
+  const pathNote = root.querySelector("[data-athlete-path-note]");
+  const pathSource = root.querySelector("[data-athlete-path-source]");
   const correctionForm = root.querySelector("[data-athlete-correction-form]");
   const urlSlug = new URLSearchParams(window.location.search).get("slug") || "";
   const slug = root.dataset.athleteSlug || urlSlug || window.PODIUM_ATHLETE_SEED?.profile_slug || "";
@@ -318,6 +323,42 @@
     ).join("");
   }
 
+  // The athlete-page "Path to State" panel -- one gender's roadmap (the
+  // athlete's own), using the same shared renderer the team page uses.
+  // data.path_to_state is { path, athlete_view } | null: null whenever
+  // the athlete's gender is unspecified, there's no school/team to build
+  // a path from, or install/10_PATH_TO_STATE.sql hasn't been run yet
+  // (api/athletes/detail.js already guards that case server-side).
+  function renderPath(data) {
+    const view = data.path_to_state;
+
+    if (!view || !view.path || !view.path.available) {
+      pathPanel.hidden = true;
+      return;
+    }
+
+    const path = view.path;
+    const genderLabel = path.gender === "boys" ? "Boys" : "Girls";
+    const teamName = data.team?.school_name || data.school?.school_name || "";
+    const divisionBit = path.division_label ? " · " + path.division_label : "";
+    pathTeam.textContent = ("Following " + teamName + " " + genderLabel + " cross country" + divisionBit).trim();
+
+    const rendered = window.PodiumPathToState
+      ? window.PodiumPathToState.renderRoadmap(pathRoadmap, path)
+      : false;
+    pathPanel.hidden = !rendered;
+
+    if (!rendered) {
+      return;
+    }
+
+    pathSource.textContent = path.source_note || "";
+
+    const note = view.athlete_view?.note || null;
+    pathNote.hidden = !note;
+    pathNote.textContent = note || "";
+  }
+
   function render(data) {
     renderIdentity(data);
     renderSource(data);
@@ -330,6 +371,7 @@
     renderRecruitRating(data.recruit_ratings || []);
     renderRecruitTimeline(data.recruiting_activity || []);
     renderMedia(data.content_items || []);
+    renderPath(data);
     content.hidden = false;
     showMessage(data.source_note || "Athlete profile loaded.", data.source_mode === "bundled_editorial_seed" ? "warning" : "success");
   }
