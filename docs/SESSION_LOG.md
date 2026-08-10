@@ -2,6 +2,45 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 08 06 Fan Poll: pushed, live feedback fixes, and a real bug caught post-deploy
+
+### Date
+
+2026 08 06
+
+### Goal
+
+Push the Fan Poll to production, apply live user feedback, and verify the deployed site actually works end to end -- not just locally.
+
+### Completed
+
+1. Committed and pushed the Fan Poll feature (`5fac83f`, `9af0195`) after the user reviewed the diff. Vercel auto-deployed from the push; confirmed live.
+2. User feedback from looking at the real deployed page, addressed in commit `87a23f9`:
+   - Added "Fan Poll" to the main header nav and the Explore bar (previously only reachable via footer/direct link).
+   - Removed all "unofficial / separate from the OATCCC Coaches Poll" comparison copy across every page and meta description -- the user didn't want that framing.
+   - Fixed a real layout bug: the breadcrumb sat in a raw, unstyled `<div>` with a negative top margin straddling the dark hero background and the white content section below, instead of inside a normal section wrapper like every other page uses. Moved it to match the established pattern (`athletedetail.mjs`).
+   - Improved the ballot builder for phones: the in-progress ballot now renders above the team search on narrow screens (in a highlighted panel) so voters see it fill up without scrolling past it after every add; up/down/remove controls grew from a 30px to a proper 44px touch target; the submit button goes full-width.
+3. Verified locally against the real database before this commit, then pushed and re-verified against the real, deployed page.
+4. **After pushing, independently tested the real production ballot endpoint directly** (not just the page loading) and found `results: []` where a ballot should have shown -- traced to the very first end-to-end test (run before the push, against a hand-built local server standing in for `vercel dev`, which still doesn't work directly in this environment): that test's ballot saved with a `fan_poll_ballots` row but zero `fan_poll_ballot_entries`, and the local test script's "PASS" output was wrong. Confirmed the real, deployed code is correct two ways: calling `cast_fan_poll_ballot_v1` directly, and submitting a real ballot through `https://podiumwatch.vercel.app/api/fan-poll/ballot/` itself -- both produced all 16 entries correctly. The bug was in the earlier local test harness, not in the shipped code.
+5. This left 3 ballots in the live "real first week" (Cross Country Boys Division I): the original broken one, plus two diagnostic ballots created while investigating (both under clearly-labeled `.invalid` test emails). Asked the user how to handle it; with approval, deleted all 3 (`fan_poll_ballot_entries` cascade-deleted automatically). Confirmed clean afterward: `results: []`, `eligible_teams: 78`, `status: voting_open` on the real production API.
+
+### Database migrations
+
+None new. Three test ballots deleted from the already-live `fan_poll_ballots`/`fan_poll_ballot_entries` tables (a data change, not a migration).
+
+### Automated testing
+
+`npm test` re-run clean before the `87a23f9` commit (all suites, including `test:fan-poll`).
+
+### Manual testing
+
+Full real-production verification: the live page (nav, copy, breadcrumb, mobile layout), the live ballot endpoint (direct RPC call and real HTTP POST, both confirmed 16/16 entries persist), and the live results endpoint (confirmed empty and clean after cleanup). This is the first feature this session verified against the actual deployed site post-push, not just a local stand-in -- and it's what caught the one real bug (in test tooling, not shipped code) that local-only verification missed.
+
+### Remaining work
+
+1. Schedule and open the remaining 7 division/gender combinations through `/admin/fan-poll/`.
+2. Everything else from the previous two entries' Remaining work still applies (the 46 unmatched schools, the results-email sending mechanism, track and field).
+
 ## 2026 08 06 Fan Poll migration run and live end-to-end verification
 
 ### Date
