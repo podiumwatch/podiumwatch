@@ -35,6 +35,8 @@ export const site = {
       { label: "Teams", href: "/teams/" },
       { label: "Ohio Schools", href: "/ohio-schools/" },
       { label: "Fan Poll", href: "/fan-poll/" },
+      { label: "Pace Calculator", href: "/pace-calculator/" },
+      { label: "Splits Calculator", href: "/splits-calculator/" },
       { label: "Claim Your Team", href: "/claim-your-team/" },
       { label: "Athletes", href: "/athletes/" },
       { label: "Recruiting", href: "/recruiting/" },

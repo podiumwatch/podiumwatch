@@ -70,6 +70,7 @@ import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
 import { fanPollDivisionPage, fanPollIndexPage } from "../src/pages/fanpoll.mjs";
 import { paceCalculatorPage } from "../src/pages/pacecalculator.mjs";
+import { splitsCalculatorPage } from "../src/pages/splitscalculator.mjs";
 import { recruitingPage } from "../src/pages/recruiting.mjs";
 import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mjs";
 
@@ -499,6 +500,7 @@ for (const gender of ["boys", "girls"]) {
   }
 }
 await writePage("/pace-calculator/", paceCalculatorPage(site));
+await writePage("/splits-calculator/", splitsCalculatorPage(site));
 await writePage("/team-login/", teamLoginPage(site));
 await writePage("/team-dashboard/", teamDashboardPage(site));
 await writePage("/team-schedule/", teamSchedulePage(site));

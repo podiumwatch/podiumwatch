@@ -9,18 +9,41 @@ await import("../public/scripts/pace-splits.js");
 
 const {
   MILE_METERS,
+  KM_METERS,
+  milesToMeters,
+  kmToMeters,
+  totalSecondsFromParts,
   formatSplitTime,
   formatWholeTime,
   paceForUnit,
   buildCheckpoints
 } = global.window.PodiumPaceSplits;
 
+// --- unit conversion helpers (used by the splits calculator) ---------------
+
+assert.equal(milesToMeters(1), MILE_METERS);
+assert.ok(Math.abs(milesToMeters(26.2) - 42164.8128) < 0.001, "A marathon (26.2mi) must convert to its known meter distance.");
+assert.equal(milesToMeters(0), 0);
+assert.equal(milesToMeters(""), 0, "A blank distance input must convert to 0, never NaN.");
+assert.equal(kmToMeters(1), KM_METERS);
+assert.equal(kmToMeters(21.0975), 21097.5, "A half marathon (21.0975km) must convert to its known meter distance.");
+
+assert.equal(totalSecondsFromParts({ hours: 0, minutes: 17, seconds: 0 }), 1020, "17:00 with no hours must match the existing pace calculator's plain minutes/seconds behavior.");
+assert.equal(totalSecondsFromParts({ hours: 3, minutes: 45, seconds: 0 }), 13500, "A 3:45:00 marathon goal must include the hours field, which the original pace calculator never needed.");
+assert.equal(totalSecondsFromParts({}), 0, "Missing parts must default to 0, never NaN.");
+
 // --- formatWholeTime / formatSplitTime --------------------------------------
 
 assert.equal(formatWholeTime(1020), "17:00", "17:00 goal time must format back to 17:00.");
 assert.equal(formatWholeTime(75), "1:15");
+assert.equal(formatWholeTime(6300), "1:45:00", "An hour-plus goal time (a half marathon's 1:45:00) must roll into H:MM:SS, not display as the meaningless 105:00.");
+assert.equal(formatWholeTime(13500), "3:45:00", "A 3:45:00 marathon goal must format with hours too.");
+assert.equal(formatWholeTime(3599), "59:59", "Just under an hour must still format as plain M:SS, matching the original pace calculator's behavior.");
+assert.equal(formatWholeTime(3600), "1:00:00", "Exactly one hour must roll into H:MM:SS, not stay as 60:00.");
 assert.equal(formatSplitTime(204), "3:24.0", "An even 204-second split is 3:24.0.");
 assert.equal(formatSplitTime(-1), "--:--", "A negative/invalid time must show a placeholder, never a wrong number.");
+assert.equal(formatSplitTime(12600), "3:30:00.0", "A marathon's late-mile cumulative total (3:30:00) must roll into H:MM:SS.s, not display as the meaningless 210:00.0.");
+assert.equal(formatSplitTime(3599.9), "59:59.9", "Just under an hour must still format as plain M:SS.s.");
 
 // --- paceForUnit --------------------------------------------------------------
 
@@ -85,7 +108,8 @@ assert.ok(
   assert.ok(Math.abs(rows[6].cumulativeSeconds - 2400) < 0.001, "The final checkpoint's cumulative time must equal the full 40:00 goal time.");
 }
 
-console.log("Pace calculator split-math validation passed.");
+console.log("Pace/split-math validation passed (shared by the pace calculator and the splits calculator).");
 console.log("Time formatting (whole and fractional-second) checked, including the invalid-input placeholder.");
 console.log("Per-mile and per-km pace scaling checked against a known 17:00 5K.");
 console.log("Checkpoint generation checked for both evenly-divisible distances (5K by km, 1600m by lap) and remainder distances (3 mile by km, 10K by mile), including exact partial-segment distance, the partial flag, and that the final checkpoint's cumulative time always equals the full goal time.");
+console.log("Mile/km-to-meters conversion and hours/minutes/seconds goal-time parsing checked, including blank-input and missing-field safety.");
