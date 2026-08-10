@@ -1,4 +1,5 @@
 import { layout, pageHero } from "../lib/html.mjs";
+import { toolsCrosslink } from "../lib/tools.mjs";
 
 // Phase 1 of docs/FEATURE_ROADMAP.md: "Goal-pace splits builder -- goal
 // time + distance in, mile or 400m splits out." A companion to the race
@@ -19,12 +20,6 @@ export function splitsCalculatorPage(site) {
   })}
 
   <style>
-    .tool-crosslink {
-      margin: 0; padding: 14px 16px; background: var(--paper); border-left: 4px solid var(--green);
-      font-size: 0.92rem; line-height: 1.5;
-    }
-    .tool-crosslink a { color: var(--green-dark); font-weight: 700; text-decoration: underline; }
-
     .splits-tool { display: grid; gap: 28px; max-width: 720px; }
 
     .splits-field-label {
@@ -74,7 +69,7 @@ export function splitsCalculatorPage(site) {
   </style>
 
   <section class="section section-paper"><div class="container splits-tool" data-splits-calculator>
-    <p class="tool-crosslink"><a href="/pace-calculator/">Racing one of the 6 standard track or cross country distances? Try the race pace calculator instead &rarr;</a></p>
+    ${toolsCrosslink(pathname)}
 
     <div>
       <p class="splits-field-label">Distance</p>

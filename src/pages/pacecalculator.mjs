@@ -1,4 +1,5 @@
 import { layout, pageHero } from "../lib/html.mjs";
+import { toolsCrosslink } from "../lib/tools.mjs";
 
 // A public, no-login tool: enter a goal time for one of six track or
 // cross country events and see live mile/kilometer/lap splits. Entirely
@@ -20,11 +21,6 @@ export function paceCalculatorPage(site) {
   })}
 
   <style>
-    .tool-crosslink {
-      margin: 0; padding: 14px 16px; background: var(--paper); border-left: 4px solid var(--green);
-      font-size: 0.92rem; line-height: 1.5;
-    }
-    .tool-crosslink a { color: var(--green-dark); font-weight: 700; text-decoration: underline; }
     .pace-tool { display: grid; gap: 28px; max-width: 720px; }
 
     .pace-event-groups { display: grid; gap: 18px; }
@@ -90,7 +86,7 @@ export function paceCalculatorPage(site) {
   </style>
 
   <section class="section section-paper"><div class="container pace-tool" data-pace-calculator>
-    <p class="tool-crosslink"><a href="/splits-calculator/">Training for a marathon, half marathon, or another distance not listed here? Try the splits calculator instead &rarr;</a></p>
+    ${toolsCrosslink(pathname)}
 
     <div class="pace-event-groups">
       <div>

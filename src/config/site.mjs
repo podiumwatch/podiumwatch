@@ -37,6 +37,7 @@ export const site = {
       { label: "Fan Poll", href: "/fan-poll/" },
       { label: "Pace Calculator", href: "/pace-calculator/" },
       { label: "Splits Calculator", href: "/splits-calculator/" },
+      { label: "Meet Scoring Calculator", href: "/scoring-calculator/" },
       { label: "Claim Your Team", href: "/claim-your-team/" },
       { label: "Athletes", href: "/athletes/" },
       { label: "Recruiting", href: "/recruiting/" },

@@ -141,6 +141,18 @@ p { margin-top: 0; }
 .page-hero h1 { max-width: 980px; margin-bottom: 18px; }
 .page-hero p:last-child { max-width: 720px; margin-bottom: 0; color: #d2d2d2; font-size: 1.08rem; }
 .breadcrumbs { margin-bottom: 22px; color: var(--muted); font-size: .86rem; }
+
+/* Shared "more free tools" callout used by the Phase 1 utility tool pages
+   (see src/lib/tools.mjs's toolsCrosslink()) -- lives here rather than
+   duplicated per-page since it's now used on 3+ pages. Deliberately
+   placed inside each tool's own paper-section container in markup, not
+   in a bare strip between the hero and the section (an earlier version
+   did that and looked visually broken, straddling the two). */
+.tool-crosslink {
+  margin: 0; padding: 14px 16px; background: var(--paper); border-left: 4px solid var(--green);
+  font-size: 0.92rem; line-height: 1.5;
+}
+.tool-crosslink a { color: var(--green-dark); font-weight: 700; text-decoration: underline; }
 .breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .breadcrumbs li:not(:last-child)::after { content: "/"; margin-left: 8px; color: #999; }
 .breadcrumbs a { text-decoration: underline; text-underline-offset: 3px; }
