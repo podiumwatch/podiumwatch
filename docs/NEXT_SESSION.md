@@ -2,6 +2,18 @@
 
 ## Current priority
 
+**Race Command Center Phase One** is built, fully tested, and live-verified against real production Supabase -- **not yet committed**. A coach-facing race Plan -> Race -> Review tool: race setup with coach-defined checkpoints (`/race-command-center/`, `/plan/`), mobile-first Live Race Mode with a monotonic timer, offline-first split recording, single-tap capture, Pack Capture, Undo, manual entry, DNS/DNF (`/live/`), and individual/team review (`/review/`). `install/11_RACE_COMMAND_CENTER.sql` has been run in Supabase and confirmed live (9 new tables, all constraints verified against real writes). Full detail, every real bug found and fixed during build (a participant-status race condition, a sync-integrity bug where an in-flight correction could get silently marked "synced" without ever reaching the server, a `client_split_id` reuse collision, a sign-inversion bug in the review diff display, and more), and the deliberate Phase One scope limits are all in `docs/SESSION_LOG.md` and `docs/DECISIONS.md`, both 2026-08-11.
+
+**Next steps, in order:**
+1. Review the diff and commit locally (not yet done).
+2. Desktop/mobile review with the user present, on a real running dev/preview environment (not just the automated Playwright harness used during the build).
+3. Decide whether to push and deploy.
+4. Revisit the deliberately deferred pieces only if/when needed: multi-device live sync, public athlete share codes, a course template database, true field-position-based team scoring, official-result promotion, season analytics -- none are precluded by the schema, none are built.
+
+Path to State (below) is also still un-pushed as of this entry -- confirm with the user whether it should go out together with or separately from Race Command Center.
+
+---
+
 **Path to State** shipped: a horizontal OHSAA cross country tournament advancement roadmap (Regular Season -> District -> Regional -> State, or Regular Season -> Regional -> State for Division 1, which has no district round) on both team pages (`/team/`) and athlete pages (`/athlete/`), with the real qualifying threshold at every stage sourced from the 2026 OHSAA Cross Country Tournament Regulations. `install/10_PATH_TO_STATE.sql` has been run in Supabase and confirmed live -- real threshold rows, real calendar dates, and a real admin write/read/clear round trip were all verified directly against production before committing. New admin tool at `/admin/path-to-state/` lets an admin manually set a team's advancement status per stage (auto-computation from results ingestion was deliberately deferred -- see `docs/DECISIONS.md`, 2026-08-10). District/regional exact site address and manager contact info was deliberately left out of this pass: real research found only 3 of 6 OHSAA athletic districts have confirmed, current-2026 site data published anywhere fetchable; the other 3 are stale, unpublished, or locked in Google Docs/Sheets. Cross country only for now -- the schema is sport-aware, so track and field is new seed rows later, not a migration. Not yet pushed to production.
 
 Separately, the user supplied a 5-phase feature roadmap (`docs/FEATURE_ROADMAP.md`, committed locally `63b75f3`, not yet pushed) and chose to work through Phase 1 (public race-math tools) first. Three of its five tools are now built:

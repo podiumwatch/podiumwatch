@@ -522,3 +522,45 @@ Track and cross country performances are measurable, but recruiting value also r
 ### Follow up
 
 Run migration 03, import a small official result set, publish one reviewed rating, review mobile layouts, and document any score rubric changes as a new methodology version instead of silently changing published history.
+
+## 2026 08 11 Race Command Center architecture
+
+### Decision
+
+Build Race Command Center as its own route section (`/race-command-center/`, four sub-pages) with a 9-table additive schema, rather than folding it into the existing team-roster/team-schedule flat-route pattern or inventing a second design system for Live Race Mode. Race data (splits, targets, goals) is coaching data and is structurally kept out of every verified-performance/results/rankings table -- the API layer never writes to those tables at all. No team-score calculation exists anywhere in the codebase for this feature.
+
+### Reason
+
+The feature is genuinely multi-screen (Plan/Race/Review), matching how `/rankings/` and `/recruiting/` already use sub-paths, not a single flat tool like `/team-roster/`. Keeping race data structurally separate from verified performances protects the site's core promise (results shown publicly are real and verified) from a coach's live-timing data, which is inherently approximate (hand-timed splits, not chip timing) and never should auto-promote into a permanent athlete record. A real cross country team score requires field-position data (which finisher beat which) that this project does not capture from hand-recorded splits alone -- computing one anyway would be presenting a number as authoritative that isn't.
+
+### Alternatives considered
+
+1. Nest under `/team-*` flat routes to match every other coach tool.
+2. Auto-promote a race's Finish splits into `athlete_performances` once a race is marked finished.
+3. Compute an approximate team score from finish order alone, labeled "unofficial."
+
+### Key implementation decisions worth recording
+
+1. **No sync-state column server-side.** A `race_splits` row existing in Supabase already means it's synced; sync state (pending/synced) is tracked only in the browser's IndexedDB store. Avoids an entire class of stale-sync-flag bugs, at the cost of sync state not being visible to a second device until that split has actually synced.
+2. **Review is computed on demand**, never stored, from `race_splits` + `race_targets` + `race_participants`. Can never go stale, and a future Race Replay feature can reuse the same computation with zero migration.
+3. **`client_split_id` (client-minted, `pw_rcc_`-prefixed, unique) is the real idempotency key** for split sync -- mirrors the `pw_`-prefixed voter-token pattern already used by AOTW/TOTW, the first place in this codebase a client mints its own dedup key rather than the server deriving one.
+4. **The timer's source of truth during a live session is `performance.now()` (monotonic)**; `Date.now()` is recorded once, at the deliberate start press, purely as a post-refresh recovery anchor, and recovered elapsed time is explicitly tagged lower-precision in the UI, never presented as identical to live-session precision.
+5. **Participant status transitions (scheduled -> started -> finished) are atomic, guarded database updates** (`... WHERE status = 'scheduled'`, `... WHERE status NOT IN ('dns','dnf')`), not read-then-write application logic -- a real race condition (a delayed split push reverting an explicit DNF back to "started") was found via the required manual simulation and fixed this way; see `docs/SESSION_LOG.md`, 2026-08-11.
+6. **Undo clears a split back to "not recorded" rather than restoring a specific prior value.** The full correction history is preserved in `race_split_revisions` either way (an append-only audit log); Undo just doesn't offer a redo-stack UI in Phase One. A coach undoing a mistake re-taps fresh.
+7. **Checkpoints are fixed at race creation; there is no in-place checkpoint editor in Phase One.** A coach fixes a checkpoint mistake by deleting the still-draft race (draft-only deletion already exists) and recreating it.
+8. **DNS/DNF status changes are a direct, immediate network call, not part of the local-first offline queue** that splits use. This is the one part of Live Race Mode that currently requires connectivity at the moment it's used; recording splits themselves never does.
+9. **Goals B and C are reference ambition markers only** (a time, shown in review) -- only Goal A drives Live Race Mode's live target/diff/coaching-cue math and gets full per-checkpoint targets. The schema does not preclude adding B/C targets later.
+
+### Files or systems affected
+
+1. `install/11_RACE_COMMAND_CENTER.sql` (new tables)
+2. `lib/race_math.mjs`, `lib/race_command_center_service.mjs` (new)
+3. `api/race-command-center/*.js` (new)
+4. `public/scripts/race-math.js`, `race-timer.js`, `race-local-store.js`, `race-command-center-{hub,plan,live,review}.js` (new)
+5. `src/pages/racecommandcenter*.mjs` (new)
+6. `src/lib/html.mjs`, `scripts/check.mjs`, `scripts/build.mjs` (the new `/race-command-center/` prefix added to all three private-route lists -- confirmed there are exactly three, not two, by grepping for an existing private prefix)
+7. `public/scripts/team-dashboard.js` (new dashboard button)
+
+### Follow up
+
+Decide whether/when to build the explicitly deferred pieces (multi-device live sync, public athlete share codes, a course template database, true field-position-based team scoring, official-result promotion, season analytics) -- none are precluded by this schema, none are built yet. Revisit the DNS/DNF-requires-connectivity limitation if it proves to matter in real coach use. Full detail in `docs/SESSION_LOG.md`, 2026-08-11.

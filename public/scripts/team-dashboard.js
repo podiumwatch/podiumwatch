@@ -442,6 +442,11 @@
                   '">' +
                     "View insights" +
                   '</a>' +
+                  '<a class="button button-outline" href="/race-command-center/?id=' +
+                    encodeURIComponent(team.id) +
+                  '">' +
+                    "Race Command Center" +
+                  '</a>' +
                 '</div>' +
               '</div>' +
             '</article>'

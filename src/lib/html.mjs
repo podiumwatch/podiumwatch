@@ -120,6 +120,7 @@ export function layout({ site, title, description, pathname, content, image, can
     "/team-roster/",
     "/team-content/",
     "/team-insights/",
+    "/race-command-center/",
     "/follow/"
   ];
   const resolvedRobots = robots || (privatePrefixes.some((prefix) => pathname.startsWith(prefix)) ? "noindex, nofollow" : "index, follow");

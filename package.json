@@ -8,7 +8,7 @@
     "dev": "node scripts/serve.mjs --watch",
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
-    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state",
+    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:race-command-center",
     "test:athletes": "node scripts/test-athlete-foundation.mjs",
     "test:recruiting": "node scripts/test-recruiting-foundation.mjs",
     "test:results": "node scripts/test-results-ingestion.mjs",
@@ -19,6 +19,7 @@
     "test:scoring-calculator": "node scripts/test-scoring-calculator.mjs",
     "test:engagement": "node scripts/test-engagement.mjs",
     "test:path-to-state": "node scripts/test-path-to-state.mjs",
+    "test:race-command-center": "node scripts/test-race-command-center.mjs",
     "preview": "node scripts/serve.mjs"
   },
   "engines": {

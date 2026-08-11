@@ -1148,3 +1148,57 @@ The cloud browser could not open the private local preview address. Desktop and 
 4. Confirm the Explore row, menu panel, overlay, and mobile dock.
 5. Commit and push only after explicit approval.
 6. Confirm Vercel and the live website after deployment.
+
+## 2026 08 11 Race Command Center Phase One build
+
+### Goal
+
+Build the first complete, production-quality version of Race Command Center: a coach-facing race Plan -> Race -> Review tool (full-team goal planning, mobile-first live split timing, individual/team review), following a very long, prescriptive user specification. Plan-mode was used given the scope (new migration, new pages, new API surface, real architectural decisions); a repository audit and a written plan were completed and approved before any implementation began.
+
+### Repository audit (before writing any code)
+
+Confirmed real, current facts rather than trusting older docs (`docs/AUTO_PROJECT_INDEX.md` was found stale and explicitly not relied on): the team auth/authorization pattern (`lib/team_auth.mjs` + a per-request `team_members` active-membership check, no server-side "current team" concept anywhere), the real team roster schema (`lib/team_roster_service.mjs`: `team_seasons` -> `team_roster_entries` -> `team_athletes`), the real `meets` table, the coach-tool routing convention (flat routes reached only from dashboard cards, never site nav), the `install/` migration convention, the test convention (`scripts/test-*.mjs`, zero external test libraries), and confirmed zero existing precedent anywhere in this codebase for IndexedDB, Wake Lock, or `performance.now()` -- this piece was genuinely greenfield.
+
+### Database changes
+
+`install/11_RACE_COMMAND_CENTER.sql` -- 9 new, additive tables (`race_sessions`, `race_checkpoints`, `race_participants`, `race_goals`, `race_targets`, `race_pack_captures`, `race_splits`, `race_split_revisions`, `race_coach_notes`). Never touches `team_pages`, `team_athletes`, `meets`, or any results/rankings table. Run by the user in Supabase, then verified live: all 9 tables reachable, the `updated_at` trigger fires, the participant exclusive-or constraint (rostered athlete XOR manual name) rejects invalid rows, and the `client_split_id` format + uniqueness constraints work exactly as designed -- this uniqueness constraint is the real idempotency guarantee behind local-first sync.
+
+### What was built
+
+1. **Calculation engine** -- `public/scripts/race-math.js` (browser) and `lib/race_math.mjs` (server port of the two functions the API needs to re-validate), proven byte-identical for the same input. Even Pace and Custom Pace target generation, goal status (ahead/on_pace/at_risk/missed), and a deliberate structural split between "current pace projects X" and "required pace to hit goal is Y" so the UI can never merge them into one misleading number. No team-score function exists anywhere in it, by design (one team's own times can't determine a real cross country team score without field-position data this project doesn't capture).
+2. **Timer engine** -- `public/scripts/race-timer.js`: `performance.now()` (monotonic) is the source of truth during a live session; `Date.now()` is recorded once, at the deliberate race-start press, purely as a post-refresh recovery anchor. Recovered elapsed time is explicitly tagged lower-precision, never presented as identical to live-session precision.
+3. **Local-first persistence** -- `public/scripts/race-local-store.js`, a hand-rolled IndexedDB wrapper (no new dependency). Verified with a standalone Playwright harness against real Chromium IndexedDB (round trips, idempotent upsert on a duplicate `client_split_id`, append-only revision history, cross-session isolation).
+4. **Service layer** -- `lib/race_command_center_service.mjs`: sessions, roster/participant management (a pure diff function so a bulk roster save always reflects the complete resubmitted list, never a confusing hidden change), goals/strategy/targets, Pack Capture, split sync, review (computed on demand, never stored).
+5. **API** -- `api/race-command-center/{sessions,plan,sync,review}.js`, copying `api/team/roster.js`'s exact auth pattern.
+6. **Pages** -- `/race-command-center/` (hub), `/plan/`, `/live/` (minimal-chrome Live Race Mode), `/review/`. Registered in `scripts/build.mjs`; the new route prefix added to **all three** places that needed it (`src/lib/html.mjs` and `scripts/check.mjs`'s `privatePrefixes`, and `scripts/build.mjs`'s separate `privateSitemapPrefixes` -- a third list not previously documented as needing the same update). A new "Race Command Center" button added to the team dashboard's per-team card row.
+
+### Real bugs found and fixed via live/E2E verification (not caught by unit tests alone)
+
+1. Participant re-save validation rejected a legitimate update-by-id because it demanded identity info on every submitted row, including ones that already existed.
+2. Sync idempotency was broken: Postgres `numeric` columns come back from Supabase as strings, not JS numbers, so the naive changed-value check saw every identical retry as "changed" and would have written a spurious duplicate revision on every retry.
+3. A cross-session/ownership gap in `pushSplits`: a participant or checkpoint id was only checked for existing somewhere, not for belonging to the session being pushed to.
+4. A real race condition in the participant-status side-effect chain: it read `participant.status` once from an in-memory snapshot and used that stale read to decide whether to write "started"/"finished," which let a delayed or retried split push silently revert an explicit DNS/DNF back to "started." Fixed by making both status writes atomic, guarded conditional updates (`... WHERE status = 'scheduled'` / `... WHERE status NOT IN ('dns','dnf')`) instead of read-then-write application logic -- found by the required manual simulation, not by an earlier, narrower live-verification pass that happened not to exercise the exact interleaving.
+5. Re-tapping a runner after Undo minted a fresh `client_split_id` for the same (participant, checkpoint) pair, colliding with the schema's one-row-per-pair uniqueness constraint. Fixed by looking up and reusing any existing (possibly undone) row's id before minting a new one.
+6. A genuine sync-integrity bug: if a correction (Undo, a manual re-entry) landed locally while an earlier push for the *same* split was still in flight, the completion handler blindly marked "whatever is currently in IndexedDB" as synced -- silently swallowing the correction forever, even though the server still held the stale pre-correction value. Fixed by re-checking, after each push resolves, that the local record still matches exactly what was sent before marking it synced; if not, it's left unsynced so the next sync cycle pushes the real value. Also hardened `triggerSync()` itself so a capture arriving while a sync is already in flight is drained immediately when that sync finishes, rather than waiting up to 8 seconds for the next interval tick.
+7. A sign-inversion bug in the review page: `formatDiff()` inverted `computeDiffFromTarget()`'s own documented sign convention (positive = ahead of target), so "ahead of target" runners displayed a `-` sign and vice versa.
+
+### Automated testing
+
+`scripts/test-race-command-center.mjs` (new, registered as `npm run test:race-command-center` in the main `test` chain): calculation engine, timer engine (fake injected time sources), local-store record shapes, the server/client calculation-engine parity check, and the service layer's pure helpers (`buildCheckpointsWithFinish`, `diffParticipants`, `splitPayloadChanged` -- including the exact Postgres-numeric-as-string shape that caused bug 2 above, as a permanent regression guard). Full `npm run build && npm run check && npm test` (13 suites) passes clean throughout.
+
+### Manual/live testing completed
+
+1. A full live-service-layer round trip (create session, auto-finish-checkpoint generation, participant diff, Even/Custom Pace targets with a real server-side rejection of a non-increasing custom target, bulk goal apply, start/finish, Pack Capture, idempotent sync retry, a genuine correction bumping the revision, recovery pull, review, duplicate, delete) against real production Supabase, all test data cleaned up after.
+2. Real end-to-end Playwright verification of every page, using a real dedicated test coach account (created and deleted via `supabaseAdmin.auth.admin`, never a real user's account) signed in through the actual `/team-login/` flow, driving the actual built pages against the actual API handlers (via a small local harness that serves `dist/` and routes the real Vercel-style handler modules, since the static preview server can't route `/api/*` and no local Vercel dev environment is available here) -- at both desktop and real phone (390x844) viewports, checking for zero horizontal overflow and zero console/page errors throughout.
+3. The required manual race simulation (spec section 46): 7 clearly-marked `TEST ... (DELETE ME)` participants run through all required scenario steps -- start, spread-out arrivals, two runners tapped back-to-back, a real 3-runner Pack Capture (one shared frozen timestamp), a wrong-tap-then-Undo (with the correction genuinely reaching the server before being undone, to prove the revision-history guarantee end to end), a missed-runner-then-manual-split, an explicit DNF, deliberate checkpoint advancement, second-checkpoint captures, finish captures, review, a mid-race refresh/recovery test, and a temporary-offline test (`context.setOffline(true)`, a capture recorded with no network dependency, then reconnect and confirm the sync status genuinely returns to Synced). All against real production Supabase; all test data deleted afterward, confirmed by re-querying.
+
+### Known, deliberate Phase One scope limits (not gaps found late -- decided and documented as the work happened)
+
+1. Checkpoints are locked once a race is created; there is no in-place checkpoint editor. A coach who made a mistake deletes the still-draft race and recreates it (`deleteSession` already only allows deleting a draft).
+2. DNS/DNF status changes are a direct, immediate network call (`set_participant_status`), not part of the local-first offline queue that splits use -- marking a runner DNS/DNF currently requires connectivity at that moment. Splits themselves are fully local-first regardless of connectivity.
+3. Undo clears a split back to "not recorded" (an auditable, traceable clear -- never a silent delete); it does not restore whatever value existed before the tap that's being undone. A coach undoing a genuine mistake re-taps for a fresh, correct value rather than reaching for a specific prior revision.
+4. Goals B and C are recorded as reference ambition markers (a time, shown in review) but do not get their own full per-checkpoint pace targets in this pass -- only Goal A drives Live Race Mode's target/diff/coaching-cue math. The schema does not preclude adding B/C targets later.
+
+### Not yet done
+
+Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
