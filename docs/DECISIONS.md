@@ -564,3 +564,39 @@ The feature is genuinely multi-screen (Plan/Race/Review), matching how `/ranking
 ### Follow up
 
 Decide whether/when to build the explicitly deferred pieces (multi-device live sync, public athlete share codes, a course template database, true field-position-based team scoring, official-result promotion, season analytics) -- none are precluded by this schema, none are built yet. Revisit the DNS/DNF-requires-connectivity limitation if it proves to matter in real coach use. Full detail in `docs/SESSION_LOG.md`, 2026-08-11.
+
+## 2026 08 11 Team Workspace Phase One architecture
+
+### Decision
+
+Build the first slice of a season-long Team Workspace (Team Home + Team Meet Center) as a pure presentation/aggregation layer over existing tables -- **no new database migration** -- rather than inventing new schema for team schedule, meet operations, or race groups.
+
+### Reason
+
+A repository audit (3 parallel Explore passes) found that the two things this phase most needed -- a team-to-meet linking system and multi-coach permissions -- already exist and are fully built: `team_meet_connections`/`team_meet_requests` (`api/team/schedule.js`) already is the real team schedule, and `team_members.role` (`owner`/`editor`, `api/team/access.js`) already handles multiple coaches with a claim/approval flow and a last-owner-removal safeguard. `race_sessions.meet_id` already references `meets(id)` (added with Race Command Center) but was never used at the application layer. Building new schema for any of this would have duplicated real, working systems rather than connecting them. This is also the safest possible Phase One: no migration to run, no new authorization surface to get wrong -- both new pages reuse `api/team/schedule.js`'s exact `requireMembership()` shape (suspended/archived/merged/editing-locked checks), not a lighter version of it.
+
+### Key implementation decisions worth recording
+
+1. **Team Meet Center's "create a race for this meet" calls Race Command Center's existing `sessions.js` "create" action directly, with `meet_id` pre-filled.** There is exactly one code path that creates a `race_sessions` row, not two -- `lib/race_command_center_service.mjs` was not modified at all by this phase.
+2. **Race "readiness" ("7 of 7 race plans ready") is computed on demand** from `race_participants` + `race_goals` (a participant counts as ready once they have a Goal A), not a stored column -- matches the "review is computed on demand, never stored" precedent from Race Command Center's own migration.
+3. **`athlete_performances`/`athlete_profiles` were deliberately left untouched.** The audit found a rich, already-established trust-level vocabulary there (`source_type`, `verification_status`, `result_status`) and confirmed `athlete_performances` has no `meet_id` FK at all (`meet_name`/`meet_date` are free text) -- this phase does not attempt to bridge Race Command Center data into that system, matching the existing, explicit boundary already stated in `install/11_RACE_COMMAND_CENTER.sql`.
+4. **Persistent, reusable "race groups" (a named group of athletes reused across races) were deliberately deferred.** `race_participants.race_group` (free text, set per race) already covers Phase One's real need; a cross-race, named group entity is real future schema, not built now.
+5. **Noted but explicitly out of scope**: `athlete_best_performances` (a real SQL view computing all-time-best-per-event) is fetched by `api/athletes/detail.js` but never rendered by `public/scripts/athlete-profile.js` -- dead data on a live page, unrelated to this feature, worth fixing separately.
+
+### Alternatives considered
+
+1. A new `team_schedule_entries` table independent of `team_meet_connections` -- rejected, would have duplicated a real, working system.
+2. A third `team_members.role` value (e.g. `assistant_coach`) -- rejected; `editor` already serves that purpose today, and the two-role allow-list lives only in `api/team/access.js` (plus two `<option>` lists in `team-dashboard.js`), so adding a third role later is a small, contained change if ever needed.
+3. Persistent named race groups in Phase One -- rejected as premature; deferred per the spec's own phase boundaries.
+
+### Files or systems affected
+
+1. `lib/team_workspace_service.mjs` (new) -- reads `team_pages`, `team_members`, `team_seasons`, `team_roster_entries`, `team_meet_connections`, `meets`, `race_sessions`, `race_participants`, `race_goals`; writes nothing except via Race Command Center's own `createSession()`.
+2. `api/team/home.js`, `api/team/meet-center.js` (new)
+3. `src/pages/teamhome.mjs`, `src/pages/teammeetcenter.mjs` (new), `public/scripts/team-home.js`, `public/scripts/team-meet-center.js` (new)
+4. `src/lib/html.mjs`, `scripts/check.mjs`, `scripts/build.mjs` -- `/team-home/` and `/team-meet-center/` added to all three private-route lists
+5. `public/scripts/team-dashboard.js` -- new "Team home" button on `renderOwnedTeams()`
+
+### Follow up
+
+Decide whether/when to build Phase Two (athlete access, personal race plans/review history) and Phase Three (parent/follower access, live team following with public/private split control) -- both explicitly deferred per the spec's own phasing, neither precluded by anything built here. Revisit `athlete_best_performances` being dead code on the athlete profile page as a small, separate fix. Full detail in `docs/SESSION_LOG.md`, 2026-08-11.

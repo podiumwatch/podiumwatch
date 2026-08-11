@@ -2,13 +2,16 @@
 
 ## Current priority
 
-**Race Command Center Phase One** is built, fully tested, and live-verified against real production Supabase -- **not yet committed**. A coach-facing race Plan -> Race -> Review tool: race setup with coach-defined checkpoints (`/race-command-center/`, `/plan/`), mobile-first Live Race Mode with a monotonic timer, offline-first split recording, single-tap capture, Pack Capture, Undo, manual entry, DNS/DNF (`/live/`), and individual/team review (`/review/`). `install/11_RACE_COMMAND_CENTER.sql` has been run in Supabase and confirmed live (9 new tables, all constraints verified against real writes). Full detail, every real bug found and fixed during build (a participant-status race condition, a sync-integrity bug where an in-flight correction could get silently marked "synced" without ever reaching the server, a `client_split_id` reuse collision, a sign-inversion bug in the review diff display, and more), and the deliberate Phase One scope limits are all in `docs/SESSION_LOG.md` and `docs/DECISIONS.md`, both 2026-08-11.
+**Race Command Center Phase One is live in production** (committed `acf04ff`, pushed, deployed, and verified live at `https://podiumwatch.vercel.app/race-command-center/` and its `/plan/`, `/live/`, `/review/` sub-pages). Coach-facing race Plan -> Race -> Review tool with mobile-first Live Race Mode, offline-first split recording, and individual/team review. `install/11_RACE_COMMAND_CENTER.sql` is run and confirmed live. Full detail and every real bug found/fixed during the build are in `docs/SESSION_LOG.md`/`docs/DECISIONS.md`, 2026-08-11.
+
+**Team Workspace Phase One is built and fully tested -- not yet committed.** The next direction: Race Command Center becomes the race-day engine inside a season-long Team Workspace. Phase One adds `/team-home/` (a private, single-team season landing page -- next meet/race, roster/schedule/results stats) and `/team-meet-center/` (the operational page for one meet -- linked race sessions with real readiness counts, "create a race for this meet" bridging straight into Race Command Center's existing `create` action). **No new database migration** -- the repository audit found the team-to-meet linking system (`team_meet_connections`) and multi-coach permissions (`team_members.role` = `owner`/`editor`) already fully built; this phase is a presentation/aggregation layer over what exists, not new schema. Full detail in `docs/SESSION_LOG.md`/`docs/DECISIONS.md`, 2026-08-11.
 
 **Next steps, in order:**
-1. Review the diff and commit locally (not yet done).
-2. Desktop/mobile review with the user present, on a real running dev/preview environment (not just the automated Playwright harness used during the build).
+1. Review the Team Workspace diff and commit locally (not yet done).
+2. Desktop/mobile review with the user present, on a real running dev/preview environment.
 3. Decide whether to push and deploy.
-4. Revisit the deliberately deferred pieces only if/when needed: multi-device live sync, public athlete share codes, a course template database, true field-position-based team scoring, official-result promotion, season analytics -- none are precluded by the schema, none are built.
+4. Team Workspace Phase Two/Three whenever revisited: athlete access (personal race plans/review history), then parent/follower access and live team following with explicit public/private split controls -- neither precluded by anything built here, neither built yet.
+5. Two small, unrelated, low-effort items surfaced by this session's audits, not yet acted on: `athlete_best_performances` (a real SQL view computing all-time-best marks) is fetched by `api/athletes/detail.js` but never rendered by `public/scripts/athlete-profile.js` -- dead data on a live page. No meet in the live `meets` table is currently `published: true`, which silently blocks the real "connect a meet to your schedule" flow (`api/team/schedule.js`) end to end -- worth checking whether that's intentional.
 
 Path to State (below) is also still un-pushed as of this entry -- confirm with the user whether it should go out together with or separately from Race Command Center.
 

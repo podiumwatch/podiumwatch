@@ -1202,3 +1202,46 @@ Confirmed real, current facts rather than trusting older docs (`docs/AUTO_PROJEC
 ### Not yet done
 
 Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
+
+## 2026 08 11 Team Workspace Phase One build
+
+### Goal
+
+Begin the next major direction: Race Command Center becomes the race-day engine inside a larger, season-long Team Workspace a coach uses throughout the week -- not a separate tool. Given the scope (new architecture, database decisions, integration with several existing systems), used plan mode: a repository audit (3 parallel Explore passes covering meets/schedule, athlete identity/performance, and navigation/design/permissions) ran before any plan was written or code touched.
+
+### Repository audit -- the key finding
+
+The two things this phase most needed already exist, fully built: **the team-to-meet linking system** (`team_meet_connections`/`team_meet_requests`, `api/team/schedule.js` -- this already is the real team schedule and most of "Meet Center") and **multi-coach permissions** (`team_members.role` supports `owner`/`editor` today, with a full claim/approval/role-change flow in `api/team/access.js`, including a last-owner-removal safeguard). `race_sessions.meet_id` already references `meets(id)` (added with Race Command Center) but was never used at the application layer -- exactly the gap this phase closes. This meant **Phase One needed no new database migration** -- confirmed as the single biggest architectural finding of the audit and the main thing that shaped the plan.
+
+Also confirmed and deliberately left alone: `athlete_profiles`/`athlete_performances` have their own rich, already-established trust-level vocabulary (`source_type`, `verification_status`, `result_status`) and no `meet_id` FK at all (`meet_name`/`meet_date` are free text) -- this phase does not bridge Race Command Center data into that system, matching the boundary Race Command Center's own migration already stated. Also found, noted, and left alone as unrelated: `athlete_best_performances` (a real SQL view computing all-time bests) is fetched by `api/athletes/detail.js` but never rendered by `public/scripts/athlete-profile.js` -- dead data on a live page.
+
+### What was built
+
+1. **`lib/team_workspace_service.mjs`** (new) -- `buildTeamHomeSummary()` (roster count from current-season `team_seasons`/`team_roster_entries`, upcoming meets from `team_meet_connections` joined to `meets`, upcoming/recent `race_sessions` with computed readiness) and `getMeetCenterContext()` (one meet's info, this team's schedule connection if any, every race session tied to it). `requireTeamMembership()` copies `api/team/schedule.js`'s exact authorization shape (suspended/archived/merged/editing-locked checks), not a lighter version.
+2. **`api/team/home.js`, `api/team/meet-center.js`** (new) -- thin handlers over the service above.
+3. **`/team-home/`** -- a new, authenticated, single-team season landing page (distinct from `/team-dashboard/`, which is a multi-team management list). Sections: next meet/race, roster/schedule/results stats, upcoming schedule, recent results.
+4. **`/team-meet-center/`** -- the operational page for one meet: meet info, every linked race session with a real readiness count ("N of M race plans ready," computed from `race_participants` + `race_goals`, no new column), and a "create a race for this meet" action that calls Race Command Center's **existing, unmodified** `api/race-command-center/sessions.js` "create" action with `meet_id` pre-filled -- there is exactly one code path that creates a `race_sessions` row.
+5. Dashboard integration: a new "Team home" button on `renderOwnedTeams()` (`public/scripts/team-dashboard.js`). Both new routes registered in `scripts/build.mjs` and added to all three private-route lists (`src/lib/html.mjs`, `scripts/check.mjs`, `scripts/build.mjs`'s separate sitemap-exclusion list).
+
+### Database changes
+
+None. Zero new tables, zero migration. Everything reads/writes only tables that already exist.
+
+### Automated testing
+
+`npm run build && npm run check && npm test` (the existing 13-suite chain, unchanged) passes clean -- 306 HTML files checked, no problems found.
+
+### Manual/live testing completed
+
+1. A live service-layer round trip against real production Supabase: `buildTeamHomeSummary()` baseline (empty state, never a fabricated "next up"), a real `team_meet_connections` row connected to a real existing meet, a real race session created via Race Command Center's own `createSession()` with `meet_id` set and confirmed, a real participant with a real goal producing correct readiness math (1 of 1 ready), `getMeetCenterContext()` returning the real meet/connection/session together, and an authorization check confirming a real but unrelated user is rejected with 403. All checks passed on the first run.
+2. Real end-to-end Playwright verification using a dedicated test coach account (created and deleted via `supabaseAdmin.auth.admin`) signed in through the real `/team-login/` flow, driving the real built pages against the real API handlers (the same local-harness-server technique proven for Race Command Center) -- at desktop and real phone (390x844) widths: Team Home's honest empty state before anything is scheduled, Team Meet Center correctly showing "not connected to your schedule" before a connection exists, the real "create a race for this meet" round-tripping into a real `race_sessions` row with `meet_id` verified directly in Supabase, then (after connecting the meet) Team Meet Center's notice correctly disappearing and Team Home's stats/next-up/upcoming-list all reflecting the real data -- zero console/page errors, zero horizontal overflow at either width. One real-data limitation surfaced during this pass: **no meet in the live database is currently `published: true`**, so `api/team/schedule.js`'s own "connect" action (pre-existing, unmodified by this feature) correctly refused to connect one via its own publish gate; the "connected" rendering path was instead verified by inserting the connection row directly (matching the earlier service-layer test), since that pre-existing action's gate isn't part of what this phase built and didn't need re-proving end-to-end through a browser click. All test data (test race sessions, test schedule connections, the test coach account) deleted afterward, confirmed by re-querying.
+
+### Known, deliberate Phase One scope limits
+
+1. No persistent, reusable "race group" entity across races -- `race_participants.race_group` (free text, per race) is enough for Phase One.
+2. Team Meet Center does not gate on the meet being published -- a coach can open it for any real meet id, including an unpublished one, since restricting that wasn't found to protect anything not already protected by team membership.
+3. Athlete/parent/fan-facing views, live team following, and any public/private split for splits are not built -- explicitly Phase Two/Three per the spec's own boundaries.
+
+### Not yet done
+
+Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy.

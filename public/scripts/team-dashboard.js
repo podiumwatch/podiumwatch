@@ -417,6 +417,11 @@
                 '</div>' +
                 renderSocialLinks(team) +
                 '<div style="display:flex;flex-wrap:wrap;gap:10px;">' +
+                  '<a class="button button-outline" href="/team-home/?id=' +
+                    encodeURIComponent(team.id) +
+                  '">' +
+                    "Team home" +
+                  '</a>' +
                   '<a class="button button-primary" href="/team-editor/?id=' +
                     encodeURIComponent(team.id) +
                   '">' +

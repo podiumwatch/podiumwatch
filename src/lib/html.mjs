@@ -121,6 +121,8 @@ export function layout({ site, title, description, pathname, content, image, can
     "/team-content/",
     "/team-insights/",
     "/race-command-center/",
+    "/team-home/",
+    "/team-meet-center/",
     "/follow/"
   ];
   const resolvedRobots = robots || (privatePrefixes.some((prefix) => pathname.startsWith(prefix)) ? "noindex, nofollow" : "index, follow");
