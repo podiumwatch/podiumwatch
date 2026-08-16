@@ -600,3 +600,41 @@ A repository audit (3 parallel Explore passes) found that the two things this ph
 ### Follow up
 
 Decide whether/when to build Phase Two (athlete access, personal race plans/review history) and Phase Three (parent/follower access, live team following with public/private split control) -- both explicitly deferred per the spec's own phasing, neither precluded by anything built here. Revisit `athlete_best_performances` being dead code on the athlete profile page as a small, separate fix. Full detail in `docs/SESSION_LOG.md`, 2026-08-11.
+
+## 2026 08 13 Athlete Access (Team Workspace Phase Two) architecture
+
+### Decision
+
+Give athletes their own signed-in view of their race plan and review through a **coach-issued invite** (a coach generates a one-time invite from the roster for a specific `team_athletes.id`; there is no open self-serve signup), scoped in this pass to **race plan + review only** (no PR/season-best history). Two new tables (`athlete_invites`, `athlete_accounts`); invite tokens reuse `lib/engagement_service.mjs`'s existing plain-hash `createToken()`/`hashToken()` pair rather than introducing a new HMAC secret; consent is a single flag, not the three-flag pattern `athlete_social_links` uses for public-facing content.
+
+### Reason
+
+Both scope choices came directly from the user via `AskUserQuestion`. A coach-issued invite keeps identity verification anchored to someone who already knows the athlete (the coach), rather than building open signup with no way to confirm a stranger claiming to be "Jane Smith" actually is her. Keying invites and account links off `team_athletes.id` (not `athlete_profiles.id`) was required by a real, pre-existing data-shape finding: a cross-team transfer usually creates a second, duplicate `athlete_profiles` row, so `athlete_profiles.id` is not safely 1:1 with a real person across their career -- `team_athletes.id` (the concrete roster record a coach is looking at) is. Reusing `createToken()`/`hashToken()` instead of AOTW/TOTW's HMAC pattern is because AOTW's HMAC exists specifically to compensate for client-influenced, weaker tokens; a server-generated 256-bit random token needs no additional keyed hash, and reusing an established helper avoided a new secret entirely. The lighter single-flag consent (versus `athlete_social_links`'s three flags) reflects a real difference in stakes: the three-flag pattern gates *publishing to the public internet*; this feature gates *viewing already coach-controlled, non-public data the coach explicitly invited the athlete to see* -- the coach has already vouched for identity by generating the invite in the first place.
+
+### Alternatives considered
+
+1. Open self-serve athlete signup (pick your team/name from a list) -- rejected; no way to verify identity without a coach in the loop.
+2. Key invites/links off `athlete_profiles.id` -- rejected once the transfer-duplication finding came up; would have silently mismatched a transferred athlete's history.
+3. Reuse AOTW/TOTW's HMAC-secret token pattern -- rejected as unnecessary rigor for a server-generated token with no client influence; would have added a secret for no real security gain.
+4. Reuse `athlete_social_links`'s three-flag consent pattern -- rejected as mismatched stakes; that pattern exists for public publishing, this feature gates private viewing of coach-controlled data.
+
+### Key implementation decisions worth recording
+
+1. **`race_coach_notes` is structurally excluded from `getAthleteRaces()`** -- confirmed live it has no visibility/approval column at all (0 rows, 6 plain columns), so there is no mechanism to selectively expose it yet. The join deliberately never touches that table.
+2. **Revocation is a status flip (`athlete_accounts.status = 'revoked'`), never a delete** -- matches Race Command Center's established "traceable, not destructive" pattern (its Undo/revision model).
+3. **Athlete Home has no required `?id=` query param**, unlike every coach tool -- an athlete's identity (every active `athlete_accounts` link for the signed-in user) drives the view, not a team selection.
+4. **Two real, pre-existing, previously-undiscovered bugs found and fixed as a byproduct of needing real roster data to test against** (production had zero rows in both tables before this work): `team_seasons.year` (a separate, real, `NOT NULL` column from `season_year`) was never populated by `createSeason()`/`saveSeason()`; `team_roster_entries.athlete_name` (a separate, real, `NOT NULL` denormalized column) was never populated by `save_athlete`. Both fixed with a minimal, additive field addition to the existing insert/update payloads in `lib/team_roster_service.mjs`. Neither bug is related to Athlete Access itself -- they were blocking real verification, not caused by this feature's design.
+
+### Files or systems affected
+
+1. `install/12_ATHLETE_ACCESS.sql` (new tables: `athlete_invites`, `athlete_accounts`)
+2. `lib/athlete_auth.mjs`, `lib/athlete_access_service.mjs` (new)
+3. `api/athlete/invite.js`, `api/athlete/me.js`, `api/athlete/races.js` (new); `api/team/roster.js` (new dispatch branch)
+4. `src/pages/athletelogin.mjs`, `src/pages/athletehome.mjs` (new); `public/scripts/athlete-login.js`, `public/scripts/athlete-home.js` (new)
+5. `src/pages/teamroster.mjs`, `public/scripts/team-roster.js` (new invite section in the existing athlete edit dialog)
+6. `src/lib/html.mjs`, `scripts/check.mjs`, `scripts/build.mjs` (`/athlete-login/` and `/athlete-home/` added to all three private-route lists)
+7. `lib/team_roster_service.mjs` (the two unrelated bug fixes above)
+
+### Follow up
+
+Decide whether/when to build Phase Three (parent/follower access, live team following with explicit public/private split controls) -- not precluded by anything built here. Decide whether/when `race_coach_notes` ever gets a real visibility/approval mechanism, which would be required before any athlete-facing coach-note feature could be built. Full detail in `docs/SESSION_LOG.md`, 2026-08-13.

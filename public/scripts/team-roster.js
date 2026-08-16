@@ -37,6 +37,9 @@
   const athleteSocialSection = document.querySelector("[data-athlete-social-section]");
   const athleteSocialList = document.querySelector("[data-athlete-social-list]");
   const athleteSocialForm = document.querySelector("[data-athlete-social-form]");
+  const athleteInviteSection = document.querySelector("[data-athlete-invite-section]");
+  const athleteInviteList = document.querySelector("[data-athlete-invite-list]");
+  const athleteInviteForm = document.querySelector("[data-athlete-invite-form]");
 
   const summaryElements = {
     total: document.querySelector("[data-roster-total]"),
@@ -94,6 +97,9 @@
     athleteSocialSection,
     athleteSocialList,
     athleteSocialForm,
+    athleteInviteSection,
+    athleteInviteList,
+    athleteInviteForm,
     ...Object.values(summaryElements),
     ...Object.values(importCounts)
   ];
@@ -521,6 +527,52 @@
     athleteSocialSection.hidden = true;
     athleteSocialList.innerHTML = "";
     athleteSocialForm.reset();
+    athleteInviteSection.hidden = true;
+    athleteInviteList.innerHTML = "";
+    athleteInviteForm.reset();
+  }
+
+  const INVITE_STATUS_LABELS = {
+    pending: "Invite sent", redeemed: "Account connected", revoked: "Invite revoked", expired: "Invite expired"
+  };
+
+  async function renderAthleteInvites(entry) {
+    athleteInviteForm.elements.team_athlete_id.value = entry.athlete_id;
+    athleteInviteList.innerHTML = '<div class="team-roster-empty">Loading invite status...</div>';
+
+    try {
+      const data = await apiFetch({ action: "list_athlete_invites", team_athlete_id: entry.athlete_id });
+      const invites = data.invites || [];
+
+      athleteInviteList.innerHTML = invites.length > 0
+        ? invites.map((invite) => (
+            '<article class="team-roster-card">' +
+              '<div class="team-roster-card-main">' +
+                '<div>' +
+                  '<h3>' + escapeHtml(invite.invited_name) + '</h3>' +
+                  '<p>' + escapeHtml(invite.invited_email) + '</p>' +
+                  '<div class="team-roster-badges" style="margin-top:10px;">' +
+                    '<span class="team-roster-badge' + (invite.status === "pending" ? "" : " team-roster-badge-dark") + '">' +
+                      escapeHtml(INVITE_STATUS_LABELS[invite.status] || invite.status) +
+                    '</span>' +
+                  '</div>' +
+                '</div>' +
+                (invite.status === "pending"
+                  ? '<div class="team-roster-card-actions">' +
+                      '<button class="button button-outline" type="button" data-revoke-athlete-invite="' + escapeHtml(invite.id) + '">Revoke invite</button>' +
+                    '</div>'
+                  : (invite.status === "redeemed"
+                      ? '<div class="team-roster-card-actions">' +
+                          '<button class="button button-outline" type="button" data-revoke-athlete-access="' + escapeHtml(entry.athlete_id) + '">Revoke access</button>' +
+                        '</div>'
+                      : '')) +
+              '</div>' +
+            '</article>'
+          )).join("")
+        : '<div class="team-roster-empty">No invites sent yet.</div>';
+    } catch (error) {
+      athleteInviteList.innerHTML = '<div class="team-roster-empty">' + escapeHtml(error.message || "Invite status could not be loaded.") + '</div>';
+    }
   }
 
   function renderAthleteSocialLinks(entry) {
@@ -594,6 +646,8 @@
       removeAthleteEntryButton.hidden = false;
       athleteSocialSection.hidden = false;
       renderAthleteSocialLinks(entry);
+      athleteInviteSection.hidden = false;
+      renderAthleteInvites(entry);
     }
 
     if (athleteDialog.open) {
@@ -976,6 +1030,73 @@
       showMessage(error.message, "error");
     } finally {
       setBusy(false);
+    }
+  });
+
+  athleteInviteForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (busy) return;
+
+    const entryId = athleteForm.elements.entry_id.value;
+    const entry = getEntryById(entryId);
+    if (!entry) return;
+
+    try {
+      setBusy(true);
+      // This action returns { invite, inviteUrl, emailSent } -- NOT the
+      // roster context shape renderContext() expects, so it's handled
+      // directly here rather than passed to renderContext().
+      const result = await apiFetch({
+        action: "invite_athlete",
+        ...formPayload(athleteInviteForm)
+      });
+      athleteInviteForm.reset();
+      athleteInviteForm.elements.team_athlete_id.value = entry.athlete_id;
+      await renderAthleteInvites(entry);
+      showMessage(
+        result.emailSent
+          ? "Invite sent."
+          : "Invite created, but the email could not be sent. Copy the link from the invite list to share it directly."
+      );
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  athleteInviteList.addEventListener("click", async (event) => {
+    const revokeInviteButton = event.target.closest("[data-revoke-athlete-invite]");
+    const revokeAccessButton = event.target.closest("[data-revoke-athlete-access]");
+    const entry = getEntryById(athleteForm.elements.entry_id.value);
+    if (!entry || busy) return;
+
+    if (revokeInviteButton) {
+      if (!window.confirm("Revoke this invite? The link will stop working.")) return;
+      try {
+        setBusy(true);
+        await apiFetch({ action: "revoke_athlete_invite", invite_id: revokeInviteButton.dataset.revokeAthleteInvite });
+        await renderAthleteInvites(entry);
+        showMessage("Invite revoked.");
+      } catch (error) {
+        showMessage(error.message, "error");
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    if (revokeAccessButton) {
+      if (!window.confirm("Revoke this athlete's account access? They will no longer be able to see their race plans and results.")) return;
+      try {
+        setBusy(true);
+        await apiFetch({ action: "revoke_athlete_access", team_athlete_id: revokeAccessButton.dataset.revokeAthleteAccess });
+        await renderAthleteInvites(entry);
+        showMessage("Athlete access revoked.");
+      } catch (error) {
+        showMessage(error.message, "error");
+      } finally {
+        setBusy(false);
+      }
     }
   });
 

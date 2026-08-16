@@ -126,7 +126,7 @@ if (errors.length) {
 const htmlFiles = await walk(dist, (file) => file.endsWith(".html"));
 let checkedLinks = 0;
 let checkedImages = 0;
-const privatePrefixes = ["admin/", "team-login/", "team-dashboard/", "team-editor/", "team-schedule/", "team-roster/", "team-content/", "team-insights/", "race-command-center/", "team-home/", "team-meet-center/", "follow/"];
+const privatePrefixes = ["admin/", "team-login/", "team-dashboard/", "team-editor/", "team-schedule/", "team-roster/", "team-content/", "team-insights/", "race-command-center/", "team-home/", "team-meet-center/", "athlete-login/", "athlete-home/", "follow/"];
 
 for (const file of htmlFiles) {
   const relative = path.relative(dist, file).replaceAll("\\", "/");

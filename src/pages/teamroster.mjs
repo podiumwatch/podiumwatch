@@ -643,6 +643,23 @@ export function teamRosterPage(site) {
         </div>
       </form>
 
+      <section data-athlete-invite-section hidden style="margin-top:30px;">
+        <p class="eyebrow">Athlete access</p>
+        <h3>Invite to Podium Watch</h3>
+        <p>Invite this athlete to see their own race plans and results. Only a coach-issued invite can create their account -- there is no open signup.</p>
+
+        <div class="team-roster-social-list" data-athlete-invite-list></div>
+
+        <form class="team-roster-form" data-athlete-invite-form>
+          <input type="hidden" name="team_athlete_id">
+          <div class="team-roster-fields">
+            <label><strong>Athlete's email</strong><input type="email" name="invited_email" required></label>
+            <label><strong>Athlete's name (optional)</strong><input type="text" name="invited_name"></label>
+          </div>
+          <button class="button button-primary" type="submit">Send invite</button>
+        </form>
+      </section>
+
       <section data-athlete-social-section hidden style="margin-top:30px;">
         <p class="eyebrow">Athlete links</p>
         <h3>Social and recruiting links</h3>

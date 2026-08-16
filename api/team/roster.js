@@ -8,6 +8,24 @@ import {
   parseRosterBody
 } from "../../lib/team_roster_service.mjs";
 import { queueTeamNotification } from "../../lib/engagement_service.mjs";
+import {
+  generateInvite,
+  listInvitesForAthlete,
+  revokeInvite,
+  revokeAthleteAccess
+} from "../../lib/athlete_access_service.mjs";
+
+// Athlete-invite actions are handled here directly, before falling
+// through to handleTeamRosterAction() -- kept out of the 1700+ line
+// lib/team_roster_service.mjs entirely, in its own service file
+// (lib/athlete_access_service.mjs), rather than adding a new dispatch
+// branch to an already-large, unrelated action dispatcher.
+const ATHLETE_ACCESS_ACTIONS = new Set([
+  "invite_athlete",
+  "list_athlete_invites",
+  "revoke_athlete_invite",
+  "revoke_athlete_access"
+]);
 
 function cleanText(value) {
   return String(value ?? "").trim();
@@ -48,6 +66,31 @@ export default async function handler(request, response) {
       const error = new Error("You do not have permission to manage this team roster.");
       error.status = 403;
       throw error;
+    }
+
+    const action = cleanText(body.action).toLowerCase();
+
+    if (ATHLETE_ACCESS_ACTIONS.has(action)) {
+      const actorUserId = user.id;
+      let athleteData;
+
+      if (action === "invite_athlete") {
+        athleteData = await generateInvite({
+          teamId,
+          teamAthleteId: body.team_athlete_id,
+          invitedEmail: body.invited_email,
+          invitedName: body.invited_name,
+          actor: { userId: actorUserId }
+        });
+      } else if (action === "list_athlete_invites") {
+        athleteData = { invites: await listInvitesForAthlete({ teamId, teamAthleteId: body.team_athlete_id }) };
+      } else if (action === "revoke_athlete_invite") {
+        athleteData = { invite: await revokeInvite({ teamId, inviteId: body.invite_id, actorUserId }) };
+      } else if (action === "revoke_athlete_access") {
+        athleteData = { revoked: await revokeAthleteAccess({ teamId, teamAthleteId: body.team_athlete_id, actorUserId }) };
+      }
+
+      return response.status(200).json(athleteData);
     }
 
     const data = await handleTeamRosterAction({

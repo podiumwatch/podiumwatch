@@ -106,7 +106,12 @@
       "WebFetch(domain:podiumwatch.vercel.app)",
       "Bash(TW_TEST_EMAIL=\"tw-e2e-1786449679408@podiumwatch.invalid\" TW_TEST_PASSWORD='TeamWorkspaceTest!1786449679409' TW_TEAM_ID=\"e7843834-0fdb-4e81-9bfc-7b6d3453ed8d\" TW_MEET_ID=\"31a12e17-b9fd-409f-a5cb-66df5bff1039\" node --env-file=.env.local \"./_tmp_verify_team_workspace_e2e.mjs\")",
       "Bash(cp \"C:\\\\Users\\\\12zac\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-12zac-Downloads-Podium-Watch-Website-podium-watch-site\\\\991cd4ce-08a1-4417-b1b1-6b06d7e565cc\\\\scratchpad\\\\verify-team-workspace-e2e.mjs\" \"./_tmp_verify_team_workspace_e2e.mjs\")",
-      "Bash(rm -f \"./_tmp_verify_team_workspace_e2e.mjs\" \"./_tmp_rcc_local_server.mjs\")"
+      "Bash(rm -f \"./_tmp_verify_team_workspace_e2e.mjs\" \"./_tmp_rcc_local_server.mjs\")",
+      "Bash(curl -s https://podiumwatch.vercel.app/team-home/)",
+      "Bash(curl -s https://podiumwatch.vercel.app/team-meet-center/)",
+      "Bash(curl -s https://podiumwatch.vercel.app/scripts/team-dashboard.js)",
+      "Bash(curl -s -o /dev/null -w \"home.js: %{http_code}\\\\n\" -X POST https://podiumwatch.vercel.app/api/team/home/ -H \"Content-Type: application/json\" -d '{}')",
+      "Bash(curl -s -o /dev/null -w \"meet-center.js: %{http_code}\\\\n\" -X POST https://podiumwatch.vercel.app/api/team/meet-center/ -H \"Content-Type: application/json\" -d '{}')"
     ],
     "deny": [
       "Bash(rm -rf*)",

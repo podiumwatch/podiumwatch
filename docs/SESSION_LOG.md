@@ -1201,7 +1201,7 @@ Confirmed real, current facts rather than trusting older docs (`docs/AUTO_PROJEC
 
 ### Not yet done
 
-Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
+~~Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.~~ **Update:** committed (`acf04ff`), pushed, and deployed with the user's explicit approval; confirmed live at `https://podiumwatch.vercel.app/race-command-center/` and its `/plan/`, `/live/`, `/review/` sub-pages. This line was left stale in the original entry and corrected while writing the 2026-08-13 Athlete Access entry below.
 
 ## 2026 08 11 Team Workspace Phase One build
 
@@ -1244,4 +1244,66 @@ None. Zero new tables, zero migration. Everything reads/writes only tables that 
 
 ### Not yet done
 
-Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy.
+~~Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy.~~ **Update:** committed (`3f90154`), pushed, and deployed with the user's explicit approval; confirmed live at `/team-home/` and `/team-meet-center/`. This line was left stale in the original entry and corrected while writing the 2026-08-13 Athlete Access entry below.
+
+## 2026 08 13 Athlete Access (Team Workspace Phase Two) build
+
+### Goal
+
+Continue the Team Workspace direction into its next stage, per the user's own choices via `AskUserQuestion`: give athletes a signed-in view of their own race plan and review. Access method: **coach-issued invite** (a coach generates a one-time invite from the roster for a specific athlete; no open self-serve signup). Initial scope: **race plan + review only** (goals, checkpoint targets, and finished-race review) -- no PR/season-best history in this pass.
+
+### Repository audit -- key findings
+
+1. **No invite-before-account pattern exists anywhere in this codebase.** `team_claim_requests` is the opposite shape (identity already exists, a user requests to attach). The closest rigor precedent found was AOTW/TOTW's voter-token design (HMAC-hashed token, never stored raw) -- ultimately not reused as-is; see the token design decision below.
+2. **`team_athletes.athlete_profile_id` is not safely 1:1.** A cross-team transfer usually creates a second, duplicate `athlete_profiles` row (pre-existing, known behavior, not fixed by this phase). Invites and account links therefore key off a specific **`team_athletes.id`**, never `athlete_profiles.id` -- an athlete who redeems invites from two different teams over their career simply gets two independent links.
+3. **`race_coach_notes` has no visibility/approval mechanism at all** (0 rows, 6 plain columns, no status/approved column of any kind) -- the athlete view must never surface it in this phase, and does not.
+4. Confirmed live: every real `race_participants` row in production used `manual_name`, not `team_athlete_id` (zero `team_athletes` rows existed anywhere yet) -- this feature had nothing real to test against without first creating real roster data, which is what surfaced the two pre-existing bugs below.
+
+### What was built
+
+1. **`install/12_ATHLETE_ACCESS.sql`** (new, run in production Supabase) -- two tables: `athlete_invites` (token_hash unique, status pending/redeemed/revoked/expired, single-flag consent) and `athlete_accounts` (one row per (user_id, team_athlete_id) pair, status active/revoked -- revocation is a status flip, never a delete, matching Race Command Center's existing "traceable, not destructive" pattern).
+2. **`lib/athlete_auth.mjs`** (new) -- `requireAthleteUser()`/`athleteApiError()`, structurally identical to `lib/team_auth.mjs` (same underlying Supabase Auth mechanism, athlete-appropriate error copy). `requireAthleteAccess(userId, teamAthleteId)` mirrors `requireTeamMembership`, checking `athlete_accounts` for an active row.
+3. **`lib/athlete_access_service.mjs`** (new) -- `generateInvite()`, `validateInviteToken()`, `redeemInvite()`, `listInvitesForAthlete()`, `revokeInvite()`, `revokeAthleteAccess()`, `getAthleteMe()`, `getAthleteRaces()`. The races join (`athlete_accounts` -> `team_athletes.id` -> `race_participants.team_athlete_id` -> `race_sessions`/`race_goals`/`race_targets`/`race_splits`/`race_checkpoints`) deliberately never queries `race_coach_notes`.
+4. **`api/team/roster.js`** -- one new dispatch branch (`invite_athlete`/`list_athlete_invites`/`revoke_athlete_invite`/`revoke_athlete_access`), kept in its own service file rather than added to the already-1700+-line `lib/team_roster_service.mjs`. **`api/athlete/invite.js`, `api/athlete/me.js`, `api/athlete/races.js`** (new).
+5. **`/athlete-login/`, `/athlete-home/`** (new pages + client scripts) -- login mirrors `teamlogin.mjs`/`team-auth.js` exactly (real client-side `signUp()`/`signInWithPassword()`, matching the confirmed existing convention -- this codebase has never used `supabaseAdmin.auth.admin.createUser()`/`generateLink()` for real account creation). Signup is offered only with a valid `?invite=` token present; otherwise sign-in only. Athlete Home deliberately has **no required `?id=` query param** (unlike every coach tool) -- it shows every race across every `team_athletes` row the signed-in account has an active link to, driven by identity, not a team selection.
+6. Roster integration: a new "Invite to Podium Watch" section in the existing per-athlete edit dialog (`src/pages/teamroster.mjs`), fetched on demand when the dialog opens, matching how `athlete_social_links` already works within that same dialog.
+7. Both new routes registered in `scripts/build.mjs` and added to all three private-route lists (`src/lib/html.mjs`, `scripts/check.mjs`, `scripts/build.mjs`'s sitemap-exclusion list).
+
+### Token and consent design decisions
+
+1. **Token: reused `lib/engagement_service.mjs`'s existing `createToken()`/`hashToken()` pair** (`crypto.randomBytes(32).toString("base64url")`, plain SHA-256, no secret) -- already used in production for follower-unsubscribe tokens -- rather than the AOTW/TOTW HMAC-with-secret pattern. AOTW's HMAC exists specifically because AOTW tokens are client-influenced and weaker; a server-generated 256-bit random token needs no additional keyed HMAC, and reusing an established helper avoided introducing a new secret (`ATHLETE_INVITE_HASH_SECRET` was briefly added to `.env.local`, then removed once this simplification was made).
+2. **Consent: one flag, not `athlete_social_links`'s existing three-flag pattern.** That pattern (`athlete_consent_confirmed`/`guardian_consent_confirmed`/`approved_by_team`) gates *publishing to the public internet*. This feature gates *viewing already coach-controlled, non-public data the coach explicitly invited the athlete to see* -- meaningfully lower stakes, and the coach already vouched for the athlete's identity by generating the invite. Recorded as a single `consent_confirmed_at`/`consent_confirmed_by` pair on the invite row.
+
+### Two real, pre-existing, previously-undiscovered bugs found and fixed
+
+Found only because this feature needed real roster data to test against, and production had none:
+
+1. **`team_seasons.year`** is a separate, real, `NOT NULL` column distinct from `season_year`, never populated by `createSeason()`/`saveSeason()` (`lib/team_roster_service.mjs`) -- confirmed live that `team_seasons` had zero rows in production, meaning no real coach had ever successfully created a season through this code path. Fixed by adding `year: seasonYear` to both insert/update payloads.
+2. **`team_roster_entries.athlete_name`** is a separate, real, `NOT NULL` denormalized column (the table has no `first_name`/`last_name` of its own), never populated by the `save_athlete` action's `entryPayload` -- confirmed live that `team_roster_entries` also had zero rows ever. Fixed by adding `athlete_name: athlete.display_name`.
+
+See `docs/DECISIONS.md`, 2026-08-13, for the fuller reasoning on both.
+
+### Database changes
+
+`install/12_ATHLETE_ACCESS.sql` -- two new tables (`athlete_invites`, `athlete_accounts`), standard RLS (enabled, revoked from `anon`/`authenticated`, granted to `service_role` only). Run successfully in production Supabase after resolving a wrong-Supabase-project mixup (the user had initially run it against a different project than `.env.local` points to -- diagnosed by asking the user to check the Table Editor directly, then re-run in the correct project) and a PostgREST schema-cache staleness delay (`NOTIFY pgrst, 'reload schema';` plus additional wait, the same class of issue seen during Path to State).
+
+### Automated testing
+
+`npm run build && npm run check && npm test` (the existing chain, unchanged) passes clean -- 277 pages built, 223 JS/10 JSON/308 HTML files checked, 17,221 internal links and 674 local images checked, no problems found; all 12 test suites pass.
+
+### Manual/live testing completed
+
+1. A live service-layer round trip against real production Supabase (17 checks): real `team_athletes` row creation, `generateInvite` -> `validateInviteToken` (including a garbage-token 404 rejection), `redeemInvite` (including a same-token-twice 409 rejection), `requireAthleteAccess` (including an unrelated-athlete 403 rejection), `getAthleteMe`, a real roster-linked race with goals/targets/splits **and a private coach note**, `getAthleteRaces` returning the correct race with the coach note confirmed absent from the serialized response, `revokeAthleteAccess` (immediate 403 afterward, `getAthleteMe` showing zero linked athletes), and invite revocation (a pending invite revokes cleanly, an already-redeemed one is rejected). All 17 passed; all test data deleted afterward.
+2. Full real end-to-end Playwright verification, using a dedicated test coach account and a real roster season/athlete created server-side, driving the real built pages against the real API handlers (the same local-harness technique proven for Race Command Center and Team Workspace Phase One): coach opens the real roster dialog, sees the honest "no invites yet" empty state, sends a real invite through the UI (status updates to "Invite sent" live); athlete opens the real invite link at mobile width (390x844), sees the real team/athlete name in the invite banner, confirms the Create Account tab is only shown with a valid token; submitting signup without checking consent is confirmed blocked (the checkbox's native `required` attribute stops the browser's own form submission before the JS handler runs, so the real observable protection verified is that the page never navigates away); a real account is signed in with the invite token present, auto-redeeming the invite via the exact same `redeemInviteIfPresent()` code path signup uses, redirecting to Athlete Home, which shows the real linked athlete name and an honest "no upcoming races" empty state with zero horizontal overflow at 390px; the real `athlete_accounts` link is confirmed directly in Supabase; a real finished race is built (goal, target, splits) with a private coach note attached, and Athlete Home (desktop width) is confirmed to show the real race and real finish time while the coach note is confirmed absent from both the specific results section and the entire rendered page body. All test data (season, roster entry, team_athletes row, invites, athlete_accounts link, race session, coach note, the athlete auth user) deleted afterward, confirmed by re-querying; the test coach account and its team remain intentionally active for any follow-up testing.
+3. One real external constraint hit and worked around, not a bug: Supabase Auth's own email-sending rate limit ("email rate limit exceeded") was triggered by this session's repeated real `client.auth.signUp()` attempts while iterating on the test script. The signup form's client-side behavior (invite banner, email-format validation, consent gating) was already proven via a real submission that reached Supabase's server before being rejected by the rate limit, not by the app. To finish verifying the rest of the flow, the athlete's account was created via the admin API instead (no email sent) and redemption was exercised through the sign-in panel instead of signup -- `athlete-login.js` runs the identical `redeemInviteIfPresent()` call after either a successful sign-up or sign-in, so this still exercises the real redemption code path end to end. Also found along the way: Supabase Auth's client-side `signUp()` (unlike the admin API used for every other test account this session) rejects the RFC 2606 `.invalid` TLD; switched the real-signup test email to `.example.com`, which is also RFC 2606-reserved and passes.
+
+### Known, deliberate Phase Two scope limits
+
+1. No PR/season-best history -- only the athlete's own upcoming plan and finished-race review, per the user's explicit scope choice.
+2. No parent/follower access, no public/private split for splits -- explicitly Phase Three per the original Team Workspace spec's own boundaries, not built here.
+3. `race_coach_notes` remains entirely invisible to athletes -- there is no visibility/approval mechanism for it yet; building one is a future decision, not assumed by this phase's schema.
+4. An athlete transferring teams gets a second, independent `athlete_accounts` link rather than any merge -- matches the pre-existing `team_athletes`/`athlete_profiles` non-1:1 limitation, not something this phase changes.
+
+### Not yet done
+
+`git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
