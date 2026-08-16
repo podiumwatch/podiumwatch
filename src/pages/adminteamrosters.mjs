@@ -1,17 +1,6 @@
-import {
-  layout,
-  pageHero
-} from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminTeamRostersPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Team rosters.",
-    description:
-      "Search every team and manage current rosters, season archives, athlete links, and roster imports."
-  })}
-
-  <style>
+const styles = `
     .admin-roster-shell,
     .admin-roster-results {
       display: grid;
@@ -90,68 +79,53 @@ export function adminTeamRostersPage(site) {
         justify-content: center;
       }
     }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container">
-      <div class="info-card" data-admin-roster-loading>
-        <h2>Checking admin access</h2>
-        <p>Please wait while Podium Watch loads the roster manager.</p>
-      </div>
+export function adminTeamRostersPage(site) {
+  const content = `<div class="info-card" data-admin-roster-loading>
+    <h2>Checking admin access</h2>
+    <p>Please wait while Podium Watch loads the roster manager.</p>
+  </div>
 
-      <div class="admin-roster-shell" data-admin-roster hidden>
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Roster administration</p>
-            <h2>Manage every team roster</h2>
-          </div>
+  <div class="admin-roster-shell" data-admin-roster hidden>
+    <p class="admin-roster-message" data-admin-roster-message aria-live="polite" hidden></p>
 
-          <div style="display:flex;flex-wrap:wrap;gap:10px;">
-            <a class="button button-outline" href="/admin/">Main admin</a>
-            <a class="button button-outline" href="/admin/team-manager/">Team Manager</a>
-            <a class="button button-outline" href="/admin/team-schedules/">Team Schedules</a>
-          </div>
+    <section class="info-card">
+      <p class="eyebrow">Find a program</p>
+      <h2>Search team rosters</h2>
+
+      <form class="admin-roster-form" data-admin-roster-search-form>
+        <label>
+          <strong>School, city, mascot, or conference</strong>
+          <input type="search" name="search" placeholder="Search teams">
+        </label>
+        <button class="button button-primary" type="submit">Search teams</button>
+      </form>
+    </section>
+
+    <section>
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Team profiles</p>
+          <h2>Roster access</h2>
         </div>
-
-        <p class="admin-roster-message" data-admin-roster-message aria-live="polite" hidden></p>
-
-        <section class="info-card">
-          <p class="eyebrow">Find a program</p>
-          <h2>Search team rosters</h2>
-
-          <form class="admin-roster-form" data-admin-roster-search-form>
-            <label>
-              <strong>School, city, mascot, or conference</strong>
-              <input type="search" name="search" placeholder="Search teams">
-            </label>
-            <button class="button button-primary" type="submit">Search teams</button>
-          </form>
-        </section>
-
-        <section>
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Team profiles</p>
-              <h2>Roster access</h2>
-            </div>
-            <p><strong data-admin-roster-count>0</strong> teams found</p>
-          </div>
-
-          <div class="admin-roster-results" data-admin-roster-results></div>
-          <div class="info-card" data-admin-roster-empty hidden>No team profiles were found.</div>
-        </section>
+        <p><strong data-admin-roster-count>0</strong> teams found</p>
       </div>
-    </div>
-  </section>
 
-  <script src="/scripts/admin-team-rosters.js" defer></script>`;
+      <div class="admin-roster-results" data-admin-roster-results></div>
+      <div class="info-card" data-admin-roster-empty hidden>No team profiles were found.</div>
+    </section>
+  </div>`;
 
-  return layout({
+  return adminShell({
     site,
-    title: "Admin Team Rosters",
-    description:
-      "Manage every Podium Watch team roster, season archive, and athlete import.",
     pathname: "/admin/team-rosters/",
-    content
+    title: "Admin Team Rosters",
+    description: "Manage every Podium Watch team roster, season archive, and athlete import.",
+    heading: "Team rosters.",
+    intro: "Search every team and manage current rosters, season archives, athlete links, and roster imports.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-team-rosters.js"]
   });
 }

@@ -1,17 +1,6 @@
-import {
-  layout,
-  pageHero
-} from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminTeamSchedulesPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Team Schedule Manager.",
-    description:
-      "Review coach meet requests, connect one Meet Center page to multiple teams, and correct schedule connections."
-  })}
-
-  <style>
+const styles = `
     .admin-schedule-shell,
     .admin-schedule-grid,
     .admin-schedule-list,
@@ -200,156 +189,151 @@ export function adminTeamSchedulesPage(site) {
         justify-content: center;
       }
     }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container">
-      <div class="admin-schedule-loading info-card" data-admin-schedule-loading>
-        <h2>Checking admin access</h2>
-        <p>Podium Watch is loading team schedule requests and connections.</p>
+export function adminTeamSchedulesPage(site) {
+  const content = `<div class="admin-schedule-loading info-card" data-admin-schedule-loading>
+    <h2>Checking admin access</h2>
+    <p>Podium Watch is loading team schedule requests and connections.</p>
+  </div>
+
+  <div class="admin-schedule-shell" data-admin-schedule hidden>
+    <div class="admin-schedule-heading">
+      <div>
+        <p class="eyebrow">Team schedule administration</p>
+        <h2>Meet Center connections</h2>
       </div>
 
-      <div class="admin-schedule-shell" data-admin-schedule hidden>
-        <div class="admin-schedule-heading">
-          <div>
-            <p class="eyebrow">Team schedule administration</p>
-            <h2>Meet Center connections</h2>
-          </div>
-
-          <div class="admin-schedule-actions">
-            <a class="button button-outline" href="/admin/">Main admin</a>
-            <a class="button button-outline" href="/admin/team-manager/">Team Manager</a>
-            <a class="button button-outline" href="/admin/teams/">Bulk team import</a>
-            <button class="button button-primary" type="button" data-admin-schedule-refresh>Refresh</button>
-          </div>
-        </div>
-
-        <p class="admin-schedule-message" data-admin-schedule-message aria-live="polite" hidden></p>
-
-        <div class="admin-schedule-counts">
-          <div class="admin-schedule-count"><strong data-admin-count-pending>0</strong><span>Pending requests</span></div>
-          <div class="admin-schedule-count"><strong data-admin-count-reviewing>0</strong><span>Under review</span></div>
-          <div class="admin-schedule-count"><strong data-admin-count-connections>0</strong><span>Recent connections</span></div>
-        </div>
-
-        <div class="admin-schedule-grid">
-          <section class="admin-schedule-panel admin-schedule-panel-full">
-            <div class="admin-schedule-heading">
-              <div>
-                <p class="eyebrow">Coach submissions</p>
-                <h2>Meet requests</h2>
-              </div>
-
-              <label>
-                <strong>Status</strong>
-                <select data-admin-request-status style="display:block;margin-top:7px;padding:10px;">
-                  <option value="active">Pending and reviewing</option>
-                  <option value="pending">Pending</option>
-                  <option value="reviewing">Reviewing</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                  <option value="duplicate">Duplicate</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="admin-schedule-list" data-admin-request-list style="margin-top:20px;"></div>
-            <div class="admin-schedule-empty" data-admin-request-empty hidden>No meet requests match this status.</div>
-          </section>
-
-          <section class="admin-schedule-panel">
-            <p class="eyebrow">Step one</p>
-            <h2>Select teams</h2>
-            <form class="admin-schedule-form" data-admin-team-search-form>
-              <label>
-                <strong>School, city, or mascot</strong>
-                <input type="search" name="query" placeholder="Search teams">
-              </label>
-              <button class="button button-primary" type="submit">Search teams</button>
-            </form>
-            <div class="admin-schedule-search-results" data-admin-team-results style="margin-top:18px;"></div>
-          </section>
-
-          <section class="admin-schedule-panel">
-            <p class="eyebrow">Step two</p>
-            <h2>Select a Meet Center page</h2>
-            <form class="admin-schedule-form" data-admin-meet-search-form>
-              <div class="admin-schedule-fields">
-                <label>
-                  <strong>Name, venue, city, or host</strong>
-                  <input type="search" name="query" placeholder="Search meets">
-                </label>
-                <label>
-                  <strong>Date</strong>
-                  <input type="date" name="meet_date">
-                </label>
-              </div>
-              <button class="button button-primary" type="submit">Search meets</button>
-            </form>
-            <div class="admin-schedule-search-results" data-admin-meet-results style="margin-top:18px;"></div>
-          </section>
-
-          <section class="admin-schedule-panel admin-schedule-panel-full">
-            <p class="eyebrow">Step three</p>
-            <h2>Connect selected teams</h2>
-            <p data-admin-selection-summary>No teams or meet selected yet.</p>
-
-            <form class="admin-schedule-form" data-admin-connect-form>
-              <div class="admin-schedule-fields">
-                <label>
-                  <strong>Program</strong>
-                  <select name="program_scope">
-                    <option value="combined">Boys and Girls</option>
-                    <option value="boys">Boys</option>
-                    <option value="girls">Girls</option>
-                  </select>
-                </label>
-                <label>
-                  <strong>Sport</strong>
-                  <select name="sport_scope">
-                    <option value="All">All</option>
-                    <option value="Cross Country">Cross Country</option>
-                    <option value="Track and Field">Track and Field</option>
-                  </select>
-                </label>
-                <label>
-                  <strong>Results override</strong>
-                  <input type="url" name="results_url_override">
-                </label>
-                <label>
-                  <strong>Sort order</strong>
-                  <input type="number" name="sort_order" value="0" min="-999" max="999">
-                </label>
-              </div>
-              <label>
-                <strong>Schedule note</strong>
-                <textarea name="schedule_note" rows="3"></textarea>
-              </label>
-              <label><input type="checkbox" name="published" checked> Show on public team profiles when the meet is published</label>
-              <button class="button button-primary" type="submit">Connect selected teams</button>
-            </form>
-          </section>
-
-          <section class="admin-schedule-panel admin-schedule-panel-full">
-            <p class="eyebrow">Recent activity</p>
-            <h2>Schedule connections</h2>
-            <div class="admin-schedule-list" data-admin-connection-list></div>
-            <div class="admin-schedule-empty" data-admin-connection-empty hidden>No schedule connections were found.</div>
-          </section>
-        </div>
+      <div class="admin-schedule-actions">
+        <button class="button button-primary" type="button" data-admin-schedule-refresh>Refresh</button>
       </div>
     </div>
-  </section>
 
-  <script src="/scripts/admin-team-schedules.js" defer></script>`;
+    <p class="admin-schedule-message" data-admin-schedule-message aria-live="polite" hidden></p>
 
-  return layout({
+    <div class="admin-schedule-counts">
+      <div class="admin-schedule-count"><strong data-admin-count-pending>0</strong><span>Pending requests</span></div>
+      <div class="admin-schedule-count"><strong data-admin-count-reviewing>0</strong><span>Under review</span></div>
+      <div class="admin-schedule-count"><strong data-admin-count-connections>0</strong><span>Recent connections</span></div>
+    </div>
+
+    <div class="admin-schedule-grid">
+      <section class="admin-schedule-panel admin-schedule-panel-full">
+        <div class="admin-schedule-heading">
+          <div>
+            <p class="eyebrow">Coach submissions</p>
+            <h2>Meet requests</h2>
+          </div>
+
+          <label>
+            <strong>Status</strong>
+            <select data-admin-request-status style="display:block;margin-top:7px;padding:10px;">
+              <option value="active">Pending and reviewing</option>
+              <option value="pending">Pending</option>
+              <option value="reviewing">Reviewing</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+              <option value="duplicate">Duplicate</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="admin-schedule-list" data-admin-request-list style="margin-top:20px;"></div>
+        <div class="admin-schedule-empty" data-admin-request-empty hidden>No meet requests match this status.</div>
+      </section>
+
+      <section class="admin-schedule-panel">
+        <p class="eyebrow">Step one</p>
+        <h2>Select teams</h2>
+        <form class="admin-schedule-form" data-admin-team-search-form>
+          <label>
+            <strong>School, city, or mascot</strong>
+            <input type="search" name="query" placeholder="Search teams">
+          </label>
+          <button class="button button-primary" type="submit">Search teams</button>
+        </form>
+        <div class="admin-schedule-search-results" data-admin-team-results style="margin-top:18px;"></div>
+      </section>
+
+      <section class="admin-schedule-panel">
+        <p class="eyebrow">Step two</p>
+        <h2>Select a Meet Center page</h2>
+        <form class="admin-schedule-form" data-admin-meet-search-form>
+          <div class="admin-schedule-fields">
+            <label>
+              <strong>Name, venue, city, or host</strong>
+              <input type="search" name="query" placeholder="Search meets">
+            </label>
+            <label>
+              <strong>Date</strong>
+              <input type="date" name="meet_date">
+            </label>
+          </div>
+          <button class="button button-primary" type="submit">Search meets</button>
+        </form>
+        <div class="admin-schedule-search-results" data-admin-meet-results style="margin-top:18px;"></div>
+      </section>
+
+      <section class="admin-schedule-panel admin-schedule-panel-full">
+        <p class="eyebrow">Step three</p>
+        <h2>Connect selected teams</h2>
+        <p data-admin-selection-summary>No teams or meet selected yet.</p>
+
+        <form class="admin-schedule-form" data-admin-connect-form>
+          <div class="admin-schedule-fields">
+            <label>
+              <strong>Program</strong>
+              <select name="program_scope">
+                <option value="combined">Boys and Girls</option>
+                <option value="boys">Boys</option>
+                <option value="girls">Girls</option>
+              </select>
+            </label>
+            <label>
+              <strong>Sport</strong>
+              <select name="sport_scope">
+                <option value="All">All</option>
+                <option value="Cross Country">Cross Country</option>
+                <option value="Track and Field">Track and Field</option>
+              </select>
+            </label>
+            <label>
+              <strong>Results override</strong>
+              <input type="url" name="results_url_override">
+            </label>
+            <label>
+              <strong>Sort order</strong>
+              <input type="number" name="sort_order" value="0" min="-999" max="999">
+            </label>
+          </div>
+          <label>
+            <strong>Schedule note</strong>
+            <textarea name="schedule_note" rows="3"></textarea>
+          </label>
+          <label><input type="checkbox" name="published" checked> Show on public team profiles when the meet is published</label>
+          <button class="button button-primary" type="submit">Connect selected teams</button>
+        </form>
+      </section>
+
+      <section class="admin-schedule-panel admin-schedule-panel-full">
+        <p class="eyebrow">Recent activity</p>
+        <h2>Schedule connections</h2>
+        <div class="admin-schedule-list" data-admin-connection-list></div>
+        <div class="admin-schedule-empty" data-admin-connection-empty hidden>No schedule connections were found.</div>
+      </section>
+    </div>
+  </div>`;
+
+  return adminShell({
     site,
-    title: "Admin Team Schedule Manager",
-    description:
-      "Review team meet requests and manage Meet Center schedule connections.",
     pathname: "/admin/team-schedules/",
-    content
+    title: "Admin Team Schedule Manager",
+    description: "Review team meet requests and manage Meet Center schedule connections.",
+    heading: "Team Schedule Manager.",
+    intro: "Review coach meet requests, connect one Meet Center page to multiple teams, and correct schedule connections.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-team-schedules.js"]
   });
 }

@@ -1,12 +1,6 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminTeamInstagramPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Team Instagram Changes",
-    description: "Every public Instagram submission takes effect immediately, with no approval step. This page is the full change history for that feature, with a one-click revert to any previous value."
-  })}
-  <style>
+const styles = `
     .team-ig-shell { display: grid; gap: 20px; }
     .team-ig-actions { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
     .team-ig-message { margin: 0; padding: 14px 16px; border-radius: 10px; background: rgba(0,191,99,.12); font-weight: 850; }
@@ -21,15 +15,12 @@ export function adminTeamInstagramPage(site) {
     .team-ig-filters label { display: grid; gap: 6px; font-weight: 850; }
     .team-ig-filters select, .team-ig-filters input { padding: 8px 10px; border: 1px solid rgba(15,23,42,.22); border-radius: 8px; font: inherit; }
     @media (max-width: 700px) { .team-ig-actions { display: grid; } .team-ig-actions .button { width: 100%; justify-content: center; } }
-  </style>
-  <section class="section section-paper"><div class="container team-ig-shell" data-team-ig-manager>
+`;
+
+export function adminTeamInstagramPage(site) {
+  const content = `<div class="team-ig-shell" data-team-ig-manager>
     <section class="info-card" data-team-ig-loading><h2>Checking admin access</h2><p>Please wait.</p></section>
     <div data-team-ig-dashboard hidden class="team-ig-shell">
-      <div class="team-ig-actions">
-        <a class="button button-outline" href="/admin/">Admin</a>
-        <a class="button button-outline" href="/admin/teams/">Team Directory</a>
-        <a class="button button-outline" href="/admin/team-manager/">Team Manager</a>
-      </div>
       <p class="team-ig-message" data-team-ig-message role="status">Loading team Instagram changes.</p>
       <section class="info-card">
         <div><p class="eyebrow">Change history</p><h2>Every Instagram submission and revert</h2></div>
@@ -40,7 +31,17 @@ export function adminTeamInstagramPage(site) {
         <div class="team-ig-table-wrap"><table class="team-ig-table"><thead><tr><th>Team</th><th>Change</th><th>When</th><th>Source</th><th>Action</th></tr></thead><tbody data-team-ig-rows></tbody></table></div>
       </section>
     </div>
-  </div></section>
-  <script src="/scripts/admin-team-instagram.js" defer></script>`;
-  return layout({ site, title: "Team Instagram Changes", description: "Change history and one-click revert for the public team Instagram submission feature.", pathname: "/admin/team-instagram/", content });
+  </div>`;
+
+  return adminShell({
+    site,
+    pathname: "/admin/team-instagram/",
+    title: "Team Instagram Changes",
+    description: "Change history and one-click revert for the public team Instagram submission feature.",
+    heading: "Team Instagram Changes",
+    intro: "Every public Instagram submission takes effect immediately, with no approval step. This page is the full change history for that feature, with a one-click revert to any previous value.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-team-instagram.js"]
+  });
 }

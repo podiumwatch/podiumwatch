@@ -1,19 +1,14 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminResultsSourcesPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Results Source Manager",
-    description: "Discover Ohio meets in bulk, identify the best original result source, and approve a dependable catalog before importing performances."
-  })}
-  <style>
+const styles = `
     .source-shell{display:grid;gap:20px}.source-message{margin:0;padding:14px 16px;border-radius:10px;background:rgba(0,191,99,.12);font-weight:850}.source-message[data-tone="error"]{color:#991b1b;background:rgba(220,38,38,.12)}.source-message[data-tone="warning"]{color:#7c4a03;background:rgba(245,158,11,.16)}.source-stats{display:grid;grid-template-columns:repeat(5,minmax(110px,1fr));gap:12px}.source-stat{padding:16px;border:1px solid rgba(15,23,42,.12);border-radius:12px;background:#fff}.source-stat strong{display:block;font-size:2rem;line-height:1}.source-stat span{display:block;margin-top:7px;font-weight:850}.source-panel{display:grid;gap:14px}.source-fields{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}.source-fields label,.source-panel>label{display:grid;gap:6px;font-weight:850}.source-fields input,.source-fields select,.source-panel textarea,.source-panel input,.source-panel select{width:100%;padding:10px;border:1px solid rgba(15,23,42,.22);border-radius:8px;background:#fff;font:inherit}.source-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.source-table-wrap{overflow:auto;border:1px solid rgba(15,23,42,.12);border-radius:10px}.source-table{width:100%;min-width:1080px;border-collapse:collapse;background:#fff}.source-table th,.source-table td{padding:10px;border-bottom:1px solid rgba(15,23,42,.09);text-align:left;vertical-align:top}.source-table th{background:#111;color:#fff;font-size:.74rem;text-transform:uppercase}.source-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#e2e8f0;font-size:.75rem;font-weight:900}.source-badge[data-status="ready"],.source-badge[data-status="approved"],.source-badge[data-status="completed"],.source-badge[data-status="imported"]{background:rgba(0,191,99,.15);color:#075f34}.source-badge[data-status="needs_review"],.source-badge[data-status="partial"],.source-badge[data-status="paused"]{background:#fef3c7;color:#7c4a03}.source-links{display:grid;gap:5px;max-width:320px}.source-links a{font-weight:800}.source-check{width:18px;height:18px}.source-help{padding:14px;border-radius:10px;background:#f8fafc}.source-runs{display:grid;gap:8px}.source-run{display:grid;grid-template-columns:1.2fr .6fr .8fr 1.4fr;gap:10px;padding:12px;border-bottom:1px solid rgba(15,23,42,.09)}.source-tabs{display:flex;gap:8px;flex-wrap:wrap}.source-detail{display:grid;gap:14px;padding:16px;border:1px solid rgba(15,23,42,.14);border-radius:12px;background:#f8fafc}.source-detail[hidden]{display:none}.source-detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.source-detail-grid>div{padding:10px;background:#fff;border-radius:8px}.source-small-table{min-width:760px}.source-file-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media(max-width:900px){.source-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.source-fields{grid-template-columns:1fr 1fr}.source-actions{display:grid;grid-template-columns:1fr}.source-actions .button{width:100%;justify-content:center}}@media(max-width:560px){.source-fields{grid-template-columns:1fr}.source-run{grid-template-columns:1fr 1fr}}
-  </style>
-  <section class="section section-paper"><div class="container source-shell" data-source-manager>
+`;
+
+export function adminResultsSourcesPage(site) {
+  const content = `<div class="source-shell" data-source-manager>
     <section class="info-card" data-source-loading><h2>Checking Phase One</h2><p>Please wait while the meet catalog loads.</p></section>
     <div data-source-dashboard hidden class="source-shell">
-      <div class="source-actions"><a class="button button-outline" href="/admin/">Admin</a><a class="button button-outline" href="/admin/recruiting/">Performance Import</a><a class="button button-outline" href="/admin/operations/">Operations Center</a></div>
       <p class="source-message" data-source-message role="status">Loading the Results Source Manager.</p>
       <div class="source-stats">
         <article class="source-stat"><strong data-stat-total>0</strong><span>Meets found</span></article><article class="source-stat"><strong data-stat-sources>0</strong><span>Source links</span></article><article class="source-stat"><strong data-stat-ready>0</strong><span>Ready</span></article><article class="source-stat"><strong data-stat-review>0</strong><span>Need review</span></article><article class="source-stat"><strong data-stat-approved>0</strong><span>Approved</span></article>
@@ -65,7 +60,17 @@ export function adminResultsSourcesPage(site) {
       </section>
       <section class="info-card source-panel"><div><p class="eyebrow">Discovery log</p><h2>Recent batches</h2></div><div class="source-runs" data-source-runs></div></section>
     </div>
-  </div></section>
-  <script src="/scripts/admin-results-sources.js" defer></script>`;
-  return layout({ site, title: "Results Source Manager", description: "Private Podium Watch bulk meet discovery and original source matching.", pathname: "/admin/results-sources/", content });
+  </div>`;
+
+  return adminShell({
+    site,
+    pathname: "/admin/results-sources/",
+    title: "Results Source Manager",
+    description: "Private Podium Watch bulk meet discovery and original source matching.",
+    heading: "Results Source Manager",
+    intro: "Discover Ohio meets in bulk, identify the best original result source, and approve a dependable catalog before importing performances.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-results-sources.js"]
+  });
 }

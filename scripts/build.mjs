@@ -46,6 +46,7 @@ import {
 import { meetsIndexPage } from "../src/pages/meets.mjs";
 import { meetDetailPage } from "../src/pages/meetdetail.mjs";
 import { adminPage } from "../src/pages/admin.mjs";
+import { adminMeetsPage } from "../src/pages/adminmeets.mjs";
 import { teamLoginPage } from "../src/pages/teamlogin.mjs";
 import { teamDashboardPage } from "../src/pages/teamdashboard.mjs";
 import { teamSchedulePage } from "../src/pages/teamschedule.mjs";
@@ -464,6 +465,7 @@ async function build() {
   await copyDirectory(path.join(root, "public"), dist);
   await fs.mkdir(path.join(dist, "styles"), { recursive: true });
   await fs.copyFile(path.join(root, "src", "styles", "main.css"), path.join(dist, "styles", "main.css"));
+  await fs.copyFile(path.join(root, "src", "styles", "admin.css"), path.join(dist, "styles", "admin.css"));
 
   const stories = await loadStories();
   const rankings = await loadRankings();
@@ -479,6 +481,7 @@ async function build() {
   await writePage("/meets/", meetsIndexPage(site));
   await writePage("/meetdetail/", meetDetailPage(site));
   await writePage("/admin/", adminPage(site));
+await writePage("/admin/meets/", adminMeetsPage(site));
 await writePage("/admin/teams/", adminTeamsPage(site));
 await writePage("/admin/team-manager/", adminTeamManagerPage(site));
 await writePage("/admin/team-schedules/", adminTeamSchedulesPage(site));

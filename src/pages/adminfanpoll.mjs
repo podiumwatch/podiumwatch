@@ -1,12 +1,6 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminFanPollPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Fan Poll",
-    description: "Schedule voting weeks and open or close voting per sport, gender, and division. Only cross country is turned on for voters right now -- see docs/DECISIONS.md, 2026-08-06."
-  })}
-  <style>
+const styles = `
     .fan-poll-admin-shell { display: grid; gap: 20px; }
     .fan-poll-admin-actions { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
     .fan-poll-admin-message { margin: 0; padding: 14px 16px; border-radius: 10px; background: rgba(0,191,99,.12); font-weight: 850; }
@@ -23,12 +17,13 @@ export function adminFanPollPage(site) {
     .fan-poll-admin-create-fields label { display: grid; gap: 6px; font-weight: 850; }
     .fan-poll-admin-create-fields select, .fan-poll-admin-create-fields input { padding: 8px 10px; border: 1px solid rgba(15,23,42,.22); border-radius: 8px; font: inherit; }
     @media (max-width: 700px) { .fan-poll-admin-actions { display: grid; } .fan-poll-admin-actions .button { width: 100%; justify-content: center; } }
-  </style>
-  <section class="section section-paper"><div class="container fan-poll-admin-shell" data-fan-poll-admin-manager>
+`;
+
+export function adminFanPollPage(site) {
+  const content = `<div class="fan-poll-admin-shell" data-fan-poll-admin-manager>
     <section class="info-card" data-fan-poll-admin-loading><h2>Checking admin access</h2><p>Please wait.</p></section>
     <div data-fan-poll-admin-dashboard hidden class="fan-poll-admin-shell">
       <div class="fan-poll-admin-actions">
-        <a class="button button-outline" href="/admin/">Admin</a>
         <a class="button button-outline" href="/fan-poll/" target="_blank" rel="noopener">View public Fan Poll</a>
       </div>
       <p class="fan-poll-admin-message" data-fan-poll-admin-message role="status">Loading fan poll weeks.</p>
@@ -51,13 +46,17 @@ export function adminFanPollPage(site) {
         <div class="fan-poll-admin-table-wrap"><table class="fan-poll-admin-table"><thead><tr><th>Poll</th><th>Voting window</th><th>Status</th><th>Ballots</th><th>Action</th></tr></thead><tbody data-fan-poll-admin-rows></tbody></table></div>
       </section>
     </div>
-  </div></section>
-  <script src="/scripts/admin-fan-poll.js" defer></script>`;
-  return layout({
+  </div>`;
+
+  return adminShell({
     site,
+    pathname: "/admin/fan-poll/",
     title: "Fan Poll Admin",
     description: "Schedule Fan Poll voting weeks and open or close voting per sport, gender, and division.",
-    pathname: "/admin/fan-poll/",
-    content
+    heading: "Fan Poll",
+    intro: "Schedule voting weeks and open or close voting per sport, gender, and division. Only cross country is turned on for voters right now -- see docs/DECISIONS.md, 2026-08-06.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-fan-poll.js"]
   });
 }

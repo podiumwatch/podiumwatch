@@ -128,6 +128,17 @@ export function layout({ site, title, description, pathname, content, image, can
     "/follow/"
   ];
   const resolvedRobots = robots || (privatePrefixes.some((prefix) => pathname.startsWith(prefix)) ? "noindex, nofollow" : "index, follow");
+  // Admin pages get their own stylesheet + shell script injected here,
+  // in <head> (render-blocking), so the persistent sidebar is fully
+  // styled on first paint -- no flash of unstyled chrome. Landing this
+  // in layout() rather than per-page also means every admin page gets
+  // it immediately, including ones not yet migrated to adminShell()
+  // (src/lib/adminshell.mjs), which is what makes a page-at-a-time
+  // rollout safe. See docs/DECISIONS.md, 2026-08-16.
+  const isAdminRoute = pathname.startsWith("/admin/");
+  const adminHead = isAdminRoute
+    ? '\n<link rel="stylesheet" href="/styles/admin.css">\n<script src="/scripts/admin-shell.js" defer></script>'
+    : "";
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -138,7 +149,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 <link rel="icon" href="/images/branding/favicon.ico" sizes="any">
 <link rel="icon" href="/images/branding/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
-<link rel="stylesheet" href="/styles/main.css">
+<link rel="stylesheet" href="/styles/main.css">${adminHead}
 <script src="/scripts/site.js" defer></script>
 <script>
   window.va = window.va || function () {

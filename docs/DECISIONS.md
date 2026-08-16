@@ -638,3 +638,54 @@ Both scope choices came directly from the user via `AskUserQuestion`. A coach-is
 ### Follow up
 
 Decide whether/when to build Phase Three (parent/follower access, live team following with explicit public/private split controls) -- not precluded by anything built here. Decide whether/when `race_coach_notes` ever gets a real visibility/approval mechanism, which would be required before any athlete-facing coach-note feature could be built. Full detail in `docs/SESSION_LOG.md`, 2026-08-13.
+
+## 2026 08 16 Admin dashboard redesign
+
+### Decision
+
+Replaced the admin section's flat, hand-coded 15-button nav grid (screenshot supplied by the user: a wall of black-bordered buttons under a "Meet Manager" heading) with a persistent sidebar present on every `/admin/*` page, plus a real dashboard landing page, badge counts, a quick-jump search, and browser-local pinned/recent tools. Split what used to BE `/admin/` (1184 lines: the Meet Manager tool with a nav grid stapled to the top of it) into a true dashboard (`/admin/`) and its own route (`/admin/meets/`). Visual language is a hybrid: the brand's existing black/green/Impact-font/sharp-corner chrome for the sidebar and nav, denser hairline-bordered cards (no shadows, no rounding) for data-dense areas like the needs-attention panel and stat tiles.
+
+### Reason
+
+The user asked for three things: easier navigation between tools, a professional look, and feature ideas they hadn't thought of. An audit before planning found the real problem wasn't cosmetic -- `/admin/` wasn't a dashboard at all, and every other admin page hand-picked 2-3 "related tool" links, different and inconsistent per file, with no way back to most of the other 13 tools short of returning to `/admin/` first. A persistent, complete sidebar directly fixes that. The needs-attention panel and badges reuse Operations Center's already-computed, already-correct prioritized task list (extracted, not rewritten) rather than inventing a second implementation that could drift out of sync with it.
+
+### Key implementation decisions worth recording
+
+1. **Nav config is one shared array (`src/lib/adminnav.mjs`), not per-page hardcoded links.** Mirrors the existing `src/lib/tools.mjs` pattern. Read at build time by every admin page and mirrored to the browser as `window.PODIUM_ADMIN_NAV` for client-side badge/search rendering.
+2. **The shell is entirely static, server-rendered HTML.** This is a build-time static site generator with no per-request server rendering -- badges, pins, recent-tools, and quick-jump are all added client-side on top of markup that already works with JS disabled. The admin CSS/script are injected once in `layout()` (a new `pathname.startsWith("/admin/")` branch, the only edit to that shared file) rather than per-page, which is what made migrating pages one at a time safe.
+3. **Badge/needs-attention data is a payload projection, not a new query set.** `lib/operations_service.mjs` (new) holds `getDashboard()`, extracted verbatim from `api/admin/operations.js` with zero behavior change; a new `summarizeDashboard()` projects `{tasks, summary}` (~8KB) for the new `api/admin/dashboard-summary.js` endpoint, versus the full response's hundreds of KB. Server-side query cost (~24 parallel Supabase queries) is unchanged in this pass -- the win is payload size and a stable contract a future cheap-count-query optimization can drop behind with zero client changes.
+4. **Pinned/recent tools are `localStorage`-only, by necessity not choice.** `lib/admin_auth.mjs` has a single shared password and no per-admin identity of any kind -- there is no server-side place to store "this admin's" preferences.
+5. **Quick-jump had a real collision to solve, not just build.** `public/scripts/site.js` already binds Ctrl/Cmd+K and `/` on `document` in the bubble phase for the public search dialog. The admin shortcut is registered with `{ capture: true }` plus `stopPropagation()`, which runs before site.js's handler ever fires -- confirmed live that a naive second bubble-phase listener would have opened both dialogs on the same keypress.
+6. **Four hrefs found pointing at a permanent dead end, fixed honestly rather than guessed at.** Four Operations Center tasks (AOTW/TOTW scheduling/announcing) pointed at `/admin/` under the label "Open award management" -- there has never been an admin award-management tool anywhere in this codebase (`api/aotw/*`/`api/totw/*` have no `isAdminRequest` gate at all). Repointed to `/admin/operations/` with the honest label "Review award status" (Operations Center's own awards section really does show AOTW/TOTW phase); building the missing tool itself is a separate, unstarted feature.
+7. **`public/scripts/admin.js` renamed to `admin-meets.js`, content untouched.** Confirmed precisely (not assumed) that it was loaded by exactly one page and is not shared session infrastructure -- it throws immediately on any page missing `[data-meet-form]` (15+ unguarded `querySelector` calls at module top level), so the safest possible move for the Meet Manager split was a verbatim rename, not a retype.
+
+### Two real bugs found live during Playwright verification, both fixed (not test-script workarounds)
+
+1. **A CSS positioning bug**: pin buttons were positioned `position: absolute` relative to the whole group container (`.admin-nav-group-items`) instead of their own row, so every pin button in a multi-item group rendered at the same point -- clicking one tool's pin button actually activated a different tool's. Fixed by wrapping each nav item + pin button pair in its own `.admin-nav-row` positioning context.
+2. **A stale-session bug**: `admin-shell.js` fires its dashboard-summary fetch unconditionally the moment its script runs, which on a fresh, not-yet-authenticated `/admin/` load happens before the login form is even submitted -- it memoized an "anonymous" 401 result that a successful in-page login never refreshed, so badges/stats stayed empty until a manual reload. Fixed by having the login success handler explicitly bypass the memoized cache for one fresh, now-authenticated fetch.
+
+A third finding was a limitation in the verification harness itself, not the app: the local test server only read request bodies for POST, but `api/admin/meets.js`'s DELETE handler legitimately expects a JSON body too (which real Vercel functions parse regardless of method) -- fixed in the harness, not the app.
+
+A fourth, real bug surfaced only by the user's own manual browsing of a persistent local preview, not by any scripted Playwright check: `bodyClass: "admin-shell"` put that class on `<body>` itself, and the sidebar's own grid wrapper `<div>` was independently also named `admin-shell` -- the identical class. The bare `.admin-shell { display: grid; ... }` rule matched both, silently making `<body>` itself a 2-column grid and dragging the real header/main/footer into it (visible as an overlapping header and a footer squeezed into a ~268px column). Fixed by renaming the wrapper to `.admin-layout`. Worth remembering: every automated check this session drove exact known routes and never rendered a full page the way a person scrolling through it actually would -- that gap is exactly what caught this one.
+
+### Alternatives considered
+
+1. Redesign only the `/admin/` landing page, leaving each tool page's own hand-picked back-links as-is -- rejected; doesn't fix the actual complaint (getting *between* tools, not just getting *to* the dashboard).
+2. A full SaaS-style rounded-corner/shadow visual overhaul matching Operations/Engagement Center's own existing inline styles -- rejected in favor of the hybrid; keeps the site's actual brand identity intact rather than replacing it.
+3. Server-backed personalization (a lightweight admin-accounts table) -- rejected as out of scope; would require redesigning the single-shared-password auth model this pass doesn't touch.
+4. Leaving Meet Manager on `/admin/` and only redesigning the nav portion above it -- rejected; `/admin/` needed to become a real, fast dashboard, and Team Manager already established the "give it its own route" precedent.
+
+### Files or systems affected
+
+1. `src/lib/adminnav.mjs`, `src/lib/adminshell.mjs`, `src/styles/admin.css` (new) -- shared nav config, shell wrapper, admin-only CSS (never touches `src/styles/main.css`, which two test suites assert literal text against)
+2. `src/lib/html.mjs` -- one new conditional branch in `layout()`
+3. `public/scripts/admin-shell.js`, `public/scripts/admin-dashboard.js` (new)
+4. `src/pages/admin.mjs` (rewritten: 1184 lines -> ~150, now the dashboard) and `src/pages/adminmeets.mjs` (new, the extracted Meet Manager)
+5. `public/scripts/admin.js` renamed to `admin-meets.js`, content unchanged
+6. `lib/operations_service.mjs` (new, extracted) and `api/admin/dashboard-summary.js` (new); `api/admin/operations.js` shrunk to a thin handler
+7. All 14 other `src/pages/admin*.mjs` files -- mechanical migration to `adminShell()`
+8. `scripts/test-recruiting-foundation.mjs` -- one-line fix (reads the moved literal strings from `lib/operations_service.mjs` instead of `api/admin/operations.js`)
+
+### Follow up
+
+Fold Operations Center's and Engagement Center's own ~350/~30-line inline `<style>` blocks (their own competing rounded-corner/shadow language, left untouched this pass since their class-prefixed selectors can't collide) into `admin.css`'s shared primitives once proven. Decide whether/when to build a real admin award-management tool, now that the dead-end links pointing nowhere have at least been made honest. Consider container queries for the sidebar's ~296px width impact on mid-width (1200-1440px) tool pages, currently mitigated only by the manual sidebar-collapse control. Full detail in `docs/SESSION_LOG.md`, 2026-08-16.

@@ -1,0 +1,350 @@
+/* Podium Watch admin section -- shared chrome for the persistent sidebar,
+   quick-jump search, needs-attention panel, and stat tiles introduced in
+   the admin redesign (docs/DECISIONS.md, 2026-08-16).
+
+   Everything in this file is scoped under body.admin-shell so it can
+   never leak onto a public page, and src/styles/main.css is never edited
+   -- two test suites (scripts/test-recruiting-foundation.mjs,
+   scripts/test-path-to-state.mjs) assert literal text against main.css's
+   exact contents, so a second, separate file is the safe way to add new
+   admin-only rules. Reuses main.css's own tokens throughout
+   (--black/--ink/--green/--paper/--radius:0/Impact) rather than
+   inventing a new palette -- the "hybrid" style is the brand's existing
+   chrome with denser, hairline-bordered cards for data, not a new look. */
+
+body.admin-shell .sports-ticker,
+body.admin-shell .section-nav {
+  display: none;
+}
+
+body.admin-shell {
+  background: var(--paper);
+}
+
+body.admin-shell .page-hero {
+  padding: 30px 0 22px;
+}
+
+/* ---- Shell grid ---------------------------------------------------- */
+
+/* Deliberately named .admin-layout, not .admin-shell -- the <body> tag
+   also carries the class "admin-shell" (via adminShell()'s bodyClass,
+   used to scope every rule in this file under body.admin-shell). Naming
+   this grid wrapper div the identical "admin-shell" class made the bare
+   selector below match BOTH of them at once, silently turning <body>
+   itself into this same 2-column grid and dragging header/main/footer
+   into grid cells they were never meant to be in -- found live (the
+   footer rendered squeezed into a ~268px column). Keeping these two
+   names visibly distinct is what prevents that collision recurring. */
+.admin-layout {
+  display: grid;
+  grid-template-columns: 268px minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+  width: min(calc(100% - 40px), 1480px);
+  margin-inline: auto;
+  padding: 0 0 70px;
+}
+
+.admin-main {
+  min-width: 0;
+}
+
+/* ---- Sidebar --------------------------------------------------------- */
+
+.admin-sidebar {
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: calc(100vh - 108px);
+  overflow-y: auto;
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+
+.admin-jump-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  margin-bottom: 10px;
+  padding: 0 14px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: .82rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.admin-jump-trigger:hover { background: var(--paper); }
+.admin-jump-trigger kbd {
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  background: var(--paper);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .68rem;
+}
+
+.admin-nav-group {
+  margin: 14px 0 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: .72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.admin-sidebar-pinned .admin-nav-group,
+.admin-sidebar-recent .admin-nav-group,
+.admin-sidebar-groups > .admin-nav-group:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.admin-nav-group-items {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Positioning context for .admin-pin below -- must be per-row, not the
+   shared group container, or every pin button in a group positions
+   relative to the group's full height and visually stacks on top of
+   each other (found live: clicking one tool's pin button actually hit
+   a different tool's, because both were rendered at the same point). */
+.admin-nav-row {
+  position: relative;
+}
+
+.admin-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 4px 34px 4px 10px;
+  border-left: 3px solid transparent;
+  color: var(--ink);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: .84rem;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+}
+.admin-nav-item:hover { border-left-color: var(--green); background: var(--paper); }
+.admin-nav-item[aria-current="page"] {
+  border-left-color: var(--black);
+  color: var(--black);
+  background: var(--paper);
+  font-weight: 700;
+}
+
+.admin-nav-mark {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  color: var(--black);
+  background: var(--white);
+  border: 1px solid var(--line);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: .64rem;
+}
+.admin-nav-item[aria-current="page"] .admin-nav-mark {
+  color: var(--black);
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.admin-nav-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.admin-badge {
+  flex: none;
+  min-width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 5px;
+  color: var(--white);
+  background: var(--muted);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: .72rem;
+}
+.admin-badge[data-tone="urgent"] { background: var(--danger); }
+.admin-badge[data-tone="important"] { color: var(--black); background: #e8a317; }
+.admin-badge[data-tone="routine"] { background: var(--muted); }
+
+.admin-pin {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  color: var(--muted);
+  background: transparent;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.admin-pin:hover { border-color: var(--line); color: var(--ink); }
+.admin-pin[aria-pressed="true"] { color: var(--green-dark); }
+
+.admin-sidebar-groups summary {
+  margin: 4px 0 2px;
+  color: var(--muted);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: .72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.admin-sidebar-groups[open] summary { display: none; }
+
+.admin-sidebar-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .78rem;
+}
+.admin-sidebar-collapse {
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: transparent;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .74rem;
+  cursor: pointer;
+}
+
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-layout { grid-template-columns: 64px minmax(0, 1fr); }
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-nav-label,
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-nav-group,
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-jump-trigger span,
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-jump-trigger kbd,
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-pin,
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-badge,
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-sidebar-foot span {
+  display: none;
+}
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-sidebar { padding: 18px 8px; }
+body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-nav-item { justify-content: center; padding-right: 4px; }
+
+/* ---- Needs-attention task cards -------------------------------------- */
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  margin-bottom: 26px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.admin-stat {
+  padding: 16px 18px;
+  background: var(--white);
+}
+.admin-stat strong {
+  display: block;
+  color: var(--green-dark);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+.admin-stat span {
+  color: var(--muted);
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.admin-tasks { display: flex; flex-direction: column; gap: 10px; }
+.admin-task {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--muted);
+  background: var(--white);
+}
+.admin-task[data-priority="urgent"] { border-left-color: var(--danger); }
+.admin-task[data-priority="important"] { border-left-color: #e8a317; }
+.admin-task h3 {
+  margin: 0 0 4px;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.05rem;
+  text-transform: none;
+}
+.admin-task p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+/* ---- Quick-jump dialog ------------------------------------------------ */
+
+.admin-jump {
+  padding: 0;
+  width: min(560px, calc(100% - 32px));
+  border: 2px solid var(--black);
+}
+.admin-jump::backdrop { background: rgba(9, 9, 9, .55); }
+.admin-jump-inner { padding: 18px; }
+.admin-jump-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.admin-jump-heading input {
+  flex: 1;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+.admin-jump-close {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  background: transparent;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+}
+.admin-jump ul { list-style: none; margin: 0; padding: 0; max-height: 360px; overflow-y: auto; }
+.admin-jump li a {
+  display: block;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.admin-jump li a strong {
+  display: block;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.admin-jump li a span { color: var(--muted); font-size: .82rem; }
+.admin-jump li[data-active="true"] a { background: var(--paper); }
+.admin-jump-hint { margin: 10px 0 0; color: var(--muted); font-size: .76rem; }
+
+/* ---- Responsive -------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .admin-layout { grid-template-columns: 1fr; }
+  .admin-sidebar { position: static; max-height: none; }
+  body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px) {
+  .admin-layout { padding-bottom: 84px; }
+}

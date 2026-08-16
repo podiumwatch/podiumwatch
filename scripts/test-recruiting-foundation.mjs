@@ -49,7 +49,10 @@ const recruitingDirectoryScript = await read("public/scripts/recruiting-director
 const mainStyles = await read("src/styles/main.css");
 const packageFile = await read("package.json");
 const template = await read("public/data/performance-import-template.csv");
-const operationsApi = await read("api/admin/operations.js");
+// Moved to lib/operations_service.mjs 2026-08-16 (admin redesign) -- the
+// task-building logic this test asserts against lives there now;
+// api/admin/operations.js is a thin handler that imports it.
+const operationsApi = await read("lib/operations_service.mjs");
 const recruitingServiceSource = await read("lib/recruiting_service.mjs");
 
 includesAll(

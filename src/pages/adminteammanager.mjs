@@ -1,17 +1,6 @@
-import {
-  layout,
-  pageHero
-} from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminTeamManagerPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Team Manager.",
-    description:
-      "Search every team, manage owners and editors, review claims and reports, merge duplicates, archive profiles, and see the full change history."
-  })}
-
-  <style>
+const styles = `
     .team-manager-shell,
     .team-manager-list,
     .team-manager-detail-grid,
@@ -291,11 +280,10 @@ export function adminTeamManagerPage(site) {
         display: grid;
       }
     }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container">
-      <div class="team-manager-shell">
+export function adminTeamManagerPage(site) {
+  const content = `<div class="team-manager-shell">
         <div class="info-card" data-team-manager-loading>
           <h2>Checking admin access</h2>
           <p>Podium Watch is confirming your secure admin session.</p>
@@ -310,9 +298,7 @@ export function adminTeamManagerPage(site) {
             </div>
 
             <div class="team-manager-tools">
-              <a class="button button-primary" href="/admin/teams/">Bulk team import</a>
               <a class="button button-outline" href="/teams/" target="_blank" rel="noopener noreferrer">Public directory</a>
-              <a class="button button-outline" href="/admin/">Main admin</a>
             </div>
           </div>
 
@@ -436,8 +422,6 @@ export function adminTeamManagerPage(site) {
           </section>
         </div>
       </div>
-    </div>
-  </section>
 
   <section class="team-manager-detail" data-team-detail-panel hidden>
     <div class="team-manager-detail-card">
@@ -545,15 +529,17 @@ export function adminTeamManagerPage(site) {
         </section>
       </div>
     </div>
-  </section>
+  </section>`;
 
-  <script src="/scripts/admin-team-manager.js" defer></script>`;
-
-  return layout({
+  return adminShell({
     site,
+    pathname: "/admin/team-manager/",
     title: "Admin Team Manager",
     description: "Manage all Podium Watch team profiles, owners, claims, reports, duplicates, archives, and change history.",
-    pathname: "/admin/team-manager/",
-    content
+    heading: "Team Manager.",
+    intro: "Search every team, manage owners and editors, review claims and reports, merge duplicates, archive profiles, and see the full change history.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-team-manager.js"]
   });
 }

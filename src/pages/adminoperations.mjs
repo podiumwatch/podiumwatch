@@ -1,7 +1,4 @@
-import {
-  layout,
-  pageHero
-} from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
 function safeJson(value) {
   return JSON.stringify(value)
@@ -18,72 +15,7 @@ function toDateValue(value) {
     : date.getTime();
 }
 
-export function adminOperationsPage(
-  site,
-  {
-    stories = [],
-    rankings = []
-  } = {}
-) {
-  const now = Date.now();
-  const staleAfterDays = 21;
-  const staleCutoff =
-    now - staleAfterDays * 24 * 60 * 60 * 1000;
-
-  const latestStory = [...stories]
-    .sort(
-      (first, second) =>
-        toDateValue(second.updatedDate || second.date) -
-        toDateValue(first.updatedDate || first.date)
-    )[0] || null;
-
-  const staleRankings = rankings
-    .filter(
-      (ranking) =>
-        toDateValue(ranking.updatedDate) <
-        staleCutoff
-    )
-    .map((ranking) => ({
-      title: ranking.title,
-      updatedDate: ranking.updatedDate,
-      href: ranking.href
-    }));
-
-  const staticData = {
-    generatedAt: new Date().toISOString(),
-    stories: {
-      count: stories.length,
-      latest: latestStory
-        ? {
-            title: latestStory.title,
-            date:
-              latestStory.updatedDate ||
-              latestStory.date,
-            href: `/stories/${latestStory.slug}/`
-          }
-        : null
-    },
-    rankings: {
-      count: rankings.length,
-      staleAfterDays,
-      stale: staleRankings,
-      latestUpdatedDate:
-        rankings
-          .map((ranking) => ranking.updatedDate)
-          .filter(Boolean)
-          .sort()
-          .at(-1) || null
-    }
-  };
-
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Operations Center.",
-    description:
-      "See what needs attention, what is coming next, and how the entire Podium Watch platform is performing from one secure dashboard."
-  })}
-
-  <style>
+const styles = `
     .operations-shell {
       display: grid;
       gap: 26px;
@@ -433,11 +365,67 @@ export function adminOperationsPage(
         justify-content: flex-start;
       }
     }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container">
-      <div class="operations-shell">
+export function adminOperationsPage(
+  site,
+  {
+    stories = [],
+    rankings = []
+  } = {}
+) {
+  const now = Date.now();
+  const staleAfterDays = 21;
+  const staleCutoff =
+    now - staleAfterDays * 24 * 60 * 60 * 1000;
+
+  const latestStory = [...stories]
+    .sort(
+      (first, second) =>
+        toDateValue(second.updatedDate || second.date) -
+        toDateValue(first.updatedDate || first.date)
+    )[0] || null;
+
+  const staleRankings = rankings
+    .filter(
+      (ranking) =>
+        toDateValue(ranking.updatedDate) <
+        staleCutoff
+    )
+    .map((ranking) => ({
+      title: ranking.title,
+      updatedDate: ranking.updatedDate,
+      href: ranking.href
+    }));
+
+  const staticData = {
+    generatedAt: new Date().toISOString(),
+    stories: {
+      count: stories.length,
+      latest: latestStory
+        ? {
+            title: latestStory.title,
+            date:
+              latestStory.updatedDate ||
+              latestStory.date,
+            href: `/stories/${latestStory.slug}/`
+          }
+        : null
+    },
+    rankings: {
+      count: rankings.length,
+      staleAfterDays,
+      stale: staleRankings,
+      latestUpdatedDate:
+        rankings
+          .map((ranking) => ranking.updatedDate)
+          .filter(Boolean)
+          .sort()
+          .at(-1) || null
+    }
+  };
+
+  const content = `<div class="operations-shell">
         <div
           class="info-card"
           data-operations-loading
@@ -540,7 +528,7 @@ export function adminOperationsPage(
 
               <a
                 class="button button-outline"
-                href="/admin/"
+                href="/admin/meets/"
               >
                 Meet Manager
               </a>
@@ -728,7 +716,7 @@ export function adminOperationsPage(
                     <h2>Next meets</h2>
                   </div>
 
-                  <a href="/admin/">
+                  <a href="/admin/meets/">
                     Manage meets
                   </a>
                 </div>
@@ -773,7 +761,7 @@ export function adminOperationsPage(
                     Create meet pages, publish updates,
                     and add results.
                   </p>
-                  <a href="/admin/">
+                  <a href="/admin/meets/">
                     Open Meet Manager
                   </a>
                 </article>
@@ -922,7 +910,7 @@ export function adminOperationsPage(
 
                 <a
                   class="button button-outline"
-                  href="/admin/"
+                  href="/admin/meets/"
                 >
                   Open Meet Manager
                 </a>
@@ -1309,25 +1297,21 @@ export function adminOperationsPage(
           </section>
         </div>
       </div>
-    </div>
-  </section>
 
   <script>
     window.PODIUM_OPERATIONS_STATIC =
       ${safeJson(staticData)};
-  </script>
+  </script>`;
 
-  <script
-    src="/scripts/admin-operations.js"
-    defer
-  ></script>`;
-
-  return layout({
+  return adminShell({
     site,
-    title: "Operations Center",
-    description:
-      "Private Podium Watch operations dashboard for meets, teams, content, weekly awards, analytics, notifications, and sponsors.",
     pathname: "/admin/operations/",
-    content
+    title: "Operations Center",
+    description: "Private Podium Watch operations dashboard for meets, teams, content, weekly awards, analytics, notifications, and sponsors.",
+    heading: "Operations Center.",
+    intro: "See what needs attention, what is coming next, and how the entire Podium Watch platform is performing from one secure dashboard.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-operations.js"]
   });
 }

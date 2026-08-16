@@ -1,14 +1,6 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminAthletesPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Athlete Data Center.",
-    description:
-      "Preview the athlete seed, review possible duplicates, manage public profiles, add sourced performances, and resolve corrections."
-  })}
-
-  <style>
+const styles = `
     .athlete-admin-shell { display:grid; gap:24px; }
     .athlete-admin-message { margin:0; padding:14px 17px; border-radius:10px; background:rgba(0,191,99,.12); font-weight:800; }
     .athlete-admin-message[data-tone="error"] { color:#991b1b; background:rgba(220,38,38,.12); }
@@ -46,10 +38,10 @@ export function adminAthletesPage(site) {
     .athlete-admin-profile-button span { margin-top:4px; color:#64748b; }
     @media (max-width:900px) { .athlete-admin-grid { grid-template-columns:1fr; } }
     @media (max-width:650px) { .athlete-admin-fields { grid-template-columns:1fr; } .athlete-admin-wide { grid-column:auto; } .athlete-admin-actions { display:grid; grid-template-columns:1fr; } .athlete-admin-actions .button { width:100%; justify-content:center; } }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container athlete-admin-shell" data-athlete-admin>
+export function adminAthletesPage(site) {
+  const content = `<div class="athlete-admin-shell" data-athlete-admin>
       <div class="info-card" data-athlete-admin-loading><h2>Checking admin access.</h2><p>Loading the Athlete Data Center.</p></div>
 
       <div data-athlete-admin-dashboard hidden>
@@ -160,17 +152,17 @@ export function adminAthletesPage(site) {
           <section class="info-card athlete-admin-panel"><div><p class="eyebrow">Duplicate protection</p><h2>Possible duplicate groups</h2></div><div data-athlete-duplicate-groups></div><form class="athlete-admin-form" data-athlete-merge-form><label>Source profile ID<input name="source_profile_id" required></label><label>Target profile ID<input name="target_profile_id" required></label><label>Reason<textarea name="reason"></textarea></label><label class="athlete-admin-checkbox"><input type="checkbox" name="confirm" required>I reviewed both profiles and confirm this merge</label><button class="button button-dark" type="submit">Merge profiles</button></form></section>
         </div>
       </div>
-    </div>
-  </section>
+    </div>`;
 
-  <script src="/scripts/admin-athletes.js" defer></script>`;
-
-  return layout({
+  return adminShell({
     site,
-    title: "Athlete Data Center",
-    description:
-      "Private Podium Watch athlete profile, performance, import, correction, duplicate, and recruiting administration.",
     pathname: "/admin/athletes/",
-    content
+    title: "Athlete Data Center",
+    description: "Private Podium Watch athlete profile, performance, import, correction, duplicate, and recruiting administration.",
+    heading: "Athlete Data Center.",
+    intro: "Preview the athlete seed, review possible duplicates, manage public profiles, add sourced performances, and resolve corrections.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-athletes.js"]
   });
 }

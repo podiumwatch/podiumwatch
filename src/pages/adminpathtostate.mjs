@@ -1,12 +1,6 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminPathToStatePage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Path to State",
-    description: "Search for a team and manually set its OHSAA cross country tournament advancement status per stage. Public team and athlete pages pick up a change within a few minutes."
-  })}
-  <style>
+const styles = `
     .path-admin-shell { display: grid; gap: 20px; }
     .path-admin-actions { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
     .path-admin-actions input[type="number"] { width: 100px; padding: 8px 10px; border: 1px solid rgba(15,23,42,.22); border-radius: 8px; font: inherit; }
@@ -34,12 +28,13 @@ export function adminPathToStatePage(site) {
     .path-admin-threshold-table th, .path-admin-threshold-table td { padding: 8px 10px; border-bottom: 1px solid rgba(15,23,42,.09); text-align: left; }
     .path-admin-threshold-table th { background: #111; color: #fff; font-size: .7rem; text-transform: uppercase; }
     @media (max-width: 700px) { .path-admin-actions { display: grid; } .path-admin-actions .button { width: 100%; justify-content: center; } }
-  </style>
-  <section class="section section-paper"><div class="container path-admin-shell" data-path-admin-manager>
+`;
+
+export function adminPathToStatePage(site) {
+  const content = `<div class="path-admin-shell" data-path-admin-manager>
     <section class="info-card" data-path-admin-loading><h2>Checking admin access</h2><p>Please wait.</p></section>
     <div data-path-admin-dashboard hidden class="path-admin-shell">
       <div class="path-admin-actions">
-        <a class="button button-outline" href="/admin/">Admin</a>
         <label>Season year <input type="number" data-path-admin-season value="2026"></label>
       </div>
       <p class="path-admin-message" data-path-admin-message role="status">Loading.</p>
@@ -64,13 +59,17 @@ export function adminPathToStatePage(site) {
         <div class="path-admin-threshold-table-wrap"><table class="path-admin-threshold-table"><thead><tr><th>Division</th><th>Gender</th><th>Stage</th><th>Scope</th><th>Teams</th><th>Individuals</th></tr></thead><tbody data-path-admin-threshold-rows></tbody></table></div>
       </section>
     </div>
-  </div></section>
-  <script src="/scripts/admin-path-to-state.js" defer></script>`;
-  return layout({
+  </div>`;
+
+  return adminShell({
     site,
+    pathname: "/admin/path-to-state/",
     title: "Path to State Admin",
     description: "Search for a team and manually set its OHSAA cross country tournament advancement status per stage.",
-    pathname: "/admin/path-to-state/",
-    content
+    heading: "Path to State",
+    intro: "Search for a team and manually set its OHSAA cross country tournament advancement status per stage. Public team and athlete pages pick up a change within a few minutes.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-path-to-state.js"]
   });
 }

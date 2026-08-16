@@ -1,17 +1,6 @@
-import {
-  layout,
-  pageHero
-} from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminTeamContentPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Team Content Manager.",
-    description:
-      "Review every team's announcements, results, achievements, media, recruiting information, and Podium Watch coverage."
-  })}
-
-  <style>
+const styles = `
     .admin-content-shell {
       display: grid;
       gap: 28px;
@@ -147,86 +136,70 @@ export function adminTeamContentPage(site) {
         justify-content: center;
       }
     }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container">
-      <div class="info-card" data-admin-content-loading>
-        <h2>Checking admin access</h2>
-        <p>Podium Watch is loading the Team Content Manager.</p>
+export function adminTeamContentPage(site) {
+  const content = `<div class="info-card" data-admin-content-loading>
+    <h2>Checking admin access</h2>
+    <p>Podium Watch is loading the Team Content Manager.</p>
+  </div>
+
+  <div class="admin-content-shell" data-admin-content hidden>
+    <p class="admin-content-message" data-admin-content-message aria-live="polite" hidden></p>
+
+    <section class="info-card">
+      <p class="eyebrow">Content totals</p>
+      <h2>Publishing overview</h2>
+
+      <div class="admin-content-summary">
+        <div class="admin-content-summary-card"><strong data-admin-content-total>0</strong><span>Total items</span></div>
+        <div class="admin-content-summary-card"><strong data-admin-content-published>0</strong><span>Published</span></div>
+        <div class="admin-content-summary-card"><strong data-admin-content-draft>0</strong><span>Drafts</span></div>
+        <div class="admin-content-summary-card"><strong data-admin-content-featured>0</strong><span>Featured</span></div>
+        <div class="admin-content-summary-card"><strong data-admin-content-suspended>0</strong><span>Hidden</span></div>
+        <div class="admin-content-summary-card"><strong data-admin-content-locked>0</strong><span>Admin locked</span></div>
       </div>
+    </section>
 
-      <div class="admin-content-shell" data-admin-content hidden>
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Team moderation</p>
-            <h2>Content across every team</h2>
-          </div>
+    <section class="info-card">
+      <p class="eyebrow">Find a program</p>
+      <h2>Open any team's Content Hub</h2>
 
-          <div class="admin-content-actions">
-            <a class="button button-outline" href="/admin/">Main admin</a>
-            <a class="button button-outline" href="/admin/team-manager/">Team Manager</a>
-            <a class="button button-outline" href="/admin/team-rosters/">Team Rosters</a>
-            <a class="button button-outline" href="/admin/team-schedules/">Team Schedules</a>
-          </div>
-        </div>
+      <form class="admin-content-search" data-admin-content-search-form>
+        <label>
+          <strong>School, city, mascot, conference, or page address</strong>
+          <input type="search" name="search" placeholder="Search team profiles">
+        </label>
+        <button class="button button-primary" type="submit">Search teams</button>
+      </form>
 
-        <p class="admin-content-message" data-admin-content-message aria-live="polite" hidden></p>
-
-        <section class="info-card">
-          <p class="eyebrow">Content totals</p>
-          <h2>Publishing overview</h2>
-
-          <div class="admin-content-summary">
-            <div class="admin-content-summary-card"><strong data-admin-content-total>0</strong><span>Total items</span></div>
-            <div class="admin-content-summary-card"><strong data-admin-content-published>0</strong><span>Published</span></div>
-            <div class="admin-content-summary-card"><strong data-admin-content-draft>0</strong><span>Drafts</span></div>
-            <div class="admin-content-summary-card"><strong data-admin-content-featured>0</strong><span>Featured</span></div>
-            <div class="admin-content-summary-card"><strong data-admin-content-suspended>0</strong><span>Hidden</span></div>
-            <div class="admin-content-summary-card"><strong data-admin-content-locked>0</strong><span>Admin locked</span></div>
-          </div>
-        </section>
-
-        <section class="info-card">
-          <p class="eyebrow">Find a program</p>
-          <h2>Open any team's Content Hub</h2>
-
-          <form class="admin-content-search" data-admin-content-search-form>
-            <label>
-              <strong>School, city, mascot, conference, or page address</strong>
-              <input type="search" name="search" placeholder="Search team profiles">
-            </label>
-            <button class="button button-primary" type="submit">Search teams</button>
-          </form>
-
-          <div class="admin-content-team-list" data-admin-content-team-list style="margin-top:20px;"></div>
-          <div class="admin-content-empty" data-admin-content-team-empty hidden>
-            <h3>No teams found</h3>
-            <p>Try a different school, city, mascot, or conference.</p>
-          </div>
-        </section>
-
-        <section class="info-card">
-          <p class="eyebrow">Recently changed</p>
-          <h2>Latest team content</h2>
-          <div class="admin-content-recent-list" data-admin-content-recent-list></div>
-          <div class="admin-content-empty" data-admin-content-recent-empty hidden>
-            <h3>No team content yet</h3>
-            <p>New announcements, results, achievements, media, and coverage will appear here.</p>
-          </div>
-        </section>
+      <div class="admin-content-team-list" data-admin-content-team-list style="margin-top:20px;"></div>
+      <div class="admin-content-empty" data-admin-content-team-empty hidden>
+        <h3>No teams found</h3>
+        <p>Try a different school, city, mascot, or conference.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <script src="/scripts/admin-team-content.js" defer></script>`;
+    <section class="info-card">
+      <p class="eyebrow">Recently changed</p>
+      <h2>Latest team content</h2>
+      <div class="admin-content-recent-list" data-admin-content-recent-list></div>
+      <div class="admin-content-empty" data-admin-content-recent-empty hidden>
+        <h3>No team content yet</h3>
+        <p>New announcements, results, achievements, media, and coverage will appear here.</p>
+      </div>
+    </section>
+  </div>`;
 
-  return layout({
+  return adminShell({
     site,
-    title: "Admin Team Content Manager",
-    description:
-      "Review and manage announcements, results, achievements, media, recruiting information, and Podium Watch coverage for every team.",
     pathname: "/admin/team-content/",
-    content
+    title: "Admin Team Content Manager",
+    description: "Review and manage announcements, results, achievements, media, recruiting information, and Podium Watch coverage for every team.",
+    heading: "Team Content Manager.",
+    intro: "Review every team's announcements, results, achievements, media, recruiting information, and Podium Watch coverage.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-team-content.js"]
   });
 }

@@ -1,14 +1,6 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminStatewideDataPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Statewide Data Center.",
-    description:
-      "Import official Ohio school records, connect team pages, review division conflicts, and preserve source history from one secure workspace."
-  })}
-
-  <style>
+const styles = `
     .statewide-admin-shell { display:grid; gap:24px; }
     .statewide-admin-message { margin:0; padding:14px 17px; border-radius:10px; background:rgba(0,191,99,.12); font-weight:800; }
     .statewide-admin-message[data-tone="error"] { color:#991b1b; background:rgba(220,38,38,.12); }
@@ -40,10 +32,10 @@ export function adminStatewideDataPage(site) {
       .statewide-admin-actions { display:grid; grid-template-columns:1fr; }
       .statewide-admin-actions .button { width:100%; justify-content:center; }
     }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container statewide-admin-shell" data-statewide-admin>
+export function adminStatewideDataPage(site) {
+  const content = `<div class="statewide-admin-shell" data-statewide-admin>
       <div class="info-card" data-statewide-auth-loading>
         <h2>Checking admin access</h2>
         <p>Podium Watch is confirming your secure admin session.</p>
@@ -60,8 +52,6 @@ export function adminStatewideDataPage(site) {
 
           <div class="statewide-admin-actions">
             <button class="button button-outline" type="button" data-statewide-refresh>Refresh</button>
-            <a class="button button-primary" href="/admin/operations/">Operations Center</a>
-            <a class="button button-outline" href="/admin/">Main admin</a>
           </div>
         </div>
 
@@ -197,17 +187,17 @@ export function adminStatewideDataPage(site) {
           </div>
         </section>
       </div>
-    </div>
-  </section>
+    </div>`;
 
-  <script src="/scripts/admin-statewide-data.js" defer></script>`;
-
-  return layout({
+  return adminShell({
     site,
-    title: "Statewide Data Center",
-    description:
-      "Secure Podium Watch administration for Ohio school identity records, division assignments, tournament sites, team links, source history, and conflicts.",
     pathname: "/admin/statewide-data/",
-    content
+    title: "Statewide Data Center",
+    description: "Secure Podium Watch administration for Ohio school identity records, division assignments, tournament sites, team links, source history, and conflicts.",
+    heading: "Statewide Data Center.",
+    intro: "Import official Ohio school records, connect team pages, review division conflicts, and preserve source history from one secure workspace.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-statewide-data.js"]
   });
 }

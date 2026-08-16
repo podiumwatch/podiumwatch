@@ -1,17 +1,6 @@
-import {
-  layout,
-  pageHero
-} from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminTeamsPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Bulk Team Import.",
-    description:
-      "Create the full Ohio team directory and safely update only the fields you choose."
-  })}
-
-  <style>
+const styles = `
     .admin-team-shell,
     .admin-team-form,
     .admin-team-help {
@@ -191,11 +180,10 @@ export function adminTeamsPage(site) {
         justify-content: center;
       }
     }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container">
-      <div class="admin-team-shell">
+export function adminTeamsPage(site) {
+  const content = `<div class="admin-team-shell">
         <div class="info-card" data-admin-team-auth-loading>
           <h2>Checking admin access</h2>
           <p>Podium Watch is confirming your secure admin session.</p>
@@ -210,8 +198,6 @@ export function adminTeamsPage(site) {
             </div>
 
             <div class="admin-team-actions">
-              <a class="button button-primary" href="/admin/team-manager/">Open Team Manager</a>
-              <a class="button button-outline" href="/admin/">Main admin</a>
               <button class="button button-outline" type="button" data-download-team-template>Download CSV template</button>
             </div>
           </div>
@@ -323,17 +309,17 @@ export function adminTeamsPage(site) {
             </div>
           </section>
         </div>
-      </div>
-    </div>
-  </section>
+      </div>`;
 
-  <script src="/scripts/admin-team-import.js" defer></script>`;
-
-  return layout({
+  return adminShell({
     site,
+    pathname: "/admin/teams/",
     title: "Admin Team Import",
     description: "Bulk create and safely update Podium Watch team profiles.",
-    pathname: "/admin/teams/",
-    content
+    heading: "Bulk Team Import.",
+    intro: "Create the full Ohio team directory and safely update only the fields you choose.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-team-import.js"]
   });
 }

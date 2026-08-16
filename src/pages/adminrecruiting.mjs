@@ -1,14 +1,6 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
-export function adminRecruitingPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Admin",
-    title: "Recruit Ratings and Performance Center",
-    description:
-      "Import sourced performances, publish recruit ratings, and manage recruiting activity without exposing private contact information."
-  })}
-
-  <style>
+const styles = `
     .recruit-admin-shell { display:grid; gap:22px; }
     .recruit-admin-message { margin:0; padding:14px 16px; border-radius:10px; background:rgba(0,191,99,.12); font-weight:850; }
     .recruit-admin-message[data-tone="error"] { color:#991b1b; background:rgba(220,38,38,.12); }
@@ -47,10 +39,10 @@ export function adminRecruitingPage(site) {
     .recruit-admin-advanced { border:1px solid rgba(15,23,42,.12); border-radius:10px; padding:12px; }
     .recruit-admin-advanced summary { cursor:pointer; font-weight:900; }
     @media (max-width:850px) { .recruit-admin-grid, .recruit-admin-fields { grid-template-columns:1fr; } .recruit-admin-wide { grid-column:auto; } .recruit-admin-actions { display:grid; grid-template-columns:1fr; } .recruit-admin-actions .button { width:100%; justify-content:center; } }
-  </style>
+`;
 
-  <section class="section section-paper">
-    <div class="container recruit-admin-shell" data-recruit-admin>
+export function adminRecruitingPage(site) {
+  const content = `<div class="recruit-admin-shell" data-recruit-admin>
       <section class="info-card" data-recruit-admin-loading>
         <h2>Checking admin access</h2>
         <p>Please wait while the Recruit Ratings Center loads.</p>
@@ -58,8 +50,6 @@ export function adminRecruitingPage(site) {
 
       <div data-recruit-admin-dashboard hidden>
         <div class="recruit-admin-actions">
-          <a class="button button-outline" href="/admin/operations/">Operations Center</a>
-          <a class="button button-outline" href="/admin/athletes/">Athlete Data</a>
           <a class="button button-outline" href="/recruiting/" target="_blank" rel="noopener">Public recruiting database</a>
           <a class="button button-outline" href="/recruiting/methodology/" target="_blank" rel="noopener">Methodology</a>
         </div>
@@ -222,17 +212,17 @@ export function adminRecruitingPage(site) {
           </section>
         </section>
       </div>
-    </div>
-  </section>
+    </div>`;
 
-  <script src="/scripts/admin-recruiting.js" defer></script>`;
-
-  return layout({
+  return adminShell({
     site,
-    title: "Recruit Ratings and Performance Center",
-    description:
-      "Private Podium Watch performance import, recruit rating, and recruiting activity administration.",
     pathname: "/admin/recruiting/",
-    content
+    title: "Recruit Ratings and Performance Center",
+    description: "Private Podium Watch performance import, recruit rating, and recruiting activity administration.",
+    heading: "Recruit Ratings and Performance Center",
+    intro: "Import sourced performances, publish recruit ratings, and manage recruiting activity without exposing private contact information.",
+    styles,
+    content,
+    scripts: ["/scripts/admin-recruiting.js"]
   });
 }
