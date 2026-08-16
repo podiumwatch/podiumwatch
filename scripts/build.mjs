@@ -83,6 +83,7 @@ import { paceCalculatorPage } from "../src/pages/pacecalculator.mjs";
 import { splitsCalculatorPage } from "../src/pages/splitscalculator.mjs";
 import { scoringCalculatorPage } from "../src/pages/scoringcalculator.mjs";
 import { recruitingPage } from "../src/pages/recruiting.mjs";
+import { recruitingTop100Page } from "../src/pages/recruitingtop100.mjs";
 import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mjs";
 
 const root = process.cwd();
@@ -541,6 +542,8 @@ await writePage("/submit-results/", submitResultsPage(site));
 await writePage("/athletes/", athletesPage(site));
 await writePage("/recruiting/", recruitingPage(site));
 await writePage("/recruiting/methodology/", recruitingMethodologyPage(site));
+await writePage("/recruiting/top-100/boys/", recruitingTop100Page(site, { gender: "boys" }));
+await writePage("/recruiting/top-100/girls/", recruitingTop100Page(site, { gender: "girls" }));
 await writePage("/athlete/", athleteDetailPage(site));
 for (const athlete of athleteSeedRows) {
   const athletePath = `/athletes/${athlete.profile_slug}/`;

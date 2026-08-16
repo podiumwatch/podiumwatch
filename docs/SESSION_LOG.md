@@ -1370,4 +1370,47 @@ One limitation was found in the verification harness itself, not the app: it onl
 
 ### Not yet done
 
-Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
+~~Docs update in progress (this entry); `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.~~ **Update:** committed (`304267b`, after amending in the class-collision fix below), pushed, and deployed with the user's explicit approval; confirmed live at `/admin/`. This line was left stale in the original entry and corrected while writing the 2026-08-16 Ohio Top 100 entry below.
+
+## 2026 08 16 Ohio Top 100 recruits (boys and girls, Class of 2027)
+
+### Goal
+
+The user wants an ESPN SC300-style ranked list -- rank, player, position, hometown, stars, grade, school, committed school and date -- specifically for Ohio track and cross country recruiting, starting with the Class of 2027. They asked for the page to be set up now, empty of real data; real athletes get added later through the tools that already exist.
+
+### What was found before building anything
+
+An audit found this needed almost no new backend work. The existing Recruit Ratings system (`install/03_RECRUIT_RATINGS_AND_PERFORMANCE_HISTORY.sql`, `install/06_RECRUITING_TAXONOMY_AND_MEDIA.sql`) already has real 70-100 scores, auto-computed star ratings (a DB trigger, not admin-settable), a 9-event-group taxonomy, and a live-computed `state_class_rank` (a real `dense_rank()`, partitioned by `graduation_year, gender`, ordered by score) already serving `/recruiting/`, the existing searchable database. That view already **is** ESPN's "RK" column -- nothing new needed to be computed. A "hand-curated ranking set" (an admin manually typing in rank order) was explicitly proposed and declined twice already (`docs/RECRUITING_PHASE_ONE_ARCHITECTURE.md` §9 decision 3, reaffirmed in Phase Three) in favor of this exact score-based live rank -- this build kept that decision intact rather than reopening it.
+
+Three choices were confirmed with the user via `AskUserQuestion`: a **new dedicated page** (not a mode bolted onto the existing `/recruiting/` database), **text-only** committed-school display (no college-logo asset system exists and won't be built for this), and player names **link to their real Podium Watch profile** (matching the existing `/recruiting/` table's own convention -- no separate "video" link).
+
+### What was built
+
+1. **`api/recruiting/index.js`** -- one additive change: `hometown` added to the existing `athlete_profiles` select (a real column that was fetched by other endpoints but never rendered anywhere public before this). Also wired into the existing search-text matching on `/recruiting/` itself, since it was sitting right there unused. No new endpoint, no new tables, no migration -- the same `/api/recruiting` endpoint serves the new pages directly, called with `graduation_year`/`gender`/`sort=rating`/`page_size=100` pre-set. The commitment date needed no backend change at all -- `athlete_recruiting_activity` rows (already returned per athlete) already carry `activity_type`/`college_name`/`activity_date`; the new page's script just finds the `commitment`-type entry client-side.
+2. **`src/pages/recruitingtop100.mjs`** (new) -- `recruitingTop100Page(site, { gender })`, rendered twice by `scripts/build.mjs` into two real static routes: **`/recruiting/top-100/boys/`** and **`/recruiting/top-100/girls/`**. Cross-linked via `.gender-tabs`, the same real, existing sitewide component already used by `/rankings/<sport>/<gender>/...` -- chosen over a single page with a JS toggle specifically to match that existing precedent. Class year stays a lightweight client-side `<select>` (2027-2031, defaulting to 2027), matching how `/recruiting/` already treats graduation_year as a plain filter rather than a URL segment.
+3. Visual layout reuses `.ranking-list`/`.ranking-row`/`.ranking-number` from `main.css` -- an existing shared sitewide primitive (not scoped to one page) already used by `/rankings/`, and the closest existing match to ESPN's numbered-card layout. New page-scoped classes were added only for what that primitive doesn't already have: the event-group "position" tag, the stars row and score circle (copied patterns from `/recruiting/`'s own `.recruiting-stars`/`.recruiting-score`), and the committed-school-plus-date block.
+4. **`public/scripts/recruiting-top100.js`** (new) -- fetches `/api/recruiting` on load and on year-select change, renders every row from real data, and shows an honest empty state (`emptyState()` from `src/lib/html.mjs`) when a class/gender combination has no published ratings yet, which is true for all of them right now in production.
+
+### Two real, pre-existing database requirements found while building the live-verification test data (not bugs, but undocumented until now)
+
+Creating a real throwaway test athlete surfaced two DB-level trigger requirements neither the audit nor the plan had surfaced: `athlete_profiles` requires a real `normalized_name` (not auto-computed, must be set by the caller via `normalizeAthleteName()` from `lib/athlete_foundation_service.mjs`, same as every other athlete-creation code path already does), and a real trigger (`ATHLETE_RECRUITING_CONTACT_ROUTE_REQUIRED`) blocks `recruiting_enabled=true` unless `recruiting_contact_route` is set to something other than its `'none'` default. Both are pre-existing, correct safeguards -- not something this feature needed to change -- just previously undiscovered because no prior feature this session created an athlete profile with recruiting enabled from scratch.
+
+### Automated testing
+
+`npm run build && npm run check && npm test` -- 279 pages (2 more than before), 311 HTML files, all 12 suites pass clean. Touches no test-asserted literal strings.
+
+### Manual/live testing completed
+
+A full Playwright pass against real production Supabase, using the same local-harness technique proven all session (this time trivially simple -- the page needs no auth at all, so the harness only routes the one public `/api/recruiting` endpoint plus static files): both `/recruiting/top-100/boys/` and `/recruiting/top-100/girls/` reachable and correctly cross-linked via the gender tabs; a full real data round trip (a real `athlete_profiles` row with a real hometown, a real verified `athlete_performances` row, a real published `athlete_recruit_ratings` row at score 88.5, and a real `commitment`-type `athlete_recruiting_activity` row with a real date) confirmed present in the raw `/api/recruiting` response and then confirmed rendering correctly end to end on the real page -- hometown, school, event group as the position tag, rounded score, and committed school plus date all present in the real rendered text; the Girls Class of 2027 page correctly showed the honest empty state for the same real data (proving the gender partition works, since the test athlete was boys-only); the class-year selector correctly re-fetched without a page reload when switched to 2028 (correctly empty); no horizontal overflow at 390px mobile. All real test data deleted afterward, confirmed by re-querying (including cleaning up a genuine orphan left by an early crash in the test script's own cleanup code, described below). A separate screenshot pass with three real throwaway athletes at different scores (96.2/91.0/85.5) visually confirmed the star-fill count matches the real DB-computed `star_rating` at each score band (5/4/3 stars respectively) and that an uncommitted athlete correctly shows "Uncommitted" in place of a committed school.
+
+Two bugs were found and fixed in the verification **script itself**, not the app, while iterating: a `.catch()` chained directly on a Supabase query builder (not a real Promise until awaited) crashed mid-cleanup and orphaned one real test profile in production, cleaned up immediately by a direct follow-up script once found; and a null-unsafe `row.school.school_name || row.team.school_name` assertion threw before the `||` could ever evaluate when a test athlete used `current_team_id` instead of `current_school_id` (both are real, valid, mutually-exclusive paths this schema supports).
+
+### Known, deliberate scope limits
+
+1. No reciprocal link was added from the existing `/recruiting/` database page pointing to the new Top 100 pages (only the reverse exists) -- small, low-risk, easy follow-up, left out since it wasn't part of the approved plan's file list.
+2. No admin UI changes -- the user will add real Class of 2027 athletes through the existing `/admin/recruiting/` tool exactly as it already works; nothing about curation changed.
+3. Committed-school display is text-only, no logos, per the confirmed decision.
+
+### Not yet done
+
+`git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
