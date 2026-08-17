@@ -32,6 +32,9 @@
   const socials = document.querySelector(
     "[data-team-profile-socials]"
   );
+  const liveStrip = document.querySelector(
+    "[data-team-profile-live-strip]"
+  );
   const instagramCurrent = document.querySelector(
     "[data-team-instagram-current]"
   );
@@ -1222,7 +1225,7 @@
     renderPathToState(currentPathData);
   });
 
-  function renderProfile(team, socialLinks, schedule, rosterData, pathData) {
+  function renderProfile(team, socialLinks, schedule, rosterData, pathData, liveRaces) {
     currentTeam = team;
     document.title =
       team.school_name +
@@ -1351,6 +1354,25 @@
     ]
       .filter(Boolean)
       .join(" · ");
+
+    // "Live Now" discovery strip (Team Workspace Phase Three) -- only
+    // ever shown when the coach has explicitly turned a currently-live
+    // race's spectator_visible flag on (see api/race-command-center's
+    // updateSessionDetails and api/teams/detail.js).
+    const races = Array.isArray(liveRaces) ? liveRaces : [];
+    if (liveStrip) {
+      liveStrip.hidden = races.length === 0;
+      liveStrip.innerHTML = races
+        .map(
+          (race) =>
+            '<span class="team-profile-live-badge">Live now</span>' +
+            '<span>' + escapeHtml(race.name) + '</span>' +
+            '<a class="button button-outline" href="/race/?race=' +
+            encodeURIComponent(race.id) +
+            '">Watch live</a>'
+        )
+        .join("");
+    }
 
     renderSocialLinks(team, socialLinks);
     renderInstagram(team);
@@ -1602,7 +1624,8 @@
           ? data.schedule
           : [],
         rosterData,
-        data.path_to_state || null
+        data.path_to_state || null,
+        Array.isArray(data.live_races) ? data.live_races : []
       );
     } catch (error) {
       loadingBox.innerHTML =

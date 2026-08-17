@@ -39,9 +39,9 @@ export default async function handler(request, response) {
       throw error;
     }
 
-    await requireTeamMembership(user.id, teamId);
+    const membership = await requireTeamMembership(user.id, teamId);
 
-    const actor = { type: "team_user", userId: user.id };
+    const actor = { type: "team_user", userId: user.id, label: membership.display_name || user.email || "Coach" };
     let data;
 
     switch (action) {
@@ -61,11 +61,12 @@ export default async function handler(request, response) {
         data = await startRace({
           teamId,
           sessionId: cleanText(body.session_id),
-          raceStartedAt: body.race_started_at
+          raceStartedAt: body.race_started_at,
+          createdBy: actor.label
         });
         break;
       case "finish_race":
-        data = await finishRace({ teamId, sessionId: cleanText(body.session_id) });
+        data = await finishRace({ teamId, sessionId: cleanText(body.session_id), createdBy: actor.label });
         break;
       case "duplicate":
         data = await duplicateSession({

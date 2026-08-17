@@ -660,6 +660,23 @@ export function teamRosterPage(site) {
         </form>
       </section>
 
+      <section data-guardian-invite-section hidden style="margin-top:30px;">
+        <p class="eyebrow">Guardian access</p>
+        <h3>Invite a parent or guardian</h3>
+        <p>Invite a parent or guardian to follow this athlete's race plans and results. Only a coach-issued invite can create their account -- there is no open signup. More than one guardian per athlete is fine.</p>
+
+        <div class="team-roster-social-list" data-guardian-invite-list></div>
+
+        <form class="team-roster-form" data-guardian-invite-form>
+          <input type="hidden" name="team_athlete_id">
+          <div class="team-roster-fields">
+            <label><strong>Guardian's email</strong><input type="email" name="invited_email" required></label>
+            <label><strong>Guardian's name (optional)</strong><input type="text" name="invited_name"></label>
+          </div>
+          <button class="button button-primary" type="submit">Send invite</button>
+        </form>
+      </section>
+
       <section data-athlete-social-section hidden style="margin-top:30px;">
         <p class="eyebrow">Athlete links</p>
         <h3>Social and recruiting links</h3>

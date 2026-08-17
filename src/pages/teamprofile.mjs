@@ -93,6 +93,46 @@ export function teamProfilePage(site) {
       background: #ffffff;
     }
 
+    .team-profile-live-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 20px;
+      border-radius: 12px;
+      background: #dc2626;
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .team-profile-live-strip a {
+      color: #ffffff;
+    }
+
+    .team-profile-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.82rem;
+    }
+
+    .team-profile-live-badge::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ffffff;
+      animation: team-profile-live-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes team-profile-live-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
     .team-profile-hero h1 {
       margin: 0;
       color: #ffffff;
@@ -672,6 +712,8 @@ export function teamProfilePage(site) {
           </div>
           <div class="team-profile-socials" data-team-profile-socials></div>
         </header>
+
+        <div class="team-profile-live-strip" data-team-profile-live-strip hidden></div>
 
         <section class="team-profile-section team-instagram-section">
           <div><p class="eyebrow">Community submitted</p><h2>Team Instagram</h2></div>

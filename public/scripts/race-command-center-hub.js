@@ -113,6 +113,10 @@
     return { href: "/race-command-center/plan/" + idPart, label: "Open plan" };
   }
 
+  function spectatorLinkFor(session) {
+    return window.location.origin + "/race/?race=" + encodeURIComponent(session.id);
+  }
+
   function renderRaces(sessions) {
     if (!sessions.length) {
       raceList.innerHTML = "";
@@ -123,8 +127,9 @@
     raceEmpty.hidden = true;
     raceList.innerHTML = sessions.map((session) => {
       const action = actionLinkFor(session);
+      const checked = session.spectator_visible ? " checked" : "";
       return (
-        '<div class="rcc-race-card">' +
+        '<div class="rcc-race-card" data-rcc-session-id="' + escapeHtml(session.id) + '">' +
           '<div class="rcc-header">' +
             '<h3>' + escapeHtml(session.name) + '</h3>' +
             '<span class="' + statusBadgeClass(session.status) + '">' + escapeHtml(STATUS_LABELS[session.status] || session.status) + '</span>' +
@@ -133,9 +138,50 @@
           '<div class="rcc-actions">' +
             '<a class="button button-primary" href="' + action.href + '">' + action.label + '</a>' +
           '</div>' +
+          '<div class="rcc-spectator-row">' +
+            '<label><input type="checkbox" class="rcc-spectator-toggle"' + checked + '> Let parents watch this race live</label>' +
+            '<div class="rcc-spectator-link"' + (session.spectator_visible ? '' : ' hidden') + '>' +
+              '<input type="text" readonly value="' + escapeHtml(spectatorLinkFor(session)) + '">' +
+              '<button type="button" class="button button-outline rcc-spectator-copy">Copy link</button>' +
+            '</div>' +
+          '</div>' +
         '</div>'
       );
     }).join("");
+
+    raceList.querySelectorAll(".rcc-spectator-toggle").forEach((checkbox) => {
+      checkbox.addEventListener("change", async () => {
+        const card = checkbox.closest("[data-rcc-session-id]");
+        const sessionId = card.getAttribute("data-rcc-session-id");
+        const linkRow = card.querySelector(".rcc-spectator-link");
+        const wantVisible = checkbox.checked;
+        checkbox.disabled = true;
+        try {
+          await apiFetch("/api/race-command-center/sessions/", {
+            action: "update",
+            session_id: sessionId,
+            spectator_visible: wantVisible
+          });
+          linkRow.hidden = !wantVisible;
+        } catch (error) {
+          checkbox.checked = !wantVisible;
+          showMessage(error.message || "That could not be saved.", true);
+        } finally {
+          checkbox.disabled = false;
+        }
+      });
+    });
+
+    raceList.querySelectorAll(".rcc-spectator-copy").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = button.previousElementSibling;
+        input.select();
+        navigator.clipboard?.writeText(input.value).then(
+          () => showMessage("Link copied."),
+          () => {}
+        );
+      });
+    });
   }
 
   createForm.addEventListener("submit", async (event) => {

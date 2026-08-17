@@ -689,3 +689,42 @@ A fourth, real bug surfaced only by the user's own manual browsing of a persiste
 ### Follow up
 
 Fold Operations Center's and Engagement Center's own ~350/~30-line inline `<style>` blocks (their own competing rounded-corner/shadow language, left untouched this pass since their class-prefixed selectors can't collide) into `admin.css`'s shared primitives once proven. Decide whether/when to build a real admin award-management tool, now that the dead-end links pointing nowhere have at least been made honest. Consider container queries for the sidebar's ~296px width impact on mid-width (1200-1440px) tool pages, currently mitigated only by the manual sidebar-collapse control. Full detail in `docs/SESSION_LOG.md`, 2026-08-16.
+
+## 2026 08 16 Team Workspace Phase Three: guardian & spectator access
+
+### Decision
+
+Built the final stage of Team Workspace -- Race Command Center -> Team Home/Meet Center -> Athlete Access -- from a one-line spec repeated three times across the docs and nothing deeper: "parent/follower access, live team following with explicit public/private split controls." Delivered two distinct new tiers on top of a shared projection module rather than one blended experience:
+
+1. **Guardian access**: a coach-invited, signed-in account (`guardian_invites`/`guardian_accounts`, file-for-file mirroring `athlete_invites`/`athlete_accounts` from Athlete Access) that sees its own linked athlete's goals/targets/splits -- never another participant's -- plus, when the coach has separately made a race spectator-visible, a full leaderboard of every runner in it (names/times/checkpoints only).
+2. **Anonymous spectator access**: a brand-new public route, `/race/?race=<id>`, showing real-time-ish (polled, ~10s while live) checkpoints, names, and times for a single race -- gated entirely on a new per-race, coach-controlled, off-by-default `race_sessions.spectator_visible` flag. No account, no follower list involved.
+
+Both tiers are served by one new shared module, `lib/race_viewer_service.mjs`, with explicit field allow-lists per tier instead of each caller writing its own `select("*")`.
+
+### Reason
+
+Four scoping questions were resolved directly with the user before design started (all "Recommended"): guardian access is a distinct tier from a lighter anonymous follower tier, not one experience; "live" means polling, not websockets; visibility is coach-controlled per race, off by default; and the existing (dormant) `team_followers`/`team_follows`/`results`-category notification system should be extended, not duplicated. A planning pass (Explore + Plan agents, independently re-verified against the real code before implementation) corrected the initial synthesis on three points: a guardian is not a full race viewer (would leak other athletes' private goals/targets); the public surface had to be a new top-level route, not Team Meet Center (fully coach-gated, no public path exists); and the new column is `spectator_visible`, not `followers_visible` (avoids confusion with the distinct `team_followers` table).
+
+### A real, previously-unknown, already-live bug found and fixed as part of this pass
+
+`lib/race_command_center_service.mjs`'s `getSessionDetail()` did `select("*")` on `race_participants` with **no join to `team_athletes`** -- `display_name` never existed on the row, so `public/scripts/race-command-center-live.js` and `race-command-center-review.js`'s `participant.manual_name || participant.display_name || "Runner"` fallback showed the bare word "Runner" for every roster-linked participant on the coach's own Live Race Mode and Review pages, today, in production. Fixed via a new shared `resolveParticipantNames()` in `race_viewer_service.mjs` (joins `team_athlete_id` -> `team_athletes`), used by `getSessionDetail()` and reused by all three viewer tiers. Reverified live: real names now render correctly on the coach's pages as a direct byproduct of this fix.
+
+### Two more real findings fixed in the same pass
+
+1. `lib/athlete_access_service.mjs`'s `getAthleteRaces()` did `select("*")` on `race_sessions`/`race_goals`/`race_targets`/`race_splits`/`race_checkpoints`, over-exposing internal columns (`device_id`, `created_by_user_id`, `client_split_id`, unbounded `metadata`) to an athlete's own browser. Refactored onto the same shared `race_viewer_service.mjs` allow-list projection the guardian tier uses, with zero behavior change to what an athlete is actually allowed to see -- confirmed live (goals/targets still render correctly; internal columns confirmed absent from the raw response).
+2. A guardian-tier revocation design bug caught and fixed **before** it ever shipped: an early draft scoped `revokeGuardianAccess` by `team_athlete_id` (mirroring `revokeAthleteAccess`), which would have silently revoked *every* guardian linked to that athlete at once. Since more than one guardian per athlete is the normal case here (two parents), it was rescoped to revoke by the specific `linked_via_invite_id` instead -- verified live with two real guardians on the same athlete: revoking one leaves the other's access untouched.
+
+### Alternatives considered
+
+1. One blended "follower" experience instead of two tiers -- rejected per the user's own confirmed decision; a guardian's relationship to a specific athlete's private plan is fundamentally different from an anonymous spectator's.
+2. A full push/websocket live system -- rejected as over-engineered for this site's real scale; a short-interval poller with tab-visibility pause and error backoff (`public/scripts/race-poll.js`, new, also reusable by the guardian home page) covers the real requirement.
+3. `api/race/public.js` as GET with CDN caching (a real, if less-common, precedent for this exact idea already exists in `api/recruiting/index.js`) -- rejected in favor of keeping this repo's universal POST convention; the polling interval/backoff/visibility-pause design already bounds load adequately at this site's scale, and a GET-cached route can be revisited later if real traffic ever demands it.
+4. Combining `api/guardian/*` into one file -- rejected in favor of mirroring Athlete Access's real, already-established 3-file split (`invite.js`/`me.js`/`races.js`) exactly, for consistency.
+
+### Files or systems affected
+
+`install/13_GUARDIAN_AND_SPECTATOR_ACCESS.sql` (run in Supabase, confirmed live) -- `race_sessions.spectator_visible`, `guardian_invites`, `guardian_accounts`; `lib/race_viewer_service.mjs` (new, shared 3-tier projection); `lib/race_command_center_service.mjs` (Runner-bug fix, `spectator_visible` toggle, live/finished notification wiring); `lib/athlete_access_service.mjs` (refactored onto the shared projection); `lib/guardian_auth.mjs`, `lib/guardian_access_service.mjs` (new, mirror the athlete-tier equivalents); `api/guardian/invite.js`, `api/guardian/me.js`, `api/guardian/races.js`, `api/race/public.js` (new); `api/team/roster.js` (new `GUARDIAN_ACCESS_ACTIONS` dispatch, mirroring `ATHLETE_ACCESS_ACTIONS`); `api/teams/detail.js` (new `live_races` field); `src/pages/racepublic.mjs`, `guardianlogin.mjs`, `guardianhome.mjs` (new); `src/pages/teamroster.mjs`, `teamprofile.mjs`, `racecommandcenter.mjs` (extended); `public/scripts/race-poll.js`, `race-public.js`, `guardian-login.js`, `guardian-home.js` (new); `public/scripts/team-roster.js`, `team-profile.js`, `race-command-center-hub.js` (extended); `src/lib/html.mjs`, `scripts/check.mjs`, `scripts/build.mjs` (new private-route entries for `guardian-login/`/`guardian-home/`, and the new public `/race/` route registration).
+
+### Follow up
+
+Notification wiring reaches only the existing anonymous `team_followers` audience (those opted into the `results` category) -- a guardian's own access is direct sign-in, not follower-list-based, by design. `api/team/roster.js` was found to have zero `public_visible` filtering on the roster response today -- a real, pre-existing gap, unrelated to this migration's new tables, noted but not fixed in this pass. Full detail in `docs/SESSION_LOG.md`, 2026-08-16.

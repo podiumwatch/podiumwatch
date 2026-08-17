@@ -221,7 +221,7 @@ export default async function handler(request, response) {
       throw error;
     }
 
-    const [socialResult, memberResult, schedule, pathToState] = await Promise.all([
+    const [socialResult, memberResult, schedule, pathToState, liveRaces] = await Promise.all([
       supabaseAdmin
         .from("team_social_links")
         .select(
@@ -254,7 +254,20 @@ export default async function handler(request, response) {
         if (isMissingPathToStateError(error)) return null;
         console.error("Path to State could not be loaded:", error);
         return null;
-      })
+      }),
+      // "Live Now" discovery strip (Team Workspace Phase Three) --
+      // guarded the same way so a missing install/13 migration never
+      // breaks the whole team page.
+      supabaseAdmin
+        .from("race_sessions")
+        .select("id, name")
+        .eq("team_id", requestedTeam.id)
+        .eq("status", "live")
+        .eq("spectator_visible", true)
+        .then(
+          ({ data, error }) => (error ? [] : data || []),
+          () => []
+        )
     ]);
 
     if (socialResult.error) {
@@ -276,7 +289,8 @@ export default async function handler(request, response) {
       },
       social_links: socialLinks,
       schedule,
-      path_to_state: pathToState
+      path_to_state: pathToState,
+      live_races: liveRaces
     });
   } catch (error) {
     const status = Number(error?.status) || 500;

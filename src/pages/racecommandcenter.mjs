@@ -135,6 +135,39 @@ export function raceCommandCenterHubPage(site) {
       background: rgba(15, 23, 42, 0.05);
     }
 
+    .rcc-spectator-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(15, 23, 42, 0.1);
+      font-size: 0.86rem;
+    }
+
+    .rcc-spectator-row label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .rcc-spectator-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rcc-spectator-link input {
+      font-size: 0.78rem;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.16);
+      width: 210px;
+    }
+
     @media (max-width: 840px) {
       .rcc-grid,
       .rcc-checkpoint-row {

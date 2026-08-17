@@ -14,6 +14,12 @@ import {
   revokeInvite,
   revokeAthleteAccess
 } from "../../lib/athlete_access_service.mjs";
+import {
+  generateInvite as generateGuardianInvite,
+  listInvitesForAthlete as listGuardianInvitesForAthlete,
+  revokeInvite as revokeGuardianInvite,
+  revokeGuardianAccess
+} from "../../lib/guardian_access_service.mjs";
 
 // Athlete-invite actions are handled here directly, before falling
 // through to handleTeamRosterAction() -- kept out of the 1700+ line
@@ -25,6 +31,16 @@ const ATHLETE_ACCESS_ACTIONS = new Set([
   "list_athlete_invites",
   "revoke_athlete_invite",
   "revoke_athlete_access"
+]);
+
+// Team Workspace Phase Three's guardian tier -- same reasoning as
+// ATHLETE_ACCESS_ACTIONS above, kept in lib/guardian_access_service.mjs
+// rather than lib/team_roster_service.mjs.
+const GUARDIAN_ACCESS_ACTIONS = new Set([
+  "invite_guardian",
+  "list_guardian_invites",
+  "revoke_guardian_invite",
+  "revoke_guardian_access"
 ]);
 
 function cleanText(value) {
@@ -91,6 +107,33 @@ export default async function handler(request, response) {
       }
 
       return response.status(200).json(athleteData);
+    }
+
+    if (GUARDIAN_ACCESS_ACTIONS.has(action)) {
+      const actorUserId = user.id;
+      let guardianData;
+
+      if (action === "invite_guardian") {
+        guardianData = await generateGuardianInvite({
+          teamId,
+          teamAthleteId: body.team_athlete_id,
+          invitedEmail: body.invited_email,
+          invitedName: body.invited_name,
+          actor: { userId: actorUserId }
+        });
+      } else if (action === "list_guardian_invites") {
+        guardianData = { invites: await listGuardianInvitesForAthlete({ teamId, teamAthleteId: body.team_athlete_id }) };
+      } else if (action === "revoke_guardian_invite") {
+        guardianData = { invite: await revokeGuardianInvite({ teamId, inviteId: body.invite_id, actorUserId }) };
+      } else if (action === "revoke_guardian_access") {
+        // Scoped to a single invite/guardian, not the whole athlete --
+        // see lib/guardian_access_service.mjs's revokeGuardianAccess()
+        // header comment for why (more than one guardian per athlete is
+        // the normal case).
+        guardianData = { revoked: await revokeGuardianAccess({ teamId, inviteId: body.invite_id, actorUserId }) };
+      }
+
+      return response.status(200).json(guardianData);
     }
 
     const data = await handleTeamRosterAction({

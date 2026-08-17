@@ -1414,3 +1414,67 @@ Two bugs were found and fixed in the verification **script itself**, not the app
 ### Not yet done
 
 `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
+
+## 2026 08 16 Team Workspace Phase Three: guardian & spectator access
+
+### Goal
+
+The user asked "what should we work on next for the website?" and chose "Team Workspace Phase Three" from the presented options -- the final stage of a lineage (Race Command Center -> Team Home/Meet Center -> Athlete Access) described only by a one-line note repeated three times across the docs: "parent/follower access, live team following with explicit public/private split controls." No deeper original spec survived (confirmed by an exhaustive doc search).
+
+### Scoping, confirmed with the user before design started
+
+Two Explore-agent audits of existing infrastructure, then four `AskUserQuestion` decisions (all "Recommended"): (1) guardian access is a distinct, coach-invited, signed-in tier, separate from a lighter anonymous "follower"/spectator tier -- not one blended experience; (2) "live" means real-time-ish polling during an in-progress race, not websockets; (3) visibility is controlled per-race by the coach, off by default; (4) extend the existing (dormant) `team_followers`/`team_follows`/`results`-category notification system rather than build parallel infrastructure.
+
+A Plan agent then validated and materially corrected the initial synthesis -- every claim was independently re-verified against the real code before finalizing the plan, not taken on faith: guardian access had to stay scoped to the guardian's own linked athlete (a full race view would leak other kids' private goals/targets to any parent); the public live-viewing surface had to be a brand-new top-level route, not Team Meet Center (confirmed fully coach-gated, in all three private-route lists, no public path exists); the new column had to be named `spectator_visible`, not `followers_visible`, to avoid confusion with the distinct `team_followers` table.
+
+### A real, previously-unknown, already-live bug found and fixed as part of this pass
+
+Verified directly (not just claimed): `lib/race_command_center_service.mjs`'s `getSessionDetail()` did `select("*")` on `race_participants` with **no join to `team_athletes`**. `display_name` never existed on the row, so `public/scripts/race-command-center-live.js:378` and `race-command-center-review.js:80`'s `participant.manual_name || participant.display_name || "Runner"` fallback displayed the bare word "Runner" for every roster-linked participant -- on the coach's own Live Race Mode and Review pages, in production, today, before this session touched anything. Fixed by a new shared `resolveParticipantNames()` in `lib/race_viewer_service.mjs` (joins `team_athlete_id` -> `team_athletes`), used both directly by `getSessionDetail()` and by all three new viewer tiers. Reverified live with a real throwaway race and two rostered + one manual participant: all three show correct real names, none fall back to "Runner."
+
+### What was built
+
+1. **`install/13_GUARDIAN_AND_SPECTATOR_ACCESS.sql`** (run in Supabase by the user, confirmed live via a direct column/table probe before re-running verification) -- additive only: `race_sessions.spectator_visible boolean not null default false`, plus `guardian_invites`/`guardian_accounts`, a near-exact structural mirror of `athlete_invites`/`athlete_accounts` from Athlete Access (coach-issued-invite-only, `token_hash` via the existing `createToken()`/`hashToken()` pair, single-flag consent, status-flip revocation). The one real difference: more than one guardian per athlete is the normal case (two parents), so uniqueness is `(user_id, team_athlete_id)`, never `team_athlete_id` alone.
+2. **`lib/race_viewer_service.mjs`** (new) -- the single shared module behind all three tiers, replacing ad hoc `select("*")` calls with explicit field allow-lists: `loadAthleteViewRaces()` (own goals/targets/splits, shared by both the athlete and guardian "own data" reads) and `loadSpectatorRace()` (checkpoints/names/times only, requires `spectator_visible`, used by both the anonymous public endpoint and the guardian's optional leaderboard).
+3. **Guardian tier**: `lib/guardian_auth.mjs`/`lib/guardian_access_service.mjs` (new, mirror `athlete_auth.mjs`/`athlete_access_service.mjs`), `api/guardian/invite.js`/`me.js`/`races.js` (new, mirroring Athlete Access's real, confirmed 3-file split), `src/pages/guardianlogin.mjs`/`guardianhome.mjs` + matching client scripts (new, structurally near-identical to the athlete-tier pages), and a new "Guardians" invite section on the roster page (`teamroster.mjs`/`team-roster.js`), a direct duplicate of the existing athlete-invite section.
+4. **Anonymous spectator tier**: a new public, indexable route `/race/?race=<id>` (`src/pages/racepublic.mjs`), a new reusable poller (`public/scripts/race-poll.js` -- ~10s while live, pauses on tab-hidden via the Page Visibility API, exponential backoff on error, stops after one final fetch once the race is over), and `api/race/public.js` (fully anonymous, POST, `Cache-Control: no-store` -- deliberately kept consistent with this repo's universal POST convention rather than introducing a first-ever GET+CDN-cached route, even though a real precedent for that pattern already exists elsewhere in `api/recruiting/index.js`; the polling/backoff/visibility-pause design already bounds load adequately at this site's real scale).
+5. **Coach controls**: a `spectator_visible` toggle plus a copyable `/race/?race=<id>` link added directly to each race card on the Race Command Center hub page (`racecommandcenter.mjs`/`race-command-center-hub.js`) -- there was no existing session-settings-edit UI to extend, so this was new.
+6. **Discovery**: a "Live Now" strip on the team profile page (`teamprofile.mjs`/`team-profile.js`), populated by a new `live_races` field on the existing `api/teams/detail.js` response (guarded the same way the existing Path to State call already is, so a missing migration can never break the whole team page).
+7. **Notifications**: two new call sites in `race_command_center_service.mjs` (on transition to `live` and to `finished`), reusing the existing-but-previously-unused `results` category (`CATEGORY_COLUMNS.results = "alert_results"`) via the existing `queueTeamNotification()`, guarded by `spectator_visible` and deduplicated via `race:<sessionId>:live`/`race:<sessionId>:finished` dedupe keys.
+
+### Two more real findings fixed in the same pass
+
+1. `lib/athlete_access_service.mjs`'s `getAthleteRaces()` did `select("*")` on `race_sessions`/`race_goals`/`race_targets`/`race_splits`/`race_checkpoints`, over-exposing internal columns (`device_id`, `created_by_user_id`, `client_split_id`, unbounded `metadata`) to an athlete's own browser today. Refactored onto `race_viewer_service.mjs`'s shared allow-list projection -- confirmed live that what an athlete is actually allowed to see (their own goals/targets) is unchanged, while the internal columns are now confirmed absent from the raw response.
+2. **A design bug caught and fixed before it ever shipped, by directly re-checking my own draft against the schema rather than assuming it was correct**: an early version scoped `revokeGuardianAccess` by `team_athlete_id` (mirroring `revokeAthleteAccess` exactly). Since more than one guardian per athlete is the *normal* case here, that would have meant a coach revoking one parent's access silently revoked every guardian linked to that athlete at once. Rescoped to revoke by the specific `linked_via_invite_id` instead. Verified live with two real guardians linked to the same athlete: revoking one leaves the other's `guardian_accounts.status` untouched (`active`).
+
+### Automated testing
+
+`npm run build && npm run check && npm test` -- 280 pages, 314 HTML files, all 12 suites pass clean (46/46 in the largest suite alone). No dedicated unit-test script exists for Athlete Access or Guardian Access in this codebase (both were verified live instead, matching this session's established practice for auth-flow features); the refactor of `athlete_access_service.mjs` was therefore caught only by the live pass below, not by `npm test`.
+
+### Manual/live testing completed
+
+A comprehensive live Playwright + service-layer + real-HTTP pass against real production Supabase, using the same local-harness technique proven all session, built around one real throwaway race with two rostered participants (Athlete A, Athlete B) and one manual-name participant, real goals/targets/splits, and `spectator_visible` turned on:
+
+- **Runner-bug fix**: `getSessionDetail()` resolves real names for all three participants, confirmed directly against the service response.
+- **Notification dedupe**: starting the race queued exactly one `results`-category `team_notification_events` row with the expected dedupe key.
+- **Athlete tier unaffected**: real goals/targets still returned after the `race_viewer_service.mjs` refactor; internal columns (`created_by_user_id`, `duplicated_from_session_id`, `metadata`) confirmed absent from the session object's keys.
+- **Guardian scoping (the critical privacy check)**: a guardian linked only to Athlete A sees Athlete A's real goals/targets, with Athlete B's participant/athlete id absent from the guardian's own-athlete section of the response (the response's separate `leaderboard` field correctly *does* include Athlete B, since that field is the intentional spectator-safe view of the whole race -- the first test-script draft conflated the two and had to be corrected to distinguish them).
+- **Spectator projection (the second critical privacy check)**: a deep string scan of the full JSON response, both at the service layer (`loadSpectatorRace`) and over real HTTP (`api/race/public.js`), confirmed zero occurrences of `goal_seconds`, `target_elapsed_seconds`, `device_id`, `created_by_user_id`, `client_split_id`, `metadata`, or `note_text` anywhere in the payload.
+- **Visibility gate**: turning `spectator_visible` off correctly rejects the spectator tier with a 404 at the service layer, and the real public `/race/` page shows an honest "can't watch this race" message instead of the leaderboard.
+- **Guardian invite round trip over real HTTP**: `invite_guardian`/`list_guardian_invites`/`revoke_guardian_access` all confirmed via `api/team/roster.js` with a real coach-authenticated session; the per-invite revocation fix (above) was specifically confirmed at this layer with two real guardians on the same athlete.
+- **Discovery strip**: `api/teams/detail.js`'s `live_races` field confirmed to include the real live, spectator_visible race.
+- **The real public page, rendered**: Playwright loaded `/race/?race=<id>` and confirmed all three real participant names appear in the rendered page text, with no page errors.
+
+Two bugs were found and fixed in the verification **script itself**, not the app: an over-broad assertion scanned the guardian's *entire* response (including the intentionally-full `leaderboard` field) for the other athlete's id, which is a false positive since the leaderboard is supposed to include everyone -- narrowed to scan only the own-athlete section, matching the real privacy boundary being tested. Separately, calling `.auth.signInWithPassword()` directly on the shared `supabaseAdmin` service-role client mutated its session for the rest of the script, silently downgrading later `supabaseAdmin.from(...)` calls to the last-signed-in user's permissions -- surfaced as a `permission denied for table guardian_accounts` error that, on inspection, actually *confirmed* the RLS posture (`revoke all from anon, authenticated; grant all to service_role`) is being enforced correctly. Fixed by using a separate, non-admin client instance for sign-in calls.
+
+All real test data (race session, participants, checkpoints, goals, targets, splits, guardian/athlete invites and accounts, team_members row, five real Supabase Auth users, notification events) deleted afterward and re-queried to confirm gone.
+
+### Known, deliberate scope limits
+
+1. `api/team/roster.js` has zero `public_visible` filtering on its response today -- a real, pre-existing gap found during planning, unrelated to this migration's new tables, noted but not folded into this pass.
+2. Notification wiring reaches only the existing anonymous `team_followers` audience (opted into `alert_results`) -- a guardian's own access is direct sign-in, never follower-list-based, by design; the two systems are intentionally parallel, not merged.
+3. `api/race/public.js` stays POST + `no-store` rather than GET + CDN-cached, on the reasoning above -- worth revisiting only if real spectator traffic at scale ever demands it.
+4. No email delivery was actually exercised (Resend isn't configured in the local test environment) -- the existing "a failed email must never fail the invite" fallback path was confirmed instead (both athlete and guardian invite flows), matching Athlete Access's own established behavior.
+
+### Not yet done
+
+`git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
