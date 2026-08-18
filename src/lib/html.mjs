@@ -19,7 +19,7 @@ export function icon(name) {
 }
 
 export function header(site, currentPath = "/") {
-  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Ohio Schools", "Fan Poll", "Athletes", "Recruiting", "Pace Calculator", "Stories"]);
+  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Ohio Schools", "Fan Poll", "Athletes", "Recruiting", "Find a Photographer", "Pace Calculator", "Stories"]);
   const navLinks = site.navigation.filter((link) => primaryLabels.has(link.label)).map((link) => {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
     return `<a href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;

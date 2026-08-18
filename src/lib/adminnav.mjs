@@ -69,7 +69,8 @@ export const ADMIN_NAV_GROUPS = [
     label: "Audience",
     items: [
       { id: "fan-poll", label: "Fan Poll", href: "/admin/fan-poll/", mark: "FP", description: "Weekly fan poll weeks and ballots.", keywords: "fan poll vote ballot week division" },
-      { id: "engagement", label: "Engagement Center", href: "/admin/engagement/", mark: "EC", description: "Follows, notifications, sponsor performance.", keywords: "engagement notifications sponsors subscribers analytics" }
+      { id: "engagement", label: "Engagement Center", href: "/admin/engagement/", mark: "EC", description: "Follows, notifications, sponsor performance.", keywords: "engagement notifications sponsors subscribers analytics" },
+      { id: "photographers", label: "Photographer Network", href: "/admin/photographers/", mark: "PN", description: "Review, approve, and manage photographer listings.", keywords: "photographer network directory listing approve sports service area portfolio" }
     ]
   }
 ];
