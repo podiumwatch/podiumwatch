@@ -94,7 +94,12 @@ export function renderMarkdown(markdown = "") {
         rows.push(tableCells(lines[index]));
         index += 1;
       }
-      output.push(`<div class="table-scroll" tabindex="0" aria-label="Scrollable data table"><table><thead><tr>${headers.map((cell) => `<th scope="col">${inlineMarkdown(cell)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${headers.map((_, cellIndex) => `<td>${inlineMarkdown(row[cellIndex] ?? "")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
+      // data-label carries the plain-text column header onto every cell so
+      // the mobile layout (main.css, table-scroll stacks to cards below
+      // 700px) can show "Column: value" per row without JS -- the table
+      // stays a real <table> (still fully readable/scrollable above that
+      // breakpoint) rather than needing a second markup shape.
+      output.push(`<div class="table-scroll" tabindex="0" aria-label="Scrollable data table"><table><thead><tr>${headers.map((cell) => `<th scope="col">${inlineMarkdown(cell)}</th>`).join("")}</tr></thead><tbody>${rows.map((row) => `<tr>${headers.map((header, cellIndex) => `<td data-label="${escapeHtml(header)}">${inlineMarkdown(row[cellIndex] ?? "")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);
       continue;
     }
 

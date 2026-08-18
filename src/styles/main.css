@@ -362,7 +362,20 @@ p { margin-top: 0; }
   .ranking-grade,.ranking-mark { grid-column:2; }
   .ranking-explanation { grid-column:1 / -1; }
   .ranking-number { font-size:2rem; }
-  .table-scroll { margin-inline:0; }
+  /* Below 700px, a data table stops being a scroll-to-read strip (the
+     760px min-width on .table-scroll table forced horizontal scrolling
+     on every phone, not just wide tables) and stacks into one card per
+     row instead -- each cell labeled from its column header via
+     data-label (src/lib/markdown.mjs), so "Athlete: Calvin Watson" reads
+     top to bottom with no swiping. The <thead> stays in the DOM for
+     screen readers, just visually hidden, matching .visually-hidden. */
+  .table-scroll { margin-inline:0; overflow-x:visible; }
+  .table-scroll table { min-width:0; width:100%; }
+  .table-scroll thead { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  .table-scroll tbody tr { display:block; padding:12px 14px; }
+  .table-scroll tbody tr:nth-child(even) { background:#fafafa; }
+  .table-scroll td { display:flex; align-items:baseline; justify-content:space-between; gap:14px; padding:6px 0; border-bottom:0; font-size:.92rem; }
+  .table-scroll td::before { content:attr(data-label); flex:0 0 auto; font-weight:800; font-size:.72rem; letter-spacing:.03em; text-transform:uppercase; color:#5b6560; }
   .button,.gender-tabs a,.tournament-tabs button { min-height:48px; }
   .footer-grid { grid-template-columns:1fr 1fr; gap:30px 18px; }
   .footer-brand { grid-column:1 / -1; }
