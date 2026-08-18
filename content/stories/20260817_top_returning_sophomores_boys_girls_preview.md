@@ -5,6 +5,8 @@ description: "Fastest returning sophomores in Ohio cross country, all four divis
 category: "Cross Country"
 author: "Podium Watch"
 slug: "2026-top-returning-sophomores-boys-girls"
+featuredImage: "/images/stories/top_returning_sophomores.png"
+featuredImageAlt: "2026 Cross Country Season Preview: Top Returning Sophomores, Boys and Girls, all 8 divisions, ranked by 2025 5K times"
 tags:
   - "Division 1"
   - "Division 2"
