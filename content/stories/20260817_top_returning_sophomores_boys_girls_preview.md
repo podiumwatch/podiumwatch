@@ -13,7 +13,7 @@ tags:
   - "Boys Cross Country"
   - "Girls Cross Country"
   - "2026 Preview"
-featured: false
+featured: true
 draft: false
 ---
 

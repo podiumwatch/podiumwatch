@@ -11,7 +11,7 @@ tags:
   - "Division 3"
   - "Boys Cross Country"
   - "2026 Rankings"
-featured: true
+featured: false
 draft: false
 updatedDate: "2026-07-29"
 ---
