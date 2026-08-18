@@ -728,3 +728,38 @@ Four scoping questions were resolved directly with the user before design starte
 ### Follow up
 
 Notification wiring reaches only the existing anonymous `team_followers` audience (those opted into the `results` category) -- a guardian's own access is direct sign-in, not follower-list-based, by design. `api/team/roster.js` was found to have zero `public_visible` filtering on the roster response today -- a real, pre-existing gap, unrelated to this migration's new tables, noted but not fixed in this pass. Full detail in `docs/SESSION_LOG.md`, 2026-08-16.
+
+## 2026 08 18 Photographer Network Phase One: database foundation and public directory
+
+### Decision
+
+Built the first phase of a statewide Ohio sports-photography discovery directory: `/photographers/` (search by school, city, region, or sport) and `/photographers/profile/?slug=` (public profile), backed by six new tables and an admin-only management tool at `/admin/photographers/`. Sourced from a detailed user-written product spec covering the full long-term vision (self-service accounts, meet coverage, galleries, billing, analytics); Phase One deliberately scopes to just the database foundation, public directory, and admin-managed publication workflow -- no photographer-facing accounts, no billing, no meet-coverage/gallery linking yet.
+
+A Phase Zero repository audit ran first (see `docs/SESSION_LOG.md`, 2026-08-18) and found: zero prior photographer feature of any kind (only an unrelated photo-credit byline field on team content items), zero lat/long or geocoding infrastructure anywhere in the project, and zero Stripe/billing infrastructure anywhere in the project -- all three confirmed by direct repo search, not assumed.
+
+### Reason
+
+The audit's two "zero" findings directly shaped Phase One's real scope: without geocoding, "nearby" search had to be plain city/county/region text matching, not distance math -- reusing `ohio_schools`' existing Central/East/Northeast/Northwest/Southeast/Southwest athletic-district taxonomy for the region dimension rather than inventing a second one. Without any billing infrastructure, Phase Four (billing) is a from-scratch build whenever that's prioritized, not a "reuse existing" -- `photographer_plans` is seeded now as a config table (four named tiers, `price_cents` left null) so pricing is never hardcoded into a template later, but carries zero billing logic today.
+
+### Key implementation decisions worth recording
+
+1. **`photographers` + `photographer_members` mirrors `team_pages` + `team_members`** -- identity and ownership as two separate tables, not a single `owner_user_id` column. `photographer_members` isn't populated by anything yet (no self-serve photographer account system exists until Phase Two), but the shape is right from the start.
+2. **Public profile pages are query-string-driven (`/photographers/profile/?slug=`), not baked per-record at build time.** `/stories/<slug>/` and the seed-file-backed `/athletes/<slug>/` pages both use build-time generation, but only because they're backed by files/JSON bundled in the repo. Photographer data lives entirely in Supabase and changes without a code deploy (admin-managed), so it follows `/team/?slug=`'s pattern instead -- a real, confirmed distinction, not a stylistic choice.
+3. **A real build-breaking bug caught before commit**: the two public-facing page templates (`photographers.mjs`, `photographerdetail.mjs`) initially imported `SPORTS`/`REGIONS` directly from `lib/photographer_service.mjs`, which imports `supabaseAdmin` at module load time -- and `scripts/build.mjs` runs with zero Supabase env vars by design (the static build never touches the database). This crashed `npm run build` immediately. Fixed by extracting the two constants into a new, dependency-free `lib/photographer_constants.mjs` that both the service file and the build-time page templates can safely import.
+4. **A real API bug caught during live verification, not by inspection**: `adminUpdatePhotographer()` initially re-validated every core field (including requiring `business_name`) on every update, so a status-only "approve this listing" call failed with a confusing 400. Fixed so update only touches fields the caller actually sent -- create still requires the full set.
+5. **`status` and `public_visible` are two independent gates** on `photographers` -- `status` is the publication workflow (draft/submitted/pending_review/approved/rejected/suspended), `public_visible` is a separate admin kill-switch that can hide an otherwise-approved listing without walking it back through the whole status workflow. Both public read paths (`listPublicPhotographers`, `getPublicPhotographerBySlug`) require both.
+6. **Verification is deliberately two-state (`unverified`/`verified`)**, per the spec's own explicit caution against implying an unsupported background-check claim -- never auto-set to `verified` on payment (there's no payment yet regardless).
+
+### Alternatives considered
+
+1. Clean per-photographer static URLs (`/photographers/<slug>/`, as the original spec suggested) generated at build time, matching `/stories/<slug>/` -- rejected in favor of the query-string pattern once the audit confirmed team/athlete "seed" pages are backed by bundled files, not live Supabase data; a directory the admin edits constantly cannot be static-baked without a rebuild per edit.
+2. A single `photographers.owner_user_id` column instead of a join table -- rejected in favor of mirroring the established `team_pages`/`team_members` split, since Phase Two's ownership model (which hasn't been designed yet) may need more than one owner per listing, exactly like team accounts already do.
+3. Building photographer image upload/Storage now -- rejected per the spec's own explicit caution about not becoming responsible for hosting large photo libraries; `image_url` fields are plain text URLs in Phase One (admin-entered or externally hosted), with a real upload pipeline (mirroring `install/08_TEAM_MEDIA_UPLOADS.sql`'s pattern) deferred as an explicit future decision, not silently built.
+
+### Files or systems affected
+
+`install/14_PHOTOGRAPHER_NETWORK.sql` (run in Supabase, confirmed live) -- `photographers`, `photographer_members`, `photographer_sports`, `photographer_service_areas`, `photographer_portfolio`, `photographer_plans`; `lib/photographer_constants.mjs` (new), `lib/photographer_service.mjs` (new); `api/photographers/index.js`, `api/photographers/detail.js`, `api/admin/photographers.js` (new); `src/pages/photographers.mjs`, `photographerdetail.mjs`, `adminphotographers.mjs` (new); `public/scripts/photographers.js`, `photographer-detail.js`, `admin-photographers.js` (new); `src/lib/adminnav.mjs` (new Photographer Network nav item), `src/config/site.mjs` + `src/lib/html.mjs` (new "Find a Photographer" primary nav entry), `scripts/build.mjs` (route registration).
+
+### Follow up
+
+Phase Two (photographer self-service accounts, ownership, submission workflow) is the next planned stage -- see `docs/SESSION_LOG.md`, 2026-08-18 for the full phased roadmap the user specified. `api/team/roster.js`'s pre-existing missing `public_visible` filtering (noted in the previous entry) remains unrelated and unfixed. No lat/long exists; true distance-based "nearest photographer" sorting remains a distinct future decision requiring a geocoding service, not assumed or faked in this pass.
