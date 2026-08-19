@@ -98,6 +98,7 @@ export function photographerDashboardPage(site) {
               <span class="photog-dash-price">${formatUsd(MONTHLY_PRICE_CENTS)}<span style="font-size:0.95rem;font-weight:700;"> / month</span></span>
               <span>Cancel anytime</span>
               <span>Full Photographer Network membership</span>
+              <button class="button button-primary" type="button" data-photog-dash-start-checkout="monthly">Start monthly membership</button>
             </div>
             <div class="photog-dash-membership-card" data-best-value>
               <span class="photog-dash-best-value-tag">Best value</span>
@@ -105,12 +106,13 @@ export function photographerDashboardPage(site) {
               <span class="photog-dash-price">${formatUsd(ANNUAL_PRICE_CENTS)}<span style="font-size:0.95rem;font-weight:700;"> / year</span></span>
               <span>Full Photographer Network membership</span>
               <span>Includes one Podium Watch partnership announcement story</span>
+              <button class="button button-primary" type="button" data-photog-dash-start-checkout="annual">Start annual membership</button>
             </div>
           </div>
           <p data-photog-dash-membership-status></p>
           <div class="photog-dash-actions">
-            <a class="button button-primary" href="/photographers/membership/">See full membership details</a>
-            <a class="button button-outline" href="mailto:${site.contactEmail}?subject=Photographer%20Network%20Membership" data-photog-dash-manage-membership>Manage membership</a>
+            <a class="button button-outline" href="/photographers/membership/">See full membership details</a>
+            <button class="button button-outline" type="button" data-photog-dash-manage-membership hidden>Manage membership</button>
           </div>
         </section>
 

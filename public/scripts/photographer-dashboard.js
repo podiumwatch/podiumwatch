@@ -7,6 +7,8 @@
   const contentBox = document.querySelector("[data-photog-dash-content]");
   const statusBanner = document.querySelector("[data-photog-dash-status-banner]");
   const membershipStatus = document.querySelector("[data-photog-dash-membership-status]");
+  const startCheckoutButtons = document.querySelectorAll("[data-photog-dash-start-checkout]");
+  const manageMembershipButton = document.querySelector("[data-photog-dash-manage-membership]");
   const storySection = document.querySelector("[data-photog-dash-story-section]");
   const storyTitle = document.querySelector("[data-photog-dash-story-title]");
   const storyIntro = document.querySelector("[data-photog-dash-story-intro]");
@@ -31,12 +33,12 @@
 
   const requiredElements = [
     loadingBox, root, accountEl, signOutButton, messageBox, contentBox, statusBanner,
-    membershipStatus, storySection, storyTitle, storyIntro, storyForm, storyRecap,
+    membershipStatus, manageMembershipButton, storySection, storyTitle, storyIntro, storyForm, storyRecap,
     formTitle, coreForm, saveLabel, sportsForm, areasForm, portfolioForm, portfolioList,
     submitButton, viewProfileLink, meetSearchInput, meetResultsBox, coverageForm,
     coverageList, galleryForm, galleryList
   ];
-  if (requiredElements.some((el) => !el) || childrenSections.length === 0) return;
+  if (requiredElements.some((el) => !el) || childrenSections.length === 0 || startCheckoutButtons.length === 0) return;
 
   const STATUS_LABELS = {
     draft: "Draft -- not yet submitted", submitted: "Submitted -- waiting for review",
@@ -130,7 +132,14 @@
     return new Date(subscription.current_period_end).getTime() > Date.now();
   }
 
+  function renderMembershipActions(subscription) {
+    const active = isMembershipActive(subscription);
+    for (const button of startCheckoutButtons) button.hidden = active;
+    manageMembershipButton.hidden = !subscription.stripe_customer_id;
+  }
+
   function renderMembershipStatus(subscription) {
+    renderMembershipActions(subscription);
     const intervalLabel = subscription.billing_interval === "annual" ? "Annual" : subscription.billing_interval === "monthly" ? "Monthly" : null;
 
     if (!intervalLabel || subscription.status === "inactive") {
@@ -210,6 +219,33 @@
       showMessage("Story info submitted. Podium Watch will follow up.");
     } catch (error) {
       showMessage(error.message, true);
+    }
+  });
+
+  for (const button of startCheckoutButtons) {
+    button.addEventListener("click", async () => {
+      if (!currentPhotographer) return;
+      const billingInterval = button.dataset.photogDashStartCheckout;
+      button.disabled = true;
+      try {
+        const data = await apiFetch("/api/photographer/checkout/", { id: currentPhotographer.id, billing_interval: billingInterval });
+        window.location.href = data.url;
+      } catch (error) {
+        showMessage(error.message, true);
+        button.disabled = false;
+      }
+    });
+  }
+
+  manageMembershipButton.addEventListener("click", async () => {
+    if (!currentPhotographer) return;
+    manageMembershipButton.disabled = true;
+    try {
+      const data = await apiFetch("/api/photographer/billing-portal/", { id: currentPhotographer.id });
+      window.location.href = data.url;
+    } catch (error) {
+      showMessage(error.message, true);
+      manageMembershipButton.disabled = false;
     }
   });
 

@@ -31,7 +31,8 @@
     "@vercel/speed-insights": "^2.0.0",
     "cheerio": "^1.1.2",
     "pdfjs-dist": "^5.4.149",
-    "read-excel-file": "^9.3.5"
+    "read-excel-file": "^9.3.5",
+    "stripe": "^22.5.0"
   },
   "devDependencies": {
     "playwright": "^1.62.1"

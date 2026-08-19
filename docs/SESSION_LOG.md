@@ -1700,3 +1700,42 @@ The user finalized real pricing and membership mechanics: one Photographer Netwo
 ### Not yet done
 
 Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice (and per this turn's explicit instruction not to push yet). Migration 17 has not been run in Supabase. The real Stripe integration remains unbuilt, awaiting a real Stripe account and the five environment variables listed above.
+
+## 2026 08 19 Photographer Network Real Stripe Integration
+
+### Goal
+
+The user obtained a real Stripe secret + publishable key and asked to build the real integration in full test mode. Also pasted a Stripe-Dashboard-generated Ruby sample project as a reference.
+
+### What was built
+
+1. **`lib/stripe_client.mjs`** (new) -- server-only Stripe SDK singleton reading `STRIPE_SECRET_KEY`, mirroring `lib/supabase-admin.mjs`'s exact "throw clearly at import if missing" pattern.
+2. **`lib/photographer_billing_service.mjs`** (new) -- `createMyCheckoutSession`/`createMyBillingPortalSession` (self-service, ownership-checked) and `applyStripeSubscriptionEvent`/`recordPaymentStatusFromInvoice` (webhook-driven writes).
+3. **`lib/photographer_service.mjs`** refactored: extracted `upsertSubscriptionFields` out of `adminSetSubscription` and exported it, so the admin-manual path and the new real-Stripe-webhook path share the exact same eligibility-grant-once code, not two copies of it.
+4. **`api/photographer/checkout.js`**, **`api/photographer/billing-portal.js`** (new) -- real endpoints, wired into the dashboard's Manage Membership section in place of the old `mailto:` placeholder.
+5. **`api/stripe/webhook.js`** (new) -- the project's first raw-request-body endpoint (`bodyParser: false`, manual buffering) since Stripe signature verification needs the exact original bytes. Handles `customer.subscription.created/updated/deleted` and `invoice.payment_succeeded/failed`; returns 500 (not 200) on internal failure so Stripe retries, since every write is an idempotent upsert.
+6. Added the `stripe` npm package (v22) as a real dependency.
+
+### A real key exposure, caught and flagged before it was used
+
+The pasted Ruby `server.rb` contained a fully-formed `sk_test_...` key -- Stripe's Dashboard auto-fills its downloadable code samples with the developer's own real key for convenience, so this was very likely the user's actual test secret key, now sitting in the chat transcript. Told the user immediately to roll it in the Stripe Dashboard (Developers -> API keys -> Roll key) before using it for anything. This codebase never stored or referenced that literal value at any point -- every reference is `process.env.STRIPE_SECRET_KEY`.
+
+### Automated testing actually run
+
+- `node --check` on all 6 new/modified server files -- clean.
+- Import-smoke-tested every new module together with fake env vars (`STRIPE_SECRET_KEY=sk_test_fake`, fake Supabase vars) -- confirmed every expected export exists, `api/stripe/webhook.js` correctly exports `config.api.bodyParser: false`, and nothing throws at import time beyond the intentional missing-env-var guard.
+- `npm.cmd run build` -- 284 pages, clean.
+- `npm.cmd run check` -- 273 JS files now scanned (was 268; the 5 new files), 18,520 links, zero problems.
+- `npm.cmd test` -- all 12 suites, zero failures, exit code 0.
+- Found and fixed one real issue during review: a code comment in `photographer_billing_service.mjs` describing a `payment_status` write from `applyStripeSubscriptionEvent` that didn't actually exist in the final code (the real version deliberately never writes it there) -- corrected the comment to match the safer actual behavior, no functional bug, but a real discrepancy between comment and code that would have misled a future reader.
+
+### What could NOT be tested and why
+
+**No live checkout, portal, or webhook call has actually been made against Stripe.** All three real blockers exist entirely on the user's side and are unrelated to this code:
+1. Migration 17's entitlement columns/table status in Supabase is unconfirmed -- the user said "I don't know about migration 17."
+2. No Stripe Product/Prices exist yet, so `STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL` have no real values to set.
+3. `STRIPE_WEBHOOK_SECRET` cannot exist until `api/stripe/webhook.js` is deployed somewhere Stripe can reach, and its URL is registered in the Stripe Dashboard.
+
+### Not yet done
+
+Not pushed, per the user's explicit instruction this session. Migration 17 still not confirmed run. The four Stripe env vars (`STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_PRICE_ID_MONTHLY`, `STRIPE_PRICE_ID_ANNUAL`) still need to be set in Vercel; `STRIPE_WEBHOOK_SECRET` still needs the webhook to be deployed and registered first. The Stripe Customer Portal's "allow switching between Monthly/Annual" option still needs one-time configuration in the Stripe Dashboard (Settings -> Billing -> Customer portal) before an existing member can actually switch intervals through it.

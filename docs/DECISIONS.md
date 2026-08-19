@@ -900,3 +900,44 @@ The user finalized real pricing and explicitly rejected the old differentiated-t
 ### Follow up
 
 Migration 17 needs to be run in Supabase before any of this is live. The actual Stripe checkout/webhook integration remains unbuilt, same gate as Phase Four -- needs a real Stripe account, and `STRIPE_SECRET_KEY`/`STRIPE_PUBLISHABLE_KEY`/`STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL`/`STRIPE_WEBHOOK_SECRET` as environment variables. No email notification exists yet for membership activation or partnership-story status changes, matching every earlier phase's same open item.
+
+## 2026 08 19 Photographer Network Real Stripe Integration
+
+### Decision
+
+Built the real Stripe checkout, billing portal, and webhook integration proposed (but deliberately not built) in Phase Four -- the user obtained real Stripe API keys and asked for full test mode. Added `lib/stripe_client.mjs`, `lib/photographer_billing_service.mjs`, `api/photographer/checkout.js`, `api/photographer/billing-portal.js`, and `api/stripe/webhook.js`. The dashboard's "Manage membership" section now calls real endpoints instead of the `mailto:` placeholder.
+
+### Reason
+
+The user provided a Stripe secret + publishable key and asked to proceed. Migration 17's entitlement architecture and the shared eligibility-grant logic (already proven correct for the admin-manual path) made this a matter of wiring a second, real trigger for the exact same write path, not inventing new entitlement logic.
+
+### A real secret key exposure was caught and flagged
+
+The user pasted a Stripe-Dashboard-generated Ruby sample (`server.rb`) containing what is very likely their own real test-mode secret key (Stripe auto-fills its downloadable code samples with the developer's actual key). Flagged this immediately as exposed and told the user to roll it in the Stripe Dashboard before using it -- this codebase never received, stored, or echoed the actual key value at any point; every reference is `process.env.STRIPE_SECRET_KEY`, read only at the point of use.
+
+### Key implementation decisions worth recording
+
+1. **One shared write path, not two.** `adminSetSubscription` was refactored to extract its upsert logic into a new exported `upsertSubscriptionFields(photographerId, fields)` in `lib/photographer_service.mjs` -- the SAME function is now called by the admin-manual path AND the new Stripe-webhook path (`applyStripeSubscriptionEvent` in the new `lib/photographer_billing_service.mjs`). The "grant partnership-story eligibility exactly once, never reset" guarantee therefore lives in exactly one place regardless of which path triggers a subscription change -- there was no way for the two paths to drift apart because there is only one path.
+2. **All subscription-state writes are driven off `customer.subscription.created/updated/deleted`, never `checkout.session.completed`.** This is Stripe's own recommended pattern (checkout.session.completed doesn't reliably carry full subscription state); the user's own pasted Ruby sample listens to the same three subscription events, confirming this matches Stripe's documented guidance, not just this codebase's preference.
+3. **Stripe status values are mapped, not passed through raw.** `incomplete`/`incomplete_expired`/`unpaid`/`paused` all map to our `'inactive'`, never `'active'` -- directly satisfies "a failed or incomplete payment should not activate membership."
+4. **`billing_interval` is derived from the subscription's actual Stripe price id** (compared against `STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL`), never trusted from anywhere else -- so a portal-driven monthly<->annual switch is recognized correctly the moment Stripe confirms it, satisfying the UPGRADING requirement without any manual proration logic of this codebase's own invention.
+5. **The "cancel stays active through the paid period" requirement needed zero new code.** Portal-initiated cancellation fires `customer.subscription.updated` with `cancel_at_period_end: true` while `status` stays `'active'` until the period genuinely ends -- the existing `isSubscriptionActive()` derivation (status='active' AND period not yet passed), already proven correct in Phase Four for the admin-manual case, handles this real Stripe case identically with no changes.
+6. **The webhook requires the RAW, unparsed request body** for signature verification -- `export const config = { api: { bodyParser: false } }` disables Vercel's automatic JSON parsing for this one route, and the handler buffers the raw bytes itself before calling `stripe.webhooks.constructEvent()`. Getting this wrong (parsing then re-stringifying) silently breaks every signature check; this is the first raw-body endpoint in the project.
+7. **Webhook failures return 500, not 200, so Stripe retries.** Every write here is an idempotent upsert (`onConflict: photographer_id`), so a retried delivery after a transient failure is safe -- deliberately different from "always ack 200" advice that would silently drop events on a real database hiccup. Only a bad signature returns without retry (400) -- retrying a forged/malformed request would never succeed.
+8. **`payment_status` has exactly one writer.** `applyStripeSubscriptionEvent` never touches it; only `invoice.payment_succeeded`/`invoice.payment_failed` do, directly. Kept deliberately separate from the subscription-status write path so a coarser status-derived guess can never overwrite the more precise, payment-specific signal.
+9. **Checkout is for a photographer's FIRST subscription only.** Switching monthly<->annual on an EXISTING subscription goes through the Stripe-hosted Customer Portal (`createMyBillingPortalSession`), not a second Checkout Session -- creating a second Checkout Session for an existing customer risks two separate subscriptions rather than one updated one. The Portal's price-switching option itself is a one-time Stripe Dashboard configuration step (Settings -> Billing -> Customer portal), outside this codebase.
+10. **Success/cancel/return URLs use `site.siteUrl`** (`src/config/site.mjs`), matching this project's existing single source of truth for the canonical domain, rather than deriving an origin from request headers (no existing precedent for that in this codebase, and `site.siteUrl` is already used for canonical/sitemap purposes).
+
+### Alternatives considered
+
+1. Trusting `checkout.session.completed` to write initial subscription state -- rejected per Stripe's own guidance; `customer.subscription.created` fires for the same event and reliably carries the full subscription object.
+2. Deriving `payment_status` from subscription.status inside `applyStripeSubscriptionEvent` (a second writer) -- rejected in favor of a single writer (invoice events only), avoiding exactly the kind of two-source drift this whole design has otherwise been careful to avoid.
+3. Building a second, webhook-specific eligibility-grant check instead of extracting `upsertSubscriptionFields` -- rejected; the entire point of centralizing it was to make a second implementation impossible, not merely unlikely.
+
+### Files or systems affected
+
+`lib/stripe_client.mjs` (new -- server-only Stripe SDK singleton, throws clearly at import if `STRIPE_SECRET_KEY` missing, mirrors `lib/supabase-admin.mjs`'s own pattern); `lib/photographer_billing_service.mjs` (new -- checkout/portal session creation, webhook event appliers); `lib/photographer_service.mjs` (`adminSetSubscription` refactored to share `upsertSubscriptionFields`, now exported); `api/photographer/checkout.js`, `api/photographer/billing-portal.js` (new, self-service, ownership-checked); `api/stripe/webhook.js` (new, signature-verified, raw body); `src/pages/photographerdashboard.mjs`, `public/scripts/photographer-dashboard.js` (Manage Membership section now calls real endpoints); `package.json`/`package-lock.json` (new `stripe` dependency, v22).
+
+### Follow up
+
+Still blocked on: migration 17 has not been confirmed run in Supabase; `STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL` don't exist yet (no Product/Prices created in the Stripe Dashboard); `STRIPE_WEBHOOK_SECRET` can't be obtained until `api/stripe/webhook.js` is actually deployed and its URL registered in Stripe. No live test of the real checkout/webhook flow has been possible yet for exactly these reasons -- everything above is verified by build/syntax/import-smoke-testing only, not a live Stripe test-mode transaction.
