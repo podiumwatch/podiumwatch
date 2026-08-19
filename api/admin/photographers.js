@@ -11,7 +11,9 @@ import {
   adminUpdateGalleryStatus,
   adminListPendingGalleries,
   adminSetSubscription,
-  adminListPlans
+  adminListPlans,
+  adminListPartnershipStories,
+  adminUpdatePartnershipStory
 } from "../../lib/photographer_service.mjs";
 
 function cleanText(value) {
@@ -84,6 +86,12 @@ export default async function handler(request, response) {
         break;
       case "list_plans":
         data = { plans: await adminListPlans() };
+        break;
+      case "list_partnership_stories":
+        data = { stories: await adminListPartnershipStories() };
+        break;
+      case "update_partnership_story":
+        data = { result: await adminUpdatePartnershipStory(body.id, body) };
         break;
       default: {
         const error = new Error("Unknown photographer admin action.");

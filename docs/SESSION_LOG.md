@@ -1665,3 +1665,38 @@ A full live pass against real production Supabase, proving the entitlement logic
 ### Not yet done
 
 Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice. The proposed Stripe implementation itself is not started, awaiting the user's decision.
+
+## 2026 08 19 Photographer Network Membership Pricing Finalized
+
+### Goal
+
+The user finalized real pricing and membership mechanics: one Photographer Network membership, two recurring Stripe prices (monthly $7.99, annual $39.99/Best Value), identical core features on both, one included partnership announcement story for annual members only (granted once, never on renewal), Founding Photographer kept fully separate and permanent. Explicit instruction not to push the existing (still-unpushed) Phase One-Four work yet, and to change the Phase Four billing architecture to match -- migration 16 stays untouched; any DB change is the next additive migration.
+
+### What was built
+
+1. **`install/17_PHOTOGRAPHER_MEMBERSHIP_PRICING.sql`** (written, NOT yet run in Supabase) -- five new columns on `photographer_subscriptions` (`billing_interval`, `current_period_start`, `canceled_at`, `payment_status`, `partnership_story_status`), a new `photographer_partnership_stories` table, and a data-only retirement of the Basic/Featured/Pro/"Founding Photographer" plan rows (flipped to `active = false`, never deleted) plus one new "Photographer Network Membership" row.
+2. **`lib/photographer_membership_config.mjs`** (new) -- the single source of truth for the real dollar amounts ($7.99/$39.99, plus the derived $3.33/mo equivalent and $55.89 savings figure) and for centralized, env-based Stripe price id / publishable key configuration. Nothing hardcodes a price anywhere else.
+3. **`lib/photographer_service.mjs`**: deleted the old `PLAN_PORTFOLIO_BONUS`/`getPortfolioLimit()` tier-based gating outright (portfolio limit is now flat at 12 for every photographer, paid or not); extended `getSubscription`/`adminSetSubscription` with the new billing fields; added the one-way, never-duplicated partnership-story eligibility grant inside `adminSetSubscription`; added the full partnership-story self-service + admin service layer (`getMyPartnershipStory`, `submitMyPartnershipStoryInfo`, `adminListPartnershipStories`, `adminUpdatePartnershipStory`); fixed a real adjacent gap where the dashboard's initial listing load never actually carried real subscription data.
+4. **Admin UI**: the old "Plan" tier dropdown was removed from the listing editor (there's no longer a tier to pick); the Billing panel gained billing interval, period start, cancellation date, and payment status fields; a new top-level "Partnership stories" queue panel lets an admin review submitted info and move it through eligible -> info_submitted -> in_review -> published.
+5. **Dashboard**: the old decorative "Plan: X" banner was replaced with a real Membership panel showing both pricing options (annual marked Best Value) plus a derived, accurate membership-status line, and a new Partnership Story section that shows the submission form only while eligible/info_submitted and a read-only recap once in_review/published.
+6. **New public page, `/photographers/membership/`** -- simple, honest two-card pricing layout (monthly vs. annual), explicit "renews automatically until canceled" language, no free tier, no Basic/Featured/Pro mentioned anywhere, linked from the directory page and the login page.
+
+### Automated testing actually run
+
+- `npm.cmd run build` -- succeeded, 284 pages (up from 283; the new pricing page), 10 stories, 8 ranking files.
+- `npm.cmd run check` -- succeeded, 268 JS files / 10 JSON files / 321 HTML files / 18,520 internal links / 706 local images, zero problems.
+- `npm.cmd test` -- all 12 existing suites passed clean (build+check plus 10 feature suites), zero failures.
+- Confirmed via direct grep: `PLAN_PORTFOLIO_BONUS`/`getPortfolioLimit` are completely gone from the codebase; no "Basic"/"Featured"/"Pro" tier names appear anywhere in the built dashboard or photographer-facing pages (only inside this session's own code comments); the responsive grid + `max-width: 760px` media query for the new pricing page, and the matching one for the dashboard's membership cards, both landed correctly in the built HTML.
+- Found and fixed one real bug during review, before any of this shipped: a malformed `<option>` tag in the new admin partnership-story review form (a stray extra `"` before the closing `>`) that would have silently broken the "selected" attribute, so the status dropdown would never actually show a photographer's true current review status. Fixed and re-verified clean with a fresh build/check pass.
+
+### Known, deliberate scope limits (this pass only)
+
+1. **Migration 17 has not been run against production Supabase.** None of this is live until the user pastes it into the Supabase SQL editor -- matching every migration this project has ever required.
+2. **No live Supabase verification pass was possible this time**, since the new columns/table don't exist in production yet. The usual live-Playwright-harness pass (used for every earlier phase) is still owed once migration 17 is applied, if the user wants it.
+3. **Stripe itself remains fully unconnected** -- no checkout endpoint, no webhook handler, no `stripe` package dependency. `STRIPE_SECRET_KEY`/`STRIPE_PUBLISHABLE_KEY`/`STRIPE_PRICE_ID_MONTHLY`/`STRIPE_PRICE_ID_ANNUAL`/`STRIPE_WEBHOOK_SECRET` are documented (commented out) in `.env.example` but none exist as real values anywhere.
+4. **The dashboard's "Manage membership" action is a `mailto:` link, not a working self-service flow** -- honest given no checkout/portal exists yet; the public pricing page and dashboard both say plainly to contact Podium Watch rather than implying a working "Subscribe" button.
+5. No email notification exists yet for membership activation, cancellation, or partnership-story status changes -- same open item every earlier phase has left.
+
+### Not yet done
+
+Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice (and per this turn's explicit instruction not to push yet). Migration 17 has not been run in Supabase. The real Stripe integration remains unbuilt, awaiting a real Stripe account and the five environment variables listed above.

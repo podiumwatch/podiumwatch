@@ -14,13 +14,13 @@
   const pendingGalleriesList = document.querySelector("[data-photog-pending-galleries]");
   const coverageList = document.querySelector("[data-photog-coverage-list]");
   const galleryList = document.querySelector("[data-photog-gallery-list]");
-  const planSelect = document.querySelector("[data-photog-plan-select]");
   const billingForm = document.querySelector("[data-photog-billing-form]");
+  const storyQueue = document.querySelector("[data-photog-story-queue]");
 
   const requiredElements = [
     messageBox, searchForm, newButton, listEl, editorTitle, coreForm, viewProfileLink,
     childrenSection, sportsForm, areasForm, portfolioForm, portfolioList,
-    pendingGalleriesList, coverageList, galleryList, planSelect, billingForm
+    pendingGalleriesList, coverageList, galleryList, billingForm, storyQueue
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -197,9 +197,13 @@
       renderGalleries(p.galleries);
 
       const subscription = p.subscription || { status: "inactive" };
+      billingForm.elements.billing_interval.value = subscription.billing_interval || "";
       billingForm.elements.status.value = subscription.status || "inactive";
+      billingForm.elements.current_period_start.value = subscription.current_period_start ? subscription.current_period_start.slice(0, 10) : "";
       billingForm.elements.current_period_end.value = subscription.current_period_end ? subscription.current_period_end.slice(0, 10) : "";
       billingForm.elements.cancel_at_period_end.checked = Boolean(subscription.cancel_at_period_end);
+      billingForm.elements.canceled_at.value = subscription.canceled_at ? subscription.canceled_at.slice(0, 10) : "";
+      billingForm.elements.payment_status.value = subscription.payment_status || "";
       billingForm.elements.admin_notes.value = subscription.admin_notes || "";
 
       showMessage("");
@@ -225,17 +229,67 @@
     billingForm.reset();
   }
 
-  async function loadPlans() {
+  const STORY_STATUS_LABELS = {
+    eligible: "Eligible -- awaiting info", info_submitted: "Info submitted -- ready to review",
+    in_review: "In review", published: "Published"
+  };
+
+  function renderStoryCard(row) {
+    const story = row.story || {};
+    const photographer = row.photographer || {};
+    const images = Array.isArray(story.image_urls) ? story.image_urls : [];
+    return (
+      '<div class="photog-admin-list-item" style="cursor:default;">' +
+        '<span class="photog-admin-badge" data-status="' + (row.partnership_story_status === "published" ? "approved" : "pending_review") + '">' +
+          escapeHtml(STORY_STATUS_LABELS[row.partnership_story_status] || row.partnership_story_status) +
+        '</span>' +
+        '<strong>' + escapeHtml(photographer.business_name || "Unknown photographer") + '</strong>' +
+        '<span>Annual member -- ' + images.length + ' image' + (images.length === 1 ? "" : "s") + ' submitted</span>' +
+        (story.city_or_area ? '<span>' + escapeHtml(story.city_or_area) + '</span>' : "") +
+        (story.biography ? '<span>' + escapeHtml(story.biography.slice(0, 220)) + (story.biography.length > 220 ? "..." : "") + '</span>' : "<span>No info submitted yet.</span>") +
+        (story.website_url || story.instagram_url || story.facebook_url
+          ? '<span>' + [story.website_url, story.instagram_url, story.facebook_url].filter(Boolean).map((u) => escapeHtml(u)).join(" -- ") + '</span>'
+          : "") +
+        '<form class="photog-admin-form photog-story-review-form" data-photog-story-review="' + escapeHtml(row.photographer_id) + '" style="margin-top:10px;">' +
+          '<div class="photog-admin-fields">' +
+            '<label>Status<select name="partnership_story_status">' +
+              ['eligible', 'info_submitted', 'in_review', 'published'].map((s) =>
+                '<option value="' + s + '"' + (row.partnership_story_status === s ? " selected" : "") + '>' + escapeHtml(STORY_STATUS_LABELS[s]) + '</option>'
+              ).join("") +
+            '</select></label>' +
+            '<label>Published story URL<input type="url" name="published_story_url" value="' + escapeHtml(story.published_story_url || "") + '" placeholder="https://"></label>' +
+            '<label class="photog-admin-wide">Admin notes<textarea name="admin_notes">' + escapeHtml(story.admin_notes || "") + '</textarea></label>' +
+          '</div>' +
+          '<button class="button button-dark" type="submit">Save story status</button>' +
+        '</form>' +
+      '</div>'
+    );
+  }
+
+  async function renderStoryQueue() {
     try {
-      const data = await api({ action: "list_plans" });
-      const plans = data.plans || [];
-      planSelect.innerHTML = '<option value="">No plan</option>' + plans
-        .map((plan) => '<option value="' + escapeHtml(plan.id) + '">' + escapeHtml(plan.name) + (plan.active ? "" : " (inactive)") + "</option>")
-        .join("");
+      const data = await api({ action: "list_partnership_stories" });
+      const rows = data.stories || [];
+      storyQueue.innerHTML = rows.length ? rows.map(renderStoryCard).join("") : "<p>No annual members have become eligible yet.</p>";
+    } catch (error) {
+      storyQueue.innerHTML = "<p>" + escapeHtml(error.message) + "</p>";
+    }
+  }
+
+  storyQueue.addEventListener("submit", async (event) => {
+    const form = event.target.closest("[data-photog-story-review]");
+    if (!form) return;
+    event.preventDefault();
+    const photographerId = form.dataset.photogStoryReview;
+    const payload = formPayload(form);
+    try {
+      await api({ action: "update_partnership_story", id: photographerId, ...payload });
+      showMessage("Partnership story updated.");
+      await renderStoryQueue();
     } catch (error) {
       showMessage(error.message, true);
     }
-  }
+  });
 
   billingForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -330,7 +384,7 @@
   });
 
   resetEditor();
-  loadPlans();
   renderList();
   renderPendingGalleries();
+  renderStoryQueue();
 })();

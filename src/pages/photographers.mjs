@@ -105,6 +105,7 @@ export function photographersPage(site) {
         </div>
         <div class="photog-directory-actions">
           <a class="button button-primary" href="/photographer-login/">Manage your listing</a>
+          <a class="button button-outline" href="/photographers/membership/">Membership pricing</a>
         </div>
       </section>
     </div>

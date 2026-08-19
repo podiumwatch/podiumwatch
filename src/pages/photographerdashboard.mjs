@@ -3,6 +3,7 @@ import {
   pageHero
 } from "../lib/html.mjs";
 import { SPORTS, REGIONS } from "../../lib/photographer_constants.mjs";
+import { MONTHLY_PRICE_CENTS, ANNUAL_PRICE_CENTS, formatUsd } from "../../lib/photographer_membership_config.mjs";
 
 // A signed-in photographer's own dashboard: create your listing (first
 // run), edit it, manage sports/service areas/portfolio, and submit for
@@ -33,7 +34,15 @@ export function photographerDashboardPage(site) {
     .photog-dash-status-banner[data-status="submitted"], .photog-dash-status-banner[data-status="pending_review"] { background: rgba(245, 158, 11, 0.18); color: #7c4a03; }
     .photog-dash-status-banner[data-status="approved"] { background: rgba(0, 191, 99, 0.18); color: #065f46; }
     .photog-dash-status-banner[data-status="rejected"], .photog-dash-status-banner[data-status="suspended"] { background: rgba(220, 38, 38, 0.13); color: #991b1b; }
-    [data-photog-dash-plan-banner] { background: #f8fafc; color: #334155; font-weight: 700; }
+    .photog-dash-membership-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .photog-dash-membership-card { padding: 18px; border-radius: 12px; border: 1px solid rgba(15, 23, 42, 0.14); display: grid; gap: 8px; align-content: start; }
+    .photog-dash-membership-card[data-best-value] { border-color: #00bf63; background: rgba(0, 191, 99, 0.06); }
+    .photog-dash-membership-card .photog-dash-price { font-size: 1.6rem; font-weight: 900; }
+    .photog-dash-best-value-tag { display: inline-flex; align-self: start; padding: 3px 10px; border-radius: 999px; background: #00bf63; color: #fff; font-size: 0.72rem; font-weight: 900; text-transform: uppercase; }
+    .photog-dash-story-card { padding: 18px; border-radius: 12px; background: rgba(0, 191, 99, 0.07); display: grid; gap: 12px; }
+    @media (max-width: 700px) {
+      .photog-dash-membership-grid { grid-template-columns: 1fr; }
+    }
     .photog-dash-message { padding: 14px 16px; border-radius: 10px; background: rgba(0, 191, 99, 0.1); }
     .photog-dash-message[data-tone="error"] { background: rgba(220, 38, 38, 0.12); color: #991b1b; }
     .photog-dash-form { display: grid; gap: 14px; }
@@ -81,7 +90,51 @@ export function photographerDashboardPage(site) {
       <div data-photog-dash-content hidden>
         <div class="photog-dash-status-banner" data-photog-dash-status-banner hidden></div>
 
-        <div class="photog-dash-status-banner" data-photog-dash-plan-banner hidden></div>
+        <section class="photog-dash-panel" data-photog-dash-children hidden>
+          <div><p class="eyebrow">Photographer Network Membership</p><h2>Manage membership</h2><p>One membership, two billing options. Both include full Photographer Network features -- normal directory listing, search visibility, and portfolio never require payment.</p></div>
+          <div class="photog-dash-membership-grid">
+            <div class="photog-dash-membership-card">
+              <span class="eyebrow">Monthly</span>
+              <span class="photog-dash-price">${formatUsd(MONTHLY_PRICE_CENTS)}<span style="font-size:0.95rem;font-weight:700;"> / month</span></span>
+              <span>Cancel anytime</span>
+              <span>Full Photographer Network membership</span>
+            </div>
+            <div class="photog-dash-membership-card" data-best-value>
+              <span class="photog-dash-best-value-tag">Best value</span>
+              <span class="eyebrow">Annual</span>
+              <span class="photog-dash-price">${formatUsd(ANNUAL_PRICE_CENTS)}<span style="font-size:0.95rem;font-weight:700;"> / year</span></span>
+              <span>Full Photographer Network membership</span>
+              <span>Includes one Podium Watch partnership announcement story</span>
+            </div>
+          </div>
+          <p data-photog-dash-membership-status></p>
+          <div class="photog-dash-actions">
+            <a class="button button-primary" href="/photographers/membership/">See full membership details</a>
+            <a class="button button-outline" href="mailto:${site.contactEmail}?subject=Photographer%20Network%20Membership" data-photog-dash-manage-membership>Manage membership</a>
+          </div>
+        </section>
+
+        <section class="photog-dash-panel photog-dash-story-card" data-photog-dash-story-section hidden>
+          <div><p class="eyebrow">Annual launch benefit</p><h2 data-photog-dash-story-title>Partnership announcement story</h2><p data-photog-dash-story-intro></p></div>
+          <form class="photog-dash-form" data-photog-dash-story-form hidden>
+            <div class="photog-dash-fields">
+              <label>Business name<input name="business_name"></label>
+              <label>Photographer name<input name="photographer_name"></label>
+              <label>City or service area<input name="city_or_area"></label>
+              <label class="photog-dash-wide">Biography<textarea name="biography"></textarea></label>
+              <label>Sports covered<input name="sports_covered" placeholder="e.g. Cross country, track and field"></label>
+              <label>Areas covered<input name="areas_covered" placeholder="e.g. Shelby, Miami, Darke counties"></label>
+              <label class="photog-dash-wide">How you got started in photography<textarea name="how_started"></textarea></label>
+              <label class="photog-dash-wide">Services offered<textarea name="services_offered"></textarea></label>
+              <label>Website<input type="url" name="website_url" placeholder="https://"></label>
+              <label>Instagram<input type="url" name="instagram_url" placeholder="https://"></label>
+              <label>Facebook<input type="url" name="facebook_url" placeholder="https://"></label>
+              <label class="photog-dash-wide">Approved image URLs (one per line -- images Podium Watch has permission to use in the article)<textarea name="image_urls" placeholder="https://..."></textarea></label>
+            </div>
+            <button class="button button-primary" type="submit">Submit story info</button>
+          </form>
+          <div data-photog-dash-story-recap hidden></div>
+        </section>
 
         <section class="photog-dash-panel">
           <div><p class="eyebrow">Your listing</p><h2 data-photog-dash-form-title>Create your listing</h2></div>

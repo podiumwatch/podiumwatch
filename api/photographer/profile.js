@@ -13,7 +13,9 @@ import {
   selfAddMeetCoverage,
   selfRemoveMeetCoverage,
   selfAddGallery,
-  selfRemoveGallery
+  selfRemoveGallery,
+  getMyPartnershipStory,
+  submitMyPartnershipStoryInfo
 } from "../../lib/photographer_service.mjs";
 
 function cleanText(value) {
@@ -85,6 +87,12 @@ export default async function handler(request, response) {
         break;
       case "remove_gallery":
         data = await selfRemoveGallery(user.id, body.gallery_id);
+        break;
+      case "get_partnership_story":
+        data = await getMyPartnershipStory(user.id, body.id);
+        break;
+      case "submit_partnership_story":
+        data = await submitMyPartnershipStoryInfo(user.id, body.id, body);
         break;
       default: {
         const error = new Error("Unknown photographer action.");

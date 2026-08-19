@@ -32,6 +32,7 @@ export function photographerLoginPage(site) {
 
   <section class="section section-paper">
     <div class="container">
+      <p style="text-align:center;margin-bottom:20px;"><a href="/photographers/membership/">See Photographer Network membership pricing</a></p>
       <div class="info-card team-auth-shell team-auth-loading" data-photog-auth-loading>
         <h2>Loading photographer accounts</h2>
         <p>Podium Watch is connecting securely to the account system.</p>

@@ -6,7 +6,12 @@
   const messageBox = document.querySelector("[data-photog-dash-message]");
   const contentBox = document.querySelector("[data-photog-dash-content]");
   const statusBanner = document.querySelector("[data-photog-dash-status-banner]");
-  const planBanner = document.querySelector("[data-photog-dash-plan-banner]");
+  const membershipStatus = document.querySelector("[data-photog-dash-membership-status]");
+  const storySection = document.querySelector("[data-photog-dash-story-section]");
+  const storyTitle = document.querySelector("[data-photog-dash-story-title]");
+  const storyIntro = document.querySelector("[data-photog-dash-story-intro]");
+  const storyForm = document.querySelector("[data-photog-dash-story-form]");
+  const storyRecap = document.querySelector("[data-photog-dash-story-recap]");
   const formTitle = document.querySelector("[data-photog-dash-form-title]");
   const coreForm = document.querySelector("[data-photog-dash-core-form]");
   const saveLabel = document.querySelector("[data-photog-dash-save-label]");
@@ -25,7 +30,8 @@
   const galleryList = document.querySelector("[data-photog-dash-gallery-list]");
 
   const requiredElements = [
-    loadingBox, root, accountEl, signOutButton, messageBox, contentBox, statusBanner, planBanner,
+    loadingBox, root, accountEl, signOutButton, messageBox, contentBox, statusBanner,
+    membershipStatus, storySection, storyTitle, storyIntro, storyForm, storyRecap,
     formTitle, coreForm, saveLabel, sportsForm, areasForm, portfolioForm, portfolioList,
     submitButton, viewProfileLink, meetSearchInput, meetResultsBox, coverageForm,
     coverageList, galleryForm, galleryList
@@ -110,6 +116,103 @@
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   }
 
+  function formatDateOnly(isoText) {
+    const cleaned = String(isoText || "").slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(cleaned)) return cleaned;
+    const date = new Date(cleaned + "T12:00:00Z");
+    if (Number.isNaN(date.getTime())) return cleaned;
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+
+  function isMembershipActive(subscription) {
+    if (!subscription || subscription.status !== "active") return false;
+    if (!subscription.current_period_end) return true;
+    return new Date(subscription.current_period_end).getTime() > Date.now();
+  }
+
+  function renderMembershipStatus(subscription) {
+    const intervalLabel = subscription.billing_interval === "annual" ? "Annual" : subscription.billing_interval === "monthly" ? "Monthly" : null;
+
+    if (!intervalLabel || subscription.status === "inactive") {
+      membershipStatus.textContent = "No active membership yet. Choose monthly or annual above, then use \"Manage membership\" to get started.";
+      return;
+    }
+    if (isMembershipActive(subscription)) {
+      let text = intervalLabel + " membership -- Active";
+      if (subscription.cancel_at_period_end && subscription.current_period_end) {
+        text += ". Canceled -- your access continues through " + formatDateOnly(subscription.current_period_end) + ".";
+      } else if (subscription.current_period_end) {
+        text += ", renews " + formatDateOnly(subscription.current_period_end) + ".";
+      } else {
+        text += ".";
+      }
+      membershipStatus.textContent = text;
+      return;
+    }
+    if (subscription.status === "past_due") {
+      membershipStatus.textContent = intervalLabel + " membership -- payment past due" +
+        (subscription.payment_status === "failed" ? " (last payment failed)" : "") +
+        ". Contact Podium Watch to update your payment method.";
+      return;
+    }
+    if (subscription.status === "canceled" || (subscription.current_period_end && new Date(subscription.current_period_end).getTime() <= Date.now())) {
+      membershipStatus.textContent = intervalLabel + " membership -- no longer active" +
+        (subscription.current_period_end ? " as of " + formatDateOnly(subscription.current_period_end) : "") +
+        ". Renew any time -- your listing and history are kept.";
+      return;
+    }
+    membershipStatus.textContent = intervalLabel + " membership -- not yet active.";
+  }
+
+  const STORY_STATUS_COPY = {
+    eligible: "You're eligible for a free Podium Watch partnership announcement story! Tell us about your business below.",
+    info_submitted: "Thanks -- your info is submitted and waiting for Podium Watch's review. You can still update it below until review begins.",
+    in_review: "Podium Watch is reviewing your submitted info.",
+    published: "Your partnership announcement story has been published!"
+  };
+
+  async function renderStorySection(photographerId, subscription) {
+    const status = subscription.partnership_story_status || "not_eligible";
+    if (status === "not_eligible") { storySection.hidden = true; return; }
+
+    storySection.hidden = false;
+    storyIntro.textContent = STORY_STATUS_COPY[status] || "";
+    const editable = status === "eligible" || status === "info_submitted";
+    storyForm.hidden = !editable;
+    storyRecap.hidden = editable;
+
+    try {
+      const data = await apiFetch("/api/photographer/profile/", { action: "get_partnership_story", id: photographerId });
+      const story = data.story || {};
+      if (editable) {
+        fillForm(storyForm, story);
+        storyForm.elements.image_urls.value = (story.image_urls || []).join("\n");
+      } else {
+        storyRecap.innerHTML =
+          "<p><strong>" + escapeHtml(story.business_name || "") + "</strong> -- " + escapeHtml(story.city_or_area || "") + "</p>" +
+          (story.biography ? "<p>" + escapeHtml(story.biography) + "</p>" : "") +
+          (status === "published" && story.published_story_url
+            ? '<p><a class="button button-primary" href="' + escapeHtml(story.published_story_url) + '" target="_blank" rel="noopener">Read your story</a></p>'
+            : "");
+      }
+    } catch (error) {
+      storyIntro.textContent = STORY_STATUS_COPY[status] || "";
+    }
+  }
+
+  storyForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!currentPhotographer) return;
+    const payload = formPayload(storyForm);
+    payload.image_urls = String(storyForm.elements.image_urls.value || "").split("\n").map((v) => v.trim()).filter(Boolean);
+    try {
+      await apiFetch("/api/photographer/profile/", { action: "submit_partnership_story", id: currentPhotographer.id, ...payload });
+      showMessage("Story info submitted. Podium Watch will follow up.");
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
+
   function selectMeet(meet) {
     const label = meet.name + " (" + formatMeetDate(meet.meet_date) + ")";
     coverageForm.elements.meet_id.value = meet.id;
@@ -179,13 +282,11 @@
     statusBanner.dataset.status = p.status;
     statusBanner.textContent = "Status: " + (STATUS_LABELS[p.status] || p.status);
 
-    const subscription = p.subscription || { status: "inactive" };
-    planBanner.hidden = false;
-    planBanner.textContent = p.plan_name
-      ? "Plan: " + p.plan_name + " -- " + (subscription.status === "active" ? "Active" : "Not yet active (contact Podium Watch to activate billing)")
-      : "No plan selected yet. Contact Podium Watch to choose a plan.";
+    const subscription = p.subscription || { status: "inactive", billing_interval: null, partnership_story_status: "not_eligible" };
 
     childrenSections.forEach((section) => { section.hidden = false; });
+    renderMembershipStatus(subscription);
+    renderStorySection(p.id, subscription);
 
     for (const box of sportsForm.querySelectorAll('input[name="sports"]')) {
       box.checked = (p.sports || []).includes(box.value);

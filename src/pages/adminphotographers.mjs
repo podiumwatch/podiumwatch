@@ -1,5 +1,6 @@
 import { adminShell } from "../lib/adminshell.mjs";
 import { SPORTS, REGIONS } from "../../lib/photographer_constants.mjs";
+import { MONTHLY_PRICE_CENTS, ANNUAL_PRICE_CENTS, formatUsd } from "../../lib/photographer_membership_config.mjs";
 
 const styles = `
     .photog-admin-shell { display:grid; gap:24px; }
@@ -106,9 +107,8 @@ export function adminPhotographersPage(site) {
                 <option value="verified">Verified</option>
               </select></label>
               <label class="photog-admin-checkbox"><input type="checkbox" name="featured">Featured</label>
-              <label class="photog-admin-checkbox"><input type="checkbox" name="founding_photographer">Founding Photographer</label>
+              <label class="photog-admin-checkbox"><input type="checkbox" name="founding_photographer">Founding Photographer (permanent launch badge -- independent of billing)</label>
               <label class="photog-admin-checkbox"><input type="checkbox" name="public_visible" checked>Public visible</label>
-              <label>Plan<select name="plan_id" data-photog-plan-select><option value="">No plan</option></select></label>
               <label class="photog-admin-wide">Admin notes<textarea name="admin_notes"></textarea></label>
             </div>
 
@@ -149,10 +149,15 @@ export function adminPhotographersPage(site) {
             <h3 style="margin-top:16px;">Galleries</h3>
             <div class="photog-admin-list" data-photog-gallery-list><p>No galleries.</p></div>
 
-            <h3 style="margin-top:16px;">Billing</h3>
-            <p>No payment processor is connected yet -- this manually grants or revokes the perks of the plan selected above (e.g. for an early photographer who paid outside of Stripe).</p>
+            <h3 style="margin-top:16px;">Membership billing</h3>
+            <p>No payment processor is connected yet -- this manually grants or revokes membership (e.g. for a photographer who paid outside of Stripe, or ahead of checkout going live). One membership, two billing intervals: monthly (${formatUsd(MONTHLY_PRICE_CENTS)}/mo) or annual (${formatUsd(ANNUAL_PRICE_CENTS)}/yr) -- both grant identical core features. Setting an ANNUAL subscription to active grants the one-time partnership story benefit automatically, once, below.</p>
             <form class="photog-admin-form" data-photog-billing-form>
               <div class="photog-admin-fields">
+                <label>Billing interval<select name="billing_interval">
+                  <option value="">Not set</option>
+                  <option value="monthly">Monthly (${formatUsd(MONTHLY_PRICE_CENTS)}/mo)</option>
+                  <option value="annual">Annual (${formatUsd(ANNUAL_PRICE_CENTS)}/yr)</option>
+                </select></label>
                 <label>Subscription status<select name="status">
                   <option value="inactive">Inactive</option>
                   <option value="active">Active</option>
@@ -160,8 +165,16 @@ export function adminPhotographersPage(site) {
                   <option value="past_due">Past due</option>
                   <option value="canceled">Canceled</option>
                 </select></label>
+                <label>Current period start<input type="date" name="current_period_start"></label>
                 <label>Renews/expires<input type="date" name="current_period_end"></label>
                 <label class="photog-admin-checkbox"><input type="checkbox" name="cancel_at_period_end">Cancel at period end</label>
+                <label>Canceled on<input type="date" name="canceled_at"></label>
+                <label>Payment status<select name="payment_status">
+                  <option value="">Unknown</option>
+                  <option value="succeeded">Succeeded</option>
+                  <option value="failed">Failed</option>
+                  <option value="pending">Pending</option>
+                </select></label>
                 <label class="photog-admin-wide">Billing notes<textarea name="admin_notes"></textarea></label>
               </div>
               <button class="button button-dark" type="submit">Save billing status</button>
@@ -169,6 +182,11 @@ export function adminPhotographersPage(site) {
           </section>
         </section>
       </div>
+
+      <section class="info-card photog-admin-panel">
+        <div><p class="eyebrow">Annual launch benefit</p><h2>Partnership stories</h2><p>Annual members become eligible for one Podium Watch partnership announcement story. Review submitted info here and move it through the workflow -- publishing the real article still happens through the normal editorial content process.</p></div>
+        <div class="photog-admin-list" data-photog-story-queue><p>Loading...</p></div>
+      </section>
     </div>`;
 
   return adminShell({
