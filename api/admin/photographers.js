@@ -10,7 +10,7 @@ import {
   adminRemovePortfolioItem,
   adminUpdateGalleryStatus,
   adminListPendingGalleries,
-  adminSetSubscription,
+  adminSetComplimentaryAccess,
   adminListPlans,
   adminListPartnershipStories,
   adminUpdatePartnershipStory
@@ -81,8 +81,8 @@ export default async function handler(request, response) {
       case "update_gallery_status":
         data = { gallery: await adminUpdateGalleryStatus(body.gallery_id, body) };
         break;
-      case "set_subscription":
-        data = { subscription: await adminSetSubscription(body.id, body) };
+      case "set_complimentary_access":
+        data = { subscription: await adminSetComplimentaryAccess(body.id, body) };
         break;
       case "list_plans":
         data = { plans: await adminListPlans() };

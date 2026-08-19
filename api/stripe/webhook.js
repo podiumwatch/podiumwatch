@@ -1,5 +1,9 @@
 import { stripeClient } from "../../lib/stripe_client.mjs";
-import { applyStripeSubscriptionEvent, recordPaymentStatusFromInvoice } from "../../lib/photographer_billing_service.mjs";
+import {
+  syncPhotographerSubscriptionFromStripe,
+  syncFromCheckoutSession,
+  recordPaymentStatusFromInvoice
+} from "../../lib/photographer_billing_service.mjs";
 
 // Stripe signature verification requires the exact raw request bytes --
 // a JSON-parsed-then-restringified body will not match the signature
@@ -49,14 +53,24 @@ export default async function handler(request, response) {
 
   try {
     switch (event.type) {
-      // All subscription-state writes are driven off these three --
-      // NOT off checkout.session.completed, which doesn't reliably
-      // carry full subscription state. This is Stripe's own recommended
-      // pattern for keeping subscription state in sync.
+      // The primary source of subscription-state truth -- Stripe's own
+      // recommended pattern. eventMeta (id + created) lets the sync
+      // function detect and skip an out-of-order redelivery rather than
+      // overwriting newer state with stale state.
       case "customer.subscription.created":
       case "customer.subscription.updated":
       case "customer.subscription.deleted":
-        await applyStripeSubscriptionEvent(event.data.object);
+        await syncPhotographerSubscriptionFromStripe(event.data.object, { id: event.id, created: event.created });
+        break;
+      // Defense in depth only -- re-fetches CURRENT live subscription
+      // state directly from Stripe rather than trusting this event's own
+      // payload, in case customer.subscription.created is ever delayed
+      // relative to the customer's redirect back to Podium Watch. The
+      // success redirect itself is never trusted as proof of payment --
+      // only a real webhook-driven sync (this, or the events above) ever
+      // changes entitlement.
+      case "checkout.session.completed":
+        await syncFromCheckoutSession(event.data.object);
         break;
       case "invoice.payment_succeeded":
         await recordPaymentStatusFromInvoice(event.data.object, "succeeded");

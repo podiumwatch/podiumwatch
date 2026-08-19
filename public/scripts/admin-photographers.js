@@ -14,13 +14,16 @@
   const pendingGalleriesList = document.querySelector("[data-photog-pending-galleries]");
   const coverageList = document.querySelector("[data-photog-coverage-list]");
   const galleryList = document.querySelector("[data-photog-gallery-list]");
-  const billingForm = document.querySelector("[data-photog-billing-form]");
+  const billingReadout = document.querySelector("[data-photog-billing-readout]");
+  const complimentaryForm = document.querySelector("[data-photog-complimentary-form]");
+  const complimentaryGrantedAt = document.querySelector("[data-photog-complimentary-granted-at]");
   const storyQueue = document.querySelector("[data-photog-story-queue]");
 
   const requiredElements = [
     messageBox, searchForm, newButton, listEl, editorTitle, coreForm, viewProfileLink,
     childrenSection, sportsForm, areasForm, portfolioForm, portfolioList,
-    pendingGalleriesList, coverageList, galleryList, billingForm, storyQueue
+    pendingGalleriesList, coverageList, galleryList, billingReadout, complimentaryForm,
+    complimentaryGrantedAt, storyQueue
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -196,19 +199,56 @@
       renderCoverage(p.meet_coverage);
       renderGalleries(p.galleries);
 
-      const subscription = p.subscription || { status: "inactive" };
-      billingForm.elements.billing_interval.value = subscription.billing_interval || "";
-      billingForm.elements.status.value = subscription.status || "inactive";
-      billingForm.elements.current_period_start.value = subscription.current_period_start ? subscription.current_period_start.slice(0, 10) : "";
-      billingForm.elements.current_period_end.value = subscription.current_period_end ? subscription.current_period_end.slice(0, 10) : "";
-      billingForm.elements.cancel_at_period_end.checked = Boolean(subscription.cancel_at_period_end);
-      billingForm.elements.canceled_at.value = subscription.canceled_at ? subscription.canceled_at.slice(0, 10) : "";
-      billingForm.elements.payment_status.value = subscription.payment_status || "";
-      billingForm.elements.admin_notes.value = subscription.admin_notes || "";
+      renderBillingReadout(p.subscription || { status: "inactive" });
+      complimentaryForm.elements.admin_complimentary_access.checked = Boolean((p.subscription || {}).admin_complimentary_access);
+      complimentaryForm.elements.admin_notes.value = (p.subscription || {}).admin_notes || "";
+      complimentaryGrantedAt.textContent = (p.subscription || {}).admin_complimentary_granted_at
+        ? "Granted " + formatDateShort((p.subscription || {}).admin_complimentary_granted_at)
+        : "";
 
       showMessage("");
     } catch (error) {
       showMessage(error.message, true);
+    }
+  }
+
+  function formatDateShort(isoText) {
+    const cleaned = String(isoText || "").slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(cleaned)) return "--";
+    const date = new Date(cleaned + "T12:00:00Z");
+    if (Number.isNaN(date.getTime())) return "--";
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+
+  const BILLING_STATUS_LABELS = {
+    inactive: "Inactive", active: "Active", trialing: "Trialing", past_due: "Past due", canceled: "Canceled"
+  };
+  const BILLING_INTERVAL_LABELS = { monthly: "Monthly ($7.99/mo)", annual: "Annual ($39.99/yr)" };
+  const PAYMENT_STATUS_LABELS = { succeeded: "Succeeded", failed: "Failed", pending: "Pending" };
+
+  // Shortened, not hidden -- these are opaque Stripe object ids
+  // (cus_.../sub_...), not secret values, but the full id is rarely
+  // useful to read at a glance in this list.
+  function shortenStripeId(id) {
+    if (!id) return "--";
+    return id.length > 14 ? id.slice(0, 10) + "..." + id.slice(-4) : id;
+  }
+
+  function renderBillingReadout(subscription) {
+    const fields = {
+      billing_interval: BILLING_INTERVAL_LABELS[subscription.billing_interval] || "Not set",
+      status: BILLING_STATUS_LABELS[subscription.status] || subscription.status || "Inactive",
+      current_period_start: subscription.current_period_start ? formatDateShort(subscription.current_period_start) : "--",
+      current_period_end: subscription.current_period_end ? formatDateShort(subscription.current_period_end) : "--",
+      cancel_at_period_end: subscription.cancel_at_period_end ? "Yes" : "No",
+      canceled_at: subscription.canceled_at ? formatDateShort(subscription.canceled_at) : "--",
+      payment_status: PAYMENT_STATUS_LABELS[subscription.payment_status] || "Unknown",
+      stripe_customer_id: shortenStripeId(subscription.stripe_customer_id),
+      stripe_subscription_id: shortenStripeId(subscription.stripe_subscription_id)
+    };
+    for (const [key, value] of Object.entries(fields)) {
+      const el = billingReadout.querySelector('[data-field="' + key + '"]');
+      if (el) el.textContent = value;
     }
   }
 
@@ -226,7 +266,9 @@
     portfolioList.innerHTML = "";
     coverageList.innerHTML = "";
     galleryList.innerHTML = "";
-    billingForm.reset();
+    renderBillingReadout({ status: "inactive" });
+    complimentaryForm.reset();
+    complimentaryGrantedAt.textContent = "";
   }
 
   const STORY_STATUS_LABELS = {
@@ -291,13 +333,16 @@
     }
   });
 
-  billingForm.addEventListener("submit", async (event) => {
+  complimentaryForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (!currentId) return showMessage("Save the listing before setting billing status.", true);
-    const payload = formPayload(billingForm);
+    if (!currentId) return showMessage("Save the listing before setting complimentary access.", true);
+    const payload = formPayload(complimentaryForm);
     try {
-      await api({ action: "set_subscription", id: currentId, ...payload });
-      showMessage("Billing status saved.");
+      const data = await api({ action: "set_complimentary_access", id: currentId, ...payload });
+      complimentaryGrantedAt.textContent = data.subscription.admin_complimentary_granted_at
+        ? "Granted " + formatDateShort(data.subscription.admin_complimentary_granted_at)
+        : "";
+      showMessage("Complimentary access saved.");
     } catch (error) {
       showMessage(error.message, true);
     }

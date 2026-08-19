@@ -1739,3 +1739,44 @@ The pasted Ruby `server.rb` contained a fully-formed `sk_test_...` key -- Stripe
 ### Not yet done
 
 Not pushed, per the user's explicit instruction this session. Migration 17 still not confirmed run. The four Stripe env vars (`STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, `STRIPE_PRICE_ID_MONTHLY`, `STRIPE_PRICE_ID_ANNUAL`) still need to be set in Vercel; `STRIPE_WEBHOOK_SECRET` still needs the webhook to be deployed and registered first. The Stripe Customer Portal's "allow switching between Monthly/Annual" option still needs one-time configuration in the Stripe Dashboard (Settings -> Billing -> Customer portal) before an existing member can actually switch intervals through it.
+
+## 2026 08 19 Photographer Network Real Stripe Prices, Complimentary Access Split, Test Suite
+
+### Goal
+
+The user's actual live Stripe setup didn't match the previous pass's assumptions: real live Price IDs already sit in Vercel under different env var names (`STRIPE_PHOTOGRAPHER_MONTHLY_PRICE_ID`/`STRIPE_PHOTOGRAPHER_ANNUAL_PRICE_ID`), across two separate Stripe products. The user also asked for duplicate-subscription prevention, an explicit separation between real Stripe entitlement and manual admin complimentary access, and a real automated test suite for the billing logic -- with an extensive, itemized list of exactly what to test.
+
+### Inspection performed before any change (as explicitly required)
+
+`git status` (clean tree except the pre-existing unrelated `.claude/settings.json`), `git log` (confirmed the two prior Stripe commits already in place), a baseline `npm.cmd run build` (284 pages, succeeded) BEFORE making any change, and direct reads of `lib/photographer_membership_config.mjs`, `lib/photographer_billing_service.mjs`, and `api/stripe/webhook.js` to confirm their actual current content matched what was being changed, rather than working from memory alone.
+
+### What was built
+
+1. **`install/18_PHOTOGRAPHER_STRIPE_INTEGRATION.sql`** (new, NOT yet run) -- `stripe_price_id`, `admin_complimentary_access`/`admin_complimentary_granted_at`, `last_stripe_event_id`/`last_stripe_event_at`. Migrations 16/17 untouched.
+2. **Corrected env var names** in `lib/photographer_membership_config.mjs` to the real ones already in Vercel; removed the genuinely-unused `STRIPE_PUBLISHABLE_KEY` (confirmed via repo-wide search first -- this integration redirects to a Stripe-hosted Checkout page, never uses client-side Stripe.js).
+3. **Server-side duplicate-subscription prevention** (`hasNonTerminalStripeSubscription`) wired into `createMyCheckoutSession`, returning a clear 409 rather than silently allowing a second subscription.
+4. **Complimentary access split into its own entitlement source.** `adminSetSubscription` (Phase Four) is gone, replaced by `adminSetComplimentaryAccess`, which can only ever write `admin_complimentary_access`/`admin_complimentary_granted_at`/`admin_notes` -- structurally incapable of touching the fields the real Stripe webhook now owns exclusively. New `isMembershipActive` combines both sources.
+5. **Out-of-order webhook protection** (`last_stripe_event_at` + the new pure `isStaleStripeEvent` function) on top of the upsert-based idempotency migration 16 already provided.
+6. **`checkout.session.completed` handling added** (`syncFromCheckoutSession`) as defense in depth, re-fetching live subscription state directly from Stripe rather than trusting the event payload.
+7. **Admin UI rebuilt**: the old editable billing form (status/interval/period dates) is now a read-only Stripe-derived readout (Stripe is the only writer), plus a new, separate "Complimentary access" toggle + notes form.
+8. **`scripts/test-photographer-billing.mjs`** (new) -- a real, comprehensive automated test suite, wired into `npm test` as `test:photographer-billing`.
+
+### Automated testing actually run
+
+- `node --check` on every modified/new server file -- clean.
+- Import-smoke-tested every module with the REAL env var names and fake values -- all expected exports present, including the renamed ones.
+- `npm.cmd run build` -- 284 pages, clean (both before and after the change).
+- `npm.cmd run check` -- 274 JS files now scanned (was 273; the new test script), 18,520 links, zero problems.
+- `node scripts/test-photographer-billing.mjs` directly, then via `npm.cmd test` -- all 13 suites (12 existing + the new one), zero failures, exit code 0. The new suite's own printed output: price/interval mapping and arbitrary-value rejection checked; auth/ownership enforcement checked at the source level; duplicate-subscription prevention checked directly (active/trialing/past_due blocks, canceled/never-subscribed doesn't) and confirmed wired in; story eligibility checked including a simulated annual->monthly->annual switch proving no double-grant; cancellation-at-period-end/expiration/failed-payment status checked directly; complimentary access confirmed structurally unable to touch Stripe-owned fields; webhook signature verification checked with REAL local Stripe crypto (valid accepted, wrong secret/tampered payload/malformed header all rejected); webhook idempotency/out-of-order protection checked directly; monthly/annual feature parity locked in as a regression test; admin billing visibility checked for zero secret exposure; migration 18 confirmed purely additive.
+- Spot-checked the actual built HTML for every touched page (dashboard, admin tool, membership pricing page, directory, profile) to confirm the real markup landed correctly, and confirmed unrelated pages (home, teams, rankings, meets, athletes) still generate.
+- Found and fixed nothing new this pass beyond what the tests themselves caught during writing (none needed fixing after the fact -- all 13 suites passed on the first full run once the code was complete).
+
+### Known, deliberate scope limits (this pass only)
+
+1. **No live Stripe or Supabase call was made.** Everything above is pure-logic unit testing, structural/source-level assertions, and local (non-network) Stripe signature crypto -- genuinely meaningful, but not a substitute for a real Checkout -> webhook -> entitlement round trip once migration 18 is live.
+2. **Whether the Stripe Customer Portal can switch between the two separate products** (monthly and annual live under different Stripe products, not one product with two prices) is a Dashboard configuration question this code cannot answer or control -- see the final report for exactly what to check.
+3. **The partnership story submission's image-approval permission acknowledgement** (an explicit checkbox confirming Podium Watch has permission to use submitted images) was not added this pass -- the dashboard's story form already collects image URLs; a dedicated permission-acknowledgement checkbox is a small, safe follow-up if wanted.
+
+### Not yet done
+
+Not pushed. Migration 18 not yet run in Supabase. `STRIPE_WEBHOOK_SECRET` still doesn't exist (needs the webhook deployed and registered first). Whether Customer Portal plan-switching works across the two separate Stripe products needs a one-time Dashboard check by the user.

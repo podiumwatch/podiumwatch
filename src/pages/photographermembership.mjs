@@ -54,8 +54,9 @@ export function photographerMembershipPage(site) {
           <p class="photog-pricing-price">${formatUsd(MONTHLY_PRICE_CENTS)}<span> / month</span></p>
           <p class="photog-pricing-sub">Billed monthly. Cancel anytime.</p>
           <ul class="photog-pricing-list">
-            <li>Cancel anytime</li>
             <li>Full Photographer Network membership</li>
+            <li>Cancel anytime</li>
+            <li>Automatically renews monthly until canceled</li>
           </ul>
           <a class="button button-primary" href="/photographer-login/">Get started</a>
         </article>
@@ -68,7 +69,8 @@ export function photographerMembershipPage(site) {
           <p class="photog-pricing-sub">Approximately ${formatUsd(ANNUAL_MONTHLY_EQUIVALENT_CENTS)} per month -- save ${formatUsd(ANNUAL_SAVINGS_CENTS)} compared with twelve monthly payments.</p>
           <ul class="photog-pricing-list">
             <li>Full Photographer Network membership</li>
-            <li>Includes one Podium Watch photographer partnership announcement story</li>
+            <li>Includes one Podium Watch Photographer Network partnership announcement story for an eligible initial annual membership</li>
+            <li>Automatically renews yearly until canceled</li>
           </ul>
           <a class="button button-primary" href="/photographer-login/">Get started</a>
         </article>
@@ -93,7 +95,7 @@ export function photographerMembershipPage(site) {
         </div>
         <div>
           <h3>Ready to join?</h3>
-          <p>Create your free listing first, then reach out to Podium Watch to activate your membership while online billing is being finalized.</p>
+          <p>Create your free listing first, then choose monthly or annual from your dashboard to start your membership securely through Stripe. Questions first? Reach out any time.</p>
           <a class="button button-dark" href="mailto:${site.contactEmail}?subject=Photographer%20Network%20Membership">Contact Podium Watch</a>
         </div>
       </section>

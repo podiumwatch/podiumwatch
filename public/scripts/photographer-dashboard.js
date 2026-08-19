@@ -126,27 +126,42 @@
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   }
 
-  function isMembershipActive(subscription) {
+  // Real, current Stripe entitlement only -- a subscription genuinely
+  // active AND not past its own period end. Deliberately does NOT
+  // consider admin_complimentary_access (a separate entitlement source,
+  // see install/18) -- this is used specifically to decide whether a
+  // photographer already has a real Stripe subscription that a second
+  // Checkout Session would duplicate, matching the server-side
+  // duplicate-prevention check in lib/photographer_billing_service.mjs
+  // exactly (complimentary access has no Stripe subscription to
+  // duplicate, so it's irrelevant to that specific decision).
+  function isStripeMembershipActive(subscription) {
     if (!subscription || subscription.status !== "active") return false;
     if (!subscription.current_period_end) return true;
     return new Date(subscription.current_period_end).getTime() > Date.now();
   }
 
   function renderMembershipActions(subscription) {
-    const active = isMembershipActive(subscription);
+    const active = isStripeMembershipActive(subscription);
     for (const button of startCheckoutButtons) button.hidden = active;
     manageMembershipButton.hidden = !subscription.stripe_customer_id;
   }
 
   function renderMembershipStatus(subscription) {
     renderMembershipActions(subscription);
+
+    if (subscription.admin_complimentary_access) {
+      membershipStatus.textContent = "Complimentary membership granted by Podium Watch -- full access, no billing.";
+      return;
+    }
+
     const intervalLabel = subscription.billing_interval === "annual" ? "Annual" : subscription.billing_interval === "monthly" ? "Monthly" : null;
 
     if (!intervalLabel || subscription.status === "inactive") {
       membershipStatus.textContent = "No active membership yet. Choose monthly or annual above, then use \"Manage membership\" to get started.";
       return;
     }
-    if (isMembershipActive(subscription)) {
+    if (isStripeMembershipActive(subscription)) {
       let text = intervalLabel + " membership -- Active";
       if (subscription.cancel_at_period_end && subscription.current_period_end) {
         text += ". Canceled -- your access continues through " + formatDateOnly(subscription.current_period_end) + ".";
@@ -512,6 +527,15 @@
       }
       // No listing yet -- the create form is already showing, no
       // children sections needed until one exists.
+
+      // Purely a friendly note while the real webhook-driven sync
+      // catches up -- never itself the source of truth. The membership
+      // status shown above is always from the real re-fetch above, not
+      // from this redirect param.
+      const checkoutParam = new URLSearchParams(window.location.search).get("checkout");
+      if (checkoutParam === "success") {
+        showMessage("Thanks! Finishing up your membership -- this usually takes just a few seconds. Refresh if it doesn't update shortly.");
+      }
 
       loadingBox.hidden = true;
       root.hidden = false;

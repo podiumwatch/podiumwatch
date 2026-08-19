@@ -1,6 +1,5 @@
 import { adminShell } from "../lib/adminshell.mjs";
 import { SPORTS, REGIONS } from "../../lib/photographer_constants.mjs";
-import { MONTHLY_PRICE_CENTS, ANNUAL_PRICE_CENTS, formatUsd } from "../../lib/photographer_membership_config.mjs";
 
 const styles = `
     .photog-admin-shell { display:grid; gap:24px; }
@@ -30,6 +29,10 @@ const styles = `
     .photog-admin-badge[data-status="rejected"], .photog-admin-badge[data-status="suspended"] { background:rgba(220,38,38,.13); color:#991b1b; }
     .photog-admin-portfolio-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px; border:1px solid rgba(15,23,42,.1); border-radius:9px; }
     .photog-admin-portfolio-row img { width:60px; height:44px; object-fit:cover; border-radius:6px; }
+    .photog-admin-billing-readout { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin:0; padding:14px; border:1px solid rgba(15,23,42,.1); border-radius:9px; background:#f8fafc; }
+    .photog-admin-billing-readout dt { font-size:.72rem; text-transform:uppercase; letter-spacing:.03em; color:#64748b; font-weight:800; }
+    .photog-admin-billing-readout dd { margin:2px 0 0; font-weight:750; }
+    @media (max-width:650px) { .photog-admin-billing-readout { grid-template-columns:1fr 1fr; } }
     @media (max-width:900px) { .photog-admin-grid { grid-template-columns:1fr; } }
     @media (max-width:650px) { .photog-admin-fields { grid-template-columns:1fr; } .photog-admin-wide { grid-column:auto; } }
 `;
@@ -150,34 +153,28 @@ export function adminPhotographersPage(site) {
             <div class="photog-admin-list" data-photog-gallery-list><p>No galleries.</p></div>
 
             <h3 style="margin-top:16px;">Membership billing</h3>
-            <p>No payment processor is connected yet -- this manually grants or revokes membership (e.g. for a photographer who paid outside of Stripe, or ahead of checkout going live). One membership, two billing intervals: monthly (${formatUsd(MONTHLY_PRICE_CENTS)}/mo) or annual (${formatUsd(ANNUAL_PRICE_CENTS)}/yr) -- both grant identical core features. Setting an ANNUAL subscription to active grants the one-time partnership story benefit automatically, once, below.</p>
-            <form class="photog-admin-form" data-photog-billing-form>
+            <p>Real Stripe subscription. Status, billing interval, and dates below are read-only -- Stripe's webhook is the only thing that writes them, so this can never go stale or get accidentally overwritten by a manual save.</p>
+            <dl class="photog-admin-billing-readout" data-photog-billing-readout>
+              <div><dt>Billing interval</dt><dd data-field="billing_interval">--</dd></div>
+              <div><dt>Subscription status</dt><dd data-field="status">--</dd></div>
+              <div><dt>Current period start</dt><dd data-field="current_period_start">--</dd></div>
+              <div><dt>Renews / expires</dt><dd data-field="current_period_end">--</dd></div>
+              <div><dt>Cancel at period end</dt><dd data-field="cancel_at_period_end">--</dd></div>
+              <div><dt>Canceled on</dt><dd data-field="canceled_at">--</dd></div>
+              <div><dt>Payment status</dt><dd data-field="payment_status">--</dd></div>
+              <div><dt>Stripe customer</dt><dd data-field="stripe_customer_id">--</dd></div>
+              <div><dt>Stripe subscription</dt><dd data-field="stripe_subscription_id">--</dd></div>
+            </dl>
+
+            <h3 style="margin-top:16px;">Complimentary access</h3>
+            <p>A separate entitlement source from Stripe -- for a photographer who should have membership without a real Stripe subscription (e.g. an early/offline arrangement). This can never overwrite real Stripe data above, and Stripe can never overwrite this.</p>
+            <form class="photog-admin-form" data-photog-complimentary-form>
               <div class="photog-admin-fields">
-                <label>Billing interval<select name="billing_interval">
-                  <option value="">Not set</option>
-                  <option value="monthly">Monthly (${formatUsd(MONTHLY_PRICE_CENTS)}/mo)</option>
-                  <option value="annual">Annual (${formatUsd(ANNUAL_PRICE_CENTS)}/yr)</option>
-                </select></label>
-                <label>Subscription status<select name="status">
-                  <option value="inactive">Inactive</option>
-                  <option value="active">Active</option>
-                  <option value="trialing">Trialing</option>
-                  <option value="past_due">Past due</option>
-                  <option value="canceled">Canceled</option>
-                </select></label>
-                <label>Current period start<input type="date" name="current_period_start"></label>
-                <label>Renews/expires<input type="date" name="current_period_end"></label>
-                <label class="photog-admin-checkbox"><input type="checkbox" name="cancel_at_period_end">Cancel at period end</label>
-                <label>Canceled on<input type="date" name="canceled_at"></label>
-                <label>Payment status<select name="payment_status">
-                  <option value="">Unknown</option>
-                  <option value="succeeded">Succeeded</option>
-                  <option value="failed">Failed</option>
-                  <option value="pending">Pending</option>
-                </select></label>
-                <label class="photog-admin-wide">Billing notes<textarea name="admin_notes"></textarea></label>
+                <label class="photog-admin-checkbox"><input type="checkbox" name="admin_complimentary_access">Grant complimentary access</label>
+                <p class="photog-admin-wide" data-photog-complimentary-granted-at></p>
+                <label class="photog-admin-wide">Notes<textarea name="admin_notes"></textarea></label>
               </div>
-              <button class="button button-dark" type="submit">Save billing status</button>
+              <button class="button button-dark" type="submit">Save complimentary access</button>
             </form>
           </section>
         </section>
