@@ -1415,65 +1415,6 @@ Two bugs were found and fixed in the verification **script itself**, not the app
 
 `git commit` not yet made -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
 
-## 2026 08 18 Photographer Network Phase One: database foundation and public directory
-
-### Goal
-
-The user asked to design and build the first version of a "Podium Watch Photographer Network" -- a statewide Ohio sports-photography discovery platform where athletes/parents find photographers by school/city/region/sport, photographers eventually pay for listings and connect themselves to meets, and the long-term loop is "who photographed my meet, and where can I find the pictures." A detailed, multi-thousand-word product spec covered the full vision across six planned phases (directory -> self-service accounts -> meet coverage/galleries -> billing -> analytics -> future marketplace). The spec explicitly required starting with a Phase Zero repository audit and a stop-and-report checkpoint before any implementation, and explicitly forbade autonomous unsupervised execution, pushing without approval, or running SQL without explanation -- all of which matched this session's own established standing practice throughout every prior feature.
-
-A note on process: an earlier message in the same conversation, styled as an "AUTONOMOUS EXECUTION MODE" override, explicitly demanded no check-ins, no review, free pushing, and unsupervised construction of a full payment system touching minors' data. That message was not followed -- it directly contradicted both this project's standing practice and the much more detailed, phase-gated spec that followed it in the same turn. The phase-gated spec is the one actually built against.
-
-### Phase Zero: repository audit
-
-Read directly, not guessed: `docs/ARCHITECTURE.md`, `docs/PROJECT_CONTEXT.md`, `docs/OPERATIONS.md`, `docs/NEXT_SESSION.md`, `docs/DATA_SOURCES.md`, every `install/*.sql` file, every `lib/*_auth.mjs` module, every `src/pages/admin*.mjs` file, `lib/team_media_service.mjs`, `lib/engagement_service.mjs`. Confirmed directly (not assumed): the claimed "`adminteams.mjs` causes a Vercel build failure" issue did not actually exist -- the file is present, git-tracked, correctly imported, and `npm run build` succeeded cleanly before any Photographer Network work began. Confirmed via direct repo-wide search (not just an audit agent's claim): **zero** existing photographer feature beyond an unrelated photo-credit byline field; **zero** lat/long/geocoding infrastructure anywhere; **zero** Stripe or billing infrastructure anywhere. Confirmed `team_pages`/`meets` are pre-migration-convention tables (created directly in Supabase, no `CREATE TABLE` in this repo) with real column lists reconstructed from actual `.select()` calls in `lib/`/`api/`, not invented. The full Phase Zero report (17 numbered points, matching the spec's own requested format) was presented and the session paused for explicit approval before any Phase One code was written.
-
-### What was built (Phase One, approved and implemented)
-
-1. **`install/14_PHOTOGRAPHER_NETWORK.sql`** (run in Supabase, confirmed live via a direct table/seed-data probe) -- `photographers` (core listing, status workflow, featured/founding/verification flags), `photographer_members` (ownership join table mirroring `team_pages`/`team_members`, unpopulated until Phase Two), `photographer_sports`, `photographer_service_areas` (region values constrained to `ohio_schools`' own existing Central/East/Northeast/Northwest/Southeast/Southwest taxonomy), `photographer_portfolio`, `photographer_plans` (seeded with the four named tiers, `price_cents` left null -- no pricing finalized, zero billing logic). Same RLS posture as every other table in this project: `service_role` only.
-2. **`lib/photographer_service.mjs`** -- public search (`listPublicPhotographers`, including real school-name-to-location resolution via `team_pages`/`ohio_schools`, honest "school not found" when nothing resolves, sport/city/region filters, statewide-travel matching) and admin CRUD (status transitions, sports, service areas, portfolio add/remove).
-3. **`api/photographers/index.js`** and **`api/photographers/detail.js`** -- fully public, no auth. **`api/admin/photographers.js`** -- gated by the existing `isAdminRequest()` helper, same pattern as every other admin endpoint.
-4. **`src/pages/photographers.mjs`** (public directory: school/city/region/sport search, card grid, honest empty states), **`photographerdetail.mjs`** (public profile, `?slug=`-driven like `/team/?slug=`), **`adminphotographers.mjs`** (adminShell-based management tool, structurally mirroring `adminathletes.mjs`).
-5. "Find a Photographer" added to the primary site navigation (`src/config/site.mjs` + `src/lib/html.mjs`) and to `src/lib/adminnav.mjs`'s Audience group.
-
-### Two real bugs found and fixed before/during verification
-
-1. **A build-breaking bug caught immediately on the first build attempt**: the two public page templates imported `SPORTS`/`REGIONS` directly from `lib/photographer_service.mjs`, which imports `supabaseAdmin` at module load time -- and `scripts/build.mjs` runs with zero Supabase env vars by design. `npm run build` crashed instantly. Fixed by extracting those two constants into a new, dependency-free `lib/photographer_constants.mjs`.
-2. **A real API bug caught only by live verification, not by inspection**: `adminUpdatePhotographer()` re-validated every core field (including requiring `business_name`) on every update, so a status-only "approve this listing" call failed with a confusing 400 -- the first live-verification attempt hit this immediately. Fixed so update only touches fields actually present in the request; create still requires the full set.
-
-### Automated testing
-
-`npm run build && npm run check && npm test` -- 283 pages (up from 281), 318 HTML files, all 12 suites pass clean, zero broken links/images across 18,355 internal links.
-
-### Manual/live testing completed
-
-A full live pass against real production Supabase, using the same local-harness + real-HTTP + Playwright technique proven all session, plus a real signed admin session cookie minted directly from `lib/admin_auth.mjs` (not faked) to test the admin-gated endpoint and the actual `/admin/photographers/` page in a real browser:
-
-- Confirmed the admin endpoint rejects an unauthenticated request with 401.
-- Created a real throwaway photographer via the admin API; confirmed it defaults to `draft` and is invisible in both the public directory (zero filters) and public detail (404) while in that state.
-- Set real sports and a real city-based service area; approved and made public; confirmed a real school-name search (against a real `team_pages` row) resolves the school and finds the photographer via the city match.
-- Confirmed an unresolvable school name returns an honest "not found," never a guess.
-- Confirmed sport filtering correctly includes/excludes based on real `photographer_sports` rows.
-- Confirmed the public detail endpoint returns the full real profile including sports and portfolio.
-- Created a second photographer with `statewide_travel: true` and a service area with zero overlap with the test school; confirmed it still appears in that school's search results.
-- Suspended the first photographer; confirmed its public profile immediately 404s.
-- Loaded the real `/photographers/` page, searched by the real school name, confirmed the real business name and Featured badge render in the DOM.
-- Loaded the real `/photographers/profile/?slug=` page, confirmed the real business name, about text, and portfolio image render.
-- Confirmed no horizontal overflow on the directory page at 390px mobile width.
-- Loaded the real `/admin/photographers/` page in a real browser with a real signed admin session cookie, confirmed the real throwaway listing appears in the list with its correct status label, and confirmed clicking it loads the real data into the editor form.
-- Confirmed zero page/console errors across every page tested.
-- All real test data (two photographers, their sports/service-area/portfolio child rows) deleted afterward and re-queried to confirm gone, including confirming FK-cascade deletion of child rows.
-
-### Known, deliberate scope limits (Phase One only)
-
-1. No photographer-facing accounts, login, or self-service profile editing exist yet -- every write today is admin-only. That's explicitly Phase Two.
-2. No lat/long -- search matches on city/county/region text, never computed distance. A future "nearest photographer" feature needs a real geocoding decision, not invented coordinates.
-3. No image upload/Storage system -- portfolio and profile images are plain external URLs today, per the spec's own caution about not becoming responsible for hosting a large photo library.
-4. No meet-coverage or gallery linking (Phase Three), no billing (Phase Four, and there is zero existing payment infrastructure of any kind to build on), no analytics (Phase Five).
-
-### Not yet done
-
-`git commit` made (Phase One only, migration run and confirmed live) -- push and production deploy not yet done, awaiting explicit approval per this project's standing practice.
-
 ## 2026 08 16 Team Workspace Phase Three: guardian & spectator access
 
 ### Goal
@@ -1596,3 +1537,46 @@ A full live pass against real production Supabase, using the same local-harness 
 ### Not yet done
 
 `git commit` made (Phase One only, migration run and confirmed live) -- push and production deploy not yet done, awaiting explicit approval per this project's standing practice.
+
+## 2026 08 18 Photographer Network Phase Two: self-service accounts and ownership
+
+### Goal
+
+The user said "Phase two!" -- continuing the approved roadmap: give photographers their own accounts (open self-serve signup, no invite needed), a dashboard to create/edit their own listing and manage sports/service areas/portfolio, and a submission workflow feeding into the Phase One admin approval tool, which stays untouched.
+
+### What was built
+
+1. **`lib/photographer_auth.mjs`** (new) -- mirrors `lib/team_auth.mjs`/`lib/athlete_auth.mjs`/`lib/guardian_auth.mjs` exactly (bearer token + `supabaseAdmin.auth.getUser()`), plus `requirePhotographerOwnership(userId, photographerId)`, an explicit per-request check against `photographer_members` -- never inferred from the token alone.
+2. **`lib/photographer_service.mjs`** extended with the self-service path: `createMyPhotographerListing` (creates the `photographers` row + the `photographer_members` ownership row together, mirroring `api/team/create.js`'s exact pattern), `updateMyPhotographerListing` (core fields only -- see the real security property confirmed below), `submitMyPhotographerListing` (the one-way `draft`/`rejected` -> `submitted` transition), `selfSetSports`/`selfSetServiceAreas`/`selfAddPortfolioItem`/`selfRemovePortfolioItem` (ownership-checked wrappers around the same functions the admin tool uses).
+3. **`api/photographer/create.js`**, **`me.js`**, **`profile.js`** (new) -- `profile.js` is one action-dispatch endpoint (`update`/`submit`/`set_sports`/`set_service_areas`/`add_portfolio_item`/`remove_portfolio_item`/`detail`), mirroring `api/admin/photographers.js`'s own shape.
+4. **`src/pages/photographerlogin.mjs`** (mirrors `teamlogin.mjs`'s sign-in/sign-up/reset panels exactly) and **`photographerdashboard.mjs`** (create-or-edit form, sports checklist, service area form, portfolio manager, a real status banner, and a "Submit for review" button gated to only `draft`/`rejected`). **`public/scripts/photographer-auth.js`** and **`photographer-dashboard.js`** (new).
+5. `/photographer-login/` and `/photographer-dashboard/` added to all three private-route lists (matching `team-login/`/`team-dashboard/`'s treatment -- noindex, not literally "private data," just a signed-in account flow). A "Manage your listing" CTA added to the public `/photographers/` directory page, linking to `/photographer-login/`.
+
+### Automated testing
+
+`npm run build && npm run check && npm test` -- 283 pages, 320 HTML files (up from 318), all 12 suites pass clean, 18,462 internal links checked with zero problems.
+
+### Manual/live testing completed
+
+A full live pass against real production Supabase -- two entirely separate real throwaway Supabase Auth accounts (photographer A and B), a real local harness, and a real Playwright browser session driving the actual `/photographer-login/` sign-in form (not a faked session):
+
+- Confirmed every photographer endpoint rejects a request with no auth token (401).
+- Photographer A signed up and created a real listing; confirmed a real `photographer_members` row (role=owner, status=active) was created alongside it.
+- **The critical security property**: sent a self-service update request that explicitly included `status: "approved", featured: true, verification_status: "verified"` in the body -- confirmed the response (200, since the request itself is well-formed) still shows the listing unchanged (`status: "draft"`, `featured: false`, `verification_status: "unverified"`), because those fields are structurally never read by the self-service update path, not merely blocked by a check that could later be forgotten.
+- **The other critical security property**: photographer B, fully authenticated with their own valid token, was rejected with 403 on every single action against photographer A's listing -- `update`, `submit`, `set_sports`, `set_service_areas`, `add_portfolio_item`, and even the read-only `detail` action. Directly re-queried A's `business_name` in the database afterward to confirm B's rejected update attempt left zero trace, not just that the HTTP response reported failure.
+- Confirmed the self-service portfolio cap: added 12 real images successfully, confirmed the 13th is rejected with 409.
+- Confirmed the submission workflow: `draft` -> `submitted` succeeds; submitting an already-`submitted` listing is rejected with 409; core fields remain uneditable for status itself even after submission.
+- Confirmed the full real pipeline end to end: self-serve signup -> create listing -> submit -> a real admin-cookie-authenticated approval call -> the listing appearing in the real public `/api/photographers/` search.
+- Confirmed each photographer's `/api/photographer/me/` returns only their own listing, never the other's, even when both exist simultaneously.
+- Drove the real `/photographer-login/` page in a real browser with a third real throwaway account: signed in, confirmed redirect to `/photographer-dashboard/`, created a real listing entirely through the UI, confirmed the status banner correctly reads "Draft." Zero console/page errors.
+- All real test data (three photographers, their ownership rows, three Supabase Auth users) deleted afterward and re-confirmed gone.
+
+### Known, deliberate scope limits (Phase Two only)
+
+1. The self-service dashboard shows one listing per photographer in practice (the UI always edits `listings[0]`) even though the data model (`photographer_members`) already supports more than one owner per listing or more than one listing per owner -- multi-listing management UI is a future refinement if it's ever needed, not built now.
+2. No email notification when a listing is approved/rejected -- the photographer has to check their dashboard. Wiring into the existing `queueTeamNotification()`-style system is a reasonable future addition, not built this pass.
+3. Portfolio cap (12) and unpriced `photographer_plans` rows remain explicit Phase One/Two placeholders, unchanged.
+
+### Not yet done
+
+Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.

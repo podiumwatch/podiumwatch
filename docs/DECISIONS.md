@@ -763,3 +763,33 @@ The audit's two "zero" findings directly shaped Phase One's real scope: without 
 ### Follow up
 
 Phase Two (photographer self-service accounts, ownership, submission workflow) is the next planned stage -- see `docs/SESSION_LOG.md`, 2026-08-18 for the full phased roadmap the user specified. `api/team/roster.js`'s pre-existing missing `public_visible` filtering (noted in the previous entry) remains unrelated and unfixed. No lat/long exists; true distance-based "nearest photographer" sorting remains a distinct future decision requiring a geocoding service, not assumed or faked in this pass.
+
+## 2026 08 18 Photographer Network Phase Two: self-service accounts and ownership
+
+### Decision
+
+Gave photographers their own accounts: open self-serve signup (mirroring team/coach signup, since no one invites a photographer the way a coach invites an athlete), a dashboard to create and edit their own listing, manage their own sports/service areas/portfolio, and submit for review. Admin approval (the only path to `status = 'approved'`, and the only way to set `featured`/`founding_photographer`/`verification_status`/`plan_id`) stays exactly as Phase One built it, untouched.
+
+### Reason
+
+This was the explicitly-approved next phase from the user's own roadmap. The core risk in this phase is obvious and singular: one photographer editing another photographer's listing. Every self-service write and read in `lib/photographer_service.mjs` is ownership-checked against the real signed-in user via a new `requirePhotographerOwnership()` (`lib/photographer_auth.mjs`) before anything happens -- never inferred from the request body's `id` alone.
+
+### Key implementation decisions worth recording
+
+1. **Admin-only fields are structurally unreachable through the self-service path, not just validated away.** `updateMyPhotographerListing()` only ever calls `corePhotographerFieldsForUpdate()`, which iterates a fixed field list that does not include `status`/`featured`/`founding_photographer`/`verification_status`/`plan_id` at all -- there is no `if (body.status) fail(...)` guard to accidentally miss or forget to add later; those keys are simply never read from the request body by this function, structurally. Confirmed live: a request that explicitly includes `status: "approved", featured: true` in the body succeeds (200) but the persisted row is provably unaffected.
+2. **The self-service `update`/`set_sports`/`set_service_areas`/`add_portfolio_item`/`remove_portfolio_item`/`detail` actions reuse the exact same underlying functions the admin tool uses** (`adminSetSports`, `adminSetServiceAreas`, `adminAddPortfolioItem`, `adminRemovePortfolioItem`, `adminGetPhotographer`) -- the "admin" prefix on those names is now a little imprecise (they're really shared, ownership-agnostic mutators), but avoiding duplicated logic was judged more valuable than a naming cleanup that would touch more files for no functional change.
+3. **A flat 12-image portfolio cap**, enforced server-side in `selfAddPortfolioItem()`, not just suggested in the UI -- there are no plan-based limits yet (Phase Four, unbuilt), so this is a placeholder ceiling, not a real tiered system. Confirmed live: the 13th image is rejected with 409.
+4. **Submission is a one-way, narrowly-gated transition**: `submitMyPhotographerListing()` only allows `draft`/`rejected` -> `submitted`, never touches any other status, and rejects re-submitting an already-submitted listing (409) rather than silently no-op'ing or erroring unhelpfully.
+
+### Alternatives considered
+
+1. Reusing `lib/team_auth.mjs` directly instead of a new `lib/photographer_auth.mjs` -- rejected, matching this project's own explicit, repeated convention (`lib/athlete_auth.mjs`/`lib/guardian_auth.mjs`'s own header comments) of separate, purpose-specific auth modules over one shared generic one, so error copy stays audience-appropriate.
+2. A single combined "save everything" endpoint instead of separate `update`/`set_sports`/`set_service_areas`/`add_portfolio_item` actions -- rejected in favor of matching `api/admin/photographers.js`'s own action-dispatch shape exactly, so the admin and self-service paths stay structurally parallel and easy to compare.
+
+### Files or systems affected
+
+`lib/photographer_auth.mjs` (new); `lib/photographer_service.mjs` (extended: `getMyPhotographerListings`, `getMyPhotographerListing`, `createMyPhotographerListing`, `updateMyPhotographerListing`, `submitMyPhotographerListing`, `selfSetSports`, `selfSetServiceAreas`, `selfAddPortfolioItem`, `selfRemovePortfolioItem`); `api/photographer/create.js`, `api/photographer/me.js`, `api/photographer/profile.js` (new); `src/pages/photographerlogin.mjs`, `photographerdashboard.mjs` (new); `public/scripts/photographer-auth.js`, `photographer-dashboard.js` (new); `src/pages/photographers.mjs` ("Manage your listing" CTA added); `src/lib/html.mjs`, `scripts/check.mjs`, `scripts/build.mjs` (new private-route entries for `photographer-login/`/`photographer-dashboard/`).
+
+### Follow up
+
+Phase Three (meet coverage and gallery links) is next per the user's roadmap. The 12-image portfolio cap and the still-unpriced `photographer_plans` rows are both explicit placeholders pending Phase Four (billing), which has zero existing infrastructure to build on. Image hosting is still plain external URLs, not a real upload pipeline.

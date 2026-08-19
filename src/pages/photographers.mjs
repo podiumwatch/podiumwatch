@@ -47,6 +47,9 @@ export function photographersPage(site) {
     .photog-tag { display: inline-flex; padding: 3px 9px; border-radius: 999px; font-size: 0.74rem; background: rgba(15, 23, 42, 0.06); }
     .photog-card-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
 
+    .photog-directory-manager { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+    .photog-directory-manager h2, .photog-directory-manager p { margin-bottom: 0; }
+
     @media (max-width: 700px) {
       .photog-directory-fields { grid-template-columns: 1fr; }
     }
@@ -91,6 +94,17 @@ export function photographersPage(site) {
         <div class="info-card" data-photog-empty hidden>
           <h2>No photographers found</h2>
           <p data-photog-empty-message>Try a different school, city, region, or sport.</p>
+        </div>
+      </section>
+
+      <section class="info-card photog-directory-manager">
+        <div>
+          <p class="eyebrow">Sports photographers</p>
+          <h2>List your business</h2>
+          <p>Create a free listing to appear in the Podium Watch Photographer Network directory.</p>
+        </div>
+        <div class="photog-directory-actions">
+          <a class="button button-primary" href="/photographer-login/">Manage your listing</a>
         </div>
       </section>
     </div>
