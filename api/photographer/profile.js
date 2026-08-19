@@ -9,7 +9,11 @@ import {
   selfSetSports,
   selfSetServiceAreas,
   selfAddPortfolioItem,
-  selfRemovePortfolioItem
+  selfRemovePortfolioItem,
+  selfAddMeetCoverage,
+  selfRemoveMeetCoverage,
+  selfAddGallery,
+  selfRemoveGallery
 } from "../../lib/photographer_service.mjs";
 
 function cleanText(value) {
@@ -69,6 +73,18 @@ export default async function handler(request, response) {
         break;
       case "remove_portfolio_item":
         data = await selfRemovePortfolioItem(user.id, body.portfolio_id);
+        break;
+      case "add_meet_coverage":
+        data = { coverage: await selfAddMeetCoverage(user.id, body.id, body) };
+        break;
+      case "remove_meet_coverage":
+        data = await selfRemoveMeetCoverage(user.id, body.coverage_id);
+        break;
+      case "add_gallery":
+        data = { gallery: await selfAddGallery(user.id, body.id, body) };
+        break;
+      case "remove_gallery":
+        data = await selfRemoveGallery(user.id, body.gallery_id);
         break;
       default: {
         const error = new Error("Unknown photographer action.");

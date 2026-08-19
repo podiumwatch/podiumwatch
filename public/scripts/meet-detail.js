@@ -1151,6 +1151,51 @@
     }
   }
 
+  // Additive, never blocking, never allowed to affect the rest of this
+  // page -- a failure here (network, missing DOM, anything) is swallowed
+  // by the .catch(() => {}) at the call site, matching the "safe to add,
+  // never risk the existing meet page" requirement this was built under.
+  async function loadMeetPhotographers(meetId) {
+    const photographersSection = document.querySelector("[data-meet-photographers-section]");
+    const photographersList = document.querySelector("[data-meet-photographers-list]");
+    const galleriesSection = document.querySelector("[data-meet-galleries-section]");
+    const galleriesList = document.querySelector("[data-meet-galleries-list]");
+    if (!photographersSection || !photographersList || !galleriesSection || !galleriesList) return;
+
+    function escapeHtmlLocal(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+    }
+
+    const response = await fetch("/api/meets/photographers/", {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ meet_id: meetId })
+    });
+    if (!response.ok) return;
+    const data = await response.json().catch(() => null);
+    if (!data) return;
+
+    const coverage = (data.coverage || []).filter((c) => ["planned", "confirmed"].includes(c.coverage_status));
+    if (coverage.length > 0) {
+      photographersSection.hidden = false;
+      photographersList.innerHTML = coverage.map((c) => (
+        '<div class="meet-photog-row"><strong>' + escapeHtmlLocal(c.photographer.business_name) + '</strong>' +
+        '<a class="button button-outline" href="/photographers/profile/?slug=' + encodeURIComponent(c.photographer.slug) + '">View profile</a></div>'
+      )).join("");
+    }
+
+    const galleries = data.galleries || [];
+    if (galleries.length > 0) {
+      galleriesSection.hidden = false;
+      galleriesList.innerHTML = galleries.map((g) => (
+        '<div class="meet-photog-row"><div><strong>' + escapeHtmlLocal(g.title) + '</strong><br><span>by ' + escapeHtmlLocal(g.photographer.business_name) + '</span></div>' +
+        '<a class="button button-primary" href="' + escapeHtmlLocal(g.gallery_url) + '" target="_blank" rel="noopener noreferrer">View gallery</a></div>'
+      )).join("");
+    }
+  }
+
   async function loadMeet() {
     if (!slug) {
       showError(
@@ -1224,6 +1269,7 @@
       }
 
       renderMeet(meet);
+      loadMeetPhotographers(meet.id).catch(() => {});
     } catch (error) {
       console.error(
         "Meet detail error:",

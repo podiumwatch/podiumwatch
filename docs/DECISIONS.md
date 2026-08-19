@@ -793,3 +793,33 @@ This was the explicitly-approved next phase from the user's own roadmap. The cor
 ### Follow up
 
 Phase Three (meet coverage and gallery links) is next per the user's roadmap. The 12-image portfolio cap and the still-unpriced `photographer_plans` rows are both explicit placeholders pending Phase Four (billing), which has zero existing infrastructure to build on. Image hosting is still plain external URLs, not a real upload pipeline.
+
+## 2026 08 18 Photographer Network Phase Three: meet coverage and galleries
+
+### Decision
+
+Connected photographers to real Podium Watch meets: a photographer can mark "I'm covering meet X" (self-published immediately) and post a link to their own external gallery for a meet (held for a quick admin approval first). The existing, live `/meetdetail/` page now shows a "Photographers covering this meet" / "Galleries from this meet" section, added safely and additively.
+
+### Reason
+
+This was the next approved phase from the user's roadmap. The two new record types carry genuinely different risk, so they get genuinely different gates: coverage is just a flag ("I plan to be there"), essentially no risk, self-published the moment a photographer adds it. A gallery is an external URL posted under a real meet's name -- a more conservative, reversible choice (hold for one admin click) was made instead of auto-publishing, matching this project's general preference for the safer default when a detail isn't explicitly forced one way.
+
+### Key implementation decisions worth recording
+
+1. **Never invent or duplicate a meet.** Both `photographer_meet_coverage.meet_id` and `photographer_galleries.meet_id` reference the real `meets` table directly (same "references a table this repo's migrations never created, because it predates the install/ convention" situation as `team_pages`/`team_athletes` in earlier migrations). The dashboard's meet picker searches the real, existing public `/api/meets/` list (reused as-is, not duplicated) and only ever submits a real `meet_id` -- confirmed live that a fabricated meet id is rejected with 404, never silently accepted.
+2. **The meet-page integration is deliberately fail-silent and non-blocking.** `loadMeetPhotographers()` in `public/scripts/meet-detail.js` is called via `.catch(() => {})` right after the real meet renders -- if the new fetch fails for any reason, the existing meet page (which has worked in production for weeks) is completely unaffected. Both new sections start `hidden` and only reveal themselves once real data arrives.
+3. **Reused the exact ownership-check pattern from Phase Two** (`requirePhotographerOwnership`) for both new record types -- confirmed live that photographer B is rejected (403) adding coverage or removing a gallery on photographer A's listing, exactly like the Phase Two properties.
+4. **The admin moderation queue is a distinct top-level panel**, not folded into the per-photographer editor -- an admin reviewing new galleries doesn't want to hunt through every photographer's individual page to find what's pending.
+
+### Alternatives considered
+
+1. Requiring admin approval for meet coverage too, matching galleries -- rejected as unnecessary friction for something that carries essentially no risk (a flag, not a public URL); reserved the conservative gate for the genuinely higher-risk record type.
+2. A dedicated new meet-search API endpoint -- rejected in favor of reusing the existing public `/api/meets/` list client-side (the same approach Meet Center itself already uses), avoiding a duplicate system for the same data.
+
+### Files or systems affected
+
+`install/15_PHOTOGRAPHER_MEET_COVERAGE.sql` (run in Supabase, confirmed live) -- `photographer_meet_coverage`, `photographer_galleries`; `lib/photographer_service.mjs` (extended: `selfAddMeetCoverage`/`selfRemoveMeetCoverage`/`selfAddGallery`/`selfRemoveGallery`, `adminUpdateGalleryStatus`/`adminListPendingGalleries`, `getMeetPhotographers`); `api/photographer/profile.js` (new actions), `api/admin/photographers.js` (new actions), `api/meets/photographers.js` (new, public); `src/pages/photographerdashboard.mjs` (meet search + coverage/gallery forms), `photographerdetail.mjs` (Upcoming Coverage / Recent Galleries sections), `adminphotographers.mjs` (pending-galleries moderation panel); `public/scripts/photographer-dashboard.js`, `photographer-detail.js`, `admin-photographers.js` (extended); `src/pages/meetdetail.mjs` + `public/scripts/meet-detail.js` (new, hidden-by-default, fail-silent sections).
+
+### Follow up
+
+Phase Four (billing) is next per the roadmap, with zero existing payment infrastructure to build on. No email notification exists yet for gallery approval/rejection, matching Phase Two's same open item for listing approval.

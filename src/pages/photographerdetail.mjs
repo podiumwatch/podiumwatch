@@ -33,6 +33,10 @@ export function photographerDetailPage(site) {
     .photog-portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 14px; }
     .photog-portfolio-grid img { width: 100%; height: 170px; object-fit: cover; border-radius: 10px; }
     .photog-profile-empty { padding: 24px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
+    .photog-list-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 0; border-bottom: 1px solid rgba(15, 23, 42, 0.08); }
+    .photog-list-row:last-child { border-bottom: 0; }
+    .photog-list-row strong { display: block; }
+    .photog-list-row span { display: block; font-size: 0.85rem; opacity: 0.75; }
   </style>
 
   <section class="section section-paper">
@@ -64,6 +68,16 @@ export function photographerDetailPage(site) {
           <p class="eyebrow">Portfolio</p>
           <div class="photog-portfolio-grid" data-photog-portfolio></div>
           <div class="photog-profile-empty" data-photog-portfolio-empty hidden>No portfolio images have been added yet.</div>
+        </section>
+
+        <section class="photog-profile-panel" data-photog-coverage-section hidden>
+          <p class="eyebrow">Upcoming coverage</p>
+          <div data-photog-coverage-list></div>
+        </section>
+
+        <section class="photog-profile-panel" data-photog-galleries-section hidden>
+          <p class="eyebrow">Recent galleries</p>
+          <div data-photog-galleries-list></div>
         </section>
 
         <section class="photog-profile-panel">

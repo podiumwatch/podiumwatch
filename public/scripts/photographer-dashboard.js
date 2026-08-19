@@ -16,11 +16,18 @@
   const portfolioList = document.querySelector("[data-photog-dash-portfolio-list]");
   const submitButton = document.querySelector("[data-photog-dash-submit]");
   const viewProfileLink = document.querySelector("[data-photog-dash-view-profile]");
+  const meetSearchInput = document.querySelector("[data-photog-dash-meet-search]");
+  const meetResultsBox = document.querySelector("[data-photog-dash-meet-results]");
+  const coverageForm = document.querySelector("[data-photog-dash-coverage-form]");
+  const coverageList = document.querySelector("[data-photog-dash-coverage-list]");
+  const galleryForm = document.querySelector("[data-photog-dash-gallery-form]");
+  const galleryList = document.querySelector("[data-photog-dash-gallery-list]");
 
   const requiredElements = [
     loadingBox, root, accountEl, signOutButton, messageBox, contentBox, statusBanner,
     formTitle, coreForm, saveLabel, sportsForm, areasForm, portfolioForm, portfolioList,
-    submitButton, viewProfileLink
+    submitButton, viewProfileLink, meetSearchInput, meetResultsBox, coverageForm,
+    coverageList, galleryForm, galleryList
   ];
   if (requiredElements.some((el) => !el) || childrenSections.length === 0) return;
 
@@ -92,6 +99,75 @@
       : "<p>No portfolio images yet.</p>";
   }
 
+  let allMeets = [];
+
+  function formatMeetDate(dateText) {
+    const cleaned = String(dateText || "").trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(cleaned)) return cleaned;
+    const date = new Date(`${cleaned}T12:00:00Z`);
+    if (Number.isNaN(date.getTime())) return cleaned;
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+
+  function selectMeet(meet) {
+    const label = meet.name + " (" + formatMeetDate(meet.meet_date) + ")";
+    coverageForm.elements.meet_id.value = meet.id;
+    coverageForm.elements.meet_label.value = label;
+    galleryForm.elements.meet_id.value = meet.id;
+    galleryForm.elements.meet_label.value = label;
+    meetResultsBox.innerHTML = "";
+    meetSearchInput.value = "";
+  }
+
+  meetSearchInput.addEventListener("input", () => {
+    const term = meetSearchInput.value.trim().toLowerCase();
+    if (term.length < 2) { meetResultsBox.innerHTML = ""; return; }
+
+    const matches = allMeets
+      .filter((m) =>
+        (m.name || "").toLowerCase().includes(term) ||
+        (m.host_school || "").toLowerCase().includes(term) ||
+        (m.city || "").toLowerCase().includes(term)
+      )
+      .slice(0, 8);
+
+    meetResultsBox.innerHTML = matches.length
+      ? matches.map((m) => (
+          '<button class="photog-dash-meet-result" type="button" data-photog-dash-meet-id="' + escapeHtml(m.id) + '">' +
+            "<strong>" + escapeHtml(m.name) + "</strong><br><span>" + escapeHtml(formatMeetDate(m.meet_date)) + (m.city ? " · " + escapeHtml(m.city) : "") + "</span>" +
+          "</button>"
+        )).join("")
+      : "<p>No meets found.</p>";
+  });
+
+  meetResultsBox.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-photog-dash-meet-id]");
+    if (!button) return;
+    const meet = allMeets.find((m) => m.id === button.dataset.photogDashMeetId);
+    if (meet) selectMeet(meet);
+  });
+
+  function renderCoverage(rows) {
+    coverageList.innerHTML = (rows || []).length
+      ? rows.map((c) => (
+          '<div class="photog-dash-list-row"><div><strong>' + escapeHtml(c.meet ? c.meet.name : "Unknown meet") + "</strong>" +
+          '<span class="photog-dash-status-tag">' + escapeHtml(c.coverage_status) + "</span></div>" +
+          '<button class="button button-outline" type="button" data-photog-dash-remove-coverage="' + escapeHtml(c.id) + '">Remove</button></div>'
+        )).join("")
+      : "<p>No meet coverage marked yet.</p>";
+  }
+
+  function renderGalleries(rows) {
+    galleryList.innerHTML = (rows || []).length
+      ? rows.map((g) => (
+          '<div class="photog-dash-list-row"><div><strong>' + escapeHtml(g.title) + "</strong>" +
+          '<span class="photog-dash-status-tag" data-status="' + escapeHtml(g.status) + '">' + escapeHtml(g.status.replace("_", " ")) + "</span>" +
+          (g.meet ? " <span>" + escapeHtml(g.meet.name) + "</span>" : "") + "</div>" +
+          '<button class="button button-outline" type="button" data-photog-dash-remove-gallery="' + escapeHtml(g.id) + '">Remove</button></div>'
+        )).join("")
+      : "<p>No galleries added yet.</p>";
+  }
+
   function renderListing(p) {
     currentPhotographer = p;
     formTitle.textContent = "Edit your listing";
@@ -115,6 +191,8 @@
     areasForm.elements.cities.value = (p.service_areas || []).filter((a) => a.area_type === "city").map((a) => a.area_value).join(", ");
 
     renderPortfolio(p.portfolio);
+    renderCoverage(p.meet_coverage);
+    renderGalleries(p.galleries);
 
     submitButton.disabled = !["draft", "rejected"].includes(p.status);
     submitButton.textContent = ["draft", "rejected"].includes(p.status) ? "Submit for review" : "Already submitted";
@@ -197,6 +275,64 @@
     }
   });
 
+  coverageForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!currentPhotographer) return;
+    if (!coverageForm.elements.meet_id.value) {
+      showMessage("Search and pick a real meet first.", true);
+      return;
+    }
+    const payload = formPayload(coverageForm);
+    try {
+      await apiFetch("/api/photographer/profile/", { action: "add_meet_coverage", id: currentPhotographer.id, ...payload });
+      coverageForm.reset();
+      const data = await apiFetch("/api/photographer/profile/", { action: "detail", id: currentPhotographer.id });
+      renderCoverage(data.photographer.meet_coverage);
+      showMessage("Coverage added.");
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
+
+  coverageList.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-photog-dash-remove-coverage]");
+    if (!button) return;
+    try {
+      await apiFetch("/api/photographer/profile/", { action: "remove_meet_coverage", coverage_id: button.dataset.photogDashRemoveCoverage });
+      const data = await apiFetch("/api/photographer/profile/", { action: "detail", id: currentPhotographer.id });
+      renderCoverage(data.photographer.meet_coverage);
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
+
+  galleryForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!currentPhotographer) return;
+    const payload = formPayload(galleryForm);
+    try {
+      await apiFetch("/api/photographer/profile/", { action: "add_gallery", id: currentPhotographer.id, ...payload });
+      galleryForm.reset();
+      const data = await apiFetch("/api/photographer/profile/", { action: "detail", id: currentPhotographer.id });
+      renderGalleries(data.photographer.galleries);
+      showMessage("Gallery submitted for review.");
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
+
+  galleryList.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-photog-dash-remove-gallery]");
+    if (!button) return;
+    try {
+      await apiFetch("/api/photographer/profile/", { action: "remove_gallery", gallery_id: button.dataset.photogDashRemoveGallery });
+      const data = await apiFetch("/api/photographer/profile/", { action: "detail", id: currentPhotographer.id });
+      renderGalleries(data.photographer.galleries);
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
+
   submitButton.addEventListener("click", async () => {
     if (!currentPhotographer) return;
     try {
@@ -220,6 +356,11 @@
       if (!user) { window.location.replace("/photographer-login/"); return; }
 
       accountEl.textContent = user.email || "Photographer account";
+
+      fetch("/api/meets/", { headers: { Accept: "application/json" } })
+        .then((response) => response.json())
+        .then((data) => { allMeets = Array.isArray(data.meets) ? data.meets : []; })
+        .catch(() => { allMeets = []; });
 
       const me = await apiFetch("/api/photographer/me/", {});
       if (me.listings && me.listings.length > 0) {

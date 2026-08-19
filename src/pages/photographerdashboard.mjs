@@ -47,6 +47,14 @@ export function photographerDashboardPage(site) {
     .photog-dash-actions { display: flex; flex-wrap: wrap; gap: 10px; }
     .photog-dash-portfolio-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px; border: 1px solid rgba(15, 23, 42, 0.1); border-radius: 9px; }
     .photog-dash-portfolio-row img { width: 60px; height: 44px; object-fit: cover; border-radius: 6px; }
+    .photog-dash-meet-results { display: grid; gap: 6px; max-height: 220px; overflow: auto; margin-bottom: 6px; }
+    .photog-dash-meet-result { width: 100%; padding: 10px 12px; border: 1px solid rgba(15, 23, 42, 0.14); border-radius: 8px; background: #fff; text-align: left; cursor: pointer; font: inherit; }
+    .photog-dash-meet-result:hover, .photog-dash-meet-result:focus-visible { border-color: #00bf63; }
+    .photog-dash-list-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(15, 23, 42, 0.08); }
+    .photog-dash-list-row:last-child { border-bottom: 0; }
+    .photog-dash-status-tag { display: inline-flex; padding: 3px 9px; border-radius: 999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; background: rgba(15, 23, 42, 0.08); margin-left: 8px; }
+    .photog-dash-status-tag[data-status="published"] { background: rgba(0, 191, 99, 0.18); color: #065f46; }
+    .photog-dash-status-tag[data-status="rejected"] { background: rgba(220, 38, 38, 0.13); color: #991b1b; }
     @media (max-width: 700px) {
       .photog-dash-fields { grid-template-columns: 1fr; }
       .photog-dash-wide { grid-column: auto; }
@@ -124,6 +132,41 @@ export function photographerDashboardPage(site) {
             <button class="button button-dark" type="submit">Add image</button>
           </form>
           <div data-photog-dash-portfolio-list></div>
+        </section>
+
+        <section class="photog-dash-panel" data-photog-dash-children hidden>
+          <div><p class="eyebrow">Meet coverage</p><p>Mark a real Podium Watch meet you're covering. Search below -- never a duplicate meet, always the real one.</p></div>
+          <label>Search meets<input type="search" data-photog-dash-meet-search placeholder="Meet name, host, or city"></label>
+          <div class="photog-dash-meet-results" data-photog-dash-meet-results></div>
+          <form class="photog-dash-form" data-photog-dash-coverage-form>
+            <input type="hidden" name="meet_id">
+            <div class="photog-dash-fields">
+              <label>Selected meet<input name="meet_label" readonly placeholder="Search and pick a meet above"></label>
+              <label>Status<select name="coverage_status">
+                <option value="planned">Planned</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select></label>
+              <label class="photog-dash-wide">Notes (optional)<input name="public_notes" maxlength="300"></label>
+            </div>
+            <button class="button button-dark" type="submit">Add coverage</button>
+          </form>
+          <div data-photog-dash-coverage-list></div>
+        </section>
+
+        <section class="photog-dash-panel" data-photog-dash-children hidden>
+          <div><p class="eyebrow">Galleries</p><p>Link to your own gallery platform -- Podium Watch never hosts your photos. New galleries need a quick Podium Watch review before they show publicly.</p></div>
+          <form class="photog-dash-form" data-photog-dash-gallery-form>
+            <input type="hidden" name="meet_id">
+            <div class="photog-dash-fields">
+              <label class="photog-dash-wide">Gallery title<input name="title" required></label>
+              <label class="photog-dash-wide">Gallery URL<input type="url" name="gallery_url" placeholder="https://" required></label>
+              <label class="photog-dash-wide">Linked meet (optional -- search above first, then submit)<input name="meet_label" readonly placeholder="No meet selected"></label>
+            </div>
+            <button class="button button-dark" type="submit">Add gallery</button>
+          </form>
+          <div data-photog-dash-gallery-list></div>
         </section>
 
         <section class="photog-dash-panel" data-photog-dash-children hidden>

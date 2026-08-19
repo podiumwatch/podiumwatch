@@ -25,7 +25,7 @@ const styles = `
     .photog-admin-list-item span { margin-top:4px; color:#64748b; font-size:.85rem; }
     .photog-admin-badge { display:inline-flex; padding:3px 9px; border-radius:999px; background:rgba(0,191,99,.13); font-size:.72rem; font-weight:900; text-transform:uppercase; margin-right:6px; }
     .photog-admin-badge[data-status="draft"], .photog-admin-badge[data-status="submitted"], .photog-admin-badge[data-status="pending_review"] { background:#e2e8f0; color:#334155; }
-    .photog-admin-badge[data-status="approved"] { background:rgba(0,191,99,.18); color:#065f46; }
+    .photog-admin-badge[data-status="approved"], .photog-admin-badge[data-status="published"] { background:rgba(0,191,99,.18); color:#065f46; }
     .photog-admin-badge[data-status="rejected"], .photog-admin-badge[data-status="suspended"] { background:rgba(220,38,38,.13); color:#991b1b; }
     .photog-admin-portfolio-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px; border:1px solid rgba(15,23,42,.1); border-radius:9px; }
     .photog-admin-portfolio-row img { width:60px; height:44px; object-fit:cover; border-radius:6px; }
@@ -43,6 +43,11 @@ export function adminPhotographersPage(site) {
 
   const content = `<div class="photog-admin-shell" data-photog-admin>
       <p class="photog-admin-message" data-photog-admin-message role="status" hidden></p>
+
+      <section class="info-card photog-admin-panel">
+        <div><p class="eyebrow">Moderation queue</p><h2>Pending galleries</h2><p>External gallery links wait here until approved -- nothing shows publicly until you review it.</p></div>
+        <div class="photog-admin-list" data-photog-pending-galleries><p>Loading...</p></div>
+      </section>
 
       <div class="photog-admin-grid">
         <section class="info-card photog-admin-panel">
@@ -136,6 +141,12 @@ export function adminPhotographersPage(site) {
               <button class="button button-dark" type="submit">Add image</button>
             </form>
             <div class="photog-admin-list" data-photog-portfolio-list></div>
+
+            <h3 style="margin-top:16px;">Meet coverage</h3>
+            <div class="photog-admin-list" data-photog-coverage-list><p>No meet coverage marked.</p></div>
+
+            <h3 style="margin-top:16px;">Galleries</h3>
+            <div class="photog-admin-list" data-photog-gallery-list><p>No galleries.</p></div>
           </section>
         </section>
       </div>

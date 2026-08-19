@@ -12,10 +12,15 @@
   const portfolioEl = document.querySelector("[data-photog-portfolio]");
   const portfolioEmpty = document.querySelector("[data-photog-portfolio-empty]");
   const linksEl = document.querySelector("[data-photog-links]");
+  const coverageSection = document.querySelector("[data-photog-coverage-section]");
+  const coverageList = document.querySelector("[data-photog-coverage-list]");
+  const galleriesSection = document.querySelector("[data-photog-galleries-section]");
+  const galleriesList = document.querySelector("[data-photog-galleries-list]");
 
   const requiredElements = [
     loadingBox, messageBox, root, imageEl, badgesEl, nameEl, locationEl,
-    sportsEl, aboutSection, aboutEl, portfolioEl, portfolioEmpty, linksEl
+    sportsEl, aboutSection, aboutEl, portfolioEl, portfolioEmpty, linksEl,
+    coverageSection, coverageList, galleriesSection, galleriesList
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -28,6 +33,14 @@
     swimming: "Swimming", baseball: "Baseball", softball: "Softball", lacrosse: "Lacrosse",
     golf: "Golf", tennis: "Tennis", cheer: "Cheer", gymnastics: "Gymnastics", other: "Other"
   };
+
+  function formatMeetDate(dateText) {
+    const cleaned = String(dateText || "").trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(cleaned)) return cleaned;
+    const date = new Date(`${cleaned}T12:00:00Z`);
+    if (Number.isNaN(date.getTime())) return cleaned;
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -82,6 +95,27 @@
       portfolioEl.innerHTML = portfolio
         .map((item) => '<img src="' + escapeHtml(item.image_url) + '" alt="' + escapeHtml(item.caption || p.business_name + " portfolio image") + '" loading="lazy">')
         .join("");
+    }
+
+    const upcomingCoverage = (p.meet_coverage || [])
+      .filter((c) => c.meet && ["planned", "confirmed"].includes(c.coverage_status))
+      .sort((a, b) => String(a.meet.meet_date).localeCompare(String(b.meet.meet_date)));
+    if (upcomingCoverage.length > 0) {
+      coverageSection.hidden = false;
+      coverageList.innerHTML = upcomingCoverage.map((c) => (
+        '<div class="photog-list-row"><div><strong>' + escapeHtml(c.meet.name) + '</strong>' +
+        '<span>' + escapeHtml(formatMeetDate(c.meet.meet_date)) + (c.meet.city ? " · " + escapeHtml(c.meet.city) : "") + '</span></div></div>'
+      )).join("");
+    }
+
+    const galleries = p.galleries || [];
+    if (galleries.length > 0) {
+      galleriesSection.hidden = false;
+      galleriesList.innerHTML = galleries.map((g) => (
+        '<div class="photog-list-row"><div><strong>' + escapeHtml(g.title) + '</strong>' +
+        '<span>' + (g.meet ? escapeHtml(g.meet.name) : "") + '</span></div>' +
+        '<a class="button button-outline" href="' + escapeHtml(g.gallery_url) + '" target="_blank" rel="noopener noreferrer">View gallery</a></div>'
+      )).join("");
     }
 
     const links = [];

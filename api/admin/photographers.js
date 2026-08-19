@@ -7,7 +7,9 @@ import {
   adminSetSports,
   adminSetServiceAreas,
   adminAddPortfolioItem,
-  adminRemovePortfolioItem
+  adminRemovePortfolioItem,
+  adminUpdateGalleryStatus,
+  adminListPendingGalleries
 } from "../../lib/photographer_service.mjs";
 
 function cleanText(value) {
@@ -68,6 +70,12 @@ export default async function handler(request, response) {
         break;
       case "remove_portfolio_item":
         data = await adminRemovePortfolioItem(body.portfolio_id);
+        break;
+      case "list_pending_galleries":
+        data = { galleries: await adminListPendingGalleries() };
+        break;
+      case "update_gallery_status":
+        data = { gallery: await adminUpdateGalleryStatus(body.gallery_id, body) };
         break;
       default: {
         const error = new Error("Unknown photographer admin action.");

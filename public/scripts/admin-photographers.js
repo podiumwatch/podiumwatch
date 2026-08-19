@@ -11,10 +11,14 @@
   const areasForm = document.querySelector("[data-photog-areas-form]");
   const portfolioForm = document.querySelector("[data-photog-portfolio-form]");
   const portfolioList = document.querySelector("[data-photog-portfolio-list]");
+  const pendingGalleriesList = document.querySelector("[data-photog-pending-galleries]");
+  const coverageList = document.querySelector("[data-photog-coverage-list]");
+  const galleryList = document.querySelector("[data-photog-gallery-list]");
 
   const requiredElements = [
     messageBox, searchForm, newButton, listEl, editorTitle, coreForm, viewProfileLink,
-    childrenSection, sportsForm, areasForm, portfolioForm, portfolioList
+    childrenSection, sportsForm, areasForm, portfolioForm, portfolioList,
+    pendingGalleriesList, coverageList, galleryList
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -104,6 +108,64 @@
       : "<p>No portfolio images yet.</p>";
   }
 
+  function renderCoverage(rows) {
+    coverageList.innerHTML = (rows || []).length
+      ? rows.map((c) => (
+          '<div class="photog-admin-list-item" style="cursor:default;"><strong>' + escapeHtml(c.meet ? c.meet.name : "Unknown meet") + '</strong>' +
+          '<span>' + escapeHtml(c.coverage_status) + (c.public_notes ? " -- " + escapeHtml(c.public_notes) : "") + '</span></div>'
+        )).join("")
+      : "<p>No meet coverage marked.</p>";
+  }
+
+  function renderGalleries(rows) {
+    galleryList.innerHTML = (rows || []).length
+      ? rows.map((g) => (
+          '<div class="photog-admin-list-item" style="cursor:default;">' +
+          '<span class="photog-admin-badge" data-status="' + escapeHtml(g.status) + '">' + escapeHtml(g.status) + '</span>' +
+          '<strong>' + escapeHtml(g.title) + '</strong>' +
+          '<span>' + (g.meet ? escapeHtml(g.meet.name) + " -- " : "") + '<a href="' + escapeHtml(g.gallery_url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(g.gallery_url) + '</a></span>' +
+          '</div>'
+        )).join("")
+      : "<p>No galleries.</p>";
+  }
+
+  async function renderPendingGalleries() {
+    try {
+      const data = await api({ action: "list_pending_galleries" });
+      const galleries = data.galleries || [];
+      pendingGalleriesList.innerHTML = galleries.length
+        ? galleries.map((g) => (
+            '<div class="photog-admin-list-item" style="cursor:default;">' +
+              '<strong>' + escapeHtml(g.title) + '</strong>' +
+              '<span>' + escapeHtml(g.photographer ? g.photographer.business_name : "Unknown photographer") + (g.meet ? " -- " + escapeHtml(g.meet.name) : "") + '</span>' +
+              '<span><a href="' + escapeHtml(g.gallery_url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(g.gallery_url) + '</a></span>' +
+              '<div class="photog-admin-actions" style="margin-top:8px;">' +
+                '<button class="button button-primary" type="button" data-photog-approve-gallery="' + escapeHtml(g.id) + '">Approve</button>' +
+                '<button class="button button-outline" type="button" data-photog-reject-gallery="' + escapeHtml(g.id) + '">Reject</button>' +
+              '</div>' +
+            '</div>'
+          )).join("")
+        : "<p>No galleries waiting for review.</p>";
+    } catch (error) {
+      pendingGalleriesList.innerHTML = "<p>" + escapeHtml(error.message) + "</p>";
+    }
+  }
+
+  pendingGalleriesList.addEventListener("click", async (event) => {
+    const approveButton = event.target.closest("[data-photog-approve-gallery]");
+    const rejectButton = event.target.closest("[data-photog-reject-gallery]");
+    if (!approveButton && !rejectButton) return;
+    const galleryId = approveButton ? approveButton.dataset.photogApproveGallery : rejectButton.dataset.photogRejectGallery;
+    const status = approveButton ? "published" : "rejected";
+    try {
+      await api({ action: "update_gallery_status", gallery_id: galleryId, status });
+      await renderPendingGalleries();
+      showMessage("Gallery " + (approveButton ? "approved." : "rejected."));
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
+
   async function openPhotographer(id) {
     try {
       const data = await api({ action: "detail", id });
@@ -129,6 +191,8 @@
       areasForm.elements.cities.value = (p.service_areas || []).filter((a) => a.area_type === "city").map((a) => a.area_value).join(", ");
 
       renderPortfolio(p.portfolio);
+      renderCoverage(p.meet_coverage);
+      renderGalleries(p.galleries);
       showMessage("");
     } catch (error) {
       showMessage(error.message, true);
@@ -147,6 +211,8 @@
     for (const box of areasForm.querySelectorAll("input[type=checkbox]")) box.checked = false;
     areasForm.reset();
     portfolioList.innerHTML = "";
+    coverageList.innerHTML = "";
+    galleryList.innerHTML = "";
   }
 
   searchForm.addEventListener("submit", (event) => {
@@ -231,4 +297,5 @@
 
   resetEditor();
   renderList();
+  renderPendingGalleries();
 })();

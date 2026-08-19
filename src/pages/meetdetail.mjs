@@ -106,6 +106,20 @@ export function meetDetailPage(site) {
       white-space: pre-line;
     }
 
+    .meet-photog-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .meet-photog-row:last-child {
+      border-bottom: 0;
+    }
+
     .meet-detail-message {
       padding: 30px;
       text-align: center;
@@ -250,6 +264,26 @@ export function meetDetailPage(site) {
           >
             Results and coverage links will be added when they become available.
           </p>
+        </section>
+
+        <section
+          class="meet-detail-section"
+          data-meet-photographers-section
+          hidden
+        >
+          <p class="eyebrow">Photographer Network</p>
+          <h2>Photographers covering this meet</h2>
+          <div data-meet-photographers-list></div>
+        </section>
+
+        <section
+          class="meet-detail-section"
+          data-meet-galleries-section
+          hidden
+        >
+          <p class="eyebrow">Photographer Network</p>
+          <h2>Galleries from this meet</h2>
+          <div data-meet-galleries-list></div>
         </section>
 
         <div class="meet-detail-actions">

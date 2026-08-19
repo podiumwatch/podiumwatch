@@ -1580,3 +1580,47 @@ A full live pass against real production Supabase -- two entirely separate real 
 ### Not yet done
 
 Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
+
+## 2026 08 18 Photographer Network Phase Three: meet coverage and galleries
+
+### Goal
+
+The user said "phase three" -- connect photographers to real meets: mark coverage before a meet, post a gallery link after, and surface both on the real, existing meet detail page.
+
+### What was built
+
+1. **`install/15_PHOTOGRAPHER_MEET_COVERAGE.sql`** (run in Supabase, confirmed live) -- `photographer_meet_coverage` (self-published immediately, no approval gate) and `photographer_galleries` (defaults to `pending_review`, needs admin approval before it's public). Both reference the real `meets` table directly.
+2. **`lib/photographer_service.mjs`** extended: self-service `selfAddMeetCoverage`/`selfRemoveMeetCoverage`/`selfAddGallery`/`selfRemoveGallery` (all ownership-checked, all validate the real meet exists before accepting a `meet_id`), admin `adminUpdateGalleryStatus`/`adminListPendingGalleries`, and public `getMeetPhotographers(meetId)` (approved+visible photographers only, public coverage rows only, published+visible galleries only).
+3. **`api/photographer/profile.js`** and **`api/admin/photographers.js`** extended with the new actions; **`api/meets/photographers.js`** (new, fully public).
+4. **Dashboard**: a meet search box (reuses the existing public `/api/meets/` list, mirroring Meet Center's own client-side-filter approach -- no new meet-search endpoint built) that lets a photographer pick a real meet, then mark coverage or attach a gallery to it.
+5. **Public profile page**: new "Upcoming coverage" and "Recent galleries" sections, only shown when there's real data.
+6. **Admin tool**: a new top-level "Pending galleries" moderation panel (approve/reject), plus a read-only coverage/galleries view inside each photographer's own editor.
+7. **The real, existing `/meetdetail/` page**: two new sections, both hidden by default and only revealed once real data arrives -- the fetch that populates them is wrapped in `.catch(() => {})` so a failure there can never affect the meet page visitors have been using in production for weeks.
+
+### Automated testing
+
+`npm run build && npm run check && npm test` -- 283 pages, 320 HTML files, all 12 suites pass clean, 18,462 links checked with zero problems.
+
+### Manual/live testing completed
+
+A full live pass against real production Supabase, using a real, existing published meet and three separate real throwaway photographer accounts:
+
+- Photographer A marked coverage on the real meet; confirmed it appears on A's public profile immediately (no approval needed) with the real meet name correctly joined -- never invented.
+- Confirmed a coverage request referencing a fabricated meet id is rejected with 404, never silently accepted -- the "never invent or duplicate a meet" property, verified directly.
+- Confirmed photographer B is rejected (403) both adding coverage to A's listing and removing A's gallery -- the same ownership property from Phase Two, now proven for the two new record types too.
+- Confirmed a new gallery defaults to `pending_review` and is invisible on both the public profile and the real meet's own photographer-coverage endpoint until approved.
+- Approved it through the real admin action; confirmed `published_at` gets stamped and the gallery then appears in both places.
+- Confirmed the admin moderation queue lists the real pending gallery with the real photographer's business name, and that rejection works.
+- Drove the real `/photographer-dashboard/` in a real browser with a third throwaway account: searched for the real meet by a partial name match, selected it from the real search results, submitted the coverage form, and confirmed the real meet's name appears in the coverage list -- entirely through the actual UI.
+- Loaded the real, existing `/meetdetail/` page for that same real meet and confirmed the new "Photographers covering this meet" section now shows the real photographer, with zero console/page errors -- confirming the additive integration is genuinely safe.
+- All real test data (three photographers, their coverage/gallery rows, three Supabase Auth users) deleted afterward and re-confirmed gone.
+
+### Known, deliberate scope limits (Phase Three only)
+
+1. No email notification for gallery approval/rejection -- same open item as Phase Two's listing approval.
+2. The meet-page section shows coverage/galleries only; it doesn't yet let a coach or meet director request or manage photographer coverage from their side -- that's not in the current roadmap.
+3. Gallery meet-linking is optional by design (a photographer can post a gallery with no `meet_id`), matching the spec's own allowance for non-meet-specific galleries.
+
+### Not yet done
+
+Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
