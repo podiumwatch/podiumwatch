@@ -33,6 +33,7 @@ export function photographerDashboardPage(site) {
     .photog-dash-status-banner[data-status="submitted"], .photog-dash-status-banner[data-status="pending_review"] { background: rgba(245, 158, 11, 0.18); color: #7c4a03; }
     .photog-dash-status-banner[data-status="approved"] { background: rgba(0, 191, 99, 0.18); color: #065f46; }
     .photog-dash-status-banner[data-status="rejected"], .photog-dash-status-banner[data-status="suspended"] { background: rgba(220, 38, 38, 0.13); color: #991b1b; }
+    [data-photog-dash-plan-banner] { background: #f8fafc; color: #334155; font-weight: 700; }
     .photog-dash-message { padding: 14px 16px; border-radius: 10px; background: rgba(0, 191, 99, 0.1); }
     .photog-dash-message[data-tone="error"] { background: rgba(220, 38, 38, 0.12); color: #991b1b; }
     .photog-dash-form { display: grid; gap: 14px; }
@@ -79,6 +80,8 @@ export function photographerDashboardPage(site) {
 
       <div data-photog-dash-content hidden>
         <div class="photog-dash-status-banner" data-photog-dash-status-banner hidden></div>
+
+        <div class="photog-dash-status-banner" data-photog-dash-plan-banner hidden></div>
 
         <section class="photog-dash-panel">
           <div><p class="eyebrow">Your listing</p><h2 data-photog-dash-form-title>Create your listing</h2></div>

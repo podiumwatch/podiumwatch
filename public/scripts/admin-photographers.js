@@ -14,11 +14,13 @@
   const pendingGalleriesList = document.querySelector("[data-photog-pending-galleries]");
   const coverageList = document.querySelector("[data-photog-coverage-list]");
   const galleryList = document.querySelector("[data-photog-gallery-list]");
+  const planSelect = document.querySelector("[data-photog-plan-select]");
+  const billingForm = document.querySelector("[data-photog-billing-form]");
 
   const requiredElements = [
     messageBox, searchForm, newButton, listEl, editorTitle, coreForm, viewProfileLink,
     childrenSection, sportsForm, areasForm, portfolioForm, portfolioList,
-    pendingGalleriesList, coverageList, galleryList
+    pendingGalleriesList, coverageList, galleryList, planSelect, billingForm
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -193,6 +195,13 @@
       renderPortfolio(p.portfolio);
       renderCoverage(p.meet_coverage);
       renderGalleries(p.galleries);
+
+      const subscription = p.subscription || { status: "inactive" };
+      billingForm.elements.status.value = subscription.status || "inactive";
+      billingForm.elements.current_period_end.value = subscription.current_period_end ? subscription.current_period_end.slice(0, 10) : "";
+      billingForm.elements.cancel_at_period_end.checked = Boolean(subscription.cancel_at_period_end);
+      billingForm.elements.admin_notes.value = subscription.admin_notes || "";
+
       showMessage("");
     } catch (error) {
       showMessage(error.message, true);
@@ -213,7 +222,32 @@
     portfolioList.innerHTML = "";
     coverageList.innerHTML = "";
     galleryList.innerHTML = "";
+    billingForm.reset();
   }
+
+  async function loadPlans() {
+    try {
+      const data = await api({ action: "list_plans" });
+      const plans = data.plans || [];
+      planSelect.innerHTML = '<option value="">No plan</option>' + plans
+        .map((plan) => '<option value="' + escapeHtml(plan.id) + '">' + escapeHtml(plan.name) + (plan.active ? "" : " (inactive)") + "</option>")
+        .join("");
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  }
+
+  billingForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!currentId) return showMessage("Save the listing before setting billing status.", true);
+    const payload = formPayload(billingForm);
+    try {
+      await api({ action: "set_subscription", id: currentId, ...payload });
+      showMessage("Billing status saved.");
+    } catch (error) {
+      showMessage(error.message, true);
+    }
+  });
 
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -296,6 +330,7 @@
   });
 
   resetEditor();
+  loadPlans();
   renderList();
   renderPendingGalleries();
 })();

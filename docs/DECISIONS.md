@@ -823,3 +823,44 @@ This was the next approved phase from the user's roadmap. The two new record typ
 ### Follow up
 
 Phase Four (billing) is next per the roadmap, with zero existing payment infrastructure to build on. No email notification exists yet for gallery approval/rejection, matching Phase Two's same open item for listing approval.
+
+## 2026 08 18 Photographer Network Phase Four: entitlement layer (Stripe deliberately not implemented)
+
+### Decision
+
+Built the database and entitlement architecture for photographer billing -- deliberately stopping short of an actual Stripe integration. The original spec was explicit: "Do not immediately implement a payment provider... build the database and entitlement architecture first, then show me the proposed Stripe implementation before adding billing." That two-step gate was followed exactly: real entitlement tracking exists and is wired to one real feature (portfolio limits) today, and a full Stripe integration proposal was written up separately for approval, not built.
+
+### Reason
+
+Actual billing needs decisions only the user can make -- final pricing, a real Stripe account, webhook secrets -- none of which exist yet (confirmed zero Stripe/billing infrastructure in the Phase Zero audit). Building a fake or partial Stripe integration without those would mean either inventing business decisions or writing dead code around missing credentials. The entitlement layer, in contrast, is fully real and functional today: an admin can manually activate a photographer's plan (e.g. an early photographer who paid outside of Stripe) and it genuinely changes what that photographer can do.
+
+### Key implementation decisions worth recording
+
+1. **One row per photographer (`photographer_subscriptions`, unique `photographer_id`), not a billing-event history table.** Tracks whether the plan already recorded on `photographers.plan_id` (Phase One) is actually paid and current -- deliberately not a second place to store *which* plan, avoiding duplication.
+2. **`stripe_customer_id`/`stripe_subscription_id` exist as real columns today, holding null in every row.** They're shaped for a future webhook handler to write into directly, with zero schema change needed later -- but nothing here fabricates Stripe data now.
+3. **"Active" requires two things, not one, and both were proven live**: `status = 'active'` AND (`current_period_end` is null OR still in the future). Confirmed directly: assigning a plan alone (subscription left `inactive`) does not raise the portfolio limit; activating it with a past `current_period_end` also does not, even though `status` still says `'active'` -- a stale status can never outlive its own expiration date.
+4. **The one real feature wired to entitlement this pass is the portfolio limit** (12 baseline, unchanged for everyone; up to 25/50 for Featured/Pro once actually active) -- picked specifically because it can only ever *increase* a limit, never take away something that already worked in Phase One/Two. `featured`/`founding_photographer`/`verification_status` stay fully independent, admin-controlled flags, not auto-derived from payment -- preserving the admin's own editorial control exactly as the original spec required ("Admins retain final publication control").
+5. **A real, previously-shipped gap fixed in passing**: `photographers.plan_id` existed since Phase One but was never actually exposed in the admin UI -- there was no way for an admin to assign a plan at all. Added the missing dropdown (populated from the real `photographer_plans` rows, not hardcoded) as part of making entitlement genuinely usable end to end.
+
+### The proposed Stripe implementation (not built -- presented for approval)
+
+Per the spec's own gate, this is a written proposal only:
+
+- **Checkout**: a new `api/photographer/checkout.js`, authenticated, creates a real Stripe Checkout Session for the photographer's chosen plan and redirects to Stripe's own hosted page -- Podium Watch never touches a card number.
+- **Webhook**: a new `api/stripe/webhook.js`, verified against `STRIPE_WEBHOOK_SECRET`, handling `checkout.session.completed`, `customer.subscription.updated`, and `customer.subscription.deleted` -- each writes directly into the existing `photographer_subscriptions` row (status values were chosen in this migration to already match Stripe's own subscription-status vocabulary, so the webhook needs no status-mapping logic).
+- **Price IDs**: stored on `photographer_plans` as a new nullable `stripe_price_id` column (not yet added -- would ship with the actual integration), never hardcoded into a template.
+- **Self-service management**: a Stripe Customer Portal link from the dashboard for upgrade/downgrade/cancel, rather than building a second billing UI.
+- **Required from the user before this can be built**: a real Stripe account, final pricing for the four tiers, and `STRIPE_SECRET_KEY`/`STRIPE_WEBHOOK_SECRET`/`STRIPE_PUBLISHABLE_KEY` set as environment variables (values only, never pasted into chat or committed).
+
+### Alternatives considered
+
+1. Building the full Stripe integration now with placeholder/test-mode keys -- rejected; the spec explicitly asked to show the proposal first, and real pricing/account setup are the user's decisions, not something to invent.
+2. Auto-setting `featured` when a photographer's plan includes it -- rejected in favor of keeping publication/featuring decisions fully admin-controlled, independent of payment, matching the spec's explicit editorial-independence requirement.
+
+### Files or systems affected
+
+`install/16_PHOTOGRAPHER_BILLING.sql` (run in Supabase, confirmed live) -- `photographer_subscriptions`; `lib/photographer_service.mjs` (extended: `getSubscription`, `adminSetSubscription`, `adminListPlans`, `getPortfolioLimit` wired into `selfAddPortfolioItem`); `api/admin/photographers.js` (new `set_subscription`/`list_plans` actions); `src/pages/adminphotographers.mjs` (plan dropdown, Billing panel), `photographerdashboard.mjs` (read-only plan/status banner); `public/scripts/admin-photographers.js`, `photographer-dashboard.js` (extended).
+
+### Follow up
+
+Awaiting the user's decision on Stripe account setup and final pricing before Phase Four's actual payment code is written. Phase Five (analytics) is next per the roadmap if billing is deferred further.

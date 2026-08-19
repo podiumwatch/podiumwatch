@@ -6,6 +6,7 @@
   const messageBox = document.querySelector("[data-photog-dash-message]");
   const contentBox = document.querySelector("[data-photog-dash-content]");
   const statusBanner = document.querySelector("[data-photog-dash-status-banner]");
+  const planBanner = document.querySelector("[data-photog-dash-plan-banner]");
   const formTitle = document.querySelector("[data-photog-dash-form-title]");
   const coreForm = document.querySelector("[data-photog-dash-core-form]");
   const saveLabel = document.querySelector("[data-photog-dash-save-label]");
@@ -24,7 +25,7 @@
   const galleryList = document.querySelector("[data-photog-dash-gallery-list]");
 
   const requiredElements = [
-    loadingBox, root, accountEl, signOutButton, messageBox, contentBox, statusBanner,
+    loadingBox, root, accountEl, signOutButton, messageBox, contentBox, statusBanner, planBanner,
     formTitle, coreForm, saveLabel, sportsForm, areasForm, portfolioForm, portfolioList,
     submitButton, viewProfileLink, meetSearchInput, meetResultsBox, coverageForm,
     coverageList, galleryForm, galleryList
@@ -177,6 +178,12 @@
     statusBanner.hidden = false;
     statusBanner.dataset.status = p.status;
     statusBanner.textContent = "Status: " + (STATUS_LABELS[p.status] || p.status);
+
+    const subscription = p.subscription || { status: "inactive" };
+    planBanner.hidden = false;
+    planBanner.textContent = p.plan_name
+      ? "Plan: " + p.plan_name + " -- " + (subscription.status === "active" ? "Active" : "Not yet active (contact Podium Watch to activate billing)")
+      : "No plan selected yet. Contact Podium Watch to choose a plan.";
 
     childrenSections.forEach((section) => { section.hidden = false; });
 

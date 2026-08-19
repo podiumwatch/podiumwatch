@@ -1624,3 +1624,44 @@ A full live pass against real production Supabase, using a real, existing publis
 ### Not yet done
 
 Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice.
+
+## 2026 08 18 Photographer Network Phase Four: entitlement layer (Stripe deliberately not implemented)
+
+### Goal
+
+The user said "four" -- billing. The original spec's own instruction was explicit and two-part: build the database and entitlement architecture first, THEN show the proposed Stripe implementation before adding actual billing. Followed that order exactly rather than building a Stripe integration outright.
+
+### What was built
+
+1. **`install/16_PHOTOGRAPHER_BILLING.sql`** (run in Supabase, confirmed live) -- `photographer_subscriptions`, one row per photographer, tracking whether their assigned plan (`photographers.plan_id`, already existed since Phase One) is actually paid and current. Real `stripe_customer_id`/`stripe_subscription_id` columns, null in every row today -- shaped for later, not fabricated now.
+2. **`lib/photographer_service.mjs`** extended: `getSubscription`, `adminSetSubscription` (the real, functional way to grant plan perks today -- manual, admin-only, no Stripe needed), `adminListPlans`, and `getPortfolioLimit()` -- wired directly into the existing `selfAddPortfolioItem` from Phase Two, so this is a real, working entitlement effect, not just inert schema.
+3. **Admin UI**: a plan-assignment dropdown was added to the photographer editor -- a real, previously-shipped gap (Phase One added `photographers.plan_id` to the backend but never exposed it anywhere in the UI, so it was completely unusable until now). A new Billing panel lets an admin set subscription status/renewal date/cancellation/notes.
+4. **Dashboard**: a read-only "Plan: X -- Active/Not yet active" banner so a photographer can see their own real billing state.
+5. **A written, NOT-implemented proposal** for the actual Stripe integration (checkout endpoint, webhook handler, price-id storage, customer portal) -- presented for the user's approval, per the spec's explicit gate. Full detail in `docs/DECISIONS.md`'s matching entry.
+
+### Automated testing
+
+`npm run build && npm run check && npm test` -- 283 pages, 320 HTML files, all 12 suites pass clean, 18,462 links checked with zero problems.
+
+### Manual/live testing completed
+
+A full live pass against real production Supabase, proving the entitlement logic actually works end to end, not just that the schema exists:
+
+- Confirmed the four real seeded `photographer_plans` rows are listable by admin, and that pricing is still genuinely unset (`price_cents: null`) -- no price was invented.
+- Confirmed a real photographer with no plan/subscription at all still gets exactly the unchanged Phase Two baseline (12 portfolio images, 13th rejected) -- proving this pass didn't quietly change existing behavior for anyone not on a paid plan.
+- Confirmed assigning the real Featured plan ALONE, with the subscription left at its default `inactive` status, still does not raise the limit -- both conditions (a plan AND an active subscription) are genuinely required, not just one.
+- Activated the subscription with a real future renewal date and confirmed the 13th portfolio image is now accepted (the bonus limit, 25, genuinely applies).
+- Set the same subscription to a **past** renewal date while leaving `status = 'active'` and confirmed the bonus limit correctly stops applying -- a stale "active" status can't outlive its own expiration date.
+- Confirmed the photographer's own dashboard detail view returns their real plan name and real subscription status.
+- Drove the real `/admin/photographers/` page in a real browser: opened the real test photographer, confirmed the plan dropdown shows their real assigned plan (populated from the real database, not hardcoded) and the billing form shows their real subscription status.
+- All real test data (photographer, subscription row, portfolio images, auth user) deleted afterward and re-confirmed gone, including confirming the subscription row cascade-deletes with its photographer.
+
+### Known, deliberate scope limits (Phase Four only)
+
+1. No actual payment processor is connected. Every entitlement grant today is admin-manual. This is the explicit, spec-mandated stopping point pending the user's Stripe account setup and final pricing decisions.
+2. Only one feature (portfolio image limit) is currently gated by entitlement. `featured`/`founding_photographer`/`verification_status` remain fully independent of payment by design -- see `docs/DECISIONS.md` for why.
+3. No email notification when an admin activates/changes a subscription -- same open item as gallery/listing approval in earlier phases.
+
+### Not yet done
+
+Not yet committed -- diff review and explicit approval still needed before committing, and separately before any push or production deploy, per this project's standing practice. The proposed Stripe implementation itself is not started, awaiting the user's decision.

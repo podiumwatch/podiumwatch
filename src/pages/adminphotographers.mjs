@@ -108,6 +108,7 @@ export function adminPhotographersPage(site) {
               <label class="photog-admin-checkbox"><input type="checkbox" name="featured">Featured</label>
               <label class="photog-admin-checkbox"><input type="checkbox" name="founding_photographer">Founding Photographer</label>
               <label class="photog-admin-checkbox"><input type="checkbox" name="public_visible" checked>Public visible</label>
+              <label>Plan<select name="plan_id" data-photog-plan-select><option value="">No plan</option></select></label>
               <label class="photog-admin-wide">Admin notes<textarea name="admin_notes"></textarea></label>
             </div>
 
@@ -147,6 +148,24 @@ export function adminPhotographersPage(site) {
 
             <h3 style="margin-top:16px;">Galleries</h3>
             <div class="photog-admin-list" data-photog-gallery-list><p>No galleries.</p></div>
+
+            <h3 style="margin-top:16px;">Billing</h3>
+            <p>No payment processor is connected yet -- this manually grants or revokes the perks of the plan selected above (e.g. for an early photographer who paid outside of Stripe).</p>
+            <form class="photog-admin-form" data-photog-billing-form>
+              <div class="photog-admin-fields">
+                <label>Subscription status<select name="status">
+                  <option value="inactive">Inactive</option>
+                  <option value="active">Active</option>
+                  <option value="trialing">Trialing</option>
+                  <option value="past_due">Past due</option>
+                  <option value="canceled">Canceled</option>
+                </select></label>
+                <label>Renews/expires<input type="date" name="current_period_end"></label>
+                <label class="photog-admin-checkbox"><input type="checkbox" name="cancel_at_period_end">Cancel at period end</label>
+                <label class="photog-admin-wide">Billing notes<textarea name="admin_notes"></textarea></label>
+              </div>
+              <button class="button button-dark" type="submit">Save billing status</button>
+            </form>
           </section>
         </section>
       </div>
