@@ -1139,4 +1139,38 @@ The user was explicit: "I need a team to be able to click on the side menu and b
 
 ### Follow up
 
-Migration 19 has not been run against Supabase yet -- the feature cannot work live until the user pastes it into the Supabase SQL editor themselves (standing practice: I have no mechanism to execute SQL directly). Not yet pushed. Not yet field-tested with a real code shared to a real second device.
+Migration 19 was run by the user and confirmed live via a direct Supabase probe (all three tables queryable with the expected column shapes). Pushed to production (`e2cbb37`) and verified end-to-end against the real production deploy with real, disposable test data: a throwaway team, a real code, a real `join` call returning a real session cookie, that cookie granted access to a real RCC endpoint for its own team, and -- the check that matters most -- was correctly rejected (401) when tried against a different real team. Every throwaway row was deleted afterward and the deletion re-confirmed by re-querying. Still not field-tested with a real code shared to a real second physical device at an actual meet.
+
+## 2026 08 20 Bulk-add runners on the Race Command Center Plan page
+
+### Decision
+
+Added two separate ways to add many runners at once, rather than one at a time, after the user flagged a real gap directly from a screenshot of the Plan page's empty-roster state. Asked the user to confirm scope first (this race only vs. the team's real season roster vs. both); they chose both:
+
+1. **A "Paste multiple names" panel directly on the Plan page's "Add runners" section** -- a coach pastes a list (one runner per line, an optional group after a comma) and every line becomes a guest/manual participant for that one race, exactly as if they'd used the existing single "Guest runner name" field that many times.
+2. **A link from the Plan page's empty-roster message to `/team-roster/`**, where a real CSV bulk-import tool (`preview_import`/`commit_import`) already existed but was invisible from the one screen a coach actually hits this gap on.
+
+### Reason
+
+The screenshot showed the exact real-world failure case: a team ("Russia," a test team, but representative of any real team before its roster is set up) with zero current-season roster, facing a one-name-at-a-time "Guest runner name" field as the only way to build a 20-30 person race-day roster. Investigating before building turned up that a full CSV import tool already existed on the Team Roster page (`data-import-section` in `src/pages/teamroster.mjs`, backed by real, working `preview_import`/`commit_import` actions in `lib/team_roster_service.mjs`) -- the actual problem wasn't a missing feature, it was that the feature nobody could find from the screen where the gap is actually felt. Rather than rebuild what already existed, the fix connects the two: a discoverability link for the real fix (season roster import), plus a genuinely new, smaller tool for the common case that CSV import doesn't cover well -- a one-off race with guests who aren't going on the season roster at all (a competitor's unattached runner being handed a bib, a walk-on for one meet).
+
+### Key implementation decisions worth recording
+
+1. **The bulk-paste feature writes into the exact same in-memory `manualParticipants` array the existing single "Add" field already uses**, rather than a parallel data path or its own save action. Every pasted name shows up as a normal "(manual, unsaved)" checkbox, pre-checked, in the same list the single-entry flow already produces -- and still isn't persisted until the existing "Save participants" button is clicked. This means zero new server-side code was needed for this half of the work; the entire feature is a client-side parsing convenience on top of a save path that was already correct.
+2. **Group parsing splits each line on only the FIRST comma** (`Jordan Smith, Varsity` -> name `Jordan Smith`, group `Varsity`), so a name that happens to contain a comma doesn't get mis-split. Blank lines are silently skipped; an all-blank paste is rejected with a specific message rather than silently doing nothing.
+3. **Did not rebuild the CSV import tool.** Verified directly (not assumed) that `preview_import`/`commit_import` are real, implemented actions before deciding a discoverability fix was sufficient -- rebuilding a second bulk-import mechanism when a correct one already existed would have been pure duplication.
+4. **The Team Roster deep-link carries the team id** (`/team-roster/?id=<teamId>`) so a coach lands on their own team's roster tool directly, not a page asking them to pick a team again.
+
+### Alternatives considered
+
+1. Only building the CSV-import discoverability link, no Plan-page paste tool -- rejected; doesn't serve the one-off-guest case (a competitor's unattached runner, a walk-on for a single meet) that shouldn't go on the season roster at all.
+2. Only building the Plan-page paste tool, no link to the season roster importer -- rejected; would leave a coach re-pasting their entire roster by hand for every single race, all season, when a real one-time import tool already exists for exactly that.
+3. A CSV upload control on the Plan page itself, mirroring Team Roster's -- rejected as over-engineered for this screen's actual job (this race's participants), given a plain-text paste already covers the common case with far less UI.
+
+### Files or systems affected
+
+`src/pages/racecommandcenterplan.mjs` (bulk-paste panel markup, empty-roster import link), `public/scripts/race-command-center-plan.js` (parsing/wiring, `rosterImportLink.href` set from `teamId`).
+
+### Follow up
+
+None outstanding. Verified with Playwright against the real built page: empty-roster link correct, panel opens/closes, four pasted lines (mixed groups, a blank line, extra whitespace) all parsed correctly and appeared pre-checked, Save participants sent the correct names/groups through to the API, and an all-blank paste was rejected with a clear message instead of silently no-op'ing.

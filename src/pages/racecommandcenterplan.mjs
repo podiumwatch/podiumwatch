@@ -137,6 +137,30 @@ export function raceCommandCenterPlanPage(site) {
       font: inherit;
     }
 
+    .rcc-bulk-panel {
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.03);
+    }
+
+    .rcc-bulk-panel textarea {
+      display: block;
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      border: 1px solid rgba(15, 23, 42, 0.22);
+      border-radius: 9px;
+      font: inherit;
+      resize: vertical;
+    }
+
+    .rcc-roster-import-note {
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
     .rcc-participant-card {
       display: grid;
       gap: 12px;
@@ -257,13 +281,31 @@ export function raceCommandCenterPlanPage(site) {
             <p>Select from your current roster, or add a runner manually for a guest or unrostered athlete.</p>
 
             <div class="rcc-roster-list" data-rcc-roster-list></div>
-            <div class="rcc-empty" data-rcc-roster-empty hidden>No current-season roster found for this team.</div>
+            <div class="rcc-empty" data-rcc-roster-empty hidden>
+              No current-season roster found for this team.
+              <p class="rcc-roster-import-note">
+                <a data-rcc-roster-import-link href="/team-roster/">Build or import your season roster</a>
+                to select runners here on every race, not just this one.
+              </p>
+            </div>
 
             <form class="rcc-manual-form" data-rcc-manual-form>
               <input type="text" name="manual_name" placeholder="Guest runner name">
               <input type="text" name="race_group" placeholder="Group (Varsity, JV...)">
               <button class="button button-outline" type="submit">Add</button>
             </form>
+
+            <div class="rcc-bulk-add" style="margin-top:10px;">
+              <button class="button button-outline" type="button" data-rcc-bulk-toggle style="width:100%;">Paste multiple names</button>
+
+              <div class="rcc-bulk-panel" data-rcc-bulk-panel hidden>
+                <label style="display:block;font-size:0.85rem;font-weight:700;">
+                  One runner per line -- add a group after a comma if you want (e.g. "Jordan Smith, Varsity").
+                </label>
+                <textarea data-rcc-bulk-textarea rows="6" placeholder="Jordan Smith, Varsity&#10;Casey Lee, JV&#10;Morgan Diaz"></textarea>
+                <button class="button button-primary" type="button" data-rcc-bulk-add style="margin-top:10px;width:100%;">Add all as guest runners</button>
+              </div>
+            </div>
 
             <button class="button button-primary" type="button" data-rcc-save-participants style="margin-top:16px;width:100%;">Save participants</button>
           </section>

@@ -9,7 +9,12 @@
   const checkpointStrip = document.querySelector("[data-rcc-checkpoint-strip]");
   const rosterList = document.querySelector("[data-rcc-roster-list]");
   const rosterEmpty = document.querySelector("[data-rcc-roster-empty]");
+  const rosterImportLink = document.querySelector("[data-rcc-roster-import-link]");
   const manualForm = document.querySelector("[data-rcc-manual-form]");
+  const bulkToggleButton = document.querySelector("[data-rcc-bulk-toggle]");
+  const bulkPanel = document.querySelector("[data-rcc-bulk-panel]");
+  const bulkTextarea = document.querySelector("[data-rcc-bulk-textarea]");
+  const bulkAddButton = document.querySelector("[data-rcc-bulk-add]");
   const saveParticipantsButton = document.querySelector("[data-rcc-save-participants]");
   const participantList = document.querySelector("[data-rcc-participant-list]");
   const participantEmpty = document.querySelector("[data-rcc-participant-empty]");
@@ -18,7 +23,8 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
-    checkpointStrip, rosterList, rosterEmpty, manualForm, saveParticipantsButton,
+    checkpointStrip, rosterList, rosterEmpty, rosterImportLink, manualForm,
+    bulkToggleButton, bulkPanel, bulkTextarea, bulkAddButton, saveParticipantsButton,
     participantList, participantEmpty, deleteRaceButton, liveLinkButton
   ];
 
@@ -29,6 +35,8 @@
   const params = new URLSearchParams(window.location.search);
   const teamId = String(params.get("id") || "").trim();
   const sessionId = String(params.get("race") || "").trim();
+
+  rosterImportLink.href = "/team-roster/?id=" + encodeURIComponent(teamId);
 
   const SESSIONS_ENDPOINT = "/api/race-command-center/sessions/";
   const PLAN_ENDPOINT = "/api/race-command-center/plan/";
@@ -204,6 +212,45 @@
     manualParticipants.push({ manual_name: name, race_group: String(formData.get("race_group") || "").trim() });
     manualForm.reset();
     renderRoster();
+  });
+
+  bulkToggleButton.addEventListener("click", () => {
+    bulkPanel.hidden = !bulkPanel.hidden;
+    if (!bulkPanel.hidden) bulkTextarea.focus();
+  });
+
+  // Paste-many-names: one runner per line, an optional group after the
+  // first comma (e.g. "Jordan Smith, Varsity"). Feeds the exact same
+  // in-memory manualParticipants list the single "Add" form already
+  // uses, so it rides the existing checkbox-preview + Save participants
+  // flow rather than needing its own save path.
+  bulkAddButton.addEventListener("click", () => {
+    const lines = bulkTextarea.value.split("\n");
+    let added = 0;
+
+    for (const rawLine of lines) {
+      const line = rawLine.trim();
+      if (!line) continue;
+      const commaIndex = line.indexOf(",");
+      const name = commaIndex === -1 ? line : line.slice(0, commaIndex).trim();
+      const group = commaIndex === -1 ? "" : line.slice(commaIndex + 1).trim();
+      if (!name) continue;
+      manualParticipants.push({ manual_name: name, race_group: group });
+      added += 1;
+    }
+
+    if (added === 0) {
+      showMessage("Paste at least one runner name, one per line.", true);
+      return;
+    }
+
+    bulkTextarea.value = "";
+    bulkPanel.hidden = true;
+    renderRoster();
+    showMessage(
+      added + (added === 1 ? " runner" : " runners") +
+      " added below -- review the list, then click Save participants to confirm."
+    );
   });
 
   saveParticipantsButton.addEventListener("click", async () => {

@@ -1926,4 +1926,27 @@ User asked directly for a no-more-than-2-3-clicks path from the main site menu i
 
 ### Not yet done
 
-Migration 19 has not been run against Supabase -- nothing above works live until the user runs it. Not pushed. Not field-tested with a real code shared to a second physical device.
+Migration 19 was run and confirmed live (direct Supabase probe of all three tables). Pushed and verified against real production with real, disposable test data (throwaway team, real code, real cookie, correctly scoped to its own team and correctly rejected against a different real team, then fully cleaned up and deletion re-confirmed). Still not field-tested with a real code shared to a second physical device at an actual meet.
+
+## 2026 08 20 Bulk-add runners on the Race Command Center Plan page
+
+### Goal
+
+User sent a screenshot of the Plan page's "Add runners" panel showing "No current-season roster found for this team" with only a one-name-at-a-time manual entry field, and said directly: there needs to be a bulk roster import option here. Asked the user to confirm scope (this race only vs. the team's real season roster vs. both) before building; they chose both.
+
+### What was built
+
+- Investigated first, before building: a real CSV bulk-import tool already existed on the Team Roster page (`preview_import`/`commit_import` in `lib/team_roster_service.mjs`, wired to a full preview/commit UI in `src/pages/teamroster.mjs`) -- it just wasn't reachable from the one screen this gap is actually felt on.
+- Added a "Build or import your season roster" link from the Plan page's empty-roster message straight to `/team-roster/?id=<teamId>`, so a coach discovers the tool that already exists instead of hand-typing 20-30 names.
+- Added a genuinely new "Paste multiple names" panel directly in the Plan page's "Add runners" section, for the case CSV import doesn't cover well: one-off guests for a single race (an unattached runner, a walk-on) who shouldn't go on the season roster at all. Paste one name per line, an optional group after a comma, click "Add all as guest runners" -- every line becomes a pre-checked "(manual, unsaved)" entry in the exact same list the existing single "Guest runner name" field already produces, so it rides the existing Save Participants flow with zero new server-side code.
+
+### Testing actually run
+
+- `node --check` on the modified client script -- clean.
+- `npm.cmd run build` (282 pages) and `npm.cmd run check` (18,326 links, zero problems) -- clean.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Playwright verification against the real built page (empty-roster scenario, matching the screenshot exactly): confirmed the import link carries the right team id; confirmed the bulk panel opens/closes; pasted four names with mixed groups, a blank line, and extra whitespace, and confirmed all four parsed correctly, appeared pre-checked, and cleared the textarea/closed the panel with a correct confirmation count; confirmed clicking Save Participants actually sent all four names and their correct groups through to the API; confirmed an all-blank paste is rejected with a specific message rather than silently doing nothing.
+
+### Not yet done
+
+Not pushed.
