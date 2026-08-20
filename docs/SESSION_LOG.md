@@ -1950,3 +1950,28 @@ User sent a screenshot of the Plan page's "Add runners" panel showing "No curren
 ### Not yet done
 
 Not pushed.
+
+## 2026 08 20 CSV roster import was completely broken -- root-caused and fixed
+
+### Goal
+
+User followed the new discoverability link straight into a real, previously-untested failure: CSV roster import failed on every commit with "The team roster request could not be completed." Investigated rather than guessed.
+
+### What was built
+
+- Reproduced the exact failure against real production (real Russia team, real season, throwaway data) and found the real Postgres error underneath the generic API message: a not-null constraint violation on `team_roster_entries.athlete_name`.
+- Confirmed the responsible database function, `team_commit_roster_import_v1`, was created directly against Supabase at some point and has no matching migration anywhere in this repo -- its source isn't visible or editable from here. Confirmed PostgREST won't expose `pg_catalog`/`information_schema` for introspection either.
+- Black-box tested several guesses for what the function might want on its input rows (`athlete_name`, `firstName`/`lastName`, `name`, `full_name`) -- none worked; the function simply never sets the column, regardless of input. Every failed attempt rolled back cleanly (Postgres functions are transactional), so nothing was left behind mid-investigation.
+- `install/20_ROSTER_IMPORT_ATHLETE_NAME_FIX.sql` (new): drops the not-null constraint so the existing (opaque) RPC stops erroring outright, and adds a small new function, `team_backfill_roster_entry_names_v1`, that fills the column in correctly right after.
+- `lib/team_roster_service.mjs`: `commitImport()` now calls that backfill function immediately after the import RPC succeeds, using the same `team_athletes.display_name` value the already-correct single "Add athlete" path uses. Best-effort -- a backfill failure never undoes a successful import.
+
+### Testing actually run
+
+- `node --check` on the modified service file -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Verified directly against real production, twice: once to confirm the diagnosis (multiple throwaway RPC calls, all correctly rolled back, no data left behind), and again after the user ran migration 20 to confirm the actual fix -- a real throwaway CSV row run through the real `preview_import`/`commit_import` path end to end, confirming the commit no longer throws, the athlete and roster entry are both created, `athlete_name` is non-null and correctly matches `display_name`, and other fields (grade, events) still come through correctly. Throwaway data deleted and deletion re-confirmed both times.
+
+### Not yet done
+
+Not pushed. The user has not yet re-attempted their real 24-athlete CSV import.
