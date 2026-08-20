@@ -1233,4 +1233,33 @@ Race Command Center was built with its own simpler sport concept (cross country 
 
 ### Follow up
 
-Verified directly against real production (the real Russia team/roster) before and after the fix -- no migration required, this is a pure application-code fix. Not yet pushed.
+Verified directly against real production (the real Russia team/roster) before and after the fix -- no migration required, this is a pure application-code fix. Pushed and re-verified against the actual deployed API afterward (see the entry below, "Race day access code, shareable directly from the Race Command Center hub" -- that verification also incidentally re-confirmed this fix live).
+
+## 2026 08 20 Race day access code, shareable directly from the Race Command Center hub
+
+### Decision
+
+After successfully setting up a real race (roster imported, goals set), the user pointed out there was no visible way to actually hand off timing duties to a volunteer -- the only place to generate/share a race day code was Team Home, a different page entirely from where a coach is actually thinking about "who's going to time this." Added the exact same generate/status/reveal-once/revoke panel already built for Team Home to the Race Command Center hub page (`/race-command-center/`) as well -- the page a coach actually lands on when setting up and managing races, which is a more natural moment to think about sharing access than the season-level Team Home page.
+
+### Reason
+
+Team Home is where a coach thinks about the season as a whole (roster, schedule); Race Command Center is where a coach thinks about a specific race and who's helping run it. "I need someone to help me time this" is squarely a Race Command Center thought, not a Team Home one -- the user's own confusion ("I don't see a place where I can give access code to someone") confirmed the panel was in the wrong (or at least, an insufficiently discoverable) place for how coaches actually use this tool.
+
+### Key implementation decisions worth recording
+
+1. **Duplicated the UI, not the backend.** Both Team Home's and the RCC hub's panels call the exact same `api/team/race-day-code.js` endpoint (status/regenerate/revoke) -- there's one source of truth for the code itself; only the surface a coach can act on it from is doubled. Regenerating from either page immediately invalidates sessions from the other's perspective too, since they're the same underlying data.
+2. **The panel is conditionally hidden for a race-day-code visitor**, not just conditionally non-functional. This hub page is dual-audience (a real coach reaches it after signing in; a volunteer reaches the SAME page after entering a code, per the join flow built earlier this session) -- but only a real coach account can manage the code (`api/team/race-day-code.js` requires `requireTeamUser`, never accepts the race-day cookie by design). Rather than show the panel and let a volunteer's "Generate code" click fail with a confusing error, `initialize()` only reveals the section at all when `window.PodiumTeamAuth.getUser()` resolves to a real user -- verified directly via Playwright that the panel stays hidden AND the owner-only endpoint is never even called for a race-day-code visitor.
+3. **The raw-code-shown-once behavior is preserved exactly**, including the `keepReveal` re-render guard from Team Home's implementation -- copied deliberately rather than reinvented, since it's already a correct, tested pattern.
+
+### Alternatives considered
+
+1. Only adding a link from the RCC hub to Team Home's existing panel (the same "discoverability link" pattern used for the CSV roster import fix earlier) -- rejected here specifically; unlike CSV import (a rare, once-a-season action where an extra page load is a minor cost), sharing a race day code is something a coach may want to do in the moment, phone in hand, and duplicating the actual panel removes a page load exactly when it matters most.
+2. Moving the panel from Team Home to the RCC hub instead of duplicating it -- rejected; a coach might reasonably look for it in either place, and Team Home's placement wasn't wrong, just incomplete.
+
+### Files or systems affected
+
+`src/pages/racecommandcenter.mjs` (new panel markup + CSS), `public/scripts/race-command-center-hub.js` (status/generate/revoke wiring, conditional visibility).
+
+### Follow up
+
+None outstanding. Verified with Playwright against the real built page: panel visible and fully functional (generate reveals a code once, status flips on/off, revoke works) for a real coach; panel stays hidden and the owner-only endpoint is never called at all for a race-day-code visitor landing on the same page.

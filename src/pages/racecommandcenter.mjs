@@ -175,6 +175,42 @@ export function raceCommandCenterHubPage(site) {
       width: 210px;
     }
 
+    .rcc-race-day-reveal {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(0, 191, 99, 0.12);
+      border: 1px solid rgba(0, 191, 99, 0.35);
+    }
+
+    .rcc-race-day-reveal p {
+      margin: 0 0 10px;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .rcc-race-day-code-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .rcc-race-day-code {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .rcc-item-meta {
+      margin-top: 4px;
+      font-size: 0.85rem;
+      opacity: 0.75;
+    }
+
     @media (max-width: 840px) {
       .rcc-grid,
       .rcc-checkpoint-row {
@@ -272,6 +308,35 @@ export function raceCommandCenterHubPage(site) {
             </form>
           </section>
         </div>
+
+        <section class="rcc-panel" data-rcc-race-day-section hidden>
+          <div class="rcc-header">
+            <div>
+              <p class="eyebrow">Race day access</p>
+              <h2>Get volunteers timing</h2>
+            </div>
+          </div>
+          <p style="margin-top:6px;max-width:640px;">
+            Share this code with anyone timing a race for you -- a parent at mile one, a friend at the finish.
+            They enter it at <strong>Race Command Center</strong> in the main menu and go straight into live
+            timing for this team, no account required.
+          </p>
+
+          <div class="rcc-race-day-reveal" data-rcc-race-day-reveal hidden>
+            <p>Your new code -- share it now, it won't be shown again</p>
+            <div class="rcc-race-day-code-row">
+              <code class="rcc-race-day-code" data-rcc-race-day-reveal-code></code>
+              <button class="button button-outline" type="button" data-rcc-race-day-copy>Copy</button>
+            </div>
+          </div>
+
+          <div data-rcc-race-day-status style="margin-top:14px;"></div>
+
+          <div class="rcc-actions" style="margin-top:14px;">
+            <button class="button button-primary" type="button" data-rcc-race-day-generate>Generate code</button>
+            <button class="button button-outline" type="button" data-rcc-race-day-revoke hidden>Turn off access</button>
+          </div>
+        </section>
       </div>
     </div>
   </section>

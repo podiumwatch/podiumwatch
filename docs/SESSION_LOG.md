@@ -1996,4 +1996,27 @@ Right after the CSV import fix, the user ran their real 24-athlete import succes
 
 ### Not yet done
 
-Not pushed. This fix and the CSV import fix from minutes earlier are both still waiting on the same push.
+Pushed and verified live directly against the deployed production API (see the next entry, which needed the same verification and covered this fix too).
+
+## 2026 08 20 Race day access code, shareable directly from the Race Command Center hub
+
+### Goal
+
+Right after setting up a real race (roster imported, goals set), the user said: "Only issue that I see is I don't see a place where I can give access code to someone to help me time the miles." The existing generate/share panel only lived on Team Home, a different page than where a coach is actually thinking about race-day help.
+
+### What was built
+
+- Added the same generate/status/reveal-once/revoke race day code panel already on Team Home to the Race Command Center hub page (`/race-command-center/`) as well -- same backend endpoint, duplicated UI only.
+- The panel only appears for a real signed-in coach -- a race-day-code volunteer can land on this exact same page (via the join flow) but can't manage the code itself, so the section stays hidden for them entirely rather than showing a button that would just fail.
+
+### Testing actually run
+
+- `node --check` -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Playwright verification against the real built page: confirmed a real coach sees the panel and can generate (code revealed once), see status flip to "on," and revoke (status flips back to "off"); confirmed a race-day-code-only visitor on the same page never sees the panel and the owner-only endpoint is never even called for them.
+- Pushed both this fix and the sport-format roster fix from minutes earlier together, then verified live directly against the real production API using a throwaway race day code for the real Russia team (checked first that no real code already existed, to avoid clobbering one): confirmed the deployed `list_roster` endpoint now returns all 24 real roster athletes by name. Deactivated the throwaway code and deleted its session afterward.
+
+### Not yet done
+
+None outstanding.

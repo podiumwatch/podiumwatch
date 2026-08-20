@@ -10,10 +10,19 @@
   const createForm = document.querySelector("[data-rcc-create-form]");
   const checkpointRows = document.querySelector("[data-rcc-checkpoint-rows]");
   const addCheckpointButton = document.querySelector("[data-rcc-add-checkpoint]");
+  const raceDaySection = document.querySelector("[data-rcc-race-day-section]");
+  const raceDayReveal = document.querySelector("[data-rcc-race-day-reveal]");
+  const raceDayRevealCode = document.querySelector("[data-rcc-race-day-reveal-code]");
+  const raceDayCopyButton = document.querySelector("[data-rcc-race-day-copy]");
+  const raceDayStatusEl = document.querySelector("[data-rcc-race-day-status]");
+  const raceDayGenerateButton = document.querySelector("[data-rcc-race-day-generate]");
+  const raceDayRevokeButton = document.querySelector("[data-rcc-race-day-revoke]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox,
-    raceList, raceEmpty, createForm, checkpointRows, addCheckpointButton
+    raceList, raceEmpty, createForm, checkpointRows, addCheckpointButton,
+    raceDaySection, raceDayReveal, raceDayRevealCode, raceDayCopyButton,
+    raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
   ];
 
   if (requiredElements.some((el) => !el)) {
@@ -185,6 +194,81 @@
     });
   }
 
+  function formatDateTime(isoText) {
+    const date = new Date(String(isoText || ""));
+    if (Number.isNaN(date.getTime())) return null;
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+      " at " + date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  }
+
+  function renderRaceDayStatus(status, keepReveal = false) {
+    // A freshly generated code is only ever shown once, right after the
+    // click that made it -- any later status refresh (revoke, page
+    // reload) re-hides it, since the raw code isn't recoverable server-side.
+    if (!keepReveal) raceDayReveal.hidden = true;
+
+    if (!status || !status.active) {
+      raceDayStatusEl.innerHTML =
+        '<strong>Race day access is off.</strong>' +
+        '<div class="rcc-item-meta">No volunteer code is active for this team right now.</div>';
+      raceDayGenerateButton.textContent = "Generate code";
+      raceDayRevokeButton.hidden = true;
+      return;
+    }
+
+    const created = formatDateTime(status.created_at);
+    const lastUsed = formatDateTime(status.last_used_at);
+    raceDayStatusEl.innerHTML =
+      '<strong>Race day access is on.</strong>' +
+      '<div class="rcc-item-meta">' +
+        (created ? "Created " + created : "Active") +
+        " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
+      '</div>';
+    raceDayGenerateButton.textContent = "Regenerate code";
+    raceDayRevokeButton.hidden = false;
+  }
+
+  raceDayGenerateButton.addEventListener("click", async () => {
+    raceDayGenerateButton.disabled = true;
+    try {
+      const generated = await apiFetch("/api/team/race-day-code/", { action: "regenerate" });
+      raceDayRevealCode.textContent = generated.code;
+      raceDayReveal.hidden = false;
+      raceDayCopyButton.textContent = "Copy";
+      const statusData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+      renderRaceDayStatus(statusData.status, true);
+    } catch (error) {
+      showMessage(error.message || "The code could not be generated.", true);
+    } finally {
+      raceDayGenerateButton.disabled = false;
+    }
+  });
+
+  raceDayRevokeButton.addEventListener("click", async () => {
+    if (!window.confirm("Turn off race day access? Anyone currently using the code will be signed out.")) return;
+    raceDayRevokeButton.disabled = true;
+    try {
+      await apiFetch("/api/team/race-day-code/", { action: "revoke" });
+      const statusData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+      renderRaceDayStatus(statusData.status);
+    } catch (error) {
+      showMessage(error.message || "Race day access could not be turned off.", true);
+    } finally {
+      raceDayRevokeButton.disabled = false;
+    }
+  });
+
+  raceDayCopyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(raceDayRevealCode.textContent || "");
+      raceDayCopyButton.textContent = "Copied";
+      setTimeout(() => { raceDayCopyButton.textContent = "Copy"; }, 2000);
+    } catch {
+      // Clipboard API can fail (permissions, non-secure context) -- the
+      // code is already visible on screen, so this is a soft failure.
+    }
+  });
+
   createForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     showMessage("");
@@ -239,6 +323,20 @@
 
       addCheckpointRow("Mile 1", "");
       addCheckpointRow("Mile 2", "");
+
+      // Managing the race day code itself always requires a real coach
+      // account (api/team/race-day-code.js), never the race-day cookie a
+      // volunteer landed here with -- so this whole panel only makes
+      // sense, and only appears, for a signed-in coach.
+      if (user) {
+        raceDaySection.hidden = false;
+        try {
+          const raceDayData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+          renderRaceDayStatus(raceDayData.status);
+        } catch {
+          renderRaceDayStatus(null);
+        }
+      }
 
       loadingBox.hidden = true;
       root.hidden = false;
