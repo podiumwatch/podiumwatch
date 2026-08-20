@@ -2043,4 +2043,25 @@ After pushing the RCC hub panel, asked the user to go check it -- they replied "
 
 ### Not yet done
 
-Not pushed.
+Pushed and deployed. The user reported afterward that the button was still not visible on their own screen even post-deploy -- not yet root-caused (most likely a stale cached page load, not confirmed).
+
+## 2026 08 20 Delete a race from Team Meet Center
+
+### Goal
+
+User asked for "an option to delete a meet added in there, with a pop up screen saying are you sure." Asked a clarifying question rather than guess which page -- the answer pointed to Team Meet Center, which lists race groups for one scheduled meet with zero delete option.
+
+### What was built
+
+- `public/scripts/team-meet-center.js`: a "Delete" button on each draft-status race row (matching the same "only a draft that hasn't started can be deleted" rule the Plan page's own delete button already enforces), a `window.confirm("Delete this race? This cannot be undone.")` prompt, and a call to the existing `api/race-command-center/sessions.js` "delete" action -- no new backend code.
+
+### Testing actually run
+
+- `node --check` -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Playwright verification against the real built page: a draft race shows Delete, a live race doesn't; clicking Delete shows the confirm prompt with the right wording; confirming sends the correct race id and the list refreshes with the race gone; a confirmation message displays.
+
+### Not yet done
+
+Not pushed. Still owe the user a real root cause for the "Share access code" button not appearing on their screen (see the entry above) -- deferred while they moved on to this request.

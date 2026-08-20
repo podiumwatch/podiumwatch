@@ -95,15 +95,42 @@
     raceEmpty.hidden = true;
     raceList.innerHTML = raceSessions.map((race) => {
       const action = actionLinkFor(race);
+      // Deleting is only ever allowed for a draft that hasn't started --
+      // matches the same restriction the Plan page's own "Delete draft"
+      // button already enforces (api/race-command-center/sessions.js's
+      // deleteSession()), just reachable from here too, since a race
+      // group created by mistake in Meet Center has no other delete path.
+      const deleteButton = race.status === "draft"
+        ? '<button class="button button-outline" type="button" data-tmc-delete-race="' + escapeHtml(race.id) + '">Delete</button>'
+        : "";
       return (
         '<div class="tw-race-row">' +
           '<div><strong>' + escapeHtml(race.name) + '</strong><div style="font-size:0.85rem;opacity:0.75;">' + race.ready_count + ' of ' + race.participant_count + ' race plans ready</div></div>' +
           '<span class="' + statusBadgeClass(race.status) + '">' + escapeHtml(STATUS_LABELS[race.status] || race.status) + '</span>' +
-          '<a class="button button-primary" href="' + action.href + '">' + action.label + '</a>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+            '<a class="button button-primary" href="' + action.href + '">' + action.label + '</a>' +
+            deleteButton +
+          '</div>' +
         '</div>'
       );
     }).join("");
   }
+
+  raceList.addEventListener("click", async (event) => {
+    const deleteButton = event.target.closest("[data-tmc-delete-race]");
+    if (!deleteButton) return;
+
+    if (!window.confirm("Delete this race? This cannot be undone.")) return;
+    deleteButton.disabled = true;
+    try {
+      await apiFetch(SESSIONS_ENDPOINT, { action: "delete", session_id: deleteButton.dataset.tmcDeleteRace });
+      showMessage("The race was deleted.");
+      await initialize();
+    } catch (error) {
+      showMessage(error.message || "This race could not be deleted.", true);
+      deleteButton.disabled = false;
+    }
+  });
 
   createForm.addEventListener("submit", async (event) => {
     event.preventDefault();

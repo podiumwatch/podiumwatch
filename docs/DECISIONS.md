@@ -1292,4 +1292,32 @@ Three coach-tool RCC pages (hub, plan, live) each represent a different moment i
 
 ### Follow up
 
-None outstanding. Verified with Playwright against both real built pages: button visible and dialog fully functional (open, generate reveals once, close) for a real coach on both Plan and Live; button stays hidden and the owner-only endpoint is never called for a race-day-code visitor on the Plan page.
+Verified with Playwright against both real built pages: button visible and dialog fully functional (open, generate reveals once, close) for a real coach on both Plan and Live; button stays hidden and the owner-only endpoint is never called for a race-day-code visitor on the Plan page. Pushed and deployed, confirmed live via direct HTML check. The user then reported the button was still not visible on their own screen -- not yet root-caused; a stale cached page load is the leading suspect but unconfirmed, since the deployed markup and mocked-Playwright behavior are both already verified correct.
+
+## 2026 08 20 Delete a race from Team Meet Center
+
+### Decision
+
+User asked for "an option to delete a meet added in there, with a pop up screen saying are you sure" -- a clarifying question narrowed "in there" down to Team Meet Center (`/team-meet-center/`), the page that lists race groups created for one scheduled meet. Confirmed that page had zero delete option for any race group at all -- only "Open plan"/"Open live timing"/"View review" links. Added a "Delete" button with a `window.confirm()` prompt, reusing the existing `api/race-command-center/sessions.js` "delete" action (the same one the Plan page's own "Delete draft" button already calls) rather than building new backend logic.
+
+### Reason
+
+Team Meet Center's own header comment already describes it as bridging the schedule system with Race Command Center -- "every race session tied to this meet" -- but the page was write-heavy (create) with no corresponding delete, an asymmetry the user's own workflow (apparently having created at least one race group they wanted to remove) surfaced directly.
+
+### Key implementation decisions worth recording
+
+1. **Reused the existing delete action and its existing restriction rather than inventing a new one.** `deleteSession()` already only allows deleting a `status = 'draft'` race that hasn't started -- exactly the same rule the Plan page's "Delete draft" button already enforces. The Delete button here only renders for a draft race group; a live/finished one shows no delete option at all, matching that existing, already-correct restriction rather than needing a new server-side rule.
+2. **No new API endpoint or service function** -- this is a pure client-side addition (`public/scripts/team-meet-center.js`) calling the exact same `SESSIONS_ENDPOINT`/`action: "delete"` the Plan page uses, just with an explicit `session_id` in the payload (this page's own `apiFetch` doesn't auto-attach one the way the Plan page's does, since Meet Center manages several race groups, not one).
+3. **Confirm-and-refresh, not optimistic removal** -- on success, the button shows "The race was deleted" and the whole meet center reloads via `initialize()`, so the displayed state always reflects a fresh server read rather than a client-side guess.
+
+### Alternatives considered
+
+1. A dedicated Meet Center delete endpoint -- rejected; the existing `sessions.js` "delete" action already does exactly the right thing (ownership check via `loadTeam`, draft-only restriction, real deletion) and Meet Center has no reason to duplicate it.
+
+### Files or systems affected
+
+`public/scripts/team-meet-center.js` (delete button per race row, confirm + delete + refresh).
+
+### Follow up
+
+None outstanding. Verified with Playwright against the real built page: a draft race shows a Delete button, a live race shows none at all, clicking Delete shows the confirm prompt with the expected wording, confirming sends the correct race id to the existing delete endpoint, and the list refreshes to show the race gone.
