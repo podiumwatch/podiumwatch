@@ -1874,3 +1874,26 @@ Minutes after the Photographer Network (including real, live Stripe checkout) we
 ### Not yet done
 
 Not yet pushed at the point this entry was written -- push is the next step, since the whole point of this pass was to take the live site's real exposure down, not just the local build.
+
+## 2026 08 20 Race Command Center surfaced on the team dashboard
+
+### Goal
+
+User asked directly: what's the actual process for getting to Race Command Center from the main screen, and can it be as easy as possible? Investigated first -- found `/team-dashboard/` (the real first screen after sign-in) buried the Race Command Center button as the 7th of 7 equal-weight buttons per team card, while Team Home (one click deeper) already had a good "next race" pattern from an earlier phase.
+
+### What was built
+
+- `getNextRacesForTeams()` in `lib/team_workspace_service.mjs` -- one batched query covering every team a coach owns/edits, live-status always prioritized over date.
+- `api/team/me.js` now attaches `next_race` to each team.
+- `team-dashboard.js`: a prominent "Live now"/"Next race" banner at the top of each team card (matching Team Home's existing visual language) with a direct "Open live timing"/"Open plan" button; Race Command Center moved from last to 2nd position in the action row regardless of whether a race exists.
+
+### Testing actually run
+
+- `node --check` on all three modified files -- clean.
+- `npm.cmd run build` (282 pages) and `npm.cmd run check` (zero problems) -- clean.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Playwright verification against the real built page with three real scenarios (live race, upcoming race, no race): confirmed correct banner text/button label/href in each case, confirmed the button reorder holds in all three, zero console errors, and visually confirmed via screenshot that the live-race banner renders above the fold before any other button.
+
+### Not yet done
+
+Not pushed.

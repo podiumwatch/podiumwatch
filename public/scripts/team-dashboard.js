@@ -123,6 +123,54 @@
       .replaceAll("'", "&#039;");
   }
 
+  // Matches team-home.js's own formatDate/STATUS_LABELS exactly -- same
+  // race_sessions.status vocabulary, same display convention, just
+  // reused here so the "next race" banner reads identically wherever a
+  // coach sees it.
+  function formatDate(dateText) {
+    const cleaned = String(dateText || "").trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(cleaned)) return cleaned;
+    const date = new Date(`${cleaned}T12:00:00Z`);
+    if (Number.isNaN(date.getTime())) return cleaned;
+    return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  }
+
+  const RACE_STATUS_LABELS = {
+    draft: "Draft", scheduled: "Scheduled", live: "Live",
+    finished: "Finished", reviewed: "Reviewed", cancelled: "Cancelled"
+  };
+
+  // The unmissable, top-of-card call to action this whole change exists
+  // for: a coach signing in on race day should see "Open live timing"
+  // as close to instantly as possible, not have to find Race Command
+  // Center among six other buttons first. Styled to match Team Home's
+  // own .tw-next-card treatment (same dark banner, same pattern) so it
+  // reads as the same feature wherever a coach encounters it, even
+  // though this page's own convention is inline styles rather than a
+  // scoped stylesheet.
+  function renderNextRaceBanner(team) {
+    const race = team.next_race;
+    if (!race) return "";
+
+    const isLive = race.status === "live";
+    const href = isLive
+      ? "/race-command-center/live/?id=" + encodeURIComponent(team.id) + "&race=" + encodeURIComponent(race.id)
+      : "/race-command-center/plan/?id=" + encodeURIComponent(team.id) + "&race=" + encodeURIComponent(race.id);
+
+    return (
+      '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin:14px 0;padding:16px 18px;border-radius:12px;background:#111827;color:#fff;">' +
+        '<div>' +
+          (isLive
+            ? '<span style="display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:#dc2626;font-size:0.72rem;font-weight:900;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;">Live now</span><br>'
+            : '<span style="opacity:0.75;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.03em;">Next race</span><br>') +
+          '<strong>' + escapeHtml(race.name) + '</strong>' +
+          '<div style="opacity:0.8;font-size:0.85rem;margin-top:2px;">' + escapeHtml(formatDate(race.race_date)) + " &middot; " + escapeHtml(RACE_STATUS_LABELS[race.status] || race.status) + '</div>' +
+        '</div>' +
+        '<a class="button button-primary" href="' + href + '">' + (isLive ? "Open live timing" : "Open plan") + '</a>' +
+      '</div>'
+    );
+  }
+
   function safeUrl(value) {
     try {
       const url = new URL(
@@ -405,6 +453,7 @@
                     ))
                     .join("") +
                 '</div>' +
+                renderNextRaceBanner(team) +
                 '<div style="margin:16px 0;">' +
                   '<p style="margin:0 0 7px;"><strong>Profile completion: ' +
                     escapeHtml(completion) +
@@ -421,6 +470,15 @@
                     encodeURIComponent(team.id) +
                   '">' +
                     "Team home" +
+                  '</a>' +
+                  // Race Command Center moved up to 2nd position (was
+                  // last of 7) -- it's the one tool on this list that's
+                  // genuinely time-critical on race day; everything
+                  // else here can wait.
+                  '<a class="button button-outline" href="/race-command-center/?id=' +
+                    encodeURIComponent(team.id) +
+                  '">' +
+                    "Race Command Center" +
                   '</a>' +
                   '<a class="button button-primary" href="/team-editor/?id=' +
                     encodeURIComponent(team.id) +
@@ -446,11 +504,6 @@
                     encodeURIComponent(team.id) +
                   '">' +
                     "View insights" +
-                  '</a>' +
-                  '<a class="button button-outline" href="/race-command-center/?id=' +
-                    encodeURIComponent(team.id) +
-                  '">' +
-                    "Race Command Center" +
                   '</a>' +
                 '</div>' +
               '</div>' +

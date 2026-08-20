@@ -6,6 +6,9 @@ import {
 import {
   calculateTeamCompletion
 } from "../../lib/team_audit.mjs";
+import {
+  getNextRacesForTeams
+} from "../../lib/team_workspace_service.mjs";
 
 export default async function handler(
   request,
@@ -98,6 +101,13 @@ export default async function handler(
           )
         );
 
+      // Powers the "your race is live right now" banner on
+      // /team-dashboard/ -- the actual first screen a coach sees after
+      // signing in, so this needs to be unmissable on race day rather
+      // than requiring a click into Team Home first.
+      const nextRaceByTeam =
+        await getNextRacesForTeams(teamIds);
+
       const socialByTeam = new Map();
 
       (socialRows || []).forEach(
@@ -136,7 +146,11 @@ export default async function handler(
               socialByTeam.get(
                 team.id
               ) || []
-            )
+            ),
+          next_race:
+            nextRaceByTeam.get(
+              team.id
+            ) || null
         })
       );
     }

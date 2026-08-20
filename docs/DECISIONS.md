@@ -1075,3 +1075,33 @@ The Photographer Network had just been pushed live minutes earlier in this same 
 ### Follow up
 
 Republishing later requires: uncommenting the 5 routes in `scripts/build.mjs`, restoring the nav link, flipping `CHECKOUT_ENABLED` back to `true`, and deciding whether the admin tool's "View directory"/"View public profile" links should come back too.
+
+## 2026 08 20 Race Command Center surfaced on the team dashboard's main screen
+
+### Decision
+
+Added a "next race" banner to `/team-dashboard/` -- the actual first screen a coach sees after signing in -- and promoted the Race Command Center button from 7th-of-7 to 2nd position in each team card's action row. When a team has a race with `status = 'live'`, the banner is an unmissable "Live now" callout with a direct "Open live timing" button; for a merely scheduled/draft upcoming race, it reads "Next race" with an "Open plan" button. Reuses the exact same live-vs-upcoming distinction and visual language already proven on Team Home's own "Next up" card.
+
+### Reason
+
+The user asked directly: what does getting to Race Command Center from the main screen actually look like, and can it be made as easy as possible? Investigation found the honest current answer was "one click, but the button is the last of seven equally-weighted options in a dense card" -- reachable, not easy. Team Home already had a genuinely good pattern for this (a prominent "next race" card with a direct live-timing link) built in an earlier phase, but it only existed on the PER-TEAM Team Home page, one click deeper than the dashboard a coach actually lands on first.
+
+### Key implementation decisions worth recording
+
+1. **A new batched service function, `getNextRacesForTeams(teamIds)`, not a per-team call to the existing `buildTeamHomeSummary`.** The dashboard can list several teams at once; reusing the full Team Home summary (roster counts, recent races, meet connections) per team would mean real wasted queries for data this screen never displays. One query covers every owned/edited team's next race in a single round trip.
+2. **A live race always outranks an earlier-dated but not-yet-started one**, via an explicit `isBetterNextRace` comparison (live beats non-live regardless of date, then earliest date wins among non-live) -- Team Home's own `nextRace` picks index 0 of a date-sorted list without this explicit tiebreak, which works in the common case (a live race is almost always today, so it naturally sorts first) but doesn't structurally guarantee a live race is surfaced over some other race with an earlier date in an edge case. Made explicit here since a coach mid-race needs this to be reliable, not merely usually-correct.
+3. **The button reorder (Race Command Center: 7th -> 2nd) stands on its own, independent of whether a next-race banner exists.** A team in the off-season with nothing scheduled still gets a more discoverable path to Race Command Center -- the banner is the "urgent" layer, the reorder is the baseline improvement underneath it.
+4. **Verified end-to-end with Playwright against three real scenarios** (live race, upcoming scheduled race, no race at all) using the real built page and script -- confirmed the correct banner/button/href appears in each case, confirmed the button reorder holds in all three, confirmed zero console errors, and visually confirmed via screenshot that the live-race banner renders above the fold, before any of the other action buttons.
+
+### Alternatives considered
+
+1. Only reordering the button, no banner -- rejected as insufficient; a same-weight outline button in position 2 is still just one option among many, not the unmissable race-day signal the user asked for.
+2. Computing next-race per team via N separate calls to `buildTeamHomeSummary` -- rejected as wasteful; see key decision #1.
+
+### Files or systems affected
+
+`lib/team_workspace_service.mjs` (`getNextRacesForTeams`, new), `api/team/me.js` (`next_race` attached to each team), `public/scripts/team-dashboard.js` (banner rendering, button reorder).
+
+### Follow up
+
+None outstanding -- this is a complete, self-contained improvement to an already-existing screen.
