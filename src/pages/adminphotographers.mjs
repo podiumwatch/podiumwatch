@@ -117,8 +117,9 @@ export function adminPhotographersPage(site) {
 
             <div class="photog-admin-actions">
               <button class="button button-primary" type="submit">Save listing</button>
-              <a class="button button-outline" href="/photographers/" target="_blank" rel="noopener">View directory</a>
-              <a class="button button-outline" data-photog-view-profile hidden target="_blank" rel="noopener">View public profile</a>
+              <!-- "View directory" / "View public profile" links removed while the
+                   Photographer Network is unpublished (2026-08-20) -- both public
+                   pages are temporarily out of the build, see scripts/build.mjs. -->
             </div>
           </form>
 

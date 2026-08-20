@@ -17,6 +17,19 @@ function parseBody(request) {
   return request.body || {};
 }
 
+// Kill switch: the Photographer Network is temporarily unpublished
+// (2026-08-20, not ready yet -- see docs/DECISIONS.md and
+// scripts/build.mjs's matching note). The public/private pages that link
+// here are gone from the build, but this serverless function is still
+// deployed and directly reachable regardless of that -- Vercel deploys
+// everything under api/ independently of what scripts/build.mjs writes.
+// Real, live Stripe price IDs are configured, so this endpoint can
+// genuinely start a real charge; this flag is the actual, unconditional
+// stop, checked before auth even runs, not just "no page links here
+// anymore." Flip back to true (and uncomment the routes in
+// scripts/build.mjs) when ready to republish.
+const CHECKOUT_ENABLED = false;
+
 // Starts a real Stripe Checkout Session for the signed-in photographer's
 // OWN listing, ownership-checked the same way as every other
 // self-service action. Only ever used for a photographer's FIRST
@@ -29,6 +42,10 @@ export default async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
     return response.status(405).json({ error: "Method not allowed." });
+  }
+
+  if (!CHECKOUT_ENABLED) {
+    return response.status(503).json({ error: "Photographer Network membership is not yet available." });
   }
 
   try {

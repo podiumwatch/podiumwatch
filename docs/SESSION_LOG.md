@@ -1848,3 +1848,29 @@ Replaced the single "Advance to next checkpoint" button (sequential, one-way, co
 ### Not yet done
 
 Not pushed. Not yet field-tested with two real physical devices at an actual meet.
+
+## 2026 08 20 Photographer Network temporarily unpublished
+
+### Goal
+
+Minutes after the Photographer Network (including real, live Stripe checkout) went live via today's earlier push, the user asked to unpublish it -- "I don't have it completely ready." Confirmed scope with the user first (full teardown vs. keep dashboard reachable) -- they chose the full, safest option.
+
+### What was built
+
+- Commented out (not deleted) the 5 photographer-facing routes in `scripts/build.mjs`: `/photographers/`, `/photographers/profile/`, `/photographers/membership/`, `/photographer-login/`, `/photographer-dashboard/`.
+- Removed the "Find a Photographer" nav link.
+- Added an unconditional kill switch to `api/photographer/checkout.js` -- realized partway through that removing pages alone was NOT sufficient, since Vercel deploys `api/` serverless functions independently of the static build; the checkout endpoint would have stayed genuinely callable (and could genuinely charge a real card given the live price IDs already configured) with zero page linking to it.
+- Fixed a real bug `npm run check` caught immediately: the admin tool had a static link to the now-gone `/photographers/` directory. Removed it and the equivalent JS-driven "View public profile" link, and updated the admin script's `requiredElements` list so removing that one DOM node didn't silently break the entire admin tool (an established gotcha in this codebase).
+- Admin tool (`/admin/photographers/`) deliberately left fully working -- password-gated, never public, and the user needs it to keep configuring things.
+
+### Testing actually run
+
+- `node --check` on every modified file -- clean.
+- `npm.cmd run build` -- 282 pages (down from 285, the 5 removed routes minus the one +1 from earlier's article, roughly), clean.
+- `npm.cmd run check` -- caught the real broken admin-directory-link bug on the first run; clean (17,955 links, zero problems) after the fix.
+- Full `npm.cmd test` -- all suites including `test:photographer-billing`, zero failures.
+- Directly confirmed all 5 removed routes are actually absent from `dist/`, confirmed `/admin/photographers/` still builds, confirmed the nav no longer contains "Find a Photographer" text anywhere in the built homepage.
+
+### Not yet done
+
+Not yet pushed at the point this entry was written -- push is the next step, since the whole point of this pass was to take the live site's real exposure down, not just the local build.

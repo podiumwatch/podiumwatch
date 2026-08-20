@@ -22,7 +22,8 @@ export const site = {
     { label: "Tournament Hub", href: "/tournament-hub/" },
     { label: "Athletes", href: "/athletes/" },
     { label: "Recruiting", href: "/recruiting/" },
-    { label: "Find a Photographer", href: "/photographers/" },
+    // "Find a Photographer" removed -- Photographer Network temporarily
+    // unpublished (2026-08-20), see scripts/build.mjs's matching note.
     { label: "Pace Calculator", href: "/pace-calculator/" },
     { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
     { label: "Team of the Week", href: "/team-of-the-week/" },

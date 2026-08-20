@@ -1045,3 +1045,33 @@ The user asked directly: can one volunteer stand at the Mile 1 marker and anothe
 ### Follow up
 
 Not yet field-tested with two real physical devices at a real meet -- same open item as the earlier diagnostic entry today.
+
+## 2026 08 20 Photographer Network temporarily unpublished
+
+### Decision
+
+Took the entire Photographer Network offline from the live site at the user's explicit request ("I don't have it completely ready"), just after it had gone live via the earlier same-day push. Every public and self-service page (`/photographers/`, `/photographers/profile/`, `/photographers/membership/`, `/photographer-login/`, `/photographer-dashboard/`) is gone from the build (returns 404); the "Find a Photographer" nav link is removed; the checkout API endpoint itself is unconditionally disabled. The password-gated admin tool (`/admin/photographers/`) stays live so work can continue privately.
+
+### Reason
+
+The Photographer Network had just been pushed live minutes earlier in this same session, including a real, live Stripe integration with real price IDs already configured. Removing the PAGES alone would not have been sufficient: Vercel deploys everything under `api/` as independent serverless functions regardless of what `scripts/build.mjs` writes, so `api/photographer/checkout.js` would have stayed genuinely reachable and capable of starting a real Stripe Checkout Session even with no page anywhere linking to it. Given the user's stated concern was explicitly about readiness, not merely discoverability, an unconditional kill switch in the one endpoint that can actually move money was the only way to make "unpublished" true rather than "harder to stumble onto."
+
+### Key implementation decisions worth recording
+
+1. **Routes are commented out, not deleted**, in `scripts/build.mjs` -- every page template, service function, and API handler still exists untouched. Republishing later is exactly the one-line-per-route uncomment this comment documents, not a rebuild.
+2. **The checkout kill switch (`CHECKOUT_ENABLED = false` in `api/photographer/checkout.js`) is checked before authentication even runs** -- unconditional, not "only shown to logged-out users." This matters because self-serve account creation was never gated behind the now-removed login PAGE in the first place (Supabase Auth is directly reachable by design, the same structural reality every other open-signup tier on this site already has) -- so hiding pages alone could not have guaranteed no real checkout session gets created.
+3. **`billing-portal.js` was deliberately left untouched** -- with checkout disabled, no photographer can ever acquire a `stripe_customer_id` in the first place, and that endpoint already fails cleanly ("No billing account yet") without one. Adding a second kill switch there would be redundant, not an additional safety margin.
+4. **A real, unrelated bug was caught by `npm run check` immediately after removing the pages**: the admin tool's own listing editor had a static "View directory" link to the now-gone `/photographers/`, which would have been a genuinely broken link for the admin. Removed alongside the (JS-driven, not caught by the static checker, but equally dead) "View public profile" link -- and updated `public/scripts/admin-photographers.js` to stop referencing the removed DOM node, since this project's `requiredElements`-gate pattern means a single missing element silently no-ops an ENTIRE admin script, not just the one broken feature.
+
+### Alternatives considered
+
+1. `git revert` the Photographer Network commits -- rejected; would also strip out the admin tool the user still wants to use, and complicates history for what's meant to be a temporary, easily-reversible state.
+2. Relying on removing the nav link and pages alone, without touching the API -- rejected once the independent-deployment reality of `api/` was confirmed; would have left the actual financial risk in place while only removing its visibility.
+
+### Files or systems affected
+
+`scripts/build.mjs` (5 routes commented out), `src/config/site.mjs` (nav link removed), `api/photographer/checkout.js` (kill switch), `src/pages/adminphotographers.mjs` + `public/scripts/admin-photographers.js` (dangling directory/profile links removed).
+
+### Follow up
+
+Republishing later requires: uncommenting the 5 routes in `scripts/build.mjs`, restoring the nav link, flipping `CHECKOUT_ENABLED` back to `true`, and deciding whether the admin tool's "View directory"/"View public profile" links should come back too.

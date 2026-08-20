@@ -5,7 +5,6 @@
   const listEl = document.querySelector("[data-photog-list]");
   const editorTitle = document.querySelector("[data-photog-editor-title]");
   const coreForm = document.querySelector("[data-photog-core-form]");
-  const viewProfileLink = document.querySelector("[data-photog-view-profile]");
   const childrenSection = document.querySelector("[data-photog-children-section]");
   const sportsForm = document.querySelector("[data-photog-sports-form]");
   const areasForm = document.querySelector("[data-photog-areas-form]");
@@ -20,7 +19,7 @@
   const storyQueue = document.querySelector("[data-photog-story-queue]");
 
   const requiredElements = [
-    messageBox, searchForm, newButton, listEl, editorTitle, coreForm, viewProfileLink,
+    messageBox, searchForm, newButton, listEl, editorTitle, coreForm,
     childrenSection, sportsForm, areasForm, portfolioForm, portfolioList,
     pendingGalleriesList, coverageList, galleryList, billingReadout, complimentaryForm,
     complimentaryGrantedAt, storyQueue
@@ -181,9 +180,6 @@
       fillForm(coreForm, p);
       coreForm.elements.id.value = p.id;
 
-      viewProfileLink.hidden = false;
-      viewProfileLink.href = "/photographers/profile/?slug=" + encodeURIComponent(p.slug);
-
       childrenSection.hidden = false;
       for (const box of sportsForm.querySelectorAll('input[name="sports"]')) {
         box.checked = (p.sports || []).includes(box.value);
@@ -258,7 +254,6 @@
     coreForm.reset();
     coreForm.elements.state.value = "OH";
     coreForm.elements.public_visible.checked = true;
-    viewProfileLink.hidden = true;
     childrenSection.hidden = true;
     for (const box of sportsForm.querySelectorAll("input")) box.checked = false;
     for (const box of areasForm.querySelectorAll("input[type=checkbox]")) box.checked = false;
