@@ -1975,3 +1975,25 @@ User followed the new discoverability link straight into a real, previously-unte
 ### Not yet done
 
 Not pushed. The user has not yet re-attempted their real 24-athlete CSV import.
+
+## 2026 08 20 Race Command Center couldn't see a real, successfully-imported roster
+
+### Goal
+
+Right after the CSV import fix, the user ran their real 24-athlete import successfully, then created a test race -- the Plan page still said "No current-season roster found for this team." Investigated rather than assumed it was the same bug again.
+
+### What was built
+
+- Reproduced directly against the real Russia team/roster and found a second, unrelated bug: `listTeamRoster()` compared `race_sessions.sport` (`"cross_country"`/`"track"`) against `team_seasons.sport` (`"Cross Country"`/`"Indoor Track"`/`"Outdoor Track"`) with a plain `.eq()` -- two enums that never share a value in any casing, so the filter could never match, for any team, ever.
+- `lib/race_command_center_service.mjs`: added an explicit `RACE_SPORT_TO_SEASON_SPORTS` map and switched the season lookup to `.in("sport", seasonSports)`; `"track"` deliberately matches both Indoor and Outdoor Track seasons since Race Command Center has no way to know which one a coach means.
+
+### Testing actually run
+
+- `node --check` -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Verified directly against real production before and after: the real Russia team's `listTeamRoster({ sport: "cross_country" })` call (the exact call the real Plan page makes) returned 0 athletes before the fix and all 24 real roster athletes after it, by name.
+
+### Not yet done
+
+Not pushed. This fix and the CSV import fix from minutes earlier are both still waiting on the same push.

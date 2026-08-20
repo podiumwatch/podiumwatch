@@ -1204,4 +1204,33 @@ While pointing a real coach account at the newly-discoverable CSV import tool (t
 
 ### Follow up
 
-Migration 20 was run by the user and verified directly against real production with throwaway data: the same real Russia team/season, a throwaway CSV row run through the actual `preview_import`/`commit_import` code path end to end -- confirmed the commit no longer throws, the athlete and roster entry are both actually created, `athlete_name` is non-null and matches the athlete's real `display_name` exactly, and every other field (grade, events, etc.) still comes through correctly. Throwaway data fully deleted and deletion re-confirmed afterward. Not yet pushed. The user has not yet re-attempted their real 24-athlete import. Separately worth noting for awareness (not actioned here): `team_rollover_season_v1` is in the same boat as `team_commit_roster_import_v1` was -- referenced from this codebase but with no matching migration anywhere in `install/` -- so it's an equally plausible candidate for a similar undiscovered bug if/when a coach actually exercises the season-rollover feature.
+Migration 20 was run by the user and verified directly against real production with throwaway data: the same real Russia team/season, a throwaway CSV row run through the actual `preview_import`/`commit_import` code path end to end -- confirmed the commit no longer throws, the athlete and roster entry are both actually created, `athlete_name` is non-null and matches the athlete's real `display_name` exactly, and every other field (grade, events, etc.) still comes through correctly. Throwaway data fully deleted and deletion re-confirmed afterward. Separately worth noting for awareness (not actioned here): `team_rollover_season_v1` is in the same boat as `team_commit_roster_import_v1` was -- referenced from this codebase but with no matching migration anywhere in `install/` -- so it's an equally plausible candidate for a similar undiscovered bug if/when a coach actually exercises the season-rollover feature.
+
+## 2026 08 20 Race Command Center couldn't see a team's real roster -- second, separate sport-format bug
+
+### Decision
+
+Immediately after confirming the CSV import fix, the user ran their real 24-athlete import successfully -- then created a test race and found the Plan page's "Add runners" panel still said "No current-season roster found for this team," despite the roster now genuinely existing. Root-caused (again by reproducing directly against the real Russia team, not guessing) as a second, entirely separate bug from the CSV import one: `listTeamRoster()` in `lib/race_command_center_service.mjs` filtered `team_seasons.sport` by exact string equality against `race_sessions.sport`, but the two columns use two different, non-overlapping enums -- `race_sessions.sport` is `"cross_country"` / `"track"` (this file's own two-value enum), while `team_seasons.sport` is `"Cross Country"` / `"Indoor Track"` / `"Outdoor Track"` (`team_roster_service.mjs`'s three-value, Title-Case enum). The `.eq()` filter could never match, for any team, regardless of casing -- confirmed directly: the real, freshly-imported 24-athlete Russia roster returned zero results through this path before the fix and all 24 after it.
+
+### Reason
+
+Race Command Center was built with its own simpler sport concept (cross country vs. track, no indoor/outdoor distinction) that was never reconciled against the roster system's three-value seasonal sport enum when `listTeamRoster()` was written to bridge the two. This is architecturally the same class of bug as the CSV import issue found minutes earlier in the same session (a real column/contract mismatch between two originally-separate subsystems), but this one was fully within JS code this repo owns and could see, tested, and fix directly -- no opaque database function involved, no migration needed.
+
+### Key implementation decisions worth recording
+
+1. **Added an explicit map (`RACE_SPORT_TO_SEASON_SPORTS`), not a case-insensitive/fuzzy match.** The two enums aren't just differently-cased versions of the same values -- `race_sessions.sport`'s `"track"` has no indoor/outdoor concept at all, so a normalize-and-compare approach couldn't resolve it unambiguously anyway. An explicit table makes the actual mapping decision visible and easy to change if Race Command Center ever grows real indoor/outdoor distinction.
+2. **`"track"` deliberately maps to BOTH `"Indoor Track"` and `"Outdoor Track"`** (via `.in("sport", seasonSports)` instead of `.eq()`), rather than picking one arbitrarily or leaving it broken -- since a race session genuinely can't say which one it means today, matching either current track season is strictly more useful than matching neither.
+3. **Found precedent for the canonical snake_case sport keys already existing elsewhere** (`lib/fan_poll_service.mjs`'s `SPORT_LABELS`), confirming `cross_country`/`indoor_track`/`outdoor_track` is already this codebase's real convention for a sport enum -- useful context, though not directly reused here since `race_sessions.sport`'s own stored values are still just `cross_country`/`track` and changing that column's enum was out of scope for this fix.
+
+### Alternatives considered
+
+1. Loosening the season lookup to ignore `sport` entirely (match any current season for the team) -- rejected; a team running both cross country and track seasons concurrently could otherwise see the wrong sport's roster on a race plan.
+2. Changing `race_sessions.sport` to the same three-value enum as `team_seasons.sport` -- rejected as a much larger, riskier change (touches every existing race session's stored value, the `cleanEnum` validation at race-session-creation time, and any other code assuming the two-value enum) for a fix that a small explicit map already resolves cleanly.
+
+### Files or systems affected
+
+`lib/race_command_center_service.mjs` (`listTeamRoster()`).
+
+### Follow up
+
+Verified directly against real production (the real Russia team/roster) before and after the fix -- no migration required, this is a pure application-code fix. Not yet pushed.
