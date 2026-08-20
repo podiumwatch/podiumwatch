@@ -20,12 +20,23 @@
   const participantEmpty = document.querySelector("[data-rcc-participant-empty]");
   const deleteRaceButton = document.querySelector("[data-rcc-delete-race]");
   const liveLinkButton = document.querySelector("[data-rcc-live-link]");
+  const raceDayOpenButton = document.querySelector("[data-rcc-race-day-open]");
+  const raceDayDialog = document.querySelector("[data-rcc-race-day-dialog]");
+  const raceDayCloseButton = document.querySelector("[data-rcc-race-day-close]");
+  const raceDayReveal = document.querySelector("[data-rcc-race-day-reveal]");
+  const raceDayRevealCode = document.querySelector("[data-rcc-race-day-reveal-code]");
+  const raceDayCopyButton = document.querySelector("[data-rcc-race-day-copy]");
+  const raceDayStatusEl = document.querySelector("[data-rcc-race-day-status]");
+  const raceDayGenerateButton = document.querySelector("[data-rcc-race-day-generate]");
+  const raceDayRevokeButton = document.querySelector("[data-rcc-race-day-revoke]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
     checkpointStrip, rosterList, rosterEmpty, rosterImportLink, manualForm,
     bulkToggleButton, bulkPanel, bulkTextarea, bulkAddButton, saveParticipantsButton,
-    participantList, participantEmpty, deleteRaceButton, liveLinkButton
+    participantList, participantEmpty, deleteRaceButton, liveLinkButton,
+    raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
+    raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
   ];
 
   if (requiredElements.some((el) => !el)) {
@@ -449,6 +460,96 @@
     }
   });
 
+  // --- race day access (share this team's code with a volunteer timer) ------
+  // Same generate/status/reveal-once/revoke pattern as Team Home and the
+  // Race Command Center hub, reachable here too since a coach realizing
+  // "I need help timing this" happens mid-Plan, not just on those other
+  // two pages -- see docs/DECISIONS.md, 2026-08-20.
+
+  function formatDateTime(isoText) {
+    const date = new Date(String(isoText || ""));
+    if (Number.isNaN(date.getTime())) return null;
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+      " at " + date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  }
+
+  function renderRaceDayStatus(status, keepReveal = false) {
+    if (!keepReveal) raceDayReveal.hidden = true;
+
+    if (!status || !status.active) {
+      raceDayStatusEl.innerHTML =
+        '<strong>Race day access is off.</strong>' +
+        '<div class="rcc-item-meta">No volunteer code is active for this team right now.</div>';
+      raceDayGenerateButton.textContent = "Generate code";
+      raceDayRevokeButton.hidden = true;
+      return;
+    }
+
+    const created = formatDateTime(status.created_at);
+    const lastUsed = formatDateTime(status.last_used_at);
+    raceDayStatusEl.innerHTML =
+      '<strong>Race day access is on.</strong>' +
+      '<div class="rcc-item-meta">' +
+        (created ? "Created " + created : "Active") +
+        " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
+      '</div>';
+    raceDayGenerateButton.textContent = "Regenerate code";
+    raceDayRevokeButton.hidden = false;
+  }
+
+  raceDayOpenButton.addEventListener("click", async () => {
+    raceDayDialog.showModal();
+    try {
+      const statusData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+      renderRaceDayStatus(statusData.status);
+    } catch (error) {
+      raceDayStatusEl.textContent = error.message || "Race day access status could not be loaded.";
+    }
+  });
+
+  raceDayCloseButton.addEventListener("click", () => raceDayDialog.close());
+
+  raceDayGenerateButton.addEventListener("click", async () => {
+    raceDayGenerateButton.disabled = true;
+    try {
+      const generated = await apiFetch("/api/team/race-day-code/", { action: "regenerate" });
+      raceDayRevealCode.textContent = generated.code;
+      raceDayReveal.hidden = false;
+      raceDayCopyButton.textContent = "Copy";
+      const statusData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+      renderRaceDayStatus(statusData.status, true);
+    } catch (error) {
+      showMessage(error.message || "The code could not be generated.", true);
+    } finally {
+      raceDayGenerateButton.disabled = false;
+    }
+  });
+
+  raceDayRevokeButton.addEventListener("click", async () => {
+    if (!window.confirm("Turn off race day access? Anyone currently using the code will be signed out.")) return;
+    raceDayRevokeButton.disabled = true;
+    try {
+      await apiFetch("/api/team/race-day-code/", { action: "revoke" });
+      const statusData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+      renderRaceDayStatus(statusData.status);
+    } catch (error) {
+      showMessage(error.message || "Race day access could not be turned off.", true);
+    } finally {
+      raceDayRevokeButton.disabled = false;
+    }
+  });
+
+  raceDayCopyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(raceDayRevealCode.textContent || "");
+      raceDayCopyButton.textContent = "Copied";
+      setTimeout(() => { raceDayCopyButton.textContent = "Copy"; }, 2000);
+    } catch {
+      // Clipboard API can fail (permissions, non-secure context) -- the
+      // code is already visible on screen, so this is a soft failure.
+    }
+  });
+
   async function refreshDetailOnly() {
     detail = await apiFetch(SESSIONS_ENDPOINT, { action: "detail" });
     renderHeader();
@@ -477,6 +578,13 @@
       renderHeader();
       renderRoster();
       renderParticipants();
+
+      // Managing the race day code always requires a real coach account
+      // (api/team/race-day-code.js), never the race-day cookie a
+      // volunteer may have landed here with -- only show the button at
+      // all for a signed-in coach.
+      const user = await window.PodiumTeamAuth.getUser();
+      if (user) raceDayOpenButton.hidden = false;
 
       loadingBox.hidden = true;
       root.hidden = false;

@@ -1263,3 +1263,33 @@ Team Home is where a coach thinks about the season as a whole (roster, schedule)
 ### Follow up
 
 None outstanding. Verified with Playwright against the real built page: panel visible and fully functional (generate reveals a code once, status flips on/off, revoke works) for a real coach; panel stays hidden and the owner-only endpoint is never called at all for a race-day-code visitor landing on the same page.
+
+## 2026 08 20 Race day access, also on the Plan and Live pages -- the hub alone wasn't enough
+
+### Decision
+
+Pushed the RCC hub panel, then asked the user to go check it -- they came back with "Still dont see it." Asked a clarifying question rather than guessing, and the answer revealed the real gap: the user's actual workflow is Hub -> click "Open plan" -> click "Go to live timing," and never revisits the hub page once inside a specific race. The panel was technically correct and working, just placed somewhere their real navigation pattern doesn't return to. Added the same generate/status/reveal-once/revoke capability to both the Plan page (`/race-command-center/plan/`) and the Live page's pre-race "Ready to start?" screen (`/race-command-center/live/`), as a `<dialog>` opened from a button, rather than a permanently-visible inline panel.
+
+### Reason
+
+Three coach-tool RCC pages (hub, plan, live) each represent a different moment in getting ready for a race, and "I need someone to help me time this" can occur to a coach at any of them -- most acutely right before starting, which is the Live page's pre-race screen. Asking the user which exact page they were on (rather than assuming "must be a bug" or "must be cache") was the fast, cheap way to distinguish a real defect from a discoverability gap in under one round trip.
+
+### Key implementation decisions worth recording
+
+1. **`<dialog>`, not another permanent inline panel, on Plan and Live.** Both pages already have real work competing for screen space (roster/goals on Plan; large touch-target timing controls on Live) -- a modal opened by a button gives full access without permanently costing layout room on pages where that room matters more than it did on the hub's races-list page. Matches this codebase's own established pattern for a "management dialog" opened from a button (`teamroster.mjs`'s athlete dialog).
+2. **The Live page's dialog is deliberately NOT dark-themed to match the rest of that page.** Live Race Mode is intentionally near-black with white text (a professional timing-tool look); the dialog is a self-contained light popup floating over it instead of trying to extend the dark palette into a form UI, matching how every other coach-tool dialog in this codebase already looks (and arguably improving outdoor daylight legibility for a UI element used briefly, not continuously).
+3. **Same conditional-visibility rule as the hub, applied independently on each page**: the trigger button itself starts `hidden` in the HTML and is only revealed once `window.PodiumTeamAuth.getUser()` resolves to a real user, inside each page's own `initialize()`. A race-day-code volunteer can land on the Live page directly (the join flow's redirect target only reaches the hub, but nothing stops a volunteer from being sent a direct Plan/Live link too) and must never see a button that would just fail against the owner-only `api/team/race-day-code.js` endpoint.
+4. **All three surfaces (hub, plan, live) call the identical `api/team/race-day-code.js` endpoint** -- no new backend code in this pass at all, only three independent front-end surfaces onto the same underlying state, consistent with the hub panel's own reasoning from minutes earlier.
+
+### Alternatives considered
+
+1. Moving the panel to just one "most correct" page instead of three -- rejected; the clarifying question confirmed real coaches don't reliably revisit any single page mid-workflow, so redundant access at each natural stopping point is the actual fix, not a single better location.
+2. A persistent icon in the Live page's sticky topbar (visible during active timing, not just pre-race) -- deferred, not built; the user's description ("even after I click go to live timing") specifically describes the pre-race moment, which the start screen already covers. Worth adding if a coach later reports needing this mid-race.
+
+### Files or systems affected
+
+`src/pages/racecommandcenterplan.mjs` + `public/scripts/race-command-center-plan.js` (dialog + trigger button), `src/pages/racecommandcenterlive.mjs` + `public/scripts/race-command-center-live.js` (same, on the pre-race screen, light-themed dialog over the dark page).
+
+### Follow up
+
+None outstanding. Verified with Playwright against both real built pages: button visible and dialog fully functional (open, generate reveals once, close) for a real coach on both Plan and Live; button stays hidden and the owner-only endpoint is never called for a race-day-code visitor on the Plan page.

@@ -397,6 +397,72 @@ export function raceCommandCenterLivePage(site) {
       text-align: center;
     }
 
+    /* Deliberately NOT dark-themed like the rest of this page -- the
+       dialog is a self-contained light popup (matching every other
+       coach-tool dialog in this codebase, e.g. teamroster.mjs's athlete
+       dialog), floating over the dark live timing view rather than
+       trying to match it. */
+    dialog.rcc-race-day-dialog {
+      width: min(560px, calc(100% - 28px));
+      max-height: calc(100vh - 40px);
+      overflow: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 18px;
+      box-shadow: 0 28px 100px rgba(0, 0, 0, 0.5);
+      color: #171717;
+    }
+
+    dialog.rcc-race-day-dialog::backdrop {
+      background: rgba(0, 0, 0, 0.72);
+    }
+
+    .rcc-race-day-dialog-body {
+      padding: 26px;
+    }
+
+    .rcc-race-day-dialog-body h2,
+    .rcc-race-day-dialog-body p {
+      color: #171717;
+    }
+
+    .rcc-race-day-reveal {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(0, 191, 99, 0.12);
+      border: 1px solid rgba(0, 191, 99, 0.35);
+    }
+
+    .rcc-race-day-reveal p {
+      margin: 0 0 10px;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    .rcc-race-day-code-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .rcc-race-day-code {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.08);
+      color: #171717;
+    }
+
+    .rcc-item-meta {
+      margin-top: 4px;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
     .rcc-start-screen p {
       max-width: 46ch;
       opacity: 0.85;
@@ -441,6 +507,7 @@ export function raceCommandCenterLivePage(site) {
         <h2>Ready to start?</h2>
         <p>Starting the race begins the official race clock immediately for every runner. Make sure everyone is on the line.</p>
         <button class="rcc-live-btn rcc-live-btn-primary" type="button" data-rcc-start-button style="font-size:1.3rem;padding:22px 28px;">Start Race</button>
+        <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-race-day-open hidden>Share access code with a timer</button>
       </div>
 
       <div data-rcc-live-screen hidden>
@@ -467,6 +534,39 @@ export function raceCommandCenterLivePage(site) {
       </div>
     </div>
   </div>
+
+  <dialog class="rcc-race-day-dialog" data-rcc-race-day-dialog>
+    <div class="rcc-race-day-dialog-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+        <div>
+          <p class="eyebrow">Race day access</p>
+          <h2 style="margin:2px 0 0;">Get volunteers timing</h2>
+        </div>
+        <button class="button button-outline" type="button" data-rcc-race-day-close>Close</button>
+      </div>
+
+      <p style="margin-top:6px;">
+        Share this code with anyone timing this race for you -- a parent at mile one, a friend at the finish.
+        They enter it at <strong>Race Command Center</strong> in the main menu and go straight into live
+        timing for this team, no account required.
+      </p>
+
+      <div class="rcc-race-day-reveal" data-rcc-race-day-reveal hidden>
+        <p>Your new code -- share it now, it won't be shown again</p>
+        <div class="rcc-race-day-code-row">
+          <code class="rcc-race-day-code" data-rcc-race-day-reveal-code></code>
+          <button class="button button-outline" type="button" data-rcc-race-day-copy>Copy</button>
+        </div>
+      </div>
+
+      <div data-rcc-race-day-status style="margin-top:14px;"></div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;">
+        <button class="button button-primary" type="button" data-rcc-race-day-generate>Generate code</button>
+        <button class="button button-outline" type="button" data-rcc-race-day-revoke hidden>Turn off access</button>
+      </div>
+    </div>
+  </dialog>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
   <script src="/scripts/team-auth-client.js" defer></script>

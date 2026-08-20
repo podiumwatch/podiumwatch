@@ -2020,3 +2020,27 @@ Right after setting up a real race (roster imported, goals set), the user said: 
 ### Not yet done
 
 None outstanding.
+
+## 2026 08 20 Race day access, also on the Plan and Live pages
+
+### Goal
+
+After pushing the RCC hub panel, asked the user to go check it -- they replied "Still dont see it." Asked a clarifying question instead of guessing; the answer showed the real gap: their actual workflow (Hub -> Open plan -> Go to live timing) never revisits the hub page, so the panel there was correct but effectively invisible to how they actually use the tool.
+
+### What was built
+
+- Added the same generate/status/reveal-once/revoke race day code capability to the Plan page and the Live page's pre-race "Ready to start?" screen, as a `<dialog>` opened from a button (not another permanent panel, since both pages have real work competing for screen space).
+- The Live page's dialog is a light popup over the page's otherwise near-black theme, matching this codebase's existing dialog pattern rather than trying to extend the dark timing-tool palette into a form.
+- Same conditional-visibility rule as the hub: the trigger button starts hidden and only appears for a real signed-in coach on each page independently.
+- No new backend work -- all three surfaces (hub, plan, live) call the same existing `api/team/race-day-code.js` endpoint.
+
+### Testing actually run
+
+- `node --check` on all four modified files -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Playwright verification against both real built pages: confirmed the button is visible and the dialog fully works (open, generate reveals the code once, close) for a real coach on both Plan and Live; confirmed the button stays hidden and the owner-only endpoint is never even called for a race-day-code visitor on the Plan page.
+
+### Not yet done
+
+Not pushed.
