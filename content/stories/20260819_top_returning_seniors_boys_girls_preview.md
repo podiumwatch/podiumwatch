@@ -5,6 +5,8 @@ description: "Fastest returning seniors in Ohio cross country, all four division
 category: "Cross Country"
 author: "Podium Watch"
 slug: "2026-top-returning-seniors-boys-girls"
+featuredImage: "/images/stories/top_returning_seniors.png"
+featuredImageAlt: "2026 Cross Country Season Preview: Top Returning Seniors, Boys and Girls, all 8 divisions, ranked by 2025 5K times"
 tags:
   - "Division 1"
   - "Division 2"
@@ -14,7 +16,7 @@ tags:
   - "Girls Cross Country"
   - "2026 Preview"
 featured: false
-draft: true
+draft: false
 ---
 
 This is the last one.
