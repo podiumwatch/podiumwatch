@@ -19,7 +19,11 @@ export function icon(name) {
 }
 
 export function header(site, currentPath = "/") {
-  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Ohio Schools", "Fan Poll", "Athletes", "Recruiting", "Find a Photographer", "Pace Calculator", "Stories"]);
+  // "Find a Photographer" removed to match its temporary unpublish
+  // (2026-08-20) -- see scripts/build.mjs's matching note. "Race Command
+  // Center" added so a team can reach it from the main menu in the
+  // fewest possible clicks -- see lib/race_day_auth.mjs.
+  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Race Command Center", "Ohio Schools", "Fan Poll", "Athletes", "Recruiting", "Pace Calculator", "Stories"]);
   const navLinks = site.navigation.filter((link) => primaryLabels.has(link.label)).map((link) => {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
     return `<a href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;

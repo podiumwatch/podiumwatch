@@ -37,6 +37,10 @@ export function teamHomePage(site) {
     .tw-empty { padding: 20px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
     .tw-next-card { padding: 20px; border-radius: 14px; background: #111827; color: #ffffff; }
     .tw-next-card .tw-item-meta { opacity: 0.8; }
+    .tw-race-day-reveal { margin-top: 16px; padding: 16px; border-radius: 12px; background: rgba(0, 191, 99, 0.12); border: 1px solid rgba(0, 191, 99, 0.35); }
+    .tw-race-day-reveal p { margin: 0 0 10px; font-weight: 800; font-size: 0.85rem; }
+    .tw-race-day-code-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .tw-race-day-code { font-size: 1.5rem; font-weight: 800; letter-spacing: 0.12em; padding: 10px 14px; border-radius: 8px; background: rgba(255, 255, 255, 0.9); }
     @media (max-width: 720px) {
       .tw-item { flex-direction: column; align-items: flex-start; }
     }
@@ -82,6 +86,32 @@ export function teamHomePage(site) {
               <a class="button button-outline" data-tw-roster-link href="/team-roster/">Manage roster</a>
               <a class="button button-outline" data-tw-schedule-link href="/team-schedule/">Manage schedule</a>
               <a class="button button-primary" data-tw-rcc-link href="/race-command-center/">Race Command Center</a>
+            </div>
+          </section>
+
+          <section class="tw-panel tw-panel-wide">
+            <div class="tw-header">
+              <div><p class="eyebrow">Race day access</p><h2>Volunteer code</h2></div>
+            </div>
+            <p style="margin-top:6px;max-width:640px;opacity:0.8;">
+              Share this code with anyone timing a race for you -- a parent at mile one, a friend at the finish.
+              They enter it at <strong>Race Command Center</strong> in the main menu and go straight into live
+              timing for this team, no account required.
+            </p>
+
+            <div class="tw-race-day-reveal" data-tw-race-day-reveal hidden>
+              <p>Your new code -- share it now, it won't be shown again</p>
+              <div class="tw-race-day-code-row">
+                <code class="tw-race-day-code" data-tw-race-day-reveal-code></code>
+                <button class="button button-outline" type="button" data-tw-race-day-copy>Copy</button>
+              </div>
+            </div>
+
+            <div data-tw-race-day-status style="margin-top:14px;"></div>
+
+            <div class="tw-actions" style="margin-top:14px;">
+              <button class="button button-primary" type="button" data-tw-race-day-generate>Generate code</button>
+              <button class="button button-outline" type="button" data-tw-race-day-revoke hidden>Turn off access</button>
             </div>
           </section>
 

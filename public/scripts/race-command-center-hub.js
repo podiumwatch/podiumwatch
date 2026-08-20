@@ -50,25 +50,26 @@
   }
 
   async function apiFetch(endpoint, payload) {
+    // Don't gate on a Supabase access token here -- a race-day access code
+    // visitor has no Supabase session at all, but does have an HttpOnly
+    // cookie the server will accept. Send the bearer token when we have one
+    // (a real coach account) and let the browser send the cookie either way;
+    // only redirect if the server actually says the request isn't allowed.
     const accessToken = await window.PodiumTeamAuth.getAccessToken();
-
-    if (!accessToken) {
-      window.location.replace("/team-login/");
-      throw new Error("Team account sign in required.");
-    }
+    const headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    };
+    if (accessToken) headers.Authorization = "Bearer " + accessToken;
 
     const response = await fetch(endpoint, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken
-      },
+      headers,
       body: JSON.stringify({ team_id: teamId, ...payload })
     });
 
     if (response.status === 401) {
-      window.location.replace("/team-login/");
+      window.location.replace("/race-command-center/join/");
     }
 
     return parseResponse(response, "The request could not be completed.");
@@ -224,14 +225,12 @@
     }
 
     try {
+      // Don't hard-gate on a Supabase user here -- a race-day access code
+      // visitor never has one. Show what we can up front and let the actual
+      // API call (which the server will authorize via bearer token OR the
+      // race-day cookie) decide whether access is really allowed.
       const user = await window.PodiumTeamAuth.getUser();
-
-      if (!user) {
-        window.location.replace("/team-login/");
-        return;
-      }
-
-      accountEl.textContent = user.email || "Team account";
+      accountEl.textContent = user ? (user.email || "Team account") : "Race day access";
 
       const data = await apiFetch("/api/race-command-center/sessions/", { action: "list" });
       teamNameEl.textContent = data.team.school_name;

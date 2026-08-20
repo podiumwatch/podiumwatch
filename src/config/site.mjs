@@ -17,6 +17,7 @@ export const site = {
     { label: "Rankings", href: "/rankings/" },
     { label: "Meets", href: "/meets/" },
     { label: "Teams", href: "/teams/" },
+    { label: "Race Command Center", href: "/race-command-center/join/" },
     { label: "Ohio Schools", href: "/ohio-schools/" },
     { label: "Fan Poll", href: "/fan-poll/" },
     { label: "Tournament Hub", href: "/tournament-hub/" },

@@ -108,17 +108,20 @@
   }
 
   async function apiFetch(endpoint, payload) {
+    // Don't gate on a Supabase access token here -- a race-day access code
+    // visitor has no Supabase session at all, but does have an HttpOnly
+    // cookie the server will accept. Send the bearer token when we have one
+    // (a real coach account) and let the browser send the cookie either way;
+    // only redirect if the server actually says the request isn't allowed.
     const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    if (!accessToken) {
-      window.location.replace("/team-login/");
-      throw new Error("Team account sign in required.");
-    }
+    const headers = { Accept: "application/json", "Content-Type": "application/json" };
+    if (accessToken) headers.Authorization = "Bearer " + accessToken;
     const response = await fetch(endpoint, {
       method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/json", Authorization: "Bearer " + accessToken },
+      headers,
       body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
     });
-    if (response.status === 401) window.location.replace("/team-login/");
+    if (response.status === 401) window.location.replace("/race-command-center/join/");
     return parseResponse(response, "The request could not be completed.");
   }
 
@@ -771,9 +774,9 @@
     }
 
     try {
-      const user = await window.PodiumTeamAuth.getUser();
-      if (!user) { window.location.replace("/team-login/"); return; }
-
+      // Don't hard-gate on a Supabase user here -- a race-day access code
+      // visitor never has one. Let the actual API call (authorized via
+      // bearer token OR the race-day cookie, server-side) decide.
       detail = await apiFetch(SYNC_ENDPOINT, { action: "pull_state" });
 
       if (detail.session.status === "finished" || detail.session.status === "reviewed") {

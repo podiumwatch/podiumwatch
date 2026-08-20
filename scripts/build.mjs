@@ -70,6 +70,7 @@ import { raceCommandCenterHubPage } from "../src/pages/racecommandcenter.mjs";
 import { raceCommandCenterPlanPage } from "../src/pages/racecommandcenterplan.mjs";
 import { raceCommandCenterLivePage } from "../src/pages/racecommandcenterlive.mjs";
 import { raceCommandCenterReviewPage } from "../src/pages/racecommandcenterreview.mjs";
+import { raceCommandCenterJoinPage } from "../src/pages/racecommandcenterjoin.mjs";
 import { teamProfilePage } from "../src/pages/teamprofile.mjs";
 import { teamsPage } from "../src/pages/teams.mjs";
 import { searchPage } from "../src/pages/search.mjs";
@@ -553,6 +554,10 @@ await writePage("/race-command-center/", raceCommandCenterHubPage(site));
 await writePage("/race-command-center/plan/", raceCommandCenterPlanPage(site));
 await writePage("/race-command-center/live/", raceCommandCenterLivePage(site));
 await writePage("/race-command-center/review/", raceCommandCenterReviewPage(site));
+// Deliberately public -- not in any private-route list. This IS the
+// unauthenticated entry point (a race day code, not a Supabase Auth
+// session) -- see lib/race_day_auth.mjs.
+await writePage("/race-command-center/join/", raceCommandCenterJoinPage(site));
 await writePage("/follow/", followPage(site));
 await writePage("/privacy/", privacyPage(site));
 await writePage("/team-editor/", teamEditorPage(site));

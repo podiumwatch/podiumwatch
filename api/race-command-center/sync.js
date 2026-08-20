@@ -1,10 +1,11 @@
 import {
-  requireTeamUser,
   teamApiError
 } from "../../lib/team_auth.mjs";
 import {
+  requireRaceCommandCenterAccess
+} from "../../lib/race_day_auth.mjs";
+import {
   parseRaceBody,
-  requireTeamMembership,
   createPackCapture,
   pushSplits,
   pullState,
@@ -29,7 +30,6 @@ export default async function handler(request, response) {
   }
 
   try {
-    const user = await requireTeamUser(request);
     const body = parseRaceBody(request);
     const teamId = cleanText(body.team_id);
     const action = cleanText(body.action).toLowerCase();
@@ -40,7 +40,7 @@ export default async function handler(request, response) {
       throw error;
     }
 
-    await requireTeamMembership(user.id, teamId);
+    await requireRaceCommandCenterAccess(request, teamId);
 
     const sessionId = cleanText(body.session_id);
     let data;

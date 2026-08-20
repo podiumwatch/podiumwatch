@@ -1105,3 +1105,38 @@ The user asked directly: what does getting to Race Command Center from the main 
 ### Follow up
 
 None outstanding -- this is a complete, self-contained improvement to an already-existing screen.
+
+## 2026 08 20 Race Day Access Codes -- Race Command Center without a full account
+
+### Decision
+
+Built a second, lighter-weight way into Race Command Center: a team owner/editor generates a short, human-typeable code (`XK4P7QRT`-style, 8 characters, misread-safe alphabet) from Team Home and shares it with race-day volunteers. A volunteer enters it at a new public page (`/race-command-center/join/`, now the "Race Command Center" entry in the main site nav) and is dropped straight into that team's live timing tools -- no Supabase account, no email, no password. This is deliberately a SECOND door alongside the existing full coach sign-in, not a replacement for it: roster, schedule, and content-editing tools still require a real team_members account exactly as before.
+
+### Reason
+
+The user was explicit: "I need a team to be able to click on the side menu and be able to access the race command center right away... type in a team code... brings you right to it. If it is not easy to find and use then teams won't do it." Directly asked whether to keep requiring a real account or build a lighter code-based door instead; the user chose the lighter option explicitly, accepting the added design surface in exchange for zero first-time setup friction for a volunteer who may only ever time one race.
+
+### Key implementation decisions worth recording
+
+1. **The access code and the resulting session are two different secrets, both hash-only-stored.** The code itself (`team_race_day_codes.code_hash`) is long-lived and shared out loud/via text; a volunteer who enters it gets back a completely separate, opaque 32-byte session token (`race_day_sessions.session_token_hash`) in an HttpOnly cookie. Regenerating the code deletes every session issued under the old one, so "the code leaked, make a new one" actually revokes existing access rather than just stopping new signups.
+2. **One unified server-side entry point, `requireRaceCommandCenterAccess(request, teamId)`, replaces the old two-step `requireTeamUser` + `requireTeamMembership` pattern in all four `api/race-command-center/*.js` handlers.** It tries a real bearer token first, falls back to the race-day cookie, and returns the same `{ actor }` shape either way -- `actor.userId` is `null` for a code-based session, which every write path already tolerates (`created_by_user_id` was already nullable). Nothing outside these four handlers ever imports this module at all; a code grants Race Command Center access and structurally cannot reach roster, schedule, or content editing.
+3. **`SameSite=Lax`, not `Strict` (unlike the admin session cookie).** This cookie has to survive a top-level navigation arriving from a shared text/QR code, not just same-site form posts.
+4. **A deliberately long, 30-day session** -- much longer than the admin cookie's 8 hours -- because the design goal is a volunteer's own phone staying recognized across a whole season, not re-entering a code every meet. The much shorter blast radius if that trades wrong (per-team scoped, instantly revocable via regenerate) is what makes the longer duration acceptable here in a way it wouldn't be for the site-wide admin session.
+5. **Verification never distinguishes "no such code" from "code exists but was deactivated."** Both take the identical failure path and message -- revealing that distinction would let someone probe for which codes used to be real.
+6. **Rate limiting is on FAILED attempts only, by hashed IP** (`race_day_code_attempts`), matching the existing hashed-address convention already used elsewhere in this codebase (e.g. `lib/team_instagram_service.mjs`) -- a correct code is never logged there at all.
+7. **A real, pre-existing bug was found and fixed while wiring this up**: all four existing Race Command Center client scripts (`race-command-center-hub.js`, `-plan.js`, `-live.js`, `-review.js`) hard-redirected to `/team-login/` before ever attempting an API call, purely because `window.PodiumTeamAuth.getAccessToken()` was empty -- which is exactly the normal, expected state for a code-based visitor who has a valid cookie the server would happily accept. Fixed by sending the bearer header only when a token exists and redirecting only on an actual 401 response from the server, in all four files.
+8. **The header's nav filter has its own separate allowlist.** `src/lib/html.mjs`'s `header()` filters `site.navigation` through a smaller `primaryLabels` Set before rendering -- adding an entry to `site.navigation` alone does not make it appear in the header/hamburger menu unless the exact label is also added there. Caught and fixed while building this; also removed a stale leftover "Find a Photographer" entry from that same Set while in there.
+
+### Alternatives considered
+
+1. Requiring every volunteer to create a real Podium Watch account -- this was the initially recommended option, explicitly rejected by the user for adding first-time friction on race day, which was the exact problem being solved.
+2. A single shared password (like the admin session) instead of a per-team code -- rejected; a team-scoped, individually-revocable secret is a meaningfully smaller blast radius than one password that would grant access to every team's live timing if leaked.
+3. Letting the code itself double as the session (no separate cookie/session token) -- rejected; would mean the long-lived, spoken-out-loud secret is also the thing sent on every request, and regenerating the code would have no way to distinguish "kick out everyone using the old code" from "the code itself changed" as separate, independently useful actions.
+
+### Files or systems affected
+
+`install/19_RACE_DAY_ACCESS_CODES.sql` (new, not yet run against Supabase), `lib/race_day_auth.mjs` (new), `api/race-command-center/join.js` (new, public), `api/team/race-day-code.js` (new, owner-only), `api/race-command-center/sessions.js`/`sync.js`/`plan.js`/`review.js` (switched to the unified access function), `src/pages/racecommandcenterjoin.mjs` + `public/scripts/race-command-center-join.js` (new public join page), `public/scripts/race-command-center-hub.js`/`-plan.js`/`-live.js`/`-review.js` (redirect-before-fetch bug fixed in all four), `src/pages/teamhome.mjs` + `public/scripts/team-home.js` (new "Race day access" panel: generate/status/revoke), `scripts/build.mjs` (new route registered), `src/config/site.mjs` + `src/lib/html.mjs` (new nav entry, and the `primaryLabels` fix), `scripts/test-race-day-access.mjs` (new, wired into `npm test`).
+
+### Follow up
+
+Migration 19 has not been run against Supabase yet -- the feature cannot work live until the user pastes it into the Supabase SQL editor themselves (standing practice: I have no mechanism to execute SQL directly). Not yet pushed. Not yet field-tested with a real code shared to a real second device.

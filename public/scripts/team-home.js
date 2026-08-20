@@ -17,11 +17,18 @@
   const upcomingEmpty = document.querySelector("[data-tw-upcoming-empty]");
   const recentList = document.querySelector("[data-tw-recent-list]");
   const recentEmpty = document.querySelector("[data-tw-recent-empty]");
+  const raceDayReveal = document.querySelector("[data-tw-race-day-reveal]");
+  const raceDayRevealCode = document.querySelector("[data-tw-race-day-reveal-code]");
+  const raceDayCopyButton = document.querySelector("[data-tw-race-day-copy]");
+  const raceDayStatusEl = document.querySelector("[data-tw-race-day-status]");
+  const raceDayGenerateButton = document.querySelector("[data-tw-race-day-generate]");
+  const raceDayRevokeButton = document.querySelector("[data-tw-race-day-revoke]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox, nextCard, nextContent,
     rosterCountEl, upcomingCountEl, recentCountEl, rosterLink, scheduleLink, rccLink,
-    upcomingList, upcomingEmpty, recentList, recentEmpty
+    upcomingList, upcomingEmpty, recentList, recentEmpty,
+    raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -40,6 +47,13 @@
     const date = new Date(`${cleaned}T12:00:00Z`);
     if (Number.isNaN(date.getTime())) return cleaned;
     return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  }
+
+  function formatDateTime(isoText) {
+    const date = new Date(String(isoText || ""));
+    if (Number.isNaN(date.getTime())) return null;
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+      " at " + date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
   }
 
   const STATUS_LABELS = {
@@ -135,6 +149,78 @@
     )).join("");
   }
 
+  function renderRaceDayStatus(status, keepReveal = false) {
+    // A freshly generated code is only ever shown once, right after the
+    // click that made it -- any later status refresh (revoke, page
+    // reload) re-hides it, since the raw code isn't recoverable server-side.
+    // The one exception is the immediate re-render right after generating
+    // it, which passes keepReveal so the code stays visible.
+    if (!keepReveal) raceDayReveal.hidden = true;
+
+    if (!status || !status.active) {
+      raceDayStatusEl.innerHTML =
+        '<strong>Race day access is off.</strong>' +
+        '<div class="tw-item-meta">No volunteer code is active for this team right now.</div>';
+      raceDayGenerateButton.textContent = "Generate code";
+      raceDayRevokeButton.hidden = true;
+      return;
+    }
+
+    const created = formatDateTime(status.created_at);
+    const lastUsed = formatDateTime(status.last_used_at);
+    raceDayStatusEl.innerHTML =
+      '<strong>Race day access is on.</strong>' +
+      '<div class="tw-item-meta">' +
+        (created ? "Created " + created : "Active") +
+        " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
+      '</div>';
+    raceDayGenerateButton.textContent = "Regenerate code";
+    raceDayRevokeButton.hidden = false;
+  }
+
+  raceDayGenerateButton.addEventListener("click", async () => {
+    raceDayGenerateButton.disabled = true;
+    try {
+      const generated = await apiFetch("/api/team/race-day-code/", { action: "regenerate" });
+      raceDayRevealCode.textContent = generated.code;
+      raceDayReveal.hidden = false;
+      raceDayCopyButton.textContent = "Copy";
+      const statusData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+      renderRaceDayStatus(statusData.status, true);
+    } catch (error) {
+      messageBox.textContent = error.message || "The code could not be generated.";
+      messageBox.hidden = false;
+    } finally {
+      raceDayGenerateButton.disabled = false;
+    }
+  });
+
+  raceDayRevokeButton.addEventListener("click", async () => {
+    if (!window.confirm("Turn off race day access? Anyone currently using the code will be signed out.")) return;
+    raceDayRevokeButton.disabled = true;
+    try {
+      await apiFetch("/api/team/race-day-code/", { action: "revoke" });
+      const statusData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+      renderRaceDayStatus(statusData.status);
+    } catch (error) {
+      messageBox.textContent = error.message || "Race day access could not be turned off.";
+      messageBox.hidden = false;
+    } finally {
+      raceDayRevokeButton.disabled = false;
+    }
+  });
+
+  raceDayCopyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(raceDayRevealCode.textContent || "");
+      raceDayCopyButton.textContent = "Copied";
+      setTimeout(() => { raceDayCopyButton.textContent = "Copy"; }, 2000);
+    } catch {
+      // Clipboard API can fail (permissions, non-secure context) -- the
+      // code is already visible on screen, so this is a soft failure.
+    }
+  });
+
   async function initialize() {
     if (!teamId) {
       loadingBox.innerHTML = "<h2>Team home not found</h2><p>This link does not include a team ID.</p>";
@@ -162,6 +248,15 @@
       recentCountEl.textContent = data.recentRaceSessions.length;
       renderUpcoming(data.upcomingMeets);
       renderRecent(data.recentRaceSessions);
+
+      // A failure here shouldn't take down the whole page -- the rest of
+      // Team Home is still useful even if the race day code status can't load.
+      try {
+        const raceDayData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+        renderRaceDayStatus(raceDayData.status);
+      } catch {
+        renderRaceDayStatus(null);
+      }
 
       loadingBox.hidden = true;
       root.hidden = false;

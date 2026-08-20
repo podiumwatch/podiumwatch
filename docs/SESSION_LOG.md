@@ -1897,3 +1897,33 @@ User asked directly: what's the actual process for getting to Race Command Cente
 ### Not yet done
 
 Not pushed.
+
+## 2026 08 20 Race Day Access Codes
+
+### Goal
+
+User asked directly for a no-more-than-2-3-clicks path from the main site menu into Race Command Center: click "Race Command Center" on the menu, type in a team code, land right in the tool. Asked the user to confirm the security model first (real account vs. lighter code); they explicitly chose the lighter access-code option.
+
+### What was built
+
+- `install/19_RACE_DAY_ACCESS_CODES.sql` (new, not yet run) -- `team_race_day_codes` (one active code per team, hash-only stored), `race_day_sessions` (opaque 32-byte session tokens, hash-only stored, 30-day expiry), `race_day_code_attempts` (hashed-IP rate limiting).
+- `lib/race_day_auth.mjs` (new) -- code generation (misread-safe alphabet, 8 chars), `verifyRaceDayCode` (rate-limited, same error for wrong vs. deactivated codes), `requireRaceCommandCenterAccess` (the one function every RCC handler now calls -- bearer token first, race-day cookie fallback), owner-side `getRaceDayCodeStatus`/`regenerateRaceDayCode`/`revokeRaceDayCode`.
+- `api/race-command-center/join.js` (new, fully public) -- the actual "type in the code" endpoint, sets the session cookie on success.
+- `api/team/race-day-code.js` (new, real-coach-account-only) -- status/regenerate/revoke for a team's own code.
+- All four existing `api/race-command-center/*.js` handlers switched from `requireTeamUser` + `requireTeamMembership` to the single `requireRaceCommandCenterAccess` call.
+- `src/pages/racecommandcenterjoin.mjs` + `public/scripts/race-command-center-join.js` (new) -- the public join page, now the "Race Command Center" entry in the main nav.
+- Found and fixed a real, pre-existing bug in the process: all four RCC client scripts (`hub`/`plan`/`live`/`review`) hard-redirected to `/team-login/` before ever attempting a fetch, purely because there was no Supabase access token -- exactly the normal state for a code-based visitor. Fixed in all four to only redirect on an actual 401 response.
+- `src/pages/teamhome.mjs` + `public/scripts/team-home.js` -- new "Race day access" panel: generate/regenerate a code (shown once, then never again), see when it was created/last used, turn access off.
+- `src/lib/html.mjs` -- fixed the header's separate `primaryLabels` allowlist, which silently drops any `site.navigation` entry not also listed there; the new nav link wouldn't have rendered without this.
+- `scripts/test-race-day-access.mjs` (new) -- pure-function checks (code format/alphabet, cookie-clearing attributes) plus source-level structural checks matching this codebase's established convention for anything needing a live database (same-error privacy, rate-limit ordering, regenerate/revoke session invalidation, all four API handlers routed through the unified access function, correct auth posture on the public vs. owner-only endpoints, all four client scripts no longer pre-emptively redirecting). Wired into `npm test`.
+
+### Testing actually run
+
+- `node --check` on every modified/new file -- clean.
+- `npm.cmd run build` (282 pages) and `npm.cmd run check` (18,325 links, zero problems) -- clean.
+- Full `npm.cmd test` including the new `test:race-day-access` suite -- all suites, zero failures.
+- Playwright verification against the real built page (mocked APIs, real `window.PodiumTeamAuth` replaced with a controlled stub -- discovered along the way that the real supabase-js CDN `<script defer>` tag can stall every later deferred script behind a slow real network call, and stubbed it out for determinism): confirmed the join page accepts a code and redirects to the hub with the right team id; confirmed a cookie-only visitor with NO Supabase session at all loads the hub successfully and is never redirected to `/team-login/`; confirmed an actual 401 from the server still redirects, now to the join page rather than the coach login; confirmed a real coach account still sends its bearer token exactly as before; confirmed the Team Home panel's full generate -> status -> reveal-once -> revoke round trip, including that the raw code is never shown a second time after a page-state refresh.
+
+### Not yet done
+
+Migration 19 has not been run against Supabase -- nothing above works live until the user runs it. Not pushed. Not field-tested with a real code shared to a second physical device.
