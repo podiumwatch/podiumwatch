@@ -1780,3 +1780,49 @@ The user's actual live Stripe setup didn't match the previous pass's assumptions
 ### Not yet done
 
 Not pushed. Migration 18 not yet run in Supabase. `STRIPE_WEBHOOK_SECRET` still doesn't exist (needs the webhook deployed and registered first). Whether Customer Portal plan-switching works across the two separate Stripe products needs a one-time Dashboard check by the user.
+
+## 2026 08 20 Race Command Center Live Race Mode diagnostic and fixes
+
+### Goal
+
+The user asked for a full diagnostic of the live split-capture tool and wants it genuinely easy to use, with a full day set aside for it. Read the whole stack (timer engine, IndexedDB store, sync logic, live page + script), then actually drove the real production page with Playwright (mocked auth/API, 16 fake runners, mobile + desktop viewports, real taps/undo/manual-entry/pack-capture/checkpoint-advance/reload-recovery) rather than reviewing code alone.
+
+### What was found
+
+- **Critical, confirmed via `getComputedStyle()`**: `.rcc-start-screen`'s (and, found while checking the other 3 pages, `.rcc-shell`'s) own `display` CSS property silently overrides the browser's `[hidden] { display: none }` rule at equal specificity, later in the cascade. The "Ready to Start?" screen -- with its own live Start Race button -- never actually disappeared once the race started; same bug independently kept the Pack Capture bar always visible.
+- The page claimed to be "minimal chrome" in its own code comment but `layout()` had no mechanism to make that true -- full site header, footer, and a *fixed* mobile bottom-tab bar rendered on every load, the bottom bar sitting exactly where a coach's thumb works during frantic live taps.
+- Runner list order never changes based on capture status -- confirmed visually (recorded runners stayed interleaved among un-recorded ones in original position).
+- No periodic re-pull of server state -- confirmed by reading the code and cross-checked against `pullState()`'s own comment ("post-refresh/multi-tab recovery") -- it was only ever called once, at load.
+- Runner cards are tall (name/status + goal/target + tap button + manual entry + DNS/DNF, always all visible) -- confirmed visually via full-page screenshots at ~300px per card.
+- Minor: pre-start sync pill stuck on placeholder "Checking..." text forever; previous-checkpoint times vanish from view (not necessarily a bug, confirmed as-designed).
+
+Presented this to the user with screenshots/evidence. They confirmed: multiple devices ARE used simultaneously during a real race, rosters run large (15-30+, varsity+JV), and they want recorded runners moved out of the primary view. That answer set exactly which findings got fixed now.
+
+### What was built
+
+1. **The hidden-attribute bug fixed on all 4 Race Command Center pages** (Live, Hub, Plan, Review) -- one `[hidden] { display: none !important; }` rule added to each page's own `<style>` block. Verified directly: `getComputedStyle().display === "none"`, zero bounding-box height, both previously-affected elements.
+2. **`layout()` gained an opt-in `chromeless` parameter** (default false, every other page unaffected). Live Race Mode now renders with zero site chrome beyond a small "&larr; Race Command Center" back link -- verified directly: `document.querySelector(".site-header"/"​.site-footer"/"​.mobile-dock")` all `null` on the built page.
+3. **Multi-device live sync**: a new `pullRemoteUpdates()` calls the ALREADY-EXISTING `pull_state` action every 11s, reusing the same merge logic (`loadMergedSplits()`) already proven correct at initial load, so a local unsynced edit always wins over a fresh pull. Verified end-to-end with Playwright: pushed a split into the mocked server from a simulated "second device," confirmed it appeared in the first device's Recorded list within the interval, with zero manual reload.
+4. **Runner list split into "Still need a time" / "Recorded at this checkpoint"** -- the primary list only shrinks as the race progresses; Recorded is a compact one-line-per-runner list, sorted most-recent-first, freeing substantial vertical space for large rosters. Pack Capture mode stayed a single unified list (unchanged).
+5. **A second real bug found while rebuilding the renderer** (not something being searched for): the old full-`innerHTML`-rebuild-on-every-tap pattern was silently wiping any in-progress manual-entry typing in OTHER runners' boxes. Fixed with a snapshot/restore of non-empty input values (and focus) around every rebuild -- verified directly: typed a partial value in one runner's box, tapped a different runner, confirmed the original value was still there afterward.
+6. Pre-start sync pill now reads honest static "Not started" copy instead of a permanently-stuck "Checking...".
+
+### Automated + hands-on testing actually run
+
+- `node --check` on every modified file -- clean.
+- `npm.cmd run build` -- 284 pages, clean (before and after every change).
+- `npm.cmd run check` -- 274 JS files, 18,472 internal links (down from 18,520 -- expected, fewer nav links now that Live has no header/footer/dock), zero problems.
+- `node scripts/test-race-command-center.mjs` and full `npm.cmd test` -- all suites, zero failures, exit code 0, both before touching any code (baseline) and after every fix.
+- A dedicated Playwright verification pass (8 direct checks against the real built page, real DOM computed styles, real timing) after the fixes: hidden-attribute fix confirmed on both previously-broken elements, chrome confirmed absent + back link confirmed present, manual-entry preservation confirmed directly, still-need/recorded list separation confirmed (count text + DOM query), multi-device sync confirmed end-to-end (a simulated second device's split appeared via the periodic pull with zero reload). All 8 passed.
+- Confirmed the `[hidden]` fix landed in the actual built HTML for all four pages via a direct grep of `dist/`.
+
+### Known, deliberate scope limits (this pass only)
+
+1. Not verified against real production Supabase or two genuinely separate physical devices -- everything above used a mocked API against the real built page. Worth a real two-device field test before relying on this for an actual meet.
+2. Hub/Plan/Review still carry full site chrome -- only Live's chrome was removed, matching the user's specific ask about the split-capture tool; the `chromeless` mechanism now exists if the other three should get the same treatment later.
+3. Manual entry and DNS/DNF controls are still always-visible on every "still need a time" card (not collapsed/compacted) -- the user's direction was specifically about moving recorded runners out of the way, which was built; further per-card compactness wasn't requested and wasn't changed.
+4. No repo-wide audit for the same `[hidden]`-vs-class-`display` cascade bug outside Race Command Center has been done.
+
+### Not yet done
+
+Not pushed. No live database/live multi-device field verification yet -- offered as a next step if wanted before this gets relied on for a real meet.

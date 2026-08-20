@@ -19,17 +19,25 @@
   const packConfirm = document.querySelector("[data-rcc-pack-confirm]");
   const packCancel = document.querySelector("[data-rcc-pack-cancel]");
   const runnerList = document.querySelector("[data-rcc-runner-list]");
+  const backLink = document.querySelector("[data-rcc-back-link]");
+  const stillCountEl = document.querySelector("[data-rcc-still-count]");
+  const stillEmptyNote = document.querySelector("[data-rcc-still-empty]");
+  const recordedHeading = document.querySelector("[data-rcc-recorded-heading]");
+  const recordedCountEl = document.querySelector("[data-rcc-recorded-count]");
+  const recordedList = document.querySelector("[data-rcc-recorded-list]");
 
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
     messageBox, startScreen, startButton, liveScreen, checkpointLabel, advanceButton,
-    packToggle, finishRaceButton, packBar, packCount, packConfirm, packCancel, runnerList
+    packToggle, finishRaceButton, packBar, packCount, packConfirm, packCancel, runnerList,
+    backLink, stillCountEl, stillEmptyNote, recordedHeading, recordedCountEl, recordedList
   ];
   if (requiredElements.some((el) => !el)) return;
 
   const params = new URLSearchParams(window.location.search);
   const teamId = String(params.get("id") || "").trim();
   const sessionId = String(params.get("race") || "").trim();
+  if (teamId) backLink.href = "/race-command-center/?id=" + encodeURIComponent(teamId);
 
   const SESSIONS_ENDPOINT = "/api/race-command-center/sessions/";
   const SYNC_ENDPOINT = "/api/race-command-center/sync/";
@@ -206,6 +214,52 @@
   window.addEventListener("online", triggerSync);
   window.addEventListener("offline", () => setSyncStatus("offline"));
   setInterval(triggerSync, 8000);
+
+  // ---- multi-device live sync --------------------------------------------------
+  // triggerSync() above only ever PUSHES this device's own local splits up
+  // -- it never pulls in what a DIFFERENT device (a second coach at
+  // another checkpoint, a volunteer's phone) has captured. Without this,
+  // two people timing the same live race would never see each other's
+  // splits until someone fully reloads the page. Participants/
+  // checkpoints/goals/targets are never locally queued offline, so the
+  // fresh server copy is always safe to take directly; splits go through
+  // the same loadMergedSplits() merge used at initial load, which
+  // already guarantees a LOCAL unsynced record (this device's own
+  // pending correction) always wins over whatever the server currently
+  // has for that same client_split_id.
+  let lastMergedFingerprint = "";
+
+  function fingerprintCurrentState() {
+    const splitsPart = [...splitsByClientId.values()]
+      .map((s) => s.client_split_id + ":" + s.elapsed_seconds + ":" + s.wall_clock_captured_at_ms)
+      .sort().join("|");
+    const statusPart = detail.participants.map((p) => p.id + ":" + p.status).sort().join("|");
+    return splitsPart + "##" + statusPart;
+  }
+
+  async function pullRemoteUpdates() {
+    if (!detail || detail.session.status !== "live" || syncing) return;
+    try {
+      const fresh = await apiFetch(SYNC_ENDPOINT, { action: "pull_state" });
+      detail.checkpoints = fresh.checkpoints;
+      detail.participants = fresh.participants;
+      detail.goals = fresh.goals;
+      detail.targets = fresh.targets;
+      detail.splits = fresh.splits;
+      await loadMergedSplits();
+      const fingerprint = fingerprintCurrentState();
+      if (fingerprint !== lastMergedFingerprint) {
+        lastMergedFingerprint = fingerprint;
+        renderRunnerList();
+      }
+    } catch {
+      // A failed background pull must never interrupt live timing --
+      // the next interval tick tries again, and this device's own
+      // recording/push path is completely unaffected either way.
+    }
+  }
+
+  setInterval(pullRemoteUpdates, 11000);
 
   // ---- wake lock (feature-detected, never mandatory) -------------------------
 
@@ -469,6 +523,36 @@
 
   // ---- rendering -----------------------------------------------------------------
 
+  // A full innerHTML rebuild wipes any in-progress typing in every OTHER
+  // runner's manual-entry box, not just the one that changed -- a real
+  // bug found during the live-timing diagnostic (tap Runner A while
+  // mid-typing a manual correction for Runner B, and Runner B's
+  // half-typed value and focus both vanish). Snapshotting non-empty
+  // values (and which one was focused) before a rebuild and restoring
+  // them after closes that gap without needing a full DOM-diffing
+  // rewrite of the renderer.
+  function snapshotManualInputs() {
+    const snapshot = {};
+    runnerList.querySelectorAll("[data-manual-input]").forEach((input) => {
+      if (input.value) {
+        snapshot[input.dataset.manualInput] = { value: input.value, focused: document.activeElement === input, selectionStart: input.selectionStart };
+      }
+    });
+    return snapshot;
+  }
+
+  function restoreManualInputs(snapshot) {
+    for (const [participantId, state] of Object.entries(snapshot)) {
+      const input = runnerList.querySelector('[data-manual-input="' + CSS.escape(participantId) + '"]');
+      if (!input) continue;
+      input.value = state.value;
+      if (state.focused) {
+        input.focus();
+        input.setSelectionRange(state.selectionStart, state.selectionStart);
+      }
+    }
+  }
+
   function renderRunnerList() {
     const checkpoint = currentCheckpoint();
     checkpointLabel.textContent = "Recording: " + checkpoint.label + (checkpoint.is_finish ? " (Finish)" : "");
@@ -489,28 +573,50 @@
       return ai - bi;
     });
 
-    runnerList.innerHTML = ordered.map((participant) => {
-      const excluded = participant.status === "dns" || participant.status === "dnf";
+    if (packMode) {
+      // Pack Capture stays one unified list, everyone selectable --
+      // splitting recorded/unrecorded doesn't make sense for "select
+      // everyone crossing right now."
+      stillEmptyNote.hidden = true;
+      stillCountEl.textContent = "";
+      recordedHeading.hidden = true;
+      recordedList.innerHTML = "";
+
+      runnerList.innerHTML = ordered.map((participant) => {
+        const excluded = participant.status === "dns" || participant.status === "dnf";
+        const checked = packSelected.has(participant.id) ? " checked" : "";
+        return (
+          '<div class="rcc-runner-card' + (excluded ? " rcc-runner-card-excluded" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
+            '<div class="rcc-runner-top"><h3>' + escapeHtml(participantName(participant)) + '</h3><span class="rcc-runner-meta">' + escapeHtml(participant.status) + '</span></div>' +
+            '<label class="rcc-runner-tap" style="display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:2px solid rgba(255,255,255,0.4);color:#fff;">' +
+              '<input type="checkbox" class="rcc-pack-checkbox" data-pack-select="' + escapeHtml(participant.id) + '"' + checked + '> Select</label>' +
+          '</div>'
+        );
+      }).join("");
+      packCount.textContent = packSelected.size + " selected";
+      return;
+    }
+
+    const stillNeed = [];
+    const recorded = [];
+    ordered.forEach((participant) => {
       const split = splitFor(participant.id, checkpoint.id);
+      if (split) recorded.push({ participant, split }); else stillNeed.push(participant);
+    });
+    // Most-recently-captured first -- the natural order for "let me
+    // glance at what I just did," not the pre-race target order (which
+    // is unstable to scan against once a race is genuinely underway).
+    recorded.sort((a, b) => b.split.wall_clock_captured_at_ms - a.split.wall_clock_captured_at_ms);
+
+    const inputSnapshot = snapshotManualInputs();
+
+    stillCountEl.textContent = stillNeed.length + (stillNeed.length === 1 ? " runner" : " runners");
+    stillEmptyNote.hidden = stillNeed.length > 0;
+
+    runnerList.innerHTML = stillNeed.map((participant) => {
+      const excluded = participant.status === "dns" || participant.status === "dnf";
       const goalA = goalAFor(participant.id);
       const target = targetAtCheckpoint(participant.id, checkpoint.id);
-      const isManual = split && (split.capture_method === "manual_entry" || split.capture_method === "edited");
-      const checked = packSelected.has(participant.id) ? " checked" : "";
-
-      let recordedHtml;
-      if (packMode) {
-        recordedHtml = '<label class="rcc-runner-tap" style="display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:2px solid rgba(255,255,255,0.4);color:#fff;">' +
-          '<input type="checkbox" class="rcc-pack-checkbox" data-pack-select="' + escapeHtml(participant.id) + '"' + checked + '> Select</label>';
-      } else if (split) {
-        recordedHtml =
-          '<div class="rcc-runner-recorded' + (isManual ? " rcc-runner-recorded-manual" : "") + '">' +
-            '<span class="rcc-runner-recorded-value">' + escapeHtml(formatSecondsToClock(split.elapsed_seconds)) + (isManual ? " (manual)" : "") + '</span>' +
-            '<button class="rcc-runner-small-btn" type="button" data-undo="' + escapeHtml(participant.id) + '">Undo</button>' +
-          '</div>';
-      } else {
-        recordedHtml = '<button class="rcc-runner-tap" type="button" data-tap="' + escapeHtml(participant.id) + '">Tap to record</button>';
-      }
-
       return (
         '<div class="rcc-runner-card' + (excluded ? " rcc-runner-card-excluded" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
           '<div class="rcc-runner-top">' +
@@ -521,22 +627,33 @@
             (goalA ? "Goal A: " + escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "No goal set") +
             (target != null ? " &middot; target here: " + escapeHtml(formatSecondsToClock(target)) : "") +
           '</div>' +
-          recordedHtml +
-          (packMode ? "" :
-            '<div class="rcc-manual-entry"><input type="text" placeholder="Manual time m:ss" data-manual-input="' + escapeHtml(participant.id) + '">' +
-            '<button class="rcc-runner-small-btn" type="button" data-manual-save="' + escapeHtml(participant.id) + '">Save</button></div>' +
-            '<div class="rcc-runner-row-actions">' +
-              '<button class="rcc-runner-small-btn" type="button" data-dns="' + escapeHtml(participant.id) + '">DNS</button>' +
-              '<button class="rcc-runner-small-btn" type="button" data-dnf="' + escapeHtml(participant.id) + '">DNF</button>' +
-            '</div>'
-          ) +
+          '<button class="rcc-runner-tap" type="button" data-tap="' + escapeHtml(participant.id) + '">Tap to record</button>' +
+          '<div class="rcc-manual-entry"><input type="text" placeholder="Manual time m:ss" data-manual-input="' + escapeHtml(participant.id) + '">' +
+          '<button class="rcc-runner-small-btn" type="button" data-manual-save="' + escapeHtml(participant.id) + '">Save</button></div>' +
+          '<div class="rcc-runner-row-actions">' +
+            '<button class="rcc-runner-small-btn" type="button" data-dns="' + escapeHtml(participant.id) + '">DNS</button>' +
+            '<button class="rcc-runner-small-btn" type="button" data-dnf="' + escapeHtml(participant.id) + '">DNF</button>' +
+          '</div>' +
         '</div>'
       );
     }).join("");
 
-    if (packMode) {
-      packCount.textContent = packSelected.size + " selected";
-    }
+    restoreManualInputs(inputSnapshot);
+
+    recordedHeading.hidden = recorded.length === 0;
+    recordedCountEl.textContent = recorded.length + (recorded.length === 1 ? " runner" : " runners");
+    recordedList.innerHTML = recorded.map(({ participant, split }) => {
+      const isManual = split.capture_method === "manual_entry" || split.capture_method === "edited";
+      return (
+        '<div class="rcc-recorded-row' + (isManual ? " rcc-recorded-row-manual" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
+          '<span class="rcc-recorded-row-name">' + escapeHtml(participantName(participant)) + '</span>' +
+          '<span class="rcc-recorded-row-right">' +
+            '<span class="rcc-recorded-row-value">' + escapeHtml(formatSecondsToClock(split.elapsed_seconds)) + (isManual ? " (manual)" : "") + '</span>' +
+            '<button class="rcc-runner-small-btn" type="button" data-undo="' + escapeHtml(participant.id) + '">Undo</button>' +
+          '</span>' +
+        '</div>'
+      );
+    }).join("");
   }
 
   runnerList.addEventListener("click", (event) => {
@@ -544,12 +661,6 @@
     if (tap) {
       const participant = detail.participants.find((p) => p.id === tap.dataset.tap);
       if (participant) handleTap(participant);
-      return;
-    }
-    const undo = event.target.closest("[data-undo]");
-    if (undo) {
-      const participant = detail.participants.find((p) => p.id === undo.dataset.undo);
-      if (participant) handleUndo(participant);
       return;
     }
     const manualSave = event.target.closest("[data-manual-save]");
@@ -572,6 +683,15 @@
     }
   });
 
+  // Undo lives in the compact Recorded list now, not the "still need a
+  // time" list -- same handler, separate delegation root.
+  recordedList.addEventListener("click", (event) => {
+    const undo = event.target.closest("[data-undo]");
+    if (!undo) return;
+    const participant = detail.participants.find((p) => p.id === undo.dataset.undo);
+    if (participant) handleUndo(participant);
+  });
+
   runnerList.addEventListener("change", (event) => {
     const checkbox = event.target.closest("[data-pack-select]");
     if (!checkbox) return;
@@ -588,6 +708,7 @@
     clockNoteEl.textContent = clockNote || "";
     await loadMergedSplits();
     renderRunnerList();
+    lastMergedFingerprint = fingerprintCurrentState();
     triggerSync();
     acquireWakeLock();
   }

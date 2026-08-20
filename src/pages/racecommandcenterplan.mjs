@@ -18,6 +18,16 @@ export function raceCommandCenterPlanPage(site) {
   })}
 
   <style>
+    /* [hidden] must always win the cascade -- several classes below set
+       their own display property at the same specificity as the
+       browser's built-in [hidden] rule, and a page's own style block
+       loads after the UA stylesheet, so without this a hidden root/
+       message/empty-state element stays fully visible regardless of its
+       hidden attribute. Confirmed as a real bug on the Live page (see
+       docs/DECISIONS.md's Live Race Mode diagnostic entry) and fixed
+       here across every Race Command Center page for the same reason. */
+    [hidden] { display: none !important; }
+
     .rcc-shell,
     .rcc-grid,
     .rcc-participant-list {

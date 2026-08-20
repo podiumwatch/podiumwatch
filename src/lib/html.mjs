@@ -110,7 +110,14 @@ ${articleMeta}
 ${scripts}`;
 }
 
-export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots }) {
+// chromeless: true skips the full site header/footer/mobile-dock entirely
+// -- for a genuinely time-critical, full-focus tool screen (Live Race
+// Mode) where the standard nav chrome is not just unnecessary but a real
+// hazard: a fixed mobile bottom-tab bar sitting under a coach's thumb
+// during frantic live-timing taps risks navigating away from a live race
+// by accident. Every other page keeps the default (false) -- this is
+// deliberately opt-in, not a new default.
+export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots, chromeless = false }) {
   const privatePrefixes = [
     "/admin/",
     "/team-login/",
@@ -170,10 +177,10 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 </head>
 <body class="${bodyClass}">
 <a class="skip-link" href="#main-content">Skip to main content</a>
-${header(site, pathname)}
+${chromeless ? "" : header(site, pathname)}
 <main id="main-content">${content}</main>
-${footer(site)}
-${mobileDock()}
+${chromeless ? "" : footer(site)}
+${chromeless ? "" : mobileDock()}
 </body>
 </html>`;
 }

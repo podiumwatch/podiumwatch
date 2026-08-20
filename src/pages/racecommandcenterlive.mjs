@@ -10,12 +10,35 @@ import { layout } from "../lib/html.mjs";
 export function raceCommandCenterLivePage(site) {
   const content = `
   <style>
+    /* Guards against the exact bug this page shipped with: several
+       elements below (.rcc-start-screen, .rcc-live-controls) set their
+       own display property at the same specificity as the browser's
+       built-in [hidden] { display: none } rule -- and since a page's own
+       style block loads after the UA stylesheet, the class rule wins the
+       cascade, so setting an element's hidden property to true had ZERO
+       visual effect. Concretely: the "Ready to Start?" screen (with its
+       own live Start Race button) stayed visible, stacked above the
+       live timing screen, for the entire race. This one rule makes
+       [hidden] always win, regardless of what any other selector here sets. */
+    [hidden] { display: none !important; }
+
     .rcc-live-shell {
       min-height: 70vh;
       padding: 16px;
       background: #0b0b0b;
       color: #ffffff;
     }
+
+    .rcc-live-back {
+      display: inline-block;
+      font-size: 0.78rem;
+      opacity: 0.7;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 4px 0 10px;
+    }
+
+    .rcc-live-back:hover { opacity: 1; text-decoration: underline; }
 
     .rcc-live-topbar {
       display: flex;
@@ -105,10 +128,84 @@ export function raceCommandCenterLivePage(site) {
       background: rgba(255, 255, 255, 0.1);
     }
 
+    .rcc-list-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 22px 4px 10px;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .rcc-list-heading span {
+      font-weight: 700;
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
     .rcc-runner-list {
       display: grid;
       gap: 12px;
-      margin: 16px 4px 40px;
+      margin: 0 4px;
+    }
+
+    /* The "still need a time" list is the primary, full-attention view --
+       runners never move or reorder as splits come in (still sorted by
+       pre-race target so the list doesn't visually jump around), but
+       once recorded a runner moves OUT of this list entirely and into
+       the compact Recorded list below, so this one only ever shrinks
+       during a race -- built specifically so a large roster doesn't mean
+       scrolling past a wall of already-done runners to find who's left.
+       See docs/DECISIONS.md's Live Race Mode diagnostic entry. */
+
+    .rcc-recorded-list {
+      display: grid;
+      gap: 8px;
+      margin: 0 4px 40px;
+    }
+
+    .rcc-recorded-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(0, 191, 99, 0.1);
+      border: 1px solid rgba(0, 191, 99, 0.25);
+    }
+
+    .rcc-recorded-row-manual {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.4);
+    }
+
+    .rcc-recorded-row-name {
+      font-weight: 750;
+      font-size: 0.92rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .rcc-recorded-row-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 0 auto;
+    }
+
+    .rcc-recorded-row-value {
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .rcc-empty-note {
+      margin: 0 4px;
+      opacity: 0.6;
+      font-size: 0.85rem;
     }
 
     .rcc-runner-card {
@@ -232,7 +329,8 @@ export function raceCommandCenterLivePage(site) {
     }
 
     @media (min-width: 900px) {
-      .rcc-runner-list {
+      .rcc-runner-list,
+      .rcc-recorded-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -245,10 +343,11 @@ export function raceCommandCenterLivePage(site) {
     </div>
 
     <div data-rcc-root hidden>
+      <a class="rcc-live-back" href="/race-command-center/" data-rcc-back-link>&larr; Race Command Center</a>
       <div class="rcc-live-topbar">
         <div>
           <h1 data-rcc-race-name></h1>
-          <span class="rcc-status-pill" data-rcc-sync-status><span class="rcc-status-dot"></span><span data-rcc-sync-status-text>Checking...</span></span>
+          <span class="rcc-status-pill" data-rcc-sync-status><span class="rcc-status-dot"></span><span data-rcc-sync-status-text>Not started</span></span>
         </div>
         <div style="text-align:right;">
           <div class="rcc-live-clock" data-rcc-clock>0:00</div>
@@ -278,7 +377,12 @@ export function raceCommandCenterLivePage(site) {
           <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-pack-cancel>Cancel</button>
         </div>
 
+        <div class="rcc-list-heading"><span data-rcc-still-heading-label>Still need a time</span><span data-rcc-still-count></span></div>
         <div class="rcc-runner-list" data-rcc-runner-list></div>
+        <p class="rcc-empty-note" data-rcc-still-empty hidden>Everyone at this checkpoint has a time. Nice work.</p>
+
+        <div class="rcc-list-heading" data-rcc-recorded-heading hidden><span>Recorded at this checkpoint</span><span data-rcc-recorded-count></span></div>
+        <div class="rcc-recorded-list" data-rcc-recorded-list></div>
       </div>
     </div>
   </div>
@@ -296,6 +400,7 @@ export function raceCommandCenterLivePage(site) {
     title: "Live Timing | Race Command Center",
     description: "Live race timing for Podium Watch coaches.",
     pathname: "/race-command-center/live/",
-    content
+    content,
+    chromeless: true
   });
 }

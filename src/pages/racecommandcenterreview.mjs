@@ -18,6 +18,13 @@ export function raceCommandCenterReviewPage(site) {
   })}
 
   <style>
+    /* [hidden] must always win the cascade -- see racecommandcenterlive.mjs
+       and docs/DECISIONS.md's Live Race Mode diagnostic entry for the
+       real bug this guards against (a class-based display property at
+       the same specificity as the browser's [hidden] rule, applied to
+       this page's own root container). */
+    [hidden] { display: none !important; }
+
     .rcc-shell, .rcc-grid { display: grid; gap: 20px; }
     .rcc-grid { grid-template-columns: minmax(0, 1fr); }
     .rcc-panel { padding: 24px; border-radius: 16px; background: #ffffff; box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08); }
