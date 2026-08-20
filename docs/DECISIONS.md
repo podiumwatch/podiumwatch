@@ -1014,3 +1014,34 @@ Ran a full hands-on diagnostic of Live Race Mode (the split-capture tool) at the
 ### Follow up
 
 Not yet live-verified against real production Supabase/real coach accounts (the diagnostic and every fix were verified with a mocked API against the real built page, not a live database) -- worth a real end-to-end pass with two genuinely separate devices before relying on this for an actual meet. Hub/Plan/Review's full site chrome was left as-is; revisit if the user wants those minimized too. A broader repo-wide check for the same `hidden`-attribute-vs-class-display cascade bug outside Race Command Center has not been done.
+
+## 2026 08 20 Live Race Mode per-checkpoint device selection
+
+### Decision
+
+Replaced the single "Advance to next checkpoint" button (one-way, sequential, confirmation-gated) with a row of tappable checkpoint tabs, letting each device freely and instantly select ANY checkpoint, with a sticky, always-visible "Recording: [checkpoint]" indicator that survives scrolling through a long roster.
+
+### Reason
+
+The user asked directly: can one volunteer stand at the Mile 1 marker and another at Mile 2, each easily understanding which one they're recording for? The honest answer at the time was no -- every device defaulted to checkpoint 0, moving to a later checkpoint required clicking "Advance" the right number of times with a confirmation dialog worded as if it affected the whole race rather than just this device, and there was no way back if a volunteer overshot. That directly contradicted the multi-device workflow the user had just confirmed was their real use case (see the prior diagnostic entry this same day).
+
+### Key implementation decisions worth recording
+
+1. **Checkpoint selection is confirmed to already be a purely local, per-device value** (`currentCheckpointIndex`, stored only in this device's own IndexedDB `race_state` record, never sent to or read from the server) -- this was already true before today's change; the gap was entirely in the UI only exposing sequential one-step "advance" as the way to change it, not the underlying architecture. This is exactly what makes two devices independently sitting on two different checkpoints simultaneously already safe -- no new sync mechanism was needed for the selection itself, only for the DATA (already built earlier today).
+2. **No confirmation dialog on switching, unlike the old "Advance" button.** Switching checkpoints never discards or overwrites anything -- it only changes which checkpoint's runner list this device is currently looking at -- so the old confirmation text ("Runners still in progress here will stay recordable") no longer applies and would only add friction to a now-completely-safe, freely-reversible action.
+3. **Each tab shows a live "N still needed" count**, computed the same way the main list partitions runners (excluding dns/dnf, checking for an existing split at that specific checkpoint) -- gives a volunteer an at-a-glance sanity check that they're on the right checkpoint without needing to scroll the runner list at all.
+4. **The checkpoint indicator is sticky as ONE unit with the existing topbar**, not a second independently-positioned sticky element with a hardcoded pixel offset against the first -- avoids a layout fragility that would break the moment the topbar's own height changed for any reason (a longer race name, a wrapped sync-status pill, etc).
+5. **Verified directly with two independent Playwright browser contexts** simulating exactly the user's described scenario: Device A defaults to Mile 1, Device B taps to Mile 2 with zero dialog, Device A is confirmed completely unaffected by Device B's switch, each device then taps a different runner, and each device's own Recorded list shows only ITS checkpoint's capture -- a runner captured at Mile 1 correctly still shows as needing a time on the Mile 2 device's list, and vice versa.
+
+### Alternatives considered
+
+1. Keeping "Advance to next checkpoint" as a quick-action alongside the new tabs (for a single coach who walks the course sequentially) -- rejected as unnecessary duplication; tapping the next tab directly is exactly as fast and removes an entire second interaction pattern to maintain.
+2. A dropdown `<select>` instead of a row of tab buttons -- rejected; large, always-visible, one-tap buttons are more scannable and definitively larger touch targets on a phone than a native select's tap-then-choose-then-confirm flow, and directly matches this page's existing large-tap-target design language.
+
+### Files or systems affected
+
+`src/pages/racecommandcenterlive.mjs` (sticky checkpoint indicator, checkpoint tabs markup + CSS, removed the Advance button); `public/scripts/race-command-center-live.js` (`renderCheckpointTabs()`, `selectCheckpoint()`, removed the old advance handler).
+
+### Follow up
+
+Not yet field-tested with two real physical devices at a real meet -- same open item as the earlier diagnostic entry today.

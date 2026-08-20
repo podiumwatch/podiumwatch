@@ -1826,3 +1826,25 @@ Presented this to the user with screenshots/evidence. They confirmed: multiple d
 ### Not yet done
 
 Not pushed. No live database/live multi-device field verification yet -- offered as a next step if wanted before this gets relied on for a real meet.
+
+## 2026 08 20 Live Race Mode per-checkpoint device selection
+
+### Goal
+
+User asked directly: can a volunteer at the Mile 1 marker and a volunteer at the Mile 2 marker each easily understand which checkpoint they're recording? Answered honestly (not yet, here's exactly why) and, on confirmation, built the fix.
+
+### What was built
+
+Replaced the single "Advance to next checkpoint" button (sequential, one-way, confirmation-gated) with a row of checkpoint tabs -- tap any checkpoint, anytime, no confirmation dialog (switching is now completely safe and reversible, never loses data). Added a sticky "Recording: Mile 2"-style indicator, part of the same sticky unit as the existing topbar, that stays visible through any amount of scrolling. Each tab shows a live "N still needed" count.
+
+### Testing actually run
+
+- `node --check` on both modified files -- clean.
+- `npm.cmd run build` (284 pages) and `npm.cmd run check` (zero problems) -- clean.
+- Full `npm.cmd test` -- all suites, zero failures.
+- A dedicated two-device Playwright verification (two independent browser contexts against the same mocked race): confirmed both default to Mile 1, confirmed Device B switches to Mile 2 with NO confirmation dialog, confirmed Device A is completely unaffected by Device B's switch, confirmed each device's own Recorded list shows only its own checkpoint's capture after each taps a different runner. All checks passed.
+- Directly verified (separate script) that a runner captured at Mile 1 correctly still appears in the "still need a time" list on a device viewing Mile 2, and does not appear in that device's Recorded list -- confirms each checkpoint's status is tracked independently, exactly as needed for the described workflow.
+
+### Not yet done
+
+Not pushed. Not yet field-tested with two real physical devices at an actual meet.

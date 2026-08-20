@@ -10,8 +10,9 @@
   const startScreen = document.querySelector("[data-rcc-start-screen]");
   const startButton = document.querySelector("[data-rcc-start-button]");
   const liveScreen = document.querySelector("[data-rcc-live-screen]");
-  const checkpointLabel = document.querySelector("[data-rcc-checkpoint-label]");
-  const advanceButton = document.querySelector("[data-rcc-advance-checkpoint]");
+  const checkpointTabs = document.querySelector("[data-rcc-checkpoint-tabs]");
+  const checkpointIndicator = document.querySelector("[data-rcc-checkpoint-indicator]");
+  const checkpointIndicatorValue = document.querySelector("[data-rcc-checkpoint-indicator-value]");
   const packToggle = document.querySelector("[data-rcc-pack-toggle]");
   const finishRaceButton = document.querySelector("[data-rcc-finish-race]");
   const packBar = document.querySelector("[data-rcc-pack-bar]");
@@ -28,9 +29,10 @@
 
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
-    messageBox, startScreen, startButton, liveScreen, checkpointLabel, advanceButton,
-    packToggle, finishRaceButton, packBar, packCount, packConfirm, packCancel, runnerList,
-    backLink, stillCountEl, stillEmptyNote, recordedHeading, recordedCountEl, recordedList
+    messageBox, startScreen, startButton, liveScreen, checkpointTabs, checkpointIndicator,
+    checkpointIndicatorValue, packToggle, finishRaceButton, packBar, packCount, packConfirm,
+    packCancel, runnerList, backLink, stillCountEl, stillEmptyNote, recordedHeading,
+    recordedCountEl, recordedList
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -494,22 +496,54 @@
     }
   });
 
-  // ---- checkpoint advancement / finish -------------------------------------------
+  // ---- checkpoint selection / finish -------------------------------------------
+  // Which checkpoint THIS device is recording is a purely local,
+  // per-device setting (see race-timer.js/race-local-store.js's own
+  // design notes) -- never synced to the server or any other device.
+  // That's deliberate: it's exactly what lets one phone sit on Mile 1
+  // the whole race while a second phone sits on Mile 2, independently
+  // and simultaneously. Switching is instant and freely reversible --
+  // no confirmation dialog -- since it never discards or loses any
+  // already-recorded split; it only changes which checkpoint's runner
+  // list this device is currently looking at.
 
-  advanceButton.addEventListener("click", () => {
-    if (currentCheckpointIndex >= detail.checkpoints.length - 1) {
-      showMessage("This is already the last checkpoint.");
-      return;
-    }
-    if (!window.confirm("Advance to the next checkpoint? Runners still in progress here will stay recordable.")) return;
-    currentCheckpointIndex += 1;
+  function selectCheckpoint(index) {
+    if (index < 0 || index >= detail.checkpoints.length || index === currentCheckpointIndex) return;
+    currentCheckpointIndex = index;
     Store.saveRaceState(Store.buildRaceStateRecord({
       raceSessionId: sessionId, session: detail.session, checkpoints: detail.checkpoints,
       participants: detail.participants, goals: detail.goals, targets: detail.targets,
       currentCheckpointIndex, raceStartedAtWallClockMs: Timer.getRaceStartWallClockMs()
     }));
     renderRunnerList();
+  }
+
+  checkpointTabs.addEventListener("click", (event) => {
+    const tab = event.target.closest("[data-checkpoint-select]");
+    if (!tab) return;
+    const index = detail.checkpoints.findIndex((cp) => cp.id === tab.dataset.checkpointSelect);
+    if (index !== -1) selectCheckpoint(index);
   });
+
+  function renderCheckpointTabs() {
+    const activeId = currentCheckpoint().id;
+    checkpointIndicator.hidden = false;
+    checkpointIndicatorValue.textContent = currentCheckpoint().label + (currentCheckpoint().is_finish ? " (Finish)" : "");
+
+    checkpointTabs.innerHTML = detail.checkpoints.map((cp) => {
+      const remaining = detail.participants.filter((p) => {
+        if (p.status === "dns" || p.status === "dnf") return false;
+        return !splitFor(p.id, cp.id);
+      }).length;
+      const active = cp.id === activeId;
+      return (
+        '<button class="rcc-checkpoint-tab' + (active ? " rcc-checkpoint-tab-active" : "") + '" type="button" data-checkpoint-select="' + escapeHtml(cp.id) + '">' +
+          '<span class="rcc-checkpoint-tab-label">' + escapeHtml(cp.label) + (cp.is_finish ? " (Finish)" : "") + '</span>' +
+          '<span class="rcc-checkpoint-tab-count">' + remaining + " still needed</span>" +
+        '</button>'
+      );
+    }).join("");
+  }
 
   finishRaceButton.addEventListener("click", async () => {
     if (!window.confirm("Finish this race? You can still review and correct splits afterward.")) return;
@@ -555,8 +589,7 @@
 
   function renderRunnerList() {
     const checkpoint = currentCheckpoint();
-    checkpointLabel.textContent = "Recording: " + checkpoint.label + (checkpoint.is_finish ? " (Finish)" : "");
-    advanceButton.disabled = currentCheckpointIndex >= detail.checkpoints.length - 1;
+    renderCheckpointTabs();
 
     const participantsWithTargets = detail.participants.map((p) => ({
       id: p.id,

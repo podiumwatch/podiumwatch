@@ -40,6 +40,17 @@ export function raceCommandCenterLivePage(site) {
 
     .rcc-live-back:hover { opacity: 1; text-decoration: underline; }
 
+    /* Sticky as ONE unit (topbar + checkpoint indicator together) rather
+       than two independently-positioned sticky elements -- avoids
+       hardcoding a second element's top offset against the first one's
+       variable rendered height. */
+    .rcc-live-sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: #0b0b0b;
+    }
+
     .rcc-live-topbar {
       display: flex;
       flex-wrap: wrap;
@@ -48,10 +59,6 @@ export function raceCommandCenterLivePage(site) {
       justify-content: space-between;
       padding: 12px 4px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-      position: sticky;
-      top: 0;
-      background: #0b0b0b;
-      z-index: 5;
     }
 
     .rcc-live-topbar h1 {
@@ -95,6 +102,73 @@ export function raceCommandCenterLivePage(site) {
     .rcc-status-saved .rcc-status-dot { background: #3b82f6; }
     .rcc-status-offline .rcc-status-dot,
     .rcc-status-needs_attention .rcc-status-dot { background: #dc2626; }
+
+    /* Part of the sticky header above -- impossible to scroll past.
+       Built specifically so a volunteer stationed at one fixed
+       checkpoint always knows which checkpoint THEIR device is
+       recording, even after scrolling deep into a 20-30 runner list.
+       This is a per-device setting, never synced -- one phone can sit
+       on Mile 1 all race while another sits on Mile 2, independently. */
+    .rcc-checkpoint-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .rcc-checkpoint-indicator-label {
+      opacity: 0.65;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .rcc-checkpoint-indicator-value {
+      color: #00e676;
+    }
+
+    .rcc-checkpoint-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 4px 0;
+    }
+
+    .rcc-checkpoint-tab {
+      appearance: none;
+      cursor: pointer;
+      font: inherit;
+      border-radius: 12px;
+      padding: 12px 16px;
+      min-height: 52px;
+      display: grid;
+      gap: 2px;
+      text-align: left;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+    }
+
+    .rcc-checkpoint-tab-active {
+      background: #00bf63;
+      border-color: #00bf63;
+      color: #06210f;
+    }
+
+    .rcc-checkpoint-tab-label {
+      font-weight: 850;
+      font-size: 0.95rem;
+    }
+
+    .rcc-checkpoint-tab-count {
+      font-size: 0.74rem;
+      opacity: 0.8;
+      font-weight: 700;
+    }
 
     .rcc-live-controls {
       display: flex;
@@ -344,14 +418,20 @@ export function raceCommandCenterLivePage(site) {
 
     <div data-rcc-root hidden>
       <a class="rcc-live-back" href="/race-command-center/" data-rcc-back-link>&larr; Race Command Center</a>
-      <div class="rcc-live-topbar">
-        <div>
-          <h1 data-rcc-race-name></h1>
-          <span class="rcc-status-pill" data-rcc-sync-status><span class="rcc-status-dot"></span><span data-rcc-sync-status-text>Not started</span></span>
+      <div class="rcc-live-sticky-header">
+        <div class="rcc-live-topbar">
+          <div>
+            <h1 data-rcc-race-name></h1>
+            <span class="rcc-status-pill" data-rcc-sync-status><span class="rcc-status-dot"></span><span data-rcc-sync-status-text>Not started</span></span>
+          </div>
+          <div style="text-align:right;">
+            <div class="rcc-live-clock" data-rcc-clock>0:00</div>
+            <span class="rcc-live-clock-note" data-rcc-clock-note></span>
+          </div>
         </div>
-        <div style="text-align:right;">
-          <div class="rcc-live-clock" data-rcc-clock>0:00</div>
-          <span class="rcc-live-clock-note" data-rcc-clock-note></span>
+        <div class="rcc-checkpoint-indicator" data-rcc-checkpoint-indicator hidden>
+          <span class="rcc-checkpoint-indicator-label">Recording:</span>
+          <span class="rcc-checkpoint-indicator-value" data-rcc-checkpoint-indicator-value></span>
         </div>
       </div>
 
@@ -364,9 +444,10 @@ export function raceCommandCenterLivePage(site) {
       </div>
 
       <div data-rcc-live-screen hidden>
+        <p style="margin:0 4px 8px;opacity:0.75;font-size:0.85rem;">Each device picks its own checkpoint below -- one phone can stay on Mile 1 the whole race while another stays on Mile 2, at the same time.</p>
+        <div class="rcc-checkpoint-tabs" data-rcc-checkpoint-tabs></div>
+
         <div class="rcc-live-controls">
-          <span data-rcc-checkpoint-label style="font-weight:800;"></span>
-          <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-advance-checkpoint>Advance to next checkpoint</button>
           <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-pack-toggle>Pack Capture</button>
           <button class="rcc-live-btn rcc-live-btn-danger" type="button" data-rcc-finish-race>Finish Race</button>
         </div>
