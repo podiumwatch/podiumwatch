@@ -30,6 +30,8 @@ export function raceCommandCenterReviewPage(site) {
     .rcc-panel { padding: 24px; border-radius: 16px; background: #ffffff; box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08); }
     .rcc-header { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
     .rcc-header h2 { margin-bottom: 0; }
+    .rcc-race-switcher-label { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 700; }
+    .rcc-race-switcher-select { padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.22); background: #ffffff; font: inherit; }
     .rcc-message { padding: 14px 16px; border-radius: 10px; background: rgba(0, 191, 99, 0.1); }
 
     .rcc-stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 16px 0; }
@@ -71,8 +73,12 @@ export function raceCommandCenterReviewPage(site) {
             <h2 data-rcc-race-name></h2>
             <p data-rcc-race-meta></p>
           </div>
-          <div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
             <a class="button button-outline" href="/race-command-center/" data-rcc-all-races-link>All races</a>
+            <span class="rcc-race-switcher-label" data-rcc-race-switcher-wrap hidden>
+              Switch race
+              <select class="rcc-race-switcher-select" data-rcc-race-switcher></select>
+            </span>
           </div>
         </div>
 

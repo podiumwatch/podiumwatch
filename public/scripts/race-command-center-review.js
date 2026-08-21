@@ -12,11 +12,13 @@
   const individualClose = document.querySelector("[data-rcc-individual-close]");
   const individualRows = document.querySelector("[data-rcc-individual-rows]");
   const allRacesLink = document.querySelector("[data-rcc-all-races-link]");
+  const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
+  const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, raceMetaEl, messageBox,
     teamStats, teamRows, individualPanel, individualName, individualClose, individualRows,
-    allRacesLink
+    allRacesLink, raceSwitcherWrap, raceSwitcher
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -89,6 +91,69 @@
   function participantName(participant) {
     return participant.manual_name || participant.display_name || "Runner";
   }
+
+  const RACE_SWITCHER_STATUS_LABELS = {
+    draft: "Draft", scheduled: "Scheduled", live: "Live",
+    finished: "Finished", reviewed: "Reviewed"
+  };
+  let raceSwitcherSessions = [];
+
+  // A team running JH/HS boys/girls races on the same day previously had
+  // to back all the way out to the full race list to check another
+  // race's results. This surfaces just today's other races right at the
+  // top -- live ones first -- so switching is one tap, not a detour.
+  // This page has its own single-endpoint apiFetch() (always POSTs to
+  // REVIEW_ENDPOINT), so this uses a small standalone fetch against the
+  // sessions endpoint instead of routing through it.
+  async function populateRaceSwitcher(raceDate, raceName) {
+    try {
+      const accessToken = await window.PodiumTeamAuth.getAccessToken();
+      const headers = { Accept: "application/json", "Content-Type": "application/json" };
+      if (accessToken) headers.Authorization = "Bearer " + accessToken;
+      const response = await fetch("/api/race-command-center/sessions/", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ team_id: teamId, action: "list" })
+      });
+      if (!response.ok) return;
+      const data = await response.json().catch(() => ({}));
+
+      raceSwitcherSessions = (data.sessions || [])
+        .filter((s) => s.id !== sessionId && s.race_date === raceDate && s.status !== "cancelled")
+        .sort((a, b) => {
+          const rank = (s) => (s.status === "live" ? 0 : 1);
+          const diff = rank(a) - rank(b);
+          return diff !== 0 ? diff : a.name.localeCompare(b.name);
+        });
+
+      if (raceSwitcherSessions.length === 0) return;
+
+      raceSwitcher.innerHTML =
+        '<option value="">This race -- ' + escapeHtml(raceName) + '</option>' +
+        raceSwitcherSessions.map((s) => (
+          '<option value="' + escapeHtml(s.id) + '">' + escapeHtml(s.name) + ' (' + escapeHtml(RACE_SWITCHER_STATUS_LABELS[s.status] || s.status) + ')</option>'
+        )).join("");
+      raceSwitcherWrap.hidden = false;
+    } catch {
+      // A switcher that fails to populate just stays hidden -- never
+      // blocks the review this page exists to show.
+    }
+  }
+
+  raceSwitcher.addEventListener("change", () => {
+    const targetId = raceSwitcher.value;
+    if (!targetId) return;
+    const target = raceSwitcherSessions.find((s) => s.id === targetId);
+    if (!target) return;
+    const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(target.id);
+    if (target.status === "live") {
+      window.location.href = "/race-command-center/live/" + idPart;
+    } else if (target.status === "finished" || target.status === "reviewed") {
+      window.location.href = "/race-command-center/review/" + idPart;
+    } else {
+      window.location.href = "/race-command-center/plan/" + idPart;
+    }
+  });
 
   function renderTeamReview(data) {
     teamNameEl.textContent = data.team ? data.team.school_name : "";
@@ -195,6 +260,7 @@
 
       loadingBox.hidden = true;
       root.hidden = false;
+      if (data.session) populateRaceSwitcher(data.session.race_date, data.session.name);
     } catch (error) {
       loadingBox.innerHTML =
         "<h2>This review could not be loaded</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +

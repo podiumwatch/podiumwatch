@@ -22,6 +22,8 @@
   const packCancel = document.querySelector("[data-rcc-pack-cancel]");
   const runnerList = document.querySelector("[data-rcc-runner-list]");
   const backLink = document.querySelector("[data-rcc-back-link]");
+  const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
+  const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
   const stillCountEl = document.querySelector("[data-rcc-still-count]");
   const stillEmptyNote = document.querySelector("[data-rcc-still-empty]");
   const recordedHeading = document.querySelector("[data-rcc-recorded-heading]");
@@ -41,7 +43,7 @@
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
     messageBox, startScreen, startButton, liveScreen, checkpointTabs, checkpointIndicator,
     checkpointIndicatorValue, packToggle, finishRaceButton, restartRaceButton, packBar, packCount, packConfirm,
-    packCancel, runnerList, backLink, stillCountEl, stillEmptyNote, recordedHeading,
+    packCancel, runnerList, backLink, raceSwitcherWrap, raceSwitcher, stillCountEl, stillEmptyNote, recordedHeading,
     recordedCountEl, recordedList, raceDayOpenButton, raceDayDialog, raceDayCloseButton,
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl,
     raceDayGenerateButton, raceDayRevokeButton
@@ -84,6 +86,12 @@
   let syncing = false;
   let wakeLockSentinel = null;
   let preRacePollHandle = null;
+  let raceSwitcherSessions = [];
+
+  const RACE_SWITCHER_STATUS_LABELS = {
+    draft: "Draft", scheduled: "Scheduled", live: "Live",
+    finished: "Finished", reviewed: "Reviewed"
+  };
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -968,6 +976,55 @@
     }
   });
 
+  // A team running JH/HS boys/girls races on the same day previously had
+  // to back all the way out to the full race list to jump from one live
+  // race to another. This surfaces just today's other races right at the
+  // top -- live ones first -- so switching is one tap, not a full detour.
+  // Available to a race-day volunteer too, not just a signed-in coach --
+  // listing/switching races needs no more privilege than timing already
+  // requires.
+  async function populateRaceSwitcher() {
+    try {
+      const data = await apiFetch(SESSIONS_ENDPOINT, { action: "list" });
+      const today = detail.session.race_date;
+      raceSwitcherSessions = (data.sessions || [])
+        .filter((s) => s.id !== sessionId && s.race_date === today && s.status !== "cancelled")
+        .sort((a, b) => {
+          const rank = (s) => (s.status === "live" ? 0 : 1);
+          const diff = rank(a) - rank(b);
+          return diff !== 0 ? diff : a.name.localeCompare(b.name);
+        });
+
+      if (raceSwitcherSessions.length === 0) return;
+
+      raceSwitcher.innerHTML =
+        '<option value="">This race -- ' + escapeHtml(detail.session.name) + '</option>' +
+        raceSwitcherSessions.map((s) => (
+          '<option value="' + escapeHtml(s.id) + '">' + escapeHtml(s.name) + ' (' + escapeHtml(RACE_SWITCHER_STATUS_LABELS[s.status] || s.status) + ')</option>'
+        )).join("");
+      raceSwitcherWrap.hidden = false;
+    } catch {
+      // A switcher that fails to populate just stays hidden -- it must
+      // never block or interrupt the race this device is actually here
+      // to time.
+    }
+  }
+
+  raceSwitcher.addEventListener("change", () => {
+    const targetId = raceSwitcher.value;
+    if (!targetId) return;
+    const target = raceSwitcherSessions.find((s) => s.id === targetId);
+    if (!target) return;
+    const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(target.id);
+    if (target.status === "live") {
+      window.location.href = "/race-command-center/live/" + idPart;
+    } else if (target.status === "finished" || target.status === "reviewed") {
+      window.location.href = "/race-command-center/review/" + idPart;
+    } else {
+      window.location.href = "/race-command-center/plan/" + idPart;
+    }
+  });
+
   async function initialize() {
     if (!teamId || !sessionId) {
       loadingBox.innerHTML = "<h2>Race not found</h2><p>This link is missing a team or race id.</p>";
@@ -988,6 +1045,7 @@
       raceNameEl.textContent = detail.session.name;
       loadingBox.hidden = true;
       root.hidden = false;
+      populateRaceSwitcher();
 
       // Managing the race day code always requires a real coach account
       // (api/team/race-day-code.js), never the race-day cookie a

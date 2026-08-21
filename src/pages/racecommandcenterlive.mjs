@@ -40,6 +40,31 @@ export function raceCommandCenterLivePage(site) {
 
     .rcc-live-back:hover { opacity: 1; text-decoration: underline; }
 
+    .rcc-live-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rcc-race-switcher-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .rcc-race-switcher-label select {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: #1a1a1a;
+      color: #ffffff;
+      font: inherit;
+    }
+
     /* Sticky as ONE unit (topbar + checkpoint indicator together) rather
        than two independently-positioned sticky elements -- avoids
        hardcoding a second element's top offset against the first one's
@@ -509,7 +534,15 @@ export function raceCommandCenterLivePage(site) {
     </div>
 
     <div data-rcc-root hidden>
-      <a class="rcc-live-back" href="/race-command-center/" data-rcc-back-link>&larr; Race Command Center</a>
+      <div class="rcc-live-top-row">
+        <a class="rcc-live-back" href="/race-command-center/" data-rcc-back-link>&larr; Race Command Center</a>
+        <div data-rcc-race-switcher-wrap hidden>
+          <label class="rcc-race-switcher-label">
+            Switch race
+            <select data-rcc-race-switcher></select>
+          </label>
+        </div>
+      </div>
       <div class="rcc-live-sticky-header">
         <div class="rcc-live-topbar">
           <div>

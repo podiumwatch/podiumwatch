@@ -11,6 +11,8 @@
   const rosterEmpty = document.querySelector("[data-rcc-roster-empty]");
   const selectAllRosterButton = document.querySelector("[data-rcc-select-all-roster]");
   const allRacesLink = document.querySelector("[data-rcc-all-races-link]");
+  const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
+  const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
   const rosterImportLink = document.querySelector("[data-rcc-roster-import-link]");
   const manualForm = document.querySelector("[data-rcc-manual-form]");
   const bulkToggleButton = document.querySelector("[data-rcc-bulk-toggle]");
@@ -34,7 +36,7 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
-    checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, allRacesLink, rosterImportLink, manualForm,
+    checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, allRacesLink, raceSwitcherWrap, raceSwitcher, rosterImportLink, manualForm,
     bulkToggleButton, bulkPanel, bulkTextarea, bulkAddButton, saveParticipantsButton,
     participantList, participantEmpty, deleteRaceButton, liveLinkButton,
     raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
@@ -582,6 +584,53 @@
     await refreshDetailOnly();
   }
 
+  // A team running JH/HS boys/girls races on the same day previously had
+  // to back all the way out to the full race list to jump from planning
+  // one race to another. This surfaces just today's other races right at
+  // the top -- live ones first -- so switching is one tap, not a detour.
+  let raceSwitcherSessions = [];
+
+  async function populateRaceSwitcher() {
+    try {
+      const data = await apiFetch(SESSIONS_ENDPOINT, { action: "list" });
+      const today = detail.session.race_date;
+      raceSwitcherSessions = (data.sessions || [])
+        .filter((s) => s.id !== sessionId && s.race_date === today && s.status !== "cancelled")
+        .sort((a, b) => {
+          const rank = (s) => (s.status === "live" ? 0 : 1);
+          const diff = rank(a) - rank(b);
+          return diff !== 0 ? diff : a.name.localeCompare(b.name);
+        });
+
+      if (raceSwitcherSessions.length === 0) return;
+
+      raceSwitcher.innerHTML =
+        '<option value="">This race -- ' + escapeHtml(detail.session.name) + '</option>' +
+        raceSwitcherSessions.map((s) => (
+          '<option value="' + escapeHtml(s.id) + '">' + escapeHtml(s.name) + ' (' + escapeHtml(STATUS_LABELS[s.status] || s.status) + ')</option>'
+        )).join("");
+      raceSwitcherWrap.hidden = false;
+    } catch {
+      // A switcher that fails to populate just stays hidden -- never
+      // blocks the actual plan this page exists to build.
+    }
+  }
+
+  raceSwitcher.addEventListener("change", () => {
+    const targetId = raceSwitcher.value;
+    if (!targetId) return;
+    const target = raceSwitcherSessions.find((s) => s.id === targetId);
+    if (!target) return;
+    const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(target.id);
+    if (target.status === "live") {
+      window.location.href = "/race-command-center/live/" + idPart;
+    } else if (target.status === "finished" || target.status === "reviewed") {
+      window.location.href = "/race-command-center/review/" + idPart;
+    } else {
+      window.location.href = "/race-command-center/plan/" + idPart;
+    }
+  });
+
   async function initialize() {
     if (!teamId || !sessionId) {
       loadingBox.innerHTML = "<h2>Race not found</h2><p>This link is missing a team or race id.</p>";
@@ -609,6 +658,7 @@
 
       loadingBox.hidden = true;
       root.hidden = false;
+      populateRaceSwitcher();
     } catch (error) {
       loadingBox.innerHTML =
         "<h2>This race could not be loaded</h2>" +

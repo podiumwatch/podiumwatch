@@ -59,6 +59,22 @@ export function raceCommandCenterPlanPage(site) {
       align-items: center;
     }
 
+    .rcc-race-switcher-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .rcc-race-switcher-select {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.22);
+      background: #ffffff;
+      font: inherit;
+    }
+
     .rcc-header {
       justify-content: space-between;
     }
@@ -319,6 +335,10 @@ export function raceCommandCenterPlanPage(site) {
 
           <div class="rcc-actions">
             <a class="button button-outline" href="/race-command-center/" data-rcc-all-races-link>All races</a>
+            <span class="rcc-race-switcher-label" data-rcc-race-switcher-wrap hidden>
+              Switch race
+              <select class="rcc-race-switcher-select" data-rcc-race-switcher></select>
+            </span>
             <button class="button button-outline" type="button" data-rcc-race-day-open hidden>Share access code</button>
             <button class="button button-outline" type="button" data-rcc-delete-race>Delete draft</button>
             <button class="button button-primary" type="button" data-rcc-live-link>Go to live timing</button>
