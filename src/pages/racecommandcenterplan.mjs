@@ -416,7 +416,7 @@ export function raceCommandCenterPlanPage(site) {
                 <h2>Goals and pacing</h2>
               </div>
             </div>
-            <p>Every runner needs at least a Goal A time before the race can start. Click a runner to set their goal and pacing. A runner's goal from their most recent race carries over automatically -- click in to review or change it.</p>
+            <p>Click a runner to set a goal and pacing plan -- it's entirely optional. The race can start with any or all runners left without a goal; they just won't show pace comparisons during live timing. A runner's goal from their most recent race carries over automatically -- click in to review or change it.</p>
 
             <div class="rcc-participant-list" data-rcc-participant-list style="margin-top:14px;"></div>
             <div class="rcc-empty" data-rcc-participant-empty hidden>Add participants on the left to start planning.</div>

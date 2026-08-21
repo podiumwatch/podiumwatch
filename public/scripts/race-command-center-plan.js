@@ -399,7 +399,7 @@
         '</div>' +
         '<div class="rcc-participant-detail' + (isOpen ? " rcc-open" : "") + '" data-participant-detail="' + escapeHtml(participant.id) + '">' +
           '<div class="rcc-goal-fields">' +
-            '<label>Goal A (required)<input type="text" class="rcc-field-goal-a" placeholder="17:00" value="' + (goalA ? escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "") + '"' + (strategy === "custom_pace" ? " disabled" : "") + '></label>' +
+            '<label>Goal A<input type="text" class="rcc-field-goal-a" placeholder="17:00" value="' + (goalA ? escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "") + '"' + (strategy === "custom_pace" ? " disabled" : "") + '></label>' +
             '<label>Goal B<input type="text" class="rcc-field-goal-b" placeholder="17:30" value="' + (goalB ? escapeHtml(formatSecondsToClock(goalB.goal_seconds)) : "") + '"></label>' +
             '<label>Goal C<input type="text" class="rcc-field-goal-c" placeholder="18:00" value="' + (goalC ? escapeHtml(formatSecondsToClock(goalC.goal_seconds)) : "") + '"></label>' +
             '<label>Pace strategy<select class="rcc-field-strategy">' +
@@ -478,7 +478,11 @@
       if (strategy === "even_pace") {
         const goalASeconds = parseClockToSeconds(goalAText);
         if (!goalASeconds) {
-          showMessage("Goal A is required (format m:ss, e.g. 17:00).", true);
+          showMessage(
+            "Enter a Goal A time (format m:ss, e.g. 17:00) to save an even-pace plan for this runner -- " +
+            "or leave this card without saving to run them with no goal at all. That's fine and won't stop the race from starting.",
+            true
+          );
           return;
         }
 
