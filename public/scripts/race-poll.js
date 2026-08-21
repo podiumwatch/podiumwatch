@@ -1,17 +1,26 @@
 // Small reusable live-race poller (Team Workspace Phase Three). Used by
-// the public /race/ page today; written generically enough for the
-// guardian home page to reuse later for the same "watch a race update
-// itself" behavior. Not a websocket/push system -- "live" here means
-// polling on a short interval while a race is actually in progress,
-// backing off on error, and going quiet the moment the tab isn't
-// visible or the race is over. See docs/DECISIONS.md, 2026-08-16.
+// the public /race/ page and (as of the live-tracking UX audit,
+// docs/LIVE_TRACKING_UX_AUDIT.md) the guardian home page, for the same
+// "watch a race update itself" behavior. Not a websocket/push system --
+// "live" here means polling on a short interval while a race is
+// actually in progress, backing off on error, and going quiet the
+// moment the tab isn't visible or the race is over. See
+// docs/DECISIONS.md, 2026-08-16.
 window.PodiumRacePoll = (() => {
   const LIVE_INTERVAL_MS = 10000;
   const IDLE_INTERVAL_MS = 30000;
   const MAX_BACKOFF_MS = 60000;
   const DONE_STATUSES = new Set(["finished", "reviewed", "cancelled"]);
 
-  function watch({ fetchOnce, onData, onError }) {
+  // Defaults to the single-race shape the public /race/ page already
+  // used (data.session.status). A caller whose response is shaped
+  // differently -- guardian home's response is a whole LIST of races,
+  // each with its own session -- supplies its own getStatus(data)
+  // instead, returning "live" (poll fast), a DONE_STATUSES value (stop
+  // outright -- rarely right for a multi-race dashboard that keeps
+  // gaining new races over time), or anything else (poll at the idle
+  // interval, never stopping).
+  function watch({ fetchOnce, onData, onError, getStatus = (data) => data?.session?.status }) {
     let stopped = false;
     let timer = null;
     let backoffMs = 0;
@@ -38,12 +47,14 @@ window.PodiumRacePoll = (() => {
         if (stopped) return;
         onData(data);
 
-        if (DONE_STATUSES.has(data?.session?.status)) {
+        const status = getStatus(data);
+
+        if (DONE_STATUSES.has(status)) {
           stop();
           return;
         }
 
-        const interval = data?.session?.status === "live" ? LIVE_INTERVAL_MS : IDLE_INTERVAL_MS;
+        const interval = status === "live" ? LIVE_INTERVAL_MS : IDLE_INTERVAL_MS;
         scheduleNext(interval);
       } catch (error) {
         if (stopped) return;

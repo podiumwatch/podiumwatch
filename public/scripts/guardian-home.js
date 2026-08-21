@@ -52,6 +52,41 @@
     return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   }
 
+  // Live-tracking UX audit (docs/LIVE_TRACKING_UX_AUDIT.md): a live race
+  // here used to be a frozen snapshot from page load with no indication
+  // anything was stale. This is the freshness half of that fix -- "how
+  // long ago was THIS specific kid's last recorded split," not just
+  // "when did the page last poll," which can look fresh while the
+  // runner's own data is minutes old (they're between checkpoints).
+  function formatRelativeTime(isoString) {
+    if (!isoString) return null;
+    const then = Date.parse(isoString);
+    if (Number.isNaN(then)) return null;
+
+    const diffSeconds = Math.max(0, Math.round((Date.now() - then) / 1000));
+    if (diffSeconds < 45) return "just now";
+    if (diffSeconds < 90) return "1 minute ago";
+
+    const minutes = Math.round(diffSeconds / 60);
+    if (minutes < 60) return minutes + " minutes ago";
+
+    const hours = Math.round(minutes / 60);
+    if (hours < 24) return hours + (hours === 1 ? " hour ago" : " hours ago");
+
+    const days = Math.round(hours / 24);
+    return days + (days === 1 ? " day ago" : " days ago");
+  }
+
+  function mostRecentSplitIso(race) {
+    const times = race.checkpoints
+      .map((row) => row.split?.wall_clock_captured_at)
+      .filter(Boolean)
+      .map((t) => Date.parse(t))
+      .filter((t) => !Number.isNaN(t));
+    if (times.length === 0) return null;
+    return new Date(Math.max(...times)).toISOString();
+  }
+
   const STATUS_LABELS = {
     draft: "Draft", scheduled: "Scheduled", live: "Live",
     finished: "Finished", reviewed: "Reviewed", cancelled: "Cancelled"
@@ -100,6 +135,20 @@
     return '<a class="button button-outline ah-watch-live" href="/race/?race=' + encodeURIComponent(race.session.id) + '">Watch full leaderboard</a>';
   }
 
+  // Only shown once there's a real split to be fresh (or stale) about --
+  // a scheduled race with nothing recorded yet has nothing to say here.
+  function freshnessLine(race) {
+    const iso = mostRecentSplitIso(race);
+    if (!iso) return "";
+    const isLive = race.session.status === "live";
+    return (
+      '<p class="ah-freshness' + (isLive ? " ah-freshness-live" : "") + '">' +
+        (isLive ? '<span class="ah-live-dot"></span> ' : "") +
+        'Last split ' + escapeHtml(formatRelativeTime(iso)) +
+      '</p>'
+    );
+  }
+
   function renderUpcomingCard(race) {
     const rows = race.checkpoints.map((row) => {
       const target = row.targets.A;
@@ -118,6 +167,7 @@
         '<span class="ah-athlete-tag">' + escapeHtml(race.participant.display_name) + '</span>' +
         '<h3>' + escapeHtml(race.session.name) + '</h3>' +
         '<div class="ah-race-meta">' + escapeHtml(formatDate(race.session.race_date)) + ' &middot; ' + escapeHtml(STATUS_LABELS[race.session.status] || race.session.status) + '</div>' +
+        freshnessLine(race) +
         renderGoalRow(race.goals) +
         (race.checkpoints.length
           ? '<table class="ah-table"><thead><tr><th>Checkpoint</th><th>Target (Goal A)</th><th>Recorded</th></tr></thead><tbody>' + rows + '</tbody></table>'
@@ -189,6 +239,45 @@
     window.location.replace("/guardian-login/");
   });
 
+  // Live-tracking UX audit (docs/LIVE_TRACKING_UX_AUDIT.md): this used to
+  // be a single fetch on load -- a guardian watching a live race saw a
+  // frozen snapshot from the moment the page opened, with nothing to
+  // indicate anything was stale, until they manually reloaded.
+  // race-poll.js was built with exactly this reuse in mind (see its own
+  // header comment) but was never actually wired up here until now.
+  // getStatus() reports "live" the instant ANY of the guardian's races is
+  // in progress (polls fast), otherwise "idle" (polls slow) -- it never
+  // returns a DONE_STATUSES value, since unlike a single race's own page,
+  // this dashboard keeps gaining new races over time and should never
+  // truly stop polling.
+  let hasLoadedRacesOnce = false;
+
+  function startRacePolling() {
+    window.PodiumRacePoll.watch({
+      fetchOnce: () => apiFetch("/api/guardian/races/", {}),
+      onData: (racesData) => {
+        renderRaces(racesData.races || []);
+        if (!hasLoadedRacesOnce) {
+          hasLoadedRacesOnce = true;
+          loadingBox.hidden = true;
+          root.hidden = false;
+        }
+      },
+      onError: (error) => {
+        // Only the FIRST load failing shows a full error screen -- a
+        // background poll hiccup after the page already loaded just
+        // retries next tick (race-poll.js's own backoff), never yanks
+        // away an already-rendered page.
+        if (hasLoadedRacesOnce) return;
+        loadingBox.innerHTML =
+          "<h2>Your athlete's races could not be loaded</h2>" +
+          "<p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
+          '<p><a class="button button-primary" href="/guardian-login/">Back to sign in</a></p>';
+      },
+      getStatus: (data) => ((data.races || []).some((r) => r.session.status === "live") ? "live" : "idle")
+    });
+  }
+
   async function initialize() {
     try {
       const user = await window.PodiumTeamAuth.getUser();
@@ -208,11 +297,7 @@
         .map((a) => (a.display_name || (a.first_name + " " + a.last_name)) + " -- " + (a.team ? a.team.school_name : "Unknown team"))
         .join(" · ");
 
-      const racesData = await apiFetch("/api/guardian/races/", {});
-      renderRaces(racesData.races || []);
-
-      loadingBox.hidden = true;
-      root.hidden = false;
+      startRacePolling();
     } catch (error) {
       loadingBox.innerHTML =
         "<h2>Your athlete's races could not be loaded</h2>" +

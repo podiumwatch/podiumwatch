@@ -40,6 +40,10 @@ export function guardianHomePage(site) {
     .ah-empty { padding: 24px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
     .ah-athlete-tag { display: inline-flex; padding: 4px 10px; border-radius: 999px; background: #111827; color: #ffffff; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 8px; }
     .ah-watch-live { display: inline-block; margin-top: 10px; }
+    .ah-freshness { display: flex; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 0.82rem; opacity: 0.75; }
+    .ah-freshness-live { opacity: 1; color: #b91c1c; font-weight: 700; }
+    .ah-live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; background: #dc2626; animation: ah-live-pulse 1.6s ease-in-out infinite; }
+    @keyframes ah-live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     @media (max-width: 720px) {
       table.ah-table { display: block; overflow-x: auto; }
     }
@@ -84,6 +88,7 @@ export function guardianHomePage(site) {
   <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/pace-splits.js" defer></script>
   <script src="/scripts/race-math.js" defer></script>
+  <script src="/scripts/race-poll.js" defer></script>
   <script src="/scripts/guardian-home.js" defer></script>`;
 
   return layout({
