@@ -20,6 +20,10 @@ import {
   revokeInvite as revokeGuardianInvite,
   revokeGuardianAccess
 } from "../../lib/guardian_access_service.mjs";
+import {
+  getStandardGoalsForAthlete,
+  saveStandardGoals
+} from "../../lib/athlete_goal_service.mjs";
 
 // Athlete-invite actions are handled here directly, before falling
 // through to handleTeamRosterAction() -- kept out of the 1700+ line
@@ -41,6 +45,15 @@ const GUARDIAN_ACCESS_ACTIONS = new Set([
   "list_guardian_invites",
   "revoke_guardian_invite",
   "revoke_guardian_access"
+]);
+
+// The athlete "goal book" -- one goal per standard distance, independent
+// of any single race/season. Same reasoning as the two action sets
+// above: kept in its own service file (lib/athlete_goal_service.mjs)
+// rather than added to the already-large roster action dispatcher.
+const STANDARD_GOAL_ACTIONS = new Set([
+  "get_standard_goals",
+  "save_standard_goals"
 ]);
 
 function cleanText(value) {
@@ -134,6 +147,23 @@ export default async function handler(request, response) {
       }
 
       return response.status(200).json(guardianData);
+    }
+
+    if (STANDARD_GOAL_ACTIONS.has(action)) {
+      let goalData;
+
+      if (action === "get_standard_goals") {
+        goalData = await getStandardGoalsForAthlete({ teamId, teamAthleteId: body.team_athlete_id });
+      } else if (action === "save_standard_goals") {
+        goalData = await saveStandardGoals({
+          teamId,
+          teamAthleteId: body.team_athlete_id,
+          goalsByBucket: body.goals_by_bucket,
+          actor: { type: "team_user", userId: user.id }
+        });
+      }
+
+      return response.status(200).json(goalData);
     }
 
     const data = await handleTeamRosterAction({

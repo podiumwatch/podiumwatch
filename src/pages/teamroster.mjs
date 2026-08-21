@@ -659,6 +659,27 @@ export function teamRosterPage(site) {
         </div>
       </form>
 
+      <section data-athlete-goals-section hidden style="margin-top:30px;">
+        <p class="eyebrow">Goal book</p>
+        <h3>Standard goals</h3>
+        <p style="font-size:0.85rem;margin:4px 0 12px;">
+          One goal per distance, independent of any single race. Whenever this athlete is added to a
+          race, its distance is matched to the closest one here and used to fill in Goal A automatically
+          -- saving a real per-race goal on the Plan page also updates the matching one here, so this
+          only needs upkeep on its own for a distance they haven't raced yet.
+        </p>
+        <div class="team-roster-fields">
+          <label>800m<input type="text" placeholder="2:30" data-goal-bucket="800m"></label>
+          <label>Mile / 1600m<input type="text" placeholder="5:30" data-goal-bucket="1600m"></label>
+          <label>3K<input type="text" placeholder="11:00" data-goal-bucket="3000m"></label>
+          <label>2 Mile / 3200m<input type="text" placeholder="12:00" data-goal-bucket="3200m"></label>
+          <label>4K<input type="text" placeholder="15:00" data-goal-bucket="4000m"></label>
+          <label>5K<input type="text" placeholder="19:00" data-goal-bucket="5000m"></label>
+          <label>8K<input type="text" placeholder="30:00" data-goal-bucket="8000m"></label>
+        </div>
+        <button class="button button-primary" type="button" data-save-athlete-goals style="margin-top:14px;">Save standard goals</button>
+      </section>
+
       <section data-athlete-invite-section hidden style="margin-top:30px;">
         <p class="eyebrow">Athlete access</p>
         <h3>Invite to Podium Watch</h3>

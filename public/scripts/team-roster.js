@@ -36,6 +36,8 @@
   const athleteSeasonSelect = document.querySelector("[data-athlete-season-select]");
   const athleteSeasonMoveNote = document.querySelector("[data-athlete-season-move-note]");
   const removeAthleteEntryButton = document.querySelector("[data-remove-athlete-entry]");
+  const athleteGoalsSection = document.querySelector("[data-athlete-goals-section]");
+  const saveAthleteGoalsButton = document.querySelector("[data-save-athlete-goals]");
   const athleteSocialSection = document.querySelector("[data-athlete-social-section]");
   const athleteSocialList = document.querySelector("[data-athlete-social-list]");
   const athleteSocialForm = document.querySelector("[data-athlete-social-form]");
@@ -101,6 +103,8 @@
     athleteSeasonSelect,
     athleteSeasonMoveNote,
     removeAthleteEntryButton,
+    athleteGoalsSection,
+    saveAthleteGoalsButton,
     athleteSocialSection,
     athleteSocialList,
     athleteSocialForm,
@@ -251,6 +255,99 @@
       .map(([event, mark]) => `${event}: ${mark}`)
       .join("\n");
   }
+
+  // Same m:ss(.s) parsing/formatting convention used throughout Race
+  // Command Center (public/scripts/race-command-center-plan.js etc.) --
+  // duplicated locally rather than shared, matching how small helpers
+  // like escapeHtml are already handled independently per file in this
+  // codebase.
+  function parseClockToSeconds(text) {
+    const cleaned = String(text ?? "").trim();
+    if (!cleaned) return null;
+
+    const parts = cleaned.split(":").map((p) => p.trim());
+    if (parts.some((p) => p === "" || Number.isNaN(Number(p)))) return null;
+
+    let seconds;
+    if (parts.length === 3) {
+      seconds = Number(parts[0]) * 3600 + Number(parts[1]) * 60 + Number(parts[2]);
+    } else if (parts.length === 2) {
+      seconds = Number(parts[0]) * 60 + Number(parts[1]);
+    } else if (parts.length === 1) {
+      seconds = Number(parts[0]);
+    } else {
+      return null;
+    }
+
+    return Number.isFinite(seconds) && seconds > 0 ? seconds : null;
+  }
+
+  function formatSecondsToClock(seconds) {
+    if (!Number.isFinite(seconds) || seconds <= 0) return "";
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    return m + ":" + String(s).padStart(2, "0");
+  }
+
+  async function renderAthleteGoals(entry) {
+    athleteGoalsSection.querySelectorAll("[data-goal-bucket]").forEach((input) => { input.value = ""; });
+
+    try {
+      const data = await apiFetch({ action: "get_standard_goals", team_athlete_id: entry.athlete_id });
+      for (const goal of data.goals || []) {
+        const input = athleteGoalsSection.querySelector('[data-goal-bucket="' + CSS.escape(goal.distance_bucket) + '"]');
+        if (input) input.value = formatSecondsToClock(goal.goal_seconds);
+      }
+    } catch {
+      // A failed load just leaves the fields blank -- the coach can
+      // still fill them in and save fresh values over nothing.
+    }
+  }
+
+  saveAthleteGoalsButton.addEventListener("click", async () => {
+    if (busy) return;
+    const athleteId = athleteForm.elements.athlete_id.value;
+    if (!athleteId) {
+      showMessage("Save this athlete first, then set their standard goals.", "error");
+      return;
+    }
+
+    const goalsByBucket = {};
+    let hasInvalidEntry = false;
+
+    athleteGoalsSection.querySelectorAll("[data-goal-bucket]").forEach((input) => {
+      const raw = input.value.trim();
+      if (!raw) {
+        goalsByBucket[input.dataset.goalBucket] = null;
+        return;
+      }
+      const seconds = parseClockToSeconds(raw);
+      if (seconds === null) {
+        hasInvalidEntry = true;
+      } else {
+        goalsByBucket[input.dataset.goalBucket] = seconds;
+      }
+    });
+
+    if (hasInvalidEntry) {
+      showMessage("Enter goal times as m:ss (e.g. 19:30), or leave a distance blank to clear it.", "error");
+      return;
+    }
+
+    try {
+      setBusy(true);
+      const data = await apiFetch({ action: "save_standard_goals", team_athlete_id: athleteId, goals_by_bucket: goalsByBucket });
+      for (const goal of data.goals || []) {
+        const input = athleteGoalsSection.querySelector('[data-goal-bucket="' + CSS.escape(goal.distance_bucket) + '"]');
+        if (input) input.value = formatSecondsToClock(goal.goal_seconds);
+      }
+      showMessage("Standard goals saved.");
+    } catch (error) {
+      showMessage(error.message || "Standard goals could not be saved.", "error");
+    } finally {
+      setBusy(false);
+    }
+  });
 
   function parseResponse(response, fallback) {
     return response.json()
@@ -559,6 +656,8 @@
     athleteForm.elements.entry_public_visible.checked = true;
     athleteDialogTitle.textContent = "Add athlete";
     removeAthleteEntryButton.hidden = true;
+    athleteGoalsSection.hidden = true;
+    athleteGoalsSection.querySelectorAll("[data-goal-bucket]").forEach((input) => { input.value = ""; });
     athleteSocialSection.hidden = true;
     athleteSocialList.innerHTML = "";
     athleteSocialForm.reset();
@@ -722,6 +821,8 @@
         entry_public_visible: entry.public_visible
       });
       removeAthleteEntryButton.hidden = false;
+      athleteGoalsSection.hidden = false;
+      renderAthleteGoals(entry);
       athleteSocialSection.hidden = false;
       renderAthleteSocialLinks(entry);
       athleteInviteSection.hidden = false;
