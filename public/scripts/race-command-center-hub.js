@@ -138,6 +138,11 @@
     raceList.innerHTML = sessions.map((session) => {
       const action = actionLinkFor(session);
       const checked = session.spectator_visible ? " checked" : "";
+      // Any status can be deleted except "live" -- a race actively being
+      // timed right now may have a volunteer's device mid-sync against it.
+      const deleteButton = session.status === "live"
+        ? ""
+        : '<button class="button button-outline rcc-delete-session" type="button" data-status="' + escapeHtml(session.status) + '">Delete</button>';
       return (
         '<div class="rcc-race-card" data-rcc-session-id="' + escapeHtml(session.id) + '">' +
           '<div class="rcc-header">' +
@@ -147,6 +152,7 @@
           '<p>' + escapeHtml(session.race_date) + ' &middot; ' + escapeHtml(String(session.distance_meters)) + 'm' + (session.race_type ? ' &middot; ' + escapeHtml(session.race_type) : '') + '</p>' +
           '<div class="rcc-actions">' +
             '<a class="button button-primary" href="' + action.href + '">' + action.label + '</a>' +
+            deleteButton +
           '</div>' +
           '<div class="rcc-spectator-row">' +
             '<label><input type="checkbox" class="rcc-spectator-toggle"' + checked + '> Let parents watch this race live</label>' +
@@ -190,6 +196,29 @@
           () => showMessage("Link copied."),
           () => {}
         );
+      });
+    });
+
+    raceList.querySelectorAll(".rcc-delete-session").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const card = button.closest("[data-rcc-session-id]");
+        const sessionId = card.getAttribute("data-rcc-session-id");
+        const hasResults = button.dataset.status === "finished" || button.dataset.status === "reviewed";
+        const confirmMessage = hasResults
+          ? "Delete this race? All recorded times and results will be permanently lost. This cannot be undone."
+          : "Delete this race? This cannot be undone.";
+        if (!window.confirm(confirmMessage)) return;
+
+        button.disabled = true;
+        try {
+          await apiFetch("/api/race-command-center/sessions/", { action: "delete", session_id: sessionId });
+          showMessage("The race was deleted.");
+          const data = await apiFetch("/api/race-command-center/sessions/", { action: "list" });
+          renderRaces(data.sessions);
+        } catch (error) {
+          showMessage(error.message || "This race could not be deleted.", true);
+          button.disabled = false;
+        }
       });
     });
   }

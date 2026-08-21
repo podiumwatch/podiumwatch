@@ -15,6 +15,7 @@
   const checkpointIndicatorValue = document.querySelector("[data-rcc-checkpoint-indicator-value]");
   const packToggle = document.querySelector("[data-rcc-pack-toggle]");
   const finishRaceButton = document.querySelector("[data-rcc-finish-race]");
+  const restartRaceButton = document.querySelector("[data-rcc-restart-race]");
   const packBar = document.querySelector("[data-rcc-pack-bar]");
   const packCount = document.querySelector("[data-rcc-pack-count]");
   const packConfirm = document.querySelector("[data-rcc-pack-confirm]");
@@ -39,7 +40,7 @@
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
     messageBox, startScreen, startButton, liveScreen, checkpointTabs, checkpointIndicator,
-    checkpointIndicatorValue, packToggle, finishRaceButton, packBar, packCount, packConfirm,
+    checkpointIndicatorValue, packToggle, finishRaceButton, restartRaceButton, packBar, packCount, packConfirm,
     packCancel, runnerList, backLink, stillCountEl, stillEmptyNote, recordedHeading,
     recordedCountEl, recordedList, raceDayOpenButton, raceDayDialog, raceDayCloseButton,
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl,
@@ -75,6 +76,11 @@
   let currentCheckpointIndex = 0;
   let packMode = false;
   let packSelected = new Set();
+  // Which "still need a time" cards have their manual-entry/DNS/DNF row
+  // expanded -- tracked outside the render function so it survives every
+  // re-render (polling, a tap elsewhere) instead of silently re-collapsing
+  // mid-use, matching the same reasoning as snapshotManualInputs() below.
+  let expandedRunnerIds = new Set();
   let syncing = false;
   let wakeLockSentinel = null;
 
@@ -257,6 +263,17 @@
     if (!detail || detail.session.status !== "live" || syncing) return;
     try {
       const fresh = await apiFetch(SYNC_ENDPOINT, { action: "pull_state" });
+
+      // Another device restarted this race (false start) -- this
+      // device's own in-memory/local state is now for the wrong start
+      // moment. A full reload is the same deliberate, simple reset the
+      // device that clicked Restart itself does; initialize() will see
+      // the fresh non-live status and correctly show the pre-race screen.
+      if (fresh.session.status !== "live") {
+        window.location.reload();
+        return;
+      }
+
       detail.checkpoints = fresh.checkpoints;
       detail.participants = fresh.participants;
       detail.goals = fresh.goals;
@@ -569,6 +586,28 @@
     }
   });
 
+  // A false start, or Start Race getting pressed too early -- wipes every
+  // split recorded so far (they're relative to the wrong start moment)
+  // and puts the race back on the pre-race screen for a clean real start.
+  // A full reload afterward is deliberate: it's the simplest reliable way
+  // to guarantee every piece of in-memory/local state (timer anchors,
+  // checkpoint index, local IndexedDB record) resets to genuinely nothing,
+  // matching how Finish Race already just navigates away rather than
+  // trying to patch live state in place.
+  restartRaceButton.addEventListener("click", async () => {
+    if (!window.confirm("Restart this race? Every time recorded so far will be permanently lost, and the race goes back to \"Ready to start.\" Use this for a false start.")) return;
+    restartRaceButton.disabled = true;
+    try {
+      await apiFetch(SESSIONS_ENDPOINT, { action: "restart_race" });
+      await Store.deleteSplitsForSession(sessionId);
+      await Store.deleteRaceState(sessionId);
+      window.location.reload();
+    } catch (error) {
+      showMessage(error.message || "This race could not be restarted.", true);
+      restartRaceButton.disabled = false;
+    }
+  });
+
   // ---- rendering -----------------------------------------------------------------
 
   // A full innerHTML rebuild wipes any in-progress typing in every OTHER
@@ -660,26 +699,30 @@
     stillCountEl.textContent = stillNeed.length + (stillNeed.length === 1 ? " runner" : " runners");
     stillEmptyNote.hidden = stillNeed.length > 0;
 
+    // One compact row per runner -- name and the big Tap button side by
+    // side, not stacked -- so 8+ runners fit on screen at once instead of
+    // 2-3. Goal/target isn't needed to just record a split (it's for
+    // pacing review, not live capture) so it's dropped from this view
+    // entirely. Manual entry and DNS/DNF are still fully available, just
+    // tucked behind the small "more" toggle instead of always-open rows,
+    // since they're the exception case, not the common tap.
     runnerList.innerHTML = stillNeed.map((participant) => {
       const excluded = participant.status === "dns" || participant.status === "dnf";
-      const goalA = goalAFor(participant.id);
-      const target = targetAtCheckpoint(participant.id, checkpoint.id);
+      const expanded = expandedRunnerIds.has(participant.id);
       return (
         '<div class="rcc-runner-card' + (excluded ? " rcc-runner-card-excluded" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
-          '<div class="rcc-runner-top">' +
-            '<h3>' + escapeHtml(participantName(participant)) + '</h3>' +
-            '<span class="rcc-runner-meta">' + escapeHtml(participant.status) + '</span>' +
+          '<div class="rcc-runner-row">' +
+            '<span class="rcc-runner-name">' + escapeHtml(participantName(participant)) + (excluded ? " (" + escapeHtml(participant.status.toUpperCase()) + ")" : "") + '</span>' +
+            '<button class="rcc-runner-tap" type="button" data-tap="' + escapeHtml(participant.id) + '">Tap</button>' +
+            '<button class="rcc-runner-more" type="button" data-more-toggle="' + escapeHtml(participant.id) + '" aria-label="More options for ' + escapeHtml(participantName(participant)) + '" aria-expanded="' + expanded + '">&ctdot;</button>' +
           '</div>' +
-          '<div class="rcc-runner-meta">' +
-            (goalA ? "Goal A: " + escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "No goal set") +
-            (target != null ? " &middot; target here: " + escapeHtml(formatSecondsToClock(target)) : "") +
-          '</div>' +
-          '<button class="rcc-runner-tap" type="button" data-tap="' + escapeHtml(participant.id) + '">Tap to record</button>' +
-          '<div class="rcc-manual-entry"><input type="text" placeholder="Manual time m:ss" data-manual-input="' + escapeHtml(participant.id) + '">' +
-          '<button class="rcc-runner-small-btn" type="button" data-manual-save="' + escapeHtml(participant.id) + '">Save</button></div>' +
-          '<div class="rcc-runner-row-actions">' +
-            '<button class="rcc-runner-small-btn" type="button" data-dns="' + escapeHtml(participant.id) + '">DNS</button>' +
-            '<button class="rcc-runner-small-btn" type="button" data-dnf="' + escapeHtml(participant.id) + '">DNF</button>' +
+          '<div class="rcc-runner-expand" data-runner-expand="' + escapeHtml(participant.id) + '"' + (expanded ? "" : " hidden") + '>' +
+            '<div class="rcc-manual-entry"><input type="text" placeholder="Manual time m:ss" data-manual-input="' + escapeHtml(participant.id) + '">' +
+            '<button class="rcc-runner-small-btn" type="button" data-manual-save="' + escapeHtml(participant.id) + '">Save</button></div>' +
+            '<div class="rcc-runner-row-actions">' +
+              '<button class="rcc-runner-small-btn" type="button" data-dns="' + escapeHtml(participant.id) + '">DNS</button>' +
+              '<button class="rcc-runner-small-btn" type="button" data-dnf="' + escapeHtml(participant.id) + '">DNF</button>' +
+            '</div>' +
           '</div>' +
         '</div>'
       );
@@ -708,6 +751,17 @@
     if (tap) {
       const participant = detail.participants.find((p) => p.id === tap.dataset.tap);
       if (participant) handleTap(participant);
+      return;
+    }
+    const moreToggle = event.target.closest("[data-more-toggle]");
+    if (moreToggle) {
+      const id = moreToggle.dataset.moreToggle;
+      const expand = runnerList.querySelector('[data-runner-expand="' + CSS.escape(id) + '"]');
+      if (!expand) return;
+      const nowExpanded = expand.hidden;
+      expand.hidden = !nowExpanded;
+      moreToggle.setAttribute("aria-expanded", String(nowExpanded));
+      if (nowExpanded) expandedRunnerIds.add(id); else expandedRunnerIds.delete(id);
       return;
     }
     const manualSave = event.target.closest("[data-manual-save]");

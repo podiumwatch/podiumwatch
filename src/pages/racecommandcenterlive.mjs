@@ -193,6 +193,7 @@ export function raceCommandCenterLivePage(site) {
     .rcc-live-btn-primary { background: #00bf63; color: #06210f; }
     .rcc-live-btn-outline { background: transparent; border: 2px solid rgba(255, 255, 255, 0.4); color: #ffffff; }
     .rcc-live-btn-danger { background: #dc2626; color: #ffffff; }
+    .rcc-live-btn-warning { background: #f59e0b; color: #451a03; }
     .rcc-live-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .rcc-live-message {
@@ -220,7 +221,7 @@ export function raceCommandCenterLivePage(site) {
 
     .rcc-runner-list {
       display: grid;
-      gap: 12px;
+      gap: 6px;
       margin: 0 4px;
     }
 
@@ -282,11 +283,17 @@ export function raceCommandCenterLivePage(site) {
       font-size: 0.85rem;
     }
 
+    /* One compact row per runner (name + the big Tap button side by
+       side, not stacked) so a coach can see 8+ runners at once instead of
+       2-3 -- see docs/DECISIONS.md's runner-list density entry. Manual
+       entry/DNS/DNF live in a collapsed .rcc-runner-expand block, opened
+       per-runner via the small "more" button, so they cost no space
+       until actually needed. */
     .rcc-runner-card {
       display: grid;
-      gap: 10px;
-      padding: 16px;
-      border-radius: 16px;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
       background: #17181c;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -295,36 +302,55 @@ export function raceCommandCenterLivePage(site) {
       opacity: 0.55;
     }
 
-    .rcc-runner-top {
+    .rcc-runner-row {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .rcc-runner-top h3 {
-      margin: 0;
-      font-size: 1.05rem;
-    }
-
-    .rcc-runner-meta {
-      font-size: 0.8rem;
-      opacity: 0.8;
+    .rcc-runner-name {
+      flex: 1;
+      min-width: 0;
+      font-weight: 750;
+      font-size: 0.95rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .rcc-runner-tap {
       appearance: none;
       border: none;
-      border-radius: 14px;
-      padding: 22px 16px;
+      border-radius: 12px;
+      padding: 0 22px;
       font: inherit;
       font-weight: 850;
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       cursor: pointer;
       background: #00bf63;
       color: #06210f;
-      min-height: 68px;
-      width: 100%;
+      min-height: 56px;
+      min-width: 96px;
+      flex: 0 0 auto;
+    }
+
+    .rcc-runner-more {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: transparent;
+      color: #ffffff;
+      border-radius: 10px;
+      min-height: 56px;
+      width: 44px;
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .rcc-runner-expand {
+      display: grid;
+      gap: 8px;
     }
 
     .rcc-runner-recorded {
@@ -516,6 +542,7 @@ export function raceCommandCenterLivePage(site) {
 
         <div class="rcc-live-controls">
           <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-pack-toggle>Pack Capture</button>
+          <button class="rcc-live-btn rcc-live-btn-warning" type="button" data-rcc-restart-race>Restart Race</button>
           <button class="rcc-live-btn rcc-live-btn-danger" type="button" data-rcc-finish-race>Finish Race</button>
         </div>
 

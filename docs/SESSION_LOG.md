@@ -2065,3 +2065,27 @@ User asked for "an option to delete a meet added in there, with a pop up screen 
 ### Not yet done
 
 Not pushed. Still owe the user a real root cause for the "Share access code" button not appearing on their screen (see the entry above) -- deferred while they moved on to this request.
+
+## 2026 08 20 Delete any race, restart a live race, and a denser runner list
+
+### Goal
+
+Three requests from actually using the tool: delete a race directly from the hub's race list (their screenshot showed two already-finished races with no delete option at all, only drafts could be deleted before); a way to restart a live race after a false start or an accidental early Start Race press; the Live page's runner list only fit 2-3 runners on screen, needed to fit 8+ without shrinking the tap button much.
+
+### What was built
+
+- `deleteSession()` now allows any status except "live" (was draft-only) -- both the hub's race cards and the Plan page's own delete button got a matching "Delete" (or "Delete race" once not draft-only) with a context-aware confirm: a stronger warning when real results would be lost.
+- New `restartRace()` + `restart_race` action: clears all splits and pack captures for the session, reverts status to "scheduled" with `race_started_at` cleared, landing back on the pre-race screen. Only allowed while a race is actually live.
+- The initiating device clears its own local IndexedDB race state and reloads the page after restarting; `pullRemoteUpdates()`'s background poll now also detects a restart from a DIFFERENT device (session status no longer "live") and reloads too, so a second phone timing a different checkpoint doesn't keep running against a race the server already reset.
+- Runner-list density: rebuilt each "still need a time" card from a stacked ~276px-tall layout into one ~74px horizontal row (name, a 56px Tap button, a small "more" toggle) with manual entry/DNS/DNF collapsed behind that toggle instead of always open. Goal/target text dropped from this view entirely (not needed to record a split). Which cards are expanded is tracked outside the render function so an 11-second background poll doesn't silently re-collapse one a coach just opened.
+
+### Testing actually run
+
+- `node --check` on every modified file -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions.
+- Full `npm.cmd test` including `test:race-command-center` specifically -- all suites, zero failures.
+- Playwright verification against the real built pages: a finished race shows Delete with the results-loss warning, a live race shows none, deleting refreshes the list; 10 runners render as ~74px cards (measured), the Tap button stays 56px, manual/DNS/DNF start collapsed and expand independently per runner; Restart Race is visible during a live race, its confirm dialog mentions both permanent loss and false start, and clicking it reloads the page to the pre-race "Ready to start?" screen.
+
+### Not yet done
+
+Not pushed. Still owe the user a real root cause for the "Share access code" button issue.

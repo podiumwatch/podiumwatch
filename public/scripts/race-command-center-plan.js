@@ -161,7 +161,10 @@
     const distanceInUnit = (session.distance_meters / unitMeters).toFixed(2).replace(/\.00$/, "");
     raceMetaEl.textContent = session.race_date + " · " + distanceInUnit + " " + unit + (session.race_type ? " · " + session.race_type : "");
 
-    deleteRaceButton.hidden = session.status !== "draft";
+    // Any status can be deleted except "live" -- a race actively being
+    // timed right now may have a volunteer's device mid-sync against it.
+    deleteRaceButton.hidden = session.status === "live";
+    deleteRaceButton.textContent = session.status === "draft" ? "Delete draft" : "Delete race";
     liveLinkButton.disabled = false;
     liveLinkButton.onclick = () => {
       window.location.href = "/race-command-center/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId);
@@ -451,7 +454,11 @@
   }
 
   deleteRaceButton.addEventListener("click", async () => {
-    if (!window.confirm("Delete this draft race? This cannot be undone.")) return;
+    const hasResults = detail?.session?.status === "finished" || detail?.session?.status === "reviewed";
+    const confirmMessage = hasResults
+      ? "Delete this race? All recorded times and results will be permanently lost. This cannot be undone."
+      : "Delete this race? This cannot be undone.";
+    if (!window.confirm(confirmMessage)) return;
     try {
       await apiFetch(SESSIONS_ENDPOINT, { action: "delete" });
       window.location.href = "/race-command-center/?id=" + encodeURIComponent(teamId);

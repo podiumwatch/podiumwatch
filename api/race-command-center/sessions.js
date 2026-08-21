@@ -12,6 +12,7 @@ import {
   updateSessionDetails,
   startRace,
   finishRace,
+  restartRace,
   duplicateSession,
   deleteSession
 } from "../../lib/race_command_center_service.mjs";
@@ -65,6 +66,9 @@ export default async function handler(request, response) {
         break;
       case "finish_race":
         data = await finishRace({ teamId, sessionId: cleanText(body.session_id), createdBy: actor.label });
+        break;
+      case "restart_race":
+        data = await restartRace({ teamId, sessionId: cleanText(body.session_id) });
         break;
       case "duplicate":
         data = await duplicateSession({

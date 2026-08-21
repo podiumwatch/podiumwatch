@@ -1318,6 +1318,39 @@ Team Meet Center's own header comment already describes it as bridging the sched
 
 `public/scripts/team-meet-center.js` (delete button per race row, confirm + delete + refresh).
 
+None outstanding. Verified with Playwright against the real built page: a draft race shows a Delete button, a live race shows none at all, clicking Delete shows the confirm prompt with the expected wording, confirming sends the correct race id to the existing delete endpoint, and the list refreshes to show the race gone.
+
+## 2026 08 20 Delete any race from the hub, restart a live race, and a much denser runner list
+
+### Decision
+
+Three requests arrived together after the user tried the hub's race list, hit a live-timing session with lots of runners, and thought through a false-start scenario: (1) delete a race directly from `/race-command-center/`'s own race list, not just from inside a specific race's Plan page, and for ANY status, not just drafts (their screenshot showed two already-FINISHED races with no delete option at all); (2) a way to restart a live race's clock after a false start or an accidental early Start Race press; (3) the Live page's "still need a time" runner list only fit 2-3 runners on screen at once, and needed to show 8+.
+
+### Reason
+
+Each of these came from the user actually operating the tool with real data (a real test race, a real 24-person roster) rather than abstract requests -- the same pattern as every fix this session, where the actual gap only became visible by using the feature for real.
+
+### Key implementation decisions worth recording
+
+1. **Delete now allowed for any status except "live"** (`deleteSession()` in `lib/race_command_center_service.mjs`), not just draft -- a finished "Test Race" the user wanted to clean up couldn't be deleted at all before this. "Live" is still refused (`"Finish or cancel this race before deleting it -- it may still be actively timed."`) since a race actively being timed right now may have a volunteer's device mid-sync against it; deleting it out from under them would corrupt an in-progress session, not just discard data. Every child row (checkpoints, participants, goals, targets, splits) already cascades on delete (confirmed directly in `install/11_RACE_COMMAND_CENTER.sql`), so this is a complete removal in one statement, not a soft flag needing follow-up cleanup.
+2. **The confirm prompt is context-aware**: deleting a finished/reviewed race (real recorded results exist) warns "All recorded times and results will be permanently lost"; deleting a draft/scheduled/cancelled race (nothing real to lose) uses the plainer "This cannot be undone." Applied identically on both the hub's race cards and the Plan page's own delete button, which got the same status-based relaxation (and its label now reads "Delete race" instead of "Delete draft" once it's not actually draft-only anymore).
+3. **Restart Race clears real data, deliberately** (`restartRace()`, new): every recorded split and pack capture for the session is deleted (a false start makes all of them meaningless -- they're relative to the wrong start moment), and the session reverts to `status: "scheduled"` with `race_started_at: null`, landing back on the pre-race "Ready to start?" screen. Restricted to `status === "live"` only -- a finished/reviewed race has already gone through review and needs "duplicate" or manual correction instead of a wholesale reset.
+4. **A full page reload, not in-place state patching, is how the initiating device recovers after restarting.** Finish Race already just navigates away rather than trying to patch a dozen pieces of live JS state in place; Restart follows the same reasoning -- reload guarantees the Timer, checkpoint index, and local IndexedDB record for this session are all genuinely reset, matching a fresh page load, rather than trusting a hand-written partial reset to catch everything.
+5. **Other devices at a different checkpoint on the same race detect the restart too**, not just the device that clicked the button -- `pullRemoteUpdates()`'s 11-second poll now also checks the fresh session status and reloads if it's no longer `"live"`. Without this, a second device timing Mile 2 would keep running its own stale local clock/splits against a race the server has already reset, silently producing wrong data instead of an obvious, correct reset.
+6. **The runner-list density fix is a layout change, not an information change beyond dropping goal/target text.** Each "still need a time" card went from a stacked layout (name+status row, goal/target row, full-width 68px tap button, always-open manual-entry row, always-open DNS/DNF row -- roughly 276px tall) to one horizontal row (name | Tap button | small "more" toggle, ~74px measured) with manual entry and DNS/DNF collapsed behind that toggle, expanded per-runner on demand. Goal/target text was dropped entirely from this view since it's not needed to record a split (it's pacing-review information, still available on Plan/Review) -- matching the user's own "only show necessary information."
+7. **The Tap button only shrank from 68px to 56px, not further**, specifically because the user said to keep it "still big" -- 56px is comfortably above the 44px minimum real touch-target size and visibly larger than every other control on the row, while being the one dimension that had to give some ground for 8+ cards to fit.
+8. **Which cards are expanded is tracked outside the render function** (`expandedRunnerIds`, a `Set` at the top-level scope), the same reasoning `snapshotManualInputs()` already established for preserving in-progress typing across a rebuild -- without it, the 11-second background poll would silently re-collapse a card a coach had just opened to type a manual correction.
+
+### Alternatives considered
+
+1. Keeping delete draft-only and building a separate "archive" concept for finished races instead -- rejected as unnecessary complexity; the user asked to delete mistakes, not file them away, and cascading delete already handles this cleanly.
+2. Shrinking the Tap button further (to ~44px) to hit an even denser layout -- rejected; the user explicitly asked to keep it big, and 56px already gets 8+ cards on screen without needing to compromise the primary action's size further.
+3. A confirmation-free restart -- rejected; restarting is exactly as destructive as deleting a race's results (all splits gone), so it gets the same explicit, worded confirm dialog.
+
+### Files or systems affected
+
+`lib/race_command_center_service.mjs` (`deleteSession()` relaxed, new `restartRace()`), `api/race-command-center/sessions.js` (new `restart_race` action), `public/scripts/race-command-center-hub.js` (per-card Delete button + confirm + refresh), `public/scripts/race-command-center-plan.js` (relaxed delete visibility/label/confirm), `src/pages/racecommandcenterlive.mjs` + `public/scripts/race-command-center-live.js` (Restart Race button, cross-device reload-on-restart, and the full runner-card density redesign).
+
 ### Follow up
 
-None outstanding. Verified with Playwright against the real built page: a draft race shows a Delete button, a live race shows none at all, clicking Delete shows the confirm prompt with the expected wording, confirming sends the correct race id to the existing delete endpoint, and the list refreshes to show the race gone.
+None outstanding for these three. Still owe the user a real root cause for the "Share access code" button not appearing on their screen (a separate, earlier-reported, not-yet-resolved issue) -- deferred while they worked through this batch of requests instead.
