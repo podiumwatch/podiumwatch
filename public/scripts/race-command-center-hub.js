@@ -17,12 +17,29 @@
   const raceDayStatusEl = document.querySelector("[data-rcc-race-day-status]");
   const raceDayGenerateButton = document.querySelector("[data-rcc-race-day-generate]");
   const raceDayRevokeButton = document.querySelector("[data-rcc-race-day-revoke]");
+  const meetForm = document.querySelector("[data-rcc-meet-form]");
+  const meetEmpty = document.querySelector("[data-rcc-meet-empty]");
+  const meetRosterLink = document.querySelector("[data-rcc-meet-roster-link]");
+  const meetSportSelect = document.querySelector("[data-rcc-meet-sport]");
+  const meetGroupHs = document.querySelector('[data-rcc-meet-group="hs"]');
+  const meetGroupJh = document.querySelector('[data-rcc-meet-group="jh"]');
+  const meetSquadHsBoys = document.querySelector('[data-rcc-meet-squad="hs_boys"]');
+  const meetSquadHsGirls = document.querySelector('[data-rcc-meet-squad="hs_girls"]');
+  const meetSquadJhBoys = document.querySelector('[data-rcc-meet-squad="jh_boys"]');
+  const meetSquadJhGirls = document.querySelector('[data-rcc-meet-squad="jh_girls"]');
+  const meetDistanceHs = document.querySelector('[data-rcc-meet-distance="hs"]');
+  const meetUnitHs = document.querySelector('[data-rcc-meet-unit="hs"]');
+  const meetDistanceJh = document.querySelector('[data-rcc-meet-distance="jh"]');
+  const meetUnitJh = document.querySelector('[data-rcc-meet-unit="jh"]');
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox,
     raceList, raceEmpty, createForm, checkpointRows, addCheckpointButton,
     raceDaySection, raceDayReveal, raceDayRevealCode, raceDayCopyButton,
-    raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
+    raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton,
+    meetForm, meetEmpty, meetRosterLink, meetSportSelect, meetGroupHs, meetGroupJh,
+    meetSquadHsBoys, meetSquadHsGirls, meetSquadJhBoys, meetSquadJhGirls,
+    meetDistanceHs, meetUnitHs, meetDistanceJh, meetUnitJh
   ];
 
   if (requiredElements.some((el) => !el)) {
@@ -353,6 +370,145 @@
     }
   });
 
+  // ---- meet setup: create HS/JH boys/girls races together -------------------
+  // Instead of running "Create a race" four times (same meet name, same
+  // date, then adding the same roster split by hand each time), a coach
+  // picks squads once and this creates one race per squad, each already
+  // populated with that squad's current roster. grade (7-8 = JH, 9-12 =
+  // HS) + gender is the same grouping used by the Plan page's "Add all
+  // HS/JH Boys/Girls" buttons -- see lib/race_command_center_service.mjs's
+  // listTeamRoster().
+  let meetRosterGroups = { hs_boys: [], hs_girls: [], jh_boys: [], jh_girls: [] };
+
+  const MEET_SQUAD_LABELS = { hs_boys: "HS Boys", hs_girls: "HS Girls", jh_boys: "JH Boys", jh_girls: "JH Girls" };
+  const MEET_SQUAD_CHECKBOXES = { hs_boys: meetSquadHsBoys, hs_girls: meetSquadHsGirls, jh_boys: meetSquadJhBoys, jh_girls: meetSquadJhGirls };
+  const MEET_SQUAD_GROUP = { hs_boys: "hs", hs_girls: "hs", jh_boys: "jh", jh_girls: "jh" };
+  const MEET_GROUP_DISTANCE_INPUTS = { hs: meetDistanceHs, jh: meetDistanceJh };
+  const MEET_GROUP_UNIT_INPUTS = { hs: meetUnitHs, jh: meetUnitJh };
+  const MEET_GROUP_LABELS = { hs: "High School", jh: "Junior High" };
+
+  function athleteMeetGroup(athlete) {
+    if (athlete.gender !== "boys" && athlete.gender !== "girls") return null;
+    if (athlete.grade == null) return null;
+    const level = Number(athlete.grade) <= 8 ? "jh" : "hs";
+    return level + "_" + athlete.gender;
+  }
+
+  meetRosterLink.href = "/team-roster/?id=" + encodeURIComponent(teamId);
+
+  async function populateMeetRoster() {
+    try {
+      const sport = meetSportSelect.value || "cross_country";
+      const data = await apiFetch("/api/race-command-center/plan/", { action: "list_roster", sport });
+      const athletes = data.athletes || [];
+
+      meetRosterGroups = { hs_boys: [], hs_girls: [], jh_boys: [], jh_girls: [] };
+      athletes.forEach((athlete) => {
+        const group = athleteMeetGroup(athlete);
+        if (group) meetRosterGroups[group].push(athlete);
+      });
+
+      Object.keys(MEET_SQUAD_CHECKBOXES).forEach((key) => {
+        const hasAthletes = meetRosterGroups[key].length > 0;
+        MEET_SQUAD_CHECKBOXES[key].closest("label").hidden = !hasAthletes;
+        if (!hasAthletes) MEET_SQUAD_CHECKBOXES[key].checked = false;
+      });
+
+      meetGroupHs.hidden = meetRosterGroups.hs_boys.length === 0 && meetRosterGroups.hs_girls.length === 0;
+      meetGroupJh.hidden = meetRosterGroups.jh_boys.length === 0 && meetRosterGroups.jh_girls.length === 0;
+
+      meetEmpty.hidden = athletes.length > 0;
+      meetForm.hidden = athletes.length === 0;
+    } catch {
+      // A failed roster fetch just leaves the meet form as-is -- the
+      // separate single-race "Create a race" form above is unaffected.
+    }
+  }
+
+  meetSportSelect.addEventListener("change", () => { populateMeetRoster(); });
+
+  meetForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    showMessage("");
+
+    const formData = new FormData(meetForm);
+    const meetName = String(formData.get("meet_name") || "").trim();
+    const meetDate = String(formData.get("meet_date") || "").trim();
+    const sport = String(formData.get("meet_sport") || "cross_country");
+
+    const selectedSquads = Object.keys(MEET_SQUAD_CHECKBOXES).filter((key) => (
+      MEET_SQUAD_CHECKBOXES[key].checked && !MEET_SQUAD_CHECKBOXES[key].closest("label").hidden
+    ));
+
+    if (selectedSquads.length === 0) {
+      showMessage("Select at least one squad to create races for.", true);
+      return;
+    }
+
+    const usedGroups = [...new Set(selectedSquads.map((key) => MEET_SQUAD_GROUP[key]))];
+    for (const group of usedGroups) {
+      const distanceValue = Number(MEET_GROUP_DISTANCE_INPUTS[group].value);
+      if (!distanceValue || distanceValue <= 0) {
+        showMessage("Enter a distance for the " + MEET_GROUP_LABELS[group] + " group.", true);
+        return;
+      }
+    }
+
+    const results = [];
+    for (const key of selectedSquads) {
+      const group = MEET_SQUAD_GROUP[key];
+      const distanceValue = Number(MEET_GROUP_DISTANCE_INPUTS[group].value);
+      const unit = String(MEET_GROUP_UNIT_INPUTS[group].value || "miles");
+      const distanceMeters = distanceValue * unitToMeters(unit);
+      const athletes = meetRosterGroups[key];
+
+      try {
+        const created = await apiFetch("/api/race-command-center/sessions/", {
+          action: "create",
+          name: meetName + " - " + MEET_SQUAD_LABELS[key],
+          race_date: meetDate,
+          sport,
+          distance_meters: distanceMeters,
+          distance_unit_display: unit,
+          checkpoints: []
+        });
+
+        await apiFetch("/api/race-command-center/plan/", {
+          action: "save_participants",
+          session_id: created.session.id,
+          participants: athletes.map((athlete) => ({ team_athlete_id: athlete.id }))
+        });
+
+        results.push({ label: MEET_SQUAD_LABELS[key], ok: true, count: athletes.length });
+      } catch (error) {
+        results.push({ label: MEET_SQUAD_LABELS[key], ok: false, error: error.message || "Could not be created." });
+      }
+    }
+
+    const succeeded = results.filter((r) => r.ok);
+    const failed = results.filter((r) => !r.ok);
+
+    let summary = "";
+    if (succeeded.length > 0) {
+      summary += "Created " + succeeded.length + " race" + (succeeded.length === 1 ? "" : "s") + ": " +
+        succeeded.map((r) => r.label + " (" + r.count + (r.count === 1 ? " runner" : " runners") + ")").join(", ") + ".";
+    }
+    if (failed.length > 0) {
+      summary += (summary ? " " : "") + failed.map((r) => r.label + " could not be created (" + r.error + ")").join(" ");
+    }
+    showMessage(summary, failed.length > 0);
+
+    if (succeeded.length > 0) {
+      const refreshed = await apiFetch("/api/race-command-center/sessions/", { action: "list" });
+      renderRaces(refreshed.sessions);
+    }
+
+    if (failed.length === 0) {
+      meetForm.reset();
+      populateMeetRoster();
+    }
+  });
+
   async function initialize() {
     if (!teamId) {
       loadingBox.innerHTML = "<h2>Race Command Center not found</h2><p>This link does not include a team ID.</p>";
@@ -374,6 +530,8 @@
 
       addCheckpointRow("Mile 1", "");
       addCheckpointRow("Mile 2", "");
+
+      populateMeetRoster();
 
       // Managing the race day code itself always requires a real coach
       // account (api/team/race-day-code.js), never the race-day cookie a

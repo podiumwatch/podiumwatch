@@ -94,6 +94,32 @@ export function raceCommandCenterHubPage(site) {
       align-items: end;
     }
 
+    .rcc-meet-group {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.03);
+      display: grid;
+      gap: 12px;
+    }
+
+    .rcc-meet-squad-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .rcc-meet-squad-row label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    .rcc-meet-squad-row input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+    }
+
     .rcc-message {
       padding: 14px 16px;
       border-radius: 10px;
@@ -310,6 +336,89 @@ export function raceCommandCenterHubPage(site) {
             </form>
           </section>
         </div>
+
+        <section class="rcc-panel" data-rcc-meet-panel style="margin-top:24px;">
+          <p class="eyebrow">New meet</p>
+          <h2>Set up a whole meet at once</h2>
+          <p>
+            Create HS and JH, boys and girls races together from one meet name -- each race is pre-filled
+            with that squad's current roster automatically, so you don't have to add runners four times.
+            Every race starts with just a finish line; add mile-marker checkpoints on its own plan page
+            afterward if you want more than that.
+          </p>
+
+          <div class="rcc-empty" data-rcc-meet-empty hidden>
+            No current-season roster found to build races from.
+            <a data-rcc-meet-roster-link href="/team-roster/">Build your roster</a> first, then come back here.
+          </div>
+
+          <form class="rcc-form" data-rcc-meet-form>
+            <label>
+              <strong>Meet name</strong>
+              <input type="text" name="meet_name" placeholder="Conference Championship" required>
+            </label>
+
+            <div class="rcc-fields">
+              <label>
+                <strong>Meet date</strong>
+                <input type="date" name="meet_date" required>
+              </label>
+              <label>
+                <strong>Sport</strong>
+                <select name="meet_sport" data-rcc-meet-sport>
+                  <option value="cross_country">Cross Country</option>
+                  <option value="track">Track</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="rcc-meet-group" data-rcc-meet-group="hs">
+              <strong>High School</strong>
+              <div class="rcc-meet-squad-row">
+                <label><input type="checkbox" data-rcc-meet-squad="hs_boys" checked> HS Boys</label>
+                <label><input type="checkbox" data-rcc-meet-squad="hs_girls" checked> HS Girls</label>
+              </div>
+              <div class="rcc-fields">
+                <label>
+                  <strong>Distance</strong>
+                  <input type="number" step="0.01" min="0.01" placeholder="5" data-rcc-meet-distance="hs">
+                </label>
+                <label>
+                  <strong>Unit</strong>
+                  <select data-rcc-meet-unit="hs">
+                    <option value="miles">Miles</option>
+                    <option value="km">Kilometers</option>
+                    <option value="meters">Meters</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="rcc-meet-group" data-rcc-meet-group="jh">
+              <strong>Junior High</strong>
+              <div class="rcc-meet-squad-row">
+                <label><input type="checkbox" data-rcc-meet-squad="jh_boys" checked> JH Boys</label>
+                <label><input type="checkbox" data-rcc-meet-squad="jh_girls" checked> JH Girls</label>
+              </div>
+              <div class="rcc-fields">
+                <label>
+                  <strong>Distance</strong>
+                  <input type="number" step="0.01" min="0.01" placeholder="2" data-rcc-meet-distance="jh">
+                </label>
+                <label>
+                  <strong>Unit</strong>
+                  <select data-rcc-meet-unit="jh">
+                    <option value="miles">Miles</option>
+                    <option value="km">Kilometers</option>
+                    <option value="meters">Meters</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <button class="button button-primary" type="submit">Create races for this meet</button>
+          </form>
+        </section>
 
         <section class="rcc-panel" data-rcc-race-day-section hidden>
           <div class="rcc-header">
