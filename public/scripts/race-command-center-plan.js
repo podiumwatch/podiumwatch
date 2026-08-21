@@ -9,6 +9,7 @@
   const checkpointStrip = document.querySelector("[data-rcc-checkpoint-strip]");
   const rosterList = document.querySelector("[data-rcc-roster-list]");
   const rosterEmpty = document.querySelector("[data-rcc-roster-empty]");
+  const selectAllRosterButton = document.querySelector("[data-rcc-select-all-roster]");
   const rosterImportLink = document.querySelector("[data-rcc-roster-import-link]");
   const manualForm = document.querySelector("[data-rcc-manual-form]");
   const bulkToggleButton = document.querySelector("[data-rcc-bulk-toggle]");
@@ -32,7 +33,7 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
-    checkpointStrip, rosterList, rosterEmpty, rosterImportLink, manualForm,
+    checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, rosterImportLink, manualForm,
     bulkToggleButton, bulkPanel, bulkTextarea, bulkAddButton, saveParticipantsButton,
     participantList, participantEmpty, deleteRaceButton, liveLinkButton,
     raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
@@ -184,8 +185,10 @@
     if (rosterAthletes.length === 0) {
       rosterList.innerHTML = "";
       rosterEmpty.hidden = false;
+      selectAllRosterButton.hidden = true;
     } else {
       rosterEmpty.hidden = true;
+      selectAllRosterButton.hidden = false;
       rosterList.innerHTML = rosterAthletes.map((athlete) => {
         const name = athlete.display_name || (athlete.first_name + " " + athlete.last_name);
         const checked = isParticipantSelected(athlete.id) ? " checked" : "";
@@ -217,6 +220,12 @@
 
     rosterList.innerHTML += manualHtml + newManualHtml;
   }
+
+  selectAllRosterButton.addEventListener("click", () => {
+    rosterList.querySelectorAll(".rcc-roster-checkbox").forEach((checkbox) => {
+      checkbox.checked = true;
+    });
+  });
 
   manualForm.addEventListener("submit", (event) => {
     event.preventDefault();

@@ -335,6 +335,8 @@ export function raceCommandCenterPlanPage(site) {
             <h2>Add runners</h2>
             <p>Select from your current roster, or add a runner manually for a guest or unrostered athlete.</p>
 
+            <button class="button button-outline" type="button" data-rcc-select-all-roster style="width:100%;margin-bottom:10px;">Add all from roster</button>
+
             <div class="rcc-roster-list" data-rcc-roster-list></div>
             <div class="rcc-empty" data-rcc-roster-empty hidden>
               No current-season roster found for this team.
