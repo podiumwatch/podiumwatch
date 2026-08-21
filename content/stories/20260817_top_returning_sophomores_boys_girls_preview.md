@@ -15,7 +15,8 @@ tags:
   - "Boys Cross Country"
   - "Girls Cross Country"
   - "2026 Preview"
-featured: true
+featured: false
+pinnedRank: 4
 draft: false
 ---
 

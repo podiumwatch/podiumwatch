@@ -16,7 +16,8 @@ tags:
   - "Girls Cross Country"
   - "2026 Preview"
 featured: false
-draft: true
+pinnedRank: 3
+draft: false
 ---
 
 Fourteen forty-nine. As a sophomore.

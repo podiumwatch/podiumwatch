@@ -182,13 +182,30 @@ async function loadStories() {
       html: renderMarkdown(body),
       tags: Array.isArray(data.tags) ? data.tags : [],
       featured: data.featured === true,
+      // Optional editorial override: a story with pinnedRank set jumps to
+      // the front of the feed (lowest rank first) ahead of every
+      // unpinned story, regardless of date -- used to lock in a specific
+      // homepage/feed order (e.g. "seniors, then juniors, then
+      // sophomores") without touching each story's real `date`, which
+      // stays the true, reader-facing "published" byline. Unpinned
+      // stories (the overwhelming majority) are completely unaffected --
+      // they keep sorting by date exactly as before. See
+      // docs/DECISIONS.md, 2026-08-21.
+      pinnedRank: Number.isFinite(Number(data.pinnedRank)) ? Number(data.pinnedRank) : null,
       draft: data.draft === true,
       readingMinutes: readingTime(body),
       sourceFile: path.relative(root, filePath)
     };
     if (!story.draft) stories.push(story);
   }
-  return stories.sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`));
+  return stories.sort((a, b) => {
+    if (a.pinnedRank !== null || b.pinnedRank !== null) {
+      if (a.pinnedRank === null) return 1;
+      if (b.pinnedRank === null) return -1;
+      if (a.pinnedRank !== b.pinnedRank) return a.pinnedRank - b.pinnedRank;
+    }
+    return new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`);
+  });
 }
 
 async function loadRankings() {
@@ -240,7 +257,11 @@ async function loadRankings() {
 
 function homePage(stories, rankings) {
   const featuredStory = stories.find((story) => story.featured) || stories[0];
-  const latestStories = stories.slice(0, 3);
+  // Exclude the hero story from "Latest Stories" below it -- without this,
+  // whenever the featured story is also among the most recent (the normal
+  // case), it silently appeared twice on the homepage: once as the big
+  // lead, again as the first card in the grid underneath.
+  const latestStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 3);
   const rankingCards = rankings.slice(0, 3).map((ranking) => rankingCard(ranking)).join("");
   const rankingsContent = rankingCards || emptyState({
     title: "Rankings are being prepared",
@@ -254,6 +275,17 @@ function homePage(stories, rankings) {
     actionLabel: "Open stories",
     actionHref: "/stories/"
   });
+  // A second, separate "Latest stories" section further down the
+  // homepage ("More than a finish time") used to render this exact same
+  // storyContent a second time -- the identical 3 cards, under a
+  // different heading, a few sections later on the same page. A real,
+  // pre-existing bug (confirmed directly: 6 links to the same story, not
+  // 3, on a single homepage load) that just hadn't been reported before.
+  // This section now shows the NEXT 3 stories instead, so it's actually
+  // additional coverage rather than a repeat of what a visitor already
+  // scrolled past.
+  const moreStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(3, 6);
+  const moreStoryContent = moreStories.length ? moreStories.map((story) => storyCard(story)).join("") : storyContent;
 
   const leadTitle = featuredStory?.title || "The teams and runners set to define Ohio cross country";
   const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
@@ -314,7 +346,7 @@ function homePage(stories, rankings) {
   <section class="section section-dark" aria-labelledby="latest-stories-title">
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Latest stories</p><h2 id="latest-stories-title">More than a finish time.</h2></div><a class="text-link" href="/stories/">From the newsroom ${icon("arrow")}</a></div>
-      <div class="stories-grid">${storyContent}</div>
+      <div class="stories-grid">${moreStoryContent}</div>
     </div>
   </section>
 
