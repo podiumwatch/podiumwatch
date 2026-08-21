@@ -11,7 +11,8 @@ import {
   saveGoals,
   saveStrategy,
   saveTargets,
-  bulkApplyGoal
+  bulkApplyGoal,
+  saveGoalsBulk
 } from "../../lib/race_command_center_service.mjs";
 
 function cleanText(value) {
@@ -83,6 +84,13 @@ export default async function handler(request, response) {
           participantIds: body.participant_ids,
           goalSlot: body.goal_slot,
           goalSeconds: body.goal_seconds
+        });
+        break;
+      case "save_goals_bulk":
+        data = await saveGoalsBulk({
+          teamId,
+          sessionId,
+          entries: body.entries
         });
         break;
       default: {

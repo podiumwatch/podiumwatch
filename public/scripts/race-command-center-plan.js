@@ -26,6 +26,12 @@
   const bulkTextarea = document.querySelector("[data-rcc-bulk-textarea]");
   const bulkAddButton = document.querySelector("[data-rcc-bulk-add]");
   const saveParticipantsButton = document.querySelector("[data-rcc-save-participants]");
+  const bulkGoalsWrap = document.querySelector("[data-rcc-bulk-goals]");
+  const bulkGoalsRows = document.querySelector("[data-rcc-bulk-goals-rows]");
+  const bulkGoalsSelectAll = document.querySelector("[data-rcc-bulk-select-all]");
+  const bulkGoalsApplyValueInput = document.querySelector("[data-rcc-bulk-apply-value]");
+  const bulkGoalsApplySelectedButton = document.querySelector("[data-rcc-bulk-apply-selected]");
+  const saveBulkGoalsButton = document.querySelector("[data-rcc-save-bulk-goals]");
   const participantList = document.querySelector("[data-rcc-participant-list]");
   const participantEmpty = document.querySelector("[data-rcc-participant-empty]");
   const deleteRaceButton = document.querySelector("[data-rcc-delete-race]");
@@ -45,6 +51,7 @@
     checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, allRacesLink, raceSwitcherWrap, raceSwitcher, rosterImportLink,
     manageRosterLink, quickAddWrap, quickAddHsBoys, quickAddHsGirls, quickAddJhBoys, quickAddJhGirls, manualForm,
     bulkToggleButton, bulkPanel, bulkTextarea, bulkAddButton, saveParticipantsButton,
+    bulkGoalsWrap, bulkGoalsRows, bulkGoalsSelectAll, bulkGoalsApplyValueInput, bulkGoalsApplySelectedButton, saveBulkGoalsButton,
     participantList, participantEmpty, deleteRaceButton, liveLinkButton,
     raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
     raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
@@ -430,6 +437,145 @@
     participantList.innerHTML = detail.participants.map(renderParticipantCard).join("");
   }
 
+  // A fast, one-screen alternative to opening every runner's card just to
+  // set Goal A -- each row already shows whatever's currently saved
+  // (frequently pre-filled by now thanks to the goal book / same-distance
+  // carryover), so for most of the team this is reviewing, not typing.
+  // Runners on a Custom Pace plan aren't editable here at all: their
+  // targets are hand-entered per checkpoint, and blindly recomputing an
+  // Even Pace plan over top of that would silently discard it -- see
+  // partitionParticipantsByStrategy() in lib/race_command_center_service.mjs.
+  function renderBulkGoalsTable() {
+    if (!detail.participants || detail.participants.length === 0) {
+      bulkGoalsWrap.hidden = true;
+      bulkGoalsRows.innerHTML = "";
+      return;
+    }
+
+    bulkGoalsWrap.hidden = false;
+    bulkGoalsSelectAll.checked = false;
+
+    bulkGoalsRows.innerHTML = detail.participants.map((participant) => {
+      const goalA = goalsFor(participant.id).find((g) => g.goal_slot === "A");
+      const isCustom = (participant.strategy || "even_pace") === "custom_pace";
+      const name = escapeHtml(participantName(participant));
+
+      if (isCustom) {
+        return (
+          '<tr>' +
+            '<td></td>' +
+            '<td>' + name + '</td>' +
+            '<td><span class="rcc-bulk-goals-skip-note">Custom pace' +
+              (goalA ? " (" + escapeHtml(formatSecondsToClock(goalA.goal_seconds)) + ")" : "") +
+            '</span></td>' +
+          '</tr>'
+        );
+      }
+
+      return (
+        '<tr>' +
+          '<td><input type="checkbox" class="rcc-bulk-row-select" value="' + escapeHtml(participant.id) + '"></td>' +
+          '<td>' + name + '</td>' +
+          '<td><input type="text" class="rcc-bulk-goal-input" placeholder="19:30" ' +
+            'value="' + (goalA ? escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "") + '" ' +
+            'data-participant-id="' + escapeHtml(participant.id) + '"></td>' +
+        '</tr>'
+      );
+    }).join("");
+  }
+
+  bulkGoalsSelectAll.addEventListener("change", () => {
+    bulkGoalsRows.querySelectorAll(".rcc-bulk-row-select").forEach((checkbox) => {
+      checkbox.checked = bulkGoalsSelectAll.checked;
+    });
+  });
+
+  // Enter advances to the next row's field instead of doing nothing (or
+  // submitting some ancestor form) -- the whole point of a table like
+  // this is typing straight down the column without reaching for the
+  // mouse between rows.
+  bulkGoalsRows.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    const input = event.target.closest(".rcc-bulk-goal-input");
+    if (!input) return;
+    event.preventDefault();
+    const inputs = [...bulkGoalsRows.querySelectorAll(".rcc-bulk-goal-input")];
+    const nextInput = inputs[inputs.indexOf(input) + 1];
+    if (nextInput) nextInput.focus();
+  });
+
+  function summarizeBulkResult(label, data) {
+    const count = (data.results || []).length;
+    const skipped = data.skipped || [];
+    let text = count + " goal" + (count === 1 ? "" : "s") + " " + label + ".";
+    if (skipped.length > 0) {
+      text += " Skipped " + skipped.length + " (custom pace runners aren't editable here).";
+    }
+    return text;
+  }
+
+  bulkGoalsApplySelectedButton.addEventListener("click", async () => {
+    showMessage("");
+    const selectedIds = [...bulkGoalsRows.querySelectorAll(".rcc-bulk-row-select:checked")].map((el) => el.value);
+    if (selectedIds.length === 0) {
+      showMessage("Select at least one runner to apply a goal to.", true);
+      return;
+    }
+    const seconds = parseClockToSeconds(bulkGoalsApplyValueInput.value);
+    if (!seconds) {
+      showMessage("Enter a goal time (format m:ss, e.g. 19:30) before applying it.", true);
+      return;
+    }
+
+    try {
+      const data = await apiFetch(PLAN_ENDPOINT, {
+        action: "bulk_apply_goal",
+        participant_ids: selectedIds,
+        goal_slot: "A",
+        goal_seconds: seconds
+      });
+      showMessage(summarizeBulkResult("applied", data));
+      bulkGoalsApplyValueInput.value = "";
+      await refresh();
+    } catch (error) {
+      showMessage(error.message || "The goal could not be applied.", true);
+    }
+  });
+
+  saveBulkGoalsButton.addEventListener("click", async () => {
+    showMessage("");
+    const entries = [];
+    let hasInvalidEntry = false;
+
+    bulkGoalsRows.querySelectorAll(".rcc-bulk-goal-input").forEach((input) => {
+      const raw = input.value.trim();
+      if (!raw) return;
+      const seconds = parseClockToSeconds(raw);
+      if (seconds === null) {
+        hasInvalidEntry = true;
+      } else {
+        entries.push({ participant_id: input.dataset.participantId, goal_a_seconds: seconds });
+      }
+    });
+
+    if (hasInvalidEntry) {
+      showMessage("Enter goal times as m:ss (e.g. 19:30), or leave a runner blank to skip them.", true);
+      return;
+    }
+    if (entries.length === 0) {
+      showMessage("Enter at least one goal time to save.", true);
+      return;
+    }
+
+    try {
+      const data = await apiFetch(PLAN_ENDPOINT, { action: "save_goals_bulk", entries });
+      showMessage(summarizeBulkResult("saved", data));
+      await refresh();
+    } catch (error) {
+      showMessage(error.message || "Goals could not be saved.", true);
+    }
+  });
+
   participantList.addEventListener("click", async (event) => {
     const toggle = event.target.closest("[data-participant-toggle]");
     if (toggle) {
@@ -631,6 +777,7 @@
     renderHeader();
     renderRoster();
     renderParticipants();
+    renderBulkGoalsTable();
   }
 
   async function refresh() {
@@ -701,6 +848,7 @@
       renderHeader();
       renderRoster();
       renderParticipants();
+      renderBulkGoalsTable();
 
       // Managing the race day code always requires a real coach account
       // (api/team/race-day-code.js), never the race-day cookie a

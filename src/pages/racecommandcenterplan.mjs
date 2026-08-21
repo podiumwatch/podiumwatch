@@ -75,6 +75,78 @@ export function raceCommandCenterPlanPage(site) {
       font: inherit;
     }
 
+    .rcc-bulk-goals {
+      margin: 16px 0 22px;
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.03);
+    }
+
+    .rcc-bulk-goals h3 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+    }
+
+    .rcc-bulk-goals-note {
+      margin: 0 0 12px;
+      font-size: 0.82rem;
+      opacity: 0.8;
+    }
+
+    .rcc-bulk-goals-scroll {
+      overflow-x: auto;
+    }
+
+    table.rcc-bulk-goals-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table.rcc-bulk-goals-table th,
+    table.rcc-bulk-goals-table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+      white-space: nowrap;
+    }
+
+    table.rcc-bulk-goals-table input[type="text"] {
+      width: 90px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(15, 23, 42, 0.22);
+      font: inherit;
+    }
+
+    .rcc-bulk-goals-skip-note {
+      font-size: 0.78rem;
+      opacity: 0.7;
+    }
+
+    .rcc-bulk-goals-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .rcc-bulk-goals-apply {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .rcc-bulk-goals-apply input {
+      width: 90px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.22);
+      font: inherit;
+    }
+
     .rcc-roster-quick-add {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -417,6 +489,35 @@ export function raceCommandCenterPlanPage(site) {
               </div>
             </div>
             <p>Click a runner to set a goal and pacing plan -- it's entirely optional. The race can start with any or all runners left without a goal; they just won't show pace comparisons during live timing. A runner's goal from their most recent race carries over automatically -- click in to review or change it.</p>
+
+            <div class="rcc-bulk-goals" data-rcc-bulk-goals hidden>
+              <h3>Set Goal A for everyone at once</h3>
+              <p class="rcc-bulk-goals-note">
+                Each row is that runner's Goal A -- already filled in wherever one exists. Edit any of them and
+                save all at once, instead of opening every runner's card individually. Runners on a Custom Pace
+                plan aren't editable here -- open their own card below for that.
+              </p>
+              <div class="rcc-bulk-goals-scroll">
+                <table class="rcc-bulk-goals-table">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" data-rcc-bulk-select-all></th>
+                      <th>Runner</th>
+                      <th>Goal A</th>
+                    </tr>
+                  </thead>
+                  <tbody data-rcc-bulk-goals-rows></tbody>
+                </table>
+              </div>
+              <div class="rcc-bulk-goals-actions">
+                <div class="rcc-bulk-goals-apply">
+                  <span>Apply one goal to selected:</span>
+                  <input type="text" placeholder="19:30" data-rcc-bulk-apply-value>
+                  <button class="button button-outline" type="button" data-rcc-bulk-apply-selected>Apply</button>
+                </div>
+                <button class="button button-primary" type="button" data-rcc-save-bulk-goals>Save all goals</button>
+              </div>
+            </div>
 
             <div class="rcc-participant-list" data-rcc-participant-list style="margin-top:14px;"></div>
             <div class="rcc-empty" data-rcc-participant-empty hidden>Add participants on the left to start planning.</div>
