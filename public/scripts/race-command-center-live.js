@@ -83,6 +83,7 @@
   let expandedRunnerIds = new Set();
   let syncing = false;
   let wakeLockSentinel = null;
+  let preRacePollHandle = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -293,6 +294,32 @@
   }
 
   setInterval(pullRemoteUpdates, 11000);
+
+  // A device sitting on the pre-race "waiting to start" screen never runs
+  // pullRemoteUpdates above (it bails immediately when the session isn't
+  // live yet), so without this a volunteer's phone would sit there forever
+  // once the coach starts the race from a different device -- they'd have
+  // to notice and manually refresh. Polls faster than the live-race sync
+  // above since nothing expensive is happening yet (no splits to merge),
+  // and stops itself the moment it sees the race go live.
+  async function pollForRaceStart() {
+    if (!detail || detail.session.status === "live" || syncing) return;
+    try {
+      const fresh = await apiFetch(SYNC_ENDPOINT, { action: "pull_state" });
+      if (fresh.session.status !== "live") return;
+
+      clearInterval(preRacePollHandle);
+      preRacePollHandle = null;
+      detail = fresh;
+      const localState = await Store.getRaceState(sessionId);
+      const anchorMs = localState?.race_started_at_wall_clock_ms || Date.parse(fresh.session.race_started_at);
+      currentCheckpointIndex = localState?.current_checkpoint_index || 0;
+      Timer.recoverFromWallClock(anchorMs);
+      await beginLiveScreen("Recovered -- timing based on device clock");
+    } catch {
+      // A failed background check just tries again next tick.
+    }
+  }
 
   // ---- wake lock (feature-detected, never mandatory) -------------------------
 
@@ -649,7 +676,22 @@
       targetsByCheckpoint: { [checkpoint.id]: targetAtCheckpoint(p.id, checkpoint.id) }
     })).filter((p) => p.targetsByCheckpoint[checkpoint.id] != null);
 
-    const orderIds = RaceMath.computeExpectedOrder(participantsWithTargets, checkpoint.id).map((p) => p.id);
+    const targetOrderIds = RaceMath.computeExpectedOrder(participantsWithTargets, checkpoint.id).map((p) => p.id);
+
+    // A runner without a per-checkpoint pacing target yet (no Strategy
+    // saved for them on the Plan page) still has a raw Goal A finish time
+    // most of the time -- sort those by that instead of leaving them in
+    // arbitrary roster order. Fastest goal first is the point: a volunteer
+    // watching runners cross a checkpoint shouldn't have to scroll past a
+    // pile of unsorted names to find whoever's arriving next.
+    const goalOnlyOrderIds = detail.participants
+      .filter((p) => !targetOrderIds.includes(p.id))
+      .map((p) => ({ id: p.id, goalSeconds: goalAFor(p.id)?.goal_seconds }))
+      .filter((p) => p.goalSeconds != null)
+      .sort((a, b) => a.goalSeconds - b.goalSeconds)
+      .map((p) => p.id);
+
+    const orderIds = [...targetOrderIds, ...goalOnlyOrderIds];
     const ordered = [...detail.participants].sort((a, b) => {
       const ai = orderIds.indexOf(a.id);
       const bi = orderIds.indexOf(b.id);
@@ -915,6 +957,10 @@
       }));
       await apiFetch(SESSIONS_ENDPOINT, { action: "start_race", race_started_at: new Date(raceStartWallClockMs).toISOString() });
       detail.session.status = "live";
+      // This device is starting the race itself with a fresh monotonic
+      // clock -- stop the pre-race poll so a stray in-flight tick can't
+      // clobber that with a lower-precision wall-clock "recovered" anchor.
+      if (preRacePollHandle) { clearInterval(preRacePollHandle); preRacePollHandle = null; }
       await beginLiveScreen("");
     } catch (error) {
       showMessage(error.message || "The race could not be started.", true);
@@ -958,6 +1004,7 @@
         await beginLiveScreen("Recovered -- timing based on device clock");
       } else {
         startScreen.hidden = false;
+        preRacePollHandle = setInterval(pollForRaceStart, 4000);
       }
     } catch (error) {
       loadingBox.innerHTML =
