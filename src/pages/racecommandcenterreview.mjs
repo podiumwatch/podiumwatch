@@ -79,6 +79,7 @@ export function raceCommandCenterReviewPage(site) {
               Switch race
               <select class="rcc-race-switcher-select" data-rcc-race-switcher></select>
             </span>
+            <button class="button button-primary" type="button" data-rcc-copy-summary>Copy team summary</button>
           </div>
         </div>
 

@@ -14,11 +14,12 @@
   const allRacesLink = document.querySelector("[data-rcc-all-races-link]");
   const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
   const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
+  const copySummaryButton = document.querySelector("[data-rcc-copy-summary]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, raceMetaEl, messageBox,
     teamStats, teamRows, individualPanel, individualName, individualClose, individualRows,
-    allRacesLink, raceSwitcherWrap, raceSwitcher
+    allRacesLink, raceSwitcherWrap, raceSwitcher, copySummaryButton
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -155,6 +156,65 @@
     }
   });
 
+  // Live-tracking UX audit (docs/LIVE_TRACKING_UX_AUDIT.md): neither this
+  // page nor the Live page had any quick export/screenshot-friendly way
+  // to share results -- a coach texting a team recap had to retype
+  // everything by hand. Populated at the end of renderTeamReview() below,
+  // consumed by the "Copy team summary" button.
+  let lastSummaryBundle = null;
+
+  function buildTextSummary() {
+    if (!lastSummaryBundle) return "";
+    const { teamName, raceName, raceDate, finisherCount, avgDiffText, rows } = lastSummaryBundle;
+
+    const finishers = rows
+      .filter((r) => !r.excluded && r.finish_elapsed_seconds != null)
+      .sort((a, b) => a.finish_elapsed_seconds - b.finish_elapsed_seconds);
+    const nonFinishers = rows.filter((r) => r.excluded);
+
+    const lines = [];
+    lines.push(raceName + (raceDate ? " -- " + raceDate : ""));
+    if (teamName) lines.push(teamName);
+    lines.push("");
+    lines.push(finisherCount + " finisher" + (finisherCount === 1 ? "" : "s") + (avgDiffText ? " -- avg " + avgDiffText + " vs. Goal A" : ""));
+    lines.push("");
+
+    finishers.forEach((row, index) => {
+      const name = participantName(row.participant);
+      const time = formatSecondsToClock(row.finish_elapsed_seconds);
+      const statusText = row.status ? " (" + STATUS_LABELS[row.status] + ")" : "";
+      lines.push((index + 1) + ". " + name + " -- " + time + statusText);
+    });
+
+    if (nonFinishers.length > 0) {
+      lines.push("");
+      nonFinishers.forEach((row) => {
+        lines.push(participantName(row.participant) + " -- " + row.participant.status.toUpperCase());
+      });
+    }
+
+    return lines.join("\n");
+  }
+
+  copySummaryButton.addEventListener("click", async () => {
+    const text = buildTextSummary();
+    if (!text) return;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      copySummaryButton.textContent = "Copied!";
+    } catch {
+      // Clipboard API can fail (permissions, non-secure context) -- fall
+      // back to a visible, selectable block so the coach can still copy
+      // it by hand rather than the button silently doing nothing.
+      messageBox.textContent = text;
+      messageBox.style.whiteSpace = "pre-wrap";
+      messageBox.hidden = false;
+      copySummaryButton.textContent = "Copied below";
+    }
+    setTimeout(() => { copySummaryButton.textContent = "Copy team summary"; }, 2000);
+  });
+
   function renderTeamReview(data) {
     teamNameEl.textContent = data.team ? data.team.school_name : "";
     raceNameEl.textContent = data.session ? data.session.name : "";
@@ -204,6 +264,15 @@
         '</tr>'
       );
     }).join("");
+
+    lastSummaryBundle = {
+      teamName: data.team ? data.team.school_name : "",
+      raceName: data.session ? data.session.name : "Race",
+      raceDate: data.session ? data.session.race_date : "",
+      finisherCount: finishTimesAsc.length,
+      avgDiffText: avgDiff != null ? formatDiff(avgDiff) : null,
+      rows: rowsWithStatus
+    };
   }
 
   teamRows.addEventListener("click", async (event) => {
