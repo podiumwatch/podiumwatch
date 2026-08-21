@@ -281,6 +281,31 @@ export function raceCommandCenterLivePage(site) {
       border: 1px dashed rgba(255, 255, 255, 0.4);
     }
 
+    .rcc-recorded-row-flash {
+      animation: rcc-recorded-flash 1.2s ease-out;
+    }
+
+    @keyframes rcc-recorded-flash {
+      0% { background: rgba(255, 255, 255, 0.55); }
+      100% { background: rgba(0, 191, 99, 0.1); }
+    }
+
+    .rcc-pace-badge {
+      display: inline-flex;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .rcc-pace-badge-ahead { background: rgba(0, 191, 99, 0.3); color: #ffffff; }
+    .rcc-pace-badge-on_pace { background: rgba(59, 130, 246, 0.35); color: #ffffff; }
+    .rcc-pace-badge-at_risk { background: rgba(245, 158, 11, 0.4); color: #111827; }
+    .rcc-pace-badge-missed { background: rgba(220, 38, 38, 0.4); color: #ffffff; }
+
     .rcc-recorded-row-name {
       font-weight: 750;
       font-size: 0.92rem;

@@ -83,6 +83,12 @@
   // re-render (polling, a tap elsewhere) instead of silently re-collapsing
   // mid-use, matching the same reasoning as snapshotManualInputs() below.
   let expandedRunnerIds = new Set();
+  // A tap moving a runner into the Recorded list IS a real confirmation,
+  // but a coach's eyes are usually back up on the runners crossing the
+  // line, not the screen -- this makes that move visually unmistakable
+  // for a moment, rather than relying only on the (easy to miss) list
+  // re-render. See docs/LIVE_TRACKING_UX_AUDIT.md.
+  let recentlyRecordedIds = new Set();
   let syncing = false;
   let wakeLockSentinel = null;
   let preRacePollHandle = null;
@@ -445,6 +451,15 @@
     // race_splits row per pair, so a re-tap after Undo must correct that
     // same row, never mint a second one.
     const existing = rawSplitFor(participant.id, checkpoint.id);
+
+    // A brief, unmistakable flash on the Recorded row this tap just
+    // created -- see recentlyRecordedIds' own comment above for why.
+    recentlyRecordedIds.add(participant.id);
+    setTimeout(() => {
+      recentlyRecordedIds.delete(participant.id);
+      renderRunnerList();
+    }, 1200);
+
     recordSplit({
       participantId: participant.id, checkpointId: checkpoint.id,
       elapsedSeconds: elapsedResult.elapsedSeconds, captureMethod: "single_tap",
@@ -784,16 +799,39 @@
     recordedCountEl.textContent = recorded.length + (recorded.length === 1 ? " runner" : " runners");
     recordedList.innerHTML = recorded.map(({ participant, split }) => {
       const isManual = split.capture_method === "manual_entry" || split.capture_method === "edited";
+      const justRecorded = recentlyRecordedIds.has(participant.id);
       return (
-        '<div class="rcc-recorded-row' + (isManual ? " rcc-recorded-row-manual" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
+        '<div class="rcc-recorded-row' + (isManual ? " rcc-recorded-row-manual" : "") + (justRecorded ? " rcc-recorded-row-flash" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
           '<span class="rcc-recorded-row-name">' + escapeHtml(participantName(participant)) + '</span>' +
           '<span class="rcc-recorded-row-right">' +
+            renderPaceBadge(participant.id, checkpoint, split.elapsed_seconds) +
             '<span class="rcc-recorded-row-value">' + escapeHtml(formatSecondsToClock(split.elapsed_seconds)) + (isManual ? " (manual)" : "") + '</span>' +
             '<button class="rcc-runner-small-btn" type="button" data-undo="' + escapeHtml(participant.id) + '">Undo</button>' +
           '</span>' +
         '</div>'
       );
     }).join("");
+  }
+
+  // Ahead/behind-target comparison lives ONLY in the Recorded list, never
+  // the tap list above it -- see docs/LIVE_TRACKING_UX_AUDIT.md. Earlier
+  // this session the tap list was deliberately stripped down to just a
+  // name and a big Tap button for information density ("only show
+  // necessary information... more athletes available to press"), and
+  // that's still the right call for the exact moment a coach is deciding
+  // "which name, tap fast." A runner who already has a time doesn't need
+  // that density -- showing them how they're doing costs nothing there.
+  const PACE_STATUS_LABELS = { ahead: "Ahead", on_pace: "On pace", at_risk: "Behind", missed: "Missed" };
+
+  function renderPaceBadge(participantId, checkpoint, actualElapsedSeconds) {
+    const goalASeconds = targetAtCheckpoint(participantId, checkpoint.id);
+    if (goalASeconds == null || !RaceMath) return "";
+
+    const distanceRemainingMeters = Math.max(0, (detail.session.distance_meters || 0) - (checkpoint.distance_meters || 0));
+    const diff = RaceMath.computeDiffFromTarget(actualElapsedSeconds, goalASeconds);
+    const status = RaceMath.computeGoalStatus({ diffFromTargetSeconds: diff, distanceRemainingMeters });
+
+    return '<span class="rcc-pace-badge rcc-pace-badge-' + escapeHtml(status) + '">' + escapeHtml(PACE_STATUS_LABELS[status] || status) + '</span>';
   }
 
   runnerList.addEventListener("click", (event) => {
