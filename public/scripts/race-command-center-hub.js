@@ -31,6 +31,10 @@
   const meetUnitHs = document.querySelector('[data-rcc-meet-unit="hs"]');
   const meetDistanceJh = document.querySelector('[data-rcc-meet-distance="jh"]');
   const meetUnitJh = document.querySelector('[data-rcc-meet-unit="jh"]');
+  const meetCheckpointRowsHs = document.querySelector('[data-rcc-meet-checkpoint-rows="hs"]');
+  const meetAddCheckpointHs = document.querySelector('[data-rcc-meet-add-checkpoint="hs"]');
+  const meetCheckpointRowsJh = document.querySelector('[data-rcc-meet-checkpoint-rows="jh"]');
+  const meetAddCheckpointJh = document.querySelector('[data-rcc-meet-add-checkpoint="jh"]');
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox,
@@ -39,7 +43,8 @@
     raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton,
     meetForm, meetEmpty, meetRosterLink, meetSportSelect, meetGroupHs, meetGroupJh,
     meetSquadHsBoys, meetSquadHsGirls, meetSquadJhBoys, meetSquadJhGirls,
-    meetDistanceHs, meetUnitHs, meetDistanceJh, meetUnitJh
+    meetDistanceHs, meetUnitHs, meetDistanceJh, meetUnitJh,
+    meetCheckpointRowsHs, meetAddCheckpointHs, meetCheckpointRowsJh, meetAddCheckpointJh
   ];
 
   if (requiredElements.some((el) => !el)) {
@@ -115,10 +120,13 @@
   // mile markers for checkpoints, so a coach needs to be able to label a
   // checkpoint "Mile 1" and enter "1" against a "Miles" unit for that row
   // specifically, without it being silently reinterpreted as 1 kilometer.
-  function addCheckpointRow(label, value, unit) {
+  // Generic over which container it appends to and how it picks a default
+  // unit for a fresh row, so the same row/read logic serves the single-race
+  // form's one checkpoint list AND the whole-meet form's two (HS/JH).
+  function createCheckpointRow(container, defaultUnit, label, value, unit) {
     const row = document.createElement("div");
     row.className = "rcc-checkpoint-row";
-    const rowUnit = unit || currentRaceUnit();
+    const rowUnit = unit || defaultUnit();
     row.innerHTML =
       '<label><strong>Label</strong><input type="text" class="rcc-cp-label" placeholder="Mile 1" value="' + escapeHtml(label || "") + '"></label>' +
       '<label><strong>Distance</strong><input type="number" step="0.01" min="0.01" class="rcc-cp-distance" value="' + escapeHtml(value || "") + '"></label>' +
@@ -129,10 +137,37 @@
       '</select></label>' +
       '<button type="button" class="button button-outline rcc-cp-remove">Remove</button>';
     row.querySelector(".rcc-cp-remove").addEventListener("click", () => row.remove());
-    checkpointRows.appendChild(row);
+    container.appendChild(row);
+  }
+
+  function readCheckpoints(container, fallbackUnit) {
+    return [...container.querySelectorAll(".rcc-checkpoint-row")].map((row) => {
+      const label = row.querySelector(".rcc-cp-label").value;
+      const cpUnit = String(row.querySelector(".rcc-cp-unit").value || fallbackUnit);
+      const distance = Number(row.querySelector(".rcc-cp-distance").value) * unitToMeters(cpUnit);
+      return { label, distanceMeters: distance };
+    }).filter((c) => c.label && c.distanceMeters > 0);
+  }
+
+  function addCheckpointRow(label, value, unit) {
+    createCheckpointRow(checkpointRows, currentRaceUnit, label, value, unit);
   }
 
   addCheckpointButton.addEventListener("click", () => addCheckpointRow("", "", currentRaceUnit()));
+
+  function meetUnitFor(group) {
+    const select = group === "hs" ? meetUnitHs : meetUnitJh;
+    return String(select.value || "miles");
+  }
+
+  const meetCheckpointContainers = { hs: meetCheckpointRowsHs, jh: meetCheckpointRowsJh };
+  const meetAddCheckpointButtons = { hs: meetAddCheckpointHs, jh: meetAddCheckpointJh };
+
+  ["hs", "jh"].forEach((group) => {
+    meetAddCheckpointButtons[group].addEventListener("click", () => {
+      createCheckpointRow(meetCheckpointContainers[group], () => meetUnitFor(group), "", "");
+    });
+  });
 
   const STATUS_LABELS = {
     draft: "Draft",
@@ -345,13 +380,8 @@
     const distanceMeters = distanceValue * unitToMeters(unit);
 
     // Each row converts using its own unit selector, not the race's overall
-    // unit -- see addCheckpointRow's comment above for why.
-    const checkpoints = [...checkpointRows.querySelectorAll(".rcc-checkpoint-row")].map((row) => {
-      const label = row.querySelector(".rcc-cp-label").value;
-      const cpUnit = String(row.querySelector(".rcc-cp-unit").value || unit);
-      const distance = Number(row.querySelector(".rcc-cp-distance").value) * unitToMeters(cpUnit);
-      return { label, distanceMeters: distance };
-    }).filter((c) => c.label && c.distanceMeters > 0);
+    // unit -- see createCheckpointRow's comment above for why.
+    const checkpoints = readCheckpoints(checkpointRows, unit);
 
     try {
       const data = await apiFetch("/api/race-command-center/sessions/", {
@@ -461,6 +491,7 @@
       const unit = String(MEET_GROUP_UNIT_INPUTS[group].value || "miles");
       const distanceMeters = distanceValue * unitToMeters(unit);
       const athletes = meetRosterGroups[key];
+      const checkpoints = readCheckpoints(meetCheckpointContainers[group], unit);
 
       try {
         const created = await apiFetch("/api/race-command-center/sessions/", {
@@ -470,7 +501,7 @@
           sport,
           distance_meters: distanceMeters,
           distance_unit_display: unit,
-          checkpoints: []
+          checkpoints
         });
 
         await apiFetch("/api/race-command-center/plan/", {
@@ -530,6 +561,10 @@
 
       addCheckpointRow("Mile 1", "");
       addCheckpointRow("Mile 2", "");
+      createCheckpointRow(meetCheckpointRowsHs, () => meetUnitFor("hs"), "Mile 1", "");
+      createCheckpointRow(meetCheckpointRowsHs, () => meetUnitFor("hs"), "Mile 2", "");
+      createCheckpointRow(meetCheckpointRowsJh, () => meetUnitFor("jh"), "Mile 1", "");
+      createCheckpointRow(meetCheckpointRowsJh, () => meetUnitFor("jh"), "Mile 2", "");
 
       populateMeetRoster();
 

@@ -269,6 +269,105 @@ export function raceCommandCenterHubPage(site) {
         <p class="rcc-message" data-rcc-message aria-live="polite" hidden></p>
 
         <div class="rcc-grid">
+          <section class="rcc-panel" data-rcc-meet-panel>
+            <p class="eyebrow">New meet</p>
+            <h2>Set up a whole meet at once</h2>
+            <p>
+              Create HS and JH, boys and girls races together from one meet name -- each race is pre-filled
+              with that squad's current roster automatically, so you don't have to add runners four times.
+            </p>
+
+            <div class="rcc-empty" data-rcc-meet-empty hidden>
+              No current-season roster found to build races from.
+              <a data-rcc-meet-roster-link href="/team-roster/">Build your roster</a> first, then come back here.
+            </div>
+
+            <form class="rcc-form" data-rcc-meet-form>
+              <label>
+                <strong>Meet name</strong>
+                <input type="text" name="meet_name" placeholder="Conference Championship" required>
+              </label>
+
+              <div class="rcc-fields">
+                <label>
+                  <strong>Meet date</strong>
+                  <input type="date" name="meet_date" required>
+                </label>
+                <label>
+                  <strong>Sport</strong>
+                  <select name="meet_sport" data-rcc-meet-sport>
+                    <option value="cross_country">Cross Country</option>
+                    <option value="track">Track</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="rcc-meet-group" data-rcc-meet-group="hs">
+                <strong>High School</strong>
+                <div class="rcc-meet-squad-row">
+                  <label><input type="checkbox" data-rcc-meet-squad="hs_boys" checked> HS Boys</label>
+                  <label><input type="checkbox" data-rcc-meet-squad="hs_girls" checked> HS Girls</label>
+                </div>
+                <div class="rcc-fields">
+                  <label>
+                    <strong>Distance</strong>
+                    <input type="number" step="0.01" min="0.01" placeholder="5" data-rcc-meet-distance="hs">
+                  </label>
+                  <label>
+                    <strong>Unit</strong>
+                    <select data-rcc-meet-unit="hs">
+                      <option value="miles">Miles</option>
+                      <option value="km">Kilometers</option>
+                      <option value="meters">Meters</option>
+                    </select>
+                  </label>
+                </div>
+                <div>
+                  <strong>Checkpoints</strong>
+                  <p style="margin:6px 0 12px;font-size:0.85rem;">
+                    Shared by both HS races -- each checkpoint has its own unit, so a 5K can still use mile
+                    markers. A finish checkpoint is added automatically at the full distance.
+                  </p>
+                  <div data-rcc-meet-checkpoint-rows="hs" style="display:grid;gap:10px;"></div>
+                  <button class="button button-outline" type="button" data-rcc-meet-add-checkpoint="hs" style="margin-top:10px;">Add checkpoint</button>
+                </div>
+              </div>
+
+              <div class="rcc-meet-group" data-rcc-meet-group="jh">
+                <strong>Junior High</strong>
+                <div class="rcc-meet-squad-row">
+                  <label><input type="checkbox" data-rcc-meet-squad="jh_boys" checked> JH Boys</label>
+                  <label><input type="checkbox" data-rcc-meet-squad="jh_girls" checked> JH Girls</label>
+                </div>
+                <div class="rcc-fields">
+                  <label>
+                    <strong>Distance</strong>
+                    <input type="number" step="0.01" min="0.01" placeholder="2" data-rcc-meet-distance="jh">
+                  </label>
+                  <label>
+                    <strong>Unit</strong>
+                    <select data-rcc-meet-unit="jh">
+                      <option value="miles">Miles</option>
+                      <option value="km">Kilometers</option>
+                      <option value="meters">Meters</option>
+                    </select>
+                  </label>
+                </div>
+                <div>
+                  <strong>Checkpoints</strong>
+                  <p style="margin:6px 0 12px;font-size:0.85rem;">
+                    Shared by both JH races -- each checkpoint has its own unit, so a 5K can still use mile
+                    markers. A finish checkpoint is added automatically at the full distance.
+                  </p>
+                  <div data-rcc-meet-checkpoint-rows="jh" style="display:grid;gap:10px;"></div>
+                  <button class="button button-outline" type="button" data-rcc-meet-add-checkpoint="jh" style="margin-top:10px;">Add checkpoint</button>
+                </div>
+              </div>
+
+              <button class="button button-primary" type="submit">Create races for this meet</button>
+            </form>
+          </section>
+
           <section class="rcc-panel">
             <div class="rcc-header">
               <div>
@@ -280,143 +379,63 @@ export function raceCommandCenterHubPage(site) {
             <div class="rcc-race-list" data-rcc-race-list style="margin-top:16px;"></div>
             <div class="rcc-empty" data-rcc-race-empty hidden>No races yet. Create your first race to start planning.</div>
           </section>
-
-          <section class="rcc-panel">
-            <p class="eyebrow">New race</p>
-            <h2>Create a race</h2>
-            <p>Set the distance and checkpoints now -- you'll build the full team plan on the next screen.</p>
-
-            <form class="rcc-form" data-rcc-create-form>
-              <label>
-                <strong>Race name</strong>
-                <input type="text" name="name" placeholder="Conference Championship" required>
-              </label>
-
-              <div class="rcc-fields">
-                <label>
-                  <strong>Race date</strong>
-                  <input type="date" name="race_date" required>
-                </label>
-
-                <label>
-                  <strong>Sport</strong>
-                  <select name="sport">
-                    <option value="cross_country">Cross Country</option>
-                    <option value="track">Track</option>
-                  </select>
-                </label>
-
-                <label>
-                  <strong>Distance</strong>
-                  <input type="number" name="distance_value" step="0.01" min="0.01" placeholder="5" required>
-                </label>
-
-                <label>
-                  <strong>Distance unit</strong>
-                  <select name="distance_unit_display">
-                    <option value="miles">Miles</option>
-                    <option value="km">Kilometers</option>
-                    <option value="meters">Meters</option>
-                  </select>
-                </label>
-              </div>
-
-              <div>
-                <strong>Checkpoints</strong>
-                <p style="margin:6px 0 12px;font-size:0.9rem;">
-                  Add split points along the course. Each checkpoint has its own distance unit, so a 5K race can
-                  still use mile markers -- label one "Mile 1" and set its unit to Miles even if the race itself
-                  is set in kilometers. A finish checkpoint is added automatically at the full race distance.
-                </p>
-                <div data-rcc-checkpoint-rows style="display:grid;gap:10px;"></div>
-                <button class="button button-outline" type="button" data-rcc-add-checkpoint style="margin-top:10px;">Add checkpoint</button>
-              </div>
-
-              <button class="button button-primary" type="submit">Create race and plan it</button>
-            </form>
-          </section>
         </div>
 
-        <section class="rcc-panel" data-rcc-meet-panel style="margin-top:24px;">
-          <p class="eyebrow">New meet</p>
-          <h2>Set up a whole meet at once</h2>
+        <section class="rcc-panel" style="margin-top:24px;">
+          <p class="eyebrow">One-off race</p>
+          <h2>Create a single race</h2>
           <p>
-            Create HS and JH, boys and girls races together from one meet name -- each race is pre-filled
-            with that squad's current roster automatically, so you don't have to add runners four times.
-            Every race starts with just a finish line; add mile-marker checkpoints on its own plan page
-            afterward if you want more than that.
+            Need something outside the standard HS/JH, boys/girls setup -- a combined race, an alumni run,
+            a fun run? Build one race at a time here instead.
           </p>
 
-          <div class="rcc-empty" data-rcc-meet-empty hidden>
-            No current-season roster found to build races from.
-            <a data-rcc-meet-roster-link href="/team-roster/">Build your roster</a> first, then come back here.
-          </div>
-
-          <form class="rcc-form" data-rcc-meet-form>
+          <form class="rcc-form" data-rcc-create-form>
             <label>
-              <strong>Meet name</strong>
-              <input type="text" name="meet_name" placeholder="Conference Championship" required>
+              <strong>Race name</strong>
+              <input type="text" name="name" placeholder="Conference Championship" required>
             </label>
 
             <div class="rcc-fields">
               <label>
-                <strong>Meet date</strong>
-                <input type="date" name="meet_date" required>
+                <strong>Race date</strong>
+                <input type="date" name="race_date" required>
               </label>
+
               <label>
                 <strong>Sport</strong>
-                <select name="meet_sport" data-rcc-meet-sport>
+                <select name="sport">
                   <option value="cross_country">Cross Country</option>
                   <option value="track">Track</option>
                 </select>
               </label>
+
+              <label>
+                <strong>Distance</strong>
+                <input type="number" name="distance_value" step="0.01" min="0.01" placeholder="5" required>
+              </label>
+
+              <label>
+                <strong>Distance unit</strong>
+                <select name="distance_unit_display">
+                  <option value="miles">Miles</option>
+                  <option value="km">Kilometers</option>
+                  <option value="meters">Meters</option>
+                </select>
+              </label>
             </div>
 
-            <div class="rcc-meet-group" data-rcc-meet-group="hs">
-              <strong>High School</strong>
-              <div class="rcc-meet-squad-row">
-                <label><input type="checkbox" data-rcc-meet-squad="hs_boys" checked> HS Boys</label>
-                <label><input type="checkbox" data-rcc-meet-squad="hs_girls" checked> HS Girls</label>
-              </div>
-              <div class="rcc-fields">
-                <label>
-                  <strong>Distance</strong>
-                  <input type="number" step="0.01" min="0.01" placeholder="5" data-rcc-meet-distance="hs">
-                </label>
-                <label>
-                  <strong>Unit</strong>
-                  <select data-rcc-meet-unit="hs">
-                    <option value="miles">Miles</option>
-                    <option value="km">Kilometers</option>
-                    <option value="meters">Meters</option>
-                  </select>
-                </label>
-              </div>
+            <div>
+              <strong>Checkpoints</strong>
+              <p style="margin:6px 0 12px;font-size:0.9rem;">
+                Add split points along the course. Each checkpoint has its own distance unit, so a 5K race can
+                still use mile markers -- label one "Mile 1" and set its unit to Miles even if the race itself
+                is set in kilometers. A finish checkpoint is added automatically at the full race distance.
+              </p>
+              <div data-rcc-checkpoint-rows style="display:grid;gap:10px;"></div>
+              <button class="button button-outline" type="button" data-rcc-add-checkpoint style="margin-top:10px;">Add checkpoint</button>
             </div>
 
-            <div class="rcc-meet-group" data-rcc-meet-group="jh">
-              <strong>Junior High</strong>
-              <div class="rcc-meet-squad-row">
-                <label><input type="checkbox" data-rcc-meet-squad="jh_boys" checked> JH Boys</label>
-                <label><input type="checkbox" data-rcc-meet-squad="jh_girls" checked> JH Girls</label>
-              </div>
-              <div class="rcc-fields">
-                <label>
-                  <strong>Distance</strong>
-                  <input type="number" step="0.01" min="0.01" placeholder="2" data-rcc-meet-distance="jh">
-                </label>
-                <label>
-                  <strong>Unit</strong>
-                  <select data-rcc-meet-unit="jh">
-                    <option value="miles">Miles</option>
-                    <option value="km">Kilometers</option>
-                    <option value="meters">Meters</option>
-                  </select>
-                </label>
-              </div>
-            </div>
-
-            <button class="button button-primary" type="submit">Create races for this meet</button>
+            <button class="button button-primary" type="submit">Create race and plan it</button>
           </form>
         </section>
 
