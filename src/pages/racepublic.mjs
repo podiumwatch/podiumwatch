@@ -127,6 +127,85 @@ export function racePublicPage(site) {
       font-size: 0.82rem;
       color: rgba(15, 23, 42, 0.6);
     }
+
+    .race-public-search {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .race-public-search input {
+      flex: 1 1 240px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(15, 23, 42, 0.22);
+      font: inherit;
+      font-size: 1rem;
+    }
+
+    .race-public-focused {
+      padding: 20px 22px;
+      border-radius: var(--radius);
+      background: var(--black);
+      color: var(--paper);
+    }
+
+    .race-public-focused h3 {
+      margin: 0 0 4px;
+      font-family: Impact, sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    .race-public-focused-meta {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-bottom: 14px;
+    }
+
+    table.race-public-focused-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table.race-public-focused-table th,
+    table.race-public-focused-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      text-align: left;
+    }
+
+    table.race-public-focused-table th {
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      opacity: 0.65;
+    }
+
+    .race-public-fresh {
+      display: block;
+      font-size: 0.76rem;
+      opacity: 0.6;
+      white-space: nowrap;
+    }
+
+    .race-public-alerts {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      background: rgba(15, 23, 42, 0.05);
+      font-size: 0.9rem;
+    }
+
+    .race-public-alerts input {
+      flex: 1 1 220px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(15, 23, 42, 0.22);
+      font: inherit;
+    }
   </style>
 
   <section class="section section-paper">
@@ -149,6 +228,21 @@ export function racePublicPage(site) {
 
         <p class="race-public-updated" data-race-public-updated></p>
 
+        <div class="race-public-search">
+          <input type="text" placeholder="Find your runner by name" data-race-public-search aria-label="Find your runner by name">
+        </div>
+
+        <div class="race-public-focused" data-race-public-focused hidden>
+          <h3 data-race-public-focused-name></h3>
+          <p class="race-public-focused-meta" data-race-public-focused-meta></p>
+          <table class="race-public-focused-table">
+            <thead>
+              <tr><th>Checkpoint</th><th>Time</th></tr>
+            </thead>
+            <tbody data-race-public-focused-rows></tbody>
+          </table>
+        </div>
+
         <div class="race-public-table-wrap">
           <table class="race-public-table">
             <thead>
@@ -163,6 +257,12 @@ export function racePublicPage(site) {
             </thead>
             <tbody data-race-public-rows></tbody>
           </table>
+        </div>
+
+        <div class="race-public-alerts">
+          <span>Want a text or push alert at each checkpoint?</span>
+          <input type="text" placeholder="Alerts aren't live yet" disabled>
+          <button class="button button-outline" type="button" disabled>Coming soon</button>
         </div>
       </div>
     </div>
