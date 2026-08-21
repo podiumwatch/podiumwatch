@@ -88,6 +88,14 @@ export function teamRosterPage(site) {
       font: inherit;
     }
 
+    .team-roster-season-move-note {
+      margin: -8px 0 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(245, 158, 11, 0.14);
+      font-size: 0.85rem;
+    }
+
     .team-roster-form input[type="checkbox"] {
       display: inline-block;
       width: auto;
@@ -587,9 +595,17 @@ export function teamRosterPage(site) {
       </div>
 
       <form class="team-roster-form" data-athlete-form>
-        <input type="hidden" name="season_id">
         <input type="hidden" name="entry_id">
         <input type="hidden" name="athlete_id">
+
+        <label>
+          <strong>Roster season</strong>
+          <select name="season_id" data-athlete-season-select required></select>
+        </label>
+        <p class="team-roster-season-move-note" data-athlete-season-move-note hidden>
+          Saving will move this athlete off their current season onto the one selected above --
+          it won't create a duplicate entry.
+        </p>
 
         <div class="team-roster-fields">
           <label><strong>First name</strong><input type="text" name="first_name" required></label>

@@ -33,6 +33,8 @@
   const athleteDialogTitle = document.querySelector("[data-athlete-dialog-title]");
   const athleteDialogClose = document.querySelector("[data-athlete-dialog-close]");
   const athleteForm = document.querySelector("[data-athlete-form]");
+  const athleteSeasonSelect = document.querySelector("[data-athlete-season-select]");
+  const athleteSeasonMoveNote = document.querySelector("[data-athlete-season-move-note]");
   const removeAthleteEntryButton = document.querySelector("[data-remove-athlete-entry]");
   const athleteSocialSection = document.querySelector("[data-athlete-social-section]");
   const athleteSocialList = document.querySelector("[data-athlete-social-list]");
@@ -96,6 +98,8 @@
     athleteDialogTitle,
     athleteDialogClose,
     athleteForm,
+    athleteSeasonSelect,
+    athleteSeasonMoveNote,
     removeAthleteEntryButton,
     athleteSocialSection,
     athleteSocialList,
@@ -122,6 +126,11 @@
   let currentData = null;
   let currentImport = null;
   let busy = false;
+  // Only set while editing an existing entry (null when adding a new
+  // athlete) -- lets the season <select>'s change handler know whether
+  // the coach has actually picked a DIFFERENT season than the one this
+  // entry started in, so the move warning only shows when it's true.
+  let editingOriginalSeasonId = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -520,9 +529,29 @@
     renderRoster();
   }
 
+  // Scoped to the same sport as the season currently being viewed -- a
+  // cross country roster entry should only ever move between this
+  // team's OTHER cross country seasons (its boys/girls counterpart),
+  // never into an unrelated track season.
+  function populateAthleteSeasonSelect() {
+    const seasons = Array.isArray(currentData?.seasons) ? currentData.seasons : [];
+    const currentSport = getSelectedSeason()?.sport;
+    const eligible = currentSport ? seasons.filter((season) => season.sport === currentSport) : seasons;
+
+    athleteSeasonSelect.innerHTML = eligible.map((season) => (
+      '<option value="' + escapeHtml(season.id) + '">' +
+        escapeHtml(season.name) + " | " + escapeHtml(formatSeasonStatus(season.status)) +
+        (season.is_current ? " | Current" : "") +
+      '</option>'
+    )).join("");
+  }
+
   function resetAthleteForm() {
     athleteForm.reset();
+    populateAthleteSeasonSelect();
     athleteForm.elements.season_id.value = getSelectedSeason()?.id || "";
+    editingOriginalSeasonId = null;
+    athleteSeasonMoveNote.hidden = true;
     athleteForm.elements.sort_order.value = "0";
     athleteForm.elements.gender.value = "boys";
     athleteForm.elements.roster_status.value = "active";
@@ -668,8 +697,9 @@
     if (entry) {
       const athlete = entry.athlete || {};
       athleteDialogTitle.textContent = "Edit athlete";
+      editingOriginalSeasonId = getSelectedSeason()?.id || "";
       fillForm(athleteForm, {
-        season_id: getSelectedSeason()?.id || "",
+        season_id: editingOriginalSeasonId,
         entry_id: entry.id,
         athlete_id: entry.athlete_id,
         first_name: athlete.first_name,
@@ -718,6 +748,11 @@
       athleteDialog.removeAttribute("open");
     }
   }
+
+  athleteSeasonSelect.addEventListener("change", () => {
+    const changedFromOriginal = editingOriginalSeasonId !== null && athleteSeasonSelect.value !== editingOriginalSeasonId;
+    athleteSeasonMoveNote.hidden = !changedFromOriginal;
+  });
 
   function parseCsv(text) {
     const input = String(text || "").replace(/^\uFEFF/, "");
