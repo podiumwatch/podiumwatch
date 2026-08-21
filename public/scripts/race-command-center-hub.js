@@ -84,18 +84,38 @@
     return parseResponse(response, "The request could not be completed.");
   }
 
-  function addCheckpointRow(label, value) {
+  function unitToMeters(unit) {
+    return unit === "miles" ? 1609.344 : (unit === "km" ? 1000 : 1);
+  }
+
+  function currentRaceUnit() {
+    const select = createForm.querySelector('select[name="distance_unit_display"]');
+    return String((select && select.value) || "miles");
+  }
+
+  // Each checkpoint carries its own distance unit, independent of the race's
+  // overall distance unit -- a 5K (set in kilometers) still commonly uses
+  // mile markers for checkpoints, so a coach needs to be able to label a
+  // checkpoint "Mile 1" and enter "1" against a "Miles" unit for that row
+  // specifically, without it being silently reinterpreted as 1 kilometer.
+  function addCheckpointRow(label, value, unit) {
     const row = document.createElement("div");
     row.className = "rcc-checkpoint-row";
+    const rowUnit = unit || currentRaceUnit();
     row.innerHTML =
       '<label><strong>Label</strong><input type="text" class="rcc-cp-label" placeholder="Mile 1" value="' + escapeHtml(label || "") + '"></label>' +
       '<label><strong>Distance</strong><input type="number" step="0.01" min="0.01" class="rcc-cp-distance" value="' + escapeHtml(value || "") + '"></label>' +
+      '<label><strong>Unit</strong><select class="rcc-cp-unit">' +
+        '<option value="miles"' + (rowUnit === "miles" ? " selected" : "") + '>Miles</option>' +
+        '<option value="km"' + (rowUnit === "km" ? " selected" : "") + '>Kilometers</option>' +
+        '<option value="meters"' + (rowUnit === "meters" ? " selected" : "") + '>Meters</option>' +
+      '</select></label>' +
       '<button type="button" class="button button-outline rcc-cp-remove">Remove</button>';
     row.querySelector(".rcc-cp-remove").addEventListener("click", () => row.remove());
     checkpointRows.appendChild(row);
   }
 
-  addCheckpointButton.addEventListener("click", () => addCheckpointRow("", ""));
+  addCheckpointButton.addEventListener("click", () => addCheckpointRow("", "", currentRaceUnit()));
 
   const STATUS_LABELS = {
     draft: "Draft",
@@ -305,12 +325,14 @@
     const formData = new FormData(createForm);
     const distanceValue = Number(formData.get("distance_value"));
     const unit = String(formData.get("distance_unit_display") || "miles");
-    const unitMeters = unit === "miles" ? 1609.344 : (unit === "km" ? 1000 : 1);
-    const distanceMeters = distanceValue * unitMeters;
+    const distanceMeters = distanceValue * unitToMeters(unit);
 
+    // Each row converts using its own unit selector, not the race's overall
+    // unit -- see addCheckpointRow's comment above for why.
     const checkpoints = [...checkpointRows.querySelectorAll(".rcc-checkpoint-row")].map((row) => {
       const label = row.querySelector(".rcc-cp-label").value;
-      const distance = Number(row.querySelector(".rcc-cp-distance").value) * unitMeters;
+      const cpUnit = String(row.querySelector(".rcc-cp-unit").value || unit);
+      const distance = Number(row.querySelector(".rcc-cp-distance").value) * unitToMeters(cpUnit);
       return { label, distanceMeters: distance };
     }).filter((c) => c.label && c.distanceMeters > 0);
 

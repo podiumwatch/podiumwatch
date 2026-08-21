@@ -89,7 +89,7 @@ export function raceCommandCenterHubPage(site) {
 
     .rcc-checkpoint-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 120px) auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 100px) minmax(0, 118px) auto;
       gap: 10px;
       align-items: end;
     }
@@ -298,7 +298,9 @@ export function raceCommandCenterHubPage(site) {
               <div>
                 <strong>Checkpoints</strong>
                 <p style="margin:6px 0 12px;font-size:0.9rem;">
-                  Add split points along the course. A finish checkpoint is added automatically at the full race distance.
+                  Add split points along the course. Each checkpoint has its own distance unit, so a 5K race can
+                  still use mile markers -- label one "Mile 1" and set its unit to Miles even if the race itself
+                  is set in kilometers. A finish checkpoint is added automatically at the full race distance.
                 </p>
                 <div data-rcc-checkpoint-rows style="display:grid;gap:10px;"></div>
                 <button class="button button-outline" type="button" data-rcc-add-checkpoint style="margin-top:10px;">Add checkpoint</button>
