@@ -12,24 +12,51 @@ export const site = {
   logoMark: "/images/branding/podium_watch_logo_light.png",
   defaultSocialImage: "/images/social/podium_watch_default_social.png",
   copyrightText: "Podium Watch",
+  // Rebuilt 2026-08-21 (NAVIGATION_REBUILD_SPEC.md) into 7 grouped
+  // entries -- "Home" stays a flat link, the rest carry `items` and
+  // render as a dropdown (desktop) / accordion (mobile) in
+  // header()'s navGroup(). "Race Command Center" and "Pace Calculator"
+  // are deliberately NOT in this list at all anymore -- they've moved to
+  // the header's separate utility cluster (see header() in
+  // src/lib/html.mjs), styled as tools/actions rather than browsing
+  // categories. Fan Poll used to appear twice (once here, once
+  // hardcoded in the old "Explore" bar that this rebuild removes
+  // entirely) -- it now exists exactly once, under Voting.
+  //
+  // The spec's proposed Rankings items were "Cross Country / Indoor
+  // Track / Outdoor Track" -- confirmed directly against
+  // scripts/build.mjs that no indoor/outdoor split exists anywhere in
+  // the ranking system (only /rankings/cross-country/ and
+  // /rankings/track-and-field/ are real, generated pages), so this uses
+  // the two pages that actually exist rather than linking to pages that
+  // don't.
   navigation: [
     { label: "Home", href: "/" },
-    { label: "Rankings", href: "/rankings/" },
-    { label: "Meets", href: "/meets/" },
-    { label: "Teams", href: "/teams/" },
-    { label: "Race Command Center", href: "/race-command-center/join/" },
-    { label: "Ohio Schools", href: "/ohio-schools/" },
-    { label: "Fan Poll", href: "/fan-poll/" },
-    { label: "Tournament Hub", href: "/tournament-hub/" },
-    { label: "Athletes", href: "/athletes/" },
-    { label: "Recruiting", href: "/recruiting/" },
-    // "Find a Photographer" removed -- Photographer Network temporarily
-    // unpublished (2026-08-20), see scripts/build.mjs's matching note.
-    { label: "Pace Calculator", href: "/pace-calculator/" },
-    { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
-    { label: "Team of the Week", href: "/team-of-the-week/" },
-    { label: "Stories", href: "/stories/" },
-    { label: "About", href: "/about/" }
+    { label: "Rankings", items: [
+      { label: "Cross Country", href: "/rankings/cross-country/" },
+      { label: "Track and Field", href: "/rankings/track-and-field/" }
+    ] },
+    { label: "Meets", items: [
+      { label: "Meet Calendar", href: "/meets/" },
+      { label: "Tournament Hub", href: "/tournament-hub/" }
+    ] },
+    { label: "Teams & Schools", items: [
+      { label: "Teams", href: "/teams/" },
+      { label: "Ohio Schools", href: "/ohio-schools/" }
+    ] },
+    { label: "Athletes", items: [
+      { label: "Athletes", href: "/athletes/" },
+      { label: "Recruiting", href: "/recruiting/" }
+    ] },
+    { label: "Voting", items: [
+      { label: "Team of the Week", href: "/team-of-the-week/" },
+      { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
+      { label: "Fan Poll", href: "/fan-poll/" }
+    ] },
+    { label: "More", items: [
+      { label: "Stories", href: "/stories/" },
+      { label: "About", href: "/about/" }
+    ] }
   ],
   footerLinks: {
     Coverage: [

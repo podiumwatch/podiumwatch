@@ -2157,3 +2157,28 @@ User asked directly: hovering "Race Command Center" in the main nav should show 
 ### Not yet done
 
 Not pushed.
+
+## 2026 08 21 Full navigation rebuild -- NAVIGATION_REBUILD_SPEC.md
+
+### Goal
+
+User supplied a complete spec document for rebuilding the site header/nav: consolidate ~15 flat links plus a separate "Explore" bar into 7 grouped dropdowns and a right-side utility cluster, eliminate the second row, fix a Fan Poll duplication bug, and rework mobile into an accordion drawer -- with a full acceptance checklist to verify against.
+
+### What was built
+
+- `src/config/site.mjs`: navigation restructured from a flat list into 7 grouped entries (Home flat; Rankings/Meets/Teams & Schools/Athletes/Voting/More each carry `items`). Race Command Center and Pace Calculator removed from this list entirely -- they live in the header's new utility cluster instead.
+- `src/lib/html.mjs`: `header()` rewritten -- one generic `navGroup()` renders every content-nav entry (flat link or dropdown); new search/calculator/chevron icons; the utility cluster (Search, Pace Calculator, Race Command Center, Watch, Instagram); the ticker rebuilt as one full-width link with a separate mobile-truncated line; the old "Explore" bar removed entirely (this is what was duplicating Fan Poll).
+- `src/styles/main.css`: new `.nav-group`/`.nav-utility` styles (desktop floating dropdown, mobile in-flow accordion, one 1320px breakpoint throughout -- confirmed against the site's own existing breakpoint rather than using the spec's placeholder 768px). Found and fixed two real pre-existing bugs along the way: an old rule fully hid the ticker bar below 1320px (spec wants it truncated, not hidden), and another hid all non-live ticker spans below 700px (would have hidden the new mobile text too).
+- `public/scripts/site.js`: one shared click-to-toggle-with-mutual-exclusion mechanism drives all 6 dropdown groups (desktop and mobile alike -- CSS decides the rendering mode). Race Command Center's own dropdown logic from earlier today is completely untouched and deliberately kept independent of this coordination, per the spec's explicit "don't touch its logic" instruction.
+- `scripts/test-race-day-access.mjs`: fixed a real test regression this rebuild caused -- an old structural assertion checked for a `site.mjs` nav entry and an `html.mjs` `primaryLabels` Set that no longer exist; updated to check what's actually true now.
+
+### Testing actually run
+
+- `node --check` on every modified file -- clean.
+- `npm.cmd run build`/`run check` -- clean, 18,009 internal links, zero problems.
+- Full `npm.cmd test` -- all suites, zero failures (after fixing the regression above).
+- A dedicated Playwright suite covering the spec's full acceptance checklist: Fan Poll exactly once in the header; all 6 dropdowns open/close via click with mutual exclusivity and close on outside-click/Escape; every dropdown item resolves 200; utility cluster fully visible outside any dropdown; Race Command Center's dropdown still fully functional and independent; mobile accordion enforces one-open-at-a-time, RCC/Pace Calculator visible without expanding anything, tap targets ≥44px, drawer closes correctly with focus returning to the hamburger. Visually confirmed via screenshot at 375px, 768px, and 1440px.
+
+### Not yet done
+
+Not pushed, per the spec's own explicit instruction not to push without asking first.

@@ -772,3 +772,190 @@ p { margin-top: 0; }
   .nav-dropdown[data-open="true"] .nav-dropdown-panel { display: grid; }
   .nav-dropdown-panel a { padding: 10px 4px; }
 }
+
+/* =========================================================================
+   Navigation rebuild -- NAVIGATION_REBUILD_SPEC.md, 2026-08-21.
+   Replaces the old two-row header (~20 flat links across a main nav row
+   plus a separate "Explore" bar that duplicated Fan Poll) with 7 grouped
+   dropdowns on the left and a 5-element utility cluster on the right,
+   eliminating the second row entirely. Reuses the exact .nav-dropdown /
+   .nav-dropdown-trigger / .nav-dropdown-panel mechanics already built and
+   tested for Race Command Center above -- that dropdown's own logic is
+   untouched, only its outer wrapper (.nav-utility-rcc) and trigger color
+   are new. Breakpoint is 1320px throughout, matching every other
+   mobile/desktop split already in this file and in site.js's own
+   mobileQuery -- the spec's suggested 768px was a placeholder the spec
+   itself said to confirm against the real CSS before using.
+   ========================================================================= */
+
+/* --- ticker: whole bar is one link now; mobile collapses to one line ---
+   .ticker-cta picks up the "View calendar" styling an older rule
+   (.sports-ticker-inner a) used to provide back when only that one
+   segment was a link -- now the whole bar is the link, so that old
+   selector matches nothing anymore. .ticker-mobile-only overrides an
+   older, more specific ≤700px rule that hides every non-.ticker-live
+   span (it predates this span even existing); !important here is
+   deliberate, not a specificity hack to avoid understanding the
+   cascade -- it's the correct fix for a real, confirmed conflict with
+   a rule this rebuild doesn't otherwise touch. */
+a.sports-ticker-inner { text-decoration: none; color: inherit; cursor: pointer; }
+.ticker-cta { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: #75e8ad; font-weight: 800; border-left: none !important; padding-left: 0 !important; }
+.ticker-mobile-only { display: none; }
+
+/* --- content nav: flat "Home" + 6 grouped dropdowns --- */
+.nav-top-link {
+  min-height: 44px; display: inline-flex; align-items: center;
+  padding-block: 12px; border-bottom: 3px solid transparent;
+}
+.nav-top-link:hover, .nav-top-link[aria-current="page"] { color: var(--green); border-color: var(--green); }
+
+.nav-group { position: relative; display: flex; align-items: center; }
+
+.nav-group-trigger {
+  appearance: none; background: none; border: none; font: inherit; color: inherit; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 44px; padding-block: 12px; border-bottom: 3px solid transparent;
+}
+
+.nav-caret { display: inline-flex; width: 11px; height: 11px; transition: transform .15s ease; }
+.nav-group[data-open="true"] .nav-caret { transform: rotate(180deg); }
+
+.nav-group-trigger:hover,
+.nav-group-trigger[aria-current="page"],
+.nav-group[data-open="true"] .nav-group-trigger {
+  color: var(--green); border-color: var(--green);
+}
+
+.nav-group-panel {
+  position: absolute; top: 100%; left: 0; margin-top: 10px; min-width: 210px;
+  padding: 8px; display: grid; gap: 2px; z-index: 120;
+  background: var(--black); border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 10px; box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-6px);
+  transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+}
+
+.nav-group:hover .nav-group-panel,
+.nav-group:focus-within .nav-group-panel,
+.nav-group[data-open="true"] .nav-group-panel {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+}
+
+.nav-group-panel a {
+  display: block; padding: 12px 14px; border-radius: 8px; color: #ffffff;
+  text-decoration: none; font-family: Arial, Helvetica, sans-serif;
+  text-transform: none; letter-spacing: normal; font-size: .88rem; font-weight: 750;
+  white-space: nowrap;
+}
+
+.nav-group-panel a:hover, .nav-group-panel a[aria-current="page"] { background: rgba(255, 255, 255, .1); color: var(--green); }
+
+/* --- utility cluster: tools/actions, visually distinct from the content nav --- */
+.nav-utility {
+  display: flex; align-items: center; gap: 10px;
+  padding-left: 18px; margin-left: 4px; border-left: 1px solid rgba(255, 255, 255, .16);
+}
+
+.nav-icon-button {
+  appearance: none; cursor: pointer; min-height: 44px; min-width: 44px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 8px 12px; color: var(--white); background: transparent;
+  border: 1px solid rgba(255, 255, 255, .26); border-radius: 8px;
+  font-family: Arial, Helvetica, sans-serif; font-size: .8rem; font-weight: 750; text-transform: none;
+}
+.nav-icon-button:hover { color: var(--black); background: var(--green); border-color: var(--green); }
+.nav-icon-button span { white-space: nowrap; }
+
+.nav-utility-calc {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 44px; padding: 8px 14px; color: var(--white);
+  border: 1px solid rgba(255, 255, 255, .26); border-radius: 8px;
+  font-family: Arial, Helvetica, sans-serif; font-size: .8rem; font-weight: 750; white-space: nowrap;
+}
+.nav-utility-calc:hover { color: var(--black); background: var(--green); border-color: var(--green); }
+
+.nav-utility-social-row { display: flex; gap: 8px; }
+
+.nav-utility-watch, .nav-utility-instagram {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 8px 14px; border-radius: 8px;
+  font-family: Arial, Helvetica, sans-serif; font-size: .8rem; font-weight: 750; white-space: nowrap;
+}
+.nav-utility-watch { color: #ffffff; background: var(--green); }
+.nav-utility-watch:hover { background: var(--green-dark); }
+.nav-utility-instagram { width: 44px; padding: 8px; color: #ffffff; background: #151a17; border: 1px solid rgba(255, 255, 255, .16); }
+.nav-utility-instagram:hover { background: var(--green); color: var(--black); }
+
+/* Race Command Center's own dropdown restyled as the spec's green accent
+   button -- everything under .nav-dropdown here is the exact mechanism
+   built above; only this wrapper and the trigger's color are new. */
+.nav-utility-rcc .nav-dropdown-trigger {
+  min-height: 44px; padding: 8px 16px; border-radius: 8px; border-bottom: none;
+  color: var(--black); background: var(--green);
+  font-family: Arial, Helvetica, sans-serif; font-size: .8rem; font-weight: 800;
+  text-transform: none; letter-spacing: normal;
+}
+.nav-utility-rcc .nav-dropdown-trigger:hover,
+.nav-utility-rcc .nav-dropdown-trigger[aria-current="page"],
+.nav-utility-rcc.nav-dropdown[data-open="true"] .nav-dropdown-trigger {
+  color: var(--black); background: var(--green-dark);
+}
+
+/* --- mobile top bar: search icon peeks out next to the hamburger --- */
+.nav-mobile-actions { display: none; align-items: center; gap: 4px; }
+.nav-mobile-search { display: none; }
+
+@media (max-width: 1320px) {
+  /* Two older rules (one at ≤700px, one at this exact ≤1320px
+     breakpoint) hide .sports-ticker entirely -- they predate this
+     rebuild and directly contradict the spec's explicit requirement
+     that the ticker truncate to one line on mobile, not disappear.
+     Forcing it back on is the correct fix for that real conflict. */
+  .sports-ticker { display: block !important; }
+  .ticker-desktop-only { display: none !important; }
+  .ticker-mobile-only {
+    display: block !important; max-width: 100%; overflow: hidden;
+    text-overflow: ellipsis; white-space: nowrap; padding-left: 0 !important; border-left: none !important;
+  }
+
+  /* Search moves to the always-visible mobile top bar; the utility
+     cluster's own search button (redundant with it at this width, and
+     not part of the spec's drawer content list) is hidden. */
+  .nav-mobile-actions { display: flex; }
+  .nav-mobile-search { display: inline-flex; }
+  .nav-utility-search { display: none; }
+
+  .nav-top-link { min-height: 54px; padding: 14px 4px; border-bottom: 1px solid #2b2b2b; font-size: 1rem; }
+
+  /* Accordion: tap to expand in place, only one section open at a time
+     (enforced in site.js) -- never a floating panel on mobile, since a
+     floating dropdown inside the fixed, overflow:auto drawer risked
+     being silently clipped. */
+  .nav-group { display: block; }
+  .nav-group-trigger {
+    width: 100%; justify-content: space-between; min-height: 54px;
+    padding: 14px 4px; border-bottom: 1px solid #2b2b2b; font-size: 1rem;
+  }
+  .nav-group-panel {
+    position: static; margin-top: 0; box-shadow: none; background: transparent; border: 0;
+    display: none; opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+    padding: 4px 0 8px 14px;
+  }
+  .nav-group[data-open="true"] .nav-group-panel { display: grid; }
+  .nav-group-panel a { padding: 12px 4px; font-size: .92rem; border-bottom: 1px solid #22262a; }
+
+  /* Utility cluster becomes the pinned bottom section of the drawer --
+     divider above it, Pace Calculator and Race Command Center as full-
+     width rows, Watch/Instagram as the two-up row at the very bottom. */
+  .nav-utility {
+    flex-direction: column; align-items: stretch; gap: 10px;
+    margin: 14px 0 0; padding: 18px 0 0; border-left: 0; border-top: 1px solid rgba(255, 255, 255, .16);
+  }
+  .nav-icon-button, .nav-utility-calc { justify-content: flex-start; min-height: 52px; }
+  .nav-utility-rcc { display: block; }
+  .nav-utility-rcc .nav-dropdown-trigger { width: 100%; justify-content: center; min-height: 52px; }
+  .nav-utility-rcc .nav-dropdown-panel { position: static; margin-top: 8px; box-shadow: none; background: rgba(255, 255, 255, .05); }
+  .nav-utility-social-row { gap: 10px; margin-top: 4px; }
+  .nav-utility-watch, .nav-utility-instagram { flex: 1; min-height: 52px; }
+  .nav-utility-instagram { width: auto; }
+}

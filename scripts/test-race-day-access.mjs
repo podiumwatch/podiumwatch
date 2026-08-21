@@ -177,21 +177,21 @@ function readSource(path) {
 
 {
   // The join page must be a real, publicly reachable route -- registered
-  // in the build, present in site navigation and in the header's
-  // primaryLabels filter (src/lib/html.mjs silently drops any nav entry
-  // not also listed there), and NOT present in any of the private-route
-  // lists that would make it require sign-in.
+  // in the build, and reachable from the header's Race Command Center nav
+  // dropdown (rebuilt 2026-08-21, NAVIGATION_REBUILD_SPEC.md -- the
+  // dropdown is now hardcoded directly in html.mjs's header()/
+  // raceCommandCenterNavDropdown() rather than driven from
+  // site.mjs's navigation array, since it lives in the header's separate
+  // utility cluster, not the content nav's grouped dropdowns).
   const buildSource = readSource("../scripts/build.mjs");
   assert.match(buildSource, /race-command-center\/join\//);
   assert.match(buildSource, /raceCommandCenterJoinPage/);
 
-  const siteSource = readSource("../src/config/site.mjs");
-  assert.match(siteSource, /label:\s*"Race Command Center"/);
-
   const htmlLibSource = readSource("../src/lib/html.mjs");
-  assert.match(htmlLibSource, /"Race Command Center"/, "primaryLabels includes the new nav entry, or it silently won't render in the header");
+  assert.match(htmlLibSource, /raceCommandCenterNavDropdown/, "the header still renders the Race Command Center nav dropdown");
+  assert.match(htmlLibSource, /href="\/race-command-center\/join\/"/, "the dropdown's trigger still links to the real join page");
 
-  console.log("Race Command Center join page checked: registered in the build, present in site nav, and included in the header's primaryLabels filter.");
+  console.log("Race Command Center join page checked: registered in the build, and reachable from the header's Race Command Center nav dropdown.");
 }
 
 console.log("Race Day Access Code feature validation passed.");

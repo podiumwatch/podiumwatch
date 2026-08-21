@@ -45,6 +45,44 @@
     mobileQuery.addEventListener("change", () => setNavigationState(false));
   }
 
+  // Content-nav dropdown groups (Rankings, Meets, Teams & Schools,
+  // Athletes, Voting, More -- NAVIGATION_REBUILD_SPEC.md, 2026-08-21).
+  // One shared click-to-toggle mechanism drives both the desktop floating
+  // panel and the mobile in-flow accordion (CSS alone decides which one
+  // renders, at the 1320px breakpoint) -- only one group is ever open at
+  // a time, closing every other one first. Race Command Center's own
+  // dropdown (below) is deliberately NOT part of this coordination -- its
+  // logic is untouched from 2026-08-21, it manages its own open state
+  // completely independently.
+  const navGroupControls = [...document.querySelectorAll("[data-nav-group]")].map((group) => {
+    const trigger = group.querySelector("[data-nav-group-trigger]");
+    return {
+      group,
+      trigger,
+      setOpen(open) {
+        group.dataset.open = String(open);
+        trigger?.setAttribute("aria-expanded", String(open));
+      }
+    };
+  }).filter((control) => control.trigger);
+
+  navGroupControls.forEach((control) => {
+    control.trigger.addEventListener("click", () => {
+      const willOpen = control.group.dataset.open !== "true";
+      navGroupControls.forEach((other) => other.setOpen(other === control && willOpen));
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    navGroupControls.forEach((control) => {
+      if (control.group.dataset.open === "true" && !control.group.contains(event.target)) control.setOpen(false);
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") navGroupControls.forEach((control) => control.setOpen(false));
+  });
+
   // Race Command Center nav dropdown -- see the header comment above
   // raceCommandCenterNavDropdown() in src/lib/html.mjs for the full
   // rationale. Hover already reveals the panel via CSS alone; this adds

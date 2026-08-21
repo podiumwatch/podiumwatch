@@ -13,7 +13,9 @@ export function icon(name) {
     instagram: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm11.5 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>',
     youtube: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.8 15.2V8.8l5.6 3.2-5.6 3.2Z"/></svg>',
     arrow: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg>',
-    search: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.7 19.3-4.1-4.1a7.5 7.5 0 1 0-1.4 1.4l4.1 4.1 1.4-1.4ZM5 10.5a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0Z"/></svg>'
+    search: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.7 19.3-4.1-4.1a7.5 7.5 0 1 0-1.4 1.4l4.1 4.1 1.4-1.4ZM5 10.5a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0Z"/></svg>',
+    calculator: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v4h12V4H6Zm0 6v2h3v-2H6Zm5 0v2h3v-2h-3Zm5 0v2h3v-2h-3ZM6 14v2h3v-2H6Zm5 0v2h3v-2h-3Zm5 0v2h3v-2h-3ZM6 18v2h3v-2H6Zm5 0v2h3v-2h-3Zm5 0v2h3v-2h-3Z"/></svg>',
+    chevron: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 15.5 5 8.5l1.4-1.4L12 12.7l5.6-5.6L19 8.5Z"/></svg>'
   };
   return icons[name] || "";
 }
@@ -26,9 +28,13 @@ export function icon(name) {
 // signed out). The trigger keeps a real href to the join page so it
 // degrades to a normal, working link if JS never runs -- the dropdown
 // itself is a progressive enhancement over that, not a replacement for it.
-// See docs/DECISIONS.md, 2026-08-21.
+// Lives in the header's utility cluster now (NAVIGATION_REBUILD_SPEC.md,
+// 2026-08-21) rather than the content nav -- restyled as the green accent
+// button the spec calls for, but its internal logic (this markup, the
+// hover/click/coach-redirect behavior in site.js) is untouched from the
+// version built 2026-08-21. See docs/DECISIONS.md.
 function raceCommandCenterNavDropdown(active) {
-  return `<div class="nav-dropdown" data-nav-dropdown>
+  return `<div class="nav-dropdown nav-utility-rcc" data-nav-dropdown>
     <a class="nav-dropdown-trigger" href="/race-command-center/join/"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-dropdown-trigger>Race Command Center</a>
     <div class="nav-dropdown-panel" data-nav-dropdown-panel>
       <a href="/race-command-center/join/">Enter Race Day Code</a>
@@ -37,34 +43,63 @@ function raceCommandCenterNavDropdown(active) {
   </div>`;
 }
 
-export function header(site, currentPath = "/") {
-  // "Find a Photographer" removed to match its temporary unpublish
-  // (2026-08-20) -- see scripts/build.mjs's matching note. "Race Command
-  // Center" added so a team can reach it from the main menu in the
-  // fewest possible clicks -- see lib/race_day_auth.mjs.
-  const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Race Command Center", "Ohio Schools", "Fan Poll", "Athletes", "Recruiting", "Pace Calculator", "Stories"]);
-  const navLinks = site.navigation.filter((link) => primaryLabels.has(link.label)).map((link) => {
+// One shared component for every content-nav entry: "Home" (no `items`)
+// renders as a plain link; everything else renders as a click-toggle
+// dropdown (desktop: floating panel: mobile: in-flow accordion), all
+// coordinated by the single generic data-nav-group-trigger handler in
+// site.js so only one is ever open at a time. See
+// NAVIGATION_REBUILD_SPEC.md and docs/DECISIONS.md, 2026-08-21.
+function navGroup(link, currentPath) {
+  if (!link.items) {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
-    if (link.label === "Race Command Center") return raceCommandCenterNavDropdown(active);
-    return `<a href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
+    return `<a class="nav-top-link" href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
+  }
+  const active = link.items.some((item) => currentPath.startsWith(item.href));
+  const itemLinks = link.items.map((item) => {
+    const itemActive = currentPath.startsWith(item.href);
+    return `<a href="${item.href}"${itemActive ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`;
   }).join("");
-  return `<div class="sports-ticker"><div class="container sports-ticker-inner"><span class="ticker-live">LIVE</span><strong>OHIO XC SEASON</strong><span>Practice underway statewide</span><span>First meets August 22</span><a href="/meets/">View calendar ${icon("arrow")}</a></div></div><header class="site-header" data-header>
+  return `<div class="nav-group" data-nav-group>
+    <button class="nav-group-trigger" type="button"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-group-trigger>${escapeHtml(link.label)}<span class="nav-caret">${icon("chevron")}</span></button>
+    <div class="nav-group-panel" data-nav-group-panel>${itemLinks}</div>
+  </div>`;
+}
+
+export function header(site, currentPath = "/") {
+  const navGroups = site.navigation.map((link) => navGroup(link, currentPath)).join("");
+  const rccActive = currentPath.startsWith("/race-command-center/") || currentPath === "/team-login/";
+  return `<div class="sports-ticker"><a class="container sports-ticker-inner" href="/meets/">
+    <span class="ticker-live">LIVE</span>
+    <strong class="ticker-desktop-only">OHIO XC SEASON</strong>
+    <span class="ticker-desktop-only">Practice underway statewide</span>
+    <span class="ticker-desktop-only">First meets August 22</span>
+    <span class="ticker-desktop-only ticker-cta">View calendar ${icon("arrow")}</span>
+    <span class="ticker-mobile-only">Ohio XC season &middot; Practice underway statewide</span>
+  </a></div><header class="site-header" data-header>
   <div class="container nav-wrap">
     <a class="brand" href="/" aria-label="Podium Watch home">
       <img src="${site.logoMark}" width="48" height="48" alt="">
       <span><b>Podium</b><b>Watch</b></span>
     </a>
-    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation" data-menu-button>
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-mobile-actions">
+      <button class="nav-icon-button nav-mobile-search" type="button" aria-haspopup="dialog" aria-label="Search" data-search-open>${icon("search")}</button>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation" data-menu-button>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
     <nav id="site-nav" class="site-nav" aria-label="Main navigation" data-site-nav data-open="false">
-      ${navLinks}
-      <button class="nav-search-button" type="button" aria-haspopup="dialog" data-search-open>${icon("search")}<span>Search</span></button>
-      <a class="nav-watch" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch</a>
-      <a class="nav-instagram" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a>
+      ${navGroups}
+      <div class="nav-utility">
+        <button class="nav-icon-button nav-utility-search" type="button" aria-haspopup="dialog" aria-label="Search" data-search-open>${icon("search")}<span>Search</span></button>
+        <a class="nav-utility-calc" href="/pace-calculator/">${icon("calculator")}<span>Pace Calculator</span></a>
+        ${raceCommandCenterNavDropdown(rccActive)}
+        <div class="nav-utility-social-row">
+          <a class="nav-utility-watch" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch</a>
+          <a class="nav-utility-instagram" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">${icon("instagram")}</a>
+        </div>
+      </div>
     </nav>
   </div>
-  <div class="section-nav"><div class="container"><strong>Explore</strong><a href="/rankings/cross-country/">Boys XC</a><a href="/rankings/cross-country/">Girls XC</a><a href="/rankings/track-and-field/">Track and Field</a><a href="/fan-poll/">Fan Poll</a><a href="/tournament-hub/">Tournament Hub</a><a href="/athlete-of-the-week/">Athlete of the Week</a><a href="/team-of-the-week/">Team of the Week</a><a href="/about/">About</a></div></div>
   <div class="nav-overlay" data-nav-overlay></div>
   <dialog class="search-dialog" aria-labelledby="search-dialog-title" data-search-dialog>
     <div class="search-dialog-inner">
