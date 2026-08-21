@@ -11,16 +11,23 @@
   const individualName = document.querySelector("[data-rcc-individual-name]");
   const individualClose = document.querySelector("[data-rcc-individual-close]");
   const individualRows = document.querySelector("[data-rcc-individual-rows]");
+  const allRacesLink = document.querySelector("[data-rcc-all-races-link]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, raceMetaEl, messageBox,
-    teamStats, teamRows, individualPanel, individualName, individualClose, individualRows
+    teamStats, teamRows, individualPanel, individualName, individualClose, individualRows,
+    allRacesLink
   ];
   if (requiredElements.some((el) => !el)) return;
 
   const params = new URLSearchParams(window.location.search);
   const teamId = String(params.get("id") || "").trim();
   const sessionId = String(params.get("race") || "").trim();
+
+  // The static template can't know the team id -- without this the link
+  // falls back to its bare href and lands on the RCC hub with no ?id=,
+  // which the hub reports as "Race Command Center not found."
+  if (teamId) allRacesLink.href = "/race-command-center/?id=" + encodeURIComponent(teamId);
 
   const REVIEW_ENDPOINT = "/api/race-command-center/review/";
   const RaceMath = window.PodiumRaceMath;

@@ -72,7 +72,7 @@ export function raceCommandCenterReviewPage(site) {
             <p data-rcc-race-meta></p>
           </div>
           <div>
-            <a class="button button-outline" href="/race-command-center/">All races</a>
+            <a class="button button-outline" href="/race-command-center/" data-rcc-all-races-link>All races</a>
           </div>
         </div>
 

@@ -318,7 +318,7 @@ export function raceCommandCenterPlanPage(site) {
           </div>
 
           <div class="rcc-actions">
-            <a class="button button-outline" href="/race-command-center/">All races</a>
+            <a class="button button-outline" href="/race-command-center/" data-rcc-all-races-link>All races</a>
             <button class="button button-outline" type="button" data-rcc-race-day-open hidden>Share access code</button>
             <button class="button button-outline" type="button" data-rcc-delete-race>Delete draft</button>
             <button class="button button-primary" type="button" data-rcc-live-link>Go to live timing</button>

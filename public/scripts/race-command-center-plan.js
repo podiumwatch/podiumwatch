@@ -10,6 +10,7 @@
   const rosterList = document.querySelector("[data-rcc-roster-list]");
   const rosterEmpty = document.querySelector("[data-rcc-roster-empty]");
   const selectAllRosterButton = document.querySelector("[data-rcc-select-all-roster]");
+  const allRacesLink = document.querySelector("[data-rcc-all-races-link]");
   const rosterImportLink = document.querySelector("[data-rcc-roster-import-link]");
   const manualForm = document.querySelector("[data-rcc-manual-form]");
   const bulkToggleButton = document.querySelector("[data-rcc-bulk-toggle]");
@@ -33,7 +34,7 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
-    checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, rosterImportLink, manualForm,
+    checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, allRacesLink, rosterImportLink, manualForm,
     bulkToggleButton, bulkPanel, bulkTextarea, bulkAddButton, saveParticipantsButton,
     participantList, participantEmpty, deleteRaceButton, liveLinkButton,
     raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
@@ -49,6 +50,10 @@
   const sessionId = String(params.get("race") || "").trim();
 
   rosterImportLink.href = "/team-roster/?id=" + encodeURIComponent(teamId);
+  // The static template can't know the team id -- without this the link
+  // falls back to its bare href and lands on the RCC hub with no ?id=,
+  // which the hub reports as "Race Command Center not found."
+  if (teamId) allRacesLink.href = "/race-command-center/?id=" + encodeURIComponent(teamId);
 
   const SESSIONS_ENDPOINT = "/api/race-command-center/sessions/";
   const PLAN_ENDPOINT = "/api/race-command-center/plan/";
