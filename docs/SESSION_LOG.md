@@ -2133,4 +2133,27 @@ User reported the new hub-page Delete button wasn't showing -- the second time i
 
 ### Not yet done
 
-Not pushed. This should retroactively explain both of today's "the fix isn't showing up" reports.
+Pushed and deployed; confirmed live (a versioned script url returned the current file content with `X-Vercel-Cache: MISS`).
+
+## 2026 08 21 Race Command Center nav dropdown: race day code vs. coach sign-in
+
+### Goal
+
+User asked directly: hovering "Race Command Center" in the main nav should show two options -- a place to enter a race day code, and an option for a signed-in coach to go straight to their team without signing in again.
+
+### What was built
+
+- `src/lib/html.mjs`: new `raceCommandCenterNavDropdown()`, replacing the single nav link with a real dropdown -- the trigger keeps a working `href` to the join page as a no-JS fallback, with two options inside: "Enter Race Day Code" and "Coach Sign In."
+- `src/styles/main.css`: hover/focus reveal via pure CSS on desktop; a mobile variant that switches the panel to in-flow (`display: none` by default, `display: grid` when open) so it reserves zero space in the hamburger menu until actually opened.
+- `public/scripts/site.js`: click-to-toggle for touch devices; the existing "close mobile nav on any link click" behavior now excludes the dropdown trigger specifically, so opening the submenu doesn't collapse the whole hamburger menu; and the "Coach Sign In" smart redirect -- lazily loads the same Supabase client + team-auth-client.js every team page already uses (only on click, never on page load), then routes: exactly one team -> straight to that team's Race Command Center; multiple teams -> `/team-dashboard/` to pick; not signed in -> `/team-login/`.
+
+### Testing actually run
+
+- `node --check` -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions (18,960 internal links, up from 18,326 -- the two new nav links across every page).
+- Full `npm.cmd test` -- all suites, zero failures.
+- Playwright verification against the real built page: desktop hover reveals the panel with correct hrefs; clicking the trigger toggles without navigating, clicking outside closes it; signed-out "Coach Sign In" goes to `/team-login/`; one-team coach goes straight to their real Race Command Center hub with the correct team id; multi-team coach goes to `/team-dashboard/`; on mobile, the collapsed dropdown reserves no visible space, and tapping the trigger reveals both options inline without closing the surrounding menu -- confirmed visually via screenshot on both desktop and mobile.
+
+### Not yet done
+
+Not pushed.

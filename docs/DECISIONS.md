@@ -1411,4 +1411,37 @@ This was a real, confirmed, previously-undiscovered bug, not user error and not 
 
 ### Follow up
 
-None outstanding. Verified: `npm run build` produces a single consistent `?v=` value across every page in one run; `npm run check` passes with zero regressions (18,326 internal links, confirmed the checker's existing query-string handling covers the new suffix); a real page loaded via Playwright with the versioned script url present and no new console errors. This should retroactively explain both of today's earlier "the fix isn't showing up" reports -- worth keeping in mind if a similar report ever surfaces again after this point, since it would then indicate a genuinely different cause.
+None outstanding. Verified: `npm run build` produces a single consistent `?v=` value across every page in one run; `npm run check` passes with zero regressions (18,326 internal links, confirmed the checker's existing query-string handling covers the new suffix); a real page loaded via Playwright with the versioned script url present and no new console errors. This should retroactively explain both of today's earlier "the fix isn't showing up" reports -- worth keeping in mind if a similar report ever surfaces again after this point, since it would then indicate a genuinely different cause. Pushed and confirmed live directly: a versioned script url returned the current file content with `X-Vercel-Cache: MISS`.
+
+## 2026 08 21 Race Command Center nav dropdown: race day code vs. coach sign-in
+
+### Decision
+
+User asked for exactly this: hovering "Race Command Center" in the main nav shows two options -- a place to enter a race day code, and an option for a coach to go straight to their team, without having to sign in again if already signed in. Built a real hover/click dropdown replacing the single link, with the second option resolving a signed-in coach's own team via `/api/team/me/` and skipping sign-in entirely when it can.
+
+### Reason
+
+Every prior click-reduction pass this session (the nav link itself, the join page, the race day code panels on three different RCC pages) was about getting a VOLUNTEER to live timing fast. This request is the coach-side mirror of that same goal -- a coach who already has a valid session shouldn't have to retrace team-login -> team-dashboard -> pick team -> Race Command Center every time, when the nav itself can already tell where they're going.
+
+### Key implementation decisions worth recording
+
+1. **The trigger keeps a real, working `href` to the join page (`/race-command-center/join/`), and is a plain `<a>`, not a `<button>`.** If `public/scripts/site.js` never runs for any reason, the nav item still works exactly as it did before this change -- a normal link to a normal page. The dropdown panel, hover reveal, and click-to-toggle are all a progressive enhancement stacked on top of that guaranteed-working baseline, never a replacement for it.
+2. **Hover works via pure CSS** (`:hover`/`:focus-within` on `.nav-dropdown`), no JS required for that half at all; **click-to-toggle is the only part actually implemented in `site.js`**, since hover is meaningless on touch devices and something had to make the menu reachable there.
+3. **The mobile breakpoint switches the panel from `position: absolute` (floating, needs a fade transition) to `position: static` + `display: none` by default** (only `display: grid` once `[data-open="true"]`) -- an absolutely-positioned floating panel inside the mobile nav's `overflow-y: auto` scroll container risked being silently clipped, and worse, `visibility: hidden` (the desktop technique) still reserves layout space even when "invisible," which would have left a dead gap in the mobile menu for every visitor who never touches this item. Verified directly with Playwright that the collapsed panel's bounding box is genuinely near-zero height on mobile, not just invisible.
+4. **The coach-resolution logic lazily loads the same Supabase client + `team-auth-client.js` every team-specific page already loads, only on the actual click** -- not on every page load. The other ~99% of site visitors (rankings, stories, meets) never pay for this at all; the cost only exists for someone who actually clicks "Coach Sign In," which by definition means they're a coach.
+5. **Exactly one team -> straight to that team's Race Command Center hub** (`/race-command-center/?id=<id>`) -- the actual point of the request. **Two or more teams, or genuinely signed out with a load/auth failure -> `/team-dashboard/`** (or `/team-login/` if truly not signed in) -- rather than guessing which of several teams a coach means, `/team-dashboard/` already lists every one with its own Race Command Center button front and center (from an earlier pass this session), so it's the correct "let them pick" landing spot, not a consolation destination.
+6. **The existing "close the whole mobile nav when any link inside it is clicked" behavior was deliberately excluded for the dropdown trigger specifically** (`nav.querySelectorAll("a:not([data-nav-dropdown-trigger])")`) -- otherwise opening the submenu on mobile would immediately collapse the whole hamburger menu out from under it. The two real destination links inside the submenu are untouched by this exclusion and still close the mobile nav on click, exactly like every other nav link.
+
+### Alternatives considered
+
+1. A `<button>` trigger with no fallback href -- rejected; loses the guaranteed-working no-JS baseline for no real benefit, since a real `<a>` can be `preventDefault()`-ed identically once JS does load.
+2. Sending a multi-team coach to a "pick your team" page built specifically for this dropdown -- rejected; `/team-dashboard/` already does exactly this job and already has a Race Command Center button per team, so building a second version of the same picker would be pure duplication.
+3. Checking auth state on every page load (e.g., in a global script always present) so the nav item's destination is "known" before any click -- rejected; this session's own newly-shipped `/race-command-center/join/` flow deliberately avoids loading Supabase auth machinery for the 99% of visitors who never touch it, and the same reasoning applies here even more strongly (this is a nav item on literally every page of the site, most of which are read by fans with zero team affiliation).
+
+### Files or systems affected
+
+`src/lib/html.mjs` (`raceCommandCenterNavDropdown()`, new), `src/styles/main.css` (new `.nav-dropdown*` rules, desktop hover + mobile in-flow variant), `public/scripts/site.js` (click-to-toggle, the mobile-nav-close exclusion, and the lazy coach-resolution redirect logic).
+
+### Follow up
+
+None outstanding. Verified with Playwright: hover reveals the panel on desktop with both links carrying correct hrefs; clicking the trigger toggles the dropdown without navigating and clicking outside closes it; a signed-out visitor's "Coach Sign In" click goes to `/team-login/`; a signed-in coach with exactly one team goes straight to that team's Race Command Center hub with the correct team id; a signed-in coach with multiple teams goes to `/team-dashboard/`; on mobile, the collapsed dropdown reserves no visible space, tapping the trigger reveals both options inline without closing the surrounding hamburger menu, and a screenshot confirmed the visual result matches the rest of the mobile menu's styling.

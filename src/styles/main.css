@@ -712,3 +712,63 @@ p { margin-top: 0; }
   .path-to-state-node::before { left: 13px; }
   .path-to-state-stage { font-size: 1rem; }
 }
+
+/* Race Command Center's nav dropdown -- two destinations (enter a race
+   day code, or a coach signed-in shortcut) under one hover/click menu.
+   The trigger is a real <a> (not a <button>) so it degrades to a normal
+   working link to the join page if JS never runs; the panel is a plain
+   progressive enhancement on top via :hover/:focus-within, and
+   public/scripts/site.js adds click-to-toggle for touch. See
+   docs/DECISIONS.md, 2026-08-21. */
+.nav-dropdown { position: relative; display: flex; align-items: center; }
+
+.nav-dropdown-trigger {
+  min-height: 44px; display: inline-flex; align-items: center;
+  padding-block: 12px; border-bottom: 3px solid transparent;
+}
+
+.nav-dropdown-trigger:hover,
+.nav-dropdown-trigger[aria-current="page"],
+.nav-dropdown[data-open="true"] .nav-dropdown-trigger {
+  color: var(--green); border-color: var(--green);
+}
+
+.nav-dropdown-panel {
+  position: absolute; top: 100%; left: 0; margin-top: 10px; min-width: 220px;
+  padding: 8px; display: grid; gap: 2px; z-index: 120;
+  background: var(--black); border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 10px; box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity .15s ease, transform .15s ease, visibility .15s ease;
+}
+
+.nav-dropdown:hover .nav-dropdown-panel,
+.nav-dropdown:focus-within .nav-dropdown-panel,
+.nav-dropdown[data-open="true"] .nav-dropdown-panel {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+}
+
+.nav-dropdown-panel a {
+  display: block; padding: 12px 14px; border-radius: 8px; color: #ffffff;
+  text-decoration: none; font-family: Arial, Helvetica, sans-serif;
+  text-transform: none; letter-spacing: normal; font-size: .88rem; font-weight: 750;
+  white-space: nowrap;
+}
+
+.nav-dropdown-panel a:hover { background: rgba(255, 255, 255, .1); color: var(--green); }
+
+@media (max-width: 1320px) {
+  /* In-flow on mobile instead of floating -- avoids reserving invisible
+     space inside the fixed, overflow:auto mobile nav panel when closed,
+     and sidesteps hover entirely (meaningless on touch) in favor of the
+     click-to-toggle behavior public/scripts/site.js adds. */
+  .nav-dropdown { display: block; }
+  .nav-dropdown-panel {
+    position: static; margin-top: 4px; margin-left: 4px; box-shadow: none;
+    background: transparent; border: 0; padding: 0 0 6px;
+    display: none; opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+  }
+  .nav-dropdown[data-open="true"] .nav-dropdown-panel { display: grid; }
+  .nav-dropdown-panel a { padding: 10px 4px; }
+}

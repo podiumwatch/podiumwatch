@@ -19,7 +19,13 @@
     setNavigationState(false);
     menuButton.addEventListener("click", () => setNavigationState(nav.dataset.open !== "true"));
     overlay?.addEventListener("click", () => setNavigationState(false, true));
-    nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setNavigationState(false)));
+    // The Race Command Center dropdown trigger is excluded here -- clicking
+    // it opens/closes its own submenu (below), it must not also collapse
+    // the whole mobile nav out from under that submenu. The two real
+    // destination links inside the submenu are still plain <a> tags this
+    // selector still matches, so choosing either of them closes the mobile
+    // nav exactly like every other nav link already does.
+    nav.querySelectorAll("a:not([data-nav-dropdown-trigger])").forEach((link) => link.addEventListener("click", () => setNavigationState(false)));
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && nav.dataset.open === "true") setNavigationState(false, true);
       if (event.key === "Tab" && nav.dataset.open === "true") {
@@ -38,6 +44,99 @@
     });
     mobileQuery.addEventListener("change", () => setNavigationState(false));
   }
+
+  // Race Command Center nav dropdown -- see the header comment above
+  // raceCommandCenterNavDropdown() in src/lib/html.mjs for the full
+  // rationale. Hover already reveals the panel via CSS alone; this adds
+  // click-to-toggle (the only thing that works on touch) and the "Coach
+  // Sign In" smart redirect.
+  const navDropdown = document.querySelector("[data-nav-dropdown]");
+  const navDropdownTrigger = document.querySelector("[data-nav-dropdown-trigger]");
+  const coachLink = document.querySelector("[data-nav-coach-link]");
+
+  if (navDropdown && navDropdownTrigger) {
+    const setDropdownOpen = (open) => {
+      navDropdown.dataset.open = String(open);
+      navDropdownTrigger.setAttribute("aria-expanded", String(open));
+    };
+
+    navDropdownTrigger.addEventListener("click", (event) => {
+      // A real href (the join page) stays as the no-JS fallback -- only
+      // intercept the click once we know this code is actually running.
+      event.preventDefault();
+      setDropdownOpen(navDropdown.dataset.open !== "true");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (navDropdown.dataset.open === "true" && !navDropdown.contains(event.target)) setDropdownOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && navDropdown.dataset.open === "true") setDropdownOpen(false);
+    });
+  }
+
+  // Lazily loads the same Supabase client + team-auth-client.js every
+  // team-specific page already loads -- only fetched the first time a
+  // visitor actually clicks "Coach Sign In" on a page that hasn't already
+  // loaded them, so the other 99% of (non-coach) page views never pay for
+  // it. Reuses window.PodiumTeamAuth directly if a team page already
+  // loaded it (e.g. Race Command Center's own header uses this same nav).
+  function ensureTeamAuthClient() {
+    if (window.PodiumTeamAuth) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const supabaseScript = document.createElement("script");
+      supabaseScript.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0";
+      supabaseScript.onload = () => {
+        const clientScript = document.createElement("script");
+        clientScript.src = "/scripts/team-auth-client.js";
+        clientScript.onload = () => resolve();
+        clientScript.onerror = () => reject(new Error("Team account library failed to load."));
+        document.head.appendChild(clientScript);
+      };
+      supabaseScript.onerror = () => reject(new Error("Secure account library failed to load."));
+      document.head.appendChild(supabaseScript);
+    });
+  }
+
+  coachLink?.addEventListener("click", async (event) => {
+    event.preventDefault();
+    const originalText = coachLink.textContent;
+    coachLink.textContent = "Checking...";
+    try {
+      await ensureTeamAuthClient();
+      const user = await window.PodiumTeamAuth.getUser();
+      if (!user) {
+        window.location.href = "/team-login/";
+        return;
+      }
+      const accessToken = await window.PodiumTeamAuth.getAccessToken();
+      const response = await fetch("/api/team/me/", {
+        headers: { Accept: "application/json", Authorization: "Bearer " + accessToken }
+      });
+      const data = await response.json().catch(() => ({}));
+      const teams = Array.isArray(data.teams) ? data.teams : [];
+      if (teams.length === 1) {
+        // Exactly one team -- this is the whole point of the feature:
+        // straight to that team's Race Command Center, no extra click,
+        // no re-typing credentials that are already valid.
+        window.location.href = "/race-command-center/?id=" + encodeURIComponent(teams[0].id);
+      } else if (teams.length > 1) {
+        // More than one team -- team-dashboard/ already lists every one
+        // with its own Race Command Center button, so that's the correct
+        // "let the coach pick" landing spot rather than guessing.
+        window.location.href = "/team-dashboard/";
+      } else {
+        window.location.href = "/team-dashboard/";
+      }
+    } catch {
+      // Not actually signed in, or the team account library couldn't
+      // load -- either way, /team-login/ is the correct, safe fallback.
+      window.location.href = "/team-login/";
+    } finally {
+      coachLink.textContent = originalText;
+    }
+  });
 
 
   const searchDialog = document.querySelector("[data-search-dialog]");

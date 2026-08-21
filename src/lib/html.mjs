@@ -18,6 +18,25 @@ export function icon(name) {
   return icons[name] || "";
 }
 
+// "Race Command Center" in the main nav is a hover/click dropdown with
+// two destinations -- a volunteer entering a race day code, and a coach
+// who needs to get straight to their own team's Race Command Center
+// without re-signing-in every time (public/scripts/site.js resolves which
+// team, if any, and only falls back to /team-login/ when actually
+// signed out). The trigger keeps a real href to the join page so it
+// degrades to a normal, working link if JS never runs -- the dropdown
+// itself is a progressive enhancement over that, not a replacement for it.
+// See docs/DECISIONS.md, 2026-08-21.
+function raceCommandCenterNavDropdown(active) {
+  return `<div class="nav-dropdown" data-nav-dropdown>
+    <a class="nav-dropdown-trigger" href="/race-command-center/join/"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-dropdown-trigger>Race Command Center</a>
+    <div class="nav-dropdown-panel" data-nav-dropdown-panel>
+      <a href="/race-command-center/join/">Enter Race Day Code</a>
+      <a href="/team-login/" data-nav-coach-link>Coach Sign In</a>
+    </div>
+  </div>`;
+}
+
 export function header(site, currentPath = "/") {
   // "Find a Photographer" removed to match its temporary unpublish
   // (2026-08-20) -- see scripts/build.mjs's matching note. "Race Command
@@ -26,6 +45,7 @@ export function header(site, currentPath = "/") {
   const primaryLabels = new Set(["Home", "Rankings", "Meets", "Teams", "Race Command Center", "Ohio Schools", "Fan Poll", "Athletes", "Recruiting", "Pace Calculator", "Stories"]);
   const navLinks = site.navigation.filter((link) => primaryLabels.has(link.label)).map((link) => {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
+    if (link.label === "Race Command Center") return raceCommandCenterNavDropdown(active);
     return `<a href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
   }).join("");
   return `<div class="sports-ticker"><div class="container sports-ticker-inner"><span class="ticker-live">LIVE</span><strong>OHIO XC SEASON</strong><span>Practice underway statewide</span><span>First meets August 22</span><a href="/meets/">View calendar ${icon("arrow")}</a></div></div><header class="site-header" data-header>
