@@ -14,6 +14,12 @@
   const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
   const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
   const rosterImportLink = document.querySelector("[data-rcc-roster-import-link]");
+  const manageRosterLink = document.querySelector("[data-rcc-manage-roster-link]");
+  const quickAddWrap = document.querySelector("[data-rcc-quick-add-wrap]");
+  const quickAddHsBoys = document.querySelector('[data-rcc-quick-add="hs_boys"]');
+  const quickAddHsGirls = document.querySelector('[data-rcc-quick-add="hs_girls"]');
+  const quickAddJhBoys = document.querySelector('[data-rcc-quick-add="jh_boys"]');
+  const quickAddJhGirls = document.querySelector('[data-rcc-quick-add="jh_girls"]');
   const manualForm = document.querySelector("[data-rcc-manual-form]");
   const bulkToggleButton = document.querySelector("[data-rcc-bulk-toggle]");
   const bulkPanel = document.querySelector("[data-rcc-bulk-panel]");
@@ -36,7 +42,8 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
-    checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, allRacesLink, raceSwitcherWrap, raceSwitcher, rosterImportLink, manualForm,
+    checkpointStrip, rosterList, rosterEmpty, selectAllRosterButton, allRacesLink, raceSwitcherWrap, raceSwitcher, rosterImportLink,
+    manageRosterLink, quickAddWrap, quickAddHsBoys, quickAddHsGirls, quickAddJhBoys, quickAddJhGirls, manualForm,
     bulkToggleButton, bulkPanel, bulkTextarea, bulkAddButton, saveParticipantsButton,
     participantList, participantEmpty, deleteRaceButton, liveLinkButton,
     raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
@@ -52,6 +59,7 @@
   const sessionId = String(params.get("race") || "").trim();
 
   rosterImportLink.href = "/team-roster/?id=" + encodeURIComponent(teamId);
+  manageRosterLink.href = "/team-roster/?id=" + encodeURIComponent(teamId);
   // The static template can't know the team id -- without this the link
   // falls back to its bare href and lands on the RCC hub with no ?id=,
   // which the hub reports as "Race Command Center not found."
@@ -189,6 +197,8 @@
   }
 
   function renderRoster() {
+    updateQuickAddButtons();
+
     if (rosterAthletes.length === 0) {
       rosterList.innerHTML = "";
       rosterEmpty.hidden = false;
@@ -231,6 +241,45 @@
   selectAllRosterButton.addEventListener("click", () => {
     rosterList.querySelectorAll(".rcc-roster-checkbox").forEach((checkbox) => {
       checkbox.checked = true;
+    });
+  });
+
+  // A team running JH and HS, boys and girls, off one account needs to
+  // add just one specific squad at a time, not the entire roster. grade
+  // (7-8 = JH, 9-12 = HS -- the standard US split) comes from this
+  // season's roster entry; gender comes from the athlete record. An
+  // athlete missing either isn't covered by any of these four buttons --
+  // "Add all from roster" above still reaches them.
+  const QUICK_ADD_GROUPS = ["hs_boys", "hs_girls", "jh_boys", "jh_girls"];
+  const quickAddButtons = {
+    hs_boys: quickAddHsBoys, hs_girls: quickAddHsGirls,
+    jh_boys: quickAddJhBoys, jh_girls: quickAddJhGirls
+  };
+
+  function athleteGroup(athlete) {
+    if (athlete.gender !== "boys" && athlete.gender !== "girls") return null;
+    if (athlete.grade == null) return null;
+    const level = Number(athlete.grade) <= 8 ? "jh" : "hs";
+    return level + "_" + athlete.gender;
+  }
+
+  function updateQuickAddButtons() {
+    let anyVisible = false;
+    QUICK_ADD_GROUPS.forEach((group) => {
+      const hasMatch = rosterAthletes.some((a) => athleteGroup(a) === group);
+      quickAddButtons[group].hidden = !hasMatch;
+      if (hasMatch) anyVisible = true;
+    });
+    quickAddWrap.hidden = !anyVisible;
+  }
+
+  quickAddWrap.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-rcc-quick-add]");
+    if (!button) return;
+    const group = button.dataset.rccQuickAdd;
+    rosterList.querySelectorAll(".rcc-roster-checkbox").forEach((checkbox) => {
+      const athlete = rosterAthletes.find((a) => a.id === checkbox.value);
+      if (athlete && athleteGroup(athlete) === group) checkbox.checked = true;
     });
   });
 

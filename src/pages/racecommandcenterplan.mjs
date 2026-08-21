@@ -75,6 +75,18 @@ export function raceCommandCenterPlanPage(site) {
       font: inherit;
     }
 
+    .rcc-roster-quick-add {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .rcc-quick-add-btn {
+      font-size: 0.8rem;
+      padding: 8px 6px;
+    }
+
     .rcc-header {
       justify-content: space-between;
     }
@@ -353,9 +365,19 @@ export function raceCommandCenterPlanPage(site) {
           <section class="rcc-panel">
             <p class="eyebrow">Roster</p>
             <h2>Add runners</h2>
-            <p>Select from your current roster, or add a runner manually for a guest or unrostered athlete.</p>
+            <p>
+              Select from your current roster, or add a runner manually for a guest or unrostered athlete.
+              <a data-rcc-manage-roster-link href="/team-roster/">Manage your full roster</a> to bulk-import or edit it.
+            </p>
 
             <button class="button button-outline" type="button" data-rcc-select-all-roster style="width:100%;margin-bottom:10px;">Add all from roster</button>
+
+            <div class="rcc-roster-quick-add" data-rcc-quick-add-wrap hidden>
+              <button class="button button-outline rcc-quick-add-btn" type="button" data-rcc-quick-add="hs_boys" hidden>Add all HS Boys</button>
+              <button class="button button-outline rcc-quick-add-btn" type="button" data-rcc-quick-add="hs_girls" hidden>Add all HS Girls</button>
+              <button class="button button-outline rcc-quick-add-btn" type="button" data-rcc-quick-add="jh_boys" hidden>Add all JH Boys</button>
+              <button class="button button-outline rcc-quick-add-btn" type="button" data-rcc-quick-add="jh_girls" hidden>Add all JH Girls</button>
+            </div>
 
             <div class="rcc-roster-list" data-rcc-roster-list></div>
             <div class="rcc-empty" data-rcc-roster-empty hidden>
