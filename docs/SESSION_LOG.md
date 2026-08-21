@@ -2206,3 +2206,27 @@ User supplied a new article ("8 Things Your Cross Country Coach Wants You to Kno
 ### Not yet done
 
 Not pushed yet -- "pushed to the top of my feed" was about feed prominence, not a deploy request, so still needs an explicit go-ahead.
+
+## 2026 08 21 Split Watch rebrand
+
+### Goal
+
+User requested renaming "Race Command Center" to "Split Watch" across the site.
+
+### What was built
+
+- Renamed every Race-Command-Center-named file (5 pages, 5 client scripts, the service layer, 5 API handlers, the unit test file) to Split Watch equivalents, and updated every reference, import path, function/identifier name (`raceCommandCenterHubPage` -> `splitWatchHubPage`, `requireRaceCommandCenterAccess` -> `requireSplitWatchAccess`, etc.), CSS class/data-attribute prefix (`.rcc-*`/`data-rcc-*` -> `.sw-*`/`data-sw-*`, `rccj-` -> `swj-`, `nav-utility-rcc` -> `nav-utility-sw`), and all on-page copy/titles/nav label text.
+- Page routes changed to `/split-watch/...` (hub/plan/live/review/join); `vercel.json` gained permanent redirects from every old `/race-command-center/...` path so the race-day join link a coach may have already shared with volunteers, and any bookmarked hub/plan/live/review URL, keeps working.
+- `api/race-command-center/*` renamed to `api/split-watch/*` with no redirect needed (first-party plumbing only, never a link any external party sees).
+- Deliberately left unrenamed: the `podium_race_command_center` IndexedDB name (real persisted offline-split data in volunteers' browsers), the `pw_rcc_` client-split-id prefix (idempotency key format, checked against the live-in-Supabase `install/11_RACE_COMMAND_CENTER.sql` constraint), the migration file itself, and every already-dated docs entry (this file's own prior entries included).
+
+### Testing actually run
+
+- `npm run build` (284 pages) -- confirmed the 5 new `split-watch/` routes generated, no stray `race-command-center/` directory.
+- `npm run check` -- clean, 18,153 internal links, zero problems.
+- Full `npm test` -- every suite passing, including the renamed `test:split-watch` and `test:race-day-access` (both updated to assert the new names/paths).
+- Repo-wide grep sweep confirmed zero remaining "Race Command Center"/"racecommandcenter" mentions outside the intentionally-excluded files (the migration file, historical docs, and the two persisted identifiers above).
+
+### Not yet done
+
+Not pushed or deployed -- the redirect rules only take effect once this reaches production. Needs explicit go-ahead per standing practice.

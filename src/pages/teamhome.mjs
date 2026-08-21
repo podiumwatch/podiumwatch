@@ -85,7 +85,7 @@ export function teamHomePage(site) {
             <div class="tw-actions" style="margin-top:16px;">
               <a class="button button-outline" data-tw-roster-link href="/team-roster/">Manage roster</a>
               <a class="button button-outline" data-tw-schedule-link href="/team-schedule/">Manage schedule</a>
-              <a class="button button-primary" data-tw-rcc-link href="/race-command-center/">Race Command Center</a>
+              <a class="button button-primary" data-tw-sw-link href="/split-watch/">Split Watch</a>
             </div>
           </section>
 
@@ -95,7 +95,7 @@ export function teamHomePage(site) {
             </div>
             <p style="margin-top:6px;max-width:640px;opacity:0.8;">
               Share this code with anyone timing a race for you -- a parent at mile one, a friend at the finish.
-              They enter it at <strong>Race Command Center</strong> in the main menu and go straight into live
+              They enter it at <strong>Split Watch</strong> in the main menu and go straight into live
               timing for this team, no account required.
             </p>
 

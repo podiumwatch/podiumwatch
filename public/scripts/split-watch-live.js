@@ -1,43 +1,43 @@
 (() => {
-  const loadingBox = document.querySelector("[data-rcc-loading]");
-  const root = document.querySelector("[data-rcc-root]");
-  const raceNameEl = document.querySelector("[data-rcc-race-name]");
-  const syncStatusPill = document.querySelector("[data-rcc-sync-status]");
-  const syncStatusText = document.querySelector("[data-rcc-sync-status-text]");
-  const clockEl = document.querySelector("[data-rcc-clock]");
-  const clockNoteEl = document.querySelector("[data-rcc-clock-note]");
-  const messageBox = document.querySelector("[data-rcc-message]");
-  const startScreen = document.querySelector("[data-rcc-start-screen]");
-  const startButton = document.querySelector("[data-rcc-start-button]");
-  const liveScreen = document.querySelector("[data-rcc-live-screen]");
-  const checkpointTabs = document.querySelector("[data-rcc-checkpoint-tabs]");
-  const checkpointIndicator = document.querySelector("[data-rcc-checkpoint-indicator]");
-  const checkpointIndicatorValue = document.querySelector("[data-rcc-checkpoint-indicator-value]");
-  const packToggle = document.querySelector("[data-rcc-pack-toggle]");
-  const finishRaceButton = document.querySelector("[data-rcc-finish-race]");
-  const restartRaceButton = document.querySelector("[data-rcc-restart-race]");
-  const packBar = document.querySelector("[data-rcc-pack-bar]");
-  const packCount = document.querySelector("[data-rcc-pack-count]");
-  const packConfirm = document.querySelector("[data-rcc-pack-confirm]");
-  const packCancel = document.querySelector("[data-rcc-pack-cancel]");
-  const runnerList = document.querySelector("[data-rcc-runner-list]");
-  const backLink = document.querySelector("[data-rcc-back-link]");
-  const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
-  const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
-  const stillCountEl = document.querySelector("[data-rcc-still-count]");
-  const stillEmptyNote = document.querySelector("[data-rcc-still-empty]");
-  const recordedHeading = document.querySelector("[data-rcc-recorded-heading]");
-  const recordedCountEl = document.querySelector("[data-rcc-recorded-count]");
-  const recordedList = document.querySelector("[data-rcc-recorded-list]");
-  const raceDayOpenButton = document.querySelector("[data-rcc-race-day-open]");
-  const raceDayDialog = document.querySelector("[data-rcc-race-day-dialog]");
-  const raceDayCloseButton = document.querySelector("[data-rcc-race-day-close]");
-  const raceDayReveal = document.querySelector("[data-rcc-race-day-reveal]");
-  const raceDayRevealCode = document.querySelector("[data-rcc-race-day-reveal-code]");
-  const raceDayCopyButton = document.querySelector("[data-rcc-race-day-copy]");
-  const raceDayStatusEl = document.querySelector("[data-rcc-race-day-status]");
-  const raceDayGenerateButton = document.querySelector("[data-rcc-race-day-generate]");
-  const raceDayRevokeButton = document.querySelector("[data-rcc-race-day-revoke]");
+  const loadingBox = document.querySelector("[data-sw-loading]");
+  const root = document.querySelector("[data-sw-root]");
+  const raceNameEl = document.querySelector("[data-sw-race-name]");
+  const syncStatusPill = document.querySelector("[data-sw-sync-status]");
+  const syncStatusText = document.querySelector("[data-sw-sync-status-text]");
+  const clockEl = document.querySelector("[data-sw-clock]");
+  const clockNoteEl = document.querySelector("[data-sw-clock-note]");
+  const messageBox = document.querySelector("[data-sw-message]");
+  const startScreen = document.querySelector("[data-sw-start-screen]");
+  const startButton = document.querySelector("[data-sw-start-button]");
+  const liveScreen = document.querySelector("[data-sw-live-screen]");
+  const checkpointTabs = document.querySelector("[data-sw-checkpoint-tabs]");
+  const checkpointIndicator = document.querySelector("[data-sw-checkpoint-indicator]");
+  const checkpointIndicatorValue = document.querySelector("[data-sw-checkpoint-indicator-value]");
+  const packToggle = document.querySelector("[data-sw-pack-toggle]");
+  const finishRaceButton = document.querySelector("[data-sw-finish-race]");
+  const restartRaceButton = document.querySelector("[data-sw-restart-race]");
+  const packBar = document.querySelector("[data-sw-pack-bar]");
+  const packCount = document.querySelector("[data-sw-pack-count]");
+  const packConfirm = document.querySelector("[data-sw-pack-confirm]");
+  const packCancel = document.querySelector("[data-sw-pack-cancel]");
+  const runnerList = document.querySelector("[data-sw-runner-list]");
+  const backLink = document.querySelector("[data-sw-back-link]");
+  const raceSwitcherWrap = document.querySelector("[data-sw-race-switcher-wrap]");
+  const raceSwitcher = document.querySelector("[data-sw-race-switcher]");
+  const stillCountEl = document.querySelector("[data-sw-still-count]");
+  const stillEmptyNote = document.querySelector("[data-sw-still-empty]");
+  const recordedHeading = document.querySelector("[data-sw-recorded-heading]");
+  const recordedCountEl = document.querySelector("[data-sw-recorded-count]");
+  const recordedList = document.querySelector("[data-sw-recorded-list]");
+  const raceDayOpenButton = document.querySelector("[data-sw-race-day-open]");
+  const raceDayDialog = document.querySelector("[data-sw-race-day-dialog]");
+  const raceDayCloseButton = document.querySelector("[data-sw-race-day-close]");
+  const raceDayReveal = document.querySelector("[data-sw-race-day-reveal]");
+  const raceDayRevealCode = document.querySelector("[data-sw-race-day-reveal-code]");
+  const raceDayCopyButton = document.querySelector("[data-sw-race-day-copy]");
+  const raceDayStatusEl = document.querySelector("[data-sw-race-day-status]");
+  const raceDayGenerateButton = document.querySelector("[data-sw-race-day-generate]");
+  const raceDayRevokeButton = document.querySelector("[data-sw-race-day-revoke]");
 
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
@@ -53,10 +53,10 @@
   const params = new URLSearchParams(window.location.search);
   const teamId = String(params.get("id") || "").trim();
   const sessionId = String(params.get("race") || "").trim();
-  if (teamId) backLink.href = "/race-command-center/?id=" + encodeURIComponent(teamId);
+  if (teamId) backLink.href = "/split-watch/?id=" + encodeURIComponent(teamId);
 
-  const SESSIONS_ENDPOINT = "/api/race-command-center/sessions/";
-  const SYNC_ENDPOINT = "/api/race-command-center/sync/";
+  const SESSIONS_ENDPOINT = "/api/split-watch/sessions/";
+  const SYNC_ENDPOINT = "/api/split-watch/sync/";
 
   const Store = window.PodiumRaceStore;
   const Timer = window.PodiumRaceTimer.createRaceTimer();
@@ -153,14 +153,14 @@
       headers,
       body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
     });
-    if (response.status === 401) window.location.replace("/race-command-center/join/");
+    if (response.status === 401) window.location.replace("/split-watch/join/");
     return parseResponse(response, "The request could not be completed.");
   }
 
   // ---- sync status display ---------------------------------------------------
 
   function setSyncStatus(status) {
-    syncStatusPill.className = "rcc-status-pill rcc-status-" + status;
+    syncStatusPill.className = "sw-status-pill sw-status-" + status;
     const labels = {
       synced: "Synced", syncing: "Syncing...", saved: "Saved on device",
       offline: "Offline -- saved on device", needs_attention: "Sync needs attention"
@@ -618,9 +618,9 @@
       }).length;
       const active = cp.id === activeId;
       return (
-        '<button class="rcc-checkpoint-tab' + (active ? " rcc-checkpoint-tab-active" : "") + '" type="button" data-checkpoint-select="' + escapeHtml(cp.id) + '">' +
-          '<span class="rcc-checkpoint-tab-label">' + escapeHtml(cp.label) + (cp.is_finish ? " (Finish)" : "") + '</span>' +
-          '<span class="rcc-checkpoint-tab-count">' + remaining + " still needed</span>" +
+        '<button class="sw-checkpoint-tab' + (active ? " sw-checkpoint-tab-active" : "") + '" type="button" data-checkpoint-select="' + escapeHtml(cp.id) + '">' +
+          '<span class="sw-checkpoint-tab-label">' + escapeHtml(cp.label) + (cp.is_finish ? " (Finish)" : "") + '</span>' +
+          '<span class="sw-checkpoint-tab-count">' + remaining + " still needed</span>" +
         '</button>'
       );
     }).join("");
@@ -630,7 +630,7 @@
     if (!window.confirm("Finish this race? You can still review and correct splits afterward.")) return;
     try {
       await apiFetch(SESSIONS_ENDPOINT, { action: "finish_race" });
-      window.location.href = "/race-command-center/review/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId);
+      window.location.href = "/split-watch/review/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId);
     } catch (error) {
       showMessage(error.message || "This race could not be finished.", true);
     }
@@ -737,10 +737,10 @@
         const excluded = participant.status === "dns" || participant.status === "dnf";
         const checked = packSelected.has(participant.id) ? " checked" : "";
         return (
-          '<div class="rcc-runner-card' + (excluded ? " rcc-runner-card-excluded" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
-            '<div class="rcc-runner-top"><h3>' + escapeHtml(participantName(participant)) + '</h3><span class="rcc-runner-meta">' + escapeHtml(participant.status) + '</span></div>' +
-            '<label class="rcc-runner-tap" style="display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:2px solid rgba(255,255,255,0.4);color:#fff;">' +
-              '<input type="checkbox" class="rcc-pack-checkbox" data-pack-select="' + escapeHtml(participant.id) + '"' + checked + '> Select</label>' +
+          '<div class="sw-runner-card' + (excluded ? " sw-runner-card-excluded" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
+            '<div class="sw-runner-top"><h3>' + escapeHtml(participantName(participant)) + '</h3><span class="sw-runner-meta">' + escapeHtml(participant.status) + '</span></div>' +
+            '<label class="sw-runner-tap" style="display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;border:2px solid rgba(255,255,255,0.4);color:#fff;">' +
+              '<input type="checkbox" class="sw-pack-checkbox" data-pack-select="' + escapeHtml(participant.id) + '"' + checked + '> Select</label>' +
           '</div>'
         );
       }).join("");
@@ -775,18 +775,18 @@
       const excluded = participant.status === "dns" || participant.status === "dnf";
       const expanded = expandedRunnerIds.has(participant.id);
       return (
-        '<div class="rcc-runner-card' + (excluded ? " rcc-runner-card-excluded" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
-          '<div class="rcc-runner-row">' +
-            '<span class="rcc-runner-name">' + escapeHtml(participantName(participant)) + (excluded ? " (" + escapeHtml(participant.status.toUpperCase()) + ")" : "") + '</span>' +
-            '<button class="rcc-runner-tap" type="button" data-tap="' + escapeHtml(participant.id) + '">Tap</button>' +
-            '<button class="rcc-runner-more" type="button" data-more-toggle="' + escapeHtml(participant.id) + '" aria-label="More options for ' + escapeHtml(participantName(participant)) + '" aria-expanded="' + expanded + '">&ctdot;</button>' +
+        '<div class="sw-runner-card' + (excluded ? " sw-runner-card-excluded" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
+          '<div class="sw-runner-row">' +
+            '<span class="sw-runner-name">' + escapeHtml(participantName(participant)) + (excluded ? " (" + escapeHtml(participant.status.toUpperCase()) + ")" : "") + '</span>' +
+            '<button class="sw-runner-tap" type="button" data-tap="' + escapeHtml(participant.id) + '">Tap</button>' +
+            '<button class="sw-runner-more" type="button" data-more-toggle="' + escapeHtml(participant.id) + '" aria-label="More options for ' + escapeHtml(participantName(participant)) + '" aria-expanded="' + expanded + '">&ctdot;</button>' +
           '</div>' +
-          '<div class="rcc-runner-expand" data-runner-expand="' + escapeHtml(participant.id) + '"' + (expanded ? "" : " hidden") + '>' +
-            '<div class="rcc-manual-entry"><input type="text" placeholder="Manual time m:ss" data-manual-input="' + escapeHtml(participant.id) + '">' +
-            '<button class="rcc-runner-small-btn" type="button" data-manual-save="' + escapeHtml(participant.id) + '">Save</button></div>' +
-            '<div class="rcc-runner-row-actions">' +
-              '<button class="rcc-runner-small-btn" type="button" data-dns="' + escapeHtml(participant.id) + '">DNS</button>' +
-              '<button class="rcc-runner-small-btn" type="button" data-dnf="' + escapeHtml(participant.id) + '">DNF</button>' +
+          '<div class="sw-runner-expand" data-runner-expand="' + escapeHtml(participant.id) + '"' + (expanded ? "" : " hidden") + '>' +
+            '<div class="sw-manual-entry"><input type="text" placeholder="Manual time m:ss" data-manual-input="' + escapeHtml(participant.id) + '">' +
+            '<button class="sw-runner-small-btn" type="button" data-manual-save="' + escapeHtml(participant.id) + '">Save</button></div>' +
+            '<div class="sw-runner-row-actions">' +
+              '<button class="sw-runner-small-btn" type="button" data-dns="' + escapeHtml(participant.id) + '">DNS</button>' +
+              '<button class="sw-runner-small-btn" type="button" data-dnf="' + escapeHtml(participant.id) + '">DNF</button>' +
             '</div>' +
           '</div>' +
         '</div>'
@@ -801,12 +801,12 @@
       const isManual = split.capture_method === "manual_entry" || split.capture_method === "edited";
       const justRecorded = recentlyRecordedIds.has(participant.id);
       return (
-        '<div class="rcc-recorded-row' + (isManual ? " rcc-recorded-row-manual" : "") + (justRecorded ? " rcc-recorded-row-flash" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
-          '<span class="rcc-recorded-row-name">' + escapeHtml(participantName(participant)) + '</span>' +
-          '<span class="rcc-recorded-row-right">' +
+        '<div class="sw-recorded-row' + (isManual ? " sw-recorded-row-manual" : "") + (justRecorded ? " sw-recorded-row-flash" : "") + '" data-runner-card="' + escapeHtml(participant.id) + '">' +
+          '<span class="sw-recorded-row-name">' + escapeHtml(participantName(participant)) + '</span>' +
+          '<span class="sw-recorded-row-right">' +
             renderPaceBadge(participant.id, checkpoint, split.elapsed_seconds) +
-            '<span class="rcc-recorded-row-value">' + escapeHtml(formatSecondsToClock(split.elapsed_seconds)) + (isManual ? " (manual)" : "") + '</span>' +
-            '<button class="rcc-runner-small-btn" type="button" data-undo="' + escapeHtml(participant.id) + '">Undo</button>' +
+            '<span class="sw-recorded-row-value">' + escapeHtml(formatSecondsToClock(split.elapsed_seconds)) + (isManual ? " (manual)" : "") + '</span>' +
+            '<button class="sw-runner-small-btn" type="button" data-undo="' + escapeHtml(participant.id) + '">Undo</button>' +
           '</span>' +
         '</div>'
       );
@@ -831,7 +831,7 @@
     const diff = RaceMath.computeDiffFromTarget(actualElapsedSeconds, goalASeconds);
     const status = RaceMath.computeGoalStatus({ diffFromTargetSeconds: diff, distanceRemainingMeters });
 
-    return '<span class="rcc-pace-badge rcc-pace-badge-' + escapeHtml(status) + '">' + escapeHtml(PACE_STATUS_LABELS[status] || status) + '</span>';
+    return '<span class="sw-pace-badge sw-pace-badge-' + escapeHtml(status) + '">' + escapeHtml(PACE_STATUS_LABELS[status] || status) + '</span>';
   }
 
   runnerList.addEventListener("click", (event) => {
@@ -903,8 +903,8 @@
   }
 
   // --- race day access (share this team's code with a volunteer timer) ------
-  // Same generate/status/reveal-once/revoke pattern as Team Home, the RCC
-  // hub, and the Plan page -- reachable here too since "I need help timing
+  // Same generate/status/reveal-once/revoke pattern as Team Home, the
+  // Split Watch hub, and the Plan page -- reachable here too since "I need help timing
   // this" is exactly a pre-race-screen thought. See docs/DECISIONS.md,
   // 2026-08-20.
 
@@ -921,7 +921,7 @@
     if (!status || !status.active) {
       raceDayStatusEl.innerHTML =
         '<strong>Race day access is off.</strong>' +
-        '<div class="rcc-item-meta">No volunteer code is active for this team right now.</div>';
+        '<div class="sw-item-meta">No volunteer code is active for this team right now.</div>';
       raceDayGenerateButton.textContent = "Generate code";
       raceDayRevokeButton.hidden = true;
       return;
@@ -931,7 +931,7 @@
     const lastUsed = formatDateTime(status.last_used_at);
     raceDayStatusEl.innerHTML =
       '<strong>Race day access is on.</strong>' +
-      '<div class="rcc-item-meta">' +
+      '<div class="sw-item-meta">' +
         (created ? "Created " + created : "Active") +
         " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
       '</div>';
@@ -1055,11 +1055,11 @@
     if (!target) return;
     const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(target.id);
     if (target.status === "live") {
-      window.location.href = "/race-command-center/live/" + idPart;
+      window.location.href = "/split-watch/live/" + idPart;
     } else if (target.status === "finished" || target.status === "reviewed") {
-      window.location.href = "/race-command-center/review/" + idPart;
+      window.location.href = "/split-watch/review/" + idPart;
     } else {
-      window.location.href = "/race-command-center/plan/" + idPart;
+      window.location.href = "/split-watch/plan/" + idPart;
     }
   });
 
@@ -1076,7 +1076,7 @@
       detail = await apiFetch(SYNC_ENDPOINT, { action: "pull_state" });
 
       if (detail.session.status === "finished" || detail.session.status === "reviewed") {
-        window.location.replace("/race-command-center/review/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId));
+        window.location.replace("/split-watch/review/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId));
         return;
       }
 
@@ -1105,7 +1105,7 @@
     } catch (error) {
       loadingBox.innerHTML =
         "<h2>This race could not be loaded</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="rcc-live-btn rcc-live-btn-primary" href="/race-command-center/?id=' + encodeURIComponent(teamId) + '">Back to Race Command Center</a></p>';
+        '<p><a class="sw-live-btn sw-live-btn-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
     }
   }
 

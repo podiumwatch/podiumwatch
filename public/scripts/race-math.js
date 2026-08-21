@@ -1,7 +1,7 @@
-// Race Command Center's pure calculation engine. Every function here is
+// Split Watch's pure calculation engine. Every function here is
 // plain data in, plain data out -- no DOM access, no timers, no network --
 // which is what makes it directly unit-testable from Node
-// (scripts/test-race-command-center.mjs) with only a minimal window stub,
+// (scripts/test-split-watch.mjs) with only a minimal window stub,
 // matching the pattern already established by public/scripts/pace-splits.js
 // and scripts/test-pace-calculator.mjs.
 //
@@ -21,7 +21,7 @@
 
   // Generalizes pace-splits.js's buildCheckpoints() proportional formula
   // (cumulativeSeconds = goalSeconds * (checkpointDistance / distanceMeters))
-  // to Race Command Center's coach-defined, irregularly-spaced checkpoints
+  // to Split Watch's coach-defined, irregularly-spaced checkpoints
   // -- buildCheckpoints() itself assumes a uniform step size, which does not
   // fit a coach's real checkpoint layout, but the underlying formula is
   // reused exactly, not reinvented.

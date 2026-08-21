@@ -4,7 +4,7 @@ import {
 } from "../../lib/team_auth.mjs";
 import {
   requireTeamMembership
-} from "../../lib/race_command_center_service.mjs";
+} from "../../lib/split_watch_service.mjs";
 import {
   getRaceDayCodeStatus,
   regenerateRaceDayCode,
@@ -30,7 +30,7 @@ function parseBody(request) {
 
 // Owner/editor management of a team's race day code -- requires a real
 // signed-in Podium Watch coach account, same membership check every
-// other Race Command Center action already uses. Never accepts or
+// other Split Watch action already uses. Never accepts or
 // returns the race-day SESSION itself (lib/race_day_auth.mjs's other
 // cookie) -- this is exclusively the "manage the code" side.
 export default async function handler(request, response) {

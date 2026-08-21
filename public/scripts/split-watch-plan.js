@@ -1,50 +1,50 @@
 (() => {
-  const loadingBox = document.querySelector("[data-rcc-loading]");
-  const root = document.querySelector("[data-rcc-root]");
-  const teamNameEl = document.querySelector("[data-rcc-team-name]");
-  const raceNameEl = document.querySelector("[data-rcc-race-name]");
-  const statusBadge = document.querySelector("[data-rcc-status-badge]");
-  const raceMetaEl = document.querySelector("[data-rcc-race-meta]");
-  const messageBox = document.querySelector("[data-rcc-message]");
-  const checkpointStrip = document.querySelector("[data-rcc-checkpoint-strip]");
-  const rosterList = document.querySelector("[data-rcc-roster-list]");
-  const rosterEmpty = document.querySelector("[data-rcc-roster-empty]");
-  const selectAllRosterButton = document.querySelector("[data-rcc-select-all-roster]");
-  const allRacesLink = document.querySelector("[data-rcc-all-races-link]");
-  const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
-  const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
-  const rosterImportLink = document.querySelector("[data-rcc-roster-import-link]");
-  const manageRosterLink = document.querySelector("[data-rcc-manage-roster-link]");
-  const quickAddWrap = document.querySelector("[data-rcc-quick-add-wrap]");
-  const quickAddHsBoys = document.querySelector('[data-rcc-quick-add="hs_boys"]');
-  const quickAddHsGirls = document.querySelector('[data-rcc-quick-add="hs_girls"]');
-  const quickAddJhBoys = document.querySelector('[data-rcc-quick-add="jh_boys"]');
-  const quickAddJhGirls = document.querySelector('[data-rcc-quick-add="jh_girls"]');
-  const manualForm = document.querySelector("[data-rcc-manual-form]");
-  const bulkToggleButton = document.querySelector("[data-rcc-bulk-toggle]");
-  const bulkPanel = document.querySelector("[data-rcc-bulk-panel]");
-  const bulkTextarea = document.querySelector("[data-rcc-bulk-textarea]");
-  const bulkAddButton = document.querySelector("[data-rcc-bulk-add]");
-  const saveParticipantsButton = document.querySelector("[data-rcc-save-participants]");
-  const bulkGoalsWrap = document.querySelector("[data-rcc-bulk-goals]");
-  const bulkGoalsRows = document.querySelector("[data-rcc-bulk-goals-rows]");
-  const bulkGoalsSelectAll = document.querySelector("[data-rcc-bulk-select-all]");
-  const bulkGoalsApplyValueInput = document.querySelector("[data-rcc-bulk-apply-value]");
-  const bulkGoalsApplySelectedButton = document.querySelector("[data-rcc-bulk-apply-selected]");
-  const saveBulkGoalsButton = document.querySelector("[data-rcc-save-bulk-goals]");
-  const participantList = document.querySelector("[data-rcc-participant-list]");
-  const participantEmpty = document.querySelector("[data-rcc-participant-empty]");
-  const deleteRaceButton = document.querySelector("[data-rcc-delete-race]");
-  const liveLinkButton = document.querySelector("[data-rcc-live-link]");
-  const raceDayOpenButton = document.querySelector("[data-rcc-race-day-open]");
-  const raceDayDialog = document.querySelector("[data-rcc-race-day-dialog]");
-  const raceDayCloseButton = document.querySelector("[data-rcc-race-day-close]");
-  const raceDayReveal = document.querySelector("[data-rcc-race-day-reveal]");
-  const raceDayRevealCode = document.querySelector("[data-rcc-race-day-reveal-code]");
-  const raceDayCopyButton = document.querySelector("[data-rcc-race-day-copy]");
-  const raceDayStatusEl = document.querySelector("[data-rcc-race-day-status]");
-  const raceDayGenerateButton = document.querySelector("[data-rcc-race-day-generate]");
-  const raceDayRevokeButton = document.querySelector("[data-rcc-race-day-revoke]");
+  const loadingBox = document.querySelector("[data-sw-loading]");
+  const root = document.querySelector("[data-sw-root]");
+  const teamNameEl = document.querySelector("[data-sw-team-name]");
+  const raceNameEl = document.querySelector("[data-sw-race-name]");
+  const statusBadge = document.querySelector("[data-sw-status-badge]");
+  const raceMetaEl = document.querySelector("[data-sw-race-meta]");
+  const messageBox = document.querySelector("[data-sw-message]");
+  const checkpointStrip = document.querySelector("[data-sw-checkpoint-strip]");
+  const rosterList = document.querySelector("[data-sw-roster-list]");
+  const rosterEmpty = document.querySelector("[data-sw-roster-empty]");
+  const selectAllRosterButton = document.querySelector("[data-sw-select-all-roster]");
+  const allRacesLink = document.querySelector("[data-sw-all-races-link]");
+  const raceSwitcherWrap = document.querySelector("[data-sw-race-switcher-wrap]");
+  const raceSwitcher = document.querySelector("[data-sw-race-switcher]");
+  const rosterImportLink = document.querySelector("[data-sw-roster-import-link]");
+  const manageRosterLink = document.querySelector("[data-sw-manage-roster-link]");
+  const quickAddWrap = document.querySelector("[data-sw-quick-add-wrap]");
+  const quickAddHsBoys = document.querySelector('[data-sw-quick-add="hs_boys"]');
+  const quickAddHsGirls = document.querySelector('[data-sw-quick-add="hs_girls"]');
+  const quickAddJhBoys = document.querySelector('[data-sw-quick-add="jh_boys"]');
+  const quickAddJhGirls = document.querySelector('[data-sw-quick-add="jh_girls"]');
+  const manualForm = document.querySelector("[data-sw-manual-form]");
+  const bulkToggleButton = document.querySelector("[data-sw-bulk-toggle]");
+  const bulkPanel = document.querySelector("[data-sw-bulk-panel]");
+  const bulkTextarea = document.querySelector("[data-sw-bulk-textarea]");
+  const bulkAddButton = document.querySelector("[data-sw-bulk-add]");
+  const saveParticipantsButton = document.querySelector("[data-sw-save-participants]");
+  const bulkGoalsWrap = document.querySelector("[data-sw-bulk-goals]");
+  const bulkGoalsRows = document.querySelector("[data-sw-bulk-goals-rows]");
+  const bulkGoalsSelectAll = document.querySelector("[data-sw-bulk-select-all]");
+  const bulkGoalsApplyValueInput = document.querySelector("[data-sw-bulk-apply-value]");
+  const bulkGoalsApplySelectedButton = document.querySelector("[data-sw-bulk-apply-selected]");
+  const saveBulkGoalsButton = document.querySelector("[data-sw-save-bulk-goals]");
+  const participantList = document.querySelector("[data-sw-participant-list]");
+  const participantEmpty = document.querySelector("[data-sw-participant-empty]");
+  const deleteRaceButton = document.querySelector("[data-sw-delete-race]");
+  const liveLinkButton = document.querySelector("[data-sw-live-link]");
+  const raceDayOpenButton = document.querySelector("[data-sw-race-day-open]");
+  const raceDayDialog = document.querySelector("[data-sw-race-day-dialog]");
+  const raceDayCloseButton = document.querySelector("[data-sw-race-day-close]");
+  const raceDayReveal = document.querySelector("[data-sw-race-day-reveal]");
+  const raceDayRevealCode = document.querySelector("[data-sw-race-day-reveal-code]");
+  const raceDayCopyButton = document.querySelector("[data-sw-race-day-copy]");
+  const raceDayStatusEl = document.querySelector("[data-sw-race-day-status]");
+  const raceDayGenerateButton = document.querySelector("[data-sw-race-day-generate]");
+  const raceDayRevokeButton = document.querySelector("[data-sw-race-day-revoke]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
@@ -68,12 +68,12 @@
   rosterImportLink.href = "/team-roster/?id=" + encodeURIComponent(teamId);
   manageRosterLink.href = "/team-roster/?id=" + encodeURIComponent(teamId);
   // The static template can't know the team id -- without this the link
-  // falls back to its bare href and lands on the RCC hub with no ?id=,
-  // which the hub reports as "Race Command Center not found."
-  if (teamId) allRacesLink.href = "/race-command-center/?id=" + encodeURIComponent(teamId);
+  // falls back to its bare href and lands on the Split Watch hub with no ?id=,
+  // which the hub reports as "Split Watch not found."
+  if (teamId) allRacesLink.href = "/split-watch/?id=" + encodeURIComponent(teamId);
 
-  const SESSIONS_ENDPOINT = "/api/race-command-center/sessions/";
-  const PLAN_ENDPOINT = "/api/race-command-center/plan/";
+  const SESSIONS_ENDPOINT = "/api/split-watch/sessions/";
+  const PLAN_ENDPOINT = "/api/split-watch/plan/";
 
   let detail = null;
   let rosterAthletes = [];
@@ -159,7 +159,7 @@
     });
 
     if (response.status === 401) {
-      window.location.replace("/race-command-center/join/");
+      window.location.replace("/split-watch/join/");
     }
 
     return parseResponse(response, "The request could not be completed.");
@@ -175,9 +175,9 @@
     teamNameEl.textContent = detail.team.school_name;
     raceNameEl.textContent = session.name;
     statusBadge.textContent = STATUS_LABELS[session.status] || session.status;
-    statusBadge.className = "rcc-badge" +
-      (session.status === "live" ? " rcc-badge-live" : "") +
-      (session.status === "finished" || session.status === "reviewed" ? " rcc-badge-finished" : "");
+    statusBadge.className = "sw-badge" +
+      (session.status === "live" ? " sw-badge-live" : "") +
+      (session.status === "finished" || session.status === "reviewed" ? " sw-badge-finished" : "");
 
     const unit = session.distance_unit_display;
     const unitMeters = unit === "miles" ? 1609.344 : (unit === "km" ? 1000 : 1);
@@ -190,12 +190,12 @@
     deleteRaceButton.textContent = session.status === "draft" ? "Delete draft" : "Delete race";
     liveLinkButton.disabled = false;
     liveLinkButton.onclick = () => {
-      window.location.href = "/race-command-center/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId);
+      window.location.href = "/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId);
     };
 
     checkpointStrip.innerHTML = detail.checkpoints.map((c) => {
       const label = c.is_finish ? c.label + " (Finish)" : c.label;
-      return '<span class="rcc-checkpoint-chip">' + escapeHtml(label) + "</span>";
+      return '<span class="sw-checkpoint-chip">' + escapeHtml(label) + "</span>";
     }).join("");
   }
 
@@ -217,8 +217,8 @@
         const name = athlete.display_name || (athlete.first_name + " " + athlete.last_name);
         const checked = isParticipantSelected(athlete.id) ? " checked" : "";
         return (
-          '<label class="rcc-roster-row">' +
-            '<input type="checkbox" class="rcc-roster-checkbox" value="' + escapeHtml(athlete.id) + '"' + checked + '>' +
+          '<label class="sw-roster-row">' +
+            '<input type="checkbox" class="sw-roster-checkbox" value="' + escapeHtml(athlete.id) + '"' + checked + '>' +
             '<span>' + escapeHtml(name) + (athlete.graduation_year ? " (" + escapeHtml(String(athlete.graduation_year)) + ")" : "") + '</span>' +
           '</label>'
         );
@@ -229,15 +229,15 @@
     // removable list beneath the roster checkboxes.
     const existingManual = detail.participants.filter((p) => !p.team_athlete_id);
     const manualHtml = existingManual.map((p) => (
-      '<label class="rcc-roster-row">' +
-        '<input type="checkbox" class="rcc-manual-keep" value="' + escapeHtml(p.id) + '" checked>' +
+      '<label class="sw-roster-row">' +
+        '<input type="checkbox" class="sw-manual-keep" value="' + escapeHtml(p.id) + '" checked>' +
         '<span>' + escapeHtml(p.manual_name) + ' (manual)</span>' +
       '</label>'
     )).join("");
 
     const newManualHtml = manualParticipants.map((p, index) => (
-      '<label class="rcc-roster-row">' +
-        '<input type="checkbox" class="rcc-manual-new" data-index="' + index + '" checked>' +
+      '<label class="sw-roster-row">' +
+        '<input type="checkbox" class="sw-manual-new" data-index="' + index + '" checked>' +
         '<span>' + escapeHtml(p.manual_name) + ' (manual, unsaved)</span>' +
       '</label>'
     )).join("");
@@ -246,7 +246,7 @@
   }
 
   selectAllRosterButton.addEventListener("click", () => {
-    rosterList.querySelectorAll(".rcc-roster-checkbox").forEach((checkbox) => {
+    rosterList.querySelectorAll(".sw-roster-checkbox").forEach((checkbox) => {
       checkbox.checked = true;
     });
   });
@@ -281,10 +281,10 @@
   }
 
   quickAddWrap.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-rcc-quick-add]");
+    const button = event.target.closest("[data-sw-quick-add]");
     if (!button) return;
-    const group = button.dataset.rccQuickAdd;
-    rosterList.querySelectorAll(".rcc-roster-checkbox").forEach((checkbox) => {
+    const group = button.dataset.swQuickAdd;
+    rosterList.querySelectorAll(".sw-roster-checkbox").forEach((checkbox) => {
       const athlete = rosterAthletes.find((a) => a.id === checkbox.value);
       if (athlete && athleteGroup(athlete) === group) checkbox.checked = true;
     });
@@ -341,9 +341,9 @@
 
   saveParticipantsButton.addEventListener("click", async () => {
     showMessage("");
-    const checkedAthleteIds = [...rosterList.querySelectorAll(".rcc-roster-checkbox:checked")].map((el) => el.value);
-    const keptManualIds = new Set([...rosterList.querySelectorAll(".rcc-manual-keep:checked")].map((el) => el.value));
-    const newManualChecked = [...rosterList.querySelectorAll(".rcc-manual-new:checked")].map((el) => manualParticipants[Number(el.dataset.index)]);
+    const checkedAthleteIds = [...rosterList.querySelectorAll(".sw-roster-checkbox:checked")].map((el) => el.value);
+    const keptManualIds = new Set([...rosterList.querySelectorAll(".sw-manual-keep:checked")].map((el) => el.value));
+    const newManualChecked = [...rosterList.querySelectorAll(".sw-manual-new:checked")].map((el) => manualParticipants[Number(el.dataset.index)]);
 
     const existingManual = detail.participants.filter((p) => !p.team_athlete_id && keptManualIds.has(p.id));
 
@@ -391,35 +391,35 @@
     const customRows = detail.checkpoints.map((c) => {
       const target = targets.find((t) => t.race_checkpoint_id === c.id && t.goal_slot === "A");
       return (
-        '<div class="rcc-custom-target-row">' +
+        '<div class="sw-custom-target-row">' +
           '<span>' + escapeHtml(c.label) + (c.is_finish ? " (Finish)" : "") + '</span>' +
-          '<input type="text" class="rcc-custom-target-input" data-checkpoint-id="' + escapeHtml(c.id) + '" placeholder="m:ss" value="' + (target ? escapeHtml(formatSecondsToClock(target.target_elapsed_seconds)) : "") + '">' +
+          '<input type="text" class="sw-custom-target-input" data-checkpoint-id="' + escapeHtml(c.id) + '" placeholder="m:ss" value="' + (target ? escapeHtml(formatSecondsToClock(target.target_elapsed_seconds)) : "") + '">' +
         '</div>'
       );
     }).join("");
 
     return (
-      '<div class="rcc-participant-card" data-participant-card="' + escapeHtml(participant.id) + '">' +
-        '<div class="rcc-participant-summary" data-participant-toggle="' + escapeHtml(participant.id) + '">' +
+      '<div class="sw-participant-card" data-participant-card="' + escapeHtml(participant.id) + '">' +
+        '<div class="sw-participant-summary" data-participant-toggle="' + escapeHtml(participant.id) + '">' +
           '<h3>' + escapeHtml(participantName(participant)) + (participant.race_group ? ' <span style="font-weight:500;font-size:0.85rem;">(' + escapeHtml(participant.race_group) + ')</span>' : '') + '</h3>' +
-          '<span class="rcc-badge">' + (goalA ? "Goal A: " + escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "No goal set") + '</span>' +
+          '<span class="sw-badge">' + (goalA ? "Goal A: " + escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "No goal set") + '</span>' +
         '</div>' +
-        '<div class="rcc-participant-detail' + (isOpen ? " rcc-open" : "") + '" data-participant-detail="' + escapeHtml(participant.id) + '">' +
-          '<div class="rcc-goal-fields">' +
-            '<label>Goal A<input type="text" class="rcc-field-goal-a" placeholder="17:00" value="' + (goalA ? escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "") + '"' + (strategy === "custom_pace" ? " disabled" : "") + '></label>' +
-            '<label>Goal B<input type="text" class="rcc-field-goal-b" placeholder="17:30" value="' + (goalB ? escapeHtml(formatSecondsToClock(goalB.goal_seconds)) : "") + '"></label>' +
-            '<label>Goal C<input type="text" class="rcc-field-goal-c" placeholder="18:00" value="' + (goalC ? escapeHtml(formatSecondsToClock(goalC.goal_seconds)) : "") + '"></label>' +
-            '<label>Pace strategy<select class="rcc-field-strategy">' +
+        '<div class="sw-participant-detail' + (isOpen ? " sw-open" : "") + '" data-participant-detail="' + escapeHtml(participant.id) + '">' +
+          '<div class="sw-goal-fields">' +
+            '<label>Goal A<input type="text" class="sw-field-goal-a" placeholder="17:00" value="' + (goalA ? escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "") + '"' + (strategy === "custom_pace" ? " disabled" : "") + '></label>' +
+            '<label>Goal B<input type="text" class="sw-field-goal-b" placeholder="17:30" value="' + (goalB ? escapeHtml(formatSecondsToClock(goalB.goal_seconds)) : "") + '"></label>' +
+            '<label>Goal C<input type="text" class="sw-field-goal-c" placeholder="18:00" value="' + (goalC ? escapeHtml(formatSecondsToClock(goalC.goal_seconds)) : "") + '"></label>' +
+            '<label>Pace strategy<select class="sw-field-strategy">' +
               '<option value="even_pace"' + (strategy === "even_pace" ? " selected" : "") + '>Even pace</option>' +
               '<option value="custom_pace"' + (strategy === "custom_pace" ? " selected" : "") + '>Custom pace</option>' +
             '</select></label>' +
           '</div>' +
-          '<div class="rcc-custom-targets" data-custom-targets style="' + (strategy === "custom_pace" ? "" : "display:none;") + '">' +
+          '<div class="sw-custom-targets" data-custom-targets style="' + (strategy === "custom_pace" ? "" : "display:none;") + '">' +
             '<p style="margin:0;font-size:0.85rem;">Enter Goal A’s target time at each checkpoint. Times must strictly increase; the Finish time becomes Goal A.</p>' +
             customRows +
           '</div>' +
-          '<div class="rcc-actions">' +
-            '<button class="button button-primary rcc-save-plan" type="button">Save plan for this runner</button>' +
+          '<div class="sw-actions">' +
+            '<button class="button button-primary sw-save-plan" type="button">Save plan for this runner</button>' +
           '</div>' +
         '</div>' +
       '</div>'
@@ -444,7 +444,7 @@
   // Runners on a Custom Pace plan aren't editable here at all: their
   // targets are hand-entered per checkpoint, and blindly recomputing an
   // Even Pace plan over top of that would silently discard it -- see
-  // partitionParticipantsByStrategy() in lib/race_command_center_service.mjs.
+  // partitionParticipantsByStrategy() in lib/split_watch_service.mjs.
   function renderBulkGoalsTable() {
     if (!detail.participants || detail.participants.length === 0) {
       bulkGoalsWrap.hidden = true;
@@ -465,7 +465,7 @@
           '<tr>' +
             '<td></td>' +
             '<td>' + name + '</td>' +
-            '<td><span class="rcc-bulk-goals-skip-note">Custom pace' +
+            '<td><span class="sw-bulk-goals-skip-note">Custom pace' +
               (goalA ? " (" + escapeHtml(formatSecondsToClock(goalA.goal_seconds)) + ")" : "") +
             '</span></td>' +
           '</tr>'
@@ -474,9 +474,9 @@
 
       return (
         '<tr>' +
-          '<td><input type="checkbox" class="rcc-bulk-row-select" value="' + escapeHtml(participant.id) + '"></td>' +
+          '<td><input type="checkbox" class="sw-bulk-row-select" value="' + escapeHtml(participant.id) + '"></td>' +
           '<td>' + name + '</td>' +
-          '<td><input type="text" class="rcc-bulk-goal-input" placeholder="19:30" ' +
+          '<td><input type="text" class="sw-bulk-goal-input" placeholder="19:30" ' +
             'value="' + (goalA ? escapeHtml(formatSecondsToClock(goalA.goal_seconds)) : "") + '" ' +
             'data-participant-id="' + escapeHtml(participant.id) + '"></td>' +
         '</tr>'
@@ -485,7 +485,7 @@
   }
 
   bulkGoalsSelectAll.addEventListener("change", () => {
-    bulkGoalsRows.querySelectorAll(".rcc-bulk-row-select").forEach((checkbox) => {
+    bulkGoalsRows.querySelectorAll(".sw-bulk-row-select").forEach((checkbox) => {
       checkbox.checked = bulkGoalsSelectAll.checked;
     });
   });
@@ -496,10 +496,10 @@
   // mouse between rows.
   bulkGoalsRows.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;
-    const input = event.target.closest(".rcc-bulk-goal-input");
+    const input = event.target.closest(".sw-bulk-goal-input");
     if (!input) return;
     event.preventDefault();
-    const inputs = [...bulkGoalsRows.querySelectorAll(".rcc-bulk-goal-input")];
+    const inputs = [...bulkGoalsRows.querySelectorAll(".sw-bulk-goal-input")];
     const nextInput = inputs[inputs.indexOf(input) + 1];
     if (nextInput) nextInput.focus();
   });
@@ -516,7 +516,7 @@
 
   bulkGoalsApplySelectedButton.addEventListener("click", async () => {
     showMessage("");
-    const selectedIds = [...bulkGoalsRows.querySelectorAll(".rcc-bulk-row-select:checked")].map((el) => el.value);
+    const selectedIds = [...bulkGoalsRows.querySelectorAll(".sw-bulk-row-select:checked")].map((el) => el.value);
     if (selectedIds.length === 0) {
       showMessage("Select at least one runner to apply a goal to.", true);
       return;
@@ -547,7 +547,7 @@
     const entries = [];
     let hasInvalidEntry = false;
 
-    bulkGoalsRows.querySelectorAll(".rcc-bulk-goal-input").forEach((input) => {
+    bulkGoalsRows.querySelectorAll(".sw-bulk-goal-input").forEach((input) => {
       const raw = input.value.trim();
       if (!raw) return;
       const seconds = parseClockToSeconds(raw);
@@ -585,12 +585,12 @@
       return;
     }
 
-    const strategySelect = event.target.closest(".rcc-field-strategy");
+    const strategySelect = event.target.closest(".sw-field-strategy");
     if (strategySelect) {
       return; // handled by change listener below
     }
 
-    const saveButton = event.target.closest(".rcc-save-plan");
+    const saveButton = event.target.closest(".sw-save-plan");
     if (saveButton) {
       const card = saveButton.closest("[data-participant-card]");
       await saveParticipantPlan(card.dataset.participantCard);
@@ -598,11 +598,11 @@
   });
 
   participantList.addEventListener("change", (event) => {
-    const select = event.target.closest(".rcc-field-strategy");
+    const select = event.target.closest(".sw-field-strategy");
     if (!select) return;
     const card = select.closest("[data-participant-card]");
     const customTargets = card.querySelector("[data-custom-targets]");
-    const goalAInput = card.querySelector(".rcc-field-goal-a");
+    const goalAInput = card.querySelector(".sw-field-goal-a");
     const isCustom = select.value === "custom_pace";
     customTargets.style.display = isCustom ? "" : "none";
     goalAInput.disabled = isCustom;
@@ -612,10 +612,10 @@
     const card = participantList.querySelector('[data-participant-card="' + CSS.escape(participantId) + '"]');
     if (!card) return;
 
-    const strategy = card.querySelector(".rcc-field-strategy").value;
-    const goalAText = card.querySelector(".rcc-field-goal-a").value;
-    const goalBText = card.querySelector(".rcc-field-goal-b").value;
-    const goalCText = card.querySelector(".rcc-field-goal-c").value;
+    const strategy = card.querySelector(".sw-field-strategy").value;
+    const goalAText = card.querySelector(".sw-field-goal-a").value;
+    const goalBText = card.querySelector(".sw-field-goal-b").value;
+    const goalCText = card.querySelector(".sw-field-goal-c").value;
 
     const goalBSeconds = parseClockToSeconds(goalBText);
     const goalCSeconds = parseClockToSeconds(goalCText);
@@ -640,7 +640,7 @@
         await apiFetch(PLAN_ENDPOINT, { action: "save_strategy", participant_id: participantId, strategy });
         await apiFetch(PLAN_ENDPOINT, { action: "save_targets", participant_id: participantId, goal_slot: "A", mode: "even_pace", goal_seconds: goalASeconds });
       } else {
-        const inputs = [...card.querySelectorAll(".rcc-custom-target-input")];
+        const inputs = [...card.querySelectorAll(".sw-custom-target-input")];
         const checkpointSeconds = inputs.map((input) => parseClockToSeconds(input.value));
 
         if (checkpointSeconds.some((v) => v === null)) {
@@ -676,7 +676,7 @@
     if (!window.confirm(confirmMessage)) return;
     try {
       await apiFetch(SESSIONS_ENDPOINT, { action: "delete" });
-      window.location.href = "/race-command-center/?id=" + encodeURIComponent(teamId);
+      window.location.href = "/split-watch/?id=" + encodeURIComponent(teamId);
     } catch (error) {
       showMessage(error.message || "This race could not be deleted.", true);
     }
@@ -684,7 +684,7 @@
 
   // --- race day access (share this team's code with a volunteer timer) ------
   // Same generate/status/reveal-once/revoke pattern as Team Home and the
-  // Race Command Center hub, reachable here too since a coach realizing
+  // Split Watch hub, reachable here too since a coach realizing
   // "I need help timing this" happens mid-Plan, not just on those other
   // two pages -- see docs/DECISIONS.md, 2026-08-20.
 
@@ -701,7 +701,7 @@
     if (!status || !status.active) {
       raceDayStatusEl.innerHTML =
         '<strong>Race day access is off.</strong>' +
-        '<div class="rcc-item-meta">No volunteer code is active for this team right now.</div>';
+        '<div class="sw-item-meta">No volunteer code is active for this team right now.</div>';
       raceDayGenerateButton.textContent = "Generate code";
       raceDayRevokeButton.hidden = true;
       return;
@@ -711,7 +711,7 @@
     const lastUsed = formatDateTime(status.last_used_at);
     raceDayStatusEl.innerHTML =
       '<strong>Race day access is on.</strong>' +
-      '<div class="rcc-item-meta">' +
+      '<div class="sw-item-meta">' +
         (created ? "Created " + created : "Active") +
         " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
       '</div>';
@@ -823,11 +823,11 @@
     if (!target) return;
     const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(target.id);
     if (target.status === "live") {
-      window.location.href = "/race-command-center/live/" + idPart;
+      window.location.href = "/split-watch/live/" + idPart;
     } else if (target.status === "finished" || target.status === "reviewed") {
-      window.location.href = "/race-command-center/review/" + idPart;
+      window.location.href = "/split-watch/review/" + idPart;
     } else {
-      window.location.href = "/race-command-center/plan/" + idPart;
+      window.location.href = "/split-watch/plan/" + idPart;
     }
   });
 
@@ -864,7 +864,7 @@
       loadingBox.innerHTML =
         "<h2>This race could not be loaded</h2>" +
         "<p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="button button-primary" href="/race-command-center/?id=' + encodeURIComponent(teamId) + '">Back to Race Command Center</a></p>';
+        '<p><a class="button button-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
     }
   }
 

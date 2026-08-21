@@ -1,4 +1,4 @@
-// Race Command Center's local-first persistence layer. A thin, hand-rolled
+// Split Watch's local-first persistence layer. A thin, hand-rolled
 // Promise wrapper around the browser's native IndexedDB -- no new
 // dependency, matching this project's zero-external-library browser-script
 // philosophy (every other file in public/scripts/ is a plain classic
@@ -10,7 +10,7 @@
 // public/scripts/race-math.js and the UI scripts produce and consume. It
 // never contains calculation logic itself.
 //
-// Testing boundary (see scripts/test-race-command-center.mjs): Node has no
+// Testing boundary (see scripts/test-split-watch.mjs): Node has no
 // real IndexedDB and this project adds no polyfill dependency to fake one,
 // so the actual open/get/put/delete calls below are verified separately
 // with Playwright against a real Chromium instance. What CAN run in Node
@@ -245,7 +245,7 @@
   // Reads the single current local record for one split, by its
   // idempotency key. Used to re-check whether a record has changed
   // since a sync push was built from an earlier snapshot of it -- see
-  // race-command-center-live.js's triggerSync() for why this matters:
+  // split-watch-live.js's triggerSync() for why this matters:
   // a push that was already in flight when a correction happened must
   // never let that correction get marked "synced" just because it
   // happens to be what's sitting in the local store when the earlier

@@ -2,7 +2,7 @@ import {
   teamApiError
 } from "../../lib/team_auth.mjs";
 import {
-  requireRaceCommandCenterAccess
+  requireSplitWatchAccess
 } from "../../lib/race_day_auth.mjs";
 import {
   parseRaceBody,
@@ -13,7 +13,7 @@ import {
   saveTargets,
   bulkApplyGoal,
   saveGoalsBulk
-} from "../../lib/race_command_center_service.mjs";
+} from "../../lib/split_watch_service.mjs";
 
 function cleanText(value) {
   return String(value ?? "").trim();
@@ -38,7 +38,7 @@ export default async function handler(request, response) {
       throw error;
     }
 
-    await requireRaceCommandCenterAccess(request, teamId);
+    await requireSplitWatchAccess(request, teamId);
 
     const sessionId = cleanText(body.session_id);
     let data;

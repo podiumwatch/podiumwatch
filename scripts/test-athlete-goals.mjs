@@ -6,7 +6,7 @@ import process from "node:process";
 // are absent -- this suite only exercises the pure, no-database
 // nearestDistanceBucket() function, but importing the module at all
 // still triggers that top-level call. Same fallback pattern
-// scripts/test-race-command-center.mjs already uses for the same reason.
+// scripts/test-split-watch.mjs already uses for the same reason.
 process.env.SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 

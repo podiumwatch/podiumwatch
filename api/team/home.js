@@ -25,7 +25,7 @@ function parseBody(request) {
 }
 
 // Team Home's single read: a season-at-a-glance summary assembled from
-// existing roster/schedule/Race Command Center data -- see
+// existing roster/schedule/Split Watch data -- see
 // lib/team_workspace_service.mjs for exactly what it reads.
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");

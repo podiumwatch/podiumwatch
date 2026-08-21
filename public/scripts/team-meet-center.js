@@ -23,7 +23,7 @@
   const meetId = String(params.get("meet") || "").trim();
 
   const MEET_CENTER_ENDPOINT = "/api/team/meet-center/";
-  const SESSIONS_ENDPOINT = "/api/race-command-center/sessions/";
+  const SESSIONS_ENDPOINT = "/api/split-watch/sessions/";
   const MILE_METERS = 1609.344;
 
   function escapeHtml(value) {
@@ -59,9 +59,9 @@
 
   function actionLinkFor(race) {
     const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id);
-    if (race.status === "live") return { href: "/race-command-center/live/" + idPart, label: "Open live timing" };
-    if (race.status === "finished" || race.status === "reviewed") return { href: "/race-command-center/review/" + idPart, label: "View review" };
-    return { href: "/race-command-center/plan/" + idPart, label: "Open plan" };
+    if (race.status === "live") return { href: "/split-watch/live/" + idPart, label: "Open live timing" };
+    if (race.status === "finished" || race.status === "reviewed") return { href: "/split-watch/review/" + idPart, label: "View review" };
+    return { href: "/split-watch/plan/" + idPart, label: "Open plan" };
   }
 
   function parseResponse(response, fallback) {
@@ -97,7 +97,7 @@
       const action = actionLinkFor(race);
       // Deleting is only ever allowed for a draft that hasn't started --
       // matches the same restriction the Plan page's own "Delete draft"
-      // button already enforces (api/race-command-center/sessions.js's
+      // button already enforces (api/split-watch/sessions.js's
       // deleteSession()), just reachable from here too, since a race
       // group created by mistake in Meet Center has no other delete path.
       const deleteButton = race.status === "draft"
@@ -151,7 +151,7 @@
         checkpoints: []
       });
 
-      window.location.href = "/race-command-center/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(data.session.id);
+      window.location.href = "/split-watch/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(data.session.id);
     } catch (error) {
       showMessage(error.message || "This race could not be created.", true);
     }

@@ -1,8 +1,8 @@
-// Race Command Center's timer engine. This is the one piece of the
+// Split Watch's timer engine. This is the one piece of the
 // feature with zero existing precedent anywhere in this codebase --
 // nothing else here uses performance.now() -- so this file is intentionally
 // small, self-contained, and built to be directly unit-testable from Node
-// with injected time sources (see scripts/test-race-command-center.mjs),
+// with injected time sources (see scripts/test-split-watch.mjs),
 // matching the pattern already established for public/scripts/race-math.js.
 //
 // Core design (see install/11_RACE_COMMAND_CENTER.sql's header comment

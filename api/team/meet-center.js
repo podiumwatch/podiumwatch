@@ -25,10 +25,10 @@ function parseBody(request) {
 }
 
 // The operational page for one meet: meet info, this team's schedule
-// connection if any, and every Race Command Center race session tied to
+// connection if any, and every Split Watch race session tied to
 // it (with readiness counts). Creating a new race for this meet is
 // deliberately NOT a separate action here -- the client calls Race
-// Command Center's own, already-tested api/race-command-center/sessions.js
+// Command Center's own, already-tested api/split-watch/sessions.js
 // "create" action directly with meet_id pre-filled, so there is exactly
 // one code path that creates a race_sessions row, not two.
 export default async function handler(request, response) {

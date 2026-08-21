@@ -15,7 +15,7 @@ export const site = {
   // Rebuilt 2026-08-21 (NAVIGATION_REBUILD_SPEC.md) into 7 grouped
   // entries -- "Home" stays a flat link, the rest carry `items` and
   // render as a dropdown (desktop) / accordion (mobile) in
-  // header()'s navGroup(). "Race Command Center" and "Pace Calculator"
+  // header()'s navGroup(). "Split Watch" and "Pace Calculator"
   // are deliberately NOT in this list at all anymore -- they've moved to
   // the header's separate utility cluster (see header() in
   // src/lib/html.mjs), styled as tools/actions rather than browsing

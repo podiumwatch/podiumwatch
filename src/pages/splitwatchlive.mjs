@@ -7,11 +7,11 @@ import { layout } from "../lib/html.mjs";
 // same layout() every other page uses (never a second design system),
 // just with a lean content body and its own scoped CSS for large tap
 // targets and mobile-first layout.
-export function raceCommandCenterLivePage(site) {
+export function splitWatchLivePage(site) {
   const content = `
   <style>
     /* Guards against the exact bug this page shipped with: several
-       elements below (.rcc-start-screen, .rcc-live-controls) set their
+       elements below (.sw-start-screen, .sw-live-controls) set their
        own display property at the same specificity as the browser's
        built-in [hidden] { display: none } rule -- and since a page's own
        style block loads after the UA stylesheet, the class rule wins the
@@ -22,14 +22,14 @@ export function raceCommandCenterLivePage(site) {
        [hidden] always win, regardless of what any other selector here sets. */
     [hidden] { display: none !important; }
 
-    .rcc-live-shell {
+    .sw-live-shell {
       min-height: 70vh;
       padding: 16px;
       background: #0b0b0b;
       color: #ffffff;
     }
 
-    .rcc-live-back {
+    .sw-live-back {
       display: inline-block;
       font-size: 0.78rem;
       opacity: 0.7;
@@ -38,9 +38,9 @@ export function raceCommandCenterLivePage(site) {
       padding: 4px 0 10px;
     }
 
-    .rcc-live-back:hover { opacity: 1; text-decoration: underline; }
+    .sw-live-back:hover { opacity: 1; text-decoration: underline; }
 
-    .rcc-live-top-row {
+    .sw-live-top-row {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -48,7 +48,7 @@ export function raceCommandCenterLivePage(site) {
       gap: 10px;
     }
 
-    .rcc-race-switcher-label {
+    .sw-race-switcher-label {
       display: flex;
       align-items: center;
       gap: 6px;
@@ -56,7 +56,7 @@ export function raceCommandCenterLivePage(site) {
       opacity: 0.9;
     }
 
-    .rcc-race-switcher-label select {
+    .sw-race-switcher-label select {
       padding: 6px 10px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -69,14 +69,14 @@ export function raceCommandCenterLivePage(site) {
        than two independently-positioned sticky elements -- avoids
        hardcoding a second element's top offset against the first one's
        variable rendered height. */
-    .rcc-live-sticky-header {
+    .sw-live-sticky-header {
       position: sticky;
       top: 0;
       z-index: 5;
       background: #0b0b0b;
     }
 
-    .rcc-live-topbar {
+    .sw-live-topbar {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
@@ -86,7 +86,7 @@ export function raceCommandCenterLivePage(site) {
       border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     }
 
-    .rcc-live-topbar h1 {
+    .sw-live-topbar h1 {
       margin: 0;
       font-size: 1.2rem;
       /* The sitewide h1 rule's -1.5px letter-spacing (main.css) is tuned
@@ -105,20 +105,20 @@ export function raceCommandCenterLivePage(site) {
       letter-spacing: normal;
     }
 
-    .rcc-live-clock {
+    .sw-live-clock {
       font-variant-numeric: tabular-nums;
       font-size: 2.1rem;
       font-weight: 800;
       letter-spacing: 0.02em;
     }
 
-    .rcc-live-clock-note {
+    .sw-live-clock-note {
       font-size: 0.72rem;
       opacity: 0.75;
       display: block;
     }
 
-    .rcc-status-pill {
+    .sw-status-pill {
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -129,18 +129,18 @@ export function raceCommandCenterLivePage(site) {
       font-weight: 750;
     }
 
-    .rcc-status-dot {
+    .sw-status-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: #9ca3af;
     }
 
-    .rcc-status-synced .rcc-status-dot { background: #00bf63; }
-    .rcc-status-syncing .rcc-status-dot { background: #f59e0b; }
-    .rcc-status-saved .rcc-status-dot { background: #3b82f6; }
-    .rcc-status-offline .rcc-status-dot,
-    .rcc-status-needs_attention .rcc-status-dot { background: #dc2626; }
+    .sw-status-synced .sw-status-dot { background: #00bf63; }
+    .sw-status-syncing .sw-status-dot { background: #f59e0b; }
+    .sw-status-saved .sw-status-dot { background: #3b82f6; }
+    .sw-status-offline .sw-status-dot,
+    .sw-status-needs_attention .sw-status-dot { background: #dc2626; }
 
     /* Part of the sticky header above -- impossible to scroll past.
        Built specifically so a volunteer stationed at one fixed
@@ -148,7 +148,7 @@ export function raceCommandCenterLivePage(site) {
        recording, even after scrolling deep into a 20-30 runner list.
        This is a per-device setting, never synced -- one phone can sit
        on Mile 1 all race while another sits on Mile 2, independently. */
-    .rcc-checkpoint-indicator {
+    .sw-checkpoint-indicator {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -158,7 +158,7 @@ export function raceCommandCenterLivePage(site) {
       font-size: 1rem;
     }
 
-    .rcc-checkpoint-indicator-label {
+    .sw-checkpoint-indicator-label {
       opacity: 0.65;
       font-weight: 700;
       font-size: 0.8rem;
@@ -166,18 +166,18 @@ export function raceCommandCenterLivePage(site) {
       letter-spacing: 0.03em;
     }
 
-    .rcc-checkpoint-indicator-value {
+    .sw-checkpoint-indicator-value {
       color: #00e676;
     }
 
-    .rcc-checkpoint-tabs {
+    .sw-checkpoint-tabs {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin: 14px 4px 0;
     }
 
-    .rcc-checkpoint-tab {
+    .sw-checkpoint-tab {
       appearance: none;
       cursor: pointer;
       font: inherit;
@@ -192,24 +192,24 @@ export function raceCommandCenterLivePage(site) {
       color: #ffffff;
     }
 
-    .rcc-checkpoint-tab-active {
+    .sw-checkpoint-tab-active {
       background: #00bf63;
       border-color: #00bf63;
       color: #06210f;
     }
 
-    .rcc-checkpoint-tab-label {
+    .sw-checkpoint-tab-label {
       font-weight: 850;
       font-size: 0.95rem;
     }
 
-    .rcc-checkpoint-tab-count {
+    .sw-checkpoint-tab-count {
       font-size: 0.74rem;
       opacity: 0.8;
       font-weight: 700;
     }
 
-    .rcc-live-controls {
+    .sw-live-controls {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -217,7 +217,7 @@ export function raceCommandCenterLivePage(site) {
       align-items: center;
     }
 
-    .rcc-live-btn {
+    .sw-live-btn {
       appearance: none;
       border: none;
       border-radius: 12px;
@@ -229,20 +229,20 @@ export function raceCommandCenterLivePage(site) {
       min-height: 52px;
     }
 
-    .rcc-live-btn-primary { background: #00bf63; color: #06210f; }
-    .rcc-live-btn-outline { background: transparent; border: 2px solid rgba(255, 255, 255, 0.4); color: #ffffff; }
-    .rcc-live-btn-danger { background: #dc2626; color: #ffffff; }
-    .rcc-live-btn-warning { background: #f59e0b; color: #451a03; }
-    .rcc-live-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .sw-live-btn-primary { background: #00bf63; color: #06210f; }
+    .sw-live-btn-outline { background: transparent; border: 2px solid rgba(255, 255, 255, 0.4); color: #ffffff; }
+    .sw-live-btn-danger { background: #dc2626; color: #ffffff; }
+    .sw-live-btn-warning { background: #f59e0b; color: #451a03; }
+    .sw-live-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .rcc-live-message {
+    .sw-live-message {
       margin: 10px 4px;
       padding: 12px 14px;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.1);
     }
 
-    .rcc-list-heading {
+    .sw-list-heading {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
@@ -252,13 +252,13 @@ export function raceCommandCenterLivePage(site) {
       font-size: 0.95rem;
     }
 
-    .rcc-list-heading span {
+    .sw-list-heading span {
       font-weight: 700;
       font-size: 0.8rem;
       opacity: 0.7;
     }
 
-    .rcc-runner-list {
+    .sw-runner-list {
       display: grid;
       gap: 6px;
       margin: 0 4px;
@@ -273,20 +273,20 @@ export function raceCommandCenterLivePage(site) {
        scrolling past a wall of already-done runners to find who's left.
        See docs/DECISIONS.md's Live Race Mode diagnostic entry. */
 
-    .rcc-recorded-list {
+    .sw-recorded-list {
       display: grid;
       gap: 8px;
       margin: 0 4px 40px;
     }
 
-    .rcc-recorded-row {
+    .sw-recorded-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       /* Lets the right-hand group (badge + time + Undo) drop to its own
          line on a narrow phone instead of the name being squeezed to
          nothing to make room for a group that refuses to shrink -- see
-         .rcc-recorded-row-right below, which is exactly what was
+         .sw-recorded-row-right below, which is exactly what was
          happening on mobile with the manual-entry badge added in. */
       flex-wrap: wrap;
       gap: 6px 10px;
@@ -296,21 +296,21 @@ export function raceCommandCenterLivePage(site) {
       border: 1px solid rgba(0, 191, 99, 0.25);
     }
 
-    .rcc-recorded-row-manual {
+    .sw-recorded-row-manual {
       background: rgba(255, 255, 255, 0.05);
       border: 1px dashed rgba(255, 255, 255, 0.4);
     }
 
-    .rcc-recorded-row-flash {
-      animation: rcc-recorded-flash 1.2s ease-out;
+    .sw-recorded-row-flash {
+      animation: sw-recorded-flash 1.2s ease-out;
     }
 
-    @keyframes rcc-recorded-flash {
+    @keyframes sw-recorded-flash {
       0% { background: rgba(255, 255, 255, 0.55); }
       100% { background: rgba(0, 191, 99, 0.1); }
     }
 
-    .rcc-pace-badge {
+    .sw-pace-badge {
       display: inline-flex;
       padding: 3px 9px;
       border-radius: 999px;
@@ -321,12 +321,12 @@ export function raceCommandCenterLivePage(site) {
       white-space: nowrap;
     }
 
-    .rcc-pace-badge-ahead { background: rgba(0, 191, 99, 0.3); color: #ffffff; }
-    .rcc-pace-badge-on_pace { background: rgba(59, 130, 246, 0.35); color: #ffffff; }
-    .rcc-pace-badge-at_risk { background: rgba(245, 158, 11, 0.4); color: #111827; }
-    .rcc-pace-badge-missed { background: rgba(220, 38, 38, 0.4); color: #ffffff; }
+    .sw-pace-badge-ahead { background: rgba(0, 191, 99, 0.3); color: #ffffff; }
+    .sw-pace-badge-on_pace { background: rgba(59, 130, 246, 0.35); color: #ffffff; }
+    .sw-pace-badge-at_risk { background: rgba(245, 158, 11, 0.4); color: #111827; }
+    .sw-pace-badge-missed { background: rgba(220, 38, 38, 0.4); color: #ffffff; }
 
-    .rcc-recorded-row-name {
+    .sw-recorded-row-name {
       font-weight: 750;
       font-size: 0.92rem;
       overflow: hidden;
@@ -335,7 +335,7 @@ export function raceCommandCenterLivePage(site) {
       min-width: 80px;
     }
 
-    .rcc-recorded-row-right {
+    .sw-recorded-row-right {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
@@ -347,13 +347,13 @@ export function raceCommandCenterLivePage(site) {
       margin-left: auto;
     }
 
-    .rcc-recorded-row-value {
+    .sw-recorded-row-value {
       font-variant-numeric: tabular-nums;
       font-weight: 800;
       font-size: 1rem;
     }
 
-    .rcc-empty-note {
+    .sw-empty-note {
       margin: 0 4px;
       opacity: 0.6;
       font-size: 0.85rem;
@@ -362,10 +362,10 @@ export function raceCommandCenterLivePage(site) {
     /* One compact row per runner (name + the big Tap button side by
        side, not stacked) so a coach can see 8+ runners at once instead of
        2-3 -- see docs/DECISIONS.md's runner-list density entry. Manual
-       entry/DNS/DNF live in a collapsed .rcc-runner-expand block, opened
+       entry/DNS/DNF live in a collapsed .sw-runner-expand block, opened
        per-runner via the small "more" button, so they cost no space
        until actually needed. */
-    .rcc-runner-card {
+    .sw-runner-card {
       display: grid;
       gap: 8px;
       padding: 8px 10px;
@@ -374,17 +374,17 @@ export function raceCommandCenterLivePage(site) {
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .rcc-runner-card-excluded {
+    .sw-runner-card-excluded {
       opacity: 0.55;
     }
 
-    .rcc-runner-row {
+    .sw-runner-row {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .rcc-runner-name {
+    .sw-runner-name {
       flex: 1;
       min-width: 0;
       font-weight: 750;
@@ -394,7 +394,7 @@ export function raceCommandCenterLivePage(site) {
       white-space: nowrap;
     }
 
-    .rcc-runner-tap {
+    .sw-runner-tap {
       appearance: none;
       border: none;
       border-radius: 12px;
@@ -410,7 +410,7 @@ export function raceCommandCenterLivePage(site) {
       flex: 0 0 auto;
     }
 
-    .rcc-runner-more {
+    .sw-runner-more {
       appearance: none;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background: transparent;
@@ -424,12 +424,12 @@ export function raceCommandCenterLivePage(site) {
       flex: 0 0 auto;
     }
 
-    .rcc-runner-expand {
+    .sw-runner-expand {
       display: grid;
       gap: 8px;
     }
 
-    .rcc-runner-recorded {
+    .sw-runner-recorded {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -440,24 +440,24 @@ export function raceCommandCenterLivePage(site) {
       min-height: 68px;
     }
 
-    .rcc-runner-recorded-value {
+    .sw-runner-recorded-value {
       font-variant-numeric: tabular-nums;
       font-size: 1.3rem;
       font-weight: 800;
     }
 
-    .rcc-runner-recorded-manual {
+    .sw-runner-recorded-manual {
       border: 2px dashed rgba(255, 255, 255, 0.55);
       background: rgba(255, 255, 255, 0.06);
     }
 
-    .rcc-runner-row-actions {
+    .sw-runner-row-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
 
-    .rcc-runner-small-btn {
+    .sw-runner-small-btn {
       appearance: none;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background: transparent;
@@ -470,17 +470,17 @@ export function raceCommandCenterLivePage(site) {
       min-height: 44px;
     }
 
-    .rcc-pack-checkbox {
+    .sw-pack-checkbox {
       width: 26px;
       height: 26px;
     }
 
-    .rcc-manual-entry {
+    .sw-manual-entry {
       display: flex;
       gap: 8px;
     }
 
-    .rcc-manual-entry input {
+    .sw-manual-entry input {
       flex: 1;
       min-width: 0;
       padding: 12px;
@@ -491,7 +491,7 @@ export function raceCommandCenterLivePage(site) {
       font: inherit;
     }
 
-    .rcc-start-screen {
+    .sw-start-screen {
       display: grid;
       gap: 18px;
       place-items: center;
@@ -504,7 +504,7 @@ export function raceCommandCenterLivePage(site) {
        coach-tool dialog in this codebase, e.g. teamroster.mjs's athlete
        dialog), floating over the dark live timing view rather than
        trying to match it. */
-    dialog.rcc-race-day-dialog {
+    dialog.sw-race-day-dialog {
       width: min(560px, calc(100% - 28px));
       max-height: calc(100vh - 40px);
       overflow: auto;
@@ -515,20 +515,20 @@ export function raceCommandCenterLivePage(site) {
       color: #171717;
     }
 
-    dialog.rcc-race-day-dialog::backdrop {
+    dialog.sw-race-day-dialog::backdrop {
       background: rgba(0, 0, 0, 0.72);
     }
 
-    .rcc-race-day-dialog-body {
+    .sw-race-day-dialog-body {
       padding: 26px;
     }
 
-    .rcc-race-day-dialog-body h2,
-    .rcc-race-day-dialog-body p {
+    .sw-race-day-dialog-body h2,
+    .sw-race-day-dialog-body p {
       color: #171717;
     }
 
-    .rcc-race-day-reveal {
+    .sw-race-day-reveal {
       margin-top: 16px;
       padding: 16px;
       border-radius: 12px;
@@ -536,20 +536,20 @@ export function raceCommandCenterLivePage(site) {
       border: 1px solid rgba(0, 191, 99, 0.35);
     }
 
-    .rcc-race-day-reveal p {
+    .sw-race-day-reveal p {
       margin: 0 0 10px;
       font-weight: 800;
       font-size: 0.85rem;
     }
 
-    .rcc-race-day-code-row {
+    .sw-race-day-code-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
     }
 
-    .rcc-race-day-code {
+    .sw-race-day-code {
       font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: 0.12em;
@@ -559,122 +559,122 @@ export function raceCommandCenterLivePage(site) {
       color: #171717;
     }
 
-    .rcc-item-meta {
+    .sw-item-meta {
       margin-top: 4px;
       font-size: 0.85rem;
       opacity: 0.7;
     }
 
-    .rcc-start-screen p {
+    .sw-start-screen p {
       max-width: 46ch;
       opacity: 0.85;
     }
 
     @media (min-width: 900px) {
-      .rcc-runner-list,
-      .rcc-recorded-list {
+      .sw-runner-list,
+      .sw-recorded-list {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
   </style>
 
-  <div class="rcc-live-shell">
-    <div data-rcc-loading style="padding:40px 8px;">
+  <div class="sw-live-shell">
+    <div data-sw-loading style="padding:40px 8px;">
       <h2>Loading live race...</h2>
       <p>Please wait while Podium Watch securely loads this race.</p>
     </div>
 
-    <div data-rcc-root hidden>
-      <div class="rcc-live-top-row">
-        <a class="rcc-live-back" href="/race-command-center/" data-rcc-back-link>&larr; Race Command Center</a>
-        <div data-rcc-race-switcher-wrap hidden>
-          <label class="rcc-race-switcher-label">
+    <div data-sw-root hidden>
+      <div class="sw-live-top-row">
+        <a class="sw-live-back" href="/split-watch/" data-sw-back-link>&larr; Split Watch</a>
+        <div data-sw-race-switcher-wrap hidden>
+          <label class="sw-race-switcher-label">
             Switch race
-            <select data-rcc-race-switcher></select>
+            <select data-sw-race-switcher></select>
           </label>
         </div>
       </div>
-      <div class="rcc-live-sticky-header">
-        <div class="rcc-live-topbar">
+      <div class="sw-live-sticky-header">
+        <div class="sw-live-topbar">
           <div>
-            <h1 data-rcc-race-name></h1>
-            <span class="rcc-status-pill" data-rcc-sync-status><span class="rcc-status-dot"></span><span data-rcc-sync-status-text>Not started</span></span>
+            <h1 data-sw-race-name></h1>
+            <span class="sw-status-pill" data-sw-sync-status><span class="sw-status-dot"></span><span data-sw-sync-status-text>Not started</span></span>
           </div>
           <div style="text-align:right;">
-            <div class="rcc-live-clock" data-rcc-clock>0:00</div>
-            <span class="rcc-live-clock-note" data-rcc-clock-note></span>
+            <div class="sw-live-clock" data-sw-clock>0:00</div>
+            <span class="sw-live-clock-note" data-sw-clock-note></span>
           </div>
         </div>
-        <div class="rcc-checkpoint-indicator" data-rcc-checkpoint-indicator hidden>
-          <span class="rcc-checkpoint-indicator-label">Recording:</span>
-          <span class="rcc-checkpoint-indicator-value" data-rcc-checkpoint-indicator-value></span>
+        <div class="sw-checkpoint-indicator" data-sw-checkpoint-indicator hidden>
+          <span class="sw-checkpoint-indicator-label">Recording:</span>
+          <span class="sw-checkpoint-indicator-value" data-sw-checkpoint-indicator-value></span>
         </div>
       </div>
 
-      <p class="rcc-live-message" data-rcc-message hidden></p>
+      <p class="sw-live-message" data-sw-message hidden></p>
 
-      <div data-rcc-start-screen class="rcc-start-screen" hidden>
+      <div data-sw-start-screen class="sw-start-screen" hidden>
         <h2>Ready to start?</h2>
         <p>Starting the race begins the official race clock immediately for every runner. Make sure everyone is on the line.</p>
-        <button class="rcc-live-btn rcc-live-btn-primary" type="button" data-rcc-start-button style="font-size:1.3rem;padding:22px 28px;">Start Race</button>
-        <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-race-day-open hidden>Share access code with a timer</button>
+        <button class="sw-live-btn sw-live-btn-primary" type="button" data-sw-start-button style="font-size:1.3rem;padding:22px 28px;">Start Race</button>
+        <button class="sw-live-btn sw-live-btn-outline" type="button" data-sw-race-day-open hidden>Share access code with a timer</button>
       </div>
 
-      <div data-rcc-live-screen hidden>
+      <div data-sw-live-screen hidden>
         <p style="margin:0 4px 8px;opacity:0.75;font-size:0.85rem;">Each device picks its own checkpoint below -- one phone can stay on Mile 1 the whole race while another stays on Mile 2, at the same time.</p>
-        <div class="rcc-checkpoint-tabs" data-rcc-checkpoint-tabs></div>
+        <div class="sw-checkpoint-tabs" data-sw-checkpoint-tabs></div>
 
-        <div class="rcc-live-controls">
-          <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-pack-toggle>Pack Capture</button>
-          <button class="rcc-live-btn rcc-live-btn-warning" type="button" data-rcc-restart-race>Restart Race</button>
-          <button class="rcc-live-btn rcc-live-btn-danger" type="button" data-rcc-finish-race>Finish Race</button>
+        <div class="sw-live-controls">
+          <button class="sw-live-btn sw-live-btn-outline" type="button" data-sw-pack-toggle>Pack Capture</button>
+          <button class="sw-live-btn sw-live-btn-warning" type="button" data-sw-restart-race>Restart Race</button>
+          <button class="sw-live-btn sw-live-btn-danger" type="button" data-sw-finish-race>Finish Race</button>
         </div>
 
-        <div class="rcc-live-controls" data-rcc-pack-bar hidden>
-          <span data-rcc-pack-count>0 selected</span>
-          <button class="rcc-live-btn rcc-live-btn-primary" type="button" data-rcc-pack-confirm>Capture selected</button>
-          <button class="rcc-live-btn rcc-live-btn-outline" type="button" data-rcc-pack-cancel>Cancel</button>
+        <div class="sw-live-controls" data-sw-pack-bar hidden>
+          <span data-sw-pack-count>0 selected</span>
+          <button class="sw-live-btn sw-live-btn-primary" type="button" data-sw-pack-confirm>Capture selected</button>
+          <button class="sw-live-btn sw-live-btn-outline" type="button" data-sw-pack-cancel>Cancel</button>
         </div>
 
-        <div class="rcc-list-heading"><span data-rcc-still-heading-label>Still need a time</span><span data-rcc-still-count></span></div>
-        <div class="rcc-runner-list" data-rcc-runner-list></div>
-        <p class="rcc-empty-note" data-rcc-still-empty hidden>Everyone at this checkpoint has a time. Nice work.</p>
+        <div class="sw-list-heading"><span data-sw-still-heading-label>Still need a time</span><span data-sw-still-count></span></div>
+        <div class="sw-runner-list" data-sw-runner-list></div>
+        <p class="sw-empty-note" data-sw-still-empty hidden>Everyone at this checkpoint has a time. Nice work.</p>
 
-        <div class="rcc-list-heading" data-rcc-recorded-heading hidden><span>Recorded at this checkpoint</span><span data-rcc-recorded-count></span></div>
-        <div class="rcc-recorded-list" data-rcc-recorded-list></div>
+        <div class="sw-list-heading" data-sw-recorded-heading hidden><span>Recorded at this checkpoint</span><span data-sw-recorded-count></span></div>
+        <div class="sw-recorded-list" data-sw-recorded-list></div>
       </div>
     </div>
   </div>
 
-  <dialog class="rcc-race-day-dialog" data-rcc-race-day-dialog>
-    <div class="rcc-race-day-dialog-body">
+  <dialog class="sw-race-day-dialog" data-sw-race-day-dialog>
+    <div class="sw-race-day-dialog-body">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
         <div>
           <p class="eyebrow">Race day access</p>
           <h2 style="margin:2px 0 0;">Get volunteers timing</h2>
         </div>
-        <button class="button button-outline" type="button" data-rcc-race-day-close>Close</button>
+        <button class="button button-outline" type="button" data-sw-race-day-close>Close</button>
       </div>
 
       <p style="margin-top:6px;">
         Share this code with anyone timing this race for you -- a parent at mile one, a friend at the finish.
-        They enter it at <strong>Race Command Center</strong> in the main menu and go straight into live
+        They enter it at <strong>Split Watch</strong> in the main menu and go straight into live
         timing for this team, no account required.
       </p>
 
-      <div class="rcc-race-day-reveal" data-rcc-race-day-reveal hidden>
+      <div class="sw-race-day-reveal" data-sw-race-day-reveal hidden>
         <p>Your new code -- share it now, it won't be shown again</p>
-        <div class="rcc-race-day-code-row">
-          <code class="rcc-race-day-code" data-rcc-race-day-reveal-code></code>
-          <button class="button button-outline" type="button" data-rcc-race-day-copy>Copy</button>
+        <div class="sw-race-day-code-row">
+          <code class="sw-race-day-code" data-sw-race-day-reveal-code></code>
+          <button class="button button-outline" type="button" data-sw-race-day-copy>Copy</button>
         </div>
       </div>
 
-      <div data-rcc-race-day-status style="margin-top:14px;"></div>
+      <div data-sw-race-day-status style="margin-top:14px;"></div>
 
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;">
-        <button class="button button-primary" type="button" data-rcc-race-day-generate>Generate code</button>
-        <button class="button button-outline" type="button" data-rcc-race-day-revoke hidden>Turn off access</button>
+        <button class="button button-primary" type="button" data-sw-race-day-generate>Generate code</button>
+        <button class="button button-outline" type="button" data-sw-race-day-revoke hidden>Turn off access</button>
       </div>
     </div>
   </dialog>
@@ -685,13 +685,13 @@ export function raceCommandCenterLivePage(site) {
   <script src="/scripts/race-math.js" defer></script>
   <script src="/scripts/race-timer.js" defer></script>
   <script src="/scripts/race-local-store.js" defer></script>
-  <script src="/scripts/race-command-center-live.js" defer></script>`;
+  <script src="/scripts/split-watch-live.js" defer></script>`;
 
   return layout({
     site,
-    title: "Live Timing | Race Command Center",
+    title: "Live Timing | Split Watch",
     description: "Live race timing for Podium Watch coaches.",
-    pathname: "/race-command-center/live/",
+    pathname: "/split-watch/live/",
     content,
     chromeless: true
   });

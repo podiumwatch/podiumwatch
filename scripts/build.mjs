@@ -66,11 +66,11 @@ import { athleteHomePage } from "../src/pages/athletehome.mjs";
 import { guardianLoginPage } from "../src/pages/guardianlogin.mjs";
 import { guardianHomePage } from "../src/pages/guardianhome.mjs";
 import { racePublicPage } from "../src/pages/racepublic.mjs";
-import { raceCommandCenterHubPage } from "../src/pages/racecommandcenter.mjs";
-import { raceCommandCenterPlanPage } from "../src/pages/racecommandcenterplan.mjs";
-import { raceCommandCenterLivePage } from "../src/pages/racecommandcenterlive.mjs";
-import { raceCommandCenterReviewPage } from "../src/pages/racecommandcenterreview.mjs";
-import { raceCommandCenterJoinPage } from "../src/pages/racecommandcenterjoin.mjs";
+import { splitWatchHubPage } from "../src/pages/splitwatch.mjs";
+import { splitWatchPlanPage } from "../src/pages/splitwatchplan.mjs";
+import { splitWatchLivePage } from "../src/pages/splitwatchlive.mjs";
+import { splitWatchReviewPage } from "../src/pages/splitwatchreview.mjs";
+import { splitWatchJoinPage } from "../src/pages/splitwatchjoin.mjs";
 import { teamProfilePage } from "../src/pages/teamprofile.mjs";
 import { teamsPage } from "../src/pages/teams.mjs";
 import { searchPage } from "../src/pages/search.mjs";
@@ -610,14 +610,14 @@ await writePage("/athlete-home/", athleteHomePage(site));
 await writePage("/guardian-login/", guardianLoginPage(site));
 await writePage("/guardian-home/", guardianHomePage(site));
 await writePage("/race/", racePublicPage(site));
-await writePage("/race-command-center/", raceCommandCenterHubPage(site));
-await writePage("/race-command-center/plan/", raceCommandCenterPlanPage(site));
-await writePage("/race-command-center/live/", raceCommandCenterLivePage(site));
-await writePage("/race-command-center/review/", raceCommandCenterReviewPage(site));
+await writePage("/split-watch/", splitWatchHubPage(site));
+await writePage("/split-watch/plan/", splitWatchPlanPage(site));
+await writePage("/split-watch/live/", splitWatchLivePage(site));
+await writePage("/split-watch/review/", splitWatchReviewPage(site));
 // Deliberately public -- not in any private-route list. This IS the
 // unauthenticated entry point (a race day code, not a Supabase Auth
 // session) -- see lib/race_day_auth.mjs.
-await writePage("/race-command-center/join/", raceCommandCenterJoinPage(site));
+await writePage("/split-watch/join/", splitWatchJoinPage(site));
 await writePage("/follow/", followPage(site));
 await writePage("/privacy/", privacyPage(site));
 await writePage("/team-editor/", teamEditorPage(site));
@@ -704,7 +704,7 @@ await writePage("/team-of-the-week/", teamOfTheWeekPage(site));
   ];
   await writeFile("search-index.json", JSON.stringify(searchIndex, null, 2));
 
-  const privateSitemapPrefixes = ["/admin/", "/team-login/", "/team-dashboard/", "/team-editor/", "/team-schedule/", "/team-roster/", "/team-content/", "/team-insights/", "/race-command-center/", "/team-home/", "/team-meet-center/", "/athlete-login/", "/athlete-home/", "/guardian-login/", "/guardian-home/", "/photographer-login/", "/photographer-dashboard/", "/follow/"];
+  const privateSitemapPrefixes = ["/admin/", "/team-login/", "/team-dashboard/", "/team-editor/", "/team-schedule/", "/team-roster/", "/team-content/", "/team-insights/", "/split-watch/", "/team-home/", "/team-meet-center/", "/athlete-login/", "/athlete-home/", "/guardian-login/", "/guardian-home/", "/photographer-login/", "/photographer-dashboard/", "/follow/"];
   const paths = [...generatedPaths].filter((pathname) => !pathname.endsWith("404.html") && !privateSitemapPrefixes.some((prefix) => pathname.startsWith(prefix))).sort();
   const lastMod = stories[0]?.updatedDate || stories[0]?.date || new Date().toISOString().slice(0, 10);
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((pathname) => `  <url><loc>${xmlEscape(absoluteUrl(site, pathname))}</loc><lastmod>${lastMod}</lastmod></url>`).join("\n")}\n</urlset>\n`;

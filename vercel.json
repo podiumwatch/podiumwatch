@@ -4,6 +4,18 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/race-command-center",
+      "destination": "/split-watch",
+      "permanent": true
+    },
+    {
+      "source": "/race-command-center/:path*",
+      "destination": "/split-watch/:path*",
+      "permanent": true
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/notifications",

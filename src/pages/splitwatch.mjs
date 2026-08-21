@@ -3,80 +3,80 @@ import {
   pageHero
 } from "../lib/html.mjs";
 
-// Race Command Center's hub: a coach's list of races (draft/live/finished)
+// Split Watch's hub: a coach's list of races (draft/live/finished)
 // for one team, plus a "create a race" form that starts the Plan -> Race
 // -> Review workflow. Matches the coach-tool page structure established by
 // src/pages/teamroster.mjs (loading state, auth-gated shell, PodiumTeamAuth
 // + a plain team_id query param -- there is no server-side "current team"
 // concept anywhere in this codebase).
-export function raceCommandCenterHubPage(site) {
+export function splitWatchHubPage(site) {
   const content = `${pageHero({
-    eyebrow: "Podium Watch Race Command Center",
+    eyebrow: "Podium Watch Split Watch",
     title: "Race day, planned and run in one place.",
     description:
       "Plan full-team goals before the gun, run live timing on race day, then review how it actually went -- all without leaving Podium Watch."
   })}
 
   <style>
-    /* [hidden] must always win the cascade -- see racecommandcenterlive.mjs
+    /* [hidden] must always win the cascade -- see splitwatchlive.mjs
        and docs/DECISIONS.md's Live Race Mode diagnostic entry for the
        real bug this guards against (a class-based display property at
        the same specificity as the browser's [hidden] rule, applied to
        this page's own root container). */
     [hidden] { display: none !important; }
 
-    .rcc-shell,
-    .rcc-grid,
-    .rcc-race-list {
+    .sw-shell,
+    .sw-grid,
+    .sw-race-list {
       display: grid;
       gap: 20px;
     }
 
-    .rcc-grid {
+    .sw-grid {
       grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
     }
 
-    .rcc-panel {
+    .sw-panel {
       padding: 24px;
       border-radius: 16px;
       background: #ffffff;
       box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
     }
 
-    .rcc-header,
-    .rcc-actions {
+    .sw-header,
+    .sw-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
     }
 
-    .rcc-header {
+    .sw-header {
       justify-content: space-between;
     }
 
-    .rcc-header h2 {
+    .sw-header h2 {
       margin-bottom: 0;
     }
 
-    .rcc-form {
+    .sw-form {
       display: grid;
       gap: 16px;
       margin-top: 18px;
     }
 
-    .rcc-fields {
+    .sw-fields {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 14px;
     }
 
-    .rcc-form label {
+    .sw-form label {
       display: block;
     }
 
-    .rcc-form input,
-    .rcc-form select {
+    .sw-form input,
+    .sw-form select {
       display: block;
       width: 100%;
       margin-top: 8px;
@@ -87,14 +87,14 @@ export function raceCommandCenterHubPage(site) {
       font: inherit;
     }
 
-    .rcc-checkpoint-row {
+    .sw-checkpoint-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 100px) minmax(0, 118px) auto;
       gap: 10px;
       align-items: end;
     }
 
-    .rcc-meet-group {
+    .sw-meet-group {
       padding: 16px;
       border-radius: 12px;
       background: rgba(15, 23, 42, 0.03);
@@ -102,31 +102,31 @@ export function raceCommandCenterHubPage(site) {
       gap: 12px;
     }
 
-    .rcc-meet-squad-row {
+    .sw-meet-squad-row {
       display: flex;
       flex-wrap: wrap;
       gap: 18px;
     }
 
-    .rcc-meet-squad-row label {
+    .sw-meet-squad-row label {
       display: flex;
       align-items: center;
       gap: 6px;
       font-weight: 700;
     }
 
-    .rcc-meet-squad-row input[type="checkbox"] {
+    .sw-meet-squad-row input[type="checkbox"] {
       width: auto;
       margin: 0;
     }
 
-    .rcc-message {
+    .sw-message {
       padding: 14px 16px;
       border-radius: 10px;
       background: rgba(0, 191, 99, 0.1);
     }
 
-    .rcc-race-card {
+    .sw-race-card {
       display: grid;
       gap: 10px;
       padding: 18px;
@@ -135,11 +135,11 @@ export function raceCommandCenterHubPage(site) {
       background: #ffffff;
     }
 
-    .rcc-race-card h3 {
+    .sw-race-card h3 {
       margin: 0;
     }
 
-    .rcc-badge {
+    .sw-badge {
       display: inline-flex;
       padding: 5px 10px;
       border-radius: 999px;
@@ -150,25 +150,25 @@ export function raceCommandCenterHubPage(site) {
       letter-spacing: 0.03em;
     }
 
-    .rcc-badge-live {
+    .sw-badge-live {
       background: #dc2626;
       color: #ffffff;
     }
 
-    .rcc-badge-finished,
-    .rcc-badge-reviewed {
+    .sw-badge-finished,
+    .sw-badge-reviewed {
       background: #111827;
       color: #ffffff;
     }
 
-    .rcc-empty {
+    .sw-empty {
       padding: 24px;
       text-align: center;
       border-radius: 12px;
       background: rgba(15, 23, 42, 0.05);
     }
 
-    .rcc-spectator-row {
+    .sw-spectator-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -179,7 +179,7 @@ export function raceCommandCenterHubPage(site) {
       font-size: 0.86rem;
     }
 
-    .rcc-spectator-row label {
+    .sw-spectator-row label {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -187,13 +187,13 @@ export function raceCommandCenterHubPage(site) {
       font-weight: 700;
     }
 
-    .rcc-spectator-link {
+    .sw-spectator-link {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    .rcc-spectator-link input {
+    .sw-spectator-link input {
       font-size: 0.78rem;
       padding: 6px 8px;
       border-radius: 8px;
@@ -201,7 +201,7 @@ export function raceCommandCenterHubPage(site) {
       width: 210px;
     }
 
-    .rcc-race-day-reveal {
+    .sw-race-day-reveal {
       margin-top: 16px;
       padding: 16px;
       border-radius: 12px;
@@ -209,20 +209,20 @@ export function raceCommandCenterHubPage(site) {
       border: 1px solid rgba(0, 191, 99, 0.35);
     }
 
-    .rcc-race-day-reveal p {
+    .sw-race-day-reveal p {
       margin: 0 0 10px;
       font-weight: 800;
       font-size: 0.85rem;
     }
 
-    .rcc-race-day-code-row {
+    .sw-race-day-code-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
     }
 
-    .rcc-race-day-code {
+    .sw-race-day-code {
       font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: 0.12em;
@@ -231,15 +231,15 @@ export function raceCommandCenterHubPage(site) {
       background: rgba(255, 255, 255, 0.9);
     }
 
-    .rcc-item-meta {
+    .sw-item-meta {
       margin-top: 4px;
       font-size: 0.85rem;
       opacity: 0.75;
     }
 
     @media (max-width: 840px) {
-      .rcc-grid,
-      .rcc-checkpoint-row {
+      .sw-grid,
+      .sw-checkpoint-row {
         grid-template-columns: 1fr;
       }
     }
@@ -247,29 +247,29 @@ export function raceCommandCenterHubPage(site) {
 
   <section class="section section-paper">
     <div class="container">
-      <div class="info-card" data-rcc-loading>
+      <div class="info-card" data-sw-loading>
         <h2>Checking access</h2>
         <p>Please wait while Podium Watch securely loads your races.</p>
       </div>
 
-      <div class="rcc-shell" data-rcc-root hidden>
-        <div class="rcc-header">
+      <div class="sw-shell" data-sw-root hidden>
+        <div class="sw-header">
           <div>
-            <p class="eyebrow">Race Command Center</p>
-            <h2 data-rcc-team-name></h2>
-            <p data-rcc-account></p>
+            <p class="eyebrow">Split Watch</p>
+            <h2 data-sw-team-name></h2>
+            <p data-sw-account></p>
           </div>
 
-          <div class="rcc-actions">
-            <a class="button button-outline" data-rcc-team-link href="/team/">View team profile</a>
+          <div class="sw-actions">
+            <a class="button button-outline" data-sw-team-link href="/team/">View team profile</a>
             <a class="button button-outline" href="/team-dashboard/">Team dashboard</a>
           </div>
         </div>
 
-        <p class="rcc-message" data-rcc-message aria-live="polite" hidden></p>
+        <p class="sw-message" data-sw-message aria-live="polite" hidden></p>
 
-        <div class="rcc-grid">
-          <section class="rcc-panel" data-rcc-meet-panel>
+        <div class="sw-grid">
+          <section class="sw-panel" data-sw-meet-panel>
             <p class="eyebrow">New meet</p>
             <h2>Set up a whole meet at once</h2>
             <p>
@@ -277,45 +277,45 @@ export function raceCommandCenterHubPage(site) {
               with that squad's current roster automatically, so you don't have to add runners four times.
             </p>
 
-            <div class="rcc-empty" data-rcc-meet-empty hidden>
+            <div class="sw-empty" data-sw-meet-empty hidden>
               No current-season roster found to build races from.
-              <a data-rcc-meet-roster-link href="/team-roster/">Build your roster</a> first, then come back here.
+              <a data-sw-meet-roster-link href="/team-roster/">Build your roster</a> first, then come back here.
             </div>
 
-            <form class="rcc-form" data-rcc-meet-form>
+            <form class="sw-form" data-sw-meet-form>
               <label>
                 <strong>Meet name</strong>
                 <input type="text" name="meet_name" placeholder="Conference Championship" required>
               </label>
 
-              <div class="rcc-fields">
+              <div class="sw-fields">
                 <label>
                   <strong>Meet date</strong>
                   <input type="date" name="meet_date" required>
                 </label>
                 <label>
                   <strong>Sport</strong>
-                  <select name="meet_sport" data-rcc-meet-sport>
+                  <select name="meet_sport" data-sw-meet-sport>
                     <option value="cross_country">Cross Country</option>
                     <option value="track">Track</option>
                   </select>
                 </label>
               </div>
 
-              <div class="rcc-meet-group" data-rcc-meet-group="hs">
+              <div class="sw-meet-group" data-sw-meet-group="hs">
                 <strong>High School</strong>
-                <div class="rcc-meet-squad-row">
-                  <label><input type="checkbox" data-rcc-meet-squad="hs_boys" checked> HS Boys</label>
-                  <label><input type="checkbox" data-rcc-meet-squad="hs_girls" checked> HS Girls</label>
+                <div class="sw-meet-squad-row">
+                  <label><input type="checkbox" data-sw-meet-squad="hs_boys" checked> HS Boys</label>
+                  <label><input type="checkbox" data-sw-meet-squad="hs_girls" checked> HS Girls</label>
                 </div>
-                <div class="rcc-fields">
+                <div class="sw-fields">
                   <label>
                     <strong>Distance</strong>
-                    <input type="number" step="0.01" min="0.01" placeholder="5" data-rcc-meet-distance="hs">
+                    <input type="number" step="0.01" min="0.01" placeholder="5" data-sw-meet-distance="hs">
                   </label>
                   <label>
                     <strong>Unit</strong>
-                    <select data-rcc-meet-unit="hs">
+                    <select data-sw-meet-unit="hs">
                       <option value="miles">Miles</option>
                       <option value="km">Kilometers</option>
                       <option value="meters">Meters</option>
@@ -328,25 +328,25 @@ export function raceCommandCenterHubPage(site) {
                     Shared by both HS races -- each checkpoint has its own unit, so a 5K can still use mile
                     markers. A finish checkpoint is added automatically at the full distance.
                   </p>
-                  <div data-rcc-meet-checkpoint-rows="hs" style="display:grid;gap:10px;"></div>
-                  <button class="button button-outline" type="button" data-rcc-meet-add-checkpoint="hs" style="margin-top:10px;">Add checkpoint</button>
+                  <div data-sw-meet-checkpoint-rows="hs" style="display:grid;gap:10px;"></div>
+                  <button class="button button-outline" type="button" data-sw-meet-add-checkpoint="hs" style="margin-top:10px;">Add checkpoint</button>
                 </div>
               </div>
 
-              <div class="rcc-meet-group" data-rcc-meet-group="jh">
+              <div class="sw-meet-group" data-sw-meet-group="jh">
                 <strong>Junior High</strong>
-                <div class="rcc-meet-squad-row">
-                  <label><input type="checkbox" data-rcc-meet-squad="jh_boys" checked> JH Boys</label>
-                  <label><input type="checkbox" data-rcc-meet-squad="jh_girls" checked> JH Girls</label>
+                <div class="sw-meet-squad-row">
+                  <label><input type="checkbox" data-sw-meet-squad="jh_boys" checked> JH Boys</label>
+                  <label><input type="checkbox" data-sw-meet-squad="jh_girls" checked> JH Girls</label>
                 </div>
-                <div class="rcc-fields">
+                <div class="sw-fields">
                   <label>
                     <strong>Distance</strong>
-                    <input type="number" step="0.01" min="0.01" placeholder="2" data-rcc-meet-distance="jh">
+                    <input type="number" step="0.01" min="0.01" placeholder="2" data-sw-meet-distance="jh">
                   </label>
                   <label>
                     <strong>Unit</strong>
-                    <select data-rcc-meet-unit="jh">
+                    <select data-sw-meet-unit="jh">
                       <option value="miles">Miles</option>
                       <option value="km">Kilometers</option>
                       <option value="meters">Meters</option>
@@ -359,8 +359,8 @@ export function raceCommandCenterHubPage(site) {
                     Shared by both JH races -- each checkpoint has its own unit, so a 5K can still use mile
                     markers. A finish checkpoint is added automatically at the full distance.
                   </p>
-                  <div data-rcc-meet-checkpoint-rows="jh" style="display:grid;gap:10px;"></div>
-                  <button class="button button-outline" type="button" data-rcc-meet-add-checkpoint="jh" style="margin-top:10px;">Add checkpoint</button>
+                  <div data-sw-meet-checkpoint-rows="jh" style="display:grid;gap:10px;"></div>
+                  <button class="button button-outline" type="button" data-sw-meet-add-checkpoint="jh" style="margin-top:10px;">Add checkpoint</button>
                 </div>
               </div>
 
@@ -368,20 +368,20 @@ export function raceCommandCenterHubPage(site) {
             </form>
           </section>
 
-          <section class="rcc-panel">
-            <div class="rcc-header">
+          <section class="sw-panel">
+            <div class="sw-header">
               <div>
                 <p class="eyebrow">Your races</p>
                 <h2>Draft, live, and finished races</h2>
               </div>
             </div>
 
-            <div class="rcc-race-list" data-rcc-race-list style="margin-top:16px;"></div>
-            <div class="rcc-empty" data-rcc-race-empty hidden>No races yet. Create your first race to start planning.</div>
+            <div class="sw-race-list" data-sw-race-list style="margin-top:16px;"></div>
+            <div class="sw-empty" data-sw-race-empty hidden>No races yet. Create your first race to start planning.</div>
           </section>
         </div>
 
-        <section class="rcc-panel" style="margin-top:24px;">
+        <section class="sw-panel" style="margin-top:24px;">
           <p class="eyebrow">One-off race</p>
           <h2>Create a single race</h2>
           <p>
@@ -389,13 +389,13 @@ export function raceCommandCenterHubPage(site) {
             a fun run? Build one race at a time here instead.
           </p>
 
-          <form class="rcc-form" data-rcc-create-form>
+          <form class="sw-form" data-sw-create-form>
             <label>
               <strong>Race name</strong>
               <input type="text" name="name" placeholder="Conference Championship" required>
             </label>
 
-            <div class="rcc-fields">
+            <div class="sw-fields">
               <label>
                 <strong>Race date</strong>
                 <input type="date" name="race_date" required>
@@ -431,16 +431,16 @@ export function raceCommandCenterHubPage(site) {
                 still use mile markers -- label one "Mile 1" and set its unit to Miles even if the race itself
                 is set in kilometers. A finish checkpoint is added automatically at the full race distance.
               </p>
-              <div data-rcc-checkpoint-rows style="display:grid;gap:10px;"></div>
-              <button class="button button-outline" type="button" data-rcc-add-checkpoint style="margin-top:10px;">Add checkpoint</button>
+              <div data-sw-checkpoint-rows style="display:grid;gap:10px;"></div>
+              <button class="button button-outline" type="button" data-sw-add-checkpoint style="margin-top:10px;">Add checkpoint</button>
             </div>
 
             <button class="button button-primary" type="submit">Create race and plan it</button>
           </form>
         </section>
 
-        <section class="rcc-panel" data-rcc-race-day-section hidden>
-          <div class="rcc-header">
+        <section class="sw-panel" data-sw-race-day-section hidden>
+          <div class="sw-header">
             <div>
               <p class="eyebrow">Race day access</p>
               <h2>Get volunteers timing</h2>
@@ -448,23 +448,23 @@ export function raceCommandCenterHubPage(site) {
           </div>
           <p style="margin-top:6px;max-width:640px;">
             Share this code with anyone timing a race for you -- a parent at mile one, a friend at the finish.
-            They enter it at <strong>Race Command Center</strong> in the main menu and go straight into live
+            They enter it at <strong>Split Watch</strong> in the main menu and go straight into live
             timing for this team, no account required.
           </p>
 
-          <div class="rcc-race-day-reveal" data-rcc-race-day-reveal hidden>
+          <div class="sw-race-day-reveal" data-sw-race-day-reveal hidden>
             <p>Your new code -- share it now, it won't be shown again</p>
-            <div class="rcc-race-day-code-row">
-              <code class="rcc-race-day-code" data-rcc-race-day-reveal-code></code>
-              <button class="button button-outline" type="button" data-rcc-race-day-copy>Copy</button>
+            <div class="sw-race-day-code-row">
+              <code class="sw-race-day-code" data-sw-race-day-reveal-code></code>
+              <button class="button button-outline" type="button" data-sw-race-day-copy>Copy</button>
             </div>
           </div>
 
-          <div data-rcc-race-day-status style="margin-top:14px;"></div>
+          <div data-sw-race-day-status style="margin-top:14px;"></div>
 
-          <div class="rcc-actions" style="margin-top:14px;">
-            <button class="button button-primary" type="button" data-rcc-race-day-generate>Generate code</button>
-            <button class="button button-outline" type="button" data-rcc-race-day-revoke hidden>Turn off access</button>
+          <div class="sw-actions" style="margin-top:14px;">
+            <button class="button button-primary" type="button" data-sw-race-day-generate>Generate code</button>
+            <button class="button button-outline" type="button" data-sw-race-day-revoke hidden>Turn off access</button>
           </div>
         </section>
       </div>
@@ -473,13 +473,13 @@ export function raceCommandCenterHubPage(site) {
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
   <script src="/scripts/team-auth-client.js" defer></script>
-  <script src="/scripts/race-command-center-hub.js" defer></script>`;
+  <script src="/scripts/split-watch-hub.js" defer></script>`;
 
   return layout({
     site,
-    title: "Race Command Center",
+    title: "Split Watch",
     description: "Plan, run, and review a race for your team -- Podium Watch's coach timing tool.",
-    pathname: "/race-command-center/",
+    pathname: "/split-watch/",
     content
   });
 }

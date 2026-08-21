@@ -20,9 +20,9 @@ export function icon(name) {
   return icons[name] || "";
 }
 
-// "Race Command Center" in the main nav is a hover/click dropdown with
+// "Split Watch" in the main nav is a hover/click dropdown with
 // two destinations -- a volunteer entering a race day code, and a coach
-// who needs to get straight to their own team's Race Command Center
+// who needs to get straight to their own team's Split Watch
 // without re-signing-in every time (public/scripts/site.js resolves which
 // team, if any, and only falls back to /team-login/ when actually
 // signed out). The trigger keeps a real href to the join page so it
@@ -33,11 +33,11 @@ export function icon(name) {
 // button the spec calls for, but its internal logic (this markup, the
 // hover/click/coach-redirect behavior in site.js) is untouched from the
 // version built 2026-08-21. See docs/DECISIONS.md.
-function raceCommandCenterNavDropdown(active) {
-  return `<div class="nav-dropdown nav-utility-rcc" data-nav-dropdown>
-    <a class="nav-dropdown-trigger" href="/race-command-center/join/"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-dropdown-trigger>Race Command Center</a>
+function splitWatchNavDropdown(active) {
+  return `<div class="nav-dropdown nav-utility-sw" data-nav-dropdown>
+    <a class="nav-dropdown-trigger" href="/split-watch/join/"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-dropdown-trigger>Split Watch</a>
     <div class="nav-dropdown-panel" data-nav-dropdown-panel>
-      <a href="/race-command-center/join/">Enter Race Day Code</a>
+      <a href="/split-watch/join/">Enter Race Day Code</a>
       <a href="/team-login/" data-nav-coach-link>Coach Sign In</a>
     </div>
   </div>`;
@@ -67,7 +67,7 @@ function navGroup(link, currentPath) {
 
 export function header(site, currentPath = "/") {
   const navGroups = site.navigation.map((link) => navGroup(link, currentPath)).join("");
-  const rccActive = currentPath.startsWith("/race-command-center/") || currentPath === "/team-login/";
+  const splitWatchActive = currentPath.startsWith("/split-watch/") || currentPath === "/team-login/";
   return `<div class="sports-ticker"><a class="container sports-ticker-inner" href="/meets/">
     <span class="ticker-live">LIVE</span>
     <strong class="ticker-desktop-only">OHIO XC SEASON</strong>
@@ -92,7 +92,7 @@ export function header(site, currentPath = "/") {
       <div class="nav-utility">
         <button class="nav-icon-button nav-utility-search" type="button" aria-haspopup="dialog" aria-label="Search" data-search-open>${icon("search")}<span>Search</span></button>
         <a class="nav-utility-calc" href="/pace-calculator/">${icon("calculator")}<span>Pace Calculator</span></a>
-        ${raceCommandCenterNavDropdown(rccActive)}
+        ${splitWatchNavDropdown(splitWatchActive)}
         <div class="nav-utility-social-row">
           <a class="nav-utility-watch" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch</a>
           <a class="nav-utility-instagram" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">${icon("instagram")}</a>
@@ -186,7 +186,7 @@ export function layout({ site, title, description, pathname, content, image, can
     "/team-roster/",
     "/team-content/",
     "/team-insights/",
-    "/race-command-center/",
+    "/split-watch/",
     "/team-home/",
     "/team-meet-center/",
     "/athlete-login/",

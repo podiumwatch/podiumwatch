@@ -19,7 +19,7 @@
     setNavigationState(false);
     menuButton.addEventListener("click", () => setNavigationState(nav.dataset.open !== "true"));
     overlay?.addEventListener("click", () => setNavigationState(false, true));
-    // The Race Command Center dropdown trigger is excluded here -- clicking
+    // The Split Watch dropdown trigger is excluded here -- clicking
     // it opens/closes its own submenu (below), it must not also collapse
     // the whole mobile nav out from under that submenu. The two real
     // destination links inside the submenu are still plain <a> tags this
@@ -50,7 +50,7 @@
   // One shared click-to-toggle mechanism drives both the desktop floating
   // panel and the mobile in-flow accordion (CSS alone decides which one
   // renders, at the 1320px breakpoint) -- only one group is ever open at
-  // a time, closing every other one first. Race Command Center's own
+  // a time, closing every other one first. Split Watch's own
   // dropdown (below) is deliberately NOT part of this coordination -- its
   // logic is untouched from 2026-08-21, it manages its own open state
   // completely independently.
@@ -83,8 +83,8 @@
     if (event.key === "Escape") navGroupControls.forEach((control) => control.setOpen(false));
   });
 
-  // Race Command Center nav dropdown -- see the header comment above
-  // raceCommandCenterNavDropdown() in src/lib/html.mjs for the full
+  // Split Watch nav dropdown -- see the header comment above
+  // splitWatchNavDropdown() in src/lib/html.mjs for the full
   // rationale. Hover already reveals the panel via CSS alone; this adds
   // click-to-toggle (the only thing that works on touch) and the "Coach
   // Sign In" smart redirect.
@@ -119,7 +119,7 @@
   // visitor actually clicks "Coach Sign In" on a page that hasn't already
   // loaded them, so the other 99% of (non-coach) page views never pay for
   // it. Reuses window.PodiumTeamAuth directly if a team page already
-  // loaded it (e.g. Race Command Center's own header uses this same nav).
+  // loaded it (e.g. Split Watch's own header uses this same nav).
   function ensureTeamAuthClient() {
     if (window.PodiumTeamAuth) return Promise.resolve();
     return new Promise((resolve, reject) => {
@@ -156,12 +156,12 @@
       const teams = Array.isArray(data.teams) ? data.teams : [];
       if (teams.length === 1) {
         // Exactly one team -- this is the whole point of the feature:
-        // straight to that team's Race Command Center, no extra click,
+        // straight to that team's Split Watch, no extra click,
         // no re-typing credentials that are already valid.
-        window.location.href = "/race-command-center/?id=" + encodeURIComponent(teams[0].id);
+        window.location.href = "/split-watch/?id=" + encodeURIComponent(teams[0].id);
       } else if (teams.length > 1) {
         // More than one team -- team-dashboard/ already lists every one
-        // with its own Race Command Center button, so that's the correct
+        // with its own Split Watch button, so that's the correct
         // "let the coach pick" landing spot rather than guessing.
         window.location.href = "/team-dashboard/";
       } else {

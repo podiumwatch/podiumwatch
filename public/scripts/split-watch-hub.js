@@ -1,40 +1,40 @@
 (() => {
-  const loadingBox = document.querySelector("[data-rcc-loading]");
-  const root = document.querySelector("[data-rcc-root]");
-  const teamNameEl = document.querySelector("[data-rcc-team-name]");
-  const accountEl = document.querySelector("[data-rcc-account]");
-  const teamLink = document.querySelector("[data-rcc-team-link]");
-  const messageBox = document.querySelector("[data-rcc-message]");
-  const raceList = document.querySelector("[data-rcc-race-list]");
-  const raceEmpty = document.querySelector("[data-rcc-race-empty]");
-  const createForm = document.querySelector("[data-rcc-create-form]");
-  const checkpointRows = document.querySelector("[data-rcc-checkpoint-rows]");
-  const addCheckpointButton = document.querySelector("[data-rcc-add-checkpoint]");
-  const raceDaySection = document.querySelector("[data-rcc-race-day-section]");
-  const raceDayReveal = document.querySelector("[data-rcc-race-day-reveal]");
-  const raceDayRevealCode = document.querySelector("[data-rcc-race-day-reveal-code]");
-  const raceDayCopyButton = document.querySelector("[data-rcc-race-day-copy]");
-  const raceDayStatusEl = document.querySelector("[data-rcc-race-day-status]");
-  const raceDayGenerateButton = document.querySelector("[data-rcc-race-day-generate]");
-  const raceDayRevokeButton = document.querySelector("[data-rcc-race-day-revoke]");
-  const meetForm = document.querySelector("[data-rcc-meet-form]");
-  const meetEmpty = document.querySelector("[data-rcc-meet-empty]");
-  const meetRosterLink = document.querySelector("[data-rcc-meet-roster-link]");
-  const meetSportSelect = document.querySelector("[data-rcc-meet-sport]");
-  const meetGroupHs = document.querySelector('[data-rcc-meet-group="hs"]');
-  const meetGroupJh = document.querySelector('[data-rcc-meet-group="jh"]');
-  const meetSquadHsBoys = document.querySelector('[data-rcc-meet-squad="hs_boys"]');
-  const meetSquadHsGirls = document.querySelector('[data-rcc-meet-squad="hs_girls"]');
-  const meetSquadJhBoys = document.querySelector('[data-rcc-meet-squad="jh_boys"]');
-  const meetSquadJhGirls = document.querySelector('[data-rcc-meet-squad="jh_girls"]');
-  const meetDistanceHs = document.querySelector('[data-rcc-meet-distance="hs"]');
-  const meetUnitHs = document.querySelector('[data-rcc-meet-unit="hs"]');
-  const meetDistanceJh = document.querySelector('[data-rcc-meet-distance="jh"]');
-  const meetUnitJh = document.querySelector('[data-rcc-meet-unit="jh"]');
-  const meetCheckpointRowsHs = document.querySelector('[data-rcc-meet-checkpoint-rows="hs"]');
-  const meetAddCheckpointHs = document.querySelector('[data-rcc-meet-add-checkpoint="hs"]');
-  const meetCheckpointRowsJh = document.querySelector('[data-rcc-meet-checkpoint-rows="jh"]');
-  const meetAddCheckpointJh = document.querySelector('[data-rcc-meet-add-checkpoint="jh"]');
+  const loadingBox = document.querySelector("[data-sw-loading]");
+  const root = document.querySelector("[data-sw-root]");
+  const teamNameEl = document.querySelector("[data-sw-team-name]");
+  const accountEl = document.querySelector("[data-sw-account]");
+  const teamLink = document.querySelector("[data-sw-team-link]");
+  const messageBox = document.querySelector("[data-sw-message]");
+  const raceList = document.querySelector("[data-sw-race-list]");
+  const raceEmpty = document.querySelector("[data-sw-race-empty]");
+  const createForm = document.querySelector("[data-sw-create-form]");
+  const checkpointRows = document.querySelector("[data-sw-checkpoint-rows]");
+  const addCheckpointButton = document.querySelector("[data-sw-add-checkpoint]");
+  const raceDaySection = document.querySelector("[data-sw-race-day-section]");
+  const raceDayReveal = document.querySelector("[data-sw-race-day-reveal]");
+  const raceDayRevealCode = document.querySelector("[data-sw-race-day-reveal-code]");
+  const raceDayCopyButton = document.querySelector("[data-sw-race-day-copy]");
+  const raceDayStatusEl = document.querySelector("[data-sw-race-day-status]");
+  const raceDayGenerateButton = document.querySelector("[data-sw-race-day-generate]");
+  const raceDayRevokeButton = document.querySelector("[data-sw-race-day-revoke]");
+  const meetForm = document.querySelector("[data-sw-meet-form]");
+  const meetEmpty = document.querySelector("[data-sw-meet-empty]");
+  const meetRosterLink = document.querySelector("[data-sw-meet-roster-link]");
+  const meetSportSelect = document.querySelector("[data-sw-meet-sport]");
+  const meetGroupHs = document.querySelector('[data-sw-meet-group="hs"]');
+  const meetGroupJh = document.querySelector('[data-sw-meet-group="jh"]');
+  const meetSquadHsBoys = document.querySelector('[data-sw-meet-squad="hs_boys"]');
+  const meetSquadHsGirls = document.querySelector('[data-sw-meet-squad="hs_girls"]');
+  const meetSquadJhBoys = document.querySelector('[data-sw-meet-squad="jh_boys"]');
+  const meetSquadJhGirls = document.querySelector('[data-sw-meet-squad="jh_girls"]');
+  const meetDistanceHs = document.querySelector('[data-sw-meet-distance="hs"]');
+  const meetUnitHs = document.querySelector('[data-sw-meet-unit="hs"]');
+  const meetDistanceJh = document.querySelector('[data-sw-meet-distance="jh"]');
+  const meetUnitJh = document.querySelector('[data-sw-meet-unit="jh"]');
+  const meetCheckpointRowsHs = document.querySelector('[data-sw-meet-checkpoint-rows="hs"]');
+  const meetAddCheckpointHs = document.querySelector('[data-sw-meet-add-checkpoint="hs"]');
+  const meetCheckpointRowsJh = document.querySelector('[data-sw-meet-checkpoint-rows="jh"]');
+  const meetAddCheckpointJh = document.querySelector('[data-sw-meet-add-checkpoint="jh"]');
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox,
@@ -100,7 +100,7 @@
     });
 
     if (response.status === 401) {
-      window.location.replace("/race-command-center/join/");
+      window.location.replace("/split-watch/join/");
     }
 
     return parseResponse(response, "The request could not be completed.");
@@ -125,26 +125,26 @@
   // form's one checkpoint list AND the whole-meet form's two (HS/JH).
   function createCheckpointRow(container, defaultUnit, label, value, unit) {
     const row = document.createElement("div");
-    row.className = "rcc-checkpoint-row";
+    row.className = "sw-checkpoint-row";
     const rowUnit = unit || defaultUnit();
     row.innerHTML =
-      '<label><strong>Label</strong><input type="text" class="rcc-cp-label" placeholder="Mile 1" value="' + escapeHtml(label || "") + '"></label>' +
-      '<label><strong>Distance</strong><input type="number" step="0.01" min="0.01" class="rcc-cp-distance" value="' + escapeHtml(value || "") + '"></label>' +
-      '<label><strong>Unit</strong><select class="rcc-cp-unit">' +
+      '<label><strong>Label</strong><input type="text" class="sw-cp-label" placeholder="Mile 1" value="' + escapeHtml(label || "") + '"></label>' +
+      '<label><strong>Distance</strong><input type="number" step="0.01" min="0.01" class="sw-cp-distance" value="' + escapeHtml(value || "") + '"></label>' +
+      '<label><strong>Unit</strong><select class="sw-cp-unit">' +
         '<option value="miles"' + (rowUnit === "miles" ? " selected" : "") + '>Miles</option>' +
         '<option value="km"' + (rowUnit === "km" ? " selected" : "") + '>Kilometers</option>' +
         '<option value="meters"' + (rowUnit === "meters" ? " selected" : "") + '>Meters</option>' +
       '</select></label>' +
-      '<button type="button" class="button button-outline rcc-cp-remove">Remove</button>';
-    row.querySelector(".rcc-cp-remove").addEventListener("click", () => row.remove());
+      '<button type="button" class="button button-outline sw-cp-remove">Remove</button>';
+    row.querySelector(".sw-cp-remove").addEventListener("click", () => row.remove());
     container.appendChild(row);
   }
 
   function readCheckpoints(container, fallbackUnit) {
-    return [...container.querySelectorAll(".rcc-checkpoint-row")].map((row) => {
-      const label = row.querySelector(".rcc-cp-label").value;
-      const cpUnit = String(row.querySelector(".rcc-cp-unit").value || fallbackUnit);
-      const distance = Number(row.querySelector(".rcc-cp-distance").value) * unitToMeters(cpUnit);
+    return [...container.querySelectorAll(".sw-checkpoint-row")].map((row) => {
+      const label = row.querySelector(".sw-cp-label").value;
+      const cpUnit = String(row.querySelector(".sw-cp-unit").value || fallbackUnit);
+      const distance = Number(row.querySelector(".sw-cp-distance").value) * unitToMeters(cpUnit);
       return { label, distanceMeters: distance };
     }).filter((c) => c.label && c.distanceMeters > 0);
   }
@@ -179,20 +179,20 @@
   };
 
   function statusBadgeClass(status) {
-    if (status === "live") return "rcc-badge rcc-badge-live";
-    if (status === "finished" || status === "reviewed") return "rcc-badge rcc-badge-finished";
-    return "rcc-badge";
+    if (status === "live") return "sw-badge sw-badge-live";
+    if (status === "finished" || status === "reviewed") return "sw-badge sw-badge-finished";
+    return "sw-badge";
   }
 
   function actionLinkFor(session) {
     const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(session.id);
     if (session.status === "live") {
-      return { href: "/race-command-center/live/" + idPart, label: "Open live timing" };
+      return { href: "/split-watch/live/" + idPart, label: "Open live timing" };
     }
     if (session.status === "finished" || session.status === "reviewed") {
-      return { href: "/race-command-center/review/" + idPart, label: "View review" };
+      return { href: "/split-watch/review/" + idPart, label: "View review" };
     }
-    return { href: "/race-command-center/plan/" + idPart, label: "Open plan" };
+    return { href: "/split-watch/plan/" + idPart, label: "Open plan" };
   }
 
   function spectatorLinkFor(session) {
@@ -214,38 +214,38 @@
       // timed right now may have a volunteer's device mid-sync against it.
       const deleteButton = session.status === "live"
         ? ""
-        : '<button class="button button-outline rcc-delete-session" type="button" data-status="' + escapeHtml(session.status) + '">Delete</button>';
+        : '<button class="button button-outline sw-delete-session" type="button" data-status="' + escapeHtml(session.status) + '">Delete</button>';
       return (
-        '<div class="rcc-race-card" data-rcc-session-id="' + escapeHtml(session.id) + '">' +
-          '<div class="rcc-header">' +
+        '<div class="sw-race-card" data-sw-session-id="' + escapeHtml(session.id) + '">' +
+          '<div class="sw-header">' +
             '<h3>' + escapeHtml(session.name) + '</h3>' +
             '<span class="' + statusBadgeClass(session.status) + '">' + escapeHtml(STATUS_LABELS[session.status] || session.status) + '</span>' +
           '</div>' +
           '<p>' + escapeHtml(session.race_date) + ' &middot; ' + escapeHtml(String(session.distance_meters)) + 'm' + (session.race_type ? ' &middot; ' + escapeHtml(session.race_type) : '') + '</p>' +
-          '<div class="rcc-actions">' +
+          '<div class="sw-actions">' +
             '<a class="button button-primary" href="' + action.href + '">' + action.label + '</a>' +
             deleteButton +
           '</div>' +
-          '<div class="rcc-spectator-row">' +
-            '<label><input type="checkbox" class="rcc-spectator-toggle"' + checked + '> Let parents watch this race live</label>' +
-            '<div class="rcc-spectator-link"' + (session.spectator_visible ? '' : ' hidden') + '>' +
+          '<div class="sw-spectator-row">' +
+            '<label><input type="checkbox" class="sw-spectator-toggle"' + checked + '> Let parents watch this race live</label>' +
+            '<div class="sw-spectator-link"' + (session.spectator_visible ? '' : ' hidden') + '>' +
               '<input type="text" readonly value="' + escapeHtml(spectatorLinkFor(session)) + '">' +
-              '<button type="button" class="button button-outline rcc-spectator-copy">Copy link</button>' +
+              '<button type="button" class="button button-outline sw-spectator-copy">Copy link</button>' +
             '</div>' +
           '</div>' +
         '</div>'
       );
     }).join("");
 
-    raceList.querySelectorAll(".rcc-spectator-toggle").forEach((checkbox) => {
+    raceList.querySelectorAll(".sw-spectator-toggle").forEach((checkbox) => {
       checkbox.addEventListener("change", async () => {
-        const card = checkbox.closest("[data-rcc-session-id]");
-        const sessionId = card.getAttribute("data-rcc-session-id");
-        const linkRow = card.querySelector(".rcc-spectator-link");
+        const card = checkbox.closest("[data-sw-session-id]");
+        const sessionId = card.getAttribute("data-sw-session-id");
+        const linkRow = card.querySelector(".sw-spectator-link");
         const wantVisible = checkbox.checked;
         checkbox.disabled = true;
         try {
-          await apiFetch("/api/race-command-center/sessions/", {
+          await apiFetch("/api/split-watch/sessions/", {
             action: "update",
             session_id: sessionId,
             spectator_visible: wantVisible
@@ -260,7 +260,7 @@
       });
     });
 
-    raceList.querySelectorAll(".rcc-spectator-copy").forEach((button) => {
+    raceList.querySelectorAll(".sw-spectator-copy").forEach((button) => {
       button.addEventListener("click", () => {
         const input = button.previousElementSibling;
         input.select();
@@ -271,10 +271,10 @@
       });
     });
 
-    raceList.querySelectorAll(".rcc-delete-session").forEach((button) => {
+    raceList.querySelectorAll(".sw-delete-session").forEach((button) => {
       button.addEventListener("click", async () => {
-        const card = button.closest("[data-rcc-session-id]");
-        const sessionId = card.getAttribute("data-rcc-session-id");
+        const card = button.closest("[data-sw-session-id]");
+        const sessionId = card.getAttribute("data-sw-session-id");
         const hasResults = button.dataset.status === "finished" || button.dataset.status === "reviewed";
         const confirmMessage = hasResults
           ? "Delete this race? All recorded times and results will be permanently lost. This cannot be undone."
@@ -283,9 +283,9 @@
 
         button.disabled = true;
         try {
-          await apiFetch("/api/race-command-center/sessions/", { action: "delete", session_id: sessionId });
+          await apiFetch("/api/split-watch/sessions/", { action: "delete", session_id: sessionId });
           showMessage("The race was deleted.");
-          const data = await apiFetch("/api/race-command-center/sessions/", { action: "list" });
+          const data = await apiFetch("/api/split-watch/sessions/", { action: "list" });
           renderRaces(data.sessions);
         } catch (error) {
           showMessage(error.message || "This race could not be deleted.", true);
@@ -311,7 +311,7 @@
     if (!status || !status.active) {
       raceDayStatusEl.innerHTML =
         '<strong>Race day access is off.</strong>' +
-        '<div class="rcc-item-meta">No volunteer code is active for this team right now.</div>';
+        '<div class="sw-item-meta">No volunteer code is active for this team right now.</div>';
       raceDayGenerateButton.textContent = "Generate code";
       raceDayRevokeButton.hidden = true;
       return;
@@ -321,7 +321,7 @@
     const lastUsed = formatDateTime(status.last_used_at);
     raceDayStatusEl.innerHTML =
       '<strong>Race day access is on.</strong>' +
-      '<div class="rcc-item-meta">' +
+      '<div class="sw-item-meta">' +
         (created ? "Created " + created : "Active") +
         " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
       '</div>';
@@ -384,7 +384,7 @@
     const checkpoints = readCheckpoints(checkpointRows, unit);
 
     try {
-      const data = await apiFetch("/api/race-command-center/sessions/", {
+      const data = await apiFetch("/api/split-watch/sessions/", {
         action: "create",
         name: formData.get("name"),
         race_date: formData.get("race_date"),
@@ -394,7 +394,7 @@
         checkpoints
       });
 
-      window.location.href = "/race-command-center/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(data.session.id);
+      window.location.href = "/split-watch/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(data.session.id);
     } catch (error) {
       showMessage(error.message || "The race could not be created.", true);
     }
@@ -406,7 +406,7 @@
   // picks squads once and this creates one race per squad, each already
   // populated with that squad's current roster. grade (7-8 = JH, 9-12 =
   // HS) + gender is the same grouping used by the Plan page's "Add all
-  // HS/JH Boys/Girls" buttons -- see lib/race_command_center_service.mjs's
+  // HS/JH Boys/Girls" buttons -- see lib/split_watch_service.mjs's
   // listTeamRoster().
   let meetRosterGroups = { hs_boys: [], hs_girls: [], jh_boys: [], jh_girls: [] };
 
@@ -429,7 +429,7 @@
   async function populateMeetRoster() {
     try {
       const sport = meetSportSelect.value || "cross_country";
-      const data = await apiFetch("/api/race-command-center/plan/", { action: "list_roster", sport });
+      const data = await apiFetch("/api/split-watch/plan/", { action: "list_roster", sport });
       const athletes = data.athletes || [];
 
       meetRosterGroups = { hs_boys: [], hs_girls: [], jh_boys: [], jh_girls: [] };
@@ -494,7 +494,7 @@
       const checkpoints = readCheckpoints(meetCheckpointContainers[group], unit);
 
       try {
-        const created = await apiFetch("/api/race-command-center/sessions/", {
+        const created = await apiFetch("/api/split-watch/sessions/", {
           action: "create",
           name: meetName + " - " + MEET_SQUAD_LABELS[key],
           race_date: meetDate,
@@ -504,7 +504,7 @@
           checkpoints
         });
 
-        await apiFetch("/api/race-command-center/plan/", {
+        await apiFetch("/api/split-watch/plan/", {
           action: "save_participants",
           session_id: created.session.id,
           participants: athletes.map((athlete) => ({ team_athlete_id: athlete.id }))
@@ -530,7 +530,7 @@
     showMessage(summary, failed.length > 0);
 
     if (succeeded.length > 0) {
-      const refreshed = await apiFetch("/api/race-command-center/sessions/", { action: "list" });
+      const refreshed = await apiFetch("/api/split-watch/sessions/", { action: "list" });
       renderRaces(refreshed.sessions);
     }
 
@@ -542,7 +542,7 @@
 
   async function initialize() {
     if (!teamId) {
-      loadingBox.innerHTML = "<h2>Race Command Center not found</h2><p>This link does not include a team ID.</p>";
+      loadingBox.innerHTML = "<h2>Split Watch not found</h2><p>This link does not include a team ID.</p>";
       return;
     }
 
@@ -554,7 +554,7 @@
       const user = await window.PodiumTeamAuth.getUser();
       accountEl.textContent = user ? (user.email || "Team account") : "Race day access";
 
-      const data = await apiFetch("/api/race-command-center/sessions/", { action: "list" });
+      const data = await apiFetch("/api/split-watch/sessions/", { action: "list" });
       teamNameEl.textContent = data.team.school_name;
       teamLink.href = "/team/?slug=" + encodeURIComponent(data.team.slug);
       renderRaces(data.sessions);
@@ -586,7 +586,7 @@
       root.hidden = false;
     } catch (error) {
       loadingBox.innerHTML =
-        "<h2>Race Command Center unavailable</h2>" +
+        "<h2>Split Watch unavailable</h2>" +
         "<p>" + escapeHtml(error.message || "Races could not be loaded.") + "</p>" +
         '<p><a class="button button-primary" href="/team-dashboard/">Return to dashboard</a></p>';
     }

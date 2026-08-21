@@ -1513,3 +1513,36 @@ The site's only existing sort key for stories was `date` (descending) -- there w
 ### Follow up
 
 None outstanding. Verified against the real built homepage: hero is the new coach-advice article; "Latest Stories" shows Seniors, then Juniors, then Sophomores, in exactly that order, with zero duplication; the second "Latest stories" section further down now shows 3 different, additional stories instead of repeating the first 3; the article's own page renders correctly with its new header image, correct byline date, and correct breadcrumb. `npm run build`/`run check`/full test suite all clean. Not yet pushed -- the user's "pushed to the top of my feed" language was about feed prominence/ordering, not a request to deploy, so this still needs an explicit go-ahead before `git push` per standing practice.
+
+## 2026 08 21 Split Watch rebrand (formerly Race Command Center)
+
+### Decision
+
+Renamed the "Race Command Center" feature to "Split Watch" across the codebase -- display copy, page/nav titles, file names, internal function/service names, the API route directory, and CSS/data-attribute prefixes -- per the user's rebrand request.
+
+### Reason
+
+The user asked for the feature rebranded end to end, not just a label swap in one place. Doing it as a thorough, mechanical pass (rather than only the visible UI text) keeps source file names, internal identifiers, and on-page copy consistent with each other, rather than leaving the codebase in a state where the brand name says one thing and every file/function underneath it says another.
+
+### Key implementation decisions
+
+1. Page URLs (`/race-command-center/`, `/plan/`, `/live/`, `/review/`, `/join/`) were changed to `/split-watch/...` per the user's explicit choice (offered as a 3-way question: keep old URLs unchanged / change with redirects / change with no redirects), rather than silently deciding either way -- these are real, currently-shared URLs (the race-day join link a coach texts to volunteers, plus likely-bookmarked hub/live/plan/review pages), so a URL change with no redirect would break real links already in use. Permanent (308) redirects added in `vercel.json` from every old `/race-command-center/...` path to its new `/split-watch/...` equivalent -- these fire at Vercel's edge before static files are served, so an already-shared link keeps working.
+2. `api/race-command-center/*` renamed to `api/split-watch/*` with no redirect -- this is pure first-party plumbing the site's own client scripts call directly; no external party ever sees, bookmarks, or shares an API path, so renaming both sides atomically in the same change carries none of the page-route risk above.
+3. Three things were deliberately left untouched rather than mechanically renamed:
+   - The IndexedDB database name (`public/scripts/race-local-store.js`'s `DB_NAME = "podium_race_command_center"`) -- this is real, already-persisted browser storage; renaming it would orphan any offline-queued, not-yet-synced split sitting in a volunteer's browser from an in-progress or recent race.
+   - The `pw_rcc_` client-split-id prefix (validated by both the server and the unit tests against the exact `install/11_RACE_COMMAND_CENTER.sql` check constraint) -- an idempotency-key format, not user-facing brand text; changing it has no upside and a real, if small, chance of rejecting an in-flight sync from an already-loaded browser tab during a live race.
+   - `install/11_RACE_COMMAND_CENTER.sql` and every other already-applied migration file -- left as an accurate historical record of what was actually run, matching how this project already treats every prior migration file.
+4. Historical docs (this file's and `docs/SESSION_LOG.md`'s own prior entries, `docs/NEXT_SESSION.md`, `docs/LIVE_TRACKING_UX_AUDIT.md`, `NAVIGATION_REBUILD_SPEC.md`) were left untouched -- each describes what was true as of its own dated entry, not a currently-authoritative reference that should retroactively reflect the new name.
+
+### Alternatives considered
+
+1. Changing the page routes with no redirect at all -- rejected; the most literal reading of "rename everywhere," but would silently break the race-day join link the moment it deployed, with no way for an already-shared link to recover.
+2. Leaving the page routes as `/race-command-center/...` and only rebranding display text/internals -- a real, safer option, offered to the user alongside the redirect approach; not chosen, since the user preferred the URLs to actually match the new name.
+
+### Files or systems affected
+
+Renamed: `src/pages/racecommandcenter*.mjs` -> `splitwatch*.mjs` (5 files), `public/scripts/race-command-center-*.js` -> `split-watch-*.js` (5 files), `lib/race_command_center_service.mjs` -> `split_watch_service.mjs`, `api/race-command-center/*.js` -> `api/split-watch/*.js` (5 files), `scripts/test-race-command-center.mjs` -> `test-split-watch.mjs`. Text/identifier updates only (no rename): `src/lib/html.mjs`, `src/styles/main.css`, `src/config/site.mjs`, `src/pages/teamhome.mjs`, `teammeetcenter.mjs`, `public/scripts/site.js`, `team-home.js`, `team-dashboard.js`, `team-profile.js`, `team-meet-center.js`, `team-roster.js`, `race-math.js`, `race-timer.js`, `race-local-store.js` (prefix/text only -- `DB_NAME` itself untouched), `lib/race_day_auth.mjs`, `race_viewer_service.mjs`, `team_workspace_service.mjs`, `athlete_access_service.mjs`, `athlete_goal_service.mjs`, `race_math.mjs`, `api/team/home.js`, `meet-center.js`, `race-day-code.js`, `scripts/build.mjs`, `check.mjs`, `test-race-day-access.mjs`, `test-athlete-goals.mjs`, `package.json` (test script renamed), `vercel.json` (new redirect rules).
+
+### Follow up
+
+None outstanding. `npm run build`/`run check`/full `npm test` all clean (18,153 internal links, zero problems; every renamed test -- `test:split-watch`, `test:race-day-access` -- passing with updated assertions). Not yet pushed or deployed -- needs explicit go-ahead per standing practice, and the redirect rules only take effect once deployed to Vercel.

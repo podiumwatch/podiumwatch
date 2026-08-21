@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import process from "node:process";
 
-// lib/race_command_center_service.mjs imports lib/supabase-admin.mjs,
+// lib/split_watch_service.mjs imports lib/supabase-admin.mjs,
 // which calls createClient() at module load time and throws if these
 // env vars are absent -- this test suite only exercises that service
 // file's pure, no-database functions, but importing the module at all
@@ -390,7 +390,7 @@ console.log("buildRaceStateRecord()/buildSplitRecord()/buildRevisionRecord() che
 
 console.log("Server-side calculation port (lib/race_math.mjs) validated as byte-identical to the browser version for computeEvenPaceTargets() and validateCustomPaceTargets(), confirming the server never trusts client-side Custom Pace validation alone.");
 
-// --- Service-layer pure helpers (lib/race_command_center_service.mjs) ------
+// --- Service-layer pure helpers (lib/split_watch_service.mjs) ------
 // Only the pure, no-database functions are exercised here -- the
 // database-backed functions in that file are hand-verified separately
 // against real production Supabase (see docs/DECISIONS.md).
@@ -400,7 +400,7 @@ console.log("Server-side calculation port (lib/race_math.mjs) validated as byte-
     buildCheckpointsWithFinish,
     diffParticipants,
     splitPayloadChanged
-  } = await import("../lib/race_command_center_service.mjs");
+  } = await import("../lib/split_watch_service.mjs");
 
   // -- buildCheckpointsWithFinish ---------------------------------------------
 
@@ -529,12 +529,12 @@ console.log("Server-side calculation port (lib/race_math.mjs) validated as byte-
   );
 }
 
-console.log("Service-layer pure helpers (lib/race_command_center_service.mjs) validated:");
+console.log("Service-layer pure helpers (lib/split_watch_service.mjs) validated:");
 console.log("buildCheckpointsWithFinish() checked for auto-appending exactly one Finish checkpoint only when needed, preserving a coach's own finish label, sorting out-of-order entries, and never producing a race with zero checkpoints.");
 console.log("diffParticipants() checked for matching by row id or by team_athlete_id (never creating a duplicate), and that a bulk roster save always reflects the complete resubmitted list -- omitted participants are removed, new ones are inserted.");
 console.log("splitPayloadChanged() checked to recognize a byte-identical retried sync as a true no-op while still catching a genuine correction, which is what keeps the revision audit trail honest under retries.");
 
-console.log("Race Command Center calculation engine (public/scripts/race-math.js) validated:");
+console.log("Split Watch calculation engine (public/scripts/race-math.js) validated:");
 console.log("Even Pace target generation checked against the proportional formula reused from pace-splits.js, including zero-distance and missing-checkpoint safety.");
 console.log("Custom Pace validation checked for strictly-increasing enforcement (ties, backward entries, empty lists, non-finite entries), confirming targets are only ever validated, never auto-corrected.");
 console.log("Goal status thresholds checked across ahead/on_pace/at_risk/missed, including the finish-line edge case.");

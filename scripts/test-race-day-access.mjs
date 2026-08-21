@@ -7,7 +7,7 @@ import process from "node:process";
 // absent -- this suite only exercises the module's pure, no-database
 // functions directly, but importing the module at all still triggers
 // that top-level call. Matches the same fallback pattern
-// scripts/test-race-command-center.mjs already uses for the same reason.
+// scripts/test-split-watch.mjs already uses for the same reason.
 process.env.SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 
@@ -102,11 +102,11 @@ function readSource(path) {
   assert.match(revokeBody, /active:\s*false/, "revoke marks the code inactive");
   assert.match(revokeBody, /race_day_sessions.*\.delete\(\)/s, "revoke also deletes all existing race_day_sessions for the team");
 
-  // requireRaceCommandCenterAccess: bearer token path checked first, cookie
+  // requireSplitWatchAccess: bearer token path checked first, cookie
   // fallback second, reject (401) only if neither resolves -- and the
   // cookie path must confirm the session's own team_id matches the
   // requested team, never trusting the URL's team id alone.
-  const accessBody = source.slice(source.indexOf("export async function requireRaceCommandCenterAccess"));
+  const accessBody = source.slice(source.indexOf("export async function requireSplitWatchAccess"));
   const bearerIndex = accessBody.indexOf("requireTeamUser(request)");
   const cookieIndex = accessBody.indexOf("resolveRaceDaySession(request)");
   const failIndex = accessBody.indexOf("fail(", cookieIndex);
@@ -114,33 +114,33 @@ function readSource(path) {
   assert.ok(failIndex > cookieIndex, "rejection only happens after both credential types have been tried");
   assert.match(accessBody.slice(cookieIndex, failIndex), /session\.teamId\s*===\s*teamId/, "cookie session's own team id must match the requested team id");
 
-  console.log("lib/race_day_auth.mjs checked at the source level: same-error privacy for wrong vs. deactivated codes, rate-limit-before-lookup ordering, regenerate/revoke both invalidate live sessions, and dual-credential resolution order in requireRaceCommandCenterAccess (live database verification still required after install/19 is run).");
+  console.log("lib/race_day_auth.mjs checked at the source level: same-error privacy for wrong vs. deactivated codes, rate-limit-before-lookup ordering, regenerate/revoke both invalidate live sessions, and dual-credential resolution order in requireSplitWatchAccess (live database verification still required after install/19 is run).");
 }
 
 {
-  // Every Race Command Center API handler must route through the one
+  // Every Split Watch API handler must route through the one
   // unified access function -- not the old two-step
   // requireTeamUser+requireTeamMembership pattern, which would silently
   // exclude race-day-code visitors.
   const handlers = [
-    "../api/race-command-center/sessions.js",
-    "../api/race-command-center/sync.js",
-    "../api/race-command-center/plan.js",
-    "../api/race-command-center/review.js"
+    "../api/split-watch/sessions.js",
+    "../api/split-watch/sync.js",
+    "../api/split-watch/plan.js",
+    "../api/split-watch/review.js"
   ];
   for (const handlerPath of handlers) {
     const source = readSource(handlerPath);
-    assert.match(source, /requireRaceCommandCenterAccess/, `${handlerPath} calls the unified access function`);
-    assert.ok(!/requireTeamMembership/.test(source), `${handlerPath} no longer calls requireTeamMembership directly (that's now inside requireRaceCommandCenterAccess)`);
+    assert.match(source, /requireSplitWatchAccess/, `${handlerPath} calls the unified access function`);
+    assert.ok(!/requireTeamMembership/.test(source), `${handlerPath} no longer calls requireTeamMembership directly (that's now inside requireSplitWatchAccess)`);
   }
-  console.log("All four api/race-command-center/*.js handlers checked to route through requireRaceCommandCenterAccess(), not the old direct membership check.");
+  console.log("All four api/split-watch/*.js handlers checked to route through requireSplitWatchAccess(), not the old direct membership check.");
 }
 
 {
   // The public join endpoint must be reachable with no auth guard at all
   // (it IS the auth step) and must actually set a cookie on success.
-  const source = readSource("../api/race-command-center/join.js");
-  assert.ok(!/requireTeamUser|requireTeamMembership|requireRaceCommandCenterAccess/.test(source), "join.js has no auth guard of its own -- it's the public entry point");
+  const source = readSource("../api/split-watch/join.js");
+  assert.ok(!/requireTeamUser|requireTeamMembership|requireSplitWatchAccess/.test(source), "join.js has no auth guard of its own -- it's the public entry point");
   assert.match(source, /verifyRaceDayCode/);
   assert.match(source, /Set-Cookie/);
 
@@ -151,47 +151,47 @@ function readSource(path) {
   assert.match(manageSource, /requireTeamUser/);
   assert.match(manageSource, /requireTeamMembership/);
   assert.ok(!/verifyRaceDayCode|resolveRaceDaySession/.test(manageSource), "race-day-code.js never accepts a race-day session as its own credential");
-  console.log("api/race-command-center/join.js (public, no guard) and api/team/race-day-code.js (real coach account required) checked for correct, opposite auth postures.");
+  console.log("api/split-watch/join.js (public, no guard) and api/team/race-day-code.js (real coach account required) checked for correct, opposite auth postures.");
 }
 
 {
-  // The four existing RCC client scripts must no longer hard-redirect
+  // The four existing Split Watch client scripts must no longer hard-redirect
   // before attempting a fetch just because there's no Supabase access
   // token -- a race-day-code visitor never has one, but does have a
   // cookie the server will accept. They should only redirect on an
   // actual 401 response.
   const clientScripts = [
-    "../public/scripts/race-command-center-hub.js",
-    "../public/scripts/race-command-center-plan.js",
-    "../public/scripts/race-command-center-live.js",
-    "../public/scripts/race-command-center-review.js"
+    "../public/scripts/split-watch-hub.js",
+    "../public/scripts/split-watch-plan.js",
+    "../public/scripts/split-watch-live.js",
+    "../public/scripts/split-watch-review.js"
   ];
   for (const scriptPath of clientScripts) {
     const source = readSource(scriptPath);
     assert.ok(!/if \(!accessToken\)/.test(source), `${scriptPath} no longer hard-blocks apiFetch on a missing access token`);
     assert.match(source, /response\.status === 401/, `${scriptPath} still redirects on an actual 401 response`);
-    assert.match(source, /race-command-center\/join/, `${scriptPath} redirects to the join page, not the coach login, on 401`);
+    assert.match(source, /split-watch\/join/, `${scriptPath} redirects to the join page, not the coach login, on 401`);
   }
-  console.log("All four race-command-center-*.js client scripts checked: no pre-emptive redirect on a missing Supabase token, still redirect (to the join page) on a real 401.");
+  console.log("All four split-watch-*.js client scripts checked: no pre-emptive redirect on a missing Supabase token, still redirect (to the join page) on a real 401.");
 }
 
 {
   // The join page must be a real, publicly reachable route -- registered
-  // in the build, and reachable from the header's Race Command Center nav
+  // in the build, and reachable from the header's Split Watch nav
   // dropdown (rebuilt 2026-08-21, NAVIGATION_REBUILD_SPEC.md -- the
   // dropdown is now hardcoded directly in html.mjs's header()/
-  // raceCommandCenterNavDropdown() rather than driven from
+  // splitWatchNavDropdown() rather than driven from
   // site.mjs's navigation array, since it lives in the header's separate
   // utility cluster, not the content nav's grouped dropdowns).
   const buildSource = readSource("../scripts/build.mjs");
-  assert.match(buildSource, /race-command-center\/join\//);
-  assert.match(buildSource, /raceCommandCenterJoinPage/);
+  assert.match(buildSource, /split-watch\/join\//);
+  assert.match(buildSource, /splitWatchJoinPage/);
 
   const htmlLibSource = readSource("../src/lib/html.mjs");
-  assert.match(htmlLibSource, /raceCommandCenterNavDropdown/, "the header still renders the Race Command Center nav dropdown");
-  assert.match(htmlLibSource, /href="\/race-command-center\/join\/"/, "the dropdown's trigger still links to the real join page");
+  assert.match(htmlLibSource, /splitWatchNavDropdown/, "the header still renders the Split Watch nav dropdown");
+  assert.match(htmlLibSource, /href="\/split-watch\/join\/"/, "the dropdown's trigger still links to the real join page");
 
-  console.log("Race Command Center join page checked: registered in the build, and reachable from the header's Race Command Center nav dropdown.");
+  console.log("Split Watch join page checked: registered in the build, and reachable from the header's Split Watch nav dropdown.");
 }
 
 console.log("Race Day Access Code feature validation passed.");

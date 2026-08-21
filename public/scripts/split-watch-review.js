@@ -1,20 +1,20 @@
 (() => {
-  const loadingBox = document.querySelector("[data-rcc-loading]");
-  const root = document.querySelector("[data-rcc-root]");
-  const teamNameEl = document.querySelector("[data-rcc-team-name]");
-  const raceNameEl = document.querySelector("[data-rcc-race-name]");
-  const raceMetaEl = document.querySelector("[data-rcc-race-meta]");
-  const messageBox = document.querySelector("[data-rcc-message]");
-  const teamStats = document.querySelector("[data-rcc-team-stats]");
-  const teamRows = document.querySelector("[data-rcc-team-rows]");
-  const individualPanel = document.querySelector("[data-rcc-individual-panel]");
-  const individualName = document.querySelector("[data-rcc-individual-name]");
-  const individualClose = document.querySelector("[data-rcc-individual-close]");
-  const individualRows = document.querySelector("[data-rcc-individual-rows]");
-  const allRacesLink = document.querySelector("[data-rcc-all-races-link]");
-  const raceSwitcherWrap = document.querySelector("[data-rcc-race-switcher-wrap]");
-  const raceSwitcher = document.querySelector("[data-rcc-race-switcher]");
-  const copySummaryButton = document.querySelector("[data-rcc-copy-summary]");
+  const loadingBox = document.querySelector("[data-sw-loading]");
+  const root = document.querySelector("[data-sw-root]");
+  const teamNameEl = document.querySelector("[data-sw-team-name]");
+  const raceNameEl = document.querySelector("[data-sw-race-name]");
+  const raceMetaEl = document.querySelector("[data-sw-race-meta]");
+  const messageBox = document.querySelector("[data-sw-message]");
+  const teamStats = document.querySelector("[data-sw-team-stats]");
+  const teamRows = document.querySelector("[data-sw-team-rows]");
+  const individualPanel = document.querySelector("[data-sw-individual-panel]");
+  const individualName = document.querySelector("[data-sw-individual-name]");
+  const individualClose = document.querySelector("[data-sw-individual-close]");
+  const individualRows = document.querySelector("[data-sw-individual-rows]");
+  const allRacesLink = document.querySelector("[data-sw-all-races-link]");
+  const raceSwitcherWrap = document.querySelector("[data-sw-race-switcher-wrap]");
+  const raceSwitcher = document.querySelector("[data-sw-race-switcher]");
+  const copySummaryButton = document.querySelector("[data-sw-copy-summary]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, raceMetaEl, messageBox,
@@ -28,11 +28,11 @@
   const sessionId = String(params.get("race") || "").trim();
 
   // The static template can't know the team id -- without this the link
-  // falls back to its bare href and lands on the RCC hub with no ?id=,
-  // which the hub reports as "Race Command Center not found."
-  if (teamId) allRacesLink.href = "/race-command-center/?id=" + encodeURIComponent(teamId);
+  // falls back to its bare href and lands on the Split Watch hub with no ?id=,
+  // which the hub reports as "Split Watch not found."
+  if (teamId) allRacesLink.href = "/split-watch/?id=" + encodeURIComponent(teamId);
 
-  const REVIEW_ENDPOINT = "/api/race-command-center/review/";
+  const REVIEW_ENDPOINT = "/api/split-watch/review/";
   const RaceMath = window.PodiumRaceMath;
   const PaceSplits = window.PodiumPaceSplits;
 
@@ -85,7 +85,7 @@
       headers,
       body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
     });
-    if (response.status === 401) window.location.replace("/race-command-center/join/");
+    if (response.status === 401) window.location.replace("/split-watch/join/");
     return parseResponse(response, "The review request could not be completed.");
   }
 
@@ -111,7 +111,7 @@
       const accessToken = await window.PodiumTeamAuth.getAccessToken();
       const headers = { Accept: "application/json", "Content-Type": "application/json" };
       if (accessToken) headers.Authorization = "Bearer " + accessToken;
-      const response = await fetch("/api/race-command-center/sessions/", {
+      const response = await fetch("/api/split-watch/sessions/", {
         method: "POST",
         headers,
         body: JSON.stringify({ team_id: teamId, action: "list" })
@@ -148,11 +148,11 @@
     if (!target) return;
     const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(target.id);
     if (target.status === "live") {
-      window.location.href = "/race-command-center/live/" + idPart;
+      window.location.href = "/split-watch/live/" + idPart;
     } else if (target.status === "finished" || target.status === "reviewed") {
-      window.location.href = "/race-command-center/review/" + idPart;
+      window.location.href = "/split-watch/review/" + idPart;
     } else {
-      window.location.href = "/race-command-center/plan/" + idPart;
+      window.location.href = "/split-watch/plan/" + idPart;
     }
   });
 
@@ -243,15 +243,15 @@
     const tierCounts = RaceMath.computeGoalTierCounts(rowsWithStatus.filter((r) => r.status).map((r) => r.status));
 
     teamStats.innerHTML =
-      '<div class="rcc-stat"><strong>' + finishTimesAsc.length + '</strong><span>Finishers</span></div>' +
-      '<div class="rcc-stat"><strong>' + (avgDiff != null ? formatDiff(avgDiff) : "--") + '</strong><span>Average diff vs. Goal A</span></div>' +
-      '<div class="rcc-stat"><strong>' + (gapR5 != null ? formatSecondsToClock(gapR5) : "--") + '</strong><span>Top-5 spread</span></div>' +
-      '<div class="rcc-stat"><strong>' + (tierCounts.ahead + tierCounts.on_pace) + '</strong><span>At or ahead of Goal A</span></div>';
+      '<div class="sw-stat"><strong>' + finishTimesAsc.length + '</strong><span>Finishers</span></div>' +
+      '<div class="sw-stat"><strong>' + (avgDiff != null ? formatDiff(avgDiff) : "--") + '</strong><span>Average diff vs. Goal A</span></div>' +
+      '<div class="sw-stat"><strong>' + (gapR5 != null ? formatSecondsToClock(gapR5) : "--") + '</strong><span>Top-5 spread</span></div>' +
+      '<div class="sw-stat"><strong>' + (tierCounts.ahead + tierCounts.on_pace) + '</strong><span>At or ahead of Goal A</span></div>';
 
     teamRows.innerHTML = rowsWithStatus.map((row) => {
       const tag = row.excluded
-        ? '<span class="rcc-tag rcc-tag-' + escapeHtml(row.participant.status) + '">' + escapeHtml(row.participant.status.toUpperCase()) + '</span>'
-        : (row.status ? '<span class="rcc-tag rcc-tag-' + escapeHtml(row.status) + '">' + escapeHtml(STATUS_LABELS[row.status]) + '</span>' : "--");
+        ? '<span class="sw-tag sw-tag-' + escapeHtml(row.participant.status) + '">' + escapeHtml(row.participant.status.toUpperCase()) + '</span>'
+        : (row.status ? '<span class="sw-tag sw-tag-' + escapeHtml(row.status) + '">' + escapeHtml(STATUS_LABELS[row.status]) + '</span>' : "--");
 
       return (
         '<tr data-review-row="' + escapeHtml(row.participant.id) + '">' +
@@ -333,7 +333,7 @@
     } catch (error) {
       loadingBox.innerHTML =
         "<h2>This review could not be loaded</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="button button-primary" href="/race-command-center/?id=' + encodeURIComponent(teamId) + '">Back to Race Command Center</a></p>';
+        '<p><a class="button button-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
     }
   }
 

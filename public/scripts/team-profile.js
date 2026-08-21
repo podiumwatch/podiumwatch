@@ -1357,7 +1357,7 @@
 
     // "Live Now" discovery strip (Team Workspace Phase Three) -- only
     // ever shown when the coach has explicitly turned a currently-live
-    // race's spectator_visible flag on (see api/race-command-center's
+    // race's spectator_visible flag on (see api/split-watch's
     // updateSessionDetails and api/teams/detail.js).
     const races = Array.isArray(liveRaces) ? liveRaces : [];
     if (liveStrip) {

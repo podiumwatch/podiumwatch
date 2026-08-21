@@ -12,7 +12,7 @@
   const recentCountEl = document.querySelector("[data-tw-recent-count]");
   const rosterLink = document.querySelector("[data-tw-roster-link]");
   const scheduleLink = document.querySelector("[data-tw-schedule-link]");
-  const rccLink = document.querySelector("[data-tw-rcc-link]");
+  const swLink = document.querySelector("[data-tw-sw-link]");
   const upcomingList = document.querySelector("[data-tw-upcoming-list]");
   const upcomingEmpty = document.querySelector("[data-tw-upcoming-empty]");
   const recentList = document.querySelector("[data-tw-recent-list]");
@@ -26,7 +26,7 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox, nextCard, nextContent,
-    rosterCountEl, upcomingCountEl, recentCountEl, rosterLink, scheduleLink, rccLink,
+    rosterCountEl, upcomingCountEl, recentCountEl, rosterLink, scheduleLink, swLink,
     upcomingList, upcomingEmpty, recentList, recentEmpty,
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
   ];
@@ -99,8 +99,8 @@
     if (data.nextRace) {
       const race = data.nextRace;
       const href = race.status === "live"
-        ? "/race-command-center/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id)
-        : "/race-command-center/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id);
+        ? "/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id)
+        : "/split-watch/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id);
       parts.push(
         '<div class="tw-item" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.2);">' +
           '<div><strong>' + escapeHtml(race.name) + '</strong><div class="tw-item-meta">' + escapeHtml(formatDate(race.race_date)) + " · " + escapeHtml(STATUS_LABELS[race.status] || race.status) + " · " + race.ready_count + " of " + race.participant_count + " ready" + '</div></div>' +
@@ -144,7 +144,7 @@
     recentList.innerHTML = recentRaceSessions.map((race) => (
       '<div class="tw-item">' +
         '<div><strong>' + escapeHtml(race.name) + '</strong><div class="tw-item-meta">' + escapeHtml(formatDate(race.race_date)) + " · " + escapeHtml(STATUS_LABELS[race.status] || race.status) + '</div></div>' +
-        '<a class="button button-outline" href="/race-command-center/review/?id=' + encodeURIComponent(teamId) + '&race=' + encodeURIComponent(race.id) + '">View review</a>' +
+        '<a class="button button-outline" href="/split-watch/review/?id=' + encodeURIComponent(teamId) + '&race=' + encodeURIComponent(race.id) + '">View review</a>' +
       '</div>'
     )).join("");
   }
@@ -236,7 +236,7 @@
       const data = await apiFetch("/api/team/home/", {});
       teamNameEl.textContent = data.team.school_name;
       teamLink.href = "/team/?slug=" + encodeURIComponent(data.team.slug);
-      [rosterLink, scheduleLink, rccLink].forEach((link) => {
+      [rosterLink, scheduleLink, swLink].forEach((link) => {
         const url = new URL(link.getAttribute("href"), window.location.origin);
         url.searchParams.set("id", teamId);
         link.href = url.pathname + url.search;

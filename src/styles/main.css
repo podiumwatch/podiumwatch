@@ -713,7 +713,7 @@ p { margin-top: 0; }
   .path-to-state-stage { font-size: 1rem; }
 }
 
-/* Race Command Center's nav dropdown -- two destinations (enter a race
+/* Split Watch's nav dropdown -- two destinations (enter a race
    day code, or a coach signed-in shortcut) under one hover/click menu.
    The trigger is a real <a> (not a <button>) so it degrades to a normal
    working link to the join page if JS never runs; the panel is a plain
@@ -780,8 +780,8 @@ p { margin-top: 0; }
    dropdowns on the left and a 5-element utility cluster on the right,
    eliminating the second row entirely. Reuses the exact .nav-dropdown /
    .nav-dropdown-trigger / .nav-dropdown-panel mechanics already built and
-   tested for Race Command Center above -- that dropdown's own logic is
-   untouched, only its outer wrapper (.nav-utility-rcc) and trigger color
+   tested for Split Watch above -- that dropdown's own logic is
+   untouched, only its outer wrapper (.nav-utility-sw) and trigger color
    are new. Breakpoint is 1320px throughout, matching every other
    mobile/desktop split already in this file and in site.js's own
    mobileQuery -- the spec's suggested 768px was a placeholder the spec
@@ -886,18 +886,18 @@ a.sports-ticker-inner { text-decoration: none; color: inherit; cursor: pointer; 
 .nav-utility-instagram { width: 44px; padding: 8px; color: #ffffff; background: #151a17; border: 1px solid rgba(255, 255, 255, .16); }
 .nav-utility-instagram:hover { background: var(--green); color: var(--black); }
 
-/* Race Command Center's own dropdown restyled as the spec's green accent
+/* Split Watch's own dropdown restyled as the spec's green accent
    button -- everything under .nav-dropdown here is the exact mechanism
    built above; only this wrapper and the trigger's color are new. */
-.nav-utility-rcc .nav-dropdown-trigger {
+.nav-utility-sw .nav-dropdown-trigger {
   min-height: 44px; padding: 8px 16px; border-radius: 8px; border-bottom: none;
   color: var(--black); background: var(--green);
   font-family: Arial, Helvetica, sans-serif; font-size: .8rem; font-weight: 800;
   text-transform: none; letter-spacing: normal;
 }
-.nav-utility-rcc .nav-dropdown-trigger:hover,
-.nav-utility-rcc .nav-dropdown-trigger[aria-current="page"],
-.nav-utility-rcc.nav-dropdown[data-open="true"] .nav-dropdown-trigger {
+.nav-utility-sw .nav-dropdown-trigger:hover,
+.nav-utility-sw .nav-dropdown-trigger[aria-current="page"],
+.nav-utility-sw.nav-dropdown[data-open="true"] .nav-dropdown-trigger {
   color: var(--black); background: var(--green-dark);
 }
 
@@ -945,16 +945,16 @@ a.sports-ticker-inner { text-decoration: none; color: inherit; cursor: pointer; 
   .nav-group-panel a { padding: 12px 4px; font-size: .92rem; border-bottom: 1px solid #22262a; }
 
   /* Utility cluster becomes the pinned bottom section of the drawer --
-     divider above it, Pace Calculator and Race Command Center as full-
+     divider above it, Pace Calculator and Split Watch as full-
      width rows, Watch/Instagram as the two-up row at the very bottom. */
   .nav-utility {
     flex-direction: column; align-items: stretch; gap: 10px;
     margin: 14px 0 0; padding: 18px 0 0; border-left: 0; border-top: 1px solid rgba(255, 255, 255, .16);
   }
   .nav-icon-button, .nav-utility-calc { justify-content: flex-start; min-height: 52px; }
-  .nav-utility-rcc { display: block; }
-  .nav-utility-rcc .nav-dropdown-trigger { width: 100%; justify-content: center; min-height: 52px; }
-  .nav-utility-rcc .nav-dropdown-panel { position: static; margin-top: 8px; box-shadow: none; background: rgba(255, 255, 255, .05); }
+  .nav-utility-sw { display: block; }
+  .nav-utility-sw .nav-dropdown-trigger { width: 100%; justify-content: center; min-height: 52px; }
+  .nav-utility-sw .nav-dropdown-panel { position: static; margin-top: 8px; box-shadow: none; background: rgba(255, 255, 255, .05); }
   .nav-utility-social-row { gap: 10px; margin-top: 4px; }
   .nav-utility-watch, .nav-utility-instagram { flex: 1; min-height: 52px; }
   .nav-utility-instagram { width: auto; }

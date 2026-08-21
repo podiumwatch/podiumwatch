@@ -257,7 +257,7 @@
   }
 
   // Same m:ss(.s) parsing/formatting convention used throughout Race
-  // Command Center (public/scripts/race-command-center-plan.js etc.) --
+  // Command Center (public/scripts/split-watch-plan.js etc.) --
   // duplicated locally rather than shared, matching how small helpers
   // like escapeHtml are already handled independently per file in this
   // codebase.

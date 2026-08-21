@@ -154,8 +154,8 @@
 
     const isLive = race.status === "live";
     const href = isLive
-      ? "/race-command-center/live/?id=" + encodeURIComponent(team.id) + "&race=" + encodeURIComponent(race.id)
-      : "/race-command-center/plan/?id=" + encodeURIComponent(team.id) + "&race=" + encodeURIComponent(race.id);
+      ? "/split-watch/live/?id=" + encodeURIComponent(team.id) + "&race=" + encodeURIComponent(race.id)
+      : "/split-watch/plan/?id=" + encodeURIComponent(team.id) + "&race=" + encodeURIComponent(race.id);
 
     return (
       '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin:14px 0;padding:16px 18px;border-radius:12px;background:#111827;color:#fff;">' +
@@ -471,14 +471,14 @@
                   '">' +
                     "Team home" +
                   '</a>' +
-                  // Race Command Center moved up to 2nd position (was
+                  // Split Watch moved up to 2nd position (was
                   // last of 7) -- it's the one tool on this list that's
                   // genuinely time-critical on race day; everything
                   // else here can wait.
-                  '<a class="button button-outline" href="/race-command-center/?id=' +
+                  '<a class="button button-outline" href="/split-watch/?id=' +
                     encodeURIComponent(team.id) +
                   '">' +
-                    "Race Command Center" +
+                    "Split Watch" +
                   '</a>' +
                   '<a class="button button-primary" href="/team-editor/?id=' +
                     encodeURIComponent(team.id) +

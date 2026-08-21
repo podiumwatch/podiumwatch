@@ -5,9 +5,9 @@ import {
 
 // The operational page for one meet -- the direct realization of the
 // spec's "Meet Center" concept. Bridges the real, existing team_meet_connections
-// schedule system with Race Command Center: every race session tied to
+// schedule system with Split Watch: every race session tied to
 // this meet, its readiness, and a way to create a new one without
-// re-typing the meet's name/date. Race Command Center itself is not
+// re-typing the meet's name/date. Split Watch itself is not
 // modified -- this page only calls its existing sessions.js "create"
 // action with meet_id pre-filled.
 export function teamMeetCenterPage(site) {
@@ -94,7 +94,7 @@ export function teamMeetCenterPage(site) {
   return layout({
     site,
     title: "Meet Center | Team Workspace",
-    description: "A coach's operational page for one meet -- race groups, readiness, and Race Command Center.",
+    description: "A coach's operational page for one meet -- race groups, readiness, and Split Watch.",
     pathname: "/team-meet-center/",
     content
   });

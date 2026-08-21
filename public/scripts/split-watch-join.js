@@ -1,9 +1,9 @@
 (() => {
-  const shell = document.querySelector("[data-rccj-shell]");
-  const message = document.querySelector("[data-rccj-message]");
-  const form = document.querySelector("[data-rccj-form]");
-  const codeInput = document.querySelector("[data-rccj-code-input]");
-  const submitButton = document.querySelector("[data-rccj-submit]");
+  const shell = document.querySelector("[data-swj-shell]");
+  const message = document.querySelector("[data-swj-message]");
+  const form = document.querySelector("[data-swj-form]");
+  const codeInput = document.querySelector("[data-swj-code-input]");
+  const submitButton = document.querySelector("[data-swj-submit]");
 
   const requiredElements = [shell, message, form, codeInput, submitButton];
   if (requiredElements.some((el) => !el)) return;
@@ -38,7 +38,7 @@
     showMessage("");
 
     try {
-      const response = await fetch("/api/race-command-center/join/", {
+      const response = await fetch("/api/split-watch/join/", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ code })
@@ -47,7 +47,7 @@
       if (!response.ok) throw new Error(data.error || "That code could not be verified.");
 
       showMessage("Code accepted. Taking you to " + data.team.school_name + "...");
-      window.location.href = "/race-command-center/?id=" + encodeURIComponent(data.team.id);
+      window.location.href = "/split-watch/?id=" + encodeURIComponent(data.team.id);
     } catch (error) {
       showMessage(error.message || "That code could not be verified.", true);
       submitButton.disabled = false;
