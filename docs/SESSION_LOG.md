@@ -2089,3 +2089,25 @@ Three requests from actually using the tool: delete a race directly from the hub
 ### Not yet done
 
 Not pushed. Still owe the user a real root cause for the "Share access code" button issue.
+
+## 2026 08 20 A runner's goal now carries over to their next race automatically
+
+### Goal
+
+User asked directly: does a returning runner's goal carry over from their last race? It didn't -- confirmed every new race started every runner blank. They wanted it carried over automatically, or at least an option to.
+
+### What was built
+
+- `lib/race_command_center_service.mjs`: new `copyMostRecentGoals()`, called from `saveParticipants()`'s insert path. When a roster athlete is added to a new race with no goal yet, their most recent Goal A/B/C (from any other race for the team, by race date) copies in automatically -- zero extra clicks, fully editable before the race starts, never overwrites a goal that already exists. Pacing strategy and checkpoint targets are never copied (tied to a specific race's checkpoints, which can differ). Guest/manual runners are skipped -- no reliable way to match them across races by name.
+- One-line UI note added to the Plan page explaining this happens.
+
+### Testing actually run
+
+- `node --check` -- clean.
+- `npm.cmd run build`/`run check` -- clean, no regressions.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Verified directly against real production: two real throwaway races for the real Russia team, a real goal set on the first, the same real athlete added to the second with no goal call at all -- confirmed Goal A and B carried over with exact values, no Goal C fabricated, and a manually-added guest runner in the same save got no goal. All throwaway data cleaned up and re-confirmed deleted.
+
+### Not yet done
+
+Not pushed. Still owe the user a real root cause for the "Share access code" button issue.

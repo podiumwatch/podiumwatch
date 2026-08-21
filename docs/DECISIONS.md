@@ -1351,6 +1351,35 @@ Each of these came from the user actually operating the tool with real data (a r
 
 `lib/race_command_center_service.mjs` (`deleteSession()` relaxed, new `restartRace()`), `api/race-command-center/sessions.js` (new `restart_race` action), `public/scripts/race-command-center-hub.js` (per-card Delete button + confirm + refresh), `public/scripts/race-command-center-plan.js` (relaxed delete visibility/label/confirm), `src/pages/racecommandcenterlive.mjs` + `public/scripts/race-command-center-live.js` (Restart Race button, cross-device reload-on-restart, and the full runner-card density redesign).
 
+None outstanding for these three. Still owe the user a real root cause for the "Share access code" button not appearing on their screen (a separate, earlier-reported, not-yet-resolved issue) -- deferred while they worked through this batch of requests instead.
+
+## 2026 08 20 A runner's goal now carries over to their next race automatically
+
+### Decision
+
+User asked directly: does a returning runner's goal carry over from their last race, and if not, they want it to (or at least have the option). Confirmed it did not -- every new race started every runner with a blank Goal A, even for the exact same athlete who'd already run a goal-paced race the week before. Fixed by copying a runner's most recent Goal A/B/C automatically the moment they're added to a new race, with zero extra clicks, while leaving the value fully editable before the race starts.
+
+### Reason
+
+A real coach with a real season-long roster reruns the same athletes week after week; retyping every Goal A/B/C from scratch for a full roster every single race is exactly the kind of repetitive manual entry this tool should be removing, not requiring. The user explicitly offered two acceptable shapes for the fix ("automatically keep... or have the option") -- automatic-but-editable satisfies both without adding a UI control.
+
+### Key implementation decisions worth recording
+
+1. **Copies only when the new participant row has NO goal yet, never overwrites one that exists.** This runs inside `saveParticipants()`'s existing insert path, scoped to genuinely brand-new `race_participants` rows -- an athlete already added to this race with a goal already set (or deliberately left blank) is never touched. There is structurally no path for this to clobber something a coach already decided for this specific race.
+2. **Copies Goal A/B/C only -- never pacing strategy or checkpoint targets.** A runner's goal TIME is just a number and always transfers safely across races. Their pacing strategy (Custom Pace) is tied to a specific set of checkpoints via `race_targets`, and a new race may have a different checkpoint layout entirely (different mile splits, different total distance) -- copying targets blind risks silently producing an invalid or nonsensical Custom Pace plan the coach never asked for and might not notice until race day. Strategy defaults to Even Pace on every new race as before; a coach who wants Custom Pace again sets new targets for the new race's actual checkpoints, same as always.
+3. **Only ever applies to roster-linked athletes (a real `team_athlete_id`), never manual/guest runners.** There's no reliable way to know "this guest runner named Jordan Smith is the same person as last week's Jordan Smith" from a name alone -- verified directly with a real guest-runner test case that no goal gets fabricated for them.
+4. **"Most recent" is determined by the OTHER race's `race_date`, across every one of the team's races** (any status -- draft, finished, whatever), not scoped to a single season or the immediately-prior session by creation order. A coach re-ordering which race they plan first shouldn't change whose goal counts as "most recent."
+5. **A one-line UI note was added** ("A runner's goal from their most recent race carries over automatically -- click in to review or change it") rather than a toggle or confirmation step -- this is a visibility improvement only, not a way to opt out, matching the "automatic but always editable" design; a coach who wants a different number for this race just changes it, exactly like any other field.
+
+### Alternatives considered
+
+1. An opt-in checkbox ("Copy goals from last race") before saving participants -- rejected; adds a click to the common case (goal genuinely hasn't changed) to guard against a scenario (an unwanted stale goal) that's already fully recoverable by just editing the pre-filled number, which a coach reviewing "Goals and Pacing" naturally does anyway.
+2. Also copying Custom Pace targets when checkpoint labels/counts happen to match between the two races -- rejected as unnecessary complexity and a real correctness risk (checkpoint *distances* could still differ even with matching labels/counts, e.g. a 5K's "Mile 1" vs a different course's "Mile 1"); Goal A/B/C alone already delivers the actual time savings the user asked for.
+
+### Files or systems affected
+
+`lib/race_command_center_service.mjs` (new `copyMostRecentGoals()`, called from `saveParticipants()`), `src/pages/racecommandcenterplan.mjs` (one-line UI note).
+
 ### Follow up
 
-None outstanding for these three. Still owe the user a real root cause for the "Share access code" button not appearing on their screen (a separate, earlier-reported, not-yet-resolved issue) -- deferred while they worked through this batch of requests instead.
+None outstanding. Verified directly against real production (not just mocked): created two real throwaway races for the real Russia team, set a real goal on the first, added the same real roster athlete to the second with no goal-setting call at all, and confirmed Goal A and Goal B both carried over with the exact correct values, no Goal C fabricated (none existed on the source), and a manually-added guest runner in the same save got no goal at all. All throwaway data cleaned up and deletion re-confirmed.
