@@ -136,6 +136,12 @@ export function racePublicPage(site) {
 
     .race-public-search input {
       flex: 1 1 240px;
+      /* Without this, the input's own content-based minimum width (an
+         <input>'s intrinsic min-width is NOT 0 by default) refuses to
+         shrink below it even with flex-shrink: 1 set above -- on a narrow
+         phone that silently forces the whole page wider than the
+         viewport instead of the input just shrinking to fit. */
+      min-width: 0;
       padding: 12px 14px;
       border-radius: 10px;
       border: 1px solid rgba(15, 23, 42, 0.22);
@@ -172,6 +178,7 @@ export function racePublicPage(site) {
       padding: 10px 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.16);
       text-align: left;
+      white-space: nowrap;
     }
 
     table.race-public-focused-table th {
@@ -201,6 +208,7 @@ export function racePublicPage(site) {
 
     .race-public-alerts input {
       flex: 1 1 220px;
+      min-width: 0;
       padding: 10px 12px;
       border-radius: 8px;
       border: 1px solid rgba(15, 23, 42, 0.22);
@@ -235,12 +243,14 @@ export function racePublicPage(site) {
         <div class="race-public-focused" data-race-public-focused hidden>
           <h3 data-race-public-focused-name></h3>
           <p class="race-public-focused-meta" data-race-public-focused-meta></p>
-          <table class="race-public-focused-table">
-            <thead>
-              <tr><th>Checkpoint</th><th>Time</th></tr>
-            </thead>
-            <tbody data-race-public-focused-rows></tbody>
-          </table>
+          <div class="race-public-table-wrap">
+            <table class="race-public-focused-table">
+              <thead>
+                <tr><th>Checkpoint</th><th>Time</th></tr>
+              </thead>
+              <tbody data-race-public-focused-rows></tbody>
+            </table>
+          </div>
         </div>
 
         <div class="race-public-table-wrap">

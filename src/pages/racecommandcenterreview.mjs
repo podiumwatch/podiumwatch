@@ -39,8 +39,9 @@ export function raceCommandCenterReviewPage(site) {
     .rcc-stat strong { display: block; font-size: 1.5rem; }
     .rcc-stat span { display: block; margin-top: 6px; font-weight: 700; font-size: 0.85rem; }
 
-    table.rcc-review-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    table.rcc-review-table th, table.rcc-review-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(15, 23, 42, 0.1); }
+    .rcc-review-table-wrap { overflow-x: auto; margin-top: 10px; }
+    table.rcc-review-table { width: 100%; border-collapse: collapse; }
+    table.rcc-review-table th, table.rcc-review-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(15, 23, 42, 0.1); white-space: nowrap; }
     table.rcc-review-table tbody tr { cursor: pointer; }
     table.rcc-review-table tbody tr:hover { background: rgba(15, 23, 42, 0.04); }
 
@@ -54,9 +55,6 @@ export function raceCommandCenterReviewPage(site) {
     .rcc-individual-detail { display: none; margin-top: 20px; }
     .rcc-individual-detail.rcc-open { display: block; }
 
-    @media (max-width: 720px) {
-      table.rcc-review-table { display: block; overflow-x: auto; }
-    }
   </style>
 
   <section class="section section-paper">
@@ -92,12 +90,14 @@ export function raceCommandCenterReviewPage(site) {
 
             <div class="rcc-stat-row" data-rcc-team-stats></div>
 
-            <table class="rcc-review-table">
-              <thead>
-                <tr><th>Runner</th><th>Group</th><th>Finish</th><th>Goal A</th><th>Diff</th><th>Status</th></tr>
-              </thead>
-              <tbody data-rcc-team-rows></tbody>
-            </table>
+            <div class="rcc-review-table-wrap">
+              <table class="rcc-review-table">
+                <thead>
+                  <tr><th>Runner</th><th>Group</th><th>Finish</th><th>Goal A</th><th>Diff</th><th>Status</th></tr>
+                </thead>
+                <tbody data-rcc-team-rows></tbody>
+              </table>
+            </div>
           </section>
 
           <section class="rcc-panel" data-rcc-individual-panel hidden>
@@ -109,12 +109,14 @@ export function raceCommandCenterReviewPage(site) {
               <button class="button button-outline" type="button" data-rcc-individual-close>Close</button>
             </div>
 
-            <table class="rcc-review-table">
-              <thead>
-                <tr><th>Checkpoint</th><th>Target (Goal A)</th><th>Actual</th><th>Diff</th></tr>
-              </thead>
-              <tbody data-rcc-individual-rows></tbody>
-            </table>
+            <div class="rcc-review-table-wrap">
+              <table class="rcc-review-table">
+                <thead>
+                  <tr><th>Checkpoint</th><th>Target (Goal A)</th><th>Actual</th><th>Diff</th></tr>
+                </thead>
+                <tbody data-rcc-individual-rows></tbody>
+              </table>
+            </div>
           </section>
         </div>
       </div>

@@ -89,6 +89,20 @@ export function raceCommandCenterLivePage(site) {
     .rcc-live-topbar h1 {
       margin: 0;
       font-size: 1.2rem;
+      /* The sitewide h1 rule's -1.5px letter-spacing (main.css) is tuned
+         for hero-scale headings (clamp(3.25rem, 8vw, 7.25rem)), where it's
+         a tiny fraction of the font size. At this compact 1.2rem/19.2px
+         size it's nearly 8% of the font size instead -- and on any device
+         without Impact/Haettenschweiler installed (every Mac, Linux,
+         iOS, and Android device -- i.e. most real mobile visitors), the
+         generic sans-serif fallback's wider glyphs combined with that
+         much negative tracking make adjacent letters visibly overlap.
+         Confirmed directly: computed letter-spacing was -1.5px and the
+         race name rendered as garbled, overlapping text on a real
+         mobile-width render. Scoped to just this compact in-page title,
+         not the sitewide h1 rule -- every other h1 on the site is at
+         hero scale, where -1.5px never causes this. */
+      letter-spacing: normal;
     }
 
     .rcc-live-clock {
@@ -269,7 +283,13 @@ export function raceCommandCenterLivePage(site) {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      /* Lets the right-hand group (badge + time + Undo) drop to its own
+         line on a narrow phone instead of the name being squeezed to
+         nothing to make room for a group that refuses to shrink -- see
+         .rcc-recorded-row-right below, which is exactly what was
+         happening on mobile with the manual-entry badge added in. */
+      flex-wrap: wrap;
+      gap: 6px 10px;
       padding: 10px 14px;
       border-radius: 10px;
       background: rgba(0, 191, 99, 0.1);
@@ -312,13 +332,19 @@ export function raceCommandCenterLivePage(site) {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      min-width: 80px;
     }
 
     .rcc-recorded-row-right {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       flex: 0 0 auto;
+      /* Pushes this group flush to the row's right edge even on its own
+         wrapped line (when it drops below the name on a narrow phone),
+         rather than sitting stranded at the left. */
+      margin-left: auto;
     }
 
     .rcc-recorded-row-value {
