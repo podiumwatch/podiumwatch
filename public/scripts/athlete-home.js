@@ -9,10 +9,13 @@
   const upcomingEmpty = document.querySelector("[data-ah-upcoming-empty]");
   const pastList = document.querySelector("[data-ah-past-list]");
   const pastEmpty = document.querySelector("[data-ah-past-empty]");
+  const goalsSection = document.querySelector("[data-ah-goals-section]");
+  const goalsAthletesContainer = document.querySelector("[data-ah-goals-athletes]");
 
   const requiredElements = [
     loadingBox, root, accountEl, teamsEl, signOutButton, messageBox,
-    upcomingList, upcomingEmpty, pastList, pastEmpty
+    upcomingList, upcomingEmpty, pastList, pastEmpty,
+    goalsSection, goalsAthletesContainer
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -59,6 +62,146 @@
       return data;
     });
   }
+
+  // messageBox/.ah-message already existed (declared, styled) but this
+  // page had nothing to save before Phase 3, so nothing ever used them.
+  function showMessage(text, isError = false) {
+    messageBox.textContent = text;
+    messageBox.hidden = !text;
+    messageBox.style.background = isError ? "rgba(220, 38, 38, 0.12)" : "rgba(0, 191, 99, 0.1)";
+  }
+
+  // Same 7 distances as the coach-facing goal book on the Team Roster
+  // page (lib/athlete_goal_service.mjs's DISTANCE_BUCKETS) -- duplicated
+  // here rather than shared, matching how small constants/helpers are
+  // already handled independently per client script in this codebase.
+  const GOAL_BUCKETS = [
+    { key: "800m", label: "800m" },
+    { key: "1600m", label: "Mile / 1600m" },
+    { key: "3000m", label: "3K" },
+    { key: "3200m", label: "2 Mile / 3200m" },
+    { key: "4000m", label: "4K" },
+    { key: "5000m", label: "5K" },
+    { key: "8000m", label: "8K" }
+  ];
+
+  function parseClockToSeconds(text) {
+    const cleaned = String(text ?? "").trim();
+    if (!cleaned) return null;
+
+    const parts = cleaned.split(":").map((p) => p.trim());
+    if (parts.some((p) => p === "" || Number.isNaN(Number(p)))) return null;
+
+    let seconds;
+    if (parts.length === 3) {
+      seconds = Number(parts[0]) * 3600 + Number(parts[1]) * 60 + Number(parts[2]);
+    } else if (parts.length === 2) {
+      seconds = Number(parts[0]) * 60 + Number(parts[1]);
+    } else if (parts.length === 1) {
+      seconds = Number(parts[0]);
+    } else {
+      return null;
+    }
+
+    return Number.isFinite(seconds) && seconds > 0 ? seconds : null;
+  }
+
+  // Most athletes are linked to exactly one team_athletes row -- the
+  // heading is only shown when there's more than one (a real but rare
+  // case, e.g. a transfer -- see lib/athlete_auth.mjs's
+  // loadActiveAthleteLinks() header comment), so the common case reads
+  // as one simple goal list, not "goals for Casey Smith" repeated once.
+  function renderGoalsSection(athletes) {
+    if (!athletes || athletes.length === 0) {
+      goalsSection.hidden = true;
+      return;
+    }
+
+    goalsSection.hidden = false;
+    goalsAthletesContainer.innerHTML = athletes.map((athlete) => {
+      const name = athlete.display_name || (athlete.first_name + " " + athlete.last_name);
+      const teamName = athlete.team ? athlete.team.school_name : "";
+      const heading = athletes.length > 1
+        ? '<h3>' + escapeHtml(name) + (teamName ? " -- " + escapeHtml(teamName) : "") + '</h3>'
+        : "";
+
+      return (
+        '<div class="ah-goals-athlete" data-goals-athlete-id="' + escapeHtml(athlete.id) + '">' +
+          heading +
+          '<div class="ah-goals-fields">' +
+            GOAL_BUCKETS.map((bucket) => (
+              '<label>' + escapeHtml(bucket.label) +
+                '<input type="text" placeholder="19:30" data-goal-bucket="' + bucket.key + '"></label>'
+            )).join("") +
+          '</div>' +
+          '<button class="button button-primary" type="button" data-save-goals style="margin-top:12px;">Save my goals</button>' +
+        '</div>'
+      );
+    }).join("");
+
+    athletes.forEach((athlete) => loadGoalsForAthlete(athlete.id));
+  }
+
+  async function loadGoalsForAthlete(teamAthleteId) {
+    const block = goalsAthletesContainer.querySelector('[data-goals-athlete-id="' + CSS.escape(teamAthleteId) + '"]');
+    if (!block) return;
+
+    try {
+      const data = await apiFetch("/api/athlete/goals/", { action: "get_standard_goals", team_athlete_id: teamAthleteId });
+      for (const goal of data.goals || []) {
+        const input = block.querySelector('[data-goal-bucket="' + CSS.escape(goal.distance_bucket) + '"]');
+        if (input) input.value = formatSecondsToClock(goal.goal_seconds);
+      }
+    } catch {
+      // Leaves the fields blank -- the athlete can still fill in and save
+      // fresh values over nothing.
+    }
+  }
+
+  goalsAthletesContainer.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-save-goals]");
+    if (!button) return;
+
+    const block = button.closest("[data-goals-athlete-id]");
+    const teamAthleteId = block.dataset.goalsAthleteId;
+
+    const goalsByBucket = {};
+    let hasInvalidEntry = false;
+
+    block.querySelectorAll("[data-goal-bucket]").forEach((input) => {
+      const raw = input.value.trim();
+      if (!raw) {
+        goalsByBucket[input.dataset.goalBucket] = null;
+        return;
+      }
+      const seconds = parseClockToSeconds(raw);
+      if (seconds === null) {
+        hasInvalidEntry = true;
+      } else {
+        goalsByBucket[input.dataset.goalBucket] = seconds;
+      }
+    });
+
+    if (hasInvalidEntry) {
+      showMessage("Enter goal times as m:ss (e.g. 19:30), or leave a distance blank to clear it.", true);
+      return;
+    }
+
+    try {
+      const data = await apiFetch("/api/athlete/goals/", {
+        action: "save_standard_goals",
+        team_athlete_id: teamAthleteId,
+        goals_by_bucket: goalsByBucket
+      });
+      for (const goal of data.goals || []) {
+        const input = block.querySelector('[data-goal-bucket="' + CSS.escape(goal.distance_bucket) + '"]');
+        if (input) input.value = formatSecondsToClock(goal.goal_seconds);
+      }
+      showMessage("Goals saved.");
+    } catch (error) {
+      showMessage(error.message || "Goals could not be saved.", true);
+    }
+  });
 
   async function apiFetch(endpoint, payload) {
     const accessToken = await window.PodiumTeamAuth.getAccessToken();
@@ -194,6 +337,8 @@
       teamsEl.textContent = me.athletes
         .map((a) => (a.display_name || (a.first_name + " " + a.last_name)) + " -- " + (a.team ? a.team.school_name : "Unknown team"))
         .join(" · ");
+
+      renderGoalsSection(me.athletes);
 
       const racesData = await apiFetch("/api/athlete/races/", {});
       renderRaces(racesData.races || []);

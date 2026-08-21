@@ -36,6 +36,12 @@ export function athleteHomePage(site) {
     .ah-tag-on_pace { background: rgba(59, 130, 246, 0.18); }
     .ah-tag-at_risk, .ah-tag-missed { background: rgba(107, 114, 128, 0.18); }
     .ah-empty { padding: 24px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
+    .ah-goals-athlete { padding: 16px; border-radius: 12px; background: rgba(15, 23, 42, 0.03); }
+    .ah-goals-athlete + .ah-goals-athlete { margin-top: 14px; }
+    .ah-goals-athlete h3 { margin: 0 0 10px; font-size: 1rem; }
+    .ah-goals-fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
+    .ah-goals-fields label { display: block; font-size: 0.85rem; font-weight: 700; }
+    .ah-goals-fields input { display: block; width: 100%; margin-top: 6px; padding: 10px; border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.22); font: inherit; }
     @media (max-width: 720px) {
       table.ah-table { display: block; overflow-x: auto; }
     }
@@ -58,6 +64,16 @@ export function athleteHomePage(site) {
         </div>
 
         <p class="ah-message" data-ah-message hidden></p>
+
+        <section class="ah-panel" data-ah-goals-section hidden>
+          <p class="eyebrow">Goal book</p>
+          <h2>My goals</h2>
+          <p style="font-size:0.85rem;opacity:0.8;margin:4px 0 14px;">
+            One goal per distance -- set it once here, and it's used automatically whenever your coach
+            adds you to a race at that distance.
+          </p>
+          <div data-ah-goals-athletes></div>
+        </section>
 
         <section class="ah-panel">
           <p class="eyebrow">Upcoming</p>
