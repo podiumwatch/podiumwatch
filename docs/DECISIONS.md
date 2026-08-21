@@ -1380,6 +1380,35 @@ A real coach with a real season-long roster reruns the same athletes week after 
 
 `lib/race_command_center_service.mjs` (new `copyMostRecentGoals()`, called from `saveParticipants()`), `src/pages/racecommandcenterplan.mjs` (one-line UI note).
 
+None outstanding. Verified directly against real production (not just mocked): created two real throwaway races for the real Russia team, set a real goal on the first, added the same real roster athlete to the second with no goal-setting call at all, and confirmed Goal A and Goal B both carried over with the exact correct values, no Goal C fabricated (none existed on the source), and a manually-added guest runner in the same save got no goal at all. All throwaway data cleaned up and deletion re-confirmed.
+
+## 2026 08 20 Root-caused the "feature I just shipped isn't showing up" pattern -- a real caching bug
+
+### Decision
+
+The user reported the new hub-page Delete button wasn't showing up, right after having reported the same thing for the Race Day Access "Share access code" button earlier the same session. Root-caused rather than guessed at again: `vercel.json` applies `Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800` to every path under `/scripts/`, `/styles/`, and `/data/` -- and every one of those paths is a stable url with no version marker anywhere in it. Confirmed directly against the live deploy (`curl -sI`) that the exact JS file in question really was already updated and correctly deployed both times; the browser's already-cached copy from before the fix simply hadn't expired yet, and nothing about a redeploy could force that -- a Cache-Control header on a NEW response can't retroactively invalidate a response already sitting in a browser's cache under the same unchanged url. Fixed by stamping every same-origin `/scripts/*.js` and `/styles/*.css` reference in the built HTML with a `?v=<build>` query string computed once per build run, in `scripts/build.mjs`.
+
+### Reason
+
+This was a real, confirmed, previously-undiscovered bug, not user error and not a flaky one-off -- the same failure mode hit twice in one session, on two completely different features, each time with the deployed file itself already correct. Given how fast this session ships and pushes client-side JS fixes (many times per hour on active days), a 1-hour browser cache with zero cache-busting mechanism means a real coach could very plausibly be running stale JavaScript for a meaningful fraction of any given hour after a fix ships, with no visible sign anything was wrong on their end -- exactly what happened here, twice.
+
+### Key implementation decisions worth recording
+
+1. **Cache-busting via a query string stamped into the HTML, not a lower max-age.** Lowering `max-age` in `vercel.json` would only change how long *future* cache entries live -- it does nothing for a copy a browser already has cached under the unchanged url from before the config change even shipped. Only changing the URL itself forces an already-primed browser cache to be bypassed on the very next page load, which is the only thing that actually closes the gap the user hit both times.
+2. **One version stamp per build run (`Date.now().toString(36)` at module-load time), applied to every page uniformly** -- not per-file content hashing. A single per-build value is simpler, and correctness here only requires "this differs from the last deploy's value," not minimal individual-file churn (this is a small site; the bandwidth cost of one shared version bump busting every asset's cache is negligible).
+3. **The existing long `Cache-Control` values in `vercel.json` were deliberately left untouched.** Once every asset reference carries a build-specific `?v=`, those long lifetimes stop being a liability and become the actual benefit they were meant to be -- a cached response is now only ever reused under the exact version it was cached for, so aggressive caching and always-fresh-after-deploy are no longer in tension.
+4. **Applied at the single `writePage()` choke point every real page's fully-assembled HTML already passes through**, plus the one other HTML-writing call (`404.html`) that bypasses it -- rather than touching every individual page's own hardcoded `<script src>`/`<link href>` tags across dozens of files, which would have been the exact same fix spread across much more surface area for no additional correctness.
+5. **Confirmed `scripts/check.mjs`'s existing link-checker already strips query strings before resolving a file on disk** (`resolvePublicPath()`'s `url.split(/[?#]/)[0]`), so `<link href>` references with the new `?v=` suffix needed no changes there; `<script src>` references were never validated by that checker in the first place (it only ever checked `href`, not script `src`), so nothing there could regress either. Confirmed both facts by reading the checker before assuming safety, not after a build failure.
+
+### Alternatives considered
+
+1. Lowering `max-age` in `vercel.json` instead of cache-busting -- rejected; explained above, doesn't help anyone with an already-primed cache, which is exactly the reported symptom both times.
+2. Per-file content hashing (e.g., `race-command-center-hub.abc123.js`) instead of a shared build-run query string -- rejected as more moving parts (renaming files, updating every reference to a computed hash) for no meaningful benefit at this site's scale; a shared per-build marker gets the same correctness guarantee far more simply.
+
+### Files or systems affected
+
+`scripts/build.mjs` (`stampCacheBustedAssetUrls()`, applied in `writePage()` and the `404.html` write).
+
 ### Follow up
 
-None outstanding. Verified directly against real production (not just mocked): created two real throwaway races for the real Russia team, set a real goal on the first, added the same real roster athlete to the second with no goal-setting call at all, and confirmed Goal A and Goal B both carried over with the exact correct values, no Goal C fabricated (none existed on the source), and a manually-added guest runner in the same save got no goal at all. All throwaway data cleaned up and deletion re-confirmed.
+None outstanding. Verified: `npm run build` produces a single consistent `?v=` value across every page in one run; `npm run check` passes with zero regressions (18,326 internal links, confirmed the checker's existing query-string handling covers the new suffix); a real page loaded via Playwright with the versioned script url present and no new console errors. This should retroactively explain both of today's earlier "the fix isn't showing up" reports -- worth keeping in mind if a similar report ever surfaces again after this point, since it would then indicate a genuinely different cause.

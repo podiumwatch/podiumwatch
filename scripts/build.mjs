@@ -121,6 +121,34 @@ function athleteSeedForRankingRow(ranking, row) {
   ].join("|")) || null;
 }
 
+// vercel.json caches everything under /scripts/ and /styles/ for up to an
+// hour in the browser and a day at the CDN edge (stale-while-revalidate up
+// to a week on top of that) -- a reasonable policy for a normally
+// slow-changing static site, but it has a real, confirmed cost: every one
+// of those paths is a STABLE url with no version marker, so a coach who
+// already has a page open (or revisits within that window) silently keeps
+// running old JavaScript for up to an hour after a real fix ships, with no
+// way to tell short of a hard refresh. Confirmed directly -- a real user
+// reported a just-shipped feature "still not there" twice in one session,
+// and in both cases the deployed file itself was correct; their browser's
+// cached copy from before the fix simply hadn't expired yet.
+//
+// The fix: stamp every same-origin /scripts/*.js and /styles/*.css
+// reference with a ?v=<build> query string, computed once per build run.
+// A new build always produces a new value, so the URL itself changes on
+// every real deploy -- the browser is forced to fetch fresh regardless of
+// how long the OLD url is still sitting in cache, and the existing
+// long Cache-Control values become actually safe (a cached response is
+// only ever reused under the exact version it was cached for) rather than
+// just fast-but-occasionally-wrong.
+const BUILD_VERSION = Date.now().toString(36);
+
+function stampCacheBustedAssetUrls(html) {
+  return html
+    .replace(/(src="\/scripts\/[^"?]+\.js)(")/g, `$1?v=${BUILD_VERSION}$2`)
+    .replace(/(href="\/styles\/[^"?]+\.css)(")/g, `$1?v=${BUILD_VERSION}$2`);
+}
+
 async function writeFile(relativePath, content) {
   const clean = relativePath.replace(/^\/+/, "");
   const target = path.join(dist, clean);
@@ -131,7 +159,7 @@ async function writeFile(relativePath, content) {
 
 async function writePage(route, html) {
   const cleanRoute = route === "/" ? "" : route.replace(/^\/+|\/+$/g, "");
-  await writeFile(path.join(cleanRoute, "index.html"), html);
+  await writeFile(path.join(cleanRoute, "index.html"), stampCacheBustedAssetUrls(html));
 }
 
 function pathFromSport(sport) {
@@ -606,7 +634,7 @@ await writePage("/team-of-the-week/", teamOfTheWeekPage(site));
   await writePage("/about/", await aboutPage());
   await writePage("/sponsors/", sponsorsPage());
   await writePage("/contact/", contactPage());
-  await writeFile("404.html", notFoundPage());
+  await writeFile("404.html", stampCacheBustedAssetUrls(notFoundPage()));
 
   const searchIndex = [
     { type: "Page", title: "Home", subtitle: site.description, href: "/", searchText: "Ohio cross country track running home" },

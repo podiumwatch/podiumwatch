@@ -2111,3 +2111,26 @@ User asked directly: does a returning runner's goal carry over from their last r
 ### Not yet done
 
 Not pushed. Still owe the user a real root cause for the "Share access code" button issue.
+
+## 2026 08 20 Root-caused the "feature isn't showing up" pattern -- browser caching, not a bug
+
+### Goal
+
+User reported the new hub-page Delete button wasn't showing -- the second time in one session a just-shipped feature was reported missing (the first was the "Share access code" button). Root-caused this time instead of guessing.
+
+### What was built
+
+- Confirmed via `curl -sI` on the live deploy that `vercel.json` sets `Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800` on every `/scripts/`, `/styles/`, and `/data/` path, all served at stable urls with no version marker -- so a browser that already cached the old file keeps it for up to an hour (or longer) after a real fix ships, with no way to tell.
+- `scripts/build.mjs`: new `stampCacheBustedAssetUrls()`, computing one `?v=<build>` value per build run and stamping it onto every same-origin `/scripts/*.js` and `/styles/*.css` reference in the built HTML. Applied at the single `writePage()` choke point plus the one other HTML-writing call (404.html).
+
+### Testing actually run
+
+- `node --check` -- clean.
+- `npm.cmd run build` -- confirmed a single consistent `?v=` value across many different pages from the same run.
+- `npm.cmd run check` -- clean, 18,326 internal links, confirming the existing link-checker's query-string handling already covers the new suffix with no changes needed.
+- Full `npm.cmd test` -- all suites, zero failures.
+- Playwright smoke test: homepage loads with the versioned script url, no new console errors (the two 404s present are the already-known, harmless local-preview-only Vercel analytics scripts).
+
+### Not yet done
+
+Not pushed. This should retroactively explain both of today's "the fix isn't showing up" reports.
