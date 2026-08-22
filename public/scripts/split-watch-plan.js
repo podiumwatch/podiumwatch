@@ -837,10 +837,21 @@
       return;
     }
 
+    // The Plan page is coach-only -- editing goals, roster, pacing
+    // strategy, and deleting the race are all admin actions with no
+    // business being reachable by a race-day code alone (found during
+    // the overnight audit -- this page had the same gap the Hub did
+    // before its own fix). A visitor with no real Supabase user belongs
+    // on the Live timing screen for this same race instead, never here.
+    // See splitwatchraces.mjs's header comment for the same reasoning
+    // first applied to the Hub.
+    const user = await window.PodiumTeamAuth.getUser();
+    if (!user) {
+      window.location.replace("/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId));
+      return;
+    }
+
     try {
-      // Don't hard-gate on a Supabase user here -- a race-day access code
-      // visitor never has one. Let the actual API call (authorized via
-      // bearer token OR the race-day cookie, server-side) decide.
       detail = await apiFetch(SESSIONS_ENDPOINT, { action: "detail" });
       const rosterData = await apiFetch(PLAN_ENDPOINT, { action: "list_roster", sport: detail.session.sport });
       rosterAthletes = rosterData.athletes;
@@ -850,12 +861,11 @@
       renderParticipants();
       renderBulkGoalsTable();
 
-      // Managing the race day code always requires a real coach account
-      // (api/team/race-day-code.js), never the race-day cookie a
-      // volunteer may have landed here with -- only show the button at
-      // all for a signed-in coach.
-      const user = await window.PodiumTeamAuth.getUser();
-      if (user) raceDayOpenButton.hidden = false;
+      // Reaching this point already confirmed a real coach account (the
+      // redirect above sends anyone else to the Live timing screen), so
+      // showing race-day-code management here (api/team/race-day-code.js)
+      // is always safe.
+      raceDayOpenButton.hidden = false;
 
       loadingBox.hidden = true;
       root.hidden = false;

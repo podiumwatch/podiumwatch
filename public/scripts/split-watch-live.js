@@ -225,7 +225,40 @@
         // everything is synced. A real, live-verified bug was caught
         // exactly this way (see docs/DECISIONS.md).
         const sentByClientId = new Map(unsynced.map((s) => [s.client_split_id, s]));
+        // Names of runners whose split lost a same-checkpoint race to a
+        // different device this sync cycle -- collected here so ONE
+        // combined, calm message can be shown after the batch settles,
+        // rather than one alarming message per conflicted split. See
+        // pushSplits() in lib/split_watch_service.mjs for the server
+        // half of this fix (found during the overnight audit).
+        const conflictedNames = [];
         return Promise.all(result.results.map((r) => {
+          if (r.conflicted) {
+            return Store.getSplitLocal(r.client_split_id).then((current) => {
+              if (!current) return;
+              const winning = r.split;
+              const participant = detail.participants.find((p) => p.id === current.race_participant_id);
+              conflictedNames.push(participant ? participantName(participant) : "A runner");
+              // Adopt the already-recorded value as authoritative --
+              // this device's own tap can never win the upsert, so
+              // leaving it "unsynced" would just retry (and fail) the
+              // exact same way forever. Reusing the current record's
+              // own shape (buildSplitRecord's) rather than constructing
+              // a new one from scratch.
+              const reconciled = {
+                ...current,
+                elapsed_seconds: winning.elapsed_seconds,
+                wall_clock_captured_at_ms: Date.parse(winning.wall_clock_captured_at),
+                capture_method: winning.capture_method,
+                is_dns: winning.is_dns,
+                is_dnf: winning.is_dnf,
+                synced: true
+              };
+              splitsByClientId.set(r.client_split_id, reconciled);
+              return Store.saveSplitLocal(reconciled);
+            });
+          }
+
           const sent = sentByClientId.get(r.client_split_id);
           return Store.getSplitLocal(r.client_split_id).then((current) => {
             if (!current || !sent) return;
@@ -241,7 +274,13 @@
             // very push triggers via resyncRequested, or the periodic
             // interval) will push the newer value for real.
           });
-        }));
+        })).then(() => {
+          if (conflictedNames.length > 0) {
+            renderRunnerList();
+            const list = conflictedNames.join(", ");
+            showMessage((conflictedNames.length === 1 ? "Someone else already recorded a split for " : "Someone else already recorded splits for ") + list + " at this checkpoint -- showing their time.");
+          }
+        });
       })
         .then(() => finish("synced"))
         .catch(() => finish(navigator.onLine ? "needs_attention" : "offline"));
