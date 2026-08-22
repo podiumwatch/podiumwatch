@@ -149,64 +149,124 @@
     );
   }
 
-  function renderUpcomingCard(race) {
+  // The most-advanced checkpoint that actually has a recorded time --
+  // i.e. "how far has this runner gotten so far." Checkpoints arrive
+  // already sorted by sort_order (see race_viewer_service.mjs), so the
+  // LAST one with a split is the current position, not just any one
+  // with data.
+  function findCurrentCheckpoint(race) {
+    let current = null;
+    race.checkpoints.forEach((row) => {
+      if (row.split && row.split.elapsed_seconds != null) current = row;
+    });
+    return current;
+  }
+
+  function statusTagHtml(status, label) {
+    return status ? '<span class="ah-tag ah-tag-' + escapeHtml(status) + '">' + escapeHtml(label) + '</span>' : "";
+  }
+
+  // The single largest, boldest number on the card -- current split for
+  // an upcoming/live race, final time for a past one. Mirrors the pace-
+  // badge logic on the Live page's own runner list (renderPaceBadge in
+  // split-watch-live.js): same computeDiffFromTarget/computeGoalStatus
+  // call, same distanceRemainingMeters-at-finish-is-zero convention.
+  function renderHero(race, { finalOnly }) {
+    if (race.participant.status === "dns" || race.participant.status === "dnf") {
+      return (
+        '<div class="ah-hero">' +
+          '<div class="ah-hero-value">' + escapeHtml(race.participant.status.toUpperCase()) + '</div>' +
+          statusTagHtml(race.participant.status, race.participant.status.toUpperCase()) +
+        '</div>'
+      );
+    }
+
+    const finishRow = race.checkpoints.find((row) => row.checkpoint.is_finish);
+    const heroRow = finalOnly ? finishRow : findCurrentCheckpoint(race);
+    const actual = heroRow && heroRow.split ? heroRow.split.elapsed_seconds : null;
+
+    if (actual == null) {
+      return (
+        '<div class="ah-hero ah-hero-pending">' +
+          '<div class="ah-hero-value">--:--</div>' +
+          '<div class="ah-hero-label">' + (finalOnly ? "Result not recorded yet" : "Not started yet") + '</div>' +
+        '</div>'
+      );
+    }
+
+    const target = heroRow.targets.A;
+    const atFinish = finalOnly || heroRow.checkpoint.is_finish;
+    let status = null;
+    if (target != null && RaceMath) {
+      const diff = RaceMath.computeDiffFromTarget(actual, target);
+      const distanceRemainingMeters = atFinish
+        ? 0
+        : Math.max(0, (race.session.distance_meters || 0) - (heroRow.checkpoint.distance_meters || 0));
+      status = RaceMath.computeGoalStatus({ diffFromTargetSeconds: diff, distanceRemainingMeters });
+    }
+
+    return (
+      '<div class="ah-hero">' +
+        '<div class="ah-hero-value">' + escapeHtml(formatSecondsToClock(actual)) + '</div>' +
+        '<div class="ah-hero-label">' + (finalOnly ? "Final time" : ("at " + escapeHtml(heroRow.checkpoint.label))) + '</div>' +
+        statusTagHtml(status, GOAL_STATUS_LABELS[status]) +
+      '</div>'
+    );
+  }
+
+  // Full checkpoint-by-checkpoint breakdown, below the hero -- a stacked
+  // list rather than a table, so there are no fixed columns to overflow,
+  // clip, or wrap into an unreadable vertical stack on a narrow phone
+  // (the exact bug this replaces -- see docs/LIVE_TRACKING_UX_AUDIT.md's
+  // table-scroll-wrapper fix on the coach Review page for the same class
+  // of issue this page never got that fix for).
+  function renderCheckpointList(race, { showDiff }) {
+    if (!race.checkpoints.length) return "";
+
     const rows = race.checkpoints.map((row) => {
       const target = row.targets.A;
       const actual = row.split ? row.split.elapsed_seconds : null;
+      const diff = (showDiff && target != null && actual != null) ? RaceMath.computeDiffFromTarget(actual, target) : null;
+
       return (
-        '<tr>' +
-          '<td>' + escapeHtml(row.checkpoint.label) + (row.checkpoint.is_finish ? " (Finish)" : "") + '</td>' +
-          '<td>' + escapeHtml(target != null ? formatSecondsToClock(target) : "--") + '</td>' +
-          '<td>' + escapeHtml(actual != null ? formatSecondsToClock(actual) : "--") + '</td>' +
-        '</tr>'
+        '<div class="ah-checkpoint-row">' +
+          '<span class="ah-checkpoint-label">' + escapeHtml(row.checkpoint.label) + (row.checkpoint.is_finish ? " (Finish)" : "") + '</span>' +
+          '<span class="ah-checkpoint-value">' +
+            "Target " + escapeHtml(target != null ? formatSecondsToClock(target) : "--") +
+            " &middot; Actual " + escapeHtml(actual != null ? formatSecondsToClock(actual) : "--") +
+            (diff != null ? " &middot; " + escapeHtml(formatDiff(diff)) : "") +
+          '</span>' +
+        '</div>'
       );
     }).join("");
 
+    return '<div class="ah-checkpoints">' + rows + '</div>';
+  }
+
+  function renderUpcomingCard(race) {
     return (
       '<div class="ah-race-card">' +
         '<span class="ah-athlete-tag">' + escapeHtml(race.participant.display_name) + '</span>' +
         '<h3>' + escapeHtml(race.session.name) + '</h3>' +
         '<div class="ah-race-meta">' + escapeHtml(formatDate(race.session.race_date)) + ' &middot; ' + escapeHtml(STATUS_LABELS[race.session.status] || race.session.status) + '</div>' +
         freshnessLine(race) +
+        renderHero(race, { finalOnly: false }) +
         renderGoalRow(race.goals) +
-        (race.checkpoints.length
-          ? '<table class="ah-table"><thead><tr><th>Checkpoint</th><th>Target (Goal A)</th><th>Recorded</th></tr></thead><tbody>' + rows + '</tbody></table>'
-          : '') +
+        renderCheckpointList(race, { showDiff: false }) +
         watchLiveLink(race) +
       '</div>'
     );
   }
 
   function renderPastCard(race) {
-    const rows = race.checkpoints.map((row) => {
-      const target = row.targets.A;
-      const actual = row.split ? row.split.elapsed_seconds : null;
-      const diff = (target != null && actual != null) ? RaceMath.computeDiffFromTarget(actual, target) : null;
-      const isFinish = row.checkpoint.is_finish;
-      const status = (diff != null && isFinish)
-        ? RaceMath.computeGoalStatus({ diffFromTargetSeconds: diff, distanceRemainingMeters: 0 })
-        : null;
-
-      return (
-        '<tr>' +
-          '<td>' + escapeHtml(row.checkpoint.label) + (isFinish ? " (Finish)" : "") + '</td>' +
-          '<td>' + escapeHtml(target != null ? formatSecondsToClock(target) : "--") + '</td>' +
-          '<td>' + escapeHtml(actual != null ? formatSecondsToClock(actual) : "--") + '</td>' +
-          '<td>' + escapeHtml(diff != null ? formatDiff(diff) : "--") + '</td>' +
-          '<td>' + (status ? '<span class="ah-tag ah-tag-' + escapeHtml(status) + '">' + escapeHtml(GOAL_STATUS_LABELS[status]) + '</span>' : "--") + '</td>' +
-        '</tr>'
-      );
-    }).join("");
-
     return (
       '<div class="ah-race-card">' +
         '<span class="ah-athlete-tag">' + escapeHtml(race.participant.display_name) + '</span>' +
         '<h3>' + escapeHtml(race.session.name) + '</h3>' +
         '<div class="ah-race-meta">' + escapeHtml(formatDate(race.session.race_date)) + ' &middot; ' + escapeHtml(STATUS_LABELS[race.session.status] || race.session.status) + '</div>' +
+        renderHero(race, { finalOnly: true }) +
         renderGoalRow(race.goals) +
-        (race.checkpoints.length
-          ? '<table class="ah-table"><thead><tr><th>Checkpoint</th><th>Target (Goal A)</th><th>Actual</th><th>Diff</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table>'
-          : '') +
+        renderCheckpointList(race, { showDiff: true }) +
         watchLiveLink(race) +
       '</div>'
     );

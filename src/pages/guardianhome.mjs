@@ -26,27 +26,46 @@ export function guardianHomePage(site) {
     .ah-header { justify-content: space-between; }
     .ah-header h2 { margin-bottom: 0; }
     .ah-message { padding: 14px 16px; border-radius: 10px; background: rgba(220, 38, 38, 0.12); }
+
+    /* Race identity (name/date/status) is deliberately small, secondary
+       chrome -- the athlete's own current or final result is the hero
+       content on this card, not the race metadata around it. */
     .ah-race-card { padding: 18px; border: 1px solid rgba(15, 23, 42, 0.12); border-radius: 14px; }
-    .ah-race-card h3 { margin: 0 0 4px; }
-    .ah-race-meta { font-size: 0.85rem; opacity: 0.75; margin-bottom: 12px; }
-    .ah-goal-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
-    .ah-badge { display: inline-flex; padding: 5px 10px; border-radius: 999px; background: rgba(0, 191, 99, 0.14); font-size: 0.8rem; font-weight: 800; }
-    table.ah-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    table.ah-table th, table.ah-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(15, 23, 42, 0.1); font-size: 0.92rem; }
-    .ah-tag { display: inline-flex; padding: 3px 9px; border-radius: 999px; font-size: 0.74rem; font-weight: 800; }
+    .ah-race-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
+    .ah-race-meta { font-size: 0.82rem; opacity: 0.7; margin-bottom: 12px; }
+    .ah-athlete-tag { display: inline-flex; padding: 4px 10px; border-radius: 999px; background: #111827; color: #ffffff; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 8px; }
+
+    /* --- hero: the athlete's current split (live) or final time (past) --
+       the single largest, boldest thing on the card, by design. */
+    .ah-hero { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 14px; padding: 14px 0; }
+    .ah-hero-value { font-variant-numeric: tabular-nums; font-weight: 800; font-size: 2.1rem; line-height: 1; color: #0b0b0b; }
+    .ah-hero-pending .ah-hero-value { color: rgba(15, 23, 42, 0.35); }
+    .ah-hero-label { font-size: 0.85rem; opacity: 0.7; }
+
+    .ah-goal-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 4px; }
+    .ah-badge { display: inline-flex; padding: 5px 10px; border-radius: 999px; background: rgba(0, 191, 99, 0.14); font-size: 0.78rem; font-weight: 800; }
+
+    .ah-tag { display: inline-flex; padding: 4px 11px; border-radius: 999px; font-size: 0.8rem; font-weight: 800; }
     .ah-tag-ahead { background: rgba(0, 191, 99, 0.18); }
     .ah-tag-on_pace { background: rgba(59, 130, 246, 0.18); }
     .ah-tag-at_risk, .ah-tag-missed { background: rgba(107, 114, 128, 0.18); }
+    .ah-tag-dns, .ah-tag-dnf { background: rgba(220, 38, 38, 0.14); }
+
+    /* --- checkpoint-by-checkpoint detail: a stacked list, never a table --
+       no fixed columns means nothing to overflow, clip, or wrap into an
+       unreadable vertical stack on a narrow phone. */
+    .ah-checkpoints { display: grid; margin-top: 6px; }
+    .ah-checkpoint-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding: 8px 0; border-bottom: 1px solid rgba(15, 23, 42, 0.08); font-size: 0.86rem; }
+    .ah-checkpoint-row:last-child { border-bottom: none; }
+    .ah-checkpoint-label { font-weight: 700; }
+    .ah-checkpoint-value { opacity: 0.8; font-variant-numeric: tabular-nums; }
+
     .ah-empty { padding: 24px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
-    .ah-athlete-tag { display: inline-flex; padding: 4px 10px; border-radius: 999px; background: #111827; color: #ffffff; font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 8px; }
     .ah-watch-live { display: inline-block; margin-top: 10px; }
     .ah-freshness { display: flex; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 0.82rem; opacity: 0.75; }
     .ah-freshness-live { opacity: 1; color: #b91c1c; font-weight: 700; }
     .ah-live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; background: #dc2626; animation: ah-live-pulse 1.6s ease-in-out infinite; }
     @keyframes ah-live-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    @media (max-width: 720px) {
-      table.ah-table { display: block; overflow-x: auto; }
-    }
   </style>
 
   <section class="section section-paper">
