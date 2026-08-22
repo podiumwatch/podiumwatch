@@ -894,6 +894,7 @@
   async function beginLiveScreen(clockNote) {
     startScreen.hidden = true;
     liveScreen.hidden = false;
+    restartRaceButton.hidden = false;
     clockNoteEl.textContent = clockNote || "";
     await loadMergedSplits();
     renderRunnerList();

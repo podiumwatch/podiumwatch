@@ -40,6 +40,36 @@ export function splitWatchLivePage(site) {
 
     .sw-live-back:hover { opacity: 1; text-decoration: underline; }
 
+    .sw-live-top-row-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* Deliberately NOT a .sw-live-btn -- Restart is a rare, destructive,
+       false-start-only admin action, not a normal race control, and
+       shouldn't compete visually with Pack Capture/Finish Race for a
+       coach's or volunteer's attention during a live race. Styled to
+       match the small, muted .sw-live-back link next to it, with just
+       enough warning-tinted color to read as "careful" rather than
+       "primary." Still gated behind the existing confirm() dialog. */
+    .sw-restart-link {
+      appearance: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+      display: inline-block;
+      font-size: 0.78rem;
+      opacity: 0.7;
+      color: #fbbf24;
+      text-decoration: none;
+      padding: 4px 0 10px;
+    }
+
+    .sw-restart-link:hover { opacity: 1; text-decoration: underline; }
+
     .sw-live-top-row {
       display: flex;
       flex-wrap: wrap;
@@ -586,7 +616,10 @@ export function splitWatchLivePage(site) {
 
     <div data-sw-root hidden>
       <div class="sw-live-top-row">
-        <a class="sw-live-back" href="/split-watch/" data-sw-back-link>&larr; Split Watch</a>
+        <div class="sw-live-top-row-left">
+          <a class="sw-live-back" href="/split-watch/" data-sw-back-link>&larr; Split Watch</a>
+          <button class="sw-restart-link" type="button" data-sw-restart-race hidden>Restart race</button>
+        </div>
         <div data-sw-race-switcher-wrap hidden>
           <label class="sw-race-switcher-label">
             Switch race
@@ -626,7 +659,6 @@ export function splitWatchLivePage(site) {
 
         <div class="sw-live-controls">
           <button class="sw-live-btn sw-live-btn-outline" type="button" data-sw-pack-toggle>Pack Capture</button>
-          <button class="sw-live-btn sw-live-btn-warning" type="button" data-sw-restart-race>Restart Race</button>
           <button class="sw-live-btn sw-live-btn-danger" type="button" data-sw-finish-race>Finish Race</button>
         </div>
 
