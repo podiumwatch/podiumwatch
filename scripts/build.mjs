@@ -71,6 +71,7 @@ import { splitWatchPlanPage } from "../src/pages/splitwatchplan.mjs";
 import { splitWatchLivePage } from "../src/pages/splitwatchlive.mjs";
 import { splitWatchReviewPage } from "../src/pages/splitwatchreview.mjs";
 import { splitWatchJoinPage } from "../src/pages/splitwatchjoin.mjs";
+import { splitWatchRacesPage } from "../src/pages/splitwatchraces.mjs";
 import { teamProfilePage } from "../src/pages/teamprofile.mjs";
 import { teamsPage } from "../src/pages/teams.mjs";
 import { searchPage } from "../src/pages/search.mjs";
@@ -618,6 +619,11 @@ await writePage("/split-watch/review/", splitWatchReviewPage(site));
 // unauthenticated entry point (a race day code, not a Supabase Auth
 // session) -- see lib/race_day_auth.mjs.
 await writePage("/split-watch/join/", splitWatchJoinPage(site));
+// The scoped landing page a race-day code redirects to after join --
+// see splitwatchraces.mjs's header comment. Covered by the "/split-watch/"
+// private-prefix entry already (noindex), same as every other Split
+// Watch page.
+await writePage("/split-watch/races/", splitWatchRacesPage(site));
 await writePage("/follow/", followPage(site));
 await writePage("/privacy/", privacyPage(site));
 await writePage("/team-editor/", teamEditorPage(site));

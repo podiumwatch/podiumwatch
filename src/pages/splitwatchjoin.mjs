@@ -6,11 +6,13 @@ import {
 // The public front door to Split Watch -- reachable from the
 // main site nav with no sign-in required. A team's coach generates a
 // short code (from Team Home) and shares it with race-day volunteers;
-// typing it in here gets them straight to that team's Race Command
-// Center. This is the entire "access model" this page exists for -- see
-// lib/race_day_auth.mjs for how the code itself is verified and
-// sessioned. A coach with a full account can still just sign in as
-// before; this is an additional door, not a replacement for that one.
+// typing it in here gets them straight to that team's races (see
+// splitwatchraces.mjs -- the code lands on a scoped race-selection
+// page, never the full coach hub). This is the entire "access model"
+// this page exists for -- see lib/race_day_auth.mjs for how the code
+// itself is verified and sessioned. A coach with a full account can
+// still just sign in as before; this is an additional door, not a
+// replacement for that one.
 export function splitWatchJoinPage(site) {
   const content = `${pageHero({
     eyebrow: "Split Watch",

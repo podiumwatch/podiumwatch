@@ -547,12 +547,21 @@
     }
 
     try {
-      // Don't hard-gate on a Supabase user here -- a race-day access code
-      // visitor never has one. Show what we can up front and let the actual
-      // API call (which the server will authorize via bearer token OR the
-      // race-day cookie) decide whether access is really allowed.
+      // This hub is coach-only now -- a race-day code visitor (no real
+      // Supabase user) belongs on the scoped race-selection page
+      // instead, never here. The hub itself still shows create/delete/
+      // meet-setup/spectator-visibility controls with no access check of
+      // their own beyond "did apiFetch's underlying request succeed,"
+      // which a valid race-day cookie alone satisfies just as well as a
+      // real coach session -- so redirecting here, rather than just
+      // hiding pieces of this page, is what actually keeps a volunteer
+      // from ever seeing those controls at all. See splitwatchraces.mjs.
       const user = await window.PodiumTeamAuth.getUser();
-      accountEl.textContent = user ? (user.email || "Team account") : "Race day access";
+      if (!user) {
+        window.location.replace("/split-watch/races/" + window.location.search);
+        return;
+      }
+      accountEl.textContent = user.email || "Team account";
 
       const data = await apiFetch("/api/split-watch/sessions/", { action: "list" });
       teamNameEl.textContent = data.team.school_name;
@@ -568,18 +577,16 @@
 
       populateMeetRoster();
 
-      // Managing the race day code itself always requires a real coach
-      // account (api/team/race-day-code.js), never the race-day cookie a
-      // volunteer landed here with -- so this whole panel only makes
-      // sense, and only appears, for a signed-in coach.
-      if (user) {
-        raceDaySection.hidden = false;
-        try {
-          const raceDayData = await apiFetch("/api/team/race-day-code/", { action: "status" });
-          renderRaceDayStatus(raceDayData.status);
-        } catch {
-          renderRaceDayStatus(null);
-        }
+      // Reaching this point already confirmed a real coach account (the
+      // redirect above sends anyone else to splitwatchraces.mjs), so this
+      // panel -- managing the race day code itself, api/team/race-day-code.js --
+      // is always safe to show here.
+      raceDaySection.hidden = false;
+      try {
+        const raceDayData = await apiFetch("/api/team/race-day-code/", { action: "status" });
+        renderRaceDayStatus(raceDayData.status);
+      } catch {
+        renderRaceDayStatus(null);
       }
 
       loadingBox.hidden = true;

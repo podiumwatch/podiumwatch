@@ -142,8 +142,8 @@
 
   // The unmissable, top-of-card call to action this whole change exists
   // for: a coach signing in on race day should see "Open live timing"
-  // as close to instantly as possible, not have to find Race Command
-  // Center among six other buttons first. Styled to match Team Home's
+  // as close to instantly as possible, not have to find Split
+  // Watch among six other buttons first. Styled to match Team Home's
   // own .tw-next-card treatment (same dark banner, same pattern) so it
   // reads as the same feature wherever a coach encounters it, even
   // though this page's own convention is inline styles rather than a

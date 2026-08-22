@@ -47,7 +47,9 @@
       if (!response.ok) throw new Error(data.error || "That code could not be verified.");
 
       showMessage("Code accepted. Taking you to " + data.team.school_name + "...");
-      window.location.href = "/split-watch/?id=" + encodeURIComponent(data.team.id);
+      // Lands on the scoped race-selection page, never the full coach
+      // hub -- see splitwatchraces.mjs's header comment.
+      window.location.href = "/split-watch/races/?id=" + encodeURIComponent(data.team.id);
     } catch (error) {
       showMessage(error.message || "That code could not be verified.", true);
       submitButton.disabled = false;
