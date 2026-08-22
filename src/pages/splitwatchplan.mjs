@@ -346,7 +346,7 @@ export function splitWatchPlanPage(site) {
 
     dialog.sw-race-day-dialog {
       width: min(560px, calc(100% - 28px));
-      max-height: calc(100vh - 40px);
+      max-height: calc(100dvh - 40px);
       overflow: auto;
       padding: 0;
       border: 0;

@@ -353,7 +353,17 @@ export function splitWatchLivePage(site) {
 
     .sw-pace-badge-ahead { background: rgba(0, 191, 99, 0.3); color: #ffffff; }
     .sw-pace-badge-on_pace { background: rgba(59, 130, 246, 0.35); color: #ffffff; }
-    .sw-pace-badge-at_risk { background: rgba(245, 158, 11, 0.4); color: #111827; }
+    /* #111827 text here measured 2.09:1 against this badge's own
+       rendered background (rgba(245,158,11,0.4) blended over the
+       page's #0b0b0b) -- fails WCAG AA (needs 4.5:1) by a wide margin,
+       found during the overnight accessibility pass. #111827 reads
+       fine on the light-background pages' equivalent tag (an OPAQUE
+       light background there), but on this dark page the same badge
+       is only 40% opaque, so the effective background stays dark and
+       dark-on-dark is nearly unreadable -- exactly the "Behind target"
+       flag a coach most needs to actually see. White text (matching
+       the other three pace badges) measures 8.50:1 here. */
+    .sw-pace-badge-at_risk { background: rgba(245, 158, 11, 0.4); color: #ffffff; }
     .sw-pace-badge-missed { background: rgba(220, 38, 38, 0.4); color: #ffffff; }
 
     .sw-recorded-row-name {
@@ -536,7 +546,7 @@ export function splitWatchLivePage(site) {
        trying to match it. */
     dialog.sw-race-day-dialog {
       width: min(560px, calc(100% - 28px));
-      max-height: calc(100vh - 40px);
+      max-height: calc(100dvh - 40px);
       overflow: auto;
       padding: 0;
       border: 0;
