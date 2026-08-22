@@ -11,8 +11,13 @@
       "permanent": true
     },
     {
-      "source": "/race-command-center/:path*",
-      "destination": "/split-watch/:path*",
+      "source": "/race-command-center/",
+      "destination": "/split-watch/",
+      "permanent": true
+    },
+    {
+      "source": "/race-command-center/:path(.*)",
+      "destination": "/split-watch/:path",
       "permanent": true
     }
   ],
