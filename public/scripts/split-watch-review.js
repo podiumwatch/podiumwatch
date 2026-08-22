@@ -313,28 +313,59 @@
     }
   }
 
-  async function initialize() {
+  // Found during the overnight audit: this page previously did a single
+  // fetch on load and never again -- a coach correcting a split (Undo, a
+  // manual re-entry) while someone else already had Review open required a
+  // manual reload to see it. Polls the same shared utility Guardian Home
+  // and the Live page already use. getStatus() always returns "idle"
+  // (never race-poll.js's own default of reading session.status) --
+  // Review is only ever reached for an already-finished/reviewed race, so
+  // the DEFAULT behavior (stop polling once status is "finished"/
+  // "reviewed") would stop after the very first fetch and defeat the
+  // whole point; a correction can land at any time after the race is
+  // over, not just in some narrow "still live" window, so this polls
+  // forever at the idle interval instead, same reasoning as Guardian
+  // Home's own dashboard-never-really-stops choice.
+  let hasLoadedOnce = false;
+
+  function startPolling() {
+    window.PodiumRacePoll.watch({
+      fetchOnce: () => apiFetch({ action: "get_team" }),
+      onData: (data) => {
+        raceMetaEl.textContent = data.session ? data.session.race_date : "";
+        renderTeamReview(data);
+
+        if (!hasLoadedOnce) {
+          hasLoadedOnce = true;
+          loadingBox.hidden = true;
+          root.hidden = false;
+          if (data.session) populateRaceSwitcher(data.session.race_date, data.session.name);
+        }
+      },
+      onError: (error) => {
+        // Only the FIRST load failing shows a full error screen -- a
+        // background poll hiccup after the page already loaded just
+        // retries next tick (race-poll.js's own backoff), never yanks
+        // away an already-rendered review.
+        if (hasLoadedOnce) return;
+        loadingBox.innerHTML =
+          "<h2>This review could not be loaded</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
+          '<p><a class="button button-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
+      },
+      getStatus: () => "idle"
+    });
+  }
+
+  function initialize() {
     if (!teamId || !sessionId) {
       loadingBox.innerHTML = "<h2>Race not found</h2><p>This link is missing a team or race id.</p>";
       return;
     }
 
-    try {
-      // Don't hard-gate on a Supabase user here -- a race-day access code
-      // visitor never has one. Let the actual API call (authorized via
-      // bearer token OR the race-day cookie, server-side) decide.
-      const data = await apiFetch({ action: "get_team" });
-      raceMetaEl.textContent = data.session ? data.session.race_date : "";
-      renderTeamReview(data);
-
-      loadingBox.hidden = true;
-      root.hidden = false;
-      if (data.session) populateRaceSwitcher(data.session.race_date, data.session.name);
-    } catch (error) {
-      loadingBox.innerHTML =
-        "<h2>This review could not be loaded</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="button button-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
-    }
+    // Don't hard-gate on a Supabase user here -- a race-day access code
+    // visitor never has one. Let the actual API call (authorized via
+    // bearer token OR the race-day cookie, server-side) decide.
+    startPolling();
   }
 
   initialize();

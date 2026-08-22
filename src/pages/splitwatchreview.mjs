@@ -127,6 +127,7 @@ export function splitWatchReviewPage(site) {
   <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/pace-splits.js" defer></script>
   <script src="/scripts/race-math.js" defer></script>
+  <script src="/scripts/race-poll.js" defer></script>
   <script src="/scripts/split-watch-review.js" defer></script>`;
 
   return layout({

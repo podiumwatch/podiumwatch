@@ -2,7 +2,8 @@ import {
   teamApiError
 } from "../../lib/team_auth.mjs";
 import {
-  requireSplitWatchAccess
+  requireSplitWatchAccess,
+  assertActionAllowedForActor
 } from "../../lib/race_day_auth.mjs";
 import {
   parseRaceBody,
@@ -38,7 +39,8 @@ export default async function handler(request, response) {
       throw error;
     }
 
-    await requireSplitWatchAccess(request, teamId);
+    const { actor } = await requireSplitWatchAccess(request, teamId);
+    assertActionAllowedForActor(actor, "plan", action);
 
     const sessionId = cleanText(body.session_id);
     let data;
