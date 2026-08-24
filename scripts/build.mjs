@@ -356,6 +356,19 @@ function homePage(stories, rankings) {
     <aside class="home-right"><section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section><section class="home-panel"><div class="home-panel-title"><h2>Upcoming Meets</h2></div><a class="home-meet" href="/meets/"><b>AUG 22</b><span><strong>OHSAA Early Season Invitational</strong><small>Obetz, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 25</b><span><strong>Shelby County Preview</strong><small>Russia, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 29</b><span><strong>Pickerington North Classic</strong><small>Pickerington, Ohio</small></span></a><a class="home-panel-link" href="/meets/">Full meet calendar ${icon("arrow")}</a></section></aside>
   </div></section>
 
+  <section class="section section-paper" aria-labelledby="preseason-home-title">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">2026 season preview</p><h2 id="preseason-home-title">Preseason Team Power Rankings</h2></div>
+        <a class="text-link" href="/rankings/cross-country/">View rankings by division ${icon("arrow")}</a>
+      </div>
+      <div class="preseason-home-grid">${[...preseasonClassifications].sort((a, b) => (a.gender === b.gender ? a.division - b.division : a.gender === "Boys" ? -1 : 1)).map((classification) => {
+        const leader = classification.raceBoard.find((row) => row.status === "ranked") || classification.raceBoard[0];
+        return `<article class="preseason-home-card" style="--pw-accent:${escapeHtml(classification.accent)}"><p class="eyebrow">${escapeHtml(classification.classification)} &middot; No. 1 ${escapeHtml(leader.team)}</p><h3>${escapeHtml(classification.headline)}</h3><p>${escapeHtml(classification.subtitle)}</p><a href="${preseasonArticleHref(classification)}">Read the preview ${icon("arrow")}</a></article>`;
+      }).join("")}</div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="latest-rankings-title">
     <div class="container">
       <div class="section-heading">

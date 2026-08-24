@@ -1085,3 +1085,25 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
   .pw-compare-drawer { width: 100vw; }
   .pw-compare-select-row { grid-template-columns: 1fr; }
 }
+
+/* Homepage: 2026 Preseason Team Power Rankings section -- guarantees all 8
+   preseason articles are reachable from the homepage regardless of the
+   Latest Stories grid's fixed 6-card total (3 + 3 across its two
+   sections), which otherwise always excludes 2 of the 8 once every slot
+   is full. --pw-accent set inline per card from the same JSON accent used
+   on the article itself (green boys / pink girls), matching main.css's
+   .pw-preseason-article convention rather than inventing a second scheme. */
+.preseason-home-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; margin-top: 22px; }
+.preseason-home-card { grid-column: span 3; display: flex; flex-direction: column; padding: 22px; background: var(--white); border: 1px solid var(--line); border-top: 4px solid var(--pw-accent); transition: transform .16s ease, box-shadow .16s ease; }
+.preseason-home-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.preseason-home-card p.eyebrow { color: var(--pw-accent); }
+.preseason-home-card h3 { margin-bottom: 8px; font-size: 1.08rem; line-height: 1.25; }
+.preseason-home-card p:not(.eyebrow) { flex: 1; margin-bottom: 14px; color: var(--muted); font-size: .88rem; }
+.preseason-home-card a { width: max-content; color: var(--pw-accent); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; letter-spacing: .6px; text-transform: uppercase; }
+@media (max-width: 1120px) {
+  .preseason-home-card { grid-column: span 4; }
+}
+@media (max-width: 700px) {
+  .preseason-home-grid { grid-template-columns: 1fr; gap: 12px; }
+  .preseason-home-card { grid-column: auto; }
+}
