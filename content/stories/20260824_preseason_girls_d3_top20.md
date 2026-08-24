@@ -1,5 +1,5 @@
 ---
-title: "Huron and Oakwood Set the Pace: Podium Watch 2026 Girls Division III Preseason Top 20"
+title: "2026 Girls Division III Preseason Top 20: Huron and Oakwood Set the Pace"
 date: "2026-08-24"
 description: "Huron leads Oakwood by 20 points, with Minerva and Woodridge close enough to turn one fifth runner improvement into a new championship picture."
 category: "Cross Country"

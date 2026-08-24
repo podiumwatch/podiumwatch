@@ -364,7 +364,13 @@ function homePage(stories, rankings) {
       </div>
       <div class="preseason-home-grid">${[...preseasonClassifications].sort((a, b) => (a.gender === b.gender ? a.division - b.division : a.gender === "Boys" ? -1 : 1)).map((classification) => {
         const leader = classification.raceBoard.find((row) => row.status === "ranked") || classification.raceBoard[0];
-        return `<article class="preseason-home-card" style="--pw-accent:${escapeHtml(classification.accent)}"><p class="eyebrow">${escapeHtml(classification.classification)} &middot; No. 1 ${escapeHtml(leader.team)}</p><h3>${escapeHtml(classification.headline)}</h3><p>${escapeHtml(classification.subtitle)}</p><a href="${preseasonArticleHref(classification)}">Read the preview ${icon("arrow")}</a></article>`;
+        // The story's own title is the single source of truth for what a
+        // reader sees (matches the article's own <h1> exactly) -- reading
+        // it from the story rather than classification.headline directly
+        // means the two can never drift out of sync with each other.
+        const matchingStory = stories.find((story) => story.slug === classification.articleSlug);
+        const cardTitle = matchingStory?.title || classification.headline;
+        return `<article class="preseason-home-card" style="--pw-accent:${escapeHtml(classification.accent)}"><p class="eyebrow">${escapeHtml(classification.classification)} &middot; No. 1 ${escapeHtml(leader.team)}</p><h3>${escapeHtml(cardTitle)}</h3><p>${escapeHtml(classification.subtitle)}</p><a href="${preseasonArticleHref(classification)}">Read the preview ${icon("arrow")}</a></article>`;
       }).join("")}</div>
     </div>
   </section>

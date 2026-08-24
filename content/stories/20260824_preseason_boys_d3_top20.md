@@ -1,5 +1,5 @@
 ---
-title: "Ten Points at the Top: Podium Watch 2026 Boys Division III Preseason Top 20"
+title: "2026 Boys Division III Preseason Top 20: Ten Points at the Top"
 date: "2026-08-24"
 description: "Woodridge leads Bryan by ten points, while Fairfield Union and Chagrin Falls keep a deep championship race within reach."
 category: "Cross Country"

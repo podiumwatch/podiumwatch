@@ -1,5 +1,5 @@
 ---
-title: "CVCA Has the Lead, Not the Luxury: Podium Watch 2026 Boys Division II Preseason Top 20"
+title: "2026 Boys Division II Preseason Top 20: CVCA Has the Lead, Not the Luxury"
 date: "2026-08-24"
 description: "CVCA leads Lexington and Massillon Perry, with a title race that could turn on whether the challengers close their largest fifth runner gaps."
 category: "Cross Country"

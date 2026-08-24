@@ -1,5 +1,5 @@
 ---
-title: "Mason Sets the Early Standard: Podium Watch 2026 Boys Division I Preseason Top 20"
+title: "2026 Boys Division I Preseason Top 20: Mason Sets the Early Standard"
 date: "2026-08-24"
 description: "Mason opens at number one, but Springboro and Thomas Worthington have enough front end strength and lineup balance to keep every scoring position meaningful."
 category: "Cross Country"

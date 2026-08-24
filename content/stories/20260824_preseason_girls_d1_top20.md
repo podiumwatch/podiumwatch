@@ -1,5 +1,5 @@
 ---
-title: "Milford Commands the First Look: Podium Watch 2026 Girls Division I Preseason Top 20"
+title: "2026 Girls Division I Preseason Top 20: Milford Commands the First Look"
 date: "2026-08-24"
 description: "Milford leads Mason and Massillon Jackson with a front runner, a connected scoring five, and room for an already strong lineup to become even tougher."
 category: "Cross Country"
