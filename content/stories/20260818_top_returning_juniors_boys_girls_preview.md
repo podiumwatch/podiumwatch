@@ -16,7 +16,6 @@ tags:
   - "Girls Cross Country"
   - "2026 Preview"
 featured: false
-pinnedRank: 3
 draft: false
 ---
 
