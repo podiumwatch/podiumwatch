@@ -86,6 +86,36 @@ export function renderMarkdown(markdown = "") {
       continue;
     }
 
+    // Podium Watch interactive-article component marker, e.g.
+    // "[[PODIUM_WATCH_COMPONENT: RACE_BOARD]]" -- lifted verbatim from the
+    // supplied article copy rather than translated into raw HTML in the
+    // source Markdown (this parser has no raw-HTML passthrough at all, by
+    // design -- every other block form here is a purpose-built case just
+    // like this one). Emits an empty, typed placeholder div that
+    // public/scripts/preseason-article.js hydrates client-side from the
+    // embedded classification JSON; a reader with JavaScript disabled sees
+    // nothing here but still has the full supplied data table immediately
+    // below it in the article text, since every component placement in
+    // these articles sits directly above its own fallback table. The fixed
+    // id per component type (rather than relying on an auto-generated
+    // heading id, which would break if a future article's heading wording
+    // ever drifted) is what the sticky article nav in storyPage() links to.
+    const componentMarker = line.trim().match(/^\[\[PODIUM_WATCH_COMPONENT:\s*([A-Z_]+)\]\]$/);
+    if (componentMarker) {
+      const anchorIds = {
+        RACE_BOARD: "race-board",
+        SCORE_PROGRESSION: "race-build",
+        FIFTH_RUNNER_FACTOR: "fifth-runner",
+        DISPLACEMENT_REPORT: "depth",
+        READER_PREDICTIONS: "reader-picks"
+      };
+      const type = componentMarker[1];
+      const anchorId = anchorIds[type] || slugify(type);
+      output.push(`<div class="pw-component" id="${anchorId}" data-pw-component="${escapeHtml(type)}"></div>`);
+      index += 1;
+      continue;
+    }
+
     if (index + 1 < lines.length && line.includes("|") && isTableSeparator(lines[index + 1])) {
       const headers = tableCells(line);
       index += 2;

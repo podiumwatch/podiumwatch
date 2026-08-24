@@ -18,6 +18,7 @@ import { site } from "../src/config/site.mjs";
 import sponsors from "../src/data/sponsors.json" with { type: "json" };
 import ohioSchoolFoundation from "../public/data/ohio-school-foundation-2026-27.json" with { type: "json" };
 import athleteFoundationSeed from "../public/data/athlete-foundation-seed-2026.json" with { type: "json" };
+import preseasonInteractiveData from "../public/data/podium-watch-2026-preseason-interactive-data.json" with { type: "json" };
 import { displaySchoolName } from "../lib/ohio_foundation_service.mjs";
 import {
   copyDirectory,
@@ -120,6 +121,42 @@ function athleteSeedForRankingRow(ranking, row) {
     slugify(row.athlete),
     slugify(row.school)
   ].join("|")) || null;
+}
+
+// The 8 preseason cross country team-power-ranking articles
+// (content/stories/20260824_preseason_*.md, driven by
+// public/data/podium-watch-2026-preseason-interactive-data.json). This is a
+// genuinely separate content type from the CSV-driven individual-athlete
+// rankings loadRankings() produces (a team's simulated score is not an
+// athlete's time/mark, and content/rankings/*.csv has no column for it) --
+// these helpers are what connect the two systems anyway, by classification
+// (gender + division number), for the homepage Power Rankings widget and
+// the /rankings/cross-country/ division pages, both purely by lookup.
+const DIVISION_ROMAN = ["I", "II", "III", "IV"];
+const preseasonClassifications = Object.values(preseasonInteractiveData.classifications || {});
+
+function preseasonClassificationFor(genderLower, divisionNumber) {
+  return preseasonClassifications.find(
+    (item) => item.gender.toLowerCase() === genderLower && item.division === divisionNumber
+  ) || null;
+}
+
+function preseasonArticleHref(classification) {
+  return `/stories/${classification.articleSlug}/`;
+}
+
+// Top N ranked teams (never an honorable-mention row) for one
+// gender/division, in the [team, label, href] shape the homepage Power
+// Rankings widget already renders.
+function preseasonPowerRows(genderLower, divisionNumber, count = 4) {
+  const classification = preseasonClassificationFor(genderLower, divisionNumber);
+  if (!classification) return [];
+  const href = preseasonArticleHref(classification);
+  const label = `Division ${DIVISION_ROMAN[divisionNumber - 1]} ${classification.gender}`;
+  return classification.raceBoard
+    .filter((row) => row.status === "ranked")
+    .slice(0, count)
+    .map((row) => [row.team, label, href]);
 }
 
 // vercel.json caches everything under /scripts/ and /styles/ for up to an
@@ -292,25 +329,31 @@ function homePage(stories, rankings) {
   const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
   const leadHref = featuredStory ? `/stories/${featuredStory.slug}/` : "/rankings/";
   const leadImage = featuredStory?.featuredImage || "/images/social/podium_watch_default_social.png";
+  // Real 2026 preseason Race Board data (top 4 ranked teams per
+  // classification), not placeholder rows -- see the preseasonPowerRows
+  // helper above and docs/DECISIONS.md, 2026-08-24. Every row links
+  // straight to its own preseason article rather than the generic
+  // /rankings/cross-country/ landing page, since that article is now the
+  // actual source of the numbers being shown.
   const powerRankingData = {
     boys: {
-      1: [["Thomas Worthington", "Division I Boys"], ["Springboro", "Division I Boys"], ["Dublin Coffman", "Division I Boys"], ["Olentangy Berlin", "Division I Boys"]],
-      2: [["Kenston", "Division II Boys"], ["Toledo St. Francis", "Division II Boys"], ["Hoover", "Division II Boys"], ["Turpin", "Division II Boys"]],
-      3: [["Fairless", "Division III Boys"], ["Minerva", "Division III Boys"], ["Mount Gilead", "Division III Boys"], ["Unioto", "Division III Boys"]],
-      4: [["Convoy Crestview", "Division IV Boys"], ["Russia", "Division IV Boys"], ["Botkins", "Division IV Boys"], ["Tinora", "Division IV Boys"]]
+      1: preseasonPowerRows("boys", 1),
+      2: preseasonPowerRows("boys", 2),
+      3: preseasonPowerRows("boys", 3),
+      4: preseasonPowerRows("boys", 4)
     },
     girls: {
-      1: [["Division I rankings", "Girls team preview"], ["Updated teams coming soon", "Podium Watch"], ["Follow the season", "2026 Cross Country"], ["View full rankings", "All divisions"]],
-      2: [["Division II rankings", "Girls team preview"], ["Updated teams coming soon", "Podium Watch"], ["Follow the season", "2026 Cross Country"], ["View full rankings", "All divisions"]],
-      3: [["Division III rankings", "Girls team preview"], ["Updated teams coming soon", "Podium Watch"], ["Follow the season", "2026 Cross Country"], ["View full rankings", "All divisions"]],
-      4: [["Ottawa Hills", "Division IV Girls"], ["Liberty Center", "Division IV Girls"], ["Grandview Heights", "Division IV Girls"], ["Versailles", "Division IV Girls"]]
+      1: preseasonPowerRows("girls", 1),
+      2: preseasonPowerRows("girls", 2),
+      3: preseasonPowerRows("girls", 3),
+      4: preseasonPowerRows("girls", 4)
     }
   };
-  const initialPowerRows = powerRankingData.boys[1].map(([team, label], index) => `<a class="power-row" href="/rankings/cross-country/"><b>${index + 1}</b><span><strong>${escapeHtml(team)}</strong><small>${escapeHtml(label)}</small></span></a>`).join("");
+  const initialPowerRows = powerRankingData.boys[1].map(([team, label, href], index) => `<a class="power-row" href="${escapeHtml(href)}"><b>${index + 1}</b><span><strong>${escapeHtml(team)}</strong><small>${escapeHtml(label)}</small></span></a>`).join("");
   const content = `<section class="sports-home"><div class="container sports-home-grid">
     <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/"><span>02</span>Meet Calendar</a><a href="/meets/"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><div class="home-newsletter"><p class="eyebrow">The Morning Lap</p><h3>Ohio running in your inbox.</h3><p>Rankings, results, and stories from across the state.</p><a href="/follow/">Join the Fleet</a></div></aside>
     <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560"><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadDescription)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article><div class="home-section-title"><h2>Latest Stories</h2><a href="/stories/">View all ${icon("arrow")}</a></div><div class="stories-grid">${storyContent}</div></div>
-    <aside class="home-right"><section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="/rankings/cross-country/"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section><section class="home-panel"><div class="home-panel-title"><h2>Upcoming Meets</h2></div><a class="home-meet" href="/meets/"><b>AUG 22</b><span><strong>OHSAA Early Season Invitational</strong><small>Obetz, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 25</b><span><strong>Shelby County Preview</strong><small>Russia, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 29</b><span><strong>Pickerington North Classic</strong><small>Pickerington, Ohio</small></span></a><a class="home-panel-link" href="/meets/">Full meet calendar ${icon("arrow")}</a></section></aside>
+    <aside class="home-right"><section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section><section class="home-panel"><div class="home-panel-title"><h2>Upcoming Meets</h2></div><a class="home-meet" href="/meets/"><b>AUG 22</b><span><strong>OHSAA Early Season Invitational</strong><small>Obetz, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 25</b><span><strong>Shelby County Preview</strong><small>Russia, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 29</b><span><strong>Pickerington North Classic</strong><small>Pickerington, Ohio</small></span></a><a class="home-panel-link" href="/meets/">Full meet calendar ${icon("arrow")}</a></section></aside>
   </div></section>
 
   <section class="section" aria-labelledby="latest-rankings-title">
@@ -416,10 +459,41 @@ function storyPage(story, stories) {
   const navigation = newer || older ? `<nav class="story-nav" aria-label="Story navigation">${newer ? `<a href="/stories/${newer.slug}/"><span>Newer story</span><strong>${escapeHtml(newer.title)}</strong></a>` : "<span></span>"}${older ? `<a href="/stories/${older.slug}/"><span>Older story</span><strong>${escapeHtml(older.title)}</strong></a>` : ""}</nav>` : "";
   const shareText = encodeURIComponent(story.title);
   const shareUrl = encodeURIComponent(absoluteUrl(site, pathname));
-  const content = `<article class="article-shell">
+
+  // The 5 interactive components (Race Board, How the Race Was Won, Fifth
+  // Runner Factor, Displacement Report, Reader Predictions), the sticky
+  // section nav, the Team Compare drawer, and the Share This Team card are
+  // all opt-in, driven entirely by story.preseasonClassification -- every
+  // other story on the site is completely unaffected. See
+  // public/scripts/preseason-article.js for the client-side hydration and
+  // src/lib/markdown.mjs for the [[PODIUM_WATCH_COMPONENT: ...]] markers
+  // this hydrates.
+  const preseasonClassification = story.preseasonClassification
+    ? preseasonInteractiveData.classifications[story.preseasonClassification]
+    : null;
+  const articleShellAttrs = preseasonClassification
+    ? ` class="article-shell pw-preseason-article" style="--pw-accent:${escapeHtml(preseasonClassification.accent)}" data-pw-article="${escapeHtml(story.slug)}"`
+    : ` class="article-shell"`;
+  const preseasonStickyNav = preseasonClassification
+    ? `<nav class="pw-stickynav" aria-label="Article sections"><div class="pw-stickynav-inner">
+        <a href="#race-board">Race Board</a>
+        <a href="#race-build">Race Build</a>
+        <a href="#fifth-runner">Fifth Runner</a>
+        <a href="#depth">Depth</a>
+        <a href="#honorable-mentions">Honorable Mentions</a>
+        <a href="#reader-picks">Reader Picks</a>
+      </div></nav>`
+    : "";
+  const preseasonDataScript = preseasonClassification
+    ? `<script type="application/json" id="pw-preseason-data">${JSON.stringify(preseasonClassification).replaceAll("<", "\\u003c")}</script><script src="/scripts/preseason-article.js" defer></script>`
+    : "";
+
+  const content = `<article${articleShellAttrs}>
     <header class="article-hero"><div class="container article-hero-inner">${breadcrumb(crumbs)}<div class="article-meta"><span class="category">${escapeHtml(story.category)}</span><span>By ${escapeHtml(story.author)}</span><span>${formatDate(story.date)}</span>${story.updatedDate ? `<span>Updated ${formatDate(story.updatedDate)}</span>` : ""}<span>${story.readingMinutes} min read</span></div><h1>${escapeHtml(story.title)}</h1><p class="article-deck">${escapeHtml(story.description)}</p></div></header>
+    ${preseasonStickyNav}
     ${story.featuredImage ? `<img class="article-feature-image" src="${story.featuredImage}" data-fallback="/images/stories/story_fallback.svg" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900">` : ""}
     <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div>${navigation}${relatedBlock}</div>
+    ${preseasonDataScript}
   </article>`;
   return layout({
     site,
@@ -454,8 +528,19 @@ function divisionPage({ sportName, sportPath, division, divisionCount, gender, r
   const pathname = `/rankings/${sportPath}/${gender.toLowerCase()}/division-${division}/`;
   const matching = rankings.filter((ranking) => ranking.sportPath === sportPath && ranking.gender.toLowerCase() === gender.toLowerCase() && String(ranking.divisionNumber) === String(division));
   const otherGender = gender === "Boys" ? "Girls" : "Boys";
+  // The 2026 preseason team power-ranking article for this exact
+  // classification, when one exists (cross country only, divisions 1-4) --
+  // this is "make sure they go under rankings cross country and then
+  // correct division boys or girls" from the article spec: a direct,
+  // prominent link from the real rankings hub into the matching article,
+  // not a fabricated CSV row (a team's simulated score has no column in
+  // content/rankings/*.csv, which is athlete-performance-list shaped).
+  const preseasonMatch = sportPath === "cross-country" ? preseasonClassificationFor(gender.toLowerCase(), division) : null;
+  const preseasonCallout = preseasonMatch
+    ? `<div class="info-card pw-rankings-callout" style="border-left:6px solid ${escapeHtml(preseasonMatch.accent)}"><p class="eyebrow">2026 preseason team power rankings</p><h3>${escapeHtml(preseasonMatch.headline)}</h3><p>${escapeHtml(preseasonMatch.subtitle)}</p><a class="button button-dark" href="${preseasonArticleHref(preseasonMatch)}">Read the full preseason preview</a></div>`
+    : "";
   const content = `${pageHero({ eyebrow: `${sportName} rankings`, title: `Division ${division} ${gender}`, description: `Published Podium Watch ${sportName.toLowerCase()} rankings for Division ${division} ${gender.toLowerCase()}.`, compact: true })}
-  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName, href: `/rankings/${sportPath}/` }, { label: `Division ${division} ${gender}` }])}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-${division}/"${gender === "Boys" ? ' aria-current="page"' : ""}>Boys</a><a href="/rankings/${sportPath}/girls/division-${division}/"${gender === "Girls" ? ' aria-current="page"' : ""}>Girls</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${Array.from({ length: divisionCount }, (_, index) => index + 1).map((number) => `<a class="division-card" href="/rankings/${sportPath}/${gender.toLowerCase()}/division-${number}/"><strong>Division ${number}</strong><span>${number === division ? "Current division" : `View Division ${number}`}</span></a>`).join("")}</div><div style="margin-top:34px">${matching.length ? `<div class="rankings-grid">${matching.map((ranking) => rankingCard(ranking)).join("")}</div>` : emptyState({ title: "No rankings published here yet", description: `The Division ${division} ${gender.toLowerCase()} page is ready. Add a matching CSV file to content/rankings and rebuild the site.`, actionLabel: `View ${otherGender.toLowerCase()} rankings`, actionHref: `/rankings/${sportPath}/${otherGender.toLowerCase()}/division-${division}/` })}</div></div></section>`;
+  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName, href: `/rankings/${sportPath}/` }, { label: `Division ${division} ${gender}` }])}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-${division}/"${gender === "Boys" ? ' aria-current="page"' : ""}>Boys</a><a href="/rankings/${sportPath}/girls/division-${division}/"${gender === "Girls" ? ' aria-current="page"' : ""}>Girls</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${Array.from({ length: divisionCount }, (_, index) => index + 1).map((number) => `<a class="division-card" href="/rankings/${sportPath}/${gender.toLowerCase()}/division-${number}/"><strong>Division ${number}</strong><span>${number === division ? "Current division" : `View Division ${number}`}</span></a>`).join("")}</div>${preseasonCallout}<div style="margin-top:34px">${matching.length ? `<div class="rankings-grid">${matching.map((ranking) => rankingCard(ranking)).join("")}</div>` : emptyState({ title: "No rankings published here yet", description: `The Division ${division} ${gender.toLowerCase()} page is ready. Add a matching CSV file to content/rankings and rebuild the site.`, actionLabel: `View ${otherGender.toLowerCase()} rankings`, actionHref: `/rankings/${sportPath}/${otherGender.toLowerCase()}/division-${division}/` })}</div></div></section>`;
   return { pathname, html: layout({ site, title: `Division ${division} ${gender} ${sportName} Rankings`, description: `Podium Watch Division ${division} ${gender.toLowerCase()} ${sportName.toLowerCase()} rankings.`, pathname, content }) };
 }
 

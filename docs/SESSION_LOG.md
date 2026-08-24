@@ -2230,3 +2230,27 @@ User requested renaming "Race Command Center" to "Split Watch" across the site.
 ### Not yet done
 
 Not pushed or deployed -- the redirect rules only take effect once this reaches production. Needs explicit go-ahead per standing practice.
+
+## 2026 08 24 Eight 2026 preseason team power ranking articles
+
+### Goal
+
+User supplied complete real editorial copy and a structured interactive-data JSON for 8 preseason cross country team power-ranking articles (Boys/Girls x Divisions 1-4) and asked for all 5 required interactive components genuinely built, the articles added to the main feed, and the homepage/rankings-hub power rankings updated -- no rankings/scores/athletes/teams/times/classifications altered from the supplied data.
+
+### What was built
+
+- All 8 articles published as real `content/stories/*.md` stories (not draft), reusing the existing story pipeline so they get the main feed, `/stories/`, category pages, search, sitemap, and RSS automatically.
+- Race Board (sortable table + tap-to-expand roster + honorable-mention reveal), How the Race Was Won (animated cumulative-score chart with scorer slider + top-3/top-5 toggle, reduced-motion aware), Fifth Runner Factor (comparison cards + any-two compare), Displacement Report (6th/7th toggle + tiebreak badges citing the exact supplied decision), and Reader Predictions (3 real polls per article) -- all in one new shared client script, `public/scripts/preseason-article.js`, hydrating typed placeholder divs a new `renderMarkdown()` case emits from the supplied `[[PODIUM_WATCH_COMPONENT: ...]]` markers.
+- Real, Supabase-backed Reader Predictions polling: new migration `install/22_ARTICLE_POLLS.sql`, `lib/article_poll_service.mjs`, `api/article-polls/{vote,results}.js` -- anonymous hashed browser token (no name/email), one vote per article/poll/token enforced by a real unique constraint, server-side validated against the real poll/option data before any vote is accepted.
+- Team Compare drawer and a canvas-based Share This Team downloadable card, both real (no new dependency for the image card).
+- Homepage Power Rankings widget (`powerRankingData`) now shows the real top-4 teams per classification (was a mix of stale hardcoded teams and literal "coming soon" placeholder text for girls D1-D3), each row linking to its real article. `/rankings/cross-country/{gender}/division-{n}/` gained a real callout card linking to the matching article.
+- Green (`#2E7D32`) / pink (`#C2185B`) accents applied exactly as supplied in the JSON, scoped per-page via a CSS custom property -- checked against WCAG contrast before use, no new sitewide color token added.
+
+### Testing actually run
+
+- `npm run build` (292 pages, 21 stories) / `npm run check` (18,780 links, zero problems) / full `npm test` including a new `scripts/test-article-polls.mjs` (validates the real bundled JSON: all 8 classifications, 20 ranked + 5 honorable-mention rows each, exactly 3 polls each, and score-progression final totals matching Race Board scores for every classification) -- all clean.
+- Full Playwright pass against the real built site: all 8 routes, all 5 components rendering real data, accent colors, Race Board sort/expand/reveal, score progression vs. Race Board consistency, Fifth Runner compare, the boys-D1 tiebreak badge's exact text, Team Compare drawer, Share-card download, sticky nav anchors, and the rankings-hub/homepage updates.
+
+### Not yet done
+
+`install/22_ARTICLE_POLLS.sql` has not been run against Supabase yet (needs explicit go-ahead). Until then Reader Predictions degrades cleanly to "vote below, live totals will appear after you do" rather than erroring, but a live vote round trip (duplicate voting, invalid options, cross-article isolation) is unverified. Not pushed or deployed.
