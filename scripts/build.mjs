@@ -490,9 +490,13 @@ function storyPage(story, stories) {
   const preseasonClassification = story.preseasonClassification
     ? preseasonInteractiveData.classifications[story.preseasonClassification]
     : null;
+  // data-story-slug is unconditional (every story, not just preseason
+  // ones) -- it's what public/scripts/story-view.js reads to record a
+  // real per-article view count, surfaced in Admin Engagement's "Top
+  // articles" panel.
   const articleShellAttrs = preseasonClassification
-    ? ` class="article-shell pw-preseason-article" style="--pw-accent:${escapeHtml(preseasonClassification.accent)}" data-pw-article="${escapeHtml(story.slug)}"`
-    : ` class="article-shell"`;
+    ? ` class="article-shell pw-preseason-article" style="--pw-accent:${escapeHtml(preseasonClassification.accent)}" data-pw-article="${escapeHtml(story.slug)}" data-story-slug="${escapeHtml(story.slug)}"`
+    : ` class="article-shell" data-story-slug="${escapeHtml(story.slug)}"`;
   const preseasonStickyNav = preseasonClassification
     ? `<nav class="pw-stickynav" aria-label="Article sections"><div class="pw-stickynav-inner">
         <a href="#race-board">Race Board</a>
@@ -513,6 +517,7 @@ function storyPage(story, stories) {
     ${story.featuredImage ? `<img class="article-feature-image" src="${story.featuredImage}" data-fallback="/images/stories/story_fallback.svg" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900">` : ""}
     <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div>${navigation}${relatedBlock}</div>
     ${preseasonDataScript}
+    <script src="/scripts/story-view.js" defer></script>
   </article>`;
   return layout({
     site,

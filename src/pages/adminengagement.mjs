@@ -66,6 +66,7 @@ export function adminEngagementPage(site) {
             <div class="engagement-stat"><strong data-stat-subscribers>0</strong><span>Subscribers</span></div>
             <div class="engagement-stat"><strong data-stat-follows>0</strong><span>Active team follows</span></div>
             <div class="engagement-stat"><strong data-stat-views>0</strong><span>Team profile views</span></div>
+            <div class="engagement-stat"><strong data-stat-article-views>0</strong><span>Article views</span></div>
             <div class="engagement-stat"><strong data-stat-visitors>0</strong><span>Unique visitors</span></div>
             <div class="engagement-stat"><strong data-stat-sponsor-clicks>0</strong><span>Sponsor clicks</span></div>
           </div>
@@ -75,6 +76,11 @@ export function adminEngagementPage(site) {
               <p class="eyebrow">Top teams</p>
               <h2>Most active team pages</h2>
               <div class="engagement-list" data-top-teams></div>
+            </section>
+            <section class="info-card">
+              <p class="eyebrow">Top articles</p>
+              <h2>Most viewed stories</h2>
+              <div class="engagement-list" data-top-stories></div>
             </section>
             <section class="info-card">
               <p class="eyebrow">Popular actions</p>

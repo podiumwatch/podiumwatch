@@ -11,6 +11,7 @@
   const eventRows = document.querySelector("[data-notification-event-rows]");
   const deliveryRows = document.querySelector("[data-delivery-rows]");
   const topTeams = document.querySelector("[data-top-teams]");
+  const topStories = document.querySelector("[data-top-stories]");
   const activitySummary = document.querySelector("[data-activity-summary]");
   const sponsorPerformance = document.querySelector("[data-sponsor-performance]");
   const configuration = document.querySelector("[data-engagement-configuration]");
@@ -20,12 +21,30 @@
   const clearSponsorButton = document.querySelector("[data-clear-sponsor]");
   const clearPlacementButton = document.querySelector("[data-clear-placement]");
 
-  if (!authLoading || !dashboard || !message || !daysSelect || !settingsForm || !sponsorForm || !placementForm || !sponsorRows || !placementRows || !eventRows || !deliveryRows || !topTeams || !activitySummary || !sponsorPerformance || !configuration || !sendTestButton || !processButton || !processWeeklyButton || !clearSponsorButton || !clearPlacementButton) {
+  if (!authLoading || !dashboard || !message || !daysSelect || !settingsForm || !sponsorForm || !placementForm || !sponsorRows || !placementRows || !eventRows || !deliveryRows || !topTeams || !topStories || !activitySummary || !sponsorPerformance || !configuration || !sendTestButton || !processButton || !processWeeklyButton || !clearSponsorButton || !clearPlacementButton) {
     return;
   }
 
   let state = null;
   let busy = false;
+  // Article titles/links for the Top articles panel -- resolved from the
+  // site's own public site-data.json (already generated at build time)
+  // rather than the admin API, since api/admin/engagement.js has no
+  // access to content/stories/*.md at request time. Falls back to
+  // showing the raw slug if this fetch ever fails; never blocks the rest
+  // of the dashboard.
+  let storyTitleBySlug = new Map();
+
+  async function loadStoryTitles() {
+    try {
+      const response = await fetch("/site-data.json");
+      if (!response.ok) return;
+      const data = await response.json();
+      storyTitleBySlug = new Map((data.stories || []).map((story) => [story.slug, story.title]));
+    } catch {
+      // Non-critical.
+    }
+  }
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -109,6 +128,10 @@
     return `<div class="engagement-row"><span>${escapeHtml(name)}</span><strong>${escapeHtml(count)}</strong></div>`;
   }
 
+  function storyRow(name, count, href) {
+    return `<div class="engagement-row"><span><a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a></span><strong>${escapeHtml(count)}</strong></div>`;
+  }
+
   function renderSelects() {
     const sponsorSelect = placementForm.elements.sponsor_id;
     const teamSelect = placementForm.elements.team_id;
@@ -129,6 +152,7 @@
     setText("[data-stat-subscribers]", counts.subscribers || 0);
     setText("[data-stat-follows]", counts.active_follows || 0);
     setText("[data-stat-views]", eventCounts.team_profile_view || 0);
+    setText("[data-stat-article-views]", eventCounts.story_view || 0);
     setText("[data-stat-visitors]", analytics.unique_visitors || 0);
     setText("[data-stat-sponsor-clicks]", eventCounts.sponsor_click || 0);
 
@@ -137,12 +161,17 @@
       .map((item) => row(item.team.school_name, item.count))
       .join("") || "<p>No team activity has been recorded yet.</p>";
 
+    topStories.innerHTML = (state.top_stories || [])
+      .map((item) => storyRow(storyTitleBySlug.get(item.slug) || item.slug, item.count, `/stories/${item.slug}/`))
+      .join("") || "<p>No article views have been recorded yet.</p>";
+
     const activityLabels = {
       team_profile_view: "Team profile views",
       directory_view: "Directory views",
       schedule_view: "Schedule activity",
       roster_view: "Roster activity",
       content_view: "Content activity",
+      story_view: "Article views",
       social_click: "Social link clicks",
       recruiting_click: "Recruiting clicks",
       follow_submit: "Follow requests",
@@ -213,7 +242,11 @@
 
   async function load() {
     try {
-      state = await api({ action: "get_dashboard", days: Number(daysSelect.value) });
+      const [dashboardState] = await Promise.all([
+        api({ action: "get_dashboard", days: Number(daysSelect.value) }),
+        loadStoryTitles()
+      ]);
+      state = dashboardState;
       render();
       authLoading.hidden = true;
       dashboard.hidden = false;

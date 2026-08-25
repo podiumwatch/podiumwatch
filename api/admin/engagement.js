@@ -97,7 +97,7 @@ async function getDashboard(days = 30) {
       .limit(50),
     supabaseAdmin
       .from("team_analytics_events")
-      .select("team_id, event_type, section, visitor_id, sponsor_id, created_at")
+      .select("team_id, event_type, section, visitor_id, sponsor_id, content_type, content_id, created_at")
       .gte("created_at", since)
       .limit(30000),
     supabaseAdmin
@@ -164,6 +164,13 @@ async function getDashboard(days = 30) {
     },
     analytics,
     top_teams: topTeams,
+    // Titles/links are resolved client-side from the site's own public
+    // site-data.json (already generated at build time, already public --
+    // see scripts/build.mjs) rather than here, since this admin API has
+    // no access to content/stories/*.md at request time and re-reading a
+    // build artifact from a serverless function would be fragile. This
+    // just returns the real, counted slugs.
+    top_stories: analytics.story_counts.slice(0, 20),
     sponsor_performance: sponsorPerformance,
     delivery_summary: deliverySummary,
     notification_events: eventResult.data || [],
