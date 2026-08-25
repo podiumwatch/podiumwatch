@@ -220,6 +220,25 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 <link rel="icon" href="/images/branding/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
 <link rel="stylesheet" href="/styles/main.css">${adminHead}
+<style>
+/* [hidden] must always win the cascade, sitewide. main.css has no rule
+   for this at all, and several page-specific style blocks set their own
+   display property on an element that also gets toggled via the hidden
+   property/attribute (same selector specificity as the browser's own
+   built-in [hidden] { display: none } rule) -- since those page styles
+   load after the UA stylesheet, the class rule was winning, so setting
+   an element's hidden property to true had zero visual effect.
+   Confirmed live: every published team's public profile page
+   (teamprofile.mjs's .team-profile-live-strip, display: flex) showed an
+   empty red bar between the header and Team Instagram section on every
+   load, regardless of whether that team actually had a live race --
+   team-profile.js's own liveStrip.hidden = races.length === 0 logic was
+   already correct, the CSS just silently ignored it. Same bug class
+   already found and fixed the same way in Live Race Mode and,
+   separately, in admin.css -- this is the sitewide fix so it can't
+   recur on any other public page either. */
+[hidden] { display: none !important; }
+</style>
 <script src="/scripts/site.js" defer></script>
 <script>
   window.va = window.va || function () {
