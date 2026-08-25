@@ -120,6 +120,15 @@ ${scripts.map((src) => `<script src="${src}" defer></script>`).join("\n")}`;
     description,
     pathname,
     content: shellContent,
-    bodyClass: "admin-shell"
+    bodyClass: "admin-shell",
+    // The admin shell already builds its own complete navigation (the
+    // persistent sidebar + Ctrl+K jump dialog above) -- the public site's
+    // header/footer/mobile-dock added a second, competing navigation
+    // system on top of every admin page for no reason a signed-in staff
+    // member needs (Split Watch/Watch promo buttons, an Instagram icon,
+    // marketing nav dropdowns), while eating real vertical space before
+    // any actual admin content appeared. Same reasoning Live Race Mode
+    // already uses this same flag for. See docs/DECISIONS.md.
+    chromeless: true
   });
 }

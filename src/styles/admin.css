@@ -12,17 +12,41 @@
    inventing a new palette -- the "hybrid" style is the brand's existing
    chrome with denser, hairline-bordered cards for data, not a new look. */
 
-body.admin-shell .sports-ticker,
-body.admin-shell .section-nav {
-  display: none;
-}
+/* [hidden] must always win the cascade. Without this, any element in
+   this file that sets its own `display` (e.g. .admin-badge below,
+   `display: inline-grid`) sits at the exact same selector specificity as
+   the browser's built-in `[hidden] { display: none }` rule -- and since
+   this stylesheet loads after the UA stylesheet, the class rule wins the
+   cascade, so setting an element's `hidden` property to true has ZERO
+   visual effect. Confirmed live: every sidebar badge stayed rendered as
+   an empty grey box even when admin-shell.js correctly set it hidden for
+   a zero-count item. Same bug class already found and fixed the same way
+   in Live Race Mode (splitwatchlive.mjs) -- this file never had the
+   guard at all. */
+[hidden] { display: none !important; }
 
 body.admin-shell {
   background: var(--paper);
 }
 
+/* Admin pages are chromeless (see adminShell() in src/lib/adminshell.mjs)
+   -- no public header/footer/mobile-dock, so there is no marketing hero
+   to visually match here. The hero keeps its eyebrow/title/description
+   structure (still useful as a page heading) but at a size scaled for a
+   tool a coach or staff member opens dozens of times a day, not a
+   once-per-visit landing page -- main.css's sitewide h1 is
+   clamp(3.25rem, 8vw, 7.25rem) (up to 116px), which measured genuinely
+   that large on every admin page before this rule existed. */
 body.admin-shell .page-hero {
-  padding: 30px 0 22px;
+  padding: 22px 0 18px;
+}
+body.admin-shell .page-hero h1 {
+  font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+  letter-spacing: normal;
+  margin-bottom: 6px;
+}
+body.admin-shell .page-hero p:last-child {
+  font-size: .92rem;
 }
 
 /* ---- Shell grid ---------------------------------------------------- */
@@ -53,12 +77,17 @@ body.admin-shell .page-hero {
 /* ---- Sidebar --------------------------------------------------------- */
 
 .admin-sidebar {
+  /* top/max-height were tuned to stick just below the public site's
+     header (~70px) -- now that admin pages are chromeless (no public
+     header at all), that offset would leave an empty 88px gap above the
+     sidebar with nothing to stick below. Scaled down to a plain
+     breathing margin from the real viewport top instead. */
   position: sticky;
-  top: 88px;
+  top: 18px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: calc(100vh - 108px);
+  max-height: calc(100vh - 36px);
   overflow-y: auto;
   padding: 18px;
   border: 1px solid var(--line);
@@ -345,6 +374,6 @@ body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-nav-item { justify-
   body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-layout { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 700px) {
-  .admin-layout { padding-bottom: 84px; }
-}
+/* The 84px bottom padding this used to reserve was for the public
+   site's fixed mobile-dock tab bar -- gone now that admin pages are
+   chromeless, so there is nothing left to leave room for. */
