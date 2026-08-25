@@ -49,6 +49,32 @@ body.admin-shell .page-hero p:last-child {
   font-size: .92rem;
 }
 
+/* Same problem, one level deeper: every in-page section heading (a card
+   title, a form header -- "Create a new voting week", "Upload a complete
+   meet") inherits the identical marketing-hero-scale h2 (main.css:
+   clamp(2.3rem, 5vw, 4.6rem), up to 74px) and h3 (clamp(1.65rem, 3vw,
+   2.25rem), up to 36px). Confirmed live: this is *why* Statewide Data
+   Center's Refresh button was rendering as an unreadable vertical stack
+   of single letters -- .section-heading is a flex row with no
+   flex-shrink guard, so an oversized h2 sibling was squeezing the button
+   down to almost nothing. Scaled down admin-wide; the flex-shrink/
+   white-space rules below are a second, independent guard against the
+   same squeeze happening to any admin action button in the future,
+   regardless of how long a neighboring heading gets. */
+body.admin-shell h2 {
+  font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+  letter-spacing: normal;
+}
+body.admin-shell h3 {
+  font-size: clamp(1.1rem, 1.3vw, 1.25rem);
+}
+body.admin-shell .section-heading > *:last-child {
+  flex-shrink: 0;
+}
+body.admin-shell .button {
+  white-space: nowrap;
+}
+
 /* ---- Shell grid ---------------------------------------------------- */
 
 /* Deliberately named .admin-layout, not .admin-shell -- the <body> tag
