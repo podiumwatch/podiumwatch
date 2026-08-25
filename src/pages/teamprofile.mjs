@@ -160,7 +160,13 @@ export function teamProfilePage(site) {
       padding: 7px 11px;
       border-radius: 999px;
       background: var(--team-primary);
-      color: #07130d;
+      /* --team-primary-text is computed per team from the real
+         background color's WCAG relative luminance (team-profile.js's
+         readableTextColor()) -- a hardcoded dark color only worked for
+         teams whose own brand color happens to be light. Falls back to
+         the old hardcoded value only if that computation somehow never
+         ran (e.g. JS disabled), matching the page's original default. */
+      color: var(--team-primary-text, #07130d);
       font-size: 0.8rem;
       font-weight: 900;
     }
@@ -446,6 +452,22 @@ export function teamProfilePage(site) {
       padding: 18px;
       border-radius: 11px;
       background: rgba(15, 23, 42, 0.05);
+    }
+
+    /* Only ever shown to the team's own coach (previewMode/adminMode in
+       team-profile.js), when the schedule or roster section is empty --
+       a fan sees just the plain empty-state text above, never this. */
+    .team-profile-coach-prompt {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 11px;
+      border: 1px dashed rgba(0, 191, 99, 0.45);
+      background: rgba(0, 191, 99, 0.08);
+      font-weight: 700;
+    }
+
+    .team-profile-coach-prompt a {
+      color: var(--green-dark, #08784a);
     }
 
 
@@ -809,6 +831,7 @@ export function teamProfilePage(site) {
               <div class="team-profile-schedule-empty" data-team-schedule-completed-empty hidden>No completed meets are connected.</div>
             </div>
           </div>
+          <p class="team-profile-coach-prompt" data-team-schedule-coach-prompt hidden>Fans come here to see what's next. <a href="/team-schedule/">Connect this season's meets</a> to show your real schedule instead of this empty section.</p>
         </section>
 
 
@@ -816,6 +839,8 @@ export function teamProfilePage(site) {
           <p class="eyebrow">Published team rosters</p>
           <h2 data-team-roster-heading>Team roster</h2>
           <p data-team-roster-description></p>
+          <p class="team-profile-copy" data-team-roster-empty hidden>No roster has been published for this team yet.</p>
+          <p class="team-profile-coach-prompt" data-team-roster-coach-prompt hidden>Fans come here to see who's on the team. <a href="/team-roster/">Publish this season's roster</a> to show it instead of this empty section.</p>
           <div class="team-profile-roster-controls" data-team-roster-seasons></div>
           <div class="team-profile-roster-groups">
             <div class="team-profile-roster-group">

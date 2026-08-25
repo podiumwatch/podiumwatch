@@ -128,6 +128,9 @@
   const scheduleCompletedEmpty = document.querySelector(
     "[data-team-schedule-completed-empty]"
   );
+  const scheduleCoachPrompt = document.querySelector(
+    "[data-team-schedule-coach-prompt]"
+  );
   const rosterSection = document.querySelector(
     "[data-team-roster-section]"
   );
@@ -136,6 +139,12 @@
   );
   const rosterDescription = document.querySelector(
     "[data-team-roster-description]"
+  );
+  const rosterEmpty = document.querySelector(
+    "[data-team-roster-empty]"
+  );
+  const rosterCoachPrompt = document.querySelector(
+    "[data-team-roster-coach-prompt]"
   );
   const rosterSeasons = document.querySelector(
     "[data-team-roster-seasons]"
@@ -203,9 +212,12 @@
     !scheduleUpcomingEmpty ||
     !scheduleCompleted ||
     !scheduleCompletedEmpty ||
+    !scheduleCoachPrompt ||
     !rosterSection ||
     !rosterHeading ||
     !rosterDescription ||
+    !rosterEmpty ||
+    !rosterCoachPrompt ||
     !rosterSeasons ||
     !rosterBoys ||
     !rosterBoysEmpty ||
@@ -281,6 +293,36 @@
     return /^#[0-9a-f]{6}$/i.test(cleaned)
       ? cleaned
       : fallback;
+  }
+
+  // WCAG relative luminance -> a real, computed text color instead of a
+  // hardcoded one. The team-profile-badge (program level, e.g. "High
+  // School") sets its own background straight from a team's real
+  // primary_color, which is arbitrary data every team enters for
+  // themselves -- a hardcoded near-black text color only happens to work
+  // for teams whose color is light. Confirmed live: Russia's real color
+  // (#0300bd, a deep blue) measured 1.57:1 against the old hardcoded
+  // #07130d text -- nearly invisible, well under WCAG AA's 4.5:1 minimum.
+  // Same relative-luminance approach already used elsewhere in this
+  // codebase for this exact class of bug.
+  function readableTextColor(hexColor) {
+    const hex = hexColor.replace("#", "");
+    const channel = (value) => {
+      const normalized = parseInt(value, 16) / 255;
+      return normalized <= 0.03928
+        ? normalized / 12.92
+        : Math.pow((normalized + 0.055) / 1.055, 2.4);
+    };
+    const luminance =
+      0.2126 * channel(hex.slice(0, 2)) +
+      0.7152 * channel(hex.slice(2, 4)) +
+      0.0722 * channel(hex.slice(4, 6));
+    // Contrast against black (luminance 0) vs. white (luminance 1) --
+    // whichever gives the higher ratio wins. Simplifies to: light
+    // backgrounds get dark text, dark backgrounds get white text.
+    const contrastWithBlack = (luminance + 0.05) / 0.05;
+    const contrastWithWhite = 1.05 / (luminance + 0.05);
+    return contrastWithBlack >= contrastWithWhite ? "#07130d" : "#ffffff";
   }
 
   function formatProgramLevel(value) {
@@ -1003,8 +1045,15 @@
       upcoming.length > 0;
     scheduleCompletedEmpty.hidden =
       completed.length > 0;
-    scheduleSection.hidden =
-      visibleRows.length === 0;
+    // Always shown now, not hidden when empty -- a fan seeing "no
+    // meets connected yet" is more honest than the section not
+    // existing at all, and this team's own coach (previewMode/
+    // adminMode) gets a direct link to fix it instead of just an
+    // absence they'd have to guess the cause of.
+    scheduleSection.hidden = false;
+    scheduleCoachPrompt.hidden =
+      !(previewMode || adminMode) ||
+      visibleRows.length > 0;
   }
 
   function formatRosterGrade(value) {
@@ -1123,10 +1172,22 @@
     rosterGirls.innerHTML = "";
 
     if (!season) {
-      rosterSection.hidden = true;
+      // Always shown now, not hidden entirely -- same reasoning as the
+      // schedule section: an honest "nothing published yet" message
+      // (plus a direct coach link, in preview/admin mode) beats the
+      // section not existing at all.
+      rosterSection.hidden = false;
+      rosterHeading.textContent = "Team roster";
+      rosterDescription.textContent = "";
+      rosterEmpty.hidden = false;
+      rosterCoachPrompt.hidden = !(previewMode || adminMode);
+      rosterBoysEmpty.hidden = true;
+      rosterGirlsEmpty.hidden = true;
       return;
     }
 
+    rosterEmpty.hidden = true;
+    rosterCoachPrompt.hidden = true;
     rosterHeading.textContent = season.name || "Team roster";
     rosterDescription.textContent = [
       season.sport,
@@ -1231,12 +1292,17 @@
       team.school_name +
       " | Podium Watch";
 
+    const teamPrimaryColor = safeColor(
+      team.primary_color,
+      "#00bf63"
+    );
     profileRoot.style.setProperty(
       "--team-primary",
-      safeColor(
-        team.primary_color,
-        "#00bf63"
-      )
+      teamPrimaryColor
+    );
+    profileRoot.style.setProperty(
+      "--team-primary-text",
+      readableTextColor(teamPrimaryColor)
     );
     profileRoot.style.setProperty(
       "--team-secondary",

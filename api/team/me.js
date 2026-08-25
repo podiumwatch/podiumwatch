@@ -108,6 +108,39 @@ export default async function handler(
       const nextRaceByTeam =
         await getNextRacesForTeams(teamIds);
 
+      // Bulk existence check for calculateTeamCompletion()'s
+      // roster/schedule signals -- a coach's own "my teams" list is
+      // always small, so one un-chunked query each is fine (contrast
+      // with api/teams/index.js's public directory, which chunks by
+      // 200 for potentially hundreds of teams at once).
+      const [scheduleSignalResult, rosterSignalResult] = await Promise.all([
+        supabaseAdmin
+          .from("team_meet_connections")
+          .select("team_id")
+          .in("team_id", teamIds)
+          .eq("published", true),
+        supabaseAdmin
+          .from("team_seasons")
+          .select("team_id")
+          .in("team_id", teamIds)
+          .in("status", ["published", "archived"])
+      ]);
+
+      if (scheduleSignalResult.error) {
+        throw scheduleSignalResult.error;
+      }
+
+      if (rosterSignalResult.error) {
+        throw rosterSignalResult.error;
+      }
+
+      const scheduledTeamIds = new Set(
+        (scheduleSignalResult.data || []).map((row) => row.team_id)
+      );
+      const rosteredTeamIds = new Set(
+        (rosterSignalResult.data || []).map((row) => row.team_id)
+      );
+
       const socialByTeam = new Map();
 
       (socialRows || []).forEach(
@@ -145,7 +178,11 @@ export default async function handler(
               team,
               socialByTeam.get(
                 team.id
-              ) || []
+              ) || [],
+              {
+                hasPublishedSchedule: scheduledTeamIds.has(team.id),
+                hasPublishedRoster: rosteredTeamIds.has(team.id)
+              }
             ),
           next_race:
             nextRaceByTeam.get(

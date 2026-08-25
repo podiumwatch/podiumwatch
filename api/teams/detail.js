@@ -1,5 +1,5 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
-import { calculateTeamCompletion } from "../../lib/team_audit.mjs";
+import { calculateTeamCompletion, getPublishedContentSignals } from "../../lib/team_audit.mjs";
 import { loadTeamPathToState, isMissingPathToStateError } from "../../lib/path_to_state_service.mjs";
 
 function cleanSlug(value) {
@@ -221,7 +221,7 @@ export default async function handler(request, response) {
       throw error;
     }
 
-    const [socialResult, memberResult, schedule, pathToState, liveRaces] = await Promise.all([
+    const [socialResult, memberResult, schedule, pathToState, liveRaces, contentSignals] = await Promise.all([
       supabaseAdmin
         .from("team_social_links")
         .select(
@@ -267,7 +267,8 @@ export default async function handler(request, response) {
         .then(
           ({ data, error }) => (error ? [] : data || []),
           () => []
-        )
+        ),
+      getPublishedContentSignals(requestedTeam.id)
     ]);
 
     if (socialResult.error) {
@@ -285,7 +286,7 @@ export default async function handler(request, response) {
       team: {
         ...requestedTeam,
         claimed,
-        completion_score: calculateTeamCompletion(requestedTeam, socialLinks)
+        completion_score: calculateTeamCompletion(requestedTeam, socialLinks, contentSignals)
       },
       social_links: socialLinks,
       schedule,

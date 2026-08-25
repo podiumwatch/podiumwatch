@@ -191,11 +191,19 @@ export default async function handler(request, response) {
     const platformsByTeam = new Map();
     const socialLinksByTeam = new Map();
     const claimedTeamIds = new Set();
+    // Bulk existence check (one query per 200 teams, not one query per
+    // team) for whether each team has ever published a schedule or a
+    // roster -- the two things calculateTeamCompletion() weighs in
+    // alongside profile metadata. See lib/team_audit.mjs's
+    // getPublishedContentSignals() for the single-team equivalent this
+    // mirrors.
+    const scheduledTeamIds = new Set();
+    const rosteredTeamIds = new Set();
 
     if (teamIds.length > 0) {
       for (let index = 0; index < teamIds.length; index += 200) {
         const chunk = teamIds.slice(index, index + 200);
-        const [socialResult, memberResult] = await Promise.all([
+        const [socialResult, memberResult, scheduleResult, rosterResult] = await Promise.all([
           supabaseAdmin
             .from("team_social_links")
             .select("team_id, platform, url, published, sort_order")
@@ -206,7 +214,17 @@ export default async function handler(request, response) {
             .from("team_members")
             .select("team_id")
             .in("team_id", chunk)
-            .eq("status", "active")
+            .eq("status", "active"),
+          supabaseAdmin
+            .from("team_meet_connections")
+            .select("team_id")
+            .in("team_id", chunk)
+            .eq("published", true),
+          supabaseAdmin
+            .from("team_seasons")
+            .select("team_id")
+            .in("team_id", chunk)
+            .in("status", ["published", "archived"])
         ]);
 
         if (socialResult.error) {
@@ -216,6 +234,17 @@ export default async function handler(request, response) {
         if (memberResult.error) {
           throw memberResult.error;
         }
+
+        if (scheduleResult.error) {
+          throw scheduleResult.error;
+        }
+
+        if (rosterResult.error) {
+          throw rosterResult.error;
+        }
+
+        (scheduleResult.data || []).forEach((row) => scheduledTeamIds.add(row.team_id));
+        (rosterResult.data || []).forEach((row) => rosteredTeamIds.add(row.team_id));
 
         (socialResult.data || []).forEach((link) => {
           if (!platformsByTeam.has(link.team_id)) {
@@ -244,7 +273,11 @@ export default async function handler(request, response) {
       social_platforms: platformsByTeam.get(team.id) || [],
       completion_score: calculateTeamCompletion(
         team,
-        socialLinksByTeam.get(team.id) || []
+        socialLinksByTeam.get(team.id) || [],
+        {
+          hasPublishedSchedule: scheduledTeamIds.has(team.id),
+          hasPublishedRoster: rosteredTeamIds.has(team.id)
+        }
       )
     }));
 

@@ -2,6 +2,7 @@ import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
 import {
   calculateTeamCompletion,
+  getPublishedContentSignals,
   getChangedFields,
   pickTeamFields,
   writeTeamChange
@@ -130,13 +131,20 @@ async function loadActiveCounts(teamIds) {
   const ownerCounts = new Map();
   const reportCounts = new Map();
   const claimCounts = new Map();
+  // Same bulk existence check as api/teams/index.js's public directory
+  // -- whether calculateTeamCompletion()'s roster/schedule signals are
+  // present, without a query per team.
+  const scheduledTeamIds = new Set();
+  const rosteredTeamIds = new Set();
 
   if (teamIds.length === 0) {
     return {
       memberCounts,
       ownerCounts,
       reportCounts,
-      claimCounts
+      claimCounts,
+      scheduledTeamIds,
+      rosteredTeamIds
     };
   }
 
@@ -147,7 +155,7 @@ async function loadActiveCounts(teamIds) {
   }
 
   for (const chunk of chunks) {
-    const [memberResult, reportResult, claimResult] = await Promise.all([
+    const [memberResult, reportResult, claimResult, scheduleResult, rosterResult] = await Promise.all([
       supabaseAdmin
         .from("team_members")
         .select("team_id, role")
@@ -162,7 +170,17 @@ async function loadActiveCounts(teamIds) {
         .from("team_claim_requests")
         .select("team_id, status")
         .in("team_id", chunk)
-        .eq("status", "pending")
+        .eq("status", "pending"),
+      supabaseAdmin
+        .from("team_meet_connections")
+        .select("team_id")
+        .in("team_id", chunk)
+        .eq("published", true),
+      supabaseAdmin
+        .from("team_seasons")
+        .select("team_id")
+        .in("team_id", chunk)
+        .in("status", ["published", "archived"])
     ]);
 
     if (memberResult.error) {
@@ -175,6 +193,14 @@ async function loadActiveCounts(teamIds) {
 
     if (claimResult.error) {
       throw claimResult.error;
+    }
+
+    if (scheduleResult.error) {
+      throw scheduleResult.error;
+    }
+
+    if (rosterResult.error) {
+      throw rosterResult.error;
     }
 
     (memberResult.data || []).forEach((member) => {
@@ -204,12 +230,17 @@ async function loadActiveCounts(teamIds) {
         (claimCounts.get(claim.team_id) || 0) + 1
       );
     });
+
+    (scheduleResult.data || []).forEach((row) => scheduledTeamIds.add(row.team_id));
+    (rosterResult.data || []).forEach((row) => rosteredTeamIds.add(row.team_id));
   }
 
   return {
     memberCounts,
     ownerCounts,
     reportCounts,
+    scheduledTeamIds,
+    rosteredTeamIds,
     claimCounts
   };
 }
@@ -428,7 +459,10 @@ async function listTeams(body) {
           team.id
         ) || 0,
       completion_score:
-        calculateTeamCompletion(team)
+        calculateTeamCompletion(team, [], {
+          hasPublishedSchedule: counts.scheduledTeamIds.has(team.id),
+          hasPublishedRoster: counts.rosteredTeamIds.has(team.id)
+        })
     })),
     count: totalCount ?? teams.length,
     limited:
@@ -616,10 +650,12 @@ async function getTeamDetails(body) {
     })
   );
 
+  const contentSignals = await getPublishedContentSignals(teamId);
+
   return {
     team: {
       ...team,
-      completion_score: calculateTeamCompletion(team, socialResult.data || [])
+      completion_score: calculateTeamCompletion(team, socialResult.data || [], contentSignals)
     },
     members,
     claims: claimResult.data || [],

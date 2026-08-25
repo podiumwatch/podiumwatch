@@ -9,6 +9,7 @@ import {
 import {
   calculateTeamCompletion,
   getChangedFields,
+  getPublishedContentSignals,
   pickTeamFields,
   writeTeamChange
 } from "../../lib/team_audit.mjs";
@@ -727,16 +728,18 @@ export default async function handler(
         : await requireMembership(user.id, team.id);
       const [
         socialLinks,
-        schedule
+        schedule,
+        contentSignals
       ] = await Promise.all([
         getSocialLinks(team.id),
-        getTeamSchedule(team.id)
+        getTeamSchedule(team.id),
+        getPublishedContentSignals(team.id)
       ]);
 
       return response.status(200).json({
         team: {
           ...team,
-          completion_score: calculateTeamCompletion(team, socialLinks)
+          completion_score: calculateTeamCompletion(team, socialLinks, contentSignals)
         },
         membership,
         social_links: socialLinks,
