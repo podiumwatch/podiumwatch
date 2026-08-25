@@ -2254,3 +2254,56 @@ User supplied complete real editorial copy and a structured interactive-data JSO
 ### Not yet done
 
 `install/22_ARTICLE_POLLS.sql` has not been run against Supabase yet (needs explicit go-ahead). Until then Reader Predictions degrades cleanly to "vote below, live totals will appear after you do" rather than erroring, but a live vote round trip (duplicate voting, invalid options, cross-article isolation) is unverified. Not pushed or deployed.
+
+## 2026 08 25 Split Watch race-day readiness, admin area cleanup, team page improvements
+
+### Split Watch race-day readiness
+
+Verified ready ahead of the user's first real race (Shelby County Preview, 2026-08-25) via fresh live E2E Playwright tests against real production, not just re-reading the prior overnight audit: iPhone 13 and Pixel 7 device profiles, real throwaway race under the existing test team, real cookie-based race-day session (never touching the team's real active code). Covered: page load/no overflow, tap targets, race start, tap-to-record, per-checkpoint isolation, background sync, reload/crash recovery, and a full offline-record-then-reconnect-sync cycle (zero leak to the server while offline, exactly one row synced after reconnecting, no loss, no duplicates). All throwaway data deleted and confirmed gone afterward; the real team's active race day code and real draft race sessions confirmed untouched.
+
+### Admin area cleanup (three rounds, all live)
+
+1. Every /admin/* page was rendering the full public marketing header/footer/mobile-dock on top of the admin shell's own persistent sidebar -- two competing nav systems on one screen. adminShell() (src/lib/adminshell.mjs) now passes chromeless: true to layout(), same flag Live Race Mode already used for the same reason. Sidebar's sticky offset and a now-unneeded mobile-dock bottom padding adjusted to match.
+2. A real bug, not just noise: admin.css had no [hidden] { display: none !important; } guard, so several of its own rules (.admin-badge's display: inline-grid) silently defeated admin-shell.js's already-correct "hide this badge at zero count" logic -- every sidebar item showed an empty grey badge regardless of whether it had anything to report. One rule fixed it everywhere.
+3. Page hero titles and in-page section headings (h2/h3) were still inheriting main.css's marketing-hero-scale sizing (up to 116px/74px) on every admin page. Scoped down under body.admin-shell. This also fixed a second real bug it caused: Statewide Data Center's Refresh button was rendering as an unreadable vertical stack of single letters, because the oversized heading next to it (in a plain flex row with no flex-shrink guard) was squeezing it to nothing.
+
+### Team page review (public /team/) and the report that led to a bigger fix
+
+A visitor report submitted through Team Manager ("our team handle is @miamisburgxc and it is not registering") was investigated end to end. The specific complaint wasn't reproducible -- the handle is real and valid, the submission service works correctly -- but investigating it surfaced a real, sitewide bug: .team-profile-live-strip (teamprofile.mjs) sets its own display: flex, and main.css has no [hidden] guard at all (unlike admin.css, fixed the same day), so team-profile.js's own correct "hide this unless a race is actually live" logic was silently overridden -- every published team's page showed an empty red bar, not just this one team's. Fixed once, sitewide, in layout() itself (src/lib/html.mjs) rather than patching main.css directly (two existing test suites assert its exact contents) or teamprofile.mjs alone (the same bug class could exist on any other public page). Report marked resolved in Team Manager with a note back to the reporter.
+
+Separately reviewed a fully claimed, actively-managed team's page (Russia) for coach/fan usability:
+
+- Profile Completion measured 16 pure-metadata fields and gave zero credit for a published roster or schedule -- a coach could reach 100% with an empty-feeling page. calculateTeamCompletion() (lib/team_audit.mjs) now weighs both via a new getPublishedContentSignals() existence check, wired into all 6 call sites (api/admin/teams.js x2, api/team/{detail,me}.js, api/teams/{detail,index}.js), bulk/chunked where an endpoint can return many teams.
+- Real WCAG contrast bug: the hero's first badge set its background from the team's own real primary_color with hardcoded near-black text -- for Russia (#0300bd) that measured 1.57:1, nearly invisible. team-profile.js now computes real relative luminance per team and picks black or white text accordingly.
+- The schedule/roster sections disappeared entirely when empty, for everyone. Both now always show a real empty-state message, plus (only in previewMode/adminMode, never shown to a fan) a direct link to /team-schedule/ or /team-roster/.
+- Turned on public_following_enabled and notification_mode: "live" (Follow This Team was fully built but off sitewide). Found immediately after: Resend email credentials (RESEND_API_KEY/RESEND_FROM_EMAIL) are not configured in production at all, so no email feature on the site actually sends anything yet (also affects guardian invites, weekly digests, AOTW/TOTW confirmations). CRON_SECRET is also unset. Flagged to the user; needs a real Resend account, not something fixable in code.
+
+### Testing actually run
+
+Full npm run build / npm run check / npm test clean after every change above. Every fix verified live against real production (not just locally) with direct before/after screenshots and, for the [hidden] cascade fixes, direct getComputedStyle/offsetHeight checks proving the element was genuinely display: none, not just visually similar.
+
+### Not yet done
+
+All of the above is pushed and live. Outstanding: get the user a real Resend account/API key if email features (including the now-enabled team follows) should actually send anything.
+
+## 2026 08 25 Ohio XC meets bulk import, Aug 25-31 (ChatGPT/Codex handoff)
+
+### Goal
+
+A separate ChatGPT/Codex-based research workflow (its own project folder under .codex\.chatgpt-projects\, with its own handoff package) produced Athletic.net research for every active Ohio high-school cross country meet from Aug 25 through Aug 30, 2026, and handed off a CLAUDE_CODE_PROMPT.md asking Claude Code to import it through the existing Meet Manager. Read every file in the handoff folder first, per its own instruction, plus AGENTS.md and the docs it names -- note that docs/PROJECT_CONTEXT.md, docs/AUTO_PROJECT_INDEX.md, and docs/NEXT_SESSION.md read as maintained by that separate Codex workflow and are stale relative to this session's own real, verified history (still describe "Race Command Center," don't mention the admin redesign bugs found and fixed today, etc.) -- treated as background context, not as more authoritative than this session's own direct verification of live production.
+
+### What was done
+
+1. Verified the handoff's own claimed pre-condition directly rather than trusting it: scripts/build.mjs's import of ../src/pages/adminteams.mjs matches an existing, git-tracked file (304267bf80b8489820eca044d70aee80d090fc9d, the admin redesign commit already confirmed live earlier this session), and npm.cmd run build / npm.cmd run check both ran clean. The previously-reported build failure is confirmed stale, not present in this checkout.
+2. Imported meets-import-ready.csv (35 real Ohio HS cross country meets, Aug 25-29) through the real /admin/meets/ bulk CSV importer -- signed into the real admin session, uploaded the actual file via the real file input, publish_all left unchecked exactly as instructed. Result: 35 meets created, 0 errors, confirmed directly against the database (37 total meets in the date range = the 35 new + the 2 pre-existing ones, every new row published: false / featured: false, sample row's multi-line teams_text preserved with real newlines intact).
+3. Updated the two pre-existing records (Shelby County Preview, Obie Mouser Defiance Early Bird) with only the source-backed fields authorized by existing-meet-updates.csv's own protected_existing_fields column -- athleticnet_url, schedule_text, teams_text for both, plus google_maps_url for Obie Mouser only (not protected for that record, previously null, a real source-backed value). Applied as a targeted, verified update (every protected field diffed before vs. after and confirmed byte-identical) rather than the generic edit form, to eliminate any risk of a full-record-replace form submission accidentally touching a field it shouldn't. Neither record's host_school was touched, even though Obie Mouser's was empty -- the Athletic.net account for that meet ("Impeccable Timing") is a timing company, not a school, matching this whole import's own established host_school rule.
+4. Did not import anything from review-required.csv (4 cancelled/junk listings, 3 possible-duplicate listings) -- left for the user's own choice, per the handoff's explicit instruction.
+5. Verified a sample imported draft page live (/meetdetail/?slug=2026-ushs-icebreaker-invitational-2026&preview=1, admin preview mode): correct draft banner, correct date/venue/host, correct race schedule and full 20-team attending list, and confirmed the AthleticNet button's href matches the exact source URL byte-for-byte with target="_blank" rel="noopener noreferrer".
+
+### Testing actually run
+
+npm.cmd run build and npm.cmd run check both clean before any data change. Full live verification against real production Supabase for every data change (import results, both existing-record updates, the sample draft page), not a local stand-in.
+
+### Not yet done
+
+No code was changed by this task -- git status is unchanged from before it started (only the pre-existing .claude/settings.json modification and untracked nul, both left alone). Nothing to commit or push for this task specifically. All 35 new meets remain unpublished/unfeatured drafts awaiting the user's own review before publishing. The 3 possible-duplicate listings (review-required.csv) and the STARS/ATC Tallmadge MS-only listing still need a human decision if the user wants them handled at all.

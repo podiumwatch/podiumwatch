@@ -1,5 +1,14 @@
 # Podium Watch next session
 
+## Most recent work (2026-08-25) -- read this first
+
+Everything below this section (through "Current priority") predates 2026-08-25 and reads as maintained by a separate ChatGPT/Codex workflow on this same repo -- it is stale relative to real production (still calls the timing tool "Race Command Center," which was renamed to Split Watch and shipped 2026-08-21). See `docs/SESSION_LOG.md`'s 2026-08-25 entries for the real, verified current state, including:
+
+- Split Watch: rebranded, live, and freshly re-verified end-to-end (including full offline-record/reconnect-sync) ahead of the user's first real race.
+- Admin area (`/admin/*`): duplicate public-nav-on-top-of-sidebar removed, a real `[hidden]`-cascade badge bug and an oversized-heading/broken-Refresh-button bug both fixed, all live.
+- Public team pages (`/team/`): a real sitewide `[hidden]`-cascade bug fixed (every team page was showing an empty red bar), Profile Completion now counts roster/schedule, a real WCAG contrast bug fixed on the hero badge, and Follow This Team turned on -- though real emails still cannot send anywhere on the site until the user adds real `RESEND_API_KEY`/`RESEND_FROM_EMAIL` (and `CRON_SECRET`) to Vercel.
+- A 35-meet Ohio cross country meet bulk import (Aug 25-31 window) completed through the real `/admin/meets/` importer, plus two pre-existing meets enriched with source-backed fields only. All 35 new meets are still unpublished drafts awaiting the user's own review.
+
 ## Current priority
 
 **Race Command Center Phase One is live in production** (committed `acf04ff`, pushed, deployed, and verified live at `https://podiumwatch.vercel.app/race-command-center/` and its `/plan/`, `/live/`, `/review/` sub-pages). Coach-facing race Plan -> Race -> Review tool with mobile-first Live Race Mode, offline-first split recording, and individual/team review. `install/11_RACE_COMMAND_CENTER.sql` is run and confirmed live. Full detail and every real bug found/fixed during the build are in `docs/SESSION_LOG.md`/`docs/DECISIONS.md`, 2026-08-11.
