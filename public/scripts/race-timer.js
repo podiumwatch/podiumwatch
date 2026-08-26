@@ -37,6 +37,18 @@
     // Deliberately null (not 0) after a page reload -- 0 would be
     // indistinguishable from "just started".
     let raceStartPerfMs = null;
+    // Race day feedback (2026-08-25): the recovered/wall-clock path is
+    // only ever as accurate as THIS device's own Date.now() -- two real
+    // phones at the same real meet are not guaranteed to agree on what
+    // time it is. clockOffsetMs is a lightweight correction (this
+    // device's best estimate of serverTimeNow - Date.now()), supplied by
+    // the caller from a server timestamp bracketed by a request/response
+    // round trip (see split-watch-live.js's updateClockOffset()) -- never
+    // computed in here, since this file has no network access of its
+    // own. Deliberately does NOT touch the monotonic path at all: a live
+    // performance.now() session never needed wall-clock agreement in the
+    // first place, and never should.
+    let clockOffsetMs = 0;
 
     // Called only on the coach's deliberate, explicit confirm action --
     // never automatically.
@@ -80,13 +92,22 @@
       raceStartPerfMs = null;
     }
 
-    // Lower-precision elapsed time derived from the wall-clock anchor.
-    // Null if no anchor (wall clock or otherwise) has ever been set.
+    // Lower-precision elapsed time derived from the wall-clock anchor,
+    // corrected by this device's current best estimate of its own clock
+    // offset from server time (see clockOffsetMs above). Null if no
+    // anchor (wall clock or otherwise) has ever been set.
     function recoverElapsed() {
       if (raceStartWallClockMs === null) {
         return null;
       }
-      return (nowMs() - raceStartWallClockMs) / 1000;
+      return (nowMs() + clockOffsetMs - raceStartWallClockMs) / 1000;
+    }
+
+    // Called whenever the caller has a fresh estimate (a new server
+    // round trip) -- safe to call as often as every sync, since it's
+    // just replacing one number, never accumulating.
+    function setClockOffsetMs(offsetMs) {
+      clockOffsetMs = Number.isFinite(offsetMs) ? offsetMs : 0;
     }
 
     // The single function UI code should actually call: prefers the live
@@ -112,6 +133,7 @@
     function reset() {
       raceStartWallClockMs = null;
       raceStartPerfMs = null;
+      clockOffsetMs = 0;
     }
 
     return {
@@ -123,6 +145,7 @@
       recoverElapsed,
       elapsedOrRecovered,
       getRaceStartWallClockMs,
+      setClockOffsetMs,
       reset
     };
   }

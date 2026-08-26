@@ -37,6 +37,13 @@ export function teamHomePage(site) {
     .tw-empty { padding: 20px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
     .tw-next-card { padding: 20px; border-radius: 14px; background: #111827; color: #ffffff; }
     .tw-next-card .tw-item-meta { opacity: 0.8; }
+    .tw-today-card { padding: 20px; border-radius: 14px; background: #111827; color: #ffffff; border: 2px solid #00bf63; }
+    .tw-today-card .tw-item-meta { opacity: 0.8; }
+    .tw-today-race { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 14px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); }
+    .tw-today-race + .tw-today-race { margin-top: 10px; }
+    .tw-today-race-live { background: rgba(220, 38, 38, 0.22); border: 1px solid rgba(220, 38, 38, 0.6); }
+    .tw-today-live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #dc2626; margin-right: 6px; animation: tw-today-pulse 1.6s ease-in-out infinite; }
+    @keyframes tw-today-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .tw-race-day-reveal { margin-top: 16px; padding: 16px; border-radius: 12px; background: rgba(0, 191, 99, 0.12); border: 1px solid rgba(0, 191, 99, 0.35); }
     .tw-race-day-reveal p { margin: 0 0 10px; font-weight: 800; font-size: 0.85rem; }
     .tw-race-day-code-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
@@ -67,6 +74,11 @@ export function teamHomePage(site) {
 
         <p class="tw-message" data-tw-message hidden></p>
 
+        <div class="tw-today-card" data-tw-today-card hidden>
+          <p class="eyebrow" style="color:#00bf63;">Today's Split Watch</p>
+          <div data-tw-today-content></div>
+        </div>
+
         <div class="tw-next-card" data-tw-next-card>
           <p class="eyebrow" style="color:#00bf63;">Next up</p>
           <div data-tw-next-content></div>
@@ -91,12 +103,13 @@ export function teamHomePage(site) {
 
           <section class="tw-panel tw-panel-wide">
             <div class="tw-header">
-              <div><p class="eyebrow">Race day access</p><h2>Volunteer code</h2></div>
+              <div><p class="eyebrow">Race day access</p><h2>Timing helper code</h2></div>
             </div>
             <p style="margin-top:6px;max-width:640px;opacity:0.8;">
-              Share this code with anyone timing a race for you -- a parent at mile one, a friend at the finish.
-              They enter it at <strong>Split Watch</strong> in the main menu and go straight into live
-              timing for this team, no account required.
+              Share this 4-digit code with anyone actually recording splits for you -- a coach at mile one, a
+              volunteer at the finish. They enter it at <strong>Split Watch</strong> and go straight into today's
+              race, no account required. For parents and fans who just want to watch, use Copy Parent Live Link
+              on the race's Plan page instead -- that's a read-only view, this code is not.
             </p>
 
             <div class="tw-race-day-reveal" data-tw-race-day-reveal hidden>

@@ -431,6 +431,33 @@ export function splitWatchPlanPage(site) {
 
         <p class="sw-message" data-sw-message aria-live="polite" hidden></p>
 
+        <section class="sw-panel sw-panel-full" style="margin-bottom:20px;">
+          <p class="eyebrow">Parent &amp; fan sharing</p>
+          <h2>Parent live link</h2>
+          <p>
+            One link, the whole day -- share it the night before or the morning of. It shows an upcoming/waiting
+            screen before the race starts, switches to live times automatically the moment you start timing, and
+            shows final results once the race is finished. It never shows goals, private notes, or coach cues --
+            only what's public here.
+          </p>
+
+          <label style="display:flex;align-items:center;gap:10px;font-weight:800;margin-top:14px;cursor:pointer;">
+            <input type="checkbox" data-sw-spectator-toggle style="width:auto;">
+            Turn on the parent live link for this race
+          </label>
+
+          <div data-sw-spectator-link-row style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;" hidden>
+            <input type="text" data-sw-spectator-link readonly style="flex:1 1 320px;min-width:0;padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.22);font:inherit;">
+            <button class="button button-primary" type="button" data-sw-copy-parent-link>Copy parent live link</button>
+          </div>
+
+          <label style="display:block;margin-top:18px;font-weight:800;max-width:320px;">
+            Scheduled race time (optional)
+            <input type="time" data-sw-scheduled-start-input style="display:block;width:100%;margin-top:8px;padding:10px;border:1px solid rgba(15,23,42,0.22);border-radius:8px;font:inherit;">
+          </label>
+          <p style="margin-top:6px;font-size:0.85rem;opacity:0.75;max-width:480px;">Shown to parents on the waiting screen before you start timing, alongside this race's own date (<span data-sw-scheduled-start-date></span>). Leave blank if you'd rather not display a time.</p>
+        </section>
+
         <div class="sw-checkpoint-strip" data-sw-checkpoint-strip></div>
 
         <div class="sw-grid" style="margin-top:20px;">

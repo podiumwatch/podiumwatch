@@ -529,6 +529,167 @@ console.log("Server-side calculation port (lib/race_math.mjs) validated as byte-
   );
 }
 
+// --- Race day fixes (2026-08-25/26): timer offset, canonical-start ---------
+// flag, clock adjustment math, "today's race" routing, and 4-digit code
+// format/uniqueness. See docs/DECISIONS.md for the full race-day
+// diagnosis these tests guard against regressing.
+
+{
+  const { createRaceTimer } = global.window.PodiumRaceTimer;
+
+  // -- race-timer.js: clock offset correction (Section 3) --------------------
+  // Two devices with DIFFERENT wall clocks must still agree on elapsed
+  // time once a server-derived offset is applied -- this is the fix for
+  // "different phones can have different wall clocks."
+  {
+    let fakeNow = 1_000_000;
+    const timer = createRaceTimer({ nowMs: () => fakeNow, perfNowMs: () => 0 });
+    timer.recoverFromWallClock(1_000_000 - 10_000); // race "started" 10s ago per THIS device's clock
+    const withoutOffset = timer.recoverElapsed();
+    assert.ok(Math.abs(withoutOffset - 10) < 0.001, "With no offset applied, recovered elapsed must be the raw wall-clock difference.");
+
+    // This device's clock is actually running 4 seconds fast (server
+    // time is 4s BEHIND what this device thinks "now" is) -- a real,
+    // confirmed-possible scenario at a real meet with no reliable signal.
+    timer.setClockOffsetMs(-4000);
+    const withOffset = timer.recoverElapsed();
+    assert.ok(Math.abs(withOffset - 6) < 0.001, "A -4000ms clock offset must shave 4 seconds off the recovered elapsed time.");
+
+    timer.reset();
+    assert.equal(timer.recoverElapsed(), null, "reset() must clear the clock offset along with every anchor -- a stale offset must never survive into a new race.");
+  }
+
+  // The monotonic (live-session) path must NEVER be affected by the
+  // clock offset -- it never needed wall-clock agreement in the first
+  // place, and a bug that accidentally applied the offset there would
+  // reintroduce exactly the kind of divergence this whole fix removes.
+  {
+    let fakePerf = 5000;
+    const timer = createRaceTimer({ nowMs: () => 0, perfNowMs: () => fakePerf });
+    timer.startRace();
+    timer.setClockOffsetMs(99999);
+    fakePerf = 5000 + 3000;
+    const result = timer.elapsedOrRecovered();
+    assert.equal(result.precision, "monotonic");
+    assert.ok(Math.abs(result.elapsedSeconds - 3) < 0.001, "The monotonic path must ignore any clock offset entirely.");
+  }
+}
+
+{
+  const { computeRaceClockAdjustmentSeconds } = await import("../lib/split_watch_service.mjs");
+
+  // Coach says "the official clock's current elapsed time is 600s"; Split
+  // Watch's own raw start-relative elapsed time right now is 610s (10s
+  // fast) -- the correction must be +10 (subtracted from every future
+  // raw elapsed value to land back on 600s at this exact instant).
+  const raceStartedAt = "2026-08-25T22:00:00.000Z";
+  const nowMs = Date.parse("2026-08-25T22:10:10.000Z"); // 610s after start
+  const correction = computeRaceClockAdjustmentSeconds({ raceStartedAt, officialElapsedSeconds: 600, nowMs });
+  assert.ok(Math.abs(correction - 10) < 0.001, "A Split Watch clock running 10s fast of the official clock must produce a +10s correction.");
+
+  // The reverse case -- Split Watch is BEHIND the official clock -- must
+  // produce a negative correction (added back, not subtracted).
+  const behindCorrection = computeRaceClockAdjustmentSeconds({ raceStartedAt, officialElapsedSeconds: 615, nowMs });
+  assert.ok(Math.abs(behindCorrection - (-5)) < 0.001, "A Split Watch clock running behind the official clock must produce a negative correction.");
+}
+
+{
+  const { classifyRaceDay, todayDateString } = await import("../lib/todays_race_service.mjs");
+
+  assert.match(todayDateString(new Date("2026-08-25T12:00:00Z")), /^\d{4}-\d{2}-\d{2}$/, "todayDateString() must return a plain YYYY-MM-DD string.");
+
+  const today = "2026-08-25";
+  const makeSession = (overrides) => ({
+    id: "s-" + Math.random(), status: "draft", race_date: today, created_at: "2026-08-20T00:00:00Z", scheduled_start_time: null, ...overrides
+  });
+
+  // Exactly one live race -- the whole point of Problem 3: route straight
+  // in, no list, regardless of what else exists (historical noise must
+  // never compete for priority).
+  {
+    const live = makeSession({ id: "live-1", status: "live" });
+    const oldFinished = makeSession({ id: "old", status: "finished", race_date: "2025-09-01" });
+    const result = classifyRaceDay([live, oldFinished], today);
+    assert.equal(result.singleRelevantRace.id, "live-1", "Exactly one live race must be THE single relevant race, ignoring unrelated historical races.");
+    assert.equal(result.needsChoice, false);
+  }
+
+  // Multiple live races at once -- the one genuinely ambiguous case; no
+  // auto-routing, a short choice is shown instead.
+  {
+    const liveA = makeSession({ id: "live-a", status: "live" });
+    const liveB = makeSession({ id: "live-b", status: "live" });
+    const result = classifyRaceDay([liveA, liveB], today);
+    assert.equal(result.singleRelevantRace, null, "More than one simultaneously-live race must never be auto-resolved to a single choice.");
+    assert.equal(result.needsChoice, true);
+    assert.equal(result.liveRaces.length, 2);
+  }
+
+  // No live race, but one prepared for later today -- route to its
+  // waiting screen (Problem 3's second case).
+  {
+    const scheduled = makeSession({ id: "sched-1", status: "scheduled" });
+    const result = classifyRaceDay([scheduled], today);
+    assert.equal(result.singleRelevantRace.id, "sched-1");
+    assert.equal(result.needsChoice, false);
+  }
+
+  // Nothing live or upcoming today, but something finished today --
+  // TEST 11's "does not dump the helper into historical administration":
+  // the single relevant race is today's own finished race, not silence.
+  {
+    const finished = makeSession({ id: "fin-1", status: "finished" });
+    const result = classifyRaceDay([finished], today);
+    assert.equal(result.singleRelevantRace.id, "fin-1");
+  }
+
+  // A prepared race today always outranks an already-finished race today
+  // as the next thing to do -- matches the real production data pattern
+  // (JH Girls finished, then HS Boys started later the same day).
+  {
+    const finishedEarlier = makeSession({ id: "fin-earlier", status: "finished" });
+    const scheduledLater = makeSession({ id: "sched-later", status: "scheduled" });
+    const result = classifyRaceDay([finishedEarlier, scheduledLater], today);
+    assert.equal(result.singleRelevantRace.id, "sched-later", "A race still to come today must win over one already finished today.");
+  }
+
+  // Cancelled races must never be considered at all, for any purpose.
+  {
+    const cancelled = makeSession({ id: "cancelled-1", status: "cancelled" });
+    const result = classifyRaceDay([cancelled], today);
+    assert.equal(result.singleRelevantRace, null);
+    assert.equal(result.liveRaces.length, 0);
+    assert.equal(result.upcomingToday.length, 0);
+    assert.equal(result.finishedToday.length, 0);
+  }
+
+  // A race still sitting in "live" status from a PRIOR calendar day (a
+  // real, confirmed case -- Shelby County Preview's HS Boys race was
+  // still "live" the day after the meet) must still count as the live
+  // race right now -- a live race's own race_date must never gate it out.
+  {
+    const staleLive = makeSession({ id: "stale-live", status: "live", race_date: "2026-08-24" });
+    const result = classifyRaceDay([staleLive], today);
+    assert.equal(result.singleRelevantRace.id, "stale-live", "A still-live race from a prior calendar day must still be treated as the current live race.");
+  }
+}
+
+{
+  const { generateRaceDayCode } = await import("../lib/race_day_auth.mjs");
+  // Race day feedback (2026-08-25): codes shrank from 8-character
+  // alphanumeric to 4-digit numeric for faster mobile entry.
+  for (let i = 0; i < 20; i += 1) {
+    const code = generateRaceDayCode();
+    assert.match(code, /^\d{4}$/, "A generated race day code must be exactly 4 digits, matching the mobile-numeric-keypad design.");
+  }
+}
+
+console.log("Race day fixes validated:");
+console.log("race-timer.js's clock-offset correction checked to fix the recovered path while leaving the monotonic path completely untouched, and reset() checked to clear the offset along with every anchor.");
+console.log("computeRaceClockAdjustmentSeconds() checked both directions (Split Watch running fast and running behind the official clock).");
+console.log("classifyRaceDay() checked against every routing case from the race day spec: single live race wins, multiple live races require a choice, a prepared race outranks one already finished today, cancelled races are never considered, and a race still 'live' from a prior calendar day still counts as live now.");
+console.log("generateRaceDayCode() checked to always produce a 4-digit numeric code.");
+
 console.log("Service-layer pure helpers (lib/split_watch_service.mjs) validated:");
 console.log("buildCheckpointsWithFinish() checked for auto-appending exactly one Finish checkpoint only when needed, preserving a coach's own finish label, sorting out-of-order entries, and never producing a race with zero checkpoints.");
 console.log("diffParticipants() checked for matching by row id or by team_athlete_id (never creating a duplicate), and that a bulk roster save always reflects the complete resubmitted list -- omitted participants are removed, new ones are inserted.");

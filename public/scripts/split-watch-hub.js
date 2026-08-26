@@ -319,11 +319,13 @@
 
     const created = formatDateTime(status.created_at);
     const lastUsed = formatDateTime(status.last_used_at);
+    const expires = formatDateTime(status.expires_at);
     raceDayStatusEl.innerHTML =
       '<strong>Race day access is on.</strong>' +
       '<div class="sw-item-meta">' +
         (created ? "Created " + created : "Active") +
         " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
+        (expires ? " · Expires " + expires : "") +
       '</div>';
     raceDayGenerateButton.textContent = "Regenerate code";
     raceDayRevokeButton.hidden = false;

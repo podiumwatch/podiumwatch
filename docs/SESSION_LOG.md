@@ -2307,3 +2307,34 @@ npm.cmd run build and npm.cmd run check both clean before any data change. Full 
 ### Not yet done
 
 No code was changed by this task -- git status is unchanged from before it started (only the pre-existing .claude/settings.json modification and untracked nul, both left alone). Nothing to commit or push for this task specifically. All 35 new meets remain unpublished/unfeatured drafts awaiting the user's own review before publishing. The 3 possible-duplicate listings (review-required.csv) and the STARS/ATC Tallmadge MS-only listing still need a human decision if the user wants them handled at all.
+
+## 2026 08 26 Split Watch: Live Race Day Fixes (real race-day feedback)
+
+### Context
+
+Split Watch was used in a real live race the day before (Shelby County Preview, 2026-08-25) -- this was a focused fix pass driven by real feedback from that race, not a redesign. Full technical detail in `docs/DECISIONS.md`, 2026-08-26; summarized here.
+
+### Diagnosis first, per explicit instruction
+
+Before changing anything, read every relevant file end to end (timer engine, service layer, both API handlers, both auth systems, every Split Watch page and script, the real SQL schema) and pulled the ACTUAL race_splits rows from the real meet directly from production (read-only) rather than guessing. Found a real, constant, reproducible timing offset on specific devices in both real races that day (+7.71s and +27.54s), traced to a real bug: the pre-race auto-transition logic preferred a locally-cached wall-clock anchor over the fresh, correct value it had just fetched from the server. The user confirmed neither helper device ever pressed Start Race, which narrowed the cause to exactly this recovery-path bug rather than a second device racing to start.
+
+### What was fixed
+
+1. Canonical race start: `startRace()` now uses an atomic guarded update and reports whether THIS call actually started the race; a losing call recovers from the real server value instead of trusting its own anchor.
+2. The stale-anchor bug itself: server's `race_started_at` always wins over any local cache now, everywhere the pattern appeared, with the local cache self-healing on every server round trip.
+3. A lightweight server clock-offset correction (`server_now` + round-trip bracketing) for the lower-precision recovered path only -- the live monotonic path was never affected and stays untouched.
+4. Helpers (race-day-code sessions) can no longer start, finish, restart, or adjust a race's clock -- enforced at the server permission layer (`RACE_DAY_CODE_ALLOWED_ACTIONS`), with the client UI hiding those controls to match, not the other way around.
+5. Helper code: 8-character alphanumeric -> 4-digit numeric, with a new 5-day expiry and a collision-retry loop (a 10,000-value keyspace needs both, unlike the old ~1.1-trillion-value one).
+6. New shared `lib/todays_race_service.mjs` picks the one race that matters right now (live > next today > most recently finished today) -- powers both a new "Today's Split Watch" card on `/team-home/` (one-tap Resume/Start/Continue Setup) and the helper join flow's smart auto-routing (no more landing on a historical meet list -- confirmed this was a real gap, not just a feared one).
+7. Parent live link (`/race/?race=<id>`) gained the pre-race waiting state it was missing -- the underlying privacy model (opt-in, safe field allow-list) already existed from an earlier phase.
+8. New coach-only Race Clock Adjustment: aligns Split Watch with an official scoreboard without ever touching a raw capture timestamp, with an audit trail; a second adjustment mid-race still corrects the whole timeline consistently.
+9. Found and fixed one unrelated latent bug along the way: Team Home's "next race" logic computed "today" from the server's raw UTC clock, which silently rolls to the wrong calendar day for several hours every evening for an Ohio-only site -- now a real America/New_York date.
+10. `scheduled_start_time` turned out to be a plain SQL `time` column, not a timestamp -- discovered by a real 500 error against production mid-verification, not assumed; fixed the input type and every place that reads it.
+
+### Testing actually run
+
+`npm run build`/`run check`/full `npm test` all clean, including new tests for the clock-offset math, the clock-adjustment math, the "today's race" classification logic (every routing case from the spec), 4-digit code format, and the previously-completely-untested helper permission boundary (`RACE_DAY_CODE_ALLOWED_ACTIONS`). Live-verified against real production Supabase: built a small local harness (real `api/*.js` handlers, not a mock) plus a fully disposable throwaway team + real Supabase Auth coach account, exercised the canonical-start guard, smart routing, every helper permission boundary (403 on start/finish/restart/adjust, still allowed to record real splits), and the parent link's draft/live/finished states -- all passed, all throwaway data deleted afterward and deletion confirmed by re-query. Real mobile Playwright screenshots (iPhone 13, Pixel 7) against the real coach sign-in flow confirmed the Today's Split Watch card, the helper's controls-hidden live screen, and the parent waiting screen all render correctly with no horizontal overflow.
+
+### Not yet done
+
+`install/24_SPLIT_WATCH_RACE_DAY_FIXES.sql` has not been applied to production -- needs the user's explicit approval per standing practice. Until then, the 4-digit code's actual generate/regenerate/revoke database round trip and Race Clock Adjustment's actual write are unverified live against real Supabase (the pure logic for both is unit-tested and passing; the API paths that touch the new columns were confirmed to correctly fail today, as expected, without the migration). Not pushed, not deployed. Helper Connection Status (a "TIMING CREW" list with per-helper revoke, spec Section 8) was deliberately deferred as a smaller, separate follow-up rather than expanding this pass further -- today a coach can only revoke the whole code at once.

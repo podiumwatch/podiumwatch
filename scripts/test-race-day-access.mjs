@@ -13,7 +13,8 @@ process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 
 const {
   generateRaceDayCode,
-  clearRaceDaySessionCookie
+  clearRaceDaySessionCookie,
+  assertActionAllowedForActor
 } = await import("../lib/race_day_auth.mjs");
 
 function readSource(path) {
@@ -21,31 +22,72 @@ function readSource(path) {
 }
 
 // --- generateRaceDayCode: pure, safe to call directly -----------------------
+// Race day feedback (2026-08-25): shrunk from 8-character alphanumeric to
+// 4-digit numeric for fast mobile entry (see lib/race_day_auth.mjs's own
+// header comment for why the keyspace shrinking to 10,000 changes how
+// uniqueness/expiry has to work -- checked at the source level further
+// below, since that requires a live database).
 
 {
-  const ALLOWED = new Set("ABCDEFGHJKMNPQRSTUVWXYZ23456789".split(""));
-  const EXCLUDED = new Set("0O1IL".split(""));
-
   for (let i = 0; i < 500; i += 1) {
     const code = generateRaceDayCode();
     assert.equal(typeof code, "string");
-    assert.equal(code.length, 8, "every generated code is exactly 8 characters");
-    for (const char of code) {
-      assert.ok(ALLOWED.has(char), `character '${char}' is in the allowed alphabet`);
-      assert.ok(!EXCLUDED.has(char), `character '${char}' (easily misread) is never used`);
-    }
+    assert.match(code, /^\d{4}$/, "every generated code is exactly 4 digits");
   }
-  console.log("generateRaceDayCode() checked: always 8 characters, always from the misread-safe alphabet (no 0/O/1/I/L), across 500 samples.");
+  console.log("generateRaceDayCode() checked: always exactly 4 digits, across 500 samples.");
 }
 
 {
-  // Loose collision sanity check -- not a proof of uniqueness (32^8 space
-  // makes a real collision astronomically unlikely), just a guard against
-  // a broken generator that always returns the same code.
+  // Loose sanity check that the generator isn't broken (e.g. always
+  // returning the same value) -- NOT a uniqueness check. Unlike the old
+  // 8-character code (32^8 possible values, a real collision was
+  // astronomically unlikely), a 4-digit code has only 10,000 possible
+  // values on purpose -- a handful of samples colliding is completely
+  // expected and is exactly why regenerateRaceDayCode() has its own
+  // collision-retry loop (checked at the source level below), not
+  // something this generator itself is responsible for.
   const seen = new Set();
-  for (let i = 0; i < 200; i += 1) seen.add(generateRaceDayCode());
-  assert.equal(seen.size, 200, "200 generated codes are all distinct");
-  console.log("generateRaceDayCode() checked for basic non-collision across 200 samples.");
+  for (let i = 0; i < 20; i += 1) seen.add(generateRaceDayCode());
+  assert.ok(seen.size > 1, "20 samples from a 10,000-value keyspace must not all be identical");
+  console.log("generateRaceDayCode() checked to not be a broken generator that always returns one value (real uniqueness is regenerateRaceDayCode()'s collision-retry loop's job, not this function's).");
+}
+
+// --- assertActionAllowedForActor: the permission boundary a helper ---------
+// code can never cross. Race day feedback (2026-08-25) / the confirmed
+// root cause of a real ~10-second timing error: a helper session used to
+// be allowed to call start_race/finish_race/restart_race, which is
+// exactly how a helper's device ended up establishing its own,
+// divergent race clock. "One race, one canonical start" now means a
+// race-day-code actor can only read, never start/finish/restart/adjust.
+
+{
+  const helperActor = { type: "race_day_code", userId: null, label: "Race day access" };
+  const coachActor = { type: "team_user", userId: "user-1", label: "Coach" };
+
+  // A real coach account is never restricted by this function at all --
+  // it's a no-op for any actor type other than race_day_code.
+  assert.doesNotThrow(() => assertActionAllowedForActor(coachActor, "sessions", "start_race"));
+  assert.doesNotThrow(() => assertActionAllowedForActor(coachActor, "sync", "adjust_clock"));
+
+  // A helper may only read -- list/detail/today.
+  assert.doesNotThrow(() => assertActionAllowedForActor(helperActor, "sessions", "list"));
+  assert.doesNotThrow(() => assertActionAllowedForActor(helperActor, "sessions", "today"));
+
+  // A helper must never be able to start, finish, restart, or adjust the
+  // clock of a race -- these are exactly the actions that let a
+  // helper's device establish its own divergent race clock.
+  for (const action of ["start_race", "finish_race", "restart_race", "create", "update", "delete"]) {
+    assert.throws(() => assertActionAllowedForActor(helperActor, "sessions", action), `a helper must be refused "${action}" on sessions`);
+  }
+  assert.throws(() => assertActionAllowedForActor(helperActor, "sync", "adjust_clock"), "a helper must never be able to adjust the race clock");
+
+  // A helper's actual timing actions must still work -- this permission
+  // boundary is about the race's canonical lifecycle, not timing itself.
+  for (const action of ["create_pack_capture", "push_splits", "pull_state", "set_participant_status"]) {
+    assert.doesNotThrow(() => assertActionAllowedForActor(helperActor, "sync", action), `a helper must still be allowed "${action}" on sync`);
+  }
+
+  console.log("assertActionAllowedForActor() checked: a real coach account is never restricted; a race-day-code helper can read races and record timing (splits/pack capture/status) but can never start, finish, restart, or adjust the clock of a race.");
 }
 
 // --- clearRaceDaySessionCookie: pure, builds a cookie-clearing header -------
@@ -76,10 +118,10 @@ function readSource(path) {
   const source = readSource("../lib/race_day_auth.mjs");
 
   // Privacy: verifyRaceDayCode must never let a caller distinguish "no such
-  // code" from "code exists but is deactivated" -- both take the same
-  // failure path with the same message/status.
-  const deniedMatch = source.match(/if \(!codeRow \|\| !codeRow\.active\) \{([\s\S]{0,200}?)\}/);
-  assert.ok(deniedMatch, "verifyRaceDayCode has a single combined not-found-or-inactive branch");
+  // code" from "code exists but is deactivated" from "code has expired" --
+  // all three take the same failure path with the same message/status.
+  const deniedMatch = source.match(/if \(!codeRow \|\| !codeRow\.active \|\| isExpired\) \{([\s\S]{0,200}?)\}/);
+  assert.ok(deniedMatch, "verifyRaceDayCode has a single combined not-found-or-inactive-or-expired branch");
   assert.match(deniedMatch[1], /fail\(/, "the combined branch calls fail() with one shared message");
 
   // Rate limiting is checked before any DB lookup of the submitted code,
@@ -95,6 +137,24 @@ function readSource(path) {
   const regenBody = source.slice(source.indexOf("export async function regenerateRaceDayCode"), source.indexOf("export async function revokeRaceDayCode"));
   assert.match(regenBody, /onConflict:\s*"team_id"/, "regenerate upserts on team_id -- one active code per team");
   assert.match(regenBody, /race_day_sessions.*\.delete\(\)/s, "regenerate deletes all existing race_day_sessions for the team");
+  assert.match(regenBody, /expiresAt/, "regenerate sets an expiry on the new code");
+  assert.match(regenBody, /codeHashIsTaken/, "regenerate checks for a collision against other teams' currently-active codes before accepting a candidate -- required now that the keyspace is only 10,000 values");
+
+  // The collision check must only ever compare against OTHER teams (this
+  // team's own current code is about to be overwritten by this exact
+  // call, so it can never collide with itself), and only against codes
+  // that are both active AND not yet expired -- an expired code's value
+  // must be freely reusable.
+  const collisionCheckBody = source.slice(source.indexOf("async function codeHashIsTaken"), source.indexOf("export async function regenerateRaceDayCode"));
+  assert.match(collisionCheckBody, /neq\("team_id"/, "the collision check excludes this team's own row");
+  assert.match(collisionCheckBody, /eq\("active",\s*true\)/, "the collision check only considers active codes");
+  assert.match(collisionCheckBody, /gt\("expires_at"/, "the collision check only considers unexpired codes -- an expired code's value must be reusable");
+
+  // A verified code must also be rejected once it's past its own
+  // expires_at, using the same shared not-recognized error as a wrong or
+  // deactivated code (never a distinguishable "expired" message).
+  const verifyBody2 = source.slice(source.indexOf("export async function verifyRaceDayCode"), source.indexOf("async function resolveRaceDaySession"));
+  assert.match(verifyBody2, /isExpired/, "verifyRaceDayCode checks the code's own expiry, not just active/inactive");
 
   // Revoking must also kill any live sessions, not just flip a flag no one
   // else checks.
@@ -114,7 +174,7 @@ function readSource(path) {
   assert.ok(failIndex > cookieIndex, "rejection only happens after both credential types have been tried");
   assert.match(accessBody.slice(cookieIndex, failIndex), /session\.teamId\s*===\s*teamId/, "cookie session's own team id must match the requested team id");
 
-  console.log("lib/race_day_auth.mjs checked at the source level: same-error privacy for wrong vs. deactivated codes, rate-limit-before-lookup ordering, regenerate/revoke both invalidate live sessions, and dual-credential resolution order in requireSplitWatchAccess (live database verification still required after install/19 is run).");
+  console.log("lib/race_day_auth.mjs checked at the source level: same-error privacy for wrong vs. deactivated vs. expired codes, rate-limit-before-lookup ordering, regenerate's collision-retry against other teams' active+unexpired codes only, regenerate/revoke both invalidate live sessions, and dual-credential resolution order in requireSplitWatchAccess (live database verification still required after install/24 is run).");
 }
 
 {

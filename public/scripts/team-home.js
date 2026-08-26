@@ -7,6 +7,8 @@
   const messageBox = document.querySelector("[data-tw-message]");
   const nextCard = document.querySelector("[data-tw-next-card]");
   const nextContent = document.querySelector("[data-tw-next-content]");
+  const todayCard = document.querySelector("[data-tw-today-card]");
+  const todayContent = document.querySelector("[data-tw-today-content]");
   const rosterCountEl = document.querySelector("[data-tw-roster-count]");
   const upcomingCountEl = document.querySelector("[data-tw-upcoming-count]");
   const recentCountEl = document.querySelector("[data-tw-recent-count]");
@@ -26,6 +28,7 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox, nextCard, nextContent,
+    todayCard, todayContent,
     rosterCountEl, upcomingCountEl, recentCountEl, rosterLink, scheduleLink, swLink,
     upcomingList, upcomingEmpty, recentList, recentEmpty,
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
@@ -116,6 +119,60 @@
     }
   }
 
+  // Race day spec, Section 9/Problem 5: "coach signs in, coach sees
+  // today's race, coach taps once." Deliberately separate from
+  // renderNext() above (which covers general season planning, any future
+  // date) -- this card only ever appears when something is actually
+  // happening TODAY, and its whole point is one obvious primary action,
+  // not a browsable list.
+  function primaryActionFor(race) {
+    const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id);
+    if (race.status === "live") {
+      return { label: "RESUME LIVE TIMING", href: "/split-watch/live/" + idPart };
+    }
+    if (race.status === "scheduled") {
+      return { label: "START LIVE TIMING", href: "/split-watch/live/" + idPart };
+    }
+    if (race.status === "finished" || race.status === "reviewed") {
+      return { label: "VIEW RESULTS", href: "/split-watch/review/" + idPart };
+    }
+    // draft -- participants/checkpoints not yet fully set up.
+    return { label: "CONTINUE RACE SETUP", href: "/split-watch/plan/" + idPart };
+  }
+
+  function renderTodayRaceRow(race, { primary = false } = {}) {
+    const action = primaryActionFor(race);
+    const isLive = race.status === "live";
+    const readiness = race.status === "draft" || race.status === "scheduled"
+      ? race.ready_count + " of " + race.participant_count + " ready"
+      : "";
+    return (
+      '<div class="tw-today-race' + (isLive ? " tw-today-race-live" : "") + '">' +
+        '<div>' +
+          '<strong>' + (isLive ? '<span class="tw-today-live-dot"></span>' : "") + escapeHtml(race.name) + '</strong>' +
+          '<div class="tw-item-meta">' + escapeHtml(STATUS_LABELS[race.status] || race.status) + (readiness ? " · " + readiness : "") + '</div>' +
+        '</div>' +
+        '<a class="button ' + (primary ? "button-primary" : "button-outline") + '" style="color:#fff;border-color:rgba(255,255,255,0.6);" href="' + action.href + '">' + escapeHtml(action.label) + '</a>' +
+      '</div>'
+    );
+  }
+
+  function renderTodaysRaceDay(todaysRaceDay) {
+    if (!todaysRaceDay) { todayCard.hidden = true; return; }
+
+    // Chronological priority: live first (always shown, always the
+    // primary action if present), then today's next race(s), then
+    // today's already-finished races -- matches Section 9's "currently
+    // live race always first and visually obvious."
+    const all = [...todaysRaceDay.liveRaces, ...todaysRaceDay.upcomingToday, ...todaysRaceDay.finishedToday];
+
+    if (all.length === 0) { todayCard.hidden = true; return; }
+
+    const primaryRace = todaysRaceDay.singleRelevantRace || all[0];
+    todayContent.innerHTML = all.map((race) => renderTodayRaceRow(race, { primary: race.id === primaryRace.id })).join("");
+    todayCard.hidden = false;
+  }
+
   function renderUpcoming(upcomingMeets) {
     if (upcomingMeets.length === 0) {
       upcomingList.innerHTML = "";
@@ -168,11 +225,13 @@
 
     const created = formatDateTime(status.created_at);
     const lastUsed = formatDateTime(status.last_used_at);
+    const expires = formatDateTime(status.expires_at);
     raceDayStatusEl.innerHTML =
       '<strong>Race day access is on.</strong>' +
       '<div class="tw-item-meta">' +
         (created ? "Created " + created : "Active") +
         " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
+        (expires ? " · Expires " + expires : "") +
       '</div>';
     raceDayGenerateButton.textContent = "Regenerate code";
     raceDayRevokeButton.hidden = false;
@@ -242,6 +301,7 @@
         link.href = url.pathname + url.search;
       });
 
+      renderTodaysRaceDay(data.todaysRaceDay);
       renderNext(data);
       rosterCountEl.textContent = data.rosterCount;
       upcomingCountEl.textContent = data.upcomingMeets.length;

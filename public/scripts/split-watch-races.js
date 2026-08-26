@@ -50,7 +50,7 @@
     return parseResponse(response, "The request could not be completed.");
   }
 
-  const STATUS_LABELS = { live: "Live", scheduled: "Scheduled", finished: "Finished", reviewed: "Reviewed" };
+  const STATUS_LABELS = { live: "Live", scheduled: "Scheduled", draft: "Not started", finished: "Finished", reviewed: "Reviewed" };
 
   function badgeClass(status) {
     if (status === "live") return "swr-badge swr-badge-live";
@@ -58,52 +58,39 @@
     return "swr-badge";
   }
 
-  function actionFor(session) {
+  // Race day feedback (2026-08-25) -- "one of the biggest usability
+  // problems": a helper who entered a valid code used to land on a full
+  // list of every current/recent race and had to pick the right one
+  // themselves, with nothing to stop them picking an old one. Now: if
+  // there is exactly one obviously relevant race (lib/todays_race_service.mjs's
+  // singleRelevantRace -- the one live race, or if none is live, today's
+  // next race, or if nothing today is live or upcoming, today's most
+  // recently finished race), skip the list entirely and go straight
+  // there. A list is only ever shown for the one genuinely ambiguous
+  // case: more than one race live at the same time.
+  function destinationFor(session) {
     const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(session.id);
     if (session.status === "finished" || session.status === "reviewed") {
-      return { href: "/split-watch/review/" + idPart, label: "View results" };
+      return "/split-watch/review/" + idPart;
     }
-    return { href: "/split-watch/live/" + idPart, label: "Go time it" };
+    // Live, scheduled, and draft all land on the Live page -- it already
+    // shows the correct screen itself (running timing, or a "waiting for
+    // the coach to start" screen for a helper) based on the race's own
+    // current status, so there's no separate "waiting" page to route to.
+    return "/split-watch/live/" + idPart;
   }
 
-  // Draft (not yet set up with participants/checkpoints) and cancelled
-  // races are deliberately excluded here -- nothing for a volunteer to
-  // do with either. Live first, then scheduled, then finished/reviewed
-  // (most recent first) -- matches what a volunteer showing up on race
-  // day actually needs, soonest-to-act-on first.
-  function relevantSessions(sessions) {
-    const rank = { live: 0, scheduled: 1, finished: 2, reviewed: 2 };
-    return sessions
-      .filter((s) => s.status === "live" || s.status === "scheduled" || s.status === "finished" || s.status === "reviewed")
-      .sort((a, b) => {
-        const diff = (rank[a.status] ?? 9) - (rank[b.status] ?? 9);
-        if (diff !== 0) return diff;
-        return String(b.race_date).localeCompare(String(a.race_date));
-      });
-  }
-
-  function renderRaces(sessions) {
-    const relevant = relevantSessions(sessions);
-
-    if (relevant.length === 0) {
-      raceList.innerHTML = "";
-      raceEmpty.hidden = false;
-      return;
-    }
-
+  function renderLiveChoiceList(liveRaces) {
     raceEmpty.hidden = true;
-    raceList.innerHTML = relevant.map((session) => {
-      const action = actionFor(session);
-      return (
-        '<div class="swr-race-card">' +
-          '<div>' +
-            '<h3>' + escapeHtml(session.name) + '<span class="' + badgeClass(session.status) + '">' + escapeHtml(STATUS_LABELS[session.status] || session.status) + '</span></h3>' +
-            '<p class="swr-race-meta">' + escapeHtml(session.race_date) + (session.race_type ? ' &middot; ' + escapeHtml(session.race_type) : '') + '</p>' +
-          '</div>' +
-          '<a class="button button-primary" href="' + action.href + '">' + action.label + '</a>' +
-        '</div>'
-      );
-    }).join("");
+    raceList.innerHTML = liveRaces.map((session) => (
+      '<div class="swr-race-card">' +
+        '<div>' +
+          '<h3>' + escapeHtml(session.name) + '<span class="' + badgeClass(session.status) + '">' + escapeHtml(STATUS_LABELS[session.status] || session.status) + '</span></h3>' +
+          '<p class="swr-race-meta">' + escapeHtml(session.race_date) + (session.race_type ? ' &middot; ' + escapeHtml(session.race_type) : '') + '</p>' +
+        '</div>' +
+        '<a class="button button-primary" href="' + destinationFor(session) + '">Go time it</a>' +
+      '</div>'
+    )).join("");
   }
 
   async function initialize() {
@@ -113,11 +100,25 @@
     }
 
     try {
-      const data = await apiFetch("/api/split-watch/sessions/", { action: "list" });
+      const data = await apiFetch("/api/split-watch/sessions/", { action: "today" });
       teamNameEl.textContent = data.team.school_name;
-      renderRaces(data.sessions);
+
+      if (data.singleRelevantRace) {
+        window.location.replace(destinationFor(data.singleRelevantRace));
+        return;
+      }
+
       loadingBox.hidden = true;
       root.hidden = false;
+
+      if (data.needsChoice) {
+        showMessage("More than one race is live right now -- choose which one you're timing.");
+        renderLiveChoiceList(data.liveRaces);
+        return;
+      }
+
+      raceList.innerHTML = "";
+      raceEmpty.hidden = false;
     } catch (error) {
       loadingBox.innerHTML =
         "<h2>Split Watch unavailable</h2>" +

@@ -38,6 +38,15 @@
   const raceDayStatusEl = document.querySelector("[data-sw-race-day-status]");
   const raceDayGenerateButton = document.querySelector("[data-sw-race-day-generate]");
   const raceDayRevokeButton = document.querySelector("[data-sw-race-day-revoke]");
+  const startHeadingEl = document.querySelector("[data-sw-start-heading]");
+  const startMessageEl = document.querySelector("[data-sw-start-message]");
+  const adjustClockOpenButton = document.querySelector("[data-sw-adjust-clock-open]");
+  const adjustClockDialog = document.querySelector("[data-sw-adjust-clock-dialog]");
+  const adjustClockCloseButton = document.querySelector("[data-sw-adjust-clock-close]");
+  const adjustClockCurrentEl = document.querySelector("[data-sw-adjust-clock-current]");
+  const adjustClockInput = document.querySelector("[data-sw-adjust-clock-input]");
+  const adjustClockMessage = document.querySelector("[data-sw-adjust-clock-message]");
+  const adjustClockSaveButton = document.querySelector("[data-sw-adjust-clock-save]");
 
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
@@ -46,7 +55,9 @@
     packCancel, runnerList, backLink, raceSwitcherWrap, raceSwitcher, stillCountEl, stillEmptyNote, recordedHeading,
     recordedCountEl, recordedList, raceDayOpenButton, raceDayDialog, raceDayCloseButton,
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl,
-    raceDayGenerateButton, raceDayRevokeButton
+    raceDayGenerateButton, raceDayRevokeButton, startHeadingEl, startMessageEl,
+    adjustClockOpenButton, adjustClockDialog, adjustClockCloseButton, adjustClockCurrentEl,
+    adjustClockInput, adjustClockMessage, adjustClockSaveButton
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -93,6 +104,22 @@
   let wakeLockSentinel = null;
   let preRacePollHandle = null;
   let raceSwitcherSessions = [];
+  // Which credential is actually looking at this screen -- "team_user"
+  // (a real signed-in coach) or "race_day_code" (a temporary helper).
+  // Set from every API response's own viewer field (see
+  // api/split-watch/sessions.js and sync.js) rather than guessed from
+  // which actions happen to succeed. Race day feedback (2026-08-25):
+  // helpers must never be able to start, finish, or restart a race --
+  // the server already refuses those calls for a helper session; this
+  // drives the matching, honest UI (Start Race hidden, a waiting message
+  // shown instead) rather than presenting a button that would just fail.
+  let viewerType = "team_user";
+  // The coach's Race Clock Adjustment correction, in seconds -- see
+  // lib/split_watch_service.mjs's adjustRaceClock(). Applied on top of
+  // the raw Timer value at both display time and capture time, so the
+  // underlying monotonic/recovered timer never has to be touched or
+  // reset -- only what's shown and what's sent to the server shifts.
+  let raceClockAdjustmentSeconds = 0;
 
   const RACE_SWITCHER_STATUS_LABELS = {
     draft: "Draft", scheduled: "Scheduled", live: "Live",
@@ -139,6 +166,25 @@
     });
   }
 
+  // Best-effort correction for this device's own wall clock being off
+  // from true server time (race day spec, Section 3 -- "different phones
+  // can have different wall clocks"). requestSentMs/responseReceivedMs
+  // bracket the round trip; the server's own timestamp (captured right
+  // before it wrote its response) should fall somewhere inside that
+  // window, so its offset from the midpoint of the bracket is a
+  // reasonable single-sample estimate -- no NTP-style multi-sample
+  // averaging, which would be more complexity than this site's polling
+  // cadence and accuracy needs actually call for. Only ever improves the
+  // lower-precision "recovered" wall-clock path; the monotonic path never
+  // needed this and is left untouched.
+  function updateClockOffset(serverNowIso, requestSentMs, responseReceivedMs) {
+    if (!serverNowIso) return;
+    const serverNowMs = Date.parse(serverNowIso);
+    if (Number.isNaN(serverNowMs)) return;
+    const roundTripMidpointMs = (requestSentMs + responseReceivedMs) / 2;
+    Timer.setClockOffsetMs(serverNowMs - roundTripMidpointMs);
+  }
+
   async function apiFetch(endpoint, payload) {
     // Don't gate on a Supabase access token here -- a race-day access code
     // visitor has no Supabase session at all, but does have an HttpOnly
@@ -148,13 +194,17 @@
     const accessToken = await window.PodiumTeamAuth.getAccessToken();
     const headers = { Accept: "application/json", "Content-Type": "application/json" };
     if (accessToken) headers.Authorization = "Bearer " + accessToken;
+    const requestSentMs = Date.now();
     const response = await fetch(endpoint, {
       method: "POST",
       headers,
       body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
     });
     if (response.status === 401) window.location.replace("/split-watch/join/");
-    return parseResponse(response, "The request could not be completed.");
+    const data = await parseResponse(response, "The request could not be completed.");
+    updateClockOffset(data.server_now, requestSentMs, Date.now());
+    if (data.viewer?.type) viewerType = data.viewer.type;
+    return data;
   }
 
   // ---- sync status display ---------------------------------------------------
@@ -333,6 +383,8 @@
       detail.goals = fresh.goals;
       detail.targets = fresh.targets;
       detail.splits = fresh.splits;
+      detail.session.race_start_adjustment_seconds = fresh.session.race_start_adjustment_seconds;
+      raceClockAdjustmentSeconds = Number(fresh.session.race_start_adjustment_seconds) || 0;
       await loadMergedSplits();
       const fingerprint = fingerprintCurrentState();
       if (fingerprint !== lastMergedFingerprint) {
@@ -364,10 +416,27 @@
       clearInterval(preRacePollHandle);
       preRacePollHandle = null;
       detail = fresh;
+      raceClockAdjustmentSeconds = Number(fresh.session.race_start_adjustment_seconds) || 0;
+      // The server's own race_started_at is the ONLY canonical value --
+      // never a locally cached one. Race day feedback (2026-08-25): this
+      // used to prefer a locally cached anchor over the fresh server
+      // value, so a device that had ever locally recorded ANY prior
+      // race-state for this exact session (a rehearsal the night before,
+      // an earlier test) kept using that stale anchor forever after,
+      // producing a fixed, wrong offset on every split it captured for
+      // the rest of the race -- confirmed directly in real race data.
+      // The fresh value always wins now, and the local cache is
+      // immediately overwritten to match it (self-healing), so a later
+      // offline recovery on this same device also uses the right anchor.
+      const anchorMs = Date.parse(fresh.session.race_started_at);
       const localState = await Store.getRaceState(sessionId);
-      const anchorMs = localState?.race_started_at_wall_clock_ms || Date.parse(fresh.session.race_started_at);
       currentCheckpointIndex = localState?.current_checkpoint_index || 0;
       Timer.recoverFromWallClock(anchorMs);
+      await Store.saveRaceState(Store.buildRaceStateRecord({
+        raceSessionId: sessionId, session: fresh.session, checkpoints: fresh.checkpoints,
+        participants: fresh.participants, goals: fresh.goals, targets: fresh.targets,
+        currentCheckpointIndex, raceStartedAtWallClockMs: anchorMs
+      }));
       await beginLiveScreen("Recovered -- timing based on device clock");
     } catch {
       // A failed background check just tries again next tick.
@@ -393,10 +462,19 @@
 
   // ---- clock display (display-only -- never the source of a capture) --------
 
+  // The single place raw Timer output becomes "what the race actually
+  // shows" -- subtracts the coach's Race Clock Adjustment correction (if
+  // any), and never lets the corrected value go negative (a fresh
+  // correction applied a moment after the true start could otherwise
+  // show a brief negative number before real elapsed time catches up).
+  function correctedElapsedSeconds(rawElapsedSeconds) {
+    return Math.max(0, rawElapsedSeconds - raceClockAdjustmentSeconds);
+  }
+
   function tickClock() {
     const result = Timer.elapsedOrRecovered();
     if (!result) return;
-    clockEl.textContent = formatSecondsToClock(result.elapsedSeconds);
+    clockEl.textContent = formatSecondsToClock(correctedElapsedSeconds(result.elapsedSeconds));
     clockNoteEl.textContent = result.precision === "recovered" ? "Recovered -- timing based on device clock" : "";
   }
   setInterval(tickClock, 200);
@@ -501,7 +579,7 @@
 
     recordSplit({
       participantId: participant.id, checkpointId: checkpoint.id,
-      elapsedSeconds: elapsedResult.elapsedSeconds, captureMethod: "single_tap",
+      elapsedSeconds: correctedElapsedSeconds(elapsedResult.elapsedSeconds), captureMethod: "single_tap",
       clientSplitId: existing ? existing.client_split_id : null,
       changeReason: existing ? "manual_correction" : "recorded"
     });
@@ -586,17 +664,18 @@
     const selectedIds = [...packSelected];
     if (selectedIds.length === 0) return;
 
+    const correctedSeconds = correctedElapsedSeconds(elapsedResult.elapsedSeconds);
     selectedIds.forEach((participantId) => {
       const existing = rawSplitFor(participantId, checkpoint.id);
       recordSplit({
-        participantId, checkpointId: checkpoint.id, elapsedSeconds: elapsedResult.elapsedSeconds,
+        participantId, checkpointId: checkpoint.id, elapsedSeconds: correctedSeconds,
         captureMethod: "pack_capture", wallClockCapturedAtMs: capturedAtMs,
         clientSplitId: existing ? existing.client_split_id : null,
         changeReason: existing ? "pack_capture_correction" : "recorded"
       });
     });
 
-    showMessage("Captured " + selectedIds.length + " runner" + (selectedIds.length === 1 ? "" : "s") + " at " + formatSecondsToClock(elapsedResult.elapsedSeconds) + ".");
+    showMessage("Captured " + selectedIds.length + " runner" + (selectedIds.length === 1 ? "" : "s") + " at " + formatSecondsToClock(correctedSeconds) + ".");
 
     packMode = false;
     packSelected = new Set();
@@ -930,10 +1009,42 @@
 
   // ---- start / recovery -----------------------------------------------------------
 
+  // One race, one canonical start (race day spec, Section 2/4/Problem 4):
+  // a temporary timing helper (a race-day code session) never starts,
+  // finishes, restarts, or adjusts the race clock -- the server already
+  // refuses those calls for a helper session (lib/race_day_auth.mjs's
+  // RACE_DAY_CODE_ALLOWED_ACTIONS), so hiding the controls here is the
+  // honest matching UI, not the only enforcement. A real signed-in coach
+  // account -- even a second coach helping out -- keeps full access,
+  // preserving the legitimate "another authorized coach can start this
+  // race" case the spec asks to keep.
+  function applyViewerModeToLiveScreen() {
+    const isHelper = viewerType === "race_day_code";
+    finishRaceButton.hidden = isHelper;
+    restartRaceButton.hidden = isHelper;
+    adjustClockOpenButton.hidden = isHelper || !detail || detail.session.status !== "live";
+  }
+
+  // Same idea for the pre-race screen: a helper who arrives before the
+  // gun never sees Start Race at all -- just a plain "connected, waiting
+  // for the coach" message that auto-transitions on its own the moment
+  // pollForRaceStart() detects the race went live (see Problem 3/4).
+  function applyViewerModeToStartScreen() {
+    const isHelper = viewerType === "race_day_code";
+    startButton.hidden = isHelper;
+    if (isHelper) {
+      startHeadingEl.textContent = "Waiting for the coach to start the race";
+      startMessageEl.textContent = "You're connected as a timing helper for " + (detail?.session?.name || "this race") + ". This screen will switch to live timing automatically the moment the race starts -- keep it open.";
+    } else {
+      startHeadingEl.textContent = "Ready to start?";
+      startMessageEl.textContent = "Starting the race begins the official race clock immediately for every runner. Make sure everyone is on the line.";
+    }
+  }
+
   async function beginLiveScreen(clockNote) {
     startScreen.hidden = true;
     liveScreen.hidden = false;
-    restartRaceButton.hidden = false;
+    applyViewerModeToLiveScreen();
     clockNoteEl.textContent = clockNote || "";
     await loadMergedSplits();
     renderRunnerList();
@@ -1032,22 +1143,94 @@
     }
   });
 
+  // --- adjust race clock (coach only) ------------------------------------
+  // Deliberately off the main Live screen (a small text link up top, not
+  // a prominent button) but one tap away -- accidental adjustment must
+  // require a deliberate action, per the race day spec's Section 4.
+
+  adjustClockOpenButton.addEventListener("click", () => {
+    const result = Timer.elapsedOrRecovered();
+    adjustClockCurrentEl.textContent = result ? formatSecondsToClock(correctedElapsedSeconds(result.elapsedSeconds)) : "--:--";
+    adjustClockInput.value = "";
+    adjustClockMessage.hidden = true;
+    adjustClockDialog.showModal();
+  });
+
+  adjustClockCloseButton.addEventListener("click", () => adjustClockDialog.close());
+
+  adjustClockSaveButton.addEventListener("click", async () => {
+    const officialSeconds = parseClockToSeconds(adjustClockInput.value);
+    if (officialSeconds === null) {
+      adjustClockMessage.textContent = "Enter a valid time (format m:ss).";
+      adjustClockMessage.hidden = false;
+      adjustClockMessage.style.background = "rgba(220, 38, 38, 0.12)";
+      return;
+    }
+    adjustClockSaveButton.disabled = true;
+    try {
+      const result = await apiFetch(SYNC_ENDPOINT, { action: "adjust_clock", official_elapsed_seconds: officialSeconds });
+      detail.session = result.session;
+      raceClockAdjustmentSeconds = Number(result.correction_seconds) || 0;
+      await loadMergedSplits();
+      renderRunnerList();
+      adjustClockMessage.textContent = "Saved. " + result.splits_recalculated + " recorded split" + (result.splits_recalculated === 1 ? "" : "s") + " recalculated to match.";
+      adjustClockMessage.hidden = false;
+      adjustClockMessage.style.background = "rgba(0, 191, 99, 0.12)";
+      setTimeout(() => adjustClockDialog.close(), 1400);
+    } catch (error) {
+      adjustClockMessage.textContent = error.message || "The race clock could not be adjusted.";
+      adjustClockMessage.hidden = false;
+      adjustClockMessage.style.background = "rgba(220, 38, 38, 0.12)";
+    } finally {
+      adjustClockSaveButton.disabled = false;
+    }
+  });
+
   startButton.addEventListener("click", async () => {
     startButton.disabled = true;
     try {
+      // Captures THIS device's own monotonic + wall-clock anchor
+      // immediately, before any network call -- if this device really is
+      // the one starting the race, that anchor is exactly right and
+      // costs nothing to have captured early.
       const { raceStartWallClockMs } = Timer.startRace();
-      await Store.saveRaceState(Store.buildRaceStateRecord({
-        raceSessionId: sessionId, session: detail.session, checkpoints: detail.checkpoints,
-        participants: detail.participants, goals: detail.goals, targets: detail.targets,
-        currentCheckpointIndex: 0, raceStartedAtWallClockMs: raceStartWallClockMs
-      }));
-      await apiFetch(SESSIONS_ENDPOINT, { action: "start_race", race_started_at: new Date(raceStartWallClockMs).toISOString() });
-      detail.session.status = "live";
-      // This device is starting the race itself with a fresh monotonic
-      // clock -- stop the pre-race poll so a stray in-flight tick can't
-      // clobber that with a lower-precision wall-clock "recovered" anchor.
+      const result = await apiFetch(SESSIONS_ENDPOINT, { action: "start_race", race_started_at: new Date(raceStartWallClockMs).toISOString() });
+
+      if (result.started_by_this_request) {
+        // This device really did start it -- its own anchor above is the
+        // canonical one. Persist it locally so a later reload on this
+        // same device recovers from the correct value.
+        await Store.saveRaceState(Store.buildRaceStateRecord({
+          raceSessionId: sessionId, session: result.session, checkpoints: detail.checkpoints,
+          participants: detail.participants, goals: detail.goals, targets: detail.targets,
+          currentCheckpointIndex: 0, raceStartedAtWallClockMs: raceStartWallClockMs
+        }));
+      } else {
+        // Race day feedback (2026-08-25) / the confirmed root cause of a
+        // real ~10-second timing error: this device pressed Start, but
+        // the race was ALREADY live -- started moments earlier by
+        // another device (or this exact device, retried). The response
+        // above is now the ONLY thing that can tell us that (the server
+        // silently used to no-op with no way for the client to notice).
+        // Discard this device's own just-captured anchor entirely and
+        // recover from the REAL canonical start instead -- exactly the
+        // same join-a-live-race path pollForRaceStart() uses, never this
+        // device's own guess.
+        const anchorMs = Date.parse(result.session.race_started_at);
+        Timer.recoverFromWallClock(anchorMs);
+        await Store.saveRaceState(Store.buildRaceStateRecord({
+          raceSessionId: sessionId, session: result.session, checkpoints: detail.checkpoints,
+          participants: detail.participants, goals: detail.goals, targets: detail.targets,
+          currentCheckpointIndex: 0, raceStartedAtWallClockMs: anchorMs
+        }));
+      }
+
+      detail.session = result.session;
+      raceClockAdjustmentSeconds = Number(result.session.race_start_adjustment_seconds) || 0;
+      // Stop the pre-race poll either way -- this device now knows the
+      // race is live and exactly what its canonical start is.
       if (preRacePollHandle) { clearInterval(preRacePollHandle); preRacePollHandle = null; }
-      await beginLiveScreen("");
+      await beginLiveScreen(result.started_by_this_request ? "" : "Recovered -- timing based on device clock");
     } catch (error) {
       showMessage(error.message || "The race could not be started.", true);
       startButton.disabled = false;
@@ -1132,13 +1315,24 @@
       const user = await window.PodiumTeamAuth.getUser();
       if (user) raceDayOpenButton.hidden = false;
 
+      raceClockAdjustmentSeconds = Number(detail.session.race_start_adjustment_seconds) || 0;
+
       if (detail.session.status === "live") {
+        // Same fix as pollForRaceStart() above -- the server's own
+        // race_started_at always wins over any locally cached anchor,
+        // and the local cache is immediately overwritten to match.
+        const anchorMs = Date.parse(detail.session.race_started_at);
         const localState = await Store.getRaceState(sessionId);
-        const anchorMs = localState?.race_started_at_wall_clock_ms || Date.parse(detail.session.race_started_at);
         currentCheckpointIndex = localState?.current_checkpoint_index || 0;
         Timer.recoverFromWallClock(anchorMs);
+        await Store.saveRaceState(Store.buildRaceStateRecord({
+          raceSessionId: sessionId, session: detail.session, checkpoints: detail.checkpoints,
+          participants: detail.participants, goals: detail.goals, targets: detail.targets,
+          currentCheckpointIndex, raceStartedAtWallClockMs: anchorMs
+        }));
         await beginLiveScreen("Recovered -- timing based on device clock");
       } else {
+        applyViewerModeToStartScreen();
         startScreen.hidden = false;
         preRacePollHandle = setInterval(pollForRaceStart, 4000);
       }

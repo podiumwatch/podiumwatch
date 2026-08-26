@@ -629,6 +629,7 @@ export function splitWatchLivePage(site) {
         <div class="sw-live-top-row-left">
           <a class="sw-live-back" href="/split-watch/" data-sw-back-link>&larr; Split Watch</a>
           <button class="sw-restart-link" type="button" data-sw-restart-race hidden>Restart race</button>
+          <button class="sw-restart-link" type="button" data-sw-adjust-clock-open hidden>Adjust race clock</button>
         </div>
         <div data-sw-race-switcher-wrap hidden>
           <label class="sw-race-switcher-label">
@@ -657,8 +658,8 @@ export function splitWatchLivePage(site) {
       <p class="sw-live-message" data-sw-message hidden></p>
 
       <div data-sw-start-screen class="sw-start-screen" hidden>
-        <h2>Ready to start?</h2>
-        <p>Starting the race begins the official race clock immediately for every runner. Make sure everyone is on the line.</p>
+        <h2 data-sw-start-heading>Ready to start?</h2>
+        <p data-sw-start-message>Starting the race begins the official race clock immediately for every runner. Make sure everyone is on the line.</p>
         <button class="sw-live-btn sw-live-btn-primary" type="button" data-sw-start-button style="font-size:1.3rem;padding:22px 28px;">Start Race</button>
         <button class="sw-live-btn sw-live-btn-outline" type="button" data-sw-race-day-open hidden>Share access code with a timer</button>
       </div>
@@ -699,9 +700,10 @@ export function splitWatchLivePage(site) {
       </div>
 
       <p style="margin-top:6px;">
-        Share this code with anyone timing this race for you -- a parent at mile one, a friend at the finish.
-        They enter it at <strong>Split Watch</strong> in the main menu and go straight into live
-        timing for this team, no account required.
+        Share this 4-digit code with anyone actually recording splits for you -- a coach at mile one, a volunteer
+        at the finish. They enter it at <strong>Split Watch</strong> and go straight into today's race, no account
+        required. For parents and fans who just want to watch, use Copy Parent Live Link on the Plan page
+        instead -- that's a read-only view, this code is not.
       </p>
 
       <div class="sw-race-day-reveal" data-sw-race-day-reveal hidden>
@@ -717,6 +719,39 @@ export function splitWatchLivePage(site) {
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;">
         <button class="button button-primary" type="button" data-sw-race-day-generate>Generate code</button>
         <button class="button button-outline" type="button" data-sw-race-day-revoke hidden>Turn off access</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="sw-race-day-dialog" data-sw-adjust-clock-dialog>
+    <div class="sw-race-day-dialog-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+        <div>
+          <p class="eyebrow">Coach only</p>
+          <h2 style="margin:2px 0 0;">Adjust race clock</h2>
+        </div>
+        <button class="button button-outline" type="button" data-sw-adjust-clock-close>Close</button>
+      </div>
+
+      <p style="margin-top:6px;">
+        If the official scoreboard and Split Watch disagree, enter the official clock's current elapsed time below.
+        Split Watch will correct itself -- future splits and the live display use the corrected time, and every
+        split already recorded is recalculated to match. Raw capture times are never lost.
+      </p>
+
+      <p style="margin-top:10px;font-weight:800;">
+        Split Watch currently shows: <span data-sw-adjust-clock-current>0:00</span>
+      </p>
+
+      <label style="display:block;margin-top:14px;font-weight:800;">
+        Official clock's current elapsed time (m:ss)
+        <input type="text" data-sw-adjust-clock-input placeholder="e.g. 10:08" style="display:block;width:100%;margin-top:8px;padding:14px;font-size:1.2rem;border:2px solid rgba(15,23,42,0.22);border-radius:9px;font-family:inherit;">
+      </label>
+
+      <p class="sw-message" data-sw-adjust-clock-message hidden style="margin-top:12px;"></p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;">
+        <button class="button button-primary" type="button" data-sw-adjust-clock-save>Save correction</button>
       </div>
     </div>
   </dialog>

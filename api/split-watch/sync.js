@@ -10,7 +10,8 @@ import {
   createPackCapture,
   pushSplits,
   pullState,
-  setParticipantStatus
+  setParticipantStatus,
+  adjustRaceClock
 } from "../../lib/split_watch_service.mjs";
 
 function cleanText(value) {
@@ -71,6 +72,18 @@ export default async function handler(request, response) {
           status: body.status
         });
         break;
+      // Coach-only (enforced above via assertActionAllowedForActor -- not
+      // in RACE_DAY_CODE_ALLOWED_ACTIONS.sync, so a helper session gets a
+      // clean 403, never silently no-ops). See lib/split_watch_service.mjs's
+      // adjustRaceClock() for why this recalculates existing splits rather
+      // than shifting a start-time reference.
+      case "adjust_clock":
+        data = await adjustRaceClock({
+          teamId,
+          sessionId,
+          officialElapsedSeconds: body.official_elapsed_seconds
+        });
+        break;
       default: {
         const error = new Error("Unknown sync action.");
         error.status = 400;
@@ -78,7 +91,15 @@ export default async function handler(request, response) {
       }
     }
 
-    return response.status(200).json(data);
+    // server_now lets every device correct for its own wall clock being
+    // off from true time -- see public/scripts/race-timer.js's
+    // setClockOffsetMs(). Included on every response (not just pull_state)
+    // since it costs nothing and any round trip is a valid offset sample.
+    // viewer lets the client tell a coach apart from a race-day-code
+    // helper -- used to hide Start/Finish/Restart/Adjust Clock entirely
+    // for a helper (the server already refuses those calls; this is the
+    // matching, honest UI).
+    return response.status(200).json({ ...data, server_now: new Date().toISOString(), viewer: { type: actor.type, label: actor.label } });
   } catch (error) {
     return teamApiError(
       response,

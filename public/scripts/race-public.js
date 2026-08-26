@@ -12,10 +12,14 @@
   const focusedNameEl = document.querySelector("[data-race-public-focused-name]");
   const focusedMetaEl = document.querySelector("[data-race-public-focused-meta]");
   const focusedRowsEl = document.querySelector("[data-race-public-focused-rows]");
+  const waitingBox = document.querySelector("[data-race-public-waiting]");
+  const waitingTimeEl = document.querySelector("[data-race-public-waiting-time]");
+  const liveShell = document.querySelector("[data-race-public-live-shell]");
 
   const requiredElements = [
     loadingBox, messageBox, root, teamEl, nameEl, statusEl, updatedEl, rowsEl,
-    searchInput, focusedWrap, focusedNameEl, focusedMetaEl, focusedRowsEl
+    searchInput, focusedWrap, focusedNameEl, focusedMetaEl, focusedRowsEl,
+    waitingBox, waitingTimeEl, liveShell
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -201,6 +205,35 @@
     }).join("") || '<tr><td colspan="6">' + emptyMessage + '</td></tr>';
   }
 
+  // Race day feedback (2026-08-25), Problem 1: this link has to work
+  // hours before the race starts, on the SAME url, with no second link
+  // and ideally no manual refresh. The status pill already changed; the
+  // page's actual content used to stay an empty runner table the whole
+  // time, which reads as broken, not "not started yet." A parent gets a
+  // clear waiting screen instead, and the poller (public/scripts/race-poll.js,
+  // already running underneath this) is what makes it flip to live the
+  // moment the coach actually starts the race -- no new URL, no refresh.
+  function renderWaiting(data) {
+    waitingBox.hidden = false;
+    liveShell.hidden = true;
+    // race_date is a plain YYYY-MM-DD date; scheduled_start_time (if the
+    // coach set one) is a separate plain time-of-day column
+    // (install/11_RACE_COMMAND_CENTER.sql) -- combined here into one
+    // real Date only for display, matching how the two columns actually
+    // relate to each other.
+    const raceDate = data.session.race_date;
+    const timeOfDay = data.session.scheduled_start_time;
+    const scheduled = raceDate ? new Date(raceDate + "T" + (timeOfDay || "00:00:00")) : null;
+    if (scheduled && !Number.isNaN(scheduled.getTime())) {
+      const dateText = scheduled.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
+      waitingTimeEl.textContent = timeOfDay
+        ? "Scheduled for " + dateText + " at " + scheduled.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
+        : "Scheduled for " + dateText;
+    } else {
+      waitingTimeEl.textContent = "";
+    }
+  }
+
   function render(data) {
     checkpointsById = new Map((data.checkpoints || []).map((c) => [c.id, c]));
     lastParticipants = data.participants || [];
@@ -211,11 +244,17 @@
     statusEl.className = "race-public-status race-public-status-" + data.session.status;
     updatedEl.textContent = "Updated " + new Date().toLocaleTimeString();
 
-    // Re-applies the search box's current term (if any) against the
-    // freshly polled data, rather than resetting it on every poll tick --
-    // a parent mid-search shouldn't have their filter wiped out from
-    // under them every 10 seconds.
-    applyFilter();
+    if (data.session.status === "draft" || data.session.status === "scheduled") {
+      renderWaiting(data);
+    } else {
+      waitingBox.hidden = true;
+      liveShell.hidden = false;
+      // Re-applies the search box's current term (if any) against the
+      // freshly polled data, rather than resetting it on every poll tick --
+      // a parent mid-search shouldn't have their filter wiped out from
+      // under them every 10 seconds.
+      applyFilter();
+    }
 
     loadingBox.hidden = true;
     messageBox.hidden = true;

@@ -45,6 +45,12 @@
   const raceDayStatusEl = document.querySelector("[data-sw-race-day-status]");
   const raceDayGenerateButton = document.querySelector("[data-sw-race-day-generate]");
   const raceDayRevokeButton = document.querySelector("[data-sw-race-day-revoke]");
+  const spectatorToggle = document.querySelector("[data-sw-spectator-toggle]");
+  const spectatorLinkRow = document.querySelector("[data-sw-spectator-link-row]");
+  const spectatorLinkInput = document.querySelector("[data-sw-spectator-link]");
+  const copyParentLinkButton = document.querySelector("[data-sw-copy-parent-link]");
+  const scheduledStartInput = document.querySelector("[data-sw-scheduled-start-input]");
+  const scheduledStartDateEl = document.querySelector("[data-sw-scheduled-start-date]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
@@ -54,7 +60,8 @@
     bulkGoalsWrap, bulkGoalsRows, bulkGoalsSelectAll, bulkGoalsApplyValueInput, bulkGoalsApplySelectedButton, saveBulkGoalsButton,
     participantList, participantEmpty, deleteRaceButton, liveLinkButton,
     raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
-    raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
+    raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton,
+    spectatorToggle, spectatorLinkRow, spectatorLinkInput, copyParentLinkButton, scheduledStartInput, scheduledStartDateEl
   ];
 
   if (requiredElements.some((el) => !el)) {
@@ -197,7 +204,65 @@
       const label = c.is_finish ? c.label + " (Finish)" : c.label;
       return '<span class="sw-checkpoint-chip">' + escapeHtml(label) + "</span>";
     }).join("");
+
+    renderSharingPanel();
   }
+
+  // --- parent live link + scheduled time (race day spec, Section 5) ----------
+  // race_sessions.scheduled_start_time is a plain time-of-day column
+  // (install/11_RACE_COMMAND_CENTER.sql) -- the race's own race_date
+  // already carries the date, so this is just "what time of day," shown
+  // with a plain <input type="time">, not a full datetime picker.
+
+  function renderSharingPanel() {
+    const session = detail.session;
+    spectatorToggle.checked = Boolean(session.spectator_visible);
+    spectatorLinkRow.hidden = !session.spectator_visible;
+    spectatorLinkInput.value = window.location.origin + "/race/?race=" + encodeURIComponent(sessionId);
+    // A `time` column comes back from Postgres as "HH:MM:SS" -- an
+    // <input type="time"> wants "HH:MM".
+    scheduledStartInput.value = session.scheduled_start_time ? session.scheduled_start_time.slice(0, 5) : "";
+    scheduledStartDateEl.textContent = session.race_date;
+  }
+
+  spectatorToggle.addEventListener("change", async () => {
+    const desired = spectatorToggle.checked;
+    spectatorToggle.disabled = true;
+    try {
+      const result = await apiFetch(SESSIONS_ENDPOINT, { action: "update", spectator_visible: desired });
+      detail.session.spectator_visible = result.session.spectator_visible;
+      spectatorLinkRow.hidden = !detail.session.spectator_visible;
+      showMessage(desired ? "Parent live link turned on for this race." : "Parent live link turned off -- the old link will no longer work.");
+    } catch (error) {
+      spectatorToggle.checked = !desired; // revert the checkbox to match reality
+      showMessage(error.message || "That could not be saved.", true);
+    } finally {
+      spectatorToggle.disabled = false;
+    }
+  });
+
+  scheduledStartInput.addEventListener("change", async () => {
+    try {
+      const result = await apiFetch(SESSIONS_ENDPOINT, { action: "update", scheduled_start_time: scheduledStartInput.value || null });
+      detail.session.scheduled_start_time = result.session.scheduled_start_time;
+      showMessage("Scheduled race time saved.");
+    } catch (error) {
+      showMessage(error.message || "That could not be saved.", true);
+    }
+  });
+
+  copyParentLinkButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(spectatorLinkInput.value);
+      copyParentLinkButton.textContent = "Copied";
+      setTimeout(() => { copyParentLinkButton.textContent = "Copy parent live link"; }, 2000);
+    } catch {
+      // Clipboard API can fail (permissions, non-secure context) -- the
+      // link is already visible and selectable in the field itself, so
+      // this is a soft failure, matching the race-day-code copy buttons.
+      spectatorLinkInput.select();
+    }
+  });
 
   function isParticipantSelected(athleteId) {
     return detail.participants.some((p) => p.team_athlete_id === athleteId);

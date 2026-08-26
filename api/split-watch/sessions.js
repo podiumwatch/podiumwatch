@@ -17,6 +17,7 @@ import {
   duplicateSession,
   deleteSession
 } from "../../lib/split_watch_service.mjs";
+import { getRaceDayContext } from "../../lib/todays_race_service.mjs";
 
 function cleanText(value) {
   return String(value ?? "").trim();
@@ -49,6 +50,17 @@ export default async function handler(request, response) {
       case "list":
         data = await listSessions({ teamId });
         break;
+      // Smart routing read (Section 9/3 of the race day spec): the one
+      // relevant race right now, if there is one, plus enough context to
+      // show a short live-race list on the rare occasion there isn't.
+      // Used by both the coach's Today's Split Watch card and the
+      // helper-code join flow -- one shared answer, not two.
+      case "today": {
+        const { team } = await listSessions({ teamId });
+        const context = await getRaceDayContext(teamId);
+        data = { team, ...context };
+        break;
+      }
       case "create":
         data = await createSession({ teamId, actor, body });
         break;
@@ -90,7 +102,12 @@ export default async function handler(request, response) {
       }
     }
 
-    return response.status(200).json(data);
+    // Lets the client tell a real coach account apart from a race-day-code
+    // helper without guessing from what actions happened to succeed --
+    // used to hide Start/Finish/Restart entirely for a helper (server-side
+    // enforcement already blocks them via assertActionAllowedForActor
+    // above; this is the matching, honest UI, not a second gate).
+    return response.status(200).json({ ...data, viewer: { type: actor.type, label: actor.label } });
   } catch (error) {
     return teamApiError(
       response,

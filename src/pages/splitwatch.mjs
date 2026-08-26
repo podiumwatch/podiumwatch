@@ -443,13 +443,14 @@ export function splitWatchHubPage(site) {
           <div class="sw-header">
             <div>
               <p class="eyebrow">Race day access</p>
-              <h2>Get volunteers timing</h2>
+              <h2>Get timing helpers connected</h2>
             </div>
           </div>
           <p style="margin-top:6px;max-width:640px;">
-            Share this code with anyone timing a race for you -- a parent at mile one, a friend at the finish.
-            They enter it at <strong>Split Watch</strong> in the main menu and go straight into live
-            timing for this team, no account required.
+            Share this 4-digit code with anyone actually recording splits for you -- a coach at mile one, a
+            volunteer at the finish. They enter it at <strong>Split Watch</strong> and go straight into today's
+            race, no account required. For parents and fans who just want to watch, use Copy Parent Live Link
+            on the race's Plan page instead -- that's a read-only view, this code is not.
           </p>
 
           <div class="sw-race-day-reveal" data-sw-race-day-reveal hidden>

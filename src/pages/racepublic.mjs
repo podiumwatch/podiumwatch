@@ -214,6 +214,34 @@ export function racePublicPage(site) {
       border: 1px solid rgba(15, 23, 42, 0.22);
       font: inherit;
     }
+
+    .race-public-waiting {
+      padding: 28px 24px;
+      border-radius: var(--radius);
+      background: var(--black);
+      color: var(--paper);
+      text-align: center;
+    }
+
+    .race-public-waiting h3 {
+      margin: 0 0 8px;
+      font-family: Impact, sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    .race-public-waiting p {
+      margin: 6px 0 0;
+      opacity: 0.85;
+    }
+
+    .race-public-waiting-scheduled {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      font-weight: 800;
+    }
   </style>
 
   <section class="section section-paper">
@@ -236,43 +264,51 @@ export function racePublicPage(site) {
 
         <p class="race-public-updated" data-race-public-updated></p>
 
-        <div class="race-public-search">
-          <input type="text" placeholder="Find your runner by name" data-race-public-search aria-label="Find your runner by name">
+        <div class="race-public-waiting" data-race-public-waiting hidden>
+          <h3>Live timing has not started yet</h3>
+          <p data-race-public-waiting-time></p>
+          <p>Keep this page open -- it will switch to live times the moment the coach starts the race. No need to refresh, and no new link needed.</p>
         </div>
 
-        <div class="race-public-focused" data-race-public-focused hidden>
-          <h3 data-race-public-focused-name></h3>
-          <p class="race-public-focused-meta" data-race-public-focused-meta></p>
+        <div data-race-public-live-shell>
+          <div class="race-public-search">
+            <input type="text" placeholder="Find your runner by name" data-race-public-search aria-label="Find your runner by name">
+          </div>
+
+          <div class="race-public-focused" data-race-public-focused hidden>
+            <h3 data-race-public-focused-name></h3>
+            <p class="race-public-focused-meta" data-race-public-focused-meta></p>
+            <div class="race-public-table-wrap">
+              <table class="race-public-focused-table">
+                <thead>
+                  <tr><th>Checkpoint</th><th>Time</th></tr>
+                </thead>
+                <tbody data-race-public-focused-rows></tbody>
+              </table>
+            </div>
+          </div>
+
           <div class="race-public-table-wrap">
-            <table class="race-public-focused-table">
+            <table class="race-public-table">
               <thead>
-                <tr><th>Checkpoint</th><th>Time</th></tr>
+                <tr>
+                  <th>#</th>
+                  <th>Runner</th>
+                  <th>Group</th>
+                  <th>Latest checkpoint</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                </tr>
               </thead>
-              <tbody data-race-public-focused-rows></tbody>
+              <tbody data-race-public-rows></tbody>
             </table>
           </div>
-        </div>
 
-        <div class="race-public-table-wrap">
-          <table class="race-public-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Runner</th>
-                <th>Group</th>
-                <th>Latest checkpoint</th>
-                <th>Time</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody data-race-public-rows></tbody>
-          </table>
-        </div>
-
-        <div class="race-public-alerts">
-          <span>Want a text or push alert at each checkpoint?</span>
-          <input type="text" placeholder="Alerts aren't live yet" disabled>
-          <button class="button button-outline" type="button" disabled>Coming soon</button>
+          <div class="race-public-alerts">
+            <span>Want a text or push alert at each checkpoint?</span>
+            <input type="text" placeholder="Alerts aren't live yet" disabled>
+            <button class="button button-outline" type="button" disabled>Coming soon</button>
+          </div>
         </div>
       </div>
     </div>

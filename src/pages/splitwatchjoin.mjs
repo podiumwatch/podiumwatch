@@ -16,8 +16,8 @@ import {
 export function splitWatchJoinPage(site) {
   const content = `${pageHero({
     eyebrow: "Split Watch",
-    title: "Enter your team's race day code.",
-    description: "Ask your coach for the current code -- it gets you straight into live race timing, no account needed."
+    title: "Enter your team's 4-digit code.",
+    description: "Ask your coach for the current code -- it gets you straight into today's race, no account needed."
   })}
 
   <section class="section section-paper">
@@ -31,13 +31,15 @@ export function splitWatchJoinPage(site) {
             type="text"
             name="code"
             data-swj-code-input
-            placeholder="e.g. XK4P7QRT"
+            inputmode="numeric"
+            pattern="[0-9]*"
+            maxlength="4"
+            placeholder="4827"
             autocomplete="off"
-            autocapitalize="characters"
             spellcheck="false"
-            style="display:block;width:100%;padding:18px;font-size:1.4rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;text-align:center;border:2px solid rgba(15,23,42,0.22);border-radius:10px;font-family:inherit;"
+            style="display:block;width:100%;padding:18px;font-size:2.2rem;font-weight:800;letter-spacing:0.3em;text-align:center;border:2px solid rgba(15,23,42,0.22);border-radius:10px;font-family:inherit;"
           >
-          <button class="button button-primary" type="submit" style="width:100%;margin-top:16px;font-size:1.1rem;padding:16px;" data-swj-submit>Continue</button>
+          <button class="button button-primary" type="submit" style="width:100%;margin-top:16px;font-size:1.1rem;padding:16px;" data-swj-submit>Join</button>
         </form>
 
         <p style="margin-top:20px;text-align:center;">

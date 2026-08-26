@@ -19,11 +19,15 @@
   }
 
   codeInput.addEventListener("input", () => {
-    // Uppercase-as-you-type, matching how the code is actually generated
-    // and displayed to the coach -- avoids "did I type it right?" doubt.
+    // Digits only, matching the 4-digit numeric code coaches now
+    // generate -- strips anything else a phone's autocorrect/autofill
+    // might slip in, rather than rejecting the whole submission later.
     const cursor = codeInput.selectionStart;
-    codeInput.value = codeInput.value.toUpperCase();
-    codeInput.setSelectionRange(cursor, cursor);
+    const cleaned = codeInput.value.replace(/[^0-9]/g, "").slice(0, 4);
+    if (cleaned !== codeInput.value) {
+      codeInput.value = cleaned;
+      codeInput.setSelectionRange(cursor, cursor);
+    }
   });
 
   form.addEventListener("submit", async (event) => {
