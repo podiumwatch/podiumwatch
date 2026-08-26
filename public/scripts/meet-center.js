@@ -220,129 +220,72 @@
       .join(", ");
   }
 
+  // A compact date chip (month abbreviation + day number) rather than
+  // spelling out the full date -- scannable at a glance across a long
+  // list, matching how a real schedule/results list reads. The full date
+  // (and date range, for multi-day meets) is still available as the
+  // chip's title/aria-label and in the meta line below the name.
+  function dateChip(meet) {
+    if (!meet.meet_date) {
+      return { month: "TBD", day: "" };
+    }
+    const date = new Date(meet.meet_date + "T12:00:00");
+    if (Number.isNaN(date.getTime())) {
+      return { month: "TBD", day: "" };
+    }
+    return {
+      month: new Intl.DateTimeFormat("en-US", { month: "short" }).format(date).toUpperCase(),
+      day: String(date.getDate())
+    };
+  }
+
+  // Race day / meet-center feedback: the previous story-card grid (built
+  // for editorial blog listings, borrowed here) meant only about 6 of a
+  // typical 150+ meet list fit on screen at once, each one mostly empty
+  // space around a single oversized "Open meet page" button. This is a
+  // purpose-built compact row instead -- one line of scannable date +
+  // name + key details, the whole row itself the link (no separate
+  // nested button, which also makes the entire row a single large tap
+  // target on mobile). Uses the site's own tokens (var(--ink) etc., see
+  // src/styles/main.css's :root) rather than new hardcoded colors.
   function meetCard(meet, completed) {
+    const chip = dateChip(meet);
+    const metaParts = [escapeHtml(formatDateRange(meet))];
+
+    const time = formatTime(meet.start_time);
+    if (time) metaParts.push(escapeHtml(time));
+
+    const location = locationText(meet);
+    if (location) metaParts.push(escapeHtml(location));
+
+    if (meet.host_school) metaParts.push("Hosted by " + escapeHtml(meet.host_school));
+    if (meet.division) metaParts.push(escapeHtml(meet.division));
+
     const badges = [];
-
     if (meet.featured) {
-      badges.push(
-        '<span class="meet-badge meet-badge-featured">' +
-          "Featured" +
-        "</span>"
-      );
+      badges.push('<span class="meet-badge meet-badge-featured">Featured</span>');
     }
-
-    badges.push(
-      '<span class="meet-badge">' +
-        escapeHtml(
-          meet.sport || "Meet"
-        ) +
-      "</span>"
-    );
-
+    badges.push('<span class="meet-badge">' + escapeHtml(meet.sport || "Meet") + "</span>");
     if (meet.meet_type) {
-      badges.push(
-        '<span class="meet-badge">' +
-          escapeHtml(
-            meet.meet_type
-          ) +
-        "</span>"
-      );
-    }
-
-    badges.push(
-      '<span class="meet-badge meet-badge-dark">' +
-        (
-          completed
-            ? "Completed"
-            : "Upcoming"
-        ) +
-      "</span>"
-    );
-
-    const details = [
-      '<p><strong>' +
-        escapeHtml(
-          formatDateRange(meet)
-        ) +
-      "</strong></p>"
-    ];
-
-    const time =
-      formatTime(meet.start_time);
-
-    if (time) {
-      details.push(
-        "<p>" +
-          escapeHtml(time) +
-        "</p>"
-      );
-    }
-
-    const location =
-      locationText(meet);
-
-    if (location) {
-      details.push(
-        "<p>" +
-          escapeHtml(location) +
-        "</p>"
-      );
-    }
-
-    if (meet.host_school) {
-      details.push(
-        "<p>Hosted by " +
-          escapeHtml(
-            meet.host_school
-          ) +
-        "</p>"
-      );
-    }
-
-    if (meet.division) {
-      details.push(
-        "<p>" +
-          escapeHtml(
-            meet.division
-          ) +
-        "</p>"
-      );
+      badges.push('<span class="meet-badge">' + escapeHtml(meet.meet_type) + "</span>");
     }
 
     return (
-      '<article class="story-card">' +
-        '<div class="story-card-body">' +
-          '<div class="meet-card-meta">' +
+      '<a class="meet-row' + (meet.featured ? " meet-row-featured" : "") + '" href="/meetdetail/?slug=' +
+        encodeURIComponent(meet.slug) + '">' +
+        '<span class="meet-row-date" title="' + escapeHtml(formatDateRange(meet)) + '">' +
+          '<span class="meet-row-date-month">' + escapeHtml(chip.month) + "</span>" +
+          '<span class="meet-row-date-day">' + escapeHtml(chip.day) + "</span>" +
+        "</span>" +
+        '<span class="meet-row-main">' +
+          '<span class="meet-row-name">' + escapeHtml(meet.name) + "</span>" +
+          '<span class="meet-row-meta">' +
             badges.join("") +
-          "</div>" +
-          "<h3>" +
-            escapeHtml(meet.name) +
-          "</h3>" +
-          (
-            meet.description
-              ? "<p>" +
-                  escapeHtml(
-                    meet.description
-                  ) +
-                "</p>"
-              : ""
-          ) +
-          '<div class="meet-card-details">' +
-            details.join("") +
-          "</div>" +
-          '<a class="button button-primary" href="/meetdetail/?slug=' +
-            encodeURIComponent(
-              meet.slug
-            ) +
-          '">' +
-            (
-              completed
-                ? "View meet details"
-                : "Open meet page"
-            ) +
-          "</a>" +
-        "</div>" +
-      "</article>"
+            metaParts.map((part) => "<span>" + part + "</span>").join("") +
+          "</span>" +
+        "</span>" +
+        '<span class="meet-row-action">' + (completed ? "View results" : "Open meet page") + "</span>" +
+      "</a>"
     );
   }
 

@@ -62,48 +62,123 @@ export function meetsIndexPage(site) {
       margin-bottom: 22px;
     }
 
-    .meet-card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
     .meet-badge {
       display: inline-flex;
       align-items: center;
-      min-height: 28px;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: rgba(0, 191, 99, 0.12);
-      font-size: 0.78rem;
+      min-height: 0;
+      padding: 3px 8px;
+      background: rgba(15, 175, 104, 0.12);
+      color: var(--green-dark);
+      font-size: 0.68rem;
       font-weight: 800;
-      line-height: 1;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1.4;
     }
 
     .meet-badge-dark {
-      background: #111827;
-      color: #ffffff;
+      background: var(--black);
+      color: var(--white);
     }
 
     .meet-badge-featured {
-      background: #00bf63;
-      color: #07130d;
-    }
-
-    .meet-card-details {
-      display: grid;
-      gap: 8px;
-      margin: 18px 0;
-    }
-
-    .meet-card-details p {
-      margin: 0;
+      background: var(--green);
+      color: var(--white);
     }
 
     .meet-empty {
       padding: 30px;
       text-align: center;
+    }
+
+    /* Meet Center feedback (2026-08-26): the previous card grid only fit
+       about 6 meets on screen at once and read as mostly empty space
+       around one big button. A compact, scannable row -- date chip, name,
+       key details, the whole row itself the link -- fits far more of a
+       150+ meet list on screen and is a single large tap target on
+       mobile, not a separate nested button. */
+    .meet-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .meet-row {
+      display: grid;
+      grid-template-columns: 68px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .meet-row:hover,
+    .meet-row:focus-visible {
+      border-color: var(--green);
+      box-shadow: var(--shadow);
+    }
+
+    .meet-row-featured {
+      border-left: 4px solid var(--green);
+    }
+
+    .meet-row-date {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
+      text-align: center;
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
+
+    .meet-row-date-month {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+      color: var(--green-dark);
+    }
+
+    .meet-row-date-day {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: 1.55rem;
+      line-height: 1.1;
+    }
+
+    .meet-row-main {
+      min-width: 0;
+    }
+
+    .meet-row-name {
+      display: block;
+      margin-bottom: 4px;
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: 1.15rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+      overflow-wrap: break-word;
+    }
+
+    .meet-row-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px 10px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .meet-row-action {
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--green-dark);
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
     }
 
     @media (max-width: 640px) {
@@ -119,6 +194,32 @@ export function meetsIndexPage(site) {
       .meet-center-toolbar strong {
         width: 100%;
         margin-left: 0;
+      }
+
+      .meet-row {
+        grid-template-columns: 52px minmax(0, 1fr);
+        gap: 4px 14px;
+        padding: 12px 14px;
+      }
+
+      .meet-row-date {
+        grid-row: 1 / 3;
+        padding: 6px 2px;
+      }
+
+      .meet-row-date-day {
+        font-size: 1.3rem;
+      }
+
+      .meet-row-name {
+        font-size: 1.02rem;
+      }
+
+      .meet-row-action {
+        grid-column: 2 / 3;
+        margin-top: 4px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
       }
     }
   </style>
@@ -237,7 +338,7 @@ export function meetsIndexPage(site) {
         </div>
 
         <div
-          class="stories-grid"
+          class="meet-list"
           data-upcoming-meet-list
         ></div>
       </section>
@@ -257,7 +358,7 @@ export function meetsIndexPage(site) {
         </div>
 
         <div
-          class="stories-grid"
+          class="meet-list"
           data-completed-meet-list
         ></div>
       </section>
