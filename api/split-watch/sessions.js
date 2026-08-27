@@ -17,6 +17,7 @@ import {
   duplicateSession,
   deleteSession
 } from "../../lib/split_watch_service.mjs";
+import { buildCommandCenterContext } from "../../lib/race_day_command_center_service.mjs";
 import { getRaceDayContext } from "../../lib/todays_race_service.mjs";
 import {
   getOrCreateActiveRehearsal,
@@ -55,14 +56,20 @@ export default async function handler(request, response) {
       case "list":
         data = await listSessions({ teamId });
         break;
-      // Smart routing read (Section 9/3 of the race day spec): the one
-      // relevant race right now, if there is one, plus enough context to
-      // show a short live-race list on the rare occasion there isn't.
-      // Used by both the coach's Today's Split Watch card and the
-      // helper-code join flow -- one shared answer, not two.
+      // Smart routing read (Section 9/3 of the race day spec; extended by
+      // Race Day Command Center, build plan Project 2): the one relevant
+      // race right now, if there is one, plus enough context to show a
+      // short live-race list on the rare occasion there isn't. Used by
+      // both the coach's Today's Split Watch card and the helper-code
+      // join flow -- one shared answer, not two. Readiness detail (the
+      // checklist + primary action) is only computed for a real coach --
+      // a helper has no use for it, and it's several extra queries a
+      // helper's join flow shouldn't pay for on every load.
       case "today": {
         const { team } = await listSessions({ teamId });
-        const context = await getRaceDayContext(teamId);
+        const context = actor.type === "team_user"
+          ? await buildCommandCenterContext({ teamId })
+          : { ...(await getRaceDayContext(teamId)), readiness: null, primaryAction: null };
         data = { team, ...context };
         break;
       }

@@ -1092,6 +1092,28 @@
     }
   }
 
+  // Race Day Command Center (build plan Project 2), blocking rule: "The
+  // current device cannot create durable local captures and no approved
+  // safe alternative exists." Only meaningful for an official race a
+  // coach is about to start -- a helper never starts anything (the
+  // button is already hidden for them), and this deliberately does not
+  // run for a rehearsal, since Project 1's whole purpose is exercising
+  // the timing flow before everything is necessarily perfect and this
+  // project's instructions are not to add new rehearsal restrictions
+  // without a confirmed defect. Uses the exact same shared check the
+  // Command Center card uses (public/scripts/device-readiness.js) --
+  // one shared abstraction, not two.
+  async function checkDeviceReadinessBeforeStart() {
+    const isHelper = viewerType === "race_day_code";
+    if (isHelper || detail.session.is_rehearsal || !window.PodiumDeviceReadiness) return;
+
+    const result = await window.PodiumDeviceReadiness.check();
+    if (!result.ok) {
+      showMessage("Attention needed: " + result.reason + " Try a different device before starting the official race.", true);
+      startButton.disabled = true;
+    }
+  }
+
   async function beginLiveScreen(clockNote) {
     startScreen.hidden = true;
     liveScreen.hidden = false;
@@ -1386,6 +1408,7 @@
         applyViewerModeToStartScreen();
         startScreen.hidden = false;
         preRacePollHandle = setInterval(pollForRaceStart, 4000);
+        checkDeviceReadinessBeforeStart();
       }
     } catch (error) {
       loadingBox.innerHTML =

@@ -51,6 +51,28 @@ export function teamHomePage(site) {
     @media (max-width: 720px) {
       .tw-item { flex-direction: column; align-items: flex-start; }
     }
+
+    /* Race Day Command Center (build plan Project 2). */
+    .tw-cc-race-name { font-size: 1.3rem; margin: 2px 0 4px; }
+    .tw-cc-meta { opacity: 0.85; font-size: 0.9rem; margin-bottom: 14px; }
+    .tw-cc-primary-action { display: inline-flex; width: 100%; justify-content: center; font-size: 1rem; padding: 14px 18px; }
+    .tw-cc-summary { display: flex; align-items: center; gap: 8px; background: none; border: none; color: inherit; font: inherit; font-weight: 800; cursor: pointer; padding: 10px 0 4px; margin: 0; text-align: left; }
+    .tw-cc-summary-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .tw-cc-summary-dot.tw-cc-dot-complete { background: #00bf63; }
+    .tw-cc-summary-dot.tw-cc-dot-attention { background: #f4b400; }
+    .tw-cc-checklist { display: grid; gap: 10px; margin-top: 10px; }
+    .tw-cc-item { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); }
+    .tw-cc-item-label { font-weight: 700; }
+    .tw-cc-item-explanation { font-size: 0.85rem; opacity: 0.8; margin-top: 2px; }
+    .tw-cc-item-status { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+    .tw-cc-status-complete { background: rgba(0, 191, 99, 0.22); color: #00e676; }
+    .tw-cc-status-recommended { background: rgba(255, 255, 255, 0.14); color: #d9dee6; }
+    .tw-cc-status-attention { background: rgba(244, 180, 0, 0.24); color: #ffcf4d; }
+    .tw-cc-item-fix { align-self: center; }
+    .tw-cc-choice-list { display: grid; gap: 10px; margin-top: 10px; }
+    .tw-cc-secondary-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .tw-cc-secondary-actions .button { flex: 1 1 160px; text-align: center; }
+    .tw-cc-device-line { font-size: 0.82rem; opacity: 0.75; margin-top: 10px; }
   </style>
 
   <section class="section section-paper">
@@ -58,6 +80,48 @@ export function teamHomePage(site) {
       <div class="info-card" data-tw-loading>
         <h2>Loading team home</h2>
         <p>Please wait while Podium Watch securely loads your team.</p>
+      </div>
+
+      <!-- Race Day Command Center (build plan Project 2): a sibling of
+           data-tw-root, not a child of it, on purpose -- it fetches and
+           renders from its OWN, faster call (see team-home.js), and must
+           never sit behind [hidden] just because the slower roster/
+           schedule aggregate below hasn't finished yet. -->
+      <div class="tw-shell" style="margin-bottom:20px;">
+        <div class="tw-today-card" data-tw-today-card hidden>
+          <p class="eyebrow" style="color:#00bf63;">Today's Split Watch</p>
+
+          <div data-tw-cc-empty hidden>
+            <p style="margin:6px 0 14px;opacity:0.85;">Nothing scheduled yet. Connect a meet or create a race to get started.</p>
+            <a class="button button-outline" href="/team-meet-center/" data-tw-cc-empty-link>Find a meet</a>
+          </div>
+
+          <div data-tw-cc-choice hidden>
+            <p style="margin:6px 0 4px;opacity:0.9;">More than one race is live right now -- choose which one:</p>
+            <div class="tw-cc-choice-list" data-tw-cc-choice-list></div>
+          </div>
+
+          <div data-tw-cc-single hidden>
+            <h3 class="tw-cc-race-name" data-tw-cc-race-name></h3>
+            <div class="tw-cc-meta" data-tw-cc-race-meta></div>
+
+            <a class="button button-primary tw-cc-primary-action" data-tw-cc-primary-action href="/split-watch/"></a>
+
+            <button type="button" class="tw-cc-summary" data-tw-cc-summary-toggle>
+              <span class="tw-cc-summary-dot" data-tw-cc-summary-dot></span>
+              <span data-tw-cc-summary-label>Checking readiness&hellip;</span>
+              <span aria-hidden="true">&rsaquo;</span>
+            </button>
+            <div class="tw-cc-checklist" data-tw-cc-checklist hidden></div>
+
+            <div class="tw-cc-secondary-actions">
+              <a class="button button-outline" style="color:#fff;border-color:rgba(255,255,255,0.6);" data-tw-cc-crew-action href="#race-day-access">Manage Timing Crew</a>
+              <a class="button button-outline" style="color:#fff;border-color:rgba(255,255,255,0.6);" data-tw-cc-parent-action href="/split-watch/">Share Parent Page</a>
+            </div>
+
+            <p class="tw-cc-device-line" data-tw-cc-device-line></p>
+          </div>
+        </div>
       </div>
 
       <div class="tw-shell" data-tw-root hidden>
@@ -73,11 +137,6 @@ export function teamHomePage(site) {
         </div>
 
         <p class="tw-message" data-tw-message hidden></p>
-
-        <div class="tw-today-card" data-tw-today-card hidden>
-          <p class="eyebrow" style="color:#00bf63;">Today's Split Watch</p>
-          <div data-tw-today-content></div>
-        </div>
 
         <div class="tw-next-card" data-tw-next-card>
           <p class="eyebrow" style="color:#00bf63;">Next up</p>
@@ -101,7 +160,7 @@ export function teamHomePage(site) {
             </div>
           </section>
 
-          <section class="tw-panel tw-panel-wide">
+          <section class="tw-panel tw-panel-wide" id="race-day-access">
             <div class="tw-header">
               <div><p class="eyebrow">Race day access</p><h2>Timing helper code</h2></div>
             </div>
@@ -148,6 +207,8 @@ export function teamHomePage(site) {
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
   <script src="/scripts/team-auth-client.js" defer></script>
+  <script src="/scripts/race-local-store.js" defer></script>
+  <script src="/scripts/device-readiness.js" defer></script>
   <script src="/scripts/team-home.js" defer></script>`;
 
   return layout({

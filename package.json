@@ -8,7 +8,7 @@
     "dev": "node scripts/serve.mjs --watch",
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
-    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal",
+    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center",
     "test:athletes": "node scripts/test-athlete-foundation.mjs",
     "test:recruiting": "node scripts/test-recruiting-foundation.mjs",
     "test:results": "node scripts/test-results-ingestion.mjs",
@@ -25,6 +25,7 @@
     "test:athlete-goals": "node scripts/test-athlete-goals.mjs",
     "test:article-polls": "node scripts/test-article-polls.mjs",
     "test:rehearsal": "node scripts/test-rehearsal.mjs",
+    "test:command-center": "node scripts/test-command-center.mjs",
     "preview": "node scripts/serve.mjs"
   },
   "engines": {

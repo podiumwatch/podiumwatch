@@ -788,6 +788,7 @@ export function splitWatchLivePage(site) {
   <script src="/scripts/race-math.js" defer></script>
   <script src="/scripts/race-timer.js" defer></script>
   <script src="/scripts/race-local-store.js" defer></script>
+  <script src="/scripts/device-readiness.js" defer></script>
   <script src="/scripts/split-watch-live.js" defer></script>`;
 
   return layout({

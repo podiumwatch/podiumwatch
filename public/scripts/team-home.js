@@ -8,7 +8,21 @@
   const nextCard = document.querySelector("[data-tw-next-card]");
   const nextContent = document.querySelector("[data-tw-next-content]");
   const todayCard = document.querySelector("[data-tw-today-card]");
-  const todayContent = document.querySelector("[data-tw-today-content]");
+  const ccEmpty = document.querySelector("[data-tw-cc-empty]");
+  const ccEmptyLink = document.querySelector("[data-tw-cc-empty-link]");
+  const ccChoice = document.querySelector("[data-tw-cc-choice]");
+  const ccChoiceList = document.querySelector("[data-tw-cc-choice-list]");
+  const ccSingle = document.querySelector("[data-tw-cc-single]");
+  const ccRaceName = document.querySelector("[data-tw-cc-race-name]");
+  const ccRaceMeta = document.querySelector("[data-tw-cc-race-meta]");
+  const ccPrimaryAction = document.querySelector("[data-tw-cc-primary-action]");
+  const ccSummaryToggle = document.querySelector("[data-tw-cc-summary-toggle]");
+  const ccSummaryDot = document.querySelector("[data-tw-cc-summary-dot]");
+  const ccSummaryLabel = document.querySelector("[data-tw-cc-summary-label]");
+  const ccChecklist = document.querySelector("[data-tw-cc-checklist]");
+  const ccCrewAction = document.querySelector("[data-tw-cc-crew-action]");
+  const ccParentAction = document.querySelector("[data-tw-cc-parent-action]");
+  const ccDeviceLine = document.querySelector("[data-tw-cc-device-line]");
   const rosterCountEl = document.querySelector("[data-tw-roster-count]");
   const upcomingCountEl = document.querySelector("[data-tw-upcoming-count]");
   const recentCountEl = document.querySelector("[data-tw-recent-count]");
@@ -28,7 +42,9 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox, nextCard, nextContent,
-    todayCard, todayContent,
+    todayCard, ccEmpty, ccEmptyLink, ccChoice, ccChoiceList, ccSingle, ccRaceName, ccRaceMeta,
+    ccPrimaryAction, ccSummaryToggle, ccSummaryDot, ccSummaryLabel, ccChecklist, ccCrewAction,
+    ccParentAction, ccDeviceLine,
     rosterCountEl, upcomingCountEl, recentCountEl, rosterLink, scheduleLink, swLink,
     upcomingList, upcomingEmpty, recentList, recentEmpty,
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
@@ -119,58 +135,134 @@
     }
   }
 
-  // Race day spec, Section 9/Problem 5: "coach signs in, coach sees
-  // today's race, coach taps once." Deliberately separate from
-  // renderNext() above (which covers general season planning, any future
-  // date) -- this card only ever appears when something is actually
-  // happening TODAY, and its whole point is one obvious primary action,
-  // not a browsable list.
-  function primaryActionFor(race) {
-    const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id);
-    if (race.status === "live") {
-      return { label: "RESUME LIVE TIMING", href: "/split-watch/live/" + idPart };
-    }
-    if (race.status === "scheduled") {
-      return { label: "START LIVE TIMING", href: "/split-watch/live/" + idPart };
-    }
-    if (race.status === "finished" || race.status === "reviewed") {
-      return { label: "VIEW RESULTS", href: "/split-watch/review/" + idPart };
-    }
-    // draft -- participants/checkpoints not yet fully set up.
-    return { label: "CONTINUE RACE SETUP", href: "/split-watch/plan/" + idPart };
-  }
+  // Race Day Command Center (build plan Project 2): "the coach signs in,
+  // Split Watch immediately identifies the race that needs attention,
+  // shows whether it's ready, explains the next required action, and
+  // provides one-selection access to live timing." Data comes from
+  // api/split-watch/sessions.js's "today" action (lib/race_day_command_
+  // center_service.mjs), fetched independently of the rest of Team Home
+  // -- see initialize() below, which fires this in parallel rather than
+  // awaiting the slower aggregate /api/team/home/ call first.
+  const STATUS_ICON = { complete: "✓", recommended: "–", attention: "!" };
+  const STATUS_LABEL = { complete: "Complete", recommended: "Recommended", attention: "Attention" };
 
-  function renderTodayRaceRow(race, { primary = false } = {}) {
-    const action = primaryActionFor(race);
-    const isLive = race.status === "live";
-    const readiness = race.status === "draft" || race.status === "scheduled"
-      ? race.ready_count + " of " + race.participant_count + " ready"
-      : "";
+  function renderChecklistItem(itemData) {
     return (
-      '<div class="tw-today-race' + (isLive ? " tw-today-race-live" : "") + '">' +
+      '<div class="tw-cc-item">' +
         '<div>' +
-          '<strong>' + (isLive ? '<span class="tw-today-live-dot"></span>' : "") + escapeHtml(race.name) + '</strong>' +
-          '<div class="tw-item-meta">' + escapeHtml(STATUS_LABELS[race.status] || race.status) + (readiness ? " · " + readiness : "") + '</div>' +
+          '<div class="tw-cc-item-label">' + escapeHtml(itemData.label) + '</div>' +
+          '<div class="tw-cc-item-explanation">' + escapeHtml(itemData.explanation) + '</div>' +
         '</div>' +
-        '<a class="button ' + (primary ? "button-primary" : "button-outline") + '" style="color:#fff;border-color:rgba(255,255,255,0.6);" href="' + action.href + '">' + escapeHtml(action.label) + '</a>' +
+        '<div style="display:flex;align-items:center;gap:10px;">' +
+          '<span class="tw-cc-item-status tw-cc-status-' + itemData.status + '">' +
+            STATUS_ICON[itemData.status] + " " + STATUS_LABEL[itemData.status] +
+          '</span>' +
+          (itemData.actionHref && itemData.actionLabel
+            ? '<a class="button button-outline tw-cc-item-fix" style="color:#fff;border-color:rgba(255,255,255,0.6);padding:6px 12px;font-size:0.8rem;" href="' + itemData.actionHref + '">' + escapeHtml(itemData.actionLabel) + '</a>'
+            : "") +
+        '</div>' +
       '</div>'
     );
   }
 
-  function renderTodaysRaceDay(todaysRaceDay) {
-    if (!todaysRaceDay) { todayCard.hidden = true; return; }
+  // The one client-only readiness item (see public/scripts/device-
+  // readiness.js's header comment for why this can't be evaluated on
+  // the server): appended into the same checklist array so it renders
+  // and counts toward "N items need attention" exactly like every
+  // server-computed item.
+  async function deviceReadinessItem() {
+    if (!window.PodiumDeviceReadiness) {
+      return { id: "device_storage", label: "Device ready for durable local capture", status: "attention", explanation: "This device's storage could not be checked.", actionLabel: null, actionHref: null };
+    }
+    const result = await window.PodiumDeviceReadiness.check();
+    return {
+      id: "device_storage",
+      label: "Device ready for durable local capture",
+      status: result.ok ? "complete" : "attention",
+      explanation: result.ok ? "This device can safely store race data, even offline." : result.reason,
+      actionLabel: null,
+      actionHref: null
+    };
+  }
 
-    // Chronological priority: live first (always shown, always the
-    // primary action if present), then today's next race(s), then
-    // today's already-finished races -- matches Section 9's "currently
-    // live race always first and visually obvious."
-    const all = [...todaysRaceDay.liveRaces, ...todaysRaceDay.upcomingToday, ...todaysRaceDay.finishedToday];
+  function renderChoiceRace(race) {
+    const href = "/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id);
+    return (
+      '<div class="tw-today-race tw-today-race-live">' +
+        '<div>' +
+          '<strong><span class="tw-today-live-dot"></span>' + escapeHtml(race.name) + '</strong>' +
+          '<div class="tw-item-meta">' + escapeHtml(formatDate(race.race_date)) + '</div>' +
+        '</div>' +
+        '<a class="button button-primary" href="' + href + '">Open live timing</a>' +
+      '</div>'
+    );
+  }
 
-    if (all.length === 0) { todayCard.hidden = true; return; }
+  let checklistExpanded = false;
+  function paintChecklist(items) {
+    ccChecklist.innerHTML = items.map(renderChecklistItem).join("");
+    ccChecklist.hidden = !checklistExpanded;
+    const attentionCount = items.filter((i) => i.status !== "complete").length;
+    ccSummaryDot.className = "tw-cc-summary-dot " + (attentionCount === 0 ? "tw-cc-dot-complete" : "tw-cc-dot-attention");
+    ccSummaryLabel.textContent = attentionCount === 0
+      ? "Ready for race day"
+      : attentionCount + " item" + (attentionCount === 1 ? "" : "s") + " need" + (attentionCount === 1 ? "s" : "") + " attention";
+  }
 
-    const primaryRace = todaysRaceDay.singleRelevantRace || all[0];
-    todayContent.innerHTML = all.map((race) => renderTodayRaceRow(race, { primary: race.id === primaryRace.id })).join("");
+  ccSummaryToggle.addEventListener("click", () => {
+    checklistExpanded = !checklistExpanded;
+    ccChecklist.hidden = !checklistExpanded;
+  });
+
+  async function renderCommandCenter(data) {
+    ccEmpty.hidden = true;
+    ccChoice.hidden = true;
+    ccSingle.hidden = true;
+
+    if (!data) { todayCard.hidden = true; return; }
+
+    if (data.needsChoice) {
+      // Spec: "Do not select one silently... show both race names... Do
+      // not offer to start another race." liveRaces is the explicit list.
+      todayCard.hidden = false;
+      ccChoice.hidden = false;
+      ccChoiceList.innerHTML = data.liveRaces.map(renderChoiceRace).join("");
+      return;
+    }
+
+    const race = data.singleRelevantRace;
+    if (!race) {
+      // Nothing live, nothing today, nothing upcoming within the window,
+      // nothing finished today either -- a genuinely empty state.
+      todayCard.hidden = false;
+      ccEmpty.hidden = false;
+      ccEmptyLink.href = "/team-meet-center/?id=" + encodeURIComponent(teamId);
+      return;
+    }
+
     todayCard.hidden = false;
+    ccSingle.hidden = false;
+    ccRaceName.textContent = race.name;
+    ccRaceMeta.textContent = formatDate(race.race_date) + " · " + (STATUS_LABELS[race.status] || race.status);
+
+    if (data.primaryAction) {
+      ccPrimaryAction.textContent = data.primaryAction.label;
+      ccPrimaryAction.href = data.primaryAction.href;
+    }
+
+    const planHref = "/split-watch/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(race.id);
+    ccCrewAction.href = "#race-day-access";
+    ccParentAction.href = planHref;
+
+    const serverItems = data.readiness ? data.readiness.items : [];
+    ccSummaryLabel.textContent = "Checking readiness…";
+    paintChecklist(serverItems);
+
+    // Device check runs after the server items are already visible (it
+    // can take a moment on some browsers) -- appended in, not blocking
+    // the rest of the checklist from showing immediately.
+    const deviceItem = await deviceReadinessItem();
+    paintChecklist([...serverItems, deviceItem]);
   }
 
   function renderUpcoming(upcomingMeets) {
@@ -292,6 +384,17 @@
 
       accountEl.textContent = user.email || "Team account";
 
+      // Race Day Command Center (build plan Project 2): fired here, in
+      // parallel with the slower aggregate call below, and rendered the
+      // moment IT resolves -- never awaited after the aggregate call, so
+      // a slow roster/schedule query can never hide the race-day action.
+      // A failure here is reported inline on the card itself, not routed
+      // through the page's own loading-failure screen -- the rest of
+      // Team Home is still useful even if this one call fails.
+      apiFetch("/api/split-watch/sessions/", { action: "today" })
+        .then((commandCenterData) => renderCommandCenter(commandCenterData))
+        .catch(() => { todayCard.hidden = true; });
+
       const data = await apiFetch("/api/team/home/", {});
       teamNameEl.textContent = data.team.school_name;
       teamLink.href = "/team/?slug=" + encodeURIComponent(data.team.slug);
@@ -301,7 +404,6 @@
         link.href = url.pathname + url.search;
       });
 
-      renderTodaysRaceDay(data.todaysRaceDay);
       renderNext(data);
       rosterCountEl.textContent = data.rosterCount;
       upcomingCountEl.textContent = data.upcomingMeets.length;
