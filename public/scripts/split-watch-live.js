@@ -735,6 +735,16 @@
       participantId: participant.id, checkpointId: checkpoint.id, elapsedSeconds: null,
       captureMethod: "edited", clientSplitId: existing.client_split_id, changeReason: "undo"
     });
+    // Real bug found in a full audit (2026-08-27): Undo is itself an
+    // explicit correction, so it must clear the retap-confirmation
+    // window for this exact pair -- otherwise the natural "wrong runner,
+    // Undo, tap the right one" flow (all within a couple seconds) asks
+    // "X already has a time here" about a value that was just
+    // deliberately cleared, which is confusing and cites a time the
+    // screen no longer even shows.
+    const key = retapKey(participant.id, checkpoint.id);
+    lastTapAt.delete(key);
+    lastRecordedValue.delete(key);
     announceCapture(participantName(participant) + "'s time at " + checkpoint.label + " was undone.");
   }
 
