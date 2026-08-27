@@ -308,7 +308,13 @@
     const session = detail.session;
     spectatorToggle.checked = Boolean(session.spectator_visible);
     spectatorLinkRow.hidden = !session.spectator_visible;
-    spectatorLinkInput.value = window.location.origin + "/race/?race=" + encodeURIComponent(sessionId);
+    // One link per TEAM, not per race (2026-08-27 feature request) -- it
+    // keeps working for every race this team ever makes spectator_visible
+    // and lets parents switch between whichever races share a meet day
+    // (see lib/race_viewer_service.mjs's loadSpectatorDay()). Turning
+    // this toggle on is still what actually makes THIS race visible;
+    // the link itself just never needs to change per race anymore.
+    spectatorLinkInput.value = window.location.origin + "/race/?team=" + encodeURIComponent(teamId);
     // A `time` column comes back from Postgres as "HH:MM:SS" -- an
     // <input type="time"> wants "HH:MM".
     scheduledStartInput.value = session.scheduled_start_time ? session.scheduled_start_time.slice(0, 5) : "";

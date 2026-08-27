@@ -7,6 +7,10 @@
   const messageBox = document.querySelector("[data-sw-message]");
   const raceList = document.querySelector("[data-sw-race-list]");
   const raceEmpty = document.querySelector("[data-sw-race-empty]");
+  const toggleArchivedButton = document.querySelector("[data-sw-toggle-archived]");
+  const archivedPanel = document.querySelector("[data-sw-archived-panel]");
+  const archivedList = document.querySelector("[data-sw-archived-list]");
+  const archivedEmpty = document.querySelector("[data-sw-archived-empty]");
   const createForm = document.querySelector("[data-sw-create-form]");
   const checkpointRows = document.querySelector("[data-sw-checkpoint-rows]");
   const addCheckpointButton = document.querySelector("[data-sw-add-checkpoint]");
@@ -38,7 +42,8 @@
 
   const requiredElements = [
     loadingBox, root, teamNameEl, accountEl, teamLink, messageBox,
-    raceList, raceEmpty, createForm, checkpointRows, addCheckpointButton,
+    raceList, raceEmpty, toggleArchivedButton, archivedPanel, archivedList, archivedEmpty,
+    createForm, checkpointRows, addCheckpointButton,
     raceDaySection, raceDayReveal, raceDayRevealCode, raceDayCopyButton,
     raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton,
     meetForm, meetEmpty, meetRosterLink, meetSportSelect, meetGroupHs, meetGroupJh,
@@ -195,8 +200,17 @@
     return { href: "/split-watch/plan/" + idPart, label: "Open plan" };
   }
 
-  function spectatorLinkFor(session) {
-    return window.location.origin + "/race/?race=" + encodeURIComponent(session.id);
+  // One link per TEAM, not per race -- a parent copies this once and it
+  // keeps working for every spectator-visible race the team ever runs,
+  // switching itself to whichever race is live (or most relevant) each
+  // time, with a switcher for any other race running the same day (see
+  // lib/race_viewer_service.mjs's loadSpectatorDay() and
+  // public/scripts/race-public.js). A specific race's own
+  // /race/?race=<id> link (still generated for anything copied before
+  // this change) keeps working exactly the same way, just anchored to
+  // that race's day instead of the whole team.
+  function spectatorLinkFor() {
+    return window.location.origin + "/race/?team=" + encodeURIComponent(teamId);
   }
 
   function renderRaces(sessions) {
@@ -210,11 +224,16 @@
     raceList.innerHTML = sessions.map((session) => {
       const action = actionLinkFor(session);
       const checked = session.spectator_visible ? " checked" : "";
-      // Any status can be deleted except "live" -- a race actively being
-      // timed right now may have a volunteer's device mid-sync against it.
+      // Any status can be deleted or archived except "live" -- a race
+      // actively being timed right now may have a volunteer's device
+      // mid-sync against it (archiveSession() also refuses this
+      // server-side; hiding the button here is the matching honest UI).
       const deleteButton = session.status === "live"
         ? ""
         : '<button class="button button-outline sw-delete-session" type="button" data-status="' + escapeHtml(session.status) + '">Delete</button>';
+      const archiveButton = session.status === "live"
+        ? ""
+        : '<button class="button button-outline sw-archive-session" type="button">Archive</button>';
       return (
         '<div class="sw-race-card" data-sw-session-id="' + escapeHtml(session.id) + '">' +
           '<div class="sw-header">' +
@@ -224,12 +243,13 @@
           '<p>' + escapeHtml(session.race_date) + ' &middot; ' + escapeHtml(String(session.distance_meters)) + 'm' + (session.race_type ? ' &middot; ' + escapeHtml(session.race_type) : '') + '</p>' +
           '<div class="sw-actions">' +
             '<a class="button button-primary" href="' + action.href + '">' + action.label + '</a>' +
+            archiveButton +
             deleteButton +
           '</div>' +
           '<div class="sw-spectator-row">' +
             '<label><input type="checkbox" class="sw-spectator-toggle"' + checked + '> Let parents watch this race live</label>' +
             '<div class="sw-spectator-link"' + (session.spectator_visible ? '' : ' hidden') + '>' +
-              '<input type="text" readonly value="' + escapeHtml(spectatorLinkFor(session)) + '">' +
+              '<input type="text" readonly value="' + escapeHtml(spectatorLinkFor()) + '">' +
               '<button type="button" class="button button-outline sw-spectator-copy">Copy link</button>' +
             '</div>' +
           '</div>' +
@@ -293,7 +313,82 @@
         }
       });
     });
+
+    raceList.querySelectorAll(".sw-archive-session").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const card = button.closest("[data-sw-session-id]");
+        const sessionId = card.getAttribute("data-sw-session-id");
+        button.disabled = true;
+        try {
+          await apiFetch("/api/split-watch/sessions/", { action: "archive", session_id: sessionId });
+          showMessage("Race archived -- find it any time under \"View archived races.\"");
+          const data = await apiFetch("/api/split-watch/sessions/", { action: "list" });
+          renderRaces(data.sessions);
+        } catch (error) {
+          showMessage(error.message || "This race could not be archived.", true);
+          button.disabled = false;
+        }
+      });
+    });
   }
+
+  let archivedPanelOpen = false;
+
+  async function loadAndRenderArchived() {
+    try {
+      const data = await apiFetch("/api/split-watch/sessions/", { action: "list", include_archived: true });
+      const archived = data.sessions.filter((s) => s.archived_at);
+      renderArchived(archived);
+    } catch (error) {
+      showMessage(error.message || "Archived races could not be loaded.", true);
+    }
+  }
+
+  function renderArchived(sessions) {
+    if (!sessions.length) {
+      archivedList.innerHTML = "";
+      archivedEmpty.hidden = false;
+      return;
+    }
+    archivedEmpty.hidden = true;
+    archivedList.innerHTML = sessions.map((session) => (
+      '<div class="sw-race-card" data-sw-session-id="' + escapeHtml(session.id) + '">' +
+        '<div class="sw-header">' +
+          '<h3>' + escapeHtml(session.name) + '</h3>' +
+          '<span class="' + statusBadgeClass(session.status) + '">' + escapeHtml(STATUS_LABELS[session.status] || session.status) + '</span>' +
+        '</div>' +
+        '<p>' + escapeHtml(session.race_date) + ' &middot; ' + escapeHtml(String(session.distance_meters)) + 'm' + '</p>' +
+        '<div class="sw-actions">' +
+          '<button class="button button-primary sw-unarchive-session" type="button">Unarchive</button>' +
+        '</div>' +
+      '</div>'
+    )).join("");
+
+    archivedList.querySelectorAll(".sw-unarchive-session").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const card = button.closest("[data-sw-session-id]");
+        const sessionId = card.getAttribute("data-sw-session-id");
+        button.disabled = true;
+        try {
+          await apiFetch("/api/split-watch/sessions/", { action: "unarchive", session_id: sessionId });
+          showMessage("Race restored to your working list.");
+          await loadAndRenderArchived();
+          const data = await apiFetch("/api/split-watch/sessions/", { action: "list" });
+          renderRaces(data.sessions);
+        } catch (error) {
+          showMessage(error.message || "This race could not be unarchived.", true);
+          button.disabled = false;
+        }
+      });
+    });
+  }
+
+  toggleArchivedButton.addEventListener("click", async () => {
+    archivedPanelOpen = !archivedPanelOpen;
+    archivedPanel.hidden = !archivedPanelOpen;
+    toggleArchivedButton.textContent = archivedPanelOpen ? "Hide archived races" : "View archived races";
+    if (archivedPanelOpen) await loadAndRenderArchived();
+  });
 
   function formatDateTime(isoText) {
     const date = new Date(String(isoText || ""));

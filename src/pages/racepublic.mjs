@@ -4,11 +4,16 @@ import {
 } from "../lib/html.mjs";
 
 // Team Workspace Phase Three's public spectator surface. Fully public,
-// indexable, no account needed -- driven entirely by ?race=<session id>
-// in the URL, resolved client-side (see public/scripts/race-public.js),
-// matching the existing /team/?slug= convention. A given race only ever
-// loads here if the coach explicitly turned it on
-// (race_sessions.spectator_visible) -- see api/race/public.js.
+// indexable, no account needed -- driven by either ?race=<session id>
+// (a specific race) or ?team=<team id> (the whole team, resolved to
+// whichever race matters right now), resolved client-side (see
+// public/scripts/race-public.js), matching the existing /team/?slug=
+// convention. A race only ever loads here if the coach explicitly
+// turned it on (race_sessions.spectator_visible) -- see
+// api/race/public.js and lib/race_viewer_service.mjs's
+// loadSpectatorDay(). Any other spectator_visible race sharing the same
+// day is offered as a switcher, so one link covers a whole meet day
+// (2026-08-27 feature request), not just one race.
 export function racePublicPage(site) {
   const content = `${pageHero({
     eyebrow: "Podium Watch Live",
@@ -21,6 +26,20 @@ export function racePublicPage(site) {
     .race-public-shell {
       display: grid;
       gap: 22px;
+    }
+
+    /* Grid items default to min-width:auto, so a wide nowrap descendant
+       (the runner table's own header/cells, further down, which already
+       has its own overflow-x:auto scroller) could still stretch this
+       whole page wider than the viewport on mobile -- confirmed as a
+       real, pre-existing overflow bug during the archive/team-day-link
+       mobile testing (2026-08-27), unrelated to that work itself.
+       min-width:0 on the one real grid item here (the page's root
+       content div) lets the table's own scroller do its job instead of
+       the grid track absorbing the overflow -- same fix, same root
+       cause, as the Split Watch Plan page's rehearsal-testing find. */
+    [data-race-public-root] {
+      min-width: 0;
     }
 
     .race-public-header {
@@ -242,6 +261,54 @@ export function racePublicPage(site) {
       background: rgba(255, 255, 255, 0.14);
       font-weight: 800;
     }
+
+    .race-public-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .race-public-switcher-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(15, 23, 42, 0.16);
+      background: var(--paper);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .race-public-switcher-chip-selected {
+      border-color: var(--black);
+      background: var(--black);
+      color: var(--paper);
+    }
+
+    .race-public-switcher-chip-live {
+      border-color: #dc2626;
+    }
+
+    .race-public-switcher-status {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      opacity: 0.7;
+    }
+
+    .race-public-switcher-chip-live .race-public-switcher-status {
+      color: #dc2626;
+      opacity: 1;
+    }
+
+    .race-public-switcher-chip-selected.race-public-switcher-chip-live .race-public-switcher-status {
+      color: #ff8080;
+    }
   </style>
 
   <section class="section section-paper">
@@ -261,6 +328,8 @@ export function racePublicPage(site) {
           </div>
           <span class="race-public-status" data-race-public-status></span>
         </div>
+
+        <div class="race-public-switcher" data-race-public-switcher hidden></div>
 
         <p class="race-public-updated" data-race-public-updated></p>
 

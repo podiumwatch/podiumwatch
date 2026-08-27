@@ -15,18 +15,21 @@
   const waitingBox = document.querySelector("[data-race-public-waiting]");
   const waitingTimeEl = document.querySelector("[data-race-public-waiting-time]");
   const liveShell = document.querySelector("[data-race-public-live-shell]");
+  const switcherEl = document.querySelector("[data-race-public-switcher]");
 
   const requiredElements = [
     loadingBox, messageBox, root, teamEl, nameEl, statusEl, updatedEl, rowsEl,
     searchInput, focusedWrap, focusedNameEl, focusedMetaEl, focusedRowsEl,
-    waitingBox, waitingTimeEl, liveShell
+    waitingBox, waitingTimeEl, liveShell, switcherEl
   ];
   if (requiredElements.some((el) => !el)) return;
 
   const params = new URLSearchParams(window.location.search);
-  const sessionId = String(params.get("race") || "").trim();
+  let currentSessionId = String(params.get("race") || "").trim();
+  const teamId = String(params.get("team") || "").trim();
 
   const ENDPOINT = "/api/race/public/";
+  const DONE_STATUSES = new Set(["finished", "reviewed", "cancelled"]);
 
   const STATUS_LABELS = {
     draft: "Not started",
@@ -234,9 +237,61 @@
     }
   }
 
+  // One team-day link (2026-08-27 feature request): data.races is every
+  // spectator-visible race the team has for the same day as data.session
+  // -- rendered as a row of tappable chips above the single-race view.
+  // Switching never navigates -- it just changes which race the NEXT
+  // poll tick asks for (see fetchOnce below) and re-renders immediately
+  // from the response, exactly like a fresh poll tick would. The URL is
+  // kept in sync via replaceState so a refresh (or a copy-paste of the
+  // address bar) lands back on whichever race is currently selected.
+  function switcherLabel(race) {
+    if (race.status === "live") return "Live";
+    if (race.status === "finished" || race.status === "reviewed") return "Final";
+    return "Not started";
+  }
+
+  function renderSwitcher(data) {
+    if (!data.races || data.races.length < 2) {
+      switcherEl.hidden = true;
+      switcherEl.innerHTML = "";
+      return;
+    }
+    switcherEl.hidden = false;
+    switcherEl.innerHTML = data.races.map((race) => (
+      '<button type="button" class="race-public-switcher-chip' +
+        (race.id === data.selected_session_id ? ' race-public-switcher-chip-selected' : '') +
+        (race.status === "live" ? ' race-public-switcher-chip-live' : '') + '" data-race-id="' + escapeHtml(race.id) + '">' +
+        escapeHtml(race.name) +
+        '<span class="race-public-switcher-status">' + escapeHtml(switcherLabel(race)) + '</span>' +
+      '</button>'
+    )).join("");
+
+    switcherEl.querySelectorAll("[data-race-id]").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const raceId = chip.getAttribute("data-race-id");
+        if (raceId === currentSessionId) return;
+        currentSessionId = raceId;
+        searchInput.value = "";
+        loadingBox.hidden = false;
+        root.hidden = true;
+        messageBox.hidden = true;
+        fetchOnce().then(render).catch((error) => showMessage(error.message || "This race could not be loaded."));
+      });
+    });
+  }
+
   function render(data) {
     checkpointsById = new Map((data.checkpoints || []).map((c) => [c.id, c]));
     lastParticipants = data.participants || [];
+    currentSessionId = data.selected_session_id || currentSessionId;
+
+    const url = new URL(window.location.href);
+    if (teamId) url.searchParams.set("team", teamId);
+    url.searchParams.set("race", currentSessionId);
+    window.history.replaceState(null, "", url.pathname + url.search);
+
+    renderSwitcher(data);
 
     teamEl.textContent = data.team ? data.team.school_name : "Podium Watch";
     nameEl.textContent = data.session.name;
@@ -261,24 +316,40 @@
     root.hidden = false;
   }
 
-  if (!sessionId) {
-    showMessage("This link is missing a race ID.");
+  if (!currentSessionId && !teamId) {
+    showMessage("This link is missing a race or team ID.");
     return;
   }
 
+  function fetchOnce() {
+    return fetch(ENDPOINT, {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ session_id: currentSessionId || undefined, team_id: teamId || undefined })
+    }).then((response) =>
+      response.json().catch(() => ({})).then((data) => {
+        if (!response.ok) throw new Error(data.error || "This race could not be loaded.");
+        return data;
+      })
+    );
+  }
+
+  // "live" if ANY race sharing this day is currently live (poll fast),
+  // a DONE_STATUSES value only once EVERY race that day is done (stop
+  // entirely), otherwise idle -- a parent watching one finished race
+  // must keep polling if a sibling race that day is still upcoming or
+  // live, never stop just because the ONE race currently on screen is over.
+  function groupStatus(data) {
+    const races = data?.races || [];
+    if (races.some((r) => r.status === "live")) return "live";
+    if (races.length > 0 && races.every((r) => DONE_STATUSES.has(r.status))) return "finished";
+    return "idle";
+  }
+
   window.PodiumRacePoll.watch({
-    fetchOnce: () =>
-      fetch(ENDPOINT, {
-        method: "POST",
-        headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ session_id: sessionId })
-      }).then((response) =>
-        response.json().catch(() => ({})).then((data) => {
-          if (!response.ok) throw new Error(data.error || "This race could not be loaded.");
-          return data;
-        })
-      ),
+    fetchOnce,
     onData: render,
+    getStatus: groupStatus,
     onError: (error) => showMessage(error.message || "This race could not be loaded.")
   });
 })();

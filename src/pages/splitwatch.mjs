@@ -374,10 +374,18 @@ export function splitWatchHubPage(site) {
                 <p class="eyebrow">Your races</p>
                 <h2>Draft, live, and finished races</h2>
               </div>
+              <button class="button button-outline" type="button" data-sw-toggle-archived>View archived races</button>
             </div>
 
             <div class="sw-race-list" data-sw-race-list style="margin-top:16px;"></div>
             <div class="sw-empty" data-sw-race-empty hidden>No races yet. Create your first race to start planning.</div>
+
+            <div data-sw-archived-panel hidden style="margin-top:24px;border-top:1px solid rgba(15,23,42,0.12);padding-top:20px;">
+              <p class="eyebrow">Archived</p>
+              <p style="opacity:0.75;margin:4px 0 14px;">Archived races are hidden from the race switcher and Team Home, but every recorded time stays exactly as it was. Unarchive one to bring it back into your working list.</p>
+              <div class="sw-race-list" data-sw-archived-list></div>
+              <div class="sw-empty" data-sw-archived-empty hidden>No archived races.</div>
+            </div>
           </section>
         </div>
 

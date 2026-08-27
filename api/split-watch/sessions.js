@@ -15,7 +15,9 @@ import {
   finishRace,
   restartRace,
   duplicateSession,
-  deleteSession
+  deleteSession,
+  archiveSession,
+  unarchiveSession
 } from "../../lib/split_watch_service.mjs";
 import { buildCommandCenterContext } from "../../lib/race_day_command_center_service.mjs";
 import { getRaceDayContext } from "../../lib/todays_race_service.mjs";
@@ -54,7 +56,17 @@ export default async function handler(request, response) {
 
     switch (action) {
       case "list":
-        data = await listSessions({ teamId });
+        data = await listSessions({ teamId, includeArchived: Boolean(body.include_archived) });
+        break;
+      // Coach-only (see race_day_auth.mjs's helper allow-list, which does
+      // not include either action -- a helper gets the same clean 403 as
+      // create_rehearsal/reset_rehearsal). Tidies the working race list
+      // without deleting anything.
+      case "archive":
+        data = await archiveSession({ teamId, sessionId: cleanText(body.session_id) });
+        break;
+      case "unarchive":
+        data = await unarchiveSession({ teamId, sessionId: cleanText(body.session_id) });
         break;
       // Smart routing read (Section 9/3 of the race day spec; extended by
       // Race Day Command Center, build plan Project 2): the one relevant

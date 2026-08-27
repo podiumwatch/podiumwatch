@@ -105,8 +105,8 @@ function readSource(path) {
 
 {
   const viewerSource = readSource("../lib/race_viewer_service.mjs");
-  const spectatorBody = viewerSource.slice(viewerSource.indexOf("export async function loadSpectatorRace"));
-  assert.match(spectatorBody, /if \(session\.is_rehearsal\) \{/, "loadSpectatorRace explicitly refuses a rehearsal session, in addition to the spectator_visible guard upstream.");
+  const spectatorBody = viewerSource.slice(viewerSource.indexOf("export async function loadSpectatorDay"));
+  assert.match(spectatorBody, /if \(s\.is_rehearsal\) fail\(/, "loadSpectatorDay explicitly refuses a rehearsal session, in addition to the is_rehearsal=false filter on the candidates query.");
 
   const athleteViewBody = viewerSource.slice(viewerSource.indexOf("export async function loadAthleteViewRaces"));
   assert.match(athleteViewBody, /is_rehearsal/, "loadAthleteViewRaces excludes rehearsal sessions from an athlete's/guardian's own race list.");
