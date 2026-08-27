@@ -12,7 +12,8 @@ import {
   pushSplits,
   pullState,
   setParticipantStatus,
-  adjustRaceClock
+  adjustRaceClock,
+  recordSyncActivity
 } from "../../lib/split_watch_service.mjs";
 import { sessionHasPositions } from "../../lib/timing_crew_service.mjs";
 
@@ -25,6 +26,13 @@ function cleanText(value) {
 // be safely retried: push_splits upserts on the client-minted
 // client_split_id (see install/11_RACE_COMMAND_CENTER.sql), and
 // pull_state is a pure read used for post-refresh/multi-tab recovery.
+//
+// Race Day Health (build plan Project 5): push_splits/pull_state are
+// exactly the two actions every active device already calls every
+// 8-11 seconds during a live race (see split-watch-live.js's
+// triggerSync()/pullRemoteUpdates() polling intervals) -- reusing that
+// existing traffic as the health signal itself, rather than adding a
+// dedicated heartbeat call, is what makes recordSyncActivity() free.
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
 
@@ -77,9 +85,11 @@ export default async function handler(request, response) {
         break;
       case "push_splits":
         data = await pushSplits({ teamId, sessionId, splits: body.splits });
+        await recordSyncActivity({ sessionId, clockOffsetMs: Number(body.client_clock_offset_ms) });
         break;
       case "pull_state":
         data = await pullState({ teamId, sessionId });
+        await recordSyncActivity({ sessionId, clockOffsetMs: Number(body.client_clock_offset_ms) });
         break;
       case "set_participant_status":
         data = await setParticipantStatus({

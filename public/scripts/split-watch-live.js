@@ -233,12 +233,24 @@
   // cadence and accuracy needs actually call for. Only ever improves the
   // lower-precision "recovered" wall-clock path; the monotonic path never
   // needed this and is left untouched.
+  // Race Day Health (build plan Project 5): this is already computed on
+  // every round trip purely to correct THIS device's own recovered-time
+  // display (Timer.setClockOffsetMs()) -- lastKnownClockOffsetMs keeps a
+  // plain, readable copy of that same number (Timer exposes no getter)
+  // so apiFetch() below can report it back to the server on the NEXT
+  // request. One round trip's worth of lag between "measured" and
+  // "reported" is fine -- this is a health signal, not the race clock
+  // itself.
+  let lastKnownClockOffsetMs = 0;
+
   function updateClockOffset(serverNowIso, requestSentMs, responseReceivedMs) {
     if (!serverNowIso) return;
     const serverNowMs = Date.parse(serverNowIso);
     if (Number.isNaN(serverNowMs)) return;
     const roundTripMidpointMs = (requestSentMs + responseReceivedMs) / 2;
-    Timer.setClockOffsetMs(serverNowMs - roundTripMidpointMs);
+    const offsetMs = serverNowMs - roundTripMidpointMs;
+    Timer.setClockOffsetMs(offsetMs);
+    lastKnownClockOffsetMs = offsetMs;
   }
 
   async function apiFetch(endpoint, payload) {
@@ -254,7 +266,11 @@
     const response = await fetch(endpoint, {
       method: "POST",
       headers,
-      body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
+      // client_clock_offset_ms lets the server surface a genuinely bad
+      // device clock on the coach's OWN readiness checklist (see
+      // lib/race_readiness_service.mjs), not just silently affect this
+      // one device's own recovered-time precision.
+      body: JSON.stringify({ team_id: teamId, session_id: sessionId, client_clock_offset_ms: lastKnownClockOffsetMs, ...payload })
     });
     // A helper who opened THIS exact race's link cold (no code entered
     // on this device yet) -- most importantly a coach's own "share this
@@ -274,13 +290,47 @@
 
   // ---- sync status display ---------------------------------------------------
 
-  function setSyncStatus(status) {
-    syncStatusPill.className = "sw-status-pill sw-status-" + status;
+  // Race Day Health (build plan Project 5): the sync pill used to only
+  // ever show a status WORD ("Syncing...", "Offline -- saved on
+  // device") -- never a count. On real stadium wifi, a coach watching
+  // "Offline" has no way to tell whether that means one still-local
+  // split or thirty; the word is honest but not actionable. currentSyncStatus/
+  // pendingSplitCount are tracked separately and combined in
+  // updateSyncLabel() so either one changing (a fresh capture landing
+  // locally, vs. a sync cycle actually completing) updates the visible
+  // text immediately, not just on the next full sync tick.
+  let currentSyncStatus = "saved";
+  let pendingSplitCount = 0;
+
+  function updateSyncLabel() {
     const labels = {
       synced: "Synced", syncing: "Syncing...", saved: "Saved on device",
       offline: "Offline -- saved on device", needs_attention: "Sync needs attention"
     };
-    syncStatusText.textContent = labels[status] || status;
+    const base = labels[currentSyncStatus] || currentSyncStatus;
+    syncStatusText.textContent = pendingSplitCount > 0
+      ? base + " (" + pendingSplitCount + " pending)"
+      : base;
+  }
+
+  function setSyncStatus(status) {
+    currentSyncStatus = status;
+    syncStatusPill.className = "sw-status-pill sw-status-" + status;
+    updateSyncLabel();
+  }
+
+  function setPendingSplitCount(count) {
+    pendingSplitCount = count;
+    updateSyncLabel();
+  }
+
+  // Callable any time a capture happens, independent of whether a sync
+  // cycle is actually running right now (triggerSync() coalesces a
+  // request that arrives mid-sync into resyncRequested rather than
+  // re-querying immediately) -- so the count itself never lags behind
+  // what's actually sitting local-only.
+  function refreshPendingCount() {
+    return Store.getUnsyncedSplits(sessionId).then((unsynced) => setPendingSplitCount(unsynced.length));
   }
 
   // A new capture that arrives WHILE a sync is already in flight must
@@ -308,6 +358,7 @@
     }
 
     Store.getUnsyncedSplits(sessionId).then((unsynced) => {
+      setPendingSplitCount(unsynced.length);
       if (unsynced.length === 0) {
         finish(navigator.onLine ? "synced" : "offline");
         return;
@@ -397,6 +448,12 @@
           }
         });
       })
+        // Re-count rather than assume zero -- a split that failed its
+        // stillMatches check above (corrected locally while its own
+        // push was in flight) is deliberately left unsynced, so the
+        // pill's count must reflect that too, not just "synced" with a
+        // stale number still showing.
+        .then(() => refreshPendingCount())
         .then(() => finish("synced"))
         .catch(() => finish(navigator.onLine ? "needs_attention" : "offline"));
     }).catch(() => finish(navigator.onLine ? "needs_attention" : "offline"));
@@ -617,7 +674,17 @@
     splitsByClientId.set(finalClientSplitId, record);
     renderRunnerList();
 
-    Store.saveSplitLocal(record).then(() => triggerSync());
+    // refreshPendingCount() is awaited BEFORE triggerSync() runs, not
+    // fired in parallel with it -- both would otherwise independently
+    // query the same local store at the same moment, racing over which
+    // one's result (and which status word) actually lands last. This
+    // way the count is always correct the instant it's shown, and a
+    // sync already in flight from an earlier tap (which just coalesces
+    // this one into resyncRequested, skipping its own re-query) still
+    // gets an accurate count from this call rather than a stale one.
+    Store.saveSplitLocal(record)
+      .then(() => refreshPendingCount())
+      .then(() => triggerSync());
     return finalClientSplitId;
   }
 
