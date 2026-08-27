@@ -172,7 +172,7 @@ export function teamHomePage(site) {
             </p>
 
             <div class="tw-race-day-reveal" data-tw-race-day-reveal hidden>
-              <p>Your new code -- share it now, it won't be shown again</p>
+              <p>Your team's race day code -- give it to anyone timing today. It stays here until you regenerate or turn off access.</p>
               <div class="tw-race-day-code-row">
                 <code class="tw-race-day-code" data-tw-race-day-reveal-code></code>
                 <button class="button button-outline" type="button" data-tw-race-day-copy>Copy</button>

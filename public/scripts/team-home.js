@@ -301,11 +301,6 @@
   }
 
   function renderRaceDayStatus(status, keepReveal = false) {
-    // A freshly generated code is only ever shown once, right after the
-    // click that made it -- any later status refresh (revoke, page
-    // reload) re-hides it, since the raw code isn't recoverable server-side.
-    // The one exception is the immediate re-render right after generating
-    // it, which passes keepReveal so the code stays visible.
     if (!keepReveal) raceDayReveal.hidden = true;
 
     if (!status || !status.active) {
@@ -326,9 +321,19 @@
         (created ? "Created " + created : "Active") +
         " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
         (expires ? " · Expires " + expires : "") +
-      '</div>';
+      '</div>' +
+      (status.code ? "" : '<div class="tw-item-meta">Generated before codes could be shown again here -- regenerate once and it\'ll stay visible from then on.</div>');
     raceDayGenerateButton.textContent = "Regenerate code";
     raceDayRevokeButton.hidden = false;
+
+    // One code is meant to last the whole day -- adding a third helper
+    // mid-afternoon should never require a brand new code just to read
+    // back the one already given to the first two. Show it again every
+    // time the dialog reopens, not just once at generation.
+    if (status.code) {
+      raceDayRevealCode.textContent = status.code;
+      raceDayReveal.hidden = false;
+    }
   }
 
   raceDayGenerateButton.addEventListener("click", async () => {

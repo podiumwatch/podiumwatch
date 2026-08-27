@@ -462,7 +462,7 @@ export function splitWatchHubPage(site) {
           </p>
 
           <div class="sw-race-day-reveal" data-sw-race-day-reveal hidden>
-            <p>Your new code -- share it now, it won't be shown again</p>
+            <p>Your team's race day code -- give it to anyone timing today. It stays here until you regenerate or turn off access.</p>
             <div class="sw-race-day-code-row">
               <code class="sw-race-day-code" data-sw-race-day-reveal-code></code>
               <button class="button button-outline" type="button" data-sw-race-day-copy>Copy</button>

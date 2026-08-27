@@ -1090,9 +1090,19 @@
       '<div class="sw-item-meta">' +
         (created ? "Created " + created : "Active") +
         " · " + (lastUsed ? "Last used " + lastUsed : "Not used yet") +
-      '</div>';
+      '</div>' +
+      (status.code ? "" : '<div class="sw-item-meta">Generated before codes could be shown again here -- regenerate once and it\'ll stay visible from then on.</div>');
     raceDayGenerateButton.textContent = "Regenerate code";
     raceDayRevokeButton.hidden = false;
+
+    // One code is meant to last the whole day -- adding a third helper
+    // mid-afternoon should never require a brand new code just to read
+    // back the one already given to the first two. Show it again every
+    // time the dialog reopens, not just once at generation.
+    if (status.code) {
+      raceDayRevealCode.textContent = status.code;
+      raceDayReveal.hidden = false;
+    }
   }
 
   raceDayOpenButton.addEventListener("click", async () => {
