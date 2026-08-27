@@ -37,6 +37,14 @@ export function splitWatchPlanPage(site) {
 
     .sw-grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      /* Grid items default to min-width:auto, so a wide nowrap descendant
+         (the bulk-goals table below, in particular) can stretch this grid
+         wider than the viewport on mobile even though that table has its
+         own overflow-x:auto scroller. min-width:0 lets the scroller do its
+         job instead of the grid track absorbing the overflow. Confirmed as
+         a real horizontal-overflow bug during Rehearsal Mode's mobile
+         testing (pre-existing, unrelated to rehearsal itself). */
+      min-width: 0;
     }
 
     .sw-panel {
@@ -44,6 +52,7 @@ export function splitWatchPlanPage(site) {
       border-radius: 16px;
       background: #ffffff;
       box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      min-width: 0;
     }
 
     .sw-panel-full {
@@ -431,6 +440,22 @@ export function splitWatchPlanPage(site) {
 
         <p class="sw-message" data-sw-message aria-live="polite" hidden></p>
 
+        <section class="sw-panel sw-panel-full" data-sw-rehearsal-panel style="margin-bottom:20px;" hidden>
+          <p class="eyebrow">Practice safely</p>
+          <h2>Rehearsal</h2>
+          <p>
+            Practice the complete timing flow -- starting the clock, recording splits, inviting helpers -- using
+            this race's real roster and goals. Rehearsal clocks and captures never affect the official race,
+            parent page, Review, or athlete history.
+          </p>
+
+          <div data-sw-rehearsal-status style="margin:14px 0;font-size:0.9rem;opacity:0.85;"></div>
+
+          <div class="sw-actions">
+            <button class="button button-primary" type="button" data-sw-rehearsal-enter>Practice This Race</button>
+          </div>
+        </section>
+
         <section class="sw-panel sw-panel-full" style="margin-bottom:20px;">
           <p class="eyebrow">Parent &amp; fan sharing</p>
           <h2>Parent live link</h2>
@@ -565,9 +590,10 @@ export function splitWatchPlanPage(site) {
       </div>
 
       <p style="margin-top:6px;">
-        Share this code with anyone timing this race for you -- a parent at mile one, a friend at the finish.
-        They enter it at <strong>Split Watch</strong> in the main menu and go straight into live
-        timing for this team, no account required.
+        Share this 4-digit code with anyone actually recording splits for you -- a coach at mile one, a volunteer
+        at the finish. They enter it at <strong>Split Watch</strong> and go straight into today's race, no account
+        required. For parents and fans who just want to watch, use Copy Parent Live Link above instead -- that's
+        a read-only view, this code is not.
       </p>
 
       <div class="sw-race-day-reveal" data-sw-race-day-reveal hidden>
@@ -583,6 +609,28 @@ export function splitWatchPlanPage(site) {
       <div class="sw-actions" style="margin-top:14px;">
         <button class="button button-primary" type="button" data-sw-race-day-generate>Generate code</button>
         <button class="button button-outline" type="button" data-sw-race-day-revoke hidden>Turn off access</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="sw-race-day-dialog" data-sw-rehearsal-intro-dialog>
+    <div class="sw-race-day-dialog-body">
+      <div class="sw-header">
+        <div>
+          <p class="eyebrow">Before you start</p>
+          <h2>Practice safely</h2>
+        </div>
+        <button class="button button-outline" type="button" data-sw-rehearsal-intro-close>Close</button>
+      </div>
+
+      <p style="margin-top:6px;">
+        Practice the complete timing flow safely. Rehearsal clocks and captures never affect the official race,
+        parent page, Review, or athlete history.
+      </p>
+
+      <div class="sw-actions" style="margin-top:14px;">
+        <button class="button button-primary" type="button" data-sw-rehearsal-intro-confirm>Enter Rehearsal</button>
+        <button class="button button-outline" type="button" data-sw-rehearsal-intro-cancel>Cancel</button>
       </div>
     </div>
   </dialog>

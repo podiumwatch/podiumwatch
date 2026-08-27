@@ -34,6 +34,10 @@ export function splitWatchReviewPage(site) {
     .sw-race-switcher-select { padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.22); background: #ffffff; font: inherit; }
     .sw-message { padding: 14px 16px; border-radius: 10px; background: rgba(0, 191, 99, 0.1); }
 
+    /* Rehearsal Mode (race day build plan, Project 1) -- never relies on
+       color alone; the words REHEARSAL MODE are the actual signal. */
+    .sw-rehearsal-review-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 16px; border-radius: 10px; background: #fff3cd; color: #664500; border: 2px solid #ffb800; font-size: 0.9rem; }
+
     .sw-stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 16px 0; }
     .sw-stat { padding: 16px; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
     .sw-stat strong { display: block; font-size: 1.5rem; }
@@ -79,6 +83,11 @@ export function splitWatchReviewPage(site) {
             </span>
             <button class="button button-primary" type="button" data-sw-copy-summary>Copy team summary</button>
           </div>
+        </div>
+
+        <div class="sw-rehearsal-review-banner" data-sw-rehearsal-review-banner hidden>
+          <strong>REHEARSAL MODE</strong>
+          <span>This is a practice run -- it never appears in official Review or results.</span>
         </div>
 
         <p class="sw-message" data-sw-message aria-live="polite" hidden></p>

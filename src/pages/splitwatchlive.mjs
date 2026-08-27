@@ -106,6 +106,27 @@ export function splitWatchLivePage(site) {
       background: #0b0b0b;
     }
 
+    /* Rehearsal Mode (race day build plan, Project 1): stays inside the
+       already-sticky header so it can never scroll out of view, and
+       never relies on color alone -- the words REHEARSAL MODE are the
+       actual signal, not the amber background. */
+    .sw-rehearsal-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      padding: 8px 4px;
+      background: #7a5b00;
+      color: #fff6da;
+      border-bottom: 2px solid #ffb800;
+      font-size: 0.85rem;
+    }
+
+    .sw-rehearsal-banner strong {
+      letter-spacing: 0.04em;
+      font-size: 0.92rem;
+    }
+
     .sw-live-topbar {
       display: flex;
       flex-wrap: wrap;
@@ -628,6 +649,7 @@ export function splitWatchLivePage(site) {
       <div class="sw-live-top-row">
         <div class="sw-live-top-row-left">
           <a class="sw-live-back" href="/split-watch/" data-sw-back-link>&larr; Split Watch</a>
+          <a class="sw-restart-link" href="/split-watch/plan/" data-sw-leave-rehearsal hidden>Leave Rehearsal</a>
           <button class="sw-restart-link" type="button" data-sw-restart-race hidden>Restart race</button>
           <button class="sw-restart-link" type="button" data-sw-adjust-clock-open hidden>Adjust race clock</button>
         </div>
@@ -639,6 +661,10 @@ export function splitWatchLivePage(site) {
         </div>
       </div>
       <div class="sw-live-sticky-header">
+        <div class="sw-rehearsal-banner" data-sw-rehearsal-banner hidden>
+          <strong>REHEARSAL MODE</strong>
+          <span>Practice taps do not affect the official race.</span>
+        </div>
         <div class="sw-live-topbar">
           <div>
             <h1 data-sw-race-name></h1>

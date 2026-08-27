@@ -18,6 +18,11 @@ import {
   deleteSession
 } from "../../lib/split_watch_service.mjs";
 import { getRaceDayContext } from "../../lib/todays_race_service.mjs";
+import {
+  getOrCreateActiveRehearsal,
+  resetRehearsal,
+  getRehearsalStatus
+} from "../../lib/rehearsal_service.mjs";
 
 function cleanText(value) {
   return String(value ?? "").trim();
@@ -94,6 +99,28 @@ export default async function handler(request, response) {
         break;
       case "delete":
         data = await deleteSession({ teamId, sessionId: cleanText(body.session_id) });
+        break;
+      // Rehearsal Mode (install/25) -- coach-only, enforced below via
+      // assertActionAllowedForActor (not in a race-day code's allowed
+      // set, so a helper session gets a clean 403 attempting any of
+      // these; a helper may only JOIN a rehearsal a coach already
+      // started, via the same Live page every official race uses).
+      case "create_rehearsal":
+        data = await getOrCreateActiveRehearsal({
+          teamId,
+          sourceSessionId: cleanText(body.session_id),
+          actor
+        });
+        break;
+      case "reset_rehearsal":
+        data = await resetRehearsal({
+          teamId,
+          rehearsalSessionId: cleanText(body.session_id),
+          actor
+        });
+        break;
+      case "rehearsal_status":
+        data = await getRehearsalStatus({ teamId, sourceSessionId: cleanText(body.session_id) });
         break;
       default: {
         const error = new Error("Unknown race action.");

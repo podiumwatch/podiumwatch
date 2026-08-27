@@ -15,11 +15,12 @@
   const raceSwitcherWrap = document.querySelector("[data-sw-race-switcher-wrap]");
   const raceSwitcher = document.querySelector("[data-sw-race-switcher]");
   const copySummaryButton = document.querySelector("[data-sw-copy-summary]");
+  const rehearsalReviewBanner = document.querySelector("[data-sw-rehearsal-review-banner]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, raceMetaEl, messageBox,
     teamStats, teamRows, individualPanel, individualName, individualClose, individualRows,
-    allRacesLink, raceSwitcherWrap, raceSwitcher, copySummaryButton
+    allRacesLink, raceSwitcherWrap, raceSwitcher, copySummaryButton, rehearsalReviewBanner
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -218,6 +219,7 @@
   function renderTeamReview(data) {
     teamNameEl.textContent = data.team ? data.team.school_name : "";
     raceNameEl.textContent = data.session ? data.session.name : "";
+    rehearsalReviewBanner.hidden = !(data.session && data.session.is_rehearsal);
 
     const rowsWithStatus = data.rows.map((row) => {
       const excluded = row.participant.status === "dns" || row.participant.status === "dnf";

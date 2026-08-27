@@ -47,6 +47,8 @@
   const adjustClockInput = document.querySelector("[data-sw-adjust-clock-input]");
   const adjustClockMessage = document.querySelector("[data-sw-adjust-clock-message]");
   const adjustClockSaveButton = document.querySelector("[data-sw-adjust-clock-save]");
+  const rehearsalBanner = document.querySelector("[data-sw-rehearsal-banner]");
+  const leaveRehearsalLink = document.querySelector("[data-sw-leave-rehearsal]");
 
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
@@ -57,7 +59,7 @@
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl,
     raceDayGenerateButton, raceDayRevokeButton, startHeadingEl, startMessageEl,
     adjustClockOpenButton, adjustClockDialog, adjustClockCloseButton, adjustClockCurrentEl,
-    adjustClockInput, adjustClockMessage, adjustClockSaveButton
+    adjustClockInput, adjustClockMessage, adjustClockSaveButton, rehearsalBanner, leaveRehearsalLink
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -762,16 +764,36 @@
   // checkpoint index, local IndexedDB record) resets to genuinely nothing,
   // matching how Finish Race already just navigates away rather than
   // trying to patch live state in place.
+  // Rehearsal Mode (race day build plan, Project 1): "Reset Rehearsal"
+  // reuses this same button, but is NOT the same operation as restarting
+  // an official race. It archives the current rehearsal (cancelled,
+  // never deleted -- its clock and splits stay exactly as they were)
+  // and creates a genuinely NEW rehearsal row for the next attempt. A
+  // fresh session id -- not an in-place restart -- is what actually
+  // makes reset safe: no device's local cache can ever confuse the new
+  // attempt with the old one, because they are different ids, not just
+  // different data under the same id. This is why the navigation below
+  // goes to a DIFFERENT race id, not a reload of this same page.
   restartRaceButton.addEventListener("click", async () => {
-    if (!window.confirm("Restart this race? Every time recorded so far will be permanently lost, and the race goes back to \"Ready to start.\" Use this for a false start.")) return;
+    const isRehearsal = Boolean(detail?.session?.is_rehearsal);
+    const confirmed = isRehearsal
+      ? window.confirm("Reset this rehearsal?\n\nThe rehearsal clock, practice captures, and practice corrections will be cleared from the active rehearsal. The official race will not be changed.")
+      : window.confirm("Restart this race? Every time recorded so far will be permanently lost, and the race goes back to \"Ready to start.\" Use this for a false start.");
+    if (!confirmed) return;
+
     restartRaceButton.disabled = true;
     try {
+      if (isRehearsal) {
+        const result = await apiFetch(SESSIONS_ENDPOINT, { action: "reset_rehearsal" });
+        window.location.href = "/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(result.session.id);
+        return;
+      }
       await apiFetch(SESSIONS_ENDPOINT, { action: "restart_race" });
       await Store.deleteSplitsForSession(sessionId);
       await Store.deleteRaceState(sessionId);
       window.location.reload();
     } catch (error) {
-      showMessage(error.message || "This race could not be restarted.", true);
+      showMessage(error.message || (isRehearsal ? "This rehearsal could not be reset." : "This race could not be restarted."), true);
       restartRaceButton.disabled = false;
     }
   });
@@ -1019,10 +1041,34 @@
   // preserving the legitimate "another authorized coach can start this
   // race" case the spec asks to keep.
   function applyViewerModeToLiveScreen() {
+    applyRehearsalMode();
     const isHelper = viewerType === "race_day_code";
     finishRaceButton.hidden = isHelper;
     restartRaceButton.hidden = isHelper;
-    adjustClockOpenButton.hidden = isHelper || !detail || detail.session.status !== "live";
+    adjustClockOpenButton.hidden = isHelper || !detail || detail.session.status !== "live" || detail.session.is_rehearsal;
+  }
+
+  // Rehearsal Mode (race day build plan, Project 1): the persistent
+  // banner, relabeled Reset/Leave controls, and browser tab title are
+  // the only things this page changes for a rehearsal -- the actual
+  // timing mechanics (Timer, IndexedDB, sync) are the exact same code
+  // path an official race uses, since a rehearsal is just another
+  // race_session_id (install/25_SPLIT_WATCH_REHEARSAL_MODE.sql).
+  const originalDocumentTitle = document.title;
+
+  function applyRehearsalMode() {
+    const isRehearsal = Boolean(detail?.session?.is_rehearsal);
+    rehearsalBanner.hidden = !isRehearsal;
+    restartRaceButton.textContent = isRehearsal ? "Reset Rehearsal" : "Restart race";
+    document.title = isRehearsal ? "Rehearsal -- " + originalDocumentTitle : originalDocumentTitle;
+
+    if (isRehearsal && detail.session.rehearsal_of_session_id) {
+      leaveRehearsalLink.href = "/split-watch/plan/?id=" + encodeURIComponent(teamId) +
+        "&race=" + encodeURIComponent(detail.session.rehearsal_of_session_id);
+    }
+    // A helper doesn't "leave" a rehearsal back to planning -- they have
+    // no access to that page at all; only the coach who entered it does.
+    leaveRehearsalLink.hidden = !isRehearsal || viewerType === "race_day_code";
   }
 
   // Same idea for the pre-race screen: a helper who arrives before the
@@ -1030,11 +1076,16 @@
   // for the coach" message that auto-transitions on its own the moment
   // pollForRaceStart() detects the race went live (see Problem 3/4).
   function applyViewerModeToStartScreen() {
+    applyRehearsalMode();
     const isHelper = viewerType === "race_day_code";
     startButton.hidden = isHelper;
+    const isRehearsal = Boolean(detail?.session?.is_rehearsal);
     if (isHelper) {
       startHeadingEl.textContent = "Waiting for the coach to start the race";
       startMessageEl.textContent = "You're connected as a timing helper for " + (detail?.session?.name || "this race") + ". This screen will switch to live timing automatically the moment the race starts -- keep it open.";
+    } else if (isRehearsal) {
+      startHeadingEl.textContent = "Ready to practice?";
+      startMessageEl.textContent = "Starting begins this rehearsal's own practice clock immediately for every runner. It never touches the official race, parent page, or athlete history.";
     } else {
       startHeadingEl.textContent = "Ready to start?";
       startMessageEl.textContent = "Starting the race begins the official race clock immediately for every runner. Make sure everyone is on the line.";

@@ -51,6 +51,13 @@
   const copyParentLinkButton = document.querySelector("[data-sw-copy-parent-link]");
   const scheduledStartInput = document.querySelector("[data-sw-scheduled-start-input]");
   const scheduledStartDateEl = document.querySelector("[data-sw-scheduled-start-date]");
+  const rehearsalPanel = document.querySelector("[data-sw-rehearsal-panel]");
+  const rehearsalStatusEl = document.querySelector("[data-sw-rehearsal-status]");
+  const rehearsalEnterButton = document.querySelector("[data-sw-rehearsal-enter]");
+  const rehearsalIntroDialog = document.querySelector("[data-sw-rehearsal-intro-dialog]");
+  const rehearsalIntroClose = document.querySelector("[data-sw-rehearsal-intro-close]");
+  const rehearsalIntroConfirm = document.querySelector("[data-sw-rehearsal-intro-confirm]");
+  const rehearsalIntroCancel = document.querySelector("[data-sw-rehearsal-intro-cancel]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
@@ -61,7 +68,9 @@
     participantList, participantEmpty, deleteRaceButton, liveLinkButton,
     raceDayOpenButton, raceDayDialog, raceDayCloseButton, raceDayReveal, raceDayRevealCode,
     raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton,
-    spectatorToggle, spectatorLinkRow, spectatorLinkInput, copyParentLinkButton, scheduledStartInput, scheduledStartDateEl
+    spectatorToggle, spectatorLinkRow, spectatorLinkInput, copyParentLinkButton, scheduledStartInput, scheduledStartDateEl,
+    rehearsalPanel, rehearsalStatusEl, rehearsalEnterButton, rehearsalIntroDialog,
+    rehearsalIntroClose, rehearsalIntroConfirm, rehearsalIntroCancel
   ];
 
   if (requiredElements.some((el) => !el)) {
@@ -206,7 +215,88 @@
     }).join("");
 
     renderSharingPanel();
+    renderRehearsalPanel();
   }
+
+  // --- rehearsal mode (race day build plan, Project 1) -----------------------
+  // A rehearsal is a genuinely separate race_sessions row (see
+  // lib/rehearsal_service.mjs) -- this panel only ever appears while the
+  // SOURCE race is still being prepared (draft/scheduled). Once it goes
+  // live, finished, reviewed, or cancelled, "practicing" it no longer
+  // fits the "test the night before" purpose it exists for, so the whole
+  // panel is hidden rather than shown disabled.
+
+  function formatRehearsalDateTime(isoText) {
+    const date = new Date(String(isoText || ""));
+    if (Number.isNaN(date.getTime())) return null;
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+      " at " + date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  }
+
+  let rehearsalEligible = false;
+
+  async function renderRehearsalPanel() {
+    const session = detail.session;
+    rehearsalEligible = session.status === "draft" || session.status === "scheduled";
+    rehearsalPanel.hidden = !rehearsalEligible;
+    if (!rehearsalEligible) return;
+
+    try {
+      const status = await apiFetch(SESSIONS_ENDPOINT, { action: "rehearsal_status", session_id: sessionId });
+      if (!status.has_rehearsal) {
+        rehearsalStatusEl.textContent = "Not yet practiced.";
+        return;
+      }
+      const when = status.status === "finished"
+        ? "Rehearsal completed " + (formatRehearsalDateTime(status.race_ended_at) || "recently")
+        : (status.status === "live"
+          ? "Rehearsal in progress -- started " + (formatRehearsalDateTime(status.race_started_at) || "recently")
+          : "Rehearsal ready, not yet started.");
+      rehearsalStatusEl.textContent = when + (status.outdated ? " (roster or distance has changed since -- consider practicing again)" : "");
+    } catch {
+      // A status line that fails to load just stays blank -- it must
+      // never block the Practice This Race button itself.
+      rehearsalStatusEl.textContent = "";
+    }
+  }
+
+  let rehearsalHasEverBeenUsed = false;
+
+  async function enterRehearsal() {
+    rehearsalEnterButton.disabled = true;
+    try {
+      const result = await apiFetch(SESSIONS_ENDPOINT, { action: "create_rehearsal", session_id: sessionId });
+      window.location.href = "/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(result.session.id);
+    } catch (error) {
+      showMessage(error.message || "Rehearsal could not be started.", true);
+      rehearsalEnterButton.disabled = false;
+    }
+  }
+
+  rehearsalEnterButton.addEventListener("click", async () => {
+    // The first-use explainer only appears the first time this race has
+    // ever been rehearsed -- checked fresh, not cached, since another
+    // coach device may have already practiced it.
+    try {
+      const status = await apiFetch(SESSIONS_ENDPOINT, { action: "rehearsal_status", session_id: sessionId });
+      rehearsalHasEverBeenUsed = Boolean(status.has_rehearsal);
+    } catch {
+      rehearsalHasEverBeenUsed = true; // fail safe -- skip straight to entering rather than block on a status check that failed
+    }
+
+    if (!rehearsalHasEverBeenUsed) {
+      rehearsalIntroDialog.showModal();
+      return;
+    }
+    await enterRehearsal();
+  });
+
+  rehearsalIntroClose.addEventListener("click", () => rehearsalIntroDialog.close());
+  rehearsalIntroCancel.addEventListener("click", () => rehearsalIntroDialog.close());
+  rehearsalIntroConfirm.addEventListener("click", async () => {
+    rehearsalIntroDialog.close();
+    await enterRehearsal();
+  });
 
   // --- parent live link + scheduled time (race day spec, Section 5) ----------
   // race_sessions.scheduled_start_time is a plain time-of-day column
