@@ -54,6 +54,9 @@
   const rehearsalPanel = document.querySelector("[data-sw-rehearsal-panel]");
   const rehearsalStatusEl = document.querySelector("[data-sw-rehearsal-status]");
   const rehearsalEnterButton = document.querySelector("[data-sw-rehearsal-enter]");
+  const rehearsalShareRow = document.querySelector("[data-sw-rehearsal-share-row]");
+  const rehearsalShareLinkInput = document.querySelector("[data-sw-rehearsal-share-link]");
+  const rehearsalShareCopyButton = document.querySelector("[data-sw-rehearsal-share-copy]");
   const rehearsalIntroDialog = document.querySelector("[data-sw-rehearsal-intro-dialog]");
   const rehearsalIntroClose = document.querySelector("[data-sw-rehearsal-intro-close]");
   const rehearsalIntroConfirm = document.querySelector("[data-sw-rehearsal-intro-confirm]");
@@ -78,6 +81,7 @@
     spectatorToggle, spectatorLinkRow, spectatorLinkInput, copyParentLinkButton, scheduledStartInput, scheduledStartDateEl,
     rehearsalPanel, rehearsalStatusEl, rehearsalEnterButton, rehearsalIntroDialog,
     rehearsalIntroClose, rehearsalIntroConfirm, rehearsalIntroCancel,
+    rehearsalShareRow, rehearsalShareLinkInput, rehearsalShareCopyButton,
     crewList, crewEmpty, crewAddForm, crewCapabilitySelect, crewCheckpointField, crewCheckpointSelect, crewMessage
   ];
 
@@ -254,6 +258,7 @@
       const status = await apiFetch(SESSIONS_ENDPOINT, { action: "rehearsal_status", session_id: sessionId });
       if (!status.has_rehearsal) {
         rehearsalStatusEl.textContent = "Not yet practiced.";
+        rehearsalShareRow.hidden = true;
         return;
       }
       const when = status.status === "finished"
@@ -262,6 +267,15 @@
           ? "Rehearsal in progress -- started " + (formatRehearsalDateTime(status.race_started_at) || "recently")
           : "Rehearsal ready, not yet started.");
       rehearsalStatusEl.textContent = when + (status.outdated ? " (roster or distance has changed since -- consider practicing again)" : "");
+
+      // Share link only while the rehearsal is still something a helper
+      // could usefully join (not a finished/archived one).
+      if (status.status !== "finished") {
+        rehearsalShareLinkInput.value = window.location.origin + "/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(status.session_id);
+        rehearsalShareRow.hidden = false;
+      } else {
+        rehearsalShareRow.hidden = true;
+      }
     } catch {
       // A status line that fails to load just stays blank -- it must
       // never block the Practice This Race button itself.
@@ -548,6 +562,16 @@
       // link is already visible and selectable in the field itself, so
       // this is a soft failure, matching the race-day-code copy buttons.
       spectatorLinkInput.select();
+    }
+  });
+
+  rehearsalShareCopyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(rehearsalShareLinkInput.value);
+      rehearsalShareCopyButton.textContent = "Copied";
+      setTimeout(() => { rehearsalShareCopyButton.textContent = "Copy link"; }, 2000);
+    } catch {
+      rehearsalShareLinkInput.select();
     }
   });
 

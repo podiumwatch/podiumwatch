@@ -495,6 +495,25 @@ export function splitWatchPlanPage(site) {
           <div class="sw-actions">
             <button class="button button-primary" type="button" data-sw-rehearsal-enter>Practice This Race</button>
           </div>
+
+          <!-- Rehearsal Mode gap fix (2026-08-27): a rehearsal never
+               appears in the smart routing a helper's race-day code
+               normally uses (by design -- it's practice data, never
+               shown as if it were today's real race), so there was
+               previously no way at all for a coach's actual helpers to
+               land on the SAME rehearsal the coach is running. This
+               direct link is the fix -- share it with helpers exactly
+               like the parent live link below, except this one lands
+               helpers straight on this specific rehearsal. -->
+          <div data-sw-rehearsal-share-row style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(15,23,42,0.12);" hidden>
+            <p style="margin:0 0 8px;font-size:0.85rem;opacity:0.8;">
+              Practicing with helpers? A race-day code alone won't find this rehearsal -- send them this link instead.
+            </p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+              <input type="text" readonly data-sw-rehearsal-share-link style="flex:1 1 280px;min-width:0;padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.22);font:inherit;">
+              <button class="button button-outline" type="button" data-sw-rehearsal-share-copy>Copy link</button>
+            </div>
+          </div>
         </section>
 
         <section class="sw-panel sw-panel-full" style="margin-bottom:20px;">

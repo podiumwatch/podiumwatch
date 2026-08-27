@@ -256,7 +256,15 @@
       headers,
       body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
     });
-    if (response.status === 401) window.location.replace("/split-watch/join/");
+    // A helper who opened THIS exact race's link cold (no code entered
+    // on this device yet) -- most importantly a coach's own "share this
+    // rehearsal" link, since a rehearsal never appears in the smart-
+    // routing every other helper entry point uses -- must land back
+    // HERE after entering the code, not on the generic race list (see
+    // split-watch-join.js's safeNextPath()).
+    if (response.status === 401) {
+      window.location.replace("/split-watch/join/?next=" + encodeURIComponent(window.location.pathname + window.location.search));
+    }
     const data = await parseResponse(response, "The request could not be completed.");
     updateClockOffset(data.server_now, requestSentMs, Date.now());
     if (data.viewer?.type) viewerType = data.viewer.type;
