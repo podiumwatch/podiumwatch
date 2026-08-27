@@ -637,6 +637,136 @@ export function splitWatchLivePage(site) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
+
+    /* Outdoor live capture redesign (race day build plan, Project 4):
+       Sunlight Mode. A bright, high-contrast override of the dark
+       theme above -- for glare, not for taste, so it deliberately
+       trades this page's normal look for maximum legibility: near-
+       white background, near-black text, strong borders on every
+       control, and no reliance on subtle color alone anywhere splits
+       are recorded. Device-only preference (localStorage), never race
+       data -- see public/scripts/split-watch-live.js's SUNLIGHT_KEY. */
+    .sw-live-shell.sw-sunlight {
+      background: #f5f5f0;
+      color: #111111;
+    }
+
+    .sw-sunlight .sw-live-back,
+    .sw-sunlight .sw-live-clock-note,
+    .sw-sunlight .sw-checkpoint-indicator-label,
+    .sw-sunlight .sw-empty-note { color: #111111; }
+
+    /* .sw-restart-link's normal amber (#fbbf24, tuned for the dark
+       theme) fails contrast against Sunlight Mode's bright background --
+       a darker amber keeps the same "careful, not a primary action"
+       cue while staying legible in direct sun. */
+    .sw-sunlight .sw-restart-link { color: #7a4d00; }
+
+    .sw-sunlight .sw-live-sticky-header { background: #f5f5f0; }
+
+    .sw-sunlight .sw-live-topbar,
+    .sw-sunlight .sw-checkpoint-indicator { border-bottom-color: rgba(0, 0, 0, 0.22); }
+
+    .sw-sunlight .sw-checkpoint-indicator-value { color: #0a6b34; }
+
+    .sw-sunlight .sw-status-pill { background: rgba(0, 0, 0, 0.08); color: #111111; }
+
+    .sw-sunlight .sw-checkpoint-tab {
+      border-color: #111111;
+      color: #111111;
+      background: #ffffff;
+    }
+
+    .sw-sunlight .sw-checkpoint-tab-active {
+      background: #00bf63;
+      border-color: #0a6b34;
+      color: #06210f;
+    }
+
+    .sw-sunlight .sw-live-btn-outline { border-color: #111111; color: #111111; background: #ffffff; }
+    .sw-sunlight .sw-live-message { background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.2); color: #111111; }
+
+    .sw-sunlight .sw-runner-card { background: #ffffff; border-color: #111111; }
+    .sw-sunlight .sw-runner-name { color: #111111; }
+    .sw-sunlight .sw-runner-more { border-color: #111111; color: #111111; }
+
+    .sw-sunlight .sw-recorded-row { background: #eafff2; border-color: #0a6b34; color: #111111; }
+    .sw-sunlight .sw-recorded-row-manual { background: #ffffff; border-color: #111111; }
+    .sw-sunlight .sw-recorded-row-name,
+    .sw-sunlight .sw-recorded-row-value { color: #111111; }
+    .sw-sunlight .sw-runner-small-btn { border-color: #111111; color: #111111; }
+
+    .sw-sunlight .sw-manual-entry input { background: #ffffff; border-color: #111111; color: #111111; }
+
+    /* Sunlight Mode's own confirmation must stay visible against the
+       new bright background -- the base @keyframes above animates
+       toward the DARK theme's recorded-row background, which would
+       flash the wrong color here. */
+    .sw-sunlight .sw-recorded-row-flash { animation-name: sw-recorded-flash-sunlight; }
+    @keyframes sw-recorded-flash-sunlight {
+      0% { background: #ffe066; }
+      100% { background: #eafff2; }
+    }
+
+    /* Outdoor live capture redesign: Simple Timing View. Hides
+       everything the spec calls "unused checkpoint navigation, Timing
+       Crew details, Pack Capture unless explicitly enabled, advanced
+       manual entry, extra race information, planning controls" --
+       leaving only the clock, current checkpoint, runner buttons,
+       recent captures, and Undo. Device-only preference, never
+       changes the race plan or hides anything for another device. */
+    .sw-simple-view [data-sw-checkpoint-tabs],
+    .sw-simple-view [data-sw-pack-toggle],
+    .sw-simple-view [data-sw-pack-bar],
+    .sw-simple-view [data-sw-race-switcher-wrap],
+    .sw-simple-view [data-sw-restart-race],
+    .sw-simple-view [data-sw-adjust-clock-open],
+    .sw-simple-view [data-sw-leave-rehearsal],
+    .sw-simple-view .sw-runner-more {
+      display: none !important;
+    }
+
+    /* Respects the user's OS-level motion preference -- the recorded-
+       row flash is decorative confirmation, not information; the
+       actual state change (still-needed -> recorded) is already
+       conveyed by the row moving to a different list entirely. */
+    @media (prefers-reduced-motion: reduce) {
+      .sw-recorded-row-flash { animation: none; }
+    }
+
+    .sw-tools-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    .sw-tools-toggle-row:last-of-type { border-bottom: none; }
+
+    .sw-tools-toggle-row p { margin: 2px 0 0; font-size: 0.85rem; opacity: 0.75; max-width: 38ch; }
+
+    .sw-tools-switch { width: 46px; height: 26px; flex-shrink: 0; }
+
+    /* Standard visually-hidden pattern -- present for assistive tech,
+       invisible and non-disruptive for sighted users. Outdoor live
+       capture redesign: "Screen reader announcements confirm capture
+       without reading the entire page again" -- the visible
+       confirmation is already the Recorded-row flash (sighted users);
+       this is the same confirmation for a screen reader user, without
+       adding a second visible banner for every single tap. */
+    .sw-visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
   </style>
 
   <div class="sw-live-shell">
@@ -652,6 +782,7 @@ export function splitWatchLivePage(site) {
           <a class="sw-restart-link" href="/split-watch/plan/" data-sw-leave-rehearsal hidden>Leave Rehearsal</a>
           <button class="sw-restart-link" type="button" data-sw-restart-race hidden>Restart race</button>
           <button class="sw-restart-link" type="button" data-sw-adjust-clock-open hidden>Adjust race clock</button>
+          <button class="sw-restart-link" type="button" data-sw-tools-open>Tools</button>
         </div>
         <div data-sw-race-switcher-wrap hidden>
           <label class="sw-race-switcher-label">
@@ -681,7 +812,7 @@ export function splitWatchLivePage(site) {
         </div>
       </div>
 
-      <p class="sw-live-message" data-sw-message hidden></p>
+      <p class="sw-live-message" data-sw-message hidden aria-live="polite"></p>
 
       <div data-sw-start-screen class="sw-start-screen" hidden>
         <h2 data-sw-start-heading>Ready to start?</h2>
@@ -689,6 +820,8 @@ export function splitWatchLivePage(site) {
         <button class="sw-live-btn sw-live-btn-primary" type="button" data-sw-start-button style="font-size:1.3rem;padding:22px 28px;">Start Race</button>
         <button class="sw-live-btn sw-live-btn-outline" type="button" data-sw-race-day-open hidden>Share access code with a timer</button>
       </div>
+
+      <div class="sw-visually-hidden" aria-live="polite" data-sw-capture-announce></div>
 
       <div data-sw-live-screen hidden>
         <p style="margin:0 4px 8px;opacity:0.75;font-size:0.85rem;">Each device picks its own checkpoint below -- one phone can stay on Mile 1 the whole race while another stays on Mile 2, at the same time.</p>
@@ -778,6 +911,51 @@ export function splitWatchLivePage(site) {
 
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;">
         <button class="button button-primary" type="button" data-sw-adjust-clock-save>Save correction</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="sw-race-day-dialog" data-sw-tools-dialog>
+    <div class="sw-race-day-dialog-body">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+        <div>
+          <p class="eyebrow">This device only</p>
+          <h2 style="margin:2px 0 0;">Tools</h2>
+        </div>
+        <button class="button button-outline" type="button" data-sw-tools-close>Close</button>
+      </div>
+
+      <div class="sw-tools-toggle-row">
+        <div>
+          <strong>Sunlight Mode</strong>
+          <p>A brighter, higher-contrast look for reading this screen outdoors in direct sun.</p>
+        </div>
+        <input type="checkbox" class="sw-tools-switch" data-sw-sunlight-toggle>
+      </div>
+
+      <div class="sw-tools-toggle-row">
+        <div>
+          <strong>Simple Timing View</strong>
+          <p>Hides Pack Capture, the race switcher, and other extras -- just the clock, your runners, and Undo. For one person timing alone.</p>
+        </div>
+        <input type="checkbox" class="sw-tools-switch" data-sw-simple-view-toggle>
+      </div>
+
+      <p style="margin-top:14px;font-size:0.8rem;opacity:0.65;">
+        Both only affect this device -- nothing here changes the race plan or any other timer's screen.
+      </p>
+    </div>
+  </dialog>
+
+  <dialog class="sw-race-day-dialog" data-sw-retap-dialog>
+    <div class="sw-race-day-dialog-body">
+      <p class="eyebrow">Already recorded</p>
+      <h2 style="margin:2px 0 0;" data-sw-retap-heading></h2>
+      <p style="margin-top:8px;" data-sw-retap-message></p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;">
+        <button class="button button-primary" type="button" data-sw-retap-confirm>Use new time</button>
+        <button class="button button-outline" type="button" data-sw-retap-cancel>Keep original</button>
       </div>
     </div>
   </dialog>

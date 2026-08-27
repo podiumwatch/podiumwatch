@@ -49,6 +49,18 @@
   const adjustClockSaveButton = document.querySelector("[data-sw-adjust-clock-save]");
   const rehearsalBanner = document.querySelector("[data-sw-rehearsal-banner]");
   const leaveRehearsalLink = document.querySelector("[data-sw-leave-rehearsal]");
+  const liveShellEl = document.querySelector(".sw-live-shell");
+  const toolsOpenButton = document.querySelector("[data-sw-tools-open]");
+  const toolsDialog = document.querySelector("[data-sw-tools-dialog]");
+  const toolsCloseButton = document.querySelector("[data-sw-tools-close]");
+  const sunlightToggle = document.querySelector("[data-sw-sunlight-toggle]");
+  const simpleViewToggle = document.querySelector("[data-sw-simple-view-toggle]");
+  const retapDialog = document.querySelector("[data-sw-retap-dialog]");
+  const retapHeading = document.querySelector("[data-sw-retap-heading]");
+  const retapMessage = document.querySelector("[data-sw-retap-message]");
+  const retapConfirmButton = document.querySelector("[data-sw-retap-confirm]");
+  const retapCancelButton = document.querySelector("[data-sw-retap-cancel]");
+  const captureAnnounceEl = document.querySelector("[data-sw-capture-announce]");
 
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
@@ -59,7 +71,9 @@
     raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl,
     raceDayGenerateButton, raceDayRevokeButton, startHeadingEl, startMessageEl,
     adjustClockOpenButton, adjustClockDialog, adjustClockCloseButton, adjustClockCurrentEl,
-    adjustClockInput, adjustClockMessage, adjustClockSaveButton, rehearsalBanner, leaveRehearsalLink
+    adjustClockInput, adjustClockMessage, adjustClockSaveButton, rehearsalBanner, leaveRehearsalLink,
+    liveShellEl, toolsOpenButton, toolsDialog, toolsCloseButton, sunlightToggle, simpleViewToggle,
+    retapDialog, retapHeading, retapMessage, retapConfirmButton, retapCancelButton, captureAnnounceEl
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -85,6 +99,35 @@
     deviceId = "pw_rcc_device_" + (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, "") : String(Date.now()));
     localStorage.setItem(DEVICE_ID_KEY, deviceId);
   }
+
+  // Outdoor live capture redesign (race day build plan, Project 4):
+  // Sunlight Mode and Simple Timing View are both purely device-local
+  // view preferences -- localStorage, exactly like DEVICE_ID_KEY above,
+  // never written to race_sessions or synced anywhere. They change
+  // nothing about the race plan and never affect any other device's
+  // screen, matching the spec's "device view preference" requirement.
+  const SUNLIGHT_KEY = "podium_sw_sunlight_mode";
+  const SIMPLE_VIEW_KEY = "podium_sw_simple_view";
+
+  function applySunlightMode(enabled) {
+    liveShellEl.classList.toggle("sw-sunlight", enabled);
+    sunlightToggle.checked = enabled;
+    localStorage.setItem(SUNLIGHT_KEY, enabled ? "1" : "0");
+  }
+
+  function applySimpleView(enabled) {
+    liveShellEl.classList.toggle("sw-simple-view", enabled);
+    simpleViewToggle.checked = enabled;
+    localStorage.setItem(SIMPLE_VIEW_KEY, enabled ? "1" : "0");
+  }
+
+  applySunlightMode(localStorage.getItem(SUNLIGHT_KEY) === "1");
+  applySimpleView(localStorage.getItem(SIMPLE_VIEW_KEY) === "1");
+
+  toolsOpenButton.addEventListener("click", () => toolsDialog.showModal());
+  toolsCloseButton.addEventListener("click", () => toolsDialog.close());
+  sunlightToggle.addEventListener("change", () => applySunlightMode(sunlightToggle.checked));
+  simpleViewToggle.addEventListener("change", () => applySimpleView(simpleViewToggle.checked));
 
   let detail = null;
   let splitsByClientId = new Map(); // client_split_id -> split record (local shape)
@@ -566,7 +609,72 @@
     return finalClientSplitId;
   }
 
-  function handleTap(participant) {
+  // Outdoor live capture redesign, "Duplicate and busy finish
+  // protection." A tapped runner moves out of the tappable "still
+  // needed" list entirely (see the stillNeed/recorded split above), so
+  // the one way to tap the SAME runner at the SAME checkpoint twice is
+  // Undo, then tap again -- a real, common "wrong runner, let me redo
+  // this" moment, and exactly the case worth confirming: if that second
+  // tap comes back fast enough to plausibly be a reflex re-tap rather
+  // than a deliberate do-over, ask first rather than silently replacing
+  // whatever was there a moment ago. Gated on the TIME of the last tap
+  // for this exact pair, not on whether a value currently exists (an
+  // Undo already clears the current value before this can ever fire,
+  // so checking "is there a value right now" would make this
+  // unreachable) -- tracked per (participant, checkpoint) pair, not
+  // globally, so tapping one runner never affects the window for a
+  // different one. This is deliberately narrower than the spec's
+  // literal "keep both as separate records" -- the schema holds one
+  // current value per pair by design (install/11_RACE_COMMAND_CENTER.sql's
+  // unique constraint, which triggerSync()'s own cross-device conflict
+  // handling below already relies on) -- "Keep original" leaves
+  // whichever value was already showing exactly as it was and simply
+  // discards the new tap, while every value that's ever been current
+  // still lives on in the audit log (race_split_revisions), satisfying
+  // the same never-silently-lose-data guarantee without needing two
+  // parallel current values.
+  const RETAP_CONFIRM_WINDOW_MS = 8000;
+  const lastTapAt = new Map(); // "participantId:checkpointId" -> ms timestamp of the last tap that actually recorded a value
+  const lastRecordedValue = new Map(); // same key -> the elapsed_seconds that tap recorded (for the confirmation message)
+
+  function retapKey(participantId, checkpointId) {
+    return participantId + ":" + checkpointId;
+  }
+
+  // A screen reader user gets this instead of the sighted Recorded-row
+  // flash -- assigning the SAME text twice in a row (e.g. two runners
+  // captured at the exact same elapsed time) would not re-announce with
+  // aria-live=polite, since most screen readers only announce on an
+  // actual text change; clearing first guarantees every capture is heard.
+  function announceCapture(text) {
+    captureAnnounceEl.textContent = "";
+    window.setTimeout(() => { captureAnnounceEl.textContent = text; }, 30);
+  }
+
+  function askToConfirmRetap(participant, checkpoint, priorSeconds) {
+    retapHeading.textContent = participantName(participant) + " already has a time here";
+    retapMessage.textContent =
+      "Recorded time: " + formatSecondsToClock(priorSeconds) + " at " + checkpoint.label + ". " +
+      "Use the new tap instead, or keep the original?";
+    retapDialog.showModal();
+
+    return new Promise((resolve) => {
+      function cleanup(result) {
+        retapConfirmButton.removeEventListener("click", onConfirm);
+        retapCancelButton.removeEventListener("click", onCancel);
+        retapDialog.removeEventListener("cancel", onCancel);
+        retapDialog.close();
+        resolve(result);
+      }
+      function onConfirm() { cleanup(true); }
+      function onCancel() { cleanup(false); }
+      retapConfirmButton.addEventListener("click", onConfirm);
+      retapCancelButton.addEventListener("click", onCancel);
+      retapDialog.addEventListener("cancel", onCancel);
+    });
+  }
+
+  async function handleTap(participant) {
     const elapsedResult = Timer.elapsedOrRecovered();
     if (!elapsedResult) {
       showMessage("The race clock is not running yet.", true);
@@ -578,6 +686,14 @@
     // race_splits row per pair, so a re-tap after Undo must correct that
     // same row, never mint a second one.
     const existing = rawSplitFor(participant.id, checkpoint.id);
+    const key = retapKey(participant.id, checkpoint.id);
+    const now = Date.now();
+    const lastTap = lastTapAt.get(key);
+
+    if (lastTap != null && now - lastTap < RETAP_CONFIRM_WINDOW_MS) {
+      const confirmed = await askToConfirmRetap(participant, checkpoint, lastRecordedValue.get(key));
+      if (!confirmed) return;
+    }
 
     // A brief, unmistakable flash on the Recorded row this tap just
     // created -- see recentlyRecordedIds' own comment above for why.
@@ -587,12 +703,16 @@
       renderRunnerList();
     }, 1200);
 
+    const finalElapsedSeconds = correctedElapsedSeconds(elapsedResult.elapsedSeconds);
+    lastTapAt.set(key, now);
+    lastRecordedValue.set(key, finalElapsedSeconds);
     recordSplit({
       participantId: participant.id, checkpointId: checkpoint.id,
-      elapsedSeconds: correctedElapsedSeconds(elapsedResult.elapsedSeconds), captureMethod: "single_tap",
+      elapsedSeconds: finalElapsedSeconds, captureMethod: "single_tap",
       clientSplitId: existing ? existing.client_split_id : null,
       changeReason: existing ? "manual_correction" : "recorded"
     });
+    announceCapture(participantName(participant) + " recorded at " + checkpoint.label + ", " + formatSecondsToClock(finalElapsedSeconds) + ".");
   }
 
   function handleUndo(participant) {
@@ -603,6 +723,7 @@
       participantId: participant.id, checkpointId: checkpoint.id, elapsedSeconds: null,
       captureMethod: "edited", clientSplitId: existing.client_split_id, changeReason: "undo"
     });
+    announceCapture(participantName(participant) + "'s time at " + checkpoint.label + " was undone.");
   }
 
   function handleManualEntry(participant, text) {
