@@ -61,7 +61,7 @@ export default async function handler(request, response) {
         data = { status: await getRaceDayCodeStatus(teamId) };
         break;
       case "regenerate":
-        data = await regenerateRaceDayCode(teamId, user.id);
+        data = await regenerateRaceDayCode(teamId, user.id, { revokeExistingHelpers: Boolean(body.revoke_existing_helpers) });
         break;
       case "revoke":
         await revokeRaceDayCode(teamId);

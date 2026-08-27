@@ -58,6 +58,13 @@
   const rehearsalIntroClose = document.querySelector("[data-sw-rehearsal-intro-close]");
   const rehearsalIntroConfirm = document.querySelector("[data-sw-rehearsal-intro-confirm]");
   const rehearsalIntroCancel = document.querySelector("[data-sw-rehearsal-intro-cancel]");
+  const crewList = document.querySelector("[data-sw-crew-list]");
+  const crewEmpty = document.querySelector("[data-sw-crew-empty]");
+  const crewAddForm = document.querySelector("[data-sw-crew-add-form]");
+  const crewCapabilitySelect = document.querySelector("[data-sw-crew-capability-select]");
+  const crewCheckpointField = document.querySelector("[data-sw-crew-checkpoint-field]");
+  const crewCheckpointSelect = document.querySelector("[data-sw-crew-checkpoint-select]");
+  const crewMessage = document.querySelector("[data-sw-crew-message]");
 
   const requiredElements = [
     loadingBox, root, teamNameEl, raceNameEl, statusBadge, raceMetaEl, messageBox,
@@ -70,7 +77,8 @@
     raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton,
     spectatorToggle, spectatorLinkRow, spectatorLinkInput, copyParentLinkButton, scheduledStartInput, scheduledStartDateEl,
     rehearsalPanel, rehearsalStatusEl, rehearsalEnterButton, rehearsalIntroDialog,
-    rehearsalIntroClose, rehearsalIntroConfirm, rehearsalIntroCancel
+    rehearsalIntroClose, rehearsalIntroConfirm, rehearsalIntroCancel,
+    crewList, crewEmpty, crewAddForm, crewCapabilitySelect, crewCheckpointField, crewCheckpointSelect, crewMessage
   ];
 
   if (requiredElements.some((el) => !el)) {
@@ -90,6 +98,7 @@
 
   const SESSIONS_ENDPOINT = "/api/split-watch/sessions/";
   const PLAN_ENDPOINT = "/api/split-watch/plan/";
+  const CREW_ENDPOINT = "/api/split-watch/crew/";
 
   let detail = null;
   let rosterAthletes = [];
@@ -296,6 +305,188 @@
   rehearsalIntroConfirm.addEventListener("click", async () => {
     rehearsalIntroDialog.close();
     await enterRehearsal();
+  });
+
+  // --- timing crew (race day build plan, Project 3) --------------------------
+  // Positions are entirely optional -- a race with none stays exactly as
+  // open as every race before this project (lib/race_day_auth.mjs's
+  // assertHelperCanCaptureAt() only enforces anything once at least one
+  // exists). This panel is where a coach opts in.
+
+  function capabilityLabel(capability) {
+    if (capability === "pack_capture") return "Pack Capture";
+    if (capability === "backup") return "Backup timer";
+    return "Checkpoint tap";
+  }
+
+  function positionMeta(position) {
+    if (position.capability === "backup") return "Backup timer -- any checkpoint";
+    const checkpoint = detail.checkpoints.find((cp) => cp.id === position.race_checkpoint_id);
+    return capabilityLabel(position.capability) + " -- " + (checkpoint ? checkpoint.label : "checkpoint removed");
+  }
+
+  function otherPositionOptions(positions, excludePositionId) {
+    return positions
+      .filter((p) => p.id !== excludePositionId)
+      .map((p) => '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.label) + '</option>')
+      .join("");
+  }
+
+  async function refreshCrew() {
+    const data = await apiFetch(CREW_ENDPOINT, { action: "list_crew" });
+    renderCrew(data.positions || [], data.waitingHelpers || []);
+  }
+
+  function renderCrew(positions, waitingHelpers) {
+    const parts = [];
+
+    for (const position of positions) {
+      const helper = position.helper;
+      const otherOptions = otherPositionOptions(positions, position.id);
+      parts.push(
+        '<div class="sw-crew-card">' +
+          '<div>' +
+            '<div class="sw-crew-card-label">' + escapeHtml(position.label) + '</div>' +
+            '<div class="sw-crew-card-meta">' + escapeHtml(positionMeta(position)) + (position.instructions ? " -- " + escapeHtml(position.instructions) : "") + '</div>' +
+            (helper
+              ? '<div style="margin-top:8px;"><span class="sw-crew-helper-name">' + escapeHtml(helper.display_name || "Volunteer") + '</span> <span class="sw-crew-presence">-- ' + escapeHtml(helper.presence) + '</span></div>'
+              : '<div class="sw-crew-open" style="margin-top:8px;">Open -- waiting for a volunteer</div>') +
+          '</div>' +
+          '<div class="sw-actions">' +
+            (helper
+              ? (
+                '<select class="sw-crew-move-select" data-helper-id="' + escapeHtml(helper.id) + '">' +
+                  '<option value="">Move to...</option>' + otherOptions +
+                  '<option value="__unassign">Unassign (open position)</option>' +
+                '</select>' +
+                '<button class="button button-outline sw-crew-move-btn" type="button" data-helper-id="' + escapeHtml(helper.id) + '">Move</button>' +
+                '<button class="button button-outline sw-crew-revoke-btn" type="button" data-helper-id="' + escapeHtml(helper.id) + '">Revoke access</button>'
+              )
+              : '<button class="button button-outline sw-crew-delete-btn" type="button" data-position-id="' + escapeHtml(position.id) + '">Delete position</button>') +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    for (const helper of waitingHelpers) {
+      const options = positions.map((p) => '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.label) + '</option>').join("");
+      parts.push(
+        '<div class="sw-crew-card">' +
+          '<div>' +
+            '<div class="sw-crew-card-label">' + escapeHtml(helper.display_name || "Volunteer") + '</div>' +
+            '<div class="sw-crew-card-meta">Waiting to be assigned -- <span class="sw-crew-presence">' + escapeHtml(helper.presence) + '</span></div>' +
+          '</div>' +
+          '<div class="sw-actions">' +
+            '<select class="sw-crew-assign-select" data-helper-id="' + escapeHtml(helper.id) + '">' +
+              '<option value="">Choose a position...</option>' + options +
+            '</select>' +
+            '<button class="button button-primary sw-crew-assign-btn" type="button" data-helper-id="' + escapeHtml(helper.id) + '">Assign</button>' +
+            '<button class="button button-outline sw-crew-revoke-btn" type="button" data-helper-id="' + escapeHtml(helper.id) + '">Revoke access</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    crewList.innerHTML = parts.join("");
+    crewEmpty.hidden = positions.length > 0;
+
+    crewList.querySelectorAll(".sw-crew-delete-btn").forEach((button) => {
+      button.addEventListener("click", async () => {
+        if (!window.confirm("Delete this position? Any recorded splits stay exactly as they are.")) return;
+        button.disabled = true;
+        try {
+          await apiFetch(CREW_ENDPOINT, { action: "delete_position", position_id: button.dataset.positionId });
+          await refreshCrew();
+        } catch (error) {
+          showMessage(error.message || "This position could not be deleted.", true);
+          button.disabled = false;
+        }
+      });
+    });
+
+    crewList.querySelectorAll(".sw-crew-revoke-btn").forEach((button) => {
+      button.addEventListener("click", async () => {
+        if (!window.confirm("Revoke this volunteer's access? They'll need to enter the code again to time anything else.")) return;
+        button.disabled = true;
+        try {
+          await apiFetch(CREW_ENDPOINT, { action: "revoke", race_day_session_id: button.dataset.helperId });
+          await refreshCrew();
+        } catch (error) {
+          showMessage(error.message || "This volunteer's access could not be revoked.", true);
+          button.disabled = false;
+        }
+      });
+    });
+
+    crewList.querySelectorAll(".sw-crew-assign-btn").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const select = crewList.querySelector('.sw-crew-assign-select[data-helper-id="' + CSS.escape(button.dataset.helperId) + '"]');
+        if (!select.value) return;
+        button.disabled = true;
+        try {
+          await apiFetch(CREW_ENDPOINT, { action: "reassign", race_day_session_id: button.dataset.helperId, position_id: select.value });
+          await refreshCrew();
+        } catch (error) {
+          showMessage(error.message || "This volunteer could not be assigned.", true);
+          button.disabled = false;
+        }
+      });
+    });
+
+    crewList.querySelectorAll(".sw-crew-move-btn").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const select = crewList.querySelector('.sw-crew-move-select[data-helper-id="' + CSS.escape(button.dataset.helperId) + '"]');
+        if (!select.value) return;
+        button.disabled = true;
+        try {
+          await apiFetch(CREW_ENDPOINT, {
+            action: "reassign",
+            race_day_session_id: button.dataset.helperId,
+            position_id: select.value === "__unassign" ? null : select.value
+          });
+          await refreshCrew();
+        } catch (error) {
+          showMessage(error.message || "This volunteer could not be moved.", true);
+          button.disabled = false;
+        }
+      });
+    });
+  }
+
+  function renderCrewCheckpointOptions() {
+    crewCheckpointSelect.innerHTML = detail.checkpoints.map((cp) =>
+      '<option value="' + escapeHtml(cp.id) + '">' + escapeHtml(cp.label) + (cp.is_finish ? " (Finish)" : "") + '</option>'
+    ).join("");
+  }
+
+  crewCapabilitySelect.addEventListener("change", () => {
+    crewCheckpointField.hidden = crewCapabilitySelect.value === "backup";
+  });
+
+  crewAddForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    crewMessage.hidden = true;
+    const formData = new FormData(crewAddForm);
+    const capability = String(formData.get("capability") || "checkpoint");
+    const submitButton = crewAddForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    try {
+      await apiFetch(CREW_ENDPOINT, {
+        action: "create_position",
+        label: formData.get("label"),
+        capability,
+        checkpoint_id: capability === "backup" ? null : formData.get("checkpoint_id"),
+        instructions: formData.get("instructions")
+      });
+      crewAddForm.reset();
+      crewCheckpointField.hidden = false;
+      await refreshCrew();
+    } catch (error) {
+      crewMessage.textContent = error.message || "This position could not be added.";
+      crewMessage.hidden = false;
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 
   // --- parent live link + scheduled time (race day spec, Section 5) ----------
@@ -1021,6 +1212,8 @@
       renderRoster();
       renderParticipants();
       renderBulkGoalsTable();
+      renderCrewCheckpointOptions();
+      await refreshCrew();
 
       // Reaching this point already confirmed a real coach account (the
       // redirect above sends anyone else to the Live timing screen), so

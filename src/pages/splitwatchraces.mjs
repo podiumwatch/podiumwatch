@@ -40,6 +40,9 @@ export function splitWatchRacesPage(site) {
     .swr-badge-live { background: #dc2626; color: #ffffff; }
     .swr-badge-finished, .swr-badge-reviewed { background: #111827; color: #ffffff; }
     .swr-empty { padding: 24px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
+    .swr-join-field { display: block; margin-top: 14px; font-weight: 800; }
+    .swr-join-field input, .swr-join-field select { display: block; width: 100%; margin-top: 6px; padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.22); font: inherit; font-size: 1rem; }
+    .swr-position-option-meta { font-size: 0.85rem; opacity: 0.7; margin-top: 2px; }
   </style>
 
   <section class="section section-paper">
@@ -62,6 +65,25 @@ export function splitWatchRacesPage(site) {
 
           <div class="swr-list" data-swr-race-list style="margin-top:16px;"></div>
           <div class="swr-empty" data-swr-race-empty hidden>No races are ready for timing right now. Check back closer to race time, or ask your coach.</div>
+
+          <div data-swr-join-panel hidden>
+            <h3 data-swr-join-race-name style="margin:0 0 4px;"></h3>
+            <p style="margin:0 0 4px;opacity:0.8;">Tell your coach who's timing and which position you've got.</p>
+
+            <label class="swr-join-field">
+              Your name
+              <input type="text" data-swr-join-name placeholder="e.g. Coach Miller, Sam's dad">
+            </label>
+
+            <label class="swr-join-field">
+              Position
+              <select data-swr-join-position></select>
+            </label>
+
+            <p class="swr-message" data-swr-join-message hidden style="margin-top:12px;"></p>
+
+            <button class="button button-primary" type="button" style="margin-top:16px;width:100%;" data-swr-join-confirm>Start timing</button>
+          </div>
         </div>
       </div>
     </div>

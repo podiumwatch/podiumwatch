@@ -3,7 +3,8 @@ import {
 } from "../../lib/team_auth.mjs";
 import {
   requireSplitWatchAccess,
-  assertActionAllowedForActor
+  assertActionAllowedForActor,
+  assertHelperCanCaptureAt
 } from "../../lib/race_day_auth.mjs";
 import {
   parseRaceBody,
@@ -13,6 +14,7 @@ import {
   setParticipantStatus,
   adjustRaceClock
 } from "../../lib/split_watch_service.mjs";
+import { sessionHasPositions } from "../../lib/timing_crew_service.mjs";
 
 function cleanText(value) {
   return String(value ?? "").trim();
@@ -47,6 +49,21 @@ export default async function handler(request, response) {
 
     const sessionId = cleanText(body.session_id);
     let data;
+
+    // Timing Crew (Project 3): checkpoint-scoped enforcement only turns
+    // on for a race that actually has positions defined -- sessionHasPositions()
+    // is one cheap indexed count, and every race before this project (or
+    // any team that never sets positions up) has zero rows here, so this
+    // is a no-op for them. See assertHelperCanCaptureAt()'s own header
+    // comment for the exact rule once positions DO exist.
+    if (actor.type === "race_day_code" && (action === "push_splits" || action === "create_pack_capture")) {
+      if (await sessionHasPositions(sessionId)) {
+        const checkpointIds = action === "push_splits"
+          ? (Array.isArray(body.splits) ? body.splits.map((s) => cleanText(s?.race_checkpoint_id)) : [])
+          : [cleanText(body.checkpoint_id)];
+        assertHelperCanCaptureAt(actor, { sessionId, checkpointIds });
+      }
+    }
 
     switch (action) {
       case "create_pack_capture":
@@ -98,8 +115,12 @@ export default async function handler(request, response) {
     // viewer lets the client tell a coach apart from a race-day-code
     // helper -- used to hide Start/Finish/Restart/Adjust Clock entirely
     // for a helper (the server already refuses those calls; this is the
-    // matching, honest UI).
-    return response.status(200).json({ ...data, server_now: new Date().toISOString(), viewer: { type: actor.type, label: actor.label } });
+    // matching, honest UI). position is Timing Crew's own assignment
+    // (see api/split-watch/sessions.js's matching comment).
+    const position = actor.type === "race_day_code"
+      ? { capability: actor.capability, checkpointId: actor.checkpointId, raceSessionId: actor.raceSessionId }
+      : null;
+    return response.status(200).json({ ...data, server_now: new Date().toISOString(), viewer: { type: actor.type, label: actor.label, position } });
   } catch (error) {
     return teamApiError(
       response,

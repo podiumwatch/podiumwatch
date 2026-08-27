@@ -152,8 +152,17 @@ export default async function handler(request, response) {
     // helper without guessing from what actions happened to succeed --
     // used to hide Start/Finish/Restart entirely for a helper (server-side
     // enforcement already blocks them via assertActionAllowedForActor
-    // above; this is the matching, honest UI, not a second gate).
-    return response.status(200).json({ ...data, viewer: { type: actor.type, label: actor.label } });
+    // above; this is the matching, honest UI, not a second gate). Timing
+    // Crew (Project 3): a helper's own position assignment rides along
+    // here too, so the Live page can honestly show only the checkpoint(s)
+    // this specific helper may actually capture at -- the real
+    // enforcement is server-side (lib/race_day_auth.mjs's
+    // assertHelperCanCaptureAt(), called from api/split-watch/sync.js),
+    // this is the matching UI, same pattern as above.
+    const position = actor.type === "race_day_code"
+      ? { capability: actor.capability, checkpointId: actor.checkpointId, raceSessionId: actor.raceSessionId }
+      : null;
+    return response.status(200).json({ ...data, viewer: { type: actor.type, label: actor.label, position } });
   } catch (error) {
     return teamApiError(
       response,

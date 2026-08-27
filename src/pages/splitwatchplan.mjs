@@ -211,6 +211,47 @@ export function splitWatchPlanPage(site) {
       font-weight: 700;
     }
 
+    .sw-crew-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .sw-crew-card {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      border-radius: 12px;
+    }
+
+    .sw-crew-card-label {
+      font-weight: 800;
+    }
+
+    .sw-crew-card-meta {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    .sw-crew-helper-name {
+      font-weight: 700;
+    }
+
+    .sw-crew-presence {
+      font-size: 0.78rem;
+      opacity: 0.7;
+    }
+
+    .sw-crew-open {
+      font-size: 0.85rem;
+      opacity: 0.65;
+      font-style: italic;
+    }
+
     .sw-roster-list {
       display: grid;
       gap: 8px;
@@ -484,6 +525,47 @@ export function splitWatchPlanPage(site) {
         </section>
 
         <div class="sw-checkpoint-strip" data-sw-checkpoint-strip></div>
+
+        <section class="sw-panel sw-panel-full" style="margin-top:20px;">
+          <p class="eyebrow">Timing crew</p>
+          <h2>Positions &amp; volunteers</h2>
+          <p style="opacity:0.8;">
+            Set up a position for each checkpoint (Mile 1, Finish, Pack Capture) so a volunteer only ever needs to
+            worry about their own spot. This is optional -- if you never set any up, every volunteer who enters your
+            race day code can record any checkpoint, exactly like before.
+          </p>
+
+          <div class="sw-crew-list" data-sw-crew-list style="margin-top:14px;"></div>
+          <div class="sw-empty" data-sw-crew-empty hidden>No positions set up yet -- every volunteer can record any checkpoint until you add one.</div>
+
+          <form class="sw-crew-add-form" data-sw-crew-add-form style="margin-top:18px;border-top:1px solid rgba(15,23,42,0.12);padding-top:16px;">
+            <h3 style="margin:0 0 10px;">Add a position</h3>
+            <div class="sw-fields">
+              <label>
+                Label
+                <input type="text" name="label" placeholder="Mile 1" required>
+              </label>
+              <label>
+                Capability
+                <select name="capability" data-sw-crew-capability-select>
+                  <option value="checkpoint">Checkpoint tap</option>
+                  <option value="pack_capture">Pack Capture</option>
+                  <option value="backup">Backup timer (any checkpoint)</option>
+                </select>
+              </label>
+              <label data-sw-crew-checkpoint-field>
+                Checkpoint
+                <select name="checkpoint_id" data-sw-crew-checkpoint-select></select>
+              </label>
+              <label>
+                Instructions (optional)
+                <input type="text" name="instructions" placeholder="e.g. Stand at the mailbox, not the tree">
+              </label>
+            </div>
+            <p class="sw-message" data-sw-crew-message hidden style="margin-top:10px;"></p>
+            <button class="button button-primary" type="submit" style="margin-top:12px;">Add position</button>
+          </form>
+        </section>
 
         <div class="sw-grid" style="margin-top:20px;">
           <section class="sw-panel">

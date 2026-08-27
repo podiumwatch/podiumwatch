@@ -38,6 +38,7 @@
   const raceDayCopyButton = document.querySelector("[data-tw-race-day-copy]");
   const raceDayStatusEl = document.querySelector("[data-tw-race-day-status]");
   const raceDayGenerateButton = document.querySelector("[data-tw-race-day-generate]");
+  const raceDayRevokeHelpersCheckbox = document.querySelector("[data-tw-race-day-revoke-helpers]");
   const raceDayRevokeButton = document.querySelector("[data-tw-race-day-revoke]");
 
   const requiredElements = [
@@ -47,7 +48,8 @@
     ccParentAction, ccDeviceLine,
     rosterCountEl, upcomingCountEl, recentCountEl, rosterLink, scheduleLink, swLink,
     upcomingList, upcomingEmpty, recentList, recentEmpty,
-    raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton
+    raceDayReveal, raceDayRevealCode, raceDayCopyButton, raceDayStatusEl, raceDayGenerateButton, raceDayRevokeButton,
+    raceDayRevokeHelpersCheckbox
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -332,7 +334,10 @@
   raceDayGenerateButton.addEventListener("click", async () => {
     raceDayGenerateButton.disabled = true;
     try {
-      const generated = await apiFetch("/api/team/race-day-code/", { action: "regenerate" });
+      const generated = await apiFetch("/api/team/race-day-code/", {
+        action: "regenerate",
+        revoke_existing_helpers: raceDayRevokeHelpersCheckbox.checked
+      });
       raceDayRevealCode.textContent = generated.code;
       raceDayReveal.hidden = false;
       raceDayCopyButton.textContent = "Copy";

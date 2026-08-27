@@ -116,6 +116,13 @@
   // drives the matching, honest UI (Start Race hidden, a waiting message
   // shown instead) rather than presenting a button that would just fail.
   let viewerType = "team_user";
+  // Timing Crew (Project 3): { capability, checkpointId, raceSessionId }
+  // for a race_day_code viewer once the server has resolved their
+  // assignment, or null before the first response arrives / for a coach.
+  // null capability with a defined checkpointId never happens; a null
+  // checkpointId with capability !== "backup" means "not assigned to a
+  // checkpoint yet" (see restrictCheckpointTabsForHelper() below).
+  let viewerPosition = null;
   // The coach's Race Clock Adjustment correction, in seconds -- see
   // lib/split_watch_service.mjs's adjustRaceClock(). Applied on top of
   // the raw Timer value at both display time and capture time, so the
@@ -206,6 +213,7 @@
     const data = await parseResponse(response, "The request could not be completed.");
     updateClockOffset(data.server_now, requestSentMs, Date.now());
     if (data.viewer?.type) viewerType = data.viewer.type;
+    if (data.viewer && "position" in data.viewer) viewerPosition = data.viewer.position;
     return data;
   }
 
@@ -726,12 +734,39 @@
     if (index !== -1) selectCheckpoint(index);
   });
 
+  // Timing Crew (Project 3): a helper assigned to one specific checkpoint
+  // (capability "checkpoint" or "pack_capture") only ever sees that one
+  // tab -- there is nothing else for them to correctly do here, and
+  // showing the full list would just be an honest-looking control that
+  // the server refuses the moment it's used (assertHelperCanCaptureAt()
+  // in lib/race_day_auth.mjs is the real enforcement; this only keeps
+  // the UI from promising something it can't deliver). "backup" capability,
+  // an unassigned helper, a coach, or a race with no positions at all
+  // (viewerPosition stays null) all see every checkpoint, unchanged.
+  function checkpointsForViewer() {
+    if (
+      viewerType === "race_day_code" &&
+      viewerPosition &&
+      viewerPosition.raceSessionId === sessionId &&
+      viewerPosition.capability !== "backup" &&
+      viewerPosition.checkpointId
+    ) {
+      const assigned = detail.checkpoints.filter((cp) => cp.id === viewerPosition.checkpointId);
+      if (assigned.length > 0) return assigned;
+    }
+    return detail.checkpoints;
+  }
+
   function renderCheckpointTabs() {
+    const visibleCheckpoints = checkpointsForViewer();
+    if (!visibleCheckpoints.some((cp) => cp.id === currentCheckpoint().id)) {
+      currentCheckpointIndex = detail.checkpoints.findIndex((cp) => cp.id === visibleCheckpoints[0].id);
+    }
     const activeId = currentCheckpoint().id;
     checkpointIndicator.hidden = false;
     checkpointIndicatorValue.textContent = currentCheckpoint().label + (currentCheckpoint().is_finish ? " (Finish)" : "");
 
-    checkpointTabs.innerHTML = detail.checkpoints.map((cp) => {
+    checkpointTabs.innerHTML = visibleCheckpoints.map((cp) => {
       const remaining = detail.participants.filter((p) => {
         if (p.status === "dns" || p.status === "dnf") return false;
         return !splitFor(p.id, cp.id);

@@ -8,8 +8,17 @@
   const messageBox = document.querySelector("[data-swr-message]");
   const raceList = document.querySelector("[data-swr-race-list]");
   const raceEmpty = document.querySelector("[data-swr-race-empty]");
+  const joinPanel = document.querySelector("[data-swr-join-panel]");
+  const joinRaceName = document.querySelector("[data-swr-join-race-name]");
+  const joinNameInput = document.querySelector("[data-swr-join-name]");
+  const joinPositionSelect = document.querySelector("[data-swr-join-position]");
+  const joinMessage = document.querySelector("[data-swr-join-message]");
+  const joinConfirmButton = document.querySelector("[data-swr-join-confirm]");
 
-  const requiredElements = [loadingBox, root, teamNameEl, messageBox, raceList, raceEmpty];
+  const requiredElements = [
+    loadingBox, root, teamNameEl, messageBox, raceList, raceEmpty,
+    joinPanel, joinRaceName, joinNameInput, joinPositionSelect, joinMessage, joinConfirmButton
+  ];
   if (requiredElements.some((el) => !el)) return;
 
   const params = new URLSearchParams(window.location.search);
@@ -93,6 +102,77 @@
     )).join("");
   }
 
+  // Timing Crew (Project 3): before sending a helper straight into
+  // timing, check whether the race actually has positions set up at
+  // all. A race with none (every race before this project, and any
+  // team that never opts in) skips this entirely -- same instant
+  // redirect as before, no new step for anyone who hasn't set up crew
+  // positions. Only once a coach HAS defined positions does a helper
+  // need to say who they are and which one they've got.
+  let pendingRace = null;
+
+  async function showJoinPanel(session, positions) {
+    pendingRace = session;
+    loadingBox.hidden = true;
+    root.hidden = false;
+    joinPanel.hidden = false;
+    joinRaceName.textContent = session.name;
+
+    joinPositionSelect.innerHTML =
+      '<option value="">Not sure yet -- I\'ll ask my coach</option>' +
+      positions.map((p) => '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.label) + '</option>').join("");
+  }
+
+  joinConfirmButton.addEventListener("click", async () => {
+    if (!pendingRace) return;
+    const name = joinNameInput.value.trim();
+    if (!name) {
+      joinMessage.textContent = "Enter your name so your coach knows who's timing.";
+      joinMessage.hidden = false;
+      joinMessage.style.background = "rgba(220, 38, 38, 0.12)";
+      return;
+    }
+
+    joinConfirmButton.disabled = true;
+    try {
+      await fetch("/api/split-watch/join/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "confirm_position",
+          team_id: teamId,
+          session_id: pendingRace.id,
+          position_id: joinPositionSelect.value || null,
+          display_name: name
+        })
+      }).then((response) => response.json().then((data) => {
+        if (!response.ok) throw new Error(data.error || "That could not be saved.");
+      }));
+      window.location.replace(destinationFor(pendingRace));
+    } catch (error) {
+      joinMessage.textContent = error.message || "That could not be saved.";
+      joinMessage.hidden = false;
+      joinMessage.style.background = "rgba(220, 38, 38, 0.12)";
+      joinConfirmButton.disabled = false;
+    }
+  });
+
+  async function routeToRace(session) {
+    try {
+      const positionsData = await apiFetch("/api/split-watch/crew/", { action: "list_positions", session_id: session.id });
+      if (!positionsData.positions || positionsData.positions.length === 0) {
+        window.location.replace(destinationFor(session));
+        return;
+      }
+      await showJoinPanel(session, positionsData.positions);
+    } catch {
+      // A helper isn't allowed to fail out of timing a race just
+      // because the position list couldn't be checked -- fall back to
+      // the same direct route every race used before this project.
+      window.location.replace(destinationFor(session));
+    }
+  }
+
   async function initialize() {
     if (!teamId) {
       loadingBox.innerHTML = "<h2>Split Watch not found</h2><p>This link does not include a team ID.</p>";
@@ -104,7 +184,7 @@
       teamNameEl.textContent = data.team.school_name;
 
       if (data.singleRelevantRace) {
-        window.location.replace(destinationFor(data.singleRelevantRace));
+        await routeToRace(data.singleRelevantRace);
         return;
       }
 

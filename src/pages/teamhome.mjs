@@ -181,6 +181,11 @@ export function teamHomePage(site) {
 
             <div data-tw-race-day-status style="margin-top:14px;"></div>
 
+            <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:0.9rem;cursor:pointer;">
+              <input type="checkbox" data-tw-race-day-revoke-helpers style="width:auto;">
+              Also sign out everyone currently using the old code (only needed if it leaked -- otherwise your timing crew's positions and access stay put)
+            </label>
+
             <div class="tw-actions" style="margin-top:14px;">
               <button class="button button-primary" type="button" data-tw-race-day-generate>Generate code</button>
               <button class="button button-outline" type="button" data-tw-race-day-revoke hidden>Turn off access</button>
