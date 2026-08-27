@@ -560,6 +560,74 @@ export function splitWatchLivePage(site) {
       text-align: center;
     }
 
+    /* A real incident (2026-08-27): a helper on this exact screen
+       started the HS boys race when they meant the JH boys race
+       running the same day -- the race name up in the small sticky
+       header (1.2rem) was easy to miss entirely. This banner is
+       deliberately the single most prominent thing on the whole
+       screen, more prominent than "Ready to start?" itself, since
+       knowing WHICH race matters more than the generic prompt. */
+    .sw-start-race-banner {
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 18px;
+      border-radius: 16px;
+      background: rgba(0, 191, 99, 0.14);
+      border: 2px solid #00bf63;
+    }
+
+    .sw-start-race-banner-label {
+      margin: 0 0 4px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+    }
+
+    .sw-start-race-banner-name {
+      margin: 0;
+      font-size: clamp(1.8rem, 8vw, 2.6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: #ffffff;
+    }
+
+    .sw-start-switch-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .sw-start-switch-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      opacity: 0.85;
+    }
+
+    .sw-start-switch-select {
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      background: #0b0b0b;
+      color: #ffffff;
+      font: inherit;
+      font-weight: 700;
+      max-width: 100%;
+    }
+
+    .sw-sunlight .sw-start-race-banner { background: #eafff2; border-color: #0a6b34; }
+    .sw-sunlight .sw-start-race-banner-label,
+    .sw-sunlight .sw-start-race-banner-name { color: #111111; }
+    .sw-sunlight .sw-start-switch-row { border-top-color: rgba(0, 0, 0, 0.2); }
+    .sw-sunlight .sw-start-switch-label { color: #111111; }
+    .sw-sunlight .sw-start-switch-select { background: #ffffff; color: #111111; border-color: #111111; }
+
     /* Deliberately NOT dark-themed like the rest of this page -- the
        dialog is a self-contained light popup (matching every other
        coach-tool dialog in this codebase, e.g. teamroster.mjs's athlete
@@ -815,6 +883,14 @@ export function splitWatchLivePage(site) {
       <p class="sw-live-message" data-sw-message hidden aria-live="polite"></p>
 
       <div data-sw-start-screen class="sw-start-screen" hidden>
+        <div class="sw-start-race-banner">
+          <p class="sw-start-race-banner-label">You are about to start</p>
+          <p class="sw-start-race-banner-name" data-sw-start-race-name></p>
+          <div class="sw-start-switch-row" data-sw-start-switcher-wrap hidden>
+            <label class="sw-start-switch-label" for="sw-start-race-switcher">Timing a different race?</label>
+            <select class="sw-start-switch-select" id="sw-start-race-switcher" data-sw-start-race-switcher></select>
+          </div>
+        </div>
         <h2 data-sw-start-heading>Ready to start?</h2>
         <p data-sw-start-message>Starting the race begins the official race clock immediately for every runner. Make sure everyone is on the line.</p>
         <button class="sw-live-btn sw-live-btn-primary" type="button" data-sw-start-button style="font-size:1.3rem;padding:22px 28px;">Start Race</button>

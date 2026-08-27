@@ -61,6 +61,9 @@
   const retapConfirmButton = document.querySelector("[data-sw-retap-confirm]");
   const retapCancelButton = document.querySelector("[data-sw-retap-cancel]");
   const captureAnnounceEl = document.querySelector("[data-sw-capture-announce]");
+  const startRaceNameEl = document.querySelector("[data-sw-start-race-name]");
+  const startSwitcherWrap = document.querySelector("[data-sw-start-switcher-wrap]");
+  const startSwitcher = document.querySelector("[data-sw-start-race-switcher]");
 
   const requiredElements = [
     loadingBox, root, raceNameEl, syncStatusPill, syncStatusText, clockEl, clockNoteEl,
@@ -73,7 +76,8 @@
     adjustClockOpenButton, adjustClockDialog, adjustClockCloseButton, adjustClockCurrentEl,
     adjustClockInput, adjustClockMessage, adjustClockSaveButton, rehearsalBanner, leaveRehearsalLink,
     liveShellEl, toolsOpenButton, toolsDialog, toolsCloseButton, sunlightToggle, simpleViewToggle,
-    retapDialog, retapHeading, retapMessage, retapConfirmButton, retapCancelButton, captureAnnounceEl
+    retapDialog, retapHeading, retapMessage, retapConfirmButton, retapCancelButton, captureAnnounceEl,
+    startRaceNameEl, startSwitcherWrap, startSwitcher
   ];
   if (requiredElements.some((el) => !el)) return;
 
@@ -1416,6 +1420,15 @@
   });
 
   startButton.addEventListener("click", async () => {
+    // A last, explicit check naming the exact race -- see
+    // sw-start-race-banner's own comment above for the real incident
+    // this (and the banner, and the switcher right next to it) exist
+    // to prevent. Skipped for a rehearsal: Project 1's whole point is
+    // a low-friction, repeatable practice loop, and starting the wrong
+    // REHEARSAL carries none of an official start's real risk.
+    if (!detail.session.is_rehearsal && !window.confirm('Start "' + detail.session.name + '" now? This begins the official race clock for every runner.')) {
+      return;
+    }
     startButton.disabled = true;
     try {
       // Captures THIS device's own monotonic + wall-clock anchor
@@ -1487,12 +1500,21 @@
 
       if (raceSwitcherSessions.length === 0) return;
 
-      raceSwitcher.innerHTML =
+      // Real incident (2026-08-27): a helper started the wrong one of
+      // two same-day races because switching away from "the race
+      // you're about to start" was easy to miss (a small select tucked
+      // in the top row). The pre-start screen now shows this same
+      // switcher again, much more prominently, right next to the race
+      // name -- both selects stay in sync from the same option list.
+      const optionsHtml =
         '<option value="">This race -- ' + escapeHtml(detail.session.name) + '</option>' +
         raceSwitcherSessions.map((s) => (
           '<option value="' + escapeHtml(s.id) + '">' + escapeHtml(s.name) + ' (' + escapeHtml(RACE_SWITCHER_STATUS_LABELS[s.status] || s.status) + ')</option>'
         )).join("");
+      raceSwitcher.innerHTML = optionsHtml;
       raceSwitcherWrap.hidden = false;
+      startSwitcher.innerHTML = optionsHtml;
+      startSwitcherWrap.hidden = false;
     } catch {
       // A switcher that fails to populate just stays hidden -- it must
       // never block or interrupt the race this device is actually here
@@ -1500,8 +1522,7 @@
     }
   }
 
-  raceSwitcher.addEventListener("change", () => {
-    const targetId = raceSwitcher.value;
+  function goToSwitchedRace(targetId) {
     if (!targetId) return;
     const target = raceSwitcherSessions.find((s) => s.id === targetId);
     if (!target) return;
@@ -1510,10 +1531,19 @@
       window.location.href = "/split-watch/live/" + idPart;
     } else if (target.status === "finished" || target.status === "reviewed") {
       window.location.href = "/split-watch/review/" + idPart;
+    } else if (viewerType === "race_day_code") {
+      // A helper has no access to the Plan page at all -- it would just
+      // redirect them straight back to this same Live page (its own
+      // coach-only guard), so send them there directly instead of
+      // through that pointless extra hop.
+      window.location.href = "/split-watch/live/" + idPart;
     } else {
       window.location.href = "/split-watch/plan/" + idPart;
     }
-  });
+  }
+
+  raceSwitcher.addEventListener("change", () => goToSwitchedRace(raceSwitcher.value));
+  startSwitcher.addEventListener("change", () => goToSwitchedRace(startSwitcher.value));
 
   async function initialize() {
     if (!teamId || !sessionId) {
@@ -1533,6 +1563,7 @@
       }
 
       raceNameEl.textContent = detail.session.name;
+      startRaceNameEl.textContent = detail.session.name;
       loadingBox.hidden = true;
       root.hidden = false;
       populateRaceSwitcher();

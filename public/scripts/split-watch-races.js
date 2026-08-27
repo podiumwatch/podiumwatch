@@ -75,8 +75,11 @@
   // singleRelevantRace -- the one live race, or if none is live, today's
   // next race, or if nothing today is live or upcoming, today's most
   // recently finished race), skip the list entirely and go straight
-  // there. A list is only ever shown for the one genuinely ambiguous
-  // case: more than one race live at the same time.
+  // there. A list is shown whenever more than one race is genuinely
+  // relevant to today (see renderChoiceList() below) -- initially this
+  // only covered multiple simultaneously-LIVE races; extended
+  // 2026-08-27 after a real incident where a helper was silently
+  // auto-routed into the wrong one of two same-day SCHEDULED races.
   function destinationFor(session) {
     const idPart = "?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(session.id);
     if (session.status === "finished" || session.status === "reviewed") {
@@ -89,17 +92,36 @@
     return "/split-watch/live/" + idPart;
   }
 
-  function renderLiveChoiceList(liveRaces) {
+  // Real incident (2026-08-27): a helper who just entered the team's
+  // code got silently auto-routed into the HS boys race when they
+  // actually meant to time the JH boys race running the same day --
+  // this list is what shows instead whenever more than one race is
+  // relevant to right now, live or not, so a helper always sees every
+  // real candidate named explicitly rather than one being picked for
+  // them. Live races sort first (most urgent to notice), then by name.
+  function renderChoiceList(candidates) {
     raceEmpty.hidden = true;
-    raceList.innerHTML = liveRaces.map((session) => (
+    const sorted = [...candidates].sort((a, b) => {
+      if ((a.status === "live") !== (b.status === "live")) return a.status === "live" ? -1 : 1;
+      return a.name.localeCompare(b.name);
+    });
+    raceList.innerHTML = sorted.map((session) => (
       '<div class="swr-race-card">' +
         '<div>' +
           '<h3>' + escapeHtml(session.name) + '<span class="' + badgeClass(session.status) + '">' + escapeHtml(STATUS_LABELS[session.status] || session.status) + '</span></h3>' +
           '<p class="swr-race-meta">' + escapeHtml(session.race_date) + (session.race_type ? ' &middot; ' + escapeHtml(session.race_type) : '') + '</p>' +
         '</div>' +
-        '<a class="button button-primary" href="' + destinationFor(session) + '">Go time it</a>' +
+        '<a class="button button-primary" href="#" data-choice-race="' + escapeHtml(session.id) + '">Go time it</a>' +
       '</div>'
     )).join("");
+
+    raceList.querySelectorAll("[data-choice-race]").forEach((link) => {
+      const session = sorted.find((s) => s.id === link.getAttribute("data-choice-race"));
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        routeToRace(session);
+      });
+    });
   }
 
   // Timing Crew (Project 3): before sending a helper straight into
@@ -183,6 +205,20 @@
       const data = await apiFetch("/api/split-watch/sessions/", { action: "today" });
       teamNameEl.textContent = data.team.school_name;
 
+      // Never silently auto-pick when more than one race is genuinely
+      // relevant to today, whether or not either is live yet -- see
+      // renderChoiceList()'s own header comment for the real incident
+      // this fixes. This also covers the old needsChoice (multiple LIVE)
+      // case, since that always implies at least 2 candidates here too.
+      const sameDayCandidates = [...(data.liveRaces || []), ...(data.upcomingToday || [])];
+      if (sameDayCandidates.length > 1) {
+        loadingBox.hidden = true;
+        root.hidden = false;
+        showMessage("More than one race is happening today -- choose which one you're timing.");
+        renderChoiceList(sameDayCandidates);
+        return;
+      }
+
       if (data.singleRelevantRace) {
         await routeToRace(data.singleRelevantRace);
         return;
@@ -190,13 +226,6 @@
 
       loadingBox.hidden = true;
       root.hidden = false;
-
-      if (data.needsChoice) {
-        showMessage("More than one race is live right now -- choose which one you're timing.");
-        renderLiveChoiceList(data.liveRaces);
-        return;
-      }
-
       raceList.innerHTML = "";
       raceEmpty.hidden = false;
     } catch (error) {
