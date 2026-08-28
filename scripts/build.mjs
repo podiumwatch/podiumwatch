@@ -82,6 +82,7 @@ import { ohioSchoolsPage } from "../src/pages/ohioschools.mjs";
 import { claimTeamPage } from "../src/pages/claimteam.mjs";
 import { submitResultsPage } from "../src/pages/submitresults.mjs";
 import { rankingMethodologyPage } from "../src/pages/rankingmethodology.mjs";
+import { oatcccCoachesPollPage } from "../src/pages/oatcccpoll.mjs";
 import { athletesPage } from "../src/pages/athletes.mjs";
 import { athleteDetailPage } from "../src/pages/athletedetail.mjs";
 import { adminAthletesPage } from "../src/pages/adminathletes.mjs";
@@ -384,6 +385,7 @@ function homePage(stories, rankings) {
       <div class="rankings-grid">${rankingsContent}
         <article class="ranking-card"><p>Cross Country</p><h3>Browse every division</h3><span>Boys and girls, Divisions 1 through 4</span><a href="/rankings/cross-country/">Explore cross country ${icon("arrow")}</a></article>
         <article class="ranking-card"><p>Track and Field</p><h3>Browse every event</h3><span>Boys and girls, Divisions 1 through 5</span><a href="/rankings/track-and-field/">Explore track ${icon("arrow")}</a></article>
+        <article class="ranking-card"><p>OATCCC Coaches Poll</p><h3>The official poll</h3><span>All 8 boys and girls divisions, credited to OATCCC</span><a href="/rankings/oatccc/">View coaches poll ${icon("arrow")}</a></article>
       </div>
     </div>
   </section>
@@ -536,7 +538,7 @@ function storyPage(story, stories) {
 
 function rankingsIndexPage() {
   const content = `${pageHero({ eyebrow: "Podium Watch rankings", title: "Ohio rankings start here.", description: "Choose cross country or track and field, then select boys or girls and the division you want to follow." })}
-  <section class="section section-paper"><div class="container"><div class="ranking-browser"><article class="ranking-browser-card"><p class="eyebrow">Four divisions</p><h2>Cross Country Rankings</h2><p>Individual and team rankings for boys and girls across Divisions 1 through 4.</p><a class="button button-primary" href="/rankings/cross-country/">Open cross country</a></article><article class="ranking-browser-card"><p class="eyebrow">Five divisions</p><h2>Track and Field Rankings</h2><p>Running events, relays, jumps, and throws for boys and girls across Divisions 1 through 5.</p><a class="button button-primary" href="/rankings/track-and-field/">Open track and field</a></article></div></div></section>`;
+  <section class="section section-paper"><div class="container"><div class="ranking-browser"><article class="ranking-browser-card"><p class="eyebrow">Four divisions</p><h2>Cross Country Rankings</h2><p>Individual and team rankings for boys and girls across Divisions 1 through 4.</p><a class="button button-primary" href="/rankings/cross-country/">Open cross country</a></article><article class="ranking-browser-card"><p class="eyebrow">Five divisions</p><h2>Track and Field Rankings</h2><p>Running events, relays, jumps, and throws for boys and girls across Divisions 1 through 5.</p><a class="button button-primary" href="/rankings/track-and-field/">Open track and field</a></article><article class="ranking-browser-card"><p class="eyebrow">Official coaches poll</p><h2>OATCCC Coaches Poll</h2><p>The official Ohio Association of Track and Cross Country Coaches poll, all eight boys and girls divisions, shared with full credit to OATCCC.</p><a class="button button-primary" href="/rankings/oatccc/">Open OATCCC poll</a></article></div></div></section>`;
   return layout({ site, title: "Rankings", description: "Ohio high school cross country and track and field rankings by sport, gender, and division.", pathname: "/rankings/", content });
 }
 
@@ -764,6 +766,7 @@ await writePage("/team-of-the-week/", teamOfTheWeekPage(site));
   await writePage("/tournament-hub/", tournamentHubPage(site));
   await writePage("/rankings/", rankingsIndexPage());
   await writePage("/rankings/methodology/", rankingMethodologyPage(site));
+  await writePage("/rankings/oatccc/", oatcccCoachesPollPage(site));
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));
   for (const [sportName, sportPath, count] of [["Cross Country", "cross-country", 4], ["Track and Field", "track-and-field", 5]]) {

@@ -207,9 +207,10 @@ p { margin-top: 0; }
 .story-nav a { padding: 20px; border: 1px solid var(--line); background: var(--white); }
 .story-nav span { display: block; margin-bottom: 6px; color: var(--muted); font-size: .75rem; text-transform: uppercase; }
 
-.ranking-browser { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.ranking-browser { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .ranking-browser-card { min-height: 300px; display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; color: var(--white); background: var(--black); }
 .ranking-browser-card:nth-child(2) { background: var(--green-ink); }
+.ranking-browser-card:nth-child(3) { background: var(--green-dark); }
 .ranking-browser-card h2 { margin-bottom: 12px; }
 .ranking-browser-card p { color: #d0d0d0; }
 .ranking-browser-card .button { align-self: flex-start; margin-top: 8px; }
