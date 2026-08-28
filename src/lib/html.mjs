@@ -15,7 +15,11 @@ export function icon(name) {
     arrow: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg>',
     search: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.7 19.3-4.1-4.1a7.5 7.5 0 1 0-1.4 1.4l4.1 4.1 1.4-1.4ZM5 10.5a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0Z"/></svg>',
     calculator: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm0 2v4h12V4H6Zm0 6v2h3v-2H6Zm5 0v2h3v-2h-3Zm5 0v2h3v-2h-3ZM6 14v2h3v-2H6Zm5 0v2h3v-2h-3Zm5 0v2h3v-2h-3ZM6 18v2h3v-2H6Zm5 0v2h3v-2h-3Zm5 0v2h3v-2h-3Z"/></svg>',
-    chevron: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 15.5 5 8.5l1.4-1.4L12 12.7l5.6-5.6L19 8.5Z"/></svg>'
+    chevron: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 15.5 5 8.5l1.4-1.4L12 12.7l5.6-5.6L19 8.5Z"/></svg>',
+    home: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.2 2.5 11h2.3v9h5.6v-6h3.2v6h5.6v-9h2.3L12 3.2Z"/></svg>',
+    results: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm7 1.5V8h3.5L13 4.5ZM8 13h8v1.6H8V13Zm0 3.4h8V18H8v-1.6ZM8 9h4v1.6H8V9Z"/></svg>',
+    rankings: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 9.6 7.3 4 8.1l4.1 3.9L7 18l5-2.7 5 2.7-1.1-6 4.1-3.9-5.6-.8L12 2Z"/></svg>',
+    meets: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7ZM5 10h14v10H5V10Zm2 3v2h2v-2H7Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Z"/></svg>'
   };
   return icons[name] || "";
 }
@@ -30,15 +34,33 @@ export function icon(name) {
 // itself is a progressive enhancement over that, not a replacement for it.
 // Lives in the header's utility cluster now (NAVIGATION_REBUILD_SPEC.md,
 // 2026-08-21) rather than the content nav -- restyled as the green accent
-// button the spec calls for, but its internal logic (this markup, the
-// hover/click/coach-redirect behavior in site.js) is untouched from the
-// version built 2026-08-21. See docs/DECISIONS.md.
+// button the spec calls for, but its internal logic (the dropdown
+// mechanism itself, the hover/click/coach-redirect behavior in site.js)
+// is untouched from the version built 2026-08-21. See docs/DECISIONS.md.
+//
+// Real mobile confirmed problem (2026-08-28): Coach Sign In is a coach's
+// actual, primary way into Split Watch, but it sat second, unstyled,
+// below "Enter Race Day Code" -- reading like race-day-code entry was
+// the only real path in. Coach Sign In now comes first, styled as the
+// primary green action with its own supporting line; Enter Race Day
+// Code is the clearly secondary outlined action underneath, still
+// intact and still exactly the same /split-watch/join/ destination and
+// data-nav-coach-link smart-redirect logic. data-nav-dropdown-sw marks
+// this whole block so public/scripts/site.js can relocate it higher in
+// the mobile drawer (near Meets) without touching its desktop position
+// or its internal open/close and coach-redirect logic at all.
 function splitWatchNavDropdown(active) {
-  return `<div class="nav-dropdown nav-utility-sw" data-nav-dropdown>
+  return `<div class="nav-dropdown nav-utility-sw" data-nav-dropdown data-nav-dropdown-sw>
     <a class="nav-dropdown-trigger" href="/split-watch/join/"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-dropdown-trigger>Split Watch</a>
-    <div class="nav-dropdown-panel" data-nav-dropdown-panel>
-      <a href="/split-watch/join/">Enter Race Day Code</a>
-      <a href="/team-login/" data-nav-coach-link>Coach Sign In</a>
+    <div class="nav-dropdown-panel nav-dropdown-panel-sw" data-nav-dropdown-panel>
+      <a class="nav-dropdown-sw-action nav-dropdown-sw-primary" href="/team-login/" data-nav-coach-link>
+        <span class="nav-dropdown-sw-title">Coach Sign In</span>
+        <span class="nav-dropdown-sw-sub">Open your races and live timing</span>
+      </a>
+      <a class="nav-dropdown-sw-action nav-dropdown-sw-secondary" href="/split-watch/join/">
+        <span class="nav-dropdown-sw-title">Enter Race Day Code</span>
+        <span class="nav-dropdown-sw-sub">Join a timing crew</span>
+      </a>
     </div>
   </div>`;
 }
@@ -59,7 +81,12 @@ function navGroup(link, currentPath) {
     const itemActive = currentPath.startsWith(item.href);
     return `<a href="${item.href}"${itemActive ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`;
   }).join("");
-  return `<div class="nav-group" data-nav-group>
+  // data-nav-group-name is a plain lowercase slug of the group's own
+  // label ("meets", "rankings", ...) -- a stable hook site.js uses to
+  // find the Meets group specifically, so it can relocate the Split
+  // Watch dropdown to sit right after it on mobile (see
+  // splitWatchNavDropdown()'s own comment above for why).
+  return `<div class="nav-group" data-nav-group data-nav-group-name="${escapeHtml(slugify(link.label))}">
     <button class="nav-group-trigger" type="button"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-group-trigger>${escapeHtml(link.label)}<span class="nav-caret">${icon("chevron")}</span></button>
     <div class="nav-group-panel" data-nav-group-panel>${itemLinks}</div>
   </div>`;
@@ -68,14 +95,22 @@ function navGroup(link, currentPath) {
 export function header(site, currentPath = "/") {
   const navGroups = site.navigation.map((link) => navGroup(link, currentPath)).join("");
   const splitWatchActive = currentPath.startsWith("/split-watch/") || currentPath === "/team-login/";
-  return `<div class="sports-ticker"><a class="container sports-ticker-inner" href="/meets/">
-    <span class="ticker-live">LIVE</span>
-    <strong class="ticker-desktop-only">OHIO XC SEASON</strong>
-    <span class="ticker-desktop-only">Practice underway statewide</span>
-    <span class="ticker-desktop-only">First meets August 22</span>
+  // Real, date-aware content, computed fresh in the browser every load
+  // (public/scripts/ohio-today.js) -- never a single hardcoded season
+  // message that goes stale the moment the calendar day moves past it.
+  // This static fallback (shown until JS runs, and if it never does) is
+  // deliberately evergreen -- no specific date, no LIVE claim -- so a
+  // visitor never sees a wrong date or an unearned "live" badge either
+  // way. data-ticker-live starts hidden; only PodiumOhioToday finding a
+  // real live signal is allowed to unhide it.
+  const ticker = `<div class="sports-ticker"><a class="container sports-ticker-inner" href="/meets/" data-ticker>
+    <span class="ticker-live" data-ticker-live hidden>LIVE</span>
+    <strong class="ticker-desktop-only" data-ticker-headline>OHIO RUNNING</strong>
+    <span class="ticker-desktop-only" data-ticker-detail>Meets, results, and rankings across the state</span>
     <span class="ticker-desktop-only ticker-cta">View calendar ${icon("arrow")}</span>
-    <span class="ticker-mobile-only">Ohio XC season &middot; Practice underway statewide</span>
-  </a></div><header class="site-header" data-header>
+    <span class="ticker-mobile-only" data-ticker-mobile>Ohio running &middot; Meets, results, and rankings</span>
+  </a></div>`;
+  return `${ticker}<header class="site-header" data-header>
   <div class="container nav-wrap">
     <a class="brand" href="/" aria-label="Podium Watch home">
       <img src="${site.logoMark}" width="48" height="48" alt="">
@@ -92,6 +127,7 @@ export function header(site, currentPath = "/") {
       <div class="nav-utility">
         <button class="nav-icon-button nav-utility-search" type="button" aria-haspopup="dialog" aria-label="Search" data-search-open>${icon("search")}<span>Search</span></button>
         <a class="nav-utility-calc" href="/pace-calculator/">${icon("calculator")}<span>Pace Calculator</span></a>
+        <span data-nav-dropdown-sw-anchor hidden></span>
         ${splitWatchNavDropdown(splitWatchActive)}
         <div class="nav-utility-social-row">
           <a class="nav-utility-watch" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch</a>
@@ -131,12 +167,18 @@ export function footer(site) {
 </footer>`;
 }
 
+// Sports-utility-first, matching what a mobile visitor actually reaches
+// for: Home, Results, Rankings, Meets. Stories and Voting stay reachable
+// from the main menu instead -- four destinations, not six, keeps every
+// tap target comfortably above 44px. Each link's aria-current gets set
+// by public/scripts/site.js (the dock is shared chrome, rendered once in
+// layout(), with no per-page pathname passed in here).
 function mobileDock() {
-  return `<nav class="mobile-dock" aria-label="Mobile quick navigation">
-    <a href="/" aria-label="Home"><span aria-hidden="true">⌂</span><b>Home</b></a>
-    <a href="/rankings/" aria-label="Rankings"><span aria-hidden="true">★</span><b>Rankings</b></a>
-    <a href="/meets/" aria-label="Meets and results"><span aria-hidden="true">▦</span><b>Meets</b></a>
-    <a href="/stories/" aria-label="Latest stories"><span aria-hidden="true">▤</span><b>Stories</b></a>
+  return `<nav class="mobile-dock" aria-label="Mobile quick navigation" data-mobile-dock>
+    <a href="/" aria-label="Home" data-dock-path="/">${icon("home")}<b>Home</b></a>
+    <a href="/meets/?view=results" aria-label="Latest results" data-dock-path="/meets/?view=results">${icon("results")}<b>Results</b></a>
+    <a href="/rankings/" aria-label="Rankings" data-dock-path="/rankings/">${icon("rankings")}<b>Rankings</b></a>
+    <a href="/meets/" aria-label="Meets" data-dock-path="/meets/">${icon("meets")}<b>Meets</b></a>
   </nav>`;
 }
 
@@ -239,6 +281,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
    recur on any other public page either. */
 [hidden] { display: none !important; }
 </style>
+<script src="/scripts/ohio-today.js" defer></script>
 <script src="/scripts/site.js" defer></script>
 <script>
   window.va = window.va || function () {
@@ -263,11 +306,24 @@ ${chromeless ? "" : mobileDock()}
 </html>`;
 }
 
+// Three real, structured fallback images keyed off the story's own
+// category field (never inferred/guessed) -- so a Cross Country piece
+// without a featured photo shows a cross country-flavored card and a
+// Track and Field piece shows a track-flavored one, instead of the same
+// single generic wordmark card repeating across every empty slot.
+export function storyFallbackImage(category) {
+  const normalized = String(category || "").toLowerCase();
+  if (normalized.includes("track")) return "/images/stories/story_fallback_track.svg";
+  if (normalized.includes("cross country")) return "/images/stories/story_fallback_xc.svg";
+  return "/images/stories/story_fallback.svg";
+}
+
 export function storyCard(story, { featured = false } = {}) {
-  const image = story.featuredImage || "/images/stories/story_fallback.svg";
+  const fallback = storyFallbackImage(story.category);
+  const image = story.featuredImage || fallback;
   return `<article class="story-card${featured ? " story-card-featured" : ""}" data-story-card data-category="${escapeHtml(story.category.toLowerCase())}" data-search="${escapeHtml(`${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")}`.toLowerCase())}">
     <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}">
-      <img src="${image}" data-fallback="/images/stories/story_fallback.svg" alt="${escapeHtml(story.featuredImageAlt || "")}" loading="lazy" width="960" height="540">
+      <img src="${image}" data-fallback="${fallback}" alt="${escapeHtml(story.featuredImageAlt || "")}" loading="lazy" width="960" height="540">
     </a>
     <div class="story-card-body">
       <div class="story-meta"><span class="category">${escapeHtml(story.category)}</span><span>${formatDate(story.date)}</span><span>${story.readingMinutes} min read</span></div>

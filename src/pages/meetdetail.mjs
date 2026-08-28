@@ -8,7 +8,8 @@ export function meetDetailPage(site) {
     eyebrow: "Podium Watch Meet Center",
     title: "Meet information.",
     description:
-      "Schedules, directions, results, maps, and important meet details."
+      "Schedules, directions, results, maps, and important meet details.",
+    compact: true
   })}
 
   <style>

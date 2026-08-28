@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title">
+<title id="title">Podium Watch cross country story</title>
+<rect width="1600" height="900" fill="#090909"/>
+<circle cx="1350" cy="160" r="360" fill="#0faf68" opacity=".14"/>
+<path d="M0 620 C220 520 380 700 620 600 C860 500 1000 660 1230 560 C1380 500 1480 560 1600 520 V900 H0 Z" fill="#0faf68" opacity=".16"/>
+<path d="M0 700 C260 610 460 760 720 660 C960 570 1120 720 1360 630 C1460 595 1540 610 1600 590 V900 H0 Z" fill="#0faf68" opacity=".3"/>
+<path d="M0 800 C300 740 560 830 860 760 C1120 700 1300 800 1600 740 V900 H0 Z" fill="#0faf68"/>
+<text x="110" y="330" font-family="Impact, Arial Black, sans-serif" font-size="150" fill="#fff">PODIUM</text>
+<text x="110" y="480" font-family="Impact, Arial Black, sans-serif" font-size="150" fill="#0faf68">WATCH</text>
+<text x="112" y="560" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="6" fill="#fff" opacity=".8">CROSS COUNTRY</text>
+</svg>

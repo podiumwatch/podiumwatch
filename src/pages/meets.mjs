@@ -91,6 +91,54 @@ export function meetsIndexPage(site) {
       text-align: center;
     }
 
+    .meet-center-tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .meet-center-tab {
+      appearance: none;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 10px 4px;
+      margin-bottom: -1px;
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .meet-center-tab[aria-selected="true"] {
+      color: var(--ink);
+      border-bottom-color: var(--green);
+    }
+
+    .meet-center-tab:hover {
+      color: var(--ink);
+    }
+
+    .meet-load-more {
+      margin-top: 18px;
+      width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      .meet-center-tabs {
+        gap: 4px;
+      }
+
+      .meet-center-tab {
+        flex: 1;
+        text-align: center;
+        font-size: 0.88rem;
+      }
+    }
+
     /* Meet Center feedback (2026-08-26): the previous card grid only fit
        about 6 meets on screen at once and read as mostly empty space
        around one big button. A compact, scannable row -- date chip, name,
@@ -323,44 +371,52 @@ export function meetsIndexPage(site) {
         </p>
       </div>
 
-      <section
-        class="meet-section"
-        data-upcoming-meet-section
-        hidden
-      >
+      <div class="meet-center-tabs" role="tablist" aria-label="Meet Center view" data-meet-view-tabs hidden>
+        <button class="meet-center-tab" type="button" role="tab" data-meet-view-tab data-view="today">Today</button>
+        <button class="meet-center-tab" type="button" role="tab" data-meet-view-tab data-view="upcoming">Upcoming</button>
+        <button class="meet-center-tab" type="button" role="tab" data-meet-view-tab data-view="results">Results</button>
+      </div>
+
+      <section class="meet-section" data-meet-view-panel="today" hidden>
+        <div class="meet-section-heading">
+          <div>
+            <p class="eyebrow">Today in Ohio</p>
+            <h2>Today's meets</h2>
+          </div>
+
+          <strong data-meet-count="today"></strong>
+        </div>
+
+        <div class="meet-list" data-meet-list="today"></div>
+        <button class="button button-outline meet-load-more" type="button" data-load-more="today" hidden>Load more meets</button>
+      </section>
+
+      <section class="meet-section" data-meet-view-panel="upcoming" hidden>
         <div class="meet-section-heading">
           <div>
             <p class="eyebrow">Coming up</p>
             <h2>Upcoming meets</h2>
           </div>
 
-          <strong data-upcoming-meet-count></strong>
+          <strong data-meet-count="upcoming"></strong>
         </div>
 
-        <div
-          class="meet-list"
-          data-upcoming-meet-list
-        ></div>
+        <div class="meet-list" data-meet-list="upcoming"></div>
+        <button class="button button-outline meet-load-more" type="button" data-load-more="upcoming" hidden>Load more meets</button>
       </section>
 
-      <section
-        class="meet-section"
-        data-completed-meet-section
-        hidden
-      >
+      <section class="meet-section" data-meet-view-panel="results" hidden>
         <div class="meet-section-heading">
           <div>
             <p class="eyebrow">Past events</p>
-            <h2>Completed meets</h2>
+            <h2>Results</h2>
           </div>
 
-          <strong data-completed-meet-count></strong>
+          <strong data-meet-count="results"></strong>
         </div>
 
-        <div
-          class="meet-list"
-          data-completed-meet-list
-        ></div>
+        <div class="meet-list" data-meet-list="results"></div>
+        <button class="button button-outline meet-load-more" type="button" data-load-more="results" hidden>Load more meets</button>
       </section>
     </div>
   </section>

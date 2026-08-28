@@ -33,7 +33,8 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
     title,
     description: seed
       ? `${schoolName} | Class of ${seed.graduation_year}`
-      : "Rankings, verified performances, stories, team connections, and approved recruiting information."
+      : "Rankings, verified performances, stories, team connections, and approved recruiting information.",
+    compact: true
   })}
 
   <style>

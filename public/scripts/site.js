@@ -273,4 +273,89 @@
       image.removeAttribute("data-fallback");
     }, { once: true });
   });
+
+  // Split Watch mobile placement fix (2026-08-28): the drawer is a
+  // straight top-to-bottom accordion on mobile, and Split Watch sat
+  // pinned to the very bottom of the whole drawer -- below every content
+  // category AND the entire utility cluster (Search/Calculator/Social)
+  // -- making it look like entering a race day code was the only way in.
+  // Desktop's own position (right-aligned utility cluster) is exactly
+  // right and stays completely untouched; this only ever moves the DOM
+  // node, and only at mobile widths, to sit right after the Meets group
+  // -- easy to find without scrolling past everything else. Round-trips
+  // cleanly on resize using the anchor span left in its original spot.
+  const splitWatchDropdown = document.querySelector("[data-nav-dropdown-sw]");
+  const splitWatchAnchor = document.querySelector("[data-nav-dropdown-sw-anchor]");
+  const meetsGroup = document.querySelector('[data-nav-group-name="meets"]');
+  if (splitWatchDropdown && splitWatchAnchor) {
+    const placeSplitWatch = () => {
+      if (mobileQuery.matches && meetsGroup) {
+        meetsGroup.insertAdjacentElement("afterend", splitWatchDropdown);
+      } else {
+        splitWatchAnchor.insertAdjacentElement("afterend", splitWatchDropdown);
+      }
+    };
+    placeSplitWatch();
+    mobileQuery.addEventListener("change", placeSplitWatch);
+  }
+
+  // Mobile dock active state -- compares against pathname+search since
+  // Results and Meets deliberately share the same /meets/ pathname,
+  // differing only by ?view=.
+  const dockLinks = [...document.querySelectorAll("[data-dock-path]")];
+  if (dockLinks.length) {
+    const currentUrl = window.location.pathname + window.location.search;
+    let matched = false;
+    dockLinks.forEach((link) => {
+      const isHome = link.dataset.dockPath === "/";
+      const isMatch = isHome ? window.location.pathname === "/" : currentUrl === link.dataset.dockPath;
+      if (isMatch && !matched) {
+        link.setAttribute("aria-current", "page");
+        matched = true;
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+    // Meets (bare /meets/, no ?view=) still deserves the dock's Meets tab
+    // lit even though it isn't a byte-for-byte match against any single
+    // data-dock-path (results carries ?view=results, meets carries none) --
+    // handled above by matching the exact current URL, so a visitor on
+    // plain /meets/ correctly lights up "Meets," not "Results."
+  }
+
+  // Ohio Today ticker (public/scripts/ohio-today.js) -- sitewide, since
+  // the ticker itself is shared header chrome on every page. Cached in
+  // sessionStorage there, so this costs a real network request only
+  // once per few minutes of browsing, not on every single page view.
+  const tickerLive = document.querySelector("[data-ticker-live]");
+  const tickerHeadline = document.querySelector("[data-ticker-headline]");
+  const tickerDetail = document.querySelector("[data-ticker-detail]");
+  const tickerMobile = document.querySelector("[data-ticker-mobile]");
+  if (tickerHeadline && tickerDetail && tickerMobile && window.PodiumOhioToday) {
+    window.PodiumOhioToday.computeOhioToday().then((today) => {
+      let headline;
+      let detail;
+      if (today.todaysMeets.length > 0) {
+        headline = "OHIO XC TODAY";
+        detail = today.todaysMeets.length === 1 ? "1 meet today" : `${today.todaysMeets.length} meets today`;
+      } else if (today.newestCompleted.length > 0) {
+        headline = "RESULTS ARE IN";
+        detail = today.newestCompleted[0].name;
+      } else if (today.upcomingNext7d.length > 0) {
+        headline = "MEETS THIS WEEKEND";
+        detail = today.upcomingNext7d.length === 1 ? "1 meet coming up" : `${today.upcomingNext7d.length} meets coming up`;
+      } else if (today.nextUpcoming) {
+        headline = "NEXT MEET";
+        detail = today.nextUpcoming.name;
+      } else {
+        return; // Evergreen static fallback already in the markup is accurate enough.
+      }
+      tickerHeadline.textContent = headline;
+      tickerDetail.textContent = detail;
+      tickerMobile.textContent = `${headline.charAt(0)}${headline.slice(1).toLowerCase()} · ${detail}`;
+    }).catch(() => {
+      // Ticker failure must never be visible -- the static evergreen
+      // fallback markup is already accurate, just less specific.
+    });
+  }
 })();

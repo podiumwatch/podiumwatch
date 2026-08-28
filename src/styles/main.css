@@ -383,10 +383,24 @@ p { margin-top: 0; }
   .footer-column:last-child { grid-column:auto; }
   .footer-bottom { flex-direction:column; }
   .mobile-dock { position:fixed; z-index:120; left:0; right:0; bottom:0; min-height:64px; display:grid; grid-template-columns:repeat(4,1fr); padding-bottom:env(safe-area-inset-bottom); color:#dbe2de; background:#080c09; border-top:1px solid #313a35; box-shadow:0 -5px 18px rgba(0,0,0,.22); }
-  .mobile-dock a { min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:6px 2px; }
+  .mobile-dock a { min-width:0; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:6px 2px; }
   .mobile-dock a:active { color:var(--green); background:#151d18; }
-  .mobile-dock span { color:var(--green); font-size:1.15rem; line-height:1; }
-  .mobile-dock b { font-size:.58rem; letter-spacing:.03em; text-transform:uppercase; }
+  .mobile-dock svg { width:20px; height:20px; fill:#8a938d; }
+  .mobile-dock b { font-size:.58rem; letter-spacing:.03em; text-transform:uppercase; font-weight:700; }
+  /* Real state, not just a tap flash -- a visitor should be able to see
+     which of the 4 destinations they're already on. */
+  .mobile-dock a[aria-current="page"] svg { fill:var(--green); }
+  .mobile-dock a[aria-current="page"] b { color:var(--green); }
+  /* Mobile Split Watch/menu-overlap fix (2026-08-28): the fixed dock
+     (z-index 120) sat visually on top of the open mobile drawer
+     (z-index 103 at this same breakpoint), covering its lower portion --
+     confirmed directly, this is exactly why Split Watch's actions looked
+     unreachable. Simplest correct fix: the dock is part of the page
+     underneath the drawer, so hide it outright while the drawer is open
+     (body.nav-open, already toggled by the existing menu-open logic in
+     site.js -- no new JS needed) and let it reappear the instant the
+     drawer closes. */
+  body.nav-open .mobile-dock { display: none; }
 }
 @media (max-width:380px) {
   .brand > span { display:none; }
@@ -463,6 +477,61 @@ p { margin-top: 0; }
 .home-meet > b { width:47px; height:43px; display:grid; place-items:center; color:#007746; background:#e9f7f1; font-size:.62rem; }
 .home-meet strong,.home-meet small { display:block; }
 .home-meet strong { font-size:.72rem; }
+
+/* ===== Homepage/mobile rebuild (2026-08-28) ===== */
+
+/* Ohio Today -- real, date-aware content computed client-side by
+   public/scripts/ohio-today.js (see that file's own header comment for
+   why this can never be safely baked in at build time). The markup here
+   is a genuinely useful loading state, not a blank box: it already
+   states the plan in plain language while the real counts load in. */
+.ohio-today { padding:18px 20px 20px; color:#fff; background:#111714; }
+.ohio-today-eyebrow { margin:0 0 6px; color:#7be8ac; font-family:Arial,Helvetica,sans-serif; font-size:.68rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; }
+.ohio-today-headline { margin:0 0 12px; font-family:Arial Black,Arial,sans-serif; font-size:1.28rem; line-height:1.15; }
+.ohio-today-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; }
+.ohio-today-item { display:block; padding:12px 14px; color:#fff; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); text-decoration:none; transition:background-color .15s ease; }
+.ohio-today-item:hover { background:rgba(255,255,255,.14); }
+.ohio-today-item strong { display:block; font-family:Arial,Helvetica,sans-serif; font-size:1.05rem; }
+.ohio-today-item span { display:block; margin-top:3px; color:#c3cac6; font-size:.72rem; }
+.ohio-today-live-dot { display:inline-flex; align-items:center; gap:6px; margin-bottom:8px; padding:3px 9px; color:#fff; background:#c62828; font-size:.62rem; font-weight:900; letter-spacing:.06em; text-transform:uppercase; }
+.ohio-today-live-dot::before { content:""; width:6px; height:6px; border-radius:50%; background:#fff; }
+
+/* Three big, unmissable phone actions -- Latest Results, Find a Meet,
+   State Rankings. Every tap target here is well over the 44px floor. */
+.home-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
+.home-action { min-height:54px; display:flex; align-items:center; justify-content:center; padding:10px 10px; text-align:center; font-family:Arial,Helvetica,sans-serif; font-weight:900; font-size:.82rem; text-decoration:none; }
+.home-action-primary { color:#07130d; background:var(--green); }
+.home-action-primary:hover { background:#0dbf6f; }
+.home-action-outline { color:#111714; background:#fff; border:2px solid #111714; }
+.home-action-outline:hover { color:#fff; background:#111714; }
+
+/* Follow Your School -- reuses .home-panel's own card chrome (same
+   background/border/title bar as Power Rankings and Upcoming Meets)
+   rather than inventing a new visual language for one more sidebar
+   module. */
+.follow-school-panel-body { padding:0 15px 16px; }
+.follow-school-search { display:block; width:100%; margin:12px 0 8px; padding:10px 12px; border:1px solid #dce2de; font:inherit; font-size:.82rem; }
+.follow-school-results { display:grid; gap:6px; max-height:230px; overflow-y:auto; }
+.follow-school-result { display:block; width:100%; padding:9px 11px; text-align:left; color:#111714; border:1px solid #edf0ee; background:#fafbfa; font:inherit; font-size:.78rem; font-weight:700; cursor:pointer; }
+.follow-school-result:hover, .follow-school-result:focus-visible { border-color:var(--green); }
+.follow-school-selected { padding:13px; border:1px solid #dce2de; background:#f7f9f8; }
+.follow-school-selected strong { display:block; font-size:.92rem; }
+.follow-school-selected-meta { display:grid; gap:5px; margin-top:9px; font-size:.75rem; color:#586058; }
+.follow-school-selected-meta a { color:var(--green-dark); font-weight:800; }
+.follow-school-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:11px; }
+.follow-school-actions .button { min-height:40px; padding:8px 14px; font-size:.72rem; }
+.follow-school-empty { padding:12px 15px 16px; font-size:.78rem; color:#7a827e; }
+
+/* Vote Now -- also reuses .home-panel chrome. */
+.vote-now-body { padding:0 15px 16px; }
+.vote-now-category { margin:0 0 6px; color:#008850; font-family:Arial,Helvetica,sans-serif; font-size:.68rem; font-weight:900; letter-spacing:.05em; text-transform:uppercase; }
+.vote-now-question { margin:0 0 8px; font-size:.92rem; font-weight:800; }
+.vote-now-meta { margin:0 0 12px; color:#7a827e; font-size:.74rem; }
+
+@media (max-width:560px) {
+  .home-actions { grid-template-columns:1fr; }
+  .ohio-today-headline { font-size:1.12rem; }
+}
 .home-meet small { margin-top:3px; color:#8b938f; font-size:.62rem; }
 .sports-ticker { color:#fff; background:#070a08; font-size:.72rem; }
 .sports-ticker-inner { min-height:35px; display:flex; align-items:center; gap:22px; overflow:hidden; white-space:nowrap; }
@@ -902,6 +971,29 @@ a.sports-ticker-inner { text-decoration: none; color: inherit; cursor: pointer; 
   color: var(--black); background: var(--green-dark);
 }
 
+/* Split Watch panel actions (2026-08-28 mobile fix): Coach Sign In first
+   and styled as the primary green action, Enter Race Day Code second and
+   outlined -- a coach opening this panel should never have to guess
+   which one is theirs. Both need a bit more room than the panel's plain
+   text links (a title line plus a short supporting line each), so this
+   overrides .nav-dropdown-panel a's single-line sizing rather than
+   fighting it. */
+.nav-dropdown-panel-sw { min-width: 250px; }
+.nav-dropdown-sw-action {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 12px 14px !important; border-radius: 8px;
+  text-decoration: none; white-space: normal !important;
+}
+.nav-dropdown-sw-title { font-size: .92rem; font-weight: 800; }
+.nav-dropdown-sw-sub { font-size: .76rem; font-weight: 600; opacity: .8; }
+.nav-dropdown-sw-primary { color: var(--black) !important; background: var(--green); }
+.nav-dropdown-sw-primary:hover { background: var(--green-dark); color: var(--black) !important; }
+.nav-dropdown-sw-secondary {
+  margin-top: 2px; color: #ffffff !important; background: transparent;
+  border: 1px solid rgba(255, 255, 255, .3);
+}
+.nav-dropdown-sw-secondary:hover { background: rgba(255, 255, 255, .08); color: #ffffff !important; }
+
 /* --- mobile top bar: search icon peeks out next to the hamburger --- */
 .nav-mobile-actions { display: none; align-items: center; gap: 4px; }
 .nav-mobile-search { display: none; }
@@ -946,16 +1038,20 @@ a.sports-ticker-inner { text-decoration: none; color: inherit; cursor: pointer; 
   .nav-group-panel a { padding: 12px 4px; font-size: .92rem; border-bottom: 1px solid #22262a; }
 
   /* Utility cluster becomes the pinned bottom section of the drawer --
-     divider above it, Pace Calculator and Split Watch as full-
-     width rows, Watch/Instagram as the two-up row at the very bottom. */
+     divider above it, Pace Calculator as a full-width row, Watch/
+     Instagram as the two-up row at the very bottom. Split Watch itself
+     is relocated OUT of this cluster on mobile (public/scripts/site.js,
+     right after the Meets group, near the top of the drawer) -- these
+     .nav-utility-sw rules still apply wherever it lands, since they
+     target the class, not this container. */
   .nav-utility {
     flex-direction: column; align-items: stretch; gap: 10px;
     margin: 14px 0 0; padding: 18px 0 0; border-left: 0; border-top: 1px solid rgba(255, 255, 255, .16);
   }
   .nav-icon-button, .nav-utility-calc { justify-content: flex-start; min-height: 52px; }
-  .nav-utility-sw { display: block; }
+  .nav-utility-sw { display: block; margin-bottom: 6px; }
   .nav-utility-sw .nav-dropdown-trigger { width: 100%; justify-content: center; min-height: 52px; }
-  .nav-utility-sw .nav-dropdown-panel { position: static; margin-top: 8px; box-shadow: none; background: rgba(255, 255, 255, .05); }
+  .nav-utility-sw .nav-dropdown-panel { position: static; margin-top: 8px; box-shadow: none; background: rgba(255, 255, 255, .05); gap: 8px; padding: 8px; }
   .nav-utility-social-row { gap: 10px; margin-top: 4px; }
   .nav-utility-watch, .nav-utility-instagram { flex: 1; min-height: 52px; }
   .nav-utility-instagram { width: auto; }

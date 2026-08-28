@@ -45,6 +45,7 @@ import {
   pageHero,
   rankingCard,
   storyCard,
+  storyFallbackImage,
   websiteJsonLd
 } from "../src/lib/html.mjs";
 import { meetsIndexPage } from "../src/pages/meets.mjs";
@@ -308,28 +309,26 @@ function homePage(stories, rankings) {
     actionLabel: "Browse rankings",
     actionHref: "/rankings/"
   });
+  // Homepage rebuild (2026-08-28): this used to render as "Latest
+  // Stories" directly under the lead story, AND a second, separate
+  // "Latest stories" section further down the page ("More than a finish
+  // time") rendered this exact same set of cards again -- a real,
+  // pre-existing bug (confirmed directly: 6 links to the same 3 stories,
+  // not 3, on a single homepage load). There is now exactly one Latest
+  // Stories section, moved lower on the page (after Ohio
+  // Today/Results/Rankings/Power Rankings, matching the mobile-first
+  // priority order), and it is the only one.
   const storyContent = latestStories.length ? latestStories.map((story, index) => storyCard(story, { featured: index === 0 })).join("") : emptyState({
     title: "Stories are coming soon",
     description: "Add a Markdown file to content/stories and redeploy the site.",
     actionLabel: "Open stories",
     actionHref: "/stories/"
   });
-  // A second, separate "Latest stories" section further down the
-  // homepage ("More than a finish time") used to render this exact same
-  // storyContent a second time -- the identical 3 cards, under a
-  // different heading, a few sections later on the same page. A real,
-  // pre-existing bug (confirmed directly: 6 links to the same story, not
-  // 3, on a single homepage load) that just hadn't been reported before.
-  // This section now shows the NEXT 3 stories instead, so it's actually
-  // additional coverage rather than a repeat of what a visitor already
-  // scrolled past.
-  const moreStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(3, 6);
-  const moreStoryContent = moreStories.length ? moreStories.map((story) => storyCard(story)).join("") : storyContent;
 
   const leadTitle = featuredStory?.title || "The teams and runners set to define Ohio cross country";
   const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
   const leadHref = featuredStory ? `/stories/${featuredStory.slug}/` : "/rankings/";
-  const leadImage = featuredStory?.featuredImage || "/images/social/podium_watch_default_social.png";
+  const leadImage = featuredStory?.featuredImage || storyFallbackImage(featuredStory?.category);
   // Real 2026 preseason Race Board data (top 4 ranked teams per
   // classification), not placeholder rows -- see the preseasonPowerRows
   // helper above and docs/DECISIONS.md, 2026-08-24. Every row links
@@ -351,28 +350,67 @@ function homePage(stories, rankings) {
     }
   };
   const initialPowerRows = powerRankingData.boys[1].map(([team, label, href], index) => `<a class="power-row" href="${escapeHtml(href)}"><b>${index + 1}</b><span><strong>${escapeHtml(team)}</strong><small>${escapeHtml(label)}</small></span></a>`).join("");
-  const content = `<section class="sports-home"><div class="container sports-home-grid">
-    <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/"><span>02</span>Meet Calendar</a><a href="/meets/"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><div class="home-newsletter"><p class="eyebrow">The Morning Lap</p><h3>Ohio running in your inbox.</h3><p>Rankings, results, and stories from across the state.</p><a href="/follow/">Join the Fleet</a></div></aside>
-    <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560"><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadDescription)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article><div class="home-section-title"><h2>Latest Stories</h2><a href="/stories/">View all ${icon("arrow")}</a></div><div class="stories-grid">${storyContent}</div></div>
-    <aside class="home-right"><section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section><section class="home-panel"><div class="home-panel-title"><h2>Upcoming Meets</h2></div><a class="home-meet" href="/meets/"><b>AUG 22</b><span><strong>OHSAA Early Season Invitational</strong><small>Obetz, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 25</b><span><strong>Shelby County Preview</strong><small>Russia, Ohio</small></span></a><a class="home-meet" href="/meets/"><b>AUG 29</b><span><strong>Pickerington North Classic</strong><small>Pickerington, Ohio</small></span></a><a class="home-panel-link" href="/meets/">Full meet calendar ${icon("arrow")}</a></section></aside>
+  // Short summary only on the homepage lead card (Phase 5) -- the full
+  // description still appears on the story's own page unchanged, this
+  // just keeps the homepage card from running long before a visitor
+  // ever reaches results/rankings below it.
+  const leadSummary = leadDescription.length > 150 ? `${leadDescription.slice(0, 147).trimEnd()}...` : leadDescription;
+  // Most recently updated ranking file, whatever it is -- this is real,
+  // build-time-accurate data (a ranking only changes when a new CSV is
+  // committed and the site rebuilt, which IS the update event), unlike
+  // meet/result data below, which is genuinely live and can never be
+  // safely baked in at build time.
+  const newestRanking = rankings[0] || null;
+  const content = `<section class="ohio-today-band"><div class="container">
+    <div class="ohio-today" data-ohio-today>
+      <p class="ohio-today-eyebrow">Ohio Today</p>
+      <p class="ohio-today-headline" data-ohio-today-headline>Checking today's meets and results&hellip;</p>
+      <div class="ohio-today-grid" data-ohio-today-grid>
+        <a class="ohio-today-item" href="/meets/?view=today"><strong>&hellip;</strong><span>Meets today</span></a>
+        <a class="ohio-today-item" href="/meets/?view=results"><strong>&hellip;</strong><span>Newest results</span></a>
+        <a class="ohio-today-item" href="/meets/?view=upcoming"><strong>&hellip;</strong><span>Meets this week</span></a>
+        ${newestRanking ? `<a class="ohio-today-item" href="${escapeHtml(newestRanking.href)}"><strong>Rankings updated</strong><span>${formatDate(newestRanking.updatedDate)}</span></a>` : ""}
+      </div>
+    </div>
+    <div class="home-actions">
+      <a class="home-action home-action-primary" href="/meets/?view=results">Latest Results</a>
+      <a class="home-action home-action-outline" href="/meets/?view=upcoming">Find a Meet</a>
+      <a class="home-action home-action-outline" href="/rankings/">State Rankings</a>
+    </div>
   </div></section>
 
-  <section class="section section-paper" aria-labelledby="preseason-home-title">
+  <section class="sports-home"><div class="container sports-home-grid">
+    <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/?view=upcoming"><span>02</span>Meet Calendar</a><a href="/meets/?view=results"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><div class="home-newsletter"><p class="eyebrow">Stay Connected</p><h3>Follow your team.</h3><p>Get your school's schedule, results, and rankings from one place.</p><a href="/teams/">Follow Your Team</a></div></aside>
+    <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article></div>
+    <aside class="home-right">
+      <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
+        <div class="home-panel-title"><h2>My Podium</h2></div>
+        <div class="follow-school-panel-body">
+          <div data-follow-school-search-view>
+            <p>Follow your school for a direct link to its team page.</p>
+            <input type="search" class="follow-school-search" placeholder="Search for your school" data-follow-school-input>
+            <div class="follow-school-results" data-follow-school-results></div>
+          </div>
+          <div data-follow-school-selected-view hidden></div>
+        </div>
+      </section>
+      <section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent='Preseason';panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
+      <section class="home-panel vote-now-panel" data-vote-now-panel hidden>
+        <div class="home-panel-title"><h2>Vote Now</h2></div>
+        <div class="vote-now-body" data-vote-now-body></div>
+      </section>
+      <section class="home-panel" data-upcoming-meets-panel>
+        <div class="home-panel-title"><h2>Upcoming Meets</h2></div>
+        <div data-upcoming-meets-list><a class="home-meet" href="/meets/?view=upcoming"><b>&hellip;</b><span><strong>Checking the calendar&hellip;</strong><small>&nbsp;</small></span></a></div>
+        <a class="home-panel-link" href="/meets/?view=upcoming">Full meet calendar ${icon("arrow")}</a>
+      </section>
+    </aside>
+  </div></section>
+
+  <section class="section section-paper" aria-labelledby="latest-stories-title">
     <div class="container">
-      <div class="section-heading">
-        <div><p class="eyebrow">2026 season preview</p><h2 id="preseason-home-title">Preseason Team Power Rankings</h2></div>
-        <a class="text-link" href="/rankings/cross-country/">View rankings by division ${icon("arrow")}</a>
-      </div>
-      <div class="preseason-home-grid">${[...preseasonClassifications].sort((a, b) => (a.gender === b.gender ? a.division - b.division : a.gender === "Boys" ? -1 : 1)).map((classification) => {
-        const leader = classification.raceBoard.find((row) => row.status === "ranked") || classification.raceBoard[0];
-        // The story's own title is the single source of truth for what a
-        // reader sees (matches the article's own <h1> exactly) -- reading
-        // it from the story rather than classification.headline directly
-        // means the two can never drift out of sync with each other.
-        const matchingStory = stories.find((story) => story.slug === classification.articleSlug);
-        const cardTitle = matchingStory?.title || classification.headline;
-        return `<article class="preseason-home-card" style="--pw-accent:${escapeHtml(classification.accent)}"><p class="eyebrow">${escapeHtml(classification.classification)} &middot; No. 1 ${escapeHtml(leader.team)}</p><h3>${escapeHtml(cardTitle)}</h3><p>${escapeHtml(classification.subtitle)}</p><a href="${preseasonArticleHref(classification)}">Read the preview ${icon("arrow")}</a></article>`;
-      }).join("")}</div>
+      <div class="section-heading"><div><p class="eyebrow">Latest stories</p><h2 id="latest-stories-title">More than a finish time.</h2></div><a class="text-link" href="/stories/">From the newsroom ${icon("arrow")}</a></div>
+      <div class="stories-grid">${storyContent}</div>
     </div>
   </section>
 
@@ -382,36 +420,7 @@ function homePage(stories, rankings) {
         <div><p class="eyebrow">Latest rankings</p><h2 id="latest-rankings-title">Who is rising in Ohio?</h2></div>
         <a class="text-link" href="/rankings/">View all rankings ${icon("arrow")}</a>
       </div>
-      <div class="rankings-grid">${rankingsContent}
-        <article class="ranking-card"><p>Cross Country</p><h3>Browse every division</h3><span>Boys and girls, Divisions 1 through 4</span><a href="/rankings/cross-country/">Explore cross country ${icon("arrow")}</a></article>
-        <article class="ranking-card"><p>Track and Field</p><h3>Browse every event</h3><span>Boys and girls, Divisions 1 through 5</span><a href="/rankings/track-and-field/">Explore track ${icon("arrow")}</a></article>
-        <article class="ranking-card"><p>OATCCC Coaches Poll</p><h3>The official poll</h3><span>All 8 boys and girls divisions, credited to OATCCC</span><a href="/rankings/oatccc/">View coaches poll ${icon("arrow")}</a></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="trust-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Clear and trustworthy</p><h2 id="trust-title">Know what the information means.</h2></div><a class="text-link" href="/rankings/methodology/">Read the ranking method ${icon("arrow")}</a></div>
-      <div class="trust-strip">
-        <article><h3>Verified facts</h3><p>Results, divisions, dates, and assignments are labeled and tied to supplied or official sources when available.</p></article>
-        <article><h3>Editorial projections</h3><p>Podium Watch rankings are clearly separated from official results and explained as analysis.</p></article>
-        <article><h3>Corrections welcome</h3><p>Readers can report factual corrections with a source so pages stay useful and current.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-paper" aria-labelledby="spotlight-title">
-    <div class="container spotlight-panel">
-      <div class="spotlight-copy"><p class="eyebrow">Athlete spotlights</p><h2 id="spotlight-title">The story behind the result.</h2><p>Podium Watch gives Ohio athletes a place to tell their story, share what drives them, and help the next generation of runners.</p><a class="button button-dark" href="/athlete-spotlights/">Explore athlete spotlights</a></div>
-      <div class="spotlight-card"><blockquote>"The best performances are worth celebrating. The people behind them are worth knowing."</blockquote><p>New athlete profiles will appear here as they are published.</p><a class="text-link" href="/athlete-spotlights/">See the spotlight section ${icon("arrow")}</a></div>
-    </div>
-  </section>
-
-  <section class="section section-dark" aria-labelledby="latest-stories-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Latest stories</p><h2 id="latest-stories-title">More than a finish time.</h2></div><a class="text-link" href="/stories/">From the newsroom ${icon("arrow")}</a></div>
-      <div class="stories-grid">${moreStoryContent}</div>
+      <div class="rankings-grid">${rankingsContent}</div>
     </div>
   </section>
 
@@ -427,9 +436,14 @@ function homePage(stories, rankings) {
 
   <section class="social-band"><div class="container social-grid"><div><p class="eyebrow">Follow the coverage</p><h2>@podiumwatch</h2><p>Daily Ohio cross country and track coverage, rankings, interviews, and athlete stories.</p></div><div class="social-actions"><a class="button button-dark" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} Follow on Instagram</a><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">${icon("youtube")} Subscribe on YouTube</a></div></div></section>
 
-  <section class="section section-paper" aria-labelledby="about-preview-title"><div class="container content-grid"><div><p class="eyebrow">About Podium Watch</p><h2 id="about-preview-title">Built for Ohio runners.</h2></div><div><p>Podium Watch covers Ohio high school cross country and track and field through rankings, stories, interviews, and meet coverage. The goal is to give athletes, teams, coaches, families, and fans one place to follow the sport and celebrate the people who make it special.</p><a class="button button-dark" href="/about/">Learn more</a></div></div></section>
+  <section class="section section-paper" aria-labelledby="about-preview-title">
+    <div class="container content-grid">
+      <div><p class="eyebrow">About Podium Watch</p><h2 id="about-preview-title">Built for Ohio runners.</h2><p>Rankings, results, and stories from across the state, with verified facts kept clearly separate from editorial projections and every correction welcome.</p><a class="button button-dark" href="/about/">Learn more</a></div>
+      <div><a class="text-link" href="/rankings/methodology/">Read the ranking methodology ${icon("arrow")}</a><a class="text-link" href="/sponsors/" style="margin-top:10px">Sponsor Podium Watch ${icon("arrow")}</a></div>
+    </div>
+  </section>
 
-  <section class="sponsor-band"><div class="container sponsor-grid"><div><p class="eyebrow">Sponsors and advertising</p><h2>Put your brand in front of Ohio's running community.</h2></div><a class="button button-primary" href="/sponsors/">Sponsor Podium Watch</a></div></section>`;
+  <script src="/scripts/homepage.js" defer></script>`;
 
   return layout({
     site,
@@ -516,7 +530,8 @@ function storyPage(story, stories) {
   const content = `<article${articleShellAttrs}>
     <header class="article-hero"><div class="container article-hero-inner">${breadcrumb(crumbs)}<div class="article-meta"><span class="category">${escapeHtml(story.category)}</span><span>By ${escapeHtml(story.author)}</span><span>${formatDate(story.date)}</span>${story.updatedDate ? `<span>Updated ${formatDate(story.updatedDate)}</span>` : ""}<span>${story.readingMinutes} min read</span></div><h1>${escapeHtml(story.title)}</h1><p class="article-deck">${escapeHtml(story.description)}</p></div></header>
     ${preseasonStickyNav}
-    ${story.featuredImage ? `<img class="article-feature-image" src="${story.featuredImage}" data-fallback="/images/stories/story_fallback.svg" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900">` : ""}
+    <img class="article-feature-image" src="${story.featuredImage || storyFallbackImage(story.category)}" data-fallback="${storyFallbackImage(story.category)}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900">
+
     <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div>${navigation}${relatedBlock}</div>
     ${preseasonDataScript}
     <script src="/scripts/story-view.js" defer></script>
@@ -592,7 +607,7 @@ function rankingDetailPage(ranking, stories) {
   const methodCopy = ranking.methodologyNote || "The full season resume matters more than one isolated result. Championship performance, consistency, head to head results, relevant track performances, returning status, and verified roster information may all be considered when they apply.";
   const sourceActions = `${sourceUrl ? `<a class="button button-outline" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Open source</a>` : ""}<a class="button button-outline" href="/rankings/methodology/">Full methodology</a><a class="button button-outline" href="mailto:${site.contactEmail}?subject=${encodeURIComponent(`Ranking correction: ${ranking.title}`)}">Report a correction</a>`;
   const storyAction = relatedStory ? `<a class="share-button" href="/stories/${relatedStory.slug}/">Read the full ranking story</a>` : "";
-  const content = `${pageHero({ eyebrow: `${ranking.sport} rankings`, title: ranking.title, description: ranking.subtitle || `${ranking.gender} ${ranking.division} rankings for the ${ranking.season} season.` })}
+  const content = `${pageHero({ eyebrow: `${ranking.sport} rankings`, title: ranking.title, description: ranking.subtitle || `${ranking.gender} ${ranking.division} rankings for the ${ranking.season} season.`, compact: true })}
   <section class="section section-paper"><div class="container">${breadcrumb(crumbs)}
     <div class="ranking-detail-header"><div><p class="eyebrow">${escapeHtml(ranking.gender)} ${escapeHtml(ranking.division)}</p><h2>${escapeHtml(ranking.event)}</h2></div><p class="ranking-updated">Last updated ${formatDate(ranking.updatedDate)}</p></div>
     <div class="info-card ranking-source-panel"><div><p><span class="ranking-trust-badge ${isVerifiedList ? "verified" : "editorial"}">${escapeHtml(rankingType)}</span></p><h3>Source and status</h3><p><strong>${escapeHtml(ranking.sourceLabel)}</strong></p><p>${escapeHtml(trustCopy)}</p></div><div class="ranking-source-actions">${sourceActions}</div></div>

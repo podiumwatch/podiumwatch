@@ -19,7 +19,8 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
   const content = `${pageHero({
     eyebrow: "Podium Watch Fan Poll",
     title,
-    description: `Vote your top 16 ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} ${divisionLabel(divisionNumber).toLowerCase()} teams every week. Results are fan-voted, not official.`
+    description: `Vote your top 16 ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} ${divisionLabel(divisionNumber).toLowerCase()} teams every week. Results are fan-voted, not official.`,
+    compact: true
   })}
 
   <style>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title">
+<title id="title">Podium Watch track and field story</title>
+<rect width="1600" height="900" fill="#090909"/>
+<circle cx="1350" cy="160" r="360" fill="#0faf68" opacity=".14"/>
+<g fill="none" stroke="#0faf68">
+<ellipse cx="1230" cy="640" rx="520" ry="220" opacity=".55" stroke-width="10"/>
+<ellipse cx="1230" cy="640" rx="420" ry="170" opacity=".35" stroke-width="10"/>
+<ellipse cx="1230" cy="640" rx="320" ry="120" opacity=".2" stroke-width="10"/>
+</g>
+<text x="110" y="330" font-family="Impact, Arial Black, sans-serif" font-size="150" fill="#fff">PODIUM</text>
+<text x="110" y="480" font-family="Impact, Arial Black, sans-serif" font-size="150" fill="#0faf68">WATCH</text>
+<text x="112" y="560" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="6" fill="#fff" opacity=".8">TRACK &amp; FIELD</text>
+</svg>
