@@ -171,6 +171,7 @@ async function getDashboard(days = 30) {
     // build artifact from a serverless function would be fragile. This
     // just returns the real, counted slugs.
     top_stories: analytics.story_counts.slice(0, 20),
+    top_pages: analytics.page_counts.slice(0, 20),
     sponsor_performance: sponsorPerformance,
     delivery_summary: deliverySummary,
     notification_events: eventResult.data || [],

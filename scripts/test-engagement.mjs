@@ -56,6 +56,8 @@ assert.ok(!ANALYTICS_EVENT_TYPES.has("literally_anything_else"), "An arbitrary, 
 
 assert.ok(ANALYTICS_EVENT_TYPES.has("story_view"), "story_view must be an allowed analytics event type, for the per-article view counts feature.");
 
+assert.ok(ANALYTICS_EVENT_TYPES.has("page_view"), "page_view must be an allowed analytics event type, for standalone utility pages like /rankings/oatccc/ that are neither a team page nor an article.");
+
 // --- aggregateAnalytics: story_counts -----------------------------------------
 // Pure reducer, no live database needed. Scoped specifically to
 // event_type === "story_view" (not every row that happens to carry a
@@ -79,6 +81,30 @@ assert.equal(storyCountsBySlug["2026-preseason-boys-d1-top-20"], 2, "Two real st
 assert.equal(storyCountsBySlug["2026-preseason-girls-d4-top-20"], 1);
 assert.equal(Object.keys(storyCountsBySlug).length, 2, "Only real story_view rows with a content_id may appear in story_counts -- the content_view row and the content_id-less row must both be excluded.");
 assert.equal(storyCountsResult.story_counts[0].slug, "2026-preseason-boys-d1-top-20", "story_counts must be sorted with the most-viewed article first.");
+
+// --- aggregateAnalytics: page_counts -----------------------------------------
+// Same shape as story_counts, kept as its own map (not merged into
+// stories) so a page_view and a story_view can never be double-counted
+// under one another's key, and scoped specifically to event_type ===
+// "page_view" for the same reason story_counts is scoped to story_view.
+
+const pageCountsResult = aggregateAnalytics([
+  { event_type: "page_view", content_id: "/rankings/oatccc/", visitor_id: "v1" },
+  { event_type: "page_view", content_id: "/rankings/oatccc/", visitor_id: "v2" },
+  { event_type: "page_view", content_id: "/pace-calculator/", visitor_id: "v3" },
+  // A story_view row with a matching content_id must NOT be counted as a
+  // page view -- only the real page_view event type counts here.
+  { event_type: "story_view", content_id: "/rankings/oatccc/", visitor_id: "v4" },
+  // A page_view row with no content_id must be ignored rather than
+  // counted under an "undefined" key.
+  { event_type: "page_view", visitor_id: "v5" }
+]);
+
+const pageCountsByPath = Object.fromEntries(pageCountsResult.page_counts.map((row) => [row.path, row.count]));
+assert.equal(pageCountsByPath["/rankings/oatccc/"], 2, "Two real page_view events for the same path must sum to 2.");
+assert.equal(pageCountsByPath["/pace-calculator/"], 1);
+assert.equal(Object.keys(pageCountsByPath).length, 2, "Only real page_view rows with a content_id may appear in page_counts -- the story_view row and the content_id-less row must both be excluded.");
+assert.equal(pageCountsResult.page_counts[0].path, "/rankings/oatccc/", "page_counts must be sorted with the most-viewed page first.");
 
 // --- Source guards -----------------------------------------------------------
 // recordAnalyticsEvent itself needs a live Supabase connection (it reads
@@ -155,9 +181,52 @@ includesAll(
   "Every story page (not just the preseason articles) must carry data-story-slug and load story-view.js, or the view-tracking feature silently does nothing"
 );
 
+// --- Page view tracking (public/scripts/page-view.js) -------------------------
+
+const pageViewScriptSource = await read("public/scripts/page-view.js");
+
+includesAll(
+  pageViewScriptSource,
+  [
+    'event_type: "page_view"',
+    "podium_visitor_id",
+    "podium_session_id",
+    "podium_page_view_",
+    "content_type: \"page\"",
+    "content_id: path",
+    "/api/engagement/track"
+  ],
+  "page-view.js must track its own view, reusing the same visitor/session id keys and content_type/content_id columns the rest of this table already uses, deduped per session per page"
+);
+
+assert.ok(
+  /catch\s*\{[\s\S]{0,80}\/\/ Analytics must never interrupt the page\./.test(pageViewScriptSource),
+  "Page view tracking must be wrapped so a tracking failure can never break the page itself."
+);
+
+includesAll(
+  adminEngagementScriptSource,
+  [
+    'page_view: "Page views"',
+    "data-top-pages",
+    "data-stat-page-views"
+  ],
+  "Admin Engagement must show a friendly label for page_view, a Top pages panel, and a Page views stat"
+);
+
+const oatcccPageSource = await read("src/pages/oatcccpoll.mjs");
+
+includesAll(
+  oatcccPageSource,
+  ['<script src="/scripts/page-view.js" defer></script>'],
+  "The OATCCC Coaches Poll page must load page-view.js, or its view count would never appear in the admin Engagement Center"
+);
+
 console.log("Engagement analytics validation passed.");
 console.log("ANALYTICS_EVENT_TYPES checked: pace_calculator_use and story_view are allowed, every original team-page event type is still allowed, and an arbitrary unregistered type is rejected.");
 console.log("Pace calculator usage tracking checked at the source level: correct event type, shared visitor/session id scheme, per-session dedup key, the tracking endpoint, and a safety wrapper that can never interrupt the calculator itself.");
 console.log("Admin Engagement Center's friendly label for the new event type checked.");
 console.log("aggregateAnalytics' new story_counts reducer checked directly: correct per-slug sums, sorted most-viewed first, and both a wrong event_type and a missing content_id correctly excluded.");
 console.log("Story view tracking (public/scripts/story-view.js) checked at the source level: correct event type/columns, shared visitor/session scheme, per-article per-session dedup key, and a safety wrapper that can never interrupt the article. Admin Engagement's Top articles panel, Article views stat, and site-data.json title resolution checked. Every story page confirmed to carry data-story-slug and load the tracking script.");
+console.log("aggregateAnalytics' new page_counts reducer checked directly: correct per-path sums, sorted most-viewed first, and both a wrong event_type and a missing content_id correctly excluded.");
+console.log("Page view tracking (public/scripts/page-view.js) checked at the source level: correct event type/columns, shared visitor/session scheme, per-page per-session dedup key, and a safety wrapper that can never interrupt the page. Admin Engagement's Top pages panel and Page views stat checked. The OATCCC Coaches Poll page confirmed to load the tracking script.");

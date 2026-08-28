@@ -12,6 +12,7 @@
   const deliveryRows = document.querySelector("[data-delivery-rows]");
   const topTeams = document.querySelector("[data-top-teams]");
   const topStories = document.querySelector("[data-top-stories]");
+  const topPages = document.querySelector("[data-top-pages]");
   const activitySummary = document.querySelector("[data-activity-summary]");
   const sponsorPerformance = document.querySelector("[data-sponsor-performance]");
   const configuration = document.querySelector("[data-engagement-configuration]");
@@ -21,7 +22,7 @@
   const clearSponsorButton = document.querySelector("[data-clear-sponsor]");
   const clearPlacementButton = document.querySelector("[data-clear-placement]");
 
-  if (!authLoading || !dashboard || !message || !daysSelect || !settingsForm || !sponsorForm || !placementForm || !sponsorRows || !placementRows || !eventRows || !deliveryRows || !topTeams || !topStories || !activitySummary || !sponsorPerformance || !configuration || !sendTestButton || !processButton || !processWeeklyButton || !clearSponsorButton || !clearPlacementButton) {
+  if (!authLoading || !dashboard || !message || !daysSelect || !settingsForm || !sponsorForm || !placementForm || !sponsorRows || !placementRows || !eventRows || !deliveryRows || !topTeams || !topStories || !topPages || !activitySummary || !sponsorPerformance || !configuration || !sendTestButton || !processButton || !processWeeklyButton || !clearSponsorButton || !clearPlacementButton) {
     return;
   }
 
@@ -132,6 +133,13 @@
     return `<div class="engagement-row"><span><a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a></span><strong>${escapeHtml(count)}</strong></div>`;
   }
 
+  // Unlike storyRow(), there's no separate title to resolve -- a
+  // page_view's content_id already IS the page's own path (see
+  // public/scripts/page-view.js), so it's both the label and the link.
+  function pageRow(path, count) {
+    return `<div class="engagement-row"><span><a href="${escapeHtml(path)}" target="_blank" rel="noopener noreferrer">${escapeHtml(path)}</a></span><strong>${escapeHtml(count)}</strong></div>`;
+  }
+
   function renderSelects() {
     const sponsorSelect = placementForm.elements.sponsor_id;
     const teamSelect = placementForm.elements.team_id;
@@ -153,6 +161,7 @@
     setText("[data-stat-follows]", counts.active_follows || 0);
     setText("[data-stat-views]", eventCounts.team_profile_view || 0);
     setText("[data-stat-article-views]", eventCounts.story_view || 0);
+    setText("[data-stat-page-views]", eventCounts.page_view || 0);
     setText("[data-stat-visitors]", analytics.unique_visitors || 0);
     setText("[data-stat-sponsor-clicks]", eventCounts.sponsor_click || 0);
 
@@ -165,6 +174,10 @@
       .map((item) => storyRow(storyTitleBySlug.get(item.slug) || item.slug, item.count, `/stories/${item.slug}/`))
       .join("") || "<p>No article views have been recorded yet.</p>";
 
+    topPages.innerHTML = (state.top_pages || [])
+      .map((item) => pageRow(item.path, item.count))
+      .join("") || "<p>No page views have been recorded yet.</p>";
+
     const activityLabels = {
       team_profile_view: "Team profile views",
       directory_view: "Directory views",
@@ -172,6 +185,7 @@
       roster_view: "Roster activity",
       content_view: "Content activity",
       story_view: "Article views",
+      page_view: "Page views",
       social_click: "Social link clicks",
       recruiting_click: "Recruiting clicks",
       follow_submit: "Follow requests",

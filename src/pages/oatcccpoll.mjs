@@ -199,7 +199,9 @@ export function oatcccCoachesPollPage(site) {
     }));
     select.addEventListener('change', draw);
     draw();
-  })();</script>`;
+  })();</script>
+
+  <script src="/scripts/page-view.js" defer></script>`;
 
   return layout({
     site,
