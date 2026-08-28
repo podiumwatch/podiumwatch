@@ -1,9 +1,8 @@
-// Homepage-only rendering: the Ohio Today card, the dynamic Upcoming
-// Meets panel, Follow Your School (My Podium), and Vote Now. Every
-// element this script touches is guarded individually -- there is no
-// single "requiredElements" gate for the whole file, since these four
-// modules are independent of each other and one failing to load must
-// never take the others down with it.
+// Homepage-only rendering: the dynamic Upcoming Meets panel, Follow Your
+// School (My Podium), and Vote Now. Every element this script touches is
+// guarded individually -- there is no single "requiredElements" gate for
+// the whole file, since these modules are independent of each other and
+// one failing to load must never take the others down with it.
 (() => {
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -23,56 +22,22 @@
     return [meet.venue_name, meet.city].filter(Boolean).join(", ");
   }
 
-  // ---- Ohio Today card + Upcoming Meets panel (share one fetch) --------
+  // ---- Upcoming Meets panel ------------------------------------------
 
-  const ohioTodayHeadline = document.querySelector("[data-ohio-today-headline]");
-  const ohioTodayGrid = document.querySelector("[data-ohio-today-grid]");
   const upcomingMeetsList = document.querySelector("[data-upcoming-meets-list]");
 
-  if ((ohioTodayHeadline || ohioTodayGrid || upcomingMeetsList) && window.PodiumOhioToday) {
+  if (upcomingMeetsList && window.PodiumOhioToday) {
     window.PodiumOhioToday.computeOhioToday().then((today) => {
-      if (ohioTodayHeadline) {
-        if (today.todaysMeets.length > 0) {
-          ohioTodayHeadline.textContent = today.todaysMeets.length === 1
-            ? `1 meet is on today across Ohio.`
-            : `${today.todaysMeets.length} meets are on today across Ohio.`;
-        } else if (today.nextUpcoming) {
-          const chip = formatMeetDate(today.nextUpcoming.meet_date);
-          ohioTodayHeadline.textContent = `No meets today. Next up: ${today.nextUpcoming.name} (${chip.month} ${chip.day}).`;
-        } else {
-          ohioTodayHeadline.textContent = "No meets are scheduled right now.";
-        }
-      }
-
-      if (ohioTodayGrid) {
-        const items = ohioTodayGrid.querySelectorAll(".ohio-today-item");
-        // Order matches the static markup: [today, results, this week, (rankings)].
-        if (items[0]) {
-          items[0].querySelector("strong").textContent = String(today.todaysMeets.length);
-        }
-        if (items[1]) {
-          const newest = today.newestCompleted[0];
-          items[1].querySelector("strong").textContent = newest ? newest.name : "None yet";
-          if (newest) items[1].href = "/meetdetail/?slug=" + encodeURIComponent(newest.slug);
-        }
-        if (items[2]) {
-          items[2].querySelector("strong").textContent = String(today.upcomingNext7d.length);
-        }
-      }
-
-      if (upcomingMeetsList) {
-        const upcoming = today.upcoming.slice(0, 3);
-        upcomingMeetsList.innerHTML = upcoming.length
-          ? upcoming.map((meet) => {
-            const chip = formatMeetDate(meet.meet_date);
-            const location = locationText(meet);
-            return `<a class="home-meet" href="/meetdetail/?slug=${encodeURIComponent(meet.slug)}"><b>${escapeHtml(chip.month)} ${escapeHtml(chip.day)}</b><span><strong>${escapeHtml(meet.name)}</strong><small>${escapeHtml(location || "Location TBD")}</small></span></a>`;
-          }).join("")
-          : `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">No upcoming meets are published right now.</p>`;
-      }
+      const upcoming = today.upcoming.slice(0, 3);
+      upcomingMeetsList.innerHTML = upcoming.length
+        ? upcoming.map((meet) => {
+          const chip = formatMeetDate(meet.meet_date);
+          const location = locationText(meet);
+          return `<a class="home-meet" href="/meetdetail/?slug=${encodeURIComponent(meet.slug)}"><b>${escapeHtml(chip.month)} ${escapeHtml(chip.day)}</b><span><strong>${escapeHtml(meet.name)}</strong><small>${escapeHtml(location || "Location TBD")}</small></span></a>`;
+        }).join("")
+        : `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">No upcoming meets are published right now.</p>`;
     }).catch(() => {
-      if (ohioTodayHeadline) ohioTodayHeadline.textContent = "Meet data is temporarily unavailable.";
-      if (upcomingMeetsList) upcomingMeetsList.innerHTML = `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">Unable to load meets right now. <a href="/meets/">Open the Meet Center</a>.</p>`;
+      upcomingMeetsList.innerHTML = `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">Unable to load meets right now. <a href="/meets/">Open the Meet Center</a>.</p>`;
     });
   }
 

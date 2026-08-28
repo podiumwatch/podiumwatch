@@ -344,6 +344,9 @@ p { margin-top: 0; }
   .section-nav a { flex:0 0 auto; min-height:40px; display:flex; align-items:center; padding:0 13px; border-right:1px solid #303833; font-size:.68rem; }
   .sports-home { padding:12px 0 30px; }
   .sports-home-grid { gap:14px; }
+  .home-spotlight { padding-top:14px; }
+  .home-spotlight-grid { gap:14px; }
+  .ohio-today-band { padding:16px 0; }
   .home-lead-image,.home-lead-image img { min-height:220px; height:220px; }
   .home-lead-image span { top:12px; left:12px; }
   .home-lead > div { padding:16px; }
@@ -480,30 +483,31 @@ p { margin-top: 0; }
 
 /* ===== Homepage/mobile rebuild (2026-08-28) ===== */
 
-/* Ohio Today -- real, date-aware content computed client-side by
-   public/scripts/ohio-today.js (see that file's own header comment for
-   why this can never be safely baked in at build time). The markup here
-   is a genuinely useful loading state, not a blank box: it already
-   states the plan in plain language while the real counts load in. */
-.ohio-today { padding:18px 20px 20px; color:#fff; background:#111714; }
-.ohio-today-eyebrow { margin:0 0 6px; color:#7be8ac; font-family:Arial,Helvetica,sans-serif; font-size:.68rem; font-weight:900; letter-spacing:.09em; text-transform:uppercase; }
-.ohio-today-headline { margin:0 0 12px; font-family:Arial Black,Arial,sans-serif; font-size:1.28rem; line-height:1.15; }
-.ohio-today-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; }
-.ohio-today-item { display:block; padding:12px 14px; color:#fff; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); text-decoration:none; transition:background-color .15s ease; }
-.ohio-today-item:hover { background:rgba(255,255,255,.14); }
-.ohio-today-item strong { display:block; font-family:Arial,Helvetica,sans-serif; font-size:1.05rem; }
-.ohio-today-item span { display:block; margin-top:3px; color:#c3cac6; font-size:.72rem; }
-.ohio-today-live-dot { display:inline-flex; align-items:center; gap:6px; margin-bottom:8px; padding:3px 9px; color:#fff; background:#c62828; font-size:.62rem; font-weight:900; letter-spacing:.06em; text-transform:uppercase; }
-.ohio-today-live-dot::before { content:""; width:6px; height:6px; border-radius:50%; background:#fff; }
+/* Top-of-page band: three primary actions, then Vote Now. No meets/date
+   card leads the page anymore (2026-08-28 feedback) -- the homepage now
+   opens with what Podium Watch does best (voting, rankings), not a
+   schedule widget; real meet data still lives in Upcoming Meets further
+   down and in the full Meet Center. */
+.ohio-today-band { padding:20px 0; background:#111714; }
 
 /* Three big, unmissable phone actions -- Latest Results, Find a Meet,
    State Rankings. Every tap target here is well over the 44px floor. */
-.home-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
+.home-actions { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:0; }
 .home-action { min-height:54px; display:flex; align-items:center; justify-content:center; padding:10px 10px; text-align:center; font-family:Arial,Helvetica,sans-serif; font-weight:900; font-size:.82rem; text-decoration:none; }
 .home-action-primary { color:#07130d; background:var(--green); }
 .home-action-primary:hover { background:#0dbf6f; }
 .home-action-outline { color:#111714; background:#fff; border:2px solid #111714; }
 .home-action-outline:hover { color:#fff; background:#111714; }
+
+/* Home Spotlight -- Power Rankings and Follow Your School promoted out
+   of the narrow right-rail sidebar into a full-width, side-by-side band
+   right under Vote Now (2026-08-28 feedback: these are what the site
+   does well and should show immediately, not scroll past the entire
+   featured story to reach on mobile). Both panels keep the exact same
+   .home-panel card chrome and scripts -- position and width changed,
+   nothing else. */
+.home-spotlight { padding:24px 0 0; background:#f3f5f4; }
+.home-spotlight-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
 
 /* Follow Your School -- reuses .home-panel's own card chrome (same
    background/border/title bar as Power Rankings and Upcoming Meets)
@@ -581,6 +585,8 @@ p { margin-top: 0; }
 }
 @media (max-width:700px) {
   .sports-home-grid { grid-template-columns:1fr; }
+  .home-spotlight-grid { grid-template-columns:1fr; }
+  .home-spotlight { padding-top:18px; }
   .home-lead-image,.home-lead-image img { min-height:240px; height:240px; }
   .home-lead > div { padding:18px; }
   .home-main .story-card { grid-column:auto; }

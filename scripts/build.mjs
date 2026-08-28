@@ -360,18 +360,7 @@ function homePage(stories, rankings) {
   // committed and the site rebuilt, which IS the update event), unlike
   // meet/result data below, which is genuinely live and can never be
   // safely baked in at build time.
-  const newestRanking = rankings[0] || null;
   const content = `<section class="ohio-today-band"><div class="container">
-    <div class="ohio-today" data-ohio-today>
-      <p class="ohio-today-eyebrow">Ohio Today</p>
-      <p class="ohio-today-headline" data-ohio-today-headline>Checking today's meets and results&hellip;</p>
-      <div class="ohio-today-grid" data-ohio-today-grid>
-        <a class="ohio-today-item" href="/meets/?view=today"><strong>&hellip;</strong><span>Meets today</span></a>
-        <a class="ohio-today-item" href="/meets/?view=results"><strong>&hellip;</strong><span>Newest results</span></a>
-        <a class="ohio-today-item" href="/meets/?view=upcoming"><strong>&hellip;</strong><span>Meets this week</span></a>
-        ${newestRanking ? `<a class="ohio-today-item" href="${escapeHtml(newestRanking.href)}"><strong>Rankings updated</strong><span>${formatDate(newestRanking.updatedDate)}</span></a>` : ""}
-      </div>
-    </div>
     <div class="home-actions">
       <a class="home-action home-action-primary" href="/meets/?view=results">Latest Results</a>
       <a class="home-action home-action-outline" href="/meets/?view=upcoming">Find a Meet</a>
@@ -383,22 +372,25 @@ function homePage(stories, rankings) {
     </section>
   </div></section>
 
+  <section class="home-spotlight"><div class="container home-spotlight-grid">
+    <section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent='Preseason';panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
+    <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
+      <div class="home-panel-title"><h2>My Podium</h2></div>
+      <div class="follow-school-panel-body">
+        <div data-follow-school-search-view>
+          <p>Follow your school for a direct link to its team page.</p>
+          <input type="search" class="follow-school-search" placeholder="Search for your school" data-follow-school-input>
+          <div class="follow-school-results" data-follow-school-results></div>
+        </div>
+        <div data-follow-school-selected-view hidden></div>
+      </div>
+    </section>
+  </div></section>
+
   <section class="sports-home"><div class="container sports-home-grid">
     <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/?view=upcoming"><span>02</span>Meet Calendar</a><a href="/meets/?view=results"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><div class="home-newsletter"><p class="eyebrow">Stay Connected</p><h3>Follow your team.</h3><p>Get your school's schedule, results, and rankings from one place.</p><a href="/teams/">Follow Your Team</a></div></aside>
     <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article></div>
     <aside class="home-right">
-      <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
-        <div class="home-panel-title"><h2>My Podium</h2></div>
-        <div class="follow-school-panel-body">
-          <div data-follow-school-search-view>
-            <p>Follow your school for a direct link to its team page.</p>
-            <input type="search" class="follow-school-search" placeholder="Search for your school" data-follow-school-input>
-            <div class="follow-school-results" data-follow-school-results></div>
-          </div>
-          <div data-follow-school-selected-view hidden></div>
-        </div>
-      </section>
-      <section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent='Preseason';panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
       <section class="home-panel" data-upcoming-meets-panel>
         <div class="home-panel-title"><h2>Upcoming Meets</h2></div>
         <div data-upcoming-meets-list><a class="home-meet" href="/meets/?view=upcoming"><b>&hellip;</b><span><strong>Checking the calendar&hellip;</strong><small>&nbsp;</small></span></a></div>
