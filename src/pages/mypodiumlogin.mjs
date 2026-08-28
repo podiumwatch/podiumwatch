@@ -1,0 +1,112 @@
+import {
+  layout,
+  pageHero
+} from "../lib/html.mjs";
+
+// Mirrors src/pages/photographerlogin.mjs structurally and in CSS -- a
+// My Podium account is open self-serve signup, same as team/photographer
+// accounts, unlike the coach-invite-only athlete/guardian tiers. It only
+// ever grants a signed-in user access to their own synced My Podium
+// preferences -- never another person's data. See
+// docs/MY_PODIUM_MASTER_BUILD_PLAN.md, Project 5.
+export function myPodiumLoginPage(site) {
+  const content = `${pageHero({
+    eyebrow: "Podium Watch My Podium",
+    title: "Sync your Podium.",
+    description: "Create a secure account to keep your followed school, sport, and athletes the same across every device.",
+    compact: true
+  })}
+
+  <style>
+    .team-auth-shell { width: min(680px, 100%); margin: 0 auto; }
+    .team-auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+    .team-auth-tabs button { width: 100%; }
+    .team-auth-form { display: grid; gap: 18px; }
+    .team-auth-form label { display: block; }
+    .team-auth-form input { display: block; width: 100%; margin-top: 8px; padding: 13px; border: 1px solid rgba(15, 23, 42, 0.22); border-radius: 8px; background: #ffffff; font: inherit; }
+    .team-auth-message { margin: 0 0 20px; padding: 14px 16px; border-radius: 10px; background: rgba(0, 191, 99, 0.1); }
+    .team-auth-link { padding: 0; border: 0; background: transparent; font: inherit; font-weight: 800; text-decoration: underline; cursor: pointer; }
+    .team-auth-help { margin-top: 22px; text-align: center; }
+    .team-auth-loading { text-align: center; }
+    @media (max-width: 520px) {
+      .team-auth-tabs { grid-template-columns: 1fr; }
+      .team-auth-form .button { width: 100%; justify-content: center; }
+    }
+  </style>
+
+  <section class="section section-paper">
+    <div class="container">
+      <p style="text-align:center;margin-bottom:20px;"><a href="/my-podium/">Back to My Podium</a></p>
+      <div class="info-card team-auth-shell team-auth-loading" data-mp-login-loading>
+        <h2>Loading My Podium accounts</h2>
+        <p>Podium Watch is connecting securely to the account system.</p>
+      </div>
+
+      <div class="info-card team-auth-shell" data-mp-login-shell hidden>
+        <p class="team-auth-message" data-mp-login-message aria-live="polite" hidden></p>
+
+        <div class="team-auth-tabs" data-mp-login-tabs>
+          <button class="button button-primary" type="button" data-show-auth-panel="signin">Sign in</button>
+          <button class="button button-outline" type="button" data-show-auth-panel="signup">Create account</button>
+        </div>
+
+        <section data-auth-panel="signin">
+          <p class="eyebrow">My Podium account</p>
+          <h2>Sign in</h2>
+          <form class="team-auth-form" data-mp-login-signin-form>
+            <label><strong>Email address</strong><input type="email" name="email" autocomplete="email" required></label>
+            <label><strong>Password</strong><input type="password" name="password" autocomplete="current-password" required></label>
+            <button class="button button-primary" type="submit">Sign in</button>
+          </form>
+          <p class="team-auth-help"><button class="team-auth-link" type="button" data-show-auth-panel="reset">Forgot your password?</button></p>
+        </section>
+
+        <section data-auth-panel="signup" hidden>
+          <p class="eyebrow">New My Podium account</p>
+          <h2>Create your account</h2>
+          <p>This only syncs the school, sport, and athletes you've chosen to follow -- never anyone else's data.</p>
+          <form class="team-auth-form" data-mp-login-signup-form>
+            <label><strong>Your name</strong><input type="text" name="display_name" autocomplete="name" required></label>
+            <label><strong>Email address</strong><input type="email" name="email" autocomplete="email" required></label>
+            <label><strong>Password</strong><input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+            <label><strong>Confirm password</strong><input type="password" name="confirm_password" autocomplete="new-password" minlength="8" required></label>
+            <button class="button button-primary" type="submit">Create account</button>
+          </form>
+        </section>
+
+        <section data-auth-panel="reset" hidden>
+          <p class="eyebrow">Account recovery</p>
+          <h2>Reset your password</h2>
+          <p>Enter your email address and Podium Watch will send a secure reset link.</p>
+          <form class="team-auth-form" data-mp-login-reset-form>
+            <label><strong>Email address</strong><input type="email" name="email" autocomplete="email" required></label>
+            <button class="button button-primary" type="submit">Send reset link</button>
+          </form>
+          <p class="team-auth-help"><button class="team-auth-link" type="button" data-show-auth-panel="signin">Return to sign in</button></p>
+        </section>
+
+        <section data-auth-panel="update" hidden>
+          <p class="eyebrow">Account recovery</p>
+          <h2>Choose a new password</h2>
+          <form class="team-auth-form" data-mp-login-update-password-form>
+            <label><strong>New password</strong><input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+            <label><strong>Confirm new password</strong><input type="password" name="confirm_password" autocomplete="new-password" minlength="8" required></label>
+            <button class="button button-primary" type="submit">Save new password</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
+  <script src="/scripts/team-auth-client.js" defer></script>
+  <script src="/scripts/my-podium-auth.js" defer></script>`;
+
+  return layout({
+    site,
+    title: "My Podium Account",
+    description: "Create or sign in to a Podium Watch My Podium account to sync your preferences across devices.",
+    pathname: "/my-podium-login/",
+    content
+  });
+}

@@ -166,6 +166,9 @@ export function myPodiumPage(site, stories) {
             <span data-mp-summary></span>
             <button class="text-link" type="button" style="background:none;border:0;cursor:pointer;padding:0;" data-mp-edit>Edit preferences</button>
             <button class="text-link" type="button" style="background:none;border:0;cursor:pointer;padding:0;" data-mp-clear>Clear all</button>
+            <a href="/my-podium-login/" data-mp-sync-signin>Sign in to sync across devices</a>
+            <span data-mp-sync-status hidden></span>
+            <button class="text-link" type="button" style="background:none;border:0;cursor:pointer;padding:0;" data-mp-sync-signout hidden>Sign out</button>
           </div>
         </div>
 
@@ -194,6 +197,9 @@ export function myPodiumPage(site, stories) {
   ${storiesDataScript(stories)}
   <script src="/scripts/my-podium-store.js" defer></script>
   <script src="/scripts/my-podium-data.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
+  <script src="/scripts/team-auth-client.js" defer></script>
+  <script src="/scripts/my-podium-sync.js" defer></script>
   <script src="/scripts/my-podium.js" defer></script>`;
 
   return layout({

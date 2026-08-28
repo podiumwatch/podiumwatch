@@ -63,4 +63,6 @@ Every source below was inspected directly against real production Supabase data 
 | My Events | ⛔ Deferred | No consistent event-name identifier across rankings/results yet |
 | Personal records / Season | ⛔ Deferred to Project 6 | Incomplete historical performance set |
 | Podium Cards (shareable) | ⛔ Deferred to Project 6 | Depends on the same incomplete history |
-| Accounts / cross-device sync / alerts | ⛔ Deferred to Project 5 | No auth/consent/moderation infrastructure exists |
+| Cross-device sync (My Podium account) | ✅ Real (2026-08-28) | `my_podium_accounts`, open self-serve Supabase Auth (mirrors `team_auth.mjs`/`photographer_auth.mjs`) |
+| Email alerts | ✅ Real, wired in (2026-08-28) | Existing `team_followers`/`team_follows`/`lib/engagement_service.mjs` — sending blocked until `RESEND_API_KEY`/`RESEND_FROM_EMAIL` are configured in production |
+| Verified athlete profile claims / ranking alerts / parent-guardian controls | ⛔ Still deferred | See `MY_PODIUM_MASTER_BUILD_PLAN.md` §7 |

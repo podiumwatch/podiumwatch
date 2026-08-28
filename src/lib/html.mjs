@@ -240,7 +240,8 @@ export function layout({ site, title, description, pathname, content, image, can
     "/guardian-home/",
     "/photographer-login/",
     "/photographer-dashboard/",
-    "/follow/"
+    "/follow/",
+    "/my-podium-login/"
   ];
   const resolvedRobots = robots || (privatePrefixes.some((prefix) => pathname.startsWith(prefix)) ? "noindex, nofollow" : "index, follow");
   // Admin pages get their own stylesheet + shell script injected here,

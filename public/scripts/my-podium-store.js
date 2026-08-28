@@ -2,9 +2,14 @@
 // read from and written to. Used by the homepage's Follow Your School
 // panel and promo/preview card, and by /my-podium/ itself, so a
 // preference set anywhere on the site shows up everywhere else without a
-// second copy of this logic. Device-local only (localStorage) -- no
-// account, no server round trip, no personal information. See
-// docs/MY_PODIUM_MASTER_BUILD_PLAN.md Project 2.3 for the full schema
+// second copy of this logic. Device-local (localStorage) by default --
+// no account, no server round trip, no personal information. An
+// optional account-based sync layer (public/scripts/my-podium-sync.js,
+// Project 5 Slice B) can pull a remote copy in through
+// applyRemotePreferences() below, but this file itself still never
+// makes a network request and still never stores an email, password, or
+// any of the fields listed in docs/MY_PODIUM_MASTER_BUILD_PLAN.md's
+// "do not store" list. See that doc's Project 2.3 for the full schema
 // rationale.
 (() => {
   const STORAGE_KEY = "podiumWatch.myPodium.v1";
@@ -100,6 +105,13 @@
   function setTeam(team) {
     if (!team || !team.id || !team.slug) return getPreferences();
     const current = getPreferences();
+    // Carry the "already asked for alerts" flag over only when it's
+    // still the same team -- switching schools should re-offer alerts
+    // for the new one rather than silently suppressing the form based
+    // on a request that was about a different school entirely.
+    const alertsRequestedAt = current.team && current.team.id === team.id
+      ? current.team.alertsRequestedAt || null
+      : null;
     const next = {
       ...current,
       team: {
@@ -107,9 +119,29 @@
         slug: team.slug,
         schoolName: team.schoolName || team.school_name || "",
         sport: team.sport || null,
-        gender: team.gender || null
+        gender: team.gender || null,
+        alertsRequestedAt
       },
       updatedAt: new Date().toISOString()
+    };
+    writeRaw(next);
+    notify();
+    return next;
+  }
+
+  // Marks that this device already asked to follow the currently-set
+  // team's email alerts (Project 5 Slice A) -- a bare, non-PII
+  // timestamp, never the email address itself (that goes straight from
+  // the form to POST /api/followers/subscribe and is never persisted
+  // here). Used only to avoid re-showing the capture form; the real
+  // subscription state lives in Supabase and is managed through the
+  // existing /follow/?token= page, not here.
+  function markAlertsRequested() {
+    const current = getPreferences();
+    if (!current.team) return current;
+    const next = {
+      ...current,
+      team: { ...current.team, alertsRequestedAt: new Date().toISOString() }
     };
     writeRaw(next);
     notify();
@@ -170,6 +202,22 @@
     return () => listeners.delete(callback);
   }
 
+  // Called only by public/scripts/my-podium-sync.js, after it has
+  // already decided (by comparing timestamps against the signed-in
+  // user's synced copy) that the remote preferences should replace the
+  // local ones -- this function itself stays a dumb, defensive write,
+  // exactly like readRaw()'s own posture: reject anything that isn't a
+  // real preference object in the schema version this copy of the site
+  // understands, rather than trusting a network response blindly.
+  function applyRemotePreferences(remote) {
+    if (!remote || typeof remote !== "object" || remote.schemaVersion !== SCHEMA_VERSION) {
+      return getPreferences();
+    }
+    writeRaw(remote);
+    notify();
+    return remote;
+  }
+
   // Uses the site's existing Vercel Analytics queue (window.va, already
   // injected sitewide in src/lib/html.mjs's layout()) rather than adding
   // a new analytics vendor. `data` must only ever be generic categories
@@ -187,6 +235,7 @@
   }
 
   window.PodiumMyPodiumStore = {
-    getPreferences, hasPreferences, setTeam, clearTeam, addAthlete, removeAthlete, clearAll, onChange, trackEvent
+    getPreferences, hasPreferences, setTeam, clearTeam, addAthlete, removeAthlete, clearAll, onChange, trackEvent,
+    markAlertsRequested, applyRemotePreferences
   };
 })();

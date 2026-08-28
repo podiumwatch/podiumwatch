@@ -1,6 +1,7 @@
-(() => {
+(async () => {
   const store = window.PodiumMyPodiumStore;
   const dataAdapter = window.PodiumMyPodiumData;
+  const sync = window.PodiumMyPodiumSync;
   const shell = document.querySelector("[data-mp-shell]");
   if (!shell || !store || !dataAdapter) return;
 
@@ -217,6 +218,59 @@
     return `<p><strong>${parts[0]}</strong></p><p>${parts.slice(1).join(" &middot; ")}</p>${status ? `<p><span class="mp-card-empty">${escapeHtml(STATUS_LABEL[status] || "")}</span></p>` : ""}`;
   }
 
+  // Project 5 Slice A: an optional link into the existing, real,
+  // double-opt-in email alert system (team_followers/team_follows via
+  // /api/followers/subscribe) -- reused exactly as-is, not duplicated.
+  // The email the visitor types here goes straight into the fetch body
+  // and is never passed to the preference store; only a bare,
+  // non-PII "already asked" timestamp is persisted, via
+  // store.markAlertsRequested().
+  function renderAlertsSlot(slot, preferences, team) {
+    if (!slot) return;
+
+    if (preferences.team?.alertsRequestedAt) {
+      slot.innerHTML = `<p class="mp-card-empty">You asked for email alerts for ${escapeHtml(team.schoolName)}.</p><a class="text-link" href="/follow/">Manage alerts</a>`;
+      return;
+    }
+
+    slot.innerHTML = `<button class="button button-outline" type="button" data-mp-alerts-open>Get email alerts for ${escapeHtml(team.schoolName)}</button>`;
+    slot.querySelector("[data-mp-alerts-open]").addEventListener("click", () => {
+      slot.innerHTML = `
+        <form data-mp-alerts-form>
+          <label><span class="visually-hidden">Email address</span><input class="mp-search-input" type="email" name="email" placeholder="Email address" required autocomplete="email"></label>
+          <label style="position:absolute;left:-9999px;" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          <button class="button button-primary" type="submit" style="margin-top:8px;">Send confirmation email</button>
+          <p style="font-size:.76rem;color:var(--muted);margin:6px 0 0;">A confirmation email is required. Unsubscribe any time. See the <a href="/privacy/">privacy page</a>.</p>
+          <p data-mp-alerts-message class="mp-card-empty" style="margin-top:6px;" hidden></p>
+        </form>`;
+      const form = slot.querySelector("[data-mp-alerts-form]");
+      const message = slot.querySelector("[data-mp-alerts-message]");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const button = form.querySelector('button[type="submit"]');
+        const formData = new FormData(form);
+        button.disabled = true;
+        message.hidden = true;
+        try {
+          const response = await fetch("/api/followers/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({ team_id: team.id, email: formData.get("email"), website: formData.get("website") })
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || "The follow request could not be completed.");
+          store.markAlertsRequested();
+          store.trackEvent("preference_added", { category: "email_alerts" });
+          slot.innerHTML = `<p class="mp-card-empty">${data.already_following ? `Check your email for the link to manage ${escapeHtml(data.team_name)} alerts.` : `Check your email to confirm ${escapeHtml(data.team_name)} alerts.`}</p>`;
+        } catch (error) {
+          message.textContent = error.message;
+          message.hidden = false;
+          button.disabled = false;
+        }
+      });
+    });
+  }
+
   function renderDashboard() {
     showOnly(null);
     onboarding.hidden = true;
@@ -226,8 +280,13 @@
     const preferences = store.getPreferences();
     document.querySelector("[data-mp-date]").textContent = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric", timeZone: "America/New_York" }).format(new Date());
     document.querySelector("[data-mp-edit]").addEventListener("click", () => startEditing(preferences));
-    document.querySelector("[data-mp-clear]").addEventListener("click", () => {
+    document.querySelector("[data-mp-clear]").addEventListener("click", async () => {
       if (!window.confirm("Clear all My Podium preferences from this device? This cannot be undone.")) return;
+      // If signed in, clear the synced copy first -- otherwise the next
+      // reconcile() on this same device (or any other signed-in device)
+      // would just pull the old preferences straight back down.
+      const status = await sync?.getStatus().catch(() => ({ signedIn: false }));
+      if (status?.signedIn) await sync.clearSynced?.().catch(() => {});
       store.clearAll();
       store.trackEvent("preference_removed", { category: "all" });
       window.location.reload();
@@ -269,7 +328,9 @@
         const swatch = model.team.primaryColor ? `<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${escapeHtml(model.team.primaryColor)};margin-right:8px;vertical-align:middle;"></span>` : "";
         contextCard.innerHTML = `<h3>Following</h3><p>${swatch}<strong>${escapeHtml(model.team.schoolName)}</strong></p>
           <p>${[model.team.sport === "cross_country" ? "Cross Country" : model.team.sport === "track_and_field" ? "Track and Field" : null, model.team.gender ? (model.team.gender === "girls" ? "Girls" : "Boys") : null, model.team.divisionLabel].filter(Boolean).join(" &middot; ") || "Add sport and gender for a more precise dashboard."}</p>
-          <a class="mp-card-action text-link" href="/team/?slug=${encodeURIComponent(model.team.slug)}">Open team page</a>`;
+          <a class="mp-card-action text-link" href="/team/?slug=${encodeURIComponent(model.team.slug)}">Open team page</a>
+          <div data-mp-alerts-slot style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);"></div>`;
+        renderAlertsSlot(contextCard.querySelector("[data-mp-alerts-slot]"), preferences, model.team);
       } else {
         contextCard.hidden = true;
       }
@@ -371,9 +432,36 @@
     goToStep(draft.team ? "preferences" : "team");
   }
 
+  // ---- Sync status (Project 5 Slice B) --------------------------------
+
+  async function refreshSyncStatus() {
+    const signInLink = document.querySelector("[data-mp-sync-signin]");
+    const statusLabel = document.querySelector("[data-mp-sync-status]");
+    const signOutButton = document.querySelector("[data-mp-sync-signout]");
+    if (!sync || !signInLink || !statusLabel || !signOutButton) return;
+    const status = await sync.getStatus().catch(() => ({ signedIn: false }));
+    signInLink.hidden = status.signedIn;
+    statusLabel.hidden = !status.signedIn;
+    signOutButton.hidden = !status.signedIn;
+    if (status.signedIn) statusLabel.textContent = `Synced as ${status.email}`;
+    if (!signOutButton.dataset.mpBound) {
+      signOutButton.dataset.mpBound = "1";
+      signOutButton.addEventListener("click", async () => {
+        await sync.signOut();
+        await refreshSyncStatus();
+      });
+    }
+  }
+
   // ---- Boot -------------------------------------------------------------
 
   loadingPanel.hidden = false;
+  // Reconcile first (Project 5 Slice B) -- a signed-in visitor on a new
+  // device with no local preferences yet should land straight on their
+  // synced dashboard, not the onboarding intro. A signed-out visitor's
+  // reconcile() resolves immediately after one local, no-network session
+  // check, so accountless My Podium pays no real cost here.
+  await sync?.reconcile().catch(() => {});
   if (store.hasPreferences()) {
     renderDashboard();
   } else {
@@ -382,4 +470,5 @@
     showOnly(intro);
     intro.hidden = false;
   }
+  refreshSyncStatus();
 })();

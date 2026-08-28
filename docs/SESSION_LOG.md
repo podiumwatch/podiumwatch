@@ -2338,3 +2338,33 @@ Before changing anything, read every relevant file end to end (timer engine, ser
 ### Not yet done
 
 `install/24_SPLIT_WATCH_RACE_DAY_FIXES.sql` has not been applied to production -- needs the user's explicit approval per standing practice. Until then, the 4-digit code's actual generate/regenerate/revoke database round trip and Race Clock Adjustment's actual write are unverified live against real Supabase (the pure logic for both is unit-tested and passing; the API paths that touch the new columns were confirmed to correctly fail today, as expected, without the migration). Not pushed, not deployed. Helper Connection Status (a "TIMING CREW" list with per-helper revoke, spec Section 8) was deliberately deferred as a smaller, separate follow-up rather than expanding this pass further -- today a coach can only revoke the whole code at once.
+
+## 2026 08 28 My Podium: Projects 0-4/9, then Project 5 (email alerts + account sync)
+
+### What was built
+
+Two connected pieces of work in the same day. First, a full mobile-navigation rebuild plus a new personalized, accountless page, `/my-podium/`, covering Projects 0 through 4 and the homepage connection (Project 9) of a longer-term My Podium roadmap. Second, once asked to start on Project 5, a real repository audit overturned that project's own earlier assumption that no account/alert infrastructure existed -- it did, just not wired into My Podium -- so two safe slices were built on top of it: email alerts and cross-device account sync.
+
+### Projects 0-4/9: real data, no fabrication
+
+Prework re-confirmed (again) that the long-rumored missing `src/pages/adminteams.mjs` build failure isn't real in this checkout. The dashboard itself follows the site's static-generator constraint correctly -- everything personalized is computed client-side from real `/api/*` endpoints, never baked in at build time. The one genuinely new, structural finding: `team_pages` already carries real per-sport-per-gender division columns, so My Podium never asks a visitor to type their division -- it reads the team's own verified one. Ranking movement stays hidden (no previous-week snapshot exists yet in any published CSV), and "Live" is never shown from a date match alone (no verified sitewide live signal exists). Card order leads with Personal Context, then Poll, then Rankings -- ahead of Next Meet/Latest Result -- matching feedback from earlier the same session about what the homepage should lead with.
+
+A real, live production bug was found and fixed along the way, not something this session broke: `POST /api/athletes/` was returning a 500 for every visitor because two queries sent an 846-id list past PostgREST's URL length limit. Fixed with batched queries; confirmed 846 real profiles now load with a 200.
+
+Verified with roughly 50 Playwright checks against a local harness (real `api/*.js` handlers, real production Supabase data), then re-verified against the live production site after deploy. Pushed and deployed, commit `6ff31f4`. One process gap worth naming: this work went out without a DECISIONS.md/SESSION_LOG.md entry at the time -- both were written retroactively during the Project 5 work below, once the gap was noticed.
+
+### Project 5: the audit changed the plan
+
+Three parallel Explore agents plus a Plan agent, before writing any code, established that coach and photographer accounts are already fully open self-serve Supabase Auth signups, athlete/guardian accounts are coach-invite-only with only a self-attestation consent checkbox (no real identity or age verification anywhere in the codebase), and a real, mature, double-opt-in email alert system (`team_followers`/`team_follows`) already existed and was live in production (`public_following_enabled = true`, `notification_mode = "live"`) -- but Resend's email credentials are still not configured in production, so nothing on the site can actually send mail right now regardless of what gets built. This was surfaced to the user directly before proceeding, along with the scope choice (alerts wiring only, vs. alerts plus a new lightweight account) -- the user chose both.
+
+Slice A wires My Podium into the existing alert system exactly as-is: no new tables, no new `engagement_service.mjs` code, the email a visitor types never touches `localStorage`. Slice B is a new, lightweight, self-serve "My Podium account" (modeled on the open team/photographer pattern, not the invite-only athlete/guardian one, since it only ever grants access to a user's own preferences) that syncs the same preferences object already sitting in `localStorage` across devices, with last-write-wins conflict resolution and the server as the final word.
+
+One real bug was found and fixed during verification, not before it: "Clear all" while signed in only cleared the local copy, which meant the old synced preferences would simply reappear on the very next reconcile. Fixed by clearing the server copy first, synchronously, before the local clear and reload.
+
+### Testing actually run
+
+`npm run build`/`run check`/full `npm test` all clean. Slice A: a real disposable submission created real `team_followers`/`team_follows`/`team_notification_deliveries` rows against production, confirmed the exact "email delivery is not configured yet" failure path, then deleted everything and confirmed it was gone. Slice B: a real, disposable, admin-created test account (server-side email confirmation, no real email ever sent) tested across two simulated browser "devices" against real production Supabase -- first sync, a new device pulling synced preferences down automatically, a cross-device edit propagating on reload, the Clear-all fix specifically re-tested with a third fresh device to confirm cleared preferences don't come back, and sign-out leaving local preferences untouched. 11 of 11 checks passed. All test data (the auth user, its account row, and the follower rows) deleted and confirmed gone by direct re-query afterward.
+
+### Not yet done
+
+`RESEND_API_KEY`/`RESEND_FROM_EMAIL` remain unconfigured in production -- Slice A's alerts are wired and correct but cannot actually deliver mail until that's set up; outside this session's control. Migration `install/31_MY_PODIUM_ACCOUNTS.sql` was run by the user directly in the Supabase SQL Editor after explicit approval and verified live before Slice B testing proceeded. Verified athlete-profile self-claims, ranking alerts, parent/guardian controls beyond existing viewing access, a moderation/abuse-reporting path, and a real COPPA/age-verification framework all remain undone, per the plan's explicit scoping -- see `docs/MY_PODIUM_MASTER_BUILD_PLAN.md` for the full breakdown of what's deferred and why.

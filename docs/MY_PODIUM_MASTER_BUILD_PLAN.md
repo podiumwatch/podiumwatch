@@ -1,6 +1,6 @@
 # My Podium Master Build Plan
 
-Status: Projects 0–4 (and the homepage connection, Project 9) implemented 2026-08-28. Projects 5–7 are documented roadmap only — not implemented.
+Status: Projects 0–4 (and the homepage connection, Project 9) implemented 2026-08-28. Project 5 (two slices — see §7) implemented 2026-08-28. Projects 6–7 remain documented roadmap only — not implemented.
 
 ## 1. Product vision
 
@@ -85,6 +85,18 @@ Implemented inside the same data adapter (`classifyDay()` in `my-podium-data.js`
 - **Returning visitor** (preferences already exist): the same slot instead renders a compact preview — followed school name/colors, next verified meet if any, one "Open My Podium" action — reusing `my-podium-data.js`, not a second query path.
 - The pre-existing "Follow Your School" panel is unchanged in behavior but now reads/writes through the shared `my-podium-store.js` instead of its own separate key, so following a school there and in My Podium's onboarding is the same action, not two.
 
+### Project 5 — Email alerts + account sync (implemented 2026-08-28)
+
+A repository audit (see the session log) found this project's original "nothing exists yet" assumption about accounts was wrong: real, mature auth infrastructure and a real double-opt-in email alert system already existed, unrelated to My Podium. Two safe, well-scoped slices were built on top of that real infrastructure rather than inventing new systems:
+
+**Slice A — email alerts.** My Podium's "Following" context card gained an optional "Get email alerts for [school]" action that calls the existing `POST /api/followers/subscribe` (`team_followers`/`team_follows`, `lib/engagement_service.mjs`) exactly as-is — no new tables, no new service logic. The email a visitor enters goes straight into the request body and is never written to `localStorage`; only a bare, non-PII `alertsRequestedAt` timestamp is kept, so the form doesn't keep re-prompting. Verified end to end against real production data (a real `team_followers`/`team_follows` row was created and cleaned up); confirmed the alert system itself is live (`engagement_settings.public_following_enabled = true`, `notification_mode = "live"`), but `RESEND_API_KEY`/`RESEND_FROM_EMAIL` are still not configured in production, so every real submission surfaces an honest error until that's set up — a credentials gap outside this build's control, not a code defect.
+
+**Slice B — My Podium account (cross-device sync).** A new, lightweight, self-serve account (`install/31_MY_PODIUM_ACCOUNTS.sql`, `lib/my_podium_auth.mjs`, `api/my-podium/{me,sync,clear}.js`, `/my-podium-login/`, `public/scripts/my-podium-{auth,sync}.js`) modeled on this project's existing OPEN self-serve pattern (`lib/team_auth.mjs`/`lib/photographer_auth.mjs` — no invite required), deliberately not the coach-invite-only athlete/guardian pattern, since this account only ever grants a signed-in user access to their own preferences. One new table (`my_podium_accounts`, RLS locked to `service_role` only, same as every other table in this project). Reconcile-on-load logic (`public/scripts/my-podium-sync.js`) pulls a new device's synced preferences down automatically, pushes local edits up (debounced) while signed in, and resolves conflicts by last-write-wins on a real timestamp comparison, with the server as the final word. "Clear all" while signed in clears the synced copy first so it can't reappear on the next reconcile.
+
+Verified end to end with a real, disposable, admin-created test account across two simulated devices against real production Supabase: first sync (push), a brand-new device pulling synced preferences down automatically instead of showing onboarding, a cross-device edit propagating on reload, "Clear all" while signed in correctly preventing a later reconcile from resurrecting the cleared data, and sign-out leaving local (accountless) preferences fully untouched. All test data (the auth user and its `my_podium_accounts` row) was deleted after and confirmed gone.
+
+**Explicitly not built in this pass** (unchanged from the original scoping decision): verified athlete-profile self-claims (governed by this project's existing "always human review, no exceptions" rule for a minor's identity — see `docs/RECRUITING_PHASE_THREE_ARCHITECTURE.md`), ranking alerts (no event-driven infrastructure exists — rankings are a build-time CSV artifact), any change to the invite-only athlete/guardian tiers, a COPPA/age-verification framework (a real, pre-existing gap shared by every open account tier in this project already — neither slice here collects any athlete's or minor's personal data, so it isn't newly introduced, but it also isn't solved), and full account deletion (no precedent exists for any account tier in this codebase yet — Slice B ships "clear synced preferences" + "sign out" only).
+
 ## 4. Explicitly deferred inside Projects 0–4
 
 - **Movement arrows/rank deltas** — no previous verified snapshot exists yet in any published ranking CSV (`previousRank` is empty on every row). Shown as current rank + date only, honestly.
@@ -95,7 +107,7 @@ Implemented inside the same data adapter (`classifyDay()` in `my-podium-data.js`
 
 ## 5. Constraints honored
 
-No destructive git commands were used. No new Supabase tables or columns were created. No email/phone/address/location/birthdate/password/training data is collected or stored. No account system was built. No live status was shown from a date match alone. No ranking movement was shown without both a current and a previous verified snapshot (none exists yet, so none is shown). Existing official source labels (`results_url`/`athleticnet_url`/`milesplit_url`) are preserved verbatim everywhere they're surfaced. The desktop experience is unmodified except for one new nav entry and the homepage's existing Home Spotlight band gaining a third card.
+No destructive git commands were used. No email/phone/address/location/birthdate/training data is collected or stored by the accountless My Podium preference store (Projects 0–4). Project 5's account system (added 2026-08-28, see above) collects only an email+password for the account holder's own sign-in — identical in kind to the pre-existing team/photographer account tiers, and it never grants access to another person's data or any athlete's private information. No live status was shown from a date match alone. No ranking movement was shown without both a current and a previous verified snapshot (none exists yet, so none is shown). Existing official source labels (`results_url`/`athleticnet_url`/`milesplit_url`) are preserved verbatim everywhere they're surfaced. The desktop experience is unmodified except for one new nav entry, the homepage's existing Home Spotlight band gaining a third card, and the new `/my-podium-login/` page.
 
 ## 6. Verification performed
 
@@ -108,10 +120,7 @@ No destructive git commands were used. No new Supabase tables or columns were cr
 
 ## 7. Future roadmap (documented only — not implemented)
 
-### Project 5 — Accounts, claims, and alerts
-Optional authenticated accounts; preference sync across devices; verified coach/athlete profile claims; parent/guardian controls; result/ranking/meet/story alerts; granular notification settings.
-
-**Required before implementation:** authentication architecture, authorization rules, a row-level-security review (today's Supabase access pattern is entirely `service_role`-via-server, with RLS revoked for `anon`/`authenticated` on every sensitive table — a real account system changes that threat model and needs its own review), a claim-verification process, a minor-privacy review, data retention rules, account deletion, a moderation policy, consent requirements, and an abuse-reporting path. None of this exists today and none of it should be assembled ad hoc inside a mobile-navigation build.
+Project 5's core scope (accounts, email alerts) shipped 2026-08-28 — see §3 above. What remains genuinely undone from its original wishlist: verified coach/athlete profile claims beyond the team claim flow that already existed (see §3's "explicitly not built" list), parent/guardian controls beyond the existing `guardian_accounts` viewing tier, ranking alerts, a moderation policy and abuse-reporting path (not needed yet — neither shipped slice produces any public-facing content), and a real COPPA/age-verification framework (a pre-existing gap across every open account tier in this project, not solved by this pass).
 
 ### Project 6 — My Season and Podium Cards
 Season bests; verified personal records; event progress charts; meet history; team scoring contributions; goal tracking; shareable result/ranking/team/state-qualification cards.
