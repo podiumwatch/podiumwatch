@@ -377,6 +377,10 @@ function homePage(stories, rankings) {
       <a class="home-action home-action-outline" href="/meets/?view=upcoming">Find a Meet</a>
       <a class="home-action home-action-outline" href="/rankings/">State Rankings</a>
     </div>
+    <section class="vote-now-top" data-vote-now-panel hidden>
+      <span class="vote-now-top-badge">Vote Now</span>
+      <div class="vote-now-body" data-vote-now-body></div>
+    </section>
   </div></section>
 
   <section class="sports-home"><div class="container sports-home-grid">
@@ -395,10 +399,6 @@ function homePage(stories, rankings) {
         </div>
       </section>
       <section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent='Preseason';panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
-      <section class="home-panel vote-now-panel" data-vote-now-panel hidden>
-        <div class="home-panel-title"><h2>Vote Now</h2></div>
-        <div class="vote-now-body" data-vote-now-body></div>
-      </section>
       <section class="home-panel" data-upcoming-meets-panel>
         <div class="home-panel-title"><h2>Upcoming Meets</h2></div>
         <div data-upcoming-meets-list><a class="home-meet" href="/meets/?view=upcoming"><b>&hellip;</b><span><strong>Checking the calendar&hellip;</strong><small>&nbsp;</small></span></a></div>

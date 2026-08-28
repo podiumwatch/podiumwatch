@@ -522,11 +522,26 @@ p { margin-top: 0; }
 .follow-school-actions .button { min-height:40px; padding:8px 14px; font-size:.72rem; }
 .follow-school-empty { padding:12px 15px 16px; font-size:.78rem; color:#7a827e; }
 
-/* Vote Now -- also reuses .home-panel chrome. */
-.vote-now-body { padding:0 15px 16px; }
-.vote-now-category { margin:0 0 6px; color:#008850; font-family:Arial,Helvetica,sans-serif; font-size:.68rem; font-weight:900; letter-spacing:.05em; text-transform:uppercase; }
-.vote-now-question { margin:0 0 8px; font-size:.92rem; font-weight:800; }
-.vote-now-meta { margin:0 0 12px; color:#7a827e; font-size:.74rem; }
+/* Vote Now -- promoted to a full-width banner directly under the primary
+   actions, above the Quick Links/featured-story/sidebar layout, so it's
+   one of the first things a visitor sees rather than tucked into the
+   right-rail sidebar (2026-08-28 feedback). Stays hidden (see the
+   :not([hidden]) guard below) until public/scripts/homepage.js confirms
+   a real, currently-open-or-just-closed poll -- never shown as an empty
+   green bar with nothing to vote on. */
+.vote-now-top:not([hidden]) { display:flex; flex-wrap:wrap; align-items:center; gap:10px 18px; margin-top:14px; padding:14px 18px; background:var(--green); }
+.vote-now-top-badge { flex-shrink:0; padding:6px 10px; color:var(--green); background:#07130d; font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif; font-size:.78rem; letter-spacing:.04em; text-transform:uppercase; }
+.vote-now-body { display:flex; flex-wrap:wrap; align-items:center; gap:4px 16px; flex:1; min-width:0; }
+.vote-now-category { margin:0; flex-basis:100%; color:#07130d; opacity:.62; font-family:Arial,Helvetica,sans-serif; font-size:.66rem; font-weight:900; letter-spacing:.05em; text-transform:uppercase; }
+.vote-now-question { margin:0; color:#07130d; font-size:.94rem; font-weight:800; }
+.vote-now-meta { margin:0; color:#07130d; opacity:.68; font-size:.72rem; }
+.vote-now-body .button { margin-left:auto; flex-shrink:0; min-height:40px; padding:9px 18px; color:#fff; background:#07130d; border-color:#07130d; font-size:.74rem; }
+.vote-now-body .button:hover { background:#1c2b22; }
+
+@media (max-width:700px) {
+  .vote-now-top:not([hidden]) { padding:14px 16px; }
+  .vote-now-body .button { margin-left:0; width:100%; justify-content:center; margin-top:2px; }
+}
 
 @media (max-width:560px) {
   .home-actions { grid-template-columns:1fr; }
