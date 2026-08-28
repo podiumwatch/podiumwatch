@@ -13,6 +13,15 @@
   --read: 760px;
   --radius: 0;
   --shadow: 0 18px 50px rgba(0, 0, 0, .10);
+  /* My Podium (2026-08-28): the rest of the site is deliberately square
+     (--radius: 0, its own editorial look, left untouched) -- My Podium's
+     cards use a softer, app-like radius instead, scoped to their own
+     token so nothing else on the site changes shape. --pale-green and
+     --dock-inactive extend the existing brand palette rather than
+     hardcoding new one-off colors across My Podium's files. */
+  --radius-card: 14px;
+  --pale-green: #e6f5ee;
+  --dock-inactive: #d9e2de;
 }
 
 * { box-sizing: border-box; }
@@ -385,11 +394,11 @@ p { margin-top: 0; }
   .footer-brand { grid-column:1 / -1; }
   .footer-column:last-child { grid-column:auto; }
   .footer-bottom { flex-direction:column; }
-  .mobile-dock { position:fixed; z-index:120; left:0; right:0; bottom:0; min-height:64px; display:grid; grid-template-columns:repeat(4,1fr); padding-bottom:env(safe-area-inset-bottom); color:#dbe2de; background:#080c09; border-top:1px solid #313a35; box-shadow:0 -5px 18px rgba(0,0,0,.22); }
-  .mobile-dock a { min-width:0; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:6px 2px; }
+  .mobile-dock { position:fixed; z-index:120; left:0; right:0; bottom:0; min-height:64px; display:grid; grid-template-columns:repeat(5,1fr); padding-bottom:env(safe-area-inset-bottom); color:var(--dock-inactive); background:#080c09; border-top:1px solid #313a35; box-shadow:0 -5px 18px rgba(0,0,0,.22); }
+  .mobile-dock a { min-width:0; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:6px 1px; }
   .mobile-dock a:active { color:var(--green); background:#151d18; }
-  .mobile-dock svg { width:20px; height:20px; fill:#8a938d; }
-  .mobile-dock b { font-size:.58rem; letter-spacing:.03em; text-transform:uppercase; font-weight:700; }
+  .mobile-dock svg { width:19px; height:19px; fill:#8a938d; }
+  .mobile-dock b { max-width:100%; overflow:hidden; font-size:.54rem; letter-spacing:.01em; text-transform:uppercase; font-weight:700; text-overflow:ellipsis; white-space:nowrap; }
   /* Real state, not just a tap flash -- a visitor should be able to see
      which of the 4 destinations they're already on. */
   .mobile-dock a[aria-current="page"] svg { fill:var(--green); }
@@ -514,6 +523,12 @@ p { margin-top: 0; }
    rather than inventing a new visual language for one more sidebar
    module. */
 .follow-school-panel-body { padding:0 15px 16px; }
+/* Dismissible My Podium introduction (2026-08-28, Project 9.1) -- the
+   promo copy can be dismissed on this device without removing the
+   actually-useful search box underneath it. */
+.follow-school-promo { position:relative; padding:12px 34px 12px 12px; margin:12px 0 4px; background:var(--pale-green); font-size:.8rem; color:#0a3d27; }
+.follow-school-dismiss { position:absolute; top:8px; right:8px; padding:4px 7px; color:#0a3d27; background:transparent; border:0; font-size:.65rem; font-weight:800; text-transform:uppercase; cursor:pointer; }
+.follow-school-dismiss:hover { text-decoration:underline; }
 .follow-school-search { display:block; width:100%; margin:12px 0 8px; padding:10px 12px; border:1px solid #dce2de; font:inherit; font-size:.82rem; }
 .follow-school-results { display:grid; gap:6px; max-height:230px; overflow-y:auto; }
 .follow-school-result { display:block; width:100%; padding:9px 11px; text-align:left; color:#111714; border:1px solid #edf0ee; background:#fafbfa; font:inherit; font-size:.78rem; font-weight:700; cursor:pointer; }

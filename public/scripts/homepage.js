@@ -42,65 +42,58 @@
   }
 
   // ---- Follow Your School (My Podium) -----------------------------------
-  // No account system -- "following" a school here just means saving its
-  // slug in this device's own localStorage, then linking straight into
-  // that team's real, existing public team page. Search reuses the exact
-  // same /api/teams/ directory endpoint the full Teams directory page
-  // already calls; this never invents a second team dataset.
-
-  const STORAGE_KEY = "podium_followed_school";
+  // No account system -- "following" a school here saves it through the
+  // shared My Podium preference store (public/scripts/my-podium-store.js)
+  // rather than a separate key, so picking a school here and picking one
+  // in My Podium's own onboarding are the same action, not two. Search
+  // reuses the exact same /api/teams/ directory endpoint the full Teams
+  // directory page already calls; this never invents a second team
+  // dataset. See docs/MY_PODIUM_MASTER_BUILD_PLAN.md, Project 9.
+  const mpStore = window.PodiumMyPodiumStore;
   const followPanel = document.querySelector("[data-follow-school-panel]");
   const searchView = document.querySelector("[data-follow-school-search-view]");
   const selectedView = document.querySelector("[data-follow-school-selected-view]");
   const searchInput = document.querySelector("[data-follow-school-input]");
   const resultsBox = document.querySelector("[data-follow-school-results]");
 
-  function loadFollowedSchool() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch {
-      return null;
-    }
-  }
-
-  function saveFollowedSchool(team) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ id: team.id, school_name: team.school_name, slug: team.slug, city: team.city, state: team.state }));
-    } catch {
-      // Storage unavailable (private browsing, quota) -- the button below
-      // still works for this one visit, it just won't persist.
-    }
-  }
-
-  function clearFollowedSchool() {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // Nothing to clean up if storage was never available.
-    }
-  }
-
+  // Returning-visitor preview (Project 9.2): followed school, next
+  // verified meet, newest verified result -- reuses the exact same data
+  // adapter /my-podium/ itself calls (my-podium-data.js), not a second
+  // query path, so the homepage preview and the full dashboard can never
+  // disagree with each other.
   function renderSelected(team) {
     if (!selectedView) return;
-    const meta = [];
-    if (team.city) meta.push(`${escapeHtml(team.city)}, Ohio`);
     selectedView.innerHTML = `
       <div class="follow-school-selected">
-        <strong>${escapeHtml(team.school_name)}</strong>
+        <strong>${escapeHtml(team.schoolName)}</strong>
+        <div data-follow-school-preview style="margin-top:8px;"><small style="color:#7a827e;">Loading your update&hellip;</small></div>
         <div class="follow-school-selected-meta">
-          ${meta.length ? `<span>${meta.join(" &middot; ")}</span>` : ""}
-          <a href="/team/?slug=${encodeURIComponent(team.slug)}">Open team page ${team.school_name ? "" : ""}&rarr;</a>
+          <a href="/team/?slug=${encodeURIComponent(team.slug)}">Open team page &rarr;</a>
         </div>
         <div class="follow-school-actions">
-          <a class="button button-primary" href="/team/?slug=${encodeURIComponent(team.slug)}">Open ${escapeHtml(team.school_name)}</a>
+          <a class="button button-primary" href="/my-podium/">Open My Podium</a>
           <button class="button button-outline" type="button" data-follow-school-change>Change school</button>
         </div>
       </div>`;
     selectedView.querySelector("[data-follow-school-change]")?.addEventListener("click", () => {
-      clearFollowedSchool();
+      mpStore.clearTeam();
       showSearchView();
     });
+    const previewBox = selectedView.querySelector("[data-follow-school-preview]");
+    if (previewBox && window.PodiumMyPodiumData) {
+      window.PodiumMyPodiumData.loadDashboard({ team, athletes: [] }).then((model) => {
+        const lines = [];
+        if (model.nextMeet) lines.push(`Next meet: <strong>${escapeHtml(model.nextMeet.name)}</strong>`);
+        if (model.latestResult) lines.push(`Latest: <strong>${escapeHtml(model.latestResult.name)}</strong>`);
+        previewBox.innerHTML = lines.length
+          ? `<small>${lines.join(" &middot; ")}</small>`
+          : `<small style="color:#7a827e;">No connected meets yet.</small>`;
+      }).catch(() => {
+        previewBox.innerHTML = "";
+      });
+    } else if (previewBox) {
+      previewBox.innerHTML = "";
+    }
   }
 
   function showSelectedView(team) {
@@ -138,8 +131,9 @@
           button.addEventListener("click", () => {
             const team = teams.find((item) => item.id === button.dataset.followSchoolPick);
             if (!team) return;
-            saveFollowedSchool(team);
-            showSelectedView(team);
+            const saved = mpStore.setTeam({ id: team.id, slug: team.slug, schoolName: team.school_name });
+            mpStore.trackEvent("preference_added", { category: "team" });
+            showSelectedView(saved.team);
           });
         });
       })
@@ -148,13 +142,37 @@
       });
   }
 
-  if (followPanel && searchView && selectedView) {
+  const PROMO_DISMISSED_KEY = "podiumWatch.myPodium.promoDismissed";
+  const promoIntro = document.querySelector("[data-mp-promo-intro]");
+  const promoDismiss = document.querySelector("[data-mp-promo-dismiss]");
+
+  if (followPanel && searchView && selectedView && mpStore) {
     followPanel.hidden = false;
-    const existing = loadFollowedSchool();
-    if (existing && existing.slug) {
+    const existing = mpStore.getPreferences().team;
+    if (existing) {
       showSelectedView(existing);
+      mpStore.trackEvent("my_podium_return_visit", {});
     } else {
       showSearchView();
+      // Project 9.1: dismissible once, remembered on this device, never
+      // re-shown -- the search box underneath stays fully usable either
+      // way, only the promotional copy goes away.
+      let dismissed = false;
+      try {
+        dismissed = window.localStorage.getItem(PROMO_DISMISSED_KEY) === "1";
+      } catch {
+        dismissed = false;
+      }
+      if (promoIntro) promoIntro.hidden = dismissed;
+      promoDismiss?.addEventListener("click", () => {
+        if (promoIntro) promoIntro.hidden = true;
+        try {
+          window.localStorage.setItem(PROMO_DISMISSED_KEY, "1");
+        } catch {
+          // Not persisted this time -- it will just show again next visit,
+          // which is the safe direction to fail in.
+        }
+      });
     }
     searchInput?.addEventListener("input", () => {
       window.clearTimeout(searchTimer);

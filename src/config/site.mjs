@@ -32,6 +32,12 @@ export const site = {
   // don't.
   navigation: [
     { label: "Home", href: "/" },
+    // My Podium (2026-08-28): the new personalized, accountless
+    // destination -- kept as a flat top-level link, right after Home,
+    // matching how prominently it needs to read as its own first-class
+    // section rather than one more item buried inside a dropdown. See
+    // docs/MY_PODIUM_MASTER_BUILD_PLAN.md.
+    { label: "My Podium", href: "/my-podium/" },
     { label: "Rankings", items: [
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" },

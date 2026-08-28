@@ -19,7 +19,8 @@ export function icon(name) {
     home: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.2 2.5 11h2.3v9h5.6v-6h3.2v6h5.6v-9h2.3L12 3.2Z"/></svg>',
     results: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm7 1.5V8h3.5L13 4.5ZM8 13h8v1.6H8V13Zm0 3.4h8V18H8v-1.6ZM8 9h4v1.6H8V9Z"/></svg>',
     rankings: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 9.6 7.3 4 8.1l4.1 3.9L7 18l5-2.7 5 2.7-1.1-6 4.1-3.9-5.6-.8L12 2Z"/></svg>',
-    meets: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7ZM5 10h14v10H5V10Zm2 3v2h2v-2H7Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Z"/></svg>'
+    meets: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7ZM5 10h14v10H5V10Zm2 3v2h2v-2H7Zm4 0v2h2v-2h-2Zm4 0v2h2v-2h-2Z"/></svg>',
+    podium: '<svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="13" width="6" height="8"/><rect x="9" y="6" width="6" height="15"/><rect x="15" y="15" width="6" height="6"/></svg>'
   };
   return icons[name] || "";
 }
@@ -168,14 +169,16 @@ export function footer(site) {
 }
 
 // Sports-utility-first, matching what a mobile visitor actually reaches
-// for: Home, Results, Rankings, Meets. Stories and Voting stay reachable
-// from the main menu instead -- four destinations, not six, keeps every
-// tap target comfortably above 44px. Each link's aria-current gets set
-// by public/scripts/site.js (the dock is shared chrome, rendered once in
-// layout(), with no per-page pathname passed in here).
+// for: Home, My Podium, Results, Rankings, Meets. Stories and Voting stay
+// reachable from the main menu instead -- five destinations keeps every
+// tap target comfortably above 44px on a 360px-wide screen. Each link's
+// aria-current gets set by public/scripts/site.js (the dock is shared
+// chrome, rendered once in layout(), with no per-page pathname passed in
+// here). My Podium added 2026-08-28 -- see docs/MY_PODIUM_MASTER_BUILD_PLAN.md.
 function mobileDock() {
   return `<nav class="mobile-dock" aria-label="Mobile quick navigation" data-mobile-dock>
     <a href="/" aria-label="Home" data-dock-path="/">${icon("home")}<b>Home</b></a>
+    <a href="/my-podium/" aria-label="My Podium" data-dock-path="/my-podium/">${icon("podium")}<b>My Podium</b></a>
     <a href="/meets/?view=results" aria-label="Latest results" data-dock-path="/meets/?view=results">${icon("results")}<b>Results</b></a>
     <a href="/rankings/" aria-label="Rankings" data-dock-path="/rankings/">${icon("rankings")}<b>Rankings</b></a>
     <a href="/meets/" aria-label="Meets" data-dock-path="/meets/">${icon("meets")}<b>Meets</b></a>

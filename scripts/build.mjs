@@ -10,6 +10,7 @@ import { photographerDetailPage } from "../src/pages/photographerdetail.mjs";
 import { adminOperationsPage } from "../src/pages/adminoperations.mjs";
 import { adminStatewideDataPage } from "../src/pages/adminstatewidedata.mjs";
 import { followPage } from "../src/pages/follow.mjs";
+import { myPodiumPage } from "../src/pages/mypodium.mjs";
 import { teamInsightsPage } from "../src/pages/teaminsights.mjs";
 import { privacyPage } from "../src/pages/privacy.mjs";
 import fs from "node:fs/promises";
@@ -375,10 +376,14 @@ function homePage(stories, rankings) {
   <section class="home-spotlight"><div class="container home-spotlight-grid">
     <section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent='Preseason';panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
     <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
-      <div class="home-panel-title"><h2>My Podium</h2></div>
+      <div class="home-panel-title"><h2>My Podium</h2><a href="/my-podium/" style="font-size:.68rem;font-weight:900;color:var(--green-dark);">Open &rarr;</a></div>
       <div class="follow-school-panel-body">
         <div data-follow-school-search-view>
-          <p>Follow your school for a direct link to its team page.</p>
+          <div class="follow-school-promo" data-mp-promo-intro>
+            <p style="margin:0 0 4px;font-weight:800;">Make Podium Watch yours.</p>
+            <p style="margin:0;">Follow your school, athletes, division, and events to see what matters to you first.</p>
+            <button type="button" class="follow-school-dismiss" data-mp-promo-dismiss aria-label="Dismiss this introduction">Not now</button>
+          </div>
           <input type="search" class="follow-school-search" placeholder="Search for your school" data-follow-school-input>
           <div class="follow-school-results" data-follow-school-results></div>
         </div>
@@ -435,6 +440,8 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
+  <script src="/scripts/my-podium-store.js" defer></script>
+  <script src="/scripts/my-podium-data.js" defer></script>
   <script src="/scripts/homepage.js" defer></script>`;
 
   return layout({
@@ -743,6 +750,7 @@ await writePage("/split-watch/join/", splitWatchJoinPage(site));
 // Watch page.
 await writePage("/split-watch/races/", splitWatchRacesPage(site));
 await writePage("/follow/", followPage(site));
+await writePage("/my-podium/", myPodiumPage(site, stories));
 await writePage("/privacy/", privacyPage(site));
 await writePage("/team-editor/", teamEditorPage(site));
 await writePage("/team/", teamProfilePage(site));

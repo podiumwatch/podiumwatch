@@ -40,6 +40,48 @@ function divisionNumber(value) {
   return match ? Number(match[1]) : null;
 }
 
+// PostgREST sends .in(column, values) as a URL query parameter, so a
+// large id list (this table has 800+ public profiles in production)
+// blows past the request's URL length limit and the whole query fails
+// with an opaque "Bad Request" -- confirmed directly against production
+// data on 2026-08-28, not a hypothetical: 300 ids succeeded, 400+ ids
+// failed every time. Chunking keeps each request well under that limit
+// regardless of how large the athlete directory grows.
+const ID_BATCH_SIZE = 150;
+
+function chunk(values, size) {
+  const batches = [];
+  for (let index = 0; index < values.length; index += size) {
+    batches.push(values.slice(index, index + size));
+  }
+  return batches;
+}
+
+async function selectInBatches(table, select, column, ids, extra) {
+  if (!ids.length) {
+    return [];
+  }
+
+  const batches = await Promise.all(
+    chunk(ids, ID_BATCH_SIZE).map((batchIds) => {
+      let query = supabaseAdmin.from(table).select(select).in(column, batchIds);
+      if (extra) {
+        query = extra(query);
+      }
+      return query;
+    })
+  );
+
+  const rows = [];
+  for (const batch of batches) {
+    if (batch.error) {
+      throw batch.error;
+    }
+    rows.push(...(batch.data || []));
+  }
+  return rows;
+}
+
 function safeSearch(value) {
   return normalizeAthleteName(
     cleanAthleteText(value, 200)
@@ -155,77 +197,49 @@ async function loadDatabaseProfiles() {
     rows.map((profile) => profile.current_team_id).filter(Boolean)
   )];
 
-  const [schoolResult, teamResult, rankingResult, performanceResult] = await Promise.all([
-    schoolIds.length
-      ? supabaseAdmin
-          .from("ohio_schools")
-          .select("id, ohsaa_school_id, school_name, city, athletic_district")
-          .in("id", schoolIds)
-      : Promise.resolve({ data: [], error: null }),
-    teamIds.length
-      ? supabaseAdmin
-          .from("team_pages")
-          .select("id, school_name, slug, city, published")
-          .in("id", teamIds)
-      : Promise.resolve({ data: [], error: null }),
-    profileIds.length
-      ? supabaseAdmin
-          .from("athlete_ranking_entries")
-          .select(`
-            profile_id,
-            rank,
-            ranking_title,
-            ranking_href,
-            ranking_type,
-            division,
-            division_number,
-            event_name,
-            mark_snapshot,
-            updated_date,
-            current
-          `)
-          .in("profile_id", profileIds)
-          .eq("current", true)
-          .order("updated_date", { ascending: false })
-          .order("rank", { ascending: true })
-      : Promise.resolve({ data: [], error: null }),
-    profileIds.length
-      ? supabaseAdmin
-          .from("athlete_performances")
-          .select(`
-            profile_id,
-            event_name,
-            mark_text,
-            meet_name,
-            meet_date,
-            verification_status,
-            source_url
-          `)
-          .in("profile_id", profileIds)
-          .eq("public_visible", true)
-          .is("archived_at", null)
-          .order("meet_date", { ascending: false })
-          .limit(10000)
-      : Promise.resolve({ data: [], error: null })
+  // Each of these ran as one unbounded .in(profileIds) query before --
+  // fine while the athlete directory was small, but it now silently
+  // fails every request once the id list gets long enough to blow past
+  // the request's URL length limit (confirmed directly: this is exactly
+  // why /api/athletes/ has been returning "could not be loaded" in
+  // production). selectInBatches splits each id list into batches under
+  // that limit and merges the results back into one array; sorting is
+  // applied client-side afterward instead of via .order() so the "first
+  // entry wins" logic below still resolves the same ranking/performance
+  // per profile regardless of which batch a row came back in.
+  const [schoolRows, teamRows, rankingRows, performanceRows] = await Promise.all([
+    selectInBatches("ohio_schools", "id, ohsaa_school_id, school_name, city, athletic_district", "id", schoolIds),
+    selectInBatches("team_pages", "id, school_name, slug, city, published", "id", teamIds),
+    selectInBatches(
+      "athlete_ranking_entries",
+      "profile_id, rank, ranking_title, ranking_href, ranking_type, division, division_number, event_name, mark_snapshot, updated_date, current",
+      "profile_id",
+      profileIds,
+      (query) => query.eq("current", true)
+    ),
+    selectInBatches(
+      "athlete_performances",
+      "profile_id, event_name, mark_text, meet_name, meet_date, verification_status, source_url",
+      "profile_id",
+      profileIds,
+      (query) => query.eq("public_visible", true).is("archived_at", null).limit(10000)
+    )
   ]);
 
-  for (const result of [
-    schoolResult,
-    teamResult,
-    rankingResult,
-    performanceResult
-  ]) {
-    if (result.error) {
-      throw result.error;
-    }
-  }
+  rankingRows.sort((first, second) =>
+    String(second.updated_date || "").localeCompare(String(first.updated_date || "")) ||
+    Number(first.rank || 999999) - Number(second.rank || 999999)
+  );
+  performanceRows.sort((first, second) =>
+    String(second.meet_date || "").localeCompare(String(first.meet_date || ""))
+  );
 
-  const schoolMap = new Map((schoolResult.data || []).map((school) => [school.id, school]));
-  const teamMap = new Map((teamResult.data || []).map((team) => [team.id, team]));
+  const schoolMap = new Map(schoolRows.map((school) => [school.id, school]));
+  const teamMap = new Map(teamRows.map((team) => [team.id, team]));
   const rankingByProfile = new Map();
   const performanceByProfile = new Map();
 
-  (rankingResult.data || []).forEach((ranking) => {
+  rankingRows.forEach((ranking) => {
     if (!rankingByProfile.has(ranking.profile_id)) {
       rankingByProfile.set(ranking.profile_id, {
         rank: ranking.rank,
@@ -241,7 +255,7 @@ async function loadDatabaseProfiles() {
     }
   });
 
-  (performanceResult.data || []).forEach((performance) => {
+  performanceRows.forEach((performance) => {
     if (!performanceByProfile.has(performance.profile_id)) {
       performanceByProfile.set(performance.profile_id, performance);
     }
