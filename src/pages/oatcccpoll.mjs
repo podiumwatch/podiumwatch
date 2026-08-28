@@ -160,6 +160,13 @@ export function oatcccCoachesPollPage(site) {
           <tbody data-oatccc-rows></tbody>
         </table>
       </div>
+
+      <div class="info-card" style="margin-top:36px;">
+        <p class="eyebrow">Podium Watch analysis</p>
+        <h2>Reading Between the Lines of Ohio's Preseason Cross Country Polls</h2>
+        <p>The coaches released their 2026 preseason rankings this week. A look back at who actually won last November explains most of what's on the ballot, and exposes a few places where the voting hasn't caught up to reality.</p>
+        <a class="button button-primary" href="/stories/2026-oatccc-preseason-poll-analysis/">Read the full analysis ${icon("arrow")}</a>
+      </div>
     </div>
   </section>
 

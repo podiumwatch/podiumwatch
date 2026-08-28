@@ -12,7 +12,7 @@ tags:
   - "Coaching Advice"
   - "Training"
   - "2026 Preview"
-featured: true
+featured: false
 pinnedRank: 1
 draft: false
 ---
