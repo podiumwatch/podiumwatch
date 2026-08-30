@@ -93,6 +93,7 @@ import { adminRecruitingPage } from "../src/pages/adminrecruiting.mjs";
 import { adminResultsSourcesPage } from "../src/pages/adminresultssources.mjs";
 import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
+import { adminAwardsPage } from "../src/pages/adminawards.mjs";
 import { adminPathToStatePage } from "../src/pages/adminpathtostate.mjs";
 import { fanPollDivisionPage, fanPollIndexPage } from "../src/pages/fanpoll.mjs";
 import { paceCalculatorPage } from "../src/pages/pacecalculator.mjs";
@@ -694,6 +695,7 @@ await writePage("/admin/recruiting/", adminRecruitingPage(site));
 await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
 await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
 await writePage("/admin/fan-poll/", adminFanPollPage(site));
+await writePage("/admin/awards/", adminAwardsPage(site));
 await writePage("/admin/path-to-state/", adminPathToStatePage(site));
 await writePage("/fan-poll/", fanPollIndexPage(site).html);
 // Only cross country is turned on for voters right now -- see
