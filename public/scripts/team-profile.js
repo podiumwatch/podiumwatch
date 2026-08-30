@@ -161,6 +161,15 @@
   const rosterGirlsEmpty = document.querySelector(
     "[data-team-roster-girls-empty]"
   );
+  const rosterGradeFilter = document.querySelector(
+    "[data-team-roster-grade-filter]"
+  );
+  const leadersSection = document.querySelector(
+    "[data-team-leaders-section]"
+  );
+  const leadersList = document.querySelector(
+    "[data-team-leaders-list]"
+  );
   const reportSection = document.querySelector(
     "[data-team-report-section]"
   );
@@ -223,6 +232,9 @@
     !rosterBoysEmpty ||
     !rosterGirls ||
     !rosterGirlsEmpty ||
+    !rosterGradeFilter ||
+    !leadersSection ||
+    !leadersList ||
     !reportSection ||
     !reportMessage ||
     !reportForm ||
@@ -244,6 +256,7 @@
 
   let currentTeam = null;
   let currentPathData = null;
+  let currentRosterData = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -1158,7 +1171,61 @@
     return card;
   }
 
+  // Grade options depend on which grades are actually on this specific
+  // roster -- never a hardcoded 6-12, since most rosters only span a few
+  // of those. The previously selected grade is kept selected across a
+  // re-render (a season switch, most commonly) whenever that same grade
+  // still exists on the new roster; otherwise it resets to "All grades"
+  // rather than silently filtering to nothing.
+  function populateGradeFilter(entries) {
+    const grades = [...new Set(
+      entries.map((entry) => Number(entry.grade)).filter((grade) => Number.isInteger(grade))
+    )].sort((a, b) => a - b);
+    const previousValue = rosterGradeFilter.value;
+
+    rosterGradeFilter.innerHTML = '<option value="">All grades</option>' +
+      grades.map((grade) => '<option value="' + grade + '">Grade ' + grade + "</option>").join("");
+    rosterGradeFilter.value = grades.includes(Number(previousValue)) ? previousValue : "";
+  }
+
+  // Season leaders: each roster athlete's best verified performance in
+  // the season's sport, by event and gender -- computed server-side in
+  // api/teams/roster.js from athlete_best_performances, never
+  // coach-authored free text. Reuses the site's core .ranking-row pattern.
+  function renderPerformanceLeaders(groups) {
+    const list = Array.isArray(groups) ? groups : [];
+    leadersSection.hidden = list.length === 0;
+
+    if (!list.length) {
+      leadersList.innerHTML = "";
+      return;
+    }
+
+    leadersList.innerHTML = list.map((group) => {
+      const genderLabel = group.gender === "boys" ? "Boys " : group.gender === "girls" ? "Girls " : "";
+
+      return (
+        '<div class="team-profile-leaders-group">' +
+          "<h3>" + escapeHtml(genderLabel + (group.event_name || group.event_key || "Event")) + "</h3>" +
+          (group.leaders || []).map((leader, index) => (
+            '<div class="ranking-row">' +
+              '<span class="ranking-number">' + (index + 1) + "</span>" +
+              '<div class="ranking-athlete"><strong>' +
+                (leader.profile_slug
+                  ? '<a href="/athlete/?slug=' + encodeURIComponent(leader.profile_slug) + '">' + escapeHtml(leader.display_name || "Athlete") + "</a>"
+                  : escapeHtml(leader.display_name || "Athlete")) +
+              "</strong></div>" +
+              '<div class="ranking-mark"><strong>' + escapeHtml(leader.mark_text) + "</strong></div>" +
+              '<div class="ranking-grade"><span>' + escapeHtml([leader.meet_name, formatMeetDate(leader.meet_date)].filter(Boolean).join(" | ")) + "</span></div>" +
+            "</div>"
+          )).join("") +
+        "</div>"
+      );
+    }).join("");
+  }
+
   function renderRoster(rosterData) {
+    currentRosterData = rosterData;
     const seasons = Array.isArray(rosterData?.seasons)
       ? rosterData.seasons
       : [];
@@ -1183,6 +1250,8 @@
       rosterCoachPrompt.hidden = !(previewMode || adminMode);
       rosterBoysEmpty.hidden = true;
       rosterGirlsEmpty.hidden = true;
+      rosterGradeFilter.innerHTML = '<option value="">All grades</option>';
+      renderPerformanceLeaders([]);
       return;
     }
 
@@ -1216,8 +1285,14 @@
       rosterSeasons.appendChild(button);
     });
 
-    const boys = entries.filter((entry) => entry.athlete?.gender === "boys");
-    const girls = entries.filter((entry) => entry.athlete?.gender === "girls");
+    populateGradeFilter(entries);
+    const gradeFilterValue = rosterGradeFilter.value;
+    const filteredEntries = gradeFilterValue
+      ? entries.filter((entry) => String(entry.grade) === gradeFilterValue)
+      : entries;
+
+    const boys = filteredEntries.filter((entry) => entry.athlete?.gender === "boys");
+    const girls = filteredEntries.filter((entry) => entry.athlete?.gender === "girls");
 
     boys.forEach((entry) => rosterBoys.appendChild(createAthleteCard(entry)));
     girls.forEach((entry) => rosterGirls.appendChild(createAthleteCard(entry)));
@@ -1225,7 +1300,15 @@
     rosterBoysEmpty.hidden = boys.length > 0;
     rosterGirlsEmpty.hidden = girls.length > 0;
     rosterSection.hidden = false;
+
+    renderPerformanceLeaders(rosterData.performance_leaders);
   }
+
+  rosterGradeFilter.addEventListener("change", () => {
+    if (currentRosterData) {
+      renderRoster(currentRosterData);
+    }
+  });
 
   // Renders the Path to State roadmap for whichever gender is currently
   // selected (a toggle only appears when both boys and girls paths are

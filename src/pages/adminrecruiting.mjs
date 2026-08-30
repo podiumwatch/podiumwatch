@@ -114,7 +114,7 @@ export function adminRecruitingPage(site) {
               </div>
             </form>
             <div class="recruit-admin-preview-summary" data-performance-import-summary></div>
-            <div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Row</th><th>Athlete and team</th><th>Event</th><th>Mark</th><th>Status</th><th>Review note</th></tr></thead><tbody data-performance-import-rows></tbody></table></div>
+            <div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Row</th><th>Athlete and team</th><th>Event</th><th>Mark</th><th>Status</th><th>Review note</th><th>Resolve</th></tr></thead><tbody data-performance-import-rows></tbody></table></div>
           </section>
         </div>
 

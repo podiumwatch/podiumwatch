@@ -121,6 +121,22 @@ export function adminAthletesPage(site) {
           </div>
 
           <section class="athlete-admin-panel">
+            <h3>Known aliases</h3>
+            <p>Every name variant listed here routes a search or an import row spelled that way to this same profile. Never add an alias to a different athlete who merely shares a name -- match on gender and graduation year too, not name alone.</p>
+            <div class="athlete-admin-table-wrap"><table class="athlete-admin-table"><thead><tr><th>Alias</th><th>Type</th><th>External source</th><th>Action</th></tr></thead><tbody data-athlete-alias-rows><tr><td colspan="4">No known aliases yet.</td></tr></tbody></table></div>
+            <form class="athlete-admin-form" data-athlete-alias-form>
+              <input type="hidden" name="profile_id">
+              <div class="athlete-admin-fields">
+                <label>Alias<input name="alias" required placeholder="Samuel Phlipot"></label>
+                <label>Alias type<select name="alias_type"><option value="name">Name variant</option><option value="external_id">External provider ID</option></select></label>
+                <label>External source<input name="external_source" placeholder="athletic.net (only for a provider ID)"></label>
+                <label class="athlete-admin-wide">Notes<textarea name="notes"></textarea></label>
+              </div>
+              <button class="button button-dark" type="submit">Add alias</button>
+            </form>
+          </section>
+
+          <section class="athlete-admin-panel">
             <h3>Add or update a sourced performance</h3>
             <form class="athlete-admin-form" data-athlete-performance-form>
               <input type="hidden" name="profile_id">
@@ -151,6 +167,11 @@ export function adminAthletesPage(site) {
           <section class="info-card athlete-admin-panel"><div><p class="eyebrow">Accuracy queue</p><h2>Open corrections</h2></div><div class="athlete-admin-table-wrap"><table class="athlete-admin-table"><thead><tr><th>Athlete</th><th>Type</th><th>Details</th><th>Source</th><th>Action</th></tr></thead><tbody data-athlete-correction-rows></tbody></table></div></section>
           <section class="info-card athlete-admin-panel"><div><p class="eyebrow">Duplicate protection</p><h2>Possible duplicate groups</h2></div><div data-athlete-duplicate-groups></div><form class="athlete-admin-form" data-athlete-merge-form><label>Source profile ID<input name="source_profile_id" required></label><label>Target profile ID<input name="target_profile_id" required></label><label>Reason<textarea name="reason"></textarea></label><label class="athlete-admin-checkbox"><input type="checkbox" name="confirm" required>I reviewed both profiles and confirm this merge</label><button class="button button-dark" type="submit">Merge profiles</button></form></section>
         </div>
+
+        <section class="info-card athlete-admin-panel" style="margin-top:20px">
+          <div><p class="eyebrow">Merge history</p><h2>Recent merges</h2><p>Undo is only available for a merge performed after undo support was added -- it restores the source profile and every row that moved or was removed, but not changes the merge made to the target profile.</p></div>
+          <div class="athlete-admin-table-wrap"><table class="athlete-admin-table"><thead><tr><th>Source</th><th>Target</th><th>Reason</th><th>Merged</th><th>Status</th><th>Action</th></tr></thead><tbody data-athlete-merge-rows><tr><td colspan="6">No merges yet.</td></tr></tbody></table></div>
+        </section>
       </div>
     </div>`;
 

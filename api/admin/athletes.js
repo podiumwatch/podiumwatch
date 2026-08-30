@@ -10,6 +10,8 @@ import {
   slugifyAthlete
 } from "../../lib/athlete_foundation_service.mjs";
 
+const ALIAS_TYPES = new Set(["name", "external_id"]);
+
 const PROFILE_STATUSES = new Set([
   "active",
   "inactive",
@@ -271,7 +273,8 @@ async function loadStatus() {
       },
       corrections: [],
       duplicates: [],
-      recent_batches: []
+      recent_batches: [],
+      recent_merges: []
     };
   }
 
@@ -283,7 +286,8 @@ async function loadStatus() {
     rankingsResult,
     correctionsResult,
     rosterResult,
-    batchesResult
+    batchesResult,
+    mergesResult
   ] = await Promise.all([
     supabaseAdmin
       .from("athlete_profiles")
@@ -339,6 +343,11 @@ async function loadStatus() {
       .from("athlete_import_batches")
       .select("*")
       .order("created_at", { ascending: false })
+      .limit(20),
+    supabaseAdmin
+      .from("athlete_profile_merges")
+      .select("id, created_at, source_profile_id, target_profile_id, merged_by, reason, summary, reversed_at, reversed_by, source_snapshot")
+      .order("created_at", { ascending: false })
       .limit(20)
   ]);
 
@@ -357,8 +366,43 @@ async function loadStatus() {
     }
   }
 
+  // source_snapshot only exists once install/33 has been run -- until
+  // then this degrades to an empty recent-merges list rather than
+  // breaking the whole admin dashboard load.
+  if (mergesResult.error && !isMissingAthleteFoundationError(mergesResult.error)) {
+    throw mergesResult.error;
+  }
+
   const profiles = profilesResult.data || [];
   const duplicates = duplicateGroups(profiles);
+  const merges = mergesResult.error ? [] : (mergesResult.data || []);
+  const mergeProfileIds = [...new Set(
+    merges.flatMap((merge) => [merge.source_profile_id, merge.target_profile_id]).filter(Boolean)
+  )];
+  const { data: mergeProfileRows, error: mergeProfileError } = mergeProfileIds.length
+    ? await supabaseAdmin
+        .from("athlete_profiles")
+        .select("id, display_name, slug")
+        .in("id", mergeProfileIds)
+    : { data: [], error: null };
+
+  if (mergeProfileError) {
+    throw mergeProfileError;
+  }
+
+  const mergeProfileMap = new Map((mergeProfileRows || []).map((profile) => [profile.id, profile]));
+  const recentMerges = merges.map((merge) => ({
+    id: merge.id,
+    created_at: merge.created_at,
+    merged_by: merge.merged_by,
+    reason: merge.reason,
+    summary: merge.summary,
+    reversed_at: merge.reversed_at,
+    reversed_by: merge.reversed_by,
+    can_unmerge: Boolean(merge.source_snapshot) && !merge.reversed_at,
+    source: mergeProfileMap.get(merge.source_profile_id) || { id: merge.source_profile_id, display_name: "Unknown profile" },
+    target: mergeProfileMap.get(merge.target_profile_id) || { id: merge.target_profile_id, display_name: "Unknown profile" }
+  }));
 
   return {
     installed: true,
@@ -377,17 +421,12 @@ async function loadStatus() {
     },
     corrections: correctionsResult.data || [],
     duplicates: duplicates.slice(0, 50),
-    recent_batches: batchesResult.data || []
+    recent_batches: batchesResult.data || [],
+    recent_merges: recentMerges
   };
 }
 
-async function searchProfiles(body) {
-  await requireInstalled();
-  const search = cleanAthleteText(body.search, 200);
-  const limit = Math.max(1, Math.min(250, Number(body.limit) || 100));
-  let query = supabaseAdmin
-    .from("athlete_profiles")
-    .select(`
+const SEARCH_PROFILE_FIELDS = `
       id,
       slug,
       display_name,
@@ -403,7 +442,15 @@ async function searchProfiles(body) {
       archived_at,
       merged_into_profile_id,
       updated_at
-    `)
+    `;
+
+async function searchProfiles(body) {
+  await requireInstalled();
+  const search = cleanAthleteText(body.search, 200);
+  const limit = Math.max(1, Math.min(250, Number(body.limit) || 100));
+  let query = supabaseAdmin
+    .from("athlete_profiles")
+    .select(SEARCH_PROFILE_FIELDS)
     .is("merged_into_profile_id", null)
     .order("display_name", { ascending: true })
     .limit(limit);
@@ -423,7 +470,51 @@ async function searchProfiles(body) {
     throw error;
   }
 
-  const rows = profiles || [];
+  let rows = profiles || [];
+
+  // A name search that only matches display_name/slug never finds a
+  // profile searched for by a known alias (a corrected/alternate spelling,
+  // e.g. "Phlipot" for a canonical "Philpot") -- this is the admin-search
+  // half of the alias wiring described in the plan. Only alias_type=name
+  // rows are ever considered a match; external provider ids are never
+  // treated as a searchable name. Tolerates install/32 not yet being run
+  // (a missing alias_type column just means no alias matches, not a
+  // failed search).
+  if (search) {
+    const safe = search.replace(/[,%()]/g, " ");
+    const aliasPattern = `%${normalizeAthleteName(safe)}%`;
+    const { data: aliasMatches, error: aliasError } = await supabaseAdmin
+      .from("athlete_profile_aliases")
+      .select("profile_id")
+      .eq("alias_type", "name")
+      .ilike("normalized_alias", aliasPattern)
+      .limit(limit);
+
+    if (aliasError && !isMissingAthleteFoundationError(aliasError)) {
+      throw aliasError;
+    }
+
+    const knownIds = new Set(rows.map((row) => row.id));
+    const aliasProfileIds = [...new Set((aliasMatches || []).map((row) => row.profile_id))]
+      .filter((id) => !knownIds.has(id));
+
+    if (aliasProfileIds.length) {
+      const { data: aliasProfiles, error: aliasProfileError } = await supabaseAdmin
+        .from("athlete_profiles")
+        .select(SEARCH_PROFILE_FIELDS)
+        .in("id", aliasProfileIds)
+        .is("merged_into_profile_id", null);
+
+      if (aliasProfileError) {
+        throw aliasProfileError;
+      }
+
+      rows = [...rows, ...(aliasProfiles || [])]
+        .sort((first, second) => String(first.display_name || "").localeCompare(String(second.display_name || "")))
+        .slice(0, limit);
+    }
+  }
+
   const schoolIds = [...new Set(rows.map((row) => row.current_school_id).filter(Boolean))];
   const teamIds = [...new Set(rows.map((row) => row.current_team_id).filter(Boolean))];
   const [schoolResult, teamResult] = await Promise.all([
@@ -471,7 +562,8 @@ async function loadProfile(profileId) {
     rankingResult,
     storyResult,
     correctionResult,
-    rosterResult
+    rosterResult,
+    aliasResult
   ] = await Promise.all([
     supabaseAdmin
       .from("athlete_profiles")
@@ -510,7 +602,12 @@ async function loadProfile(profileId) {
       .from("team_athletes")
       .select("id, team_id, display_name, gender, graduation_year, public_visible")
       .eq("athlete_profile_id", id)
-      .limit(100)
+      .limit(100),
+    supabaseAdmin
+      .from("athlete_profile_aliases")
+      .select("*")
+      .eq("profile_id", id)
+      .order("created_at", { ascending: false })
   ]);
 
   for (const result of [
@@ -531,6 +628,15 @@ async function loadProfile(profileId) {
     fail("Athlete profile not found.", 404);
   }
 
+  // aliasResult is allowed to fail with "missing column" if install/32 has
+  // not been run yet -- the alias table itself (install/02) is required
+  // foundation, but alias_type/external_source are this project's own
+  // additive extension, and the rest of the profile editor should not go
+  // dark just because that one small migration is still pending.
+  if (aliasResult.error && !isMissingAthleteFoundationError(aliasResult.error)) {
+    throw aliasResult.error;
+  }
+
   return {
     profile: profileResult.data,
     school_history: historyResult.data || [],
@@ -538,7 +644,111 @@ async function loadProfile(profileId) {
     rankings: rankingResult.data || [],
     stories: storyResult.data || [],
     corrections: correctionResult.data || [],
-    roster_links: rosterResult.data || []
+    roster_links: rosterResult.data || [],
+    aliases: aliasResult.error ? [] : (aliasResult.data || [])
+  };
+}
+
+async function saveAlias(body) {
+  await requireInstalled();
+  const profileId = cleanUuid(body.profile_id, "Athlete profile ID");
+  const aliasType = cleanAthleteText(body.alias_type, 20).toLowerCase() || "name";
+
+  if (!ALIAS_TYPES.has(aliasType)) {
+    fail("Choose a valid alias type.");
+  }
+
+  const alias = cleanAthleteText(body.alias, 200);
+
+  if (!alias) {
+    fail("An alias value is required.");
+  }
+
+  // Name aliases are normalized exactly like a profile's own display name
+  // (accent-folded, lowercased, whitespace-collapsed) so a search or import
+  // match on "Phlipot" finds the same normalized value a name match on
+  // "Philpot" would produce for the canonical name. External ids are a
+  // free-form provider identifier, not a name, so they only get a light
+  // trim/lowercase, never the name-specific folding.
+  const normalizedAlias = aliasType === "external_id"
+    ? alias.trim().toLowerCase()
+    : normalizeAthleteName(alias);
+
+  if (!normalizedAlias) {
+    fail("The alias could not be normalized to a usable value.");
+  }
+
+  const externalSource = aliasType === "external_id"
+    ? cleanAthleteText(body.external_source, 100)
+    : "";
+
+  if (aliasType === "external_id" && !externalSource) {
+    fail('An external source name (for example, "athletic.net") is required for an external id alias.');
+  }
+
+  const { data: profileRow, error: profileError } = await supabaseAdmin
+    .from("athlete_profiles")
+    .select("id")
+    .eq("id", profileId)
+    .maybeSingle();
+
+  if (profileError) {
+    throw profileError;
+  }
+
+  if (!profileRow) {
+    fail("Athlete profile not found.", 404);
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from("athlete_profile_aliases")
+    .upsert(
+      {
+        profile_id: profileId,
+        alias,
+        normalized_alias: normalizedAlias,
+        alias_type: aliasType,
+        external_source: externalSource || null,
+        notes: cleanAthleteText(body.notes, 1000) || null
+      },
+      { onConflict: "profile_id,normalized_alias" }
+    )
+    .select("*")
+    .single();
+
+  if (error) {
+    if (isMissingAthleteFoundationError(error)) {
+      fail(
+        "Run install/32_ATHLETE_PROFILE_ALIASES_EXTEND.sql before adding alias types.",
+        409
+      );
+    }
+
+    throw error;
+  }
+
+  return {
+    alias: data,
+    context: await loadProfile(profileId)
+  };
+}
+
+async function deleteAlias(body) {
+  await requireInstalled();
+  const aliasId = cleanUuid(body.alias_id, "Alias ID");
+  const profileId = cleanUuid(body.profile_id, "Athlete profile ID");
+  const { error } = await supabaseAdmin
+    .from("athlete_profile_aliases")
+    .delete()
+    .eq("id", aliasId)
+    .eq("profile_id", profileId);
+
+  if (error) {
+    throw error;
+  }
+
+  return {
+    context: await loadProfile(profileId)
   };
 }
 
@@ -910,6 +1120,61 @@ async function mergeProfiles(body) {
   };
 }
 
+async function unmergeProfile(body) {
+  await requireInstalled();
+  const mergeId = cleanUuid(body.merge_id, "Merge ID");
+
+  if (body.confirm !== true) {
+    fail("Confirm the athlete profile unmerge before saving it.");
+  }
+
+  const { data, error } = await supabaseAdmin.rpc(
+    "athlete_unmerge_profiles_v1",
+    {
+      p_merge_id: mergeId,
+      p_actor: "Podium Watch Admin"
+    }
+  );
+
+  if (error) {
+    const message = String(error.message || "");
+
+    if (isMissingAthleteFoundationError(error)) {
+      fail(
+        "Run install/33_ATHLETE_MERGE_REVERSAL.sql before undoing a merge.",
+        409
+      );
+    }
+
+    if (message.includes("ATHLETE_UNMERGE_MERGE_NOT_FOUND")) {
+      fail("That merge record could not be found.", 404);
+    }
+
+    if (message.includes("ATHLETE_UNMERGE_ALREADY_REVERSED")) {
+      fail("This merge has already been undone.");
+    }
+
+    if (message.includes("ATHLETE_UNMERGE_NO_SNAPSHOT")) {
+      fail("This merge happened before undo support existed and cannot be reversed.");
+    }
+
+    if (message.includes("ATHLETE_UNMERGE_SOURCE_STATE_CHANGED")) {
+      fail("The source athlete profile has changed since this merge and cannot be safely undone.");
+    }
+
+    if (message.includes("ATHLETE_UNMERGE_TARGET_SINCE_MERGED")) {
+      fail("The target profile has itself since been merged into another profile and cannot be safely undone from here.");
+    }
+
+    throw error;
+  }
+
+  return {
+    result: data,
+    source: await loadProfile(data.source_profile_id)
+  };
+}
+
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
 
@@ -953,6 +1218,12 @@ export default async function handler(request, response) {
       data = await resolveCorrection(body);
     } else if (action === "merge_profiles") {
       data = await mergeProfiles(body);
+    } else if (action === "unmerge_profile") {
+      data = await unmergeProfile(body);
+    } else if (action === "save_alias") {
+      data = await saveAlias(body);
+    } else if (action === "delete_alias") {
+      data = await deleteAlias(body);
     } else {
       fail("Unsupported athlete admin action.");
     }

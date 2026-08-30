@@ -28,6 +28,9 @@
   const correctionRows = root.querySelector("[data-athlete-correction-rows]");
   const duplicateGroups = root.querySelector("[data-athlete-duplicate-groups]");
   const mergeForm = root.querySelector("[data-athlete-merge-form]");
+  const mergeRows = root.querySelector("[data-athlete-merge-rows]");
+  const aliasRows = root.querySelector("[data-athlete-alias-rows]");
+  const aliasForm = root.querySelector("[data-athlete-alias-form]");
   let busy = false;
   let state = null;
   let preview = null;
@@ -124,6 +127,7 @@
 
     renderCorrections(state.corrections || []);
     renderDuplicates(state.duplicates || []);
+    renderRecentMerges(state.recent_merges || []);
   }
 
   function renderPreview(data) {
@@ -157,14 +161,43 @@
       : '<tr><td colspan="5">No open athlete corrections.</td></tr>';
   }
 
+  // Click-to-populate: each candidate gets two small buttons that fill the
+  // existing merge form below and scroll it into view, rather than an
+  // admin retyping two UUIDs by hand. Reuses the merge form's existing
+  // submit handler unchanged -- an admin still reviews both profiles and
+  // confirms before anything is merged.
   function renderDuplicates(groups) {
     duplicateGroups.innerHTML = groups.length
       ? groups.map((group) => (
           '<article class="athlete-profile-entry" style="margin-bottom:10px"><strong>' + escapeHtml(group.profiles?.[0]?.display_name || "Possible duplicate") + "</strong>" +
-          (group.profiles || []).map((profile) => '<p><code>' + escapeHtml(profile.id) + "</code> | " + escapeHtml(profile.slug) + " | " + escapeHtml(profile.graduation_year || "Class unknown") + "</p>").join("") +
+          (group.profiles || []).map((profile) => (
+            '<p><code>' + escapeHtml(profile.id) + "</code> | " + escapeHtml(profile.slug) + " | " + escapeHtml(profile.graduation_year || "Class unknown") +
+            ' <button class="button button-outline" type="button" data-merge-role="source" data-merge-profile-id="' + escapeHtml(profile.id) + '">Set as source</button>' +
+            ' <button class="button button-outline" type="button" data-merge-role="target" data-merge-profile-id="' + escapeHtml(profile.id) + '">Set as target</button>' +
+            "</p>"
+          )).join("") +
           "</article>"
         )).join("")
       : "<p>No duplicate profile groups were detected.</p>";
+  }
+
+  function renderRecentMerges(merges) {
+    mergeRows.innerHTML = merges.length
+      ? merges.map((merge) => (
+          "<tr>" +
+            "<td>" + escapeHtml(merge.source?.display_name || "Unknown profile") + "<br><small><code>" + escapeHtml(merge.source?.id || "") + "</code></small></td>" +
+            "<td>" + escapeHtml(merge.target?.display_name || "Unknown profile") + "<br><small><code>" + escapeHtml(merge.target?.id || "") + "</code></small></td>" +
+            "<td>" + escapeHtml(merge.reason || "No reason given") + "</td>" +
+            "<td>" + escapeHtml(formatDate(merge.created_at)) + "<br><small>" + escapeHtml(merge.merged_by || "") + "</small></td>" +
+            "<td>" + (merge.reversed_at
+              ? '<span class="athlete-admin-badge">Undone ' + escapeHtml(formatDate(merge.reversed_at)) + "</span>"
+              : (merge.can_unmerge
+                  ? '<span class="athlete-admin-badge">Active</span>'
+                  : '<span class="athlete-admin-badge" data-tone="warning">No undo snapshot</span>')) + "</td>" +
+            '<td>' + (merge.can_unmerge ? '<button class="button button-outline" type="button" data-unmerge-id="' + escapeHtml(merge.id) + '">Undo this merge</button>' : "") + "</td>" +
+          "</tr>"
+        )).join("")
+      : '<tr><td colspan="6">No merges yet.</td></tr>';
   }
 
   function profileButton(profile) {
@@ -206,6 +239,15 @@
     return payload;
   }
 
+  function renderAliases(items) {
+    aliasRows.innerHTML = (items || []).length
+      ? items.map((item) => (
+          "<tr><td>" + escapeHtml(item.alias) + "</td><td>" + escapeHtml(titleCase(item.alias_type || "name")) + "</td><td>" + escapeHtml(item.external_source || "None") + "</td>" +
+          "<td><button class=\"button button-outline\" type=\"button\" data-alias-delete=\"" + escapeHtml(item.id) + "\">Delete</button></td></tr>"
+        )).join("")
+      : '<tr><td colspan="4">No known aliases yet.</td></tr>';
+  }
+
   function renderSelected(data) {
     selected = data;
     const profile = data.profile || {};
@@ -213,7 +255,9 @@
     editorTitle.textContent = `Edit ${profile.display_name || "athlete"}`;
     fillForm(profileForm, profile);
     performanceForm.elements.profile_id.value = profile.id || "";
+    aliasForm.elements.profile_id.value = profile.id || "";
     publicLink.href = "/athlete/?slug=" + encodeURIComponent(profile.slug || "");
+    renderAliases(data.aliases);
 
     rankingRows.innerHTML = (data.rankings || []).length
       ? data.rankings.map((item) => "<tr><td><a href=\"" + escapeHtml(item.ranking_href) + "\">" + escapeHtml(item.ranking_title) + "</a></td><td>" + escapeHtml(item.rank) + "</td><td>" + escapeHtml(item.mark_snapshot || "None") + "</td><td>" + escapeHtml(formatDate(item.updated_date)) + "</td></tr>").join("")
@@ -389,11 +433,19 @@
     }
   });
 
+  duplicateGroups.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-merge-role]");
+    if (!button) return;
+    const field = button.dataset.mergeRole === "source" ? "source_profile_id" : "target_profile_id";
+    mergeForm.elements[field].value = button.dataset.mergeProfileId;
+    mergeForm.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
   mergeForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (busy) return;
     const payload = formPayload(mergeForm);
-    if (!window.confirm("Merge the source athlete profile into the target profile? This keeps an audit record and cannot be undone from this page.")) return;
+    if (!window.confirm("Merge the source athlete profile into the target profile? This can usually be undone afterward from \"Recent merges\" below, but changes made to the target profile during the merge are not reversed.")) return;
     setBusy(true);
     try {
       const result = await api({ action: "merge_profiles", ...payload });
@@ -401,6 +453,54 @@
       mergeForm.reset();
       showMessage("Athlete profiles merged.");
       await loadStatus();
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  mergeRows.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-unmerge-id]");
+    if (!button || busy) return;
+    if (!window.confirm("Undo this merge? The source profile and every row that moved or was removed will be restored. Changes the merge made to the target profile are not reversed.")) return;
+    setBusy(true);
+    try {
+      await api({ action: "unmerge_profile", merge_id: button.dataset.unmergeId, confirm: true });
+      showMessage("Merge undone. The source profile has been restored.");
+      await loadStatus();
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  aliasForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (busy || !selected) return;
+    setBusy(true);
+    try {
+      const result = await api({ action: "save_alias", ...formPayload(aliasForm) });
+      renderSelected(result.context);
+      aliasForm.reset();
+      aliasForm.elements.profile_id.value = result.context.profile.id;
+      showMessage("Alias saved.");
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  aliasRows.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-alias-delete]");
+    if (!button || busy || !selected) return;
+    if (!window.confirm("Delete this alias? Search and import matching will no longer recognize this spelling.")) return;
+    setBusy(true);
+    try {
+      renderSelected(await api({ action: "delete_alias", profile_id: selected.profile.id, alias_id: button.dataset.aliasDelete }));
+      showMessage("Alias deleted.");
     } catch (error) {
       showMessage(error.message, "error");
     } finally {

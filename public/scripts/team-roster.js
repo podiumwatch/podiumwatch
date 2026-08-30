@@ -29,6 +29,9 @@
   const importResults = document.querySelector("[data-roster-import-results]");
   const importPreview = document.querySelector("[data-roster-import-preview]");
   const importCommitButton = document.querySelector("[data-roster-import-commit]");
+  const syncSection = document.querySelector("[data-roster-sync-section]");
+  const syncButton = document.querySelector("[data-roster-sync-profiles]");
+  const syncStatus = document.querySelector("[data-roster-sync-status]");
   const athleteDialog = document.querySelector("[data-athlete-dialog]");
   const athleteDialogTitle = document.querySelector("[data-athlete-dialog-title]");
   const athleteDialogClose = document.querySelector("[data-athlete-dialog-close]");
@@ -96,6 +99,9 @@
     importResults,
     importPreview,
     importCommitButton,
+    syncSection,
+    syncButton,
+    syncStatus,
     athleteDialog,
     athleteDialogTitle,
     athleteDialogClose,
@@ -465,6 +471,7 @@
     rosterSection.hidden = !selected;
     rolloverSection.hidden = !selected || seasons.length < 2;
     importSection.hidden = !selected;
+    syncSection.hidden = !selected || !adminMode;
 
     if (!selected) {
       return;
@@ -1437,6 +1444,26 @@
       showMessage(
         `Roster import complete. ${Number(summary.inserted_count) || 0} athletes were added and ${Number(summary.updated_count) || 0} roster entries were updated.`
       );
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  syncButton.addEventListener("click", async () => {
+    if (busy || !adminMode) return;
+    if (!window.confirm("Sync every athlete on this roster to their permanent athlete profile? This never removes or edits roster data.")) return;
+
+    try {
+      setBusy(true);
+      syncStatus.textContent = "";
+      showMessage("Syncing athlete profiles for this roster.");
+      const data = await apiFetch({ action: "sync_profiles", season_id: getSelectedSeason()?.id });
+      renderContext(data.context);
+      const linked = Number(data.result?.linked || 0);
+      syncStatus.textContent = `Linked ${linked} athlete${linked === 1 ? "" : "s"} to a profile.`;
+      showMessage(`Athlete profile sync complete. ${linked} athlete${linked === 1 ? "" : "s"} linked.`);
     } catch (error) {
       showMessage(error.message, "error");
     } finally {

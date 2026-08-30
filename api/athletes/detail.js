@@ -2,6 +2,7 @@ import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 import {
   cleanAthleteText,
   loadAthleteSeed,
+  athleteVerificationStatus,
   isMissingAthleteFoundationError
 } from "../../lib/athlete_foundation_service.mjs";
 import {
@@ -39,51 +40,6 @@ function cleanSlug(value) {
     .replace(/^-+|-+$/g, "");
 }
 
-function profileStatus(profile) {
-  if (profile.verified || profile.verification_status === "admin_verified") {
-    return {
-      label: "Verified athlete profile",
-      tone: "verified",
-      detail:
-        "Podium Watch has reviewed the athlete identity and core profile information. Individual performances still keep their own source status."
-    };
-  }
-
-  if (profile.verification_status === "source_verified") {
-    return {
-      label: "Source verified profile",
-      tone: "verified",
-      detail:
-        "The profile identity is connected to reviewed source information. Performance records are labeled separately."
-    };
-  }
-
-  if (profile.verification_status === "team_roster_linked") {
-    return {
-      label: "Team roster linked",
-      tone: "source",
-      detail:
-        "The athlete identity is connected to a Podium Watch team roster. This does not make every performance official."
-    };
-  }
-
-  if (profile.verification_status === "editorial_source_linked") {
-    return {
-      label: "Podium Watch ranking source linked",
-      tone: "editorial",
-      detail:
-        "This profile was created from a Podium Watch editorial ranking. Ranking order and mark snapshots are analysis, not official OHSAA results."
-    };
-  }
-
-  return {
-    label: "Unverified profile",
-    tone: "warning",
-    detail:
-      "This profile is waiting for stronger source confirmation. Use the correction form to share an official source."
-  };
-}
-
 function fallbackProfile(seed) {
   return {
     source_mode: "bundled_editorial_seed",
@@ -112,7 +68,7 @@ function fallbackProfile(seed) {
       recruiting_contact_route: "none",
       updated_at: seed.ranking.updated_date
     },
-    status: profileStatus({
+    status: athleteVerificationStatus({
       verified: false,
       verification_status: "editorial_source_linked"
     }),
@@ -508,7 +464,7 @@ async function loadDatabaseProfile(slug) {
       recruiting_contact_route: profile.recruiting_contact_route,
       updated_at: profile.updated_at
     },
-    status: profileStatus(profile),
+    status: athleteVerificationStatus(profile),
     school: schoolResult.data || null,
     team: teamResult.data || null,
     path_to_state: pathToState,

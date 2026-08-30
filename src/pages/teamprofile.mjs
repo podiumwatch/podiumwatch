@@ -549,6 +549,19 @@ export function teamProfilePage(site) {
       text-align: center;
     }
 
+    /* Season leaders reuses the site's core, unmodified .ranking-row
+       pattern (src/styles/main.css) rather than this page's own
+       --team-primary/#00bf63 styling used above -- this section is new,
+       not a redesign of the existing roster chrome. */
+    .team-profile-roster-filters { margin: -8px 0 18px; }
+    .team-profile-roster-filters label { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; }
+    .team-profile-roster-filters select { padding: 8px 10px; border: 1px solid var(--line); background: var(--white); font: inherit; }
+    .team-profile-leaders-group { margin-bottom: 22px; }
+    .team-profile-leaders-group:last-child { margin-bottom: 0; }
+    .team-profile-leaders-group h3 { margin: 0 0 10px; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 1.1rem; letter-spacing: .03em; text-transform: uppercase; }
+    .team-profile-leaders-group .ranking-row { margin-bottom: 8px; }
+    .team-profile-leaders-group .ranking-row:last-child { margin-bottom: 0; }
+
     .team-profile-report-form {
       display: grid;
       gap: 15px;
@@ -842,6 +855,9 @@ export function teamProfilePage(site) {
           <p class="team-profile-copy" data-team-roster-empty hidden>No roster has been published for this team yet.</p>
           <p class="team-profile-coach-prompt" data-team-roster-coach-prompt hidden>Fans come here to see who's on the team. <a href="/team-roster/">Publish this season's roster</a> to show it instead of this empty section.</p>
           <div class="team-profile-roster-controls" data-team-roster-seasons></div>
+          <div class="team-profile-roster-filters">
+            <label>Filter by grade<select data-team-roster-grade-filter><option value="">All grades</option></select></label>
+          </div>
           <div class="team-profile-roster-groups">
             <div class="team-profile-roster-group">
               <h3>Boys roster</h3>
@@ -854,6 +870,13 @@ export function teamProfilePage(site) {
               <div class="team-profile-roster-empty" data-team-roster-girls-empty hidden>No girls are listed for this season.</div>
             </div>
           </div>
+        </section>
+
+        <section class="team-profile-section" data-team-leaders-section hidden>
+          <p class="eyebrow">Season leaders</p>
+          <h2>Performance leaders</h2>
+          <p class="team-profile-copy">Each roster athlete's best verified performance in this season's sport, by event. This is an all-time personal record, not necessarily set during this specific season -- see an athlete's own profile for a season-by-season history.</p>
+          <div data-team-leaders-list></div>
         </section>
 
         <section class="team-profile-section" data-team-content-featured-section hidden>

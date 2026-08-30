@@ -1021,7 +1021,7 @@ async function previewOfficialResultsText(body) {
   const seasonYear = cleanInteger(body.season_year, "Season year", 2000, 2200);
   const parsedRows = parseOfficialResultsText(
     String(body.official_results_text ?? "").slice(0, 2000000),
-    { season_year: seasonYear }
+    { season_year: seasonYear, sport: cleanAthleteText(body.sport, 100) }
   );
 
   if (!parsedRows.length) {

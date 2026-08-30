@@ -565,6 +565,15 @@ export function teamRosterPage(site) {
               </div>
             </form>
 
+            <div class="team-roster-actions" data-roster-sync-section hidden style="margin-top:16px;">
+              <div>
+                <strong>Athlete profile sync (admin only)</strong>
+                <p>Links every athlete on this roster to their permanent Podium Watch athlete profile. New CSV imports do this automatically -- use this once for a roster that was imported before this was wired in.</p>
+              </div>
+              <button class="button button-outline" type="button" data-roster-sync-profiles>Sync athlete profiles</button>
+              <span data-roster-sync-status></span>
+            </div>
+
             <div data-roster-import-results hidden style="margin-top:24px;">
               <div class="team-roster-summary">
                 <div class="team-roster-stat"><strong data-import-total>0</strong><span>Total rows</span></div>

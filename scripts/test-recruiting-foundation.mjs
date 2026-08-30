@@ -8,7 +8,6 @@ process.env.SUPABASE_URL ||= "https://example.supabase.co";
 process.env.SUPABASE_SECRET_KEY ||= "test-service-role-key";
 
 const {
-  deriveGraduationYearFromGrade,
   EVENT_GROUPS,
   eventDefinitions,
   loadLatestRankSnapshots,
@@ -21,6 +20,8 @@ const {
   starRatingForScore,
   validatePerformanceImportRow
 } = await import("../lib/recruiting_service.mjs");
+
+const { deriveGraduationYearFromGrade } = await import("../lib/athlete_foundation_service.mjs");
 
 async function read(relativePath) {
   return fs.readFile(path.join(root, relativePath), "utf8");
@@ -589,7 +590,7 @@ PLACE TEAM PTS 1 2 3 4 5 6 7 AVG SPREAD
 1 Con. Crestview 86 5 11 12 22 36 (73) (102) 16:29 0:46
 2 Columbus Grove 99 4 8 20 23 44 (109) (152) 16:30 0:56`;
 
-const officialResultsRows = parseOfficialResultsText(officialResultsFixture, { season_year: 2025 });
+const officialResultsRows = parseOfficialResultsText(officialResultsFixture, { season_year: 2025, sport: "cross_country" });
 
 assert.equal(officialResultsRows.length, 8, "Team Scores rows must be skipped, not parsed as individual results.");
 assert.deepEqual(
@@ -626,15 +627,37 @@ assert.ok(kennethMorganRow, "A name suffix must not be misread as the grade mark
 assert.equal(kennethMorganRow.school_name, "Perrysburg");
 assert.equal(kennethMorganRow.graduation_year, 2026, "SR in the 2025 season must derive graduation year 2026, not JR's 2027.");
 
-assert.equal(deriveGraduationYearFromGrade("SR", 2025), 2026);
-assert.equal(deriveGraduationYearFromGrade("JR", 2025), 2027);
-assert.equal(deriveGraduationYearFromGrade("SO", 2025), 2028);
-assert.equal(deriveGraduationYearFromGrade("FR", 2025), 2029);
-assert.equal(deriveGraduationYearFromGrade("SR", null), null, "A missing season year must not produce a guessed graduation year.");
-assert.equal(deriveGraduationYearFromGrade(null, 2025), null, "A missing grade must not produce a guessed graduation year.");
+assert.equal(deriveGraduationYearFromGrade("SR", 2025, "cross_country"), 2026);
+assert.equal(deriveGraduationYearFromGrade("JR", 2025, "cross_country"), 2027);
+assert.equal(deriveGraduationYearFromGrade("SO", 2025, "cross_country"), 2028);
+assert.equal(deriveGraduationYearFromGrade("FR", 2025, "cross_country"), 2029);
+assert.equal(deriveGraduationYearFromGrade("SR", null, "cross_country"), null, "A missing season year must not produce a guessed graduation year.");
+assert.equal(deriveGraduationYearFromGrade(null, 2025, "cross_country"), null, "A missing grade must not produce a guessed graduation year.");
+assert.equal(deriveGraduationYearFromGrade("SR", 2025, null), null, "A missing sport must not produce a guessed graduation year.");
+
+// Grade handling (2026-08-28): a fall cross country season_year belongs to
+// the academic year that runs into the following spring, but an indoor or
+// outdoor track season_year belongs to the academic year that STARTED the
+// previous fall -- one full year earlier for the same grade+season_year.
+// Confirmed against the user's own worked example: cross country 2026
+// belongs to the 2026-27 academic year, outdoor track 2026 belongs to the
+// 2025-26 academic year.
+assert.equal(deriveGraduationYearFromGrade("SR", 2025, "outdoor_track"), 2025, "A track season graduates its seniors in the same calendar year as the season_year, not the year after.");
+assert.equal(deriveGraduationYearFromGrade("SR", 2025, "indoor_track"), 2025, "Indoor track must use the same academic-year math as outdoor track.");
+assert.equal(deriveGraduationYearFromGrade("SR", 2025, "track_and_field"), 2025, "Any track-labeled sport string must resolve to the track math, not the cross country default.");
+assert.equal(
+  deriveGraduationYearFromGrade("SR", 2025, "cross_country") - deriveGraduationYearFromGrade("SR", 2025, "outdoor_track"),
+  1,
+  "For the same grade and season_year, cross country must compute exactly one graduation year later than track."
+);
+// Numeric grade input (as staged by lib/result_parsers.mjs's grade(), which
+// normalizes FR/SO/JR/SR to the strings "9"-"12") must work identically to
+// text grade input.
+assert.equal(deriveGraduationYearFromGrade("12", 2025, "cross_country"), 2026);
+assert.equal(deriveGraduationYearFromGrade(12, 2025, "cross_country"), 2026);
 
 assert.equal(
-  parseOfficialResultsText("not a results page, just some text", { season_year: 2025 }).length,
+  parseOfficialResultsText("not a results page, just some text", { season_year: 2025, sport: "cross_country" }).length,
   0,
   "Unrecognizable pasted text must produce zero rows rather than guessing."
 );

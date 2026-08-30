@@ -7,6 +7,38 @@ function cleanText(value, maxLength = 300) {
     .slice(0, maxLength);
 }
 
+// team_seasons.sport only ever stores one of three display strings
+// ("Cross Country", "Indoor Track", "Outdoor Track" -- see
+// team_roster_service.mjs's normalizeSeasonSport), while
+// athlete_performances.sport (and the athlete_best_performances view built
+// from it) uses the normalized enum cross_country/indoor_track/outdoor_track.
+// Confirmed live against production during verification -- an unconverted
+// .eq("sport", selectedSeason.sport) silently matched zero rows every time.
+function seasonSportToPerformanceSport(seasonSport) {
+  const cleaned = String(seasonSport || "").trim().toLowerCase();
+
+  if (cleaned === "cross country") {
+    return "cross_country";
+  }
+
+  if (cleaned === "indoor track") {
+    return "indoor_track";
+  }
+
+  if (cleaned === "outdoor track") {
+    return "outdoor_track";
+  }
+
+  return null;
+}
+
+function athleteDisplayName(athlete) {
+  return String(
+    athlete?.display_name ||
+    [athlete?.preferred_name || athlete?.first_name, athlete?.last_name].filter(Boolean).join(" ")
+  ).trim();
+}
+
 function cleanSlug(value) {
   return cleanText(value, 300)
     .toLowerCase()
@@ -109,7 +141,8 @@ async function loadSeasonRoster(team, requestedSeasonId) {
       },
       seasons: publicSeasons,
       selected_season: null,
-      entries: []
+      entries: [],
+      performance_leaders: []
     };
   }
 
@@ -141,6 +174,7 @@ async function loadSeasonRoster(team, requestedSeasonId) {
   const athleteIds = [...new Set(rows.map((entry) => entry.athlete_id).filter(Boolean))];
   let athletes = [];
   let socialLinks = [];
+  let publicProfileIds = [];
 
   if (athleteIds.length > 0) {
     const athleteFields = `
@@ -236,6 +270,7 @@ async function loadSeasonRoster(team, requestedSeasonId) {
           ...athlete,
           global_profile: profileMap.get(athlete.athlete_profile_id) || null
         }));
+        publicProfileIds = [...profileMap.keys()];
       }
     }
   }
@@ -273,6 +308,85 @@ async function loadSeasonRoster(team, requestedSeasonId) {
         String(a.athlete.first_name || "").localeCompare(String(b.athlete.first_name || ""));
     });
 
+  // Season leaders: never coach-authored free text -- computed only from
+  // athlete_best_performances, the same SQL view the athlete profile page
+  // uses for personal records (verified/source-linked, public, not
+  // archived, official/reviewed only). This is each roster athlete's
+  // ALL-TIME best in the season's sport, not a season-specific aggregate
+  // (no such per-season query exists yet) -- an intentional reuse of
+  // already-computed data rather than a new one, and an honest label on
+  // the rendered section reflects that.
+  let performanceLeaders = [];
+  const performanceSport = seasonSportToPerformanceSport(selectedSeason.sport);
+
+  if (publicProfileIds.length > 0 && performanceSport) {
+    const { data: bestRows, error: bestError } = await supabaseAdmin
+      .from("athlete_best_performances")
+      .select("profile_id, event_key, event_name, measurement_type, mark_text, mark_sort_value, meet_name, meet_date")
+      .in("profile_id", publicProfileIds)
+      .eq("sport", performanceSport)
+      .limit(2000);
+
+    if (!bestError) {
+      const genderByProfileId = new Map(
+        combined
+          .filter((entry) => entry.athlete?.athlete_profile_id)
+          .map((entry) => [entry.athlete.athlete_profile_id, entry.athlete.gender])
+      );
+      const nameByProfileId = new Map(
+        combined
+          .filter((entry) => entry.athlete?.athlete_profile_id)
+          .map((entry) => [entry.athlete.athlete_profile_id, entry.athlete])
+      );
+      const slugByProfileId = new Map(
+        (athletes || [])
+          .filter((athlete) => athlete.athlete_profile_id && athlete.global_profile?.slug)
+          .map((athlete) => [athlete.athlete_profile_id, athlete.global_profile.slug])
+      );
+      const groups = new Map();
+
+      (bestRows || []).forEach((row) => {
+        const gender = genderByProfileId.get(row.profile_id);
+
+        if (!gender || row.mark_sort_value === null || row.mark_sort_value === undefined) {
+          return;
+        }
+
+        const groupKey = `${row.event_key}|${gender}`;
+        const list = groups.get(groupKey) || [];
+        list.push(row);
+        groups.set(groupKey, list);
+      });
+
+      performanceLeaders = [...groups.entries()].map(([groupKey, rows]) => {
+        const [eventKey, gender] = groupKey.split("|");
+        const ascending = rows[0]?.measurement_type === "time";
+        const ranked = rows
+          .slice()
+          .sort((a, b) => ascending
+            ? Number(a.mark_sort_value) - Number(b.mark_sort_value)
+            : Number(b.mark_sort_value) - Number(a.mark_sort_value)
+          )
+          .slice(0, 3)
+          .map((row) => ({
+            display_name: athleteDisplayName(nameByProfileId.get(row.profile_id)),
+            profile_slug: slugByProfileId.get(row.profile_id) || null,
+            mark_text: row.mark_text,
+            meet_name: row.meet_name,
+            meet_date: row.meet_date
+          }));
+
+        return {
+          event_key: eventKey,
+          event_name: rows[0]?.event_name || eventKey,
+          gender,
+          leaders: ranked
+        };
+      }).filter((group) => group.leaders.length > 0)
+        .sort((a, b) => a.gender.localeCompare(b.gender) || a.event_name.localeCompare(b.event_name));
+    }
+  }
+
   return {
     team: {
       id: team.id,
@@ -281,7 +395,8 @@ async function loadSeasonRoster(team, requestedSeasonId) {
     },
     seasons: publicSeasons,
     selected_season: selectedSeason,
-    entries: combined
+    entries: combined,
+    performance_leaders: performanceLeaders
   };
 }
 

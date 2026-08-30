@@ -87,6 +87,29 @@
     return payload;
   }
 
+  // The "resolve and learn" search below reuses the athlete admin's own
+  // (alias-aware) profile search rather than a separate lookup -- a
+  // different admin API, so a dedicated fetch helper rather than api()
+  // above, which is fixed to /api/admin/recruiting.
+  async function athleteSearchApi(body) {
+    const response = await fetch("/api/admin/athletes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      credentials: "same-origin",
+      body: JSON.stringify(body)
+    });
+    const payload = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(payload.error || "The athlete search request failed.");
+    }
+
+    return payload;
+  }
+
   function setStat(selector, value) {
     const element = root.querySelector(selector);
 
@@ -348,6 +371,78 @@
     importRows.innerHTML = "";
   }
 
+  // Shared between an ambiguous row (candidates already known from the
+  // preview response) and an unmatched row after a manual search -- both
+  // converge on the same picker once there's a candidate list to choose
+  // from.
+  function resolveSelectHtml(rowNumber, candidates) {
+    if (!candidates.length) {
+      return "<p>No matching profiles found.</p>";
+    }
+
+    const options = candidates.map((match) =>
+      "<option value=\"" + escapeHtml(match.id) + "\">" +
+      escapeHtml(match.display_name) + " (" + escapeHtml(match.school_name || "no school on file") + ")" +
+      "</option>"
+    ).join("");
+
+    return (
+      "<select data-resolve-select=\"" + escapeHtml(rowNumber) + "\"><option value=\"\">Choose a profile...</option>" + options + "</select> " +
+      "<button class=\"button button-outline\" type=\"button\" data-resolve-use=\"" + escapeHtml(rowNumber) + "\">Use</button>"
+    );
+  }
+
+  function resolveCellHtml(item) {
+    if (item.row_status === "ambiguous") {
+      return resolveSelectHtml(item.row_number, item.matches || []);
+    }
+
+    if (item.row_status === "unmatched") {
+      return (
+        "<div data-resolve-search-box=\"" + escapeHtml(item.row_number) + "\">" +
+          "<input type=\"text\" data-resolve-query=\"" + escapeHtml(item.row_number) + "\" placeholder=\"Search athlete name\">" +
+          " <button class=\"button button-outline\" type=\"button\" data-resolve-find=\"" + escapeHtml(item.row_number) + "\">Search</button>" +
+        "</div>"
+      );
+    }
+
+    return "";
+  }
+
+  // Re-runs the same preview with one row's resolved_profile_id set --
+  // previewPerformanceImport treats that as an admin-confirmed match
+  // (still checked against gender and graduation year, never trusted
+  // blindly), and a later commit writes a new alias for that spelling
+  // when it differs from the profile's canonical name, so the same
+  // spelling auto-matches on every future import.
+  async function reResolveRow(rowNumber, profileId) {
+    if (busy || !importPreview) return;
+    const rows = importPreview.submitted_rows || [];
+    const index = rowNumber - 1;
+
+    if (!rows[index]) return;
+
+    const nextRows = rows.slice();
+    nextRows[index] = { ...nextRows[index], resolved_profile_id: profileId };
+
+    setBusy(true);
+    try {
+      const payload = formPayload(importForm);
+      const preview = await api({
+        action: "preview_performance_import",
+        ...payload,
+        rows: nextRows
+      });
+      preview.submitted_rows = nextRows;
+      renderImportPreview(preview);
+      showMessage(`Row ${rowNumber} resolved. Review its updated status before importing.`);
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   function renderImportPreview(preview) {
     importPreview = preview;
     const summary = preview.summary || {};
@@ -380,6 +475,7 @@
       "</td><td>" + escapeHtml(item.mark_text) +
       "</td><td>" + escapeHtml(titleCase(item.row_status)) +
       "</td><td>" + escapeHtml(statusNote(item)) +
+      "</td><td>" + resolveCellHtml(item) +
       "</td></tr>"
     ).join("");
 
@@ -852,6 +948,56 @@
       showImportError(error.message);
     } finally {
       setBusy(false);
+    }
+  });
+
+  importRows.addEventListener("click", async (event) => {
+    const useButton = event.target.closest("[data-resolve-use]");
+    const findButton = event.target.closest("[data-resolve-find]");
+
+    if (useButton) {
+      const rowNumber = Number(useButton.dataset.resolveUse);
+      const select = importRows.querySelector('[data-resolve-select="' + rowNumber + '"]');
+      const profileId = select?.value;
+
+      if (!profileId) {
+        showMessage("Choose a profile before selecting Use.", "error");
+        return;
+      }
+
+      await reResolveRow(rowNumber, profileId);
+      return;
+    }
+
+    if (findButton) {
+      if (busy) return;
+      const rowNumber = Number(findButton.dataset.resolveFind);
+      const input = importRows.querySelector('[data-resolve-query="' + rowNumber + '"]');
+      const query = (input?.value || "").trim();
+
+      if (!query) {
+        showMessage("Enter a name to search for.", "error");
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const result = await athleteSearchApi({ action: "search", search: query, limit: 20 });
+        const candidates = (result.profiles || []).map((profile) => ({
+          id: profile.id,
+          display_name: profile.display_name,
+          school_name: profile.school?.school_name || profile.team?.school_name || ""
+        }));
+        const box = importRows.querySelector('[data-resolve-search-box="' + rowNumber + '"]');
+
+        if (box) {
+          box.outerHTML = resolveSelectHtml(rowNumber, candidates);
+        }
+      } catch (error) {
+        showMessage(error.message, "error");
+      } finally {
+        setBusy(false);
+      }
     }
   });
 

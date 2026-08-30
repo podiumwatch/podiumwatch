@@ -4,6 +4,7 @@ import {
   loadAthleteSeed,
   normalizeAthleteGender,
   normalizeAthleteName,
+  athleteVerificationStatus,
   isMissingAthleteFoundationError
 } from "../../lib/athlete_foundation_service.mjs";
 
@@ -88,24 +89,12 @@ function safeSearch(value) {
   );
 }
 
+// The directory only ever shows the short label, not the fuller detail/tone
+// pair the profile detail page shows -- both now read from the one shared
+// athleteVerificationStatus() in athlete_foundation_service.mjs rather than
+// keeping two separately-maintained label sets.
 function verificationLabel(profile) {
-  if (profile.verified || profile.verification_status === "admin_verified") {
-    return "Verified profile";
-  }
-
-  if (profile.verification_status === "source_verified") {
-    return "Source verified";
-  }
-
-  if (profile.verification_status === "team_roster_linked") {
-    return "Team roster linked";
-  }
-
-  if (profile.verification_status === "editorial_source_linked") {
-    return "Ranking source linked";
-  }
-
-  return "Unverified profile";
+  return athleteVerificationStatus(profile).label;
 }
 
 function buildFallbackProfiles(dataset) {
@@ -207,7 +196,7 @@ async function loadDatabaseProfiles() {
   // applied client-side afterward instead of via .order() so the "first
   // entry wins" logic below still resolves the same ranking/performance
   // per profile regardless of which batch a row came back in.
-  const [schoolRows, teamRows, rankingRows, performanceRows] = await Promise.all([
+  const [schoolRows, teamRows, rankingRows, performanceRows, aliasRows] = await Promise.all([
     selectInBatches("ohio_schools", "id, ohsaa_school_id, school_name, city, athletic_district", "id", schoolIds),
     selectInBatches("team_pages", "id, school_name, slug, city, published", "id", teamIds),
     selectInBatches(
@@ -223,7 +212,24 @@ async function loadDatabaseProfiles() {
       "profile_id",
       profileIds,
       (query) => query.eq("public_visible", true).is("archived_at", null).limit(10000)
-    )
+    ),
+    // Only alias_type "name" rows ever feed the directory's search text --
+    // an external provider id is never a name a visitor would type. Missing
+    // the install/32 columns just means no aliases are folded in yet, not
+    // a broken directory (the same tolerant-degradation pattern used for
+    // every other still-optional piece of this project).
+    selectInBatches(
+      "athlete_profile_aliases",
+      "profile_id, alias, alias_type",
+      "profile_id",
+      profileIds,
+      (query) => query.eq("alias_type", "name")
+    ).catch((error) => {
+      if (isMissingAthleteFoundationError(error)) {
+        return [];
+      }
+      throw error;
+    })
   ]);
 
   rankingRows.sort((first, second) =>
@@ -238,6 +244,13 @@ async function loadDatabaseProfiles() {
   const teamMap = new Map(teamRows.map((team) => [team.id, team]));
   const rankingByProfile = new Map();
   const performanceByProfile = new Map();
+  const aliasesByProfile = new Map();
+
+  aliasRows.forEach((row) => {
+    const list = aliasesByProfile.get(row.profile_id) || [];
+    list.push(row.alias);
+    aliasesByProfile.set(row.profile_id, list);
+  });
 
   rankingRows.forEach((ranking) => {
     if (!rankingByProfile.has(ranking.profile_id)) {
@@ -281,6 +294,7 @@ async function loadDatabaseProfiles() {
       verification_label: verificationLabel(profile),
       ranking: rankingByProfile.get(profile.id) || null,
       top_performance: performanceByProfile.get(profile.id) || null,
+      aliases: aliasesByProfile.get(profile.id) || [],
       updated_at: profile.updated_at,
       source_mode: "database"
     }))
@@ -303,6 +317,7 @@ function applyFilters(profiles, input) {
     const schoolName = profile.school?.school_name || profile.team?.school_name || "";
     const searchText = normalizeAthleteName([
       profile.display_name,
+      profile.aliases?.join(" "),
       schoolName,
       profile.school?.city,
       profile.school?.athletic_district,

@@ -11,6 +11,13 @@
   const source = root.querySelector("[data-athlete-source]");
   const rankings = root.querySelector("[data-athlete-rankings]");
   const performances = root.querySelector("[data-athlete-performances]");
+  const latestUpcomingPanel = root.querySelector("[data-athlete-latest-upcoming-panel]");
+  const latestResultEl = root.querySelector("[data-athlete-latest-result]");
+  const upcomingMeetEl = root.querySelector("[data-athlete-upcoming-meet]");
+  const bestPanel = root.querySelector("[data-athlete-best-panel]");
+  const bestPerformancesEl = root.querySelector("[data-athlete-best-performances]");
+  const progressionPanel = root.querySelector("[data-athlete-progression-panel]");
+  const progressionEl = root.querySelector("[data-athlete-progression]");
   const schools = root.querySelector("[data-athlete-schools]");
   const stories = root.querySelector("[data-athlete-stories]");
   const recruitingPanel = root.querySelector("[data-athlete-recruiting-panel]");
@@ -68,6 +75,38 @@
       .slice(0, 2)
       .map((part) => part[0]?.toUpperCase() || "")
       .join("");
+  }
+
+  const SPORT_ORDER = ["cross_country", "indoor_track", "outdoor_track"];
+  const SPORT_LABEL = {
+    cross_country: "Cross Country",
+    indoor_track: "Indoor Track",
+    outdoor_track: "Outdoor Track"
+  };
+
+  function sportLabel(sport) {
+    return SPORT_LABEL[sport] || titleCase(sport);
+  }
+
+  function groupBy(items, keyFn) {
+    const map = new Map();
+    items.forEach((item) => {
+      const key = keyFn(item);
+      const list = map.get(key) || [];
+      list.push(item);
+      map.set(key, list);
+    });
+    return map;
+  }
+
+  // Sports not in SPORT_ORDER (there shouldn't be any -- athlete_performances.sport
+  // is a database check constraint -- but this keeps a future addition from
+  // silently disappearing rather than crashing) are appended after the three
+  // known sports rather than dropped.
+  function orderedSportKeys(bySport) {
+    const known = SPORT_ORDER.filter((sport) => bySport.has(sport));
+    const other = [...bySport.keys()].filter((sport) => !SPORT_ORDER.includes(sport)).sort();
+    return [...known, ...other];
   }
 
   function emptyMarkup(title, description) {
@@ -143,17 +182,256 @@
       : emptyMarkup("No ranking links yet", "Published Podium Watch rankings connected to this athlete will appear here.");
   }
 
-  function renderPerformances(items) {
-    performances.innerHTML = items.length
-      ? items.map((item) => (
-          '<article class="athlete-profile-entry">' +
-            '<div class="athlete-profile-entry-top"><h3>' + escapeHtml(item.event_name) + " | " + escapeHtml(item.mark_text) + '</h3><span class="athlete-profile-badge" data-tone="' + (item.verification_status === "verified" ? "verified" : "muted") + '">' + escapeHtml(titleCase(item.verification_status)) + "</span></div>" +
-            '<p class="athlete-profile-entry-meta">' + escapeHtml([item.meet_name, formatDate(item.meet_date), item.place ? "Place " + item.place : "", item.season_year].filter(Boolean).join(" | ")) + "</p>" +
-            '<p><strong>Source:</strong> ' + escapeHtml(item.source_label) + "</p>" +
-            link(item.source_url, "Open result source") +
-          "</article>"
-        )).join("")
-      : emptyMarkup("No verified performances yet", "Ranking snapshots are not copied into this section. Only separately sourced performance records appear here.");
+  // Best performances by sport (requirement 3 -- personal records
+  // separated into cross country/indoor track/outdoor track). Sourced
+  // directly from athlete_best_performances, a SQL view that already
+  // computes one row per profile+event+sport from verified/source-linked,
+  // public, non-archived, official-or-reviewed performances -- this
+  // function only groups and renders what the API already returns, no
+  // additional computation.
+  function renderBestPerformances(items) {
+    bestPanel.hidden = !items.length;
+
+    if (!items.length) {
+      bestPerformancesEl.innerHTML = "";
+      return;
+    }
+
+    const bySport = groupBy(items, (item) => item.sport);
+
+    bestPerformancesEl.innerHTML = orderedSportKeys(bySport).map((sport) => {
+      const rows = bySport.get(sport).slice().sort((a, b) => String(a.event_name || "").localeCompare(String(b.event_name || "")));
+
+      return (
+        '<div class="athlete-sport-group"><h3>' + escapeHtml(sportLabel(sport)) + "</h3>" +
+        '<div class="table-scroll"><table><thead><tr><th>Event</th><th>Mark</th><th>Meet</th><th>Date</th><th>Source</th></tr></thead><tbody>' +
+        rows.map((item) => (
+          "<tr>" +
+          '<td data-label="Event">' + escapeHtml(item.event_name) + "</td>" +
+          '<td data-label="Mark">' + escapeHtml(item.mark_text) + "</td>" +
+          '<td data-label="Meet">' + escapeHtml(item.meet_name || "Not listed") + "</td>" +
+          '<td data-label="Date">' + escapeHtml(formatDate(item.meet_date)) + "</td>" +
+          '<td data-label="Source">' + (item.source_url ? link(item.source_url, item.source_label || "Source") : escapeHtml(item.source_label || "Not listed")) + "</td>" +
+          "</tr>"
+        )).join("") +
+        "</tbody></table></div></div>"
+      );
+    }).join("");
+  }
+
+  // Season best (requirement 6, the SB half): athlete_best_performances only
+  // gives the all-time PR per sport+event, not a per-season best, so this
+  // computes it client-side from the already-fetched performances array.
+  // Direction (lower time is better vs. higher distance/height/points is
+  // better) is only known for an event that already has a qualifying
+  // all-time-best row (bestByKey carries its measurement_type) -- for any
+  // event with performances but no qualifying best yet, this intentionally
+  // skips the season-best computation rather than guess a direction.
+  function computeSeasonBests(items, bestByKey) {
+    const groups = new Map();
+
+    items.forEach((item) => {
+      if (!item.event_key) {
+        return;
+      }
+
+      const best = bestByKey.get(`${item.sport}|${item.event_key}`);
+
+      if (!best || !best.measurement_type) {
+        return;
+      }
+
+      const value = Number(item.mark_value);
+
+      if (!Number.isFinite(value)) {
+        return;
+      }
+
+      const ascending = best.measurement_type === "time";
+      const groupKey = `${item.sport}|${item.event_key}|${item.season_year}`;
+      const current = groups.get(groupKey);
+
+      if (!current || (ascending ? value < current.value : value > current.value)) {
+        groups.set(groupKey, { value, id: item.id });
+      }
+    });
+
+    return groups;
+  }
+
+  // All-time PR (requirement 6, the PR half): flags a performance row as
+  // the athlete's all-time best for its sport+event by an exact match
+  // against athlete_best_performances on mark, meet name, and meet date --
+  // the view is itself derived from these same rows, so a true PR row
+  // matches on all three; this never guesses which of several identical
+  // marks is "the" PR beyond what the view already decided.
+  function isAllTimePr(item, bestByKey) {
+    const best = bestByKey.get(`${item.sport}|${item.event_key}`);
+    return Boolean(
+      best &&
+      item.mark_text === best.mark_text &&
+      item.meet_name === best.meet_name &&
+      item.meet_date === best.meet_date
+    );
+  }
+
+  // Complete results grouped by sport and season (requirement 4), each
+  // group in its own .table-scroll table -- the site's existing
+  // zero-horizontal-overflow responsive table pattern (a table that
+  // scrolls above 700px, one card per row below it via data-label).
+  function renderPerformances(items, bestPerformances) {
+    if (!items.length) {
+      performances.innerHTML = emptyMarkup("No verified performances yet", "Ranking snapshots are not copied into this section. Only separately sourced performance records appear here.");
+      return;
+    }
+
+    const bestByKey = new Map((bestPerformances || []).map((best) => [`${best.sport}|${best.event_key}`, best]));
+    const seasonBests = computeSeasonBests(items, bestByKey);
+    const bySport = groupBy(items, (item) => item.sport);
+
+    performances.innerHTML = orderedSportKeys(bySport).map((sport) => {
+      const bySeason = groupBy(bySport.get(sport), (item) => item.season_year || "Unknown");
+      const seasons = [...bySeason.keys()].sort((a, b) => Number(b) - Number(a) || String(b).localeCompare(String(a)));
+
+      const seasonBlocks = seasons.map((season) => {
+        const rows = bySeason.get(season).slice().sort((a, b) => String(b.meet_date || "").localeCompare(String(a.meet_date || "")));
+        const rowsHtml = rows.map((item) => {
+          const groupKey = `${item.sport}|${item.event_key}|${item.season_year}`;
+          const seasonBest = seasonBests.get(groupKey);
+          const isPr = isAllTimePr(item, bestByKey);
+          const isSb = Boolean(seasonBest && seasonBest.id === item.id) && !isPr;
+          const badge = isPr ? "PR" : (isSb ? "SB" : "");
+
+          return (
+            "<tr>" +
+            '<td data-label="Event">' + escapeHtml(item.event_name) + "</td>" +
+            '<td data-label="Mark">' + escapeHtml(item.mark_text) + (badge ? ' <span class="athlete-profile-badge" data-tone="verified">' + escapeHtml(badge) + "</span>" : "") + "</td>" +
+            '<td data-label="Meet">' + escapeHtml(item.meet_name || "Not listed") + "</td>" +
+            '<td data-label="Date">' + escapeHtml(formatDate(item.meet_date)) + "</td>" +
+            '<td data-label="Place">' + escapeHtml(item.place || "Not listed") + "</td>" +
+            '<td data-label="Status"><span class="athlete-profile-badge" data-tone="' + (item.verification_status === "verified" ? "verified" : "muted") + '">' + escapeHtml(titleCase(item.verification_status)) + "</span></td>" +
+            '<td data-label="Source">' + (item.source_url ? link(item.source_url, item.source_label || "Source") : escapeHtml(item.source_label || "Not listed")) + "</td>" +
+            "</tr>"
+          );
+        }).join("");
+
+        return (
+          '<div class="athlete-season-group"><h4>' + escapeHtml(season) + " season</h4>" +
+          '<div class="table-scroll"><table><thead><tr><th>Event</th><th>Mark</th><th>Meet</th><th>Date</th><th>Place</th><th>Status</th><th>Source</th></tr></thead><tbody>' +
+          rowsHtml +
+          "</tbody></table></div></div>"
+        );
+      }).join("");
+
+      return '<div class="athlete-sport-group"><h3>' + escapeHtml(sportLabel(sport)) + "</h3>" + seasonBlocks + "</div>";
+    }).join("");
+  }
+
+  // Progression by event and season (requirement 8) -- a simple
+  // chronological table per event, not a chart, computed client-side from
+  // the same already-fetched performances array.
+  function renderProgression(items) {
+    const eligible = items.filter((item) => item.event_key);
+    progressionPanel.hidden = !eligible.length;
+
+    if (!eligible.length) {
+      progressionEl.innerHTML = "";
+      return;
+    }
+
+    const byEvent = groupBy(eligible, (item) => `${item.sport}|${item.event_key}|${item.event_name}`);
+    const keys = [...byEvent.keys()].sort();
+
+    progressionEl.innerHTML = keys.map((key) => {
+      const eventName = key.split("|").slice(2).join("|");
+      const rows = byEvent.get(key).slice().sort((a, b) => (
+        `${a.season_year || 0}${a.meet_date || ""}`.localeCompare(`${b.season_year || 0}${b.meet_date || ""}`)
+      ));
+
+      return (
+        '<div class="athlete-sport-group"><h3>' + escapeHtml(eventName) + "</h3>" +
+        '<div class="table-scroll"><table><thead><tr><th>Season</th><th>Mark</th><th>Meet</th><th>Date</th></tr></thead><tbody>' +
+        rows.map((item) => (
+          "<tr>" +
+          '<td data-label="Season">' + escapeHtml(item.season_year || "Unknown") + "</td>" +
+          '<td data-label="Mark">' + escapeHtml(item.mark_text) + "</td>" +
+          '<td data-label="Meet">' + escapeHtml(item.meet_name || "Not listed") + "</td>" +
+          '<td data-label="Date">' + escapeHtml(formatDate(item.meet_date)) + "</td>" +
+          "</tr>"
+        )).join("") +
+        "</tbody></table></div></div>"
+      );
+    }).join("");
+  }
+
+  // Latest result (requirement 7, first half) -- the most recent entry in
+  // the already-fetched performances array, no new query.
+  function renderLatestResult(items) {
+    const latest = items.length
+      ? items.slice().sort((a, b) => String(b.meet_date || "").localeCompare(String(a.meet_date || "")))[0]
+      : null;
+
+    if (!latest) {
+      latestResultEl.innerHTML = "";
+      return false;
+    }
+
+    latestResultEl.innerHTML =
+      '<div class="athlete-meet-card"><p class="eyebrow">Latest result</p><h3>' +
+      escapeHtml(latest.event_name) + " | " + escapeHtml(latest.mark_text) +
+      "</h3><p>" + escapeHtml([latest.meet_name, formatDate(latest.meet_date)].filter(Boolean).join(" | ")) + "</p></div>";
+    return true;
+  }
+
+  // Upcoming meet (requirement 7, second half) -- the athlete's team's
+  // next scheduled meet, reusing the exact team_meet_connections lookup
+  // already fetched by /api/teams/detail/ for My Podium's data adapter
+  // (public/scripts/my-podium-data.js's loadTeam/pickNextAndLatest), not a
+  // new endpoint. Best-effort: a missing team, a moved/unpublished team
+  // page, or a network failure all just leave this card empty.
+  async function renderUpcomingMeet(data) {
+    const teamSlug = data.team?.slug;
+
+    if (!teamSlug) {
+      upcomingMeetEl.innerHTML = "";
+      return false;
+    }
+
+    try {
+      const response = await fetch("/api/teams/detail/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ slug: teamSlug })
+      });
+      const detail = await response.json().catch(() => ({}));
+
+      if (!response.ok || detail.redirected) {
+        upcomingMeetEl.innerHTML = "";
+        return false;
+      }
+
+      const todayKey = new Date().toISOString().slice(0, 10);
+      const schedule = Array.isArray(detail.schedule) ? detail.schedule : [];
+      const nextMeet = schedule
+        .map((connection) => connection.meet)
+        .filter((meet) => meet && String(meet.meet_date || "").slice(0, 10) >= todayKey)
+        .sort((a, b) => String(a.meet_date).localeCompare(String(b.meet_date)))[0] || null;
+
+      if (!nextMeet) {
+        upcomingMeetEl.innerHTML = "";
+        return false;
+      }
+
+      upcomingMeetEl.innerHTML =
+        '<div class="athlete-meet-card"><p class="eyebrow">Upcoming meet</p><h3>' + escapeHtml(nextMeet.name) + "</h3>" +
+        "<p>" + escapeHtml(formatDate(nextMeet.meet_date)) + "</p>" +
+        (nextMeet.slug ? '<a class="text-link" href="/meetdetail/?slug=' + encodeURIComponent(nextMeet.slug) + '">Meet Center</a>' : "") +
+        "</div>";
+      return true;
+    } catch {
+      upcomingMeetEl.innerHTML = "";
+      return false;
+    }
   }
 
   function renderSchools(items, data) {
@@ -359,11 +637,16 @@
     pathNote.textContent = note || "";
   }
 
-  function render(data) {
+  async function render(data) {
     renderIdentity(data);
     renderSource(data);
+    renderBestPerformances(data.best_performances || []);
+    const hasLatest = renderLatestResult(data.performances || []);
+    const hasUpcoming = await renderUpcomingMeet(data);
+    latestUpcomingPanel.hidden = !hasLatest && !hasUpcoming;
     renderRankings(data.rankings || []);
-    renderPerformances(data.performances || []);
+    renderPerformances(data.performances || [], data.best_performances || []);
+    renderProgression(data.performances || []);
     renderSchools(data.school_history || [], data);
     renderStories(data.stories || []);
     renderRecruiting(data);
@@ -510,7 +793,7 @@
         return;
       }
 
-      render(payload);
+      await render(payload);
     } catch (error) {
       const seed = window.PODIUM_ATHLETE_SEED;
 
@@ -522,7 +805,7 @@
           Number(error.status || 0) >= 500
         )
       ) {
-        render(fallbackDataFromSeed(seed));
+        await render(fallbackDataFromSeed(seed));
         return;
       }
 
