@@ -1,6 +1,7 @@
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
 import { discoverMeetBatch, discoveryStatus, listMeetCatalog, updateMeetStatuses } from "../../lib/meet_discovery_service.mjs";
 import { cancelJob, createContentIngestionJob, createIngestionJob, getIngestionJob, importApprovedRows, listIngestionJobs, pauseJob, resolveJobIdentities, retryFailedPages, reviewRows, reverseImportedJob, runIngestionJob } from "../../lib/result_ingestion_engine.mjs";
+import { getFinishTimingHealth, setFinishTimingSettings, runFinishTimingScan, rescanFinishTimingMeet, requestFinishTimingBackfill } from "../../lib/finish_timing_ingestion_service.mjs";
 import crypto from "node:crypto";
 
 function bodyOf(request) {
@@ -12,6 +13,7 @@ function bodyOf(request) {
 
 function missingMigration(error) {
   const message = String(error?.message || "");
+  if (/result_team_scores|finish_timing_team_links|auto_publish_enabled|currently_scanning_since/i.test(message)) return "34";
   if (/result_ingestion_jobs|result_crawl_pages|result_source_documents|result_staging_rows/i.test(message)) return "05";
   if (/results_source_providers|discovered_meets|results_discovery_runs/i.test(message)) return "04";
   return null;
@@ -41,11 +43,19 @@ export default async function handler(request, response) {
     else if (action === "resolve_ingestion_identities") data = await resolveJobIdentities(body.job_id);
     else if (action === "import_ingestion_job") data = await importApprovedRows(body.job_id);
     else if (action === "reverse_ingestion_job") data = await reverseImportedJob(body.job_id);
+    else if (action === "finish_timing_health") data = await getFinishTimingHealth();
+    else if (action === "set_finish_timing_settings") data = await setFinishTimingSettings({ active: typeof body.active === "boolean" ? body.active : undefined, auto_publish_enabled: typeof body.auto_publish_enabled === "boolean" ? body.auto_publish_enabled : undefined, lookback_days: Number.isFinite(Number(body.lookback_days)) ? Number(body.lookback_days) : undefined, pause_reason: body.pause_reason, actor: "Podium Watch Admin" });
+    else if (action === "run_finish_timing_scan_now") data = await runFinishTimingScan({ trigger: "admin_manual", actor: "Podium Watch Admin" });
+    else if (action === "rescan_finish_timing_meet") data = await rescanFinishTimingMeet(body.meet_id, { actor: "Podium Watch Admin" });
+    else if (action === "request_finish_timing_backfill") data = await requestFinishTimingBackfill({ fromDate: body.from_date, toDate: body.to_date, actor: "Podium Watch Admin" });
     else { const error = new Error("Unsupported Results Source Manager action."); error.status = 400; throw error; }
     return response.status(200).json(data);
   } catch (error) {
     const migration = missingMigration(error);
-    if (migration) return response.status(409).json({ error: `Run install/${migration === "05" ? "05_RESULTS_INGESTION_ENGINE.sql" : "04_RESULTS_SOURCE_MANAGER.sql"} in Supabase before using this section.`, installed: false, code: `MIGRATION_${migration}_REQUIRED` });
+    if (migration) {
+      const migrationFile = { "34": "34_FINISH_TIMING_RESULTS_AUTOMATION.sql", "05": "05_RESULTS_INGESTION_ENGINE.sql", "04": "04_RESULTS_SOURCE_MANAGER.sql" }[migration];
+      return response.status(409).json({ error: `Run install/${migrationFile} in Supabase before using this section.`, installed: false, code: `MIGRATION_${migration}_REQUIRED` });
+    }
     const status = Number(error?.status) || 500;
     const requestId = crypto.randomUUID();
     if (status >= 500) console.error("Results Source Manager error", { requestId, code: error?.code || null, message: error?.message || String(error), details: error?.details || null });

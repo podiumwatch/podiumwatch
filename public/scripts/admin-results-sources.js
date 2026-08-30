@@ -12,6 +12,14 @@
   const contentForm = root.querySelector("[data-content-form]");
   const ingestionJobs = root.querySelector("[data-ingestion-jobs]");
   const ingestionDetail = root.querySelector("[data-ingestion-detail]");
+  const ftSettingsForm = root.querySelector("[data-ft-settings-form]");
+  const ftExceptionRows = root.querySelector("[data-ft-exception-rows]");
+  const ftRunNowButton = root.querySelector("[data-ft-run-now]");
+  const ftRescanButton = root.querySelector("[data-ft-rescan]");
+  const ftBackfillButton = root.querySelector("[data-ft-backfill]");
+  const ftMeetIdInput = root.querySelector("[data-ft-meet-id]");
+  const ftBackfillFrom = root.querySelector("[data-ft-backfill-from]");
+  const ftBackfillTo = root.querySelector("[data-ft-backfill-to]");
   let statusData = null;
   let busy = false;
 
@@ -34,6 +42,73 @@
     providerSelect.innerHTML = '<option value="">All providers</option>' + (statusData.providers || []).map((provider) => `<option value="${escapeHtml(provider.provider_key)}">${escapeHtml(provider.provider_name)}</option>`).join("");
     runs.innerHTML = (statusData.recent_runs || []).length ? statusData.recent_runs.map((run) => `<div class="source-run"><strong>${escapeHtml(titleCase(run.provider_key || "All providers"))}</strong><span>${escapeHtml(titleCase(run.status))}</span><span>${escapeHtml(run.meets_found || 0)} found</span><span>${escapeHtml(new Date(run.started_at).toLocaleString())}</span></div>`).join("") : "<p>No discovery batches have run yet.</p>";
   }
+  function renderFinishTimingHealth(data) {
+    const provider = data.provider || {};
+    const statusEl = root.querySelector("[data-ft-status]");
+    statusEl.textContent = provider.active ? "Active" : "Paused";
+    statusEl.dataset.tone = provider.active ? "active" : "paused";
+    stat("[data-ft-autopublish]", provider.auto_publish_enabled ? "On" : "Off");
+    root.querySelector("[data-ft-last-scan]").textContent = provider.last_scan_completed_at
+      ? `${titleCase(provider.last_scan_status || "ok")} at ${new Date(provider.last_scan_completed_at).toLocaleString()}`
+      : "Never";
+    stat("[data-ft-meets]", data.totals?.meets_discovered);
+    stat("[data-ft-team-rows]", data.totals?.team_score_rows);
+    stat("[data-ft-exceptions]", data.totals?.open_exceptions);
+
+    if (ftSettingsForm) {
+      ftSettingsForm.elements.active.checked = Boolean(provider.active);
+      ftSettingsForm.elements.auto_publish_enabled.checked = Boolean(provider.auto_publish_enabled);
+      ftSettingsForm.elements.lookback_days.value = provider.lookback_days ?? 3;
+    }
+
+    const exceptions = data.open_exception_sample || [];
+    ftExceptionRows.innerHTML = exceptions.length
+      ? exceptions.map((row) => `<tr><td>${escapeHtml(row.athlete_name || "Missing")}</td><td>${escapeHtml(row.school_name || "Missing")}</td><td>${escapeHtml(row.meet_name || (row.raw_row?.providerMeetId ? `Meet ${row.raw_row.providerMeetId}` : "Unknown meet"))}</td><td>${escapeHtml((row.review_note || "").replace("Held automatically: ", "") || "Needs review")}</td></tr>`).join("")
+      : '<tr><td colspan="4">No open exceptions.</td></tr>';
+  }
+  async function loadFinishTimingHealth() {
+    const data = await api({ action: "finish_timing_health" });
+    renderFinishTimingHealth(data);
+  }
+  ftSettingsForm?.addEventListener("submit", async (event) => {
+    event.preventDefault(); if (busy) return;
+    const values = formValues(ftSettingsForm);
+    const autoPublishOn = ftSettingsForm.elements.auto_publish_enabled.checked;
+    if (autoPublishOn && !window.confirm("Enable automatic publishing? Safe, confidently high school Finish Timing results will start appearing on the live site with no further approval.")) return;
+    setBusy(true); setMessage("Saving Finish Timing settings.", "warning");
+    try {
+      await api({ action: "set_finish_timing_settings", active: ftSettingsForm.elements.active.checked, auto_publish_enabled: autoPublishOn, lookback_days: Number(values.lookback_days) });
+      setMessage("Finish Timing settings saved."); await loadFinishTimingHealth();
+    } catch (error) { setMessage(error.message, "error"); } finally { setBusy(false); }
+  });
+  ftRunNowButton?.addEventListener("click", async () => {
+    if (busy) return; setBusy(true); setMessage("Running a Finish Timing scan now.", "warning");
+    try {
+      const result = await api({ action: "run_finish_timing_scan_now" });
+      setMessage(`Scan ${titleCase(result.status)}. ${result.meets_discovered || 0} meets discovered, ${result.events_processed || 0} events processed, ${result.published || 0} published, ${result.updated || 0} corrected.`);
+      await loadFinishTimingHealth();
+    } catch (error) { setMessage(error.message, "error"); } finally { setBusy(false); }
+  });
+  ftRescanButton?.addEventListener("click", async () => {
+    if (busy) return; const meetId = (ftMeetIdInput?.value || "").trim(); if (!meetId) { setMessage("Enter a Finish Timing meet id first.", "warning"); return; }
+    setBusy(true); setMessage(`Rescanning Finish Timing meet ${meetId}.`, "warning");
+    try {
+      const result = await api({ action: "rescan_finish_timing_meet", meet_id: meetId });
+      setMessage(`Meet ${meetId} rescanned. ${result.events_processed || 0} events processed, ${result.published || 0} published, ${result.updated || 0} corrected.`);
+      await loadFinishTimingHealth();
+    } catch (error) { setMessage(error.message, "error"); } finally { setBusy(false); }
+  });
+  ftBackfillButton?.addEventListener("click", async () => {
+    if (busy) return; const fromDate = ftBackfillFrom?.value; const toDate = ftBackfillTo?.value;
+    if (!fromDate || !toDate) { setMessage("Choose both a from and to date for the backfill.", "warning"); return; }
+    if (!window.confirm(`Request a historical backfill from ${fromDate} to ${toDate}? This reprocesses every already-discovered Finish Timing meet in that range through every safety rule.`)) return;
+    setBusy(true); setMessage("Requesting a historical Finish Timing backfill.", "warning");
+    try {
+      const result = await api({ action: "request_finish_timing_backfill", from_date: fromDate, to_date: toDate });
+      setMessage(`Backfill complete. ${result.meets_requeued || 0} meets reprocessed, ${result.published || 0} published, ${result.updated || 0} corrected.`);
+      await loadFinishTimingHealth();
+    } catch (error) { setMessage(error.message, "error"); } finally { setBusy(false); }
+  });
   function renderIngestionJobs(jobs = []) {
     if (!ingestionJobs) return;
     ingestionJobs.innerHTML = jobs.length ? jobs.map((job) => {
@@ -124,7 +199,9 @@
     setBusy(true); try { const result = await api({ action: "set_status", meet_ids: meetIds, status: button.dataset.bulkStatus }); setMessage(`${result.updated} meets updated.`); await start(); } catch (error) { setMessage(error.message, "error"); } finally { setBusy(false); }
   }));
   async function start() {
-    statusData = await api({ action: "status" }); renderStatus(); renderIngestionJobs(statusData.ingestion_jobs || []); await loadCatalog(); loading.hidden = true; dashboard.hidden = false;
+    statusData = await api({ action: "status" }); renderStatus(); renderIngestionJobs(statusData.ingestion_jobs || []); await loadCatalog();
+    try { await loadFinishTimingHealth(); } catch (error) { setMessage(`Finish Timing automation: ${error.message}`, "warning"); }
+    loading.hidden = true; dashboard.hidden = false;
   }
   start().catch((error) => { loading.innerHTML = `<h2>Phase One needs attention</h2><p>${escapeHtml(error.message)}</p><p>Run <code>install/04_RESULTS_SOURCE_MANAGER.sql</code> in Supabase, then refresh this page.</p>`; });
 })();

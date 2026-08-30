@@ -2,6 +2,8 @@ import { adminShell } from "../lib/adminshell.mjs";
 
 const styles = `
     .source-shell{display:grid;gap:20px}.source-message{margin:0;padding:14px 16px;border-radius:10px;background:rgba(0,191,99,.12);font-weight:850}.source-message[data-tone="error"]{color:#991b1b;background:rgba(220,38,38,.12)}.source-message[data-tone="warning"]{color:#7c4a03;background:rgba(245,158,11,.16)}.source-stats{display:grid;grid-template-columns:repeat(5,minmax(110px,1fr));gap:12px}.source-stat{padding:16px;border:1px solid rgba(15,23,42,.12);border-radius:12px;background:#fff}.source-stat strong{display:block;font-size:2rem;line-height:1}.source-stat span{display:block;margin-top:7px;font-weight:850}.source-panel{display:grid;gap:14px}.source-fields{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}.source-fields label,.source-panel>label{display:grid;gap:6px;font-weight:850}.source-fields input,.source-fields select,.source-panel textarea,.source-panel input,.source-panel select{width:100%;padding:10px;border:1px solid rgba(15,23,42,.22);border-radius:8px;background:#fff;font:inherit}.source-actions{display:flex;flex-wrap:wrap;gap:9px;align-items:center}.source-table-wrap{overflow:auto;border:1px solid rgba(15,23,42,.12);border-radius:10px}.source-table{width:100%;min-width:1080px;border-collapse:collapse;background:#fff}.source-table th,.source-table td{padding:10px;border-bottom:1px solid rgba(15,23,42,.09);text-align:left;vertical-align:top}.source-table th{background:#111;color:#fff;font-size:.74rem;text-transform:uppercase}.source-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#e2e8f0;font-size:.75rem;font-weight:900}.source-badge[data-status="ready"],.source-badge[data-status="approved"],.source-badge[data-status="completed"],.source-badge[data-status="imported"]{background:rgba(0,191,99,.15);color:#075f34}.source-badge[data-status="needs_review"],.source-badge[data-status="partial"],.source-badge[data-status="paused"]{background:#fef3c7;color:#7c4a03}.source-links{display:grid;gap:5px;max-width:320px}.source-links a{font-weight:800}.source-check{width:18px;height:18px}.source-help{padding:14px;border-radius:10px;background:#f8fafc}.source-runs{display:grid;gap:8px}.source-run{display:grid;grid-template-columns:1.2fr .6fr .8fr 1.4fr;gap:10px;padding:12px;border-bottom:1px solid rgba(15,23,42,.09)}.source-tabs{display:flex;gap:8px;flex-wrap:wrap}.source-detail{display:grid;gap:14px;padding:16px;border:1px solid rgba(15,23,42,.14);border-radius:12px;background:#f8fafc}.source-detail[hidden]{display:none}.source-detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.source-detail-grid>div{padding:10px;background:#fff;border-radius:8px}.source-small-table{min-width:760px}.source-file-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .ft-stats{display:grid;grid-template-columns:repeat(6,minmax(100px,1fr));gap:10px}.ft-stat{padding:12px;border-radius:9px;background:#f8fafc}.ft-stat strong{display:block;font-size:1.4rem;line-height:1}.ft-stat span{display:block;margin-top:5px;font-size:.78rem;font-weight:850;color:#475569}.ft-settings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;align-items:end}.ft-settings label{display:grid;gap:6px;font-weight:850}.ft-settings input,.ft-settings select{width:100%;padding:9px;border:1px solid rgba(15,23,42,.22);border-radius:8px;font:inherit}.ft-badge{display:inline-block;padding:4px 9px;border-radius:999px;background:#e2e8f0;font-size:.75rem;font-weight:900}.ft-badge[data-tone="active"]{background:rgba(0,191,99,.15);color:#075f34}.ft-badge[data-tone="paused"]{background:#fef3c7;color:#7c4a03}.ft-badge[data-tone="failed"]{background:rgba(220,38,38,.13);color:#991b1b}
+    @media(max-width:900px){.ft-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.ft-settings{grid-template-columns:1fr 1fr}}@media(max-width:560px){.ft-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.ft-settings{grid-template-columns:1fr}}
     @media(max-width:900px){.source-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.source-fields{grid-template-columns:1fr 1fr}.source-actions{display:grid;grid-template-columns:1fr}.source-actions .button{width:100%;justify-content:center}}@media(max-width:560px){.source-fields{grid-template-columns:1fr}.source-run{grid-template-columns:1fr 1fr}}
 `;
 
@@ -13,6 +15,34 @@ export function adminResultsSourcesPage(site) {
       <div class="source-stats">
         <article class="source-stat"><strong data-stat-total>0</strong><span>Meets found</span></article><article class="source-stat"><strong data-stat-sources>0</strong><span>Source links</span></article><article class="source-stat"><strong data-stat-ready>0</strong><span>Ready</span></article><article class="source-stat"><strong data-stat-review>0</strong><span>Need review</span></article><article class="source-stat"><strong data-stat-approved>0</strong><span>Approved</span></article>
       </div>
+      <section class="info-card source-panel" data-ft-panel>
+        <div><p class="eyebrow">Automated provider</p><h2>Finish Timing automation</h2><p class="source-help">Runs every 15 minutes on its own, with no button needed, once turned on. Discovers new Ohio meets, matches athletes and schools, and (only once auto-publish is turned on below) publishes safe high school results automatically. Junior high results are always kept private, never published as high school results.</p></div>
+        <div class="ft-stats">
+          <article class="ft-stat"><strong class="ft-badge" data-ft-status>--</strong><span>Status</span></article>
+          <article class="ft-stat"><strong data-ft-autopublish>--</strong><span>Auto-publish</span></article>
+          <article class="ft-stat"><strong data-ft-last-scan>--</strong><span>Last scan</span></article>
+          <article class="ft-stat"><strong data-ft-meets>0</strong><span>Meets discovered</span></article>
+          <article class="ft-stat"><strong data-ft-team-rows>0</strong><span>Team score rows</span></article>
+          <article class="ft-stat"><strong data-ft-exceptions>0</strong><span>Open exceptions</span></article>
+        </div>
+        <form data-ft-settings-form class="ft-settings">
+          <label><input type="checkbox" name="active"> Provider enabled (unpaused)</label>
+          <label><input type="checkbox" name="auto_publish_enabled"> Automatic publishing enabled</label>
+          <label>Correction lookback (days)<input type="number" name="lookback_days" min="0" max="365" value="3"></label>
+          <label>&nbsp;<button class="button button-primary" type="submit">Save settings</button></label>
+        </form>
+        <div class="source-actions">
+          <button class="button button-dark" type="button" data-ft-run-now>Run scan now</button>
+          <label>Rescan one meet<input type="text" data-ft-meet-id placeholder="Finish Timing meet id"></label>
+          <button class="button button-outline" type="button" data-ft-rescan>Rescan</button>
+        </div>
+        <div class="source-actions">
+          <label>Backfill from<input type="date" data-ft-backfill-from></label>
+          <label>to<input type="date" data-ft-backfill-to></label>
+          <button class="button button-outline" type="button" data-ft-backfill>Request historical backfill</button>
+        </div>
+        <div class="source-table-wrap"><table class="source-table source-small-table"><thead><tr><th>Athlete</th><th>School</th><th>Meet</th><th>Held because</th></tr></thead><tbody data-ft-exception-rows><tr><td colspan="4">No open exceptions.</td></tr></tbody></table></div>
+      </section>
       <section class="info-card source-panel">
         <div><p class="eyebrow">Phase One</p><h2>Discover Ohio meets</h2><p class="source-help">This starts the same robust, resumable crawler used in Phase Two. It discovers sources and stages results privately. Nothing is published automatically.</p></div>
         <form data-discovery-form class="source-fields">
