@@ -506,9 +506,9 @@ The `siteUrl` setting controls canonical addresses, structured data, the sitemap
 
 ## Environment variables
 
-The current website does not require secrets or environment variables.
+The project now relies on several server-side environment variables (Supabase credentials, admin sign-in, vote hashing, email delivery, cron scheduling, and more, configured in Vercel). The admin Operations Center's configuration panel shows which ones are currently set. Never commit passwords, secret keys, or private tokens to GitHub.
 
-An `.env.example` file is included for future services. Never commit passwords, secret keys, or private tokens to GitHub.
+An `.env.example` file is included for future services.
 
 ## Important folders
 
