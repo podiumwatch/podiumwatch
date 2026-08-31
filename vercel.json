@@ -21,6 +21,11 @@
       "permanent": true
     }
   ],
+  "functions": {
+    "api/cron/finish-timing-scan.js": {
+      "maxDuration": 300
+    }
+  },
   "crons": [
     {
       "path": "/api/cron/notifications",
