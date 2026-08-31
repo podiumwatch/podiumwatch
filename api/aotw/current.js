@@ -85,32 +85,36 @@ export default async function handler(request, response) {
       finalists = finalistData ?? [];
 
       if (finalists.length) {
-        const { data: voteRows, error: votesError } =
-          await supabaseAdmin
-            .from("aotw_votes")
-            .select("finalist_id")
-            .in(
-              "finalist_id",
-              finalists.map((finalist) => finalist.id)
-            );
+        // Real incident (2026-08-31): a single unbounded
+        // .select("finalist_id").in("finalist_id", allFinalistIds) query
+        // silently caps at PostgREST's default 1000-row limit -- it
+        // never errors, it just stops counting. A real, popular week
+        // (1,553 real votes across these finalists, one alone over 900)
+        // was displaying a public vote count roughly a third too low,
+        // and the gap only grows as more real votes come in -- which is
+        // exactly what looked like "my votes aren't being counted" to
+        // real people watching the number. count:"exact", head:true is
+        // a genuine COUNT(*) aggregate with no such cap, so one bounded
+        // query per finalist (there are only ever a handful) is what
+        // actually stays correct at any real vote volume.
+        const voteCountResults = await Promise.all(
+          finalists.map((finalist) =>
+            supabaseAdmin
+              .from("aotw_votes")
+              .select("id", { count: "exact", head: true })
+              .eq("finalist_id", finalist.id)
+          )
+        );
 
-        if (votesError) {
-          throw votesError;
-        }
+        finalists = finalists.map((finalist, index) => {
+          const result = voteCountResults[index];
 
-        const voteCounts = new Map();
+          if (result.error) {
+            throw result.error;
+          }
 
-        for (const row of voteRows ?? []) {
-          voteCounts.set(
-            row.finalist_id,
-            (voteCounts.get(row.finalist_id) || 0) + 1
-          );
-        }
-
-        finalists = finalists.map((finalist) => ({
-          ...finalist,
-          vote_count: voteCounts.get(finalist.id) || 0
-        }));
+          return { ...finalist, vote_count: result.count || 0 };
+        });
       }
     }
 

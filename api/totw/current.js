@@ -89,32 +89,31 @@ export default async function handler(request, response) {
       finalists = finalistRows ?? [];
 
       if (finalists.length) {
-        const { data: voteRows, error: votesError } =
-          await supabaseAdmin
-            .from("totw_votes")
-            .select("finalist_id")
-            .in(
-              "finalist_id",
-              finalists.map((finalist) => finalist.id)
-            );
+        // Real incident (2026-08-31): the identical query on
+        // api/aotw/current.js silently capped at PostgREST's default
+        // 1000-row limit once a popular week passed 1,000 real votes,
+        // undercounting every finalist's public vote count by roughly a
+        // third -- see that file's own comment for the full story.
+        // count:"exact", head:true is a genuine COUNT(*) aggregate with
+        // no such cap.
+        const voteCountResults = await Promise.all(
+          finalists.map((finalist) =>
+            supabaseAdmin
+              .from("totw_votes")
+              .select("id", { count: "exact", head: true })
+              .eq("finalist_id", finalist.id)
+          )
+        );
 
-        if (votesError) {
-          throw votesError;
-        }
+        finalists = finalists.map((finalist, index) => {
+          const result = voteCountResults[index];
 
-        const voteCounts = new Map();
+          if (result.error) {
+            throw result.error;
+          }
 
-        for (const row of voteRows ?? []) {
-          voteCounts.set(
-            row.finalist_id,
-            (voteCounts.get(row.finalist_id) || 0) + 1
-          );
-        }
-
-        finalists = finalists.map((finalist) => ({
-          ...finalist,
-          vote_count: voteCounts.get(finalist.id) || 0
-        }));
+          return { ...finalist, vote_count: result.count || 0 };
+        });
       }
     }
 
