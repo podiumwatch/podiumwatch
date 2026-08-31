@@ -685,19 +685,43 @@ p { margin-top: 0; }
 
 .award-shell { display: grid; gap: 54px; }
 .award-status { text-align: center; }
-.award-finalists, .award-winners { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.award-category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
-.award-category-grid .award-finalists { grid-template-columns: 1fr; }
+/* Finalists use a compact, logo-forward card so every candidate fits on
+   screen at once (the whole point of voting is comparing them side by
+   side) -- auto-fill lets the grid pack in as many columns as the
+   viewport allows rather than a fixed count, so mobile shows 2-3 and a
+   wide desktop shows 5-6, all without a breakpoint per size. Past
+   winners keep the old, larger fixed-column layout (.award-winners),
+   since an archive is browsed one story at a time, not compared. */
+.award-finalists { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 14px; }
+.award-winners { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .award-card { overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--line); background: var(--white); }
 .award-card-winner { border: 3px solid var(--green-dark); }
-.award-image, .award-image-placeholder { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; background: var(--green-ink); }
-.award-image-placeholder { display: grid; place-items: center; color: var(--green); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 3rem; }
-.award-card-body { flex: 1; display: flex; flex-direction: column; padding: 22px; }
-.award-card-body h3 { margin-bottom: 8px; }
-.award-card-body .button { align-self: stretch; margin-top: auto; }
-.award-card-meta { color: var(--muted); font-size: .9rem; }
+/* object-fit:contain (not cover) so a school logo is never cropped --
+   most finalist images are logos uploaded through the admin tool, not
+   action photos, and a padded light ground keeps transparent-background
+   logos legible. */
+.award-image, .award-image-placeholder { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; background: var(--paper); padding: 10px; box-sizing: border-box; }
+.award-image-placeholder { display: grid; place-items: center; padding: 0; color: var(--green); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 2.4rem; background: var(--green-ink); }
+.award-card-body { flex: 1; display: flex; flex-direction: column; gap: 6px; padding: 14px; }
+.award-card-body h3 { margin-bottom: 0; font-size: 1.05rem; line-height: 1.2; }
+.award-card-body .button { align-self: stretch; margin-top: 6px; min-height: 40px; padding: 8px 10px; font-size: .84rem; }
+.award-card-meta { margin-bottom: 0; color: var(--muted); font-size: .78rem; }
 .award-badge, .ranking-trust-badge, .change-badge { width: max-content; display: inline-flex; align-items: center; min-height: 30px; padding: 5px 10px; color: var(--black); background: var(--green); font-size: .74rem; font-weight: 900; letter-spacing: .6px; text-transform: uppercase; }
 .award-archive-card small { margin-top: auto; color: var(--muted); }
+/* Vote count is its own clearly-legible line, not buried in the meta
+   text -- a large tabular-numeral count plus a plain-language label. */
+.award-vote-count { display: flex; align-items: baseline; gap: 5px; margin-bottom: 0; }
+.award-vote-count strong { font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 1.3rem; font-variant-numeric: tabular-nums; color: var(--green-dark); }
+.award-vote-count span { color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .04em; }
+/* The achievement/description are collapsed by default (see
+   public/scripts/weekly-awards.js) so a compact card only ever shows
+   logo, name, meta, vote count, and the vote button -- exactly what's
+   needed to compare candidates at a glance. */
+.award-details-toggle { align-self: flex-start; margin-top: 2px; padding: 0; border: 0; background: none; color: var(--green-dark); font-weight: 800; font-size: .8rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.award-card-details { margin-top: 2px; padding-top: 8px; border-top: 1px solid var(--line); }
+.award-card-details[hidden] { display: none; }
+.award-card-details p { margin-bottom: 8px; font-size: .86rem; }
+.award-card-details p:last-child { margin-bottom: 0; }
 .award-form { margin-top: 26px; }
 .form-grid, .filter-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .form-field { display: grid; gap: 7px; font-weight: 800; }
@@ -752,14 +776,15 @@ p { margin-top: 0; }
 
 @media (max-width: 1120px) {
   .site-nav .nav-search-button { min-height: 54px; justify-content: flex-start; padding: 14px 4px; border: 0; border-bottom: 1px solid #2b2b2b; font-size: 1rem; }
-  .award-finalists, .award-winners, .regional-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .award-winners, .regional-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .quick-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 700px) {
-  .global-search-form, .form-grid, .filter-grid, .award-category-grid, .methodology-layout { grid-template-columns: 1fr; }
+  .global-search-form, .form-grid, .filter-grid, .methodology-layout { grid-template-columns: 1fr; }
   .form-field-full { grid-column: auto; }
-  .award-finalists, .award-winners, .regional-grid, .quick-links, .trust-strip { grid-template-columns: 1fr; }
+  .award-finalists { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .award-winners, .regional-grid, .quick-links, .trust-strip { grid-template-columns: 1fr; }
   .division-result { grid-template-columns: 1fr; }
   .division-result-values { min-width: 0; justify-items: start; text-align: left; }
   .methodology-sidebar { position: static; }

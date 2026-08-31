@@ -83,6 +83,35 @@ export default async function handler(request, response) {
       }
 
       finalists = finalistData ?? [];
+
+      if (finalists.length) {
+        const { data: voteRows, error: votesError } =
+          await supabaseAdmin
+            .from("aotw_votes")
+            .select("finalist_id")
+            .in(
+              "finalist_id",
+              finalists.map((finalist) => finalist.id)
+            );
+
+        if (votesError) {
+          throw votesError;
+        }
+
+        const voteCounts = new Map();
+
+        for (const row of voteRows ?? []) {
+          voteCounts.set(
+            row.finalist_id,
+            (voteCounts.get(row.finalist_id) || 0) + 1
+          );
+        }
+
+        finalists = finalists.map((finalist) => ({
+          ...finalist,
+          vote_count: voteCounts.get(finalist.id) || 0
+        }));
+      }
     }
 
     const winner =

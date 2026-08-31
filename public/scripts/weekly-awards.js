@@ -70,28 +70,40 @@
   function imageMarkup(item, name) {
     const url = safeUrl(item.image_url);
     if (!url) return `<div class="award-image-placeholder" aria-hidden="true">PW</div>`;
-    return `<img class="award-image" src="${escapeHtml(url)}" alt="${escapeHtml(name)}" loading="lazy" width="480" height="320">`;
+    return `<img class="award-image" src="${escapeHtml(url)}" alt="${escapeHtml(name)}" loading="lazy" width="320" height="320">`;
   }
 
   function itemName(item) {
     return isTeam ? item.team_name : item.athlete_name;
   }
 
+  // Compact by design: a card shows only what's needed to compare
+  // candidates at a glance (logo, name, meta, vote count, vote button) so
+  // every finalist fits on screen together on both mobile and desktop.
+  // Achievement/description are real content but not needed to decide who
+  // to vote for, so they're collapsed behind a "Show details" toggle
+  // (wired up below) instead of always taking up card height.
   function finalistCard(item, week, winner = false) {
     const name = itemName(item);
     const details = isTeam
       ? [item.school, item.sport, item.division].filter(Boolean).join(" | ")
       : [item.school, item.grade].filter(Boolean).join(" | ");
     const votingOpen = week?.status === "voting_open";
+    const voteCount = Number(item.vote_count) || 0;
+    const hasDetails = Boolean(item.achievement || item.description);
     return `<article class="award-card${winner ? " award-card-winner" : ""}">
       ${imageMarkup(item, name)}
       <div class="award-card-body">
         ${winner ? '<p class="award-badge">Winner</p>' : ""}
         <h3>${escapeHtml(name)}</h3>
         ${details ? `<p class="award-card-meta">${escapeHtml(details)}</p>` : ""}
-        ${item.achievement ? `<p><strong>${escapeHtml(item.achievement)}</strong></p>` : ""}
-        ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}
-        ${votingOpen ? `<button class="button button-primary" type="button" data-vote-id="${escapeHtml(item.id)}" data-vote-name="${escapeHtml(name)}">Vote for ${escapeHtml(name)}</button><p class="form-message" data-vote-message="${escapeHtml(item.id)}" aria-live="polite"></p>` : ""}
+        <p class="award-vote-count"><strong>${voteCount}</strong><span>${voteCount === 1 ? "vote" : "votes"}</span></p>
+        ${votingOpen ? `<button class="button button-primary" type="button" data-vote-id="${escapeHtml(item.id)}" data-vote-name="${escapeHtml(name)}" aria-label="Vote for ${escapeHtml(name)}">Vote</button><p class="form-message" data-vote-message="${escapeHtml(item.id)}" aria-live="polite"></p>` : ""}
+        ${hasDetails ? `<button class="award-details-toggle" type="button" aria-expanded="false">Show details</button>
+        <div class="award-card-details" hidden>
+          ${item.achievement ? `<p><strong>${escapeHtml(item.achievement)}</strong></p>` : ""}
+          ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}
+        </div>` : ""}
       </div>
     </article>`;
   }
@@ -151,6 +163,16 @@
   }
 
   root.addEventListener("click", async (event) => {
+    const detailsToggle = event.target.closest(".award-details-toggle");
+    if (detailsToggle) {
+      const details = detailsToggle.nextElementSibling;
+      const expanded = detailsToggle.getAttribute("aria-expanded") === "true";
+      detailsToggle.setAttribute("aria-expanded", String(!expanded));
+      detailsToggle.textContent = expanded ? "Show details" : "Hide details";
+      if (details) details.hidden = expanded;
+      return;
+    }
+
     const button = event.target.closest("[data-vote-id]");
     if (!button || button.disabled) return;
     const id = button.dataset.voteId;
