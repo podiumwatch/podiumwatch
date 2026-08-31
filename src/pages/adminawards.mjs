@@ -30,6 +30,8 @@ const styles = `
     .awards-inline-form label { display: grid; gap: 4px; font-weight: 800; font-size: .82rem; }
     .awards-inline-form input, .awards-inline-form textarea { padding: 7px 9px; border: 1px solid rgba(15,23,42,.22); border-radius: 7px; font: inherit; }
     .awards-inline-form textarea { min-height: 64px; resize: vertical; }
+    .awards-inline-form input[type="file"] { border: 1px dashed rgba(15,23,42,.3); background: #fff; padding: 8px 9px; }
+    .awards-upload-status { font-size: .8rem; font-weight: 800; color: #475569; }
     .awards-finalist-card { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: start; padding: 12px; border: 1px solid rgba(15,23,42,.12); border-radius: 10px; background: #fff; }
     .awards-finalist-card img { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; background: #e2e8f0; }
     .awards-finalist-card .awards-finalist-photo-empty { width: 64px; height: 64px; border-radius: 8px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: .7rem; color: #64748b; text-align: center; }

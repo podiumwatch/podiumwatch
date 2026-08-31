@@ -45,6 +45,65 @@
     return payload;
   }
 
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = String(reader.result || "");
+        const commaIndex = result.indexOf(",");
+        resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
+      };
+      reader.onerror = () => reject(new Error("That file could not be read."));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Uploads a chosen file to the award-media bucket and fills the Photo
+  // URL field sitting in the same inline form -- shared by both the
+  // promote form and the finalist edit form's file input (see
+  // photoUploadHtml above), found via the same recordId the input and
+  // status span were both rendered with.
+  async function handleAwardImageFileChange(fileInput) {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) return;
+
+    const recordId = fileInput.dataset.awardImageFile;
+    const container = fileInput.closest(".awards-inline-form");
+    const urlInput = container && container.querySelector('[data-field="image_url"]');
+    const statusEl = root.querySelector(`[data-award-upload-status="${CSS.escape(recordId)}"]`);
+
+    if (statusEl) {
+      statusEl.hidden = false;
+      statusEl.textContent = "Uploading image.";
+    }
+    fileInput.disabled = true;
+
+    try {
+      const response = await fetch("/api/admin/awards-upload-media/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          type: currentType,
+          record_id: recordId,
+          file_name: file.name,
+          encoding: "base64",
+          content: await fileToBase64(file)
+        })
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || "The image could not be uploaded.");
+
+      if (urlInput) urlInput.value = payload.url;
+      if (statusEl) statusEl.textContent = "Image uploaded.";
+    } catch (error) {
+      if (statusEl) statusEl.textContent = error.message;
+    } finally {
+      fileInput.disabled = false;
+      fileInput.value = "";
+    }
+  }
+
   function formatDate(value) {
     if (!value) return "Unknown";
     return new Date(value).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
@@ -108,9 +167,23 @@
     return `<b>${escapeHtml(name)}</b><br>${escapeHtml(nomination.school)}`;
   }
 
+  // Shared by both the promote form and the finalist edit form: a file
+  // input that uploads straight to the award-media bucket and fills the
+  // Photo URL field above it, for the common real case that a nominator
+  // never submitted a photo and the admin just wants to attach a school
+  // logo they have as a local file. recordId scopes the upload's storage
+  // key (a nomination id from the promote form, a finalist id from the
+  // edit form) and is also how the delegated change handler below finds
+  // which Photo URL field and status span to update.
+  function photoUploadHtml(recordId) {
+    return `<label>Or upload an image (e.g. a school logo)<input type="file" accept="image/png,image/jpeg,image/gif,image/webp" data-award-image-file="${escapeHtml(recordId)}"></label>
+      <span class="awards-upload-status" data-award-upload-status="${escapeHtml(recordId)}" hidden></span>`;
+  }
+
   function promoteFormHtml(nomination) {
     return `<div class="awards-inline-form" data-promote-form="${escapeHtml(nomination.id)}">
       <label>Photo URL<input type="text" data-field="image_url" value="${escapeHtml(nomination.photo_url || "")}"></label>
+      ${photoUploadHtml(nomination.id)}
       <label>Achievement (short)<input type="text" data-field="achievement" value="${escapeHtml(defaultAchievement(nomination))}"></label>
       <label>Description (longer)<textarea data-field="description">${escapeHtml(nomination.reason || "")}</textarea></label>
       <label>Sort order<input type="number" data-field="sort_order" value="0"></label>
@@ -148,6 +221,7 @@
   function finalistEditFormHtml(finalist) {
     return `<div class="awards-inline-form" data-edit-form="${escapeHtml(finalist.id)}">
       <label>Photo URL<input type="text" data-field="image_url" value="${escapeHtml(finalist.image_url || "")}"></label>
+      ${photoUploadHtml(finalist.id)}
       <label>Achievement<input type="text" data-field="achievement" value="${escapeHtml(finalist.achievement || "")}"></label>
       <label>Description<textarea data-field="description">${escapeHtml(finalist.description || "")}</textarea></label>
       <label>Sort order<input type="number" data-field="sort_order" value="${Number(finalist.sort_order) || 0}"></label>
@@ -291,6 +365,12 @@
   });
 
   nominationRows.addEventListener("change", async (event) => {
+    const imageFile = event.target.closest("[data-award-image-file]");
+    if (imageFile) {
+      await handleAwardImageFileChange(imageFile);
+      return;
+    }
+
     const reviewToggle = event.target.closest("[data-review-toggle]");
     const selectToggle = event.target.closest("[data-select-toggle]");
     if (!reviewToggle && !selectToggle) return;
@@ -356,6 +436,12 @@
         setBusy(false);
       }
     }
+  });
+
+  finalistList.addEventListener("change", async (event) => {
+    const imageFile = event.target.closest("[data-award-image-file]");
+    if (!imageFile) return;
+    await handleAwardImageFileChange(imageFile);
   });
 
   finalistList.addEventListener("click", async (event) => {
