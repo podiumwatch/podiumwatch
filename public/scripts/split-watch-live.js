@@ -88,6 +88,16 @@
 
   const SESSIONS_ENDPOINT = "/api/split-watch/sessions/";
   const SYNC_ENDPOINT = "/api/split-watch/sync/";
+  // Real incident (2026-08-25): a helper's very first load of this page
+  // hung on "Loading live race..." forever -- apiFetch()'s fetch() had no
+  // timeout at all, so a single stalled request (bad stadium wifi, a cold
+  // serverless start, anything that stalls rather than cleanly errors)
+  // left initialize() awaiting a promise that would never resolve or
+  // reject, with no way to reach either the success path or the existing
+  // catch block's error screen. 15s is generous for a normal request but
+  // short enough that a genuinely stuck device recovers well within a
+  // volunteer's patience at the start line.
+  const REQUEST_TIMEOUT_MS = 15000;
 
   const Store = window.PodiumRaceStore;
   const Timer = window.PodiumRaceTimer.createRaceTimer();
@@ -263,15 +273,28 @@
     const headers = { Accept: "application/json", "Content-Type": "application/json" };
     if (accessToken) headers.Authorization = "Bearer " + accessToken;
     const requestSentMs = Date.now();
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers,
-      // client_clock_offset_ms lets the server surface a genuinely bad
-      // device clock on the coach's OWN readiness checklist (see
-      // lib/race_readiness_service.mjs), not just silently affect this
-      // one device's own recovered-time precision.
-      body: JSON.stringify({ team_id: teamId, session_id: sessionId, client_clock_offset_ms: lastKnownClockOffsetMs, ...payload })
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    let response;
+    try {
+      response = await fetch(endpoint, {
+        method: "POST",
+        headers,
+        // client_clock_offset_ms lets the server surface a genuinely bad
+        // device clock on the coach's OWN readiness checklist (see
+        // lib/race_readiness_service.mjs), not just silently affect this
+        // one device's own recovered-time precision.
+        body: JSON.stringify({ team_id: teamId, session_id: sessionId, client_clock_offset_ms: lastKnownClockOffsetMs, ...payload }),
+        signal: controller.signal
+      });
+    } catch (error) {
+      if (error.name === "AbortError") {
+        throw new Error("This is taking longer than expected -- check your connection and try again.");
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
     // A helper who opened THIS exact race's link cold (no code entered
     // on this device yet) -- most importantly a coach's own "share this
     // rehearsal" link, since a rehearsal never appears in the smart-
@@ -1693,9 +1716,24 @@
         checkDeviceReadinessBeforeStart();
       }
     } catch (error) {
+      // Real incident (2026-08-25): before REQUEST_TIMEOUT_MS existed,
+      // this catch block could never be reached at all -- a stalled
+      // request just left "Loading live race..." on screen forever, with
+      // no error and no way out short of the volunteer guessing to
+      // reload. Retry re-runs the exact same initialize() a page reload
+      // would, but without losing this race's URL/context the way
+      // "Back to Split Watch" does.
       loadingBox.innerHTML =
-        "<h2>This race could not be loaded</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="sw-live-btn sw-live-btn-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
+        "<h2>Couldn't verify -- retry</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
+        '<p><button class="sw-live-btn sw-live-btn-primary" type="button" data-sw-retry-load>Try again</button> ' +
+        '<a class="sw-live-btn sw-live-btn-outline" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
+      const retryButton = loadingBox.querySelector("[data-sw-retry-load]");
+      if (retryButton) {
+        retryButton.addEventListener("click", () => {
+          loadingBox.innerHTML = "<h2>Loading live race...</h2><p>Please wait while Podium Watch securely loads this race.</p>";
+          initialize();
+        });
+      }
     }
   }
 

@@ -43,6 +43,12 @@
     });
   }
 
+  // Real incident (2026-08-25): a helper's "Checking access" screen hung
+  // forever on a stalled request (bad stadium wifi, a cold serverless
+  // start) with no timeout anywhere to fall back to a visible, retryable
+  // error -- see split-watch-live.js's matching fix for the fuller story.
+  const REQUEST_TIMEOUT_MS = 15000;
+
   async function apiFetch(endpoint, payload) {
     // Same dual-credential pattern as every other Split Watch page --
     // a race-day code visitor has no Supabase session, only the
@@ -50,11 +56,24 @@
     const accessToken = await window.PodiumTeamAuth.getAccessToken();
     const headers = { Accept: "application/json", "Content-Type": "application/json" };
     if (accessToken) headers.Authorization = "Bearer " + accessToken;
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ team_id: teamId, ...payload })
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    let response;
+    try {
+      response = await fetch(endpoint, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ team_id: teamId, ...payload }),
+        signal: controller.signal
+      });
+    } catch (error) {
+      if (error.name === "AbortError") {
+        throw new Error("This is taking longer than expected -- check your connection and try again.");
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
     if (response.status === 401) window.location.replace("/split-watch/join/");
     return parseResponse(response, "The request could not be completed.");
   }
@@ -229,9 +248,21 @@
       raceList.innerHTML = "";
       raceEmpty.hidden = false;
     } catch (error) {
+      // Real incident (2026-08-25): before REQUEST_TIMEOUT_MS existed,
+      // this catch block could never be reached at all -- a stalled
+      // request just left "Checking access" on screen forever. Retry
+      // re-runs the exact same initialize() a page reload would.
       loadingBox.innerHTML =
-        "<h2>Split Watch unavailable</h2>" +
-        "<p>" + escapeHtml(error.message || "Races could not be loaded.") + "</p>";
+        "<h2>Couldn't verify -- retry</h2>" +
+        "<p>" + escapeHtml(error.message || "Races could not be loaded.") + "</p>" +
+        '<p><button class="button button-primary" type="button" data-swr-retry-load>Try again</button></p>';
+      const retryButton = loadingBox.querySelector("[data-swr-retry-load]");
+      if (retryButton) {
+        retryButton.addEventListener("click", () => {
+          loadingBox.innerHTML = "<h2>Checking access</h2><p>Please wait while Podium Watch securely loads this team's races.</p>";
+          initialize();
+        });
+      }
     }
   }
 
