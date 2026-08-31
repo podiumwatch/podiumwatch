@@ -407,3 +407,75 @@ test("the public submit-results page and script exist with the expected safety m
     "Public submit-results client script"
   );
 });
+
+// Found 2026-08-31 pasting a real, 959-row Athletic.net "Elite
+// Performances" export (Bob Schul Invitational) -- it produced zero
+// staged rows. Two real, distinct gaps, both fixed in
+// lib/result_parsers.mjs: Athletic.net prints the raw grade number
+// (9/10/11/12) in its single-space-separated results, not FR/SO/JR/SR,
+// and its section headers write the distance with a thousands-separator
+// comma ("5,000 Meters"), which the event-detection regex does not
+// treat as the same token as "5000".
+test("a numeric-grade, single-space-separated row (Athletic.net's own export format) parses", () => {
+  const text = [
+    "Boys DI-II 5,000 Meters",
+    "============================================================================================",
+    " Athlete Yr Team Mark H#",
+    "============================================================================================",
+    " 1 Logan Miller 11 Granville 16:08.0",
+    " 2 Jack Rosson 12 Butler 16:18.4"
+  ].join("\n");
+  const rows = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2026 });
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].athleteName, "Logan Miller");
+  assert.equal(rows[0].athleteGrade, "11");
+  assert.equal(rows[0].schoolName, "Granville");
+  assert.equal(rows[0].markText, "16:08.0");
+  assert.equal(rows[0].gender, "boys", "The comma in \"5,000 Meters\" must not stop the event heading (and the gender embedded in it) from being recognized.");
+  assert.equal(rows[0].eventCode, "xc_5k");
+});
+
+test("a HY-TEK Team Scores row does not leak as a fake individual result now that grade accepts a bare number", () => {
+  // "2 Willard  53  3 11 12 13 14 16 17" -- rank, team, total, then
+  // scoring places. Before the school-must-contain-a-letter guard, "11"
+  // (one of the scoring places) matched the widened grade anchor and
+  // the rest was staged as a fake finisher with a numeric "school name."
+  const text = [
+    " Athlete Yr Team Mark H#",
+    "1 Old Fort                     21    1    2    5    6    7    8    9",
+    "2 Willard                      53    3   11   12   13   14   16   17"
+  ].join("\n");
+  const rows = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2026 });
+  assert.equal(rows.length, 0, "A team-score summary row must never be staged as an individual result.");
+});
+
+test("a real result row's school name is never mistaken for a run of scoring places", () => {
+  const text = " 1 Logan Miller 11 Granville 16:08.0";
+  const [row] = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2026, eventName: "5000" });
+  assert.ok(row, "A genuine single-space result row must still parse.");
+  assert.ok(/[A-Za-z]/.test(row.schoolName), "A real school name always contains a letter.");
+});
+
+test("a finisher's own place number (100, 200, 300...) is never mistaken for a new event heading", () => {
+  // Found 2026-08-31 on a real 320-finisher Athletic.net race: place
+  // "100" satisfies the same EVENT token list as "100 Meter Dash," so
+  // every row from place 100 onward silently had its event/gender
+  // context overwritten to an unrelated track event, mid cross-country
+  // race, with no error or warning.
+  const text = [
+    "Boys DI-II 5,000 Meters",
+    "============================================================================================",
+    " Athlete Yr Team Mark H#",
+    "============================================================================================",
+    " 99 Jackson Shanley 9 Lebanon 19:24.9",
+    " 100 Treson Henley 12 Franklin 19:25.0",
+    " 200 Drew Glines 10 Oakwood 22:25.0",
+    " 300 Jax Unrast 11 Russia 26:33.6"
+  ].join("\n");
+  const rows = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2026 });
+  assert.equal(rows.length, 4);
+  for (const row of rows) {
+    assert.equal(row.gender, "boys", `Row for ${row.athleteName} lost its gender context.`);
+    assert.equal(row.eventCode, "xc_5k", `Row for ${row.athleteName} was misclassified as a different event by its own place number.`);
+  }
+});
