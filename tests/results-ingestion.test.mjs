@@ -479,3 +479,71 @@ test("a finisher's own place number (100, 200, 300...) is never mistaken for a n
     assert.equal(row.eventCode, "xc_5k", `Row for ${row.athleteName} was misclassified as a different event by its own place number.`);
   }
 });
+
+test("a single-space header that also looks like a fixed-column header does not truncate names via stale character offsets", () => {
+  // Found 2026-08-30 on a real GlenOak Eagle Invitational paste. The
+  // header "Name Year Team Finals Points" matches the older fixed-column
+  // detection regex (unlike Bob Schul's "Athlete Yr Team Mark H#", which
+  // uses "Athlete" instead of "Name" and never triggers it), but the
+  // data rows below it are single-space-delimited with variable-width
+  // names/schools, not truly fixed-width. Slicing at the header's
+  // character offsets truncated "Tyler Brown" down to "Tyl". The
+  // grade-anchored pattern must now be tried first and win.
+  const text = [
+    "Individual Results - Boys HS Open 5000m",
+    "=====================================================================",
+    " Name Year Team Finals Points",
+    "=====================================================================",
+    " 1 Tyler Brown 10 Mass. Jackson 17:44.81 1",
+    " 2 Enzo Drunasky 11 GlenOak 17:52.03 2"
+  ].join("\n");
+  const rows = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2026 });
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].athleteName, "Tyler Brown");
+  assert.equal(rows[0].athleteGrade, "10");
+  assert.equal(rows[0].schoolName, "Mass. Jackson");
+  assert.equal(rows[0].markText, "17:44.81");
+  assert.equal(rows[1].athleteName, "Enzo Drunasky");
+  assert.equal(rows[1].schoolName, "GlenOak");
+});
+
+test("a distance event heading with no space before the unit (\"5000m\") is still recognized", () => {
+  // Found 2026-08-30 on the same GlenOak paste: "Boys HS Open 5000m" has
+  // no word boundary between "5000" and "m", so a bare \b5000\b never
+  // matched at all -- not just a wrong guess, but zero gender/level/
+  // event context for every row under the heading, and eventCode() had
+  // the identical gap for the athleteEvent field it derives from.
+  const text = [
+    "Individual Results - Girls HS Varsity 5000m",
+    "=====================================================================",
+    " Name Year Team Finals Points",
+    "=====================================================================",
+    " 1 Zach Sohar 12 Medina 21:10.22 1"
+  ].join("\n");
+  const [row] = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2026 });
+  assert.ok(row, "The data row must still parse.");
+  assert.equal(row.gender, "girls");
+  assert.equal(row.competitionLevel, "high_school");
+  assert.equal(row.eventCode, "xc_5k");
+});
+
+test("a trailing \"--\" non-scorer marker (instead of a numeric points value) does not stop a row from parsing", () => {
+  // Found 2026-08-30 on the same GlenOak paste: 292 of 669 rows -- every
+  // non-scoring finisher in each Open heat -- ended in "--" instead of a
+  // number. The bare [\d.]+ trailing-points group rejected that outright
+  // and the whole line failed to parse at all, not just lose its points.
+  const text = [
+    "Individual Results - Girls HS Open 5000m",
+    "=====================================================================",
+    " Name Year Team Finals Points",
+    "=====================================================================",
+    " 1 Kasey Bolyard 12 Mogadore 20:58.16 --",
+    " 2 Alyvia Sandor 11 Mass. Jackson 21:45.86 1"
+  ].join("\n");
+  const rows = parsePastedOrDelimitedText(text, { sport: "cross_country", seasonYear: 2026 });
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].athleteName, "Kasey Bolyard");
+  assert.equal(rows[0].schoolName, "Mogadore");
+  assert.equal(rows[0].markText, "20:58.16");
+  assert.equal(rows[1].athleteName, "Alyvia Sandor");
+});
