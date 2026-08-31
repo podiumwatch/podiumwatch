@@ -128,6 +128,74 @@ test("every junior high row resolves a real event key for 1 Mile cross country",
   }
 });
 
+// Found live 2026-08-31 importing a real Moeller Primetime Invitational
+// (meet 20272576): its HS events use measure "M" (metric/kilometers),
+// unlike Shelby County Preview's "E" (English/miles) fixture above, which
+// is all the original acceptance test ever exercised. Every HS row came
+// back "5 Mile" (a null event_code, since no such event key exists)
+// instead of the real 5K race it actually was.
+function metricEventDoc(overrides = {}) {
+  return {
+    name: "HS Girls Varsity",
+    fileNameOverride: "hs-girls-varsity",
+    gender: "F",
+    distance: "5",
+    measure: "M",
+    groups: [{
+      athletes: [{
+        athlete_id: 1, first_name: "Real", last_name: "Athlete", gender: "F",
+        team: "Real School", team_id: 1, state: "OH", year: "11", division: "1",
+        splits: [null, { place: 1, points: 1, time: "18:00.0", timeOriginal: "18:00.00", timeSeconds: 1080, dnf: 0 }]
+      }]
+    }],
+    ...overrides
+  };
+}
+
+test("a metric-measure distance (measure \"M\") resolves a real 5K event key, not a bogus \"5 Mile\"", () => {
+  const meetContext = { ...buildMeetContext(), meetId: "20272576" };
+  const [row] = parseAthleteRows(meetContext, "2704", metricEventDoc()).map(normalizeResult);
+  assert.equal(row.eventName, "5K");
+  assert.equal(row.eventCode, "xc_5k");
+});
+
+test("a meters-only distance (no recognized measure) still resolves via the raw meters alias", () => {
+  const meetContext = { ...buildMeetContext(), meetId: "20272576" };
+  const [row] = parseAthleteRows(
+    meetContext,
+    "2700",
+    metricEventDoc({ name: "MS Girls Varsity", fileNameOverride: "ms-girls-varsity", distance: "3200", measure: "S" })
+  ).map(normalizeResult);
+  assert.equal(row.eventName, "3200m");
+  assert.equal(row.eventCode, "xc_3200");
+});
+
+test("a high-school event whose heat happens to be JV/Open classifies as high_school, not junior_varsity", () => {
+  // Found live 2026-08-31: "HS Girls JV/Open" matched the JV check before
+  // the HS check ran at all, misclassifying every row in a real high
+  // school race's non-varsity heat as a genuinely separate JV program.
+  const meetContext = { ...buildMeetContext(), meetId: "20272576" };
+  const [row] = parseAthleteRows(
+    meetContext,
+    "2702",
+    metricEventDoc({ name: "HS Girls JV/Open", fileNameOverride: "hs-girls-jv-open" })
+  );
+  assert.equal(row.competitionLevel, "high_school");
+});
+
+test("a real OHSAA competitive division number on the athlete row is never mistaken for an inconsistent level signal", () => {
+  // Found live 2026-08-31: athlete.division holds the school's OHSAA
+  // competitive division ("1"-"4"), not a level echo of the event name --
+  // comparing them fired INCONSISTENT_LEVEL_SIGNAL on 626 of 628 real
+  // rows in one meet alone, with zero real signal behind any of them.
+  const meetContext = { ...buildMeetContext(), meetId: "20272576" };
+  const [row] = parseAthleteRows(meetContext, "2704", metricEventDoc());
+  assert.ok(
+    !row.warningCodes.includes("INCONSISTENT_LEVEL_SIGNAL"),
+    "A real division number must never produce this warning."
+  );
+});
+
 test("every athlete row carries a confirmed Ohio state and gender", () => {
   const meetContext = buildMeetContext();
   const rows = parseAthleteRows(meetContext, "2737", events["2737"]);
