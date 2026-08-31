@@ -49,7 +49,6 @@ export default async function handler(request, response) {
       .select(`
         id,
         week_id,
-        category,
         team_name,
         school,
         sport,
@@ -68,30 +67,30 @@ export default async function handler(request, response) {
 
     const finalists = finalistRows ?? [];
 
-    const winners = weeks.map((week) => {
-      const boysWinner =
-        finalists.find(
-          (finalist) =>
-            finalist.week_id === week.id &&
-            finalist.category === "boys"
-        ) ?? null;
+    // A week from before Team of the Week combined its boys/girls
+    // categories into one (see lib/awards_service.mjs) could still have
+    // two winner:true rows -- team keeps just the first for that case
+    // rather than erroring, since every week going forward will only
+    // ever have exactly one.
+    const winners = weeks
+      .map((week) => {
+        const team =
+          finalists.find(
+            (finalist) => finalist.week_id === week.id
+          ) ?? null;
 
-      const girlsWinner =
-        finalists.find(
-          (finalist) =>
-            finalist.week_id === week.id &&
-            finalist.category === "girls"
-        ) ?? null;
+        if (!team) {
+          return null;
+        }
 
-      return {
-        id: week.id,
-        week_slug: week.week_slug,
-        title: week.title,
-        voting_closes: week.voting_closes,
-        boys_winner: boysWinner,
-        girls_winner: girlsWinner
-      };
-    });
+        return {
+          week_slug: week.week_slug,
+          title: week.title,
+          voting_closes: week.voting_closes,
+          team
+        };
+      })
+      .filter(Boolean);
 
     return response.status(200).json({
       winners

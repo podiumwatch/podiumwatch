@@ -37,10 +37,6 @@ function createVoterHash(voterToken) {
     .digest("hex");
 }
 
-function categoryLabel(category) {
-  return category === "girls" ? "girls" : "boys";
-}
-
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
 
@@ -102,7 +98,6 @@ export default async function handler(request, response) {
       .select(`
         id,
         week_id,
-        category,
         team_name,
         school
       `)
@@ -203,10 +198,6 @@ export default async function handler(request, response) {
       ) || COOLDOWN_SECONDS
     );
 
-    const voteCategory =
-      voteResult.vote_category ||
-      finalist.category;
-
     if (!voteResult.accepted) {
       if (voteResult.reason === "cooldown") {
         response.setHeader(
@@ -216,9 +207,8 @@ export default async function handler(request, response) {
 
         return response.status(429).json({
           error:
-            `Please wait ${retryAfterSeconds} seconds before voting for another ${categoryLabel(voteCategory)} team.`,
-          retry_after_seconds: retryAfterSeconds,
-          category: voteCategory
+            `Please wait ${retryAfterSeconds} seconds before voting again.`,
+          retry_after_seconds: retryAfterSeconds
         });
       }
 
@@ -254,9 +244,8 @@ export default async function handler(request, response) {
       success: true,
       message:
         `Your vote for ${finalist.team_name} has been recorded. ` +
-        `You can vote for another ${categoryLabel(finalist.category)} team in ${COOLDOWN_SECONDS} seconds.`,
+        `You can vote again in ${COOLDOWN_SECONDS} seconds.`,
       retry_after_seconds: COOLDOWN_SECONDS,
-      category: finalist.category,
       team_name: finalist.team_name
     });
   } catch (error) {

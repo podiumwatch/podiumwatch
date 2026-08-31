@@ -75,7 +75,6 @@ export function adminAwardsPage(site) {
           <label data-type-only="aotw">Athlete name<input type="text" name="athlete_name"></label>
           <label data-type-only="totw">Team name<input type="text" name="team_name"></label>
           <label>School<input type="text" name="school" required></label>
-          <label data-type-only="totw">Category<select name="category"><option value="boys">Boys</option><option value="girls">Girls</option></select></label>
           <label data-type-only="totw">Sport<input type="text" name="sport" value="Cross Country"></label>
           <label data-type-only="totw">Division<input type="text" name="division"></label>
           <label data-type-only="aotw">Grade<input type="text" name="grade"></label>

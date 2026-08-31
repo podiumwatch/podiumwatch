@@ -1,9 +1,10 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 
-const ALLOWED_CATEGORIES = new Set([
-  "boys",
-  "girls"
-]);
+// Team of the Week no longer runs separate boys/girls categories (see
+// lib/awards_service.mjs) -- every nomination gets this same fixed value.
+// totw_nominations.category is still a real, required column on the
+// existing hand-built schema, so it can't simply be left out.
+const TOTW_CATEGORY = "overall";
 
 function cleanText(value, maximumLength) {
   if (typeof value !== "string") {
@@ -109,11 +110,6 @@ export default async function handler(request, response) {
       });
     }
 
-    const category = cleanText(
-      body.category,
-      20
-    ).toLowerCase();
-
     const teamName = cleanText(
       body.team_name,
       150
@@ -179,13 +175,6 @@ export default async function handler(request, response) {
       body.nominator_email,
       254
     ).toLowerCase();
-
-    if (!ALLOWED_CATEGORIES.has(category)) {
-      return response.status(400).json({
-        error:
-          "Please choose either the boys or girls category."
-      });
-    }
 
     if (!teamName) {
       return response.status(400).json({
@@ -335,7 +324,7 @@ export default async function handler(request, response) {
       .from("totw_nominations")
       .insert({
         week_id: week.id,
-        category,
+        category: TOTW_CATEGORY,
         team_name: teamName,
         school,
         sport,

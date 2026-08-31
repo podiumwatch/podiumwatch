@@ -117,45 +117,31 @@
     statusBox.hidden = true;
     currentSection.hidden = false;
 
-    if (isTeam) {
-      const boys = data.boys_finalists || [];
-      const girls = data.girls_finalists || [];
-      const boysContainer = root.querySelector('[data-award-finalists="boys"]');
-      const girlsContainer = root.querySelector('[data-award-finalists="girls"]');
-      boysContainer.innerHTML = boys.length ? boys.map((item) => finalistCard(item, week, item.winner === true)).join("") : '<div class="empty-state compact-empty"><h3>Finalists are not published yet</h3><p>Check back after nominations are reviewed.</p></div>';
-      girlsContainer.innerHTML = girls.length ? girls.map((item) => finalistCard(item, week, item.winner === true)).join("") : '<div class="empty-state compact-empty"><h3>Finalists are not published yet</h3><p>Check back after nominations are reviewed.</p></div>';
-    } else {
-      const finalists = data.finalists || [];
-      const container = root.querySelector("[data-award-finalists]");
-      container.innerHTML = finalists.length ? finalists.map((item) => finalistCard(item, week, item.winner === true)).join("") : '<div class="empty-state compact-empty"><h3>Finalists are not published yet</h3><p>Check back after nominations are reviewed.</p></div>';
-    }
+    const finalists = data.finalists || [];
+    const container = root.querySelector("[data-award-finalists]");
+    container.innerHTML = finalists.length ? finalists.map((item) => finalistCard(item, week, item.winner === true)).join("") : '<div class="empty-state compact-empty"><h3>Finalists are not published yet</h3><p>Check back after nominations are reviewed.</p></div>';
 
     nominationSection.hidden = week.status !== "nominations_open";
     if (nominationForm) nominationForm.hidden = week.status !== "nominations_open";
   }
 
-  function renderAthleteArchive(winners) {
+  function renderArchive(winners) {
     if (!winners.length) return '<div class="empty-state compact-empty"><h3>No past winners published</h3><p>The archive will grow as winners are announced.</p></div>';
-    return winners.map(({ title, voting_closes: date, athlete }) => `<article class="award-card award-archive-card">${imageMarkup(athlete, athlete.athlete_name)}<div class="award-card-body"><p class="award-badge">${escapeHtml(title || "Past winner")}</p><h3>${escapeHtml(athlete.athlete_name)}</h3><p class="award-card-meta">${escapeHtml([athlete.school, athlete.grade].filter(Boolean).join(" | "))}</p>${athlete.achievement ? `<p>${escapeHtml(athlete.achievement)}</p>` : ""}<small>Announced ${escapeHtml(formatDate(date))}</small></div></article>`).join("");
-  }
-
-  function renderTeamArchive(winners) {
-    if (!winners.length) return '<div class="empty-state compact-empty"><h3>No past winners published</h3><p>The archive will grow as winners are announced.</p></div>';
-    const cards = [];
-    for (const week of winners) {
-      for (const [label, item] of [["Boys winner", week.boys_winner], ["Girls winner", week.girls_winner]]) {
-        if (!item) continue;
-        cards.push(`<article class="award-card award-archive-card">${imageMarkup(item, item.team_name)}<div class="award-card-body"><p class="award-badge">${label}</p><h3>${escapeHtml(item.team_name)}</h3><p class="award-card-meta">${escapeHtml([item.school, item.sport, item.division].filter(Boolean).join(" | "))}</p>${item.achievement ? `<p>${escapeHtml(item.achievement)}</p>` : ""}<small>${escapeHtml(week.title || "Past winner")} | ${escapeHtml(formatDate(week.voting_closes))}</small></div></article>`);
-      }
-    }
-    return cards.join("") || '<div class="empty-state compact-empty"><h3>No past winners published</h3></div>';
+    return winners.map((entry) => {
+      const item = isTeam ? entry.team : entry.athlete;
+      const name = itemName(item);
+      const details = isTeam
+        ? [item.school, item.sport, item.division].filter(Boolean).join(" | ")
+        : [item.school, item.grade].filter(Boolean).join(" | ");
+      return `<article class="award-card award-archive-card">${imageMarkup(item, name)}<div class="award-card-body"><p class="award-badge">${escapeHtml(entry.title || "Past winner")}</p><h3>${escapeHtml(name)}</h3><p class="award-card-meta">${escapeHtml(details)}</p>${item.achievement ? `<p>${escapeHtml(item.achievement)}</p>` : ""}<small>Announced ${escapeHtml(formatDate(entry.voting_closes))}</small></div></article>`;
+    }).join("");
   }
 
   async function load() {
     try {
       const [current, archive] = await Promise.all([request(`${apiBase}/current`), request(`${apiBase}/archive`)]);
       renderCurrent(current);
-      archiveContainer.innerHTML = isTeam ? renderTeamArchive(archive.winners || []) : renderAthleteArchive(archive.winners || []);
+      archiveContainer.innerHTML = renderArchive(archive.winners || []);
     } catch (error) {
       statusBox.innerHTML = `<h2>Awards are temporarily unavailable</h2><p>${escapeHtml(error.message)}</p>`;
       statusBox.hidden = false;

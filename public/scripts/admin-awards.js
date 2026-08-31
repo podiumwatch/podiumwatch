@@ -157,7 +157,7 @@
 
   function nominationDetailsHtml(nomination) {
     if (currentType === "totw") {
-      return `${escapeHtml(nomination.category === "girls" ? "Girls" : "Boys")} &middot; ${escapeHtml(nomination.sport)}${nomination.division ? ` &middot; ${escapeHtml(nomination.division)}` : ""}<br>${escapeHtml(nomination.achievement)}${nomination.meet_name ? `<br>${escapeHtml(nomination.meet_name)}` : ""}${nomination.performance_date ? ` (${escapeHtml(nomination.performance_date)})` : ""}`;
+      return `${escapeHtml(nomination.sport)}${nomination.division ? ` &middot; ${escapeHtml(nomination.division)}` : ""}<br>${escapeHtml(nomination.achievement)}${nomination.meet_name ? `<br>${escapeHtml(nomination.meet_name)}` : ""}${nomination.performance_date ? ` (${escapeHtml(nomination.performance_date)})` : ""}`;
     }
     return `${escapeHtml(nomination.grade)}${nomination.gender ? ` &middot; ${escapeHtml(nomination.gender)}` : ""}<br>${escapeHtml(nomination.event_name)}: ${escapeHtml(nomination.performance)}${nomination.meet_name ? `<br>${escapeHtml(nomination.meet_name)}` : ""}${nomination.performance_date ? ` (${escapeHtml(nomination.performance_date)})` : ""}`;
   }
@@ -245,13 +245,17 @@
     finalistList.innerHTML = finalists.map((finalist) => {
       const name = currentType === "totw" ? finalist.team_name : finalist.athlete_name;
       const meta = currentType === "totw"
-        ? `${escapeHtml(finalist.school)} &middot; ${escapeHtml(finalist.category === "girls" ? "Girls" : "Boys")} &middot; ${escapeHtml(finalist.sport || "")}`
+        ? `${escapeHtml(finalist.school)} &middot; ${escapeHtml(finalist.sport || "")}`
         : `${escapeHtml(finalist.school)}${finalist.grade ? ` &middot; ${escapeHtml(finalist.grade)}` : ""}`;
       const photo = finalist.image_url
         ? `<img src="${escapeHtml(finalist.image_url)}" alt="">`
         : '<div class="awards-finalist-photo-empty">No photo</div>';
       const winnerPill = finalist.winner ? '<span class="awards-winner-pill">Winner</span>' : "";
-      const radioName = currentType === "totw" ? `winner-${finalist.category}` : "winner";
+      // Team of the Week no longer runs separate boys/girls categories
+      // (see lib/awards_service.mjs) -- exactly one winner is picked from
+      // the whole list, the same as Athlete of the Week, so both types
+      // now share one radio group name.
+      const radioName = "winner";
       const winnerPicker = showWinnerPicker
         ? `<label style="display:flex;gap:6px;align-items:center;font-weight:800;"><input type="radio" name="${escapeHtml(radioName)}" value="${escapeHtml(finalist.id)}" ${finalist.winner ? "checked" : ""}> Set as winner</label>`
         : "";
@@ -581,7 +585,6 @@
         performance_date: get("performance_date"),
         nominator_name: get("nominator_name"),
         nominator_email: get("nominator_email"),
-        category: get("category"),
         team_name: get("team_name"),
         sport: get("sport"),
         division: get("division"),

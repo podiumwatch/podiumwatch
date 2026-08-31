@@ -63,7 +63,6 @@ export function athleteOfTheWeekPage(site) {
 export function teamOfTheWeekPage(site) {
   const nominationForm = `<form class="award-form" data-award-nomination="team" hidden>
     <div class="form-grid">
-      ${selectField("Category", "category", [["boys", "Boys"], ["girls", "Girls"]])}
       ${field("Team name", "team_name", "text", { maxlength: 150, placeholder: "Varsity boys, 4x800 relay, or full program" })}
       ${field("School", "school", "text", { maxlength: 150 })}
       ${selectField("Sport", "sport", [["Cross Country", "Cross Country"], ["Indoor Track and Field", "Indoor Track and Field"], ["Outdoor Track and Field", "Outdoor Track and Field"]])}
@@ -86,16 +85,13 @@ export function teamOfTheWeekPage(site) {
   const content = `${pageHero({
     eyebrow: "Podium Watch weekly awards",
     title: "Team of the Week",
-    description: "Nominate an Ohio team, vote in the boys and girls categories, and celebrate the programs delivering memorable performances."
+    description: "Nominate an Ohio team, vote for your favorite, and celebrate the programs delivering memorable performances."
   })}
   <section class="section section-paper"><div class="container award-shell" data-weekly-award data-award-type="team">
     <div class="info-card award-status" data-award-status><h2>Loading the current week</h2><p>Please wait while Podium Watch checks the current award period.</p></div>
     <section data-award-current hidden>
       <div class="section-heading"><div><p class="eyebrow">Current week</p><h2 data-award-title>Team of the Week</h2><p data-award-deadline></p></div></div>
-      <div class="award-category-grid">
-        <section><h3>Boys finalists</h3><div class="award-finalists" data-award-finalists="boys"></div></section>
-        <section><h3>Girls finalists</h3><div class="award-finalists" data-award-finalists="girls"></div></section>
-      </div>
+      <div class="award-finalists" data-award-finalists></div>
     </section>
     <section class="info-card" data-nomination-section hidden>
       <p class="eyebrow">Nominate a team</p><h2>Share a performance worth celebrating</h2><p>Use verified meet information and explain what made the team achievement stand out.</p>

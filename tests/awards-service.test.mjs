@@ -92,10 +92,15 @@ test("AOTW: an unsafe photo URL override is dropped rather than saved", () => {
   assert.equal(finalist.image_url, null);
 });
 
-test("TOTW: category and sport/division map straight across, achievement copies directly (no composition needed)", () => {
+test("TOTW: sport/division map straight across, achievement copies directly (no composition needed); category is always the fixed \"overall\" value regardless of what the nomination stored", () => {
+  // Team of the Week no longer runs separate boys/girls categories --
+  // every finalist gets the same fixed category so the (voter_hash,
+  // category)-scoped voting cooldown stays shared across the whole
+  // combined list, even for a nomination promoted from before this
+  // change that still has its old "boys"/"girls" value stored.
   const finalist = buildFinalistFromNomination({ type: "totw", nomination: totwNomination() });
   assert.equal(finalist.team_name, "Example Wildcats");
-  assert.equal(finalist.category, "boys");
+  assert.equal(finalist.category, "overall");
   assert.equal(finalist.sport, "Cross Country");
   assert.equal(finalist.division, "II");
   assert.equal(finalist.achievement, "Won the conference championship.");
@@ -151,9 +156,9 @@ test("an admin-added AOTW nomination builds a valid row with the expected defaul
   assert.equal(row.selected, false);
 });
 
-test("an admin-added TOTW nomination builds a valid row", () => {
+test("an admin-added TOTW nomination builds a valid row, with category always the fixed \"overall\" value", () => {
   const row = buildNominationInsert({ type: "totw", weekId: "week-2", fields: totwFields() });
-  assert.equal(row.category, "boys");
+  assert.equal(row.category, "overall");
   assert.equal(row.team_name, "Example Wildcats");
   assert.equal(row.achievement, "Won the conference championship.");
 });
@@ -171,8 +176,9 @@ test("a missing required field is rejected with a specific message per type", ()
   assert.throws(() => buildNominationInsert({ type: "totw", weekId: "week-2", fields: totwFields({ team_name: "" }) }), /team name/i);
 });
 
-test("an invalid TOTW category is rejected", () => {
-  assert.throws(() => buildNominationInsert({ type: "totw", weekId: "week-2", fields: totwFields({ category: "coed" }) }), /boys or girls/i);
+test("any category value a caller sends is ignored -- TOTW no longer has boys/girls categories", () => {
+  const row = buildNominationInsert({ type: "totw", weekId: "week-2", fields: totwFields({ category: "coed" }) });
+  assert.equal(row.category, "overall");
 });
 
 test("a blank nominator name falls back to Podium Watch Admin", () => {
