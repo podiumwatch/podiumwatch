@@ -2,6 +2,33 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 08 31 Weekly award vote counts silently capped at 1,000 rows -- real votes undercounted, none lost
+
+### Decision
+
+Multiple people reported their votes "not being counted" on Athlete/Team of the Week -- specifically a vote count that seemed to fall behind or drop instead of grow. Investigated directly against real production data before touching anything: no vote was ever lost, every one was safely in `aotw_votes`/`totw_votes` the whole time. The bug was in vote-count *display*, added earlier the same day: `api/aotw/current.js`, `api/totw/current.js`, and `lib/awards_service.mjs`'s admin `getWeekDetail()` each fetched every vote row for a week with one `.select("finalist_id").in(...)` (or, in `getWeekDetail`'s case, a `.limit(50000)` across the whole table) and tallied `vote_count` per finalist client-side. Supabase/PostgREST silently caps an unbounded `.select()` at 1,000 returned rows -- **it never errors, it just stops returning more.** Once the real AOTW week passed 1,000 total votes (confirmed live: 1,553+ across 9 finalists, one alone past 900), the query kept returning exactly 1,000 rows and every displayed count was undercounted by the same growing gap, which is exactly what looks like "my votes aren't counting" to someone refreshing the number.
+
+Fixed in all three places the same way: one `count: "exact", head: true` query per finalist (a real `COUNT(*)` aggregate with no row-materialization cap) instead of one bulk `.select()` counted in application code. There are only ever a handful of finalists in a week, so N small count queries stays cheap, and it is correct at any real vote volume, not just below whatever ceiling happened to be picked. Verified against live production data before and after the fix (exact real counts matched); confirmed deployed and correct on the live site afterward, not just claimed from a local test.
+
+### Reason
+
+**This is a real, general Supabase/PostgREST gotcha, not specific to voting** -- any `.select()` with no `count`, no explicit `.limit()`, and no pagination silently returns at most 1,000 rows by default, with a 200 status and no warning of any kind. Anything in this codebase that tallies, sums, or otherwise aggregates an unbounded set of rows client-side is exposed to the exact same failure the moment the real row count crosses that default, and the failure is *silent* -- no error in logs, no exception, just a quietly wrong number that gets more wrong as more real rows accumulate. A repo-wide audit at the time of this fix found one other call site with the identical shape (`getWeekDetail`'s `.limit(50000)`) that had not yet broken only because this site's real vote volume hadn't reached that higher ceiling yet -- fixed at the same time, not left for a future incident.
+
+**The lasting fix is not "be more careful" -- it's using `count: "exact"` (or genuine server-side pagination) as the default reflex for counting anything of unknown real size**, and a real regression test (`scripts/test-vote-count-safety.mjs`) now greps every `api/`/`lib/` file for the specific dangerous shape (an unbounded `.select()` feeding a manual per-row tally) so a reintroduction of this exact pattern anywhere in this codebase fails `npm test`, not just this one feature.
+
+### Alternatives considered
+
+1. Raise the two `.limit()` values further (e.g. to 100,000). Rejected -- this is the same fragile shape with a bigger number; it fails the identical silent way the moment real volume ever exceeds whatever number was picked, and there is no natural ceiling on how many votes a genuinely popular week could receive.
+2. Cache/precompute vote counts periodically instead of querying live. Rejected as unnecessary complexity -- a real `COUNT(*)` per finalist is already cheap at this site's realistic finalist-per-week scale (single digits to low tens), and live counts are more honest than a stale cache for something people are actively refreshing to watch.
+
+### Files or systems affected
+
+`api/aotw/current.js`, `api/totw/current.js`, `lib/awards_service.mjs` (`getWeekDetail`), `scripts/test-vote-count-safety.mjs` (new).
+
+### Follow up
+
+None outstanding -- fixed, tested, and confirmed live in all three locations found. Worth remembering generally: any *future* feature that counts, sums, or aggregates a table of realistically-unbounded size (page views, engagement events, poll votes, etc.) should default to a server-side aggregate (`count: "exact"`, or a real `sum`/`group by` on the Postgres side) rather than fetching rows and tallying them in JavaScript, specifically because the failure mode is silent, not because it is likely to be caught by testing.
+
 ## 2026 08 10 Path to State: OHSAA cross country tournament advancement roadmap
 
 ### Decision

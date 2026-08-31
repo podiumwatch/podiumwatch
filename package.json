@@ -8,7 +8,7 @@
     "dev": "node scripts/serve.mjs --watch",
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
-    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout",
+    "test": "npm run check && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety",
     "test:athletes": "node scripts/test-athlete-foundation.mjs",
     "test:recruiting": "node scripts/test-recruiting-foundation.mjs",
     "test:results": "node scripts/test-results-ingestion.mjs",
@@ -39,6 +39,7 @@
     "test:live-capture-audit-fixes": "node scripts/test-live-capture-audit-fixes.mjs",
     "test:race-day-health": "node scripts/test-race-day-health.mjs",
     "test:split-watch-load-timeout": "node scripts/test-split-watch-load-timeout.mjs",
+    "test:vote-count-safety": "node scripts/test-vote-count-safety.mjs",
     "preview": "node scripts/serve.mjs"
   },
   "engines": {
