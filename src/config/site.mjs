@@ -41,6 +41,7 @@ export const site = {
     { label: "Rankings", items: [
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" },
+      { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },
     { label: "Meets", items: [
@@ -83,6 +84,7 @@ export const site = {
       { label: "Ranking Methodology", href: "/rankings/methodology/" },
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" },
+      { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ],
     "Podium Watch": [
