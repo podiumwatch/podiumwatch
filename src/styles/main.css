@@ -769,6 +769,14 @@ p { margin-top: 0; }
    one. A real <button> (not a div) so it's keyboard-operable for free. */
 .pp-tap-zone { display: grid; place-items: center; width: 100%; min-height: 220px; margin-top: 14px; padding: 20px; border: 2px solid var(--line); background: var(--ink); color: var(--white); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.6rem, 6vw, 2.4rem); text-transform: uppercase; letter-spacing: 1px; text-align: center; cursor: pointer; transition: background-color .15s ease; }
 .pp-tap-zone-go { background: var(--green); color: var(--black); }
+/* Hurdle Dash -- a fixed internal canvas resolution (800x220, set via the
+   canvas width/height attributes in JS) scaled purely by CSS to fit any
+   width, so a resize/orientation change never touches game state. */
+.pp-hd-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pp-hd-wrap { position: relative; }
+.pp-hurdle-canvas { display: block; width: 100%; height: auto; aspect-ratio: 800 / 220; border: 1px solid var(--line); background: var(--white); touch-action: none; cursor: pointer; }
+.pp-hd-overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(9, 9, 9, .78); color: var(--white); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.2rem, 5vw, 1.7rem); text-align: center; }
+.pp-hd-hint { margin: 10px 0 0; color: var(--muted); font-size: .82rem; }
 .pp-stage-action { min-width: 180px; min-height: 52px; }
 .pp-result { margin: 16px 0 4px; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.6rem, 6vw, 2.2rem); }
 .pp-result-celebrate { animation: pp-celebrate .5s ease; }

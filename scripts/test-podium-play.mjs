@@ -22,6 +22,16 @@ const {
   STARTING_GUN_MAX_DELAY_MS,
   randomStartingGunDelayMs,
   startingGunScoreBand,
+  HURDLE_DASH_GROUND_Y,
+  HURDLE_DASH_JUMP_DURATION_SECONDS,
+  HURDLE_DASH_INITIAL_SPEED,
+  HURDLE_DASH_MAX_SPEED,
+  HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER,
+  hurdleDashSpeedAtElapsed,
+  hurdleDashJumpOffset,
+  rectsOverlap,
+  hurdleDashNextGap,
+  hurdleDashGameScore,
   levelForPoints,
   todayLocalDateKey,
   defaultProfile,
@@ -97,6 +107,59 @@ assert.deepEqual(startingGunScoreBand(2000), { score: 20, suspicious: false });
 assert.deepEqual(startingGunScoreBand(199.4), { score: 750, suspicious: false }, "A fractional millisecond reading rounds to the nearest whole ms before banding (199.4 rounds to 199, staying in the 750 band).");
 assert.deepEqual(startingGunScoreBand(199.6), { score: 500, suspicious: false }, "199.6 rounds up to 200, crossing into the 500 band.");
 
+// --- Hurdle Dash physics/scoring ---------------------------------------------
+
+assert.ok(HURDLE_DASH_JUMP_DURATION_SECONDS > 0 && HURDLE_DASH_JUMP_DURATION_SECONDS < 2, "The full jump arc must be a real, human-scale duration.");
+
+// hurdleDashSpeedAtElapsed
+assert.equal(hurdleDashSpeedAtElapsed(0), HURDLE_DASH_INITIAL_SPEED, "Speed starts at the configured initial value.");
+assert.equal(hurdleDashSpeedAtElapsed(-5), HURDLE_DASH_INITIAL_SPEED, "A negative/invalid elapsed time never produces a speed below the starting speed.");
+assert.ok(hurdleDashSpeedAtElapsed(10) > HURDLE_DASH_INITIAL_SPEED, "Speed increases the longer a run continues.");
+assert.equal(hurdleDashSpeedAtElapsed(100000), HURDLE_DASH_MAX_SPEED, "Speed is capped at the configured maximum, however long a run continues.");
+
+// hurdleDashJumpOffset -- a real parabola: starts and ends at 0 (grounded),
+// positive in between (airborne), symmetric around the midpoint.
+assert.equal(hurdleDashJumpOffset(0), 0, "The instant a jump starts, height is 0 (still at the ground).");
+assert.equal(hurdleDashJumpOffset(-1), 0, "A negative time (before the jump started) is never airborne.");
+assert.equal(hurdleDashJumpOffset(HURDLE_DASH_JUMP_DURATION_SECONDS), 0, "The exact instant a jump's full duration has elapsed, the runner is back at 0 (landed).");
+assert.equal(hurdleDashJumpOffset(HURDLE_DASH_JUMP_DURATION_SECONDS + 1), 0, "Well after landing, height stays 0, never goes negative or resumes.");
+{
+  const midpoint = HURDLE_DASH_JUMP_DURATION_SECONDS / 2;
+  const peak = hurdleDashJumpOffset(midpoint);
+  assert.ok(peak > 0, "The runner is genuinely airborne at the midpoint of a jump.");
+  const quarter = hurdleDashJumpOffset(midpoint / 2);
+  const threeQuarter = hurdleDashJumpOffset(midpoint * 1.5);
+  assert.ok(Math.abs(quarter - threeQuarter) < 0.01, "A real parabola is symmetric: equal time before and after the peak reach the same height.");
+  assert.ok(peak > quarter, "The peak (midpoint) must be the highest point of the arc.");
+}
+
+// rectsOverlap
+assert.equal(rectsOverlap({ x: 0, y: 0, width: 10, height: 10 }, { x: 5, y: 5, width: 10, height: 10 }), true, "Two genuinely overlapping rectangles must be detected.");
+assert.equal(rectsOverlap({ x: 0, y: 0, width: 10, height: 10 }, { x: 20, y: 20, width: 10, height: 10 }), false, "Two far-apart rectangles must not register as a collision.");
+assert.equal(rectsOverlap({ x: 0, y: 0, width: 10, height: 10 }, { x: 10, y: 0, width: 10, height: 10 }), false, "Two rectangles that only touch at an edge (no real overlap area) must not register as a collision.");
+assert.equal(rectsOverlap({ x: 0, y: 0, width: 10, height: 10 }, { x: 5, y: 20, width: 10, height: 10 }), false, "Overlapping on the x-axis alone (not y) must not register as a collision.");
+
+// hurdleDashNextGap -- the real "never impossible" guarantee: whatever
+// gap comes back, converted to time at that same speed, must always be
+// at least the real jump duration (with the built-in safety buffer).
+for (const speed of [HURDLE_DASH_INITIAL_SPEED, (HURDLE_DASH_INITIAL_SPEED + HURDLE_DASH_MAX_SPEED) / 2, HURDLE_DASH_MAX_SPEED]) {
+  for (let i = 0; i < 100; i += 1) {
+    const gap = hurdleDashNextGap(speed);
+    const gapSeconds = gap / speed;
+    assert.ok(gapSeconds >= HURDLE_DASH_JUMP_DURATION_SECONDS * HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER - 0.0001, `At speed ${speed}, a gap of ${gapSeconds}s must never be tighter than a real jump can clear.`);
+  }
+}
+assert.equal(hurdleDashNextGap(HURDLE_DASH_INITIAL_SPEED, () => 0), HURDLE_DASH_JUMP_DURATION_SECONDS * HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER * HURDLE_DASH_INITIAL_SPEED, "A random() of 0 must land exactly on the safe minimum gap.");
+
+// hurdleDashGameScore
+assert.equal(hurdleDashGameScore(0, 0, 0), 0, "No distance, no hurdles, no trophies is a real 0 score, not a crash.");
+assert.equal(hurdleDashGameScore(100, 0, 0), 10, "100 distance units at 10 units/point is exactly 10 score.");
+assert.equal(hurdleDashGameScore(105, 0, 0), 10, "A partial distance unit is not rounded up -- distance points floor down.");
+assert.equal(hurdleDashGameScore(0, 4, 0), 100, "4 cleared hurdles at 25 points each is exactly 100.");
+assert.equal(hurdleDashGameScore(0, 0, 3), 120, "3 trophies at 40 points each is exactly 120.");
+assert.equal(hurdleDashGameScore(500, 8, 2), 330, "Distance, hurdles, and trophies combine additively: 50 + 200 + 80 = 330.");
+assert.equal(hurdleDashGameScore(-50, -1, -1), 0, "Negative/invalid inputs never produce a negative score.");
+
 // --- levelForPoints ------------------------------------------------------
 
 assert.equal(levelForPoints(0).name, "Rookie Runner");
@@ -126,6 +189,9 @@ assert.equal(todayLocalDateKey(new Date(2026, 0, 5)), "2026-01-05", "Single-digi
   assert.equal(fresh.photoFinish.personalRecord, null);
   assert.equal(fresh.startingGun.personalRecord, null);
   assert.equal(fresh.startingGun.falseStarts, 0);
+  assert.equal(fresh.hurdleDash.bestDistance, null);
+  assert.equal(fresh.hurdleDash.bestHurdlesCleared, null);
+  assert.equal(fresh.hurdleDash.bestGameScore, null);
   assert.ok(fresh.installId, "A fresh profile always has an anonymous install id.");
 }
 
@@ -138,7 +204,8 @@ assert.equal(sanitizeProfile("not an object").points, 0, "Malformed (non-object)
   const real = {
     version: 1, installId: "abc-123", points: 250, pointsAwardedToday: { date: "2026-08-31", amount: 40 }, awardedKeys: ["k1", "k2"],
     photoFinish: { personalRecord: { diffSeconds: 0.03, elapsedSeconds: 15.03 }, attempts: 4 },
-    startingGun: { personalRecord: { reactionMs: 187, suspicious: false }, attempts: 6, falseStarts: 2 }
+    startingGun: { personalRecord: { reactionMs: 187, suspicious: false }, attempts: 6, falseStarts: 2 },
+    hurdleDash: { bestDistance: 4200, bestHurdlesCleared: 14, bestGameScore: 810, attempts: 9 }
   };
   const sanitized = sanitizeProfile(real);
   assert.equal(sanitized.points, 250, "Valid real data is preserved, not discarded.");
@@ -146,11 +213,16 @@ assert.equal(sanitizeProfile("not an object").points, 0, "Malformed (non-object)
   assert.equal(sanitized.photoFinish.personalRecord.diffSeconds, 0.03);
   assert.equal(sanitized.startingGun.personalRecord.reactionMs, 187);
   assert.equal(sanitized.startingGun.falseStarts, 2);
+  assert.equal(sanitized.hurdleDash.bestDistance, 4200);
+  assert.equal(sanitized.hurdleDash.bestHurdlesCleared, 14);
+  assert.equal(sanitized.hurdleDash.bestGameScore, 810);
   assert.equal(sanitized.awardedKeys.length, 2);
 }
 
 assert.equal(sanitizeProfile({ version: 1, points: 100, photoFinish: { personalRecord: { diffSeconds: "not a number" } } }).photoFinish.personalRecord, null, "A corrupted personal record is dropped rather than trusted.");
 assert.equal(sanitizeProfile({ version: 1, points: 100, startingGun: { personalRecord: { reactionMs: "not a number" } } }).startingGun.personalRecord, null, "A corrupted Starting Gun record is dropped rather than trusted.");
+assert.equal(sanitizeProfile({ version: 1, points: 100, hurdleDash: { bestDistance: -50 } }).hurdleDash.bestDistance, null, "A negative Hurdle Dash best is dropped, not trusted as a real record.");
+assert.equal(sanitizeProfile({ version: 1, points: 100, hurdleDash: { bestDistance: "not a number" } }).hurdleDash.bestDistance, null, "A corrupted Hurdle Dash best is dropped rather than trusted.");
 assert.equal(sanitizeProfile({ version: 1, points: -50 }).points, 0, "A negative stored point total is clamped to 0, never trusted as-is.");
 
 // --- loadProfile / saveProfile (localStorage-backed persistence) -----------
@@ -220,6 +292,7 @@ assert.equal(sanitizeProfile({ version: 1, points: -50 }).points, 0, "A negative
 console.log("photoFinishScoreBand checked: every scoring band from the spec, including real floating-point boundary safety at 0.05/0.10.");
 console.log("randomStartingGunDelayMs checked: exact floor/ceiling/midpoint against an injected random function, plus a real spread check against actual Math.random() staying in [1500, 4000].");
 console.log("startingGunScoreBand checked: every scoring band from the spec including the <150ms suspicious flag, every real boundary (150/200/250/300/400/600), and millisecond rounding at a real fractional boundary.");
+console.log("Hurdle Dash physics checked: speed ramp and its cap, a real symmetric jump parabola (grounded at both ends, peak at the midpoint), AABB rectangle collision (including touching-but-not-overlapping and axis-only-overlap non-collisions), the never-impossible hurdle gap guarantee across the full speed range (100 samples each at min/mid/max speed), and additive game scoring with floor-not-round distance points.");
 console.log("levelForPoints checked: all 10 launch levels, exact-threshold advancement, top-level clamping, and negative-input safety.");
 console.log("todayLocalDateKey checked: zero-padded local date formatting.");
 console.log("defaultProfile/sanitizeProfile checked: fresh-profile defaults, malformed/corrupted/future-version data recovering safely without crashing, and valid real data being preserved rather than discarded.");

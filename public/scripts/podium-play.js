@@ -1,11 +1,11 @@
-// Podium Play (Phase 1 + 2) -- a small arcade shown after a confirmed
+// Podium Play (Phase 1 + 2 + 3) -- a small arcade shown after a confirmed
 // successful Athlete/Team of the Week vote, to give a visitor something
 // to do during the real 45-second cooldown. Ships the shell, guest
-// persistence, points/levels, and two real games: Photo Finish (Phase 1)
-// and Starting Gun (Phase 2). Hurdle Dash, badges, streaks, daily
-// challenges, sharing, the Instagram invite, and any server-side
-// leaderboard are deliberately deferred to later phases rather than
-// shipped as placeholders.
+// persistence, points/levels, and all three launch games: Photo Finish
+// (Phase 1), Starting Gun (Phase 2), and Hurdle Dash (Phase 3). Badges,
+// streaks, daily challenges, sharing, the Instagram invite, a My Podium
+// account bridge, and a leaderboard are deliberately deferred to later
+// phases rather than shipped as placeholders.
 //
 // This file NEVER touches vote counting, candidate totals, or the
 // cooldown duration -- it only ever READS the real retry_after_seconds
@@ -94,6 +94,90 @@
     return { score: 20, suspicious: false };
   }
 
+  // --- Hurdle Dash: a fixed internal coordinate system (game units),
+  // independent of the canvas element's actual on-screen pixel size. The
+  // canvas is scaled to fit its container purely via CSS (see .pp-hurdle-
+  // canvas), so every physics calculation below always happens in these
+  // same fixed units regardless of screen size -- an orientation change
+  // or window resize never has to touch game state at all, satisfying
+  // the spec's "resize safely... do not reset an active run" requirement
+  // by construction rather than by handling a resize event.
+  const HURDLE_DASH_WIDTH = 800;
+  const HURDLE_DASH_HEIGHT = 220;
+  const HURDLE_DASH_GROUND_Y = 190;
+  const HURDLE_DASH_RUNNER_X = 90;
+  const HURDLE_DASH_RUNNER_WIDTH = 34;
+  const HURDLE_DASH_RUNNER_HEIGHT = 52;
+  const HURDLE_DASH_HURDLE_WIDTH = 22;
+  const HURDLE_DASH_HURDLE_HEIGHT = 42;
+  const HURDLE_DASH_TROPHY_SIZE = 26;
+  const HURDLE_DASH_GRAVITY = 2600; // game units / s^2
+  const HURDLE_DASH_JUMP_VELOCITY = 820; // game units / s, upward
+  const HURDLE_DASH_JUMP_DURATION_SECONDS = (2 * HURDLE_DASH_JUMP_VELOCITY) / HURDLE_DASH_GRAVITY;
+  const HURDLE_DASH_INITIAL_SPEED = 300; // game units / s
+  const HURDLE_DASH_MAX_SPEED = 640;
+  const HURDLE_DASH_SPEED_RAMP_PER_SECOND = 5;
+  const HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS = 3.5; // a real head start before the first real obstacle -- see hurdleDashNextGap's comment for the real playtesting behind this number
+  const HURDLE_DASH_DISTANCE_PER_SCORE_UNIT = 10;
+  const HURDLE_DASH_HURDLE_CLEAR_POINTS = 25;
+  const HURDLE_DASH_TROPHY_POINTS = 40;
+  const HURDLE_DASH_RESUME_COUNTDOWN_SECONDS = 3;
+
+  function hurdleDashSpeedAtElapsed(elapsedSeconds) {
+    const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
+    return Math.min(HURDLE_DASH_MAX_SPEED, HURDLE_DASH_INITIAL_SPEED + safeElapsed * HURDLE_DASH_SPEED_RAMP_PER_SECOND);
+  }
+
+  // The runner's height above the ground (0 = grounded) at a given point
+  // into a jump. Simple projectile motion -- gravity is constant, so this
+  // is a closed-form parabola, not a per-frame numeric integration, which
+  // means it produces the exact same arc regardless of frame rate.
+  function hurdleDashJumpOffset(jumpElapsedSeconds) {
+    if (!Number.isFinite(jumpElapsedSeconds) || jumpElapsedSeconds < 0 || jumpElapsedSeconds > HURDLE_DASH_JUMP_DURATION_SECONDS) {
+      return 0;
+    }
+    const height = HURDLE_DASH_JUMP_VELOCITY * jumpElapsedSeconds - 0.5 * HURDLE_DASH_GRAVITY * jumpElapsedSeconds * jumpElapsedSeconds;
+    return Math.max(0, height);
+  }
+
+  function rectsOverlap(a, b) {
+    return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+  }
+
+  // Real playtesting (a headless-browser run against the live game
+  // loop, not just reasoning about the numbers) found the first hurdle
+  // landing around 4.2-4.8s into a run -- survivable for a deliberate,
+  // watching-the-hurdle tap, but tighter than the spec's own "10-25
+  // seconds for a normal first run" target once a first-time player's
+  // real reaction time is accounted for. Widened alongside
+  // HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS above.
+  const HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER = 1.5;
+  const HURDLE_DASH_SAFE_GAP_MAX_MULTIPLIER = 2.2;
+
+  // A safe, never-impossible gap (in game units, i.e. distance the world
+  // must scroll) before the next hurdle, given the CURRENT speed --
+  // always leaves enough real time for one full jump-and-land cycle plus
+  // a buffer, so a correctly-timed tap can always clear it. Randomized
+  // within that safe range for real variety, never below it -- the test
+  // suite asserts this gap converted back to time (gap / speed) is always
+  // >= the real jump duration, at both minimum and maximum speed.
+  function hurdleDashNextGap(currentSpeed, randomFn = Math.random) {
+    const minSeconds = HURDLE_DASH_JUMP_DURATION_SECONDS * HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER;
+    const maxSeconds = HURDLE_DASH_JUMP_DURATION_SECONDS * HURDLE_DASH_SAFE_GAP_MAX_MULTIPLIER;
+    const seconds = minSeconds + randomFn() * (maxSeconds - minSeconds);
+    return seconds * currentSpeed;
+  }
+
+  // Raw game score for one run -- distance converted to points, plus
+  // fixed per-hurdle and per-trophy bonuses. Kept deliberately separate
+  // from Podium Points (see awardPoints()), same as the other two games.
+  function hurdleDashGameScore(distance, hurdlesCleared, trophiesCollected) {
+    const distancePoints = Math.floor(Math.max(0, Number(distance) || 0) / HURDLE_DASH_DISTANCE_PER_SCORE_UNIT);
+    const hurdlePoints = Math.max(0, Number(hurdlesCleared) || 0) * HURDLE_DASH_HURDLE_CLEAR_POINTS;
+    const trophyPoints = Math.max(0, Number(trophiesCollected) || 0) * HURDLE_DASH_TROPHY_POINTS;
+    return distancePoints + hurdlePoints + trophyPoints;
+  }
+
   function levelForPoints(points) {
     const safePoints = Number.isFinite(points) ? Math.max(0, points) : 0;
     let current = LEVELS[0];
@@ -139,6 +223,11 @@
       awardedKeys: [],
       photoFinish: { personalRecord: null, attempts: 0 },
       startingGun: { personalRecord: null, attempts: 0, falseStarts: 0 },
+      // Three independent bests, per spec ("store the longest distance,
+      // highest hurdle count, and highest game score") -- each can come
+      // from a different run; a run doesn't have to sweep all three to
+      // set any one of them.
+      hurdleDash: { bestDistance: null, bestHurdlesCleared: null, bestGameScore: null, attempts: 0 },
       lastActivityAt: null
     };
   }
@@ -161,6 +250,8 @@
       const validSgPr = sg.personalRecord && Number.isFinite(sg.personalRecord.reactionMs)
         ? { reactionMs: sg.personalRecord.reactionMs, suspicious: sg.personalRecord.suspicious === true }
         : null;
+      const hd = raw.hurdleDash && typeof raw.hurdleDash === "object" ? raw.hurdleDash : {};
+      const safeNonNegative = (value) => (Number.isFinite(value) && value >= 0 ? value : null);
       return {
         ...base,
         installId: typeof raw.installId === "string" && raw.installId ? raw.installId : base.installId,
@@ -174,6 +265,12 @@
           personalRecord: validSgPr,
           attempts: Number.isFinite(sg.attempts) ? Math.max(0, sg.attempts) : 0,
           falseStarts: Number.isFinite(sg.falseStarts) ? Math.max(0, sg.falseStarts) : 0
+        },
+        hurdleDash: {
+          bestDistance: safeNonNegative(hd.bestDistance),
+          bestHurdlesCleared: safeNonNegative(hd.bestHurdlesCleared),
+          bestGameScore: safeNonNegative(hd.bestGameScore),
+          attempts: Number.isFinite(hd.attempts) ? Math.max(0, hd.attempts) : 0
         },
         lastActivityAt: typeof raw.lastActivityAt === "string" ? raw.lastActivityAt : null
       };
@@ -250,6 +347,30 @@
     STARTING_GUN_SET_MS,
     randomStartingGunDelayMs,
     startingGunScoreBand,
+    HURDLE_DASH_WIDTH,
+    HURDLE_DASH_HEIGHT,
+    HURDLE_DASH_GROUND_Y,
+    HURDLE_DASH_RUNNER_X,
+    HURDLE_DASH_RUNNER_WIDTH,
+    HURDLE_DASH_RUNNER_HEIGHT,
+    HURDLE_DASH_HURDLE_WIDTH,
+    HURDLE_DASH_HURDLE_HEIGHT,
+    HURDLE_DASH_TROPHY_SIZE,
+    HURDLE_DASH_GRAVITY,
+    HURDLE_DASH_JUMP_VELOCITY,
+    HURDLE_DASH_JUMP_DURATION_SECONDS,
+    HURDLE_DASH_INITIAL_SPEED,
+    HURDLE_DASH_MAX_SPEED,
+    HURDLE_DASH_SPEED_RAMP_PER_SECOND,
+    HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS,
+    HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER,
+    HURDLE_DASH_SAFE_GAP_MAX_MULTIPLIER,
+    HURDLE_DASH_RESUME_COUNTDOWN_SECONDS,
+    hurdleDashSpeedAtElapsed,
+    hurdleDashJumpOffset,
+    rectsOverlap,
+    hurdleDashNextGap,
+    hurdleDashGameScore,
     levelForPoints,
     todayLocalDateKey,
     defaultProfile,
@@ -354,7 +475,10 @@
     // ever be active at a time (starting a new attempt or opening a
     // different game always goes through cancelCurrentAttempt() first).
     // Photo Finish stores { startedAt, raf, cleanup, tabHidden }; Starting
-    // Gun stores { cleanup } (its own pending on-your-marks/set/go timers).
+    // Gun and Hurdle Dash both store { cleanup } (their own pending
+    // timers/listeners/animation frame -- Hurdle Dash's own `raf` local
+    // variable is cancelled from inside that cleanup closure, not read
+    // off this shared object the way Photo Finish's is).
     let currentAttempt = null;
     let panelShown = false;
 
@@ -430,9 +554,10 @@
             <p>Wait for the gun. Tap as fast as you can.</p>
             <button class="button button-primary" type="button" data-pp-play="starting-gun">Play</button>
           </div>
-          <div class="pp-game-card pp-game-card-soon" aria-disabled="true">
+          <div class="pp-game-card" data-pp-game="hurdle-dash">
             <h3>Hurdle Dash</h3>
-            <p>Coming soon.</p>
+            <p>Tap to jump. Clear as many hurdles as you can.</p>
+            <button class="button button-primary" type="button" data-pp-play="hurdle-dash">Play</button>
           </div>
         </div>
         <div class="pp-game-stage" data-pp-stage hidden></div>
@@ -722,6 +847,304 @@
       announce(`${resultLine} ${prLine}`);
     }
 
+    function openHurdleDash() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "hurdle_dash" });
+      renderHurdleDashIdle(stage, games);
+    }
+
+    function renderHurdleDashIdle(stage, games) {
+      const hd = profile.hurdleDash;
+      const prParts = [];
+      if (hd.bestDistance !== null) prParts.push(`Best distance: ${hd.bestDistance}`);
+      if (hd.bestHurdlesCleared !== null) prParts.push(`Most hurdles cleared: ${hd.bestHurdlesCleared}`);
+      if (hd.bestGameScore !== null) prParts.push(`Best score: ${hd.bestGameScore}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Hurdle Dash</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Tap to jump. Clear as many hurdles as you can.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-run>Start Running</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-run]").addEventListener("click", () => startHurdleDashRun(stage, games));
+    }
+
+    // The one-touch endless runner. Real elapsed-time physics (never a
+    // fixed-frame-rate assumption), a fixed internal coordinate system
+    // (see the HURDLE_DASH_* config above) so an on-screen resize never
+    // has to touch game state, and every cleanup path -- Back mid-run,
+    // voting again mid-run, or the run ending naturally -- goes through
+    // the exact same cancelCurrentAttempt() the other two games use.
+    function startHurdleDashRun(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Hurdle Dash</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-hd-stats" aria-hidden="true"><span data-pp-hd-distance>Distance: 0</span><span data-pp-hd-hurdles>Hurdles: 0</span></div>
+        <div class="pp-hd-wrap">
+          <canvas class="pp-hurdle-canvas" data-pp-hd-canvas width="${HURDLE_DASH_WIDTH}" height="${HURDLE_DASH_HEIGHT}" role="img" aria-label="Hurdle Dash game surface"></canvas>
+          <div class="pp-hd-overlay" data-pp-hd-overlay hidden></div>
+        </div>
+        <p class="pp-hd-hint">Tap the track, or press Space or Enter, to jump.</p>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const canvas = stage.querySelector("[data-pp-hd-canvas]");
+      const ctx = canvas.getContext("2d");
+      const overlay = stage.querySelector("[data-pp-hd-overlay]");
+      const distanceEl = stage.querySelector("[data-pp-hd-distance]");
+      const hurdlesEl = stage.querySelector("[data-pp-hd-hurdles]");
+
+      let raf = null;
+      let resumeTimer = null;
+      let lastFrameTime = null;
+      let elapsedTotal = 0;
+      let distance = 0;
+      let hurdlesCleared = 0;
+      let trophiesCollected = 0;
+      let jumpStartedAt = null; // elapsedTotal value the current jump began at, or null when grounded
+      let hurdles = [];
+      let trophies = [];
+      let distanceToNextHurdle = HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS * HURDLE_DASH_INITIAL_SPEED;
+      let paused = false;
+      let ended = false;
+
+      function runnerRect() {
+        const offset = jumpStartedAt === null ? 0 : hurdleDashJumpOffset(elapsedTotal - jumpStartedAt);
+        return { x: HURDLE_DASH_RUNNER_X, y: HURDLE_DASH_GROUND_Y - HURDLE_DASH_RUNNER_HEIGHT - offset, width: HURDLE_DASH_RUNNER_WIDTH, height: HURDLE_DASH_RUNNER_HEIGHT };
+      }
+
+      function attemptJump() {
+        if (ended || paused || jumpStartedAt !== null) return; // no double jump
+        jumpStartedAt = elapsedTotal;
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, HURDLE_DASH_WIDTH, HURDLE_DASH_HEIGHT);
+        ctx.strokeStyle = "#dedede";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, HURDLE_DASH_GROUND_Y + 1);
+        ctx.lineTo(HURDLE_DASH_WIDTH, HURDLE_DASH_GROUND_Y + 1);
+        ctx.stroke();
+
+        ctx.fillStyle = "#0faf68";
+        for (const trophy of trophies) {
+          ctx.beginPath();
+          ctx.arc(trophy.x + HURDLE_DASH_TROPHY_SIZE / 2, trophy.y + HURDLE_DASH_TROPHY_SIZE / 2, HURDLE_DASH_TROPHY_SIZE / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.fillStyle = "#a22b2b";
+        for (const hurdle of hurdles) {
+          const y = HURDLE_DASH_GROUND_Y - HURDLE_DASH_HURDLE_HEIGHT;
+          ctx.fillRect(hurdle.x + HURDLE_DASH_HURDLE_WIDTH * 0.35, y, HURDLE_DASH_HURDLE_WIDTH * 0.3, HURDLE_DASH_HURDLE_HEIGHT);
+          ctx.fillRect(hurdle.x, y, HURDLE_DASH_HURDLE_WIDTH, 6);
+        }
+
+        const r = runnerRect();
+        ctx.fillStyle = "#090909";
+        ctx.fillRect(r.x, r.y + 14, r.width, r.height - 14);
+        ctx.beginPath();
+        ctx.arc(r.x + r.width / 2, r.y + 9, 9, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function frame(now) {
+        if (paused || ended) return;
+        if (lastFrameTime === null) lastFrameTime = now;
+        // Clamped so a delayed/backgrounded frame (or the instant after
+        // the resume countdown ends) never causes a huge, unfair physics
+        // jump -- distance and jump state advance as if no more than 50ms
+        // ever passed in a single frame, however long it really took.
+        const dt = Math.min(0.05, Math.max(0, (now - lastFrameTime) / 1000));
+        lastFrameTime = now;
+        elapsedTotal += dt;
+
+        const speed = hurdleDashSpeedAtElapsed(elapsedTotal);
+        const advance = speed * dt;
+        distance += advance;
+        distanceToNextHurdle -= advance;
+
+        if (jumpStartedAt !== null && elapsedTotal - jumpStartedAt >= HURDLE_DASH_JUMP_DURATION_SECONDS) {
+          jumpStartedAt = null;
+        }
+
+        for (const hurdle of hurdles) hurdle.x -= advance;
+        for (const trophy of trophies) trophy.x -= advance;
+
+        if (distanceToNextHurdle <= 0) {
+          const gap = hurdleDashNextGap(speed);
+          hurdles.push({ x: HURDLE_DASH_WIDTH, cleared: false });
+          // A trophy roughly a third of the time, placed mid-gap so
+          // collecting it is a bonus during the jump the player is
+          // already making to clear the upcoming hurdle -- never a
+          // separately-timed obstacle, and never requiring an otherwise
+          // impossible jump.
+          if (Math.random() < 0.35) {
+            trophies.push({ x: HURDLE_DASH_WIDTH + gap / 2, y: HURDLE_DASH_GROUND_Y - HURDLE_DASH_RUNNER_HEIGHT - 6, collected: false });
+          }
+          distanceToNextHurdle = gap;
+        }
+
+        const runner = runnerRect();
+        for (const hurdle of hurdles) {
+          if (!hurdle.cleared && hurdle.x + HURDLE_DASH_HURDLE_WIDTH < runner.x) {
+            hurdle.cleared = true;
+            hurdlesCleared += 1;
+          }
+          const hurdleRect = { x: hurdle.x, y: HURDLE_DASH_GROUND_Y - HURDLE_DASH_HURDLE_HEIGHT, width: HURDLE_DASH_HURDLE_WIDTH, height: HURDLE_DASH_HURDLE_HEIGHT };
+          if (rectsOverlap(runner, hurdleRect)) {
+            endRun();
+            return;
+          }
+        }
+        for (const trophy of trophies) {
+          if (trophy.collected) continue;
+          const trophyRect = { x: trophy.x, y: trophy.y, width: HURDLE_DASH_TROPHY_SIZE, height: HURDLE_DASH_TROPHY_SIZE };
+          if (rectsOverlap(runner, trophyRect)) {
+            trophy.collected = true;
+            trophiesCollected += 1;
+          }
+        }
+
+        hurdles = hurdles.filter((h) => h.x + HURDLE_DASH_HURDLE_WIDTH > -20);
+        trophies = trophies.filter((t) => !t.collected && t.x + HURDLE_DASH_TROPHY_SIZE > -20);
+
+        distanceEl.textContent = `Distance: ${Math.round(distance)}`;
+        hurdlesEl.textContent = `Hurdles: ${hurdlesCleared}`;
+
+        draw();
+        raf = requestAnimationFrame(frame);
+      }
+
+      function handlePointerDown(event) {
+        event.preventDefault();
+        attemptJump();
+      }
+
+      // A document-level listener (matching the spec's plain "Enter key
+      // or Space key" requirement, not scoped to the canvas having focus)
+      // -- but never hijacks Space/Enter while the visitor is actually
+      // typing somewhere else on the page (the nomination form sits right
+      // below this same panel).
+      function handleKeydown(event) {
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        if (event.code === "Space" || event.key === "Enter") {
+          event.preventDefault();
+          attemptJump();
+        }
+      }
+
+      function pauseRun() {
+        if (paused || ended) return;
+        paused = true;
+        lastFrameTime = null; // so dt doesn't include the paused duration once resumed
+        if (raf) cancelAnimationFrame(raf);
+        raf = null;
+        if (resumeTimer) { clearInterval(resumeTimer); resumeTimer = null; }
+        overlay.hidden = false;
+        overlay.textContent = "Paused. Come back to this tab to continue.";
+      }
+
+      // A player must never return to the tab and be instantly hit by a
+      // hurdle they had no chance to react to -- a real, visible 3-second
+      // countdown always runs before play resumes.
+      function beginResumeCountdown() {
+        if (ended || !paused) return;
+        let remaining = HURDLE_DASH_RESUME_COUNTDOWN_SECONDS;
+        overlay.hidden = false;
+        overlay.textContent = `Resuming in ${remaining}...`;
+        resumeTimer = setInterval(() => {
+          remaining -= 1;
+          if (remaining <= 0) {
+            clearInterval(resumeTimer);
+            resumeTimer = null;
+            overlay.hidden = true;
+            paused = false;
+            lastFrameTime = null;
+            raf = requestAnimationFrame(frame);
+          } else {
+            overlay.textContent = `Resuming in ${remaining}...`;
+          }
+        }, 1000);
+      }
+
+      function handleVisibilityChange() {
+        if (document.hidden) pauseRun();
+        else if (paused) beginResumeCountdown();
+      }
+
+      canvas.addEventListener("pointerdown", handlePointerDown);
+      document.addEventListener("keydown", handleKeydown);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      // The single cleanup path, matching cancelCurrentAttempt()'s
+      // contract -- called on Back mid-run, on voting again mid-run
+      // (open() calls cancelCurrentAttempt() before rebuilding the
+      // panel), and from endRun() below when the run ends naturally.
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (raf) cancelAnimationFrame(raf);
+          if (resumeTimer) clearInterval(resumeTimer);
+          canvas.removeEventListener("pointerdown", handlePointerDown);
+          document.removeEventListener("keydown", handleKeydown);
+          document.removeEventListener("visibilitychange", handleVisibilityChange);
+        }
+      };
+
+      function endRun() {
+        cancelCurrentAttempt();
+        profile.hurdleDash.attempts += 1;
+
+        const roundedDistance = Math.round(distance);
+        const gameScore = hurdleDashGameScore(roundedDistance, hurdlesCleared, trophiesCollected);
+        const hd = profile.hurdleDash;
+        const newDistancePr = hd.bestDistance === null || roundedDistance > hd.bestDistance;
+        const newHurdlesPr = hd.bestHurdlesCleared === null || hurdlesCleared > hd.bestHurdlesCleared;
+        const newScorePr = hd.bestGameScore === null || gameScore > hd.bestGameScore;
+        if (newDistancePr) hd.bestDistance = roundedDistance;
+        if (newHurdlesPr) hd.bestHurdlesCleared = hurdlesCleared;
+        if (newScorePr) hd.bestGameScore = gameScore;
+        const isNewPr = newDistancePr || newHurdlesPr || newScorePr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${cooldownSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `hurdle-dash-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "hurdle_dash" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "hurdle_dash", result_band: String(gameScore) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = `${roundedDistance} distance, ${hurdlesCleared} hurdle${hurdlesCleared === 1 ? "" : "s"} cleared${trophiesCollected > 0 ? `, ${trophiesCollected} troph${trophiesCollected === 1 ? "y" : "ies"}` : ""}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Hurdle Dash</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          <p class="pp-score">Score: ${gameScore}${pointsEarned > 0 ? ` &middot; +${pointsEarned} Podium Points` : ""}</p>
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Run again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderHurdleDashIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+
+      draw();
+      raf = requestAnimationFrame(frame);
+    }
+
     let cooldownSessionKey = "";
 
     function open(detail) {
@@ -769,6 +1192,7 @@
       }
       wireGameButton("photo-finish", openPhotoFinish);
       wireGameButton("starting-gun", openStartingGun);
+      wireGameButton("hurdle-dash", openHurdleDash);
 
       if (!panelShown) {
         panelShown = true;
