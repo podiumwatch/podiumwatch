@@ -28,10 +28,16 @@ export default async function handler(request, response) {
   }
 
   try {
-    const user = await requireMyPodiumUser(request);
     const body = parseBody(request);
+    const hasAuthHeader = Boolean(request.headers.authorization || request.headers.Authorization);
+    // A present-but-invalid/expired token is a real 401, not a silent
+    // fall-back to guest mode -- only a genuinely ABSENT header means
+    // "this is a deliberate guest submission."
+    const user = hasAuthHeader ? await requireMyPodiumUser(request) : null;
+
     const result = await submitPodiumPlayAttempt({
       user,
+      installId: user ? undefined : String(body.installId || ""),
       gameType: String(body.gameType || ""),
       rawInput: body.rawInput
     });

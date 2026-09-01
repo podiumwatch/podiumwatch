@@ -525,12 +525,17 @@
     function renderAccountStatus() {
       const el = panel.querySelector("[data-pp-account]");
       if (!el) return;
-      if (!signedIn) {
-        el.innerHTML = `<a href="/my-podium-login/">Sign in to save your progress and join the leaderboard</a>`;
-      } else if (accountSummary) {
-        el.innerHTML = `<span>Signed in${accountSummary.rank ? ` · Ranked #${accountSummary.rank}` : ""}</span>`;
+      const rankText = accountSummary?.rank ? ` · Ranked #${accountSummary.rank}` : "";
+      if (signedIn) {
+        const name = accountSummary?.displayName ? escapeHtml(accountSummary.displayName) : "your account";
+        el.innerHTML = `<span>Signed in as ${name}${rankText}</span>`;
+      } else if (accountSummary?.displayName) {
+        // Guests are on the leaderboard too now, under a server-assigned
+        // label -- sign-in is no longer required to appear on it, only
+        // to get a real name and carry progress across devices.
+        el.innerHTML = `<span>Playing as ${escapeHtml(accountSummary.displayName)}${rankText}</span> <a href="/my-podium-login/">Sign in for a real name</a>`;
       } else {
-        el.innerHTML = `<span>Signed in</span>`;
+        el.innerHTML = `<a href="/my-podium-login/">Sign in to save your progress</a>`;
       }
     }
 
@@ -623,44 +628,52 @@
       }
     }
 
+    // Guests can be on the leaderboard too now, under a server-assigned
+    // "podiumwatchguest####" label (never client-supplied -- see
+    // lib/podium_play_service.mjs's generateGuestLabel). Their identity
+    // is the same anonymous crypto.randomUUID() the local guest profile
+    // already generates and persists (profile.installId) -- not
+    // authenticated the way a real My Podium session is, just a stable
+    // per-device id.
     async function loadAccount() {
       const token = await getAccessToken();
-      if (!token) {
-        signedIn = false;
-        accountSummary = null;
-        renderAccountStatus();
-        return;
-      }
-      signedIn = true;
+      signedIn = Boolean(token);
       renderAccountStatus();
       try {
-        const response = await fetch("/api/podium-play/me", { headers: { Authorization: `Bearer ${token}` } });
+        const url = signedIn ? "/api/podium-play/me/" : `/api/podium-play/me/?installId=${encodeURIComponent(profile.installId)}`;
+        const response = await fetch(url, signedIn ? { headers: { Authorization: `Bearer ${token}` } } : {});
         const data = await response.json().catch(() => ({}));
         if (response.ok) {
           accountSummary = data;
           renderProgress();
         }
       } catch {
-        // A failed account load leaves "Signed in" shown but keeps local
-        // guest points as the fallback display -- never breaks the panel.
+        // A failed account load leaves the local guest/points display as
+        // the fallback -- never breaks the panel.
       }
     }
 
-    // Fire-and-forget: a signed-in player's local, already-rendered
-    // result must never wait on or be disrupted by this. Sends only the
-    // same kind of raw measurement the local guest profile already
-    // produces -- never a client-computed score or point total (see
-    // lib/podium_play_service.mjs's own header for why that matters now
-    // that a public leaderboard makes a faked number worth something).
+    // Fire-and-forget, for both a signed-in player and a guest alike: the
+    // already-rendered local result must never wait on or be disrupted by
+    // this. Sends only the same kind of raw measurement the local guest
+    // profile already produces -- never a client-computed score or point
+    // total (see lib/podium_play_service.mjs's own header for why that
+    // matters now that a public leaderboard makes a faked number worth
+    // something).
     async function submitToServer(gameType, rawInput) {
-      if (!signedIn) return;
       try {
         const token = await getAccessToken();
-        if (!token) return;
+        const headers = { "Content-Type": "application/json" };
+        const body = { gameType, rawInput };
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        } else {
+          body.installId = profile.installId;
+        }
         const response = await fetch("/api/podium-play/submit", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-          body: JSON.stringify({ gameType, rawInput })
+          headers,
+          body: JSON.stringify(body)
         });
         const data = await response.json().catch(() => ({}));
         if (response.ok) {

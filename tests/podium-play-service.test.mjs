@@ -6,6 +6,8 @@ import {
   levelForPoints,
   cleanDisplayName,
   validateRawInput,
+  isValidInstallId,
+  generateGuestLabel,
   LEVELS,
   DAILY_POINT_CAP,
   PERSONAL_RECORD_POINTS,
@@ -75,6 +77,32 @@ assert.throws(() => validateRawInput("hurdle_dash", { distance: 100, hurdlesClea
 
 assert.throws(() => validateRawInput("not_a_real_game", {}), /unknown/i);
 
+// --- Guest identity: isValidInstallId / generateGuestLabel -------------
+
+assert.equal(isValidInstallId("3267650b-245e-4627-903a-07c5fd887e80"), true, "A real, correctly-shaped v4 UUID (the exact shape crypto.randomUUID() produces) must be accepted.");
+assert.equal(isValidInstallId("3267650B-245E-4627-903A-07C5FD887E80"), true, "A real UUID's hex digits are case-insensitive.");
+assert.equal(isValidInstallId("not-a-uuid"), false);
+assert.equal(isValidInstallId(""), false);
+assert.equal(isValidInstallId(null), false);
+assert.equal(isValidInstallId(undefined), false);
+assert.equal(isValidInstallId(12345), false, "A non-string value must never be accepted, even one that could stringify into something plausible.");
+assert.equal(isValidInstallId("3267650b-245e-4627-903a-07c5fd887e80extra"), false, "Trailing extra characters must not be accepted -- the whole string must match, not just a prefix.");
+
+{
+  const label = generateGuestLabel();
+  assert.match(label, /^podiumwatchguest\d{4}$/, "A real generated label must match the exact promised shape.");
+}
+assert.equal(generateGuestLabel(() => 0), "podiumwatchguest1000", "A random() of 0 must land on the real floor of the promised 4-digit range.");
+assert.equal(generateGuestLabel(() => 0.999999), "podiumwatchguest9999", "A random() near 1 must land on the real ceiling of the promised 4-digit range, never overflow to 5 digits.");
+{
+  // A real spread check, not just the two boundary values.
+  for (let i = 0; i < 200; i += 1) {
+    const label = generateGuestLabel();
+    const number = Number(label.replace("podiumwatchguest", ""));
+    assert.ok(number >= 1000 && number <= 9999, `Every real generated label's number must stay in [1000, 9999], got ${number}.`);
+  }
+}
+
 // --- Config sanity -----------------------------------------------------
 
 assert.equal(DAILY_POINT_CAP, 300);
@@ -116,4 +144,6 @@ assert.deepEqual(LEVELS, client.LEVELS, "The launch level table itself must be b
 console.log("photoFinishScoreBand/startingGunScoreBand/hurdleDashGameScore/levelForPoints checked: every real band and boundary.");
 console.log("cleanDisplayName checked: real spaces/hyphens preserved, whitespace collapsed, real control characters stripped, length capped -- confirms the earlier bug (a regex that stripped every space and hyphen) is genuinely fixed.");
 console.log("validateRawInput checked: every game type's real valid range, and every invalid/missing/malformed/out-of-range input rejected rather than silently coerced.");
+console.log("isValidInstallId checked: real v4 UUIDs accepted case-insensitively, every malformed/wrong-type/trailing-garbage value rejected.");
+console.log("generateGuestLabel checked: the exact promised \"podiumwatchguest####\" shape, both real boundary values (1000 and 9999) via an injected random function, and a 200-sample spread staying in range.");
 console.log("Client/server scoring parity checked across a real range of inputs for every scoring function and the full level table -- the two independent copies (one for instant client feedback, one server-authoritative) cannot silently drift apart without this test catching it.");
