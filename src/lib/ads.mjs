@@ -18,11 +18,13 @@ export const AD_SLOTS = {
   weeklyAwards: "8781648734"
 };
 
-// The one loader script AdSense requires on any page that will show an ad
-// -- goes in <head>, once per page, even if that page has multiple ad
-// slots. Deliberately NOT added to the site's shared layout() by default,
-// so ads only ever appear on pages that explicitly opt in (see
-// weeklyawards.mjs) rather than silently spreading anywhere new.
+// The one loader script AdSense requires in <head>. Wired sitewide into
+// layout() (src/lib/html.mjs) rather than opt-in per page (2026-09-01) --
+// Google's own AdSense review process expects the code present on every
+// page, not just the ones that show an ad slot, and Auto ads (if turned
+// on later) need it sitewide to work at all. This alone does not put a
+// visible ad anywhere -- an actual ad box only ever appears where a page
+// explicitly calls adSlot() below (currently just weeklyawards.mjs).
 export function adSenseLoaderScript() {
   return `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}" crossorigin="anonymous"></script>`;
 }

@@ -1,5 +1,6 @@
 import { escapeHtml, formatDate, slugify } from "./content.mjs";
 import { gtagScript } from "./analytics.mjs";
+import { adSenseLoaderScript } from "./ads.mjs";
 
 export function absoluteUrl(site, pathname = "/") {
   return new URL(pathname, site.siteUrl).toString();
@@ -268,6 +269,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
 <link rel="stylesheet" href="/styles/main.css">${adminHead}
 ${gtagScript()}
+${adSenseLoaderScript()}
 <style>
 /* [hidden] must always win the cascade, sitewide. main.css has no rule
    for this at all, and several page-specific style blocks set their own

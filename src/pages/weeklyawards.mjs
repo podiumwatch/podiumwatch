@@ -1,5 +1,5 @@
 import { layout, pageHero } from "../lib/html.mjs";
-import { adSenseLoaderScript, adSlot, AD_SLOTS } from "../lib/ads.mjs";
+import { adSlot, AD_SLOTS } from "../lib/ads.mjs";
 
 function field(label, name, type = "text", options = {}) {
   const required = options.required === false ? "" : " required";
@@ -62,7 +62,7 @@ export function athleteOfTheWeekPage(site) {
   <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/podium-play.js" defer></script>`;
 
-  return layout({ site, title: "Athlete of the Week", description: "Nominate, vote for, and celebrate Podium Watch Athlete of the Week finalists and winners.", pathname: "/athlete-of-the-week/", content, extraHead: adSenseLoaderScript() });
+  return layout({ site, title: "Athlete of the Week", description: "Nominate, vote for, and celebrate Podium Watch Athlete of the Week finalists and winners.", pathname: "/athlete-of-the-week/", content });
 }
 
 export function teamOfTheWeekPage(site) {
@@ -110,5 +110,5 @@ export function teamOfTheWeekPage(site) {
   <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/podium-play.js" defer></script>`;
 
-  return layout({ site, title: "Team of the Week", description: "Nominate, vote for, and celebrate Podium Watch Team of the Week finalists and winners.", pathname: "/team-of-the-week/", content, extraHead: adSenseLoaderScript() });
+  return layout({ site, title: "Team of the Week", description: "Nominate, vote for, and celebrate Podium Watch Team of the Week finalists and winners.", pathname: "/team-of-the-week/", content });
 }
