@@ -139,7 +139,12 @@
       ["Unreviewed", nominations.filter((row) => !row.reviewed).length],
       ["Selected", nominations.filter((row) => row.selected).length],
       ["Finalists", finalists.length],
-      ["Winners set", finalists.filter((row) => row.winner).length]
+      ["Winners set", finalists.filter((row) => row.winner).length],
+      ["Total votes", Number(detail.total_votes_cast) || 0],
+      // Distinct people, not vote rows -- the public vote endpoints only
+      // enforce a short cooldown between votes, not one-vote-per-person,
+      // so "Total votes" can run higher than the real number of voters.
+      ["People who voted", Number(detail.distinct_voters) || 0]
     ];
     stats.innerHTML = items.map(([label, value]) => `<div class="awards-stat"><b>${value}</b><span>${escapeHtml(label)}</span></div>`).join("");
   }

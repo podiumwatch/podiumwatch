@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildFinalistFromNomination, buildNominationInsert } from "../lib/awards_service.mjs";
+import { buildFinalistFromNomination, buildNominationInsert, countDistinctVoters } from "../lib/awards_service.mjs";
 
 function aotwNomination(overrides = {}) {
   return {
@@ -188,4 +188,34 @@ test("a blank nominator name falls back to Podium Watch Admin", () => {
 
 test("an invalid performance date is rejected rather than silently dropped", () => {
   assert.throws(() => buildNominationInsert({ type: "aotw", weekId: "week-1", fields: aotwFields({ performance_date: "not-a-date" }) }), /valid performance date/i);
+});
+
+// countDistinctVoters: "how many people voted" is a different, honest
+// number from a raw vote-row count, since both aotw_votes and totw_votes
+// let the same real voter identity cast more than one vote row across a
+// week (a 45-second cooldown, not a hard one-vote-per-person limit --
+// confirmed live: the identical real email_hash appears twice, 46
+// seconds apart, voting for the same finalist). See docs/DECISIONS.md.
+
+test("countDistinctVoters counts each unique voter hash once, no matter how many vote rows they cast", () => {
+  assert.equal(countDistinctVoters(["a", "a", "a", "b", "c", "b"]), 3);
+});
+
+test("countDistinctVoters ignores blank/null/undefined entries rather than counting them as a voter", () => {
+  assert.equal(countDistinctVoters(["a", null, "", undefined, "b"]), 2);
+});
+
+test("countDistinctVoters returns 0 for an empty or missing list, not a crash", () => {
+  assert.equal(countDistinctVoters([]), 0);
+  assert.equal(countDistinctVoters(null), 0);
+  assert.equal(countDistinctVoters(undefined), 0);
+});
+
+test("countDistinctVoters matches the total row count only when every voter is genuinely unique", () => {
+  const allUnique = ["v1", "v2", "v3", "v4"];
+  assert.equal(countDistinctVoters(allUnique), allUnique.length);
+
+  const withRepeats = ["v1", "v1", "v2", "v3", "v3", "v3"];
+  assert.ok(countDistinctVoters(withRepeats) < withRepeats.length, "repeat voting must produce fewer distinct voters than total vote rows");
+  assert.equal(countDistinctVoters(withRepeats), 3);
 });
