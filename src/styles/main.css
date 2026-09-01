@@ -779,6 +779,32 @@ p { margin-top: 0; }
 .pp-hurdle-canvas { display: block; width: 100%; height: auto; aspect-ratio: 800 / 220; border: 1px solid var(--line); background: var(--white); touch-action: none; cursor: pointer; }
 .pp-hd-overlay { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(9, 9, 9, .78); color: var(--white); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.2rem, 5vw, 1.7rem); text-align: center; }
 .pp-hd-hint { margin: 10px 0 0; color: var(--muted); font-size: .82rem; }
+
+/* Tap Sprint */
+.pp-ts-stats, .pp-btr-stats, .pp-mm-stats, .pp-hd-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pp-track { position: relative; height: 46px; margin: 10px 0; border: 1px solid var(--line); background: var(--white); overflow: hidden; }
+.pp-ts-runner { position: absolute; top: 50%; left: 0; width: 34px; height: 34px; margin-top: -17px; background: var(--black); transition: left .12s ease; }
+.pp-ts-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+/* Two large, thumb-friendly buttons side by side -- comfortably reachable
+   with one thumb near the bottom of the screen, not spread to opposite
+   edges. */
+.pp-ts-button { min-height: 96px; border: 2px solid var(--black); background: var(--white); color: var(--black); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 1.3rem; letter-spacing: 1px; cursor: pointer; touch-action: manipulation; }
+.pp-ts-button:active { background: var(--green); }
+
+/* Beat the Runner */
+.pp-btr-round { margin: 4px 0 0; font-weight: 800; }
+.pp-btr-track { display: grid; gap: 8px; margin: 10px 0; }
+.pp-btr-lane { position: relative; height: 44px; border: 1px solid var(--line); background: var(--white); overflow: hidden; }
+.pp-btr-lane-label { position: absolute; top: 4px; left: 6px; z-index: 1; font-size: .68rem; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); }
+.pp-btr-runner { position: absolute; bottom: 4px; left: 0; width: 26px; height: 26px; background: var(--black); transition: left .12s ease; }
+.pp-btr-runner-cpu { background: var(--danger); }
+.pp-stage-action[data-pp-btr-tap] { width: 100%; min-height: 96px; font-size: 1.3rem; }
+
+/* Memory Match -- large, comfortable mobile tap targets */
+.pp-mm-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.pp-mm-card { aspect-ratio: 1 / 1; min-height: 84px; display: grid; place-items: center; border: 2px solid var(--line); background: var(--ink); color: var(--ink); font-size: 2rem; cursor: pointer; touch-action: manipulation; transition: background-color .15s ease; }
+.pp-mm-card-up { background: var(--white); color: var(--black); border-color: var(--black); }
+.pp-mm-card-matched { background: var(--green); border-color: var(--green-dark); cursor: default; }
 .pp-stage-action { min-width: 180px; min-height: 52px; }
 .pp-result { margin: 16px 0 4px; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.6rem, 6vw, 2.2rem); }
 .pp-result-celebrate { animation: pp-celebrate .5s ease; }
@@ -788,6 +814,11 @@ p { margin-top: 0; }
 .pp-other-contest { margin: 18px 0 0; text-align: center; }
 .pp-other-contest a { font-weight: 800; color: var(--green-dark); }
 .pp-leaderboard { margin-top: 18px; padding: 16px; border: 1px solid var(--line); background: var(--white); }
+/* A per-game record list (e.g. Hurdle Dash's own "Best distances"),
+   living inside that game's own idle screen -- shares the same list
+   styling as the main points leaderboard, just a smaller, quieter title. */
+.pp-game-leaderboard { margin-top: 16px; padding: 14px; border: 1px solid var(--line); background: var(--paper); text-align: left; }
+.pp-game-leaderboard-title { margin: 0; font-size: .72rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 800; }
 .pp-leaderboard-list { display: grid; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
 .pp-leaderboard-list li { display: grid; grid-template-columns: 36px 1fr auto; gap: 10px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
 .pp-leaderboard-list li:last-child { border-bottom: none; }

@@ -32,6 +32,15 @@ const {
   rectsOverlap,
   hurdleDashNextGap,
   hurdleDashGameScore,
+  TAP_SPRINT_DURATION_SECONDS,
+  tapSprintDistanceForTaps,
+  tapSprintRegisterTap,
+  tapSprintTapIsRateLimited,
+  BEAT_THE_RUNNER_ROUNDS,
+  beatTheRunnerRoundTarget,
+  MEMORY_MATCH_SYMBOLS,
+  MEMORY_MATCH_PAIR_COUNT,
+  memoryMatchNewBoard,
   levelForPoints,
   todayLocalDateKey,
   defaultProfile,
@@ -160,21 +169,101 @@ assert.equal(hurdleDashGameScore(0, 0, 3), 120, "3 trophies at 40 points each is
 assert.equal(hurdleDashGameScore(500, 8, 2), 330, "Distance, hurdles, and trophies combine additively: 50 + 200 + 80 = 330.");
 assert.equal(hurdleDashGameScore(-50, -1, -1), 0, "Negative/invalid inputs never produce a negative score.");
 
+// --- Tap Sprint ------------------------------------------------------------
+
+assert.equal(TAP_SPRINT_DURATION_SECONDS, 10, "The spec's fixed run length is exactly 10 seconds.");
+assert.equal(tapSprintDistanceForTaps(0), 0);
+assert.equal(tapSprintDistanceForTaps(10), 120, "10 taps at 12 distance/tap is exactly 120.");
+assert.equal(tapSprintDistanceForTaps(-5), 0, "A negative/invalid tap count never produces a negative distance.");
+assert.equal(tapSprintDistanceForTaps("not a number"), 0);
+
+assert.deepEqual(tapSprintRegisterTap(null, "left"), { counts: true, lastButton: "left" }, "The very first tap (no prior button) always counts.");
+assert.deepEqual(tapSprintRegisterTap("left", "right"), { counts: true, lastButton: "right" }, "A genuine alternating tap counts.");
+assert.deepEqual(tapSprintRegisterTap("left", "left"), { counts: false, lastButton: "left" }, "Repeating the same button never counts -- only real alternation does.");
+assert.deepEqual(tapSprintRegisterTap("right", "right"), { counts: false, lastButton: "right" });
+{
+  // A real simulated sequence: L R L L R (the second L is a repeat and must not count).
+  let last = null;
+  const sequence = ["left", "right", "left", "left", "right"];
+  const results = sequence.map((button) => {
+    const result = tapSprintRegisterTap(last, button);
+    last = result.lastButton;
+    return result.counts;
+  });
+  assert.deepEqual(results, [true, true, true, false, true], "Exactly 4 of these 5 taps are real alternations; the repeated left must be rejected.");
+}
+
+assert.equal(tapSprintTapIsRateLimited(10), true, "10ms since the last tap is faster than any real sustained human alternating tapping.");
+assert.equal(tapSprintTapIsRateLimited(64), true, "Just under the real floor must still be rejected.");
+assert.equal(tapSprintTapIsRateLimited(65), false, "Exactly at the real floor is accepted.");
+assert.equal(tapSprintTapIsRateLimited(200), false, "A real, comfortably-paced tap is never rate-limited.");
+assert.equal(tapSprintTapIsRateLimited(NaN), false, "An invalid/missing timing value must never itself be treated as suspicious.");
+
+// --- Beat the Runner ---------------------------------------------------
+
+assert.equal(BEAT_THE_RUNNER_ROUNDS.length, 8, "All 8 fixed-requirement rounds must be present.");
+assert.deepEqual(BEAT_THE_RUNNER_ROUNDS.map((r) => r.name), [
+  "Junior Varsity Runner", "Varsity Runner", "Conference Champion", "District Champion",
+  "Regional Champion", "State Qualifier", "State Champion", "National Champion"
+], "The 8 round names and their exact order are a fixed product requirement.");
+
+assert.deepEqual(beatTheRunnerRoundTarget(0), { tapsNeeded: 12, timeMs: 6000 }, "Round 1 (index 0) must be the easy, generous target new/younger players need.");
+for (let i = 1; i < BEAT_THE_RUNNER_ROUNDS.length; i += 1) {
+  const prior = beatTheRunnerRoundTarget(i - 1);
+  const current = beatTheRunnerRoundTarget(i);
+  assert.ok(current.tapsNeeded > prior.tapsNeeded, `Round ${i + 1} must need more real taps than round ${i} -- difficulty must genuinely increase.`);
+  assert.ok(current.timeMs <= prior.timeMs, `Round ${i + 1} must allow no more time than round ${i}.`);
+}
+assert.ok(beatTheRunnerRoundTarget(7).timeMs >= 2200, "Even the final round must never drop below a real, still-fair time floor.");
+assert.equal(beatTheRunnerRoundTarget(-1).tapsNeeded, beatTheRunnerRoundTarget(0).tapsNeeded, "An invalid/negative round index is never trusted as-is -- it's treated as round 1.");
+
+// --- Memory Match --------------------------------------------------------
+
+assert.equal(MEMORY_MATCH_PAIR_COUNT, 3, "The spec's standard board is 3 matching pairs (6 cards).");
+assert.ok(MEMORY_MATCH_SYMBOLS.length >= MEMORY_MATCH_PAIR_COUNT, "There must be enough real themed symbols to fill the board.");
+{
+  const board = memoryMatchNewBoard();
+  assert.equal(board.length, 6, "A real board is exactly 6 cards.");
+  const counts = {};
+  for (const card of board) counts[card.symbol] = (counts[card.symbol] || 0) + 1;
+  assert.deepEqual(Object.values(counts).sort(), [2, 2, 2], "Every symbol on a real board appears in exactly one matching pair, never more or fewer.");
+  assert.ok(board.every((card) => card.matched === false), "A freshly dealt board starts with nothing matched.");
+}
+{
+  // A real shuffle check: two boards built with different injected random
+  // sequences must not always produce the identical card order (a
+  // reasonable statistical check, not a proof, but enough to catch a
+  // shuffle that silently does nothing).
+  const boardA = memoryMatchNewBoard(() => 0).map((c) => c.symbol).join(",");
+  const boardB = memoryMatchNewBoard(() => 0.999999).map((c) => c.symbol).join(",");
+  assert.notEqual(boardA, boardB, "Two very different random sequences must produce two genuinely different card orders.");
+}
+
 // --- levelForPoints ------------------------------------------------------
 
 assert.equal(levelForPoints(0).name, "Rookie Runner");
 assert.equal(levelForPoints(99).name, "Rookie Runner", "99 points has not yet reached Junior Varsity's 100-point threshold.");
 assert.equal(levelForPoints(100).name, "Junior Varsity", "Exactly hitting a threshold advances the level.");
 assert.equal(levelForPoints(300).name, "Varsity");
-assert.equal(levelForPoints(9999).name, "State Champion", "9999 has not yet reached Podium Legend's 10,000-point threshold.");
-assert.equal(levelForPoints(10000).name, "Podium Legend");
+assert.equal(levelForPoints(1099).name, "Conference Champion", "1099 has not yet reached District Runner Up's 1,100-point threshold.");
+assert.equal(levelForPoints(1100).name, "District Runner Up");
+assert.equal(levelForPoints(16499).name, "National Champion", "16499 has not yet reached Podium Legend's 16,500-point threshold.");
+assert.equal(levelForPoints(16500).name, "Podium Legend");
 assert.equal(levelForPoints(50000).name, "Podium Legend", "Points beyond the top threshold stay at the top level, never overflow.");
 assert.equal(levelForPoints(50000).next, null, "The top level has no next level to progress toward.");
 assert.equal(levelForPoints(50000).progress, 1, "The top level always reports full progress.");
 assert.equal(levelForPoints(150).next.name, "Varsity");
 assert.ok(Math.abs(levelForPoints(200).progress - 0.5) < 0.001, "Halfway between Junior Varsity (100) and Varsity (300) is 50% progress.");
 assert.equal(levelForPoints(-50).name, "Rookie Runner", "A negative/invalid point total is treated as 0, never crashes or picks a bogus level.");
-assert.equal(LEVELS.length, 10, "All 10 launch levels from the spec must be present.");
+assert.equal(LEVELS.length, 15, "All 15 fixed-requirement launch levels must be present, in order.");
+assert.deepEqual(LEVELS.map((l) => l.name), [
+  "Rookie Runner", "Junior Varsity", "Varsity", "Conference Champion", "District Runner Up",
+  "District Champion", "Regional Runner Up", "Regional Champion", "State Qualifier", "All Ohio",
+  "State Runner Up", "State Champion", "Nationals Bound", "National Champion", "Podium Legend"
+], "The 15 names and their exact order are a fixed product requirement -- never renamed, removed, combined, or reordered.");
+for (let i = 1; i < LEVELS.length; i += 1) {
+  assert.ok(LEVELS[i].threshold > LEVELS[i - 1].threshold, `Threshold ${i} (${LEVELS[i].name}) must be strictly greater than the previous level's, or a player could never actually reach it.`);
+}
 
 // --- todayLocalDateKey -----------------------------------------------------
 
@@ -293,7 +382,10 @@ console.log("photoFinishScoreBand checked: every scoring band from the spec, inc
 console.log("randomStartingGunDelayMs checked: exact floor/ceiling/midpoint against an injected random function, plus a real spread check against actual Math.random() staying in [1500, 4000].");
 console.log("startingGunScoreBand checked: every scoring band from the spec including the <150ms suspicious flag, every real boundary (150/200/250/300/400/600), and millisecond rounding at a real fractional boundary.");
 console.log("Hurdle Dash physics checked: speed ramp and its cap, a real symmetric jump parabola (grounded at both ends, peak at the midpoint), AABB rectangle collision (including touching-but-not-overlapping and axis-only-overlap non-collisions), the never-impossible hurdle gap guarantee across the full speed range (100 samples each at min/mid/max speed), and additive game scoring with floor-not-round distance points.");
-console.log("levelForPoints checked: all 10 launch levels, exact-threshold advancement, top-level clamping, and negative-input safety.");
+console.log("Tap Sprint checked: distance-per-tap math, the real alternating-tap state machine (including a real simulated L-R-L-L-R sequence with the repeated tap correctly rejected), and the rate-limit floor at its real boundary.");
+console.log("Beat the Runner checked: all 8 fixed round names in their exact required order, round 1's real easy target, every later round genuinely harder (more taps, never more time) with a real time floor, and a negative round index never trusted as-is.");
+console.log("Memory Match checked: the real 6-card/3-pair board shape, every symbol appearing in exactly one pair, a fresh board starting fully unmatched, and a real shuffle producing genuinely different orders for different random sequences.");
+console.log("levelForPoints checked: all 15 fixed-requirement levels in their exact required order, strictly-increasing thresholds, exact-threshold advancement, top-level clamping, and negative-input safety.");
 console.log("todayLocalDateKey checked: zero-padded local date formatting.");
 console.log("defaultProfile/sanitizeProfile checked: fresh-profile defaults, malformed/corrupted/future-version data recovering safely without crashing, and valid real data being preserved rather than discarded.");
 console.log("loadProfile/saveProfile checked against a real localStorage stub: round-trip persistence, malformed stored JSON, and a fully disabled/throwing storage API -- none of it ever throws into the caller.");

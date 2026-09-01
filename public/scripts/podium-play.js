@@ -45,17 +45,41 @@
   const FIRST_GAME_IN_COOLDOWN_POINTS = 5;
   const PERSONAL_RECORD_POINTS = 10;
 
+  // The one place this client defines level names/thresholds -- every
+  // other place a level shows up (the progress row, game result screens,
+  // the account status line) reads through levelForPoints() below, never
+  // repeats a name or number of its own. The exact 15 names and their
+  // order are a fixed product requirement (2026-09-01) -- never renamed,
+  // removed, combined, or reordered. lib/podium_play_service.mjs keeps
+  // its own copy (a browser script and a Node module can't literally
+  // share one file without a bundler this project doesn't have) --
+  // tests/podium-play-service.test.mjs's parity check is what keeps the
+  // two from silently drifting apart, the same discipline already
+  // established for the scoring functions.
+  //
+  // Level is never stored anywhere -- always computed fresh from points
+  // (client-side from the local guest profile, server-side from the real
+  // account row) -- so widening these thresholds automatically re-derives
+  // the correct level for every existing player's already-earned points
+  // the next time it's displayed. No migration, no reset, nothing to
+  // preserve here beyond leaving the real points column alone, which
+  // this change never touches.
   const LEVELS = [
     { name: "Rookie Runner", threshold: 0 },
     { name: "Junior Varsity", threshold: 100 },
     { name: "Varsity", threshold: 300 },
-    { name: "Conference Champion", threshold: 700 },
-    { name: "District Champion", threshold: 1200 },
-    { name: "Regional Champion", threshold: 2000 },
-    { name: "State Qualifier", threshold: 3000 },
-    { name: "All Ohio", threshold: 4500 },
-    { name: "State Champion", threshold: 6500 },
-    { name: "Podium Legend", threshold: 10000 }
+    { name: "Conference Champion", threshold: 650 },
+    { name: "District Runner Up", threshold: 1100 },
+    { name: "District Champion", threshold: 1700 },
+    { name: "Regional Runner Up", threshold: 2450 },
+    { name: "Regional Champion", threshold: 3350 },
+    { name: "State Qualifier", threshold: 4400 },
+    { name: "All Ohio", threshold: 5600 },
+    { name: "State Runner Up", threshold: 7000 },
+    { name: "State Champion", threshold: 8600 },
+    { name: "Nationals Bound", threshold: 10500 },
+    { name: "National Champion", threshold: 13000 },
+    { name: "Podium Legend", threshold: 16500 }
   ];
 
   const PHOTO_FINISH_TARGET_SECONDS = 15;
@@ -122,9 +146,16 @@
   const HURDLE_DASH_JUMP_VELOCITY = 820; // game units / s, upward
   const HURDLE_DASH_JUMP_DURATION_SECONDS = (2 * HURDLE_DASH_JUMP_VELOCITY) / HURDLE_DASH_GRAVITY;
   const HURDLE_DASH_INITIAL_SPEED = 300; // game units / s
-  const HURDLE_DASH_MAX_SPEED = 640;
-  const HURDLE_DASH_SPEED_RAMP_PER_SECOND = 5;
-  const HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS = 3.5; // a real head start before the first real obstacle -- see hurdleDashNextGap's comment for the real playtesting behind this number
+  // Dialed up moderately (2026-09-01, "I want the game to be a little
+  // more difficult") from the earlier playtesting-tuned values -- the
+  // ramp climbs faster and reaches a higher ceiling, and the head start
+  // and hurdle spacing are both trimmed, while staying well above the
+  // real "never physically impossible" floor (see hurdleDashNextGap's
+  // own comment) -- a real, not just theoretical, jump-and-land cycle
+  // still always fits before the next hurdle arrives.
+  const HURDLE_DASH_MAX_SPEED = 760;
+  const HURDLE_DASH_SPEED_RAMP_PER_SECOND = 8;
+  const HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS = 2.8;
   const HURDLE_DASH_DISTANCE_PER_SCORE_UNIT = 10;
   const HURDLE_DASH_HURDLE_CLEAR_POINTS = 25;
   const HURDLE_DASH_TROPHY_POINTS = 40;
@@ -151,15 +182,12 @@
     return a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
   }
 
-  // Real playtesting (a headless-browser run against the live game
-  // loop, not just reasoning about the numbers) found the first hurdle
-  // landing around 4.2-4.8s into a run -- survivable for a deliberate,
-  // watching-the-hurdle tap, but tighter than the spec's own "10-25
-  // seconds for a normal first run" target once a first-time player's
-  // real reaction time is accounted for. Widened alongside
-  // HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS above.
-  const HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER = 1.5;
-  const HURDLE_DASH_SAFE_GAP_MAX_MULTIPLIER = 2.2;
+  // Trimmed alongside HURDLE_DASH_FIRST_HURDLE_DELAY_SECONDS above for a
+  // real difficulty increase, but never below 1.0 -- that's the actual
+  // hard floor for "one full jump-and-land cycle still always fits";
+  // 1.25 keeps a genuine, if tighter, human-reaction buffer on top of it.
+  const HURDLE_DASH_SAFE_GAP_MIN_MULTIPLIER = 1.25;
+  const HURDLE_DASH_SAFE_GAP_MAX_MULTIPLIER = 1.9;
 
   // A safe, never-impossible gap (in game units, i.e. distance the world
   // must scroll) before the next hurdle, given the CURRENT speed --
@@ -203,6 +231,90 @@
     };
   }
 
+  // --- Tap Sprint (2026-09-01) -------------------------------------------
+  const TAP_SPRINT_DURATION_SECONDS = 10;
+  const TAP_SPRINT_DISTANCE_PER_TAP = 12;
+  // A real, generous floor -- faster than this is not realistic sustained
+  // human alternating tapping, but comfortably above what a fast real
+  // player can do. Bounds the max possible tap rate rather than trying to
+  // detect "is this really a human," the same proportionate approach the
+  // other games already use for their own raw-input validation.
+  const TAP_SPRINT_MIN_TAP_INTERVAL_MS = 65;
+  const TAP_SPRINT_TRACK_DISTANCE = 1100; // the visual "full track" length for the runner animation
+
+  function tapSprintDistanceForTaps(taps) {
+    return Math.max(0, Number(taps) || 0) * TAP_SPRINT_DISTANCE_PER_TAP;
+  }
+
+  // Pure state transition: only an alternating tap (different button from
+  // the last one that counted) is valid. Returns whether THIS tap counts,
+  // and the new "last button" state to remember for the next one.
+  function tapSprintRegisterTap(lastButton, button) {
+    const counts = lastButton !== button;
+    return { counts, lastButton: button };
+  }
+
+  function tapSprintTapIsRateLimited(msSinceLastTap) {
+    return Number.isFinite(msSinceLastTap) && msSinceLastTap < TAP_SPRINT_MIN_TAP_INTERVAL_MS;
+  }
+
+  // --- Beat the Runner (2026-09-01) ---------------------------------------
+  // Named rounds are a fixed product requirement -- exact names, exact
+  // order, never renamed or reordered (same discipline as LEVELS above).
+  const BEAT_THE_RUNNER_ROUNDS = [
+    { name: "Junior Varsity Runner" },
+    { name: "Varsity Runner" },
+    { name: "Conference Champion" },
+    { name: "District Champion" },
+    { name: "Regional Champion" },
+    { name: "State Qualifier" },
+    { name: "State Champion" },
+    { name: "National Champion" }
+  ];
+  const BEAT_THE_RUNNER_BASE_TAPS_NEEDED = 12; // round 1's real, easy-for-new-players target
+  const BEAT_THE_RUNNER_TAPS_INCREMENT = 3; // each later round needs a few more real taps
+  const BEAT_THE_RUNNER_BASE_TIME_MS = 6000; // round 1's real, generous window
+  const BEAT_THE_RUNNER_TIME_DECREMENT_MS = 350; // each later round gives a little less time
+  const BEAT_THE_RUNNER_MIN_TIME_MS = 2200; // never below a real, still-fair floor, however far a player gets
+
+  // 0-indexed roundIndex in, matching BEAT_THE_RUNNER_ROUNDS -- returns
+  // the real taps needed and time allowed for that round. Both increase
+  // with round index (harder), time floors out rather than going to 0.
+  function beatTheRunnerRoundTarget(roundIndex) {
+    const safeIndex = Number.isFinite(roundIndex) && roundIndex >= 0 ? Math.floor(roundIndex) : 0;
+    return {
+      tapsNeeded: BEAT_THE_RUNNER_BASE_TAPS_NEEDED + safeIndex * BEAT_THE_RUNNER_TAPS_INCREMENT,
+      timeMs: Math.max(BEAT_THE_RUNNER_MIN_TIME_MS, BEAT_THE_RUNNER_BASE_TIME_MS - safeIndex * BEAT_THE_RUNNER_TIME_DECREMENT_MS)
+    };
+  }
+
+  // --- Memory Match (2026-09-01) -------------------------------------------
+  const MEMORY_MATCH_SYMBOLS = ["👟", "🏆", "⏱️", "🥇", "🏁", "PW"]; // running shoes, trophy, stopwatch, medal, track/checkered flag, Podium Watch mark
+  const MEMORY_MATCH_PAIR_COUNT = 3; // three matching pairs -- a real six-card board
+  const MEMORY_MATCH_MISMATCH_DELAY_MS = 800;
+
+  // A real Fisher-Yates shuffle of the 6-card board (3 symbols x 2 each) --
+  // injectable randomFn so this is genuinely testable, not "trust me it's
+  // random." Returns an array of { symbol, matched } in shuffled order.
+  function memoryMatchNewBoard(randomFn = Math.random) {
+    // Real variety across rounds -- which 3 symbols appear is itself
+    // shuffled from the full themed pool (Fisher-Yates on the pool, not
+    // always the same fixed first 3), before the 6 resulting cards are
+    // separately shuffled into board positions.
+    const pool = MEMORY_MATCH_SYMBOLS.slice();
+    for (let i = pool.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(randomFn() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    const symbols = pool.slice(0, MEMORY_MATCH_PAIR_COUNT);
+    const cards = symbols.flatMap((symbol) => [{ symbol, matched: false }, { symbol, matched: false }]);
+    for (let i = cards.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(randomFn() * (i + 1));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+    return cards;
+  }
+
   function todayLocalDateKey(date = new Date()) {
     // The visitor's own local calendar day. Daily challenges (a later
     // phase) specifically need America/New_York per the spec; this daily
@@ -235,6 +347,9 @@
       // from a different run; a run doesn't have to sweep all three to
       // set any one of them.
       hurdleDash: { bestDistance: null, bestHurdlesCleared: null, bestGameScore: null, attempts: 0 },
+      tapSprint: { bestDistance: null, attempts: 0 },
+      beatTheRunner: { bestRoundReached: null, attempts: 0 },
+      memoryMatch: { bestTimeMs: null, fewestMoves: null, attempts: 0 },
       lastActivityAt: null
     };
   }
@@ -258,6 +373,9 @@
         ? { reactionMs: sg.personalRecord.reactionMs, suspicious: sg.personalRecord.suspicious === true }
         : null;
       const hd = raw.hurdleDash && typeof raw.hurdleDash === "object" ? raw.hurdleDash : {};
+      const ts = raw.tapSprint && typeof raw.tapSprint === "object" ? raw.tapSprint : {};
+      const btr = raw.beatTheRunner && typeof raw.beatTheRunner === "object" ? raw.beatTheRunner : {};
+      const mm = raw.memoryMatch && typeof raw.memoryMatch === "object" ? raw.memoryMatch : {};
       const safeNonNegative = (value) => (Number.isFinite(value) && value >= 0 ? value : null);
       return {
         ...base,
@@ -278,6 +396,19 @@
           bestHurdlesCleared: safeNonNegative(hd.bestHurdlesCleared),
           bestGameScore: safeNonNegative(hd.bestGameScore),
           attempts: Number.isFinite(hd.attempts) ? Math.max(0, hd.attempts) : 0
+        },
+        tapSprint: {
+          bestDistance: safeNonNegative(ts.bestDistance),
+          attempts: Number.isFinite(ts.attempts) ? Math.max(0, ts.attempts) : 0
+        },
+        beatTheRunner: {
+          bestRoundReached: safeNonNegative(btr.bestRoundReached),
+          attempts: Number.isFinite(btr.attempts) ? Math.max(0, btr.attempts) : 0
+        },
+        memoryMatch: {
+          bestTimeMs: safeNonNegative(mm.bestTimeMs),
+          fewestMoves: safeNonNegative(mm.fewestMoves),
+          attempts: Number.isFinite(mm.attempts) ? Math.max(0, mm.attempts) : 0
         },
         lastActivityAt: typeof raw.lastActivityAt === "string" ? raw.lastActivityAt : null
       };
@@ -378,6 +509,15 @@
     rectsOverlap,
     hurdleDashNextGap,
     hurdleDashGameScore,
+    TAP_SPRINT_DURATION_SECONDS,
+    tapSprintDistanceForTaps,
+    tapSprintRegisterTap,
+    tapSprintTapIsRateLimited,
+    BEAT_THE_RUNNER_ROUNDS,
+    beatTheRunnerRoundTarget,
+    MEMORY_MATCH_SYMBOLS,
+    MEMORY_MATCH_PAIR_COUNT,
+    memoryMatchNewBoard,
     levelForPoints,
     todayLocalDateKey,
     defaultProfile,
@@ -601,6 +741,21 @@
             <h3>Hurdle Dash</h3>
             <p>Tap to jump. Clear as many hurdles as you can.</p>
             <button class="button button-primary" type="button" data-pp-play="hurdle-dash">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="tap-sprint">
+            <h3>Tap Sprint</h3>
+            <p>Alternate taps for 10 seconds. How far can you go?</p>
+            <button class="button button-primary" type="button" data-pp-play="tap-sprint">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="beat-the-runner">
+            <h3>Beat the Runner</h3>
+            <p>Tap fast enough to catch the runner before the line.</p>
+            <button class="button button-primary" type="button" data-pp-play="beat-the-runner">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="memory-match">
+            <h3>Memory Match</h3>
+            <p>Find all 3 matching pairs as fast as you can.</p>
+            <button class="button button-primary" type="button" data-pp-play="memory-match">Play</button>
           </div>
         </div>
         <div class="pp-game-stage" data-pp-stage hidden></div>
@@ -1016,9 +1171,35 @@
         <p>Tap to jump. Clear as many hurdles as you can.</p>
         ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
         <button class="button button-primary pp-stage-action" type="button" data-pp-run>Start Running</button>
+        <div class="pp-game-leaderboard" data-pp-hd-distance-board hidden>
+          <p class="pp-game-leaderboard-title">Best distances</p>
+          <ol class="pp-leaderboard-list" data-pp-hd-distance-list></ol>
+        </div>
       `;
       stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
       stage.querySelector("[data-pp-run]").addEventListener("click", () => startHurdleDashRun(stage, games));
+      loadHurdleDashDistanceLeaderboard(stage);
+    }
+
+    // Public, same as the main points leaderboard -- "who has the best/
+    // furthest Hurdle Dash distance" (2026-09-01), a per-game record list
+    // separate from overall points.
+    async function loadHurdleDashDistanceLeaderboard(stage) {
+      const section = stage.querySelector("[data-pp-hd-distance-board]");
+      const list = stage.querySelector("[data-pp-hd-distance-list]");
+      if (!section || !list) return;
+      try {
+        const response = await fetch("/api/podium-play/leaderboard-hurdle-dash/?limit=5");
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !Array.isArray(data.leaders) || data.leaders.length === 0) {
+          section.hidden = true;
+          return;
+        }
+        list.innerHTML = data.leaders.map((entry) => `<li><span class="pp-leaderboard-rank">#${entry.rank}</span><span class="pp-leaderboard-name">${escapeHtml(entry.displayName)}</span><span class="pp-leaderboard-points">${entry.distance}</span></li>`).join("");
+        section.hidden = false;
+      } catch {
+        section.hidden = true;
+      }
     }
 
     // The one-touch endless runner. Real elapsed-time physics (never a
@@ -1294,6 +1475,499 @@
       raf = requestAnimationFrame(frame);
     }
 
+    function openTapSprint() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "tap_sprint" });
+      renderTapSprintIdle(stage, games);
+    }
+
+    function renderTapSprintIdle(stage, games) {
+      const best = profile.tapSprint.bestDistance;
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Tap Sprint</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Alternate tapping Left and Right as fast as you can for 10 seconds.</p>
+        ${best !== null ? `<p class="pp-pr">Best distance: ${best}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-ts-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-ts-start]").addEventListener("click", () => startTapSprintRun(stage, games));
+    }
+
+    function startTapSprintRun(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Tap Sprint</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-ts-stats" aria-hidden="true"><span data-pp-ts-time>Time: 10.0</span><span data-pp-ts-distance>Distance: 0</span><span data-pp-ts-taps>Taps: 0</span></div>
+        <div class="pp-track"><div class="pp-ts-runner" data-pp-ts-runner></div></div>
+        <div class="pp-ts-buttons">
+          <button class="pp-ts-button" type="button" data-pp-ts-tap="left" aria-label="Tap left">LEFT</button>
+          <button class="pp-ts-button" type="button" data-pp-ts-tap="right" aria-label="Tap right">RIGHT</button>
+        </div>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const timeEl = stage.querySelector("[data-pp-ts-time]");
+      const distanceEl = stage.querySelector("[data-pp-ts-distance]");
+      const tapsEl = stage.querySelector("[data-pp-ts-taps]");
+      const runnerEl = stage.querySelector("[data-pp-ts-runner]");
+      const leftButton = stage.querySelector('[data-pp-ts-tap="left"]');
+      const rightButton = stage.querySelector('[data-pp-ts-tap="right"]');
+
+      let taps = 0;
+      // Two SEPARATE trackers, deliberately: lastPhysicalButton always
+      // reflects the real last button pressed (even a rejected one) so a
+      // rapid-fire spam on ONE button can never be "primed" into counting
+      // by a rejected opposite-button tap sneaking the state machine
+      // forward; lastCountedTapAt only advances on a tap that actually
+      // scored, so the rate limit caps genuine alternation at the same
+      // real ceiling it caps everything else at.
+      let lastPhysicalButton = null;
+      let lastCountedTapAt = -Infinity;
+      const startedAt = performance.now();
+      let raf = null;
+      let ended = false;
+
+      function attemptTap(button) {
+        if (ended) return;
+        const { counts: alternates } = tapSprintRegisterTap(lastPhysicalButton, button);
+        lastPhysicalButton = button;
+        if (!alternates) return;
+        const now = performance.now();
+        if (tapSprintTapIsRateLimited(now - lastCountedTapAt)) return;
+        lastCountedTapAt = now;
+        taps += 1;
+        const distance = tapSprintDistanceForTaps(taps);
+        distanceEl.textContent = `Distance: ${Math.round(distance)}`;
+        tapsEl.textContent = `Taps: ${taps}`;
+        runnerEl.style.left = `${Math.min(100, (distance / TAP_SPRINT_TRACK_DISTANCE) * 100)}%`;
+      }
+
+      function handlePointerDown(event) {
+        event.preventDefault();
+        attemptTap(event.currentTarget.dataset.ppTsTap);
+      }
+      leftButton.addEventListener("pointerdown", handlePointerDown);
+      rightButton.addEventListener("pointerdown", handlePointerDown);
+
+      // event.repeat is the real, standard signal a keydown was generated
+      // by the OS auto-repeating a HELD key, not a fresh press -- the
+      // exact "keyboard repeat" the spec asks to guard against.
+      function handleKeydown(event) {
+        if (event.repeat) return;
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        if (event.code === "ArrowLeft") { event.preventDefault(); attemptTap("left"); }
+        else if (event.code === "ArrowRight") { event.preventDefault(); attemptTap("right"); }
+      }
+      document.addEventListener("keydown", handleKeydown);
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (raf) cancelAnimationFrame(raf);
+          leftButton.removeEventListener("pointerdown", handlePointerDown);
+          rightButton.removeEventListener("pointerdown", handlePointerDown);
+          document.removeEventListener("keydown", handleKeydown);
+        }
+      };
+
+      function frame() {
+        if (ended) return;
+        const elapsed = (performance.now() - startedAt) / 1000;
+        const remaining = Math.max(0, TAP_SPRINT_DURATION_SECONDS - elapsed);
+        timeEl.textContent = `Time: ${remaining.toFixed(1)}`;
+        if (remaining <= 0) {
+          endRun();
+          return;
+        }
+        raf = requestAnimationFrame(frame);
+      }
+
+      function endRun() {
+        cancelCurrentAttempt();
+        profile.tapSprint.attempts += 1;
+        submitToServer("tap_sprint", { taps });
+
+        const finalDistance = Math.round(tapSprintDistanceForTaps(taps));
+        const priorBest = profile.tapSprint.bestDistance;
+        const isNewPr = priorBest === null || finalDistance > priorBest;
+        if (isNewPr) profile.tapSprint.bestDistance = finalDistance;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `tap-sprint-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "tap_sprint" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "tap_sprint", result_band: String(finalDistance) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = `${finalDistance} distance, ${taps} tap${taps === 1 ? "" : "s"}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Tap Sprint</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Sprint again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderTapSprintIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+
+      raf = requestAnimationFrame(frame);
+    }
+
+    function openBeatTheRunner() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "beat_the_runner" });
+      renderBeatTheRunnerIdle(stage, games);
+    }
+
+    function renderBeatTheRunnerIdle(stage, games) {
+      const best = profile.beatTheRunner.bestRoundReached;
+      const bestName = best ? BEAT_THE_RUNNER_ROUNDS[best - 1]?.name : "";
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Beat the Runner</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Tap fast enough to catch the runner before the finish line. Each round gets harder.</p>
+        ${best ? `<p class="pp-pr">Best: Round ${best}${bestName ? ` (${escapeHtml(bestName)})` : ""}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-btr-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-btr-start]").addEventListener("click", () => startBeatTheRunnerGame(stage, games));
+    }
+
+    // A multi-round game -- one shared cleanup (currentAttempt.cleanup)
+    // set once, but the listeners it tears down belong to whichever
+    // round is currently active (teardownRoundListeners, reassigned by
+    // renderRoundStage() each round) -- the closure below reads that
+    // variable's CURRENT value at cleanup time, not a stale snapshot from
+    // when the game started, so Back always tears down the real active
+    // round regardless of which one it is.
+    function startBeatTheRunnerGame(stage, games) {
+      let roundIndex = 0;
+      let runnersDefeated = 0;
+      let newPrThisRun = false;
+      let ended = false;
+      let raf = null;
+      let lastCountedTapAt = -Infinity; // shared across rounds -- the rate-limit floor applies to the whole game, not reset per round
+      let teardownRoundListeners = null;
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (raf) cancelAnimationFrame(raf);
+          teardownRoundListeners?.();
+        }
+      };
+
+      function renderRoundStage() {
+        const round = BEAT_THE_RUNNER_ROUNDS[roundIndex];
+        const target = beatTheRunnerRoundTarget(roundIndex);
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Beat the Runner</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-btr-round">Round ${roundIndex + 1}: ${escapeHtml(round.name)}</p>
+          <div class="pp-btr-stats" aria-hidden="true"><span data-pp-btr-time>Time: ${(target.timeMs / 1000).toFixed(1)}s</span><span data-pp-btr-taps>Taps: 0/${target.tapsNeeded}</span></div>
+          <div class="pp-btr-track">
+            <div class="pp-btr-lane"><span class="pp-btr-lane-label">You</span><div class="pp-btr-runner pp-btr-runner-player" data-pp-btr-player></div></div>
+            <div class="pp-btr-lane"><span class="pp-btr-lane-label">${escapeHtml(round.name)}</span><div class="pp-btr-runner pp-btr-runner-cpu" data-pp-btr-cpu></div></div>
+          </div>
+          <button class="button button-primary pp-stage-action" type="button" data-pp-btr-tap>TAP</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+        const timeEl = stage.querySelector("[data-pp-btr-time]");
+        const tapsEl = stage.querySelector("[data-pp-btr-taps]");
+        const playerEl = stage.querySelector("[data-pp-btr-player]");
+        const cpuEl = stage.querySelector("[data-pp-btr-cpu]");
+        const tapButton = stage.querySelector("[data-pp-btr-tap]");
+
+        let taps = 0;
+        const startedAt = performance.now();
+
+        function attemptTap() {
+          if (ended) return;
+          const now = performance.now();
+          // Reuses the exact same real rate-limit floor Tap Sprint uses --
+          // "quickly enough to catch the runner" still needs a bound on
+          // how fast a single button can be spammed for the difficulty
+          // curve above to mean anything real.
+          if (tapSprintTapIsRateLimited(now - lastCountedTapAt)) return;
+          lastCountedTapAt = now;
+          taps += 1;
+          tapsEl.textContent = `Taps: ${taps}/${target.tapsNeeded}`;
+          playerEl.style.left = `${Math.min(100, (taps / target.tapsNeeded) * 100)}%`;
+          if (taps >= target.tapsNeeded) winRound();
+        }
+
+        function handlePointerDown(event) { event.preventDefault(); attemptTap(); }
+        function handleKeydown(event) {
+          if (event.repeat) return;
+          const tag = event.target?.tagName;
+          if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+          if (event.code === "Space" || event.key === "Enter") { event.preventDefault(); attemptTap(); }
+        }
+        tapButton.addEventListener("pointerdown", handlePointerDown);
+        document.addEventListener("keydown", handleKeydown);
+        teardownRoundListeners = () => {
+          tapButton.removeEventListener("pointerdown", handlePointerDown);
+          document.removeEventListener("keydown", handleKeydown);
+        };
+
+        function frame() {
+          if (ended) return;
+          const elapsed = performance.now() - startedAt;
+          const remaining = Math.max(0, target.timeMs - elapsed);
+          timeEl.textContent = `Time: ${(remaining / 1000).toFixed(1)}s`;
+          cpuEl.style.left = `${Math.min(100, (elapsed / target.timeMs) * 100)}%`;
+          if (remaining <= 0) { endGame(); return; }
+          raf = requestAnimationFrame(frame);
+        }
+
+        function winRound() {
+          if (raf) cancelAnimationFrame(raf);
+          teardownRoundListeners?.();
+          runnersDefeated += 1;
+          const completedRoundNumber = roundIndex + 1;
+          if (profile.beatTheRunner.bestRoundReached === null || completedRoundNumber > profile.beatTheRunner.bestRoundReached) {
+            profile.beatTheRunner.bestRoundReached = completedRoundNumber;
+            newPrThisRun = true;
+          }
+          if (completedRoundNumber >= BEAT_THE_RUNNER_ROUNDS.length) { endGame(); return; }
+
+          stage.innerHTML = `<div class="pp-stage-head"><h3>Beat the Runner</h3></div><p class="pp-result">You caught the ${escapeHtml(round.name)}!</p><p class="pp-pr">Next: ${escapeHtml(BEAT_THE_RUNNER_ROUNDS[roundIndex + 1].name)}</p>`;
+          announce(`You caught the ${round.name}. Next round starting.`);
+          setTimeout(() => {
+            if (ended) return;
+            roundIndex += 1;
+            renderRoundStage();
+          }, 1800);
+        }
+
+        raf = requestAnimationFrame(frame);
+      }
+
+      function endGame() {
+        cancelCurrentAttempt();
+        profile.beatTheRunner.attempts += 1;
+        submitToServer("beat_the_runner", { highestRoundCompleted: runnersDefeated });
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        if (newPrThisRun) {
+          pointsEarned += awardPoints(profile, `beat-the-runner-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "beat_the_runner" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "beat_the_runner", result_band: String(runnersDefeated) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const wonEverything = runnersDefeated >= BEAT_THE_RUNNER_ROUNDS.length;
+        const highestRoundReached = Math.min(roundIndex + 1, BEAT_THE_RUNNER_ROUNDS.length);
+        // A plain (unescaped) version for the aria-live announcement --
+        // .textContent never decodes HTML entities, so passing an
+        // escapeHtml()'d string there would risk reading out literal
+        // entity codes instead of the real character. Built from the
+        // same underlying values as the HTML version below, just never
+        // escaped, since .textContent needs no escaping in the first place.
+        const resultLinePlain = wonEverything
+          ? `You defeated every runner, all the way to ${BEAT_THE_RUNNER_ROUNDS[BEAT_THE_RUNNER_ROUNDS.length - 1].name}!`
+          : `Reached Round ${highestRoundReached}, ${runnersDefeated} runner${runnersDefeated === 1 ? "" : "s"} defeated.`;
+        const resultLine = wonEverything
+          ? `You defeated every runner, all the way to ${escapeHtml(BEAT_THE_RUNNER_ROUNDS[BEAT_THE_RUNNER_ROUNDS.length - 1].name)}!`
+          : `Reached Round ${highestRoundReached}, ${runnersDefeated} runner${runnersDefeated === 1 ? "" : "s"} defeated.`;
+        const prLine = newPrThisRun ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Beat the Runner</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${newPrThisRun && !reduceMotion ? " pp-result-celebrate" : ""}">${resultLine}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Race again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderBeatTheRunnerIdle(stage, games));
+        announce(`${resultLinePlain} ${prLine}`);
+      }
+
+      renderRoundStage();
+    }
+
+    const MEMORY_MATCH_SYMBOL_NAMES = { "👟": "running shoes", "🏆": "trophy", "⏱️": "stopwatch", "🥇": "medal", "🏁": "checkered flag", "PW": "Podium Watch logo" };
+
+    function openMemoryMatch() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "memory_match" });
+      renderMemoryMatchIdle(stage, games);
+    }
+
+    function renderMemoryMatchIdle(stage, games) {
+      const mm = profile.memoryMatch;
+      const prParts = [];
+      if (mm.bestTimeMs !== null) prParts.push(`Best time: ${(mm.bestTimeMs / 1000).toFixed(1)}s`);
+      if (mm.fewestMoves !== null) prParts.push(`Fewest moves: ${mm.fewestMoves}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Memory Match</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Find all 3 matching pairs as fast as you can.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-mm-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-mm-start]").addEventListener("click", () => startMemoryMatchGame(stage, games));
+    }
+
+    function startMemoryMatchGame(stage, games) {
+      const board = memoryMatchNewBoard();
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Memory Match</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-mm-stats" aria-hidden="true"><span data-pp-mm-time>Time: 0.0</span><span data-pp-mm-moves>Moves: 0</span></div>
+        <div class="pp-mm-board" data-pp-mm-board>
+          ${board.map((_, i) => `<button class="pp-mm-card" type="button" data-pp-mm-card="${i}"></button>`).join("")}
+        </div>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const timeEl = stage.querySelector("[data-pp-mm-time]");
+      const movesEl = stage.querySelector("[data-pp-mm-moves]");
+      const cardButtons = Array.from(stage.querySelectorAll("[data-pp-mm-card]"));
+
+      let moves = 0;
+      let matchedPairs = 0;
+      let revealed = []; // indices currently face-up and not yet resolved, max 2
+      let checking = false; // true while 2 cards are being compared -- locks further taps, per spec
+      const startedAt = performance.now();
+      let raf = null;
+      let ended = false;
+      let mismatchTimer = null;
+
+      function renderCard(index) {
+        const card = board[index];
+        const button = cardButtons[index];
+        const faceUp = card.matched || revealed.includes(index);
+        button.textContent = faceUp ? card.symbol : "";
+        button.classList.toggle("pp-mm-card-up", faceUp);
+        button.classList.toggle("pp-mm-card-matched", card.matched);
+        button.disabled = card.matched;
+        const symbolName = MEMORY_MATCH_SYMBOL_NAMES[card.symbol] || card.symbol;
+        button.setAttribute("aria-label", faceUp ? `Card ${index + 1}, ${symbolName}${card.matched ? ", matched" : ""}` : `Card ${index + 1}, face down`);
+      }
+      cardButtons.forEach((_, i) => renderCard(i));
+
+      function handleCardClick(index) {
+        if (ended || checking) return;
+        if (board[index].matched || revealed.includes(index)) return;
+        revealed.push(index);
+        renderCard(index);
+        if (revealed.length < 2) return;
+
+        checking = true;
+        moves += 1;
+        movesEl.textContent = `Moves: ${moves}`;
+
+        const [a, b] = revealed;
+        if (board[a].symbol === board[b].symbol) {
+          board[a].matched = true;
+          board[b].matched = true;
+          matchedPairs += 1;
+          revealed = [];
+          renderCard(a);
+          renderCard(b);
+          checking = false;
+          if (matchedPairs >= MEMORY_MATCH_PAIR_COUNT) endGame();
+        } else {
+          mismatchTimer = setTimeout(() => {
+            revealed = [];
+            renderCard(a);
+            renderCard(b);
+            checking = false;
+          }, MEMORY_MATCH_MISMATCH_DELAY_MS);
+        }
+      }
+
+      cardButtons.forEach((button, i) => button.addEventListener("click", () => handleCardClick(i)));
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (raf) cancelAnimationFrame(raf);
+          if (mismatchTimer) clearTimeout(mismatchTimer);
+        }
+      };
+
+      function frame() {
+        if (ended) return;
+        const elapsed = (performance.now() - startedAt) / 1000;
+        timeEl.textContent = `Time: ${elapsed.toFixed(1)}`;
+        raf = requestAnimationFrame(frame);
+      }
+      raf = requestAnimationFrame(frame);
+
+      function endGame() {
+        cancelCurrentAttempt();
+        profile.memoryMatch.attempts += 1;
+        const elapsedMs = Math.round(performance.now() - startedAt);
+        submitToServer("memory_match", { timeMs: elapsedMs, moves });
+
+        const priorBestTime = profile.memoryMatch.bestTimeMs;
+        const priorFewestMoves = profile.memoryMatch.fewestMoves;
+        const isNewTimePr = priorBestTime === null || elapsedMs < priorBestTime;
+        const isNewMovesPr = priorFewestMoves === null || moves < priorFewestMoves;
+        if (isNewTimePr) profile.memoryMatch.bestTimeMs = elapsedMs;
+        if (isNewMovesPr) profile.memoryMatch.fewestMoves = moves;
+        const isNewPr = isNewTimePr || isNewMovesPr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `memory-match-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "memory_match" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "memory_match", result_band: String(elapsedMs) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = `${(elapsedMs / 1000).toFixed(1)}s, ${moves} move${moves === 1 ? "" : "s"}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Memory Match</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Play again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderMemoryMatchIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+    }
+
     // Renders the panel and wires everything ONCE, immediately -- games
     // are available for the whole page visit, not gated behind voting
     // (see the file header). A real vote succeeding later only ever
@@ -1326,6 +2000,9 @@
       wireGameButton("photo-finish", openPhotoFinish);
       wireGameButton("starting-gun", openStartingGun);
       wireGameButton("hurdle-dash", openHurdleDash);
+      wireGameButton("tap-sprint", openTapSprint);
+      wireGameButton("beat-the-runner", openBeatTheRunner);
+      wireGameButton("memory-match", openMemoryMatch);
 
       track("podium_play_panel_viewed", { content_type: "award_type", content_id: root.dataset.awardType || "athlete" });
     }
