@@ -740,6 +740,41 @@ p { margin-top: 0; }
 .form-message { min-height: 1.5em; margin: 12px 0 0; font-weight: 700; }
 .compact-empty { padding: 30px 20px; }
 
+/* Podium Play (public/scripts/podium-play.js) -- the cooldown arcade
+   shown after a confirmed vote. Deliberately reuses the same border/
+   background/button language as the rest of this page rather than
+   introducing a separate visual style, so it reads as part of the
+   voting experience, not a bolted-on widget. */
+.pp-panel { margin-top: 22px; padding: 22px; border: 1px solid var(--line); background: var(--paper); }
+.pp-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
+.pp-vote-confirmed { margin: 0; font-weight: 800; }
+.pp-cooldown-ring { --pp-progress: 0%; position: relative; min-width: 220px; padding: 8px 12px; overflow: hidden; border: 1px solid var(--line); background: var(--white); font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pp-cooldown-ring::before { content: ""; position: absolute; inset: 0; width: var(--pp-progress); background: rgba(15, 175, 104, .18); transition: width 1s linear; }
+.pp-cooldown-ring span { position: relative; }
+.pp-progress-row { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: .84rem; }
+.pp-progress-row strong { font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 1.15rem; color: var(--green-dark); }
+.pp-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 10px; }
+.pp-game-card { padding: 16px; border: 1px solid var(--line); background: var(--white); text-align: center; }
+.pp-game-card h3 { margin-bottom: 6px; font-size: 1.15rem; }
+.pp-game-card p { margin-bottom: 10px; color: var(--muted); font-size: .82rem; }
+.pp-game-card .button { width: 100%; min-height: 44px; }
+.pp-game-card-soon { opacity: .55; }
+.pp-game-stage { padding: 20px; border: 1px solid var(--line); background: var(--white); text-align: center; }
+.pp-stage-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.pp-stage-head h3 { margin-bottom: 0; }
+.pp-stage-close { min-height: 44px; padding: 0 14px; border: 1px solid var(--line); background: var(--white); font-weight: 800; cursor: pointer; }
+.pp-clock { margin: 20px 0; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(2.8rem, 12vw, 4.5rem); font-variant-numeric: tabular-nums; }
+.pp-stage-action { min-width: 180px; min-height: 52px; }
+.pp-result { margin: 16px 0 4px; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.6rem, 6vw, 2.2rem); }
+.pp-result-celebrate { animation: pp-celebrate .5s ease; }
+@keyframes pp-celebrate { 0% { transform: scale(1); color: var(--ink); } 40% { transform: scale(1.08); color: var(--green-dark); } 100% { transform: scale(1); color: var(--ink); } }
+.pp-pr { margin-bottom: 4px; color: var(--muted); }
+.pp-score { margin-bottom: 16px; font-weight: 800; }
+.pp-other-contest { margin: 18px 0 0; text-align: center; }
+.pp-other-contest a { font-weight: 800; color: var(--green-dark); }
+.pp-vote-again { position: sticky; bottom: 12px; width: 100%; margin-top: 18px; box-shadow: var(--shadow); }
+@media (prefers-reduced-motion: reduce) { .pp-result-celebrate { animation: none; } .pp-cooldown-ring::before { transition: none; } }
+
 .tournament-shell { display: grid; gap: 74px; }
 .source-notice { padding: 22px; color: var(--white); background: var(--green-ink); border-left: 8px solid var(--green); }
 .source-notice p { margin: 6px 0 0; color: #e1f1e9; }

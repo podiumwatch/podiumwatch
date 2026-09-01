@@ -183,6 +183,15 @@
       const data = await request(`${apiBase}/vote`, { method: "POST", body: JSON.stringify({ finalist_id: id, voter_token: getVoterToken(), website: "" }) });
       message.textContent = data.message || "Your vote has been recorded.";
       let remaining = Number(data.retry_after_seconds) || 45;
+      // Podium Play (public/scripts/podium-play.js) hooks in here, and
+      // only here -- one event, fired only after this real confirmed
+      // success response, carrying the exact same retry_after_seconds
+      // this file already uses for its own per-button countdown below.
+      // Podium Play never computes or stores its own cooldown; this is
+      // the single authoritative source it reads from.
+      document.dispatchEvent(new CustomEvent("podiumwatch:vote-success", {
+        detail: { awardType: type, finalistId: id, finalistName: button.dataset.voteName || "", retryAfterSeconds: remaining }
+      }));
       const original = button.textContent;
       const timer = setInterval(() => {
         remaining -= 1;
