@@ -3,19 +3,19 @@
 // site, so turning ads on, changing a slot, or adding them to another page
 // later is a one-line change here, not a hunt through every page file.
 //
-// ADSENSE_CLIENT_ID below is a placeholder. Google's ad server simply
-// serves no ad for a client id it doesn't recognize -- it doesn't error --
-// so this is safe to ship before a real account exists; the ad slot on the
-// page will just render as an empty, near-invisible sliver until the real
-// ID replaces the placeholder. See docs/DECISIONS.md for the walkthrough
-// of what has to happen on the Google side first.
-export const ADSENSE_CLIENT_ID = "ca-pub-0000000000000000";
+// Real AdSense account, created 2026-09-01 -- still pending Google's site
+// review/approval as of the commit that set these. Real values render
+// nothing (an empty ad slot, no error) until Google actually approves the
+// site; nothing further needs to change here once that happens.
+export const ADSENSE_CLIENT_ID = "ca-pub-2445887251976367";
 
 // One ad unit ID per real placement. Keyed by a short, page-scoped name
 // rather than the page's own slug, since the same physical ad unit (from
-// the AdSense dashboard) can be reused across more than one page.
+// the AdSense dashboard) can be reused across more than one page. This one
+// ("Podium Watch Awards", responsive) is reused on both the Athlete of the
+// Week and Team of the Week pages.
 export const AD_SLOTS = {
-  weeklyAwards: "0000000000"
+  weeklyAwards: "8781648734"
 };
 
 // The one loader script AdSense requires on any page that will show an ad
