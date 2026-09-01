@@ -18,6 +18,10 @@ const {
   LEVELS,
   PHOTO_FINISH_TARGET_SECONDS,
   photoFinishScoreBand,
+  STARTING_GUN_MIN_DELAY_MS,
+  STARTING_GUN_MAX_DELAY_MS,
+  randomStartingGunDelayMs,
+  startingGunScoreBand,
   levelForPoints,
   todayLocalDateKey,
   defaultProfile,
@@ -58,6 +62,41 @@ assert.equal(photoFinishScoreBand(5), 20, "A wildly off attempt still earns the 
 assert.equal(photoFinishScoreBand(0.1), 300, "0.1 (binary-imprecise) must still land in the <=0.10 band, not slip into the next one.");
 assert.equal(photoFinishScoreBand(0.05000000001), 500, "A float sliver over 0.05 must round to the same hundredth and stay in the <=0.05 band.");
 
+// --- randomStartingGunDelayMs ----------------------------------------------
+
+assert.equal(STARTING_GUN_MIN_DELAY_MS, 1500, "The spec's random delay floor is 1.5 seconds.");
+assert.equal(STARTING_GUN_MAX_DELAY_MS, 4000, "The spec's random delay ceiling is 4.0 seconds.");
+assert.equal(randomStartingGunDelayMs(() => 0), STARTING_GUN_MIN_DELAY_MS, "A random() of exactly 0 must land exactly on the floor.");
+assert.equal(randomStartingGunDelayMs(() => 1), STARTING_GUN_MAX_DELAY_MS, "A random() of exactly 1 must land exactly on the ceiling.");
+assert.equal(randomStartingGunDelayMs(() => 0.5), (STARTING_GUN_MIN_DELAY_MS + STARTING_GUN_MAX_DELAY_MS) / 2, "A midpoint random() must land exactly at the midpoint delay.");
+{
+  // A real spread check against the actual Math.random default, not just
+  // an injected fixed value -- confirms every real call stays in bounds.
+  for (let i = 0; i < 200; i += 1) {
+    const delay = randomStartingGunDelayMs();
+    assert.ok(delay >= STARTING_GUN_MIN_DELAY_MS && delay <= STARTING_GUN_MAX_DELAY_MS, `Delay ${delay} must always fall within [1500, 4000].`);
+  }
+}
+
+// --- startingGunScoreBand ----------------------------------------------------
+
+assert.deepEqual(startingGunScoreBand(120), { score: 1000, suspicious: true }, "Under 150ms scores 1000 but is flagged suspicious for any future public ranking.");
+assert.deepEqual(startingGunScoreBand(149), { score: 1000, suspicious: true }, "149ms is still under the 150ms boundary.");
+assert.deepEqual(startingGunScoreBand(150), { score: 750, suspicious: false }, "Exactly 150ms is the start of the real (non-suspicious) 750 band.");
+assert.deepEqual(startingGunScoreBand(199), { score: 750, suspicious: false });
+assert.deepEqual(startingGunScoreBand(200), { score: 500, suspicious: false });
+assert.deepEqual(startingGunScoreBand(249), { score: 500, suspicious: false });
+assert.deepEqual(startingGunScoreBand(250), { score: 300, suspicious: false });
+assert.deepEqual(startingGunScoreBand(299), { score: 300, suspicious: false });
+assert.deepEqual(startingGunScoreBand(300), { score: 150, suspicious: false });
+assert.deepEqual(startingGunScoreBand(399), { score: 150, suspicious: false });
+assert.deepEqual(startingGunScoreBand(400), { score: 75, suspicious: false });
+assert.deepEqual(startingGunScoreBand(599), { score: 75, suspicious: false });
+assert.deepEqual(startingGunScoreBand(600), { score: 20, suspicious: false }, "600ms and slower still earns the 20-point floor for a valid response.");
+assert.deepEqual(startingGunScoreBand(2000), { score: 20, suspicious: false });
+assert.deepEqual(startingGunScoreBand(199.4), { score: 750, suspicious: false }, "A fractional millisecond reading rounds to the nearest whole ms before banding (199.4 rounds to 199, staying in the 750 band).");
+assert.deepEqual(startingGunScoreBand(199.6), { score: 500, suspicious: false }, "199.6 rounds up to 200, crossing into the 500 band.");
+
 // --- levelForPoints ------------------------------------------------------
 
 assert.equal(levelForPoints(0).name, "Rookie Runner");
@@ -85,6 +124,8 @@ assert.equal(todayLocalDateKey(new Date(2026, 0, 5)), "2026-01-05", "Single-digi
   const fresh = defaultProfile();
   assert.equal(fresh.points, 0);
   assert.equal(fresh.photoFinish.personalRecord, null);
+  assert.equal(fresh.startingGun.personalRecord, null);
+  assert.equal(fresh.startingGun.falseStarts, 0);
   assert.ok(fresh.installId, "A fresh profile always has an anonymous install id.");
 }
 
@@ -94,15 +135,23 @@ assert.equal(sanitizeProfile({ version: 999, points: 5000 }).points, 0, "An unre
 assert.equal(sanitizeProfile("not an object").points, 0, "Malformed (non-object) stored data recovers safely.");
 
 {
-  const real = { version: 1, installId: "abc-123", points: 250, pointsAwardedToday: { date: "2026-08-31", amount: 40 }, awardedKeys: ["k1", "k2"], photoFinish: { personalRecord: { diffSeconds: 0.03, elapsedSeconds: 15.03 }, attempts: 4 }, soundEnabled: true };
+  const real = {
+    version: 1, installId: "abc-123", points: 250, pointsAwardedToday: { date: "2026-08-31", amount: 40 }, awardedKeys: ["k1", "k2"],
+    photoFinish: { personalRecord: { diffSeconds: 0.03, elapsedSeconds: 15.03 }, attempts: 4 },
+    startingGun: { personalRecord: { reactionMs: 187, suspicious: false }, attempts: 6, falseStarts: 2 },
+    soundEnabled: true
+  };
   const sanitized = sanitizeProfile(real);
   assert.equal(sanitized.points, 250, "Valid real data is preserved, not discarded.");
   assert.equal(sanitized.installId, "abc-123");
   assert.equal(sanitized.photoFinish.personalRecord.diffSeconds, 0.03);
+  assert.equal(sanitized.startingGun.personalRecord.reactionMs, 187);
+  assert.equal(sanitized.startingGun.falseStarts, 2);
   assert.equal(sanitized.awardedKeys.length, 2);
 }
 
 assert.equal(sanitizeProfile({ version: 1, points: 100, photoFinish: { personalRecord: { diffSeconds: "not a number" } } }).photoFinish.personalRecord, null, "A corrupted personal record is dropped rather than trusted.");
+assert.equal(sanitizeProfile({ version: 1, points: 100, startingGun: { personalRecord: { reactionMs: "not a number" } } }).startingGun.personalRecord, null, "A corrupted Starting Gun record is dropped rather than trusted.");
 assert.equal(sanitizeProfile({ version: 1, points: -50 }).points, 0, "A negative stored point total is clamped to 0, never trusted as-is.");
 
 // --- loadProfile / saveProfile (localStorage-backed persistence) -----------
@@ -170,6 +219,8 @@ assert.equal(sanitizeProfile({ version: 1, points: -50 }).points, 0, "A negative
 }
 
 console.log("photoFinishScoreBand checked: every scoring band from the spec, including real floating-point boundary safety at 0.05/0.10.");
+console.log("randomStartingGunDelayMs checked: exact floor/ceiling/midpoint against an injected random function, plus a real spread check against actual Math.random() staying in [1500, 4000].");
+console.log("startingGunScoreBand checked: every scoring band from the spec including the <150ms suspicious flag, every real boundary (150/200/250/300/400/600), and millisecond rounding at a real fractional boundary.");
 console.log("levelForPoints checked: all 10 launch levels, exact-threshold advancement, top-level clamping, and negative-input safety.");
 console.log("todayLocalDateKey checked: zero-padded local date formatting.");
 console.log("defaultProfile/sanitizeProfile checked: fresh-profile defaults, malformed/corrupted/future-version data recovering safely without crashing, and valid real data being preserved rather than discarded.");

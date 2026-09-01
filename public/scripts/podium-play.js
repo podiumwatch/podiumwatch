@@ -1,10 +1,11 @@
-// Podium Play (Phase 1) -- a small arcade shown after a confirmed
+// Podium Play (Phase 1 + 2) -- a small arcade shown after a confirmed
 // successful Athlete/Team of the Week vote, to give a visitor something
-// to do during the real 45-second cooldown. Phase 1 ships the shell,
-// guest persistence, points/levels, and one real game (Photo Finish).
-// Starting Gun, Hurdle Dash, badges, streaks, daily challenges, sharing,
-// the Instagram invite, and any server-side leaderboard are deliberately
-// deferred to later phases rather than shipped as placeholders.
+// to do during the real 45-second cooldown. Ships the shell, guest
+// persistence, points/levels, and two real games: Photo Finish (Phase 1)
+// and Starting Gun (Phase 2). Hurdle Dash, badges, streaks, daily
+// challenges, sharing, the Instagram invite, and any server-side
+// leaderboard are deliberately deferred to later phases rather than
+// shipped as placeholders.
 //
 // This file NEVER touches vote counting, candidate totals, or the
 // cooldown duration -- it only ever READS the real retry_after_seconds
@@ -68,6 +69,31 @@
     return 20;
   }
 
+  const STARTING_GUN_MIN_DELAY_MS = 1500;
+  const STARTING_GUN_MAX_DELAY_MS = 4000;
+  const STARTING_GUN_ON_YOUR_MARKS_MS = 600;
+  const STARTING_GUN_SET_MS = 600;
+
+  function randomStartingGunDelayMs(randomFn = Math.random) {
+    return STARTING_GUN_MIN_DELAY_MS + randomFn() * (STARTING_GUN_MAX_DELAY_MS - STARTING_GUN_MIN_DELAY_MS);
+  }
+
+  // Bands from the spec, in whole milliseconds. Under 150ms is real and
+  // scoreable locally, but flagged `suspicious` -- there is no server
+  // leaderboard in this phase, so nothing reads that flag yet, but the
+  // data is captured now rather than needing a later migration of stored
+  // records to add it retroactively.
+  function startingGunScoreBand(reactionMs) {
+    const ms = Math.round(reactionMs);
+    if (ms < 150) return { score: 1000, suspicious: true };
+    if (ms <= 199) return { score: 750, suspicious: false };
+    if (ms <= 249) return { score: 500, suspicious: false };
+    if (ms <= 299) return { score: 300, suspicious: false };
+    if (ms <= 399) return { score: 150, suspicious: false };
+    if (ms <= 599) return { score: 75, suspicious: false };
+    return { score: 20, suspicious: false };
+  }
+
   function levelForPoints(points) {
     const safePoints = Number.isFinite(points) ? Math.max(0, points) : 0;
     let current = LEVELS[0];
@@ -112,6 +138,7 @@
       // day's first-game bonus) -- see awardPoints().
       awardedKeys: [],
       photoFinish: { personalRecord: null, attempts: 0 },
+      startingGun: { personalRecord: null, attempts: 0, falseStarts: 0 },
       soundEnabled: false,
       lastActivityAt: null
     };
@@ -131,6 +158,10 @@
       const validPr = pr.personalRecord && Number.isFinite(pr.personalRecord.diffSeconds) && Number.isFinite(pr.personalRecord.elapsedSeconds)
         ? { diffSeconds: pr.personalRecord.diffSeconds, elapsedSeconds: pr.personalRecord.elapsedSeconds }
         : null;
+      const sg = raw.startingGun && typeof raw.startingGun === "object" ? raw.startingGun : {};
+      const validSgPr = sg.personalRecord && Number.isFinite(sg.personalRecord.reactionMs)
+        ? { reactionMs: sg.personalRecord.reactionMs, suspicious: sg.personalRecord.suspicious === true }
+        : null;
       return {
         ...base,
         installId: typeof raw.installId === "string" && raw.installId ? raw.installId : base.installId,
@@ -140,6 +171,11 @@
           : base.pointsAwardedToday,
         awardedKeys: Array.isArray(raw.awardedKeys) ? raw.awardedKeys.filter((key) => typeof key === "string").slice(-500) : [],
         photoFinish: { personalRecord: validPr, attempts: Number.isFinite(pr.attempts) ? Math.max(0, pr.attempts) : 0 },
+        startingGun: {
+          personalRecord: validSgPr,
+          attempts: Number.isFinite(sg.attempts) ? Math.max(0, sg.attempts) : 0,
+          falseStarts: Number.isFinite(sg.falseStarts) ? Math.max(0, sg.falseStarts) : 0
+        },
         soundEnabled: raw.soundEnabled === true,
         lastActivityAt: typeof raw.lastActivityAt === "string" ? raw.lastActivityAt : null
       };
@@ -210,6 +246,12 @@
     PHOTO_FINISH_HIDE_AT_SECONDS,
     PHOTO_FINISH_MIN_VALID_SECONDS,
     photoFinishScoreBand,
+    STARTING_GUN_MIN_DELAY_MS,
+    STARTING_GUN_MAX_DELAY_MS,
+    STARTING_GUN_ON_YOUR_MARKS_MS,
+    STARTING_GUN_SET_MS,
+    randomStartingGunDelayMs,
+    startingGunScoreBand,
     levelForPoints,
     todayLocalDateKey,
     defaultProfile,
@@ -310,7 +352,12 @@
     let cooldownTimer = null;
     let cooldownDeadline = 0;
     let sessionAwardedFirstGame = false; // per-cooldown-session only, not persisted -- see file header.
-    let currentAttempt = null; // { startedAt, raf, invalid }
+    // Whichever one game is currently in progress, if any -- only one can
+    // ever be active at a time (starting a new attempt or opening a
+    // different game always goes through cancelCurrentAttempt() first).
+    // Photo Finish stores { startedAt, raf, cleanup, tabHidden }; Starting
+    // Gun stores { cleanup } (its own pending on-your-marks/set/go timers).
+    let currentAttempt = null;
     let panelShown = false;
 
     function persist() {
@@ -380,9 +427,10 @@
             <p>Stop the clock at exactly 15.00.</p>
             <button class="button button-primary" type="button" data-pp-play="photo-finish">Play</button>
           </div>
-          <div class="pp-game-card pp-game-card-soon" aria-disabled="true">
+          <div class="pp-game-card" data-pp-game="starting-gun">
             <h3>Starting Gun</h3>
-            <p>Coming soon.</p>
+            <p>Wait for the gun. Tap as fast as you can.</p>
+            <button class="button button-primary" type="button" data-pp-play="starting-gun">Play</button>
           </div>
           <div class="pp-game-card pp-game-card-soon" aria-disabled="true">
             <h3>Hurdle Dash</h3>
@@ -539,6 +587,175 @@
       announce(`${resultLine} ${prLine}`);
     }
 
+    // Sound is fully optional decoration (spec: visual/vibration feedback
+    // must be sufficient on their own), synthesized with the Web Audio
+    // API rather than an external audio asset -- no extra request, no
+    // autoplay-policy risk, and it only ever plays in direct response to
+    // a GO signal the visitor's own Ready tap started, never on load.
+    function playStartingGunBeep() {
+      if (!profile.soundEnabled) return;
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const ctx = new AudioContextClass();
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.value = 880;
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 0.15);
+        oscillator.onended = () => ctx.close();
+      } catch {
+        // Sound is optional decoration -- never let it break the game.
+      }
+    }
+
+    function openStartingGun() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "starting_gun" });
+      renderStartingGunIdle(stage, games);
+    }
+
+    function renderStartingGunIdle(stage, games) {
+      const pr = profile.startingGun.personalRecord;
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Starting Gun</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Wait for the gun. Tap as fast as you can.</p>
+        ${pr ? `<p class="pp-pr">Personal record: ${Math.round(pr.reactionMs)}ms${pr.suspicious ? " (flagged for review)" : ""}</p>` : ""}
+        ${profile.startingGun.falseStarts > 0 ? `<p class="pp-pr">False starts so far: ${profile.startingGun.falseStarts}</p>` : ""}
+        <label class="pp-sound-toggle"><input type="checkbox" data-pp-sound${profile.soundEnabled ? " checked" : ""}> Sound on</label>
+        <button class="button button-primary pp-stage-action" type="button" data-pp-ready>Ready</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-sound]").addEventListener("change", (event) => {
+        profile.soundEnabled = event.target.checked;
+        persist();
+      });
+      stage.querySelector("[data-pp-ready]").addEventListener("click", () => beginStartingGunSequence(stage, games));
+    }
+
+    // "On your marks" -> "Set" -> a real random 1.5-4.0s delay -> GO.
+    // Any tap before GO is a false start; the single click listener below
+    // (added once, not re-added per phase) just checks `phase`, avoiding
+    // the churn of attaching/detaching a listener per state.
+    function beginStartingGunSequence(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Starting Gun</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <button class="pp-tap-zone" type="button" data-pp-tap-zone aria-label="Tap when you see GO"><span data-pp-signal>On your marks.</span></button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const tapZone = stage.querySelector("[data-pp-tap-zone]");
+      const signalEl = stage.querySelector("[data-pp-signal]");
+      let phase = "waiting"; // "waiting": any tap is a false start. "go": timing a real reaction.
+      let goAt = 0;
+      let resolved = false; // guards against two click events (e.g. a fast double-tap) both resolving this one attempt.
+      const timers = [];
+
+      function schedule(fn, ms) {
+        timers.push(setTimeout(fn, ms));
+      }
+
+      currentAttempt = { cleanup: () => { for (const id of timers) clearTimeout(id); } };
+
+      schedule(() => {
+        signalEl.textContent = "Set.";
+        schedule(() => {
+          schedule(() => {
+            phase = "go";
+            goAt = performance.now();
+            tapZone.classList.add("pp-tap-zone-go");
+            signalEl.textContent = "GO";
+            // Color and text alone never reach a screen reader (a live
+            // region is required, per this project's own accessibility
+            // bar) -- vibration/sound are both optional and off by
+            // default, so this announcement is the one signal guaranteed
+            // to reach every visitor regardless of device or preference.
+            announce("Go! Tap now.");
+            navigator.vibrate?.(60);
+            playStartingGunBeep();
+          }, randomStartingGunDelayMs());
+        }, STARTING_GUN_SET_MS);
+      }, STARTING_GUN_ON_YOUR_MARKS_MS);
+
+      tapZone.addEventListener("click", () => {
+        if (resolved) return;
+        resolved = true;
+        if (phase === "waiting") {
+          handleFalseStart(stage, games);
+          return;
+        }
+        handleStartingGunResult(stage, games, performance.now() - goAt);
+      });
+    }
+
+    function handleFalseStart(stage, games) {
+      cancelCurrentAttempt();
+      profile.startingGun.falseStarts += 1;
+      persist();
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Starting Gun</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p class="pp-result">False start.</p>
+        <p class="pp-pr">Wait for the gun next time -- no points for this one.</p>
+        <button class="button button-primary pp-stage-action" type="button" data-pp-again>Try again</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-again]").addEventListener("click", () => renderStartingGunIdle(stage, games));
+      announce("False start. Wait for the gun next time.");
+    }
+
+    function handleStartingGunResult(stage, games, reactionMs) {
+      cancelCurrentAttempt();
+      profile.startingGun.attempts += 1;
+
+      const { score: gameScore, suspicious } = startingGunScoreBand(reactionMs);
+      const priorPr = profile.startingGun.personalRecord;
+      const isNewPr = !priorPr || reactionMs < priorPr.reactionMs;
+      if (isNewPr) {
+        profile.startingGun.personalRecord = { reactionMs, suspicious };
+      }
+
+      let pointsEarned = 0;
+      if (!sessionAwardedFirstGame) {
+        pointsEarned += awardPoints(profile, `first-game-${cooldownSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+        sessionAwardedFirstGame = true;
+      }
+      if (isNewPr) {
+        // Same reasoning as Photo Finish's PR bonus: the "is this better"
+        // gate above already limits this to at most once per attempt, so
+        // a fresh key is safe -- awardPoints() still enforces the daily
+        // cap here, which a direct profile.points += would have skipped.
+        pointsEarned += awardPoints(profile, `starting-gun-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+        track("podium_play_personal_record", { content_type: "game", content_id: "starting_gun" });
+      }
+      persist();
+      renderProgress();
+      track("podium_play_game_completed", { content_type: "game", content_id: "starting_gun", result_band: String(gameScore) });
+
+      const resultLine = `${Math.round(reactionMs)} milliseconds.`;
+      const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+      const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Starting Gun</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+        <p class="pp-pr">${escapeHtml(prLine)}${suspicious ? " (flagged for review before any public ranking)" : ""}</p>
+        <p class="pp-score">Score: ${gameScore}${pointsEarned > 0 ? ` &middot; +${pointsEarned} Podium Points` : ""}</p>
+        <button class="button button-primary pp-stage-action" type="button" data-pp-again>Try again</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-again]").addEventListener("click", () => renderStartingGunIdle(stage, games));
+      announce(`${resultLine} ${prLine}`);
+    }
+
     let cooldownSessionKey = "";
 
     function open(detail) {
@@ -572,16 +789,20 @@
         panel.scrollIntoView({ behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ? "auto" : "smooth", block: "start" });
       });
 
-      const playButton = panel.querySelector('[data-pp-play="photo-finish"]');
-      playButton?.addEventListener("click", () => {
-        try {
-          openPhotoFinish();
-        } catch {
-          // A game failing must never take voting down with it.
-          const stage = panel.querySelector("[data-pp-stage]");
-          if (stage) { stage.hidden = false; stage.innerHTML = "<p>This game had a problem loading. Voting still works as usual.</p>"; }
-        }
-      });
+      // Both games share this same try/catch shape -- a game failing to
+      // open must never take voting down with it.
+      function wireGameButton(gameId, openFn) {
+        panel.querySelector(`[data-pp-play="${gameId}"]`)?.addEventListener("click", () => {
+          try {
+            openFn();
+          } catch {
+            const stage = panel.querySelector("[data-pp-stage]");
+            if (stage) { stage.hidden = false; stage.innerHTML = "<p>This game had a problem loading. Voting still works as usual.</p>"; }
+          }
+        });
+      }
+      wireGameButton("photo-finish", openPhotoFinish);
+      wireGameButton("starting-gun", openStartingGun);
 
       if (!panelShown) {
         panelShown = true;
