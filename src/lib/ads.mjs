@@ -19,12 +19,26 @@ export const AD_SLOTS = {
 };
 
 // The one loader script AdSense requires in <head>. Wired sitewide into
-// layout() (src/lib/html.mjs) rather than opt-in per page (2026-09-01) --
-// Google's own AdSense review process expects the code present on every
-// page, not just the ones that show an ad slot, and Auto ads (if turned
-// on later) need it sitewide to work at all. This alone does not put a
-// visible ad anywhere -- an actual ad box only ever appears where a page
-// explicitly calls adSlot() below (currently just weeklyawards.mjs).
+// layout() (src/lib/html.mjs) for every real public content page
+// (2026-09-01) -- Google's AdSense review expects the code present
+// broadly, not just the 2 pages that show an ad slot, and Auto ads (if
+// turned on later) need it sitewide to work at all. This alone does not
+// put a visible ad anywhere -- an actual ad box only ever appears where
+// a page explicitly calls adSlot() below (currently just
+// weeklyawards.mjs).
+//
+// layout()'s own isPrivatePage check (its existing noindex/nofollow
+// list -- admin, every login/dashboard page, /follow/) is reused to skip
+// this on those pages, not just search engines. Real rejection received
+// same day: Google flagged "Google-served ads on screens without
+// publisher-content... used for alerts, navigation or other behavioral
+// purposes" -- login screens and account dashboards are exactly that,
+// and were getting this script (though never a rendered ad, since no
+// adSlot() lives there) when this was first made sitewide with no
+// exclusion. Auto ads (if ever enabled on the AdSense account) would
+// have been free to actually place a real ad on those pages purely
+// because the loader was present -- this exclusion closes that off at
+// the source rather than relying on Auto ads placement settings alone.
 export function adSenseLoaderScript() {
   return `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}" crossorigin="anonymous"></script>`;
 }

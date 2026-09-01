@@ -245,7 +245,8 @@ export function layout({ site, title, description, pathname, content, image, can
     "/follow/",
     "/my-podium-login/"
   ];
-  const resolvedRobots = robots || (privatePrefixes.some((prefix) => pathname.startsWith(prefix)) ? "noindex, nofollow" : "index, follow");
+  const isPrivatePage = privatePrefixes.some((prefix) => pathname.startsWith(prefix));
+  const resolvedRobots = robots || (isPrivatePage ? "noindex, nofollow" : "index, follow");
   // Admin pages get their own stylesheet + shell script injected here,
   // in <head> (render-blocking), so the persistent sidebar is fully
   // styled on first paint -- no flash of unstyled chrome. Landing this
@@ -269,7 +270,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
 <link rel="stylesheet" href="/styles/main.css">${adminHead}
 ${gtagScript()}
-${adSenseLoaderScript()}
+${isPrivatePage ? "" : adSenseLoaderScript()}
 <style>
 /* [hidden] must always win the cascade, sitewide. main.css has no rule
    for this at all, and several page-specific style blocks set their own
