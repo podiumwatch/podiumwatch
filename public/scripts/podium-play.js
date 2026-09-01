@@ -493,6 +493,15 @@
     // variable is cancelled from inside that cleanup closure, not read
     // off this shared object the way Photo Finish's is).
     let currentAttempt = null;
+    // My Podium account bridge -- entirely additive on top of the local
+    // guest profile above, which keeps working unchanged for anyone not
+    // signed in (see lib/podium_play_service.mjs's own header for why a
+    // local total is never blindly imported into the account). null
+    // means "not signed in, or not loaded yet"; once loaded, this
+    // (server-authoritative) summary is what's actually displayed and
+    // what backs the leaderboard, in place of the local profile.
+    let signedIn = false;
+    let accountSummary = null;
 
     function persist() {
       profile.lastActivityAt = new Date().toISOString();
@@ -500,14 +509,28 @@
     }
 
     function renderProgress() {
-      const level = levelForPoints(profile.points);
+      const points = accountSummary ? accountSummary.points : profile.points;
+      const level = accountSummary ? accountSummary.level : levelForPoints(profile.points);
       const pointsEl = panel.querySelector("[data-pp-points]");
       const levelEl = panel.querySelector("[data-pp-level]");
-      if (pointsEl) pointsEl.textContent = String(profile.points);
+      if (pointsEl) pointsEl.textContent = String(points);
       if (levelEl) {
         levelEl.textContent = level.next
           ? `${level.name} · ${level.threshold + Math.round(level.progress * (level.next.threshold - level.threshold))}/${level.next.threshold} to ${level.next.name}`
           : `${level.name} · top level`;
+      }
+      renderAccountStatus();
+    }
+
+    function renderAccountStatus() {
+      const el = panel.querySelector("[data-pp-account]");
+      if (!el) return;
+      if (!signedIn) {
+        el.innerHTML = `<a href="/my-podium-login/">Sign in to save your progress and join the leaderboard</a>`;
+      } else if (accountSummary) {
+        el.innerHTML = `<span>Signed in${accountSummary.rank ? ` · Ranked #${accountSummary.rank}` : ""}</span>`;
+      } else {
+        el.innerHTML = `<span>Signed in</span>`;
       }
     }
 
@@ -556,6 +579,7 @@
           <span><strong data-pp-points>0</strong> Podium Points</span>
           <span data-pp-level>Rookie Runner</span>
         </div>
+        <p class="pp-account" data-pp-account></p>
         <p class="eyebrow">Podium Play</p>
         <div class="pp-games" data-pp-games>
           <div class="pp-game-card" data-pp-game="photo-finish">
@@ -575,9 +599,103 @@
           </div>
         </div>
         <div class="pp-game-stage" data-pp-stage hidden></div>
+        <div class="pp-leaderboard" data-pp-leaderboard hidden>
+          <p class="eyebrow">Leaderboard</p>
+          <ol class="pp-leaderboard-list" data-pp-leaderboard-list></ol>
+        </div>
         ${otherContestHref ? `<p class="pp-other-contest"><a href="${escapeHtml(otherContestHref)}">Have you voted for ${escapeHtml(otherContestLabel)}?</a></p>` : ""}
         <button class="button button-primary pp-vote-again" type="button" data-pp-vote-again hidden>Vote again</button>
       `;
+    }
+
+    // Reuses the exact same shared Supabase session wrapper every My
+    // Podium/team/photographer tier already uses (public/scripts/
+    // team-auth-client.js, window.PodiumTeamAuth) -- not a second auth
+    // scheme. That script may not have loaded for any reason; every call
+    // below is guarded so failure degrades to guest-only, never breaks
+    // the panel.
+    async function getAccessToken() {
+      try {
+        if (!window.PodiumTeamAuth) return "";
+        return await window.PodiumTeamAuth.getAccessToken();
+      } catch {
+        return "";
+      }
+    }
+
+    async function loadAccount() {
+      const token = await getAccessToken();
+      if (!token) {
+        signedIn = false;
+        accountSummary = null;
+        renderAccountStatus();
+        return;
+      }
+      signedIn = true;
+      renderAccountStatus();
+      try {
+        const response = await fetch("/api/podium-play/me", { headers: { Authorization: `Bearer ${token}` } });
+        const data = await response.json().catch(() => ({}));
+        if (response.ok) {
+          accountSummary = data;
+          renderProgress();
+        }
+      } catch {
+        // A failed account load leaves "Signed in" shown but keeps local
+        // guest points as the fallback display -- never breaks the panel.
+      }
+    }
+
+    // Fire-and-forget: a signed-in player's local, already-rendered
+    // result must never wait on or be disrupted by this. Sends only the
+    // same kind of raw measurement the local guest profile already
+    // produces -- never a client-computed score or point total (see
+    // lib/podium_play_service.mjs's own header for why that matters now
+    // that a public leaderboard makes a faked number worth something).
+    async function submitToServer(gameType, rawInput) {
+      if (!signedIn) return;
+      try {
+        const token = await getAccessToken();
+        if (!token) return;
+        const response = await fetch("/api/podium-play/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ gameType, rawInput })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.ok) {
+          accountSummary = data;
+          renderProgress();
+          loadLeaderboard();
+        }
+      } catch {
+        // Never let a failed submission disrupt the already-shown local result.
+      }
+    }
+
+    function formatLeaderboardRow(entry) {
+      return `<li><span class="pp-leaderboard-rank">#${entry.rank}</span><span class="pp-leaderboard-name">${escapeHtml(entry.displayName)}</span><span class="pp-leaderboard-points">${entry.points}</span></li>`;
+    }
+
+    // Public data -- loaded regardless of sign-in state, same as anyone
+    // can see who's currently voting-leaderboard-adjacent without an
+    // account (see api/podium-play/leaderboard.js's own header).
+    async function loadLeaderboard() {
+      const section = panel.querySelector("[data-pp-leaderboard]");
+      const list = panel.querySelector("[data-pp-leaderboard-list]");
+      if (!section || !list) return;
+      try {
+        const response = await fetch("/api/podium-play/leaderboard/?limit=10");
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !Array.isArray(data.leaders) || data.leaders.length === 0) {
+          section.hidden = true;
+          return;
+        }
+        list.innerHTML = data.leaders.map(formatLeaderboardRow).join("");
+        section.hidden = false;
+      } catch {
+        section.hidden = true;
+      }
     }
 
     function openPhotoFinish() {
@@ -673,6 +791,8 @@
         persist();
         return;
       }
+
+      submitToServer("photo_finish", { elapsedSeconds });
 
       const roundedElapsed = Math.round(elapsedSeconds * 100) / 100;
       const diff = Math.round(Math.abs(roundedElapsed - PHOTO_FINISH_TARGET_SECONDS) * 100) / 100;
@@ -820,6 +940,7 @@
     function handleStartingGunResult(stage, games, reactionMs) {
       cancelCurrentAttempt();
       profile.startingGun.attempts += 1;
+      submitToServer("starting_gun", { reactionMs });
 
       const { score: gameScore, suspicious } = startingGunScoreBand(reactionMs);
       const priorPr = profile.startingGun.personalRecord;
@@ -1114,6 +1235,7 @@
       function endRun() {
         cancelCurrentAttempt();
         profile.hurdleDash.attempts += 1;
+        submitToServer("hurdle_dash", { distance, hurdlesCleared, trophiesCollected });
 
         const roundedDistance = Math.round(distance);
         const gameScore = hurdleDashGameScore(roundedDistance, hurdlesCleared, trophiesCollected);
@@ -1167,6 +1289,8 @@
     function renderPanel() {
       buildPanelMarkup();
       renderProgress();
+      loadAccount();
+      loadLeaderboard();
 
       const voteAgainButton = panel.querySelector("[data-pp-vote-again]");
       voteAgainButton?.addEventListener("click", () => {

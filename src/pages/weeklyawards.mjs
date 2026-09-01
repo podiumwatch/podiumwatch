@@ -59,6 +59,7 @@ export function athleteOfTheWeekPage(site) {
     <section class="award-archive" aria-labelledby="athlete-winners-title"><div class="section-heading"><div><p class="eyebrow">Past winners</p><h2 id="athlete-winners-title">Athlete of the Week archive</h2></div></div><div class="award-winners" data-award-archive><p>Loading past winners.</p></div></section>
   </div></section>
   <script src="/scripts/weekly-awards.js" defer></script>
+  <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/podium-play.js" defer></script>`;
 
   return layout({ site, title: "Athlete of the Week", description: "Nominate, vote for, and celebrate Podium Watch Athlete of the Week finalists and winners.", pathname: "/athlete-of-the-week/", content, extraHead: adSenseLoaderScript() });
@@ -106,6 +107,7 @@ export function teamOfTheWeekPage(site) {
     <section class="award-archive" aria-labelledby="team-winners-title"><div class="section-heading"><div><p class="eyebrow">Past winners</p><h2 id="team-winners-title">Team of the Week archive</h2></div></div><div class="award-winners" data-award-archive><p>Loading past winners.</p></div></section>
   </div></section>
   <script src="/scripts/weekly-awards.js" defer></script>
+  <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/podium-play.js" defer></script>`;
 
   return layout({ site, title: "Team of the Week", description: "Nominate, vote for, and celebrate Podium Watch Team of the Week finalists and winners.", pathname: "/team-of-the-week/", content, extraHead: adSenseLoaderScript() });
