@@ -221,7 +221,7 @@ ${scripts}`;
 // during frantic live-timing taps risks navigating away from a live race
 // by accident. Every other page keeps the default (false) -- this is
 // deliberately opt-in, not a new default.
-export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots, chromeless = false }) {
+export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots, chromeless = false, extraHead = "" }) {
   const privatePrefixes = [
     "/admin/",
     "/team-login/",
@@ -298,7 +298,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
     (window.siq = window.siq || []).push(arguments);
   };
 </script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>${extraHead}
 </head>
 <body class="${bodyClass}">
 <a class="skip-link" href="#main-content">Skip to main content</a>

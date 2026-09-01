@@ -683,6 +683,12 @@ p { margin-top: 0; }
 .search-result-card h2 { margin-bottom: 8px; font-size: clamp(1.6rem, 3vw, 2.3rem); }
 .search-result-card p:not(.eyebrow) { margin-bottom: 12px; color: var(--muted); }
 
+/* A clearly labeled ad placement, styled to sit quietly between content
+   sections rather than read as a foreign, bolted-on block -- same border/
+   background language as .info-card, deliberately smaller and quieter
+   than a real content section (no heading, a muted uppercase label). */
+.ad-slot { padding: 18px; border: 1px solid var(--line); background: var(--paper); text-align: center; }
+.ad-slot-label { margin: 0 0 12px; font-size: .68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
 .award-shell { display: grid; gap: 54px; }
 .award-status { text-align: center; }
 /* Finalists use a compact, logo-forward card so every candidate fits on

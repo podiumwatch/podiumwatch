@@ -1,4 +1,5 @@
 import { layout, pageHero } from "../lib/html.mjs";
+import { adSenseLoaderScript, adSlot, AD_SLOTS } from "../lib/ads.mjs";
 
 function field(label, name, type = "text", options = {}) {
   const required = options.required === false ? "" : " required";
@@ -53,11 +54,12 @@ export function athleteOfTheWeekPage(site) {
       <p class="eyebrow">Nominate an athlete</p><h2>Tell Podium Watch who deserves recognition</h2><p>Use verified meet information. Nominations are reviewed before finalists are published.</p>
       ${nominationForm}
     </section>
+    ${adSlot(AD_SLOTS.weeklyAwards)}
     <section class="award-archive" aria-labelledby="athlete-winners-title"><div class="section-heading"><div><p class="eyebrow">Past winners</p><h2 id="athlete-winners-title">Athlete of the Week archive</h2></div></div><div class="award-winners" data-award-archive><p>Loading past winners.</p></div></section>
   </div></section>
   <script src="/scripts/weekly-awards.js" defer></script>`;
 
-  return layout({ site, title: "Athlete of the Week", description: "Nominate, vote for, and celebrate Podium Watch Athlete of the Week finalists and winners.", pathname: "/athlete-of-the-week/", content });
+  return layout({ site, title: "Athlete of the Week", description: "Nominate, vote for, and celebrate Podium Watch Athlete of the Week finalists and winners.", pathname: "/athlete-of-the-week/", content, extraHead: adSenseLoaderScript() });
 }
 
 export function teamOfTheWeekPage(site) {
@@ -97,9 +99,10 @@ export function teamOfTheWeekPage(site) {
       <p class="eyebrow">Nominate a team</p><h2>Share a performance worth celebrating</h2><p>Use verified meet information and explain what made the team achievement stand out.</p>
       ${nominationForm}
     </section>
+    ${adSlot(AD_SLOTS.weeklyAwards)}
     <section class="award-archive" aria-labelledby="team-winners-title"><div class="section-heading"><div><p class="eyebrow">Past winners</p><h2 id="team-winners-title">Team of the Week archive</h2></div></div><div class="award-winners" data-award-archive><p>Loading past winners.</p></div></section>
   </div></section>
   <script src="/scripts/weekly-awards.js" defer></script>`;
 
-  return layout({ site, title: "Team of the Week", description: "Nominate, vote for, and celebrate Podium Watch Team of the Week finalists and winners.", pathname: "/team-of-the-week/", content });
+  return layout({ site, title: "Team of the Week", description: "Nominate, vote for, and celebrate Podium Watch Team of the Week finalists and winners.", pathname: "/team-of-the-week/", content, extraHead: adSenseLoaderScript() });
 }
