@@ -1,11 +1,18 @@
-// Podium Play (Phase 1 + 2 + 3) -- a small arcade shown after a confirmed
-// successful Athlete/Team of the Week vote, to give a visitor something
-// to do during the real 45-second cooldown. Ships the shell, guest
-// persistence, points/levels, and all three launch games: Photo Finish
-// (Phase 1), Starting Gun (Phase 2), and Hurdle Dash (Phase 3). Badges,
-// streaks, daily challenges, sharing, the Instagram invite, a My Podium
-// account bridge, and a leaderboard are deliberately deferred to later
-// phases rather than shipped as placeholders.
+// Podium Play (Phase 1 + 2 + 3) -- a small arcade on the Athlete/Team of
+// the Week pages, with all three launch games: Photo Finish (Phase 1),
+// Starting Gun (Phase 2), and Hurdle Dash (Phase 3). Badges, streaks,
+// daily challenges, sharing, the Instagram invite, a My Podium account
+// bridge, and a leaderboard are deliberately deferred to later phases
+// rather than shipped as placeholders.
+//
+// The games are available for the whole page visit -- a visitor does not
+// have to vote first (explicit direction, 2026-09-01: "I want the games
+// to pull up immediately even before someone votes"). A confirmed vote
+// only ever ADDS a cooldown-status readout (confirmation message, live
+// countdown, Vote Again) on top of the same already-visible panel; it
+// never gates the games and never interrupts one already in progress
+// (see showVoteConfirmation()'s own comment for why it deliberately does
+// not call cancelCurrentAttempt()).
 //
 // This file NEVER touches vote counting, candidate totals, or the
 // cooldown duration -- it only ever READS the real retry_after_seconds
@@ -470,7 +477,13 @@
     let profile = loadProfile();
     let cooldownTimer = null;
     let cooldownDeadline = 0;
-    let sessionAwardedFirstGame = false; // per-cooldown-session only, not persisted -- see file header.
+    // Games are available for the whole page visit now, independent of
+    // voting (see the file header) -- there is no longer a per-vote
+    // "cooldown session" to scope the first-game bonus to, so this key
+    // covers the whole time this page has been open instead, generated
+    // once below rather than regenerated on every vote.
+    const pageSessionKey = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    let sessionAwardedFirstGame = false;
     // Whichever one game is currently in progress, if any -- only one can
     // ever be active at a time (starting a new attempt or opening a
     // different game always goes through cancelCurrentAttempt() first).
@@ -480,7 +493,6 @@
     // variable is cancelled from inside that cleanup closure, not read
     // off this shared object the way Photo Finish's is).
     let currentAttempt = null;
-    let panelShown = false;
 
     function persist() {
       profile.lastActivityAt = new Date().toISOString();
@@ -533,16 +545,18 @@
 
     function buildPanelMarkup() {
       panel.innerHTML = `
-        <div class="pp-header">
-          <p class="pp-vote-confirmed" data-pp-confirmed></p>
-          <div class="pp-cooldown-ring" data-pp-ring><span data-pp-countdown>Vote again in 45 seconds.</span></div>
+        <div class="pp-cooldown-status" data-pp-cooldown-status hidden>
+          <div class="pp-header">
+            <p class="pp-vote-confirmed" data-pp-confirmed></p>
+            <div class="pp-cooldown-ring" data-pp-ring><span data-pp-countdown>Vote again in 45 seconds.</span></div>
+          </div>
         </div>
         <p class="visually-hidden" role="status" aria-live="polite" data-pp-live></p>
         <div class="pp-progress-row">
           <span><strong data-pp-points>0</strong> Podium Points</span>
           <span data-pp-level>Rookie Runner</span>
         </div>
-        <p class="eyebrow">Play while you wait</p>
+        <p class="eyebrow">Podium Play</p>
         <div class="pp-games" data-pp-games>
           <div class="pp-game-card" data-pp-game="photo-finish">
             <h3>Photo Finish</h3>
@@ -672,7 +686,7 @@
 
       let pointsEarned = 0;
       if (!sessionAwardedFirstGame) {
-        pointsEarned += awardPoints(profile, `first-game-${cooldownSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+        pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
         sessionAwardedFirstGame = true;
       }
       if (isNewPr) {
@@ -816,7 +830,7 @@
 
       let pointsEarned = 0;
       if (!sessionAwardedFirstGame) {
-        pointsEarned += awardPoints(profile, `first-game-${cooldownSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+        pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
         sessionAwardedFirstGame = true;
       }
       if (isNewPr) {
@@ -1114,7 +1128,7 @@
 
         let pointsEarned = 0;
         if (!sessionAwardedFirstGame) {
-          pointsEarned += awardPoints(profile, `first-game-${cooldownSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
           sessionAwardedFirstGame = true;
         }
         if (isNewPr) {
@@ -1145,32 +1159,14 @@
       raf = requestAnimationFrame(frame);
     }
 
-    let cooldownSessionKey = "";
-
-    function open(detail) {
-      const { finalistName, retryAfterSeconds } = detail;
-      // A visitor can vote again (a new confirmed success, and so a new
-      // vote-success event) while a Photo Finish attempt from the
-      // previous cooldown is still actively running -- without this, the
-      // old animation-frame loop and visibilitychange listener would
-      // outlive the panel markup they were driving, which buildPanelMarkup
-      // is about to replace out from under them.
-      cancelCurrentAttempt();
+    // Renders the panel and wires everything ONCE, immediately -- games
+    // are available for the whole page visit, not gated behind voting
+    // (see the file header). A real vote succeeding later only ever
+    // reveals/updates the cooldown-status sub-section (showVoteConfirmation
+    // below); it never rebuilds this markup or touches an in-progress game.
+    function renderPanel() {
       buildPanelMarkup();
-      panel.hidden = false;
-      panel.dataset.cooldownTotal = String(retryAfterSeconds);
-      cooldownSessionKey = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-      sessionAwardedFirstGame = false;
-
-      const confirmedEl = panel.querySelector("[data-pp-confirmed]");
-      if (confirmedEl) confirmedEl.textContent = finalistName ? `Your vote for ${finalistName} has been recorded.` : "Your vote has been recorded.";
-
       renderProgress();
-
-      cooldownDeadline = Date.now() + retryAfterSeconds * 1000;
-      if (cooldownTimer) clearInterval(cooldownTimer);
-      tickCountdown();
-      cooldownTimer = setInterval(tickCountdown, 1000);
 
       const voteAgainButton = panel.querySelector("[data-pp-vote-again]");
       voteAgainButton?.addEventListener("click", () => {
@@ -1194,19 +1190,46 @@
       wireGameButton("starting-gun", openStartingGun);
       wireGameButton("hurdle-dash", openHurdleDash);
 
-      if (!panelShown) {
-        panelShown = true;
-        track("podium_play_panel_viewed", { content_type: "award_type", content_id: root.dataset.awardType || "athlete" });
-      }
+      track("podium_play_panel_viewed", { content_type: "award_type", content_id: root.dataset.awardType || "athlete" });
     }
+
+    // Called on every confirmed vote (there can be more than one per page
+    // visit, once each cooldown ends) -- reveals/updates the cooldown
+    // status only. Deliberately does NOT call cancelCurrentAttempt(): a
+    // game already in progress when a vote succeeds keeps running
+    // uninterrupted, since games are no longer tied to the vote flow.
+    function showVoteConfirmation(detail) {
+      const { finalistName, retryAfterSeconds } = detail;
+
+      const statusBlock = panel.querySelector("[data-pp-cooldown-status]");
+      if (statusBlock) statusBlock.hidden = false;
+      panel.dataset.cooldownTotal = String(retryAfterSeconds);
+
+      const confirmedEl = panel.querySelector("[data-pp-confirmed]");
+      if (confirmedEl) confirmedEl.textContent = finalistName ? `Your vote for ${finalistName} has been recorded.` : "Your vote has been recorded.";
+
+      // A second vote (once an earlier cooldown already finished) must
+      // re-hide Vote Again for the new cooldown -- showVoteAgain() below
+      // only ever un-hides it, so this is the one place it's re-hidden.
+      const voteAgainButton = panel.querySelector("[data-pp-vote-again]");
+      if (voteAgainButton) voteAgainButton.hidden = true;
+
+      cooldownDeadline = Date.now() + retryAfterSeconds * 1000;
+      if (cooldownTimer) clearInterval(cooldownTimer);
+      tickCountdown();
+      cooldownTimer = setInterval(tickCountdown, 1000);
+    }
+
+    renderPanel();
 
     document.addEventListener("podiumwatch:vote-success", (event) => {
       try {
-        open(event.detail || {});
+        showVoteConfirmation(event.detail || {});
       } catch {
-        // The panel failing to open must never affect the vote that just
-        // succeeded, or the existing per-button cooldown UI that
-        // weekly-awards.js already manages independently of this file.
+        // The cooldown status failing to update must never affect the
+        // vote that just succeeded, or the existing per-button cooldown
+        // UI that weekly-awards.js already manages independently of this
+        // file, or any game already in progress.
       }
     });
   }

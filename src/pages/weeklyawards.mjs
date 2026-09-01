@@ -49,7 +49,7 @@ export function athleteOfTheWeekPage(site) {
     <section data-award-current hidden>
       <div class="section-heading"><div><p class="eyebrow">Current week</p><h2 data-award-title>Athlete of the Week</h2><p data-award-deadline></p></div></div>
       <div class="award-finalists" data-award-finalists></div>
-      <div class="pp-panel" data-podium-play data-other-contest-href="/team-of-the-week/" data-other-contest-label="Team of the Week" hidden></div>
+      <div class="pp-panel" data-podium-play data-other-contest-href="/team-of-the-week/" data-other-contest-label="Team of the Week"></div>
     </section>
     <section class="info-card" data-nomination-section hidden>
       <p class="eyebrow">Nominate an athlete</p><h2>Tell Podium Watch who deserves recognition</h2><p>Use verified meet information. Nominations are reviewed before finalists are published.</p>
@@ -96,7 +96,7 @@ export function teamOfTheWeekPage(site) {
     <section data-award-current hidden>
       <div class="section-heading"><div><p class="eyebrow">Current week</p><h2 data-award-title>Team of the Week</h2><p data-award-deadline></p></div></div>
       <div class="award-finalists" data-award-finalists></div>
-      <div class="pp-panel" data-podium-play data-other-contest-href="/athlete-of-the-week/" data-other-contest-label="Athlete of the Week" hidden></div>
+      <div class="pp-panel" data-podium-play data-other-contest-href="/athlete-of-the-week/" data-other-contest-label="Athlete of the Week"></div>
     </section>
     <section class="info-card" data-nomination-section hidden>
       <p class="eyebrow">Nominate a team</p><h2>Share a performance worth celebrating</h2><p>Use verified meet information and explain what made the team achievement stand out.</p>
