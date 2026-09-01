@@ -139,7 +139,6 @@
       awardedKeys: [],
       photoFinish: { personalRecord: null, attempts: 0 },
       startingGun: { personalRecord: null, attempts: 0, falseStarts: 0 },
-      soundEnabled: false,
       lastActivityAt: null
     };
   }
@@ -176,7 +175,6 @@
           attempts: Number.isFinite(sg.attempts) ? Math.max(0, sg.attempts) : 0,
           falseStarts: Number.isFinite(sg.falseStarts) ? Math.max(0, sg.falseStarts) : 0
         },
-        soundEnabled: raw.soundEnabled === true,
         lastActivityAt: typeof raw.lastActivityAt === "string" ? raw.lastActivityAt : null
       };
     } catch {
@@ -587,33 +585,6 @@
       announce(`${resultLine} ${prLine}`);
     }
 
-    // Sound is fully optional decoration (spec: visual/vibration feedback
-    // must be sufficient on their own), synthesized with the Web Audio
-    // API rather than an external audio asset -- no extra request, no
-    // autoplay-policy risk, and it only ever plays in direct response to
-    // a GO signal the visitor's own Ready tap started, never on load.
-    function playStartingGunBeep() {
-      if (!profile.soundEnabled) return;
-      try {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
-        const ctx = new AudioContextClass();
-        const oscillator = ctx.createOscillator();
-        const gain = ctx.createGain();
-        oscillator.type = "sine";
-        oscillator.frequency.value = 880;
-        gain.gain.setValueAtTime(0.2, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-        oscillator.start();
-        oscillator.stop(ctx.currentTime + 0.15);
-        oscillator.onended = () => ctx.close();
-      } catch {
-        // Sound is optional decoration -- never let it break the game.
-      }
-    }
-
     function openStartingGun() {
       const stage = panel.querySelector("[data-pp-stage]");
       const games = panel.querySelector("[data-pp-games]");
@@ -631,14 +602,9 @@
         <p>Wait for the gun. Tap as fast as you can.</p>
         ${pr ? `<p class="pp-pr">Personal record: ${Math.round(pr.reactionMs)}ms${pr.suspicious ? " (flagged for review)" : ""}</p>` : ""}
         ${profile.startingGun.falseStarts > 0 ? `<p class="pp-pr">False starts so far: ${profile.startingGun.falseStarts}</p>` : ""}
-        <label class="pp-sound-toggle"><input type="checkbox" data-pp-sound${profile.soundEnabled ? " checked" : ""}> Sound on</label>
         <button class="button button-primary pp-stage-action" type="button" data-pp-ready>Ready</button>
       `;
       stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
-      stage.querySelector("[data-pp-sound]").addEventListener("change", (event) => {
-        profile.soundEnabled = event.target.checked;
-        persist();
-      });
       stage.querySelector("[data-pp-ready]").addEventListener("click", () => beginStartingGunSequence(stage, games));
     }
 
@@ -674,14 +640,14 @@
             goAt = performance.now();
             tapZone.classList.add("pp-tap-zone-go");
             signalEl.textContent = "GO";
-            // Color and text alone never reach a screen reader (a live
-            // region is required, per this project's own accessibility
-            // bar) -- vibration/sound are both optional and off by
-            // default, so this announcement is the one signal guaranteed
-            // to reach every visitor regardless of device or preference.
+            // No sound, by explicit direction -- visual (color + text)
+            // and vibration only. Color and text alone never reach a
+            // screen reader (a live region is required, per this
+            // project's own accessibility bar), so this announcement is
+            // the one signal guaranteed to reach every visitor regardless
+            // of device.
             announce("Go! Tap now.");
             navigator.vibrate?.(60);
-            playStartingGunBeep();
           }, randomStartingGunDelayMs());
         }, STARTING_GUN_SET_MS);
       }, STARTING_GUN_ON_YOUR_MARKS_MS);

@@ -769,8 +769,6 @@ p { margin-top: 0; }
    one. A real <button> (not a div) so it's keyboard-operable for free. */
 .pp-tap-zone { display: grid; place-items: center; width: 100%; min-height: 220px; margin-top: 14px; padding: 20px; border: 2px solid var(--line); background: var(--ink); color: var(--white); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.6rem, 6vw, 2.4rem); text-transform: uppercase; letter-spacing: 1px; text-align: center; cursor: pointer; transition: background-color .15s ease; }
 .pp-tap-zone-go { background: var(--green); color: var(--black); }
-.pp-sound-toggle { display: flex; align-items: center; gap: 8px; margin: 14px 0; font-size: .84rem; font-weight: 700; }
-.pp-sound-toggle input { width: 20px; height: 20px; }
 .pp-stage-action { min-width: 180px; min-height: 52px; }
 .pp-result { margin: 16px 0 4px; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.6rem, 6vw, 2.2rem); }
 .pp-result-celebrate { animation: pp-celebrate .5s ease; }

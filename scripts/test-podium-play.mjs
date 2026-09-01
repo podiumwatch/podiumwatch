@@ -138,8 +138,7 @@ assert.equal(sanitizeProfile("not an object").points, 0, "Malformed (non-object)
   const real = {
     version: 1, installId: "abc-123", points: 250, pointsAwardedToday: { date: "2026-08-31", amount: 40 }, awardedKeys: ["k1", "k2"],
     photoFinish: { personalRecord: { diffSeconds: 0.03, elapsedSeconds: 15.03 }, attempts: 4 },
-    startingGun: { personalRecord: { reactionMs: 187, suspicious: false }, attempts: 6, falseStarts: 2 },
-    soundEnabled: true
+    startingGun: { personalRecord: { reactionMs: 187, suspicious: false }, attempts: 6, falseStarts: 2 }
   };
   const sanitized = sanitizeProfile(real);
   assert.equal(sanitized.points, 250, "Valid real data is preserved, not discarded.");
