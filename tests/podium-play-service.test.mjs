@@ -12,7 +12,10 @@ import {
   LEVELS,
   DAILY_POINT_CAP,
   PERSONAL_RECORD_POINTS,
-  DAILY_ACTIVITY_POINTS
+  DAILY_ACTIVITY_POINTS,
+  MIN_PARTICIPATION_POINTS,
+  MAX_PARTICIPATION_POINTS,
+  participationPointsForPlay
 } from "../lib/podium_play_service.mjs";
 
 // --- photoFinishScoreBand ----------------------------------------------
@@ -140,6 +143,28 @@ assert.equal(DAILY_POINT_CAP, 300);
 assert.equal(PERSONAL_RECORD_POINTS, 10);
 assert.equal(DAILY_ACTIVITY_POINTS, 10);
 
+// --- participationPointsForPlay (2026-09-01) --------------------------------
+// Before this, a submission that wasn't a brand-new personal record earned
+// nothing beyond the once-a-day activity bonus -- confirmed far too slow
+// for a real, engaged player to ever actually level up.
+
+// gameScore=0 is the worst real result for every game except memory_match,
+// where lower is BETTER -- tested separately with its own real "worst" value.
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner"]) {
+  assert.equal(participationPointsForPlay(gameType, { gameScore: 0 }), MIN_PARTICIPATION_POINTS, `${gameType}: even the worst valid play earns the ${MIN_PARTICIPATION_POINTS}-point floor, never 0.`);
+}
+assert.equal(participationPointsForPlay("memory_match", { gameScore: 30 * 60 * 1000 }), MIN_PARTICIPATION_POINTS, "memory_match: a very slow (but still real, valid) solve earns the participation floor.");
+assert.equal(participationPointsForPlay("memory_match", { gameScore: 0 }), MAX_PARTICIPATION_POINTS, "memory_match: lower is better -- an (unrealistically) instant time earns the max, not the floor.");
+assert.equal(participationPointsForPlay("photo_finish", { gameScore: 1000 }), MAX_PARTICIPATION_POINTS, "A perfect Photo Finish hit earns the max.");
+assert.equal(participationPointsForPlay("starting_gun", { gameScore: 1000, suspicious: true }), MIN_PARTICIPATION_POINTS, "A suspicious (<150ms) reading is floored to the minimum -- otherwise a scripted 'reaction' would farm the max every round, since Starting Gun's own real per-round wait is the only other friction standing between a bot and the daily cap.");
+assert.equal(participationPointsForPlay("starting_gun", { gameScore: 1000, suspicious: false }), MAX_PARTICIPATION_POINTS, "A genuine (non-suspicious) max-band reading still earns the real max.");
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "memory_match"]) {
+  for (const gameScore of [-100, 100000, NaN]) {
+    const points = participationPointsForPlay(gameType, { gameScore });
+    assert.ok(points >= MIN_PARTICIPATION_POINTS && points <= MAX_PARTICIPATION_POINTS, `${gameType} with a malformed gameScore (${gameScore}) must still clamp into range, never crash or escape [${MIN_PARTICIPATION_POINTS}, ${MAX_PARTICIPATION_POINTS}].`);
+  }
+}
+
 // --- Client/server scoring parity ---------------------------------------
 // The client copy in public/scripts/podium-play.js exists purely for
 // immediate on-screen feedback -- this server copy is the one that
@@ -176,10 +201,25 @@ for (const points of [0, 50, 100, 299, 300, 700, 1199, 3000, 10000, 50000, 16500
 }
 assert.deepEqual(LEVELS, client.LEVELS, "The launch level table itself must be byte-identical between client and server.");
 
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "memory_match"]) {
+  for (const gameScore of [0, 1, 50, 500, 900, 1000, 6000, 25000]) {
+    for (const suspicious of [false, true]) {
+      assert.equal(
+        participationPointsForPlay(gameType, { gameScore, suspicious }),
+        client.participationPointsForPlay(gameType, { gameScore, suspicious }),
+        `Participation points must match for ${gameType} at gameScore=${gameScore}, suspicious=${suspicious}`
+      );
+    }
+  }
+}
+assert.equal(MIN_PARTICIPATION_POINTS, client.MIN_PARTICIPATION_POINTS);
+assert.equal(MAX_PARTICIPATION_POINTS, client.MAX_PARTICIPATION_POINTS);
+
 console.log("photoFinishScoreBand/startingGunScoreBand/hurdleDashGameScore/levelForPoints checked: every real band and boundary.");
 console.log("cleanDisplayName checked: real spaces/hyphens preserved, whitespace collapsed, real control characters stripped, length capped -- confirms the earlier bug (a regex that stripped every space and hyphen) is genuinely fixed.");
 console.log("validateRawInput checked: every one of all 6 game types' real valid range (including the 3 new games' own real physical ceilings/floors -- max real taps in 10s, the real 8-round cap, and a real board's minimum 3 moves), and every invalid/missing/malformed/out-of-range input rejected rather than silently coerced.");
 console.log("tapSprintDistanceForTaps checked against real values, and in client/server parity below.");
 console.log("isValidInstallId checked: real v4 UUIDs accepted case-insensitively, every malformed/wrong-type/trailing-garbage value rejected.");
 console.log("generateGuestLabel checked: the exact promised \"podiumwatchguest####\" shape, both real boundary values (1000 and 9999) via an injected random function, and a 200-sample spread staying in range.");
+console.log("participationPointsForPlay checked: every game's real floor/max/scaling, the suspicious-Starting-Gun anti-farm floor, malformed-input safety, and client/server parity.");
 console.log("Client/server scoring parity checked across a real range of inputs for every scoring function and the full level table -- the two independent copies (one for instant client feedback, one server-authoritative) cannot silently drift apart without this test catching it.");

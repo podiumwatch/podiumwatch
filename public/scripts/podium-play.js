@@ -315,6 +315,44 @@
     return cards;
   }
 
+  // --- Real per-play points (2026-09-01) ----------------------------------
+  // Before this, a submission that wasn't a brand-new personal record
+  // earned nothing beyond the once-a-day activity bonus -- far too slow
+  // for any real, engaged player to actually level up. This awards every
+  // valid play a real amount scaled to how well it was played, kept in
+  // exact parity with lib/podium_play_service.mjs's own copy (the server
+  // copy is authoritative; this one is only for the instant on-screen
+  // preview before a submission round-trips). See that file's own comment
+  // for why each STRONG_* reference was chosen.
+  const MIN_PARTICIPATION_POINTS = 1;
+  const MAX_PARTICIPATION_POINTS = 25;
+  const PHOTO_FINISH_SCORE_MAX = 1000;
+  const STARTING_GUN_SCORE_MAX = 1000;
+  const HURDLE_DASH_STRONG_SCORE = 500;
+  const TAP_SPRINT_STRONG_DISTANCE = 900;
+  const MEMORY_MATCH_STRONG_TIME_MS = 6000;
+  const MEMORY_MATCH_SLOW_VALID_TIME_MS = 25000;
+
+  function participationScale(ratio) {
+    const safeRatio = Number.isFinite(ratio) ? ratio : 0; // NaN/Infinity never crashes or breaks the clamp -- worst case, the participation floor
+    const clamped = Math.min(1, Math.max(0, safeRatio));
+    return Math.min(MAX_PARTICIPATION_POINTS, Math.max(MIN_PARTICIPATION_POINTS, Math.round(1 + clamped * (MAX_PARTICIPATION_POINTS - 1))));
+  }
+
+  function participationPointsForPlay(gameType, { gameScore = 0, suspicious = false } = {}) {
+    if (gameType === "photo_finish") return participationScale(gameScore / PHOTO_FINISH_SCORE_MAX);
+    if (gameType === "starting_gun") return suspicious ? MIN_PARTICIPATION_POINTS : participationScale(gameScore / STARTING_GUN_SCORE_MAX);
+    if (gameType === "hurdle_dash") return participationScale(gameScore / HURDLE_DASH_STRONG_SCORE);
+    if (gameType === "tap_sprint") return participationScale(gameScore / TAP_SPRINT_STRONG_DISTANCE);
+    if (gameType === "beat_the_runner") return participationScale(gameScore / BEAT_THE_RUNNER_ROUNDS.length);
+    if (gameType === "memory_match") {
+      const span = MEMORY_MATCH_SLOW_VALID_TIME_MS - MEMORY_MATCH_STRONG_TIME_MS;
+      const ratio = (MEMORY_MATCH_SLOW_VALID_TIME_MS - gameScore) / span;
+      return participationScale(ratio);
+    }
+    return MIN_PARTICIPATION_POINTS;
+  }
+
   function todayLocalDateKey(date = new Date()) {
     // The visitor's own local calendar day. Daily challenges (a later
     // phase) specifically need America/New_York per the spec; this daily
@@ -519,6 +557,9 @@
     MEMORY_MATCH_PAIR_COUNT,
     memoryMatchNewBoard,
     levelForPoints,
+    MIN_PARTICIPATION_POINTS,
+    MAX_PARTICIPATION_POINTS,
+    participationPointsForPlay,
     todayLocalDateKey,
     defaultProfile,
     sanitizeProfile,
@@ -763,6 +804,10 @@
           <p class="eyebrow">Leaderboard</p>
           <ol class="pp-leaderboard-list" data-pp-leaderboard-list></ol>
         </div>
+        <div class="pp-leaderboard pp-world-records" data-pp-world-records hidden>
+          <p class="eyebrow">World Records</p>
+          <ul class="pp-world-records-list" data-pp-world-records-list></ul>
+        </div>
         ${otherContestHref ? `<p class="pp-other-contest"><a href="${escapeHtml(otherContestHref)}">Have you voted for ${escapeHtml(otherContestLabel)}?</a></p>` : ""}
         <button class="button button-primary pp-vote-again" type="button" data-pp-vote-again hidden>Vote again</button>
       `;
@@ -835,6 +880,7 @@
           accountSummary = data;
           renderProgress();
           loadLeaderboard();
+          loadWorldRecords();
         }
       } catch {
         // Never let a failed submission disrupt the already-shown local result.
@@ -860,6 +906,68 @@
           return;
         }
         list.innerHTML = data.leaders.map(formatLeaderboardRow).join("");
+        section.hidden = false;
+      } catch {
+        section.hidden = true;
+      }
+    }
+
+    function worldRecordRow(label, valueHtml, holder) {
+      if (!valueHtml) return "";
+      return `<li><span class="pp-world-record-game">${escapeHtml(label)}</span><span class="pp-world-record-value">${valueHtml}</span><span class="pp-world-record-holder">${escapeHtml(holder || "")}</span></li>`;
+    }
+
+    // One headline record per game, across every real account -- not a
+    // per-player leaderboard (see api/podium-play/world-records.js's own
+    // header). Public, loaded the same way loadLeaderboard() is above.
+    async function loadWorldRecords() {
+      const section = panel.querySelector("[data-pp-world-records]");
+      const list = panel.querySelector("[data-pp-world-records-list]");
+      if (!section || !list) return;
+      try {
+        const response = await fetch("/api/podium-play/world-records/");
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.records) {
+          section.hidden = true;
+          return;
+        }
+        const r = data.records;
+        const rows = [];
+
+        if (r.photoFinish) {
+          const exact = r.photoFinish.diffSeconds === 0;
+          const value = exact
+            ? `Exact 15.00s <span class="pp-world-record-note">(${r.photoFinish.exactHitCount} player${r.photoFinish.exactHitCount === 1 ? "" : "s"} have hit it exactly)</span>`
+            : `${r.photoFinish.diffSeconds.toFixed(2)}s off <span class="pp-world-record-note">(${r.photoFinish.exactHitCount} player${r.photoFinish.exactHitCount === 1 ? "" : "s"} have hit it exactly)</span>`;
+          rows.push(worldRecordRow("Photo Finish", value, r.photoFinish.holder));
+        }
+        if (r.startingGun) {
+          rows.push(worldRecordRow("Starting Gun", `${r.startingGun.reactionMs}ms`, r.startingGun.holder));
+        }
+        if (r.hurdleDash) {
+          rows.push(worldRecordRow("Hurdle Dash", `${r.hurdleDash.distance.toLocaleString()} distance`, r.hurdleDash.holder));
+        }
+        if (r.tapSprint) {
+          rows.push(worldRecordRow("Tap Sprint", `${r.tapSprint.distance.toLocaleString()} distance`, r.tapSprint.holder));
+        }
+        if (r.beatTheRunner) {
+          const roundInfo = BEAT_THE_RUNNER_ROUNDS[r.beatTheRunner.round - 1];
+          const roundLabel = roundInfo ? `Round ${r.beatTheRunner.round}, ${roundInfo.name}` : `Round ${r.beatTheRunner.round}`;
+          rows.push(worldRecordRow("Beat the Runner", roundLabel, r.beatTheRunner.holder));
+        }
+        if (r.memoryMatch?.fastestTime) {
+          rows.push(worldRecordRow("Memory Match (time)", `${(r.memoryMatch.fastestTime.timeMs / 1000).toFixed(1)}s`, r.memoryMatch.fastestTime.holder));
+        }
+        if (r.memoryMatch?.fewestMoves) {
+          rows.push(worldRecordRow("Memory Match (moves)", `${r.memoryMatch.fewestMoves.moves} moves`, r.memoryMatch.fewestMoves.holder));
+        }
+
+        const rendered = rows.filter(Boolean);
+        if (rendered.length === 0) {
+          section.hidden = true;
+          return;
+        }
+        list.innerHTML = rendered.join("");
         section.hidden = false;
       } catch {
         section.hidden = true;
@@ -977,6 +1085,7 @@
         pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
         sessionAwardedFirstGame = true;
       }
+      pointsEarned += awardPoints(profile, `photo-finish-play-${Date.now()}`, participationPointsForPlay("photo_finish", { gameScore }));
       if (isNewPr) {
         // The "is this better than the stored record" gate above already
         // guarantees this branch runs at most once for this exact
@@ -1122,6 +1231,7 @@
         pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
         sessionAwardedFirstGame = true;
       }
+      pointsEarned += awardPoints(profile, `starting-gun-play-${Date.now()}`, participationPointsForPlay("starting_gun", { gameScore, suspicious }));
       if (isNewPr) {
         // Same reasoning as Photo Finish's PR bonus: the "is this better"
         // gate above already limits this to at most once per attempt, so
@@ -1447,6 +1557,7 @@
           pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
           sessionAwardedFirstGame = true;
         }
+        pointsEarned += awardPoints(profile, `hurdle-dash-play-${Date.now()}`, participationPointsForPlay("hurdle_dash", { gameScore }));
         if (isNewPr) {
           pointsEarned += awardPoints(profile, `hurdle-dash-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
           track("podium_play_personal_record", { content_type: "game", content_id: "hurdle_dash" });
@@ -1601,6 +1712,7 @@
           pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
           sessionAwardedFirstGame = true;
         }
+        pointsEarned += awardPoints(profile, `tap-sprint-play-${Date.now()}`, participationPointsForPlay("tap_sprint", { gameScore: finalDistance }));
         if (isNewPr) {
           pointsEarned += awardPoints(profile, `tap-sprint-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
           track("podium_play_personal_record", { content_type: "game", content_id: "tap_sprint" });
@@ -1771,6 +1883,7 @@
           pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
           sessionAwardedFirstGame = true;
         }
+        pointsEarned += awardPoints(profile, `beat-the-runner-play-${Date.now()}`, participationPointsForPlay("beat_the_runner", { gameScore: runnersDefeated }));
         if (newPrThisRun) {
           pointsEarned += awardPoints(profile, `beat-the-runner-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
           track("podium_play_personal_record", { content_type: "game", content_id: "beat_the_runner" });
@@ -1943,6 +2056,7 @@
           pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
           sessionAwardedFirstGame = true;
         }
+        pointsEarned += awardPoints(profile, `memory-match-play-${Date.now()}`, participationPointsForPlay("memory_match", { gameScore: elapsedMs }));
         if (isNewPr) {
           pointsEarned += awardPoints(profile, `memory-match-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
           track("podium_play_personal_record", { content_type: "game", content_id: "memory_match" });
@@ -1978,6 +2092,7 @@
       renderProgress();
       loadAccount();
       loadLeaderboard();
+      loadWorldRecords();
 
       const voteAgainButton = panel.querySelector("[data-pp-vote-again]");
       voteAgainButton?.addEventListener("click", () => {

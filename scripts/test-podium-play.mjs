@@ -42,6 +42,9 @@ const {
   MEMORY_MATCH_PAIR_COUNT,
   memoryMatchNewBoard,
   levelForPoints,
+  MIN_PARTICIPATION_POINTS,
+  MAX_PARTICIPATION_POINTS,
+  participationPointsForPlay,
   todayLocalDateKey,
   defaultProfile,
   sanitizeProfile,
@@ -265,6 +268,36 @@ for (let i = 1; i < LEVELS.length; i += 1) {
   assert.ok(LEVELS[i].threshold > LEVELS[i - 1].threshold, `Threshold ${i} (${LEVELS[i].name}) must be strictly greater than the previous level's, or a player could never actually reach it.`);
 }
 
+// --- participationPointsForPlay (2026-09-01) --------------------------------
+
+// gameScore=0 is the worst real result for every game except memory_match,
+// where lower is BETTER (0ms would be the best possible time) -- tested
+// separately below with its own real "worst" value instead.
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner"]) {
+  const zero = participationPointsForPlay(gameType, { gameScore: 0 });
+  assert.equal(zero, MIN_PARTICIPATION_POINTS, `${gameType}: the worst real (still valid) play must still earn the ${MIN_PARTICIPATION_POINTS}-point participation floor, never 0.`);
+}
+assert.equal(participationPointsForPlay("memory_match", { gameScore: 30 * 60 * 1000 }), MIN_PARTICIPATION_POINTS, "memory_match: a very slow (but still real, valid) solve earns the participation floor.");
+assert.equal(participationPointsForPlay("memory_match", { gameScore: 0 }), MAX_PARTICIPATION_POINTS, "memory_match: lower is better -- an (unrealistically) instant time earns the max, not the floor.");
+assert.equal(participationPointsForPlay("photo_finish", { gameScore: 1000 }), MAX_PARTICIPATION_POINTS, "A perfect Photo Finish hit (band 1000) earns the max participation points.");
+assert.equal(participationPointsForPlay("starting_gun", { gameScore: 1000, suspicious: true }), MIN_PARTICIPATION_POINTS, "A suspicious (likely-scripted, <150ms) Starting Gun reading is floored to the minimum, even though its raw band score is the max -- otherwise a bot could farm the max every round.");
+assert.equal(participationPointsForPlay("starting_gun", { gameScore: 1000, suspicious: false }), MAX_PARTICIPATION_POINTS, "A genuine (non-suspicious) max-band Starting Gun reading still earns the real max.");
+assert.ok(
+  participationPointsForPlay("hurdle_dash", { gameScore: 500 }) > participationPointsForPlay("hurdle_dash", { gameScore: 50 }),
+  "A stronger Hurdle Dash run must earn strictly more participation points than a weak one."
+);
+assert.ok(
+  participationPointsForPlay("memory_match", { gameScore: 6000 }) > participationPointsForPlay("memory_match", { gameScore: 25000 }),
+  "Memory Match inverts the scale correctly: a FASTER (lower ms) time earns MORE points, not fewer."
+);
+assert.equal(participationPointsForPlay("beat_the_runner", { gameScore: BEAT_THE_RUNNER_ROUNDS.length }), MAX_PARTICIPATION_POINTS, "Completing every real round earns the max participation points.");
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "memory_match"]) {
+  for (const gameScore of [-100, 100000, NaN]) {
+    const points = participationPointsForPlay(gameType, { gameScore });
+    assert.ok(points >= MIN_PARTICIPATION_POINTS && points <= MAX_PARTICIPATION_POINTS, `${gameType} with an out-of-range gameScore (${gameScore}) must still clamp into [${MIN_PARTICIPATION_POINTS}, ${MAX_PARTICIPATION_POINTS}], never crash or go out of bounds.`);
+  }
+}
+
 // --- todayLocalDateKey -----------------------------------------------------
 
 assert.equal(todayLocalDateKey(new Date(2026, 8, 1)), "2026-09-01", "September 1 2026 (local) must format as 2026-09-01.");
@@ -386,6 +419,7 @@ console.log("Tap Sprint checked: distance-per-tap math, the real alternating-tap
 console.log("Beat the Runner checked: all 8 fixed round names in their exact required order, round 1's real easy target, every later round genuinely harder (more taps, never more time) with a real time floor, and a negative round index never trusted as-is.");
 console.log("Memory Match checked: the real 6-card/3-pair board shape, every symbol appearing in exactly one pair, a fresh board starting fully unmatched, and a real shuffle producing genuinely different orders for different random sequences.");
 console.log("levelForPoints checked: all 15 fixed-requirement levels in their exact required order, strictly-increasing thresholds, exact-threshold advancement, top-level clamping, and negative-input safety.");
+console.log("participationPointsForPlay checked: every game's real participation floor/max, a suspicious Starting Gun reading floored to the minimum, Memory Match's inverted (lower-is-better) scale, and malformed/out-of-range gameScore safety.");
 console.log("todayLocalDateKey checked: zero-padded local date formatting.");
 console.log("defaultProfile/sanitizeProfile checked: fresh-profile defaults, malformed/corrupted/future-version data recovering safely without crashing, and valid real data being preserved rather than discarded.");
 console.log("loadProfile/saveProfile checked against a real localStorage stub: round-trip persistence, malformed stored JSON, and a fully disabled/throwing storage API -- none of it ever throws into the caller.");

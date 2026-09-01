@@ -824,6 +824,16 @@ p { margin-top: 0; }
 .pp-leaderboard-list li:last-child { border-bottom: none; }
 .pp-leaderboard-rank { font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; color: var(--muted); }
 .pp-leaderboard-points { font-weight: 800; color: var(--green-dark); font-variant-numeric: tabular-nums; }
+/* World Records (2026-09-01): one headline record per game, across every
+   real account -- a different shape than the ranked points leaderboard
+   above, so its own list layout rather than reusing .pp-leaderboard-list. */
+.pp-world-records-list { display: grid; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.pp-world-records-list li { display: grid; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .86rem; }
+.pp-world-records-list li:last-child { border-bottom: none; }
+.pp-world-record-game { font-weight: 800; }
+.pp-world-record-value { font-variant-numeric: tabular-nums; color: var(--green-dark); font-weight: 800; }
+.pp-world-record-note { font-weight: 400; color: var(--muted); }
+.pp-world-record-holder { color: var(--muted); font-size: .8rem; }
 .pp-vote-again { position: sticky; bottom: 12px; width: 100%; margin-top: 18px; box-shadow: var(--shadow); }
 @media (prefers-reduced-motion: reduce) { .pp-result-celebrate { animation: none; } .pp-cooldown-ring::before { transition: none; } }
 
