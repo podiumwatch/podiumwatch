@@ -1,9 +1,17 @@
-// Podium Play (Phase 1 + 2 + 3) -- a small arcade on the Athlete/Team of
-// the Week pages, with all three launch games: Photo Finish (Phase 1),
-// Starting Gun (Phase 2), and Hurdle Dash (Phase 3). Badges, streaks,
-// daily challenges, sharing, the Instagram invite, a My Podium account
-// bridge, and a leaderboard are deliberately deferred to later phases
-// rather than shipped as placeholders.
+// Podium Play -- a small arcade on the Athlete/Team of the Week pages.
+// Thirteen games as of 2026-09-02: Photo Finish, Starting Gun, Hurdle
+// Dash, Tap Sprint, Beat the Runner, Memory Match, Relay Exchange, Cone
+// Slalom, Pace Perfect, Pack Pass, Finish Chute, Spike Shuffle, and
+// Runner Says. Every game shares the same currentAttempt cleanup
+// contract, the same points/records/level system, and the same
+// server-authoritative submission path (lib/podium_play_service.mjs) --
+// see that file's own header for why a raw measurement is submitted,
+// never a client-computed score. A My Podium account bridge and a public
+// leaderboard/world-records panel exist too (see loadAccount/
+// loadLeaderboard/loadWorldRecords below); daily challenges and badges
+// remain deliberately deferred rather than shipped as placeholders --
+// there is no existing daily-challenge system in this codebase to extend,
+// and building one from scratch was out of scope for adding these games.
 //
 // The games are available for the whole page visit -- a visitor does not
 // have to vote first (explicit direction, 2026-09-01: "I want the games
@@ -350,7 +358,351 @@
       const ratio = (MEMORY_MATCH_SLOW_VALID_TIME_MS - gameScore) / span;
       return participationScale(ratio);
     }
+    if (gameType === "relay_exchange") return participationScale(gameScore / RELAY_EXCHANGE_STRONG_SCORE);
+    if (gameType === "cone_slalom") return participationScale(gameScore / CONE_SLALOM_STRONG_SCORE);
+    if (gameType === "pace_perfect") return participationScale(gameScore / PACE_PERFECT_STRONG_SCORE);
+    if (gameType === "pack_pass") return participationScale(gameScore / PACK_PASS_STRONG_SCORE);
+    if (gameType === "finish_chute") return participationScale(gameScore / FINISH_CHUTE_STRONG_SCORE);
+    if (gameType === "spike_shuffle") return participationScale(gameScore / SPIKE_SHUFFLE_STRONG_SCORE);
+    if (gameType === "runner_says") return participationScale(gameScore / RUNNER_SAYS_STRONG_SCORE);
     return MIN_PARTICIPATION_POINTS;
+  }
+
+  // --- Relay Exchange (2026-09-02) ----------------------------------------
+  const RELAY_EXCHANGE_LANE_COUNT = 3; // player + 2 seeded CPU opponents
+  const RELAY_EXCHANGE_LEG_DURATION_MS = 2600; // one full, uninterrupted lap at "good" pace
+  const RELAY_EXCHANGE_START_WINDOW_MS = 900; // Start Runner becomes available this long before the ideal moment
+  const RELAY_EXCHANGE_PASS_WINDOW_MS = 900; // valid Pass Baton window around the ideal moment
+  const RELAY_EXCHANGE_STRONG_SCORE = 2500;
+
+  function relayStartBand(errorMs) {
+    const abs = Math.abs(errorMs);
+    if (abs <= 120) return "perfect";
+    if (abs <= 250) return "great";
+    if (abs <= 450) return "good";
+    if (abs <= 700) return "early_late";
+    return "very_off";
+  }
+  const RELAY_START_POINTS = { perfect: 250, great: 150, good: 75, early_late: 0, very_off: 0 };
+
+  // null means a missed/never-attempted pass -- always a real, counted
+  // outcome, never an absent one.
+  function relayPassBand(errorMs) {
+    if (errorMs === null || errorMs === undefined) return "missed";
+    const abs = Math.abs(errorMs);
+    if (abs <= 90) return "perfect";
+    if (abs <= 200) return "great";
+    if (abs <= 400) return "safe";
+    return "late";
+  }
+  const RELAY_PASS_POINTS = { perfect: 500, great: 300, safe: 150, late: 0, missed: 0 };
+
+  function relayExchangeGameScore(startErrorsMs, passErrorsMs, place) {
+    let score = 0;
+    let perfectCombos = 0;
+    for (let i = 0; i < startErrorsMs.length; i += 1) {
+      const startBand = relayStartBand(startErrorsMs[i]);
+      const passBand = relayPassBand(passErrorsMs[i]);
+      score += (RELAY_START_POINTS[startBand] || 0) + (RELAY_PASS_POINTS[passBand] || 0);
+      if (startBand === "perfect" && passBand === "perfect") { score += 250; perfectCombos += 1; }
+    }
+    if (perfectCombos >= 3) score += 1000;
+    if (place === 1) score += 750;
+    else if (place === 2) score += 350;
+    return { score, perfectCombos };
+  }
+
+  // A CPU opponent's own lap time for one leg -- a small seeded variation
+  // around the base duration so opponents feel alive without ever
+  // teleporting or changing a result after the fact.
+  function relayCpuLegDurationMs(randomFn = Math.random) {
+    return RELAY_EXCHANGE_LEG_DURATION_MS * (0.94 + randomFn() * 0.12);
+  }
+
+  // Fixed "stadium" track paths (an SVG motion path per lane) -- three
+  // concentric rounded-rectangle lanes. Decorative geometry only, never
+  // used for scoring.
+  const RELAY_TRACK_LANE_PATHS = [
+    "M90,44 L230,44 A36,36 0 0 1 230,116 L90,116 A36,36 0 0 1 90,44",
+    "M90,30 L230,30 A50,50 0 0 1 230,130 L90,130 A50,50 0 0 1 90,30",
+    "M90,16 L230,16 A64,64 0 0 1 230,144 L90,144 A64,64 0 0 1 90,16"
+  ];
+
+  // --- Cone Slalom (2026-09-02) --------------------------------------------
+  const CONE_SLALOM_LANE_COUNT = 3;
+  const CONE_SLALOM_LANE_TRANSITION_MS = 180;
+  const CONE_SLALOM_DURATION_SECONDS = 30;
+  const CONE_SLALOM_OBSTACLES = [
+    { id: "cone", label: "cone", symbol: "🚧" },
+    { id: "puddle", label: "mud puddle", symbol: "💧" },
+    { id: "branch", label: "fallen branch", symbol: "🌿" },
+    { id: "flags", label: "course flags", symbol: "🚩" },
+    { id: "hay", label: "hay bale", symbol: "🟫" }
+  ];
+  const CONE_SLALOM_INITIAL_SPEED = 130;
+  const CONE_SLALOM_MAX_SPEED = 340;
+  const CONE_SLALOM_SPEED_RAMP_PER_SECOND = 9;
+  const CONE_SLALOM_MAX_LANE_SHIFT = CONE_SLALOM_LANE_COUNT - 1; // worst case: edge lane to edge lane
+  const CONE_SLALOM_SAFE_GAP_MIN_MULTIPLIER = 1.4;
+  const CONE_SLALOM_SAFE_GAP_MAX_MULTIPLIER = 2.1;
+  const CONE_SLALOM_STRONG_SCORE = 400;
+
+  function coneSlalomSpeedAtElapsed(elapsedSeconds) {
+    const safeElapsed = Number.isFinite(elapsedSeconds) ? Math.max(0, elapsedSeconds) : 0;
+    return Math.min(CONE_SLALOM_MAX_SPEED, CONE_SLALOM_INITIAL_SPEED + safeElapsed * CONE_SLALOM_SPEED_RAMP_PER_SECOND);
+  }
+
+  // A safe, never-impossible gap (game units) before the next obstacle
+  // group, given the CURRENT speed -- always leaves enough real time for
+  // the worst-case lane change (edge-to-edge, 2 transitions) plus a
+  // buffer. Same "safe gap" technique Hurdle Dash's hurdleDashNextGap
+  // already uses.
+  function coneSlalomNextGap(currentSpeed, randomFn = Math.random) {
+    const worstCaseMs = CONE_SLALOM_MAX_LANE_SHIFT * CONE_SLALOM_LANE_TRANSITION_MS;
+    const minSeconds = (worstCaseMs / 1000) * CONE_SLALOM_SAFE_GAP_MIN_MULTIPLIER;
+    const maxSeconds = (worstCaseMs / 1000) * CONE_SLALOM_SAFE_GAP_MAX_MULTIPLIER;
+    const seconds = minSeconds + randomFn() * (maxSeconds - minSeconds);
+    return seconds * currentSpeed;
+  }
+
+  // Which lane(s) a new obstacle group blocks -- never all three, so
+  // coneSlalomNextGap's safe-gap guarantee always has a real open lane to
+  // guarantee reachability for.
+  function coneSlalomNextGroup(randomFn = Math.random) {
+    const blockCount = randomFn() < 0.55 ? 1 : 2;
+    const lanes = [0, 1, 2];
+    const blocked = [];
+    for (let i = 0; i < blockCount; i += 1) {
+      const pick = Math.floor(randomFn() * lanes.length);
+      blocked.push(lanes.splice(pick, 1)[0]);
+    }
+    const obstacle = CONE_SLALOM_OBSTACLES[Math.floor(randomFn() * CONE_SLALOM_OBSTACLES.length)];
+    return { blockedLanes: blocked.sort((a, b) => a - b), obstacle };
+  }
+
+  function coneSlalomGameScore(groupsCleared, metersTraveled, survivedFull) {
+    const safeGroups = Math.max(0, Math.floor(Number(groupsCleared) || 0));
+    const safeMeters = Math.max(0, Number(metersTraveled) || 0);
+    let score = safeGroups * 10 + Math.floor(safeMeters);
+    if (safeGroups >= 5) score += 50;
+    if (survivedFull) score += 100;
+    return score;
+  }
+
+  // --- Pace Perfect (2026-09-02) -------------------------------------------
+  const PACE_PERFECT_BEAT_COUNT = 16;
+  const PACE_PERFECT_BEAT_INTERVAL_MS = 1450;
+  const PACE_PERFECT_MISS_TOLERANCE_MS = 240;
+  const PACE_PERFECT_STRONG_SCORE = 1600;
+
+  function paceBeatSchedule(beatCount = PACE_PERFECT_BEAT_COUNT, intervalMs = PACE_PERFECT_BEAT_INTERVAL_MS) {
+    const beats = [];
+    for (let i = 0; i < beatCount; i += 1) beats.push((i + 1) * intervalMs);
+    return beats;
+  }
+
+  function paceBeatBand(errorMs) {
+    if (errorMs === null || errorMs === undefined) return "miss";
+    const abs = Math.abs(errorMs);
+    if (abs <= 70) return "perfect";
+    if (abs <= 140) return "great";
+    if (abs <= 240) return "good";
+    return "miss";
+  }
+
+  function paceBeatScore(errorMs) {
+    if (errorMs === null || errorMs === undefined) return 0;
+    const accuracy = Math.max(0, 1 - Math.abs(errorMs) / PACE_PERFECT_MISS_TOLERANCE_MS);
+    return Math.round(accuracy * 100);
+  }
+
+  // Matches a real tap timestamp to the nearest STILL-UNMATCHED beat
+  // within tolerance -- returns that beat's index, or -1 for a false tap
+  // (nothing left to match). Pure: takes the current matched-state array,
+  // never mutates it.
+  function paceMatchTapToBeat(tapTimeMs, beatTimesMs, matchedFlags) {
+    let bestIndex = -1;
+    let bestDistance = Infinity;
+    for (let i = 0; i < beatTimesMs.length; i += 1) {
+      if (matchedFlags[i]) continue;
+      const distance = Math.abs(tapTimeMs - beatTimesMs[i]);
+      if (distance <= PACE_PERFECT_MISS_TOLERANCE_MS && distance < bestDistance) {
+        bestDistance = distance;
+        bestIndex = i;
+      }
+    }
+    return bestIndex;
+  }
+
+  function pacePerfectGameScore(beatErrorsMs, falseTapCount) {
+    let total = 0;
+    let longestStreak = 0;
+    let currentStreak = 0;
+    let accuracySum = 0;
+    for (const err of beatErrorsMs) {
+      total += paceBeatScore(err);
+      accuracySum += err === null || err === undefined ? 0 : Math.max(0, 1 - Math.abs(err) / PACE_PERFECT_MISS_TOLERANCE_MS);
+      if (paceBeatBand(err) === "perfect") { currentStreak += 1; longestStreak = Math.max(longestStreak, currentStreak); }
+      else currentStreak = 0;
+    }
+    if (longestStreak >= 5) total += 250;
+    if (longestStreak >= 10) total += 750;
+    if (falseTapCount === 0) total += 250;
+    const accuracyPct = beatErrorsMs.length ? Math.round((accuracySum / beatErrorsMs.length) * 100) : 0;
+    return { score: total, longestStreak, accuracyPct };
+  }
+
+  // --- Pack Pass (2026-09-02) ----------------------------------------------
+  const PACK_PASS_START_POSITION = 20;
+  const PACK_PASS_DECISION_COUNT = 14;
+  const PACK_PASS_LANE_COUNT = 3;
+  const PACK_PASS_DECISION_WINDOW_MS = 1700;
+  const PACK_PASS_STRONG_SCORE = 1200;
+
+  // Which lane(s) are open for one pass decision -- always at least one
+  // open lane, per spec. 0, 1, or 2 lanes blocked (never all 3).
+  function packPassNextDecision(randomFn = Math.random) {
+    const blockCount = Math.floor(randomFn() * 3);
+    const lanes = [0, 1, 2];
+    const blocked = [];
+    for (let i = 0; i < blockCount; i += 1) {
+      const pick = Math.floor(randomFn() * lanes.length);
+      blocked.push(lanes.splice(pick, 1)[0]);
+    }
+    return { blockedLanes: blocked.sort((a, b) => a - b), openLanes: lanes.slice().sort((a, b) => a - b) };
+  }
+
+  function packPassResolveChoice(chosenLane, openLanes) {
+    const clean = openLanes.includes(chosenLane);
+    const narrow = clean && openLanes.length === 1;
+    return { clean, narrow };
+  }
+
+  function packPassGameScore({ cleanPasses, narrowPasses, momentumPasses, finalPosition, blockedChoices }) {
+    let score = cleanPasses * 100 + narrowPasses * 75 + momentumPasses * 150;
+    if (finalPosition <= 10) score += 250;
+    if (finalPosition <= 5) score += 500;
+    if (finalPosition === 1) score += 1000;
+    if (blockedChoices === 0) score += 500;
+    return score;
+  }
+
+  // --- Finish Chute (2026-09-02) -------------------------------------------
+  const FINISH_CHUTE_PAIRINGS = [
+    { color: "green", symbol: "🏆", label: "Green trophy" },
+    { color: "blue", symbol: "⏱️", label: "Blue stopwatch" },
+    { color: "red", symbol: "👟", label: "Red running shoe" },
+    { color: "gold", symbol: "🥇", label: "Gold medal" }
+  ];
+  const FINISH_CHUTE_MAX_MISTAKES = 3;
+  const FINISH_CHUTE_DURATION_SECONDS = 30;
+  const FINISH_CHUTE_INITIAL_INTERVAL_MS = 2200;
+  const FINISH_CHUTE_MIN_INTERVAL_MS = 900;
+  const FINISH_CHUTE_INTERVAL_RAMP_PER_RUNNER = 60;
+  const FINISH_CHUTE_STRONG_SCORE = 1200;
+
+  function finishChuteNextRunner(randomFn = Math.random) {
+    return Math.floor(randomFn() * FINISH_CHUTE_PAIRINGS.length);
+  }
+
+  function finishChuteIntervalForCount(runnerCount) {
+    return Math.max(FINISH_CHUTE_MIN_INTERVAL_MS, FINISH_CHUTE_INITIAL_INTERVAL_MS - runnerCount * FINISH_CHUTE_INTERVAL_RAMP_PER_RUNNER);
+  }
+
+  function finishChuteGameScore({ correctCount, longestStreak, mistakeCount, totalPrompts, avgResponseMs }) {
+    let score = correctCount * 100;
+    if (longestStreak >= 5) score += 250;
+    if (longestStreak >= 10) score += 500;
+    if (longestStreak >= 20) score += 1000;
+    if (mistakeCount === 0 && totalPrompts > 0 && correctCount === totalPrompts) score += 1000;
+    if (Number.isFinite(avgResponseMs)) score += Math.max(0, Math.min(50, Math.round(50 - avgResponseMs / 40)));
+    return score;
+  }
+
+  // --- Spike Shuffle (2026-09-02) ------------------------------------------
+  const SPIKE_SHUFFLE_ADVANCED_ROUND_THRESHOLD = 6; // 4-box rounds start here
+  const SPIKE_SHUFFLE_BASE_SWAP_COUNT = 3;
+  const SPIKE_SHUFFLE_BASE_SWAP_DURATION_MS = 550;
+  const SPIKE_SHUFFLE_MIN_SWAP_DURATION_MS = 260;
+  const SPIKE_SHUFFLE_STRONG_SCORE = 1500;
+
+  function spikeShuffleBoxCountForRound(roundNumber) {
+    return roundNumber >= SPIKE_SHUFFLE_ADVANCED_ROUND_THRESHOLD ? 4 : 3;
+  }
+  function spikeShuffleSwapCountForRound(roundNumber) {
+    return SPIKE_SHUFFLE_BASE_SWAP_COUNT + Math.min(6, Math.floor(roundNumber / 2));
+  }
+  function spikeShuffleSwapDurationMsForRound(roundNumber) {
+    return Math.max(SPIKE_SHUFFLE_MIN_SWAP_DURATION_MS, SPIKE_SHUFFLE_BASE_SWAP_DURATION_MS - roundNumber * 25);
+  }
+
+  // The complete swap sequence for one round, generated BEFORE the
+  // animation starts, per spec -- an array of [i, j] box-index pairs.
+  function spikeShuffleGenerateSwaps(boxCount, swapCount, randomFn = Math.random) {
+    const swaps = [];
+    for (let i = 0; i < swapCount; i += 1) {
+      const a = Math.floor(randomFn() * boxCount);
+      let b = Math.floor(randomFn() * boxCount);
+      while (b === a) b = Math.floor(randomFn() * boxCount);
+      swaps.push([a, b]);
+    }
+    return swaps;
+  }
+
+  // Applies the swap sequence to find where the spike ends up -- the
+  // exact same logical tracking the visual animation performs, at the
+  // exact same swap boundaries, so the result is provably determined
+  // before the player ever chooses.
+  function spikeShuffleApplySwaps(startingBox, swaps) {
+    let current = startingBox;
+    for (const [a, b] of swaps) {
+      if (current === a) current = b;
+      else if (current === b) current = a;
+    }
+    return current;
+  }
+
+  function spikeShuffleGameScore(roundsCompleted, advancedRoundsCompleted) {
+    const safeRounds = Math.max(0, Math.floor(Number(roundsCompleted) || 0));
+    const safeAdvanced = Math.max(0, Math.floor(Number(advancedRoundsCompleted) || 0));
+    let score = safeRounds * 250 + safeAdvanced * 500;
+    if (safeRounds >= 5) score += 1000;
+    return score;
+  }
+
+  // --- Runner Says (2026-09-02) --------------------------------------------
+  const RUNNER_SAYS_SYMBOLS = [
+    { id: "shoe", symbol: "👟", label: "Running shoe" },
+    { id: "stopwatch", symbol: "⏱️", label: "Stopwatch" },
+    { id: "medal", symbol: "🥇", label: "Medal" },
+    { id: "trophy", symbol: "🏆", label: "Trophy" }
+  ];
+  const RUNNER_SAYS_INITIAL_LENGTH = 2;
+  const RUNNER_SAYS_INITIAL_CUE_MS = 650;
+  const RUNNER_SAYS_MIN_CUE_MS = 350;
+  const RUNNER_SAYS_CUE_GAP_MS = 200;
+  const RUNNER_SAYS_FAST_RESPONSE_THRESHOLD_MS = 1200;
+  const RUNNER_SAYS_STRONG_SCORE = 1800;
+
+  function runnerSaysCueDurationForRound(roundNumber) {
+    return Math.max(RUNNER_SAYS_MIN_CUE_MS, RUNNER_SAYS_INITIAL_CUE_MS - roundNumber * 25);
+  }
+
+  // Extends a sequence by exactly one new seeded symbol index.
+  function runnerSaysNextSymbolIndex(randomFn = Math.random) {
+    return Math.floor(randomFn() * RUNNER_SAYS_SYMBOLS.length);
+  }
+
+  function runnerSaysGameScore(sequenceLengthReached, correctSymbolTaps, fastRoundCount) {
+    const safeLen = Math.max(0, Math.floor(Number(sequenceLengthReached) || 0));
+    const safeTaps = Math.max(0, Math.floor(Number(correctSymbolTaps) || 0));
+    const safeFast = Math.max(0, Math.floor(Number(fastRoundCount) || 0));
+    let score = safeTaps * 50;
+    for (let round = 1; round <= safeLen; round += 1) score += round * 100;
+    if (safeLen >= 5) score += 500;
+    if (safeLen >= 10) score += 1500;
+    score += safeFast * 100;
+    return score;
   }
 
   function todayLocalDateKey(date = new Date()) {
@@ -388,6 +740,13 @@
       tapSprint: { bestDistance: null, attempts: 0 },
       beatTheRunner: { bestRoundReached: null, attempts: 0 },
       memoryMatch: { bestTimeMs: null, fewestMoves: null, attempts: 0 },
+      relayExchange: { bestTimeMs: null, bestScore: null, bestPerfectExchanges: null, attempts: 0 },
+      coneSlalom: { bestDistance: null, bestGroupsCleared: null, attempts: 0 },
+      pacePerfect: { bestAccuracyPct: null, bestStreak: null, attempts: 0 },
+      packPass: { bestPosition: null, bestScore: null, attempts: 0 },
+      finishChute: { bestStreak: null, bestScore: null, attempts: 0 },
+      spikeShuffle: { bestStreak: null, bestScore: null, attempts: 0 },
+      runnerSays: { bestSequenceLength: null, bestScore: null, attempts: 0 },
       lastActivityAt: null
     };
   }
@@ -414,6 +773,13 @@
       const ts = raw.tapSprint && typeof raw.tapSprint === "object" ? raw.tapSprint : {};
       const btr = raw.beatTheRunner && typeof raw.beatTheRunner === "object" ? raw.beatTheRunner : {};
       const mm = raw.memoryMatch && typeof raw.memoryMatch === "object" ? raw.memoryMatch : {};
+      const re = raw.relayExchange && typeof raw.relayExchange === "object" ? raw.relayExchange : {};
+      const cs = raw.coneSlalom && typeof raw.coneSlalom === "object" ? raw.coneSlalom : {};
+      const pp = raw.pacePerfect && typeof raw.pacePerfect === "object" ? raw.pacePerfect : {};
+      const pk = raw.packPass && typeof raw.packPass === "object" ? raw.packPass : {};
+      const fc = raw.finishChute && typeof raw.finishChute === "object" ? raw.finishChute : {};
+      const ss = raw.spikeShuffle && typeof raw.spikeShuffle === "object" ? raw.spikeShuffle : {};
+      const rs = raw.runnerSays && typeof raw.runnerSays === "object" ? raw.runnerSays : {};
       const safeNonNegative = (value) => (Number.isFinite(value) && value >= 0 ? value : null);
       return {
         ...base,
@@ -447,6 +813,42 @@
           bestTimeMs: safeNonNegative(mm.bestTimeMs),
           fewestMoves: safeNonNegative(mm.fewestMoves),
           attempts: Number.isFinite(mm.attempts) ? Math.max(0, mm.attempts) : 0
+        },
+        relayExchange: {
+          bestTimeMs: safeNonNegative(re.bestTimeMs),
+          bestScore: safeNonNegative(re.bestScore),
+          bestPerfectExchanges: safeNonNegative(re.bestPerfectExchanges),
+          attempts: Number.isFinite(re.attempts) ? Math.max(0, re.attempts) : 0
+        },
+        coneSlalom: {
+          bestDistance: safeNonNegative(cs.bestDistance),
+          bestGroupsCleared: safeNonNegative(cs.bestGroupsCleared),
+          attempts: Number.isFinite(cs.attempts) ? Math.max(0, cs.attempts) : 0
+        },
+        pacePerfect: {
+          bestAccuracyPct: safeNonNegative(pp.bestAccuracyPct),
+          bestStreak: safeNonNegative(pp.bestStreak),
+          attempts: Number.isFinite(pp.attempts) ? Math.max(0, pp.attempts) : 0
+        },
+        packPass: {
+          bestPosition: safeNonNegative(pk.bestPosition),
+          bestScore: safeNonNegative(pk.bestScore),
+          attempts: Number.isFinite(pk.attempts) ? Math.max(0, pk.attempts) : 0
+        },
+        finishChute: {
+          bestStreak: safeNonNegative(fc.bestStreak),
+          bestScore: safeNonNegative(fc.bestScore),
+          attempts: Number.isFinite(fc.attempts) ? Math.max(0, fc.attempts) : 0
+        },
+        spikeShuffle: {
+          bestStreak: safeNonNegative(ss.bestStreak),
+          bestScore: safeNonNegative(ss.bestScore),
+          attempts: Number.isFinite(ss.attempts) ? Math.max(0, ss.attempts) : 0
+        },
+        runnerSays: {
+          bestSequenceLength: safeNonNegative(rs.bestSequenceLength),
+          bestScore: safeNonNegative(rs.bestScore),
+          attempts: Number.isFinite(rs.attempts) ? Math.max(0, rs.attempts) : 0
         },
         lastActivityAt: typeof raw.lastActivityAt === "string" ? raw.lastActivityAt : null
       };
@@ -560,6 +962,62 @@
     MIN_PARTICIPATION_POINTS,
     MAX_PARTICIPATION_POINTS,
     participationPointsForPlay,
+    RELAY_EXCHANGE_LANE_COUNT,
+    RELAY_EXCHANGE_LEG_DURATION_MS,
+    RELAY_EXCHANGE_START_WINDOW_MS,
+    RELAY_EXCHANGE_PASS_WINDOW_MS,
+    relayStartBand,
+    relayPassBand,
+    relayExchangeGameScore,
+    relayCpuLegDurationMs,
+    RELAY_TRACK_LANE_PATHS,
+    CONE_SLALOM_LANE_COUNT,
+    CONE_SLALOM_LANE_TRANSITION_MS,
+    CONE_SLALOM_MAX_LANE_SHIFT,
+    CONE_SLALOM_DURATION_SECONDS,
+    CONE_SLALOM_OBSTACLES,
+    CONE_SLALOM_INITIAL_SPEED,
+    CONE_SLALOM_MAX_SPEED,
+    coneSlalomSpeedAtElapsed,
+    coneSlalomNextGap,
+    coneSlalomNextGroup,
+    coneSlalomGameScore,
+    PACE_PERFECT_BEAT_COUNT,
+    PACE_PERFECT_BEAT_INTERVAL_MS,
+    PACE_PERFECT_MISS_TOLERANCE_MS,
+    paceBeatSchedule,
+    paceBeatBand,
+    paceBeatScore,
+    paceMatchTapToBeat,
+    pacePerfectGameScore,
+    PACK_PASS_START_POSITION,
+    PACK_PASS_DECISION_COUNT,
+    PACK_PASS_LANE_COUNT,
+    PACK_PASS_DECISION_WINDOW_MS,
+    packPassNextDecision,
+    packPassResolveChoice,
+    packPassGameScore,
+    FINISH_CHUTE_PAIRINGS,
+    FINISH_CHUTE_MAX_MISTAKES,
+    FINISH_CHUTE_INITIAL_INTERVAL_MS,
+    FINISH_CHUTE_MIN_INTERVAL_MS,
+    finishChuteNextRunner,
+    finishChuteIntervalForCount,
+    finishChuteGameScore,
+    SPIKE_SHUFFLE_ADVANCED_ROUND_THRESHOLD,
+    spikeShuffleBoxCountForRound,
+    spikeShuffleSwapCountForRound,
+    spikeShuffleSwapDurationMsForRound,
+    spikeShuffleGenerateSwaps,
+    spikeShuffleApplySwaps,
+    spikeShuffleGameScore,
+    RUNNER_SAYS_SYMBOLS,
+    RUNNER_SAYS_INITIAL_LENGTH,
+    RUNNER_SAYS_CUE_GAP_MS,
+    RUNNER_SAYS_FAST_RESPONSE_THRESHOLD_MS,
+    runnerSaysCueDurationForRound,
+    runnerSaysNextSymbolIndex,
+    runnerSaysGameScore,
     todayLocalDateKey,
     defaultProfile,
     sanitizeProfile,
@@ -797,6 +1255,41 @@
             <h3>Memory Match</h3>
             <p>Find all 3 matching pairs as fast as you can.</p>
             <button class="button button-primary" type="button" data-pp-play="memory-match">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="relay-exchange">
+            <h3>Relay Exchange</h3>
+            <p>Start the runner, then time the baton pass.</p>
+            <button class="button button-primary" type="button" data-pp-play="relay-exchange">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="cone-slalom">
+            <h3>Cone Slalom</h3>
+            <p>Change lanes and avoid every obstacle.</p>
+            <button class="button button-primary" type="button" data-pp-play="cone-slalom">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="pace-perfect">
+            <h3>Pace Perfect</h3>
+            <p>Tap with the rhythm and hold the pace.</p>
+            <button class="button button-primary" type="button" data-pp-play="pace-perfect">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="pack-pass">
+            <h3>Pack Pass</h3>
+            <p>Find the opening and race through the pack.</p>
+            <button class="button button-primary" type="button" data-pp-play="pack-pass">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="finish-chute">
+            <h3>Finish Chute</h3>
+            <p>Send every runner to the matching chute.</p>
+            <button class="button button-primary" type="button" data-pp-play="finish-chute">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="spike-shuffle">
+            <h3>Spike Shuffle</h3>
+            <p>Follow the spike and find its box.</p>
+            <button class="button button-primary" type="button" data-pp-play="spike-shuffle">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="runner-says">
+            <h3>Runner Says</h3>
+            <p>Watch the sequence and repeat it.</p>
+            <button class="button button-primary" type="button" data-pp-play="runner-says">Play</button>
           </div>
         </div>
         <div class="pp-game-stage" data-pp-stage hidden></div>
@@ -2082,6 +2575,1376 @@
       }
     }
 
+    // A pure parametric point on a "stadium" (rounded-rectangle) shaped
+    // lane -- two straight segments joined by two semicircle arcs, the
+    // same real shape a running track uses. progress is 0..1 around the
+    // full perimeter, starting at the left end of the top straight and
+    // moving clockwise. Coordinates are relative to the lane's own
+    // center (0,0); the caller offsets them onto the actual track
+    // element. Pure and DOM-free so it's directly testable.
+    function relayStadiumPoint(progress, halfWidth, halfHeight) {
+      const straight = halfWidth * 2;
+      const radius = halfHeight;
+      const arcLength = Math.PI * radius;
+      const perimeter = 2 * straight + 2 * arcLength;
+      let d = (((progress % 1) + 1) % 1) * perimeter;
+      if (d <= straight) return { x: -halfWidth + d, y: -halfHeight };
+      d -= straight;
+      if (d <= arcLength) {
+        const angle = -Math.PI / 2 + d / radius;
+        return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
+      }
+      d -= arcLength;
+      if (d <= straight) return { x: halfWidth - d, y: halfHeight };
+      d -= straight;
+      const angle = Math.PI / 2 + d / radius;
+      return { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
+    }
+
+    function openRelayExchange() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "relay_exchange" });
+      renderRelayExchangeIdle(stage, games);
+    }
+
+    function renderRelayExchangeIdle(stage, games) {
+      const re = profile.relayExchange;
+      const prParts = [];
+      if (re.bestTimeMs !== null) prParts.push(`Fastest: ${(re.bestTimeMs / 1000).toFixed(2)}s`);
+      if (re.bestPerfectExchanges !== null) prParts.push(`Best perfect exchanges: ${re.bestPerfectExchanges}/3`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Relay Exchange</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Race a 4x400 relay. Tap Start Runner as the incoming runner arrives, then Pass Baton to complete the handoff -- three times.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-relay-start>Start Race</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-relay-start]").addEventListener("click", () => startRelayExchangeRace(stage, games));
+    }
+
+    const RELAY_EXCHANGE_PASS_OFFSET_MS = 1300; // ideal pass moment, measured from the ACTUAL Start tap
+    const RELAY_EXCHANGE_INPUT_LOCK_MS = 220; // brief lock after Start so one tap can never also register as Pass
+    const RELAY_TEAM_NAMES = ["You", "Rival A", "Rival B"];
+
+    function startRelayExchangeRace(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Relay Exchange</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-relay-stats" aria-hidden="true">
+          <span data-pp-relay-leg>Leg 1 of 4</span>
+          <span data-pp-relay-place>--</span>
+          <span data-pp-relay-time>0.0s</span>
+        </div>
+        <div class="pp-relay-track" data-pp-relay-track>
+          <div class="pp-relay-track-outline"></div>
+          <div class="pp-relay-exchange-marker"></div>
+          <div class="pp-relay-runner pp-relay-runner-cpu" data-pp-relay-runner="1"></div>
+          <div class="pp-relay-runner pp-relay-runner-cpu" data-pp-relay-runner="2"></div>
+          <div class="pp-relay-runner pp-relay-runner-player" data-pp-relay-runner="0"></div>
+        </div>
+        <p class="pp-relay-action-label" data-pp-relay-action-label>Get ready...</p>
+        <button class="button button-primary pp-stage-action" type="button" data-pp-relay-action disabled>Start Runner</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const legEl = stage.querySelector("[data-pp-relay-leg]");
+      const placeEl = stage.querySelector("[data-pp-relay-place]");
+      const timeEl = stage.querySelector("[data-pp-relay-time]");
+      const trackEl = stage.querySelector("[data-pp-relay-track]");
+      const actionLabelEl = stage.querySelector("[data-pp-relay-action-label]");
+      const actionButton = stage.querySelector("[data-pp-relay-action]");
+      const runnerEls = [0, 1, 2].map((i) => stage.querySelector(`[data-pp-relay-runner="${i}"]`));
+
+      const raceStartedAt = performance.now();
+      let ended = false;
+      let raf = null;
+
+      // Every CPU leg duration is decided right now, before the race
+      // even visually starts -- so a CPU team can never teleport, change
+      // its result after the finish, or become impossible without
+      // warning (per spec). Player legs 2-4 are only pinned down as each
+      // real exchange resolves.
+      const cpuLegDurations = [1, 2].map(() => [0, 1, 2, 3].map(() => relayCpuLegDurationMs()));
+      const cpuLegStarts = [1, 2].map((cpuIndex) => {
+        const starts = [0];
+        for (let leg = 1; leg < 4; leg += 1) starts.push(starts[leg - 1] + cpuLegDurations[cpuIndex - 1][leg - 1]);
+        return starts;
+      });
+
+      const startErrorsMs = [];
+      const passErrorsMs = [];
+      const playerLegDurations = [RELAY_EXCHANGE_LEG_DURATION_MS];
+      let exchangeIndex = 0; // 0, 1, 2 -- three exchanges
+      let phase = "leg_running"; // leg_running -> start_available -> pass_available -> (resolve) -> next leg
+      let idealStartAt = raceStartedAt + RELAY_EXCHANGE_LEG_DURATION_MS;
+      let idealPassAt = null;
+      let inputLockedUntil = 0;
+      let passWindowEndsAt = null;
+
+      function playerElapsedMs(now) {
+        const completedLegs = playerLegDurations.slice(0, exchangeIndex).reduce((sum, ms) => sum + ms, 0);
+        return completedLegs + Math.min(now - raceStartedAt - completedLegs, playerLegDurations[exchangeIndex] ?? RELAY_EXCHANGE_LEG_DURATION_MS);
+      }
+
+      function updateActionUi() {
+        if (phase === "start_available") {
+          actionButton.disabled = false;
+          actionButton.textContent = "Start Runner";
+          actionLabelEl.textContent = "Tap Start Runner as the incoming runner arrives!";
+        } else if (phase === "pass_locked" || phase === "pass_available") {
+          actionButton.disabled = phase === "pass_locked";
+          actionButton.textContent = "Pass Baton";
+          actionLabelEl.textContent = phase === "pass_locked" ? "Baton coming up to speed..." : "Tap Pass Baton to complete the handoff!";
+        } else {
+          actionButton.disabled = true;
+          actionButton.textContent = exchangeIndex === 0 ? "Start Runner" : "Pass Baton";
+          actionLabelEl.textContent = "Runner is on the way around...";
+        }
+      }
+      updateActionUi();
+
+      function resolveExchange(startErrorMs, passErrorMs) {
+        startErrorsMs.push(startErrorMs);
+        passErrorsMs.push(passErrorMs);
+        const startBand = relayStartBand(startErrorMs);
+        const passBand = relayPassBand(passErrorMs);
+        const startAdjustmentMs = { perfect: -150, great: -60, good: 0, early_late: 120, very_off: 400 }[startBand] ?? 0;
+        const passAdjustmentMs = { perfect: -250, great: -100, safe: 0, late: 150, missed: 600 }[passBand] ?? 0;
+        const nextLegDuration = Math.max(1200, RELAY_EXCHANGE_LEG_DURATION_MS + startAdjustmentMs + passAdjustmentMs);
+        playerLegDurations.push(nextLegDuration);
+        exchangeIndex += 1;
+        trackEl.classList.remove("pp-relay-track-zoomed");
+        if (exchangeIndex >= 3) { finishRace(); return; }
+        phase = "leg_running";
+        idealStartAt = raceStartedAt + playerLegDurations.slice(0, exchangeIndex + 1).reduce((sum, ms) => sum + ms, 0);
+        idealPassAt = null;
+        passWindowEndsAt = null;
+        updateActionUi();
+      }
+
+      function handleAction() {
+        if (ended) return;
+        const now = performance.now();
+        if (now < inputLockedUntil) return;
+        if (phase === "start_available") {
+          const startErrorMs = now - idealStartAt;
+          idealPassAt = now + RELAY_EXCHANGE_PASS_OFFSET_MS;
+          passWindowEndsAt = now + RELAY_EXCHANGE_PASS_OFFSET_MS + RELAY_EXCHANGE_PASS_WINDOW_MS;
+          inputLockedUntil = now + RELAY_EXCHANGE_INPUT_LOCK_MS;
+          phase = "pass_locked";
+          stage.dataset.relayPendingStartError = String(startErrorMs);
+          setTimeout(() => { if (!ended && phase === "pass_locked") { phase = "pass_available"; updateActionUi(); } }, RELAY_EXCHANGE_INPUT_LOCK_MS);
+          updateActionUi();
+        } else if (phase === "pass_available") {
+          const passErrorMs = now - idealPassAt;
+          const startErrorMs = Number(stage.dataset.relayPendingStartError);
+          phase = "resolving";
+          updateActionUi();
+          resolveExchange(startErrorMs, passErrorMs);
+        }
+      }
+
+      function handlePointerDown(event) { event.preventDefault(); handleAction(); }
+      function handleKeydown(event) {
+        if (event.repeat) return;
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        if (event.code === "Space" || event.key === "Enter") { event.preventDefault(); handleAction(); }
+      }
+      actionButton.addEventListener("pointerdown", handlePointerDown);
+      document.addEventListener("keydown", handleKeydown);
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (raf) cancelAnimationFrame(raf);
+          actionButton.removeEventListener("pointerdown", handlePointerDown);
+          document.removeEventListener("keydown", handleKeydown);
+        }
+      };
+
+      function finishRace() {
+        const { score: gameScore, perfectCombos } = relayExchangeGameScore(startErrorsMs, passErrorsMs, 1);
+        const playerTotalMs = playerLegDurations.reduce((sum, ms) => sum + ms, 0);
+        const cpuTotals = cpuLegDurations.map((legs) => legs.reduce((sum, ms) => sum + ms, 0));
+        const allTimes = [playerTotalMs, ...cpuTotals];
+        const place = 1 + allTimes.filter((t) => t < playerTotalMs).length;
+        endRace(playerTotalMs, place, perfectCombos, gameScore);
+      }
+
+      function frame() {
+        if (ended) return;
+        const now = performance.now();
+
+        if (phase === "leg_running" && now >= idealStartAt - RELAY_EXCHANGE_START_WINDOW_MS) {
+          phase = "start_available";
+          updateActionUi();
+        }
+        if (phase === "pass_available" && passWindowEndsAt !== null && now >= passWindowEndsAt) {
+          // No Pass Baton tap arrived in time -- a real missed exchange.
+          // The race continues per spec rather than getting stuck.
+          const startErrorMs = Number(stage.dataset.relayPendingStartError);
+          phase = "resolving";
+          resolveExchange(startErrorMs, null);
+        }
+
+        const elapsedSeconds = (now - raceStartedAt) / 1000;
+        timeEl.textContent = `${elapsedSeconds.toFixed(1)}s`;
+        legEl.textContent = `Leg ${Math.min(4, exchangeIndex + 1)} of 4`;
+
+        const nearExchange = phase === "start_available" || phase === "pass_locked" || phase === "pass_available";
+        trackEl.classList.toggle("pp-relay-track-zoomed", nearExchange && !window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
+
+        // Player runner: cosmetic progress at the base pace (the real,
+        // scored leg durations are only finalized once every exchange
+        // resolves -- see finishRace()'s own comment).
+        const playerElapsed = playerElapsedMs(now);
+        const playerLegIndex = Math.min(3, exchangeIndex);
+        const playerLegProgress = Math.min(1, (now - raceStartedAt - playerLegDurations.slice(0, playerLegIndex).reduce((s, m) => s + m, 0)) / (playerLegDurations[playerLegIndex] ?? RELAY_EXCHANGE_LEG_DURATION_MS));
+        positionRunner(runnerEls[0], playerLegProgress, 36);
+
+        [1, 2].forEach((cpuIndex) => {
+          const starts = cpuLegStarts[cpuIndex - 1];
+          const legs = cpuLegDurations[cpuIndex - 1];
+          const raceElapsed = now - raceStartedAt;
+          let legIndex = 0;
+          for (let i = 3; i >= 0; i -= 1) { if (raceElapsed >= starts[i]) { legIndex = i; break; } }
+          const legProgress = Math.min(1, (raceElapsed - starts[legIndex]) / legs[legIndex]);
+          positionRunner(runnerEls[cpuIndex], legProgress, cpuIndex === 1 ? 50 : 64);
+        });
+
+        if (!ended) raf = requestAnimationFrame(frame);
+      }
+
+      function positionRunner(el, progress, radius) {
+        const point = relayStadiumPoint(progress, 70, radius);
+        el.style.transform = `translate(${150 + point.x}px, ${80 + point.y}px)`;
+      }
+
+      raf = requestAnimationFrame(frame);
+
+      function endRace(finalTimeMs, place, perfectCombos, gameScore) {
+        cancelCurrentAttempt();
+        profile.relayExchange.attempts += 1;
+        submitToServer("relay_exchange", { finishTimeMs: finalTimeMs, place, startErrorsMs, passErrorsMs });
+
+        const priorTime = profile.relayExchange.bestTimeMs;
+        const priorScore = profile.relayExchange.bestScore;
+        const priorPerfect = profile.relayExchange.bestPerfectExchanges;
+        const newTimePr = priorTime === null || finalTimeMs < priorTime;
+        const newScorePr = priorScore === null || gameScore > priorScore;
+        const newPerfectPr = priorPerfect === null || perfectCombos > priorPerfect;
+        if (newTimePr) profile.relayExchange.bestTimeMs = Math.round(finalTimeMs);
+        if (newScorePr) profile.relayExchange.bestScore = gameScore;
+        if (newPerfectPr) profile.relayExchange.bestPerfectExchanges = perfectCombos;
+        const isNewPr = newTimePr || newScorePr || newPerfectPr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        pointsEarned += awardPoints(profile, `relay-exchange-play-${Date.now()}`, participationPointsForPlay("relay_exchange", { gameScore }));
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `relay-exchange-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "relay_exchange" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "relay_exchange", result_band: String(gameScore) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const placeLabel = place === 1 ? "1st" : place === 2 ? "2nd" : "3rd";
+        const startLabels = startErrorsMs.map((e) => relayStartBand(e));
+        const passLabels = passErrorsMs.map((e) => relayPassBand(e));
+        const exchangeReport = startLabels.map((s, i) => `Exchange ${i + 1}: start ${s.replace("_", "/")}, pass ${passLabels[i]}`).join(" · ");
+        const resultLine = `${(finalTimeMs / 1000).toFixed(2)}s, finished ${placeLabel}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Relay Exchange</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">Score: ${gameScore} · Perfect exchanges: ${perfectCombos}/3</p>
+          <p class="pp-pr">${escapeHtml(exchangeReport)}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Race again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderRelayExchangeIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+    }
+
+    function openConeSlalom() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "cone_slalom" });
+      renderConeSlalomIdle(stage, games);
+    }
+
+    function renderConeSlalomIdle(stage, games) {
+      const cs = profile.coneSlalom;
+      const prParts = [];
+      if (cs.bestDistance !== null) prParts.push(`Best distance: ${cs.bestDistance}`);
+      if (cs.bestGroupsCleared !== null) prParts.push(`Most cleared: ${cs.bestGroupsCleared}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Cone Slalom</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Change lanes to avoid every obstacle. Go as far as you can.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-cs-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-cs-start]").addEventListener("click", () => startConeSlalomRun(stage, games));
+    }
+
+    function startConeSlalomRun(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Cone Slalom</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-cs-stats" aria-hidden="true"><span data-pp-cs-time>Time: 30.0</span><span data-pp-cs-distance>Distance: 0</span><span data-pp-cs-cleared>Cleared: 0</span></div>
+        <div class="pp-cs-course" data-pp-cs-course>
+          <div class="pp-cs-lane" data-pp-cs-lane="0"></div>
+          <div class="pp-cs-lane" data-pp-cs-lane="1"></div>
+          <div class="pp-cs-lane" data-pp-cs-lane="2"></div>
+          <div class="pp-cs-runner" data-pp-cs-runner></div>
+        </div>
+        <div class="pp-ts-buttons">
+          <button class="pp-ts-button" type="button" data-pp-cs-move="left" aria-label="Move left">◀ LEFT</button>
+          <button class="pp-ts-button" type="button" data-pp-cs-move="right" aria-label="Move right">RIGHT ▶</button>
+        </div>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const timeEl = stage.querySelector("[data-pp-cs-time]");
+      const distanceEl = stage.querySelector("[data-pp-cs-distance]");
+      const clearedEl = stage.querySelector("[data-pp-cs-cleared]");
+      const courseEl = stage.querySelector("[data-pp-cs-course]");
+      const runnerEl = stage.querySelector("[data-pp-cs-runner]");
+      const leftButton = stage.querySelector('[data-pp-cs-move="left"]');
+      const rightButton = stage.querySelector('[data-pp-cs-move="right"]');
+
+      let lane = 1; // start in the middle lane
+      let laneTransitioning = false;
+      let distanceTraveled = 0;
+      let groupsCleared = 0;
+      let ended = false;
+      let raf = null;
+      const startedAt = performance.now();
+      const groups = []; // { el, blockedLanes, spawnDistance, resolved }
+      let nextGroupAtDistance = 260;
+
+      function renderLanePosition() {
+        runnerEl.style.left = `${(lane / 2) * 66 + 17}%`;
+      }
+      renderLanePosition();
+
+      function moveLane(direction) {
+        if (ended) return;
+        const target = lane + direction;
+        if (target < 0 || target > 2) return; // an unavailable outer lane -- do nothing (subtle no-op feedback)
+        lane = target;
+        laneTransitioning = true;
+        runnerEl.classList.add("pp-cs-runner-moving");
+        renderLanePosition();
+        setTimeout(() => { laneTransitioning = false; runnerEl.classList.remove("pp-cs-runner-moving"); }, CONE_SLALOM_LANE_TRANSITION_MS);
+      }
+
+      function handleLeft(event) { event.preventDefault(); moveLane(-1); }
+      function handleRight(event) { event.preventDefault(); moveLane(1); }
+      function handleKeydown(event) {
+        if (event.repeat) return;
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        if (event.code === "ArrowLeft") { event.preventDefault(); moveLane(-1); }
+        else if (event.code === "ArrowRight") { event.preventDefault(); moveLane(1); }
+      }
+      leftButton.addEventListener("pointerdown", handleLeft);
+      rightButton.addEventListener("pointerdown", handleRight);
+      document.addEventListener("keydown", handleKeydown);
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (raf) cancelAnimationFrame(raf);
+          leftButton.removeEventListener("pointerdown", handleLeft);
+          rightButton.removeEventListener("pointerdown", handleRight);
+          document.removeEventListener("keydown", handleKeydown);
+        }
+      };
+
+      function spawnGroup() {
+        const { blockedLanes, obstacle } = coneSlalomNextGroup();
+        const el = document.createElement("div");
+        el.className = "pp-cs-group";
+        el.innerHTML = [0, 1, 2].map((laneIndex) => `<span class="pp-cs-obstacle${blockedLanes.includes(laneIndex) ? " pp-cs-obstacle-active" : ""}">${blockedLanes.includes(laneIndex) ? obstacle.symbol : ""}</span>`).join("");
+        courseEl.appendChild(el);
+        groups.push({ el, blockedLanes, spawnDistance: distanceTraveled, resolved: false });
+        const speed = coneSlalomSpeedAtElapsed((performance.now() - startedAt) / 1000);
+        nextGroupAtDistance = distanceTraveled + coneSlalomNextGap(speed);
+      }
+
+      function frame() {
+        if (ended) return;
+        const now = performance.now();
+        const elapsedSeconds = (now - startedAt) / 1000;
+        const remaining = Math.max(0, CONE_SLALOM_DURATION_SECONDS - elapsedSeconds);
+        timeEl.textContent = `Time: ${remaining.toFixed(1)}`;
+
+        const speed = coneSlalomSpeedAtElapsed(elapsedSeconds);
+        distanceTraveled += (speed * (1 / 60)); // a stable per-frame increment based on real elapsed-time speed, not raw frame count
+        distanceEl.textContent = `Distance: ${Math.floor(distanceTraveled)}`;
+
+        if (distanceTraveled >= nextGroupAtDistance) spawnGroup();
+
+        const COURSE_TRAVEL = 240; // px the course visually scrolls before a group reaches the runner's line
+        for (const group of groups) {
+          const traveled = distanceTraveled - group.spawnDistance;
+          const progressToLine = Math.min(1.15, traveled / 90);
+          group.el.style.top = `${progressToLine * COURSE_TRAVEL}px`;
+          if (!group.resolved && progressToLine >= 1) {
+            group.resolved = true;
+            // A player already mid-transition out of a blocked lane at
+            // the exact instant of arrival is forgiven -- they already
+            // committed to the correct move in time, and being
+            // unforgiving here would punish pure animation-timing luck,
+            // not a real mistake.
+            const stillInBlockedLane = group.blockedLanes.includes(lane) && !laneTransitioning;
+            if (stillInBlockedLane) {
+              endRun("collision");
+              return;
+            }
+            groupsCleared += 1;
+            clearedEl.textContent = `Cleared: ${groupsCleared}`;
+          }
+          if (progressToLine >= 1.1) { group.el.remove(); }
+        }
+        for (let i = groups.length - 1; i >= 0; i -= 1) {
+          if (!groups[i].el.isConnected) groups.splice(i, 1);
+        }
+
+        if (remaining <= 0) { endRun("time_expired"); return; }
+        raf = requestAnimationFrame(frame);
+      }
+      raf = requestAnimationFrame(frame);
+
+      function endRun(completionReason) {
+        cancelCurrentAttempt();
+        profile.coneSlalom.attempts += 1;
+        const survivedFull = completionReason === "time_expired";
+        const roundedMeters = Math.floor(distanceTraveled);
+        submitToServer("cone_slalom", { metersTraveled: roundedMeters, groupsCleared, survivedFull });
+
+        const gameScore = coneSlalomGameScore(groupsCleared, roundedMeters, survivedFull);
+        const priorDistance = profile.coneSlalom.bestDistance;
+        const priorGroups = profile.coneSlalom.bestGroupsCleared;
+        const newDistancePr = priorDistance === null || roundedMeters > priorDistance;
+        const newGroupsPr = priorGroups === null || groupsCleared > priorGroups;
+        if (newDistancePr) profile.coneSlalom.bestDistance = roundedMeters;
+        if (newGroupsPr) profile.coneSlalom.bestGroupsCleared = groupsCleared;
+        const isNewPr = newDistancePr || newGroupsPr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        pointsEarned += awardPoints(profile, `cone-slalom-play-${Date.now()}`, participationPointsForPlay("cone_slalom", { gameScore }));
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `cone-slalom-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "cone_slalom" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "cone_slalom", completion_reason: completionReason, result_band: String(gameScore) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = completionReason === "collision"
+          ? `Collision! ${roundedMeters} distance, ${groupsCleared} cleared.`
+          : `${roundedMeters} distance, ${groupsCleared} cleared.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Cone Slalom</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Run again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderConeSlalomIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+    }
+
+    function openPacePerfect() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "pace_perfect" });
+      renderPacePerfectIdle(stage, games);
+    }
+
+    function renderPacePerfectIdle(stage, games) {
+      const pp = profile.pacePerfect;
+      const prParts = [];
+      if (pp.bestAccuracyPct !== null) prParts.push(`Best accuracy: ${pp.bestAccuracyPct}%`);
+      if (pp.bestStreak !== null) prParts.push(`Best streak: ${pp.bestStreak}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Pace Perfect</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Tap the moment the pulse reaches the target. Consistent rhythm beats raw speed.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-pace-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-pace-start]").addEventListener("click", () => startPacePerfectRun(stage, games));
+    }
+
+    function startPacePerfectRun(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Pace Perfect</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-pace-stats" aria-hidden="true"><span data-pp-pace-split>Split 1 of 4</span><span data-pp-pace-feedback>Ready...</span></div>
+        <div class="pp-pace-target" data-pp-pace-tap>
+          <div class="pp-pace-pulse" data-pp-pace-pulse></div>
+          <div class="pp-pace-ring"></div>
+        </div>
+        <div class="pp-track"><div class="pp-ts-runner" data-pp-pace-runner></div></div>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const splitEl = stage.querySelector("[data-pp-pace-split]");
+      const feedbackEl = stage.querySelector("[data-pp-pace-feedback]");
+      const pulseEl = stage.querySelector("[data-pp-pace-pulse]");
+      const tapArea = stage.querySelector("[data-pp-pace-tap]");
+      const runnerEl = stage.querySelector("[data-pp-pace-runner]");
+      pulseEl.style.animationDuration = `${PACE_PERFECT_BEAT_INTERVAL_MS}ms`;
+
+      const beatTimesMs = paceBeatSchedule();
+      const matchedFlags = beatTimesMs.map(() => false);
+      const beatErrorsMs = beatTimesMs.map(() => null);
+      let falseTapCount = 0;
+      let cumulativeScore = 0;
+      let ended = false;
+      let raf = null;
+      const startedAt = performance.now();
+      const endAt = beatTimesMs[beatTimesMs.length - 1] + PACE_PERFECT_MISS_TOLERANCE_MS + 300;
+
+      function showFeedback(band) {
+        const labels = { perfect: "Perfect!", great: "Great", good: "Good", miss: "Miss" };
+        feedbackEl.textContent = labels[band] || "";
+        feedbackEl.dataset.band = band;
+      }
+
+      function handleTap(event) {
+        if (ended) return;
+        event.preventDefault();
+        const tapTimeMs = performance.now() - startedAt;
+        const index = paceMatchTapToBeat(tapTimeMs, beatTimesMs, matchedFlags);
+        if (index === -1) {
+          falseTapCount += 1;
+          showFeedback("miss");
+          return;
+        }
+        matchedFlags[index] = true;
+        const errorMs = tapTimeMs - beatTimesMs[index];
+        beatErrorsMs[index] = errorMs;
+        const band = paceBeatBand(errorMs);
+        showFeedback(band);
+        cumulativeScore += paceBeatScore(errorMs);
+        runnerEl.style.left = `${Math.min(100, (cumulativeScore / (PACE_PERFECT_BEAT_COUNT * 100)) * 100)}%`;
+        splitEl.textContent = `Split ${Math.min(4, Math.floor(index / 4) + 1)} of 4`;
+      }
+      tapArea.addEventListener("pointerdown", handleTap);
+
+      function handleKeydown(event) {
+        if (event.repeat) return;
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        if (event.code === "Space" || event.key === "Enter") handleTap(event);
+      }
+      document.addEventListener("keydown", handleKeydown);
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (raf) cancelAnimationFrame(raf);
+          tapArea.removeEventListener("pointerdown", handleTap);
+          document.removeEventListener("keydown", handleKeydown);
+        }
+      };
+
+      function frame() {
+        if (ended) return;
+        const now = performance.now() - startedAt;
+        if (now >= endAt) { endRun(); return; }
+        raf = requestAnimationFrame(frame);
+      }
+      raf = requestAnimationFrame(frame);
+
+      function endRun() {
+        cancelCurrentAttempt();
+        // Any beat that never got a matching tap resolves as a real miss
+        // (null), same as the client always did for an unmatched beat --
+        // this just makes it explicit at the end rather than leaving gaps.
+        profile.pacePerfect.attempts += 1;
+        submitToServer("pace_perfect", { beatErrorsMs, falseTapCount });
+
+        const result = pacePerfectGameScore(beatErrorsMs, falseTapCount);
+        const priorAccuracy = profile.pacePerfect.bestAccuracyPct;
+        const priorStreak = profile.pacePerfect.bestStreak;
+        const newAccuracyPr = priorAccuracy === null || result.accuracyPct > priorAccuracy;
+        const newStreakPr = priorStreak === null || result.longestStreak > priorStreak;
+        if (newAccuracyPr) profile.pacePerfect.bestAccuracyPct = result.accuracyPct;
+        if (newStreakPr) profile.pacePerfect.bestStreak = result.longestStreak;
+        const isNewPr = newAccuracyPr || newStreakPr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        pointsEarned += awardPoints(profile, `pace-perfect-play-${Date.now()}`, participationPointsForPlay("pace_perfect", { gameScore: result.score }));
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `pace-perfect-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "pace_perfect" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "pace_perfect", result_band: String(result.score) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = `${result.accuracyPct}% accuracy, streak ${result.longestStreak}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Pace Perfect</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">Score: ${result.score} · False taps: ${falseTapCount}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Pace again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderPacePerfectIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+    }
+
+    function openPackPass() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "pack_pass" });
+      renderPackPassIdle(stage, games);
+    }
+
+    function renderPackPassIdle(stage, games) {
+      const pk = profile.packPass;
+      const prParts = [];
+      if (pk.bestPosition !== null) prParts.push(`Best finish: ${pk.bestPosition === 1 ? "1st" : `#${pk.bestPosition}`}`);
+      if (pk.bestScore !== null) prParts.push(`Best score: ${pk.bestScore}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Pack Pass</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>You're 20th. Pick the open lane to pass runners and race up to 1st.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-pack-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-pack-start]").addEventListener("click", () => startPackPassRun(stage, games));
+    }
+
+    function startPackPassRun(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Pack Pass</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-pack-stats" aria-hidden="true"><span data-pp-pack-position>Position: 20th</span><span data-pp-pack-momentum>Momentum: 0/3</span></div>
+        <div class="pp-pack-lanes" data-pp-pack-lanes>
+          <button class="pp-pack-lane" type="button" data-pp-pack-lane="0">LEFT</button>
+          <button class="pp-pack-lane" type="button" data-pp-pack-lane="1">CENTER</button>
+          <button class="pp-pack-lane" type="button" data-pp-pack-lane="2">RIGHT</button>
+        </div>
+        <p class="pp-pace-target-hint" data-pp-pack-hint>Watch for the gap...</p>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const positionEl = stage.querySelector("[data-pp-pack-position]");
+      const momentumEl = stage.querySelector("[data-pp-pack-momentum]");
+      const hintEl = stage.querySelector("[data-pp-pack-hint]");
+      const laneButtons = [0, 1, 2].map((i) => stage.querySelector(`[data-pp-pack-lane="${i}"]`));
+
+      let position = PACK_PASS_START_POSITION;
+      let cleanPasses = 0;
+      let narrowPasses = 0;
+      let momentumPasses = 0;
+      let blockedChoices = 0;
+      let momentumStreak = 0;
+      let decisionCount = 0;
+      let currentOpenLanes = [];
+      let decisionActive = false;
+      let decisionTimeout = null;
+      let ended = false;
+
+      function renderLaneState() {
+        laneButtons.forEach((button, i) => {
+          button.classList.toggle("pp-pack-lane-open", currentOpenLanes.includes(i));
+          button.classList.toggle("pp-pack-lane-blocked", !currentOpenLanes.includes(i));
+        });
+      }
+
+      function nextDecision() {
+        if (ended) return;
+        if (decisionCount >= PACK_PASS_DECISION_COUNT || position <= 1 || blockedChoices >= 3) { endRun(); return; }
+        decisionCount += 1;
+        const { openLanes } = packPassNextDecision();
+        currentOpenLanes = openLanes;
+        decisionActive = true;
+        hintEl.textContent = "Pick the open lane!";
+        renderLaneState();
+        decisionTimeout = setTimeout(() => resolveChoice(null), PACK_PASS_DECISION_WINDOW_MS);
+      }
+
+      function resolveChoice(chosenLane) {
+        if (!decisionActive || ended) return;
+        decisionActive = false;
+        if (decisionTimeout) clearTimeout(decisionTimeout);
+
+        const { clean, narrow } = chosenLane === null ? { clean: false, narrow: false } : packPassResolveChoice(chosenLane, currentOpenLanes);
+        if (clean) {
+          cleanPasses += 1;
+          if (narrow) narrowPasses += 1;
+          momentumStreak += 1;
+          let gain = 1;
+          if (narrow) gain += 1;
+          if (momentumStreak >= 3) {
+            momentumPasses += 1;
+            gain += 1;
+            momentumStreak = 0;
+          }
+          position = Math.max(1, position - gain);
+          hintEl.textContent = narrow ? "Narrow gap -- nice pass!" : "Clean pass!";
+        } else {
+          blockedChoices += 1;
+          momentumStreak = 0;
+          position = Math.min(PACK_PASS_START_POSITION, position + 1);
+          hintEl.textContent = chosenLane === null ? "Too slow -- blocked!" : "Blocked!";
+        }
+        positionEl.textContent = `Position: ${position === 1 ? "1st" : `${position}th`}`;
+        momentumEl.textContent = `Momentum: ${momentumStreak}/3`;
+        renderLaneState();
+
+        setTimeout(nextDecision, 500);
+      }
+
+      function handleLaneClick(event) {
+        event.preventDefault();
+        resolveChoice(Number(event.currentTarget.dataset.ppPackLane));
+      }
+      laneButtons.forEach((button) => button.addEventListener("pointerdown", handleLaneClick));
+
+      function handleKeydown(event) {
+        if (event.repeat || ended) return;
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        if (event.code === "ArrowLeft") { event.preventDefault(); resolveChoice(0); }
+        else if (event.code === "ArrowUp" || event.code === "Space") { event.preventDefault(); resolveChoice(1); }
+        else if (event.code === "ArrowRight") { event.preventDefault(); resolveChoice(2); }
+      }
+      document.addEventListener("keydown", handleKeydown);
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (decisionTimeout) clearTimeout(decisionTimeout);
+          laneButtons.forEach((button) => button.removeEventListener("pointerdown", handleLaneClick));
+          document.removeEventListener("keydown", handleKeydown);
+        }
+      };
+
+      nextDecision();
+
+      function endRun() {
+        cancelCurrentAttempt();
+        profile.packPass.attempts += 1;
+        submitToServer("pack_pass", { finalPosition: position, cleanPasses, narrowPasses, momentumPasses, blockedChoices });
+
+        const gameScore = packPassGameScore({ cleanPasses, narrowPasses, momentumPasses, finalPosition: position, blockedChoices });
+        const priorPosition = profile.packPass.bestPosition;
+        const priorScore = profile.packPass.bestScore;
+        const newPositionPr = priorPosition === null || position < priorPosition;
+        const newScorePr = priorScore === null || gameScore > priorScore;
+        if (newPositionPr) profile.packPass.bestPosition = position;
+        if (newScorePr) profile.packPass.bestScore = gameScore;
+        const isNewPr = newPositionPr || newScorePr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        pointsEarned += awardPoints(profile, `pack-pass-play-${Date.now()}`, participationPointsForPlay("pack_pass", { gameScore }));
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `pack-pass-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "pack_pass" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "pack_pass", result_band: String(gameScore) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = position === 1 ? "You reached 1st place!" : `Finished ${position}${position === 2 ? "nd" : position === 3 ? "rd" : "th"}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Pack Pass</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">Score: ${gameScore} · Clean passes: ${cleanPasses}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Race again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderPackPassIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+    }
+
+    function openFinishChute() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "finish_chute" });
+      renderFinishChuteIdle(stage, games);
+    }
+
+    function renderFinishChuteIdle(stage, games) {
+      const fc = profile.finishChute;
+      const prParts = [];
+      if (fc.bestStreak !== null) prParts.push(`Best streak: ${fc.bestStreak}`);
+      if (fc.bestScore !== null) prParts.push(`Best score: ${fc.bestScore}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Finish Chute</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Send each runner to the matching chute by color and symbol. Three mistakes ends the run.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-fc-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-fc-start]").addEventListener("click", () => startFinishChuteRun(stage, games));
+    }
+
+    function startFinishChuteRun(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Finish Chute</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <div class="pp-fc-stats" aria-hidden="true"><span data-pp-fc-streak>Streak: 0</span><span data-pp-fc-mistakes>Mistakes: 0/3</span></div>
+        <div class="pp-fc-bib" data-pp-fc-bib>Get ready...</div>
+        <div class="pp-fc-controls" data-pp-fc-controls>
+          ${FINISH_CHUTE_PAIRINGS.map((p, i) => `<button class="pp-fc-control pp-fc-control-${p.color}" type="button" data-pp-fc-control="${i}" aria-label="${escapeHtml(p.label)}"><span>${p.symbol}</span></button>`).join("")}
+        </div>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const streakEl = stage.querySelector("[data-pp-fc-streak]");
+      const mistakesEl = stage.querySelector("[data-pp-fc-mistakes]");
+      const bibEl = stage.querySelector("[data-pp-fc-bib]");
+      const controlButtons = [0, 1, 2, 3].map((i) => stage.querySelector(`[data-pp-fc-control="${i}"]`));
+
+      let correctCount = 0;
+      let mistakeCount = 0;
+      let currentStreak = 0;
+      let longestStreak = 0;
+      let totalPrompts = 0;
+      let responseTimesMs = [];
+      let currentPairingIndex = -1;
+      let runnerActive = false;
+      let runnerShownAt = 0;
+      let ended = false;
+      let spawnTimer = null;
+      let durationTimer = null;
+      const startedAt = performance.now();
+
+      function spawnRunner() {
+        if (ended) return;
+        totalPrompts += 1;
+        currentPairingIndex = finishChuteNextRunner();
+        const pairing = FINISH_CHUTE_PAIRINGS[currentPairingIndex];
+        bibEl.innerHTML = `<span class="pp-fc-bib-symbol">${pairing.symbol}</span><span class="pp-fc-bib-color">${escapeHtml(pairing.color)}</span>`;
+        bibEl.className = `pp-fc-bib pp-fc-bib-${pairing.color}`;
+        runnerActive = true;
+        runnerShownAt = performance.now();
+      }
+
+      function scheduleNextSpawn() {
+        if (ended) return;
+        const interval = finishChuteIntervalForCount(totalPrompts);
+        spawnTimer = setTimeout(spawnRunner, interval);
+      }
+      spawnRunner();
+
+      function handleControl(index) {
+        if (ended || !runnerActive) return;
+        runnerActive = false;
+        const responseMs = performance.now() - runnerShownAt;
+        responseTimesMs.push(responseMs);
+        if (index === currentPairingIndex) {
+          correctCount += 1;
+          currentStreak += 1;
+          longestStreak = Math.max(longestStreak, currentStreak);
+          bibEl.classList.add("pp-fc-bib-correct");
+        } else {
+          mistakeCount += 1;
+          currentStreak = 0;
+          bibEl.classList.add("pp-fc-bib-wrong");
+        }
+        streakEl.textContent = `Streak: ${currentStreak}`;
+        mistakesEl.textContent = `Mistakes: ${mistakeCount}/3`;
+        if (mistakeCount >= FINISH_CHUTE_MAX_MISTAKES) { endRun(); return; }
+        setTimeout(() => { if (!ended) { bibEl.classList.remove("pp-fc-bib-correct", "pp-fc-bib-wrong"); scheduleNextSpawn(); } }, 250);
+      }
+
+      function handleControlClick(event) { event.preventDefault(); handleControl(Number(event.currentTarget.dataset.ppFcControl)); }
+      controlButtons.forEach((button) => button.addEventListener("pointerdown", handleControlClick));
+
+      function handleKeydown(event) {
+        if (event.repeat || ended) return;
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        const index = ["Digit1", "Digit2", "Digit3", "Digit4"].indexOf(event.code);
+        if (index !== -1) { event.preventDefault(); handleControl(index); }
+      }
+      document.addEventListener("keydown", handleKeydown);
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (spawnTimer) clearTimeout(spawnTimer);
+          if (durationTimer) clearTimeout(durationTimer);
+          controlButtons.forEach((button) => button.removeEventListener("pointerdown", handleControlClick));
+          document.removeEventListener("keydown", handleKeydown);
+        }
+      };
+
+      durationTimer = setTimeout(() => { if (!ended) endRun(); }, FINISH_CHUTE_DURATION_SECONDS * 1000);
+
+      function endRun() {
+        cancelCurrentAttempt();
+        profile.finishChute.attempts += 1;
+        const avgResponseMs = responseTimesMs.length ? responseTimesMs.reduce((sum, ms) => sum + ms, 0) / responseTimesMs.length : 0;
+        submitToServer("finish_chute", { correctCount, longestStreak, mistakeCount, totalPrompts, avgResponseMs });
+
+        const gameScore = finishChuteGameScore({ correctCount, longestStreak, mistakeCount, totalPrompts, avgResponseMs });
+        const priorStreak = profile.finishChute.bestStreak;
+        const priorScore = profile.finishChute.bestScore;
+        const newStreakPr = priorStreak === null || longestStreak > priorStreak;
+        const newScorePr = priorScore === null || gameScore > priorScore;
+        if (newStreakPr) profile.finishChute.bestStreak = longestStreak;
+        if (newScorePr) profile.finishChute.bestScore = gameScore;
+        const isNewPr = newStreakPr || newScorePr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        pointsEarned += awardPoints(profile, `finish-chute-play-${Date.now()}`, participationPointsForPlay("finish_chute", { gameScore }));
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `finish-chute-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "finish_chute" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "finish_chute", result_band: String(gameScore) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = `${correctCount} sorted, streak ${longestStreak}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Finish Chute</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">Score: ${gameScore} · Mistakes: ${mistakeCount}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Sort again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderFinishChuteIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+    }
+
+    function openSpikeShuffle() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "spike_shuffle" });
+      renderSpikeShuffleIdle(stage, games);
+    }
+
+    function renderSpikeShuffleIdle(stage, games) {
+      const ss = profile.spikeShuffle;
+      const prParts = [];
+      if (ss.bestStreak !== null) prParts.push(`Best streak: ${ss.bestStreak}`);
+      if (ss.bestScore !== null) prParts.push(`Best score: ${ss.bestScore}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Spike Shuffle</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Watch the spike, then track it through the shuffle. One wrong guess ends the run.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-ss-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-ss-start]").addEventListener("click", () => startSpikeShuffleGame(stage, games));
+    }
+
+    function startSpikeShuffleGame(stage, games) {
+      let roundNumber = 1;
+      let roundsCompleted = 0;
+      let advancedRoundsCompleted = 0;
+      let ended = false;
+      let teardownRoundListeners = null;
+
+      currentAttempt = { cleanup: () => { ended = true; teardownRoundListeners?.(); } };
+
+      function renderRound() {
+        const boxCount = spikeShuffleBoxCountForRound(roundNumber);
+        const swapCount = spikeShuffleSwapCountForRound(roundNumber);
+        const swapDurationMs = spikeShuffleSwapDurationMsForRound(roundNumber);
+        const startingBox = Math.floor(Math.random() * boxCount);
+        const swaps = spikeShuffleGenerateSwaps(boxCount, swapCount);
+        const winningBox = spikeShuffleApplySwaps(startingBox, swaps);
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Spike Shuffle</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-btr-round">Round ${roundNumber}${boxCount === 4 ? " -- 4 boxes!" : ""}</p>
+          <div class="pp-ss-boxes" data-pp-ss-boxes style="--pp-ss-box-count:${boxCount}">
+            ${Array.from({ length: boxCount }, (_, slot) => `<button class="pp-ss-box" type="button" data-pp-ss-slot="${slot}" data-pp-ss-box="${slot}" style="--pp-ss-slot:${slot}" disabled>📦</button>`).join("")}
+          </div>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+        const boxButtons = Array.from(stage.querySelectorAll("[data-pp-ss-box]"));
+        // slotOfBox[boxId] = current visual slot; boxInSlot[slot] = current box id -- kept in sync at every swap boundary.
+        const boxInSlot = Array.from({ length: boxCount }, (_, i) => i);
+        const slotOfBox = Array.from({ length: boxCount }, (_, i) => i);
+
+        function placeBoxes() {
+          boxButtons.forEach((button) => {
+            const boxId = Number(button.dataset.ppSsBox);
+            button.style.setProperty("--pp-ss-slot", String(slotOfBox[boxId]));
+          });
+        }
+
+        // Reveal the spike's real starting box before covering it.
+        boxButtons[startingBox].textContent = "👟";
+        boxButtons[startingBox].classList.add("pp-ss-box-reveal");
+        placeBoxes();
+
+        let swapIndex = 0;
+        let shuffleTimer = null;
+        let inputLocked = true;
+
+        function coverAndShuffle() {
+          boxButtons.forEach((button) => { button.textContent = "📦"; button.classList.remove("pp-ss-box-reveal"); });
+          runNextSwap();
+        }
+
+        function runNextSwap() {
+          if (ended) return;
+          if (swapIndex >= swaps.length) {
+            inputLocked = false;
+            boxButtons.forEach((button) => { button.disabled = false; });
+            return;
+          }
+          const [a, b] = swaps[swapIndex];
+          const boxA = boxInSlot[a];
+          const boxB = boxInSlot[b];
+          boxInSlot[a] = boxB;
+          boxInSlot[b] = boxA;
+          slotOfBox[boxA] = b;
+          slotOfBox[boxB] = a;
+          placeBoxes();
+          swapIndex += 1;
+          shuffleTimer = setTimeout(runNextSwap, swapDurationMs);
+        }
+
+        shuffleTimer = setTimeout(coverAndShuffle, 900);
+
+        function handlePick(event) {
+          if (ended || inputLocked) return;
+          event.preventDefault();
+          const pickedBox = Number(event.currentTarget.dataset.ppSsBox);
+          resolveRound(pickedBox === winningBox, winningBox);
+        }
+        boxButtons.forEach((button) => button.addEventListener("pointerdown", handlePick));
+        teardownRoundListeners = () => {
+          if (shuffleTimer) clearTimeout(shuffleTimer);
+          boxButtons.forEach((button) => button.removeEventListener("pointerdown", handlePick));
+        };
+
+        function resolveRound(correct, actualWinningBox) {
+          teardownRoundListeners?.();
+          boxButtons.forEach((button) => { button.disabled = true; });
+          boxButtons[actualWinningBox].textContent = "👟";
+          boxButtons[actualWinningBox].classList.add(correct ? "pp-ss-box-reveal" : "pp-ss-box-wrong");
+          if (correct) {
+            roundsCompleted += 1;
+            if (boxCount === 4) advancedRoundsCompleted += 1;
+            announce(`Correct! Round ${roundNumber} complete.`);
+            setTimeout(() => { if (!ended) { roundNumber += 1; renderRound(); } }, 1300);
+          } else {
+            setTimeout(() => { if (!ended) endGame(); }, 1300);
+          }
+        }
+      }
+
+      renderRound();
+
+      function endGame() {
+        cancelCurrentAttempt();
+        profile.spikeShuffle.attempts += 1;
+        submitToServer("spike_shuffle", { roundsCompleted, advancedRoundsCompleted });
+
+        const gameScore = spikeShuffleGameScore(roundsCompleted, advancedRoundsCompleted);
+        const priorStreak = profile.spikeShuffle.bestStreak;
+        const priorScore = profile.spikeShuffle.bestScore;
+        const newStreakPr = priorStreak === null || roundsCompleted > priorStreak;
+        const newScorePr = priorScore === null || gameScore > priorScore;
+        if (newStreakPr) profile.spikeShuffle.bestStreak = roundsCompleted;
+        if (newScorePr) profile.spikeShuffle.bestScore = gameScore;
+        const isNewPr = newStreakPr || newScorePr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        pointsEarned += awardPoints(profile, `spike-shuffle-play-${Date.now()}`, participationPointsForPlay("spike_shuffle", { gameScore }));
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `spike-shuffle-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "spike_shuffle" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "spike_shuffle", result_band: String(gameScore) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = `${roundsCompleted} round${roundsCompleted === 1 ? "" : "s"} correct.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Spike Shuffle</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          <p class="pp-pr">Score: ${gameScore}</p>
+          <p class="pp-pr">${escapeHtml(prLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <button class="button button-primary pp-stage-action" type="button" data-pp-again>Play again</button>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelector("[data-pp-again]").addEventListener("click", () => renderSpikeShuffleIdle(stage, games));
+        announce(`${resultLine} ${prLine}`);
+      }
+    }
+
+    function openRunnerSays() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "runner_says" });
+      renderRunnerSaysIdle(stage, games);
+    }
+
+    function renderRunnerSaysIdle(stage, games) {
+      const rs = profile.runnerSays;
+      const prParts = [];
+      if (rs.bestSequenceLength !== null) prParts.push(`Longest sequence: ${rs.bestSequenceLength}`);
+      if (rs.bestScore !== null) prParts.push(`Best score: ${rs.bestScore}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Runner Says</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Watch the sequence, then repeat it in order. It grows by one symbol each round.</p>
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        <button class="button button-primary pp-stage-action" type="button" data-pp-rs-start>Start</button>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-rs-start]").addEventListener("click", () => startRunnerSaysGame(stage, games));
+    }
+
+    function startRunnerSaysGame(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Runner Says</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p class="pp-btr-round" data-pp-rs-round>Round 1</p>
+        <div class="pp-rs-grid" data-pp-rs-grid>
+          ${RUNNER_SAYS_SYMBOLS.map((s, i) => `<button class="pp-rs-symbol pp-rs-symbol-${s.id}" type="button" data-pp-rs-symbol="${i}" aria-label="${escapeHtml(s.label)}" disabled><span>${s.symbol}</span></button>`).join("")}
+        </div>
+        <p class="pp-pace-target-hint" data-pp-rs-hint>Watch closely...</p>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const roundEl = stage.querySelector("[data-pp-rs-round]");
+      const hintEl = stage.querySelector("[data-pp-rs-hint]");
+      const symbolButtons = RUNNER_SAYS_SYMBOLS.map((_, i) => stage.querySelector(`[data-pp-rs-symbol="${i}"]`));
+
+      // "Start with a two symbol sequence" -- per spec, not one.
+      let sequence = Array.from({ length: RUNNER_SAYS_INITIAL_LENGTH }, () => runnerSaysNextSymbolIndex());
+      let ended = false;
+      let playbackTimer = null;
+      let playerIndex = 0;
+      let correctSymbolTaps = 0;
+      let fastRoundCount = 0;
+      let completedRounds = 0; // sequence lengths actually finished, tracked directly rather than derived from sequence.length
+      let lastTapAt = 0;
+      let roundIsFast = true;
+      let inputLocked = true;
+
+      function setLocked(locked) {
+        inputLocked = locked;
+        symbolButtons.forEach((button) => { button.disabled = locked; });
+      }
+
+      function playSequence() {
+        setLocked(true);
+        hintEl.textContent = "Watch the sequence...";
+        const cueMs = runnerSaysCueDurationForRound(sequence.length);
+        let i = 0;
+        function showNext() {
+          if (ended) return;
+          if (i >= sequence.length) {
+            setLocked(false);
+            hintEl.textContent = "Your turn -- repeat it!";
+            playerIndex = 0;
+            roundIsFast = true;
+            lastTapAt = performance.now();
+            return;
+          }
+          const symbolIndex = sequence[i];
+          symbolButtons[symbolIndex].classList.add("pp-rs-symbol-active");
+          playbackTimer = setTimeout(() => {
+            symbolButtons[symbolIndex].classList.remove("pp-rs-symbol-active");
+            i += 1;
+            playbackTimer = setTimeout(showNext, RUNNER_SAYS_CUE_GAP_MS);
+          }, cueMs);
+        }
+        playbackTimer = setTimeout(showNext, 500);
+      }
+
+      function handleTap(symbolIndex) {
+        if (ended || inputLocked) return;
+        const now = performance.now();
+        if (now - lastTapAt > RUNNER_SAYS_FAST_RESPONSE_THRESHOLD_MS) roundIsFast = false;
+        lastTapAt = now;
+
+        if (symbolIndex !== sequence[playerIndex]) {
+          setLocked(true);
+          symbolButtons[sequence[playerIndex]].classList.add("pp-rs-symbol-reveal");
+          endGame();
+          return;
+        }
+        correctSymbolTaps += 1;
+        playerIndex += 1;
+        if (playerIndex >= sequence.length) {
+          completedRounds += 1;
+          if (roundIsFast) fastRoundCount += 1;
+          setLocked(true);
+          hintEl.textContent = "Round complete!";
+          announce(`Round ${completedRounds} complete.`);
+          const nextSequence = sequence.concat([runnerSaysNextSymbolIndex()]);
+          setTimeout(() => {
+            if (ended) return;
+            sequence = nextSequence;
+            roundEl.textContent = `Round ${completedRounds + 1}`;
+            playSequence();
+          }, 900);
+        }
+      }
+
+      function handleSymbolClick(event) { event.preventDefault(); handleTap(Number(event.currentTarget.dataset.ppRsSymbol)); }
+      symbolButtons.forEach((button) => button.addEventListener("pointerdown", handleSymbolClick));
+
+      function handleKeydown(event) {
+        if (event.repeat || ended) return;
+        const tag = event.target?.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || event.target?.isContentEditable) return;
+        const index = ["Digit1", "Digit2", "Digit3", "Digit4"].indexOf(event.code);
+        if (index !== -1) { event.preventDefault(); handleTap(index); }
+      }
+      document.addEventListener("keydown", handleKeydown);
+
+      currentAttempt = {
+        cleanup: () => {
+          ended = true;
+          if (playbackTimer) clearTimeout(playbackTimer);
+          symbolButtons.forEach((button) => button.removeEventListener("pointerdown", handleSymbolClick));
+          document.removeEventListener("keydown", handleKeydown);
+        }
+      };
+
+      playSequence();
+
+      function endGame() {
+        cancelCurrentAttempt();
+        profile.runnerSays.attempts += 1;
+        // completedRounds is the actual, directly-tracked count of full
+        // sequences the player repeated correctly -- the length of the
+        // sequence they were failing on (sequence.length) is one past
+        // that, not the same number.
+        const sequenceLengthReached = completedRounds;
+        submitToServer("runner_says", { sequenceLengthReached, correctSymbolTaps, fastRoundCount });
+
+        const gameScore = runnerSaysGameScore(sequenceLengthReached, correctSymbolTaps, fastRoundCount);
+        const priorLength = profile.runnerSays.bestSequenceLength;
+        const priorScore = profile.runnerSays.bestScore;
+        const newLengthPr = priorLength === null || sequenceLengthReached > priorLength;
+        const newScorePr = priorScore === null || gameScore > priorScore;
+        if (newLengthPr) profile.runnerSays.bestSequenceLength = sequenceLengthReached;
+        if (newScorePr) profile.runnerSays.bestScore = gameScore;
+        const isNewPr = newLengthPr || newScorePr;
+
+        let pointsEarned = 0;
+        if (!sessionAwardedFirstGame) {
+          pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+          sessionAwardedFirstGame = true;
+        }
+        pointsEarned += awardPoints(profile, `runner-says-play-${Date.now()}`, participationPointsForPlay("runner_says", { gameScore }));
+        if (isNewPr) {
+          pointsEarned += awardPoints(profile, `runner-says-pr-${Date.now()}`, PERSONAL_RECORD_POINTS);
+          track("podium_play_personal_record", { content_type: "game", content_id: "runner_says" });
+        }
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "runner_says", result_band: String(gameScore) });
+
+        const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        const resultLine = `Reached Round ${completedRounds + 1}, completed ${sequenceLengthReached} round${sequenceLengthReached === 1 ? "" : "s"}.`;
+        const prLine = isNewPr ? "New personal record." : "Can you beat it?";
+
+        setTimeout(() => {
+          if (!stage.isConnected) return;
+          stage.innerHTML = `
+            <div class="pp-stage-head"><h3>Runner Says</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+            <p class="pp-result${isNewPr && !reduceMotion ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+            <p class="pp-pr">Score: ${gameScore}</p>
+            <p class="pp-pr">${escapeHtml(prLine)}</p>
+            ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+            <button class="button button-primary pp-stage-action" type="button" data-pp-again>Play again</button>
+          `;
+          stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+          stage.querySelector("[data-pp-again]").addEventListener("click", () => renderRunnerSaysIdle(stage, games));
+          announce(`${resultLine} ${prLine}`);
+        }, 900);
+      }
+    }
+
     // Renders the panel and wires everything ONCE, immediately -- games
     // are available for the whole page visit, not gated behind voting
     // (see the file header). A real vote succeeding later only ever
@@ -2118,6 +3981,13 @@
       wireGameButton("tap-sprint", openTapSprint);
       wireGameButton("beat-the-runner", openBeatTheRunner);
       wireGameButton("memory-match", openMemoryMatch);
+      wireGameButton("relay-exchange", openRelayExchange);
+      wireGameButton("cone-slalom", openConeSlalom);
+      wireGameButton("pace-perfect", openPacePerfect);
+      wireGameButton("pack-pass", openPackPass);
+      wireGameButton("finish-chute", openFinishChute);
+      wireGameButton("spike-shuffle", openSpikeShuffle);
+      wireGameButton("runner-says", openRunnerSays);
 
       track("podium_play_panel_viewed", { content_type: "award_type", content_id: root.dataset.awardType || "athlete" });
     }

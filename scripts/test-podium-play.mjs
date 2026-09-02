@@ -45,6 +45,29 @@ const {
   MIN_PARTICIPATION_POINTS,
   MAX_PARTICIPATION_POINTS,
   participationPointsForPlay,
+  relayStartBand,
+  relayPassBand,
+  relayExchangeGameScore,
+  CONE_SLALOM_LANE_COUNT,
+  CONE_SLALOM_MAX_LANE_SHIFT,
+  CONE_SLALOM_LANE_TRANSITION_MS,
+  coneSlalomNextGap,
+  coneSlalomNextGroup,
+  coneSlalomGameScore,
+  PACE_PERFECT_MISS_TOLERANCE_MS,
+  paceBeatSchedule,
+  paceBeatBand,
+  paceBeatScore,
+  paceMatchTapToBeat,
+  pacePerfectGameScore,
+  packPassNextDecision,
+  packPassResolveChoice,
+  packPassGameScore,
+  finishChuteGameScore,
+  spikeShuffleGenerateSwaps,
+  spikeShuffleApplySwaps,
+  spikeShuffleGameScore,
+  runnerSaysGameScore,
   todayLocalDateKey,
   defaultProfile,
   sanitizeProfile,
@@ -298,6 +321,174 @@ for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_spri
   }
 }
 
+// --- Relay Exchange (2026-09-02) --------------------------------------------
+
+assert.equal(relayStartBand(0), "perfect");
+assert.equal(relayStartBand(120), "perfect", "Exactly 120ms is still inside the perfect band.");
+assert.equal(relayStartBand(121), "great", "121ms is just past the perfect boundary.");
+assert.equal(relayStartBand(-121), "great", "The band uses the absolute error regardless of sign.");
+assert.equal(relayStartBand(250), "great");
+assert.equal(relayStartBand(251), "good");
+assert.equal(relayStartBand(450), "good");
+assert.equal(relayStartBand(451), "early_late");
+assert.equal(relayStartBand(700), "early_late");
+assert.equal(relayStartBand(701), "very_off");
+
+assert.equal(relayPassBand(null), "missed", "No tap at all (a true miss) must classify as missed, not error.");
+assert.equal(relayPassBand(90), "perfect");
+assert.equal(relayPassBand(91), "great");
+assert.equal(relayPassBand(200), "great");
+assert.equal(relayPassBand(201), "safe");
+assert.equal(relayPassBand(400), "safe");
+assert.equal(relayPassBand(401), "late", "Beyond 400ms is still a real, counted 'late' exchange -- only a null (never tapped in time) is a true miss.");
+
+{
+  // A perfect run: 3 perfect start+pass combos.
+  const perfect = relayExchangeGameScore([0, 0, 0], [0, 0, 0], 1);
+  assert.equal(perfect.perfectCombos, 3, "All 3 exchanges perfect must count as 3 perfect combos.");
+  // 3 * (250 start + 500 pass + 250 combo) + 1000 (3-combo bonus) + 750 (1st place) = 4750.
+  assert.equal(perfect.score, 4750, "A perfect run's exact point total must match the spec's own table.");
+
+  const rough = relayExchangeGameScore([900, 900, 900], [null, null, null], 3);
+  assert.equal(rough.perfectCombos, 0);
+  assert.equal(rough.score, 0, "Every exchange very-off-start plus missed-pass, finishing last, earns 0 -- never negative.");
+  assert.ok(perfect.score > rough.score, "A genuinely better run must always score strictly higher.");
+
+  // A missed exchange (null pass) must never crash the scoring math, and
+  // the race must still be scoreable/completable per spec.
+  const missedOne = relayExchangeGameScore([0, 900, 0], [0, null, 0], 2);
+  assert.equal(missedOne.perfectCombos, 2, "The two genuinely perfect exchanges still count even though the middle one was missed.");
+
+  assert.equal(relayExchangeGameScore([0, 0, 0], [0, 0, 0], 2).score - relayExchangeGameScore([0, 0, 0], [0, 0, 0], 3).score, 350, "2nd place earns exactly 350 more than 3rd (which earns no placement bonus).");
+}
+
+// --- Cone Slalom (2026-09-02) ------------------------------------------------
+
+{
+  // Real spread check, same rigor as Hurdle Dash's own never-impossible
+  // test -- an obstacle group must never block every lane, and the safe
+  // gap must always leave enough real time for the worst-case (edge-to-
+  // edge, 2 transitions) lane change.
+  for (let i = 0; i < 500; i += 1) {
+    const { blockedLanes } = coneSlalomNextGroup();
+    assert.ok(blockedLanes.length < CONE_SLALOM_LANE_COUNT, "An obstacle group must never block all 3 lanes -- there must always be a real open lane.");
+    assert.ok(blockedLanes.length >= 1 && blockedLanes.length <= 2, "Spec: each obstacle group occupies one or two lanes.");
+  }
+  for (const speed of [130, 200, 340]) {
+    for (let i = 0; i < 200; i += 1) {
+      const gap = coneSlalomNextGap(speed);
+      const worstCaseSeconds = (CONE_SLALOM_MAX_LANE_SHIFT * CONE_SLALOM_LANE_TRANSITION_MS) / 1000;
+      assert.ok(gap / speed >= worstCaseSeconds, `The gap converted back to time (${gap / speed}s) must always be enough for the worst-case lane change (${worstCaseSeconds}s) at speed=${speed}.`);
+    }
+  }
+}
+assert.equal(coneSlalomGameScore(0, 0, false), 0);
+assert.equal(coneSlalomGameScore(4, 100, false), 4 * 10 + 100, "Below the 5-group streak threshold, no streak bonus.");
+assert.equal(coneSlalomGameScore(5, 100, false), 5 * 10 + 100 + 50, "At 5 groups cleared, the streak bonus applies.");
+assert.equal(coneSlalomGameScore(5, 100, true), 5 * 10 + 100 + 50 + 100, "Surviving the full time limit adds its own separate completion bonus.");
+
+// --- Pace Perfect (2026-09-02) -----------------------------------------------
+
+assert.equal(paceBeatBand(null), "miss", "No tap for that beat is a real miss.");
+assert.equal(paceBeatBand(70), "perfect");
+assert.equal(paceBeatBand(71), "great");
+assert.equal(paceBeatBand(140), "great");
+assert.equal(paceBeatBand(141), "good");
+assert.equal(paceBeatBand(240), "good");
+assert.equal(paceBeatBand(241), "miss");
+assert.equal(paceBeatScore(0), 100, "A dead-on-perfect tap scores the full 100.");
+assert.equal(paceBeatScore(null), 0);
+assert.equal(paceBeatScore(PACE_PERFECT_MISS_TOLERANCE_MS), 0, "Exactly at the miss tolerance, accuracy has decayed to 0.");
+
+{
+  const beats = paceBeatSchedule(4, 1000);
+  assert.deepEqual(beats, [1000, 2000, 3000, 4000]);
+  const matched = [false, false, false, false];
+  // A tap near beat 2 (2000ms) must match beat index 1, not any other --
+  // "one beat can be matched only once."
+  const first = paceMatchTapToBeat(2010, beats, matched);
+  assert.equal(first, 1);
+  matched[1] = true;
+  const second = paceMatchTapToBeat(2010, beats, matched);
+  assert.equal(second, -1, "A second tap for the same already-matched beat must count as a false tap (no match left within tolerance), not double-match.");
+  const tooFar = paceMatchTapToBeat(2000 + PACE_PERFECT_MISS_TOLERANCE_MS + 1, beats, [false, false, false, false]);
+  assert.equal(tooFar, -1, "A tap outside every beat's tolerance window is a real false tap.");
+}
+
+{
+  const allPerfect = pacePerfectGameScore(Array(16).fill(0), 0);
+  assert.equal(allPerfect.longestStreak, 16);
+  assert.equal(allPerfect.accuracyPct, 100);
+  // 16 * 100 (beat scores) + 250 (5-streak) + 750 (10-streak) + 250 (no false taps).
+  assert.equal(allPerfect.score, 1600 + 250 + 750 + 250);
+
+  const brokenStreak = pacePerfectGameScore([0, 0, 0, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0);
+  assert.equal(brokenStreak.longestStreak, 11, "A single miss in the middle resets the streak, but the longer remaining run of perfects (11) is still the real longest streak.");
+
+  const withFalseTaps = pacePerfectGameScore(Array(16).fill(0), 3);
+  assert.ok(withFalseTaps.score < allPerfect.score, "Any false taps must forfeit the no-false-tap bonus.");
+}
+
+// --- Pack Pass (2026-09-02) --------------------------------------------------
+
+{
+  for (let i = 0; i < 500; i += 1) {
+    const { openLanes, blockedLanes } = packPassNextDecision();
+    assert.ok(openLanes.length >= 1, "Every decision must have at least one real, reachable open lane.");
+    assert.equal(openLanes.length + blockedLanes.length, 3, "Every lane must be accounted for as either open or blocked.");
+  }
+}
+assert.deepEqual(packPassResolveChoice(1, [0, 1, 2]), { clean: true, narrow: false }, "3 open lanes, any choice among them is clean but not narrow.");
+assert.deepEqual(packPassResolveChoice(1, [1]), { clean: true, narrow: true }, "Exactly one open lane -- the ONLY possible clean choice -- is a narrow gap.");
+assert.deepEqual(packPassResolveChoice(0, [1]), { clean: false, narrow: false }, "Choosing a blocked lane is never clean.");
+
+assert.equal(packPassGameScore({ cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, finalPosition: 20, blockedChoices: 3 }), 0);
+assert.equal(packPassGameScore({ cleanPasses: 1, narrowPasses: 0, momentumPasses: 0, finalPosition: 20, blockedChoices: 1 }), 100);
+assert.equal(packPassGameScore({ cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, finalPosition: 1, blockedChoices: 0 }), 250 + 500 + 1000 + 500, "Reaching 1st with zero blocked choices stacks the top-10, top-5, 1st-place, AND no-blocked bonuses together.");
+
+// --- Finish Chute (2026-09-02) ------------------------------------------------
+
+assert.equal(finishChuteGameScore({ correctCount: 3, longestStreak: 3, mistakeCount: 0, totalPrompts: 3, avgResponseMs: 2000 }), 300 + 1000, "3 for 3 with zero mistakes is a perfect game, even below the streak-bonus thresholds.");
+assert.equal(finishChuteGameScore({ correctCount: 5, longestStreak: 5, mistakeCount: 1, totalPrompts: 6, avgResponseMs: 2000 }), 500 + 250, "Exactly a 5-streak (with a real mistake elsewhere, so not a perfect game) earns the 5-streak bonus only.");
+assert.equal(finishChuteGameScore({ correctCount: 10, longestStreak: 10, mistakeCount: 1, totalPrompts: 11, avgResponseMs: 2000 }), 1000 + 250 + 500, "A 10-streak earns both the 5- and 10-streak bonuses (they stack, not else-if).");
+assert.equal(finishChuteGameScore({ correctCount: 1, longestStreak: 1, mistakeCount: 0, totalPrompts: 1, avgResponseMs: 0 }), 100 + 1000 + 50, "An instant (0ms) correct answer earns the full 50-point speed bonus, capped there, never more.");
+assert.equal(finishChuteGameScore({ correctCount: 1, longestStreak: 1, mistakeCount: 0, totalPrompts: 1, avgResponseMs: 5000 }), 100 + 1000, "A slow response earns 0 speed bonus, never a negative one.");
+
+// --- Spike Shuffle (2026-09-02) -----------------------------------------------
+
+assert.equal(spikeShuffleApplySwaps(0, []), 0, "No swaps at all: the spike stays exactly where it started.");
+assert.equal(spikeShuffleApplySwaps(0, [[0, 1]]), 1, "A single swap of the spike's own box moves it to the other side.");
+assert.equal(spikeShuffleApplySwaps(0, [[1, 2]]), 0, "A swap that doesn't involve the spike's current box leaves it untouched.");
+assert.equal(spikeShuffleApplySwaps(0, [[0, 1], [1, 2], [0, 2]]), 0, "A real hand-traced 3-swap sequence: 0->1 (spike now at 1), 1->2 (spike now at 2), 0->2 (spike now at 0).");
+// Re-derive the same trace independently to confirm the hand trace above.
+{
+  let pos = 0;
+  for (const [a, b] of [[0, 1], [1, 2], [0, 2]]) { if (pos === a) pos = b; else if (pos === b) pos = a; }
+  assert.equal(spikeShuffleApplySwaps(0, [[0, 1], [1, 2], [0, 2]]), pos, "spikeShuffleApplySwaps must match an independently-computed trace of the same swap sequence.");
+}
+{
+  for (let i = 0; i < 200; i += 1) {
+    const swaps = spikeShuffleGenerateSwaps(4, 8);
+    for (const [a, b] of swaps) assert.notEqual(a, b, "A generated swap must never swap a box with itself.");
+  }
+}
+assert.equal(spikeShuffleGameScore(0, 0), 0);
+assert.equal(spikeShuffleGameScore(4, 0), 4 * 250, "Below the 5-round bonus threshold, no bonus.");
+assert.equal(spikeShuffleGameScore(5, 0), 5 * 250 + 1000, "At exactly 5 rounds, the completion bonus applies.");
+assert.equal(spikeShuffleGameScore(5, 2), 5 * 250 + 2 * 500 + 1000, "Advanced (4-box) rounds add their own separate per-round bonus.");
+
+// --- Runner Says (2026-09-02) -------------------------------------------------
+
+assert.equal(runnerSaysGameScore(0, 0, 0), 0);
+// Reaching sequence length 3 means rounds 1,2,3 were each completed once:
+// per-round bonus = 1*100 + 2*100 + 3*100 = 600, plus 3 correct-symbol
+// taps per round (2+3+4 = 9 total, since a spec-required 2-symbol start
+// means round 1 has 2 taps) -- kept simple here with a fixed tap count.
+assert.equal(runnerSaysGameScore(3, 9, 0), 9 * 50 + (100 + 200 + 300));
+assert.equal(runnerSaysGameScore(5, 0, 0), (100 + 200 + 300 + 400 + 500) + 500, "Exactly reaching round 5 adds the 5-round milestone bonus.");
+assert.equal(runnerSaysGameScore(10, 0, 0) - runnerSaysGameScore(9, 0, 0), 10 * 100 + 1500, "The jump from round 9 to round 10 includes both round 10's own points and the 10-round milestone bonus.");
+assert.equal(runnerSaysGameScore(2, 0, 2), (100 + 200) + 2 * 100, "Each fast-round counts a flat 100-point speed bonus on top of the real per-round base score (100+200 for rounds 1-2).");
+
 // --- todayLocalDateKey -----------------------------------------------------
 
 assert.equal(todayLocalDateKey(new Date(2026, 8, 1)), "2026-09-01", "September 1 2026 (local) must format as 2026-09-01.");
@@ -420,6 +611,13 @@ console.log("Beat the Runner checked: all 8 fixed round names in their exact req
 console.log("Memory Match checked: the real 6-card/3-pair board shape, every symbol appearing in exactly one pair, a fresh board starting fully unmatched, and a real shuffle producing genuinely different orders for different random sequences.");
 console.log("levelForPoints checked: all 15 fixed-requirement levels in their exact required order, strictly-increasing thresholds, exact-threshold advancement, top-level clamping, and negative-input safety.");
 console.log("participationPointsForPlay checked: every game's real participation floor/max, a suspicious Starting Gun reading floored to the minimum, Memory Match's inverted (lower-is-better) scale, and malformed/out-of-range gameScore safety.");
+console.log("Relay Exchange checked: every start/pass timing boundary, a real perfect-run point total against the spec's own table, a missed exchange never crashing scoring, and the placement bonus difference between 2nd and 3rd.");
+console.log("Cone Slalom checked: a real 500-sample spread proving an obstacle group never blocks all 3 lanes, and the safe gap always leaving enough real time for the worst-case (edge-to-edge) lane change at every speed.");
+console.log("Pace Perfect checked: every beat timing boundary, the nearest-unmatched-beat tap matcher (including a real double-tap-on-one-beat false-tap case), and the streak/no-false-tap bonuses at their real thresholds.");
+console.log("Pack Pass checked: a real 500-sample spread proving every decision has at least one open lane, the narrow-gap flag firing only when exactly one lane is open, and every score bonus stacking correctly.");
+console.log("Finish Chute checked: the perfect-game bonus, every streak threshold, and the response-time speed bonus capped at 50 and floored at 0.");
+console.log("Spike Shuffle checked: a real hand-traced 3-swap sequence (independently re-derived to confirm it), a 200-sample spread proving a swap never swaps a box with itself, and the round/advanced-round scoring.");
+console.log("Runner Says checked: the per-round point formula against a real hand-computed example, both milestone bonuses, and the flat per-fast-round speed bonus.");
 console.log("todayLocalDateKey checked: zero-padded local date formatting.");
 console.log("defaultProfile/sanitizeProfile checked: fresh-profile defaults, malformed/corrupted/future-version data recovering safely without crashing, and valid real data being preserved rather than discarded.");
 console.log("loadProfile/saveProfile checked against a real localStorage stub: round-trip persistence, malformed stored JSON, and a fully disabled/throwing storage API -- none of it ever throws into the caller.");

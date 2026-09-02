@@ -15,7 +15,18 @@ import {
   DAILY_ACTIVITY_POINTS,
   MIN_PARTICIPATION_POINTS,
   MAX_PARTICIPATION_POINTS,
-  participationPointsForPlay
+  participationPointsForPlay,
+  relayStartBand,
+  relayPassBand,
+  relayExchangeGameScore,
+  coneSlalomGameScore,
+  paceBeatBand,
+  paceBeatScore,
+  pacePerfectGameScore,
+  packPassGameScore,
+  finishChuteGameScore,
+  spikeShuffleGameScore,
+  runnerSaysGameScore
 } from "../lib/podium_play_service.mjs";
 
 // --- photoFinishScoreBand ----------------------------------------------
@@ -111,6 +122,67 @@ assert.throws(() => validateRawInput("memory_match", { timeMs: 8000, moves: 501 
 assert.equal(tapSprintDistanceForTaps(10), 120, "10 taps at 12 distance/tap is exactly 120.");
 assert.equal(tapSprintDistanceForTaps(-5), 0, "A negative/invalid tap count never produces a negative distance.");
 
+// --- validateRawInput: the 7 more games (2026-09-02) ----------------------
+
+assert.deepEqual(validateRawInput("relay_exchange", { finishTimeMs: 9800, place: 1, startErrorsMs: [10, -20, 30], passErrorsMs: [5, null, 90] }), { finishTimeMs: 9800, place: 1, startErrorsMs: [10, -20, 30], passErrorsMs: [5, null, 90] });
+assert.throws(() => validateRawInput("relay_exchange", { finishTimeMs: 0, place: 1, startErrorsMs: [0, 0, 0], passErrorsMs: [0, 0, 0] }), /valid/i, "A zero or negative finish time is never real.");
+assert.throws(() => validateRawInput("relay_exchange", { finishTimeMs: 9800, place: 4, startErrorsMs: [0, 0, 0], passErrorsMs: [0, 0, 0] }), /valid/i, "There are only 3 real lanes -- 4th place is never possible.");
+assert.throws(() => validateRawInput("relay_exchange", { finishTimeMs: 9800, place: 1, startErrorsMs: [0, 0], passErrorsMs: [0, 0, 0] }), /valid/i, "Exactly 3 exchanges are required, never 2.");
+assert.throws(() => validateRawInput("relay_exchange", { finishTimeMs: 9800, place: 1, startErrorsMs: [0, 0, 0], passErrorsMs: [0, 0, "not a number"] }), /valid/i);
+
+assert.deepEqual(validateRawInput("cone_slalom", { metersTraveled: 340, groupsCleared: 12 }), { metersTraveled: 340, groupsCleared: 12, survivedFull: false });
+assert.deepEqual(validateRawInput("cone_slalom", { metersTraveled: 340, groupsCleared: 12, survivedFull: true }), { metersTraveled: 340, groupsCleared: 12, survivedFull: true });
+assert.throws(() => validateRawInput("cone_slalom", { metersTraveled: -1, groupsCleared: 0 }), /valid/i);
+
+assert.deepEqual(validateRawInput("pace_perfect", { beatErrorsMs: [...Array(16)].map(() => 10), falseTapCount: 0 }), { beatErrorsMs: Array(16).fill(10), falseTapCount: 0 });
+assert.throws(() => validateRawInput("pace_perfect", { beatErrorsMs: Array(15).fill(10), falseTapCount: 0 }), /valid/i, "Exactly 16 real beats are required, never 15.");
+assert.throws(() => validateRawInput("pace_perfect", { beatErrorsMs: Array(16).fill(10), falseTapCount: -1 }), /valid/i);
+
+assert.deepEqual(validateRawInput("pack_pass", { finalPosition: 1, cleanPasses: 14, narrowPasses: 3, momentumPasses: 2, blockedChoices: 0 }), { finalPosition: 1, cleanPasses: 14, narrowPasses: 3, momentumPasses: 2, blockedChoices: 0 });
+assert.throws(() => validateRawInput("pack_pass", { finalPosition: 0, cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, blockedChoices: 0 }), /valid/i, "Position 0 is never a real finishing place -- 1st is the best possible.");
+assert.throws(() => validateRawInput("pack_pass", { finalPosition: 20, cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, blockedChoices: 4 }), /valid/i, "More than 3 blocked choices should have already ended the run.");
+assert.deepEqual(validateRawInput("pack_pass", { finalPosition: 20, cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, blockedChoices: 3 }), { finalPosition: 20, cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, blockedChoices: 3 }, "Exactly 3 blocked choices (the real ending condition) is valid, not rejected.");
+
+assert.deepEqual(validateRawInput("finish_chute", { correctCount: 8, longestStreak: 5, mistakeCount: 2, totalPrompts: 10, avgResponseMs: 900 }), { correctCount: 8, longestStreak: 5, mistakeCount: 2, totalPrompts: 10, avgResponseMs: 900 });
+assert.throws(() => validateRawInput("finish_chute", { correctCount: 8, longestStreak: 5, mistakeCount: 4, totalPrompts: 12, avgResponseMs: 900 }), /valid/i, "More than 3 mistakes should have already ended the run.");
+assert.throws(() => validateRawInput("finish_chute", { correctCount: 8, longestStreak: 5, mistakeCount: 2, totalPrompts: 9, avgResponseMs: 900 }), /valid/i, "correctCount + mistakeCount cannot exceed totalPrompts.");
+assert.throws(() => validateRawInput("finish_chute", { correctCount: 3, longestStreak: 5, mistakeCount: 0, totalPrompts: 3, avgResponseMs: 900 }), /valid/i, "A streak cannot exceed the total correct count.");
+
+assert.deepEqual(validateRawInput("spike_shuffle", { roundsCompleted: 6, advancedRoundsCompleted: 1 }), { roundsCompleted: 6, advancedRoundsCompleted: 1 });
+assert.throws(() => validateRawInput("spike_shuffle", { roundsCompleted: 3, advancedRoundsCompleted: 4 }), /valid/i, "Advanced rounds cannot exceed total rounds completed.");
+
+assert.deepEqual(validateRawInput("runner_says", { sequenceLengthReached: 6, correctSymbolTaps: 27, fastRoundCount: 4 }), { sequenceLengthReached: 6, correctSymbolTaps: 27, fastRoundCount: 4 });
+assert.throws(() => validateRawInput("runner_says", { sequenceLengthReached: 6, correctSymbolTaps: 27, fastRoundCount: 7 }), /valid/i, "Fast rounds cannot exceed the sequence length reached.");
+
+// --- Scoring for the 7 more games ------------------------------------------
+
+assert.equal(relayStartBand(120), "perfect");
+assert.equal(relayStartBand(121), "great");
+assert.equal(relayPassBand(null), "missed");
+assert.equal(relayPassBand(400), "safe");
+{
+  const perfect = relayExchangeGameScore([0, 0, 0], [0, 0, 0], 1);
+  assert.equal(perfect.score, 4750, "A perfect relay (matches the client's own identically-derived value) must score exactly the spec's own table total.");
+  assert.equal(perfect.perfectCombos, 3);
+}
+
+assert.equal(coneSlalomGameScore(5, 100, true), 5 * 10 + 100 + 50 + 100);
+
+assert.equal(paceBeatBand(70), "perfect");
+assert.equal(paceBeatScore(0), 100);
+{
+  const allPerfect = pacePerfectGameScore(Array(16).fill(0), 0);
+  assert.equal(allPerfect.score, 1600 + 250 + 750 + 250);
+}
+
+assert.equal(packPassGameScore({ cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, finalPosition: 1, blockedChoices: 0 }), 250 + 500 + 1000 + 500);
+
+assert.equal(finishChuteGameScore({ correctCount: 10, longestStreak: 10, mistakeCount: 1, totalPrompts: 11, avgResponseMs: 2000 }), 1000 + 250 + 500, "Streak bonuses stack (>=5 and >=10 both apply), not else-if.");
+
+assert.equal(spikeShuffleGameScore(5, 2), 5 * 250 + 2 * 500 + 1000);
+
+assert.equal(runnerSaysGameScore(5, 0, 0), (100 + 200 + 300 + 400 + 500) + 500);
+
 // --- Guest identity: isValidInstallId / generateGuestLabel -------------
 
 assert.equal(isValidInstallId("3267650b-245e-4627-903a-07c5fd887e80"), true, "A real, correctly-shaped v4 UUID (the exact shape crypto.randomUUID() produces) must be accepted.");
@@ -150,7 +222,7 @@ assert.equal(DAILY_ACTIVITY_POINTS, 10);
 
 // gameScore=0 is the worst real result for every game except memory_match,
 // where lower is BETTER -- tested separately with its own real "worst" value.
-for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner"]) {
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "relay_exchange", "cone_slalom", "pace_perfect", "pack_pass", "finish_chute", "spike_shuffle", "runner_says"]) {
   assert.equal(participationPointsForPlay(gameType, { gameScore: 0 }), MIN_PARTICIPATION_POINTS, `${gameType}: even the worst valid play earns the ${MIN_PARTICIPATION_POINTS}-point floor, never 0.`);
 }
 assert.equal(participationPointsForPlay("memory_match", { gameScore: 30 * 60 * 1000 }), MIN_PARTICIPATION_POINTS, "memory_match: a very slow (but still real, valid) solve earns the participation floor.");
@@ -158,7 +230,7 @@ assert.equal(participationPointsForPlay("memory_match", { gameScore: 0 }), MAX_P
 assert.equal(participationPointsForPlay("photo_finish", { gameScore: 1000 }), MAX_PARTICIPATION_POINTS, "A perfect Photo Finish hit earns the max.");
 assert.equal(participationPointsForPlay("starting_gun", { gameScore: 1000, suspicious: true }), MIN_PARTICIPATION_POINTS, "A suspicious (<150ms) reading is floored to the minimum -- otherwise a scripted 'reaction' would farm the max every round, since Starting Gun's own real per-round wait is the only other friction standing between a bot and the daily cap.");
 assert.equal(participationPointsForPlay("starting_gun", { gameScore: 1000, suspicious: false }), MAX_PARTICIPATION_POINTS, "A genuine (non-suspicious) max-band reading still earns the real max.");
-for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "memory_match"]) {
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "memory_match", "relay_exchange", "cone_slalom", "pace_perfect", "pack_pass", "finish_chute", "spike_shuffle", "runner_says"]) {
   for (const gameScore of [-100, 100000, NaN]) {
     const points = participationPointsForPlay(gameType, { gameScore });
     assert.ok(points >= MIN_PARTICIPATION_POINTS && points <= MAX_PARTICIPATION_POINTS, `${gameType} with a malformed gameScore (${gameScore}) must still clamp into range, never crash or escape [${MIN_PARTICIPATION_POINTS}, ${MAX_PARTICIPATION_POINTS}].`);
@@ -196,12 +268,58 @@ for (const taps of [0, 1, 10, 40, 100, 165]) {
   assert.equal(tapSprintDistanceForTaps(taps), client.tapSprintDistanceForTaps(taps), `Tap Sprint distance must match at taps=${taps}`);
 }
 
+for (const errorMs of [0, 90, 120, 121, 250, 251, 400, 450, 451, 700, 701, -300]) {
+  assert.equal(relayStartBand(errorMs), client.relayStartBand(errorMs), `relayStartBand must match at errorMs=${errorMs}`);
+  assert.equal(relayPassBand(errorMs), client.relayPassBand(errorMs), `relayPassBand must match at errorMs=${errorMs}`);
+}
+assert.equal(relayPassBand(null), client.relayPassBand(null), "relayPassBand must match for a real missed exchange (null).");
+for (const [starts, passes, place] of [[[0, 0, 0], [0, 0, 0], 1], [[900, 900, 900], [null, null, null], 3], [[10, 500, -300], [50, null, 380], 2]]) {
+  assert.deepEqual(relayExchangeGameScore(starts, passes, place), client.relayExchangeGameScore(starts, passes, place), `relayExchangeGameScore must match for (${starts}, ${passes}, ${place})`);
+}
+
+for (const [groups, meters, survived] of [[0, 0, false], [4, 80, false], [5, 100, true], [30, 900, true]]) {
+  assert.equal(coneSlalomGameScore(groups, meters, survived), client.coneSlalomGameScore(groups, meters, survived), `coneSlalomGameScore must match for (${groups}, ${meters}, ${survived})`);
+}
+
+for (const errorMs of [0, 70, 71, 140, 141, 240, 241, -200, null]) {
+  assert.equal(paceBeatBand(errorMs), client.paceBeatBand(errorMs), `paceBeatBand must match at errorMs=${errorMs}`);
+  assert.equal(paceBeatScore(errorMs), client.paceBeatScore(errorMs), `paceBeatScore must match at errorMs=${errorMs}`);
+}
+{
+  const sample = [0, 50, null, 90, 200, null, 0, 0, 0, 0, 150, null, 0, 0, 0, 0];
+  assert.deepEqual(pacePerfectGameScore(sample, 2), client.pacePerfectGameScore(sample, 2), "pacePerfectGameScore must match for a real mixed sample.");
+}
+
+for (const input of [
+  { cleanPasses: 0, narrowPasses: 0, momentumPasses: 0, finalPosition: 20, blockedChoices: 3 },
+  { cleanPasses: 14, narrowPasses: 3, momentumPasses: 2, finalPosition: 1, blockedChoices: 0 },
+  { cleanPasses: 6, narrowPasses: 1, momentumPasses: 0, finalPosition: 8, blockedChoices: 2 }
+]) {
+  assert.equal(packPassGameScore(input), client.packPassGameScore(input), `packPassGameScore must match for ${JSON.stringify(input)}`);
+}
+
+for (const input of [
+  { correctCount: 0, longestStreak: 0, mistakeCount: 0, totalPrompts: 0, avgResponseMs: 0 },
+  { correctCount: 10, longestStreak: 10, mistakeCount: 1, totalPrompts: 11, avgResponseMs: 2000 },
+  { correctCount: 3, longestStreak: 3, mistakeCount: 0, totalPrompts: 3, avgResponseMs: 400 }
+]) {
+  assert.equal(finishChuteGameScore(input), client.finishChuteGameScore(input), `finishChuteGameScore must match for ${JSON.stringify(input)}`);
+}
+
+for (const [rounds, advanced] of [[0, 0], [4, 0], [5, 0], [12, 6]]) {
+  assert.equal(spikeShuffleGameScore(rounds, advanced), client.spikeShuffleGameScore(rounds, advanced), `spikeShuffleGameScore must match for (${rounds}, ${advanced})`);
+}
+
+for (const [len, taps, fast] of [[0, 0, 0], [2, 9, 0], [5, 0, 0], [10, 0, 3]]) {
+  assert.equal(runnerSaysGameScore(len, taps, fast), client.runnerSaysGameScore(len, taps, fast), `runnerSaysGameScore must match for (${len}, ${taps}, ${fast})`);
+}
+
 for (const points of [0, 50, 100, 299, 300, 700, 1199, 3000, 10000, 50000, 16500, 20000]) {
   assert.deepEqual(levelForPoints(points), client.levelForPoints(points), `Level must match at points=${points}`);
 }
 assert.deepEqual(LEVELS, client.LEVELS, "The launch level table itself must be byte-identical between client and server.");
 
-for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "memory_match"]) {
+for (const gameType of ["photo_finish", "starting_gun", "hurdle_dash", "tap_sprint", "beat_the_runner", "memory_match", "relay_exchange", "cone_slalom", "pace_perfect", "pack_pass", "finish_chute", "spike_shuffle", "runner_says"]) {
   for (const gameScore of [0, 1, 50, 500, 900, 1000, 6000, 25000]) {
     for (const suspicious of [false, true]) {
       assert.equal(
@@ -222,4 +340,5 @@ console.log("tapSprintDistanceForTaps checked against real values, and in client
 console.log("isValidInstallId checked: real v4 UUIDs accepted case-insensitively, every malformed/wrong-type/trailing-garbage value rejected.");
 console.log("generateGuestLabel checked: the exact promised \"podiumwatchguest####\" shape, both real boundary values (1000 and 9999) via an injected random function, and a 200-sample spread staying in range.");
 console.log("participationPointsForPlay checked: every game's real floor/max/scaling, the suspicious-Starting-Gun anti-farm floor, malformed-input safety, and client/server parity.");
-console.log("Client/server scoring parity checked across a real range of inputs for every scoring function and the full level table -- the two independent copies (one for instant client feedback, one server-authoritative) cannot silently drift apart without this test catching it.");
+console.log("validateRawInput checked for all 7 more games: every real structural/range constraint (exactly 3 relay exchanges, exactly 16 pace beats, position 1-20, the real blocked-choices/mistake-count ending conditions, streak-cannot-exceed-total relationships) and client/server scoring parity for every one of them.");
+console.log("Client/server scoring parity checked across a real range of inputs for every scoring function (all 13 games) and the full level table -- the two independent copies (one for instant client feedback, one server-authoritative) cannot silently drift apart without this test catching it.");

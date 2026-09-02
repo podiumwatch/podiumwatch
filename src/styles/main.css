@@ -835,7 +835,101 @@ p { margin-top: 0; }
 .pp-world-record-note { font-weight: 400; color: var(--muted); }
 .pp-world-record-holder { color: var(--muted); font-size: .8rem; }
 .pp-vote-again { position: sticky; bottom: 12px; width: 100%; margin-top: 18px; box-shadow: var(--shadow); }
-@media (prefers-reduced-motion: reduce) { .pp-result-celebrate { animation: none; } .pp-cooldown-ring::before { transition: none; } }
+
+/* Relay Exchange (2026-09-02) -- a real oval "stadium" track built from a
+   pure parametric point function (relayStadiumPoint), not an image or a
+   game framework. The zoom-toward-exchange "camera" is a modest scale on
+   the track container only -- the action button lives outside it, so it
+   never shifts under the player's thumb, and the whole effect is skipped
+   entirely under reduced motion (gated in JS, reinforced here). */
+.pp-relay-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-variant-numeric: tabular-nums; font-size: .86rem; }
+.pp-relay-track { position: relative; height: 170px; margin: 10px 0; overflow: hidden; transition: transform .25s ease; transform-origin: 27% 10%; }
+.pp-relay-track-zoomed { transform: scale(1.12); }
+.pp-relay-track-outline { position: absolute; left: 16px; top: 6px; width: 268px; height: 148px; border: 3px solid var(--line); border-radius: 74px; }
+.pp-relay-exchange-marker { position: absolute; left: 78px; top: 14px; width: 4px; height: 34px; background: var(--green); }
+.pp-relay-runner { position: absolute; top: 0; left: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--danger); }
+.pp-relay-runner-player { background: var(--black); width: 22px; height: 22px; margin: -11px 0 0 -11px; z-index: 1; }
+.pp-relay-action-label { margin: 10px 0 6px; font-weight: 700; color: var(--muted); text-align: center; }
+
+/* Cone Slalom (2026-09-02) -- a 3-lane vertically scrolling course. */
+.pp-cs-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-variant-numeric: tabular-nums; font-size: .86rem; }
+.pp-cs-course { position: relative; height: 220px; margin: 10px 0; border: 1px solid var(--line); background: var(--paper); overflow: hidden; }
+.pp-cs-lane { position: absolute; top: 0; bottom: 0; width: calc(100% / 3); border-left: 1px dashed var(--line); }
+.pp-cs-lane[data-pp-cs-lane="0"] { left: 0; border-left: none; }
+.pp-cs-lane[data-pp-cs-lane="1"] { left: calc(100% / 3); }
+.pp-cs-lane[data-pp-cs-lane="2"] { left: calc(200% / 3); }
+.pp-cs-runner { position: absolute; bottom: 10px; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%; background: var(--black); transition: left .18s ease; z-index: 2; }
+.pp-cs-runner-moving { background: var(--green-dark); }
+.pp-cs-group { position: absolute; left: 0; top: -60px; width: 100%; height: 44px; display: grid; grid-template-columns: repeat(3, 1fr); }
+.pp-cs-obstacle { display: grid; place-items: center; font-size: 1.6rem; opacity: 0; }
+.pp-cs-obstacle-active { opacity: 1; }
+
+/* Pace Perfect (2026-09-02) -- a beat pulse timed via CSS animation-
+   duration (set inline to the real beat interval), not per-frame JS. */
+.pp-pace-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-size: .86rem; }
+.pp-pace-target { position: relative; display: grid; place-items: center; width: 100%; min-height: 160px; margin-top: 10px; border: 2px solid var(--line); background: var(--ink); cursor: pointer; touch-action: manipulation; }
+.pp-pace-ring { position: absolute; width: 90px; height: 90px; border: 3px solid var(--green); border-radius: 50%; }
+.pp-pace-pulse { width: 40px; height: 40px; border-radius: 50%; background: var(--green); animation-name: pp-pace-beat; animation-timing-function: linear; animation-iteration-count: infinite; }
+@keyframes pp-pace-beat { 0% { transform: scale(.5); opacity: .5; } 85% { transform: scale(1.3); opacity: 1; } 100% { transform: scale(.5); opacity: .5; } }
+@keyframes pp-pace-beat-reduced { 0% { opacity: .5; } 85% { opacity: 1; } 100% { opacity: .5; } }
+.pp-pace-target-hint { margin: 8px 0 0; color: var(--muted); text-align: center; }
+[data-pp-pace-feedback] { font-weight: 800; }
+[data-pp-pace-feedback][data-band="perfect"] { color: var(--green-dark); }
+[data-pp-pace-feedback][data-band="miss"] { color: var(--danger); }
+
+/* Pack Pass (2026-09-02) -- three lane-choice buttons. */
+.pp-pack-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-variant-numeric: tabular-nums; font-size: .86rem; }
+.pp-pack-lanes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.pp-pack-lane { min-height: 96px; border: 2px solid var(--line); background: var(--white); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 1.05rem; letter-spacing: 1px; cursor: pointer; touch-action: manipulation; }
+.pp-pack-lane-open { border-color: var(--green); background: rgba(15, 175, 104, .12); }
+.pp-pack-lane-blocked { border-color: var(--danger); background: rgba(162, 43, 43, .08); color: var(--muted); }
+
+/* Finish Chute (2026-09-02) -- every pairing shows color AND symbol
+   together, never color alone (a real accessibility requirement here,
+   not just styling). */
+.pp-fc-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-variant-numeric: tabular-nums; font-size: .86rem; }
+.pp-fc-bib { display: grid; place-items: center; gap: 4px; min-height: 100px; margin: 10px 0; border: 2px solid var(--line); transition: background-color .15s ease; }
+.pp-fc-bib-symbol { font-size: 2.4rem; }
+.pp-fc-bib-color { font-size: .78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.pp-fc-bib-green, .pp-fc-control-green { border-color: #0b6b3a; }
+.pp-fc-bib-blue, .pp-fc-control-blue { border-color: #0b3f8f; }
+.pp-fc-bib-red, .pp-fc-control-red { border-color: #7a0b0b; }
+.pp-fc-bib-gold, .pp-fc-control-gold { border-color: #8a5a00; }
+.pp-fc-bib-correct { background: rgba(15, 175, 104, .18); }
+.pp-fc-bib-wrong { background: rgba(162, 43, 43, .14); }
+.pp-fc-controls { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+.pp-fc-control { min-height: 76px; border: 2px solid var(--line); background: var(--white); font-size: 1.8rem; cursor: pointer; touch-action: manipulation; }
+
+/* Spike Shuffle (2026-09-02) -- box position driven entirely by the
+   --pp-ss-slot custom property, updated at the exact swap boundaries the
+   logical spikeShuffleApplySwaps() tracking uses -- CSS never guesses. */
+.pp-ss-boxes { position: relative; height: 110px; margin-top: 14px; --pp-ss-box-count: 3; }
+.pp-ss-box { position: absolute; top: 0; width: calc(100% / var(--pp-ss-box-count) - 10px); height: 90px; left: calc(var(--pp-ss-slot, 0) * (100% / var(--pp-ss-box-count))); border: 2px solid var(--line); background: var(--white); font-size: 2.2rem; cursor: pointer; transition: left .3s ease; touch-action: manipulation; }
+.pp-ss-box:disabled { cursor: default; }
+.pp-ss-box-reveal { border-color: var(--green); background: rgba(15, 175, 104, .14); }
+.pp-ss-box-wrong { border-color: var(--danger); background: rgba(162, 43, 43, .14); }
+
+/* Runner Says (2026-09-02) -- four large, color-and-icon-distinct
+   controls; never relies on color alone (each has its own icon and
+   accessible label too). */
+.pp-rs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+.pp-rs-symbol { min-height: 84px; border: 2px solid var(--line); background: var(--white); font-size: 2rem; cursor: pointer; touch-action: manipulation; transition: background-color .12s ease, transform .12s ease; }
+.pp-rs-symbol:disabled { cursor: default; }
+.pp-rs-symbol-shoe { border-color: #0b6b3a; }
+.pp-rs-symbol-stopwatch { border-color: #0b3f8f; }
+.pp-rs-symbol-medal { border-color: #8a5a00; }
+.pp-rs-symbol-trophy { border-color: #7a0b0b; }
+.pp-rs-symbol-active { background: var(--green); transform: scale(1.08); }
+.pp-rs-symbol-reveal { background: rgba(162, 43, 43, .14); border-color: var(--danger); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-result-celebrate { animation: none; }
+  .pp-cooldown-ring::before { transition: none; }
+  .pp-relay-track { transition: none; }
+  .pp-relay-track-zoomed { transform: none; }
+  .pp-pace-pulse { animation-name: pp-pace-beat-reduced; }
+  .pp-rs-symbol-active { transform: none; }
+}
 
 .tournament-shell { display: grid; gap: 74px; }
 .source-notice { padding: 22px; color: var(--white); background: var(--green-ink); border-left: 8px solid var(--green); }
