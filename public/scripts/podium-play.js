@@ -419,15 +419,6 @@
     return RELAY_EXCHANGE_LEG_DURATION_MS * (0.94 + randomFn() * 0.12);
   }
 
-  // Fixed "stadium" track paths (an SVG motion path per lane) -- three
-  // concentric rounded-rectangle lanes. Decorative geometry only, never
-  // used for scoring.
-  const RELAY_TRACK_LANE_PATHS = [
-    "M90,44 L230,44 A36,36 0 0 1 230,116 L90,116 A36,36 0 0 1 90,44",
-    "M90,30 L230,30 A50,50 0 0 1 230,130 L90,130 A50,50 0 0 1 90,30",
-    "M90,16 L230,16 A64,64 0 0 1 230,144 L90,144 A64,64 0 0 1 90,16"
-  ];
-
   // --- Cone Slalom (2026-09-02) --------------------------------------------
   const CONE_SLALOM_LANE_COUNT = 3;
   const CONE_SLALOM_LANE_TRANSITION_MS = 180;
@@ -970,7 +961,6 @@
     relayPassBand,
     relayExchangeGameScore,
     relayCpuLegDurationMs,
-    RELAY_TRACK_LANE_PATHS,
     CONE_SLALOM_LANE_COUNT,
     CONE_SLALOM_LANE_TRANSITION_MS,
     CONE_SLALOM_MAX_LANE_SHIFT,
@@ -2638,13 +2628,13 @@
           <span data-pp-relay-place>--</span>
           <span data-pp-relay-time>0.0s</span>
         </div>
-        <div class="pp-relay-track" data-pp-relay-track>
-          <div class="pp-relay-track-outline"></div>
-          <div class="pp-relay-exchange-marker"></div>
-          <div class="pp-relay-runner pp-relay-runner-cpu" data-pp-relay-runner="1"></div>
-          <div class="pp-relay-runner pp-relay-runner-cpu" data-pp-relay-runner="2"></div>
-          <div class="pp-relay-runner pp-relay-runner-player" data-pp-relay-runner="0"></div>
-        </div>
+        <svg class="pp-relay-track" data-pp-relay-track viewBox="0 0 300 160" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Relay track">
+          <path class="pp-relay-track-outline" d="M80,30 L220,30 A50,50 0 0 1 220,130 L80,130 A50,50 0 0 1 80,30" fill="none"></path>
+          <rect class="pp-relay-exchange-marker" x="78" y="14" width="4" height="34"></rect>
+          <circle class="pp-relay-runner pp-relay-runner-cpu" data-pp-relay-runner="1" r="9" cx="150" cy="16"></circle>
+          <circle class="pp-relay-runner pp-relay-runner-cpu" data-pp-relay-runner="2" r="9" cx="150" cy="16"></circle>
+          <circle class="pp-relay-runner pp-relay-runner-player" data-pp-relay-runner="0" r="11" cx="150" cy="44"></circle>
+        </svg>
         <p class="pp-relay-action-label" data-pp-relay-action-label>Get ready...</p>
         <button class="button button-primary pp-stage-action" type="button" data-pp-relay-action disabled>Start Runner</button>
       `;
@@ -2819,9 +2809,15 @@
         if (!ended) raf = requestAnimationFrame(frame);
       }
 
+      // Sets real SVG cx/cy inside the fixed 0-300x0-160 viewBox coordinate
+      // system -- the <svg> itself scales to fit whatever the container's
+      // actual on-screen width is (same technique Hurdle Dash's own canvas
+      // already uses), so this positioning is correct at any real screen
+      // size without needing to measure the container at all.
       function positionRunner(el, progress, radius) {
         const point = relayStadiumPoint(progress, 70, radius);
-        el.style.transform = `translate(${150 + point.x}px, ${80 + point.y}px)`;
+        el.setAttribute("cx", String(150 + point.x));
+        el.setAttribute("cy", String(80 + point.y));
       }
 
       raf = requestAnimationFrame(frame);
@@ -4034,11 +4030,19 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll("[data-weekly-award]").forEach((root) => {
+    // [data-weekly-award] is the Athlete/Team of the Week pages, where the
+    // panel sits inside a section that's hidden whenever there's no
+    // current award period -- games become completely unreachable there
+    // between voting periods (a real user report, 2026-09-02).
+    // [data-podium-play-standalone] (src/pages/podiumplay.mjs, /podium-play/)
+    // is the fix: the exact same panel, initialized the exact same way,
+    // just never nested inside anything that can hide it -- games stay
+    // playable regardless of whether any voting is currently open.
+    document.querySelectorAll("[data-weekly-award], [data-podium-play-standalone]").forEach((root) => {
       try {
         initPanel(root);
       } catch {
-        // Never let Podium Play's own init break the voting page.
+        // Never let Podium Play's own init break the page it's on.
       }
     });
   });

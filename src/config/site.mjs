@@ -59,7 +59,12 @@ export const site = {
     { label: "Voting", items: [
       { label: "Team of the Week", href: "/team-of-the-week/" },
       { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
-      { label: "Fan Poll", href: "/fan-poll/" }
+      { label: "Fan Poll", href: "/fan-poll/" },
+      // Podium Play (2026-09-02): a standalone home for the mini games,
+      // always playable regardless of whether a vote is currently open
+      // -- see src/pages/podiumplay.mjs's own header for why this needed
+      // to exist separately from the weekly award pages.
+      { label: "Podium Play", href: "/podium-play/" }
     ] },
     { label: "More", items: [
       { label: "Stories", href: "/stories/" },
@@ -93,6 +98,7 @@ export const site = {
       { label: "Recruiting", href: "/recruiting/" },
       { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
       { label: "Team of the Week", href: "/team-of-the-week/" },
+      { label: "Podium Play", href: "/podium-play/" },
       { label: "About", href: "/about/" },
       { label: "Privacy", href: "/privacy/" }
     ],

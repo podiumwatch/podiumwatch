@@ -80,6 +80,7 @@ import { teamProfilePage } from "../src/pages/teamprofile.mjs";
 import { teamsPage } from "../src/pages/teams.mjs";
 import { searchPage } from "../src/pages/search.mjs";
 import { athleteOfTheWeekPage, teamOfTheWeekPage } from "../src/pages/weeklyawards.mjs";
+import { podiumPlayPage } from "../src/pages/podiumplay.mjs";
 import { tournamentHubPage } from "../src/pages/tournamenthub.mjs";
 import { ohioSchoolsPage } from "../src/pages/ohioschools.mjs";
 import { claimTeamPage } from "../src/pages/claimteam.mjs";
@@ -783,6 +784,7 @@ for (const athlete of athleteSeedRows) {
 await writePage("/search/", searchPage(site));
 await writePage("/athlete-of-the-week/", athleteOfTheWeekPage(site));
 await writePage("/team-of-the-week/", teamOfTheWeekPage(site));
+await writePage("/podium-play/", podiumPlayPage(site));
   await writePage("/tournament-hub/", tournamentHubPage(site));
   await writePage("/rankings/", rankingsIndexPage());
   await writePage("/rankings/methodology/", rankingMethodologyPage(site));

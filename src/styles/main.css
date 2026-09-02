@@ -836,19 +836,26 @@ p { margin-top: 0; }
 .pp-world-record-holder { color: var(--muted); font-size: .8rem; }
 .pp-vote-again { position: sticky; bottom: 12px; width: 100%; margin-top: 18px; box-shadow: var(--shadow); }
 
-/* Relay Exchange (2026-09-02) -- a real oval "stadium" track built from a
-   pure parametric point function (relayStadiumPoint), not an image or a
-   game framework. The zoom-toward-exchange "camera" is a modest scale on
-   the track container only -- the action button lives outside it, so it
-   never shifts under the player's thumb, and the whole effect is skipped
+/* Relay Exchange (2026-09-02) -- a real oval "stadium" track drawn as SVG
+   with a fixed 0-300x0-160 viewBox (the same "fixed internal coordinate
+   system, scaled to fit via CSS" technique Hurdle Dash's own canvas
+   already uses -- see its own comment). relayStadiumPoint() (JS) computes
+   every runner's position in that same fixed coordinate space, so the
+   whole track is correctly positioned and scaled at ANY real container
+   width without any per-frame measurement -- a fixed-pixel version of
+   this (translate()-positioned divs sized in real px) was the actual bug
+   behind a real user report (2026-09-02): the track only looked right at
+   the one container width it happened to be tuned for, and was visibly
+   broken/misaligned at every other real screen size. The zoom-toward-
+   exchange "camera" is a modest scale on the whole <svg>, skipped
    entirely under reduced motion (gated in JS, reinforced here). */
 .pp-relay-stats { display: flex; justify-content: space-between; margin: 10px 0; font-weight: 800; font-variant-numeric: tabular-nums; font-size: .86rem; }
-.pp-relay-track { position: relative; height: 170px; margin: 10px 0; overflow: hidden; transition: transform .25s ease; transform-origin: 27% 10%; }
+.pp-relay-track { display: block; width: 100%; height: auto; aspect-ratio: 300 / 160; margin: 10px 0; overflow: visible; transition: transform .25s ease; transform-origin: 27% 10%; }
 .pp-relay-track-zoomed { transform: scale(1.12); }
-.pp-relay-track-outline { position: absolute; left: 16px; top: 6px; width: 268px; height: 148px; border: 3px solid var(--line); border-radius: 74px; }
-.pp-relay-exchange-marker { position: absolute; left: 78px; top: 14px; width: 4px; height: 34px; background: var(--green); }
-.pp-relay-runner { position: absolute; top: 0; left: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--danger); }
-.pp-relay-runner-player { background: var(--black); width: 22px; height: 22px; margin: -11px 0 0 -11px; z-index: 1; }
+.pp-relay-track-outline { stroke: var(--line); stroke-width: 3; }
+.pp-relay-exchange-marker { fill: var(--green); }
+.pp-relay-runner { fill: var(--danger); }
+.pp-relay-runner-player { fill: var(--black); }
 .pp-relay-action-label { margin: 10px 0 6px; font-weight: 700; color: var(--muted); text-align: center; }
 
 /* Cone Slalom (2026-09-02) -- a 3-lane vertically scrolling course. */
