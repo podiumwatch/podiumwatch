@@ -1246,11 +1246,6 @@
             <p>Find all 3 matching pairs as fast as you can.</p>
             <button class="button button-primary" type="button" data-pp-play="memory-match">Play</button>
           </div>
-          <div class="pp-game-card" data-pp-game="relay-exchange">
-            <h3>Relay Exchange</h3>
-            <p>Start the runner, then time the baton pass.</p>
-            <button class="button button-primary" type="button" data-pp-play="relay-exchange">Play</button>
-          </div>
           <div class="pp-game-card" data-pp-game="cone-slalom">
             <h3>Cone Slalom</h3>
             <p>Change lanes and avoid every obstacle.</p>
@@ -3977,7 +3972,12 @@
       wireGameButton("tap-sprint", openTapSprint);
       wireGameButton("beat-the-runner", openBeatTheRunner);
       wireGameButton("memory-match", openMemoryMatch);
-      wireGameButton("relay-exchange", openRelayExchange);
+      // Relay Exchange (2026-09-02): taken down -- pulled from
+      // buildPanelMarkup()'s game grid after a real "it's all messed up"
+      // user report, right after an earlier visual fix. Not deleted:
+      // openRelayExchange() and all its pure logic/tests/server-side
+      // scoring stay in place, unreachable from the UI, so it can be
+      // properly re-diagnosed and re-enabled later without a rebuild.
       wireGameButton("cone-slalom", openConeSlalom);
       wireGameButton("pace-perfect", openPacePerfect);
       wireGameButton("pack-pass", openPackPass);
