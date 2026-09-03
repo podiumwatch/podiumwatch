@@ -138,10 +138,66 @@ export function oatcccCoachesPollPage(site) {
     .oatccc-move-down { color: var(--danger); }
     .oatccc-move-none { color: var(--muted); }
     .oatccc-table tbody tr:nth-child(even) { background: #fafafa; }
+    .oatccc-cell-label { display: none; }
 
-    @media (max-width: 560px) {
+    /* Real user report, mobile (2026-09-03): a genuine data table with 5
+       columns has no good way to fit a phone screen -- forcing all 5 into
+       the viewport width squeezed school names into awkward mid-word
+       wraps ("Springbo/ro") and pushed Votes/Move off past the edge.
+       Below this width the table stops being a table visually (each
+       <td> still exists in the DOM, screen readers still get real table
+       semantics) and becomes a two-line card per school instead: rank
+       badge + school name + the move arrow on one line (the three things
+       worth seeing at a glance), points/votes as a smaller second line.
+       flex-wrap does the actual line-breaking -- school's flex-grow
+       consumes all remaining space on line 1, so the two num cells
+       (order 4, after it) have nowhere left to go but line 2. */
+    @media (max-width: 640px) {
       .oatccc-credit { flex-direction: column; align-items: flex-start; }
-      .oatccc-table th, .oatccc-table td { padding: 10px; font-size: 0.9rem; }
+      .oatccc-table-wrap { border-left: none; border-right: none; }
+      .oatccc-table thead { display: none; }
+      .oatccc-table, .oatccc-table tbody { display: block; width: 100%; }
+      .oatccc-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 4px;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .oatccc-table tr:last-child { border-bottom: none; }
+      .oatccc-table td { display: block; padding: 0; border: none; font-size: 1rem; }
+
+      .oatccc-cell-rank {
+        order: 1;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        min-width: 34px;
+        height: 34px;
+        padding: 0 6px;
+        border-radius: 999px;
+        background: var(--black);
+        color: var(--white);
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-size: 1rem;
+      }
+      .oatccc-cell-school { order: 2; flex: 1 1 auto; min-width: 0; font-size: 1.05rem; font-weight: 800; }
+      .oatccc-cell-move { order: 3; flex: 0 0 auto; font-size: 1.05rem; padding-left: 4px; }
+      /* flex-basis: 100% -- not "however much space happens to be left" --
+         is what makes this deterministic: EVERY row gets the exact same
+         3-line shape (badge+school+move, then points, then votes) no
+         matter how long the school name or how many digits the numbers
+         are. The first flex-wrap attempt here left each cell to wrap
+         wherever there happened to be room, which put some rows' numbers
+         on the same line as the school name and others' on a genuinely
+         misaligned 3rd line -- a real, confirmed inconsistency, not
+         guessed, caught by measuring actual rendered cell positions
+         before shipping this. */
+      .oatccc-cell-num { order: 4; flex: 1 1 100%; margin-left: 44px; font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+      .oatccc-cell-label { display: inline; font-weight: 700; color: var(--ink); }
+      .oatccc-cell-label::after { content: ": "; }
     }
   </style>
 
@@ -261,8 +317,8 @@ export function oatcccCoachesPollPage(site) {
         '<tr>' +
           '<td class="oatccc-cell-rank">' + (row.rank != null ? escapeHtml(row.rank) : '--') + '</td>' +
           '<td class="oatccc-cell-school">' + escapeHtml(row.school) + '</td>' +
-          '<td class="oatccc-cell-num">' + (row.points != null ? escapeHtml(row.points) : '--') + '</td>' +
-          '<td class="oatccc-cell-num">' + (row.first_place_votes != null ? escapeHtml(row.first_place_votes) : '--') + '</td>' +
+          '<td class="oatccc-cell-num"><span class="oatccc-cell-label">Points</span>' + (row.points != null ? escapeHtml(row.points) : '--') + '</td>' +
+          '<td class="oatccc-cell-num"><span class="oatccc-cell-label">1st place votes</span>' + (row.first_place_votes != null ? escapeHtml(row.first_place_votes) : '--') + '</td>' +
           '<td class="oatccc-cell-move">' + moveCellHtml(row.rank, previousRows, row.school) + '</td>' +
         '</tr>'
       )).join('');
