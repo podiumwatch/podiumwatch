@@ -21,6 +21,7 @@ import sponsors from "../src/data/sponsors.json" with { type: "json" };
 import ohioSchoolFoundation from "../public/data/ohio-school-foundation-2026-27.json" with { type: "json" };
 import athleteFoundationSeed from "../public/data/athlete-foundation-seed-2026.json" with { type: "json" };
 import preseasonInteractiveData from "../public/data/podium-watch-2026-preseason-interactive-data.json" with { type: "json" };
+import oatcccPollData from "../src/data/oatccc-coaches-poll.json" with { type: "json" };
 import { displaySchoolName } from "../lib/ohio_foundation_service.mjs";
 import {
   copyDirectory,
@@ -137,9 +138,10 @@ function athleteSeedForRankingRow(ranking, row) {
 // rankings loadRankings() produces (a team's simulated score is not an
 // athlete's time/mark, and content/rankings/*.csv has no column for it) --
 // these helpers are what connect the two systems anyway, by classification
-// (gender + division number), for the homepage Power Rankings widget and
-// the /rankings/cross-country/ division pages, both purely by lookup.
-const DIVISION_ROMAN = ["I", "II", "III", "IV"];
+// (gender + division number), for the "2026 preseason team power rankings"
+// callout on the /rankings/cross-country/ division pages, purely by
+// lookup. No longer used for the homepage widget -- see oatcccPowerRows()
+// below for that (2026-09-03).
 const preseasonClassifications = Object.values(preseasonInteractiveData.classifications || {});
 
 function preseasonClassificationFor(genderLower, divisionNumber) {
@@ -152,18 +154,18 @@ function preseasonArticleHref(classification) {
   return `/stories/${classification.articleSlug}/`;
 }
 
-// Top N ranked teams (never an honorable-mention row) for one
-// gender/division, in the [team, label, href] shape the homepage Power
-// Rankings widget already renders.
-function preseasonPowerRows(genderLower, divisionNumber, count = 4) {
-  const classification = preseasonClassificationFor(genderLower, divisionNumber);
-  if (!classification) return [];
-  const href = preseasonArticleHref(classification);
-  const label = `Division ${DIVISION_ROMAN[divisionNumber - 1]} ${classification.gender}`;
-  return classification.raceBoard
-    .filter((row) => row.status === "ranked")
-    .slice(0, count)
-    .map((row) => [row.team, label, href]);
+// Top N teams from the official OATCCC coaches poll (2026-09-03: the
+// homepage widget switched from Podium Watch's own simulated preseason
+// power rankings to the real, weekly-updated OATCCC data, once that
+// poll existed and was live) for one gender/division, in the
+// [team, label, href] shape the homepage widget already renders. Always
+// reads the LAST entry in oatcccPollData.weeks -- the most recent poll
+// -- so this widget updates automatically every time a new week is
+// pushed onto that array, with no code change here.
+function oatcccPowerRows(genderLower, divisionNumber, count = 4) {
+  const latestWeek = oatcccPollData.weeks[oatcccPollData.weeks.length - 1];
+  const rows = (latestWeek.divisions[genderLower] && latestWeek.divisions[genderLower][divisionNumber]) || [];
+  return rows.slice(0, count).map((row) => [row.school, `${row.points} points`, "/rankings/oatccc/"]);
 }
 
 // vercel.json caches everything under /scripts/ and /styles/ for up to an
@@ -334,27 +336,32 @@ function homePage(stories, rankings) {
   const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
   const leadHref = featuredStory ? `/stories/${featuredStory.slug}/` : "/rankings/";
   const leadImage = featuredStory?.featuredImage || storyFallbackImage(featuredStory?.category);
-  // Real 2026 preseason Race Board data (top 4 ranked teams per
-  // classification), not placeholder rows -- see the preseasonPowerRows
-  // helper above and docs/DECISIONS.md, 2026-08-24. Every row links
-  // straight to its own preseason article rather than the generic
-  // /rankings/cross-country/ landing page, since that article is now the
-  // actual source of the numbers being shown.
+  // Real, official OATCCC coaches poll data (top 4 teams per
+  // classification, from that poll's own most recent week) -- replaced
+  // Podium Watch's own simulated preseason power rankings here
+  // (2026-09-03, once the real OATCCC poll existed and was live weekly)
+  // per an explicit request: this homepage widget, and its "See full
+  // rankings" link, should point at the real OATCCC poll, not Podium
+  // Watch's own preseason projection. See oatcccPowerRows() above.
   const powerRankingData = {
     boys: {
-      1: preseasonPowerRows("boys", 1),
-      2: preseasonPowerRows("boys", 2),
-      3: preseasonPowerRows("boys", 3),
-      4: preseasonPowerRows("boys", 4)
+      1: oatcccPowerRows("boys", 1),
+      2: oatcccPowerRows("boys", 2),
+      3: oatcccPowerRows("boys", 3),
+      4: oatcccPowerRows("boys", 4)
     },
     girls: {
-      1: preseasonPowerRows("girls", 1),
-      2: preseasonPowerRows("girls", 2),
-      3: preseasonPowerRows("girls", 3),
-      4: preseasonPowerRows("girls", 4)
+      1: oatcccPowerRows("girls", 1),
+      2: oatcccPowerRows("girls", 2),
+      3: oatcccPowerRows("girls", 3),
+      4: oatcccPowerRows("girls", 4)
     }
   };
   const initialPowerRows = powerRankingData.boys[1].map(([team, label, href], index) => `<a class="power-row" href="${escapeHtml(href)}"><b>${index + 1}</b><span><strong>${escapeHtml(team)}</strong><small>${escapeHtml(label)}</small></span></a>`).join("");
+  // The real current poll's own label (e.g. "Week 1 Poll") -- never
+  // hardcoded, so this stays accurate automatically as new weeks are
+  // added to oatccc-coaches-poll.json with no further code change here.
+  const currentPollLabel = oatcccPollData.weeks[oatcccPollData.weeks.length - 1].pollLabel;
   // Short summary only on the homepage lead card (Phase 5) -- the full
   // description still appears on the story's own page unchanged, this
   // just keeps the homepage card from running long before a visitor
@@ -378,7 +385,7 @@ function homePage(stories, rankings) {
   </div></section>
 
   <section class="home-spotlight"><div class="container home-spotlight-grid">
-    <section class="home-panel power-panel"><div class="home-panel-title"><h2>Power Rankings</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent='Preseason';panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
+    <section class="home-panel power-panel"><div class="home-panel-title"><h2>OATCCC Coaches Poll</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/oatccc/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent=${JSON.stringify(currentPollLabel)};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
     <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
       <div class="home-panel-title"><h2>My Podium</h2><a href="/my-podium/" style="font-size:.68rem;font-weight:900;color:var(--green-dark);">Open &rarr;</a></div>
       <div class="follow-school-panel-body">
