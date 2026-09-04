@@ -1,16 +1,22 @@
 import { layout, pageHero, emptyState } from "../lib/html.mjs";
 
-// Ohio Boys Cross Country Top 250, Class of 2027 -- a cross-country-specific
-// companion to the combined track+XC /recruiting/top-100/ page. Same real
-// Recruit Ratings data (same /api/recruiting/ endpoint, same
-// athlete_recruit_ratings table, same admin tools), just scoped to
-// event_group=cross_country and sized to 250 instead of 100. Rank shown here
-// is this page's own sort position (fastest verified time first), not the
-// API's state_class_rank -- that field is dense_rank()'d across ALL of a
-// class's event groups combined and collapses ties into shared numbers,
-// which reads fine for a top 10-20 but produces visibly repeated ranks
-// across a full 250-athlete spread. Sequential position by sort order is
-// what a "Top 250" list actually means here.
+// Ohio Cross Country Top 250 (boys and girls), Class of 2027 -- a
+// cross-country-specific companion to the combined track+XC
+// /recruiting/top-100/ page. Same real Recruit Ratings data (same
+// /api/recruiting/ endpoint, same athlete_recruit_ratings table, same
+// admin tools), just scoped to event_group=cross_country and sized to
+// 250 instead of 100. Rank shown here is this page's own sort position
+// (fastest verified time first), not the API's state_class_rank -- that
+// field is dense_rank()'d across ALL of a class's event groups combined
+// and collapses ties into shared numbers, which reads fine for a top
+// 10-20 but produces visibly repeated ranks across a full 250-athlete
+// spread. Sequential position by sort order is what a "Top 250" list
+// actually means here.
+const GENDERS = {
+  boys: { label: "Boys", other: "girls", otherLabel: "Girls" },
+  girls: { label: "Girls", other: "boys", otherLabel: "Boys" }
+};
+
 const styles = `
     .top250xc-shell { display:grid; gap:24px; }
     .top250xc-trust { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:20px; border-left:6px solid var(--green); }
@@ -38,11 +44,13 @@ const styles = `
     }
 `;
 
-export function recruitingTop250XcPage(site) {
+export function recruitingTop250XcPage(site, { gender }) {
+  const info = GENDERS[gender];
+
   const content = `${pageHero({
     eyebrow: "Podium Watch Recruiting",
-    title: "Ohio Boys Cross Country Top 250.",
-    description: "The top 250 senior boys cross country recruits in Ohio, ranked by verified 5K time -- no pay to play, no offers affecting the score."
+    title: `Ohio ${info.label} Cross Country Top 250.`,
+    description: `The top 250 senior ${info.label.toLowerCase()} cross country recruits in Ohio, ranked by verified 5K time -- no pay to play, no offers affecting the score.`
   })}
 
   <style>${styles}</style>
@@ -55,36 +63,41 @@ export function recruitingTop250XcPage(site) {
           <h2>Ranked by verified time. No pay to play.</h2>
           <p>This is a preliminary, time-based ranking from verified 2026-season 5K results -- not yet a full editorial evaluation (course difficulty and meet quality aren't factored in). <a href="/recruiting/methodology/">Read the full methodology</a>.</p>
         </div>
+        <div class="gender-tabs">
+          <a href="/recruiting/top-250/boys-cross-country/"${gender === "boys" ? ' aria-current="page"' : ""}>Boys</a>
+          <a href="/recruiting/top-250/girls-cross-country/"${gender === "girls" ? ' aria-current="page"' : ""}>Girls</a>
+        </div>
       </section>
 
       <div class="top100-controls" style="display:flex;flex-wrap:wrap;gap:10px;">
         <a class="button button-outline" href="/recruiting/">Search the full recruiting database</a>
-        <a class="button button-outline" href="/recruiting/top-100/boys/">Combined Boys Top 100</a>
+        <a class="button button-outline" href="/recruiting/top-100/${gender}/">Combined ${info.label} Top 100</a>
         <a class="button button-outline" href="/recruiting/submit-activity/">Report an offer or commitment</a>
       </div>
 
-      <p class="top250xc-message" data-top250xc-message role="status">Loading the Ohio Boys Cross Country Top 250.</p>
+      <p class="top250xc-message" data-top250xc-message role="status">Loading the Ohio ${info.label} Cross Country Top 250.</p>
 
       <div class="ranking-list" data-top250xc-rows></div>
 
       <div data-top250xc-empty hidden>
         ${emptyState({
-          title: "No cross country evaluations published yet",
-          description: "The Boys Cross Country Top 250 is ready -- published Recruit Ratings for the Class of 2027 will appear here automatically, ranked by verified 5K time.",
-          actionLabel: "View the combined Top 100",
-          actionHref: "/recruiting/top-100/boys/"
+          title: `No ${info.label.toLowerCase()} cross country evaluations published yet`,
+          description: `The ${info.label} Cross Country Top 250 is ready -- published Recruit Ratings for the Class of 2027 will appear here automatically, ranked by verified 5K time.`,
+          actionLabel: `View ${info.otherLabel} Cross Country Top 250`,
+          actionHref: `/recruiting/top-250/${info.other}-cross-country/`
         })}
       </div>
     </div>
   </section>
 
+  <script>window.PODIUM_TOP_250_XC_GENDER = ${JSON.stringify(gender)};</script>
   <script src="/scripts/recruiting-top250-xc.js" defer></script>`;
 
   return layout({
     site,
-    title: "Ohio Boys Cross Country Top 250 Recruits",
-    description: "The top 250 Ohio high school senior boys cross country recruits, Class of 2027, ranked by verified 5K time -- evaluated by Podium Watch.",
-    pathname: "/recruiting/top-250/boys-cross-country/",
+    title: `Ohio ${info.label} Cross Country Top 250 Recruits`,
+    description: `The top 250 Ohio high school senior ${info.label.toLowerCase()} cross country recruits, Class of 2027, ranked by verified 5K time -- evaluated by Podium Watch.`,
+    pathname: `/recruiting/top-250/${gender}-cross-country/`,
     content
   });
 }

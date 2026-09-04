@@ -782,7 +782,8 @@ await writePage("/recruiting/", recruitingPage(site));
 await writePage("/recruiting/methodology/", recruitingMethodologyPage(site));
 await writePage("/recruiting/top-100/boys/", recruitingTop100Page(site, { gender: "boys" }));
 await writePage("/recruiting/top-100/girls/", recruitingTop100Page(site, { gender: "girls" }));
-await writePage("/recruiting/top-250/boys-cross-country/", recruitingTop250XcPage(site));
+await writePage("/recruiting/top-250/boys-cross-country/", recruitingTop250XcPage(site, { gender: "boys" }));
+await writePage("/recruiting/top-250/girls-cross-country/", recruitingTop250XcPage(site, { gender: "girls" }));
 await writePage("/recruiting/submit-activity/", submitRecruitingActivityPage(site));
 await writePage("/athlete/", athleteDetailPage(site));
 for (const athlete of athleteSeedRows) {

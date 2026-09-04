@@ -1,7 +1,8 @@
-// Ohio Boys Cross Country Top 250 -- calls the exact same /api/recruiting/
-// endpoint the general searchable database and the combined Top 100 page
-// use, just scoped to graduation_year=2027, gender=boys, event_group=
-// cross_country, page_size=250. Rank shown is this page's own sort
+// Ohio Cross Country Top 250 (boys and girls) -- calls the exact same
+// /api/recruiting/ endpoint the general searchable database and the
+// combined Top 100 page use, just scoped to graduation_year=2027, the
+// gender this page instance was built for (window.PODIUM_TOP_250_XC_GENDER),
+// event_group=cross_country, page_size=250. Rank shown is this page's own sort
 // position (array index), not the API's state_class_rank -- that field is
 // dense_rank()'d across a class's combined event groups and collapses tied
 // scores into shared numbers, which reads fine at Top 100 scale but shows
@@ -13,6 +14,7 @@
   const root = document.querySelector("[data-top250xc]");
   if (!root) return;
 
+  const gender = window.PODIUM_TOP_250_XC_GENDER === "girls" ? "girls" : "boys";
   const rowsBox = root.querySelector("[data-top250xc-rows]");
   const emptyBox = root.querySelector("[data-top250xc-empty]");
   const message = root.querySelector("[data-top250xc-message]");
@@ -132,7 +134,7 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         graduation_year: 2027,
-        gender: "boys",
+        gender,
         event_group: "cross_country",
         sort: "rating",
         page,
@@ -151,7 +153,7 @@
 
   async function load() {
     message.hidden = false;
-    message.textContent = "Loading the Ohio Boys Cross Country Top 250.";
+    message.textContent = "Loading the Ohio " + (gender === "girls" ? "Girls" : "Boys") + " Cross Country Top 250.";
     message.dataset.tone = "";
     rowsBox.innerHTML = "";
     emptyBox.hidden = true;

@@ -70,7 +70,7 @@ export function recruitingTop100Page(site, { gender }) {
           </select>
         </label>
         <a class="button button-outline" href="/recruiting/">Search the full recruiting database</a>
-        <a class="button button-outline" href="/recruiting/top-250/boys-cross-country/">Boys Cross Country Top 250</a>
+        <a class="button button-outline" href="/recruiting/top-250/${gender}-cross-country/">${info.label} Cross Country Top 250</a>
         <a class="button button-outline" href="/recruiting/submit-activity/">Report an offer or commitment</a>
       </div>
 
