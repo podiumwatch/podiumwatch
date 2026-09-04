@@ -75,8 +75,8 @@ export function racePublicPage(site) {
     }
 
     .race-public-status-live {
-      background: #dc2626;
-      color: #ffffff;
+      background: var(--live-red);
+      color: var(--white);
       animation: race-public-pulse 1.6s ease-in-out infinite;
     }
 
@@ -115,7 +115,7 @@ export function racePublicPage(site) {
     table.race-public-table th,
     table.race-public-table td {
       padding: 12px 14px;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+      border-bottom: 1px solid rgba(var(--black-rgb),0.12);
       text-align: left;
       white-space: nowrap;
     }
@@ -124,7 +124,7 @@ export function racePublicPage(site) {
       text-transform: uppercase;
       font-size: 0.74rem;
       letter-spacing: 0.05em;
-      color: rgba(15, 23, 42, 0.6);
+      color: rgba(var(--black-rgb),0.6);
     }
 
     .race-public-rank {
@@ -139,12 +139,12 @@ export function racePublicPage(site) {
       font-size: 0.72rem;
       font-weight: 800;
       text-transform: uppercase;
-      background: rgba(15, 23, 42, 0.08);
+      background: rgba(var(--black-rgb),0.08);
     }
 
     .race-public-updated {
       font-size: 0.82rem;
-      color: rgba(15, 23, 42, 0.6);
+      color: rgba(var(--black-rgb),0.6);
     }
 
     .race-public-search {
@@ -163,7 +163,7 @@ export function racePublicPage(site) {
       min-width: 0;
       padding: 12px 14px;
       border-radius: 10px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       font: inherit;
       font-size: 1rem;
     }
@@ -221,7 +221,7 @@ export function racePublicPage(site) {
       gap: 12px;
       padding: 16px 20px;
       border-radius: var(--radius);
-      background: rgba(15, 23, 42, 0.05);
+      background: rgba(var(--black-rgb),0.05);
       font-size: 0.9rem;
     }
 
@@ -230,7 +230,7 @@ export function racePublicPage(site) {
       min-width: 0;
       padding: 10px 12px;
       border-radius: 8px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       font: inherit;
     }
 
@@ -275,7 +275,7 @@ export function racePublicPage(site) {
       gap: 3px;
       padding: 10px 14px;
       border-radius: 12px;
-      border: 1px solid rgba(15, 23, 42, 0.16);
+      border: 1px solid rgba(var(--black-rgb),0.16);
       background: var(--paper);
       font: inherit;
       font-weight: 700;
@@ -290,7 +290,7 @@ export function racePublicPage(site) {
     }
 
     .race-public-switcher-chip-live {
-      border-color: #dc2626;
+      border-color: var(--live-red);
     }
 
     .race-public-switcher-status {
@@ -302,7 +302,7 @@ export function racePublicPage(site) {
     }
 
     .race-public-switcher-chip-live .race-public-switcher-status {
-      color: #dc2626;
+      color: var(--live-red);
       opacity: 1;
     }
 

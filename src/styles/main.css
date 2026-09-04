@@ -22,6 +22,27 @@
   --radius-card: 14px;
   --pale-green: #e6f5ee;
   --dock-inactive: #d9e2de;
+  /* Split Watch screen audit (2026-09-04): every Split Watch and
+     parent-facing race page (Hub, Plan, Live, Review, Races, Join,
+     the public /race/ page, Guardian Home) was hand-typing its own
+     near-duplicate colors instead of using the palette above --
+     confirmed directly: zero uses of var(--...) across those page
+     templates and 300+ literal hex/rgba values, including a
+     different "brand green" (#00bf63) than --green above and four
+     different near-blacks. Extending the palette here, same pattern
+     as --pale-green/--dock-inactive above, rather than leaving those
+     as ad hoc literals. --green-rgb/--black-rgb/--live-red-rgb exist
+     only so rgba() tints can reference the real brand colors; the
+     --sw-dark-* tokens preserve Live Race Mode's own deliberate,
+     contrast-verified dark timing screen pixel-exact while giving it
+     named, centralized values instead of scattered literals. */
+  --green-rgb: 15, 175, 104;
+  --black-rgb: 9, 9, 9;
+  --live-red: #dc2626;
+  --live-red-rgb: 220, 38, 38;
+  --sw-dark-bg: #0b0b0b;
+  --sw-dark-panel: #17181c;
+  --sw-dark-panel-alt: #1a1a1a;
 }
 
 * { box-sizing: border-box; }

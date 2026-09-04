@@ -39,8 +39,8 @@ export function splitWatchHubPage(site) {
     .sw-panel {
       padding: 24px;
       border-radius: 16px;
-      background: #ffffff;
-      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      background: var(--white);
+      box-shadow: 0 12px 34px rgba(var(--black-rgb),0.08);
     }
 
     .sw-header,
@@ -81,9 +81,9 @@ export function splitWatchHubPage(site) {
       width: 100%;
       margin-top: 8px;
       padding: 12px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       border-radius: 9px;
-      background: #ffffff;
+      background: var(--white);
       font: inherit;
     }
 
@@ -97,7 +97,7 @@ export function splitWatchHubPage(site) {
     .sw-meet-group {
       padding: 16px;
       border-radius: 12px;
-      background: rgba(15, 23, 42, 0.03);
+      background: rgba(var(--black-rgb),0.03);
       display: grid;
       gap: 12px;
     }
@@ -123,16 +123,16 @@ export function splitWatchHubPage(site) {
     .sw-message {
       padding: 14px 16px;
       border-radius: 10px;
-      background: rgba(0, 191, 99, 0.1);
+      background: rgba(var(--green-rgb),0.1);
     }
 
     .sw-race-card {
       display: grid;
       gap: 10px;
       padding: 18px;
-      border: 1px solid rgba(15, 23, 42, 0.14);
+      border: 1px solid rgba(var(--black-rgb),0.14);
       border-radius: 14px;
-      background: #ffffff;
+      background: var(--white);
     }
 
     .sw-race-card h3 {
@@ -143,7 +143,7 @@ export function splitWatchHubPage(site) {
       display: inline-flex;
       padding: 5px 10px;
       border-radius: 999px;
-      background: rgba(0, 191, 99, 0.14);
+      background: rgba(var(--green-rgb),0.14);
       font-size: 0.76rem;
       font-weight: 850;
       text-transform: uppercase;
@@ -151,21 +151,21 @@ export function splitWatchHubPage(site) {
     }
 
     .sw-badge-live {
-      background: #dc2626;
-      color: #ffffff;
+      background: var(--live-red);
+      color: var(--white);
     }
 
     .sw-badge-finished,
     .sw-badge-reviewed {
-      background: #111827;
-      color: #ffffff;
+      background: var(--black);
+      color: var(--white);
     }
 
     .sw-empty {
       padding: 24px;
       text-align: center;
       border-radius: 12px;
-      background: rgba(15, 23, 42, 0.05);
+      background: rgba(var(--black-rgb),0.05);
     }
 
     .sw-spectator-row {
@@ -175,7 +175,7 @@ export function splitWatchHubPage(site) {
       justify-content: space-between;
       gap: 10px;
       padding-top: 10px;
-      border-top: 1px solid rgba(15, 23, 42, 0.1);
+      border-top: 1px solid rgba(var(--black-rgb),0.1);
       font-size: 0.86rem;
     }
 
@@ -197,7 +197,7 @@ export function splitWatchHubPage(site) {
       font-size: 0.78rem;
       padding: 6px 8px;
       border-radius: 8px;
-      border: 1px solid rgba(15, 23, 42, 0.16);
+      border: 1px solid rgba(var(--black-rgb),0.16);
       width: 210px;
     }
 
@@ -205,8 +205,8 @@ export function splitWatchHubPage(site) {
       margin-top: 16px;
       padding: 16px;
       border-radius: 12px;
-      background: rgba(0, 191, 99, 0.12);
-      border: 1px solid rgba(0, 191, 99, 0.35);
+      background: rgba(var(--green-rgb),0.12);
+      border: 1px solid rgba(var(--green-rgb),0.35);
     }
 
     .sw-race-day-reveal p {

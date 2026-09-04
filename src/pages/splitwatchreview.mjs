@@ -27,34 +27,34 @@ export function splitWatchReviewPage(site) {
 
     .sw-shell, .sw-grid { display: grid; gap: 20px; }
     .sw-grid { grid-template-columns: minmax(0, 1fr); }
-    .sw-panel { padding: 24px; border-radius: 16px; background: #ffffff; box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08); }
+    .sw-panel { padding: 24px; border-radius: 16px; background: var(--white); box-shadow: 0 12px 34px rgba(var(--black-rgb),0.08); }
     .sw-header { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
     .sw-header h2 { margin-bottom: 0; }
     .sw-race-switcher-label { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 700; }
-    .sw-race-switcher-select { padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.22); background: #ffffff; font: inherit; }
-    .sw-message { padding: 14px 16px; border-radius: 10px; background: rgba(0, 191, 99, 0.1); }
+    .sw-race-switcher-select { padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(var(--black-rgb),0.22); background: var(--white); font: inherit; }
+    .sw-message { padding: 14px 16px; border-radius: 10px; background: rgba(var(--green-rgb),0.1); }
 
     /* Rehearsal Mode (race day build plan, Project 1) -- never relies on
        color alone; the words REHEARSAL MODE are the actual signal. */
     .sw-rehearsal-review-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 16px; border-radius: 10px; background: #fff3cd; color: #664500; border: 2px solid #ffb800; font-size: 0.9rem; }
 
     .sw-stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 16px 0; }
-    .sw-stat { padding: 16px; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
+    .sw-stat { padding: 16px; border-radius: 12px; background: rgba(var(--black-rgb),0.05); }
     .sw-stat strong { display: block; font-size: 1.5rem; }
     .sw-stat span { display: block; margin-top: 6px; font-weight: 700; font-size: 0.85rem; }
 
     .sw-review-table-wrap { overflow-x: auto; margin-top: 10px; }
     table.sw-review-table { width: 100%; border-collapse: collapse; }
-    table.sw-review-table th, table.sw-review-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(15, 23, 42, 0.1); white-space: nowrap; }
+    table.sw-review-table th, table.sw-review-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(var(--black-rgb),0.1); white-space: nowrap; }
     table.sw-review-table tbody tr { cursor: pointer; }
-    table.sw-review-table tbody tr:hover { background: rgba(15, 23, 42, 0.04); }
+    table.sw-review-table tbody tr:hover { background: rgba(var(--black-rgb),0.04); }
 
     .sw-tag { display: inline-flex; padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 800; }
-    .sw-tag-ahead { background: rgba(0, 191, 99, 0.18); }
+    .sw-tag-ahead { background: rgba(var(--green-rgb),0.18); }
     .sw-tag-on_pace { background: rgba(59, 130, 246, 0.18); }
     .sw-tag-at_risk { background: rgba(245, 158, 11, 0.2); }
     .sw-tag-missed { background: rgba(107, 114, 128, 0.18); }
-    .sw-tag-dns, .sw-tag-dnf { background: rgba(220, 38, 38, 0.14); }
+    .sw-tag-dns, .sw-tag-dnf { background: rgba(var(--live-red-rgb),0.14); }
 
     .sw-individual-detail { display: none; margin-top: 20px; }
     .sw-individual-detail.sw-open { display: block; }

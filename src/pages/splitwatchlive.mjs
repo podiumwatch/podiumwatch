@@ -25,15 +25,15 @@ export function splitWatchLivePage(site) {
     .sw-live-shell {
       min-height: 70vh;
       padding: 16px;
-      background: #0b0b0b;
-      color: #ffffff;
+      background: var(--sw-dark-bg);
+      color: var(--white);
     }
 
     .sw-live-back {
       display: inline-block;
       font-size: 0.78rem;
       opacity: 0.7;
-      color: #ffffff;
+      color: var(--white);
       text-decoration: none;
       padding: 4px 0 10px;
     }
@@ -90,8 +90,8 @@ export function splitWatchLivePage(site) {
       padding: 6px 10px;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.3);
-      background: #1a1a1a;
-      color: #ffffff;
+      background: var(--sw-dark-panel-alt);
+      color: var(--white);
       font: inherit;
     }
 
@@ -103,7 +103,7 @@ export function splitWatchLivePage(site) {
       position: sticky;
       top: 0;
       z-index: 5;
-      background: #0b0b0b;
+      background: var(--sw-dark-bg);
     }
 
     /* Rehearsal Mode (race day build plan, Project 1): stays inside the
@@ -187,11 +187,11 @@ export function splitWatchLivePage(site) {
       background: #9ca3af;
     }
 
-    .sw-status-synced .sw-status-dot { background: #00bf63; }
+    .sw-status-synced .sw-status-dot { background: var(--green); }
     .sw-status-syncing .sw-status-dot { background: #f59e0b; }
     .sw-status-saved .sw-status-dot { background: #3b82f6; }
     .sw-status-offline .sw-status-dot,
-    .sw-status-needs_attention .sw-status-dot { background: #dc2626; }
+    .sw-status-needs_attention .sw-status-dot { background: var(--live-red); }
 
     /* Part of the sticky header above -- impossible to scroll past.
        Built specifically so a volunteer stationed at one fixed
@@ -240,12 +240,12 @@ export function splitWatchLivePage(site) {
       text-align: left;
       background: transparent;
       border: 2px solid rgba(255, 255, 255, 0.35);
-      color: #ffffff;
+      color: var(--white);
     }
 
     .sw-checkpoint-tab-active {
-      background: #00bf63;
-      border-color: #00bf63;
+      background: var(--green);
+      border-color: var(--green);
       color: #06210f;
     }
 
@@ -280,9 +280,9 @@ export function splitWatchLivePage(site) {
       min-height: 52px;
     }
 
-    .sw-live-btn-primary { background: #00bf63; color: #06210f; }
-    .sw-live-btn-outline { background: transparent; border: 2px solid rgba(255, 255, 255, 0.4); color: #ffffff; }
-    .sw-live-btn-danger { background: #dc2626; color: #ffffff; }
+    .sw-live-btn-primary { background: var(--green); color: #06210f; }
+    .sw-live-btn-outline { background: transparent; border: 2px solid rgba(255, 255, 255, 0.4); color: var(--white); }
+    .sw-live-btn-danger { background: var(--live-red); color: var(--white); }
     .sw-live-btn-warning { background: #f59e0b; color: #451a03; }
     .sw-live-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
@@ -343,8 +343,8 @@ export function splitWatchLivePage(site) {
       gap: 6px 10px;
       padding: 10px 14px;
       border-radius: 10px;
-      background: rgba(0, 191, 99, 0.1);
-      border: 1px solid rgba(0, 191, 99, 0.25);
+      background: rgba(var(--green-rgb),0.1);
+      border: 1px solid rgba(var(--green-rgb),0.25);
     }
 
     .sw-recorded-row-manual {
@@ -358,7 +358,7 @@ export function splitWatchLivePage(site) {
 
     @keyframes sw-recorded-flash {
       0% { background: rgba(255, 255, 255, 0.55); }
-      100% { background: rgba(0, 191, 99, 0.1); }
+      100% { background: rgba(var(--green-rgb),0.1); }
     }
 
     .sw-pace-badge {
@@ -372,11 +372,11 @@ export function splitWatchLivePage(site) {
       white-space: nowrap;
     }
 
-    .sw-pace-badge-ahead { background: rgba(0, 191, 99, 0.3); color: #ffffff; }
-    .sw-pace-badge-on_pace { background: rgba(59, 130, 246, 0.35); color: #ffffff; }
+    .sw-pace-badge-ahead { background: rgba(var(--green-rgb),0.3); color: var(--white); }
+    .sw-pace-badge-on_pace { background: rgba(59, 130, 246, 0.35); color: var(--white); }
     /* #111827 text here measured 2.09:1 against this badge's own
        rendered background (rgba(245,158,11,0.4) blended over the
-       page's #0b0b0b) -- fails WCAG AA (needs 4.5:1) by a wide margin,
+       page's var(--sw-dark-bg)) -- fails WCAG AA (needs 4.5:1) by a wide margin,
        found during the overnight accessibility pass. #111827 reads
        fine on the light-background pages' equivalent tag (an OPAQUE
        light background there), but on this dark page the same badge
@@ -384,8 +384,8 @@ export function splitWatchLivePage(site) {
        dark-on-dark is nearly unreadable -- exactly the "Behind target"
        flag a coach most needs to actually see. White text (matching
        the other three pace badges) measures 8.50:1 here. */
-    .sw-pace-badge-at_risk { background: rgba(245, 158, 11, 0.4); color: #ffffff; }
-    .sw-pace-badge-missed { background: rgba(220, 38, 38, 0.4); color: #ffffff; }
+    .sw-pace-badge-at_risk { background: rgba(245, 158, 11, 0.4); color: var(--white); }
+    .sw-pace-badge-missed { background: rgba(var(--live-red-rgb),0.4); color: var(--white); }
 
     .sw-recorded-row-name {
       font-weight: 750;
@@ -431,7 +431,7 @@ export function splitWatchLivePage(site) {
       gap: 8px;
       padding: 8px 10px;
       border-radius: 12px;
-      background: #17181c;
+      background: var(--sw-dark-panel);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
@@ -464,7 +464,7 @@ export function splitWatchLivePage(site) {
       font-weight: 850;
       font-size: 1.05rem;
       cursor: pointer;
-      background: #00bf63;
+      background: var(--green);
       color: #06210f;
       min-height: 56px;
       min-width: 96px;
@@ -475,7 +475,7 @@ export function splitWatchLivePage(site) {
       appearance: none;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background: transparent;
-      color: #ffffff;
+      color: var(--white);
       border-radius: 10px;
       min-height: 56px;
       width: 44px;
@@ -497,7 +497,7 @@ export function splitWatchLivePage(site) {
       gap: 10px;
       padding: 14px 16px;
       border-radius: 14px;
-      background: rgba(0, 191, 99, 0.16);
+      background: rgba(var(--green-rgb),0.16);
       min-height: 68px;
     }
 
@@ -522,7 +522,7 @@ export function splitWatchLivePage(site) {
       appearance: none;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background: transparent;
-      color: #ffffff;
+      color: var(--white);
       border-radius: 9px;
       padding: 10px 12px;
       font: inherit;
@@ -547,8 +547,8 @@ export function splitWatchLivePage(site) {
       padding: 12px;
       border-radius: 9px;
       border: 1px solid rgba(255, 255, 255, 0.3);
-      background: #0b0b0b;
-      color: #ffffff;
+      background: var(--sw-dark-bg);
+      color: var(--white);
       font: inherit;
     }
 
@@ -572,8 +572,8 @@ export function splitWatchLivePage(site) {
       max-width: 480px;
       padding: 20px 18px;
       border-radius: 16px;
-      background: rgba(0, 191, 99, 0.14);
-      border: 2px solid #00bf63;
+      background: rgba(var(--green-rgb),0.14);
+      border: 2px solid var(--green);
     }
 
     .sw-start-race-banner-label {
@@ -590,7 +590,7 @@ export function splitWatchLivePage(site) {
       font-size: clamp(1.8rem, 8vw, 2.6rem);
       font-weight: 900;
       line-height: 1.05;
-      color: #ffffff;
+      color: var(--white);
     }
 
     .sw-start-switch-row {
@@ -614,19 +614,19 @@ export function splitWatchLivePage(site) {
       padding: 10px 12px;
       border-radius: 9px;
       border: 2px solid rgba(255, 255, 255, 0.5);
-      background: #0b0b0b;
-      color: #ffffff;
+      background: var(--sw-dark-bg);
+      color: var(--white);
       font: inherit;
       font-weight: 700;
       max-width: 100%;
     }
 
-    .sw-sunlight .sw-start-race-banner { background: #eafff2; border-color: #0a6b34; }
+    .sw-sunlight .sw-start-race-banner { background: #eafff2; border-color: var(--green-dark); }
     .sw-sunlight .sw-start-race-banner-label,
-    .sw-sunlight .sw-start-race-banner-name { color: #111111; }
+    .sw-sunlight .sw-start-race-banner-name { color: var(--black); }
     .sw-sunlight .sw-start-switch-row { border-top-color: rgba(0, 0, 0, 0.2); }
-    .sw-sunlight .sw-start-switch-label { color: #111111; }
-    .sw-sunlight .sw-start-switch-select { background: #ffffff; color: #111111; border-color: #111111; }
+    .sw-sunlight .sw-start-switch-label { color: var(--black); }
+    .sw-sunlight .sw-start-switch-select { background: var(--white); color: var(--black); border-color: var(--black); }
 
     /* Deliberately NOT dark-themed like the rest of this page -- the
        dialog is a self-contained light popup (matching every other
@@ -641,7 +641,7 @@ export function splitWatchLivePage(site) {
       border: 0;
       border-radius: 18px;
       box-shadow: 0 28px 100px rgba(0, 0, 0, 0.5);
-      color: #171717;
+      color: var(--ink);
     }
 
     dialog.sw-race-day-dialog::backdrop {
@@ -654,15 +654,15 @@ export function splitWatchLivePage(site) {
 
     .sw-race-day-dialog-body h2,
     .sw-race-day-dialog-body p {
-      color: #171717;
+      color: var(--ink);
     }
 
     .sw-race-day-reveal {
       margin-top: 16px;
       padding: 16px;
       border-radius: 12px;
-      background: rgba(0, 191, 99, 0.12);
-      border: 1px solid rgba(0, 191, 99, 0.35);
+      background: rgba(var(--green-rgb),0.12);
+      border: 1px solid rgba(var(--green-rgb),0.35);
     }
 
     .sw-race-day-reveal p {
@@ -684,8 +684,8 @@ export function splitWatchLivePage(site) {
       letter-spacing: 0.12em;
       padding: 10px 14px;
       border-radius: 8px;
-      background: rgba(15, 23, 42, 0.08);
-      color: #171717;
+      background: rgba(var(--black-rgb),0.08);
+      color: var(--ink);
     }
 
     .sw-item-meta {
@@ -716,13 +716,13 @@ export function splitWatchLivePage(site) {
        data -- see public/scripts/split-watch-live.js's SUNLIGHT_KEY. */
     .sw-live-shell.sw-sunlight {
       background: #f5f5f0;
-      color: #111111;
+      color: var(--black);
     }
 
     .sw-sunlight .sw-live-back,
     .sw-sunlight .sw-live-clock-note,
     .sw-sunlight .sw-checkpoint-indicator-label,
-    .sw-sunlight .sw-empty-note { color: #111111; }
+    .sw-sunlight .sw-empty-note { color: var(--black); }
 
     /* .sw-restart-link's normal amber (#fbbf24, tuned for the dark
        theme) fails contrast against Sunlight Mode's bright background --
@@ -735,36 +735,36 @@ export function splitWatchLivePage(site) {
     .sw-sunlight .sw-live-topbar,
     .sw-sunlight .sw-checkpoint-indicator { border-bottom-color: rgba(0, 0, 0, 0.22); }
 
-    .sw-sunlight .sw-checkpoint-indicator-value { color: #0a6b34; }
+    .sw-sunlight .sw-checkpoint-indicator-value { color: var(--green-dark); }
 
-    .sw-sunlight .sw-status-pill { background: rgba(0, 0, 0, 0.08); color: #111111; }
+    .sw-sunlight .sw-status-pill { background: rgba(0, 0, 0, 0.08); color: var(--black); }
 
     .sw-sunlight .sw-checkpoint-tab {
-      border-color: #111111;
-      color: #111111;
-      background: #ffffff;
+      border-color: var(--black);
+      color: var(--black);
+      background: var(--white);
     }
 
     .sw-sunlight .sw-checkpoint-tab-active {
-      background: #00bf63;
-      border-color: #0a6b34;
+      background: var(--green);
+      border-color: var(--green-dark);
       color: #06210f;
     }
 
-    .sw-sunlight .sw-live-btn-outline { border-color: #111111; color: #111111; background: #ffffff; }
-    .sw-sunlight .sw-live-message { background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.2); color: #111111; }
+    .sw-sunlight .sw-live-btn-outline { border-color: var(--black); color: var(--black); background: var(--white); }
+    .sw-sunlight .sw-live-message { background: var(--white); border: 1px solid rgba(0, 0, 0, 0.2); color: var(--black); }
 
-    .sw-sunlight .sw-runner-card { background: #ffffff; border-color: #111111; }
-    .sw-sunlight .sw-runner-name { color: #111111; }
-    .sw-sunlight .sw-runner-more { border-color: #111111; color: #111111; }
+    .sw-sunlight .sw-runner-card { background: var(--white); border-color: var(--black); }
+    .sw-sunlight .sw-runner-name { color: var(--black); }
+    .sw-sunlight .sw-runner-more { border-color: var(--black); color: var(--black); }
 
-    .sw-sunlight .sw-recorded-row { background: #eafff2; border-color: #0a6b34; color: #111111; }
-    .sw-sunlight .sw-recorded-row-manual { background: #ffffff; border-color: #111111; }
+    .sw-sunlight .sw-recorded-row { background: #eafff2; border-color: var(--green-dark); color: var(--black); }
+    .sw-sunlight .sw-recorded-row-manual { background: var(--white); border-color: var(--black); }
     .sw-sunlight .sw-recorded-row-name,
-    .sw-sunlight .sw-recorded-row-value { color: #111111; }
-    .sw-sunlight .sw-runner-small-btn { border-color: #111111; color: #111111; }
+    .sw-sunlight .sw-recorded-row-value { color: var(--black); }
+    .sw-sunlight .sw-runner-small-btn { border-color: var(--black); color: var(--black); }
 
-    .sw-sunlight .sw-manual-entry input { background: #ffffff; border-color: #111111; color: #111111; }
+    .sw-sunlight .sw-manual-entry input { background: var(--white); border-color: var(--black); color: var(--black); }
 
     /* Sunlight Mode's own confirmation must stay visible against the
        new bright background -- the base @keyframes above animates
@@ -808,7 +808,7 @@ export function splitWatchLivePage(site) {
       justify-content: space-between;
       gap: 12px;
       padding: 14px 0;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+      border-bottom: 1px solid rgba(var(--black-rgb),0.12);
     }
 
     .sw-tools-toggle-row:last-of-type { border-bottom: none; }
@@ -980,7 +980,7 @@ export function splitWatchLivePage(site) {
 
       <label style="display:block;margin-top:14px;font-weight:800;">
         Official clock's current elapsed time (m:ss)
-        <input type="text" data-sw-adjust-clock-input placeholder="e.g. 10:08" style="display:block;width:100%;margin-top:8px;padding:14px;font-size:1.2rem;border:2px solid rgba(15,23,42,0.22);border-radius:9px;font-family:inherit;">
+        <input type="text" data-sw-adjust-clock-input placeholder="e.g. 10:08" style="display:block;width:100%;margin-top:8px;padding:14px;font-size:1.2rem;border:2px solid rgba(var(--black-rgb),0.22);border-radius:9px;font-family:inherit;">
       </label>
 
       <p class="sw-message" data-sw-adjust-clock-message hidden style="margin-top:12px;"></p>

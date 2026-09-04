@@ -29,19 +29,19 @@ export function splitWatchRacesPage(site) {
 
   <style>
     .swr-shell, .swr-list { display: grid; gap: 20px; }
-    .swr-panel { padding: 24px; border-radius: 16px; background: #ffffff; box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08); }
+    .swr-panel { padding: 24px; border-radius: 16px; background: var(--white); box-shadow: 0 12px 34px rgba(var(--black-rgb),0.08); }
     .swr-header { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
     .swr-header h2 { margin-bottom: 0; }
-    .swr-message { padding: 14px 16px; border-radius: 10px; background: rgba(220, 38, 38, 0.12); }
-    .swr-race-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 18px; border: 1px solid rgba(15, 23, 42, 0.14); border-radius: 14px; }
+    .swr-message { padding: 14px 16px; border-radius: 10px; background: rgba(var(--live-red-rgb),0.12); }
+    .swr-race-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 18px; border: 1px solid rgba(var(--black-rgb),0.14); border-radius: 14px; }
     .swr-race-card h3 { margin: 0 0 4px; }
     .swr-race-meta { font-size: 0.85rem; opacity: 0.75; }
-    .swr-badge { display: inline-flex; padding: 5px 10px; border-radius: 999px; background: rgba(0, 191, 99, 0.14); font-size: 0.76rem; font-weight: 850; text-transform: uppercase; letter-spacing: 0.03em; margin-left: 8px; }
-    .swr-badge-live { background: #dc2626; color: #ffffff; }
-    .swr-badge-finished, .swr-badge-reviewed { background: #111827; color: #ffffff; }
-    .swr-empty { padding: 24px; text-align: center; border-radius: 12px; background: rgba(15, 23, 42, 0.05); }
+    .swr-badge { display: inline-flex; padding: 5px 10px; border-radius: 999px; background: rgba(var(--green-rgb),0.14); font-size: 0.76rem; font-weight: 850; text-transform: uppercase; letter-spacing: 0.03em; margin-left: 8px; }
+    .swr-badge-live { background: var(--live-red); color: var(--white); }
+    .swr-badge-finished, .swr-badge-reviewed { background: var(--black); color: var(--white); }
+    .swr-empty { padding: 24px; text-align: center; border-radius: 12px; background: rgba(var(--black-rgb),0.05); }
     .swr-join-field { display: block; margin-top: 14px; font-weight: 800; }
-    .swr-join-field input, .swr-join-field select { display: block; width: 100%; margin-top: 6px; padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.22); font: inherit; font-size: 1rem; }
+    .swr-join-field input, .swr-join-field select { display: block; width: 100%; margin-top: 6px; padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(var(--black-rgb),0.22); font: inherit; font-size: 1rem; }
     .swr-position-option-meta { font-size: 0.85rem; opacity: 0.7; margin-top: 2px; }
   </style>
 

@@ -37,7 +37,7 @@ export function splitWatchJoinPage(site) {
             placeholder="4827"
             autocomplete="off"
             spellcheck="false"
-            style="display:block;width:100%;padding:18px;font-size:2.2rem;font-weight:800;letter-spacing:0.3em;text-align:center;border:2px solid rgba(15,23,42,0.22);border-radius:10px;font-family:inherit;"
+            style="display:block;width:100%;padding:18px;font-size:2.2rem;font-weight:800;letter-spacing:0.3em;text-align:center;border:2px solid rgba(var(--black-rgb),0.22);border-radius:10px;font-family:inherit;"
           >
           <button class="button button-primary" type="submit" style="width:100%;margin-top:16px;font-size:1.1rem;padding:16px;" data-swj-submit>Join</button>
         </form>

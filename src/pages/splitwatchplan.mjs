@@ -50,8 +50,8 @@ export function splitWatchPlanPage(site) {
     .sw-panel {
       padding: 24px;
       border-radius: 16px;
-      background: #ffffff;
-      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      background: var(--white);
+      box-shadow: 0 12px 34px rgba(var(--black-rgb),0.08);
       min-width: 0;
     }
 
@@ -79,8 +79,8 @@ export function splitWatchPlanPage(site) {
     .sw-race-switcher-select {
       padding: 8px 10px;
       border-radius: 8px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
-      background: #ffffff;
+      border: 1px solid rgba(var(--black-rgb),0.22);
+      background: var(--white);
       font: inherit;
     }
 
@@ -88,7 +88,7 @@ export function splitWatchPlanPage(site) {
       margin: 16px 0 22px;
       padding: 16px;
       border-radius: 12px;
-      background: rgba(15, 23, 42, 0.03);
+      background: rgba(var(--black-rgb),0.03);
     }
 
     .sw-bulk-goals h3 {
@@ -115,7 +115,7 @@ export function splitWatchPlanPage(site) {
     table.sw-bulk-goals-table td {
       padding: 8px 10px;
       text-align: left;
-      border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+      border-bottom: 1px solid rgba(var(--black-rgb),0.1);
       white-space: nowrap;
     }
 
@@ -123,7 +123,7 @@ export function splitWatchPlanPage(site) {
       width: 90px;
       padding: 6px 8px;
       border-radius: 6px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       font: inherit;
     }
 
@@ -152,7 +152,7 @@ export function splitWatchPlanPage(site) {
       width: 90px;
       padding: 8px 10px;
       border-radius: 8px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       font: inherit;
     }
 
@@ -179,22 +179,22 @@ export function splitWatchPlanPage(site) {
     .sw-message {
       padding: 14px 16px;
       border-radius: 10px;
-      background: rgba(0, 191, 99, 0.1);
+      background: rgba(var(--green-rgb),0.1);
     }
 
     .sw-badge {
       display: inline-flex;
       padding: 5px 10px;
       border-radius: 999px;
-      background: rgba(0, 191, 99, 0.14);
+      background: rgba(var(--green-rgb),0.14);
       font-size: 0.76rem;
       font-weight: 850;
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
 
-    .sw-badge-live { background: #dc2626; color: #ffffff; }
-    .sw-badge-finished, .sw-badge-reviewed { background: #111827; color: #ffffff; }
+    .sw-badge-live { background: var(--live-red); color: var(--white); }
+    .sw-badge-finished, .sw-badge-reviewed { background: var(--black); color: var(--white); }
 
     .sw-checkpoint-strip {
       display: flex;
@@ -206,7 +206,7 @@ export function splitWatchPlanPage(site) {
     .sw-checkpoint-chip {
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.06);
+      background: rgba(var(--black-rgb),0.06);
       font-size: 0.82rem;
       font-weight: 700;
     }
@@ -223,7 +223,7 @@ export function splitWatchPlanPage(site) {
       align-items: flex-start;
       gap: 12px;
       padding: 14px;
-      border: 1px solid rgba(15, 23, 42, 0.14);
+      border: 1px solid rgba(var(--black-rgb),0.14);
       border-radius: 12px;
     }
 
@@ -265,7 +265,7 @@ export function splitWatchPlanPage(site) {
       align-items: center;
       gap: 10px;
       padding: 10px 12px;
-      border: 1px solid rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(var(--black-rgb),0.12);
       border-radius: 10px;
     }
 
@@ -282,7 +282,7 @@ export function splitWatchPlanPage(site) {
 
     .sw-manual-form input {
       padding: 10px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       border-radius: 9px;
       font: inherit;
     }
@@ -290,9 +290,9 @@ export function splitWatchPlanPage(site) {
     .sw-bulk-panel {
       margin-top: 12px;
       padding: 14px;
-      border: 1px solid rgba(15, 23, 42, 0.14);
+      border: 1px solid rgba(var(--black-rgb),0.14);
       border-radius: 10px;
-      background: rgba(15, 23, 42, 0.03);
+      background: rgba(var(--black-rgb),0.03);
     }
 
     .sw-bulk-panel textarea {
@@ -300,7 +300,7 @@ export function splitWatchPlanPage(site) {
       width: 100%;
       margin-top: 8px;
       padding: 10px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       border-radius: 9px;
       font: inherit;
       resize: vertical;
@@ -315,9 +315,9 @@ export function splitWatchPlanPage(site) {
       display: grid;
       gap: 12px;
       padding: 18px;
-      border: 1px solid rgba(15, 23, 42, 0.14);
+      border: 1px solid rgba(var(--black-rgb),0.14);
       border-radius: 14px;
-      background: #ffffff;
+      background: var(--white);
     }
 
     .sw-participant-summary {
@@ -336,7 +336,7 @@ export function splitWatchPlanPage(site) {
       display: none;
       gap: 14px;
       padding-top: 12px;
-      border-top: 1px solid rgba(15, 23, 42, 0.1);
+      border-top: 1px solid rgba(var(--black-rgb),0.1);
     }
 
     .sw-participant-detail.sw-open {
@@ -362,7 +362,7 @@ export function splitWatchPlanPage(site) {
       width: 100%;
       margin-top: 6px;
       padding: 10px;
-      border: 1px solid rgba(15, 23, 42, 0.22);
+      border: 1px solid rgba(var(--black-rgb),0.22);
       border-radius: 8px;
       font: inherit;
     }
@@ -383,7 +383,7 @@ export function splitWatchPlanPage(site) {
       padding: 24px;
       text-align: center;
       border-radius: 12px;
-      background: rgba(15, 23, 42, 0.05);
+      background: rgba(var(--black-rgb),0.05);
     }
 
     @media (max-width: 900px) {
@@ -405,7 +405,7 @@ export function splitWatchPlanPage(site) {
     }
 
     dialog.sw-race-day-dialog::backdrop {
-      background: rgba(15, 23, 42, 0.72);
+      background: rgba(var(--black-rgb),0.72);
     }
 
     .sw-race-day-dialog-body {
@@ -416,8 +416,8 @@ export function splitWatchPlanPage(site) {
       margin-top: 16px;
       padding: 16px;
       border-radius: 12px;
-      background: rgba(0, 191, 99, 0.12);
-      border: 1px solid rgba(0, 191, 99, 0.35);
+      background: rgba(var(--green-rgb),0.12);
+      border: 1px solid rgba(var(--green-rgb),0.35);
     }
 
     .sw-race-day-reveal p {
@@ -505,12 +505,12 @@ export function splitWatchPlanPage(site) {
                direct link is the fix -- share it with helpers exactly
                like the parent live link below, except this one lands
                helpers straight on this specific rehearsal. -->
-          <div data-sw-rehearsal-share-row style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(15,23,42,0.12);" hidden>
+          <div data-sw-rehearsal-share-row style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(var(--black-rgb),0.12);" hidden>
             <p style="margin:0 0 8px;font-size:0.85rem;opacity:0.8;">
               Practicing with helpers? A race-day code alone won't find this rehearsal -- send them this link instead.
             </p>
             <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
-              <input type="text" readonly data-sw-rehearsal-share-link style="flex:1 1 280px;min-width:0;padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.22);font:inherit;">
+              <input type="text" readonly data-sw-rehearsal-share-link style="flex:1 1 280px;min-width:0;padding:10px 12px;border-radius:8px;border:1px solid rgba(var(--black-rgb),0.22);font:inherit;">
               <button class="button button-outline" type="button" data-sw-rehearsal-share-copy>Copy link</button>
             </div>
           </div>
@@ -532,13 +532,13 @@ export function splitWatchPlanPage(site) {
           </label>
 
           <div data-sw-spectator-link-row style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;" hidden>
-            <input type="text" data-sw-spectator-link readonly style="flex:1 1 320px;min-width:0;padding:10px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.22);font:inherit;">
+            <input type="text" data-sw-spectator-link readonly style="flex:1 1 320px;min-width:0;padding:10px 12px;border-radius:8px;border:1px solid rgba(var(--black-rgb),0.22);font:inherit;">
             <button class="button button-primary" type="button" data-sw-copy-parent-link>Copy parent live link</button>
           </div>
 
           <label style="display:block;margin-top:18px;font-weight:800;max-width:320px;">
             Scheduled race time (optional)
-            <input type="time" data-sw-scheduled-start-input style="display:block;width:100%;margin-top:8px;padding:10px;border:1px solid rgba(15,23,42,0.22);border-radius:8px;font:inherit;">
+            <input type="time" data-sw-scheduled-start-input style="display:block;width:100%;margin-top:8px;padding:10px;border:1px solid rgba(var(--black-rgb),0.22);border-radius:8px;font:inherit;">
           </label>
           <p style="margin-top:6px;font-size:0.85rem;opacity:0.75;max-width:480px;">Shown to parents on the waiting screen before you start timing, alongside this race's own date (<span data-sw-scheduled-start-date></span>). Leave blank if you'd rather not display a time.</p>
         </section>
@@ -557,7 +557,7 @@ export function splitWatchPlanPage(site) {
           <div class="sw-crew-list" data-sw-crew-list style="margin-top:14px;"></div>
           <div class="sw-empty" data-sw-crew-empty hidden>No positions set up yet -- every volunteer can record any checkpoint until you add one.</div>
 
-          <form class="sw-crew-add-form" data-sw-crew-add-form style="margin-top:18px;border-top:1px solid rgba(15,23,42,0.12);padding-top:16px;">
+          <form class="sw-crew-add-form" data-sw-crew-add-form style="margin-top:18px;border-top:1px solid rgba(var(--black-rgb),0.12);padding-top:16px;">
             <h3 style="margin:0 0 10px;">Add a position</h3>
             <div class="sw-fields">
               <label>
