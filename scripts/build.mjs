@@ -108,6 +108,7 @@ import { recruitingTop100Page } from "../src/pages/recruitingtop100.mjs";
 import { recruitingTop250XcPage } from "../src/pages/recruitingtop250xc.mjs";
 import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mjs";
 import { submitRecruitingActivityPage } from "../src/pages/submitrecruitingactivity.mjs";
+import { applyPage } from "../src/pages/apply.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -787,6 +788,7 @@ await writePage("/recruiting/top-100/girls/", recruitingTop100Page(site, { gende
 await writePage("/recruiting/top-250/boys-cross-country/", recruitingTop250XcPage(site, { gender: "boys" }));
 await writePage("/recruiting/top-250/girls-cross-country/", recruitingTop250XcPage(site, { gender: "girls" }));
 await writePage("/recruiting/submit-activity/", submitRecruitingActivityPage(site));
+await writePage("/apply/", applyPage(site));
 await writePage("/athlete/", athleteDetailPage(site));
 for (const athlete of athleteSeedRows) {
   const athletePath = `/athletes/${athlete.profile_slug}/`;
@@ -836,6 +838,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
     { type: "Page", title: "Claim Your Team", subtitle: "Coach and team representative access", href: "/claim-your-team/", searchText: "claim team coach account manage school page roster schedule results" },
     { type: "Page", title: "Submit Results", subtitle: "Send Podium Watch your meet results, no account required", href: "/submit-results/", searchText: "submit results coach timer meet host upload paste hy-tek semi colon delimited" },
     { type: "Page", title: "Submit Timing Results", subtitle: "Timing companies hand off finished results files, no account required", href: "/submit-timing-results/", searchText: "timing company submit results upload pdf csv xlsx hy-tek hy3 file" },
+    { type: "Page", title: "Write for Podium Watch", subtitle: "High school intern writer applications, no account required", href: "/apply/", searchText: "apply intern writer application high school student parent consent" },
     { type: "Page", title: "Ohio Tournament Hub", subtitle: "Boys cross country divisions and track regional sites", href: "/tournament-hub/", searchText: "OHSAA divisions regional sites representation tournament boys cross country track" },
     { type: "Page", title: "Athlete of the Week", subtitle: "Nominate, vote, and view winners", href: "/athlete-of-the-week/", searchText: "athlete week nominations finalists voting winner" },
     { type: "Page", title: "Team of the Week", subtitle: "Nominate, vote, and view winners", href: "/team-of-the-week/", searchText: "team week nominations finalists voting winner boys girls" },

@@ -668,6 +668,15 @@ export function adminOperationsPage(
             >
               Timing Submissions
             </button>
+
+            <button
+              class="button button-outline operations-tab"
+              type="button"
+              data-operations-tab="interns"
+              aria-selected="false"
+            >
+              Intern Applications
+            </button>
           </div>
 
           <section
@@ -1389,6 +1398,97 @@ export function adminOperationsPage(
 
               <div data-timing-submissions-empty hidden>
                 No submissions right now.
+              </div>
+            </article>
+          </section>
+
+          <section
+            class="operations-panel"
+            data-operations-panel="interns"
+            hidden
+          >
+            <article class="info-card operations-card">
+              <div class="operations-card-heading">
+                <div>
+                  <p class="eyebrow">
+                    Intern writer program
+                  </p>
+                  <h2>Applications</h2>
+                  <p>
+                    Submitted at
+                    <code>/apply/</code>, no account
+                    required. Nothing here becomes a writer
+                    automatically -- read each application,
+                    then mark it reviewed, accepted, or
+                    rejected and follow up by email
+                    yourself.
+                  </p>
+                </div>
+
+                <span
+                  class="operations-count"
+                  data-intern-applications-count
+                >
+                  0
+                </span>
+              </div>
+
+              <div
+                class="operations-actions"
+                style="margin-bottom:14px;"
+              >
+                <select
+                  data-intern-applications-status
+                >
+                  <option
+                    value="pending"
+                    selected
+                  >
+                    Pending
+                  </option>
+                  <option value="reviewed">
+                    Reviewed
+                  </option>
+                  <option value="accepted">
+                    Accepted
+                  </option>
+                  <option value="rejected">
+                    Rejected
+                  </option>
+                  <option value="all">
+                    All
+                  </option>
+                </select>
+
+                <button
+                  class="button button-outline"
+                  type="button"
+                  data-intern-applications-refresh
+                >
+                  Refresh
+                </button>
+              </div>
+
+              <div class="operations-table-wrap">
+                <table class="operations-table">
+                  <thead>
+                    <tr>
+                      <th>Submitted</th>
+                      <th>Applicant</th>
+                      <th>Contact</th>
+                      <th>Parent / guardian</th>
+                      <th>Coverage interests</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody data-intern-applications-table></tbody>
+                </table>
+              </div>
+
+              <div data-intern-applications-empty hidden>
+                No applications right now.
               </div>
             </article>
           </section>

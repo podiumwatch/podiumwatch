@@ -38,6 +38,21 @@
   const timingSubmissionsEmpty = document.querySelector(
     "[data-timing-submissions-empty]"
   );
+  const internApplicationsCount = document.querySelector(
+    "[data-intern-applications-count]"
+  );
+  const internApplicationsStatus = document.querySelector(
+    "[data-intern-applications-status]"
+  );
+  const internApplicationsRefresh = document.querySelector(
+    "[data-intern-applications-refresh]"
+  );
+  const internApplicationsTable = document.querySelector(
+    "[data-intern-applications-table]"
+  );
+  const internApplicationsEmpty = document.querySelector(
+    "[data-intern-applications-empty]"
+  );
   const staticData =
     window.PODIUM_OPERATIONS_STATIC || {
       stories: {
@@ -55,6 +70,7 @@
   let state = null;
   let busy = false;
   let timingSubmissions = [];
+  let internApplications = [];
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -1669,6 +1685,161 @@
     });
   }
 
+  function internApplicationRow(application) {
+    const isPending = application.status === "pending";
+    const isTerminal = application.status === "accepted" || application.status === "rejected";
+
+    const actions = [
+      `<button class="button button-outline" type="button" data-intern-view="${escapeHtml(application.id)}">View</button>`
+    ];
+    if (isPending) {
+      actions.push(`<button class="button button-outline" type="button" data-intern-review="${escapeHtml(application.id)}">Mark reviewed</button>`);
+    }
+    if (!isTerminal) {
+      actions.push(`<button class="button button-outline" type="button" data-intern-accept="${escapeHtml(application.id)}">Accept</button>`);
+      actions.push(`<button class="button button-outline" type="button" data-intern-reject="${escapeHtml(application.id)}">Reject</button>`);
+    } else if (application.reviewed_by) {
+      actions.push(`<small>by ${escapeHtml(application.reviewed_by)}</small>`);
+    }
+
+    const coverage = Array.isArray(application.coverage_interests) && application.coverage_interests.length
+      ? application.coverage_interests.map(escapeHtml).join(", ")
+      : "Not specified";
+
+    const detailFields = [
+      application.availability ? `<p><strong>Availability:</strong> ${escapeHtml(application.availability)}</p>` : "",
+      `<p><strong>Why they want to write for Podium Watch:</strong><br>${escapeHtml(application.why_interested).replaceAll("\n", "<br>")}</p>`,
+      `<p><strong>Writing sample:</strong><br>${escapeHtml(application.writing_sample).replaceAll("\n", "<br>")}</p>`,
+      application.portfolio_link ? `<p><strong>Portfolio/link:</strong> <a href="${escapeHtml(application.portfolio_link)}" target="_blank" rel="noopener">${escapeHtml(application.portfolio_link)}</a></p>` : "",
+      application.review_note ? `<p><strong>Review note:</strong> ${escapeHtml(application.review_note)}</p>` : ""
+    ].join("");
+
+    return `<tr>
+      <td>${escapeHtml(formatDate(application.created_at, true))}</td>
+      <td>${escapeHtml(application.full_name)}<br><small>${escapeHtml(application.grade)}, ${escapeHtml(application.school)}</small></td>
+      <td>${escapeHtml(application.email)}${application.phone ? `<br><small>${escapeHtml(application.phone)}</small>` : ""}</td>
+      <td>${escapeHtml(application.parent_name)}<br><small>${escapeHtml(application.parent_email)}</small></td>
+      <td>${coverage}</td>
+      <td>${escapeHtml(titleCaseWord(application.status))}</td>
+      <td>${actions.join(" ")}</td>
+    </tr>
+    <tr data-intern-detail-row="${escapeHtml(application.id)}" hidden>
+      <td colspan="7" style="background:rgba(var(--black-rgb),.03);">${detailFields}</td>
+    </tr>`;
+  }
+
+  async function loadInternApplications() {
+    try {
+      const data = await requestJson(
+        "/api/admin/intern-applications",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            action: "list",
+            status: internApplicationsStatus?.value || "pending"
+          })
+        }
+      );
+
+      internApplications = data.applications || [];
+      internApplicationsTable.innerHTML = internApplications.map(internApplicationRow).join("");
+      internApplicationsEmpty.hidden = internApplications.length > 0;
+      internApplicationsCount.textContent = formatNumber(internApplications.length);
+    } catch (error) {
+      showMessage(error.message || "The intern applications queue could not be loaded.", "error");
+    }
+  }
+
+  if (internApplicationsRefresh) {
+    internApplicationsRefresh.addEventListener("click", () => loadInternApplications());
+  }
+  if (internApplicationsStatus) {
+    internApplicationsStatus.addEventListener("change", () => loadInternApplications());
+  }
+
+  if (internApplicationsTable) {
+    internApplicationsTable.addEventListener("click", async (event) => {
+      const viewButton = event.target.closest("[data-intern-view]");
+      const reviewButton = event.target.closest("[data-intern-review]");
+      const acceptButton = event.target.closest("[data-intern-accept]");
+      const rejectButton = event.target.closest("[data-intern-reject]");
+      if (!viewButton && !reviewButton && !acceptButton && !rejectButton) return;
+
+      const id = viewButton?.dataset.internView ||
+        reviewButton?.dataset.internReview ||
+        acceptButton?.dataset.internAccept ||
+        rejectButton?.dataset.internReject;
+
+      if (viewButton) {
+        const detailRow = internApplicationsTable.querySelector(`[data-intern-detail-row="${CSS.escape(id)}"]`);
+        if (detailRow) detailRow.hidden = !detailRow.hidden;
+        return;
+      }
+
+      if (busy) return;
+
+      if (reviewButton) {
+        setBusy(true);
+        try {
+          await requestJson(
+            "/api/admin/intern-applications",
+            {
+              method: "POST",
+              body: JSON.stringify({ action: "review", application_id: id, status: "reviewed" })
+            }
+          );
+          showMessage("Application marked reviewed.");
+          await loadInternApplications();
+        } catch (error) {
+          showMessage(error.message || "Could not update this application.", "error");
+        } finally {
+          setBusy(false);
+        }
+        return;
+      }
+
+      if (acceptButton) {
+        setBusy(true);
+        try {
+          await requestJson(
+            "/api/admin/intern-applications",
+            {
+              method: "POST",
+              body: JSON.stringify({ action: "review", application_id: id, status: "accepted" })
+            }
+          );
+          showMessage("Application accepted.");
+          await loadInternApplications();
+        } catch (error) {
+          showMessage(error.message || "Could not update this application.", "error");
+        } finally {
+          setBusy(false);
+        }
+        return;
+      }
+
+      if (rejectButton) {
+        if (!window.confirm("Reject this application?")) return;
+        setBusy(true);
+        try {
+          await requestJson(
+            "/api/admin/intern-applications",
+            {
+              method: "POST",
+              body: JSON.stringify({ action: "review", application_id: id, status: "rejected" })
+            }
+          );
+          showMessage("Application rejected.");
+          await loadInternApplications();
+        } catch (error) {
+          showMessage(error.message || "Could not update this application.", "error");
+        } finally {
+          setBusy(false);
+        }
+      }
+    });
+  }
+
   async function checkAuthentication() {
     try {
       const session = await requestJson(
@@ -1683,6 +1854,9 @@
         // A failure here shows its own message without breaking the rest
         // of an already-loaded dashboard.
         await loadTimingSubmissions();
+        // Same isolation reasoning as timing submissions above -- its own
+        // dedicated API, own failure surface.
+        await loadInternApplications();
         return;
       }
 
@@ -1784,6 +1958,7 @@
         announce: true
       });
       loadTimingSubmissions();
+      loadInternApplications();
     }
   );
 
