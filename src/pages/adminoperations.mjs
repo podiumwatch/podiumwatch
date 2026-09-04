@@ -659,6 +659,15 @@ export function adminOperationsPage(
             >
               System
             </button>
+
+            <button
+              class="button button-outline operations-tab"
+              type="button"
+              data-operations-tab="timing"
+              aria-selected="false"
+            >
+              Timing Submissions
+            </button>
           </div>
 
           <section
@@ -1293,6 +1302,94 @@ export function adminOperationsPage(
                 class="operations-list"
                 data-system-issues
               ></div>
+            </article>
+          </section>
+
+          <section
+            class="operations-panel"
+            data-operations-panel="timing"
+            hidden
+          >
+            <article class="info-card operations-card">
+              <div class="operations-card-heading">
+                <div>
+                  <p class="eyebrow">
+                    Timing company intake
+                  </p>
+                  <h2>Pending results submissions</h2>
+                  <p>
+                    Submitted at
+                    <code>/submit-timing-results/</code>,
+                    no account required. Nothing here is
+                    imported automatically -- download and
+                    process each one through the normal
+                    tools yourself, then mark it reviewed.
+                  </p>
+                </div>
+
+                <span
+                  class="operations-count"
+                  data-timing-submissions-count
+                >
+                  0
+                </span>
+              </div>
+
+              <div
+                class="operations-actions"
+                style="margin-bottom:14px;"
+              >
+                <select
+                  data-timing-submissions-status
+                >
+                  <option
+                    value="pending"
+                    selected
+                  >
+                    Pending
+                  </option>
+                  <option value="reviewed">
+                    Reviewed
+                  </option>
+                  <option value="rejected">
+                    Rejected
+                  </option>
+                  <option value="all">
+                    All
+                  </option>
+                </select>
+
+                <button
+                  class="button button-outline"
+                  type="button"
+                  data-timing-submissions-refresh
+                >
+                  Refresh
+                </button>
+              </div>
+
+              <div class="operations-table-wrap">
+                <table class="operations-table">
+                  <thead>
+                    <tr>
+                      <th>Submitted</th>
+                      <th>Meet</th>
+                      <th>Division / level</th>
+                      <th>Timing company</th>
+                      <th>Contact</th>
+                      <th>File</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody data-timing-submissions-table></tbody>
+                </table>
+              </div>
+
+              <div data-timing-submissions-empty hidden>
+                No submissions right now.
+              </div>
             </article>
           </section>
         </div>

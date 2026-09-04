@@ -23,6 +23,21 @@
   const daysSelect = document.querySelector(
     "[data-operations-days]"
   );
+  const timingSubmissionsCount = document.querySelector(
+    "[data-timing-submissions-count]"
+  );
+  const timingSubmissionsStatus = document.querySelector(
+    "[data-timing-submissions-status]"
+  );
+  const timingSubmissionsRefresh = document.querySelector(
+    "[data-timing-submissions-refresh]"
+  );
+  const timingSubmissionsTable = document.querySelector(
+    "[data-timing-submissions-table]"
+  );
+  const timingSubmissionsEmpty = document.querySelector(
+    "[data-timing-submissions-empty]"
+  );
   const staticData =
     window.PODIUM_OPERATIONS_STATIC || {
       stories: {
@@ -39,6 +54,7 @@
 
   let state = null;
   let busy = false;
+  let timingSubmissions = [];
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -1519,6 +1535,140 @@
     }
   }
 
+  function titleCaseWord(value) {
+    return String(value || "").replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+  }
+
+  function formatFileSize(bytes) {
+    const value = Number(bytes) || 0;
+    if (value < 1024) return `${value} B`;
+    if (value < 1024 * 1024) return `${(value / 1024).toFixed(1)} KB`;
+    return `${(value / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  function timingSubmissionRow(submission) {
+    const isPending = submission.status === "pending";
+    const actions = isPending
+      ? `<button class="button button-outline" type="button" data-timing-download="${escapeHtml(submission.id)}">Download</button> ` +
+        `<button class="button button-outline" type="button" data-timing-review="${escapeHtml(submission.id)}">Mark reviewed</button> ` +
+        `<button class="button button-outline" type="button" data-timing-reject="${escapeHtml(submission.id)}">Reject</button>`
+      : `<button class="button button-outline" type="button" data-timing-download="${escapeHtml(submission.id)}">Download</button>` +
+        (submission.reviewed_by ? ` <small>by ${escapeHtml(submission.reviewed_by)}</small>` : "");
+
+    return `<tr>
+      <td>${escapeHtml(formatDate(submission.created_at, true))}</td>
+      <td>${escapeHtml(submission.meet_name)}${submission.meet_date ? `<br><small>${escapeHtml(formatDate(submission.meet_date))}</small>` : ""}</td>
+      <td>${escapeHtml(submission.division_level || "Not listed")}</td>
+      <td>${escapeHtml(submission.timing_company_name)}</td>
+      <td>${escapeHtml(submission.submitter_email)}</td>
+      <td>${escapeHtml(submission.original_filename)}<br><small>${escapeHtml(formatFileSize(submission.file_size_bytes))}</small></td>
+      <td>${escapeHtml(titleCaseWord(submission.status))}</td>
+      <td>${actions}</td>
+    </tr>`;
+  }
+
+  async function loadTimingSubmissions() {
+    try {
+      const data = await requestJson(
+        "/api/admin/timing-submissions",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            action: "list",
+            status: timingSubmissionsStatus?.value || "pending"
+          })
+        }
+      );
+
+      timingSubmissions = data.submissions || [];
+      timingSubmissionsTable.innerHTML = timingSubmissions.map(timingSubmissionRow).join("");
+      timingSubmissionsEmpty.hidden = timingSubmissions.length > 0;
+      timingSubmissionsCount.textContent = formatNumber(timingSubmissions.length);
+    } catch (error) {
+      showMessage(error.message || "The timing submissions queue could not be loaded.", "error");
+    }
+  }
+
+  if (timingSubmissionsRefresh) {
+    timingSubmissionsRefresh.addEventListener("click", () => loadTimingSubmissions());
+  }
+  if (timingSubmissionsStatus) {
+    timingSubmissionsStatus.addEventListener("change", () => loadTimingSubmissions());
+  }
+
+  if (timingSubmissionsTable) {
+    timingSubmissionsTable.addEventListener("click", async (event) => {
+      const downloadButton = event.target.closest("[data-timing-download]");
+      const reviewButton = event.target.closest("[data-timing-review]");
+      const rejectButton = event.target.closest("[data-timing-reject]");
+      if (!downloadButton && !reviewButton && !rejectButton) return;
+      if (busy) return;
+
+      const id = downloadButton?.dataset.timingDownload ||
+        reviewButton?.dataset.timingReview ||
+        rejectButton?.dataset.timingReject;
+
+      if (downloadButton) {
+        setBusy(true);
+        try {
+          const data = await requestJson(
+            "/api/admin/timing-submissions",
+            {
+              method: "POST",
+              body: JSON.stringify({ action: "get_download_url", submission_id: id })
+            }
+          );
+          window.open(data.url, "_blank", "noopener");
+        } catch (error) {
+          showMessage(error.message || "The file could not be downloaded.", "error");
+        } finally {
+          setBusy(false);
+        }
+        return;
+      }
+
+      if (reviewButton) {
+        setBusy(true);
+        try {
+          await requestJson(
+            "/api/admin/timing-submissions",
+            {
+              method: "POST",
+              body: JSON.stringify({ action: "review", submission_id: id, status: "reviewed" })
+            }
+          );
+          showMessage("Submission marked reviewed.");
+          await loadTimingSubmissions();
+        } catch (error) {
+          showMessage(error.message || "Could not update this submission.", "error");
+        } finally {
+          setBusy(false);
+        }
+        return;
+      }
+
+      if (rejectButton) {
+        if (!window.confirm("Reject this submission? It will be removed from the pending queue.")) return;
+        setBusy(true);
+        try {
+          await requestJson(
+            "/api/admin/timing-submissions",
+            {
+              method: "POST",
+              body: JSON.stringify({ action: "review", submission_id: id, status: "rejected" })
+            }
+          );
+          showMessage("Submission rejected.");
+          await loadTimingSubmissions();
+        } catch (error) {
+          showMessage(error.message || "Could not update this submission.", "error");
+        } finally {
+          setBusy(false);
+        }
+      }
+    });
+  }
+
   async function checkAuthentication() {
     try {
       const session = await requestJson(
@@ -1527,6 +1677,12 @@
 
       if (session.authenticated) {
         await loadDashboard();
+        // Kept separate from loadDashboard()/api/admin/operations -- the
+        // timing submissions queue has its own dedicated API and doesn't
+        // touch lib/operations_service.mjs's existing aggregation at all.
+        // A failure here shows its own message without breaking the rest
+        // of an already-loaded dashboard.
+        await loadTimingSubmissions();
         return;
       }
 
@@ -1627,6 +1783,7 @@
       loadDashboard({
         announce: true
       });
+      loadTimingSubmissions();
     }
   );
 
