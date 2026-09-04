@@ -28,23 +28,23 @@
   },
   "crons": [
     {
-      "path": "/api/cron/notifications",
+      "path": "/api/cron/notifications/",
       "schedule": "*/15 * * * *"
     },
     {
-      "path": "/api/cron/weekly-digest",
+      "path": "/api/cron/weekly-digest/",
       "schedule": "0 13 * * 1"
     },
     {
-      "path": "/api/cron/team-instagram-digest",
+      "path": "/api/cron/team-instagram-digest/",
       "schedule": "30 13 * * 1"
     },
     {
-      "path": "/api/cron/finish-timing-scan",
+      "path": "/api/cron/finish-timing-scan/",
       "schedule": "*/15 * * * *"
     },
     {
-      "path": "/api/cron/open-scheduled-nominations",
+      "path": "/api/cron/open-scheduled-nominations/",
       "schedule": "*/15 * * * *"
     }
   ],
