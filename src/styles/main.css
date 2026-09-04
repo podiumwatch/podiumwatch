@@ -487,6 +487,18 @@ p { margin-top: 0; }
 .home-newsletter h3 { margin:8px 0; font-family:Arial,Helvetica,sans-serif; font-size:1.2rem; text-transform:none; }
 .home-newsletter p:not(.eyebrow) { color:#bbc3be; font-size:.75rem; }
 .home-newsletter > a { display:block; padding:10px; color:#07130d; background:#12c77a; text-align:center; font-size:.75rem; font-weight:900; }
+
+/* Intern writer recruitment banner (homepage, between Latest Stories and
+   Latest Rankings) -- uses the site-wide design tokens, not the
+   "professional sports network shell" palette above, since it sits in the
+   general content flow rather than inside that widget grid. */
+.intern-banner { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px; padding:26px 28px; border-radius:14px; background:rgba(var(--green-rgb),.08); border:1px solid rgba(var(--green-rgb),.3); }
+.intern-banner h2 { margin:6px 0 8px; }
+.intern-banner p:not(.eyebrow) { margin:0; max-width:56ch; color:var(--muted); }
+.intern-banner-actions { display:flex; align-items:center; gap:18px; flex-shrink:0; }
+@media (max-width:700px) {
+  .intern-banner { flex-direction:column; align-items:flex-start; }
+}
 .home-lead { overflow:hidden; }
 .home-lead-image { position:relative; display:block; min-height:360px; background:#17201b; }
 .home-lead-image img { width:100%; height:360px; object-fit:cover; }

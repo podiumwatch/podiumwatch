@@ -426,6 +426,15 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
+  <section class="section">
+    <div class="container">
+      <div class="intern-banner">
+        <div><p class="eyebrow">Podium Watch Is Hiring</p><h2>Write for Podium Watch.</h2><p>We're recruiting Ohio high school writers to cover cross country and track and field. Unpaid, no deadline, grades 9-12.</p></div>
+        <div class="intern-banner-actions"><a class="button button-dark" href="/apply/">Apply now</a><a class="text-link" href="/stories/write-for-podium-watch/">Read more ${icon("arrow")}</a></div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="latest-rankings-title">
     <div class="container">
       <div class="section-heading">
