@@ -71,6 +71,7 @@ export function recruitingTop100Page(site, { gender }) {
         </label>
         <a class="button button-outline" href="/recruiting/">Search the full recruiting database</a>
         <a class="button button-outline" href="/recruiting/top-250/boys-cross-country/">Boys Cross Country Top 250</a>
+        <a class="button button-outline" href="/recruiting/submit-activity/">Report an offer or commitment</a>
       </div>
 
       <p class="top100-message" data-top100-message role="status">Loading the Ohio Top 100.</p>

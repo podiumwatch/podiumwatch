@@ -23,6 +23,11 @@ import {
   starRatingForScore
 } from "../../lib/recruiting_service.mjs";
 import { loadOfficialResultsLink } from "../../lib/results_source_service.mjs";
+import {
+  listRecruitingActivityTips,
+  markRecruitingActivityTipPromoted,
+  rejectRecruitingActivityTip
+} from "../../lib/recruiting_tips_service.mjs";
 
 function parseBody(request) {
   if (typeof request.body === "string") {
@@ -186,7 +191,8 @@ async function loadStatus() {
         published_ratings: 0,
         draft_ratings: 0,
         recruiting_activities: 0,
-        failed_imports: 0
+        failed_imports: 0,
+        pending_tips: 0
       },
       events: eventDefinitions(),
       recent_imports: [],
@@ -204,7 +210,8 @@ async function loadStatus() {
     draftResult,
     activityResult,
     failedImportsResult,
-    recentImportsResult
+    recentImportsResult,
+    pendingTipsResult
   ] = await Promise.all([
     supabaseAdmin
       .from("athlete_recruit_rating_methodologies")
@@ -254,7 +261,15 @@ async function loadStatus() {
       .from("athlete_performance_import_batches")
       .select("*")
       .order("created_at", { ascending: false })
-      .limit(20)
+      .limit(20),
+    // A missing recruiting_activity_tips table (install/44 not yet run)
+    // must never break the rest of this dashboard -- handled explicitly
+    // below via isMissingRecruitingFoundationError, not thrown with the
+    // other results.
+    supabaseAdmin
+      .from("recruiting_activity_tips")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "pending")
   ]);
 
   for (const result of [
@@ -272,6 +287,10 @@ async function loadStatus() {
     if (result.error) throw result.error;
   }
 
+  if (pendingTipsResult.error && !isMissingRecruitingFoundationError(pendingTipsResult.error)) {
+    throw pendingTipsResult.error;
+  }
+
   return {
     installed: true,
     migration_path:
@@ -284,7 +303,8 @@ async function loadStatus() {
       published_ratings: Number(publishedResult.count || 0),
       draft_ratings: Number(draftResult.count || 0),
       recruiting_activities: Number(activityResult.count || 0),
-      failed_imports: Number(failedImportsResult.count || 0)
+      failed_imports: Number(failedImportsResult.count || 0),
+      pending_tips: pendingTipsResult.error ? 0 : Number(pendingTipsResult.count || 0)
     },
     methodology: methodologyResult.data,
     events: eventResult.data || [],
@@ -702,10 +722,41 @@ async function saveActivity(body) {
       .eq("id", profileId);
   }
 
+  // Set only when this save originated from a public submission (the
+  // "Pending recruiting tips" panel's "Use this tip" flow) -- marks the
+  // tip promoted, pointing at the real activity row that now exists,
+  // rather than leaving it sitting in the queue forever. Never marks a
+  // tip promoted on its own; only alongside a real activity row actually
+  // being created or updated.
+  const tipId = cleanAthleteText(body.tip_id, 100);
+  if (tipId) {
+    await markRecruitingActivityTipPromoted({
+      tipId,
+      profileId,
+      activityId: result.data.id
+    });
+  }
+
   return {
     activity: result.data,
     context: await loadAthleteContext(profileId)
   };
+}
+
+async function listActivityTips(body) {
+  const status = cleanAthleteText(body.status, 30).toLowerCase() || "pending";
+  const tips = await listRecruitingActivityTips({ status });
+  return { tips };
+}
+
+async function rejectActivityTip(body) {
+  const status = cleanAthleteText(body.status, 30).toLowerCase() || "rejected";
+  const tip = await rejectRecruitingActivityTip({
+    tipId: body.tip_id,
+    status,
+    note: body.review_note
+  });
+  return { tip };
 }
 
 async function archiveActivity(body) {
@@ -1133,6 +1184,10 @@ export default async function handler(request, response) {
       data = await commitImport(body);
     } else if (action === "load_results_link") {
       data = await loadResultsLink(body);
+    } else if (action === "list_activity_tips") {
+      data = await listActivityTips(body);
+    } else if (action === "reject_activity_tip") {
+      data = await rejectActivityTip(body);
     } else {
       fail("Unsupported recruiting admin action.");
     }

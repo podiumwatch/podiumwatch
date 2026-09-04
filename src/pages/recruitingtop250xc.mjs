@@ -60,6 +60,7 @@ export function recruitingTop250XcPage(site) {
       <div class="top100-controls" style="display:flex;flex-wrap:wrap;gap:10px;">
         <a class="button button-outline" href="/recruiting/">Search the full recruiting database</a>
         <a class="button button-outline" href="/recruiting/top-100/boys/">Combined Boys Top 100</a>
+        <a class="button button-outline" href="/recruiting/submit-activity/">Report an offer or commitment</a>
       </div>
 
       <p class="top250xc-message" data-top250xc-message role="status">Loading the Ohio Boys Cross Country Top 250.</p>

@@ -63,7 +63,10 @@ export function recruitingPage(site) {
           <h2>Performance first. No pay to play.</h2>
           <p>Ratings require sourced performance evidence. Offers, school popularity, social following, and payment do not affect the score.</p>
         </div>
-        <a class="button button-outline" href="/recruiting/methodology/">Read the full methodology</a>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <a class="button button-outline" href="/recruiting/methodology/">Read the full methodology</a>
+          <a class="button button-outline" href="/recruiting/submit-activity/">Report an offer or commitment</a>
+        </div>
       </section>
 
       <div class="recruiting-summary" aria-live="polite">

@@ -130,6 +130,7 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
         <section class="info-card athlete-profile-panel" data-athlete-recruit-timeline-panel hidden>
           <div><p class="eyebrow">Recruiting timeline</p><h2>Interest, offers, visits, and commitments</h2></div>
           <div class="athlete-profile-list" data-athlete-recruit-timeline></div>
+          <a class="button button-outline" href="/recruiting/submit-activity/" style="margin-top:10px;">Report an offer or commitment</a>
         </section>
 
         <div class="athlete-profile-grid">

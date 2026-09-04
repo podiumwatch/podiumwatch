@@ -32,10 +32,19 @@
   const comparisonButton = root.querySelector("[data-recruit-comparison-button]");
   const comparisonPanel = root.querySelector("[data-recruit-comparison-panel]");
   const comparisonRows = root.querySelector("[data-recruit-comparison-rows]");
+  const tipsRefreshButton = root.querySelector("[data-tips-refresh]");
+  const tipsStatusFilter = root.querySelector("[data-tips-status-filter]");
+  const tipsRows = root.querySelector("[data-tips-rows]");
+  const tipsEmpty = root.querySelector("[data-tips-empty]");
   let statusData = null;
   let selected = null;
   let importPreview = null;
   let busy = false;
+  // Set by "Use this tip" below, consumed once by renderSelected() the
+  // next time a profile is opened (via the search results this same
+  // action triggers) -- a one-shot handoff, never re-applied on a later,
+  // unrelated profile selection.
+  let pendingTipPrefill = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -124,6 +133,7 @@
     setStat("[data-recruit-stat-drafts]", counts.draft_ratings || 0);
     setStat("[data-recruit-stat-activity]", counts.recruiting_activities || 0);
     setStat("[data-recruit-stat-failed]", counts.failed_imports || 0);
+    setStat("[data-recruit-stat-pending-tips]", counts.pending_tips || 0);
 
     const options = ['<option value="">Choose an event</option>']
       .concat((statusData.events || []).map((event) =>
@@ -228,6 +238,29 @@
 
     activityForm.reset();
     activityForm.elements.profile_id.value = profile.id || "";
+
+    if (pendingTipPrefill) {
+      const tip = pendingTipPrefill;
+      pendingTipPrefill = null;
+      activityForm.elements.activity_type.value = tip.activity_type;
+      activityForm.elements.college_name.value = tip.college_name;
+      activityForm.elements.college_division.value = tip.college_division || "";
+      activityForm.elements.activity_date.value = tip.activity_date || "";
+      activityForm.elements.source_url.value = tip.source_url || "";
+      activityForm.elements.notes.value = [
+        tip.notes,
+        tip.source_url ? "" : null,
+        "Reported by " + (tip.submitter_name || "someone") +
+          (tip.submitter_role ? " (" + tip.submitter_role + ")" : "") +
+          " -- " + (tip.submitter_email || "no email given") +
+          ". Submitted athlete/school as typed: \"" + tip.submitted_athlete_name +
+          "\" / \"" + tip.submitted_school_name + "\"."
+      ].filter(Boolean).join("\n\n");
+      activityForm.elements.tip_id.value = tip.id;
+      activityForm.elements.source_label.value = "Reported to Podium Watch (" + (tip.submitter_role || "submitter") + ")";
+      activityForm.scrollIntoView({ behavior: "smooth", block: "center" });
+      showMessage("Tip loaded into the recruiting activity form below -- review it, then save to publish or keep it private.");
+    }
 
     contentForm.reset();
     contentForm.elements.profile_id.value = profile.id || "";
@@ -1038,5 +1071,84 @@
     }
   });
 
+  // --- pending recruiting tips (public /recruiting/submit-activity/ queue) ---
+
+  function tipRow(tip) {
+    const submittedAt = tip.created_at ? new Date(tip.created_at).toLocaleDateString() : "";
+    const actions = tip.status === "pending"
+      ? '<button class="button button-outline" type="button" data-tip-use="' + escapeHtml(tip.id) + '">Use this tip</button> ' +
+        '<button class="button button-outline" type="button" data-tip-reject="' + escapeHtml(tip.id) + '">Reject</button>'
+      : escapeHtml(titleCase(tip.status)) + (tip.reviewed_by ? " by " + escapeHtml(tip.reviewed_by) : "");
+
+    return "<tr>" +
+      "<td>" + escapeHtml(submittedAt) + "</td>" +
+      "<td>" + escapeHtml(tip.submitted_athlete_name) + "</td>" +
+      "<td>" + escapeHtml(tip.submitted_school_name) + "</td>" +
+      "<td>" + escapeHtml(titleCase(tip.activity_type)) + "</td>" +
+      "<td>" + escapeHtml(tip.college_name) + "</td>" +
+      "<td>" + escapeHtml(tip.submitter_name || "") + (tip.submitter_role ? " (" + escapeHtml(tip.submitter_role) + ")" : "") + "</td>" +
+      "<td>" + actions + "</td>" +
+    "</tr>";
+  }
+
+  async function loadTips() {
+    try {
+      const data = await api({
+        action: "list_activity_tips",
+        status: tipsStatusFilter.value || "pending"
+      });
+      const tips = data.tips || [];
+      tipsRows.innerHTML = tips.map(tipRow).join("");
+      tipsEmpty.hidden = tips.length > 0;
+      tipsRows.dataset.tips = JSON.stringify(tips);
+    } catch (error) {
+      showMessage(error.message, "error");
+    }
+  }
+
+  tipsRefreshButton.addEventListener("click", () => loadTips());
+  tipsStatusFilter.addEventListener("change", () => loadTips());
+
+  tipsRows.addEventListener("click", async (event) => {
+    const useButton = event.target.closest("[data-tip-use]");
+    const rejectButton = event.target.closest("[data-tip-reject]");
+
+    if (!useButton && !rejectButton) return;
+
+    const tips = JSON.parse(tipsRows.dataset.tips || "[]");
+    const id = useButton?.dataset.tipUse || rejectButton?.dataset.tipReject;
+    const tip = tips.find((item) => item.id === id);
+    if (!tip) return;
+
+    if (useButton) {
+      // Stage the tip's details for renderSelected() to apply once a
+      // profile is actually opened -- this never guesses which athlete
+      // it is; the admin still searches and picks the real match, exactly
+      // like opening any other athlete's recruiting profile.
+      pendingTipPrefill = tip;
+      searchForm.elements.search.value = tip.submitted_athlete_name;
+      searchForm.requestSubmit();
+      searchResults.scrollIntoView({ behavior: "smooth", block: "center" });
+      showMessage("Searching for \"" + tip.submitted_athlete_name + "\" -- open the right athlete below to load this tip into the recruiting activity form.");
+      return;
+    }
+
+    if (!window.confirm("Reject this tip? It will be removed from the pending queue.")) return;
+    if (busy) return;
+    setBusy(true);
+
+    try {
+      await api({ action: "reject_activity_tip", tip_id: tip.id, status: "rejected" });
+      showMessage("Tip rejected.");
+      await loadTips();
+      await loadStatus(true);
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
+
   loadStatus();
+  loadTips();
 })();

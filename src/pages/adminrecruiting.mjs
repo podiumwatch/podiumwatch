@@ -63,7 +63,25 @@ export function adminRecruitingPage(site) {
           <article class="recruit-admin-stat"><strong data-recruit-stat-drafts>0</strong><span>Draft ratings</span></article>
           <article class="recruit-admin-stat"><strong data-recruit-stat-activity>0</strong><span>Recruiting activity</span></article>
           <article class="recruit-admin-stat"><strong data-recruit-stat-failed>0</strong><span>Failed imports</span></article>
+          <article class="recruit-admin-stat"><strong data-recruit-stat-pending-tips>0</strong><span>Pending tips</span></article>
         </div>
+
+        <section class="info-card recruit-admin-panel">
+          <div><p class="eyebrow">Public submissions</p><h2>Pending recruiting tips</h2></div>
+          <p class="recruit-admin-help">Athletes, coaches, and fans can report interest, offers, visits, commitments, and signings at /recruiting/submit-activity/ with no account. Nothing here is public until you match it to the right athlete and save it below.</p>
+          <div class="recruit-admin-actions">
+            <button class="button button-outline" type="button" data-tips-refresh>Refresh tips</button>
+            <select data-tips-status-filter>
+              <option value="pending" selected>Pending</option>
+              <option value="promoted">Promoted</option>
+              <option value="rejected">Rejected</option>
+              <option value="spam">Spam</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+          <div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Submitted</th><th>Athlete</th><th>School</th><th>Update</th><th>College</th><th>From</th><th>Action</th></tr></thead><tbody data-tips-rows></tbody></table></div>
+          <div data-tips-empty hidden>No tips right now.</div>
+        </section>
 
         <div class="recruit-admin-grid">
           <section class="info-card recruit-admin-panel">
@@ -166,6 +184,7 @@ export function adminRecruitingPage(site) {
               <form class="recruit-admin-form" data-recruit-activity-form>
                 <input type="hidden" name="profile_id">
                 <input type="hidden" name="activity_id">
+                <input type="hidden" name="tip_id">
                 <div class="recruit-admin-fields">
                   <label>Activity type<select name="activity_type"><option value="interest">Interest</option><option value="offer">Offer</option><option value="visit">Visit</option><option value="commitment">Commitment</option><option value="signing">Signing</option><option value="other">Other</option></select></label>
                   <label>College name<input name="college_name" required></label>
