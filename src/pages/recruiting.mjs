@@ -69,6 +69,12 @@ export function recruitingPage(site) {
         </div>
       </section>
 
+      <div class="gender-tabs" data-recruiting-gender-tabs role="group" aria-label="Filter by gender">
+        <button type="button" data-recruiting-gender-tab="" aria-pressed="true">All athletes</button>
+        <button type="button" data-recruiting-gender-tab="boys" aria-pressed="false">Boys</button>
+        <button type="button" data-recruiting-gender-tab="girls" aria-pressed="false">Girls</button>
+      </div>
+
       <div class="recruiting-summary" aria-live="polite">
         <article><strong data-recruiting-total>0</strong><span>Published recruits</span></article>
         <article><strong data-recruiting-five-stars>0</strong><span>Five star recruits</span></article>

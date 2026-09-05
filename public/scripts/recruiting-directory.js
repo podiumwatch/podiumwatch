@@ -14,6 +14,7 @@
   const next = root.querySelector("[data-recruiting-next]");
   const reset = root.querySelector("[data-recruiting-reset]");
   const eventFilter = root.querySelector("[data-recruiting-event-filter]");
+  const genderTabs = root.querySelectorAll("[data-recruiting-gender-tab]");
   let currentPage = 1;
   let totalPages = 1;
   let busy = false;
@@ -276,14 +277,39 @@
     }
   }
 
+  // Keeps the prominent Boys/Girls/All buttons in sync with whatever the
+  // underlying gender <select> actually holds -- one source of truth (the
+  // form field), two ways to change it (the buttons here, or the full
+  // filter form's own dropdown), so they can never show conflicting
+  // states.
+  function syncGenderTabs() {
+    const currentGender = form.elements.gender ? form.elements.gender.value : "";
+
+    genderTabs.forEach((tab) => {
+      tab.setAttribute("aria-pressed", String(tab.dataset.recruitingGenderTab === currentGender));
+    });
+  }
+
+  genderTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      if (!form.elements.gender) return;
+      form.elements.gender.value = tab.dataset.recruitingGenderTab;
+      syncGenderTabs();
+      currentPage = 1;
+      load(1);
+    });
+  });
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    syncGenderTabs();
     currentPage = 1;
     load(1);
   });
 
   reset.addEventListener("click", () => {
     form.reset();
+    syncGenderTabs();
     currentPage = 1;
     load(1);
   });
@@ -297,5 +323,6 @@
   });
 
   restoreUrl();
+  syncGenderTabs();
   load(currentPage);
 })();

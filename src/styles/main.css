@@ -252,8 +252,8 @@ p { margin-top: 0; }
 .division-card:hover { color: var(--white); background: var(--black); border-color: var(--black); }
 .division-card:hover span { color: #c6c6c6; }
 .gender-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
-.gender-tabs a { min-height: 44px; display: inline-flex; align-items: center; padding: 10px 18px; border: 1px solid var(--ink); font-weight: 800; text-transform: uppercase; }
-.gender-tabs a[aria-current="page"], .gender-tabs a:hover { color: var(--black); background: var(--green); border-color: var(--green); }
+.gender-tabs a, .gender-tabs button { min-height: 44px; display: inline-flex; align-items: center; padding: 10px 18px; border: 1px solid var(--ink); background: var(--white); color: var(--ink); font: inherit; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+.gender-tabs a[aria-current="page"], .gender-tabs a:hover, .gender-tabs button[aria-pressed="true"], .gender-tabs button:hover { color: var(--black); background: var(--green); border-color: var(--green); }
 .ranking-detail-header { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
 .ranking-detail-header h2 { margin-bottom: 0; }
 .ranking-updated { color: var(--muted); font-size: .9rem; }
