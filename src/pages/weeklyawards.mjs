@@ -46,14 +46,14 @@ export function athleteOfTheWeekPage(site) {
   })}
   <section class="section section-paper"><div class="container award-shell" data-weekly-award data-award-type="athlete">
     <div class="info-card award-status" data-award-status><h2>Loading the current week</h2><p>Please wait while Podium Watch checks the current award period.</p></div>
+    <section class="info-card" data-nomination-section hidden>
+      <p class="eyebrow">Nominate an athlete</p><h2>Tell Podium Watch who deserves recognition</h2><p>Use verified meet information. Nominations are reviewed before finalists are published.</p>
+      ${nominationForm}
+    </section>
     <section data-award-current hidden>
       <div class="section-heading"><div><p class="eyebrow">Current week</p><h2 data-award-title>Athlete of the Week</h2><p data-award-deadline></p></div></div>
       <div class="award-finalists" data-award-finalists></div>
       <div class="pp-panel" data-podium-play data-other-contest-href="/team-of-the-week/" data-other-contest-label="Team of the Week"></div>
-    </section>
-    <section class="info-card" data-nomination-section hidden>
-      <p class="eyebrow">Nominate an athlete</p><h2>Tell Podium Watch who deserves recognition</h2><p>Use verified meet information. Nominations are reviewed before finalists are published.</p>
-      ${nominationForm}
     </section>
     ${adSlot(AD_SLOTS.weeklyAwards)}
     <section class="award-archive" aria-labelledby="athlete-winners-title"><div class="section-heading"><div><p class="eyebrow">Past winners</p><h2 id="athlete-winners-title">Athlete of the Week archive</h2></div></div><div class="award-winners" data-award-archive><p>Loading past winners.</p></div></section>
@@ -94,14 +94,14 @@ export function teamOfTheWeekPage(site) {
   })}
   <section class="section section-paper"><div class="container award-shell" data-weekly-award data-award-type="team">
     <div class="info-card award-status" data-award-status><h2>Loading the current week</h2><p>Please wait while Podium Watch checks the current award period.</p></div>
+    <section class="info-card" data-nomination-section hidden>
+      <p class="eyebrow">Nominate a team</p><h2>Share a performance worth celebrating</h2><p>Use verified meet information and explain what made the team achievement stand out.</p>
+      ${nominationForm}
+    </section>
     <section data-award-current hidden>
       <div class="section-heading"><div><p class="eyebrow">Current week</p><h2 data-award-title>Team of the Week</h2><p data-award-deadline></p></div></div>
       <div class="award-finalists" data-award-finalists></div>
       <div class="pp-panel" data-podium-play data-other-contest-href="/athlete-of-the-week/" data-other-contest-label="Athlete of the Week"></div>
-    </section>
-    <section class="info-card" data-nomination-section hidden>
-      <p class="eyebrow">Nominate a team</p><h2>Share a performance worth celebrating</h2><p>Use verified meet information and explain what made the team achievement stand out.</p>
-      ${nominationForm}
     </section>
     ${adSlot(AD_SLOTS.weeklyAwards)}
     <section class="award-archive" aria-labelledby="team-winners-title"><div class="section-heading"><div><p class="eyebrow">Past winners</p><h2 id="team-winners-title">Team of the Week archive</h2></div></div><div class="award-winners" data-award-archive><p>Loading past winners.</p></div></section>
