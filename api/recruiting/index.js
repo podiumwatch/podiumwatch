@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
+import { supabaseAdmin, fetchInChunks } from "../../lib/supabase-admin.mjs";
 import {
   cleanAthleteText,
   normalizeAthleteGender,
@@ -81,13 +81,13 @@ async function loadRecruitingRows() {
   }
 
   const [
-    profilesResult,
-    bestResult,
-    activitiesResult
+    profileRows,
+    bestRows,
+    activityRows
   ] = await Promise.all([
-    supabaseAdmin
-      .from("athlete_profiles")
-      .select(`
+    fetchInChunks(
+      "athlete_profiles",
+      `
         id,
         slug,
         display_name,
@@ -104,15 +104,18 @@ async function loadRecruitingRows() {
         suspended,
         archived_at,
         merged_into_profile_id
-      `)
-      .in("id", profileIds)
-      .eq("public_visible", true)
-      .eq("suspended", false)
-      .is("archived_at", null)
-      .is("merged_into_profile_id", null),
-    supabaseAdmin
-      .from("athlete_best_performances")
-      .select(`
+      `,
+      "id",
+      profileIds,
+      (query) => query
+        .eq("public_visible", true)
+        .eq("suspended", false)
+        .is("archived_at", null)
+        .is("merged_into_profile_id", null)
+    ),
+    fetchInChunks(
+      "athlete_best_performances",
+      `
         id,
         profile_id,
         sport,
@@ -129,12 +132,14 @@ async function loadRecruitingRows() {
         source_label,
         source_url,
         verification_status
-      `)
-      .in("profile_id", profileIds)
-      .limit(10000),
-    supabaseAdmin
-      .from("athlete_recruiting_activity")
-      .select(`
+      `,
+      "profile_id",
+      profileIds,
+      (query) => query.limit(10000)
+    ),
+    fetchInChunks(
+      "athlete_recruiting_activity",
+      `
         id,
         profile_id,
         activity_type,
@@ -145,45 +150,31 @@ async function loadRecruitingRows() {
         verification_status,
         source_label,
         source_url
-      `)
-      .in("profile_id", profileIds)
-      .eq("public_visible", true)
-      .is("archived_at", null)
-      .order("activity_date", { ascending: false })
-      .limit(10000)
+      `,
+      "profile_id",
+      profileIds,
+      (query) => query
+        .eq("public_visible", true)
+        .is("archived_at", null)
+        .order("activity_date", { ascending: false })
+        .limit(10000)
+    )
   ]);
 
-  for (const result of [profilesResult, bestResult, activitiesResult]) {
-    if (result.error) throw result.error;
-  }
+  const profiles = new Map(profileRows.map((row) => [row.id, row]));
+  const schoolIds = [...new Set(profileRows.map((row) => row.current_school_id).filter(Boolean))];
+  const teamIds = [...new Set(profileRows.map((row) => row.current_team_id).filter(Boolean))];
 
-  const profiles = new Map((profilesResult.data || []).map((row) => [row.id, row]));
-  const schoolIds = [...new Set((profilesResult.data || []).map((row) => row.current_school_id).filter(Boolean))];
-  const teamIds = [...new Set((profilesResult.data || []).map((row) => row.current_team_id).filter(Boolean))];
-
-  const [schoolsResult, teamsResult] = await Promise.all([
-    schoolIds.length
-      ? supabaseAdmin
-          .from("ohio_schools")
-          .select("id, school_name, city, athletic_district")
-          .in("id", schoolIds)
-      : Promise.resolve({ data: [], error: null }),
-    teamIds.length
-      ? supabaseAdmin
-          .from("team_pages")
-          .select("id, school_name, slug, city, state, logo_url")
-          .in("id", teamIds)
-      : Promise.resolve({ data: [], error: null })
+  const [schoolRows, teamRows] = await Promise.all([
+    fetchInChunks("ohio_schools", "id, school_name, city, athletic_district", "id", schoolIds),
+    fetchInChunks("team_pages", "id, school_name, slug, city, state, logo_url", "id", teamIds)
   ]);
 
-  if (schoolsResult.error) throw schoolsResult.error;
-  if (teamsResult.error) throw teamsResult.error;
-
-  const schools = new Map((schoolsResult.data || []).map((row) => [row.id, row]));
-  const teams = new Map((teamsResult.data || []).map((row) => [row.id, row]));
+  const schools = new Map(schoolRows.map((row) => [row.id, row]));
+  const teams = new Map(teamRows.map((row) => [row.id, row]));
   const bestByProfile = new Map();
 
-  for (const performance of bestResult.data || []) {
+  for (const performance of bestRows) {
     const list = bestByProfile.get(performance.profile_id) || [];
     list.push(performance);
     bestByProfile.set(performance.profile_id, list);
@@ -191,7 +182,7 @@ async function loadRecruitingRows() {
 
   const activitiesByProfile = new Map();
 
-  for (const activity of activitiesResult.data || []) {
+  for (const activity of activityRows) {
     const list = activitiesByProfile.get(activity.profile_id) || [];
     list.push({
       ...activity,
