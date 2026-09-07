@@ -3,6 +3,8 @@
   const root = document.querySelector("[data-writer-admin-root]");
   const denied = document.querySelector("[data-writer-admin-denied]");
   const rows = document.querySelector("[data-writer-admin-rows]");
+  const inviteForm = document.querySelector("[data-writer-invite-form]");
+  const inviteMessage = document.querySelector("[data-writer-invite-message]");
 
   if (!loadingBox || !root || !denied || !rows) return;
 
@@ -82,6 +84,35 @@
       await loadWriters();
     }
   });
+
+  if (inviteForm) {
+    inviteForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = inviteForm.querySelector('button[type="submit"]');
+      button.disabled = true;
+      inviteMessage.hidden = true;
+
+      try {
+        const result = await writersApi("invite", {
+          email: inviteForm.elements.email.value,
+          full_name: inviteForm.elements.full_name.value
+        });
+        inviteForm.reset();
+        inviteMessage.textContent = result.existing_account
+          ? "Writer access granted -- they already had an account and can sign in at /writer-login/ right away."
+          : "Invite sent. They'll get an email to set their password.";
+        inviteMessage.dataset.tone = "success";
+        inviteMessage.hidden = false;
+        await loadWriters();
+      } catch (error) {
+        inviteMessage.textContent = error.message || "This invite could not be sent.";
+        inviteMessage.dataset.tone = "error";
+        inviteMessage.hidden = false;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
 
   async function load() {
     try {

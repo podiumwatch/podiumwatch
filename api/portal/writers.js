@@ -1,6 +1,6 @@
 import { requirePortalStaff, portalApiError } from "../../lib/portal_auth.mjs";
 import { cleanAthleteText } from "../../lib/athlete_foundation_service.mjs";
-import { listPortalWriters, setPortalRole } from "../../lib/writer_portal_service.mjs";
+import { listPortalWriters, setPortalRole, inviteWriter } from "../../lib/writer_portal_service.mjs";
 
 // Staff-only (portal role editor/admin -- NOT the site's shared admin
 // password): lists every Writer Portal account and lets staff change
@@ -37,6 +37,8 @@ export default async function handler(request, response) {
 
     if (action === "list") {
       data = { writers: await listPortalWriters() };
+    } else if (action === "invite") {
+      data = await inviteWriter({ email: body.email, fullName: body.full_name, invitedBy: user.id });
     } else if (action === "set_role") {
       data = { writer: await setPortalRole({
         profileId: body.profile_id,

@@ -8,6 +8,12 @@ const styles = `
     .writer-admin-table td { padding:12px; border-bottom:1px solid rgba(var(--black-rgb),.1); vertical-align:middle; }
     .writer-admin-role-badge { display:inline-flex; padding:4px 9px; border-radius:999px; background:rgba(var(--green-rgb),.14); font-size:.72rem; font-weight:900; text-transform:uppercase; }
     .writer-admin-role-select { padding:6px 8px; border:1px solid rgba(var(--black-rgb),.22); border-radius:7px; font:inherit; }
+    .writer-admin-invite-form { display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; }
+    .writer-admin-invite-form label { display:grid; gap:5px; font-weight:800; font-size:.85rem; }
+    .writer-admin-invite-form input { padding:9px 10px; border:1px solid rgba(var(--black-rgb),.22); border-radius:8px; font:inherit; min-width:220px; }
+    .writer-admin-message { padding:10px 14px; border-radius:9px; font-weight:700; }
+    .writer-admin-message[data-tone="error"] { background:rgba(220,38,38,.12); color:#7a1414; }
+    .writer-admin-message[data-tone="success"] { background:rgba(var(--green-rgb),.13); color:var(--green-ink); }
 `;
 
 // Staff-only (portal role editor/admin, NOT the site's shared admin
@@ -33,6 +39,17 @@ export function writerPortalAdminPage(site) {
         <a class="button button-outline" href="/writer-portal/">Back to your articles</a>
         <a class="button button-outline" href="/writer-portal/admin/review/">Review queue</a>
       </div>
+
+      <section class="info-card">
+        <p class="eyebrow">Add a writer</p>
+        <h2>Invite a writer</h2>
+        <form class="writer-admin-invite-form" data-writer-invite-form>
+          <label>Email<input type="email" name="email" required maxlength="320"></label>
+          <label>Name (optional)<input type="text" name="full_name" maxlength="200"></label>
+          <button class="button button-primary" type="submit">Send invite</button>
+        </form>
+        <p class="writer-admin-message" data-writer-invite-message role="status" hidden style="margin-top:10px;"></p>
+      </section>
 
       <div class="writer-admin-table-wrap">
         <table class="writer-admin-table">
