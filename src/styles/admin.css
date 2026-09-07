@@ -406,7 +406,13 @@ body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-nav-item { justify-
 @media (max-width: 640px) {
   .admin-table-wrap { border-left: none; border-right: none; }
   .admin-table thead { display: none; }
-  .admin-table, .admin-table tbody { display: block; width: 100%; }
+  /* The base rule's min-width:640px (desktop's horizontal-scroll safety
+     net) was never reset here -- found live: the table itself stayed
+     640px wide even in card mode, forcing admin-table-wrap to scroll
+     internally on anything narrower, invisible to a page-level
+     scrollWidth check since the overflow was contained to that one
+     wrapper. */
+  .admin-table, .admin-table tbody { display: block; width: 100%; min-width: 0; }
   .admin-table tr {
     display: flex;
     flex-wrap: wrap;
