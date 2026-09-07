@@ -11,6 +11,8 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
   const editorBox = document.querySelector("[data-writer-editor]");
   const toolbar = document.querySelector("[data-writer-toolbar]");
   const submitButton = document.querySelector("[data-writer-submit]");
+  const featuredUploadButton = document.querySelector("[data-writer-featured-upload]");
+  const imageFileInput = document.querySelector("[data-writer-image-file-input]");
   const fields = {
     title: document.querySelector('[data-writer-field="title"]'),
     dek: document.querySelector('[data-writer-field="dek"]'),
@@ -50,6 +52,58 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
   let articleId = new URLSearchParams(window.location.search).get("id") || "";
   let editable = true;
   let saveTimer = null;
+
+  // Direct-to-Supabase-Storage, same signed-upload-URL pattern already
+  // used for timing-submissions -- the file's bytes never pass through
+  // this Vercel Function's own body-size limit. imageFileTarget tracks
+  // which control (the toolbar or the featured-image button) triggered
+  // the hidden file input, since both share one <input type="file">.
+  let imageFileTarget = null;
+
+  async function uploadImage(file) {
+    const slot = await api("request_image_upload", { file_name: file.name });
+
+    if (file.size > slot.max_file_bytes) {
+      throw new Error(`That image is larger than ${Math.floor(slot.max_file_bytes / (1024 * 1024))} MB.`);
+    }
+
+    const client = await window.PodiumWriterAuth.getClient();
+    const { error } = await client.storage.from("writer-portal-images").uploadToSignedUrl(slot.storage_key, slot.token, file);
+    if (error) throw error;
+
+    return slot.public_url;
+  }
+
+  if (imageFileInput) {
+    imageFileInput.addEventListener("change", async () => {
+      const file = imageFileInput.files?.[0];
+      const target = imageFileTarget;
+      imageFileInput.value = "";
+      if (!file || !target) return;
+
+      showStatus("Uploading image...");
+      try {
+        const publicUrl = await uploadImage(file);
+        if (target === "toolbar" && editorInstance) {
+          editorInstance.chain().focus().setImage({ src: publicUrl }).run();
+          scheduleAutosave();
+        } else if (target === "featured") {
+          fields.featured_image_url.value = publicUrl;
+          scheduleAutosave();
+        }
+        showStatus("Image uploaded.");
+      } catch (error) {
+        showStatus(error.message || "This image could not be uploaded.", "error");
+      }
+    });
+  }
+
+  if (featuredUploadButton) {
+    featuredUploadButton.addEventListener("click", () => {
+      imageFileTarget = "featured";
+      imageFileInput.click();
+    });
+  }
 
   function tagsToText(tags) {
     return (Array.isArray(tags) ? tags : []).join(", ");
@@ -146,8 +200,8 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
       if (url) chain.extendMarkRange("link").setLink({ href: url }).run();
       else chain.unsetLink().run();
     } else if (command === "image") {
-      const url = window.prompt("Image URL");
-      if (url) chain.setImage({ src: url }).run();
+      imageFileTarget = "toolbar";
+      imageFileInput.click();
     }
   });
 

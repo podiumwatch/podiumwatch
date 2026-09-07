@@ -1,6 +1,6 @@
 import { requirePortalUser, getOrCreatePortalProfile, portalApiError } from "../../lib/portal_auth.mjs";
 import { cleanAthleteText } from "../../lib/athlete_foundation_service.mjs";
-import { updateOwnProfile, listOwnArticles, createArticle, getOwnArticle, updateOwnArticle, submitOwnArticle } from "../../lib/writer_portal_service.mjs";
+import { updateOwnProfile, listOwnArticles, createArticle, getOwnArticle, updateOwnArticle, submitOwnArticle, requestImageUploadSlot } from "../../lib/writer_portal_service.mjs";
 
 // Writer-facing: everything a signed-in writer can do to their own
 // account -- read/update their own profile, list their own articles.
@@ -63,6 +63,8 @@ export default async function handler(request, response) {
       }) };
     } else if (action === "submit_article") {
       data = { article: await submitOwnArticle(user.id, body.article_id) };
+    } else if (action === "request_image_upload") {
+      data = await requestImageUploadSlot({ fileName: body.file_name, userId: user.id });
     } else {
       const error = new Error("Unsupported Writer Portal action.");
       error.status = 400;

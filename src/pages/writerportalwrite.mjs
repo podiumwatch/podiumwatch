@@ -59,9 +59,15 @@ export function writerPortalWritePage(site) {
           <label class="writer-write-wide">Dek <span style="font-weight:500;color:var(--muted);">(one-sentence summary)</span><input type="text" data-writer-field="dek" maxlength="500" placeholder="What's this piece about?"></label>
           <label>Category<select data-writer-field="category">${categoryOptions}</select></label>
           <label>Tags <span style="font-weight:500;color:var(--muted);">(comma separated)</span><input type="text" data-writer-field="tags" placeholder="Division 2, Boys Cross Country"></label>
-          <label>Featured image URL<input type="url" data-writer-field="featured_image_url" placeholder="https://"></label>
+          <label class="writer-write-wide">Featured image
+            <span style="display:flex;gap:8px;align-items:center;">
+              <input type="url" data-writer-field="featured_image_url" placeholder="https://" style="flex:1;">
+              <button class="button button-outline" type="button" data-writer-featured-upload style="flex-shrink:0;">Upload image</button>
+            </span>
+          </label>
           <label>Photo credit<input type="text" data-writer-field="photo_credit" maxlength="300"></label>
         </div>
+        <input type="file" data-writer-image-file-input accept="image/jpeg,image/png,image/webp,image/gif" hidden>
 
         <div class="writer-editor-toolbar" data-writer-toolbar>
           <button type="button" data-command="bold" title="Bold"><b>B</b></button>
