@@ -53,6 +53,21 @@
   const internApplicationsEmpty = document.querySelector(
     "[data-intern-applications-empty]"
   );
+  const internWelcomePendingCount = document.querySelector(
+    "[data-intern-welcome-pending-count]"
+  );
+  const internWelcomeTestEmail = document.querySelector(
+    "[data-intern-welcome-test-email]"
+  );
+  const internWelcomeSendTest = document.querySelector(
+    "[data-intern-welcome-send-test]"
+  );
+  const internWelcomeSendAll = document.querySelector(
+    "[data-intern-welcome-send-all]"
+  );
+  const internWelcomeResult = document.querySelector(
+    "[data-intern-welcome-result]"
+  );
   const staticData =
     window.PODIUM_OPERATIONS_STATIC || {
       stories: {
@@ -1720,7 +1735,11 @@
       <td>${escapeHtml(application.email)}${application.phone ? `<br><small>${escapeHtml(application.phone)}</small>` : ""}</td>
       <td>${escapeHtml(application.parent_name)}<br><small>${escapeHtml(application.parent_email)}</small></td>
       <td>${coverage}</td>
-      <td>${escapeHtml(titleCaseWord(application.status))}</td>
+      <td>${escapeHtml(titleCaseWord(application.status))}${application.status === "accepted"
+        ? (application.welcomed_at
+          ? `<br><small>Welcomed ${escapeHtml(formatDate(application.welcomed_at, true))}</small>`
+          : "<br><small>Not yet welcomed</small>")
+        : ""}</td>
       <td>${actions.join(" ")}</td>
     </tr>
     <tr data-intern-detail-row="${escapeHtml(application.id)}" hidden>
@@ -1750,11 +1769,108 @@
     }
   }
 
+  // Independent of whatever status filter the table above is showing --
+  // this always counts accepted-but-not-yet-welcomed applicants, since
+  // that's what "Send welcome email to all pending" actually acts on.
+  async function loadInternWelcomePendingCount() {
+    if (!internWelcomePendingCount) return;
+    try {
+      const data = await requestJson(
+        "/api/admin/intern-applications",
+        {
+          method: "POST",
+          body: JSON.stringify({ action: "list", status: "accepted" })
+        }
+      );
+      const pending = (data.applications || []).filter((application) => !application.welcomed_at);
+      internWelcomePendingCount.textContent = formatNumber(pending.length);
+    } catch {
+      internWelcomePendingCount.textContent = "?";
+    }
+  }
+
   if (internApplicationsRefresh) {
     internApplicationsRefresh.addEventListener("click", () => loadInternApplications());
   }
   if (internApplicationsStatus) {
     internApplicationsStatus.addEventListener("change", () => loadInternApplications());
+  }
+
+  function showInternWelcomeResult(html) {
+    if (!internWelcomeResult) return;
+    internWelcomeResult.innerHTML = html;
+    internWelcomeResult.hidden = !html;
+  }
+
+  if (internWelcomeSendTest) {
+    internWelcomeSendTest.addEventListener("click", async () => {
+      const toEmail = (internWelcomeTestEmail?.value || "").trim();
+      if (!toEmail) {
+        showMessage("Enter an email address to send the test to first.", "error");
+        return;
+      }
+      if (busy) return;
+      setBusy(true);
+      showInternWelcomeResult("");
+      try {
+        await requestJson(
+          "/api/admin/intern-applications",
+          {
+            method: "POST",
+            body: JSON.stringify({ action: "send_welcome_test_email", to_email: toEmail })
+          }
+        );
+        showMessage(`Test welcome email sent to ${toEmail}.`);
+      } catch (error) {
+        showMessage(error.message || "The test email could not be sent.", "error");
+      } finally {
+        setBusy(false);
+      }
+    });
+  }
+
+  if (internWelcomeSendAll) {
+    internWelcomeSendAll.addEventListener("click", async () => {
+      const pendingLabel = internWelcomePendingCount?.textContent || "0";
+      if (pendingLabel === "0") {
+        showMessage("No accepted applicants are waiting on a welcome email right now.", "error");
+        return;
+      }
+      if (!window.confirm(
+        `Send the welcome email to ${pendingLabel} accepted applicant(s)? ` +
+        "This creates their Writer Portal account and emails them a real, working setup link. This can't be undone."
+      )) {
+        return;
+      }
+      if (busy) return;
+      setBusy(true);
+      showInternWelcomeResult("");
+      try {
+        const data = await requestJson(
+          "/api/admin/intern-applications",
+          {
+            method: "POST",
+            body: JSON.stringify({ action: "send_welcome_emails" })
+          }
+        );
+        const sent = data.sent || [];
+        const failed = data.failed || [];
+        showMessage(`Sent ${sent.length} of ${data.total || 0} welcome email(s).`, failed.length ? "error" : "success");
+        if (failed.length) {
+          showInternWelcomeResult(
+            "<strong>Failed:</strong><ul style=\"margin:6px 0 0;padding-left:18px;\">" +
+            failed.map((item) => `<li>${escapeHtml(item.email)}: ${escapeHtml(item.error)}</li>`).join("") +
+            "</ul>"
+          );
+        }
+        await loadInternApplications();
+        await loadInternWelcomePendingCount();
+      } catch (error) {
+        showMessage(error.message || "Welcome emails could not be sent.", "error");
+      } finally {
+        setBusy(false);
+      }
+    });
   }
 
   if (internApplicationsTable) {
@@ -1810,6 +1926,7 @@
           );
           showMessage("Application accepted.");
           await loadInternApplications();
+          await loadInternWelcomePendingCount();
         } catch (error) {
           showMessage(error.message || "Could not update this application.", "error");
         } finally {
@@ -1857,6 +1974,7 @@
         // Same isolation reasoning as timing submissions above -- its own
         // dedicated API, own failure surface.
         await loadInternApplications();
+        await loadInternWelcomePendingCount();
         return;
       }
 
@@ -1959,6 +2077,7 @@
       });
       loadTimingSubmissions();
       loadInternApplications();
+      loadInternWelcomePendingCount();
     }
   );
 

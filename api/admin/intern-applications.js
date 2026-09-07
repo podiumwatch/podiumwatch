@@ -2,7 +2,9 @@ import { isAdminRequest } from "../../lib/admin_auth.mjs";
 import { cleanAthleteText } from "../../lib/athlete_foundation_service.mjs";
 import {
   listInternApplications,
-  reviewInternApplication
+  reviewInternApplication,
+  sendInternWelcomeEmails,
+  sendInternWelcomeTestEmail
 } from "../../lib/intern_applications_service.mjs";
 
 // Admin-only management for intern writer applications (see install/46,
@@ -56,6 +58,10 @@ export default async function handler(request, response) {
         status: body.status,
         note: body.review_note
       }) };
+    } else if (action === "send_welcome_emails") {
+      data = await sendInternWelcomeEmails({ actor: "Podium Watch Admin" });
+    } else if (action === "send_welcome_test_email") {
+      data = await sendInternWelcomeTestEmail({ toEmail: body.to_email, actor: "Podium Watch Admin" });
     } else {
       fail("Unsupported intern applications action.");
     }

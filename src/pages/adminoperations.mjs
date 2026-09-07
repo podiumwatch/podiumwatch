@@ -1491,6 +1491,50 @@ export function adminOperationsPage(
                 No applications right now.
               </div>
             </article>
+
+            <article class="info-card operations-card">
+              <p class="eyebrow">Welcome emails</p>
+              <h2>Send onboarding email to accepted interns</h2>
+              <p>
+                One email per accepted applicant: welcome message, program
+                rules, and their real Writer Portal account setup link, all
+                in one message. Requires Resend to be configured
+                (<code>RESEND_API_KEY</code>/<code>RESEND_FROM_EMAIL</code>
+                in Vercel). Never sent twice -- an applicant is skipped
+                automatically once they've been sent this.
+              </p>
+              <p>
+                <strong data-intern-welcome-pending-count>0</strong>
+                accepted applicant(s) not yet welcomed.
+              </p>
+              <div class="operations-actions">
+                <input
+                  type="email"
+                  placeholder="you@podiumwatch.site"
+                  data-intern-welcome-test-email
+                  style="max-width:260px;"
+                >
+                <button
+                  class="button button-outline"
+                  type="button"
+                  data-intern-welcome-send-test
+                >
+                  Send test to this address
+                </button>
+                <button
+                  class="button button-primary"
+                  type="button"
+                  data-intern-welcome-send-all
+                >
+                  Send welcome email to all pending
+                </button>
+              </div>
+              <div
+                data-intern-welcome-result
+                hidden
+                style="margin-top:12px;"
+              ></div>
+            </article>
           </section>
         </div>
       </div>
