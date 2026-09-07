@@ -62,6 +62,14 @@ export function writerLoginPage(site) {
           </p>
         </section>
 
+        <section data-auth-panel="confirm" hidden>
+          <p class="eyebrow">Welcome to Podium Watch</p>
+          <h2>Finish setting up your account</h2>
+          <p>Click below to continue. This extra click confirms it's really you opening this link, not an email app automatically checking it for safety -- that's what caused "Auth session missing" for some interns.</p>
+          <button class="button button-primary" type="button" data-writer-confirm-invite>Set up your account &rarr;</button>
+          <p class="writer-auth-message" data-writer-confirm-message aria-live="polite" hidden></p>
+        </section>
+
         <section data-auth-panel="update" hidden>
           <p class="eyebrow">Account recovery</p>
           <h2>Choose a new password</h2>
