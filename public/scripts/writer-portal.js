@@ -2,7 +2,7 @@
   const loadingBox = document.querySelector("[data-writer-portal-loading]");
   const root = document.querySelector("[data-writer-portal-root]");
   const welcome = document.querySelector("[data-writer-welcome]");
-  const adminLink = document.querySelector("[data-writer-admin-link]");
+  const adminLinks = document.querySelectorAll("[data-writer-admin-link]");
   const signOutButton = document.querySelector("[data-writer-sign-out]");
 
   if (!loadingBox || !root || !welcome) return;
@@ -56,7 +56,7 @@
 
       const { profile } = await api("get_profile");
       welcome.textContent = profile.full_name ? `Welcome, ${profile.full_name}` : "Your articles";
-      if (adminLink && ["editor", "admin"].includes(profile.role)) adminLink.hidden = false;
+      if (["editor", "admin"].includes(profile.role)) adminLinks.forEach((link) => { link.hidden = false; });
 
       const { articles } = await api("list_articles");
       renderArticles(articles);

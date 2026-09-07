@@ -29,7 +29,10 @@ export function writerPortalAdminPage(site) {
     </div>
 
     <div class="container writer-admin-shell" data-writer-admin-root hidden>
-      <a class="button button-outline" href="/writer-portal/" style="width:fit-content;">Back to your articles</a>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="button button-outline" href="/writer-portal/">Back to your articles</a>
+        <a class="button button-outline" href="/writer-portal/admin/review/">Review queue</a>
+      </div>
 
       <div class="writer-admin-table-wrap">
         <table class="writer-admin-table">

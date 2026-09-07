@@ -47,6 +47,7 @@ export function writerPortalPage(site) {
     <div class="container writer-portal-shell" data-writer-portal-root hidden>
       <div class="writer-portal-nav">
         <a class="button button-outline" href="/writer-portal/profile/">Your profile</a>
+        <a class="button button-outline" href="/writer-portal/admin/review/" data-writer-admin-link hidden>Review queue</a>
         <a class="button button-outline" href="/writer-portal/admin/" data-writer-admin-link hidden>Manage writers</a>
         <button class="button button-outline" type="button" data-writer-sign-out>Sign out</button>
       </div>

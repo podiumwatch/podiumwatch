@@ -114,6 +114,9 @@ import { writerPortalPage } from "../src/pages/writerportal.mjs";
 import { writerPortalProfilePage } from "../src/pages/writerportalprofile.mjs";
 import { writerPortalAdminPage } from "../src/pages/writerportaladmin.mjs";
 import { writerPortalWritePage } from "../src/pages/writerportalwrite.mjs";
+import { writerPortalReviewPage } from "../src/pages/writerportalreview.mjs";
+import { writerPortalArticlePage } from "../src/pages/writerportalarticle.mjs";
+import { writerPortalAuthorPage } from "../src/pages/writerportalauthor.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -808,6 +811,9 @@ await writePage("/writer-portal/", writerPortalPage(site));
 await writePage("/writer-portal/profile/", writerPortalProfilePage(site));
 await writePage("/writer-portal/admin/", writerPortalAdminPage(site));
 await writePage("/writer-portal/write/", writerPortalWritePage(site));
+await writePage("/writer-portal/admin/review/", writerPortalReviewPage(site));
+await writePage("/writer-portal/articles/", writerPortalArticlePage(site));
+await writePage("/writer-portal/authors/", writerPortalAuthorPage(site));
 await writePage("/athlete/", athleteDetailPage(site));
 for (const athlete of athleteSeedRows) {
   const athletePath = `/athletes/${athlete.profile_slug}/`;
