@@ -113,6 +113,7 @@ import { writerLoginPage } from "../src/pages/writerlogin.mjs";
 import { writerPortalPage } from "../src/pages/writerportal.mjs";
 import { writerPortalProfilePage } from "../src/pages/writerportalprofile.mjs";
 import { writerPortalAdminPage } from "../src/pages/writerportaladmin.mjs";
+import { writerPortalWritePage } from "../src/pages/writerportalwrite.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -806,6 +807,7 @@ await writePage("/writer-login/", writerLoginPage(site));
 await writePage("/writer-portal/", writerPortalPage(site));
 await writePage("/writer-portal/profile/", writerPortalProfilePage(site));
 await writePage("/writer-portal/admin/", writerPortalAdminPage(site));
+await writePage("/writer-portal/write/", writerPortalWritePage(site));
 await writePage("/athlete/", athleteDetailPage(site));
 for (const athlete of athleteSeedRows) {
   const athletePath = `/athletes/${athlete.profile_slug}/`;

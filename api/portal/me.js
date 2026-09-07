@@ -1,6 +1,6 @@
 import { requirePortalUser, getOrCreatePortalProfile, portalApiError } from "../../lib/portal_auth.mjs";
 import { cleanAthleteText } from "../../lib/athlete_foundation_service.mjs";
-import { updateOwnProfile, listOwnArticles } from "../../lib/writer_portal_service.mjs";
+import { updateOwnProfile, listOwnArticles, createArticle, getOwnArticle, updateOwnArticle, submitOwnArticle } from "../../lib/writer_portal_service.mjs";
 
 // Writer-facing: everything a signed-in writer can do to their own
 // account -- read/update their own profile, list their own articles.
@@ -47,6 +47,22 @@ export default async function handler(request, response) {
       }) };
     } else if (action === "list_articles") {
       data = { articles: await listOwnArticles(user.id) };
+    } else if (action === "create_article") {
+      data = { article: await createArticle(user.id) };
+    } else if (action === "get_article") {
+      data = { article: await getOwnArticle(user.id, body.article_id) };
+    } else if (action === "update_article") {
+      data = { article: await updateOwnArticle(user.id, body.article_id, {
+        title: body.title,
+        dek: body.dek,
+        body: body.body,
+        category: body.category,
+        tags: body.tags,
+        featuredImageUrl: body.featured_image_url,
+        photoCredit: body.photo_credit
+      }) };
+    } else if (action === "submit_article") {
+      data = { article: await submitOwnArticle(user.id, body.article_id) };
     } else {
       const error = new Error("Unsupported Writer Portal action.");
       error.status = 400;

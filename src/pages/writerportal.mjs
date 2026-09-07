@@ -16,7 +16,8 @@ const styles = `
     .writer-status-group { margin-top: 22px; }
     .writer-status-group:first-child { margin-top: 0; }
     .writer-status-label { font-weight: 900; text-transform: uppercase; letter-spacing: .04em; font-size: .78rem; color: var(--muted); margin-bottom: 10px; }
-    .writer-article-row { display:flex; justify-content:space-between; gap:14px; padding:12px 14px; border:1px solid rgba(var(--black-rgb),.12); border-radius:9px; margin-bottom:8px; }
+    .writer-article-row { display:flex; justify-content:space-between; gap:14px; padding:12px 14px; border:1px solid rgba(var(--black-rgb),.12); border-radius:9px; margin-bottom:8px; color: inherit; text-decoration: none; }
+    .writer-article-row:hover { border-color: var(--green); background: rgba(var(--green-rgb),.06); }
     .writer-empty { padding:12px 14px; color: var(--muted); font-weight: 600; }
 `;
 
@@ -53,7 +54,7 @@ export function writerPortalPage(site) {
       <section class="info-card">
         <p class="eyebrow">Welcome</p>
         <h2 data-writer-welcome>Your articles</h2>
-        <button class="button button-primary" type="button" disabled title="Coming soon">New Article (coming soon)</button>
+        <a class="button button-primary" href="/writer-portal/write/">New Article</a>
         ${groups}
       </section>
     </div>

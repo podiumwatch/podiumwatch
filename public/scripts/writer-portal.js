@@ -40,7 +40,7 @@
       const listBox = group.querySelector("[data-writer-status-list]");
       listBox.innerHTML = list.length
         ? list.map((article) =>
-            `<div class="writer-article-row"><strong>${escapeHtml(article.title || "(untitled)")}</strong><span>${escapeHtml(formatDate(article.updated_at))}</span></div>`
+            `<a class="writer-article-row" href="/writer-portal/write/?id=${encodeURIComponent(article.id)}"><strong>${escapeHtml(article.title || "(untitled)")}</strong><span>${escapeHtml(formatDate(article.updated_at))}</span></a>`
           ).join("")
         : `<div class="writer-empty">Nothing here yet.</div>`;
     }
