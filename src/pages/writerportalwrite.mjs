@@ -29,6 +29,11 @@ const styles = `
     .writer-editor-body .ProseMirror img { max-width: 100%; border-radius: 8px; }
     .writer-editor-body .ProseMirror blockquote { border-left: 3px solid var(--green); margin: 0; padding-left: 14px; color: var(--muted); }
     .writer-write-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 18px; }
+    .writer-write-wordcount { margin: 8px 0 0; font-size: .82rem; font-weight: 700; color: var(--muted); }
+    .writer-write-notes { display:grid; gap:10px; padding:16px 18px; border-radius:10px; background:rgba(230,167,0,.14); border-left:4px solid #e6a700; }
+    .writer-write-notes h3 { margin:0; font-size:.9rem; }
+    .writer-write-note { padding:10px 12px; border-radius:8px; background:var(--white); }
+    .writer-write-note-meta { font-size:.76rem; color:var(--muted); font-weight:800; margin-bottom:3px; }
 `;
 
 export function writerPortalWritePage(site) {
@@ -52,6 +57,8 @@ export function writerPortalWritePage(site) {
         <a class="button button-outline" href="/writer-portal/">Back to your articles</a>
         <span class="writer-write-status" data-writer-write-status role="status"></span>
       </div>
+
+      <div class="writer-write-notes" data-writer-write-notes hidden></div>
 
       <section class="info-card">
         <div class="writer-write-fields">
@@ -83,9 +90,11 @@ export function writerPortalWritePage(site) {
           <button type="button" data-command="redo" title="Redo">&#8631;</button>
         </div>
         <div class="writer-editor-body" data-writer-editor></div>
+        <p class="writer-write-wordcount" data-writer-wordcount></p>
 
         <div class="writer-write-actions">
           <button class="button button-primary" type="button" data-writer-submit>Submit for review</button>
+          <button class="button button-outline" type="button" data-writer-delete>Delete draft</button>
         </div>
       </section>
     </div>

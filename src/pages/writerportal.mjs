@@ -19,6 +19,7 @@ const styles = `
     .writer-article-row { display:flex; justify-content:space-between; gap:14px; padding:12px 14px; border:1px solid rgba(var(--black-rgb),.12); border-radius:9px; margin-bottom:8px; color: inherit; text-decoration: none; }
     .writer-article-row:hover { border-color: var(--green); background: rgba(var(--green-rgb),.06); }
     .writer-empty { padding:12px 14px; color: var(--muted); font-weight: 600; }
+    .writer-attention-banner { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; padding:16px 18px; border-radius:10px; background:rgba(230,167,0,.14); border-left:4px solid #e6a700; font-weight:800; }
 `;
 
 // Writer Portal dashboard shell (Stage 1): lists the signed-in writer's
@@ -52,6 +53,11 @@ export function writerPortalPage(site) {
         <a class="button button-outline" href="/writer-portal/admin/review/" data-writer-admin-link hidden>Review queue</a>
         <a class="button button-outline" href="/writer-portal/admin/" data-writer-admin-link hidden>Manage writers</a>
         <button class="button button-outline" type="button" data-writer-sign-out>Sign out</button>
+      </div>
+
+      <div class="writer-attention-banner" data-writer-attention-banner hidden>
+        <span data-writer-attention-text></span>
+        <a class="button button-dark" data-writer-attention-link href="/writer-portal/write/">Fix it now</a>
       </div>
 
       <section class="info-card">

@@ -4,6 +4,9 @@
   const welcome = document.querySelector("[data-writer-welcome]");
   const adminLinks = document.querySelectorAll("[data-writer-admin-link]");
   const signOutButton = document.querySelector("[data-writer-sign-out]");
+  const attentionBanner = document.querySelector("[data-writer-attention-banner]");
+  const attentionText = document.querySelector("[data-writer-attention-text]");
+  const attentionLink = document.querySelector("[data-writer-attention-link]");
 
   if (!loadingBox || !root || !welcome) return;
 
@@ -67,6 +70,18 @@
 
       const { articles } = await api("list_articles");
       renderArticles(articles);
+
+      // No email yet (tracked separately) -- this is the one signal a
+      // writer gets that something needs them, so it has to be the
+      // first thing visible on the page, not buried in a status group.
+      const needsRevision = articles.needs_revision || [];
+      if (needsRevision.length && attentionBanner) {
+        attentionText.textContent = needsRevision.length === 1
+          ? `"${needsRevision[0].title || "(untitled)"}" needs revision before it can move forward.`
+          : `${needsRevision.length} articles need revision before they can move forward.`;
+        attentionLink.href = "/writer-portal/write/?id=" + encodeURIComponent(needsRevision[0].id);
+        attentionBanner.hidden = false;
+      }
 
       loadingBox.hidden = true;
       root.hidden = false;

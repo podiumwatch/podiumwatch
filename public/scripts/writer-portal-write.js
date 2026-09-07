@@ -11,8 +11,11 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
   const editorBox = document.querySelector("[data-writer-editor]");
   const toolbar = document.querySelector("[data-writer-toolbar]");
   const submitButton = document.querySelector("[data-writer-submit]");
+  const deleteButton = document.querySelector("[data-writer-delete]");
   const featuredUploadButton = document.querySelector("[data-writer-featured-upload]");
   const imageFileInput = document.querySelector("[data-writer-image-file-input]");
+  const notesBox = document.querySelector("[data-writer-write-notes]");
+  const wordCountEl = document.querySelector("[data-writer-wordcount]");
   const fields = {
     title: document.querySelector('[data-writer-field="title"]'),
     dek: document.querySelector('[data-writer-field="dek"]'),
@@ -113,6 +116,39 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
     return String(text || "").split(",").map((tag) => tag.trim()).filter(Boolean);
   }
 
+  function formatDate(value) {
+    const date = new Date(String(value || ""));
+    if (Number.isNaN(date.getTime())) return "";
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+      " at " + date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  }
+
+  function renderNotes(article) {
+    if (!notesBox) return;
+    const notes = article.notes || [];
+    if (!notes.length) {
+      notesBox.hidden = true;
+      return;
+    }
+    notesBox.innerHTML = "<h3>Editor feedback</h3>" + notes.map((note) =>
+      `<div class="writer-write-note"><div class="writer-write-note-meta">${escapeHtml(note.editor_name)} &middot; ${escapeHtml(formatDate(note.created_at))}</div>${escapeHtml(note.note)}</div>`
+    ).join("");
+    notesBox.hidden = false;
+  }
+
+  // Same 220 words/minute, round-up, minimum-1-minute formula
+  // src/lib/content.mjs's readingTime() uses for every published story --
+  // this is a browser script, so it's a small reimplementation rather
+  // than a shared import, but the numbers match what the piece will
+  // actually show once published.
+  function updateWordCount() {
+    if (!wordCountEl || !editorInstance) return;
+    const text = editorInstance.getText().trim();
+    const wordCount = text ? text.split(/\s+/).length : 0;
+    const minutes = Math.max(1, Math.ceil(wordCount / 220));
+    wordCountEl.textContent = `${wordCount.toLocaleString("en-US")} word${wordCount === 1 ? "" : "s"} · ~${minutes} min read`;
+  }
+
   function fillFields(article) {
     fields.title.value = article.title || "";
     fields.dek.value = article.dek || "";
@@ -126,6 +162,7 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
     editable = isEditable;
     Object.values(fields).forEach((field) => { field.disabled = !isEditable; });
     submitButton.hidden = !isEditable;
+    if (deleteButton) deleteButton.hidden = !isEditable;
     if (!isEditable && reason) showStatus(reason);
   }
 
@@ -149,12 +186,25 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
     });
   }
 
+  // True the instant something changes, false only once a save actually
+  // completes -- the beforeunload guard below reads this, not the save
+  // timer, so a change that hasn't autosaved yet (still inside its 1.5s
+  // debounce window) is never silently lost to an accidental navigation.
+  let hasUnsavedChanges = false;
+
   function scheduleAutosave() {
     if (!editable) return;
+    hasUnsavedChanges = true;
     showStatus("Editing...");
     clearTimeout(saveTimer);
     saveTimer = setTimeout(save, 1500);
   }
+
+  window.addEventListener("beforeunload", (event) => {
+    if (!hasUnsavedChanges) return;
+    event.preventDefault();
+    event.returnValue = "";
+  });
 
   let editorInstance = null;
 
@@ -173,6 +223,7 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
         photo_credit: fields.photo_credit.value,
         body: editorInstance.getJSON()
       });
+      hasUnsavedChanges = false;
       showStatus("Saved.");
     } catch (error) {
       showStatus(error.message || "This could not be saved.", "error");
@@ -224,6 +275,28 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
     }
   });
 
+  if (deleteButton) {
+    deleteButton.addEventListener("click", async () => {
+      const hasNotes = notesBox && !notesBox.hidden;
+      const warning = hasNotes
+        ? "Delete this draft? This also deletes the editor feedback attached to it. This can't be undone."
+        : "Delete this draft? This can't be undone.";
+      if (!window.confirm(warning)) return;
+
+      deleteButton.disabled = true;
+      clearTimeout(saveTimer);
+
+      try {
+        await api("delete_article", { article_id: articleId });
+        hasUnsavedChanges = false;
+        window.location.replace("/writer-portal/");
+      } catch (error) {
+        showStatus(error.message || "This could not be deleted.", "error");
+        deleteButton.disabled = false;
+      }
+    });
+  }
+
   async function load() {
     try {
       const user = await window.PodiumWriterAuth.getUser();
@@ -244,6 +317,7 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
       }
 
       fillFields(article);
+      renderNotes(article);
 
       editorInstance = new Editor({
         element: editorBox,
@@ -257,11 +331,13 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
         editable: ["draft", "needs_revision"].includes(article.status),
         onUpdate: () => {
           updateToolbarState(editorInstance);
+          updateWordCount();
           scheduleAutosave();
         },
         onSelectionUpdate: () => updateToolbarState(editorInstance),
         onTransaction: () => updateToolbarState(editorInstance)
       });
+      updateWordCount();
 
       if (!["draft", "needs_revision"].includes(article.status)) {
         setEditable(false, "This article has already been submitted and can no longer be edited.");
