@@ -61,6 +61,9 @@
       <td><span class="admin-cell-label">School</span>${escapeHtml(writer.school || "—")}</td>
       <td><span class="admin-cell-label">Grade</span>${escapeHtml(writer.grade || "—")}</td>
       <td><span class="admin-cell-label">Joined</span>${escapeHtml(formatDate(writer.created_at))}</td>
+      <td>
+        <button class="button button-outline" type="button" data-writer-resend-link="${escapeHtml(writer.id)}">Resend setup link</button>
+      </td>
     </tr>`;
   }
 
@@ -82,6 +85,26 @@
     } catch (error) {
       window.alert(error.message || "This role could not be changed.");
       await loadWriters();
+    }
+  });
+
+  rows.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-writer-resend-link]");
+    if (!button) return;
+
+    const profileId = button.dataset.writerResendLink;
+    button.disabled = true;
+    const originalLabel = button.textContent;
+    button.textContent = "Sending...";
+
+    try {
+      await writersApi("resend_setup_link", { profile_id: profileId });
+      button.textContent = "Sent!";
+      setTimeout(() => { button.textContent = originalLabel; button.disabled = false; }, 3000);
+    } catch (error) {
+      window.alert(error.message || "This link could not be sent.");
+      button.textContent = originalLabel;
+      button.disabled = false;
     }
   });
 

@@ -1,6 +1,6 @@
 import { requirePortalStaff, portalApiError } from "../../lib/portal_auth.mjs";
 import { cleanAthleteText } from "../../lib/athlete_foundation_service.mjs";
-import { listPortalWriters, setPortalRole, inviteWriter } from "../../lib/writer_portal_service.mjs";
+import { listPortalWriters, setPortalRole, inviteWriter, resendAccountSetupLink } from "../../lib/writer_portal_service.mjs";
 
 // Staff-only (portal role editor/admin -- NOT the site's shared admin
 // password): lists every Writer Portal account and lets staff change
@@ -45,6 +45,8 @@ export default async function handler(request, response) {
         role: cleanAthleteText(body.role, 20).toLowerCase(),
         actorId: user.id
       }) };
+    } else if (action === "resend_setup_link") {
+      data = await resendAccountSetupLink({ profileId: body.profile_id });
     } else {
       const error = new Error("Unsupported Writer Portal admin action.");
       error.status = 400;
