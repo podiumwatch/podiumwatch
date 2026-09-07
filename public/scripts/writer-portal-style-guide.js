@@ -1,5 +1,10 @@
-import { Editor } from "https://cdn.jsdelivr.net/npm/@tiptap/core@3.31.3/+esm";
-import StarterKit from "https://cdn.jsdelivr.net/npm/@tiptap/starter-kit@3.31.3/+esm";
+// esm.sh, not jsdelivr -- see the matching comment in
+// writer-portal-write.js. jsdelivr's own +esm bundle of
+// @tiptap/starter-kit@3.31.3 reproducibly throws 'Adding different
+// instances of a keyed plugin (plugin$)' the instant an Editor is
+// constructed, confirmed live even with StarterKit completely alone.
+import { Editor } from "https://esm.sh/@tiptap/core@3.31.3";
+import StarterKit from "https://esm.sh/@tiptap/starter-kit@3.31.3";
 
 (async () => {
   const loadingBox = document.querySelector("[data-writer-guide-loading]");

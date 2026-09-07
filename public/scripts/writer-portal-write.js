@@ -1,8 +1,19 @@
-import { Editor } from "https://cdn.jsdelivr.net/npm/@tiptap/core@3.31.3/+esm";
-import StarterKit from "https://cdn.jsdelivr.net/npm/@tiptap/starter-kit@3.31.3/+esm";
-import Image from "https://cdn.jsdelivr.net/npm/@tiptap/extension-image@3.31.3/+esm";
-import Link from "https://cdn.jsdelivr.net/npm/@tiptap/extension-link@3.31.3/+esm";
-import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placeholder@3.31.3/+esm";
+// Loaded from esm.sh, not this project's usual jsdelivr +esm convention --
+// confirmed live (real browser, production) that jsdelivr's own +esm
+// bundler for @tiptap/starter-kit@3.31.3 throws 'Adding different
+// instances of a keyed plugin (plugin$)' the instant an Editor is
+// constructed, reproducibly, even with StarterKit completely alone and
+// nothing else on the page. The identical version through esm.sh does
+// not have this problem; it's a jsdelivr bundling defect, not a Tiptap
+// bug (every dependency URL, including prosemirror-state, still lines
+// up when inspected directly). Every other CDN import on this site
+// should stay on jsdelivr as usual -- this is a deliberate, narrow
+// exception for this one library.
+import { Editor } from "https://esm.sh/@tiptap/core@3.31.3";
+import StarterKit from "https://esm.sh/@tiptap/starter-kit@3.31.3";
+import Image from "https://esm.sh/@tiptap/extension-image@3.31.3";
+import Link from "https://esm.sh/@tiptap/extension-link@3.31.3";
+import Placeholder from "https://esm.sh/@tiptap/extension-placeholder@3.31.3";
 
 (async () => {
   const loadingBox = document.querySelector("[data-writer-write-loading]");
