@@ -13,6 +13,10 @@
       .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
   }
 
+  function formatNumber(value) {
+    return new Intl.NumberFormat("en-US").format(Number(value) || 0);
+  }
+
   function formatDate(value) {
     const date = new Date(String(value || ""));
     if (Number.isNaN(date.getTime())) return "";
@@ -39,9 +43,12 @@
       if (!group) continue;
       const listBox = group.querySelector("[data-writer-status-list]");
       listBox.innerHTML = list.length
-        ? list.map((article) =>
-            `<a class="writer-article-row" href="/writer-portal/write/?id=${encodeURIComponent(article.id)}"><strong>${escapeHtml(article.title || "(untitled)")}</strong><span>${escapeHtml(formatDate(article.updated_at))}</span></a>`
-          ).join("")
+        ? list.map((article) => {
+            const viewsLabel = status === "published"
+              ? `${formatNumber(article.view_count)} view${article.view_count === 1 ? "" : "s"} · `
+              : "";
+            return `<a class="writer-article-row" href="/writer-portal/write/?id=${encodeURIComponent(article.id)}"><strong>${escapeHtml(article.title || "(untitled)")}</strong><span>${viewsLabel}${escapeHtml(formatDate(article.updated_at))}</span></a>`;
+          }).join("")
         : `<div class="writer-empty">Nothing here yet.</div>`;
     }
   }
