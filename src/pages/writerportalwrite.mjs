@@ -100,6 +100,8 @@ export function writerPortalWritePage(site) {
     </div>
   </section>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
+  <script src="/scripts/writer-auth-client.js" defer></script>
   <script type="module" src="/scripts/writer-portal-write.js"></script>`;
 
   return layout({
