@@ -69,7 +69,12 @@ export const ADMIN_NAV_GROUPS = [
     label: "Writer Portal",
     items: [
       { id: "writer-portal-review", label: "Review Queue", href: "/writer-portal/admin/review/", mark: "RQ", description: "Submitted articles awaiting review, approval, and publishing.", keywords: "writer portal article submit approve publish revision review" },
-      { id: "writer-portal-admin", label: "Manage Writers", href: "/writer-portal/admin/", mark: "MW", description: "Writer Portal accounts, roles, and invites.", keywords: "writer portal invite role editor account" }
+      { id: "writer-portal-admin", label: "Manage Writers", href: "/writer-portal/admin/", mark: "MW", description: "Writer Portal accounts, roles, and invites.", keywords: "writer portal invite role editor account" },
+      // A shortcut link only -- this page keeps its normal site chrome
+      // (used by every writer, not just staff, to browse/claim story
+      // ideas), unlike the two entries above which are staff-only and
+      // render through adminShell() itself.
+      { id: "writer-portal-calendar", label: "Editorial Calendar", href: "/writer-portal/calendar/", mark: "CA", description: "Assign story ideas to writers, or leave them open to claim.", keywords: "writer portal calendar story idea assign task schedule" }
     ]
   },
   {

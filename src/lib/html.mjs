@@ -254,7 +254,14 @@ export function layout({ site, title, description, pathname, content, image, can
   // it immediately, including ones not yet migrated to adminShell()
   // (src/lib/adminshell.mjs), which is what makes a page-at-a-time
   // rollout safe. See docs/DECISIONS.md, 2026-08-16.
-  const isAdminRoute = pathname.startsWith("/admin/");
+  //
+  // Writer Portal's staff-only pages (writerportaladmin.mjs,
+  // writerportalreview.mjs) also render through adminShell() but live
+  // under /writer-portal/admin/, not /admin/ -- found live: the sidebar
+  // markup rendered but completely unstyled, and the pin/badge/quick-
+  // jump script never loaded at all, since neither matched the
+  // /admin/-only check this originally shipped with.
+  const isAdminRoute = pathname.startsWith("/admin/") || pathname.startsWith("/writer-portal/admin/");
   const adminHead = isAdminRoute
     ? '\n<link rel="stylesheet" href="/styles/admin.css">\n<script src="/scripts/admin-shell.js" defer></script>'
     : "";
