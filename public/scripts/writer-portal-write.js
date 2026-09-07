@@ -368,7 +368,14 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
       editorInstance = new Editor({
         element: editorBox,
         extensions: [
-          StarterKit,
+          // Tiptap v3's StarterKit already bundles a Link extension by
+          // default -- adding our own differently-configured Link
+          // instance on top of it (needed for openOnClick:false) without
+          // disabling StarterKit's copy registers the same keyed
+          // ProseMirror plugin twice and throws "Adding different
+          // instances of a keyed plugin (plugin$)" the moment the editor
+          // is constructed. link:false here is what actually disables it.
+          StarterKit.configure({ link: false }),
           Image,
           Link.configure({ openOnClick: false }),
           Placeholder.configure({ placeholder: "Start writing..." })
