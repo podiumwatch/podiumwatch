@@ -2065,6 +2065,16 @@
         // sidebar's own session text stays stuck on "Sign in required"
         // after a successful login without this (confirmed live).
         window.PodiumAdminShell?.refreshDashboard?.({ bypassCache: true });
+        // A real, separate bug found live while verifying the fix above:
+        // loadDashboard() itself guards on `if (busy) return`, but this
+        // handler already set busy=true a few lines up (for its own
+        // submit-button-disabling purposes) and doesn't clear it until
+        // its own `finally` below -- so loadDashboard() was silently
+        // no-oping on every first sign-in (confirmed live: the login
+        // form never hid, /api/admin/operations was never even
+        // requested). loadDashboard() manages busy itself for its own
+        // duration, so it's safe to release it here first.
+        setBusy(false);
         await loadDashboard();
       } catch (error) {
         loginMessage.textContent =
