@@ -25,6 +25,14 @@ const styles = `
     .writer-review-message { padding:12px 14px; border-radius:9px; font-weight:700; }
     .writer-review-message[data-tone="error"] { background:rgba(220,38,38,.12); color:#7a1414; }
     .writer-review-message[data-tone="success"] { background:rgba(var(--green-rgb),.13); color:var(--green-ink); }
+    .writer-review-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:12px; }
+    .writer-review-stat { padding:14px; border:1px solid rgba(var(--black-rgb),.12); border-radius:10px; background:var(--white); text-align:center; }
+    .writer-review-stat strong { display:block; font-size:1.5rem; font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif; }
+    .writer-review-stat span { font-size:.72rem; font-weight:800; text-transform:uppercase; color:var(--muted); }
+    .writer-review-oldest { padding:12px 16px; border-radius:9px; background:rgba(230,167,0,.14); font-weight:700; }
+    .writer-review-comment-bar { display:flex; align-items:center; gap:10px; margin-top:10px; }
+    .writer-review-body[data-selectable="true"] { cursor:text; user-select:text; }
+    .writer-review-body mark[data-note-id] { background:rgba(230,167,0,.4); border-radius:2px; cursor:pointer; }
 `;
 
 export function writerPortalReviewPage(site) {
@@ -47,6 +55,9 @@ export function writerPortalReviewPage(site) {
 
     <div class="container writer-review-shell" data-writer-review-list-root hidden>
       <a class="button button-outline" href="/writer-portal/admin/" style="width:fit-content;">Back to writers</a>
+
+      <div class="writer-review-stats" data-writer-review-stats></div>
+      <p class="writer-review-oldest" data-writer-review-oldest hidden></p>
 
       <div class="writer-review-filters">
         <select data-writer-review-status-filter>
@@ -88,7 +99,11 @@ export function writerPortalReviewPage(site) {
           <span class="writer-review-status-pill" data-writer-review-detail-status></span>
         </div>
 
-        <div class="writer-review-body" data-writer-review-detail-body></div>
+        <div class="writer-review-comment-bar">
+          <button class="button button-outline" type="button" data-writer-review-comment-selection disabled>Comment on selected text</button>
+          <span style="font-size:.8rem;color:var(--muted);">Select a passage in the piece below, then click here.</span>
+        </div>
+        <div class="writer-review-body" data-selectable="true" data-writer-review-detail-body></div>
 
         <p class="writer-review-message" data-writer-review-message role="status" hidden></p>
 

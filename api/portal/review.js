@@ -7,7 +7,8 @@ import {
   requestRevision,
   approveArticle,
   publishArticle,
-  archiveArticle
+  archiveArticle,
+  getPortalStats
 } from "../../lib/writer_portal_service.mjs";
 
 // Staff-only (portal role editor/admin -- NOT the site's shared admin
@@ -48,8 +49,10 @@ export default async function handler(request, response) {
     } else if (action === "get") {
       data = { article: await getArticleForReview(body.article_id) };
     } else if (action === "add_note") {
-      await addEditorNote({ articleId: body.article_id, editorId: user.id, note: body.note });
+      await addEditorNote({ articleId: body.article_id, editorId: user.id, note: body.note, anchorText: body.anchor_text });
       data = { article: await getArticleForReview(body.article_id) };
+    } else if (action === "get_stats") {
+      data = await getPortalStats();
     } else if (action === "request_revision") {
       await requestRevision({ articleId: body.article_id, editorId: user.id, note: body.note });
       data = { article: await getArticleForReview(body.article_id) };

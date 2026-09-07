@@ -6,6 +6,8 @@
   const statusFilter = document.querySelector("[data-writer-review-status-filter]");
   const categoryFilter = document.querySelector("[data-writer-review-category-filter]");
   const rows = document.querySelector("[data-writer-review-rows]");
+  const statsBox = document.querySelector("[data-writer-review-stats]");
+  const oldestBox = document.querySelector("[data-writer-review-oldest]");
 
   if (!loadingBox || !denied || !listRoot || !detailRoot || !rows) return;
 
@@ -64,6 +66,34 @@
     </tr>`;
   }
 
+  function formatNumber(value) {
+    return new Intl.NumberFormat("en-US").format(Number(value) || 0);
+  }
+
+  async function loadStats() {
+    if (!statsBox) return;
+    const stats = await api("get_stats");
+
+    const cards = [
+      ["Submitted", stats.by_status.submitted],
+      ["Needs revision", stats.by_status.needs_revision],
+      ["Approved", stats.by_status.approved],
+      ["Published", stats.by_status.published],
+      ["Total writers", stats.total_writers],
+      ["Total views", stats.total_views]
+    ];
+    statsBox.innerHTML = cards.map(([label, value]) =>
+      `<div class="writer-review-stat"><strong>${formatNumber(value)}</strong><span>${escapeHtml(label)}</span></div>`
+    ).join("");
+
+    if (stats.oldest_submitted) {
+      oldestBox.textContent = `Oldest waiting for review: "${stats.oldest_submitted.title || "(untitled)"}" -- submitted ${formatDate(stats.oldest_submitted.submitted_at)}`;
+      oldestBox.hidden = false;
+    } else {
+      oldestBox.hidden = true;
+    }
+  }
+
   async function loadList() {
     const { articles } = await api("list", {
       status: statusFilter.value,
@@ -94,12 +124,52 @@
   const actions = document.querySelector("[data-writer-review-actions]");
   const notesList = document.querySelector("[data-writer-review-notes-list]");
   const noteForm = document.querySelector("[data-writer-review-note-form]");
+  const commentSelectionButton = document.querySelector("[data-writer-review-comment-selection]");
 
   function showMessage(text, tone = "success") {
     if (!message) return;
     message.textContent = text;
     message.dataset.tone = tone;
     message.hidden = !text;
+  }
+
+  // Wraps the first not-yet-highlighted occurrence of each inline
+  // comment's anchor_text in a real DOM <mark>, walking actual text
+  // nodes (not a raw string/innerHTML replace, which could just as
+  // easily match text inside an existing tag or attribute and corrupt
+  // the markup). A note whose anchor text no longer appears verbatim
+  // (the writer edited that passage) is simply not highlighted --
+  // still fully visible in the notes list below, just not anchored
+  // in the body anymore. That's the deliberate tradeoff of storing a
+  // plain-text anchor instead of a mark inside the article's own saved
+  // body (see install/50's header comment).
+  function highlightAnchors(container, notes) {
+    const inlineNotes = notes.filter((note) => note.anchor_text);
+    for (const note of inlineNotes) {
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+      let target = null;
+      let index = -1;
+      let node;
+      while ((node = walker.nextNode())) {
+        index = node.nodeValue.indexOf(note.anchor_text);
+        if (index !== -1) { target = node; break; }
+      }
+      if (!target) continue;
+
+      const range = document.createRange();
+      range.setStart(target, index);
+      range.setEnd(target, index + note.anchor_text.length);
+
+      const mark = document.createElement("mark");
+      mark.dataset.noteId = note.id;
+      try {
+        range.surroundContents(mark);
+      } catch {
+        // A selection spanning more than one element (e.g. across a
+        // paragraph break) can't be wrapped this simply -- skip it
+        // rather than throw the whole render away.
+      }
+    }
   }
 
   function actionMarkup(status) {
@@ -127,10 +197,15 @@
     detailStatus.textContent = titleCase(article.status);
     detailBody.innerHTML = window.PodiumWriterRender.renderBody(article.body);
     actions.innerHTML = actionMarkup(article.status);
+    highlightAnchors(detailBody, article.notes);
 
     notesList.innerHTML = article.notes.length
       ? article.notes.map((note) =>
-          `<div class="writer-review-note"><div class="writer-review-note-meta">${escapeHtml(note.editor_name || "Staff")} • ${escapeHtml(formatDate(note.created_at))}</div>${escapeHtml(note.note)}</div>`
+          `<div class="writer-review-note" data-note-row="${escapeHtml(note.id)}">` +
+            `<div class="writer-review-note-meta">${escapeHtml(note.editor_name || "Staff")} • ${escapeHtml(formatDate(note.created_at))}</div>` +
+            (note.anchor_text ? `<p style="margin:0 0 6px;font-style:italic;color:var(--muted);">On: "${escapeHtml(note.anchor_text)}"</p>` : "") +
+            escapeHtml(note.note) +
+          `</div>`
         ).join("")
       : `<p style="color:var(--muted);">No notes yet.</p>`;
 
@@ -189,6 +264,55 @@
     });
   }
 
+  // Clicking a highlighted inline-comment span jumps to and briefly
+  // flashes its matching note in the list below, rather than opening a
+  // separate tooltip UI -- reuses the notes list that already exists
+  // instead of building a second place to show the same text.
+  if (detailBody) {
+    detailBody.addEventListener("click", (event) => {
+      const mark = event.target.closest("mark[data-note-id]");
+      if (!mark) return;
+      const noteRow = notesList.querySelector(`[data-note-row="${CSS.escape(mark.dataset.noteId)}"]`);
+      if (!noteRow) return;
+      noteRow.scrollIntoView({ behavior: "smooth", block: "center" });
+      noteRow.style.background = "rgba(230,167,0,.35)";
+      setTimeout(() => { noteRow.style.background = ""; }, 1500);
+    });
+  }
+
+  let pendingSelectionText = "";
+
+  if (detailBody && commentSelectionButton) {
+    document.addEventListener("selectionchange", () => {
+      const selection = window.getSelection();
+      const text = selection && selection.rangeCount ? selection.toString().trim() : "";
+      const withinBody = text && detailBody.contains(selection.anchorNode);
+      pendingSelectionText = withinBody ? text : "";
+      commentSelectionButton.disabled = !pendingSelectionText;
+    });
+
+    commentSelectionButton.addEventListener("click", async () => {
+      const anchorText = pendingSelectionText.slice(0, 500);
+      if (!anchorText) return;
+
+      const note = window.prompt(`Comment on: "${anchorText.length > 80 ? anchorText.slice(0, 80) + "..." : anchorText}"`);
+      if (!note || !note.trim()) return;
+
+      const articleId = new URLSearchParams(window.location.search).get("id");
+      commentSelectionButton.disabled = true;
+      try {
+        await api("add_note", { article_id: articleId, note: note.trim(), anchor_text: anchorText });
+        await loadDetail(articleId);
+        showMessage("Inline comment added.");
+      } catch (error) {
+        showMessage(error.message || "This comment could not be added.", "error");
+      } finally {
+        commentSelectionButton.disabled = true;
+        pendingSelectionText = "";
+      }
+    });
+  }
+
   async function load() {
     try {
       const user = await window.PodiumWriterAuth.getUser();
@@ -212,6 +336,7 @@
         detailRoot.hidden = false;
       } else {
         await loadList();
+        await loadStats();
         loadingBox.hidden = true;
         listRoot.hidden = false;
       }

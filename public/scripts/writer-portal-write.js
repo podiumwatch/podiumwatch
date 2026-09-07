@@ -131,7 +131,9 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
       return;
     }
     notesBox.innerHTML = "<h3>Editor feedback</h3>" + notes.map((note) =>
-      `<div class="writer-write-note"><div class="writer-write-note-meta">${escapeHtml(note.editor_name)} &middot; ${escapeHtml(formatDate(note.created_at))}</div>${escapeHtml(note.note)}</div>`
+      `<div class="writer-write-note"><div class="writer-write-note-meta">${escapeHtml(note.editor_name)} &middot; ${escapeHtml(formatDate(note.created_at))}</div>` +
+      (note.anchor_text ? `<p style="margin:0 0 6px;font-style:italic;opacity:.8;">On: "${escapeHtml(note.anchor_text)}"</p>` : "") +
+      `${escapeHtml(note.note)}</div>`
     ).join("");
     notesBox.hidden = false;
   }
