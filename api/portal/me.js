@@ -60,7 +60,7 @@ export default async function handler(request, response) {
         tags: body.tags,
         featuredImageUrl: body.featured_image_url,
         photoCredit: body.photo_credit
-      }) };
+      }, { expectedUpdatedAt: body.expected_updated_at }) };
     } else if (action === "submit_article") {
       data = { article: await submitOwnArticle(user.id, body.article_id) };
     } else if (action === "delete_article") {

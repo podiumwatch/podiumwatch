@@ -20,6 +20,7 @@ const styles = `
     .writer-article-row:hover { border-color: var(--green); background: rgba(var(--green-rgb),.06); }
     .writer-empty { padding:12px 14px; color: var(--muted); font-weight: 600; }
     .writer-attention-banner { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; padding:16px 18px; border-radius:10px; background:rgba(230,167,0,.14); border-left:4px solid #e6a700; font-weight:800; }
+    .writer-attention-banner[data-tone="success"] { background:rgba(var(--green-rgb),.13); border-left-color:var(--green); }
 `;
 
 // Writer Portal dashboard shell (Stage 1): lists the signed-in writer's

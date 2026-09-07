@@ -72,15 +72,37 @@
       renderArticles(articles);
 
       // No email yet (tracked separately) -- this is the one signal a
-      // writer gets that something needs them, so it has to be the
-      // first thing visible on the page, not buried in a status group.
-      const needsRevision = articles.needs_revision || [];
-      if (needsRevision.length && attentionBanner) {
-        attentionText.textContent = needsRevision.length === 1
-          ? `"${needsRevision[0].title || "(untitled)"}" needs revision before it can move forward.`
-          : `${needsRevision.length} articles need revision before they can move forward.`;
-        attentionLink.href = "/writer-portal/write/?id=" + encodeURIComponent(needsRevision[0].id);
-        attentionBanner.hidden = false;
+      // writer gets that something changed, so it has to be the first
+      // thing visible on the page, not buried in a status group. Covers
+      // every staff-initiated transition (writer_notified_at, install/52),
+      // not just needs_revision -- a writer previously found out their
+      // piece was approved or published only by noticing it had moved,
+      // the same silent gap that used to apply to bad news too.
+      const unseen = (status) => (articles[status] || []).filter((article) => !article.writer_notified_at);
+      const unseenNeedsRevision = unseen("needs_revision");
+      const unseenApproved = unseen("approved");
+      const unseenPublished = unseen("published");
+
+      if (attentionBanner) {
+        if (unseenNeedsRevision.length) {
+          attentionBanner.dataset.tone = "warning";
+          attentionText.textContent = unseenNeedsRevision.length === 1
+            ? `"${unseenNeedsRevision[0].title || "(untitled)"}" needs revision before it can move forward.`
+            : `${unseenNeedsRevision.length} articles need revision before they can move forward.`;
+          attentionLink.href = "/writer-portal/write/?id=" + encodeURIComponent(unseenNeedsRevision[0].id);
+          attentionLink.textContent = "Fix it now";
+          attentionBanner.hidden = false;
+        } else if (unseenPublished.length || unseenApproved.length) {
+          const first = unseenPublished[0] || unseenApproved[0];
+          const parts = [];
+          if (unseenPublished.length) parts.push(`${unseenPublished.length} article${unseenPublished.length === 1 ? "" : "s"} published`);
+          if (unseenApproved.length) parts.push(`${unseenApproved.length} approved`);
+          attentionBanner.dataset.tone = "success";
+          attentionText.textContent = parts.join(", ") + ".";
+          attentionLink.href = "/writer-portal/write/?id=" + encodeURIComponent(first.id);
+          attentionLink.textContent = "Take a look";
+          attentionBanner.hidden = false;
+        }
       }
 
       loadingBox.hidden = true;

@@ -48,7 +48,11 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
       body: JSON.stringify({ action, ...extra })
     });
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "This request could not be completed.");
+    if (!response.ok) {
+      const error = new Error(data.error || "This request could not be completed.");
+      error.status = response.status;
+      throw error;
+    }
     return data;
   }
 
@@ -84,11 +88,20 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
       imageFileInput.value = "";
       if (!file || !target) return;
 
+      // Alt text only makes sense for an image embedded in the body --
+      // the featured image already uses the article's own title as its
+      // alt text on the public page. Asked before the upload starts, not
+      // after, so there's only one interruption, not two.
+      let altText = "";
+      if (target === "toolbar") {
+        altText = window.prompt("Describe this image, for readers who can't see it (leave blank to skip):") || "";
+      }
+
       showStatus("Uploading image...");
       try {
         const publicUrl = await uploadImage(file);
         if (target === "toolbar" && editorInstance) {
-          editorInstance.chain().focus().setImage({ src: publicUrl }).run();
+          editorInstance.chain().focus().setImage({ src: publicUrl, alt: altText }).run();
           scheduleAutosave();
         } else if (target === "featured") {
           fields.featured_image_url.value = publicUrl;
@@ -209,13 +222,24 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
   });
 
   let editorInstance = null;
+  // Captured on load, updated after every successful save -- passed back
+  // as expected_updated_at so the server can tell a save apart from a
+  // save landing on top of a change from another tab/device in between
+  // (updateOwnArticle, lib/writer_portal_service.mjs) instead of quietly
+  // overwriting it.
+  let currentUpdatedAt = null;
 
+  // Returns true/false rather than throwing -- scheduleAutosave's timer
+  // fires it with nothing awaiting the result (a rejection there would
+  // just be an unhandled promise rejection), while the Submit button
+  // below explicitly checks the return value so it never proceeds to
+  // submit_article on top of a save that didn't actually happen.
   async function save() {
-    if (!editable) return;
+    if (!editable) return false;
     showStatus("Saving...");
 
     try {
-      await api("update_article", {
+      const { article: saved } = await api("update_article", {
         article_id: articleId,
         title: fields.title.value,
         dek: fields.dek.value,
@@ -223,12 +247,24 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
         tags: textToTags(fields.tags.value),
         featured_image_url: fields.featured_image_url.value,
         photo_credit: fields.photo_credit.value,
-        body: editorInstance.getJSON()
+        body: editorInstance.getJSON(),
+        expected_updated_at: currentUpdatedAt
       });
+      currentUpdatedAt = saved.updated_at;
       hasUnsavedChanges = false;
       showStatus("Saved.");
+      return true;
     } catch (error) {
+      if (error.status === 409 && /changed elsewhere/.test(error.message || "")) {
+        // Retrying would just fail again with the same stale timestamp --
+        // stop autosaving rather than spam the same conflict every 1.5s,
+        // and make the fix (reload) explicit rather than a generic error.
+        editable = false;
+        showStatus(error.message + " Reload now to avoid losing your latest changes.", "error");
+        return false;
+      }
       showStatus(error.message || "This could not be saved.", "error");
+      return false;
     }
   }
 
@@ -268,7 +304,14 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
     clearTimeout(saveTimer);
 
     try {
-      await save();
+      const saved = await save();
+      if (!saved) {
+        // save() has already shown the real reason (a conflict, or
+        // whatever else failed) -- submitting on top of that would
+        // either send stale content or fail again anyway.
+        submitButton.disabled = false;
+        return;
+      }
       await api("submit_article", { article_id: articleId });
       window.location.replace("/writer-portal/");
     } catch (error) {
@@ -320,6 +363,7 @@ import Placeholder from "https://cdn.jsdelivr.net/npm/@tiptap/extension-placehol
 
       fillFields(article);
       renderNotes(article);
+      currentUpdatedAt = article.updated_at;
 
       editorInstance = new Editor({
         element: editorBox,

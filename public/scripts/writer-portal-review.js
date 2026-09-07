@@ -226,6 +226,7 @@
         return;
       }
       if (action === "archive" && !window.confirm("Archive this article? It will be pulled from the public site.")) return;
+      if (action === "publish" && !window.confirm("Publish this article? It goes live on the public site immediately.")) return;
 
       button.disabled = true;
       try {
