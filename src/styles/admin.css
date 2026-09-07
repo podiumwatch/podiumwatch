@@ -427,6 +427,18 @@ body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-nav-item { justify-
        onto a different number of lines than each other, a real,
        confirmed inconsistency there, not a guess. */
     flex: 1 1 100%;
+    /* A flex item's default min-width is "auto", not 0 -- it resolves
+       to the item's own min-content size, which for an action cell
+       holding several nowrap buttons can be the sum of every button's
+       width with no wrap point the browser will actually use, forcing
+       the whole row wider than the viewport instead of letting the
+       buttons wrap onto their own lines. Confirmed live: an intern
+       application row's third action button rendered cut off past the
+       screen edge, inside admin-table-wrap's overflow-x:auto safety
+       net, invisible to a page-level scrollWidth check since the
+       overflow was contained to that one wrapper. This is the
+       standard, well-known fix for exactly this flexbox behavior. */
+    min-width: 0;
   }
   /* Opt-in per page: mark the one identity column (a name, date, or
      title) with this class to keep it on its own bold first line
