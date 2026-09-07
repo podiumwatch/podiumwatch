@@ -615,14 +615,14 @@
       ? meets
           .map(
             (meet) => `<tr>
-              <td>
+              <td class="admin-cell-primary">
                 <strong>${escapeHtml(meet.name)}</strong>
                 <br>
                 <small>${escapeHtml(meet.sport || "")}</small>
               </td>
-              <td>${escapeHtml(formatDate(meet.meet_date))}</td>
+              <td><span class="admin-cell-label">Date</span>${escapeHtml(formatDate(meet.meet_date))}</td>
               <td>
-                ${escapeHtml(
+                <span class="admin-cell-label">Location</span>${escapeHtml(
                   meet.venue_name ||
                   meet.city ||
                   meet.host_school ||
@@ -630,13 +630,13 @@
                 )}
               </td>
               <td>
-                ${statusBadge(
+                <span class="admin-cell-label">Status</span>${statusBadge(
                   meet.published ? "Published" : "Draft",
                   meet.published ? "success" : "warning"
                 )}
               </td>
               <td>
-                ${
+                <span class="admin-cell-label">Results</span>${
                   meet.results_url ||
                   meet.athleticnet_url ||
                   meet.milesplit_url
@@ -1587,13 +1587,13 @@
         (submission.reviewed_by ? ` <small>by ${escapeHtml(submission.reviewed_by)}</small>` : "");
 
     return `<tr>
-      <td>${escapeHtml(formatDate(submission.created_at, true))}</td>
-      <td>${escapeHtml(submission.meet_name)}${submission.meet_date ? `<br><small>${escapeHtml(formatDate(submission.meet_date))}</small>` : ""}</td>
-      <td>${escapeHtml(submission.division_level || "Not listed")}</td>
-      <td>${escapeHtml(submission.timing_company_name)}</td>
-      <td>${escapeHtml(submission.submitter_email)}</td>
-      <td>${escapeHtml(submission.original_filename)}<br><small>${escapeHtml(formatFileSize(submission.file_size_bytes))}</small></td>
-      <td>${escapeHtml(titleCaseWord(submission.status))}</td>
+      <td><span class="admin-cell-label">Submitted</span>${escapeHtml(formatDate(submission.created_at, true))}</td>
+      <td class="admin-cell-primary">${escapeHtml(submission.meet_name)}${submission.meet_date ? `<br><small>${escapeHtml(formatDate(submission.meet_date))}</small>` : ""}</td>
+      <td><span class="admin-cell-label">Division / level</span>${escapeHtml(submission.division_level || "Not listed")}</td>
+      <td><span class="admin-cell-label">Timing company</span>${escapeHtml(submission.timing_company_name)}</td>
+      <td><span class="admin-cell-label">Contact</span>${escapeHtml(submission.submitter_email)}</td>
+      <td><span class="admin-cell-label">File</span>${escapeHtml(submission.original_filename)}<br><small>${escapeHtml(formatFileSize(submission.file_size_bytes))}</small></td>
+      <td><span class="admin-cell-label">Status</span>${escapeHtml(titleCaseWord(submission.status))}</td>
       <td>${actions}</td>
     </tr>`;
   }
@@ -1730,12 +1730,12 @@
     ].join("");
 
     return `<tr>
-      <td>${escapeHtml(formatDate(application.created_at, true))}</td>
-      <td>${escapeHtml(application.full_name)}<br><small>${escapeHtml(application.grade)}, ${escapeHtml(application.school)}</small></td>
-      <td>${escapeHtml(application.email)}${application.phone ? `<br><small>${escapeHtml(application.phone)}</small>` : ""}</td>
-      <td>${escapeHtml(application.parent_name)}<br><small>${escapeHtml(application.parent_email)}</small></td>
-      <td>${coverage}</td>
-      <td>${escapeHtml(titleCaseWord(application.status))}${application.status === "accepted"
+      <td><span class="admin-cell-label">Submitted</span>${escapeHtml(formatDate(application.created_at, true))}</td>
+      <td class="admin-cell-primary">${escapeHtml(application.full_name)}<br><small>${escapeHtml(application.grade)}, ${escapeHtml(application.school)}</small></td>
+      <td><span class="admin-cell-label">Contact</span>${escapeHtml(application.email)}${application.phone ? `<br><small>${escapeHtml(application.phone)}</small>` : ""}</td>
+      <td><span class="admin-cell-label">Parent / guardian</span>${escapeHtml(application.parent_name)}<br><small>${escapeHtml(application.parent_email)}</small></td>
+      <td><span class="admin-cell-label">Coverage interests</span>${coverage}</td>
+      <td><span class="admin-cell-label">Status</span>${escapeHtml(titleCaseWord(application.status))}${application.status === "accepted"
         ? (application.welcomed_at
           ? `<br><small>Welcomed ${escapeHtml(formatDate(application.welcomed_at, true))}</small>`
           : "<br><small>Not yet welcomed</small>")
@@ -2059,6 +2059,12 @@
 
         loginForm.reset();
         loginMessage.textContent = "";
+        // Same stale-session fix admin-dashboard.js already uses:
+        // admin-shell.js memoizes an "anonymous" 401 result the instant
+        // its script runs, before this form is ever submitted, so the
+        // sidebar's own session text stays stuck on "Sign in required"
+        // after a successful login without this (confirmed live).
+        window.PodiumAdminShell?.refreshDashboard?.({ bypassCache: true });
         await loadDashboard();
       } catch (error) {
         loginMessage.textContent =

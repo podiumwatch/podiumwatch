@@ -25,10 +25,10 @@ const styles = `
     .recruit-admin-profile-button { width:100%; padding:12px; border:1px solid rgba(15,23,42,.14); border-radius:9px; background:#fff; text-align:left; cursor:pointer; }
     .recruit-admin-profile-button strong, .recruit-admin-profile-button span { display:block; }
     .recruit-admin-profile-button span { color:#64748b; font-size:.85rem; margin-top:4px; }
-    .recruit-admin-table-wrap { overflow:auto; border:1px solid rgba(15,23,42,.12); border-radius:10px; }
-    .recruit-admin-table { width:100%; min-width:720px; border-collapse:collapse; background:#fff; }
-    .recruit-admin-table th, .recruit-admin-table td { padding:10px; border-bottom:1px solid rgba(15,23,42,.1); text-align:left; vertical-align:top; }
-    .recruit-admin-table th { background:#111; color:#fff; font-size:.74rem; text-transform:uppercase; }
+    /* Table styling now lives in src/styles/admin.css's shared
+       .admin-table/.admin-table-wrap -- also gives every table here a
+       real mobile-card layout below 640px instead of the min-width:720px
+       forced horizontal scroll this rule used to have. */
     .recruit-admin-preview-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:9px; }
     .recruit-admin-preview-summary div { padding:11px; border-radius:9px; background:#f8fafc; }
     .recruit-admin-preview-summary strong, .recruit-admin-preview-summary span { display:block; }
@@ -79,7 +79,7 @@ export function adminRecruitingPage(site) {
               <option value="all">All</option>
             </select>
           </div>
-          <div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Submitted</th><th>Athlete</th><th>School</th><th>Update</th><th>College</th><th>From</th><th>Action</th></tr></thead><tbody data-tips-rows></tbody></table></div>
+          <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Submitted</th><th>Athlete</th><th>School</th><th>Update</th><th>College</th><th>From</th><th>Action</th></tr></thead><tbody data-tips-rows></tbody></table></div>
           <div data-tips-empty hidden>No tips right now.</div>
         </section>
 
@@ -132,7 +132,7 @@ export function adminRecruitingPage(site) {
               </div>
             </form>
             <div class="recruit-admin-preview-summary" data-performance-import-summary></div>
-            <div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Row</th><th>Athlete and team</th><th>Event</th><th>Mark</th><th>Status</th><th>Review note</th><th>Resolve</th></tr></thead><tbody data-performance-import-rows></tbody></table></div>
+            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Row</th><th>Athlete and team</th><th>Event</th><th>Mark</th><th>Status</th><th>Review note</th><th>Resolve</th></tr></thead><tbody data-performance-import-rows></tbody></table></div>
           </section>
         </div>
 
@@ -176,7 +176,7 @@ export function adminRecruitingPage(site) {
                 <button class="button button-outline" type="button" data-recruit-comparison-button>Compare to rated athletes in this group</button>
                 <small>Shows already published ratings in the same class, gender, and event group as a side-by-side reference. It never suggests a score.</small>
               </div>
-              <div class="recruit-admin-table-wrap" data-recruit-comparison-panel hidden><table class="recruit-admin-table"><thead><tr><th>Athlete</th><th>Mark</th><th>Score</th><th>Stars</th><th>Class rank</th><th>Group rank</th></tr></thead><tbody data-recruit-comparison-rows></tbody></table></div>
+              <div class="admin-table-wrap" data-recruit-comparison-panel hidden><table class="admin-table"><thead><tr><th>Athlete</th><th>Mark</th><th>Score</th><th>Stars</th><th>Class rank</th><th>Group rank</th></tr></thead><tbody data-recruit-comparison-rows></tbody></table></div>
             </section>
 
             <section class="recruit-admin-panel">
@@ -203,11 +203,11 @@ export function adminRecruitingPage(site) {
           </div>
 
           <div class="recruit-admin-grid">
-            <section class="recruit-admin-panel"><h3>Best sourced performances</h3><div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Event</th><th>Mark</th><th>Meet</th><th>Source</th></tr></thead><tbody data-recruit-best-rows></tbody></table></div></section>
-            <section class="recruit-admin-panel"><h3>Ratings</h3><div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Group</th><th>Score</th><th>Stars</th><th>Status</th><th>Action</th></tr></thead><tbody data-recruit-rating-rows></tbody></table></div></section>
+            <section class="recruit-admin-panel"><h3>Best sourced performances</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Event</th><th>Mark</th><th>Meet</th><th>Source</th></tr></thead><tbody data-recruit-best-rows></tbody></table></div></section>
+            <section class="recruit-admin-panel"><h3>Ratings</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Group</th><th>Score</th><th>Stars</th><th>Status</th><th>Action</th></tr></thead><tbody data-recruit-rating-rows></tbody></table></div></section>
           </div>
 
-          <section class="recruit-admin-panel"><h3>Recruiting timeline</h3><div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Type</th><th>College</th><th>Date</th><th>Verification</th><th>Public</th><th>Action</th></tr></thead><tbody data-recruit-activity-rows></tbody></table></div></section>
+          <section class="recruit-admin-panel"><h3>Recruiting timeline</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Type</th><th>College</th><th>Date</th><th>Verification</th><th>Public</th><th>Action</th></tr></thead><tbody data-recruit-activity-rows></tbody></table></div></section>
 
           <section class="recruit-admin-panel">
             <h3>Athlete media</h3>
@@ -227,7 +227,7 @@ export function adminRecruitingPage(site) {
               </div>
               <button class="button button-dark" type="submit">Save media item</button>
             </form>
-            <div class="recruit-admin-table-wrap"><table class="recruit-admin-table"><thead><tr><th>Type</th><th>Title</th><th>Status</th><th>Featured</th><th>Action</th></tr></thead><tbody data-recruit-content-rows></tbody></table></div>
+            <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Type</th><th>Title</th><th>Status</th><th>Featured</th><th>Action</th></tr></thead><tbody data-recruit-content-rows></tbody></table></div>
           </section>
         </section>
       </div>

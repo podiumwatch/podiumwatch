@@ -65,6 +65,14 @@ export const ADMIN_NAV_GROUPS = [
     ]
   },
   {
+    id: "writer-portal",
+    label: "Writer Portal",
+    items: [
+      { id: "writer-portal-review", label: "Review Queue", href: "/writer-portal/admin/review/", mark: "RQ", description: "Submitted articles awaiting review, approval, and publishing.", keywords: "writer portal article submit approve publish revision review" },
+      { id: "writer-portal-admin", label: "Manage Writers", href: "/writer-portal/admin/", mark: "MW", description: "Writer Portal accounts, roles, and invites.", keywords: "writer portal invite role editor account" }
+    ]
+  },
+  {
     id: "audience",
     label: "Audience",
     items: [

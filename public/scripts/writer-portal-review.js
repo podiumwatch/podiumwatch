@@ -58,11 +58,11 @@
 
   function rowMarkup(article) {
     return `<tr data-review-row="${escapeHtml(article.id)}">
-      <td>${escapeHtml(article.title || "(untitled)")}</td>
-      <td>${escapeHtml(article.author_name || "")}</td>
-      <td>${escapeHtml(article.category ? titleCase(article.category) : "—")}</td>
-      <td><span class="writer-review-status-pill">${escapeHtml(titleCase(article.status))}</span></td>
-      <td>${escapeHtml(formatDate(article.updated_at))}</td>
+      <td class="admin-cell-primary">${escapeHtml(article.title || "(untitled)")}</td>
+      <td><span class="admin-cell-label">Writer</span>${escapeHtml(article.author_name || "")}</td>
+      <td><span class="admin-cell-label">Category</span>${escapeHtml(article.category ? titleCase(article.category) : "—")}</td>
+      <td><span class="admin-cell-label">Status</span><span class="writer-review-status-pill">${escapeHtml(titleCase(article.status))}</span></td>
+      <td><span class="admin-cell-label">Updated</span>${escapeHtml(formatDate(article.updated_at))}</td>
     </tr>`;
   }
 

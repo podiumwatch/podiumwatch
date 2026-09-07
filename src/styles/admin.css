@@ -145,6 +145,16 @@ body.admin-shell .button {
   font-family: Arial, Helvetica, sans-serif;
   font-size: .68rem;
 }
+/* Tapping this button already opens the same jump dialog exactly like
+   the keyboard shortcut does -- admin-shell.js's click handler doesn't
+   distinguish input method. Only this label is wrong on a touchscreen
+   (confirmed live on a real mobile viewport: no physical keyboard, so
+   "Ctrl K" means nothing there). (hover:none) is a direct touch-capability
+   check, not a viewport-width guess -- a touch laptop with a keyboard
+   still gets to see the real shortcut. */
+@media (hover: none) {
+  .admin-jump-trigger kbd { display: none; }
+}
 
 .admin-nav-group {
   margin: 14px 0 6px;
@@ -349,6 +359,88 @@ body.admin-shell[data-admin-sidebar-collapsed="true"] .admin-nav-item { justify-
   text-transform: none;
 }
 .admin-task p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+/* ---- Responsive data tables --------------------------------------------
+   Generalizes the pattern already proven in src/pages/oatcccpoll.mjs (a
+   real, user-reported mobile fix, commit 112ffc1): the SAME <table>
+   markup renders always -- this only toggles CSS at the breakpoint, so
+   the table keeps real semantics for screen readers and no page needs a
+   second, parallel card markup. Any admin page with a dense data table
+   should use these two classes instead of inventing its own
+   min-width-forces-horizontal-scroll styling -- found live across six
+   separate admin/writer-portal pages, each with a slightly different
+   version of the exact same "tiny horizontally-scrolling strip on a
+   phone" problem. Breakpoint (640px) matches oatcccpoll.mjs's own, so
+   there's one consistent mobile threshold sitewide, not a second one
+   invented here. */
+.admin-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+.admin-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+.admin-table th {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--white);
+  background: var(--black);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: .72rem;
+  letter-spacing: .05em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.admin-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+  font-size: .92rem;
+}
+.admin-table tbody tr:last-child td { border-bottom: none; }
+.admin-cell-label { display: none; }
+
+@media (max-width: 640px) {
+  .admin-table-wrap { border-left: none; border-right: none; }
+  .admin-table thead { display: none; }
+  .admin-table, .admin-table tbody { display: block; width: 100%; }
+  .admin-table tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    column-gap: 10px;
+    row-gap: 6px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .admin-table tr:last-child { border-bottom: none; }
+  .admin-table td {
+    display: block;
+    padding: 0;
+    border: none;
+    /* Unconditional full-width, not "whatever space happens to be
+       left" -- the exact fix oatcccpoll.mjs's own commit had to make.
+       Without this, rows with a short vs. long first-column value wrap
+       onto a different number of lines than each other, a real,
+       confirmed inconsistency there, not a guess. */
+    flex: 1 1 100%;
+  }
+  /* Opt-in per page: mark the one identity column (a name, date, or
+     title) with this class to keep it on its own bold first line
+     instead of stacking it like every other detail cell below it. */
+  .admin-table td.admin-cell-primary {
+    order: -1;
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+  .admin-cell-label { display: inline; color: var(--ink); font-weight: 700; }
+  .admin-cell-label::after { content: ": "; }
+}
 
 /* ---- Quick-jump dialog ------------------------------------------------ */
 

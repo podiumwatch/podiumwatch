@@ -54,13 +54,13 @@
     ).join("");
 
     return `<tr>
-      <td>${escapeHtml(writer.full_name || "(no name set)")}</td>
-      <td><span class="writer-admin-role-badge">${escapeHtml(writer.role)}</span>
+      <td class="admin-cell-primary">${escapeHtml(writer.full_name || "(no name set)")}</td>
+      <td><span class="admin-cell-label">Role</span><span class="writer-admin-role-badge">${escapeHtml(writer.role)}</span>
         <select class="writer-admin-role-select" data-writer-role-select="${escapeHtml(writer.id)}">${roleOptions}</select>
       </td>
-      <td>${escapeHtml(writer.school || "—")}</td>
-      <td>${escapeHtml(writer.grade || "—")}</td>
-      <td>${escapeHtml(formatDate(writer.created_at))}</td>
+      <td><span class="admin-cell-label">School</span>${escapeHtml(writer.school || "—")}</td>
+      <td><span class="admin-cell-label">Grade</span>${escapeHtml(writer.grade || "—")}</td>
+      <td><span class="admin-cell-label">Joined</span>${escapeHtml(formatDate(writer.created_at))}</td>
     </tr>`;
   }
 

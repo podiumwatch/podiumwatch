@@ -263,31 +263,11 @@ const styles = `
       background: #00bf63;
     }
 
-    .operations-table-wrap {
-      overflow: auto;
-      border: 1px solid rgba(15, 23, 42, .12);
-      border-radius: 12px;
-    }
-
-    .operations-table {
-      width: 100%;
-      min-width: 760px;
-      border-collapse: collapse;
-      background: #fff;
-    }
-
-    .operations-table th,
-    .operations-table td {
-      padding: 12px;
-      text-align: left;
-      vertical-align: top;
-      border-bottom: 1px solid rgba(15, 23, 42, .09);
-    }
-
-    .operations-table th {
-      color: #fff;
-      background: #111827;
-    }
+    /* Table styling now lives in src/styles/admin.css's shared
+       .admin-table/.admin-table-wrap (also gives every table here a
+       real mobile-card layout below 640px instead of forcing horizontal
+       scroll on a phone -- this file's own min-width:760px rule was
+       exactly that problem, confirmed live). */
 
     .operations-empty {
       padding: 22px;
@@ -934,8 +914,8 @@ export function adminOperationsPage(
                 </a>
               </div>
 
-              <div class="operations-table-wrap">
-                <table class="operations-table">
+              <div class="admin-table-wrap">
+                <table class="admin-table">
                   <thead>
                     <tr>
                       <th>Meet</th>
@@ -1377,8 +1357,8 @@ export function adminOperationsPage(
                 </button>
               </div>
 
-              <div class="operations-table-wrap">
-                <table class="operations-table">
+              <div class="admin-table-wrap">
+                <table class="admin-table">
                   <thead>
                     <tr>
                       <th>Submitted</th>
@@ -1469,8 +1449,8 @@ export function adminOperationsPage(
                 </button>
               </div>
 
-              <div class="operations-table-wrap">
-                <table class="operations-table">
+              <div class="admin-table-wrap">
+                <table class="admin-table">
                   <thead>
                     <tr>
                       <th>Submitted</th>

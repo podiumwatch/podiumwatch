@@ -1,11 +1,7 @@
-import { layout, pageHero } from "../lib/html.mjs";
+import { adminShell } from "../lib/adminshell.mjs";
 
 const styles = `
     .writer-admin-shell { display:grid; gap:24px; }
-    .writer-admin-table-wrap { overflow:auto; border:1px solid rgba(var(--black-rgb),.12); border-radius:13px; background:var(--white); }
-    .writer-admin-table { width:100%; min-width:720px; border-collapse:collapse; }
-    .writer-admin-table th { padding:12px; background:var(--black); color:var(--white); font-size:.74rem; letter-spacing:.05em; text-align:left; text-transform:uppercase; }
-    .writer-admin-table td { padding:12px; border-bottom:1px solid rgba(var(--black-rgb),.1); vertical-align:middle; }
     .writer-admin-role-badge { display:inline-flex; padding:4px 9px; border-radius:999px; background:rgba(var(--green-rgb),.14); font-size:.72rem; font-weight:900; text-transform:uppercase; }
     .writer-admin-role-select { padding:6px 8px; border:1px solid rgba(var(--black-rgb),.22); border-radius:7px; font:inherit; }
     .writer-admin-invite-form { display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; }
@@ -17,62 +13,58 @@ const styles = `
 `;
 
 // Staff-only (portal role editor/admin, NOT the site's shared admin
-// password -- see lib/portal_auth.mjs). Stage 1 stub: every writer with
-// an account, and the ability to change roles. This becomes the review
-// queue in Stage 3 (submitted articles instead of/alongside this list).
+// password -- see lib/portal_auth.mjs). Every writer with an account, and
+// the ability to change roles. Rendered through the same adminShell() as
+// every other Podium Watch admin tool (sidebar, pins, badges, quick-jump
+// search) instead of the site's public chrome -- this page's own auth
+// check (window.PodiumWriterAuth, writer-portal-admin.js) is untouched;
+// only the surrounding navigation changed. See docs/DECISIONS.md.
 export function writerPortalAdminPage(site) {
-  const content = `${pageHero({
-    eyebrow: "Podium Watch Writer Portal",
-    title: "Writers.",
-    description: "Everyone with a Podium Watch Writer Portal account. The review queue for submitted articles lands here in a later stage."
-  })}
+  const content = `<div class="writer-admin-shell" data-writer-admin-loading>
+    <div class="info-card"><h2>Checking your Writer Portal access</h2><p>Please wait.</p></div>
+  </div>
 
-  <style>${styles}</style>
-
-  <section class="section section-paper">
-    <div class="container writer-admin-shell" data-writer-admin-loading>
-      <div class="info-card"><h2>Checking your Writer Portal access</h2><p>Please wait.</p></div>
+  <div class="writer-admin-shell" data-writer-admin-root hidden>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <a class="button button-outline" href="/writer-portal/">Back to your articles</a>
     </div>
 
-    <div class="container writer-admin-shell" data-writer-admin-root hidden>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <a class="button button-outline" href="/writer-portal/">Back to your articles</a>
-        <a class="button button-outline" href="/writer-portal/admin/review/">Review queue</a>
-      </div>
+    <section class="info-card">
+      <p class="eyebrow">Add a writer</p>
+      <h2>Invite a writer</h2>
+      <form class="writer-admin-invite-form" data-writer-invite-form>
+        <label>Email<input type="email" name="email" required maxlength="320"></label>
+        <label>Name (optional)<input type="text" name="full_name" maxlength="200"></label>
+        <button class="button button-primary" type="submit">Send invite</button>
+      </form>
+      <p class="writer-admin-message" data-writer-invite-message role="status" hidden style="margin-top:10px;"></p>
+    </section>
 
-      <section class="info-card">
-        <p class="eyebrow">Add a writer</p>
-        <h2>Invite a writer</h2>
-        <form class="writer-admin-invite-form" data-writer-invite-form>
-          <label>Email<input type="email" name="email" required maxlength="320"></label>
-          <label>Name (optional)<input type="text" name="full_name" maxlength="200"></label>
-          <button class="button button-primary" type="submit">Send invite</button>
-        </form>
-        <p class="writer-admin-message" data-writer-invite-message role="status" hidden style="margin-top:10px;"></p>
-      </section>
-
-      <div class="writer-admin-table-wrap">
-        <table class="writer-admin-table">
-          <thead><tr><th>Name</th><th>Role</th><th>School</th><th>Grade</th><th>Joined</th></tr></thead>
-          <tbody data-writer-admin-rows></tbody>
-        </table>
-      </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr><th>Name</th><th>Role</th><th>School</th><th>Grade</th><th>Joined</th></tr></thead>
+        <tbody data-writer-admin-rows></tbody>
+      </table>
     </div>
+  </div>
 
-    <div class="container writer-admin-shell" data-writer-admin-denied hidden>
-      <div class="info-card"><h2>Writer Portal staff access required</h2><p>This page is only available to editors and admins.</p></div>
-    </div>
-  </section>
+  <div class="writer-admin-shell" data-writer-admin-denied hidden>
+    <div class="info-card"><h2>Writer Portal staff access required</h2><p>This page is only available to editors and admins.</p></div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
   <script src="/scripts/writer-auth-client.js" defer></script>
   <script src="/scripts/writer-portal-admin.js" defer></script>`;
 
-  return layout({
+  return adminShell({
     site,
+    pathname: "/writer-portal/admin/",
     title: "Writers",
     description: "Manage Podium Watch Writer Portal accounts.",
-    pathname: "/writer-portal/admin/",
+    eyebrow: "Podium Watch Writer Portal",
+    heading: "Writers.",
+    intro: "Everyone with a Podium Watch Writer Portal account.",
+    styles,
     content
   });
 }

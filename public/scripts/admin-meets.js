@@ -1173,6 +1173,14 @@
 
         loginForm.reset();
         loginMessage.textContent = "";
+        // admin-shell.js fires its own dashboard-summary fetch
+        // unconditionally the moment its script runs -- on a fresh,
+        // not-yet-authenticated load that happens before this form is
+        // even submitted, so it memoizes an "anonymous" 401 result and
+        // the sidebar's own session text stays stuck on "Sign in
+        // required" forever otherwise (confirmed live). Same fix
+        // admin-dashboard.js already uses.
+        window.PodiumAdminShell?.refreshDashboard?.({ bypassCache: true });
         showDashboard();
       } catch (error) {
         loginMessage.textContent =

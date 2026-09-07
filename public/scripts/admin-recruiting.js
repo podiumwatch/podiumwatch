@@ -501,13 +501,13 @@
     };
 
     importRows.innerHTML = (preview.rows || []).map((item) =>
-      "<tr><td>" + escapeHtml(item.row_number) +
-      "</td><td>" + escapeHtml(item.athlete_name) +
+      "<tr><td><span class=\"admin-cell-label\">Row</span>" + escapeHtml(item.row_number) +
+      "</td><td class=\"admin-cell-primary\">" + escapeHtml(item.athlete_name) +
       "<br><small>" + escapeHtml(item.school_name) +
-      "</small></td><td>" + escapeHtml(item.event_name) +
-      "</td><td>" + escapeHtml(item.mark_text) +
-      "</td><td>" + escapeHtml(titleCase(item.row_status)) +
-      "</td><td>" + escapeHtml(statusNote(item)) +
+      "</small></td><td><span class=\"admin-cell-label\">Event</span>" + escapeHtml(item.event_name) +
+      "</td><td><span class=\"admin-cell-label\">Mark</span>" + escapeHtml(item.mark_text) +
+      "</td><td><span class=\"admin-cell-label\">Status</span>" + escapeHtml(titleCase(item.row_status)) +
+      "</td><td><span class=\"admin-cell-label\">Review note</span>" + escapeHtml(statusNote(item)) +
       "</td><td>" + resolveCellHtml(item) +
       "</td></tr>"
     ).join("");
@@ -1081,12 +1081,12 @@
       : escapeHtml(titleCase(tip.status)) + (tip.reviewed_by ? " by " + escapeHtml(tip.reviewed_by) : "");
 
     return "<tr>" +
-      "<td>" + escapeHtml(submittedAt) + "</td>" +
-      "<td>" + escapeHtml(tip.submitted_athlete_name) + "</td>" +
-      "<td>" + escapeHtml(tip.submitted_school_name) + "</td>" +
-      "<td>" + escapeHtml(titleCase(tip.activity_type)) + "</td>" +
-      "<td>" + escapeHtml(tip.college_name) + "</td>" +
-      "<td>" + escapeHtml(tip.submitter_name || "") + (tip.submitter_role ? " (" + escapeHtml(tip.submitter_role) + ")" : "") + "</td>" +
+      "<td><span class=\"admin-cell-label\">Submitted</span>" + escapeHtml(submittedAt) + "</td>" +
+      "<td class=\"admin-cell-primary\">" + escapeHtml(tip.submitted_athlete_name) + "</td>" +
+      "<td><span class=\"admin-cell-label\">School</span>" + escapeHtml(tip.submitted_school_name) + "</td>" +
+      "<td><span class=\"admin-cell-label\">Update</span>" + escapeHtml(titleCase(tip.activity_type)) + "</td>" +
+      "<td><span class=\"admin-cell-label\">College</span>" + escapeHtml(tip.college_name) + "</td>" +
+      "<td><span class=\"admin-cell-label\">From</span>" + escapeHtml(tip.submitter_name || "") + (tip.submitter_role ? " (" + escapeHtml(tip.submitter_role) + ")" : "") + "</td>" +
       "<td>" + actions + "</td>" +
     "</tr>";
   }

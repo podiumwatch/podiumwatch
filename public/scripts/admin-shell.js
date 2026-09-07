@@ -47,12 +47,24 @@
     return { version: 1, pinned: [], recent: [], sidebarCollapsed: false };
   }
 
+  // A genuinely first-ever visit to the admin sidebar shows an empty
+  // Pinned section until someone discovers the small pin button buried
+  // inside the collapsed "All tools" list -- exactly backwards from "make
+  // the things I use most prominent". Seeded once, only when no real
+  // preference object has ever been saved (never re-applied on top of an
+  // existing one, even an intentionally-emptied one); persisted
+  // immediately below so it behaves like any other saved preference from
+  // here on, not something re-computed fresh every load.
+  function seedDefaultPins() {
+    return ["/admin/operations/", "/writer-portal/admin/review/", "/admin/recruiting/"];
+  }
+
   function loadState() {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (!raw) return defaultState();
+      if (!raw) return { ...defaultState(), pinned: seedDefaultPins(), seeded: true };
       const parsed = JSON.parse(raw);
-      if (!parsed || parsed.version !== 1) return defaultState();
+      if (!parsed || parsed.version !== 1) return { ...defaultState(), pinned: seedDefaultPins(), seeded: true };
       return {
         version: 1,
         pinned: Array.isArray(parsed.pinned) ? parsed.pinned.filter((href) => typeof href === "string") : [],
@@ -66,7 +78,7 @@
 
   function saveState() {
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: state.version, pinned: state.pinned, recent: state.recent, sidebarCollapsed: state.sidebarCollapsed }));
     } catch {
       // Private browsing, quota exceeded, etc. -- navigation must keep
       // working even when personalization can't be persisted.
@@ -74,6 +86,10 @@
   }
 
   const state = loadState();
+  if (state.seeded) {
+    delete state.seeded;
+    saveState();
+  }
 
   function recordVisit() {
     const href = currentPathname();
