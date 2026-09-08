@@ -42,7 +42,7 @@ export function writerPortalAdminPage(site) {
 
     <div class="admin-table-wrap">
       <table class="admin-table">
-        <thead><tr><th>Name</th><th>Role</th><th>School</th><th>Grade</th><th>Joined</th><th>Account</th></tr></thead>
+        <thead><tr><th>Name</th><th>Role</th><th>School</th><th>Grade</th><th>Joined</th><th>Last active</th><th>Account</th></tr></thead>
         <tbody data-writer-admin-rows></tbody>
       </table>
     </div>

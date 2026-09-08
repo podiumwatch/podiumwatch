@@ -53,6 +53,7 @@ export function writerPortalReviewPage(site) {
     <div class="writer-review-filters">
       <select data-writer-review-status-filter>
         <option value="">Needs attention (default)</option>
+        <option value="draft">Draft (in progress, not yet submitted)</option>
         <option value="submitted">Submitted</option>
         <option value="needs_revision">Needs revision</option>
         <option value="approved">Approved</option>

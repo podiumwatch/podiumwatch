@@ -20,6 +20,28 @@
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   }
 
+  // Same formula already used in public/scripts/guardian-home.js.
+  function formatRelativeTime(isoString) {
+    if (!isoString) return null;
+    const then = Date.parse(isoString);
+    if (Number.isNaN(then)) return null;
+
+    const diffSeconds = Math.max(0, Math.round((Date.now() - then) / 1000));
+    if (diffSeconds < 45) return "just now";
+    if (diffSeconds < 90) return "1 minute ago";
+
+    const minutes = Math.round(diffSeconds / 60);
+    if (minutes < 60) return minutes + " minutes ago";
+
+    const hours = Math.round(minutes / 60);
+    if (hours < 24) return hours + (hours === 1 ? " hour ago" : " hours ago");
+
+    const days = Math.round(hours / 24);
+    if (days < 30) return days + (days === 1 ? " day ago" : " days ago");
+
+    return formatDate(isoString);
+  }
+
   async function meApi(action, extra = {}) {
     const token = await window.PodiumWriterAuth.getAccessToken();
     if (!token) throw new Error("Sign in required.");
@@ -61,6 +83,7 @@
       <td><span class="admin-cell-label">School</span>${escapeHtml(writer.school || "—")}</td>
       <td><span class="admin-cell-label">Grade</span>${escapeHtml(writer.grade || "—")}</td>
       <td><span class="admin-cell-label">Joined</span>${escapeHtml(formatDate(writer.created_at))}</td>
+      <td><span class="admin-cell-label">Last active</span>${escapeHtml(formatRelativeTime(writer.last_active_at) || "Never signed in")}</td>
       <td>
         <button class="button button-outline" type="button" data-writer-resend-link="${escapeHtml(writer.id)}">Resend setup link</button>
       </td>
