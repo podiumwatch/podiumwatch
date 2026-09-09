@@ -10,6 +10,7 @@
   const bodyEl = document.querySelector("[data-writer-article-body]");
   const tagsEl = document.querySelector("[data-writer-article-tags]");
   const bylineEl = document.querySelector("[data-writer-article-byline]");
+  const storyLinkEl = document.querySelector("[data-writer-article-story-link]");
 
   if (!loadingBox || !root || !missing) return;
 
@@ -51,6 +52,22 @@
       categoryEl.textContent = article.category ? titleCase(article.category) : "Podium Watch";
       titleEl.textContent = article.title;
       metaEl.textContent = (article.dek ? article.dek + " — " : "") + "Published " + formatDate(article.published_at);
+
+      // Once a publish successfully syncs to a real Story
+      // (lib/writer_portal_service.mjs's publishArticle()), that's the
+      // canonical version -- same content, but it also shows up on the
+      // homepage, category pages, and search, which this standalone
+      // page never will. Points there without hard-redirecting away, so
+      // a link someone already has to this exact URL keeps working.
+      if (article.synced_story_path) {
+        storyLinkEl.innerHTML = `This piece is also live on the homepage: <a href="${escapeHtml(article.synced_story_path)}">Read the full story &rarr;</a>`;
+        storyLinkEl.hidden = false;
+
+        const canonical = document.createElement("link");
+        canonical.rel = "canonical";
+        canonical.href = new URL(article.synced_story_path, window.location.origin).href;
+        document.head.appendChild(canonical);
+      }
 
       if (article.featured_image_url) {
         imageEl.src = article.featured_image_url;
