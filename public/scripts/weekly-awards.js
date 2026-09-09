@@ -44,6 +44,22 @@
     }).format(date);
   }
 
+  // Randomizes the on-screen order of finalist cards on every page load --
+  // makes any attempt to game voting by clicking a fixed screen position
+  // (rather than a specific athlete/team) unreliable, since that position
+  // holds a different finalist each time the page loads. Purely a display
+  // order: voting and tallying both key off item.id, never array position,
+  // so this has zero effect on which finalist a vote or its count belongs
+  // to -- shuffling a copy of the array, never data.finalists itself.
+  function shuffled(list) {
+    const copy = list.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
   function getVoterToken() {
     let token = localStorage.getItem(storageKey);
     if (token && token.length >= 20) return token;
@@ -129,7 +145,7 @@
     statusBox.hidden = true;
     currentSection.hidden = false;
 
-    const finalists = data.finalists || [];
+    const finalists = shuffled(data.finalists || []);
     const container = root.querySelector("[data-award-finalists]");
     container.innerHTML = finalists.length ? finalists.map((item) => finalistCard(item, week, item.winner === true)).join("") : '<div class="empty-state compact-empty"><h3>Finalists are not published yet</h3><p>Check back after nominations are reviewed.</p></div>';
 
