@@ -21,6 +21,13 @@ const styles = `
     .writer-empty { padding:12px 14px; color: var(--muted); font-weight: 600; }
     .writer-attention-banner { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px; padding:16px 18px; border-radius:10px; background:rgba(230,167,0,.14); border-left:4px solid #e6a700; font-weight:800; }
     .writer-attention-banner[data-tone="success"] { background:rgba(var(--green-rgb),.13); border-left-color:var(--green); }
+    .writer-assignment-row { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:12px; padding:14px; border:1px solid rgba(var(--black-rgb),.12); border-radius:9px; margin-bottom:8px; }
+    .writer-assignment-main { min-width:0; }
+    .writer-assignment-title { font-weight:800; }
+    .writer-assignment-meta { color: var(--muted); font-size: .85rem; margin-top: 2px; }
+    .writer-assignment-notes { font-size: .88rem; margin-top: 6px; color: var(--ink); }
+    .writer-assignment-due { font-weight: 800; }
+    .writer-assignment-due[data-overdue="true"] { color: #c0392b; }
 `;
 
 // Writer Portal dashboard shell (Stage 1): lists the signed-in writer's
@@ -60,6 +67,12 @@ export function writerPortalPage(site) {
         <span data-writer-attention-text></span>
         <a class="button button-dark" data-writer-attention-link href="/writer-portal/write/">Fix it now</a>
       </div>
+
+      <section class="info-card" data-writer-assignments-card hidden>
+        <p class="eyebrow">Assigned to you</p>
+        <h2>Your assignments</h2>
+        <div data-writer-assignments-list></div>
+      </section>
 
       <section class="info-card">
         <p class="eyebrow">Welcome</p>

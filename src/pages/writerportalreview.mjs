@@ -63,6 +63,7 @@ export function writerPortalReviewPage(site) {
       <select data-writer-review-category-filter>
         <option value="">All categories</option>
         <option value="race_recap">Race Recap</option>
+        <option value="meet_preview">Meet Preview</option>
         <option value="feature">Feature</option>
         <option value="rankings_polls">Rankings &amp; Polls</option>
         <option value="recruiting">Recruiting</option>

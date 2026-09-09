@@ -3,6 +3,7 @@ import { layout, pageHero } from "../lib/html.mjs";
 const CATEGORIES = [
   ["", "Choose a category"],
   ["race_recap", "Race Recap"],
+  ["meet_preview", "Meet Preview"],
   ["feature", "Feature"],
   ["rankings_polls", "Rankings & Polls"],
   ["recruiting", "Recruiting"],

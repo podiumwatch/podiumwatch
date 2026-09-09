@@ -7,6 +7,8 @@
   const attentionBanner = document.querySelector("[data-writer-attention-banner]");
   const attentionText = document.querySelector("[data-writer-attention-text]");
   const attentionLink = document.querySelector("[data-writer-attention-link]");
+  const assignmentsCard = document.querySelector("[data-writer-assignments-card]");
+  const assignmentsList = document.querySelector("[data-writer-assignments-list]");
 
   if (!loadingBox || !root || !welcome) return;
 
@@ -26,11 +28,11 @@
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   }
 
-  async function api(action, extra = {}) {
+  async function callApi(path, action, extra = {}) {
     const token = await window.PodiumWriterAuth.getAccessToken();
     if (!token) throw new Error("Sign in required.");
 
-    const response = await fetch("/api/portal/me/", {
+    const response = await fetch(path, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
       body: JSON.stringify({ action, ...extra })
@@ -38,6 +40,48 @@
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || "This request could not be completed.");
     return data;
+  }
+
+  const api = (action, extra) => callApi("/api/portal/me/", action, extra);
+  const calApi = (action, extra) => callApi("/api/portal/calendar/", action, extra);
+
+  function titleCase(value) {
+    return String(value || "").replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+  }
+
+  function renderAssignments(ideas, viewerId) {
+    const mine = ideas
+      .filter((idea) => idea.assigned_to === viewerId && !idea.article_id)
+      .sort((a, b) => {
+        if (!a.target_date && !b.target_date) return 0;
+        if (!a.target_date) return 1;
+        if (!b.target_date) return -1;
+        return a.target_date < b.target_date ? -1 : 1;
+      });
+
+    if (!mine.length) {
+      assignmentsCard.hidden = true;
+      return;
+    }
+
+    const today = new Date().toISOString().slice(0, 10);
+    assignmentsList.innerHTML = mine.map((idea) => {
+      const overdue = idea.target_date && idea.target_date < today;
+      const dueLabel = idea.target_date ? formatDate(idea.target_date) : "No due date set";
+      const categoryLabel = idea.category ? titleCase(idea.category) : "";
+      return `<div class="writer-assignment-row">
+        <div class="writer-assignment-main">
+          <div class="writer-assignment-title">${escapeHtml(idea.title)}</div>
+          <div class="writer-assignment-meta">
+            Due <span class="writer-assignment-due" data-overdue="${overdue}">${escapeHtml(dueLabel)}</span>${categoryLabel ? " &middot; " + escapeHtml(categoryLabel) : ""}
+          </div>
+          ${idea.description ? `<div class="writer-assignment-notes">${escapeHtml(idea.description)}</div>` : ""}
+        </div>
+        <button class="button button-primary" type="button" data-writer-assignment-start="${escapeHtml(idea.id)}">Start writing</button>
+      </div>`;
+    }).join("");
+
+    assignmentsCard.hidden = false;
   }
 
   function renderArticles(grouped) {
@@ -70,6 +114,17 @@
 
       const { articles } = await api("list_articles");
       renderArticles(articles);
+
+      if (assignmentsCard) {
+        try {
+          const { ideas } = await calApi("list");
+          renderAssignments(ideas || [], user.id);
+        } catch {
+          // Non-fatal -- the rest of the dashboard (their own articles)
+          // still loaded fine, so don't block the page over this.
+          assignmentsCard.hidden = true;
+        }
+      }
 
       // No email yet (tracked separately) -- this is the one signal a
       // writer gets that something changed, so it has to be the first
@@ -111,6 +166,22 @@
       loadingBox.innerHTML = "<div class=\"info-card\"><h2>Writer Portal unavailable</h2><p>" +
         escapeHtml(error.message || "This page could not be loaded.") + "</p></div>";
     }
+  }
+
+  if (assignmentsList) {
+    assignmentsList.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-writer-assignment-start]");
+      if (!button) return;
+      const ideaId = button.dataset.writerAssignmentStart;
+      button.disabled = true;
+      try {
+        const { article } = await calApi("start_article", { idea_id: ideaId });
+        window.location.href = "/writer-portal/write/?id=" + encodeURIComponent(article.id);
+      } catch (error) {
+        button.disabled = false;
+        alert(error.message || "This could not be started.");
+      }
+    });
   }
 
   if (signOutButton) {
