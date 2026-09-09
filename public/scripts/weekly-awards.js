@@ -178,6 +178,26 @@
     }
   }
 
+  // Re-applies the post-vote cooldown state (disabled button, countdown
+  // label, confirmation message) to whichever finalist was just voted
+  // for -- called after load() has already replaced the whole finalist
+  // grid, so this looks up fresh elements by id rather than holding on
+  // to nodes load() just threw away.
+  function applyCooldown(id, successMessage, remaining) {
+    const button = root.querySelector(`[data-vote-id="${CSS.escape(id)}"]`);
+    const message = root.querySelector(`[data-vote-message="${CSS.escape(id)}"]`);
+    if (message) message.textContent = successMessage;
+    if (!button) return;
+    button.disabled = true;
+    const original = button.textContent;
+    let secondsLeft = remaining;
+    const timer = setInterval(() => {
+      secondsLeft -= 1;
+      button.textContent = secondsLeft > 0 ? `Vote again in ${secondsLeft}` : original;
+      if (secondsLeft <= 0) { clearInterval(timer); button.disabled = false; }
+    }, 1000);
+  }
+
   root.addEventListener("click", async (event) => {
     const detailsToggle = event.target.closest(".award-details-toggle");
     if (detailsToggle) {
@@ -192,13 +212,14 @@
     const button = event.target.closest("[data-vote-id]");
     if (!button || button.disabled) return;
     const id = button.dataset.voteId;
+    const voteName = button.dataset.voteName || "";
     const message = root.querySelector(`[data-vote-message="${CSS.escape(id)}"]`);
     button.disabled = true;
     message.textContent = "Recording your vote.";
     try {
       const data = await request(`${apiBase}/vote`, { method: "POST", body: JSON.stringify({ finalist_id: id, voter_token: getVoterToken(), website: "" }) });
-      message.textContent = data.message || "Your vote has been recorded.";
-      let remaining = Number(data.retry_after_seconds) || 45;
+      const successMessage = data.message || "Your vote has been recorded.";
+      const remaining = Number(data.retry_after_seconds) || 45;
       // Podium Play (public/scripts/podium-play.js) hooks in here, and
       // only here -- one event, fired only after this real confirmed
       // success response, carrying the exact same retry_after_seconds
@@ -206,14 +227,16 @@
       // Podium Play never computes or stores its own cooldown; this is
       // the single authoritative source it reads from.
       document.dispatchEvent(new CustomEvent("podiumwatch:vote-success", {
-        detail: { awardType: type, finalistId: id, finalistName: button.dataset.voteName || "", retryAfterSeconds: remaining }
+        detail: { awardType: type, finalistId: id, finalistName: voteName, retryAfterSeconds: remaining }
       }));
-      const original = button.textContent;
-      const timer = setInterval(() => {
-        remaining -= 1;
-        button.textContent = remaining > 0 ? `Vote again in ${remaining}` : original;
-        if (remaining <= 0) { clearInterval(timer); button.disabled = false; }
-      }, 1000);
+
+      // Refresh right away rather than waiting for a manual reload --
+      // shows the real updated vote counts immediately, and re-shuffles
+      // card order (shuffled(), above) again on top of the once-per-load
+      // shuffle, so a fixed screen position doesn't even survive a
+      // single vote.
+      await load();
+      applyCooldown(id, successMessage, remaining);
     } catch (error) {
       message.textContent = error.message;
       const delay = error.retryAfter || 0;
