@@ -175,7 +175,7 @@
   function actionMarkup(status) {
     if (status === "submitted") {
       return `<button class="button button-primary" type="button" data-review-action="approve">Approve</button>` +
-        `<button class="button button-outline" type="button" data-review-action="request_revision">Request revision (uses the note below)</button>`;
+        `<button class="button button-outline" type="button" data-review-action="request_revision">Request revision</button>`;
     }
     if (status === "approved") {
       return `<button class="button button-primary" type="button" data-review-action="publish">Publish</button>`;
@@ -186,8 +186,11 @@
     return "";
   }
 
+  let currentArticleHasNotes = false;
+
   async function loadDetail(articleId) {
     const { article } = await api("get", { article_id: articleId });
+    currentArticleHasNotes = article.notes.length > 0;
 
     detailCategory.textContent = article.category ? titleCase(article.category) : "Uncategorized";
     detailTitle.textContent = article.title || "(untitled)";
@@ -221,7 +224,12 @@
       const params = new URLSearchParams(window.location.search);
       const articleId = params.get("id");
 
-      if (action === "request_revision" && !noteForm.elements.note.value.trim()) {
+      // A fresh note in the box is only required if nothing has been
+      // said about this article yet -- an editor who already left one
+      // or more notes via "Add note" shouldn't be forced to type
+      // something new just to send it back (matches the server-side
+      // rule in requestRevision(), lib/writer_portal_service.mjs).
+      if (action === "request_revision" && !noteForm.elements.note.value.trim() && !currentArticleHasNotes) {
         showMessage("Add a note explaining what needs to change before requesting a revision.", "error");
         return;
       }
