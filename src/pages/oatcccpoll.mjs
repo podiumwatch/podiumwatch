@@ -169,35 +169,76 @@ export function oatcccCoachesPollPage(site) {
       .oatccc-table tr:last-child { border-bottom: none; }
       .oatccc-table td { display: block; padding: 0; border: none; font-size: 1rem; }
 
-      .oatccc-cell-rank {
+      /* .oatccc-table td.oatccc-cell-X -- not the bare class -- on both
+         rules below: the desktop rules further up this stylesheet use
+         that same compound selector (higher specificity than a bare
+         class), so a bare-class mobile override silently loses on any
+         property both rules set, media query or not. Confirmed directly
+         (real rendered screenshot): a bare .oatccc-cell-rank { width:
+         max-content } never actually applied -- the desktop rule's
+         width: 1% kept winning, clamped up to min-width's 34px floor,
+         clipping a 2-digit rank exactly like before this fix was
+         written. Same root cause silently cost .oatccc-cell-school its
+         intended font-weight: 800 (desktop's 700 was winning instead). */
+      .oatccc-table td.oatccc-cell-rank {
         order: 1;
         flex: 0 0 auto;
         display: grid;
         place-items: center;
         min-width: 34px;
+        width: max-content;
         height: 34px;
-        padding: 0 6px;
+        padding: 0 9px;
         border-radius: 999px;
         background: var(--black);
         color: var(--white);
         font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
         font-size: 1rem;
+        line-height: 1;
+        white-space: nowrap;
       }
-      .oatccc-cell-school { order: 2; flex: 1 1 auto; min-width: 0; font-size: 1.05rem; font-weight: 800; }
+      .oatccc-table td.oatccc-cell-school { order: 2; flex: 1 1 auto; min-width: 0; font-size: 1.05rem; font-weight: 800; }
       .oatccc-cell-move { order: 3; flex: 0 0 auto; font-size: 1.05rem; padding-left: 4px; }
-      /* flex-basis: 100% -- not "however much space happens to be left" --
-         is what makes this deterministic: EVERY row gets the exact same
-         3-line shape (badge+school+move, then points, then votes) no
-         matter how long the school name or how many digits the numbers
-         are. The first flex-wrap attempt here left each cell to wrap
-         wherever there happened to be room, which put some rows' numbers
-         on the same line as the school name and others' on a genuinely
-         misaligned 3rd line -- a real, confirmed inconsistency, not
-         guessed, caught by measuring actual rendered cell positions
-         before shipping this. */
-      .oatccc-cell-num { order: 4; flex: 1 1 100%; margin-left: 44px; font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
-      .oatccc-cell-label { display: inline; font-weight: 700; color: var(--ink); }
-      .oatccc-cell-label::after { content: ": "; }
+      /* flex-basis: 100% -- not "however much space happens to be left"
+         -- is what makes this deterministic: EVERY row gets the exact
+         same shape (badge+school+move, then points, then votes) no
+         matter how long the school name is or how much room its own
+         growth actually leaves on line 1. Flex line-wrapping decides
+         which line an item lands on using its flex-basis, not its
+         final (post-grow) rendered size -- confirmed directly (real
+         rendered screenshot, not assumed) that giving these cells a
+         smaller basis so they'd sit side by side let them drift onto
+         line 1 instead of their own guaranteed-fresh line whenever a
+         short school name left room there. Each keeps its own line;
+         only the typography changed -- real user feedback, 2026-09-10:
+         the plain "Points: 234" text read as flat, low-contrast
+         sentence filler rather than a real number worth looking at. */
+      .oatccc-cell-num {
+        order: 4;
+        flex: 1 1 100%;
+        margin-left: 44px;
+      }
+      /* display: inline, not block -- these two spans (label, value) need
+         to share ONE line via normal inline text flow, which also gives
+         baseline alignment for free with no flexbox needed. A block-
+         display label was an earlier real bug here: it forced its own
+         line, pushing the value below it instead of beside it (confirmed
+         directly against a rendered screenshot, not assumed). */
+      .oatccc-cell-label {
+        display: inline;
+        margin-right: 5px;
+        font-size: 0.66rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .oatccc-cell-value {
+        font-size: 1.08rem;
+        font-weight: 900;
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+      }
     }
   </style>
 
@@ -317,8 +358,8 @@ export function oatcccCoachesPollPage(site) {
         '<tr>' +
           '<td class="oatccc-cell-rank">' + (row.rank != null ? escapeHtml(row.rank) : '--') + '</td>' +
           '<td class="oatccc-cell-school">' + escapeHtml(row.school) + '</td>' +
-          '<td class="oatccc-cell-num"><span class="oatccc-cell-label">Points</span>' + (row.points != null ? escapeHtml(row.points) : '--') + '</td>' +
-          '<td class="oatccc-cell-num"><span class="oatccc-cell-label">1st place votes</span>' + (row.first_place_votes != null ? escapeHtml(row.first_place_votes) : '--') + '</td>' +
+          '<td class="oatccc-cell-num oatccc-cell-points"><span class="oatccc-cell-label">Points</span><span class="oatccc-cell-value">' + (row.points != null ? escapeHtml(row.points) : '--') + '</span></td>' +
+          '<td class="oatccc-cell-num oatccc-cell-votes"><span class="oatccc-cell-label">1st place votes</span><span class="oatccc-cell-value">' + (row.first_place_votes != null ? escapeHtml(row.first_place_votes) : '--') + '</span></td>' +
           '<td class="oatccc-cell-move">' + moveCellHtml(row.rank, previousRows, row.school) + '</td>' +
         '</tr>'
       )).join('');
