@@ -11,6 +11,11 @@ const styles = `
     .writer-admin-broadcast-form label { display:grid; gap:5px; font-weight:800; font-size:.85rem; }
     .writer-admin-broadcast-form input, .writer-admin-broadcast-form textarea { padding:9px 10px; border:1px solid rgba(var(--black-rgb),.22); border-radius:8px; font:inherit; }
     .writer-admin-broadcast-form textarea { min-height:120px; resize:vertical; }
+    .writer-admin-broadcast-recipients { display:grid; gap:6px; }
+    .writer-admin-broadcast-recipients-label { font-weight:800; font-size:.85rem; }
+    .writer-admin-broadcast-checklist { display:flex; flex-wrap:wrap; gap:8px 18px; padding:12px 14px; border:1px solid rgba(var(--black-rgb),.14); border-radius:8px; }
+    .writer-admin-broadcast-checklist label { display:flex; align-items:center; gap:6px; font-weight:600; font-size:.9rem; }
+    .writer-admin-broadcast-checklist-empty { color:var(--muted); font-size:.88rem; }
     .writer-admin-message { padding:10px 14px; border-radius:9px; font-weight:700; }
     .writer-admin-message[data-tone="error"] { background:rgba(220,38,38,.12); color:#7a1414; }
     .writer-admin-message[data-tone="success"] { background:rgba(var(--green-rgb),.13); color:var(--green-ink); }
@@ -51,7 +56,13 @@ export function writerPortalAdminPage(site) {
       <form class="writer-admin-broadcast-form" data-writer-broadcast-form>
         <label>Subject<input type="text" name="subject" required maxlength="200"></label>
         <label>Message<textarea name="message" required maxlength="4000"></textarea></label>
-        <button class="button button-primary" type="submit">Send to all writers</button>
+        <div class="writer-admin-broadcast-recipients">
+          <span class="writer-admin-broadcast-recipients-label">Send to</span>
+          <div class="writer-admin-broadcast-checklist" data-writer-broadcast-checklist>
+            <span class="writer-admin-broadcast-checklist-empty">Loading writers...</span>
+          </div>
+        </div>
+        <button class="button button-primary" type="submit">Send</button>
       </form>
       <p class="writer-admin-message" data-writer-broadcast-message role="status" hidden style="margin-top:10px;"></p>
     </section>

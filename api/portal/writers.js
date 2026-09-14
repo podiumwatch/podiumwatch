@@ -48,7 +48,7 @@ export default async function handler(request, response) {
     } else if (action === "resend_setup_link") {
       data = await resendAccountSetupLink({ profileId: body.profile_id });
     } else if (action === "broadcast_message") {
-      data = await broadcastMessageToWriters({ subject: body.subject, message: body.message });
+      data = await broadcastMessageToWriters({ subject: body.subject, message: body.message, excludeWriterIds: body.exclude_writer_ids });
     } else {
       const error = new Error("Unsupported Writer Portal admin action.");
       error.status = 400;

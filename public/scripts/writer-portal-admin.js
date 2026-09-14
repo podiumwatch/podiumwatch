@@ -7,6 +7,7 @@
   const inviteMessage = document.querySelector("[data-writer-invite-message]");
   const broadcastForm = document.querySelector("[data-writer-broadcast-form]");
   const broadcastMessage = document.querySelector("[data-writer-broadcast-message]");
+  const broadcastChecklist = document.querySelector("[data-writer-broadcast-checklist]");
 
   if (!loadingBox || !root || !denied || !rows) return;
 
@@ -92,9 +93,29 @@
     </tr>`;
   }
 
+  function renderBroadcastChecklist(writers) {
+    if (!broadcastChecklist) return;
+
+    // Preserves whatever staff already unchecked (e.g. Max, per a real
+    // request) across a reload triggered by an unrelated action (invite,
+    // resend link, role change) elsewhere on this same page.
+    const previouslyUnchecked = new Set(
+      Array.from(broadcastChecklist.querySelectorAll("input[type=checkbox]:not(:checked)")).map((input) => input.value)
+    );
+
+    const interns = writers.filter((writer) => writer.role === "writer");
+    broadcastChecklist.innerHTML = interns.length
+      ? interns.map((writer) => {
+          const checked = !previouslyUnchecked.has(writer.id);
+          return `<label><input type="checkbox" value="${escapeHtml(writer.id)}" ${checked ? "checked" : ""}>${escapeHtml(writer.full_name || "(unnamed)")}</label>`;
+        }).join("")
+      : `<span class="writer-admin-broadcast-checklist-empty">No writers yet.</span>`;
+  }
+
   async function loadWriters() {
     const { writers } = await writersApi("list");
     rows.innerHTML = writers.map(rowMarkup).join("");
+    renderBroadcastChecklist(writers);
   }
 
   rows.addEventListener("change", async (event) => {
@@ -170,11 +191,19 @@
       broadcastMessage.hidden = true;
 
       try {
+        const allBoxes = broadcastChecklist ? Array.from(broadcastChecklist.querySelectorAll("input[type=checkbox]")) : [];
+        const excludeWriterIds = allBoxes.filter((input) => !input.checked).map((input) => input.value);
+        if (allBoxes.length && excludeWriterIds.length === allBoxes.length) {
+          throw new Error("Check at least one writer to send to.");
+        }
+
         const result = await writersApi("broadcast_message", {
           subject: broadcastForm.elements.subject.value,
-          message: broadcastForm.elements.message.value
+          message: broadcastForm.elements.message.value,
+          exclude_writer_ids: excludeWriterIds
         });
-        broadcastForm.reset();
+        broadcastForm.elements.subject.value = "";
+        broadcastForm.elements.message.value = "";
         broadcastMessage.textContent = result.failed.length
           ? `Sent to ${result.sent} writer${result.sent === 1 ? "" : "s"}. Could not reach: ${result.failed.map((w) => w.name).join(", ")}.`
           : `Sent to all ${result.sent} writer${result.sent === 1 ? "" : "s"}.`;
