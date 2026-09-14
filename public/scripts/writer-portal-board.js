@@ -59,19 +59,33 @@
     return isStaff || authorId === viewerId;
   }
 
+  // A real avatar_url renders as an <img>; otherwise falls back to a
+  // green circle with the author's first initial, same fallback pattern
+  // as the profile page itself (writer-portal-profile.js).
+  function avatarMarkup(name, avatarUrl) {
+    if (avatarUrl) return `<img class="board-avatar" src="${escapeHtml(avatarUrl)}" alt="">`;
+    return `<div class="board-avatar-empty">${escapeHtml((name || "?").trim().charAt(0) || "?")}</div>`;
+  }
+
   function replyMarkup(reply) {
     return `<div class="board-reply" data-reply-id="${escapeHtml(reply.id)}">
-      <div><span class="board-reply-author">${escapeHtml(reply.author_name)}</span><span class="board-reply-time">${escapeHtml(formatRelativeTime(reply.created_at))}</span></div>
-      <div class="board-reply-body">${escapeHtml(reply.body)}</div>
-      ${canRemove(reply.author_id) ? `<div class="board-post-actions"><button type="button" data-delete-reply="${escapeHtml(reply.id)}">Remove</button></div>` : ""}
+      ${avatarMarkup(reply.author_name, reply.author_avatar_url)}
+      <div class="board-reply-body-col">
+        <div><span class="board-reply-author">${escapeHtml(reply.author_name)}</span><span class="board-reply-time">${escapeHtml(formatRelativeTime(reply.created_at))}</span></div>
+        <div class="board-reply-body">${escapeHtml(reply.body)}</div>
+        ${canRemove(reply.author_id) ? `<div class="board-post-actions"><button type="button" data-delete-reply="${escapeHtml(reply.id)}">Remove</button></div>` : ""}
+      </div>
     </div>`;
   }
 
   function postMarkup(post) {
     return `<article class="board-post" data-post-id="${escapeHtml(post.id)}">
       <div class="board-post-head">
-        <span class="board-post-author">${escapeHtml(post.author_name)}</span>
-        <span class="board-post-time">${escapeHtml(formatRelativeTime(post.created_at))}</span>
+        ${avatarMarkup(post.author_name, post.author_avatar_url)}
+        <div class="board-post-headline">
+          <span class="board-post-author">${escapeHtml(post.author_name)}</span>
+          <span class="board-post-time">${escapeHtml(formatRelativeTime(post.created_at))}</span>
+        </div>
       </div>
       <div class="board-post-body">${escapeHtml(post.body)}</div>
       ${canRemove(post.author_id) ? `<div class="board-post-actions"><button type="button" data-delete-post="${escapeHtml(post.id)}">Remove</button></div>` : ""}

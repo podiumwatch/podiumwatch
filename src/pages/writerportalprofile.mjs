@@ -9,6 +9,9 @@ const styles = `
     .writer-profile-message { padding:14px 16px; border-radius:10px; font-weight:700; }
     .writer-profile-message[data-tone="success"] { background:rgba(var(--green-rgb),.13); color:var(--green-ink); }
     .writer-profile-message[data-tone="error"] { background:rgba(220,38,38,.12); color:#7a1414; }
+    .writer-profile-avatar-row { display:flex; align-items:center; gap:16px; }
+    .writer-profile-avatar { width:72px; height:72px; border-radius:50%; object-fit:cover; background:var(--paper); border:1px solid rgba(var(--black-rgb),.14); }
+    .writer-profile-avatar-empty { width:72px; height:72px; border-radius:50%; background:var(--green); color:var(--black); display:grid; place-items:center; font-weight:900; font-size:1.6rem; text-transform:uppercase; }
 `;
 
 export function writerPortalProfilePage(site) {
@@ -30,6 +33,14 @@ export function writerPortalProfilePage(site) {
 
       <section class="info-card">
         <form class="writer-profile-form" data-writer-profile-form>
+          <div class="writer-profile-avatar-row">
+            <img class="writer-profile-avatar" data-writer-profile-avatar-img alt="" hidden>
+            <div class="writer-profile-avatar-empty" data-writer-profile-avatar-empty>?</div>
+            <div>
+              <button class="button button-outline" type="button" data-writer-profile-avatar-button>Change picture</button>
+              <input type="file" accept="image/png,image/jpeg,image/webp,image/gif" data-writer-profile-avatar-input hidden>
+            </div>
+          </div>
           <label>Name<input type="text" name="full_name" required maxlength="200"></label>
           <label>School<input type="text" name="school" maxlength="200"></label>
           <label>Grade<input type="text" name="grade" maxlength="30" placeholder="Freshman, Sophomore, Junior, or Senior"></label>

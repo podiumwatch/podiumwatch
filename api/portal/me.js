@@ -43,7 +43,8 @@ export default async function handler(request, response) {
         fullName: body.full_name,
         school: body.school,
         grade: body.grade,
-        bio: body.bio
+        bio: body.bio,
+        avatarUrl: body.avatar_url
       }) };
     } else if (action === "list_articles") {
       data = { articles: await listOwnArticles(user.id) };

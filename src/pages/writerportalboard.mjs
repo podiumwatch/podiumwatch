@@ -6,7 +6,11 @@ const styles = `
     .board-composer textarea { padding:12px 14px; border:1px solid rgba(var(--black-rgb),.22); border-radius:8px; font:inherit; min-height:90px; resize:vertical; }
     .board-composer-row { display:flex; justify-content:flex-end; }
     .board-post { border:1px solid rgba(var(--black-rgb),.12); border-radius:10px; padding:18px 20px; background:var(--white); }
-    .board-post-head { display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap; }
+    .board-post-head { display:flex; align-items:flex-start; gap:12px; }
+    .board-avatar { width:40px; height:40px; border-radius:50%; object-fit:cover; background:var(--paper); border:1px solid rgba(var(--black-rgb),.14); flex:0 0 auto; }
+    .board-avatar-empty { width:40px; height:40px; border-radius:50%; background:var(--green); color:var(--black); display:grid; place-items:center; font-weight:900; text-transform:uppercase; flex:0 0 auto; }
+    .board-reply .board-avatar, .board-reply .board-avatar-empty { width:32px; height:32px; font-size:.85rem; }
+    .board-post-headline { display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap; flex:1 1 auto; min-width:0; }
     .board-post-author { font-weight:900; }
     .board-post-time { color:var(--muted); font-size:.82rem; }
     .board-post-body { margin-top:10px; white-space:pre-wrap; line-height:1.6; }
@@ -14,6 +18,8 @@ const styles = `
     .board-post-actions button { background:none; border:0; padding:0; color:var(--muted); font-weight:700; font-size:.82rem; cursor:pointer; }
     .board-post-actions button:hover { color:var(--danger); }
     .board-replies { margin-top:14px; padding-left:18px; border-left:2px solid rgba(var(--black-rgb),.1); display:grid; gap:12px; }
+    .board-reply { display:flex; gap:10px; }
+    .board-reply-body-col { flex:1 1 auto; min-width:0; }
     .board-reply-author { font-weight:800; font-size:.92rem; }
     .board-reply-time { color:var(--muted); font-size:.78rem; margin-left:8px; }
     .board-reply-body { margin-top:4px; white-space:pre-wrap; line-height:1.55; font-size:.94rem; }
