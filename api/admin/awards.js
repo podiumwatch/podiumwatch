@@ -69,7 +69,7 @@ export default async function handler(request, response) {
       })
     };
     else if (action === "promote_nomination") data = { finalist: await promoteNomination({ type, nominationId: body.nomination_id, overrides: { image_url: body.image_url, achievement: body.achievement, description: body.description, sort_order: body.sort_order } }) };
-    else if (action === "update_finalist") data = { finalist: await updateFinalist({ type, finalistId: body.finalist_id, fields: { image_url: body.image_url, achievement: body.achievement, description: body.description, sort_order: body.sort_order } }) };
+    else if (action === "update_finalist") data = { finalist: await updateFinalist({ type, finalistId: body.finalist_id, fields: { image_url: body.image_url, achievement: body.achievement, description: body.description, sort_order: body.sort_order, category: body.category } }) };
     else if (action === "remove_finalist") data = await removeFinalist({ type, finalistId: body.finalist_id });
     else if (action === "announce_winner") data = await announceWinner({ type, weekId: body.week_id, finalistIds: body.finalist_ids });
     else { const error = new Error("Unsupported weekly awards action."); error.status = 400; throw error; }

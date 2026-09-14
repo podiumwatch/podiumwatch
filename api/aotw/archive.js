@@ -42,6 +42,7 @@ export default async function handler(request, response) {
         .select(`
           id,
           week_id,
+          category,
           athlete_name,
           school,
           grade,
@@ -56,13 +57,18 @@ export default async function handler(request, response) {
       throw finalistsError;
     }
 
+    // A week can now have up to two winners (a boys' and a girls'
+    // Athlete of the Week, 2026-09-14) -- every week before this feature
+    // still has exactly one, so `athlete` (singular) is kept alongside
+    // the new `athletes` (plural, always the real, current list) rather
+    // than breaking anything already reading the old shape.
     const winners = weeks
       .map((week) => {
-        const athlete = finalists?.find(
+        const athletes = (finalists || []).filter(
           (finalist) => finalist.week_id === week.id
         );
 
-        if (!athlete) {
+        if (!athletes.length) {
           return null;
         }
 
@@ -70,7 +76,8 @@ export default async function handler(request, response) {
           week_slug: week.week_slug,
           title: week.title,
           voting_closes: week.voting_closes,
-          athlete
+          athlete: athletes[0],
+          athletes
         };
       })
       .filter(Boolean);

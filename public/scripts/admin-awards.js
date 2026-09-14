@@ -224,12 +224,25 @@
   }
 
   function finalistEditFormHtml(finalist) {
+    // Category is a safety valve, not a normal edit field -- every
+    // finalist gets the right one automatically from the nomination's
+    // gender at promote time (lib/awards_service.mjs). Only shown for
+    // AOTW, and only to fix a real miscategorization or backfill a
+    // finalist promoted before this feature existed.
+    const categoryField = currentType === "aotw"
+      ? `<label>Category<select data-field="category">
+          <option value="" ${!finalist.category ? "selected" : ""}>None</option>
+          <option value="boys" ${finalist.category === "boys" ? "selected" : ""}>Boys</option>
+          <option value="girls" ${finalist.category === "girls" ? "selected" : ""}>Girls</option>
+        </select></label>`
+      : "";
     return `<div class="awards-inline-form" data-edit-form="${escapeHtml(finalist.id)}">
       <label>Photo URL<input type="text" data-field="image_url" value="${escapeHtml(finalist.image_url || "")}"></label>
       ${photoUploadHtml(finalist.id)}
       <label>Achievement<input type="text" data-field="achievement" value="${escapeHtml(finalist.achievement || "")}"></label>
       <label>Description<textarea data-field="description">${escapeHtml(finalist.description || "")}</textarea></label>
       <label>Sort order<input type="number" data-field="sort_order" value="${Number(finalist.sort_order) || 0}"></label>
+      ${categoryField}
       <div class="awards-actions">
         <button class="button button-primary" type="button" data-confirm-edit="${escapeHtml(finalist.id)}">Save</button>
         <button class="button button-outline" type="button" data-cancel-edit="${escapeHtml(finalist.id)}">Cancel</button>
@@ -256,11 +269,19 @@
         ? `<img src="${escapeHtml(finalist.image_url)}" alt="">`
         : '<div class="awards-finalist-photo-empty">No photo</div>';
       const winnerPill = finalist.winner ? '<span class="awards-winner-pill">Winner</span>' : "";
+      const categoryPill = currentType === "aotw" && finalist.category
+        ? `<span class="awards-finalist-meta">(${escapeHtml(finalist.category === "boys" ? "Boys" : "Girls")})</span>`
+        : "";
       // Team of the Week no longer runs separate boys/girls categories
-      // (see lib/awards_service.mjs) -- exactly one winner is picked from
-      // the whole list, the same as Athlete of the Week, so both types
-      // now share one radio group name.
-      const radioName = "winner";
+      // (see lib/awards_service.mjs) and stays one shared radio group --
+      // exactly one winner from the whole list. Athlete of the Week
+      // (2026-09-14) went the other way, back to a real per-category
+      // group ("winner-boys"/"winner-girls") so native radio semantics
+      // enforce "at most one winner per category" for free -- a finalist
+      // promoted before this feature existed and carrying no category
+      // falls into its own harmless "winner-none" group rather than
+      // crashing or silently joining the wrong one.
+      const radioName = currentType === "aotw" ? `winner-${finalist.category || "none"}` : "winner";
       const winnerPicker = showWinnerPicker
         ? `<label style="display:flex;gap:6px;align-items:center;font-weight:800;"><input type="radio" name="${escapeHtml(radioName)}" value="${escapeHtml(finalist.id)}" ${finalist.winner ? "checked" : ""}> Set as winner</label>`
         : "";
@@ -268,7 +289,7 @@
       return `<div class="awards-finalist-card" data-finalist-card="${escapeHtml(finalist.id)}">
         ${photo}
         <div>
-          <div><b>${escapeHtml(name)}</b> ${winnerPill}</div>
+          <div><b>${escapeHtml(name)}</b> ${categoryPill} ${winnerPill}</div>
           <div class="awards-finalist-meta">${meta}</div>
           <div style="margin-top:6px;"><b>${escapeHtml(finalist.achievement)}</b></div>
           <div class="awards-finalist-meta">${escapeHtml(finalist.description || "")}</div>
@@ -478,6 +499,7 @@
       const id = confirmEdit.dataset.confirmEdit;
       const form = finalistList.querySelector(`[data-edit-form="${CSS.escape(id)}"]`);
       const getValue = (field) => form.querySelector(`[data-field="${field}"]`).value;
+      const categoryField = form.querySelector('[data-field="category"]');
 
       setBusy(true);
       setMessage("Saving finalist.");
@@ -488,7 +510,8 @@
           image_url: getValue("image_url"),
           achievement: getValue("achievement"),
           description: getValue("description"),
-          sort_order: Number(getValue("sort_order")) || 0
+          sort_order: Number(getValue("sort_order")) || 0,
+          ...(categoryField ? { category: categoryField.value } : {})
         });
         setMessage("Finalist updated.");
         await selectWeek(currentWeekId);

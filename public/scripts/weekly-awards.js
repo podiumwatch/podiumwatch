@@ -153,15 +153,24 @@
     if (nominationForm) nominationForm.hidden = week.status !== "nominations_open";
   }
 
+  function archiveCardHtml(item, entry) {
+    const name = itemName(item);
+    const details = isTeam
+      ? [item.school, item.sport, item.division].filter(Boolean).join(" | ")
+      : [item.school, item.grade].filter(Boolean).join(" | ");
+    // A boys'/girls' Athlete of the Week (2026-09-14) shares one badge
+    // ("Athlete of the Week") but each card is otherwise a full, separate
+    // winner -- the category (if this item carries one) is the only
+    // thing distinguishing which is which, so it's worth a small label.
+    const categoryLabel = item.category ? (item.category === "boys" ? "Boys" : "Girls") : "";
+    return `<article class="award-card award-archive-card">${imageMarkup(item, name)}<div class="award-card-body"><p class="award-badge">${escapeHtml(entry.title || "Past winner")}${categoryLabel ? " &middot; " + escapeHtml(categoryLabel) : ""}</p><h3>${escapeHtml(name)}</h3><p class="award-card-meta">${escapeHtml(details)}</p>${item.achievement ? `<p>${escapeHtml(item.achievement)}</p>` : ""}<small>Announced ${escapeHtml(formatDate(entry.voting_closes))}</small></div></article>`;
+  }
+
   function renderArchive(winners) {
     if (!winners.length) return '<div class="empty-state compact-empty"><h3>No past winners published</h3><p>The archive will grow as winners are announced.</p></div>';
-    return winners.map((entry) => {
-      const item = isTeam ? entry.team : entry.athlete;
-      const name = itemName(item);
-      const details = isTeam
-        ? [item.school, item.sport, item.division].filter(Boolean).join(" | ")
-        : [item.school, item.grade].filter(Boolean).join(" | ");
-      return `<article class="award-card award-archive-card">${imageMarkup(item, name)}<div class="award-card-body"><p class="award-badge">${escapeHtml(entry.title || "Past winner")}</p><h3>${escapeHtml(name)}</h3><p class="award-card-meta">${escapeHtml(details)}</p>${item.achievement ? `<p>${escapeHtml(item.achievement)}</p>` : ""}<small>Announced ${escapeHtml(formatDate(entry.voting_closes))}</small></div></article>`;
+    return winners.flatMap((entry) => {
+      const items = isTeam ? [entry.team] : (entry.athletes && entry.athletes.length ? entry.athletes : [entry.athlete]);
+      return items.map((item) => archiveCardHtml(item, entry));
     }).join("");
   }
 
