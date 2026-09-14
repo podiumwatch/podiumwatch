@@ -5,6 +5,8 @@
   const rows = document.querySelector("[data-writer-admin-rows]");
   const inviteForm = document.querySelector("[data-writer-invite-form]");
   const inviteMessage = document.querySelector("[data-writer-invite-message]");
+  const broadcastForm = document.querySelector("[data-writer-broadcast-form]");
+  const broadcastMessage = document.querySelector("[data-writer-broadcast-message]");
 
   if (!loadingBox || !root || !denied || !rows) return;
 
@@ -154,6 +156,34 @@
         inviteMessage.textContent = error.message || "This invite could not be sent.";
         inviteMessage.dataset.tone = "error";
         inviteMessage.hidden = false;
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+
+  if (broadcastForm) {
+    broadcastForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = broadcastForm.querySelector('button[type="submit"]');
+      button.disabled = true;
+      broadcastMessage.hidden = true;
+
+      try {
+        const result = await writersApi("broadcast_message", {
+          subject: broadcastForm.elements.subject.value,
+          message: broadcastForm.elements.message.value
+        });
+        broadcastForm.reset();
+        broadcastMessage.textContent = result.failed.length
+          ? `Sent to ${result.sent} writer${result.sent === 1 ? "" : "s"}. Could not reach: ${result.failed.map((w) => w.name).join(", ")}.`
+          : `Sent to all ${result.sent} writer${result.sent === 1 ? "" : "s"}.`;
+        broadcastMessage.dataset.tone = result.failed.length ? "error" : "success";
+        broadcastMessage.hidden = false;
+      } catch (error) {
+        broadcastMessage.textContent = error.message || "This message could not be sent.";
+        broadcastMessage.dataset.tone = "error";
+        broadcastMessage.hidden = false;
       } finally {
         button.disabled = false;
       }

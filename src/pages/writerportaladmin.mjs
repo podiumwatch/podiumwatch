@@ -7,6 +7,10 @@ const styles = `
     .writer-admin-invite-form { display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; }
     .writer-admin-invite-form label { display:grid; gap:5px; font-weight:800; font-size:.85rem; }
     .writer-admin-invite-form input { padding:9px 10px; border:1px solid rgba(var(--black-rgb),.22); border-radius:8px; font:inherit; min-width:220px; }
+    .writer-admin-broadcast-form { display:grid; gap:10px; max-width:520px; }
+    .writer-admin-broadcast-form label { display:grid; gap:5px; font-weight:800; font-size:.85rem; }
+    .writer-admin-broadcast-form input, .writer-admin-broadcast-form textarea { padding:9px 10px; border:1px solid rgba(var(--black-rgb),.22); border-radius:8px; font:inherit; }
+    .writer-admin-broadcast-form textarea { min-height:120px; resize:vertical; }
     .writer-admin-message { padding:10px 14px; border-radius:9px; font-weight:700; }
     .writer-admin-message[data-tone="error"] { background:rgba(220,38,38,.12); color:#7a1414; }
     .writer-admin-message[data-tone="success"] { background:rgba(var(--green-rgb),.13); color:var(--green-ink); }
@@ -38,6 +42,18 @@ export function writerPortalAdminPage(site) {
         <button class="button button-primary" type="submit">Send invite</button>
       </form>
       <p class="writer-admin-message" data-writer-invite-message role="status" hidden style="margin-top:10px;"></p>
+    </section>
+
+    <section class="info-card">
+      <p class="eyebrow">Reach the whole team</p>
+      <h2>Message all writers</h2>
+      <p>Sends one email to every current writer (not other staff). Each writer only sees their own copy -- no one's address is shared with anyone else.</p>
+      <form class="writer-admin-broadcast-form" data-writer-broadcast-form>
+        <label>Subject<input type="text" name="subject" required maxlength="200"></label>
+        <label>Message<textarea name="message" required maxlength="4000"></textarea></label>
+        <button class="button button-primary" type="submit">Send to all writers</button>
+      </form>
+      <p class="writer-admin-message" data-writer-broadcast-message role="status" hidden style="margin-top:10px;"></p>
     </section>
 
     <div class="admin-table-wrap">
