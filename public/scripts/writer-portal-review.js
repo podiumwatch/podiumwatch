@@ -62,6 +62,7 @@
       <td><span class="admin-cell-label">Writer</span>${escapeHtml(article.author_name || "")}</td>
       <td><span class="admin-cell-label">Category</span>${escapeHtml(article.category ? titleCase(article.category) : "—")}</td>
       <td><span class="admin-cell-label">Status</span><span class="writer-review-status-pill">${escapeHtml(titleCase(article.status))}</span></td>
+      <td><span class="admin-cell-label">Words</span>${formatNumber(article.word_count)}</td>
       <td><span class="admin-cell-label">Updated</span>${escapeHtml(formatDate(article.updated_at))}</td>
     </tr>`;
   }
@@ -101,7 +102,7 @@
     });
     rows.innerHTML = articles.length
       ? articles.map(rowMarkup).join("")
-      : `<tr><td colspan="5">Nothing here.</td></tr>`;
+      : `<tr><td colspan="6">Nothing here.</td></tr>`;
   }
 
   rows.addEventListener("click", (event) => {

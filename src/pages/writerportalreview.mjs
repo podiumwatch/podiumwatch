@@ -73,7 +73,7 @@ export function writerPortalReviewPage(site) {
 
     <div class="admin-table-wrap">
       <table class="admin-table">
-        <thead><tr><th>Title</th><th>Writer</th><th>Category</th><th>Status</th><th>Updated</th></tr></thead>
+        <thead><tr><th>Title</th><th>Writer</th><th>Category</th><th>Status</th><th>Words</th><th>Updated</th></tr></thead>
         <tbody data-writer-review-rows></tbody>
       </table>
     </div>
