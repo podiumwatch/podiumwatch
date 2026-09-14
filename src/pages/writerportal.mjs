@@ -57,6 +57,7 @@ export function writerPortalPage(site) {
       <div class="writer-portal-nav">
         <a class="button button-outline" href="/writer-portal/profile/">Your profile</a>
         <a class="button button-outline" href="/writer-portal/calendar/">Editorial calendar</a>
+        <a class="button button-outline" href="/writer-portal/board/">Team Board</a>
         <a class="button button-outline" href="/writer-portal/style-guide/">Style guide</a>
         <a class="button button-outline" href="/writer-portal/admin/review/" data-writer-admin-link hidden>Review queue</a>
         <a class="button button-outline" href="/writer-portal/admin/" data-writer-admin-link hidden>Manage writers</a>

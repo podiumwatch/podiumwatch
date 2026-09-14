@@ -118,6 +118,7 @@ import { writerPortalReviewPage } from "../src/pages/writerportalreview.mjs";
 import { writerPortalArticlePage } from "../src/pages/writerportalarticle.mjs";
 import { writerPortalAuthorPage } from "../src/pages/writerportalauthor.mjs";
 import { writerPortalCalendarPage } from "../src/pages/writerportalcalendar.mjs";
+import { writerPortalBoardPage } from "../src/pages/writerportalboard.mjs";
 import { writerPortalStyleGuidePage } from "../src/pages/writerportalstyleguide.mjs";
 
 const root = process.cwd();
@@ -817,6 +818,7 @@ await writePage("/writer-portal/admin/review/", writerPortalReviewPage(site));
 await writePage("/writer-portal/articles/", writerPortalArticlePage(site));
 await writePage("/writer-portal/authors/", writerPortalAuthorPage(site));
 await writePage("/writer-portal/calendar/", writerPortalCalendarPage(site));
+await writePage("/writer-portal/board/", writerPortalBoardPage(site));
 await writePage("/writer-portal/style-guide/", writerPortalStyleGuidePage(site));
 await writePage("/athlete/", athleteDetailPage(site));
 for (const athlete of athleteSeedRows) {

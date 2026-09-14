@@ -74,7 +74,8 @@ export const ADMIN_NAV_GROUPS = [
       // (used by every writer, not just staff, to browse/claim story
       // ideas), unlike the two entries above which are staff-only and
       // render through adminShell() itself.
-      { id: "writer-portal-calendar", label: "Editorial Calendar", href: "/writer-portal/calendar/", mark: "CA", description: "Assign story ideas to writers, or leave them open to claim.", keywords: "writer portal calendar story idea assign task schedule" }
+      { id: "writer-portal-calendar", label: "Editorial Calendar", href: "/writer-portal/calendar/", mark: "CA", description: "Assign story ideas to writers, or leave them open to claim.", keywords: "writer portal calendar story idea assign task schedule" },
+      { id: "writer-portal-board", label: "Team Board", href: "/writer-portal/board/", mark: "TB", description: "Post updates and reply -- a shared board for the whole writer team.", keywords: "writer portal board post reply chat message team" }
     ]
   },
   {
