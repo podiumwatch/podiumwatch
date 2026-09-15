@@ -78,7 +78,12 @@ function splitWatchNavDropdown(active) {
 function navGroup(link, currentPath) {
   if (!link.items) {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
-    return `<a class="nav-top-link" href="${link.href}"${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
+    // Merch (2026-09-15): the first flat top-level nav link that ever
+    // points off-site (the Spring storefront) -- every other flat/group
+    // link in this file already runs external hrefs through
+    // externalAttrs() (footer links, dropdown-group items); this branch
+    // was the one place that didn't, since nothing needed it before now.
+    return `<a class="nav-top-link" href="${link.href}"${externalAttrs(link)}${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
   }
   const active = link.items.some((item) => currentPath.startsWith(item.href));
   const itemLinks = link.items.map((item) => {

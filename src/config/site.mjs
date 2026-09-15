@@ -47,6 +47,15 @@ export const site = {
     // section rather than one more item buried inside a dropdown. See
     // docs/MY_PODIUM_MASTER_BUILD_PLAN.md.
     { label: "My Podium", href: "/my-podium/" },
+    // Merch (2026-09-15): a free Spring (Amaze Commerce) storefront, not
+    // a page on this site -- no cart/checkout exists here, and building
+    // one just for this would be real engineering effort Spring already
+    // solves for free. Flat top-level link (matching My Podium's own
+    // prominence) rather than buried in a dropdown, since visibility is
+    // the whole point of a revenue feature. externalAttrs() in
+    // navGroup() (src/lib/html.mjs) opens it in a new tab automatically
+    // since the href is a full https:// URL.
+    { label: "Merch", href: "https://app.amazecommerce.com/shop/podiumwatch" },
     { label: "Rankings", items: [
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" },
