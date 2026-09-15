@@ -16,7 +16,7 @@ import { teamInsightsPage } from "../src/pages/teaminsights.mjs";
 import { privacyPage } from "../src/pages/privacy.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { site } from "../src/config/site.mjs";
+import { site, NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, SITEMAP_EXACT_EXCLUDE } from "../src/config/site.mjs";
 import sponsors from "../src/data/sponsors.json" with { type: "json" };
 import ohioSchoolFoundation from "../public/data/ohio-school-foundation-2026-27.json" with { type: "json" };
 import athleteFoundationSeed from "../public/data/athlete-foundation-seed-2026.json" with { type: "json" };
@@ -124,6 +124,12 @@ import { writerPortalStyleGuidePage } from "../src/pages/writerportalstyleguide.
 const root = process.cwd();
 const dist = path.join(root, "dist");
 const generatedPaths = new Set();
+// AdSense/indexing remediation (2026-09-15): real, per-page last-modified
+// dates for the sitemap, populated only where a genuine tracked date
+// already exists (stories, rankings) -- a path with no entry here simply
+// omits <lastmod> in the sitemap rather than getting one shared, fake
+// date stamped on every URL regardless of when it actually changed.
+const pathLastmod = new Map();
 const athleteSeedRows = Array.isArray(athleteFoundationSeed.athletes)
   ? athleteFoundationSeed.athletes
   : [];
@@ -684,7 +690,12 @@ function contactPage() {
 
 function notFoundPage() {
   const content = `<section class="error-page"><div class="container"><strong>404</strong><h1>This page missed the turn.</h1><p>The page may have moved, the address may be incorrect, or the content may not be published yet.</p><div class="hero-actions" style="justify-content:center"><a class="button button-primary" href="/">Return home</a><a class="button button-outline" href="/stories/">Browse stories</a></div></div></section>`;
-  return layout({ site, title: "Page Not Found", description: "The requested Podium Watch page could not be found.", pathname: "/404.html", content });
+  // AdSense/indexing remediation (2026-09-15): this had no robots
+  // override, so it fell through to layout()'s default of "index, follow"
+  // -- a 404 page has no content of its own to offer and must never be
+  // indexed, found via the new audit script's own indexable-page count
+  // coming up one higher than the sitemap's URL count.
+  return layout({ site, title: "Page Not Found", description: "The requested Podium Watch page could not be found.", pathname: "/404.html", content, robots: "noindex, follow" });
 }
 
 function xmlEscape(value = "") {
@@ -704,7 +715,11 @@ async function build() {
 
   await writePage("/", homePage(stories, rankings));
   await writePage("/stories/", storiesIndexPage(stories));
-  for (const story of stories) await writePage(`/stories/${story.slug}/`, storyPage(story, stories));
+  for (const story of stories) {
+    const storyPathname = `/stories/${story.slug}/`;
+    await writePage(storyPathname, storyPage(story, stories));
+    pathLastmod.set(storyPathname, story.updatedDate || story.date);
+  }
   for (const category of [...new Set(stories.map((story) => story.category))]) {
     const page = categoryPage(category, stories);
     await writePage(page.pathname, page.html);
@@ -847,7 +862,10 @@ await writePage("/podium-play/", podiumPlayPage(site));
       }
     }
   }
-  for (const ranking of rankings) await writePage(ranking.href, rankingDetailPage(ranking, stories));
+  for (const ranking of rankings) {
+    await writePage(ranking.href, rankingDetailPage(ranking, stories));
+    if (ranking.updatedDate) pathLastmod.set(ranking.href, ranking.updatedDate);
+  }
 
   await writePage("/athlete-spotlights/", athletePage());
   await writePage("/interviews/", interviewsPage());
@@ -895,10 +913,34 @@ await writePage("/podium-play/", podiumPlayPage(site));
   ];
   await writeFile("search-index.json", JSON.stringify(searchIndex, null, 2));
 
-  const privateSitemapPrefixes = ["/admin/", "/team-login/", "/team-dashboard/", "/team-editor/", "/team-schedule/", "/team-roster/", "/team-content/", "/team-insights/", "/split-watch/", "/team-home/", "/team-meet-center/", "/athlete-login/", "/athlete-home/", "/guardian-login/", "/guardian-home/", "/photographer-login/", "/photographer-dashboard/", "/follow/", "/my-podium-login/"];
-  const paths = [...generatedPaths].filter((pathname) => !pathname.endsWith("404.html") && !privateSitemapPrefixes.some((prefix) => pathname.startsWith(prefix))).sort();
-  const lastMod = stories[0]?.updatedDate || stories[0]?.date || new Date().toISOString().slice(0, 10);
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((pathname) => `  <url><loc>${xmlEscape(absoluteUrl(site, pathname))}</loc><lastmod>${lastMod}</lastmod></url>`).join("\n")}\n</urlset>\n`;
+  // AdSense/indexing remediation (2026-09-15): both prefix lists now come
+  // from src/config/site.mjs, shared with layout()'s own <meta
+  // name="robots"> logic (src/lib/html.mjs) -- one URL that's excluded
+  // here always also carries the matching noindex tag, and vice versa,
+  // since both read the same source lists. A real per-athlete page
+  // (/athletes/{slug}/, as opposed to the /athletes/ directory index
+  // itself) is excluded here too -- see athletedetail.mjs's own comment
+  // for why: the generated HTML still lacks real performance/ranking/
+  // recruiting content, only name/school/class year/division, so it's
+  // not yet meaningful enough to index at volume (201 pages). This is
+  // the task's own documented safe fallback, not a guess.
+  const isRealAthletePage = (pathname) => pathname.startsWith("/athletes/") && pathname !== "/athletes/";
+  const paths = [...generatedPaths]
+    .filter((pathname) => !pathname.endsWith("404.html"))
+    .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))
+    .filter((pathname) => !NOINDEX_FOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))
+    .filter((pathname) => !SITEMAP_EXACT_EXCLUDE.includes(pathname))
+    .filter((pathname) => !isRealAthletePage(pathname))
+    .sort();
+  // Real per-page date when one is tracked (pathLastmod, populated at
+  // each story/ranking writePage() call above); otherwise <lastmod> is
+  // omitted entirely for that URL rather than stamping every page with
+  // one shared, fake date -- <lastmod> is optional in the sitemap spec,
+  // and an honest omission is better than a fabricated date.
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((pathname) => {
+    const lastmod = pathLastmod.get(pathname);
+    return `  <url><loc>${xmlEscape(absoluteUrl(site, pathname))}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</url>`;
+  }).join("\n")}\n</urlset>\n`;
   await writeFile("sitemap.xml", sitemap);
   await writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${site.siteUrl}/sitemap.xml\n`);
   const rssItems = stories.slice(0, 30).map((story) => `<item><title>${xmlEscape(story.title)}</title><link>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</link><guid>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</guid><pubDate>${new Date(`${story.date}T12:00:00Z`).toUTCString()}</pubDate><description>${xmlEscape(story.description)}</description><category>${xmlEscape(story.category)}</category></item>`).join("");
@@ -915,7 +957,16 @@ await writePage("/podium-play/", podiumPlayPage(site));
     }
   }, null, 2));
 
-  console.log(`Built ${paths.length} pages, ${stories.length} published stories, and ${rankings.length} ranking files.`);
+  // AdSense/indexing remediation (2026-09-15): this used to read
+  // `paths.length` and call it "pages built" -- but `paths` is the
+  // sitemap array, already filtered down to indexable URLs only, so that
+  // number was never the real total and got confusing fast once the
+  // sitemap exclusion list grew (dropped from a misleading 316 to a
+  // misleading 99 the moment writer-portal/writer-login and the 200 real
+  // athlete pages were correctly excluded from the sitemap, even though
+  // the actual page count generated to dist/ never changed). Reporting
+  // both numbers, clearly labeled, instead of one ambiguous one.
+  console.log(`Built ${generatedPaths.size} pages (${paths.length} in sitemap.xml), ${stories.length} published stories, and ${rankings.length} ranking files.`);
 }
 
 build().catch((error) => {

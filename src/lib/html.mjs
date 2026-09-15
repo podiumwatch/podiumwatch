@@ -1,6 +1,7 @@
 import { escapeHtml, formatDate, slugify } from "./content.mjs";
 import { gtagScript } from "./analytics.mjs";
 import { adSenseLoaderScript } from "./ads.mjs";
+import { NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, NO_ADS_PATHS } from "../config/site.mjs";
 
 export function absoluteUrl(site, pathname = "/") {
   return new URL(pathname, site.siteUrl).toString();
@@ -224,29 +225,19 @@ ${scripts}`;
 // by accident. Every other page keeps the default (false) -- this is
 // deliberately opt-in, not a new default.
 export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots, chromeless = false, extraHead = "" }) {
-  const privatePrefixes = [
-    "/admin/",
-    "/team-login/",
-    "/team-dashboard/",
-    "/team-editor/",
-    "/team-schedule/",
-    "/team-roster/",
-    "/team-content/",
-    "/team-insights/",
-    "/split-watch/",
-    "/team-home/",
-    "/team-meet-center/",
-    "/athlete-login/",
-    "/athlete-home/",
-    "/guardian-login/",
-    "/guardian-home/",
-    "/photographer-login/",
-    "/photographer-dashboard/",
-    "/follow/",
-    "/my-podium-login/"
-  ];
-  const isPrivatePage = privatePrefixes.some((prefix) => pathname.startsWith(prefix));
-  const resolvedRobots = robots || (isPrivatePage ? "noindex, nofollow" : "index, follow");
+  // AdSense/indexing remediation (2026-09-15): both prefix lists now live
+  // in src/config/site.mjs, shared with the sitemap generator
+  // (scripts/build.mjs) -- see that file's own comment for the full
+  // reasoning and the noindex,follow vs. noindex,nofollow distinction.
+  const isPrivatePage = NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  const isNoindexFollowPage = NOINDEX_FOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  const resolvedRobots = robots || (isPrivatePage ? "noindex, nofollow" : isNoindexFollowPage ? "noindex, follow" : "index, follow");
+  // A submission form can be genuinely worth indexing (real explanatory
+  // content, confirmed per-page before this list was written) while still
+  // being the wrong place to run an ad next to someone mid-submission --
+  // see NO_ADS_PATHS's own comment in site.mjs.
+  const isNoAdsPage = NO_ADS_PATHS.some((prefix) => pathname.startsWith(prefix));
+  const showAds = !resolvedRobots.startsWith("noindex") && !isNoAdsPage;
   // Admin pages get their own stylesheet + shell script injected here,
   // in <head> (render-blocking), so the persistent sidebar is fully
   // styled on first paint -- no flash of unstyled chrome. Landing this
@@ -277,7 +268,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
 <link rel="stylesheet" href="/styles/main.css">${adminHead}
 ${gtagScript()}
-${isPrivatePage ? "" : adSenseLoaderScript()}
+${showAds ? adSenseLoaderScript() : ""}
 <style>
 /* [hidden] must always win the cascade, sitewide. main.css has no rule
    for this at all, and several page-specific style blocks set their own

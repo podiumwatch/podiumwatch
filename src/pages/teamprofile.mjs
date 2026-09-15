@@ -984,6 +984,16 @@ export function teamProfilePage(site) {
     title: "Team Profile",
     description: "Official team information, social media accounts, schedules, rosters, results, and Podium Watch coverage.",
     pathname: "/team/",
-    content
+    content,
+    // AdSense/indexing remediation (2026-09-15): this is the generic,
+    // query-param-driven team shell (no real team is ever selected at
+    // build time -- teamProfilePage takes no record argument at all), so
+    // the raw generated HTML has no real content, just "Loading team
+    // profile." Real published team profiles live at their own permanent
+    // URLs and are unaffected. "follow", not "nofollow" -- the shell is a
+    // legitimate, working page real visitors reach via ?slug=, not a
+    // private one. Also excluded from the sitemap
+    // (scripts/build.mjs's SITEMAP_EXACT_EXCLUDE).
+    robots: "noindex, follow"
   });
 }

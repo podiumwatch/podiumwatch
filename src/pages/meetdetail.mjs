@@ -310,6 +310,10 @@ export function meetDetailPage(site) {
     description:
       "Schedules, directions, results, maps, and important Ohio meet information.",
     pathname: "/meetdetail/",
-    content
+    content,
+    // AdSense/indexing remediation (2026-09-15): generic, query-param-
+    // driven shell with no real meet ever selected at build time -- see
+    // teamprofile.mjs's identical note for the full reasoning.
+    robots: "noindex, follow"
   });
 }

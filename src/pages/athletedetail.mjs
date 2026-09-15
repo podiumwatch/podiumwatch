@@ -1,4 +1,4 @@
-import { escapeHtml } from "../lib/content.mjs";
+import { escapeHtml, formatDate } from "../lib/content.mjs";
 import { breadcrumb, breadcrumbsJsonLd, layout, pageHero } from "../lib/html.mjs";
 
 function jsonForScript(value) {
@@ -28,6 +28,32 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
     }
   ] : breadcrumbsJsonLd(site, crumbs);
 
+  // AdSense/indexing remediation (2026-09-15): real, visible, always-
+  // present content built entirely from `seed` -- every field used here
+  // (name, school, class year, division, sport, and the full ranking:
+  // rank, title, mark snapshot, explanation, source, updated date) is
+  // already present in public/data/athlete-foundation-seed-2026.json at
+  // build time, confirmed live against all 200 real rows (every one has
+  // a `ranking` object, none invented or assumed). Previously none of
+  // this rendered anywhere but a client-side JSON blob
+  // (window.PODIUM_ATHLETE_SEED below) -- the only VISIBLE text in the
+  // raw generated HTML was "Loading athlete profile.", regardless of how
+  // much real data was actually available. This block is the fix: real,
+  // unique, crawlable text for a human or a crawler with no JavaScript
+  // at all. Full performance history, the recruiting timeline, stories,
+  // and team connections still come from a runtime fetch (no static
+  // source for those at build time) -- see robots override below and
+  // the final report for exactly what full re-indexing still needs.
+  const baselineBlock = seed
+    ? `<section class="info-card athlete-profile-baseline" data-athlete-profile-baseline>
+        <h2>${escapeHtml(seed.display_name)}</h2>
+        <p>${escapeHtml(schoolName)}${seed.school_city ? `, ${escapeHtml(seed.school_city)}` : ""} &middot; Class of ${escapeHtml(seed.graduation_year)} &middot; ${escapeHtml(seed.division || "")} ${escapeHtml(seed.sport || "")}</p>
+        ${seed.ranking ? `<p class="athlete-profile-baseline-rank">Ranked #${escapeHtml(seed.ranking.rank)} in the <a href="${escapeHtml(seed.ranking.ranking_href || "/rankings/")}">${escapeHtml(seed.ranking.title)}</a>${seed.ranking.mark_snapshot ? ` &middot; ${escapeHtml(seed.ranking.mark_snapshot)}` : ""}</p>` : ""}
+        ${seed.ranking?.explanation ? `<p>${escapeHtml(seed.ranking.explanation)}</p>` : ""}
+        ${seed.ranking?.source_label ? `<p class="athlete-profile-baseline-source">${escapeHtml(seed.ranking.source_label)}${seed.ranking.updated_date ? ` &middot; Updated ${formatDate(seed.ranking.updated_date)}` : ""}</p>` : ""}
+      </section>`
+    : "";
+
   const content = `${pageHero({
     eyebrow: "Podium Watch athlete profile",
     title,
@@ -39,6 +65,9 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
 
   <style>
     .athlete-profile-shell { display:grid; gap:24px; }
+    .athlete-profile-baseline p { margin:8px 0 0; }
+    .athlete-profile-baseline h2 { margin:0; }
+    .athlete-profile-baseline-source { color:#64748b; font-size:.82rem; }
     .athlete-profile-message { margin:0; padding:14px 17px; border-radius:10px; background:rgba(0,191,99,.12); font-weight:800; }
     .athlete-profile-message[data-tone="error"] { color:#991b1b; background:rgba(220,38,38,.12); }
     .athlete-profile-message[data-tone="warning"] { color:#7c4a03; background:rgba(245,158,11,.16); }
@@ -102,7 +131,8 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
   <section class="section section-paper">
     <div class="container athlete-profile-shell" data-athlete-profile data-athlete-slug="${escapeHtml(seed?.profile_slug || "")}">
       ${breadcrumb(crumbs)}
-      <p class="athlete-profile-message" data-athlete-profile-message role="status">Loading athlete profile.</p>
+      ${baselineBlock}
+      <p class="athlete-profile-message" data-athlete-profile-message role="status">Loading full performance history and recruiting profile.</p>
 
       <div data-athlete-profile-content hidden>
         <div class="athlete-profile-top">
@@ -179,6 +209,16 @@ export function athleteDetailPage(site, { seed = null, pathname = "/athlete/" } 
     description,
     pathname,
     content,
-    jsonLd
+    jsonLd,
+    // AdSense/indexing remediation (2026-09-15): real content is now
+    // visible (baselineBlock above), but full performance history, the
+    // recruiting timeline, stories, and team connections are still a
+    // runtime fetch, not in this generated HTML -- kept out of the index
+    // for now per the task's own documented safe fallback. Also removed
+    // from the sitemap (scripts/build.mjs's isRealAthletePage filter).
+    // "follow", not "nofollow" -- these are real public pages, and the
+    // links they do carry (to /rankings/..., /athletes/) are still worth
+    // crediting.
+    robots: "noindex, follow"
   });
 }

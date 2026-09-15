@@ -391,6 +391,10 @@ export function racePublicPage(site) {
     title: "Watch a live race",
     description: "Follow a Podium Watch team's race live -- checkpoints and times, shared by the coach.",
     pathname: "/race/",
-    content
+    content,
+    // AdSense/indexing remediation (2026-09-15): generic, query-param-
+    // driven shell with no real race ever selected at build time -- see
+    // teamprofile.mjs's identical note for the full reasoning.
+    robots: "noindex, follow"
   });
 }

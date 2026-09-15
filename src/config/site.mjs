@@ -1,8 +1,17 @@
+// AdSense/indexing remediation (2026-09-15): siteUrl was the throwaway
+// Vercel-assigned domain, not the real custom domain -- confirmed live
+// (identical content-length and ETag on both podiumwatch.vercel.app and
+// www.podiumwatch.site; the bare podiumwatch.site correctly 308-redirects
+// to www.podiumwatch.site) that www.podiumwatch.site is the real,
+// intended, working production domain. This one value drives every
+// canonical tag, the sitemap, structured data, and robots.txt across the
+// whole site (see absoluteUrl() in src/lib/html.mjs) -- so fixing it here
+// fixes all of them at once, no per-page changes needed.
 export const site = {
   name: "Podium Watch",
   shortName: "Podium Watch",
   description: "Ohio high school cross country and track and field rankings, stories, interviews, and athlete coverage.",
-  siteUrl: "https://podiumwatch.vercel.app",
+  siteUrl: "https://www.podiumwatch.site",
   defaultAuthor: "Podium Watch",
   contactEmail: "podiumwatchohio@gmail.com",
   instagramUrl: "https://www.instagram.com/podiumwatch/",
@@ -119,3 +128,81 @@ export const site = {
   },
   replaceBeforeLaunch: []
 };
+
+// AdSense/indexing remediation (2026-09-15): one shared source of truth
+// for "this path should never be indexed," used by BOTH the sitemap
+// generator (scripts/build.mjs, excludes the URL entirely) and the
+// shared page layout (src/lib/html.mjs's layout(), sets <meta
+// name="robots">) -- previously these were two independently-maintained
+// copies of the same list that had already drifted (writer portal and
+// writer login were in neither one). Split into two tiers because they
+// need different robots values, not just "exclude or don't":
+//
+// NOINDEX_NOFOLLOW_PREFIXES: real private/authenticated areas -- a
+// signed-out visitor gets a login wall, not real content, and search
+// engines should not follow links out of these into other private pages.
+//
+// NOINDEX_FOLLOW_PREFIXES: public, working, unauthenticated utility
+// pages that should stay out of search results but whose outgoing links
+// (to real public pages) are still fine to follow -- generic query-param
+// shells with no record selected (bare /athlete/, /team/, /meetdetail/,
+// /race/) and internal site search (/search/, matching Google's own
+// long-standing guidance against indexing internal search results).
+export const NOINDEX_NOFOLLOW_PREFIXES = [
+  "/admin/",
+  "/writer-portal/",
+  "/writer-login/",
+  "/team-login/",
+  "/team-dashboard/",
+  "/team-editor/",
+  "/team-schedule/",
+  "/team-roster/",
+  "/team-content/",
+  "/team-insights/",
+  "/split-watch/",
+  "/team-home/",
+  "/team-meet-center/",
+  "/athlete-login/",
+  "/athlete-home/",
+  "/guardian-login/",
+  "/guardian-home/",
+  "/photographer-login/",
+  "/photographer-dashboard/",
+  "/follow/",
+  "/my-podium-login/"
+];
+
+export const NOINDEX_FOLLOW_PREFIXES = [
+  "/search/"
+];
+
+// Exact paths (not prefixes) excluded from the sitemap only -- each of
+// these already carries the right <meta name="robots"> itself (set
+// directly by its own page generator, not via the prefix lists above,
+// since e.g. /athlete/ is a prefix of the real, legitimately-indexable
+// /athletes/{slug}/ pages and must not be prefix-matched). Kept here,
+// next to the prefix lists, so every sitemap-exclusion rule stays in one
+// file instead of split across this file and build.mjs.
+export const SITEMAP_EXACT_EXCLUDE = [
+  "/athlete/",
+  "/team/",
+  "/meetdetail/",
+  "/race/",
+  "/search-index.json"
+];
+
+// AdSense/indexing remediation (2026-09-15): pages that stay indexable
+// (real explanatory content around them, confirmed directly against the
+// built HTML -- none of these are bare/empty) but are still, at their
+// core, a submission form -- exactly what AdSense's own policy calls out
+// separately from indexing ("no AdSense on login/search/private/empty/
+// submission screens"). Kept as its own list rather than folded into the
+// noindex lists above because the two decisions are genuinely different:
+// these pages ARE worth indexing, they're just not worth putting an ad
+// next to while someone is mid-submission.
+export const NO_ADS_PATHS = [
+  "/submit-results/",
+  "/submit-timing-results/",
+  "/recruiting/submit-activity/",
+  "/apply/"
+];
