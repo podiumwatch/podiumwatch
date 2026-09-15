@@ -52,10 +52,20 @@ function listSourceFiles(relativeDir) {
 }
 
 // --- the three known, real, now-fixed call sites -----------------------
+//
+// Vote tallying Redis pilot (2026-09-15): api/totw/current.js no longer
+// counts votes from Supabase at all -- Team of the Week vote counts now
+// come from Redis (lib/totw_vote_redis.mjs), which has no 1,000-row cap
+// to silently hit in the first place, so count:"exact" is no longer the
+// relevant safeguard for this specific file. lib/awards_service.mjs
+// keeps both: its AOTW branch still reads aotw_votes with count:"exact"
+// (unchanged, still asserted below), its TOTW branch also moved to
+// Redis. Confirmed directly (not just by this file's absence from the
+// list below) via a live round-trip test of every totw_vote_redis.mjs
+// function against the real database before this file changed.
 
 const knownFixedFiles = [
   "api/aotw/current.js",
-  "api/totw/current.js",
   "lib/awards_service.mjs"
 ];
 
@@ -67,7 +77,23 @@ for (const relativePath of knownFixedFiles) {
     `${relativePath} must compute its vote_count with a real count("exact") aggregate, not a bulk select tallied client-side`
   );
 }
-console.log("The three known real call sites (api/aotw/current.js, api/totw/current.js, lib/awards_service.mjs) all use a real count(\"exact\") aggregate.");
+
+// api/totw/current.js: guard the Redis fix stays in place, the same
+// spirit as the count:"exact" assertions above -- fail loudly if this
+// file ever goes back to querying totw_votes directly instead.
+const totwCurrentSource = readSource("api/totw/current.js");
+assert.doesNotMatch(
+  totwCurrentSource,
+  /\.from\(\s*["']totw_votes["']/,
+  "api/totw/current.js must not query totw_votes directly -- Team of the Week vote counts come from Redis (lib/totw_vote_redis.mjs) now, not a per-finalist Supabase count."
+);
+assert.match(
+  totwCurrentSource,
+  /getRedisVoteCounts/,
+  "api/totw/current.js should read Team of the Week vote counts through lib/totw_vote_redis.mjs's getRedisVoteCounts()."
+);
+
+console.log("The two known real Supabase call sites (api/aotw/current.js, lib/awards_service.mjs's AOTW branch) still use a real count(\"exact\") aggregate; api/totw/current.js confirmed on the Redis vote-count path instead, with no direct totw_votes query.");
 
 // --- repo-wide scan for the same dangerous shape recurring elsewhere ---
 // Heuristic, not a full parser: a file is flagged only if it BOTH (a)

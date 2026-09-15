@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
+import { getRedisVoteCounts } from "../../lib/totw_vote_redis.mjs";
 
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
@@ -89,31 +90,21 @@ export default async function handler(request, response) {
       finalists = finalistRows ?? [];
 
       if (finalists.length) {
-        // Real incident (2026-08-31): the identical query on
-        // api/aotw/current.js silently capped at PostgREST's default
-        // 1000-row limit once a popular week passed 1,000 real votes,
-        // undercounting every finalist's public vote count by roughly a
-        // third -- see that file's own comment for the full story.
-        // count:"exact", head:true is a genuine COUNT(*) aggregate with
-        // no such cap.
-        const voteCountResults = await Promise.all(
-          finalists.map((finalist) =>
-            supabaseAdmin
-              .from("totw_votes")
-              .select("id", { count: "exact", head: true })
-              .eq("finalist_id", finalist.id)
-          )
-        );
-
-        finalists = finalists.map((finalist, index) => {
-          const result = voteCountResults[index];
-
-          if (result.error) {
-            throw result.error;
-          }
-
-          return { ...finalist, vote_count: result.count || 0 };
+        // Vote tallying Redis pilot (2026-09-15): vote counts now live in
+        // Redis, not totw_votes -- see lib/totw_vote_redis.mjs's own
+        // header for why (this is the exact fix for the real Disk IO
+        // Budget outage, 2026-08-31, that the now-removed per-finalist
+        // Supabase count("exact", head:true) queries here were already a
+        // once-patched symptom of -- see docs/DECISIONS.md).
+        const voteCounts = await getRedisVoteCounts({
+          weekId: week.id,
+          finalistIds: finalists.map((finalist) => finalist.id)
         });
+
+        finalists = finalists.map((finalist, index) => ({
+          ...finalist,
+          vote_count: voteCounts[index] || 0
+        }));
       }
     }
 

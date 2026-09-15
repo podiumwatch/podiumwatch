@@ -1,5 +1,6 @@
 import { createHmac } from "node:crypto";
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
+import { castRedisVote } from "../../lib/totw_vote_redis.mjs";
 
 const COOLDOWN_SECONDS = 45;
 
@@ -163,33 +164,20 @@ export default async function handler(request, response) {
       voterToken
     );
 
-    const {
-      data: voteResults,
-      error: voteError
-    } = await supabaseAdmin.rpc(
-      "cast_totw_vote",
-      {
-        p_finalist_id: finalist.id,
-        p_voter_hash: voterHash,
-        p_cooldown_seconds: COOLDOWN_SECONDS
-      }
-    );
-
-    if (voteError) {
-      throw voteError;
-    }
-
-    const voteResult = Array.isArray(
-      voteResults
-    )
-      ? voteResults[0]
-      : voteResults;
-
-    if (!voteResult) {
-      throw new Error(
-        "The Team of the Week voting function returned no result."
-      );
-    }
+    // Vote tallying Redis pilot (2026-09-15): this used to call the
+    // cast_totw_vote Postgres RPC, which enforced the cooldown via
+    // totw_vote_cooldowns and inserted one row into totw_votes per
+    // accepted vote -- the exact write pattern that caused the real
+    // Disk IO Budget outage under vote-spam (see docs/DECISIONS.md,
+    // 2026-08-31). castRedisVote() returns the identical
+    // { accepted, reason, retry_after_seconds } shape that RPC did, so
+    // nothing below this line needed to change.
+    const voteResult = await castRedisVote({
+      weekId: week.id,
+      finalistId: finalist.id,
+      voterHash,
+      cooldownSeconds: COOLDOWN_SECONDS
+    });
 
     const retryAfterSeconds = Math.max(
       1,
