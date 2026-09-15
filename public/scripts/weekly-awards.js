@@ -145,9 +145,35 @@
     statusBox.hidden = true;
     currentSection.hidden = false;
 
-    const finalists = shuffled(data.finalists || []);
+    const finalists = data.finalists || [];
     const container = root.querySelector("[data-award-finalists]");
-    container.innerHTML = finalists.length ? finalists.map((item) => finalistCard(item, week, item.winner === true)).join("") : '<div class="empty-state compact-empty"><h3>Finalists are not published yet</h3><p>Check back after nominations are reviewed.</p></div>';
+
+    if (!finalists.length) {
+      container.innerHTML = '<div class="empty-state compact-empty"><h3>Finalists are not published yet</h3><p>Check back after nominations are reviewed.</p></div>';
+    } else {
+      const cardsHtml = (list) => `<div class="award-finalists">${shuffled(list).map((item) => finalistCard(item, week, item.winner === true)).join("")}</div>`;
+      // Athlete of the Week runs a real boys' and girls' category
+      // (2026-09-14) -- a clear, separately labeled row per gender
+      // instead of one mixed grid where it's not obvious who you're
+      // even comparing. Team of the Week (isTeam) has no category and
+      // always renders as the single flat grid it already did.
+      const boys = !isTeam ? finalists.filter((item) => item.category === "boys") : [];
+      const girls = !isTeam ? finalists.filter((item) => item.category === "girls") : [];
+      const uncategorized = !isTeam ? finalists.filter((item) => item.category !== "boys" && item.category !== "girls") : finalists;
+
+      if (!isTeam && (boys.length || girls.length)) {
+        container.innerHTML = [
+          boys.length ? `<div class="award-gender-group"><h3 class="award-gender-heading">Boys</h3>${cardsHtml(boys)}</div>` : "",
+          girls.length ? `<div class="award-gender-group"><h3 class="award-gender-heading">Girls</h3>${cardsHtml(girls)}</div>` : "",
+          // A finalist promoted before the category feature existed has
+          // none -- still shown, never silently dropped, just outside
+          // either labeled row.
+          uncategorized.length ? `<div class="award-gender-group"><h3 class="award-gender-heading">More</h3>${cardsHtml(uncategorized)}</div>` : ""
+        ].join("");
+      } else {
+        container.innerHTML = cardsHtml(uncategorized);
+      }
+    }
 
     nominationSection.hidden = week.status !== "nominations_open";
     if (nominationForm) nominationForm.hidden = week.status !== "nominations_open";

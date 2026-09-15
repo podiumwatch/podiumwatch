@@ -61,6 +61,7 @@ export default async function handler(request, response) {
         .from("aotw_finalists")
         .select(`
           id,
+          category,
           athlete_name,
           school,
           grade,

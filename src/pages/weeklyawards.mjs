@@ -52,7 +52,7 @@ export function athleteOfTheWeekPage(site) {
     </section>
     <section data-award-current hidden>
       <div class="section-heading"><div><p class="eyebrow">Current week</p><h2 data-award-title>Athlete of the Week</h2><p data-award-deadline></p></div></div>
-      <div class="award-finalists" data-award-finalists></div>
+      <div data-award-finalists></div>
       <div class="pp-panel" data-podium-play data-other-contest-href="/team-of-the-week/" data-other-contest-label="Team of the Week"></div>
     </section>
     ${adSlot(AD_SLOTS.weeklyAwards)}
@@ -100,7 +100,7 @@ export function teamOfTheWeekPage(site) {
     </section>
     <section data-award-current hidden>
       <div class="section-heading"><div><p class="eyebrow">Current week</p><h2 data-award-title>Team of the Week</h2><p data-award-deadline></p></div></div>
-      <div class="award-finalists" data-award-finalists></div>
+      <div data-award-finalists></div>
       <div class="pp-panel" data-podium-play data-other-contest-href="/athlete-of-the-week/" data-other-contest-label="Athlete of the Week"></div>
     </section>
     ${adSlot(AD_SLOTS.weeklyAwards)}
