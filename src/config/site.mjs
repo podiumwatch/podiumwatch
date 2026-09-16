@@ -62,18 +62,26 @@ export const site = {
       { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },
-    { label: "Meets", items: [
-      { label: "Meet Calendar", href: "/meets/" },
-      { label: "Tournament Hub", href: "/tournament-hub/" }
-    ] },
-    { label: "Teams & Schools", items: [
-      { label: "Teams", href: "/teams/" },
-      { label: "Ohio Schools", href: "/ohio-schools/" }
-    ] },
-    { label: "Athletes", items: [
-      { label: "Athletes", href: "/athletes/" },
-      { label: "Recruiting", href: "/recruiting/" }
-    ] },
+    // AdSense readiness (2026-09-16): Meets, Teams & Schools, and
+    // Athletes hidden from the top nav for now, real request -- a
+    // simpler, shorter nav while the site is under AdSense review. The
+    // pages themselves are unchanged and still fully live (direct URL,
+    // sitemap, footer links, internal links from other pages all still
+    // work) -- only removed from this primary nav. Commented out rather
+    // than deleted so restoring them later is a one-line uncomment, not
+    // a rebuild from scratch.
+    // { label: "Meets", items: [
+    //   { label: "Meet Calendar", href: "/meets/" },
+    //   { label: "Tournament Hub", href: "/tournament-hub/" }
+    // ] },
+    // { label: "Teams & Schools", items: [
+    //   { label: "Teams", href: "/teams/" },
+    //   { label: "Ohio Schools", href: "/ohio-schools/" }
+    // ] },
+    // { label: "Athletes", items: [
+    //   { label: "Athletes", href: "/athletes/" },
+    //   { label: "Recruiting", href: "/recruiting/" }
+    // ] },
     { label: "Voting", items: [
       { label: "Team of the Week", href: "/team-of-the-week/" },
       { label: "Athlete of the Week", href: "/athlete-of-the-week/" },

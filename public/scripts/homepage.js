@@ -181,51 +181,8 @@
     });
   }
 
-  // ---- Vote Now -----------------------------------------------------------
-  // Shows the site's one currently-active Fan Poll division (cross
-  // country boys Division 1 -- the only sport/division combination
-  // turned on for voters, see docs/DECISIONS.md 2026-08-06) if voting is
-  // genuinely open right now. Hides itself entirely rather than ever
-  // showing a closed poll as if it were active, and never invents a
-  // closing date the API didn't actually provide.
-  const votePanel = document.querySelector("[data-vote-now-panel]");
-  const voteBody = document.querySelector("[data-vote-now-body]");
-
-  if (votePanel && voteBody) {
-    fetch("/api/fan-poll/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ sport: "cross_country", gender: "boys", division_number: 1 })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const week = data.week;
-        if (!week) return; // No week configured at all -- stay hidden.
-        if (week.status === "voting_open") {
-          const closes = week.voting_closes ? new Date(week.voting_closes) : null;
-          const closesText = closes && !Number.isNaN(closes.getTime())
-            ? `Voting closes ${new Intl.DateTimeFormat("en-US", { weekday: "long", hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).format(closes)}`
-            : "";
-          voteBody.innerHTML = `
-            <p class="vote-now-category">Cross Country &middot; Boys Division I</p>
-            <p class="vote-now-question">Vote your top 16 teams this week.</p>
-            ${closesText ? `<p class="vote-now-meta">${escapeHtml(closesText)}</p>` : ""}
-            <a class="button button-primary" href="/fan-poll/cross-country/boys/division-1/">Cast your ballot</a>`;
-          votePanel.hidden = false;
-        } else if (week.status === "voting_closed" && Array.isArray(data.results) && data.results.length) {
-          voteBody.innerHTML = `
-            <p class="vote-now-category">Cross Country &middot; Boys Division I</p>
-            <p class="vote-now-question">See this week's fan poll results.</p>
-            <a class="button button-outline" href="/fan-poll/cross-country/boys/division-1/">View results</a>`;
-          votePanel.hidden = false;
-        }
-        // "scheduled" (voting hasn't opened yet) -- stay hidden rather
-        // than show a poll a visitor can't actually do anything with yet.
-      })
-      .catch(() => {
-        // Fan Poll unavailable -- the panel just stays hidden, matching
-        // "hide empty homepage modules" rather than showing an error box
-        // for a purely optional homepage extra.
-      });
-  }
+  // ---- Vote Now -------------------------------------------------------
+  // AdSense readiness (2026-09-16): this panel is now static, baked in
+  // at build time (scripts/build.mjs) rather than client-fetched here --
+  // see that file's own comment. Nothing left to hydrate.
 })();

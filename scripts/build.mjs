@@ -399,9 +399,23 @@ function homePage(stories, rankings) {
       <a class="home-action home-action-outline" href="/meets/?view=upcoming">Find a Meet</a>
       <a class="home-action home-action-outline" href="/rankings/">State Rankings</a>
     </div>
-    <section class="vote-now-top" data-vote-now-panel hidden>
-      <span class="vote-now-top-badge">Vote Now</span>
-      <div class="vote-now-body" data-vote-now-body></div>
+    <!-- AdSense readiness (2026-09-16): this used to be a client-hydrated
+         Fan Poll teaser, hidden by default and only shown when that
+         week's Fan Poll voting happened to be open -- real request:
+         route the homepage's top, most prominent CTA to Athlete of the
+         Week instead, since that's where real traffic already goes.
+         Static and always visible now rather than JS-fetched and
+         sometimes hidden -- one less empty-panel state, one less network
+         dependency on the homepage's first screen. The real Fan Poll
+         still exists at /fan-poll/ and in the Voting nav group,
+         unchanged; this is only the homepage's top promotional slot. -->
+    <section class="vote-now-top">
+      <span class="vote-now-top-badge">Athlete of the Week</span>
+      <div class="vote-now-body">
+        <p class="vote-now-category">Ohio High School Cross Country</p>
+        <p class="vote-now-question">Vote for this week's Athlete of the Week.</p>
+        <a class="button button-primary" href="/athlete-of-the-week/">Vote Now</a>
+      </div>
     </section>
   </div></section>
 
