@@ -596,6 +596,7 @@ function storyPage(story, stories) {
     <header class="article-hero"><div class="container article-hero-inner">${breadcrumb(crumbs)}<div class="article-meta"><span class="category">${escapeHtml(story.category)}</span><span>By ${escapeHtml(story.author)}</span><span>${formatDate(story.date)}</span>${story.updatedDate ? `<span>Updated ${formatDate(story.updatedDate)}</span>` : ""}<span>${story.readingMinutes} min read</span></div><h1>${escapeHtml(story.title)}</h1><p class="article-deck">${escapeHtml(story.description)}</p></div></header>
     ${preseasonStickyNav}
     <img class="article-feature-image" src="${story.featuredImage || storyFallbackImage(story.category)}" data-fallback="${storyFallbackImage(story.category)}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900">
+    ${story.featuredImageCaption ? `<p class="article-feature-caption">${escapeHtml(story.featuredImageCaption)}</p>` : ""}
 
     <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div>${navigation}${relatedBlock}</div>
     ${preseasonDataScript}

@@ -203,6 +203,12 @@ p { margin-top: 0; }
 .article-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 22px 0 0; color: #c9c9c9; font-size: .82rem; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; }
 .article-meta .category { color: var(--green); }
 .article-feature-image { width: min(calc(100% - 40px), 1050px); aspect-ratio: 16 / 9; object-fit: cover; margin: 42px auto 0; border: 1px solid var(--line); background: var(--paper); }
+/* Optional caption beneath the hero image (story.featuredImageCaption) --
+   added 2026-09-16 for editorial-graphic/credit lines, same visual
+   treatment as an inline figure's own figcaption (.article-content
+   figcaption) for consistency. Every existing story has no caption and
+   is unaffected. */
+.article-feature-caption { width: min(calc(100% - 40px), 1050px); margin: 8px auto 0; color: var(--muted); font-family: Arial, Helvetica, sans-serif; font-size: .86rem; text-align: center; }
 .article-shell { background: var(--paper); }
 .article-layout { width: min(calc(100% - 40px), 1050px); margin: 0 auto; padding: 58px 0 90px; }
 .article-content { max-width: var(--read); margin: 0 auto; color: #252525; font-family: Georgia, "Times New Roman", serif; font-size: 1.08rem; line-height: 1.85; }
@@ -221,6 +227,17 @@ p { margin-top: 0; }
 .article-content pre { overflow: auto; padding: 20px; color: var(--white); background: #111; }
 .article-content pre code { padding: 0; color: inherit; background: transparent; }
 .article-content hr { margin: 46px 0; border: 0; border-top: 1px solid var(--line); }
+
+/* Key numbers grid (2026-09-16) -- src/lib/markdown.mjs's [[KEY_NUMBERS]]
+   block. Built from the same pieces every other card/stat pattern on the
+   site already uses (.info-card's sharp-cornered bordered box,
+   .ranking-number's big Impact-font figure) rather than the rounded,
+   soft-shadowed card style a supplied design reference used -- native to
+   this design system, not a one-off import. */
+.key-numbers { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 8px 0 40px; }
+.key-number { display: flex; flex-direction: column; gap: 10px; padding: 20px; border: 1px solid var(--line); background: var(--paper); }
+.key-number strong { color: var(--green-dark); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 2.1rem; line-height: 1; }
+.key-number span { color: var(--muted); font-family: Arial, Helvetica, sans-serif; font-size: .8rem; font-weight: 700; line-height: 1.35; letter-spacing: .3px; text-transform: uppercase; }
 .table-scroll { width: 100%; overflow-x: auto; margin: 30px 0; border: 1px solid #cfcfcf; background: var(--white); }
 .table-scroll:focus { outline: 3px solid #ffd447; }
 .table-scroll table { width: 100%; min-width: 760px; border-collapse: collapse; font-family: Arial, Helvetica, sans-serif; font-size: .9rem; }

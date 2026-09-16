@@ -86,6 +86,32 @@ export function renderMarkdown(markdown = "") {
       continue;
     }
 
+    // Key numbers grid (2026-09-16, added for the OHSAA public/nonpublic
+    // split explainer -- the first Podium Watch article structured
+    // around a handful of headline stats up top). Same reasoning as the
+    // PODIUM_WATCH_COMPONENT marker just above: this parser has no raw-
+    // HTML passthrough by design, so a new block shape gets its own
+    // purpose-built marker rather than smuggling HTML through. One stat
+    // per line between the markers, "value :: label" -- "::" rather than
+    // "|" since "|" already means a table row to this parser, and a
+    // label prose sentence is far more likely to contain a stray "|"
+    // than "::".
+    if (/^\[\[KEY_NUMBERS\]\]$/.test(line.trim())) {
+      index += 1;
+      const stats = [];
+      while (index < lines.length && !/^\[\[\/KEY_NUMBERS\]\]$/.test(lines[index].trim())) {
+        const statLine = lines[index].trim();
+        if (statLine) {
+          const [value, ...labelParts] = statLine.split("::");
+          stats.push({ value: value.trim(), label: labelParts.join("::").trim() });
+        }
+        index += 1;
+      }
+      index += 1; // skip the closing [[/KEY_NUMBERS]] marker
+      output.push(`<section class="key-numbers" aria-label="Key numbers">${stats.map((stat) => `<div class="key-number"><strong>${inlineMarkdown(stat.value)}</strong><span>${inlineMarkdown(stat.label)}</span></div>`).join("")}</section>`);
+      continue;
+    }
+
     // Podium Watch interactive-article component marker, e.g.
     // "[[PODIUM_WATCH_COMPONENT: RACE_BOARD]]" -- lifted verbatim from the
     // supplied article copy rather than translated into raw HTML in the
