@@ -1777,12 +1777,21 @@
         Array.isArray(data.live_races) ? data.live_races : []
       );
     } catch (error) {
+      // AdSense readiness (2026-09-16): document.title stays whatever
+      // was baked in at build time ("Team Profile") otherwise, which
+      // reads as broken/misleading in a browser tab, a bookmark, or a
+      // social share for a link that doesn't resolve to a real team.
+      // This page is already noindex, follow at the template level
+      // (src/pages/teamprofile.mjs) regardless of this branch -- this
+      // is purely about not looking broken to an actual visitor (or a
+      // crawler rendering the page) who lands here.
+      document.title = "Team Not Found | Podium Watch";
       loadingBox.innerHTML =
-        "<h2>Team profile unavailable</h2>" +
+        "<h2>Team profile not found</h2>" +
         "<p>" +
         escapeHtml(
           error.message ||
-          "The team profile could not be loaded."
+          "This team profile does not exist or is no longer available."
         ) +
         "</p>";
     }

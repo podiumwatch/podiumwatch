@@ -809,6 +809,16 @@
         return;
       }
 
+      // AdSense readiness (2026-09-16): only the generic /athlete/?slug=
+      // shell's build-time title ("Athlete Profile") is generic enough
+      // that this isn't strictly misleading, but a real /athletes/{slug}/
+      // page's baked-in title is a specific athlete's name -- if the API
+      // itself is what says this record doesn't exist (a merge, a
+      // removal), the tab/bookmark should say so too rather than keep
+      // showing a name for a profile that no longer resolves. This page
+      // is already noindex, follow at the template level either way
+      // (src/pages/athletedetail.mjs).
+      document.title = "Athlete Not Found | Podium Watch";
       showMessage(error.message, "error");
     }
   }

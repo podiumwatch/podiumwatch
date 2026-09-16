@@ -1119,6 +1119,13 @@
     message,
     includeAdminLink = false
   ) {
+    // AdSense readiness (2026-09-16): otherwise document.title stays
+    // whatever was baked in at build time ("Meet Details") for every
+    // error state, including a genuinely nonexistent meet -- misleading
+    // in a browser tab or bookmark. This page is already noindex,
+    // follow at the template level (src/pages/meetdetail.mjs) regardless
+    // -- this is purely about not looking broken to an actual visitor.
+    document.title = title + " | Podium Watch";
     statusBox.innerHTML = "";
 
     const heading =

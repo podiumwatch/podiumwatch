@@ -77,6 +77,13 @@
   }
 
   function showMessage(text) {
+    // AdSense readiness (2026-09-16): otherwise document.title stays
+    // the generic build-time "Watch a live race" even once this is
+    // known to be a dead/nonexistent link -- this page is already
+    // noindex, follow at the template level (src/pages/racepublic.mjs)
+    // regardless -- this is purely about not looking broken to an
+    // actual visitor in a browser tab or bookmark.
+    if (text) document.title = "Race Not Found | Podium Watch";
     loadingBox.hidden = true;
     root.hidden = true;
     messageBox.hidden = !text;
