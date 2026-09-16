@@ -324,7 +324,18 @@ async function loadRankings() {
 }
 
 function homePage(stories, rankings) {
-  const featuredStory = stories.find((story) => story.featured) || stories[0];
+  // Real request, 2026-09-16: the homepage lead must always be the most
+  // recent story, full stop -- no exceptions. This used to prefer a
+  // hand-flagged featured:true story first (removed), and `stories[0]`
+  // alone still wasn't enough -- loadStories() sorts pinnedRank stories
+  // to the front ahead of date for the rest of the site (the /stories/
+  // feed, category pages -- unchanged, still real and still useful
+  // there), which meant a pinned story could still silently beat a
+  // genuinely newer one for this one slot. A pure date-only sort on a
+  // local copy (not touching the `stories` array itself, so every other
+  // page keeps its pinnedRank ordering exactly as before) is the only
+  // way to guarantee "always the newest" with truly no exceptions.
+  const featuredStory = [...stories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`))[0];
   // Exclude the hero story from "Latest Stories" below it -- without this,
   // whenever the featured story is also among the most recent (the normal
   // case), it silently appeared twice on the homepage: once as the big
