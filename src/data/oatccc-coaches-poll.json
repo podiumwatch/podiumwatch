@@ -5498,6 +5498,206 @@
               "first_place_votes": null
             }
           ],
+          "2": [
+            {
+              "rank": 1,
+              "school": "Hoover",
+              "points": 287,
+              "first_place_votes": 11
+            },
+            {
+              "rank": 2,
+              "school": "Bowling Green",
+              "points": 255,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "Tol. St Francis",
+              "points": 230,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 4,
+              "school": "Loveland",
+              "points": 227,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Big Walnut",
+              "points": 218,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Granville",
+              "points": 207,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Uniontown Lake",
+              "points": 203,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Lexington",
+              "points": 199,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Hudson",
+              "points": 184,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Unioto",
+              "points": 150,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Cloverleaf",
+              "points": 148,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Rocky River",
+              "points": 139,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Defiance",
+              "points": 137,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Shaker Heights",
+              "points": 125,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "CVCA",
+              "points": 124,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Kenston",
+              "points": 118,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Med. Highland",
+              "points": 113,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Wadsworth",
+              "points": 98,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Revere",
+              "points": 70,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Mass. Perry",
+              "points": 67,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Nordonia",
+              "points": 65,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Salem",
+              "points": 55,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Watterson",
+              "points": 36,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Westlake",
+              "points": 35,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Buckeye",
+              "points": 30,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Bellbrook",
+              "points": 25,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Turpin",
+              "points": 22,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "DeSales",
+              "points": 11,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Carroll",
+              "points": 8,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Boardman",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Dublin Scioto",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Chardon",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Syl. Northview",
+              "points": 1,
+              "first_place_votes": null
+            }
+          ],
           "3": [
             {
               "rank": 1,
