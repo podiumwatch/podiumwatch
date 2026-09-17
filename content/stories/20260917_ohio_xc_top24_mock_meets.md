@@ -5,6 +5,9 @@ description: "Celebrate the teams leading the September 17 OATCCC poll, with key
 category: "Cross Country"
 author: "Podium Watch"
 slug: "ohio-xc-top-24-mock-meets-september-17-2026"
+featuredImage: "/images/stories/ohio_xc_top24_mock_meets.jpg"
+featuredImageAlt: "Boys cross country runners lined up at the starting line under a sunset sky"
+featuredImageCaption: "Photo credit: @karenansberry on Instagram"
 tags:
   - "Cross Country"
   - "OATCCC Poll"
