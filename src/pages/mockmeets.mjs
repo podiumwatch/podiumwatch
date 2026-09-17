@@ -115,8 +115,6 @@ export function mockMeetsPage(site) {
     .mm-error { color: var(--danger); }
 
     .mm-methodology { margin-top: 40px; }
-    .mm-methodology ul { margin: 12px 0 0; padding-left: 20px; }
-    .mm-methodology li { margin-bottom: 6px; }
 
     .mm-highlight { outline: 3px solid var(--green); outline-offset: -3px; }
   </style>
@@ -203,12 +201,6 @@ export function mockMeetsPage(site) {
         <p class="eyebrow">Methodology</p>
         <h2>How these scores were modeled</h2>
         <p>First five score, sixth and seventh displace, and identical listed marks share their averaged occupied places rather than each claiming a whole place -- which is why some scores include a half point. Every runner's time is the season best supplied for this project, not necessarily run on the same course or date as any other runner in the field, so this is supporting context for the coaches poll, not a race result or a championship prediction.</p>
-        <ul>
-          <li>Claire Ammons (Botkins) is scored at her confirmed 19:59.97.</li>
-          <li>Girls D3: the "Ashlyn" entries on Berkshire's roster are treated as one runner pending identity confirmation, with Hailey Mitchell (22:47.8) added as the seventh. This division is marked provisional.</li>
-          <li>Boys D3: Berkshire's Ben Townsend (17:04.6) and Benjamin Townsend (17:14.6) are kept as separate, unresolved entries. This division is marked provisional until that is confirmed.</li>
-          <li>Botkins girls had five supplied runners -- no sixth or seventh displacer.</li>
-        </ul>
         <p style="margin-top:14px;"><a class="text-link" href="${ARTICLE_HREF}">Read the full article for all eight divisions ${icon("arrow")}</a></p>
       </div>
     </div>
