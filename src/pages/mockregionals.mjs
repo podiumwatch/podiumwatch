@@ -53,7 +53,7 @@ import regionalsData from "../data/mock-regionals-2026.json" with { type: "json"
 
 const REGION_ORDER = ["central", "northeast", "northwest", "southwest"];
 const REGION_LABELS = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
-const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams for this division and gender, scored from each runner's real season-best 5K time. This is a modeled projection, not a real meet result. Individual qualifiers are initially limited to runners on those top-75 teams -- a fast runner from a team outside the top 75 is not yet represented unless a supplemental individual entry is added.";
+const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams and the top 500 Athletic.net individuals for this division and gender, based on season best times. This is a modeled projection, not a real meet result. A supplemental individual is only included when their school does not already have a top-75 team roster in this division.";
 
 function divisionLabel(entry) {
   return entry.label;
@@ -207,9 +207,16 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
   const pathname = `/mock-meets/regionals/${regionSlug(divisionEntry.id, regionKey)}/`;
   const title = `${REGION_LABELS[regionKey]} Regional -- ${divisionLabel(divisionEntry)}`;
   const hasTeams = region.teams.length > 0;
-  const { teams } = hasTeams ? scoreTeams(region.teams) : { teams: [] };
+  const supplementalIndividuals = region.individuals || [];
+  // Team roster runners and supplemental individuals are scored together
+  // in one shared field (real displacement for both), but a team's own
+  // score still comes only from its seven listed runners -- scoreTeams()
+  // never adds an individual to any team's roster or score.
+  const { teams, individuals: scoredIndividuals } = hasTeams
+    ? scoreTeams(region.teams, supplementalIndividuals)
+    : { teams: [], individuals: [] };
   const individualQualifiers = hasTeams
-    ? selectIndividualQualifiers(teams, region.stateQualifiers, region.individualQualifiers || 0)
+    ? selectIndividualQualifiers(teams, scoredIndividuals, region.stateQualifiers, region.individualQualifiers || 0)
     : [];
 
   const content = `${pageHero({
@@ -278,9 +285,9 @@ export function mockStatePage(site, divisionEntry) {
     const pooledIndividuals = [];
     for (const key of regionKeys) {
       const region = divisionEntry.regions[key];
-      const { teams: regionScored } = scoreTeams(region.teams);
+      const { teams: regionScored, individuals: regionScoredIndividuals } = scoreTeams(region.teams, region.individuals || []);
       const qualifyingTeams = regionScored.filter((t) => t.complete).slice(0, region.stateQualifiers);
-      const qualifyingIndividuals = selectIndividualQualifiers(regionScored, region.stateQualifiers, region.individualQualifiers || 0);
+      const qualifyingIndividuals = selectIndividualQualifiers(regionScored, regionScoredIndividuals, region.stateQualifiers, region.individualQualifiers || 0);
 
       poolLog.push({ region: REGION_LABELS[key], teamCount: qualifyingTeams.length, teamQualifiers: region.stateQualifiers, individualCount: qualifyingIndividuals.length, individualQualifiers: region.individualQualifiers || 0 });
 
@@ -407,7 +414,7 @@ export function mockRegionalsAllPages(site) {
   const pages = [];
   pages.push({ pathname: "/mock-meets/", html: mockRegionalsHubPage(site) });
   for (const divisionEntry of regionalsData.divisions) {
-    const problems = validateDivisionRoster(divisionEntry.label, Object.entries(divisionEntry.regions));
+    const problems = validateDivisionRoster(divisionEntry, Object.entries(divisionEntry.regions));
     if (problems.length) {
       throw new Error(`Mock regionals data validation failed for ${divisionEntry.label}:\n${problems.map((p) => `  - ${p}`).join("\n")}`);
     }

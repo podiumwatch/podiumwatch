@@ -131,30 +131,47 @@ export function scoreTeams(teams, individuals = []) {
 // selectIndividualQualifiers -- OHSAA's real rule: the fastest finishers
 // NOT on a team that already qualified, taken in real overall finish
 // order (not re-ranked among themselves), up to the official
-// individualQualifierCount for that region/division/gender. Operates on
-// an already-scored regional field (the .teams array from a plain
-// scoreTeams(regionTeams) call, so every runner already carries its real
-// regional placePoints) plus the region's real stateQualifiers count, so
-// it never has to re-derive qualification itself.
+// individualQualifierCount for that region/division/gender.
+//
+// Operates on an already-scored regional field: scoredTeams (the .teams
+// array) and scoredIndividuals (the .individuals array) from the SAME
+// scoreTeams(regionTeams, regionIndividuals) call, so every runner --
+// whether on a team roster or a supplemental top-500 individual entry --
+// already carries its real regional placePoints from one shared race
+// field. "After the qualifying teams are selected, remove every runner
+// from those teams before selecting individual qualifiers": the pool
+// here is every runner NOT on a qualifying team's roster, whether that's
+// a non-qualifying team's own runner or an unattached supplemental
+// individual (who was never on any team's roster to begin with, so is
+// always eligible unless already excluded upstream at data-entry time --
+// see validateDivisionRoster's top-75-school check).
 //
 // A tie sitting exactly on the cutoff line is included whole rather than
 // arbitrarily cut -- e.g. if the 16th and 17th fastest non-qualifying-team
 // runners are tied, both advance -- matching how a real meet resolves a
 // tie for the last qualifying spot (nobody is arbitrarily excluded from a
 // dead-even tie).
-export function selectIndividualQualifiers(scoredRegionTeams, stateQualifiers, individualQualifierCount) {
+export function selectIndividualQualifiers(scoredTeams, scoredIndividuals, stateQualifiers, individualQualifierCount) {
   if (!individualQualifierCount) return [];
 
   const qualifyingNames = new Set(
-    scoredRegionTeams.filter((t) => t.complete && t.mockRank <= stateQualifiers).map((t) => t.name)
+    scoredTeams.filter((t) => t.complete && t.mockRank <= stateQualifiers).map((t) => t.name)
   );
 
   const pool = [];
-  for (const team of scoredRegionTeams) {
+  for (const team of scoredTeams) {
     if (qualifyingNames.has(team.name)) continue;
     for (const runner of team.runners) {
       pool.push({ ...runner, originalTeam: team.name, originalRegion: team.region ?? null });
     }
+  }
+  for (const individual of scoredIndividuals || []) {
+    // A supplemental individual is never "on" any team roster, so it's
+    // always eligible here -- originalTeam/originalRegion normalize its
+    // own school/region fields to the same display shape a team-roster
+    // runner gets above, so individualsTableHtml() (mockregionals.mjs)
+    // can render both kinds identically without caring which one it is.
+    pool.push({ ...individual, originalTeam: individual.school ?? individual.originalTeam ?? null, originalRegion: individual.region ?? individual.originalRegion ?? null });
   }
   pool.sort((a, b) => a.placePoints - b.placePoints);
 
@@ -162,6 +179,22 @@ export function selectIndividualQualifiers(scoredRegionTeams, stateQualifiers, i
 
   const cutoffPoints = pool[individualQualifierCount - 1].placePoints;
   return pool.filter((runner, index) => index < individualQualifierCount || runner.placePoints === cutoffPoints);
+}
+
+const KNOWN_REGIONS = new Set(["Central", "Northeast", "Northwest", "Southwest"]);
+
+function normalizeIdentityText(value) {
+  return String(value ?? "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+// The fallback identity used when no Athletic.net ID is available:
+// normalized name + normalized school + graduation year. Deliberately
+// omits gender -- this validator is already called once per division,
+// which is already gender-scoped, so every entry being compared shares
+// the same gender by construction.  Mirrors the shape (not the exact
+// key) of athleteIdentityKey() in lib/athlete_foundation_service.mjs.
+function fallbackAthleteKey(name, school, graduationYear) {
+  return `${normalizeIdentityText(name)}|${normalizeIdentityText(school)}|${graduationYear || "unknown"}`;
 }
 
 // Division-wide validation, run once per division/gender across every one
@@ -174,32 +207,112 @@ export function selectIndividualQualifiers(scoredRegionTeams, stateQualifiers, i
 // just report; src/pages/mockregionals.mjs throws on any non-empty list,
 // since a silently-wrong regional/state field is worse than a loud build
 // failure that points at exactly which row is wrong.
-export function validateDivisionRoster(divisionLabel, regionEntries) {
+//
+// Checks, in order: (1) a team stored in more than one region, (2) a
+// team's own region field disagreeing with the region bucket it's stored
+// under, (3) missing/unrecognized region on a team or individual, (4) a
+// team/individual's own optional gender/division fields (if present)
+// disagreeing with the divisionEntry they're stored under, (5) duplicate
+// Athletic.net ID across every team runner AND every supplemental
+// individual combined, (6) duplicate fallback identity (name+school+
+// graduation year) when no Athletic.net ID is present, on the same
+// combined set, (7) missing or invalid timeCentiseconds/seasonBest, and
+// (8) a supplemental individual whose school already has a team roster
+// in this division -- the real rule (see selectIndividualQualifiers'
+// header comment and mock-regionals-2026.json's own notes) is that a
+// runner from a top-75 team's school is never a standalone individual,
+// whether or not they're one of that team's own listed seven.
+export function validateDivisionRoster(divisionEntry, regionEntries) {
   const problems = [];
+  const divisionLabel = divisionEntry.label;
   const seenTeams = new Map();
-  const seenAthletes = new Map();
+  const seenTeamNames = new Set();
+  const seenAthleteNetIds = new Map();
+  const seenFallbackKeys = new Map();
+
+  function checkAthlete({ name, school, graduationYear, athleticNetId, timeCentiseconds, seasonBest }, label, regionKey) {
+    if (athleticNetId) {
+      const key = normalizeIdentityText(athleticNetId);
+      if (seenAthleteNetIds.has(key)) {
+        const prior = seenAthleteNetIds.get(key);
+        problems.push(`${divisionLabel}: Athletic.net ID "${athleticNetId}" ("${name}") appears on both ${prior.label} (${prior.regionKey}) and ${label} (${regionKey}).`);
+      } else {
+        seenAthleteNetIds.set(key, { label, regionKey });
+      }
+    } else {
+      const fallback = fallbackAthleteKey(name, school, graduationYear);
+      if (seenFallbackKeys.has(fallback)) {
+        const prior = seenFallbackKeys.get(fallback);
+        problems.push(`${divisionLabel}: "${name}" (no Athletic.net ID -- matched by name, school, and graduation year) appears on both ${prior.label} (${prior.regionKey}) and ${label} (${regionKey}).`);
+      } else {
+        seenFallbackKeys.set(fallback, { label, regionKey });
+      }
+    }
+
+    if (timeCentiseconds == null || !Number.isFinite(timeCentiseconds) || timeCentiseconds <= 0) {
+      problems.push(`${divisionLabel}: "${name}" (${label}) has a missing or invalid timeCentiseconds value.`);
+    }
+    if (!seasonBest || !String(seasonBest).trim()) {
+      problems.push(`${divisionLabel}: "${name}" (${label}) is missing a seasonBest display time.`);
+    }
+  }
+
+  function checkGenderDivision(entry, entityLabel, regionKey) {
+    if (entry.gender && entry.gender !== divisionEntry.gender) {
+      problems.push(`${divisionLabel}: ${entityLabel} has gender "${entry.gender}" but is stored in the ${divisionEntry.gender} division (${regionKey}).`);
+    }
+    if (entry.division != null && Number(entry.division) !== divisionEntry.division) {
+      problems.push(`${divisionLabel}: ${entityLabel} has division ${entry.division} but is stored in Division ${divisionEntry.division} (${regionKey}).`);
+    }
+  }
 
   for (const [regionKey, region] of regionEntries) {
     for (const team of region.teams) {
-      const teamKey = team.name.trim().toLowerCase();
+      const teamKey = normalizeIdentityText(team.name);
       if (seenTeams.has(teamKey)) {
         problems.push(`${divisionLabel}: "${team.name}" appears in both ${seenTeams.get(teamKey)} and ${regionKey} -- a team can only be in one region.`);
       } else {
         seenTeams.set(teamKey, regionKey);
       }
+      seenTeamNames.add(teamKey);
 
       if (team.region && team.region !== region.region) {
         problems.push(`${divisionLabel}: "${team.name}" is stored under ${regionKey} (${region.region}) but its own region field says "${team.region}".`);
       }
+      if (!team.region || !KNOWN_REGIONS.has(team.region)) {
+        problems.push(`${divisionLabel}: "${team.name}" has a missing or unrecognized region assignment.`);
+      }
+      checkGenderDivision(team, `"${team.name}"`, regionKey);
 
       for (const runner of team.runners) {
-        const athleteKey = runner.name.trim().toLowerCase();
-        if (seenAthletes.has(athleteKey)) {
-          const prior = seenAthletes.get(athleteKey);
-          problems.push(`${divisionLabel}: "${runner.name}" appears on both ${prior.team} (${prior.regionKey}) and ${team.name} (${regionKey}) -- an athlete can only run for one team.`);
-        } else {
-          seenAthletes.set(athleteKey, { team: team.name, regionKey });
-        }
+        checkAthlete(
+          { name: runner.name, school: team.name, graduationYear: runner.graduationYear, athleticNetId: runner.athleticNetId, timeCentiseconds: runner.timeCentiseconds, seasonBest: runner.seasonBest },
+          team.name,
+          regionKey
+        );
+      }
+    }
+  }
+
+  for (const [regionKey, region] of regionEntries) {
+    for (const individual of region.individuals || []) {
+      const label = `individual entry`;
+      checkAthlete(
+        { name: individual.name, school: individual.school, graduationYear: individual.graduationYear, athleticNetId: individual.athleticNetId, timeCentiseconds: individual.timeCentiseconds, seasonBest: individual.seasonBest },
+        label,
+        regionKey
+      );
+
+      if (individual.region && individual.region !== region.region) {
+        problems.push(`${divisionLabel}: individual "${individual.name}" is stored under ${regionKey} (${region.region}) but its own region field says "${individual.region}".`);
+      }
+      if (!individual.region || !KNOWN_REGIONS.has(individual.region)) {
+        problems.push(`${divisionLabel}: individual "${individual.name}" has a missing or unrecognized region assignment.`);
+      }
+      checkGenderDivision(individual, `individual "${individual.name}"`, regionKey);
+
+      if (individual.school && seenTeamNames.has(normalizeIdentityText(individual.school))) {
+        problems.push(`${divisionLabel}: individual "${individual.name}" is listed as a standalone entrant from "${individual.school}", but that school already has a top-75 team roster in this division -- it must be excluded, not added as a supplemental individual.`);
       }
     }
   }
