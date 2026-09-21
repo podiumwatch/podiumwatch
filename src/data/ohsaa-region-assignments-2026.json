@@ -1,0 +1,1363 @@
+{
+  "schemaVersion": 1,
+  "generatedDate": "2026-09-21",
+  "sources": [
+    "https://ohsaaweb.blob.core.windows.net/files/Sports/Cross%20Country/2026/D1SchoolsandSitesBoys.pdf",
+    "https://ohsaaweb.blob.core.windows.net/files/Sports/Cross%20Country/2026/D1SchoolsandSitesGirls.pdf",
+    "Northeast District Athletic Board official Google Sheets (Division 2-4, boys/girls, linked from ohsaa.org/Northeast-Sports-Tournaments/Cross-Country)",
+    "Northwest District Athletic Board official Google Doc \"2026 Cross Country District Managers & Locations\" (linked from ohsaa.org/Northwest-Sports-Tournaments/Cross-Country)",
+    "Southwest District Athletic Board official 2026 Team Assignment PDFs (linked from ohsaa.org/Southwest-Sports-Tournaments/Cross-Country)",
+    "2026SitesRepresentationSchedule.pdf (user-supplied) for the Central/East/Southeast -> Central-region mapping applied as the default"
+  ],
+  "notes": [
+    "Division I has no Northwest regional site; all D1 teams (including Northwest-area schools like Perrysburg) are assigned to Central, Northeast, or Southwest per OHSAA's own official site-balancing document.",
+    "Central, East, and Southeast athletic districts all feed the same Central tournament region for Divisions II-IV, so a team not found on an official Northeast/Northwest/Southwest roster defaults to Central region.",
+    "Western Reserve (boys and girls, Division IV) is UNRESOLVED: it appears on both the official Northeast sheet and the official Northwest document. Needs manual confirmation before publishing as fact."
+  ],
+  "teams": [
+    {
+      "school": "Mentor",
+      "gender": "boys",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Thomas Worthington",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Gahanna Lincoln",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Springboro",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Mason",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Olentangy Berlin",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Beavercreek",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Mass. Jackson",
+      "gender": "boys",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Sycamore",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Westerville North",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Lebanon",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Dublin Jerome",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Milford",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Little Miami",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Solon",
+      "gender": "boys",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Lakota West",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "St Xavier",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Northmont",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Kings",
+      "gender": "boys",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "St Ignatius",
+      "gender": "boys",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Olentangy Orange",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "New Albany",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Dublin Coffman",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Olentangy Liberty",
+      "gender": "boys",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Hoover",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Tol. St Francis",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Uniontown Lake",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Lexington",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Bowling Green",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Unioto",
+      "gender": "boys",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Loveland",
+      "gender": "boys",
+      "division": 2,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Nordonia",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Big Walnut",
+      "gender": "boys",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Granville",
+      "gender": "boys",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Cloverleaf",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Hudson",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Defiance",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Shaker Heights",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "CVCA",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Med. Highland",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Wadsworth",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Rocky River",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Revere",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Kenston",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Westlake",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Salem",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Mass. Perry",
+      "gender": "boys",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Watterson",
+      "gender": "boys",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Woodridge",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Fairless",
+      "gender": "boys",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Versailles",
+      "gender": "boys",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "West Liberty Salem",
+      "gender": "boys",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Bryan",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Chagrin Falls",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Berkshire",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Oakwood",
+      "gender": "boys",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Van Wert",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Upper Sandusky",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Fairfield Union",
+      "gender": "boys",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Keystone",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Margaretta",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "CF Northwest",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Triway",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Elmwood",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Archbold",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Minerva",
+      "gender": "boys",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Paulding",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Waynesville",
+      "gender": "boys",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Norwayne",
+      "gender": "boys",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Madeira",
+      "gender": "boys",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Tusc. Valley",
+      "gender": "boys",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "CHCA",
+      "gender": "boys",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Tinora",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Russia",
+      "gender": "boys",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Mount Gilead",
+      "gender": "boys",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Maplewood",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Legacy Christian",
+      "gender": "boys",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Independence",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Botkins",
+      "gender": "boys",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Cedarville",
+      "gender": "boys",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Convoy Crestview",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Hicksville",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Lehman Catholic",
+      "gender": "boys",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Sherwood Fairview",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Shenandoah",
+      "gender": "boys",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Columbus Grove",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "St Henry",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Minster",
+      "gender": "boys",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "New Bremen",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "South Webster",
+      "gender": "boys",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Seneca East",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Black River",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Open Door Christian",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "New Riegel",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Ashland Crestview",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Rittman",
+      "gender": "boys",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Mass. Jackson",
+      "gender": "girls",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Milford",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Upper Arlington",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Hilliard Davidson",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Centerville",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Oak Hills",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Gahanna Lincoln",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Mason",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Perrysburg",
+      "gender": "girls",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Mentor",
+      "gender": "girls",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Springboro",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Beavercreek",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Solon",
+      "gender": "girls",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "GlenOak",
+      "gender": "girls",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Sycamore",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Olentangy Berlin",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Lancaster",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Thomas Worthington",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Teays Valley",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Dublin Jerome",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Northmont",
+      "gender": "girls",
+      "division": 1,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Olentangy Orange",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Watkins Memorial",
+      "gender": "girls",
+      "division": 1,
+      "region": "Central",
+      "confirmed": true
+    },
+    {
+      "school": "Medina",
+      "gender": "girls",
+      "division": 1,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Avon",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Watterson",
+      "gender": "girls",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Aurora",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Canal Winchester",
+      "gender": "girls",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Bellbrook",
+      "gender": "girls",
+      "division": 2,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Granville",
+      "gender": "girls",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Bay",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Hudson",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Fremont Ross",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Shaker Heights",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Big Walnut",
+      "gender": "girls",
+      "division": 2,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Brecksville",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Wadsworth",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Boardman",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Syl. Southview",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Bowling Green",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Med. Highland",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "CVCA",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Revere",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Lexington",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Toledo St Ursula",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Turpin",
+      "gender": "girls",
+      "division": 2,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Tallmadge",
+      "gender": "girls",
+      "division": 2,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Cin. St Ursula",
+      "gender": "girls",
+      "division": 2,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Huron",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Oakwood",
+      "gender": "girls",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Minerva",
+      "gender": "girls",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Berkshire",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Ottawa Glandorf",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Crestwood",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Versailles",
+      "gender": "girls",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Marlington",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Woodridge",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Salem",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Van Wert",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Napoleon",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Indian Valley",
+      "gender": "girls",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Madeira",
+      "gender": "girls",
+      "division": 3,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Fenwick",
+      "gender": "girls",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Hathaway Brown",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Akron SVSM",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "West Holmes",
+      "gender": "girls",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Shelby",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Northmor",
+      "gender": "girls",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "CF Northwest",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Tusc. Valley",
+      "gender": "girls",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Fairfield Union",
+      "gender": "girls",
+      "division": 3,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Galion",
+      "gender": "girls",
+      "division": 3,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Ottawa Hills",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Liberty Center",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Rittman",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Grandview Heights",
+      "gender": "girls",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Minster",
+      "gender": "girls",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "McDonald",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Maplewood",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Kirtland",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Summit Co. Day",
+      "gender": "girls",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Bellaire",
+      "gender": "girls",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "West Liberty Salem",
+      "gender": "girls",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Archbold",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Mount Gilead",
+      "gender": "girls",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Milan Edison",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Ash. St John",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northeast",
+      "confirmed": true
+    },
+    {
+      "school": "Mechanicsburg",
+      "gender": "girls",
+      "division": 4,
+      "region": "Central (default: not found in NE/NW/SW lists)",
+      "confirmed": false
+    },
+    {
+      "school": "Dayton Christian",
+      "gender": "girls",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Crestline",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Sherwood Fairview",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Fort Loramie",
+      "gender": "girls",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Botkins",
+      "gender": "girls",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Seneca East",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    },
+    {
+      "school": "Cedarville",
+      "gender": "girls",
+      "division": 4,
+      "region": "Southwest",
+      "confirmed": true
+    },
+    {
+      "school": "Carey",
+      "gender": "girls",
+      "division": 4,
+      "region": "Northwest",
+      "confirmed": true
+    }
+  ]
+}

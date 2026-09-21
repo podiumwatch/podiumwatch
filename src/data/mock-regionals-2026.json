@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "seasonLabel": "2026",
+  "regionalDate": "2026-10-31",
+  "sourceUrl": "https://ohsaaweb.blob.core.windows.net/files/Sports/Cross%20Country/2026/2026SitesRepresentationSchedule.pdf",
+  "notes": [
+    "Team-only for now. Individual results and a mock State meet computed from regional qualifiers are planned as a follow-up.",
+    "stateQualifiers is the real number of teams that advance from each region to the state meet, per OHSAA's own 2026 Regional Sites, Schedule & Representation document.",
+    "Division I has no Northwest region -- all Division I teams are split only across Central, Northeast, and Southwest."
+  ],
+  "divisions": [
+    {
+      "id": "boys-d1", "gender": "boys", "division": 1, "label": "Boys Division I",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 8, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 5, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 7, "teams": [] }
+      }
+    },
+    {
+      "id": "girls-d1", "gender": "girls", "division": 1, "label": "Girls Division I",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 9, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 5, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 6, "teams": [] }
+      }
+    },
+    {
+      "id": "boys-d2", "gender": "boys", "division": 2, "label": "Boys Division II",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 5, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 10, "teams": [] },
+        "northwest": { "region": "Northwest", "siteName": "Hedges Boyer Park (Tiffin)", "stateQualifiers": 4, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 5, "teams": [] }
+      }
+    },
+    {
+      "id": "girls-d2", "gender": "girls", "division": 2, "label": "Girls Division II",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 5, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 9, "teams": [] },
+        "northwest": { "region": "Northwest", "siteName": "Hedges Boyer Park (Tiffin)", "stateQualifiers": 4, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 6, "teams": [] }
+      }
+    },
+    {
+      "id": "boys-d3", "gender": "boys", "division": 3, "label": "Boys Division III",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 8, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 7, "teams": [] },
+        "northwest": { "region": "Northwest", "siteName": "Hedges Boyer Park (Tiffin)", "stateQualifiers": 4, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 5, "teams": [] }
+      }
+    },
+    {
+      "id": "girls-d3", "gender": "girls", "division": 3, "label": "Girls Division III",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 7, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 8, "teams": [] },
+        "northwest": { "region": "Northwest", "siteName": "Hedges Boyer Park (Tiffin)", "stateQualifiers": 5, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 4, "teams": [] }
+      }
+    },
+    {
+      "id": "boys-d4", "gender": "boys", "division": 4, "label": "Boys Division IV",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 6, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 5, "teams": [] },
+        "northwest": { "region": "Northwest", "siteName": "Hedges Boyer Park (Tiffin)", "stateQualifiers": 8, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 5, "teams": [] }
+      }
+    },
+    {
+      "id": "girls-d4", "gender": "girls", "division": 4, "label": "Girls Division IV",
+      "regions": {
+        "central": { "region": "Central", "siteName": "Pickerington High School North", "stateQualifiers": 5, "teams": [] },
+        "northeast": { "region": "Northeast", "siteName": "Boardman High School (Youngstown)", "stateQualifiers": 5, "teams": [] },
+        "northwest": { "region": "Northwest", "siteName": "Hedges Boyer Park (Tiffin)", "stateQualifiers": 9, "teams": [] },
+        "southwest": { "region": "Southwest", "siteName": "Troy Memorial Stadium", "stateQualifiers": 5, "teams": [] }
+      }
+    }
+  ]
+}
