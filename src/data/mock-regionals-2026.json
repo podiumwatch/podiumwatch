@@ -8,8 +8,10 @@
     "Team-only scoring plus individual-qualifier displacement, per the real OHSAA rule that individual qualifiers only come from teams that did not qualify as a team.",
     "stateQualifiers and individualQualifiers are the real official counts from OHSAA's own 2026 Regional Sites, Schedule & Representation document -- not estimated.",
     "Division I has no Northwest region -- all Division I teams are split only across Central, Northeast, and Southwest.",
-    "Each team's own region/athleticDistrict/ohsaaSchoolId/city fields are the source of truth for where it belongs; a team matched by name alone was never trusted (see the Western Reserve case in docs/SESSION_LOG.md-style project notes -- two real Ohio schools can share a name, so OHSAA school ID + city + athletic district + gender decide the match, not name text).",
-    "A team or athlete that cannot be confidently matched to one real division/region is left out entirely rather than guessed into a bucket -- see src/lib/mock_scoring.mjs's validateDivisionRoster() for the automated half of this check (duplicate team/athlete across regions), which is a build-time hard failure, not a silent skip."
+    "Each team's own region/athleticDistrict/ohsaaSchoolId/city fields are the source of truth for where it belongs; a team matched by name alone was never trusted -- OHSAA school ID + city + athletic district + gender decide the match, not name text.",
+    "A team or athlete that cannot be confidently matched to one real division/region is left out entirely rather than guessed into a bucket -- see src/lib/mock_scoring.mjs's validateDivisionRoster() for the automated half of this check (duplicate team/athlete across regions), which is a build-time hard failure, not a silent skip.",
+    "Resolved identity: Western Reserve, OHSAA school ID 1670, city Collins, is the Northwest district school -- confirmed 2026-09-21. Any 'Western Reserve' sourced from a Northeast context is a different real school and must be given its own distinct city and OHSAA school ID before being trusted; it is never the same record as ID 1670.",
+    "Graduation year for the 2026 season (cross country): grade 12 = 2027, grade 11 = 2028, grade 10 = 2029, grade 9 = 2030 -- matches lib/athlete_foundation_service.mjs's deriveGraduationYearFromGrade() exactly (season 2026, cross country: seniorGraduationYear = season + 1, then + (12 - grade))."
   ],
   "divisions": [
     {

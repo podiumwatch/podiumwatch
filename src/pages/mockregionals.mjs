@@ -53,7 +53,7 @@ import regionalsData from "../data/mock-regionals-2026.json" with { type: "json"
 
 const REGION_ORDER = ["central", "northeast", "northwest", "southwest"];
 const REGION_LABELS = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
-const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams for this division and gender, scored from each runner's real season-best 5K time. This is a modeled projection, not a real meet result.";
+const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams for this division and gender, scored from each runner's real season-best 5K time. This is a modeled projection, not a real meet result. Individual qualifiers are initially limited to runners on those top-75 teams -- a fast runner from a team outside the top 75 is not yet represented unless a supplemental individual entry is added.";
 
 function divisionLabel(entry) {
   return entry.label;
