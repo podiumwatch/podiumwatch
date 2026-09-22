@@ -295,6 +295,7 @@ ${showAds ? adSenseLoaderScript() : ""}
 </style>
 <script src="/scripts/ohio-today.js" defer></script>
 <script src="/scripts/site.js" defer></script>
+<script src="/scripts/presence.js" defer></script>
 <script>
   window.va = window.va || function () {
     (window.vaq = window.vaq || []).push(arguments);

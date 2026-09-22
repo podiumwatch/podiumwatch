@@ -172,6 +172,11 @@ async function getDashboard(days = 30) {
     // just returns the real, counted slugs.
     top_stories: analytics.story_counts.slice(0, 20),
     top_pages: analytics.page_counts.slice(0, 20),
+    // The unsliced list, for the "look up one page" search box -- a page
+    // that isn't in the top 20 (e.g. one D4 mock meets region on a slow
+    // week) would otherwise be invisible even though its real count is
+    // already sitting right here in the same aggregate.
+    all_pages: analytics.page_counts,
     sponsor_performance: sponsorPerformance,
     delivery_summary: deliverySummary,
     notification_events: eventResult.data || [],

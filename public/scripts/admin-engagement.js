@@ -13,6 +13,11 @@
   const topTeams = document.querySelector("[data-top-teams]");
   const topStories = document.querySelector("[data-top-stories]");
   const topPages = document.querySelector("[data-top-pages]");
+  const pageSearch = document.querySelector("[data-page-search]");
+  const liveActive = document.querySelector("[data-live-active]");
+  const liveVisitors = document.querySelector("[data-live-visitors]");
+  const livePages = document.querySelector("[data-live-pages]");
+  const liveUpdated = document.querySelector("[data-live-updated]");
   const activitySummary = document.querySelector("[data-activity-summary]");
   const sponsorPerformance = document.querySelector("[data-sponsor-performance]");
   const configuration = document.querySelector("[data-engagement-configuration]");
@@ -22,7 +27,7 @@
   const clearSponsorButton = document.querySelector("[data-clear-sponsor]");
   const clearPlacementButton = document.querySelector("[data-clear-placement]");
 
-  if (!authLoading || !dashboard || !message || !daysSelect || !settingsForm || !sponsorForm || !placementForm || !sponsorRows || !placementRows || !eventRows || !deliveryRows || !topTeams || !topStories || !topPages || !activitySummary || !sponsorPerformance || !configuration || !sendTestButton || !processButton || !processWeeklyButton || !clearSponsorButton || !clearPlacementButton) {
+  if (!authLoading || !dashboard || !message || !daysSelect || !settingsForm || !sponsorForm || !placementForm || !sponsorRows || !placementRows || !eventRows || !deliveryRows || !topTeams || !topStories || !topPages || !pageSearch || !liveActive || !liveVisitors || !livePages || !liveUpdated || !activitySummary || !sponsorPerformance || !configuration || !sendTestButton || !processButton || !processWeeklyButton || !clearSponsorButton || !clearPlacementButton) {
     return;
   }
 
@@ -140,6 +145,21 @@
     return `<div class="engagement-row"><span><a href="${escapeHtml(path)}" target="_blank" rel="noopener noreferrer">${escapeHtml(path)}</a></span><strong>${escapeHtml(count)}</strong></div>`;
   }
 
+  // Empty search box: the usual top-20-by-count view. Typing filters the
+  // FULL page list (state.all_pages, not just the top 20) by substring
+  // match, so a specific page like one D4 mock meets region shows its
+  // real count even on a week it doesn't rank in the top 20.
+  function renderPages() {
+    const term = pageSearch.value.trim().toLowerCase();
+    const source = term ? (state.all_pages || []) : (state.top_pages || []);
+    const rows = term
+      ? source.filter((item) => item.path.toLowerCase().includes(term))
+      : source;
+
+    topPages.innerHTML = rows.map((item) => pageRow(item.path, item.count)).join("")
+      || (term ? `<p>No page matching "${escapeHtml(pageSearch.value.trim())}" has been viewed yet.</p>` : "<p>No page views have been recorded yet.</p>");
+  }
+
   function renderSelects() {
     const sponsorSelect = placementForm.elements.sponsor_id;
     const teamSelect = placementForm.elements.team_id;
@@ -174,9 +194,7 @@
       .map((item) => storyRow(storyTitleBySlug.get(item.slug) || item.slug, item.count, `/stories/${item.slug}/`))
       .join("") || "<p>No article views have been recorded yet.</p>";
 
-    topPages.innerHTML = (state.top_pages || [])
-      .map((item) => pageRow(item.path, item.count))
-      .join("") || "<p>No page views have been recorded yet.</p>";
+    renderPages();
 
     const activityLabels = {
       team_profile_view: "Team profile views",
@@ -270,13 +288,65 @@
     }
   }
 
+  pageSearch.addEventListener("input", () => {
+    if (state) renderPages();
+  });
+
+  // Live now: polled only while that tab is actually open, so admins
+  // who never look at it never cost the site an extra query -- see
+  // api/admin/presence.js's own reasoning for keeping this a separate,
+  // single-query endpoint from the rest of the dashboard.
+  const LIVE_POLL_MS = 6000;
+  let livePollTimer = null;
+
+  async function loadLivePresence() {
+    try {
+      const response = await fetch("/api/admin/presence", { headers: { Accept: "application/json" } });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Live activity could not be loaded.");
+
+      liveActive.textContent = data.total_active || 0;
+      liveVisitors.textContent = data.unique_visitors || 0;
+      livePages.innerHTML = (data.pages || [])
+        .map((item) => pageRow(item.path, item.count))
+        .join("") || "<p>No one is on the site right now.</p>";
+      liveUpdated.textContent = `Updated ${new Date(data.generated_at).toLocaleTimeString()} · refreshes every ${LIVE_POLL_MS / 1000}s`;
+    } catch (error) {
+      liveUpdated.textContent = error.message;
+    }
+  }
+
+  function startLivePolling() {
+    stopLivePolling();
+    loadLivePresence();
+    livePollTimer = setInterval(loadLivePresence, LIVE_POLL_MS);
+  }
+
+  function stopLivePolling() {
+    if (livePollTimer) clearInterval(livePollTimer);
+    livePollTimer = null;
+  }
+
   document.querySelectorAll("[data-engagement-tab]").forEach((button) => {
     button.addEventListener("click", () => {
       document.querySelectorAll("[data-engagement-tab]").forEach((item) => item.setAttribute("aria-selected", String(item === button)));
       document.querySelectorAll("[data-engagement-panel]").forEach((panel) => {
         panel.hidden = panel.dataset.engagementPanel !== button.dataset.engagementTab;
       });
+
+      if (button.dataset.engagementTab === "live") {
+        startLivePolling();
+      } else {
+        stopLivePolling();
+      }
     });
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    const liveTabActive = document.querySelector('[data-engagement-tab="live"]')?.getAttribute("aria-selected") === "true";
+    if (!liveTabActive) return;
+    if (document.visibilityState === "visible") startLivePolling();
+    else stopLivePolling();
   });
 
   settingsForm.addEventListener("submit", async (event) => {

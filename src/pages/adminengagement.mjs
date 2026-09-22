@@ -27,6 +27,10 @@ const styles = `
     .engagement-status { display:inline-flex; padding:5px 9px; border-radius:999px; background:rgba(0,191,99,.13); font-size:.76rem; font-weight:900; }
     .engagement-status-warning { background:rgba(245,158,11,.17); }
     .engagement-status-error { background:rgba(220,38,38,.14); color:#991b1b; }
+    .engagement-page-search { display:block; width:100%; margin-bottom:12px; padding:11px; border:1px solid rgba(15,23,42,.2); border-radius:9px; font:inherit; background:#fff; }
+    .engagement-live-note { color:rgba(15,23,42,.6); font-size:.86rem; margin:-6px 0 4px; }
+    .engagement-live-dot { display:inline-block; width:9px; height:9px; border-radius:50%; background:#00bf63; margin-right:7px; animation:engagement-live-pulse 1.6s ease-in-out infinite; }
+    @keyframes engagement-live-pulse { 0%,100% { opacity:1; } 50% { opacity:.35; } }
     @media (max-width:800px) { .engagement-grid { grid-template-columns:1fr; } }
 `;
 
@@ -56,6 +60,7 @@ export function adminEngagementPage(site) {
 
         <div class="engagement-tabs" role="tablist">
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="overview" aria-selected="true">Overview</button>
+          <button class="button button-outline engagement-tab" type="button" data-engagement-tab="live">Live now</button>
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="notifications">Notifications</button>
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="sponsors">Sponsors</button>
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="activity">Activity</button>
@@ -86,6 +91,7 @@ export function adminEngagementPage(site) {
             <section class="info-card">
               <p class="eyebrow">Top pages</p>
               <h2>Most viewed site pages</h2>
+              <input class="engagement-page-search" type="search" data-page-search placeholder="Search any page path, e.g. /mock-meets/state/boys-d4/">
               <div class="engagement-list" data-top-pages></div>
             </section>
             <section class="info-card">
@@ -104,6 +110,19 @@ export function adminEngagementPage(site) {
               <div class="engagement-list" data-engagement-configuration></div>
             </section>
           </div>
+        </section>
+
+        <section class="engagement-panel" data-engagement-panel="live" hidden>
+          <div class="engagement-stats">
+            <div class="engagement-stat"><strong data-live-active>0</strong><span>Active right now</span></div>
+            <div class="engagement-stat"><strong data-live-visitors>0</strong><span>Unique active visitors</span></div>
+          </div>
+          <section class="info-card">
+            <p class="eyebrow"><span class="engagement-live-dot" aria-hidden="true"></span>Currently on the site</p>
+            <h2>Pages being viewed right now</h2>
+            <p class="engagement-live-note" data-live-updated>Updating&hellip;</p>
+            <div class="engagement-list" data-live-pages></div>
+          </section>
         </section>
 
         <section class="engagement-panel" data-engagement-panel="notifications" hidden>
