@@ -125,8 +125,13 @@ function sharedStyles() {
 
       /* Generic card fallback -- still used by the individual-qualifiers
          table, which has no roster toggle/expand and stays one card per
-         row with every field labeled. */
-      .mr-table tbody tr:not(.mr-detail-row) {
+         row with every field labeled. Scoped to DIRECT children of the
+         table's own tbody (">" not " ") so it doesn't also reach into
+         the roster table nested several levels down inside a detail
+         row's td -- a descendant selector here previously caught the
+         roster's own rows too, forcing them into stacked cards despite
+         the roster-specific rules below. */
+      .mr-table > tbody > tr:not(.mr-detail-row) {
         display: block !important;
         margin-bottom: 12px;
         padding: 14px 16px !important;
@@ -134,16 +139,36 @@ function sharedStyles() {
         border-radius: 12px;
         background: var(--white);
       }
-      .mr-table tbody tr.mr-qualifies:not(.mr-detail-row) { border-color: var(--green); border-left-width: 4px; background: #f0faf3; }
-      .mr-table td.mr-cell-school { font-size: 1.05rem; font-weight: 800; padding-top: 2px !important; padding-bottom: 10px !important; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
-      .mr-table td.mr-cell-school::before { align-self: center; }
-      .mr-table td[data-label=""] { justify-content: flex-end; padding-top: 10px !important; }
+      .mr-table > tbody > tr.mr-qualifies:not(.mr-detail-row) { border-color: var(--green); border-left-width: 4px; background: #f0faf3; }
+      .mr-table > tbody > tr > td.mr-cell-school { font-size: 1.05rem; font-weight: 800; padding-top: 2px !important; padding-bottom: 10px !important; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
+      .mr-table > tbody > tr > td.mr-cell-school::before { align-self: center; }
+      .mr-table > tbody > tr > td[data-label=""] { justify-content: flex-end; padding-top: 10px !important; }
 
       .mr-detail-row > td { display: block !important; padding: 0 !important; }
       .mr-detail-row > td::before { content: none !important; }
+
+      /* Roster rows: Pos/Runner/Season best/Points on one line (Role
+         drops to a second line only when needed) instead of the generic
+         label-stacked card -- one kid's whole line should read left to
+         right without extra taps. */
       .mr-roster { margin-top: 10px; }
-      .mr-roster tbody tr { border-bottom: 1px solid var(--line); padding: 10px 4px !important; }
+      .mr-roster th, .mr-roster td { padding: 0 !important; }
+      .mr-roster td::before { content: none !important; }
+      .mr-roster tbody tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 10px;
+        row-gap: 2px;
+        border-bottom: 1px solid var(--line);
+        padding: 9px 4px !important;
+      }
       .mr-roster tbody tr:last-child { border-bottom: none; }
+      .mr-roster td[data-label="Pos"] { flex: 0 0 auto; width: 18px; font-weight: 800; color: var(--muted); font-size: .8rem; }
+      .mr-roster td[data-label="Runner"] { flex: 1 1 90px; min-width: 0; font-weight: 700; font-size: .9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .mr-roster td[data-label="Season best"] { flex: 0 0 auto; font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--muted); }
+      .mr-roster td[data-label="Points"] { flex: 0 0 auto; min-width: 20px; text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; font-size: .88rem; }
+      .mr-roster td[data-label="Role"] { flex: 1 0 100%; font-size: .7rem; }
 
       /* Standings table only: a compact single-line row (place, advance
          color, school, score, expand chevron) instead of a tall stacked
