@@ -79,6 +79,8 @@ function sharedStyles() {
     .mr-table td.mr-cell-num { font-variant-numeric: tabular-nums; }
     .mr-table th { white-space: nowrap; }
     .mr-qualifies td { background: #f0faf3; }
+    .mr-place-gold td { background: #fbf1d3; }
+    .mr-place-silver td { background: #eef0f1; }
     .mr-qualify-badge { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--green); color: var(--black); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: .68rem; letter-spacing: .5px; text-transform: uppercase; }
     .mr-team-toggle { min-height: 34px; padding: 6px 12px; border: 1px solid var(--ink); background: var(--white); color: var(--ink); font-weight: 700; font-size: .82rem; cursor: pointer; }
     .mr-standings-table tbody tr[data-mr-team-row] { cursor: pointer; }
@@ -186,6 +188,8 @@ function sharedStyles() {
       }
       .mr-standings-table > tbody > tr:not(.mr-detail-row) > td { padding: 0 !important; }
       .mr-standings-table > tbody > tr:not(.mr-detail-row) > td::before { content: none !important; }
+      .mr-standings-table > tbody > tr.mr-place-gold:not(.mr-detail-row) { background: #fbf1d3; border-color: #d9b64e; }
+      .mr-standings-table > tbody > tr.mr-place-silver:not(.mr-detail-row) { background: #eef0f1; border-color: #a9b0b6; }
 
       .mr-standings-table td.mr-cell-rank {
         flex: 0 0 auto;
@@ -280,11 +284,14 @@ function detailSummaryHtml({ region, firstFive, sixth, seventh }) {
   </div>`;
 }
 
-function teamStandingsTable(teams, qualifierCount, { showRegion = false } = {}) {
+function teamStandingsTable(teams, qualifierCount, { showRegion = false, highlightMedals = false } = {}) {
   if (!teams.length) return "";
   const regionHeader = showRegion ? "<th>Region</th>" : "";
   const rows = teams.map((team, index) => {
     const qualifies = team.complete && qualifierCount != null && team.mockRank <= qualifierCount;
+    const medalClass = highlightMedals && team.complete && team.mockRank === 1 ? "mr-place-gold"
+      : highlightMedals && team.complete && team.mockRank === 2 ? "mr-place-silver"
+      : "";
     const sixth = team.sixthPlace != null ? formatPoints(team.sixthPlace) : "None";
     const seventh = team.seventhPlace != null ? formatPoints(team.seventhPlace) : "None";
     const firstFive = team.complete
@@ -293,7 +300,7 @@ function teamStandingsTable(teams, qualifierCount, { showRegion = false } = {}) 
     const regionCell = showRegion ? `<td data-label="Region">${escapeHtml(team.region || "--")}</td>` : "";
     const summary = detailSummaryHtml({ region: showRegion ? (team.region || "--") : null, firstFive, sixth, seventh });
     return (
-      `<tr class="${qualifies ? "mr-qualifies" : ""}" data-mr-team-row="${index}">` +
+      `<tr class="${[qualifies ? "mr-qualifies" : "", medalClass].filter(Boolean).join(" ")}" data-mr-team-row="${index}">` +
       `<td class="mr-cell-rank" data-label="Place">${team.complete ? team.mockRank : "--"}${qualifies ? '<span class="mr-qualify-badge">Advances</span>' : ""}</td>` +
       `<td class="mr-cell-school" data-label="School">${escapeHtml(team.name)}</td>` +
       regionCell +
@@ -497,7 +504,7 @@ export function mockStatePage(site, divisionEntry) {
             actionHref: "/mock-meets/"
           })
         : `<p class="mr-meta">Pooled from: ${poolLog.map((p) => `${p.region} (${p.teamCount} of ${p.teamQualifiers} team qualifiers, ${p.individualCount} of ${p.individualQualifiers} individual qualifiers)`).join(" &middot; ")}</p>` +
-          teamStandingsTable(teams, null, { showRegion: true }) +
+          teamStandingsTable(teams, null, { showRegion: true, highlightMedals: true }) +
           `<div class="mr-individuals-section">
             <p class="eyebrow">Individual qualifiers</p>
             <h2>Qualifying individuals at State</h2>
