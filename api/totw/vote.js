@@ -1,6 +1,6 @@
 import { createHmac } from "node:crypto";
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
-import { castRedisVote } from "../../lib/totw_vote_redis.mjs";
+import { castRedisVote } from "../../lib/award_vote_redis.mjs";
 
 const COOLDOWN_SECONDS = 45;
 
@@ -173,6 +173,7 @@ export default async function handler(request, response) {
     // { accepted, reason, retry_after_seconds } shape that RPC did, so
     // nothing below this line needed to change.
     const voteResult = await castRedisVote({
+      award: "totw",
       weekId: week.id,
       finalistId: finalist.id,
       voterHash,

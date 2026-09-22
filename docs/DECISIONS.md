@@ -2,6 +2,33 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 09 21 Athlete of the Week vote tallying moved to Redis, same as Team of the Week
+
+### Decision
+
+Moved Athlete of the Week vote tallying off Supabase (one `aotw_votes` row insert per vote via the `cast_aotw_vote` RPC, counted with the `count: "exact"` fix from 2026-08-31 below) onto Redis, using the identical design piloted for Team of the Week on 2026-09-15: one `INCR` per vote against a small, fixed set of keys per week instead of a new database row, a `SET ... NX EX` atomic check-and-set for the cooldown (replacing the old RPC's unique-constraint enforcement), a Redis Set for distinct-voter tracking, and a 60-day TTL on every key. `lib/totw_vote_redis.mjs` was generalized into `lib/award_vote_redis.mjs`, parameterized by `award: "aotw" | "totw"` so both awards' keys live in the same Redis instance without colliding, and `lib/awards_service.mjs`'s admin `getWeekDetail()` now sets `voteBackend: "redis"` for both `TYPES.aotw` and `TYPES.totw`.
+
+Athlete of the Week has real boys'/girls' `category` values on finalists (two winners per week, decided 2026-09-14), but voting itself was never split by category -- one shared, mixed-gender finalist pool and vote count, with category only mattering at winner-selection time. This meant the same per-`(week, voter)` cooldown design used for Team of the Week (not per-category) carried over to Athlete of the Week without modification.
+
+`api/aotw/vote.js` and `api/aotw/current.js` were updated to call `castRedisVote`/`getRedisVoteCounts` with `award: "aotw"` instead of the old Supabase RPC and per-finalist `count: "exact"` queries; `castRedisVote()` returns the same `{ accepted, reason, retry_after_seconds }` shape the RPC did, so none of the downstream response-shaping logic in `vote.js` needed to change. The old Supabase-backed code path inside `getWeekDetail()`'s `else` branch was left in place (now dead for both award types) rather than deleted, matching this codebase's general preference for a config-flag branch over a hard rip-out when the two paths might diverge again later.
+
+### Reason
+
+Athlete of the Week is exposed to the exact same per-vote Postgres row-write pattern that caused Team of the Week's real Disk IO Budget outage under vote-spam (2026-08-31 entry below) -- it just hadn't happened to Athlete of the Week yet. Rather than wait for it to, the fix already proven safe and correct for Team of the Week was extended to Athlete of the Week directly, closing the same latent risk before it became a second incident.
+
+### Alternatives considered
+
+1. Wait until Athlete of the Week actually has a vote-spam incident before migrating it. Rejected -- the risk is already fully understood and the fix already built and proven; there is no reason to wait for a second real outage to apply a known-good fix.
+2. Give Athlete of the Week its own separate Redis module instead of generalizing `totw_vote_redis.mjs`. Rejected -- the two awards' vote-tallying logic is identical (same cooldown shape, same key structure, same TTL), so a shared, `award`-parameterized module avoids duplicating and having to keep two files in sync.
+
+### Files or systems affected
+
+`lib/award_vote_redis.mjs` (new, replaces `lib/totw_vote_redis.mjs`), `lib/redis-admin.mjs` (header comment), `api/aotw/vote.js`, `api/aotw/current.js`, `api/totw/vote.js`, `api/totw/current.js`, `lib/awards_service.mjs` (`TYPES.aotw.voteBackend`, `getWeekDetail()`), `scripts/test-vote-count-safety.mjs`.
+
+### Follow up
+
+None outstanding. The `cast_aotw_vote` Postgres RPC and its `aotw_vote_cooldowns` table are no longer called from application code but were left in the database rather than dropped, matching how nothing in this migration touches schema.
+
 ## 2026 08 31 Weekly award vote counts silently capped at 1,000 rows -- real votes undercounted, none lost
 
 ### Decision

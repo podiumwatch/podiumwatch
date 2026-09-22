@@ -1,5 +1,5 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
-import { getRedisVoteCounts } from "../../lib/totw_vote_redis.mjs";
+import { getRedisVoteCounts } from "../../lib/award_vote_redis.mjs";
 
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
@@ -91,12 +91,13 @@ export default async function handler(request, response) {
 
       if (finalists.length) {
         // Vote tallying Redis pilot (2026-09-15): vote counts now live in
-        // Redis, not totw_votes -- see lib/totw_vote_redis.mjs's own
+        // Redis, not totw_votes -- see lib/award_vote_redis.mjs's own
         // header for why (this is the exact fix for the real Disk IO
         // Budget outage, 2026-08-31, that the now-removed per-finalist
         // Supabase count("exact", head:true) queries here were already a
         // once-patched symptom of -- see docs/DECISIONS.md).
         const voteCounts = await getRedisVoteCounts({
+          award: "totw",
           weekId: week.id,
           finalistIds: finalists.map((finalist) => finalist.id)
         });

@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
+import { getRedisVoteCounts } from "../../lib/award_vote_redis.mjs";
 
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
@@ -86,36 +87,27 @@ export default async function handler(request, response) {
       finalists = finalistData ?? [];
 
       if (finalists.length) {
-        // Real incident (2026-08-31): a single unbounded
-        // .select("finalist_id").in("finalist_id", allFinalistIds) query
-        // silently caps at PostgREST's default 1000-row limit -- it
-        // never errors, it just stops counting. A real, popular week
-        // (1,553 real votes across these finalists, one alone over 900)
-        // was displaying a public vote count roughly a third too low,
-        // and the gap only grows as more real votes come in -- which is
-        // exactly what looked like "my votes aren't being counted" to
-        // real people watching the number. count:"exact", head:true is
-        // a genuine COUNT(*) aggregate with no such cap, so one bounded
-        // query per finalist (there are only ever a handful) is what
-        // actually stays correct at any real vote volume.
-        const voteCountResults = await Promise.all(
-          finalists.map((finalist) =>
-            supabaseAdmin
-              .from("aotw_votes")
-              .select("id", { count: "exact", head: true })
-              .eq("finalist_id", finalist.id)
-          )
-        );
-
-        finalists = finalists.map((finalist, index) => {
-          const result = voteCountResults[index];
-
-          if (result.error) {
-            throw result.error;
-          }
-
-          return { ...finalist, vote_count: result.count || 0 };
+        // Vote tallying Redis cutover (2026-09-21): vote counts now live
+        // in Redis, not aotw_votes -- see lib/award_vote_redis.mjs's own
+        // header for why. This replaces the count("exact", head:true)
+        // fix that had already closed the real 2026-08-31 vote-
+        // undercounting incident (a since-fixed unbounded .select()
+        // silently capping at PostgREST's default 1,000 rows -- see
+        // docs/DECISIONS.md) -- Redis has no per-finalist query to cap
+        // in the first place, and also removes the per-vote Postgres row
+        // write that caused Team of the Week's own Disk IO Budget outage
+        // under vote-spam before that award made the same move
+        // (2026-09-15).
+        const voteCounts = await getRedisVoteCounts({
+          award: "aotw",
+          weekId: week.id,
+          finalistIds: finalists.map((finalist) => finalist.id)
         });
+
+        finalists = finalists.map((finalist, index) => ({
+          ...finalist,
+          vote_count: voteCounts[index] || 0
+        }));
       }
     }
 
