@@ -99,6 +99,45 @@ function sharedStyles() {
     .mr-division-block h2 { margin-bottom: 14px; }
     .mr-individuals-section { margin-top: 40px; }
     .mr-individuals-section h2 { margin-bottom: 8px; }
+
+    /* Mobile: the site-wide table-to-card system (main.css, @700px) already
+       stacks a .table-scroll table's rows into label/value cards via
+       data-label -- but the roster expand panel is a table NESTED inside
+       one wide <td> of its parent row, and that generic system's blanket
+       ".table-scroll td { display:flex }" rule was hitting that wrapping
+       <td> too, flexing a cell whose only real content is an entire nested
+       table and visually breaking it. Scoped fixes below: keep the
+       wrapping cell a plain block, and give both the standings cards and
+       the nested roster cards real card styling (border, radius, a
+       qualifying accent) instead of the generic system's bare row strips,
+       since this page's rows carry meaningfully more per-row information
+       (rank badge, six numeric columns, an expand action) than a typical
+       data table elsewhere on the site. */
+    @media (max-width: 700px) {
+      .mr-explainer { flex-direction: column; align-items: stretch; padding: 18px 20px; }
+      .mr-explainer .button { width: 100%; text-align: center; }
+      .mr-crumbs-row a { padding: 9px 14px; font-size: .82rem; }
+
+      .mr-table tbody tr:not(.mr-detail-row) {
+        display: block !important;
+        margin-bottom: 12px;
+        padding: 14px 16px !important;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--white);
+      }
+      .mr-table tbody tr.mr-qualifies:not(.mr-detail-row) { border-color: var(--green); border-left-width: 4px; background: #f0faf3; }
+      .mr-table td.mr-cell-school { font-size: 1.05rem; font-weight: 800; padding-top: 2px !important; padding-bottom: 10px !important; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
+      .mr-table td.mr-cell-school::before { align-self: center; }
+      .mr-table td[data-label=""] { justify-content: flex-end; padding-top: 10px !important; }
+      .mr-team-toggle { width: 100%; min-height: 44px; margin-top: 4px; }
+
+      .mr-detail-row > td { display: block !important; padding: 0 !important; }
+      .mr-detail-row > td::before { content: none !important; }
+      .mr-roster { margin-top: 10px; }
+      .mr-roster tbody tr { border-bottom: 1px solid var(--line); padding: 10px 4px !important; }
+      .mr-roster tbody tr:last-child { border-bottom: none; }
+    }
   </style>`;
 }
 
@@ -107,7 +146,13 @@ function rosterTableHtml(team) {
     const role = team.complete
       ? (runner.scoring ? '<span class="mr-role-scored">Scored</span>' : '<span class="mr-role-displaced">Displaced</span>')
       : '<span class="mr-incomplete">Incomplete team</span>';
-    return `<tr><td>${runner.teamPosition}</td><td>${escapeHtml(runner.name)}</td><td>${escapeHtml(runner.seasonBest)}</td><td>${team.complete ? formatPoints(runner.placePoints) : "--"}</td><td>${role}</td></tr>`;
+    return `<tr>` +
+      `<td data-label="Pos">${runner.teamPosition}</td>` +
+      `<td data-label="Runner">${escapeHtml(runner.name)}</td>` +
+      `<td data-label="Season best">${escapeHtml(runner.seasonBest)}</td>` +
+      `<td data-label="Points">${team.complete ? formatPoints(runner.placePoints) : "--"}</td>` +
+      `<td data-label="Role">${role}</td>` +
+      `</tr>`;
   }).join("");
   return `<table class="mr-roster"><thead><tr><th>Pos</th><th>Runner</th><th>Season best</th><th>Points</th><th>Role</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
