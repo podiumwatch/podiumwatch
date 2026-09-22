@@ -81,7 +81,12 @@ function sharedStyles() {
     .mr-qualifies td { background: #f0faf3; }
     .mr-qualify-badge { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--green); color: var(--black); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: .68rem; letter-spacing: .5px; text-transform: uppercase; }
     .mr-team-toggle { min-height: 34px; padding: 6px 12px; border: 1px solid var(--ink); background: var(--white); color: var(--ink); font-weight: 700; font-size: .82rem; cursor: pointer; }
+    .mr-standings-table tbody tr[data-mr-team-row] { cursor: pointer; }
     .mr-detail-row td { padding: 0 !important; }
+    .mr-detail-summary { display: none; }
+    .mr-detail-summary-item { display: flex; flex-direction: column; gap: 2px; }
+    .mr-detail-summary-label { font-size: .68rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .mr-detail-summary-value { font-weight: 800; font-variant-numeric: tabular-nums; }
     .mr-roster { width: 100%; border-collapse: collapse; background: #fafafa; }
     .mr-roster th, .mr-roster td { padding: 8px 14px; text-align: left; border-bottom: 1px solid var(--line); font-size: .88rem; }
     .mr-roster th { font-size: .7rem; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); }
@@ -118,6 +123,9 @@ function sharedStyles() {
       .mr-explainer .button { width: 100%; text-align: center; }
       .mr-crumbs-row a { padding: 9px 14px; font-size: .82rem; }
 
+      /* Generic card fallback -- still used by the individual-qualifiers
+         table, which has no roster toggle/expand and stays one card per
+         row with every field labeled. */
       .mr-table tbody tr:not(.mr-detail-row) {
         display: block !important;
         margin-bottom: 12px;
@@ -130,13 +138,81 @@ function sharedStyles() {
       .mr-table td.mr-cell-school { font-size: 1.05rem; font-weight: 800; padding-top: 2px !important; padding-bottom: 10px !important; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
       .mr-table td.mr-cell-school::before { align-self: center; }
       .mr-table td[data-label=""] { justify-content: flex-end; padding-top: 10px !important; }
-      .mr-team-toggle { width: 100%; min-height: 44px; margin-top: 4px; }
 
       .mr-detail-row > td { display: block !important; padding: 0 !important; }
       .mr-detail-row > td::before { content: none !important; }
       .mr-roster { margin-top: 10px; }
       .mr-roster tbody tr { border-bottom: 1px solid var(--line); padding: 10px 4px !important; }
       .mr-roster tbody tr:last-child { border-bottom: none; }
+
+      /* Standings table only: a compact single-line row (place, advance
+         color, school, score, expand chevron) instead of a tall stacked
+         card, so 6-7 teams are visible per scroll on a phone. First
+         five/Sixth/Seventh move into the tap-to-expand detail panel
+         (.mr-detail-summary, shown above the roster) instead of stacking
+         as extra lines on every row -- the data still exists on the page,
+         just one tap away instead of always-visible. */
+      .mr-standings-table > tbody > tr:not(.mr-detail-row) {
+        display: flex !important;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        padding: 10px 12px !important;
+      }
+      .mr-standings-table > tbody > tr:not(.mr-detail-row) > td { padding: 0 !important; }
+      .mr-standings-table > tbody > tr:not(.mr-detail-row) > td::before { content: none !important; }
+
+      .mr-standings-table td.mr-cell-rank {
+        flex: 0 0 auto;
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 26px;
+        font-size: 1rem;
+      }
+      .mr-standings-table td.mr-cell-rank .mr-qualify-badge { margin: 3px 0 0; font-size: .52rem; padding: 1px 6px; }
+
+      .mr-standings-table td.mr-cell-school {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: block !important;
+        font-size: .95rem;
+        font-weight: 800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .mr-standings-table td[data-label="Region"],
+      .mr-standings-table td[data-label="First five"],
+      .mr-standings-table td[data-label="Sixth"],
+      .mr-standings-table td[data-label="Seventh"] {
+        display: none !important;
+      }
+
+      .mr-standings-table td.mr-cell-num[data-label="Score"] {
+        flex: 0 0 auto;
+        display: block !important;
+        font-weight: 800;
+        font-size: .92rem;
+      }
+
+      .mr-standings-table td[data-label=""] { flex: 0 0 auto; display: block !important; }
+      .mr-team-toggle { width: auto; min-width: 32px; min-height: 32px; margin-top: 0; padding: 4px 10px; font-size: .72rem; border-radius: 999px; }
+
+      .mr-detail-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin: 0 0 12px;
+        padding: 10px 12px;
+        background: #fafafa;
+        border-radius: 8px;
+      }
     }
   </style>`;
 }
@@ -165,6 +241,20 @@ function formatPoints(value) {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
+// Shown above the roster table once a standings row is expanded -- on
+// mobile the compact row hides First five/Sixth/Seventh (and Region, on
+// the State page) to keep each row to one line, so this reproduces those
+// same values in the expanded panel instead of dropping them.
+function detailSummaryHtml({ region, firstFive, sixth, seventh }) {
+  const regionItem = region ? `<div class="mr-detail-summary-item"><span class="mr-detail-summary-label">Region</span><span class="mr-detail-summary-value">${escapeHtml(region)}</span></div>` : "";
+  return `<div class="mr-detail-summary">
+    ${regionItem}
+    <div class="mr-detail-summary-item"><span class="mr-detail-summary-label">First five</span><span class="mr-detail-summary-value">${firstFive}</span></div>
+    <div class="mr-detail-summary-item"><span class="mr-detail-summary-label">Sixth</span><span class="mr-detail-summary-value">${sixth}</span></div>
+    <div class="mr-detail-summary-item"><span class="mr-detail-summary-label">Seventh</span><span class="mr-detail-summary-value">${seventh}</span></div>
+  </div>`;
+}
+
 function teamStandingsTable(teams, qualifierCount, { showRegion = false } = {}) {
   if (!teams.length) return "";
   const regionHeader = showRegion ? "<th>Region</th>" : "";
@@ -176,6 +266,7 @@ function teamStandingsTable(teams, qualifierCount, { showRegion = false } = {}) 
       ? team.runners.filter((r) => r.teamPosition <= 5).map((r) => formatPoints(r.placePoints)).join(", ")
       : "--";
     const regionCell = showRegion ? `<td data-label="Region">${escapeHtml(team.region || "--")}</td>` : "";
+    const summary = detailSummaryHtml({ region: showRegion ? (team.region || "--") : null, firstFive, sixth, seventh });
     return (
       `<tr class="${qualifies ? "mr-qualifies" : ""}" data-mr-team-row="${index}">` +
       `<td class="mr-cell-rank" data-label="Place">${team.complete ? team.mockRank : "--"}${qualifies ? '<span class="mr-qualify-badge">Advances</span>' : ""}</td>` +
@@ -187,23 +278,25 @@ function teamStandingsTable(teams, qualifierCount, { showRegion = false } = {}) 
       `<td class="mr-cell-num" data-label="Seventh">${seventh}</td>` +
       `<td data-label=""><button type="button" class="mr-team-toggle" data-mr-toggle="${index}" aria-expanded="false">Roster</button></td>` +
       `</tr>` +
-      `<tr class="mr-detail-row" data-mr-detail="${index}" hidden><td colspan="${showRegion ? 8 : 7}">${rosterTableHtml(team)}</td></tr>`
+      `<tr class="mr-detail-row" data-mr-detail="${index}" hidden><td colspan="${showRegion ? 8 : 7}">${summary}${rosterTableHtml(team)}</td></tr>`
     );
   }).join("");
 
   return `<div class="table-scroll" tabindex="0">
-    <table class="mr-table">
+    <table class="mr-table mr-standings-table">
       <thead><tr><th>Place</th><th>School</th>${regionHeader}<th>Score</th><th>First five</th><th>Sixth</th><th>Seventh</th><th></th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>
   <script>(()=>{
-    document.currentScript.previousElementSibling.querySelectorAll('[data-mr-toggle]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const row = document.querySelector('[data-mr-detail="' + button.dataset.mrToggle + '"]');
-        if (!row) return;
-        const willShow = row.hidden;
-        row.hidden = !willShow;
+    document.currentScript.previousElementSibling.querySelectorAll('[data-mr-team-row]').forEach((row) => {
+      const index = row.dataset.mrTeamRow;
+      const detail = document.querySelector('[data-mr-detail="' + index + '"]');
+      const button = row.querySelector('[data-mr-toggle]');
+      if (!detail || !button) return;
+      row.addEventListener('click', () => {
+        const willShow = detail.hidden;
+        detail.hidden = !willShow;
         button.setAttribute('aria-expanded', String(willShow));
       });
     });
