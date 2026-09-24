@@ -309,6 +309,59 @@ export function racePublicPage(site) {
     .race-public-switcher-chip-selected.race-public-switcher-chip-live .race-public-switcher-status {
       color: #ff8080;
     }
+
+    /* Mobile: this table was a pure white-space:nowrap horizontal-scroll
+       strip with no stacking at all -- on a phone at a meet (exactly who
+       this page is for) that meant swiping sideways mid-race just to see
+       a runner's status. Below 700px it becomes one compact card per
+       runner instead: rank/name/time on the primary line (the numbers a
+       parent actually glances at first), group and latest checkpoint as
+       a smaller secondary line, matching the same "compact row, most
+       important fields first" pattern used on the mock meets standings
+       table (src/pages/mockregionals.mjs). */
+    @media (max-width: 700px) {
+      .race-public-table-wrap { overflow-x: visible; }
+      table.race-public-table { min-width: 0; }
+      table.race-public-table thead {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+      }
+      table.race-public-table tbody tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 10px;
+        row-gap: 3px;
+        padding: 12px 4px;
+      }
+      table.race-public-table td {
+        padding: 0;
+        border-bottom: 0;
+        white-space: normal;
+      }
+      table.race-public-table td.race-public-rank { flex: 0 0 auto; min-width: 22px; }
+      table.race-public-table td[data-label="Runner"] { flex: 1 1 100px; min-width: 0; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      table.race-public-table td[data-label="Time"] { flex: 0 0 auto; order: 3; font-weight: 800; font-variant-numeric: tabular-nums; }
+      table.race-public-table td[data-label="Time"] .race-public-fresh { font-weight: 400; }
+      table.race-public-table td[data-label="Status"] { flex: 0 0 auto; order: 4; }
+      /* flex-basis 100% (not "auto") on each -- otherwise whichever of
+         these two happens to fit in whatever room line 1 left over
+         (varies row to row, depending on runner name/time length) drifts
+         up onto line 1 instead of reliably starting its own line, same
+         determinism issue already solved this way on the OATCCC poll
+         table (src/pages/oatcccpoll.mjs). */
+      table.race-public-table td[data-label="Group"],
+      table.race-public-table td[data-label="Latest checkpoint"] {
+        order: 5;
+        flex: 1 0 100%;
+        font-size: 0.78rem;
+        color: rgba(var(--black-rgb),0.6);
+      }
+      table.race-public-table td[data-label="Group"]:empty,
+      table.race-public-table td[data-label="Latest checkpoint"]:empty { display: none; }
+      table.race-public-table td[data-label="Group"]::before { content: attr(data-label) ": "; font-weight: 700; }
+      table.race-public-table td[data-label="Latest checkpoint"]::before { content: attr(data-label) ": "; font-weight: 700; }
+    }
   </style>
 
   <section class="section section-paper">

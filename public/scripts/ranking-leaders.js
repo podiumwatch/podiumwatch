@@ -50,9 +50,9 @@
           ${entry.athlete_slug ? `<a href="/athletes/${escapeHtml(entry.athlete_slug)}/">${escapeHtml(entry.athlete_name)}</a>` : escapeHtml(entry.athlete_name)}
           <div class="leaders-cell-school">${escapeHtml(entry.school_name)}${entry.division ? ` &middot; ${escapeHtml(entry.division)}` : ""}</div>
         </td>
-        <td>${escapeHtml(gradeLabel(entry.grade))}</td>
-        <td>${escapeHtml(entry.meet_name || "Meet unknown")}<div class="leaders-cell-school">${escapeHtml(formatDate(entry.meet_date))}</div></td>
-        <td class="leaders-cell-time">${escapeHtml(entry.mark_text)}</td>
+        <td data-label="Grade">${escapeHtml(gradeLabel(entry.grade))}</td>
+        <td data-label="Meet">${escapeHtml(entry.meet_name || "Meet unknown")}<div class="leaders-cell-school">${escapeHtml(formatDate(entry.meet_date))}</div></td>
+        <td class="leaders-cell-time" data-label="Time">${escapeHtml(entry.mark_text)}</td>
       </tr>
     `).join("");
   }

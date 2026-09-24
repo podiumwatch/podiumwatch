@@ -24,10 +24,14 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
   })}
 
   <style>
+    .fan-poll-results-wrap {
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+
     .fan-poll-results-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 16px;
     }
 
     .fan-poll-results-table th,
@@ -39,6 +43,46 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
     }
 
     .fan-poll-results-table th { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.04em; color: rgba(15,23,42,0.6); }
+
+    /* Mobile: previously this table had no wrapper at all -- no
+       overflow-x, no stacking -- so it could push the page itself wider
+       than the viewport on a narrow phone. Below 700px it becomes one
+       compact row per team instead, same rank-badge/name/stat pattern
+       already used on the OATCCC poll table (src/pages/oatcccpoll.mjs). */
+    @media (max-width: 700px) {
+      .fan-poll-results-wrap { overflow-x: visible; }
+      .fan-poll-results-table thead { display: none; }
+      .fan-poll-results-table, .fan-poll-results-table tbody { display: block; width: 100%; }
+      .fan-poll-results-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 4px;
+        padding: 12px 4px;
+      }
+      .fan-poll-results-table td { display: block; padding: 0; border: none; font-size: 1rem; }
+      .fan-poll-results-table td.fan-poll-cell-rank {
+        order: 1;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        min-width: 30px;
+        width: max-content;
+        height: 30px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: rgba(15,23,42,0.9);
+        color: #fff;
+        font-weight: 800;
+        font-size: 0.92rem;
+      }
+      .fan-poll-results-table td.fan-poll-cell-team { order: 2; flex: 1 1 auto; min-width: 0; font-weight: 800; }
+      .fan-poll-results-table td.fan-poll-cell-move { order: 3; flex: 0 0 auto; font-size: 1rem; padding-left: 4px; }
+      .fan-poll-results-table td.fan-poll-cell-num { order: 4; flex: 1 1 100%; margin-left: 40px; }
+      .fan-poll-cell-label { display: inline; margin-right: 5px; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(15,23,42,0.55); }
+      .fan-poll-cell-value { font-weight: 800; font-variant-numeric: tabular-nums; }
+    }
 
     .fan-poll-movement-up { color: #0a8a3f; font-weight: 700; }
     .fan-poll-movement-down { color: #c62828; font-weight: 700; }
@@ -139,10 +183,12 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
       <div class="section-heading"><div><p class="eyebrow">This week's results</p><h2 id="fan-poll-results-title">${title}</h2></div></div>
       <p data-fan-poll-week-status></p>
       <div data-fan-poll-results-empty hidden><p>No ballots have been counted for this division yet. Be the first to vote below.</p></div>
-      <table class="fan-poll-results-table" data-fan-poll-results-table hidden>
-        <thead><tr><th>Rank</th><th>Team</th><th>Points</th><th>Ballots</th><th>Change</th></tr></thead>
-        <tbody data-fan-poll-results-body></tbody>
-      </table>
+      <div class="fan-poll-results-wrap">
+        <table class="fan-poll-results-table" data-fan-poll-results-table hidden>
+          <thead><tr><th>Rank</th><th>Team</th><th>Points</th><th>Ballots</th><th>Change</th></tr></thead>
+          <tbody data-fan-poll-results-body></tbody>
+        </table>
+      </div>
     </div>
   </section>
 

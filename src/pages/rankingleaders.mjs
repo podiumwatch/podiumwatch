@@ -94,8 +94,58 @@ export function rankingLeadersPage(site) {
     .leaders-empty, .leaders-loading, .leaders-error { padding: 40px 20px; text-align: center; color: var(--muted); }
     .leaders-error { color: var(--danger); }
 
-    @media (max-width: 560px) {
-      .leaders-table th, .leaders-table td { padding: 10px; font-size: 0.88rem; }
+    /* Mobile: the 560px query below already touched this table once
+       (smaller padding/font) but never restructured the row itself, so
+       5 columns of text -- one of them "Meet Name / Date" already
+       packed onto two lines -- stayed a cramped, scrolly strip. Below
+       700px it becomes one compact row instead: rank badge + athlete
+       (with school/division already a sub-line) + time on the primary
+       line, Grade and Meet/Date as a smaller secondary line -- the same
+       pattern used on the OATCCC poll and mock meets tables. */
+    @media (max-width: 700px) {
+      .leaders-table-wrap { overflow-x: visible; }
+      .leaders-table thead { display: none; }
+      .leaders-table, .leaders-table tbody { display: block; width: 100%; }
+      .leaders-table tbody tr:nth-child(even) { background: transparent; }
+      .leaders-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 10px;
+        row-gap: 4px;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+      }
+      .leaders-table tr:nth-child(even) { background: #fafafa; }
+      .leaders-table td { display: block; padding: 0; border: none; vertical-align: baseline; }
+
+      .leaders-table td.leaders-cell-rank {
+        order: 1;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        min-width: 30px;
+        width: max-content;
+        height: 30px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: var(--black);
+        color: var(--white);
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        font-size: 1rem;
+      }
+      .leaders-table tr[data-leaders-rank="1"] td.leaders-cell-rank { background: var(--green); color: var(--black); }
+      .leaders-table td.leaders-cell-athlete { order: 2; flex: 1 1 auto; min-width: 0; }
+      .leaders-table td.leaders-cell-time { order: 3; flex: 0 0 auto; font-size: 1.05rem; }
+      .leaders-table td[data-label="Grade"],
+      .leaders-table td[data-label="Meet"] {
+        order: 4;
+        flex: 1 0 100%;
+        margin-left: 40px;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .leaders-table td[data-label="Grade"]::before { content: attr(data-label) ": "; font-weight: 700; }
     }
   </style>
 

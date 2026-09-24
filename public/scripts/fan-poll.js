@@ -88,11 +88,11 @@
       const teamLink = row.team ? `<a href="/team/?slug=${encodeURIComponent(row.team.slug)}">${teamName}</a>` : teamName;
 
       return `<tr>
-        <td>${row.rank}</td>
-        <td>${teamLink}</td>
-        <td>${row.points}</td>
-        <td>${row.ballot_count}</td>
-        <td class="${movement.className}">${movement.text}</td>
+        <td class="fan-poll-cell-rank">${row.rank}</td>
+        <td class="fan-poll-cell-team">${teamLink}</td>
+        <td class="fan-poll-cell-num"><span class="fan-poll-cell-label">Points</span><span class="fan-poll-cell-value">${row.points}</span></td>
+        <td class="fan-poll-cell-num"><span class="fan-poll-cell-label">Ballots</span><span class="fan-poll-cell-value">${row.ballot_count}</span></td>
+        <td class="fan-poll-cell-move ${movement.className}">${movement.text}</td>
       </tr>`;
     }).join("");
   }

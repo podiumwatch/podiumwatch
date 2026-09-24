@@ -257,12 +257,12 @@
 
       return (
         '<tr data-review-row="' + escapeHtml(row.participant.id) + '">' +
-          '<td>' + escapeHtml(participantName(row.participant)) + '</td>' +
-          '<td>' + escapeHtml(row.participant.race_group || "") + '</td>' +
-          '<td>' + escapeHtml(row.finish_elapsed_seconds != null ? formatSecondsToClock(row.finish_elapsed_seconds) : "--") + '</td>' +
-          '<td>' + escapeHtml(row.goal_a_seconds != null ? formatSecondsToClock(row.goal_a_seconds) : "--") + '</td>' +
-          '<td>' + escapeHtml(row.diff != null ? formatDiff(row.diff) : "--") + '</td>' +
-          '<td>' + tag + '</td>' +
+          '<td data-label="Runner">' + escapeHtml(participantName(row.participant)) + '</td>' +
+          '<td data-label="Group">' + escapeHtml(row.participant.race_group || "") + '</td>' +
+          '<td data-label="Finish">' + escapeHtml(row.finish_elapsed_seconds != null ? formatSecondsToClock(row.finish_elapsed_seconds) : "--") + '</td>' +
+          '<td data-label="Goal A">' + escapeHtml(row.goal_a_seconds != null ? formatSecondsToClock(row.goal_a_seconds) : "--") + '</td>' +
+          '<td data-label="Diff">' + escapeHtml(row.diff != null ? formatDiff(row.diff) : "--") + '</td>' +
+          '<td data-label="Status">' + tag + '</td>' +
         '</tr>'
       );
     }).join("");
@@ -299,10 +299,10 @@
 
         return (
           '<tr>' +
-            '<td>' + escapeHtml(row.checkpoint.label) + (row.checkpoint.is_finish ? " (Finish)" : "") + '</td>' +
-            '<td>' + escapeHtml(target != null ? formatSecondsToClock(target) : "--") + '</td>' +
-            '<td>' + escapeHtml(actual != null ? formatSecondsToClock(actual) : "--") + '</td>' +
-            '<td>' + escapeHtml(diff != null ? formatDiff(diff) : "--") + '</td>' +
+            '<td data-label="Checkpoint">' + escapeHtml(row.checkpoint.label) + (row.checkpoint.is_finish ? " (Finish)" : "") + '</td>' +
+            '<td data-label="Target (Goal A)">' + escapeHtml(target != null ? formatSecondsToClock(target) : "--") + '</td>' +
+            '<td data-label="Actual">' + escapeHtml(actual != null ? formatSecondsToClock(actual) : "--") + '</td>' +
+            '<td data-label="Diff">' + escapeHtml(diff != null ? formatDiff(diff) : "--") + '</td>' +
           '</tr>'
         );
       }).join("");

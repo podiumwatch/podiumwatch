@@ -59,6 +59,62 @@ export function splitWatchReviewPage(site) {
     .sw-individual-detail { display: none; margin-top: 20px; }
     .sw-individual-detail.sw-open { display: block; }
 
+    /* Mobile: both review tables were pure white-space:nowrap
+       horizontal-scroll strips with no stacking -- a coach checking
+       results on a phone had to swipe sideways to see Status or Diff.
+       Below 700px each becomes one compact row: the field a coach
+       glances at first (Runner+Status; Checkpoint+Diff) on the primary
+       line, the rest as a smaller secondary line -- same
+       label/value pattern as the mock meets and OATCCC poll tables. */
+    @media (max-width: 700px) {
+      table.sw-review-table thead { display: none; }
+      table.sw-review-table, table.sw-review-table tbody { display: block; width: 100%; }
+      table.sw-review-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: 10px;
+        row-gap: 4px;
+        padding: 12px 4px;
+        white-space: normal;
+      }
+      table.sw-review-table td { display: block; padding: 0; border: none; white-space: normal; }
+
+      table.sw-review-table td[data-label="Runner"],
+      table.sw-review-table td[data-label="Checkpoint"] {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+        font-weight: 800;
+      }
+      table.sw-review-table td[data-label="Status"] { order: 2; flex: 0 0 auto; }
+      table.sw-review-table td[data-label="Diff"] { order: 2; flex: 0 0 auto; font-weight: 800; }
+
+      /* flex-basis 100% (not "auto") on each of these -- otherwise
+         whichever ones happen to fit in whatever room line 1 left over
+         (varies row to row) drift up onto line 1 instead of reliably
+         starting their own line, same determinism issue already solved
+         this way on the OATCCC poll table. */
+      table.sw-review-table td[data-label="Group"],
+      table.sw-review-table td[data-label="Finish"],
+      table.sw-review-table td[data-label="Goal A"],
+      table.sw-review-table td[data-label="Target (Goal A)"],
+      table.sw-review-table td[data-label="Actual"] {
+        order: 3;
+        flex: 1 0 100%;
+        font-size: 0.82rem;
+        color: rgba(var(--black-rgb),0.6);
+      }
+      table.sw-review-table td[data-label="Group"]:empty { display: none; }
+      table.sw-review-table td::before { content: attr(data-label) ": "; font-weight: 700; }
+      /* The primary-line cells carry their own weight already -- a
+         "Runner:"/"Checkpoint:" label would be pure noise. */
+      table.sw-review-table td[data-label="Runner"]::before,
+      table.sw-review-table td[data-label="Checkpoint"]::before,
+      table.sw-review-table td[data-label="Status"]::before,
+      table.sw-review-table td[data-label="Diff"]::before { content: none; }
+    }
+
   </style>
 
   <section class="section section-paper">

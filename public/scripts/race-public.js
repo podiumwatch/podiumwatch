@@ -137,14 +137,14 @@
 
     return (
       '<tr>' +
-        '<td class="race-public-rank">' + (tag ? "--" : rank) + '</td>' +
-        '<td>' + escapeHtml(participant.display_name) + '</td>' +
-        '<td>' + escapeHtml(participant.race_group || "") + '</td>' +
-        '<td>' + escapeHtml(checkpointLabel) + '</td>' +
-        '<td>' + escapeHtml(time) +
+        '<td class="race-public-rank" data-label="#">' + (tag ? "--" : rank) + '</td>' +
+        '<td data-label="Runner">' + escapeHtml(participant.display_name) + '</td>' +
+        '<td data-label="Group">' + escapeHtml(participant.race_group || "") + '</td>' +
+        '<td data-label="Latest checkpoint">' + escapeHtml(checkpointLabel) + '</td>' +
+        '<td data-label="Time">' + escapeHtml(time) +
           (freshness ? '<span class="race-public-fresh">' + escapeHtml(freshness) + '</span>' : '') +
         '</td>' +
-        '<td>' + (tag ? '<span class="race-public-tag">' + tag + '</span>' : '') + '</td>' +
+        '<td data-label="Status">' + (tag ? '<span class="race-public-tag">' + tag + '</span>' : '') + '</td>' +
       '</tr>'
     );
   }
