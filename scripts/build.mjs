@@ -479,6 +479,15 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
+  <section class="section">
+    <div class="container">
+      <div class="intern-banner">
+        <div><p class="eyebrow">Photographer Network</p><h2>Are you a sports photographer?</h2><p>Get discovered by Ohio cross country and track families searching for race-day photos. List your meet coverage and galleries in front of Podium Watch's own audience.</p></div>
+        <div class="intern-banner-actions"><a class="button button-dark" href="/photographers/membership/">Join the network</a><a class="text-link" href="/photographers/">Browse photographers ${icon("arrow")}</a></div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="latest-rankings-title">
     <div class="container">
       <div class="section-heading">
