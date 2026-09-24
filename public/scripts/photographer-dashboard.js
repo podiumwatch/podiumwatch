@@ -30,13 +30,20 @@
   const coverageList = document.querySelector("[data-photog-dash-coverage-list]");
   const galleryForm = document.querySelector("[data-photog-dash-gallery-form]");
   const galleryList = document.querySelector("[data-photog-dash-gallery-list]");
+  const profileImageFileInput = document.querySelector("[data-photog-profile-image-file]");
+  const profileImagePreview = document.querySelector("[data-photog-profile-image-preview]");
+  const profileImageStatus = document.querySelector("[data-photog-profile-image-status]");
+  const logoFileInput = document.querySelector("[data-photog-logo-file]");
+  const logoPreview = document.querySelector("[data-photog-logo-preview]");
+  const logoStatus = document.querySelector("[data-photog-logo-status]");
 
   const requiredElements = [
     loadingBox, root, accountEl, signOutButton, messageBox, contentBox, statusBanner,
     membershipStatus, manageMembershipButton, storySection, storyTitle, storyIntro, storyForm, storyRecap,
     formTitle, coreForm, saveLabel, sportsForm, areasForm, portfolioForm, portfolioList,
     submitButton, viewProfileLink, meetSearchInput, meetResultsBox, coverageForm,
-    coverageList, galleryForm, galleryList
+    coverageList, galleryForm, galleryList, profileImageFileInput, profileImagePreview, profileImageStatus,
+    logoFileInput, logoPreview, logoStatus
   ];
   if (requiredElements.some((el) => !el) || childrenSections.length === 0 || startCheckoutButtons.length === 0) return;
 
@@ -85,6 +92,81 @@
       else element.value = value ?? "";
     }
   }
+
+  function safeUrl(value) {
+    const text = String(value || "").trim();
+    if (!text) return "";
+    try {
+      const url = new URL(text);
+      return url.protocol === "http:" || url.protocol === "https:" ? text : "";
+    } catch {
+      return "";
+    }
+  }
+
+  function updateImagePreviews() {
+    const profileUrl = safeUrl(coreForm.elements.profile_image_url.value);
+    const logoUrl = safeUrl(coreForm.elements.logo_url.value);
+
+    profileImagePreview.hidden = !profileUrl;
+    if (profileUrl) profileImagePreview.src = profileUrl;
+    else profileImagePreview.removeAttribute("src");
+
+    logoPreview.hidden = !logoUrl;
+    if (logoUrl) logoPreview.src = logoUrl;
+    else logoPreview.removeAttribute("src");
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = String(reader.result || "");
+        const commaIndex = result.indexOf(",");
+        resolve(commaIndex >= 0 ? result.slice(commaIndex + 1) : result);
+      };
+      reader.onerror = () => reject(new Error("That file could not be read."));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function uploadPhotographerMedia(field, file) {
+    const content = await fileToBase64(file);
+    return apiFetch("/api/photographer/upload-media/", {
+      photographer_id: currentPhotographer.id,
+      field,
+      file_name: file.name,
+      encoding: "base64",
+      content
+    });
+  }
+
+  async function handleMediaFileChange(field, fileInput, statusEl) {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file || !currentPhotographer) return;
+
+    const urlInput = coreForm.elements[field];
+    statusEl.hidden = false;
+    statusEl.textContent = "Uploading image...";
+    fileInput.disabled = true;
+
+    try {
+      const data = await uploadPhotographerMedia(field, file);
+      urlInput.value = data.url;
+      updateImagePreviews();
+      statusEl.textContent = "Image uploaded. Press Save changes below to publish it.";
+    } catch (error) {
+      statusEl.textContent = error.message;
+    } finally {
+      fileInput.disabled = false;
+      fileInput.value = "";
+    }
+  }
+
+  coreForm.elements.profile_image_url.addEventListener("input", updateImagePreviews);
+  coreForm.elements.logo_url.addEventListener("input", updateImagePreviews);
+  profileImageFileInput.addEventListener("change", () => handleMediaFileChange("profile_image_url", profileImageFileInput, profileImageStatus));
+  logoFileInput.addEventListener("change", () => handleMediaFileChange("logo_url", logoFileInput, logoStatus));
 
   function formPayload(form) {
     const data = new FormData(form);
@@ -328,6 +410,7 @@
     formTitle.textContent = "Edit your listing";
     saveLabel.textContent = "Save changes";
     fillForm(coreForm, p);
+    updateImagePreviews();
 
     statusBanner.hidden = false;
     statusBanner.dataset.status = p.status;

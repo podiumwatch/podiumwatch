@@ -69,6 +69,10 @@ export function photographerDashboardPage(site) {
       .photog-dash-fields { grid-template-columns: 1fr; }
       .photog-dash-wide { grid-column: auto; }
     }
+    .photog-image-upload { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+    .photog-image-upload-button { cursor: pointer; }
+    .photog-image-upload-status { margin: 0; font-size: 0.85rem; color: rgba(15, 23, 42, 0.7); }
+    .photog-image-preview { width: 64px; height: 64px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.14); }
   </style>
 
   <section class="section section-paper">
@@ -152,8 +156,28 @@ export function photographerDashboardPage(site) {
               <label>Facebook<input type="url" name="facebook_url" placeholder="https://"></label>
               <label>Business email<input type="email" name="business_email"></label>
               <label>Business phone<input name="business_phone"></label>
-              <label>Profile image URL<input type="url" name="profile_image_url" placeholder="https://"></label>
-              <label>Logo URL<input type="url" name="logo_url" placeholder="https://"></label>
+              <label>Profile image URL
+                <input type="url" name="profile_image_url" placeholder="https://">
+                <div class="photog-image-upload" data-photog-dash-children hidden>
+                  <label class="button button-outline photog-image-upload-button">
+                    Upload a photo
+                    <input type="file" accept="image/png,image/jpeg,image/gif,image/webp" data-photog-profile-image-file hidden>
+                  </label>
+                  <img class="photog-image-preview" data-photog-profile-image-preview alt="Profile image preview" hidden>
+                </div>
+                <p class="photog-image-upload-status" data-photog-profile-image-status hidden></p>
+              </label>
+              <label>Logo URL
+                <input type="url" name="logo_url" placeholder="https://">
+                <div class="photog-image-upload" data-photog-dash-children hidden>
+                  <label class="button button-outline photog-image-upload-button">
+                    Upload a logo
+                    <input type="file" accept="image/png,image/jpeg,image/gif,image/webp" data-photog-logo-file hidden>
+                  </label>
+                  <img class="photog-image-preview" data-photog-logo-preview alt="Logo preview" hidden>
+                </div>
+                <p class="photog-image-upload-status" data-photog-logo-status hidden></p>
+              </label>
               <label class="photog-dash-wide">Short description<input name="short_description" maxlength="300"></label>
               <label class="photog-dash-wide">About<textarea name="about"></textarea></label>
               <label class="photog-dash-checkbox photog-dash-wide"><input type="checkbox" name="statewide_travel">Available for statewide travel</label>
