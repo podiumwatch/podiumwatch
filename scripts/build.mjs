@@ -795,15 +795,9 @@ await writePage("/splits-calculator/", splitsCalculatorPage(site));
 await writePage("/scoring-calculator/", scoringCalculatorPage(site));
 await writePage("/team-login/", teamLoginPage(site));
 await writePage("/team-dashboard/", teamDashboardPage(site));
-// Photographer Network is temporarily UNPUBLISHED at the user's request
-// (2026-08-20) -- not ready yet. Deliberately commented out, not
-// deleted: every underlying file/service/API still exists untouched,
-// this is the one-line-per-route flip to bring it back. The admin tool
-// (/admin/photographers/, password-gated, never public) stays live so
-// work can continue privately. See docs/DECISIONS.md for the fuller
-// note, including the checkout kill switch in api/photographer/checkout.js.
-// await writePage("/photographer-login/", photographerLoginPage(site));
-// await writePage("/photographer-dashboard/", photographerDashboardPage(site));
+// Photographer Network republished (2026-09-24) -- see docs/DECISIONS.md.
+await writePage("/photographer-login/", photographerLoginPage(site));
+await writePage("/photographer-dashboard/", photographerDashboardPage(site));
 await writePage("/team-schedule/", teamSchedulePage(site));
 await writePage("/team-roster/", teamRosterPage(site));
 await writePage("/team-content/", teamContentPage(site));
@@ -835,10 +829,9 @@ await writePage("/privacy/", privacyPage(site));
 await writePage("/team-editor/", teamEditorPage(site));
 await writePage("/team/", teamProfilePage(site));
 await writePage("/teams/", teamsPage(site));
-// See the Photographer Network unpublish note above (~line 532).
-// await writePage("/photographers/", photographersPage(site));
-// await writePage("/photographers/profile/", photographerDetailPage(site));
-// await writePage("/photographers/membership/", photographerMembershipPage(site));
+await writePage("/photographers/", photographersPage(site));
+await writePage("/photographers/profile/", photographerDetailPage(site));
+await writePage("/photographers/membership/", photographerMembershipPage(site));
 await writePage("/ohio-schools/", ohioSchoolsPage(site));
 await writePage("/claim-your-team/", claimTeamPage(site));
 await writePage("/submit-results/", submitResultsPage(site));

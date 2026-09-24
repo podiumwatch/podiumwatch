@@ -99,6 +99,7 @@ export const site = {
     ] },
     { label: "More", items: [
       { label: "Stories", href: "/stories/" },
+      { label: "Find a Photographer", href: "/photographers/" },
       { label: "About", href: "/about/" }
     ] }
   ],
@@ -109,6 +110,7 @@ export const site = {
       { label: "Teams", href: "/teams/" },
       { label: "Ohio Schools", href: "/ohio-schools/" },
       { label: "Fan Poll", href: "/fan-poll/" },
+      { label: "Find a Photographer", href: "/photographers/" },
       { label: "Pace Calculator", href: "/pace-calculator/" },
       { label: "Splits Calculator", href: "/splits-calculator/" },
       { label: "Meet Scoring Calculator", href: "/scoring-calculator/" },
