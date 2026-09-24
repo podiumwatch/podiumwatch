@@ -3,7 +3,7 @@ import {
   pageHero
 } from "../lib/html.mjs";
 import { SPORTS, REGIONS } from "../../lib/photographer_constants.mjs";
-import { MONTHLY_PRICE_CENTS, ANNUAL_PRICE_CENTS, formatUsd } from "../../lib/photographer_membership_config.mjs";
+import { MONTHLY_PRICE_CENTS, ANNUAL_PRICE_CENTS, FREE_TRIAL_DAYS, formatUsd } from "../../lib/photographer_membership_config.mjs";
 
 // A signed-in photographer's own dashboard: create your listing (first
 // run), edit it, manage sports/service areas/portfolio, and submit for
@@ -95,22 +95,24 @@ export function photographerDashboardPage(site) {
         <div class="photog-dash-status-banner" data-photog-dash-status-banner hidden></div>
 
         <section class="photog-dash-panel" data-photog-dash-children hidden>
-          <div><p class="eyebrow">Photographer Network Membership</p><h2>Manage membership</h2><p>One membership, two billing options. Both include full Photographer Network features -- normal directory listing, search visibility, and portfolio never require payment.</p></div>
+          <div><p class="eyebrow">Photographer Network Membership</p><h2>Manage membership</h2><p>One membership, two billing options, both starting with ${FREE_TRIAL_DAYS} days free. Directory listing, search visibility, and portfolio never require payment either way.</p></div>
           <div class="photog-dash-membership-grid">
             <div class="photog-dash-membership-card">
               <span class="eyebrow">Monthly</span>
               <span class="photog-dash-price">${formatUsd(MONTHLY_PRICE_CENTS)}<span style="font-size:0.95rem;font-weight:700;"> / month</span></span>
+              <span>First ${FREE_TRIAL_DAYS} days free</span>
               <span>Cancel anytime</span>
               <span>Full Photographer Network membership</span>
-              <button class="button button-primary" type="button" data-photog-dash-start-checkout="monthly">Start monthly membership</button>
+              <button class="button button-primary" type="button" data-photog-dash-start-checkout="monthly">Start free trial (monthly)</button>
             </div>
             <div class="photog-dash-membership-card" data-best-value>
               <span class="photog-dash-best-value-tag">Best value</span>
               <span class="eyebrow">Annual</span>
               <span class="photog-dash-price">${formatUsd(ANNUAL_PRICE_CENTS)}<span style="font-size:0.95rem;font-weight:700;"> / year</span></span>
+              <span>First ${FREE_TRIAL_DAYS} days free</span>
               <span>Full Photographer Network membership</span>
               <span>Includes one Podium Watch partnership announcement story</span>
-              <button class="button button-primary" type="button" data-photog-dash-start-checkout="annual">Start annual membership</button>
+              <button class="button button-primary" type="button" data-photog-dash-start-checkout="annual">Start free trial (annual)</button>
             </div>
           </div>
           <p data-photog-dash-membership-status></p>

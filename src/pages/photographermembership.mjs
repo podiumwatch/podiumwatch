@@ -7,6 +7,7 @@ import {
   ANNUAL_PRICE_CENTS,
   ANNUAL_MONTHLY_EQUIVALENT_CENTS,
   ANNUAL_SAVINGS_CENTS,
+  FREE_TRIAL_DAYS,
   formatUsd
 } from "../../lib/photographer_membership_config.mjs";
 
@@ -21,7 +22,7 @@ import {
 export function photographerMembershipPage(site) {
   const content = `${pageHero({
     eyebrow: "Podium Watch Photographer Network",
-    title: "One membership. Two ways to pay.",
+    title: "One membership. First 30 days free.",
     description: "Every Photographer Network member gets the same full listing, search visibility, and portfolio -- monthly or annual, paying more never buys extra features."
   })}
 
@@ -52,8 +53,9 @@ export function photographerMembershipPage(site) {
           <p class="eyebrow">Monthly</p>
           <h2 class="photog-pricing-name">Photographer Network Membership</h2>
           <p class="photog-pricing-price">${formatUsd(MONTHLY_PRICE_CENTS)}<span> / month</span></p>
-          <p class="photog-pricing-sub">Billed monthly. Cancel anytime.</p>
+          <p class="photog-pricing-sub">First ${FREE_TRIAL_DAYS} days free, then billed monthly. Cancel anytime before the trial ends and you're never charged.</p>
           <ul class="photog-pricing-list">
+            <li>First ${FREE_TRIAL_DAYS} days free</li>
             <li>Full Photographer Network membership</li>
             <li>Cancel anytime</li>
             <li>Automatically renews monthly until canceled</li>
@@ -66,8 +68,9 @@ export function photographerMembershipPage(site) {
           <p class="eyebrow">Annual</p>
           <h2 class="photog-pricing-name">Photographer Network Membership</h2>
           <p class="photog-pricing-price">${formatUsd(ANNUAL_PRICE_CENTS)}<span> / year</span></p>
-          <p class="photog-pricing-sub">Approximately ${formatUsd(ANNUAL_MONTHLY_EQUIVALENT_CENTS)} per month -- save ${formatUsd(ANNUAL_SAVINGS_CENTS)} compared with twelve monthly payments.</p>
+          <p class="photog-pricing-sub">First ${FREE_TRIAL_DAYS} days free. Then approximately ${formatUsd(ANNUAL_MONTHLY_EQUIVALENT_CENTS)} per month -- save ${formatUsd(ANNUAL_SAVINGS_CENTS)} compared with twelve monthly payments.</p>
           <ul class="photog-pricing-list">
+            <li>First ${FREE_TRIAL_DAYS} days free</li>
             <li>Full Photographer Network membership</li>
             <li>Includes one Podium Watch Photographer Network partnership announcement story for an eligible initial annual membership</li>
             <li>Automatically renews yearly until canceled</li>
@@ -86,8 +89,12 @@ export function photographerMembershipPage(site) {
           <p>Monthly and annual members get the exact same listing, the exact same search visibility across school, city, region, and sport searches, and the exact same meet coverage and gallery tools. Paying annually does not rank a photographer above a monthly member -- placement is never for sale here. The one difference: annual members receive one Podium Watch partnership announcement story, introducing their business and membership, included with their first qualifying annual membership. It's a one-time launch benefit, not something that repeats every year on renewal.</p>
         </div>
         <div>
+          <h3>How the free trial works</h3>
+          <p>Starting a membership requires a card, but you're not charged for the first ${FREE_TRIAL_DAYS} days. Use that time to see whether the directory actually brings you leads. If it doesn't, cancel before the trial ends from your dashboard and you'll never be charged. If you don't cancel, billing starts automatically once the trial ends, at the monthly or annual price you chose.</p>
+        </div>
+        <div>
           <h3>Membership renews automatically until canceled</h3>
-          <p>Both the monthly and annual options are recurring subscriptions. They renew automatically at the price above until you cancel. If you cancel, your membership stays active through the end of the period you already paid for -- you're never cut off mid-period.</p>
+          <p>Both the monthly and annual options are recurring subscriptions. After the free trial, they renew automatically at the price above until you cancel. If you cancel after being charged, your membership stays active through the end of the period you already paid for -- you're never cut off mid-period.</p>
         </div>
         <div>
           <h3>Getting a free directory listing is always separate from membership</h3>

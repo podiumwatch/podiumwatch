@@ -122,6 +122,7 @@ import { writerPortalAuthorPage } from "../src/pages/writerportalauthor.mjs";
 import { writerPortalCalendarPage } from "../src/pages/writerportalcalendar.mjs";
 import { writerPortalBoardPage } from "../src/pages/writerportalboard.mjs";
 import { writerPortalStyleGuidePage } from "../src/pages/writerportalstyleguide.mjs";
+import { FREE_TRIAL_DAYS } from "../lib/photographer_membership_config.mjs";
 
 const root = process.cwd();
 const dist = path.join(root, "dist");
@@ -482,7 +483,7 @@ function homePage(stories, rankings) {
   <section class="section">
     <div class="container">
       <div class="intern-banner">
-        <div><p class="eyebrow">Photographer Network</p><h2>Are you a sports photographer?</h2><p>Get discovered by Ohio cross country and track families searching for race-day photos. List your meet coverage and galleries in front of Podium Watch's own audience.</p></div>
+        <div><p class="eyebrow">Photographer Network</p><h2>Are you a sports photographer?</h2><p>Get discovered by Ohio cross country and track families searching for race-day photos. First ${FREE_TRIAL_DAYS} days free -- if it doesn't bring you leads, cancel before you're charged.</p></div>
         <div class="intern-banner-actions"><a class="button button-dark" href="/photographers/membership/">Join the network</a><a class="text-link" href="/photographers/">Browse photographers ${icon("arrow")}</a></div>
       </div>
     </div>
