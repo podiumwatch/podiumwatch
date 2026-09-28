@@ -1,6 +1,6 @@
 import { escapeHtml, formatDate, slugify } from "./content.mjs";
 import { gtagScript } from "./analytics.mjs";
-import { adSenseLoaderScript } from "./ads.mjs";
+import { adSenseLoaderScript, infolinksLoaderScript } from "./ads.mjs";
 import { NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, NO_ADS_PATHS } from "../config/site.mjs";
 
 export function absoluteUrl(site, pathname = "/") {
@@ -274,6 +274,7 @@ ${metadata({ site, title, description, pathname, image, canonicalUrl, type, publ
 <link rel="stylesheet" href="/styles/main.css">${adminHead}
 ${gtagScript()}
 ${showAds ? adSenseLoaderScript() : ""}
+${showAds ? infolinksLoaderScript() : ""}
 <style>
 /* [hidden] must always win the cascade, sitewide. main.css has no rule
    for this at all, and several page-specific style blocks set their own

@@ -55,3 +55,23 @@ export function adSlot(slot, { label = "Advertisement" } = {}) {
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>`;
 }
+
+// Infolinks (2026-09-29) -- an in-text contextual ad network: unlike
+// AdSense's adSlot() above, there is no per-page placement to call --
+// once this loader is present, Infolinks scans the page's own text and
+// turns some existing words into ad links automatically. That makes
+// where this script is allowed to load MORE important than AdSense's
+// loader, not less: the exact "ads on screens without real
+// publisher-content" problem that got the AdSense loader rejected from
+// login/dashboard pages (see adSenseLoaderScript() above) would be
+// worse here, since Infolinks would auto-insert ad links into dashboard
+// labels/button text rather than just sitting present-but-inert. Gated
+// through the same showAds check in layout() as AdSense, for that
+// reason -- never added to a page on its own.
+export const INFOLINKS_PID = 3448221;
+export const INFOLINKS_WSID = 0;
+
+export function infolinksLoaderScript() {
+  return `<script>var infolinks_pid = ${INFOLINKS_PID}; var infolinks_wsid = ${INFOLINKS_WSID};</script>
+<script src="https://resources.infolinks.com/js/infolinks_main.js"></script>`;
+}
