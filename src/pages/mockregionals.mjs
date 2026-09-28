@@ -1,5 +1,5 @@
 import { breadcrumb, emptyState, icon, layout, pageHero } from "../lib/html.mjs";
-import { scoreTeams, selectIndividualQualifiers, validateDivisionRoster } from "../lib/mock_scoring.mjs";
+import { scoreTeams, selectIndividualQualifiers, validateDivisionRoster, computeStatePool } from "../lib/mock_scoring.mjs";
 import regionalsData from "../data/mock-regionals-2026.json" with { type: "json" };
 
 // 2026 Mock Regionals & State -- team-only mock meets built on the real
@@ -445,35 +445,7 @@ export function mockStatePage(site, divisionEntry) {
   const pathname = `/mock-meets/state/${divisionEntry.id}/`;
   const title = `Mock State Meet -- ${divisionLabel(divisionEntry)}`;
   const regionKeys = REGION_ORDER.filter((key) => divisionEntry.regions[key]);
-  const missing = regionKeys.filter((key) => divisionEntry.regions[key].teams.length === 0);
-
-  let teams = [];
-  let individuals = [];
-  let poolLog = [];
-  if (missing.length === 0) {
-    const pooledTeams = [];
-    const pooledIndividuals = [];
-    for (const key of regionKeys) {
-      const region = divisionEntry.regions[key];
-      const { teams: regionScored, individuals: regionScoredIndividuals } = scoreTeams(region.teams, region.individuals || []);
-      const qualifyingTeams = regionScored.filter((t) => t.complete).slice(0, region.stateQualifiers);
-      const qualifyingIndividuals = selectIndividualQualifiers(regionScored, regionScoredIndividuals, region.stateQualifiers, region.individualQualifiers || 0);
-
-      poolLog.push({ region: REGION_LABELS[key], teamCount: qualifyingTeams.length, teamQualifiers: region.stateQualifiers, individualCount: qualifyingIndividuals.length, individualQualifiers: region.individualQualifiers || 0 });
-
-      for (const team of qualifyingTeams) {
-        pooledTeams.push({
-          name: team.name,
-          region: REGION_LABELS[key],
-          runners: team.runners.map(({ scoring, placePoints, teamPosition, ...rest }) => rest)
-        });
-      }
-      pooledIndividuals.push(...qualifyingIndividuals);
-    }
-    const scored = scoreTeams(pooledTeams, pooledIndividuals);
-    teams = scored.teams;
-    individuals = scored.individuals;
-  }
+  const { teams, individuals, poolLog, missing } = computeStatePool(divisionEntry);
 
   const content = `${pageHero({
     eyebrow: "2026 Mock State Meet",

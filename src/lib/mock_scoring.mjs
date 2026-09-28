@@ -319,3 +319,47 @@ export function validateDivisionRoster(divisionEntry, regionEntries) {
 
   return problems;
 }
+
+// Pools every region's real qualifying teams and individuals into one
+// State field and re-scores it together, exactly the way mockStatePage()
+// (src/pages/mockregionals.mjs) has always computed the State page --
+// extracted here, unchanged, so a second caller (scripts/mock-meet-export.mjs,
+// rebuilding State results from a draft regional update) can reuse the
+// exact same pooling algorithm instead of a second copy of it. Pure:
+// reads only divisionEntry.regions, no I/O, no build-time-only
+// assumptions -- safe to call from a CLI script or a test fixture, not
+// just at site-build time.
+export function computeStatePool(divisionEntry) {
+  const regionKeys = ["central", "northeast", "northwest", "southwest"].filter((key) => divisionEntry.regions[key]);
+  const missing = regionKeys.filter((key) => divisionEntry.regions[key].teams.length === 0);
+
+  if (missing.length > 0) {
+    return { teams: [], individuals: [], poolLog: [], missing };
+  }
+
+  const REGION_LABELS = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
+  const pooledTeams = [];
+  const pooledIndividuals = [];
+  const poolLog = [];
+
+  for (const key of regionKeys) {
+    const region = divisionEntry.regions[key];
+    const { teams: regionScored, individuals: regionScoredIndividuals } = scoreTeams(region.teams, region.individuals || []);
+    const qualifyingTeams = regionScored.filter((t) => t.complete).slice(0, region.stateQualifiers);
+    const qualifyingIndividuals = selectIndividualQualifiers(regionScored, regionScoredIndividuals, region.stateQualifiers, region.individualQualifiers || 0);
+
+    poolLog.push({ region: REGION_LABELS[key], teamCount: qualifyingTeams.length, teamQualifiers: region.stateQualifiers, individualCount: qualifyingIndividuals.length, individualQualifiers: region.individualQualifiers || 0 });
+
+    for (const team of qualifyingTeams) {
+      pooledTeams.push({
+        name: team.name,
+        region: REGION_LABELS[key],
+        runners: team.runners.map(({ scoring, placePoints, teamPosition, ...rest }) => rest)
+      });
+    }
+    pooledIndividuals.push(...qualifyingIndividuals);
+  }
+
+  const scored = scoreTeams(pooledTeams, pooledIndividuals);
+  return { teams: scored.teams, individuals: scored.individuals, poolLog, missing: [] };
+}
