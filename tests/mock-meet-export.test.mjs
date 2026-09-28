@@ -4,10 +4,11 @@ import {
   MOCK_MEET_SEASON_YEAR,
   gradeForGraduationYear,
   isEligibleCrossCountryRow,
+  isEligibleSchoolLevel,
+  computeContentHash,
   realPerformanceToCandidate,
   matchRunnerToCandidate,
   mergeTeamRoster,
-  groupCandidatesBySchool,
   mergeRegion,
   mergeDivision
 } from "../lib/mock_meet_export_service.mjs";
@@ -77,6 +78,8 @@ function bestPerformanceRow(overrides = {}) {
     meet_date: "2026-09-20",
     source_type: "official",
     verification_status: "verified",
+    public_visible: true,
+    result_status: "official_result",
     sport: "cross_country",
     event_key: "xc_5k",
     season_year: MOCK_MEET_SEASON_YEAR,
@@ -168,34 +171,35 @@ test("an ambiguous name match (two candidates, same key) is never auto-merged", 
 test("two athletes with the same name at different schools never cross-match (school-scoped candidate pools)", () => {
   const teamA = team({ name: "School A", ohsaaSchoolId: 1, runners: [runner({ name: "Same Name", graduationYear: 2027, timeCentiseconds: 100000 })] });
   const teamB = team({ name: "School B", ohsaaSchoolId: 2, runners: [runner({ name: "Same Name", graduationYear: 2027, timeCentiseconds: 100000 })] });
+  const region = { region: "central", siteName: "Test Site", stateQualifiers: 8, individualQualifiers: 16, teams: [teamA, teamB], individuals: [] };
 
-  const realCandidateAtSchoolA = candidate({ profileId: "a", schoolId: "uuid-a", name: "Same Name", graduationYear: 2027, timeCentiseconds: 90000 });
-  const { candidatesByTeamName } = groupCandidatesBySchool(
-    [{ ...realCandidateAtSchoolA, schoolId: 1 }],
-    [teamA, teamB]
-  );
+  // Candidates are keyed by OHSAA school id, exactly how the real CLI
+  // builds this map (scripts/mock-meet-export.mjs) -- only School A's
+  // bucket has a match.
+  const ohsaaIdToCandidates = new Map([[1, [candidate({ profileId: "a", name: "Same Name", graduationYear: 2027, timeCentiseconds: 90000 })]]]);
+  const { region: updatedRegion } = mergeRegion(region, ohsaaIdToCandidates);
+  const resultA = updatedRegion.teams.find((t) => t.name === "School A");
+  const resultB = updatedRegion.teams.find((t) => t.name === "School B");
 
-  const resultA = mergeTeamRoster(teamA, candidatesByTeamName.get("School A") || []);
-  const resultB = mergeTeamRoster(teamB, candidatesByTeamName.get("School B") || []);
-
-  assert.equal(resultA.team.runners[0].timeCentiseconds, 90000, "School A's runner should be improved by the real match scoped to their own school");
-  assert.equal(resultB.team.runners[0].timeCentiseconds, 100000, "School B's identically-named runner must be completely untouched");
+  assert.equal(resultA.runners[0].timeCentiseconds, 90000, "School A's runner should be improved by the real match scoped to their own school");
+  assert.equal(resultB.runners[0].timeCentiseconds, 100000, "School B's identically-named runner must be completely untouched");
 });
 
 // ---------------------------------------------------------------------
 // School matching / identity resolution (test #7: unknown school -> review)
 // ---------------------------------------------------------------------
 
-test("a team with no ohsaaSchoolId is reported as unresolved, not guessed at", () => {
-  const unresolvedTeam = team({ name: "Unresolved School", ohsaaSchoolId: null });
-  const resolvedTeam = team({ name: "Resolved School", ohsaaSchoolId: 555 });
-  const { candidatesByTeamName, unresolvedTeams } = groupCandidatesBySchool(
-    [candidate({ schoolId: 555 })],
-    [unresolvedTeam, resolvedTeam]
-  );
+test("a team with no ohsaaSchoolId is reported as unresolved, not guessed at, and never receives any real match", () => {
+  const unresolvedTeam = team({ name: "Unresolved School", ohsaaSchoolId: null, runners: [runner({ name: "Baseline Runner", timeCentiseconds: 100000 })] });
+  const resolvedTeam = team({ name: "Resolved School", ohsaaSchoolId: 555, runners: [runner({ name: "Other Runner", athleticNetId: "z", timeCentiseconds: 100000 })] });
+  const region = { region: "central", siteName: "Test Site", stateQualifiers: 8, individualQualifiers: 16, teams: [unresolvedTeam, resolvedTeam], individuals: [] };
+
+  const ohsaaIdToCandidates = new Map([[555, [candidate({ athleticNetId: "z", timeCentiseconds: 90000 })]]]);
+  const { region: updatedRegion, unresolvedTeams } = mergeRegion(region, ohsaaIdToCandidates);
+
   assert.deepEqual(unresolvedTeams, ["Unresolved School"]);
-  assert.equal(candidatesByTeamName.has("Unresolved School"), false);
-  assert.equal(candidatesByTeamName.has("Resolved School"), true);
+  const stillUnresolved = updatedRegion.teams.find((t) => t.name === "Unresolved School");
+  assert.equal(stillUnresolved.runners[0].timeCentiseconds, 100000, "a team with unresolved school identity must never receive a real update, even if a candidate happens to share its name");
 });
 
 // ---------------------------------------------------------------------
@@ -446,4 +450,133 @@ test("all eight real division datasets in mock-regionals-2026.json still pass va
     const problems = validateDivisionRoster(divisionEntry, Object.entries(divisionEntry.regions));
     assert.deepEqual(problems, [], `${divisionEntry.label} should have zero validation problems`);
   }
+});
+
+// ---------------------------------------------------------------------
+// Eligibility filters -- audit follow-up: explicitly confirm every
+// filter the export claims to apply, not just the subset already
+// covered above.
+// ---------------------------------------------------------------------
+
+test("a track 5000m performance is excluded (wrong sport, not just wrong event)", () => {
+  assert.equal(isEligibleCrossCountryRow(bestPerformanceRow({ sport: "outdoor_track", event_key: "track_5000" })), false);
+});
+
+test("an indoor track performance is excluded", () => {
+  assert.equal(isEligibleCrossCountryRow(bestPerformanceRow({ sport: "indoor_track" })), false);
+});
+
+test("a three-mile (xc_3_mile-shaped) event key is excluded, only xc_5k is eligible", () => {
+  assert.equal(isEligibleCrossCountryRow(bestPerformanceRow({ event_key: "xc_3_mile" })), false);
+});
+
+test("a performance not marked public_visible is excluded (defense-in-depth beyond the view's own filter)", () => {
+  assert.equal(isEligibleCrossCountryRow(bestPerformanceRow({ public_visible: false })), false);
+});
+
+test("a community-reported or editorial-context result_status is excluded -- only official/reviewed results are eligible", () => {
+  assert.equal(isEligibleCrossCountryRow(bestPerformanceRow({ result_status: "community_reported" })), false);
+  assert.equal(isEligibleCrossCountryRow(bestPerformanceRow({ result_status: "editorial_context" })), false);
+});
+
+test("isEligibleSchoolLevel excludes middle school and club programs, includes only high_school", () => {
+  assert.equal(isEligibleSchoolLevel("high_school"), true);
+  assert.equal(isEligibleSchoolLevel("middle_school"), false);
+  assert.equal(isEligibleSchoolLevel("club"), false);
+  assert.equal(isEligibleSchoolLevel(null), false);
+});
+
+// ---------------------------------------------------------------------
+// Content hashing (the apply-protection system)
+// ---------------------------------------------------------------------
+
+test("computeContentHash is deterministic for identical data", () => {
+  const data = { a: 1, b: [1, 2, 3], c: { nested: true } };
+  assert.equal(computeContentHash(data), computeContentHash({ a: 1, b: [1, 2, 3], c: { nested: true } }));
+});
+
+test("computeContentHash changes when content changes", () => {
+  assert.notEqual(computeContentHash({ a: 1 }), computeContentHash({ a: 2 }));
+});
+
+// ---------------------------------------------------------------------
+// Roster validation audit (section 6 of the safety pass)
+// ---------------------------------------------------------------------
+
+test("a new athlete is added when a team has fewer than seven runners, even if slower than every existing runner", () => {
+  const fourFastRunners = Array.from({ length: 4 }, (_, i) => runner({ name: `Fast ${i + 1}`, timeCentiseconds: 90000 + i * 500, athleticNetId: `fast-${i}` }));
+  const t = team({ runners: fourFastRunners });
+  const slowNewCandidate = candidate({ profileId: "slow-new", name: "Slow New Runner", athleticNetId: "slow-new-id", timeCentiseconds: 200000 });
+  const { team: updated, changes } = mergeTeamRoster(t, [slowNewCandidate]);
+  assert.equal(updated.runners.length, 5, "the team had room, so the new (even if slow) runner should be added");
+  assert.ok(updated.runners.some((r) => r.name === "Slow New Runner"));
+  assert.ok(changes.some((c) => c.type === "new_athlete_added" && c.athlete === "Slow New Runner"));
+});
+
+test("a new athlete only removes another runner once the team already has seven eligible runners", () => {
+  const sixRunners = Array.from({ length: 6 }, (_, i) => runner({ name: `Existing ${i + 1}`, timeCentiseconds: 90000 + i * 500, athleticNetId: `id-${i}` }));
+  const t = team({ runners: sixRunners });
+  const slowNewCandidate = candidate({ profileId: "slow-new", name: "Slower New Runner", athleticNetId: "slow-new-id", timeCentiseconds: 300000 });
+  const { team: updated, changes } = mergeTeamRoster(t, [slowNewCandidate]);
+  assert.equal(updated.runners.length, 7, "team had room for a 7th, nobody should be removed");
+  assert.equal(changes.filter((c) => c.type === "runner_dropped_from_top_seven").length, 0);
+  assert.ok(updated.runners.some((r) => r.name === "Slower New Runner"));
+});
+
+test("the seven fastest unique athletes are always selected, never more than seven", () => {
+  const tenRunners = Array.from({ length: 10 }, (_, i) => runner({ name: `Runner ${i + 1}`, timeCentiseconds: 90000 + i * 500, athleticNetId: `id-${i}` }));
+  const t = team({ runners: tenRunners });
+  const { team: updated } = mergeTeamRoster(t, []);
+  assert.equal(updated.runners.length, 7);
+  assert.deepEqual(updated.runners.map((r) => r.name), ["Runner 1", "Runner 2", "Runner 3", "Runner 4", "Runner 5", "Runner 6", "Runner 7"]);
+});
+
+test("an unmerged duplicate real athlete profile (two profile ids, same name/grad year) never adds the same person to a roster twice", () => {
+  const t = team({ runners: [] });
+  const duplicateA = candidate({ profileId: "dup-a", name: "Duplicate Person", graduationYear: 2027, athleticNetId: "dup-a-id", timeCentiseconds: 95000 });
+  const duplicateB = candidate({ profileId: "dup-b", name: "Duplicate Person", graduationYear: 2027, athleticNetId: "dup-b-id", timeCentiseconds: 96000 });
+  const { team: updated, changes } = mergeTeamRoster(t, [duplicateA, duplicateB]);
+  const matchingRunners = updated.runners.filter((r) => r.name === "Duplicate Person");
+  assert.equal(matchingRunners.length, 1, "the same real person must never occupy two roster slots");
+  assert.equal(matchingRunners[0].timeCentiseconds, 95000, "the faster of the two duplicate profiles should be the one kept");
+  assert.ok(changes.some((c) => c.type === "duplicate_profile_collision"), "the collision must be reported, not silently resolved");
+});
+
+test("a slower current mock result is never replaced by a real approved performance that is also slower", () => {
+  const t = team({ runners: [runner({ name: "Fast Baseline", athleticNetId: "id-1", timeCentiseconds: 90000, seasonBest: "15:00.0" })] });
+  const slowerReal = candidate({ athleticNetId: "id-1", timeCentiseconds: 95000, seasonBest: "15:50.0" });
+  const { team: updated } = mergeTeamRoster(t, [slowerReal]);
+  assert.equal(updated.runners[0].timeCentiseconds, 90000);
+  assert.equal(updated.runners[0].seasonBest, "15:00.0");
+});
+
+test("when the real system's current best for an athlete changes (e.g. a correction/void moved the view's best_rank=1 row to a different, slower performance), the merge simply uses whatever athlete_best_performances currently returns -- no special void-handling code needed, because the view itself is always re-queried fresh", () => {
+  // This documents and locks in WHY corrections/voids are handled
+  // correctly without any dedicated code path here: athlete_best_performances
+  // is a live SQL view (install/03), not a cached snapshot -- voiding or
+  // correcting a performance in the real athlete_performances table
+  // changes what that view returns on the VERY NEXT query, automatically.
+  // Simulated here as two independent merge calls with two different
+  // "current best" values for the same athlete, proving both are
+  // handled correctly with no leftover state from the first call.
+  const t = team({ runners: [runner({ name: "Runner", athleticNetId: "id-1", timeCentiseconds: 100000, seasonBest: "16:40.0" })] });
+
+  const beforeVoid = candidate({ athleticNetId: "id-1", timeCentiseconds: 95000, seasonBest: "15:50.0" }); // the since-voided fast result
+  const afterVoidStep = mergeTeamRoster(t, [beforeVoid]);
+  assert.equal(afterVoidStep.team.runners[0].timeCentiseconds, 95000);
+
+  // The view now returns the next-fastest legitimate performance instead
+  // (the fast one was voided) -- a fresh merge call against the ORIGINAL
+  // team (not the intermediate result) with this new "current best":
+  const afterVoidCandidate = candidate({ athleticNetId: "id-1", timeCentiseconds: 98000, seasonBest: "16:20.0" });
+  const correctedStep = mergeTeamRoster(t, [afterVoidCandidate]);
+  assert.equal(correctedStep.team.runners[0].timeCentiseconds, 98000, "the mock roster should reflect whatever the view currently says is the athlete's best, not a stale cached value");
+});
+
+test("no team loses an existing baseline runner merely because that runner has no match in the real system yet", () => {
+  const t = team({ runners: [runner({ name: "Not Yet In Supabase", timeCentiseconds: 100000, seasonBest: "16:40.0", athleticNetId: null })] });
+  const { team: updated, changed } = mergeTeamRoster(t, []); // no real candidates at all for this team
+  assert.equal(updated.runners.length, 1);
+  assert.deepEqual(updated.runners[0], t.runners[0], "a baseline runner with zero real candidates must be returned completely untouched");
+  assert.equal(changed, false);
 });
