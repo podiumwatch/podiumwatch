@@ -236,7 +236,11 @@
           <option value="girls" ${finalist.category === "girls" ? "selected" : ""}>Girls</option>
         </select></label>`
       : "";
+    const nameField = currentType === "totw"
+      ? `<label>Team name<input type="text" data-field="team_name" value="${escapeHtml(finalist.team_name || "")}"></label>`
+      : `<label>Athlete name<input type="text" data-field="athlete_name" value="${escapeHtml(finalist.athlete_name || "")}"></label>`;
     return `<div class="awards-inline-form" data-edit-form="${escapeHtml(finalist.id)}">
+      ${nameField}
       <label>Photo URL<input type="text" data-field="image_url" value="${escapeHtml(finalist.image_url || "")}"></label>
       ${photoUploadHtml(finalist.id)}
       <label>Achievement<input type="text" data-field="achievement" value="${escapeHtml(finalist.achievement || "")}"></label>
@@ -500,6 +504,7 @@
       const form = finalistList.querySelector(`[data-edit-form="${CSS.escape(id)}"]`);
       const getValue = (field) => form.querySelector(`[data-field="${field}"]`).value;
       const categoryField = form.querySelector('[data-field="category"]');
+      const nameField = form.querySelector(currentType === "totw" ? '[data-field="team_name"]' : '[data-field="athlete_name"]');
 
       setBusy(true);
       setMessage("Saving finalist.");
@@ -511,7 +516,8 @@
           achievement: getValue("achievement"),
           description: getValue("description"),
           sort_order: Number(getValue("sort_order")) || 0,
-          ...(categoryField ? { category: categoryField.value } : {})
+          ...(categoryField ? { category: categoryField.value } : {}),
+          ...(currentType === "totw" ? { team_name: nameField.value } : { athlete_name: nameField.value })
         });
         setMessage("Finalist updated.");
         await selectWeek(currentWeekId);
