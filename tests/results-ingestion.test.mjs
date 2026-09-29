@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { assessParsedResults, canonicalizeResultUrl, classifyDocument, createPublicResultsSubmission, extractScoredLinks, fetchPage, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
+import { assessParsedResults, canonicalizeResultUrl, classifyDocument, createPublicResultsSubmission, extractScoredLinks, fetchPage, matchAthleteCandidate, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
+import { normalizeAthleteName } from "../lib/athlete_foundation_service.mjs";
 import { extractDocument, parsePastedOrDelimitedText, parserInternals } from "../lib/result_parsers.mjs";
 
 const fixturesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "fixtures");
@@ -546,4 +547,84 @@ test("a trailing \"--\" non-scorer marker (instead of a numeric points value) do
   assert.equal(rows[0].schoolName, "Mogadore");
   assert.equal(rows[0].markText, "20:58.16");
   assert.equal(rows[1].athleteName, "Alyvia Sandor");
+});
+
+function profileMapFrom(profiles) {
+  const map = new Map();
+  for (const profile of profiles) {
+    map.set(profile.normalized_name, [...(map.get(profile.normalized_name) || []), profile]);
+  }
+  return map;
+}
+
+test("matchAthleteCandidate finds an accented name (\"Walter Chávez\") against a profile keyed the same way profile creation writes it", () => {
+  // Real bug, 2026-09-29: matchAthleteCandidate used to re-normalize the
+  // incoming search name with a local normalizeIdentity() that doesn't
+  // fold accents, turning "Chávez" into "ch vez" (the á splitting into a
+  // bare space) -- which could never find a profile whose
+  // normalized_name column was correctly written as "chavez" by
+  // normalizeAthleteName at creation time. The profile was created fine;
+  // every resolveJobIdentities rerun after that then failed to re-find
+  // it and silently unlinked the staging row.
+  const profile = { id: "p1", gender: "boys", graduation_year: 2028, current_school_id: "school-1" };
+  const profileMap = profileMapFrom([{ ...profile, normalized_name: normalizeAthleteName("Walter Chávez") }]);
+  const { candidates, matched } = matchAthleteCandidate({
+    athleteName: "Walter Chávez",
+    gender: "boys",
+    grade: "11",
+    seasonYear: 2026,
+    sport: "cross_country",
+    school: { id: "school-1" },
+    profileMap
+  });
+  assert.equal(candidates.length, 1);
+  assert.equal(matched.id, "p1");
+});
+
+for (const name of ["José Peña", "Zoë Müller", "Cristóbal Núñez", "Renée Dubois-Martin", "François Côté"]) {
+  test(`matchAthleteCandidate finds the accented name "${name}" the same way`, () => {
+    const profileMap = profileMapFrom([{ id: "p1", normalized_name: normalizeAthleteName(name), gender: "girls", graduation_year: 2027, current_school_id: "school-2" }]);
+    const { candidates } = matchAthleteCandidate({
+      athleteName: name,
+      gender: "girls",
+      grade: "12",
+      seasonYear: 2026,
+      sport: "cross_country",
+      school: { id: "school-2" },
+      profileMap
+    });
+    assert.equal(candidates.length, 1, `expected exactly one match for "${name}"`);
+  });
+}
+
+test("an apostrophe in a legitimate name (\"Seán O'Brien\") is not damaged by accent-folding", () => {
+  // NFKD accent-folding only strips Unicode combining marks (the accent
+  // on the a in Seán) -- it must not touch a plain ASCII apostrophe,
+  // which the existing [^a-z0-9]+ collapse-to-space rule already handled
+  // correctly before and after this fix.
+  const name = "Seán O'Brien";
+  assert.equal(normalizeAthleteName(name), "sean o brien");
+  const profileMap = profileMapFrom([{ id: "p1", normalized_name: normalizeAthleteName(name), gender: "boys", graduation_year: 2029, current_school_id: "school-3" }]);
+  const { candidates } = matchAthleteCandidate({ athleteName: name, gender: "boys", grade: "10", seasonYear: 2026, sport: "cross_country", school: { id: "school-3" }, profileMap });
+  assert.equal(candidates.length, 1);
+});
+
+test("a generational suffix (\"John Smith III\") is preserved, not stripped, so different generations never silently merge", () => {
+  const profileMap = profileMapFrom([
+    { id: "senior", normalized_name: normalizeAthleteName("John Smith"), gender: "boys", graduation_year: 2026, current_school_id: "school-4" },
+    { id: "the-third", normalized_name: normalizeAthleteName("John Smith III"), gender: "boys", graduation_year: null, current_school_id: "school-4" }
+  ]);
+  const { candidates, matched } = matchAthleteCandidate({ athleteName: "John Smith III", gender: "boys", grade: "10", seasonYear: 2026, sport: "cross_country", school: { id: "school-4" }, profileMap });
+  assert.equal(candidates.length, 1);
+  assert.equal(matched.id, "the-third");
+});
+
+test("matchAthleteCandidate is stable across repeated calls with the same inputs (rerunning identity resolution must not change which profile a row is linked to)", () => {
+  const profileMap = profileMapFrom([{ id: "stable-1", normalized_name: normalizeAthleteName("Walter Chávez"), gender: "boys", graduation_year: 2028, current_school_id: "school-5" }]);
+  const args = { athleteName: "Walter Chávez", gender: "boys", grade: "11", seasonYear: 2026, sport: "cross_country", school: { id: "school-5" }, profileMap };
+  const first = matchAthleteCandidate(args);
+  const second = matchAthleteCandidate(args);
+  assert.equal(first.matched.id, "stable-1");
+  assert.equal(second.matched.id, "stable-1");
+  assert.equal(first.matched.id, second.matched.id);
 });
