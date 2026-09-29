@@ -5442,9 +5442,9 @@
             {
               "name": "Hamilton",
               "athleticNetTeamRank": 75,
-              "ohsaaSchoolId": null,
-              "city": null,
-              "athleticDistrict": null,
+              "ohsaaSchoolId": 685,
+              "city": "Hamilton",
+              "athleticDistrict": "Southwest",
               "region": "Southwest",
               "runners": [
                 {
@@ -7722,9 +7722,9 @@
             {
               "name": "Groveport-Madison",
               "athleticNetTeamRank": 69,
-              "ohsaaSchoolId": null,
-              "city": null,
-              "athleticDistrict": null,
+              "ohsaaSchoolId": 682,
+              "city": "Groveport",
+              "athleticDistrict": "Central",
               "region": "Central",
               "runners": [
                 {
@@ -10177,9 +10177,9 @@
             {
               "name": "Hamilton",
               "athleticNetTeamRank": 60,
-              "ohsaaSchoolId": null,
-              "city": null,
-              "athleticDistrict": null,
+              "ohsaaSchoolId": 685,
+              "city": "Hamilton",
+              "athleticDistrict": "Southwest",
               "region": "Southwest",
               "runners": [
                 {
@@ -51071,9 +51071,9 @@
             {
               "name": "Danville",
               "athleticNetTeamRank": 73,
-              "ohsaaSchoolId": null,
-              "city": null,
-              "athleticDistrict": null,
+              "ohsaaSchoolId": 454,
+              "city": "Danville",
+              "athleticDistrict": "Central",
               "region": "Central",
               "runners": [
                 {
@@ -51144,9 +51144,9 @@
             {
               "name": "Elgin",
               "athleticNetTeamRank": 74,
-              "ohsaaSchoolId": null,
-              "city": null,
-              "athleticDistrict": null,
+              "ohsaaSchoolId": 524,
+              "city": "Marion",
+              "athleticDistrict": "Central",
               "region": "Central",
               "runners": [
                 {
@@ -54215,9 +54215,9 @@
             {
               "name": "Crestline",
               "athleticNetTeamRank": 17,
-              "ohsaaSchoolId": null,
-              "city": null,
-              "athleticDistrict": null,
+              "ohsaaSchoolId": 432,
+              "city": "Crestline",
+              "athleticDistrict": "Northwest",
               "region": "Northwest",
               "runners": [
                 {

@@ -580,3 +580,108 @@ test("no team loses an existing baseline runner merely because that runner has n
   assert.deepEqual(updated.runners[0], t.runners[0], "a baseline runner with zero real candidates must be returned completely untouched");
   assert.equal(changed, false);
 });
+
+// ---------------------------------------------------------------------
+// School identity regression: the five schools resolved by
+// install/65_MISSING_MOCK_MEET_SCHOOL_IDENTITIES.sql (Hamilton,
+// Groveport Madison, Danville, Elgin, Crestline) and the previously
+// resolved Beaver Local -- verified directly against the REAL committed
+// mock-regionals-2026.json, never a fixture, since this is a data
+// integrity claim about the published file itself, not about matching
+// logic (mergeRegion's own logic is already covered by the tests above
+// and does not change based on which OHSAA ID a team carries).
+// ---------------------------------------------------------------------
+
+test("Hamilton (both boys and girls Division I) resolves to OHSAA 685, never to Hamilton Township's 686", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const boysHamilton = regionalsData.divisions.find((d) => d.label === "Boys Division I").regions.southwest.teams.find((t) => t.name === "Hamilton");
+  const girlsHamilton = regionalsData.divisions.find((d) => d.label === "Girls Division I").regions.southwest.teams.find((t) => t.name === "Hamilton");
+  assert.equal(boysHamilton.ohsaaSchoolId, 685);
+  assert.equal(girlsHamilton.ohsaaSchoolId, 685);
+  assert.notEqual(boysHamilton.ohsaaSchoolId, 686, "Hamilton must never resolve to Hamilton Township's OHSAA ID");
+  assert.equal(boysHamilton.city, "Hamilton");
+  assert.equal(boysHamilton.athleticDistrict, "Southwest");
+  assert.equal(boysHamilton.ohsaaSchoolId, girlsHamilton.ohsaaSchoolId, "boys and girls Hamilton entries must use the identical school identity");
+});
+
+test("Groveport-Madison (hyphenated in the mock data) resolves to Groveport Madison's OHSAA 682", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const team = regionalsData.divisions.find((d) => d.label === "Girls Division I").regions.central.teams.find((t) => t.name === "Groveport-Madison");
+  assert.equal(team.ohsaaSchoolId, 682);
+  assert.equal(team.city, "Groveport");
+  assert.equal(team.athleticDistrict, "Central");
+});
+
+test("Danville resolves to OHSAA 454 with a Central athletic district", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const team = regionalsData.divisions.find((d) => d.label === "Girls Division IV").regions.central.teams.find((t) => t.name === "Danville");
+  assert.equal(team.ohsaaSchoolId, 454);
+  assert.equal(team.city, "Danville");
+  assert.equal(team.athleticDistrict, "Central");
+});
+
+test("Elgin resolves to OHSAA 524 with its official city of Marion", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const team = regionalsData.divisions.find((d) => d.label === "Girls Division IV").regions.central.teams.find((t) => t.name === "Elgin");
+  assert.equal(team.ohsaaSchoolId, 524);
+  assert.equal(team.city, "Marion", "Elgin's official city is Marion, not a city literally named Elgin");
+  assert.equal(team.athleticDistrict, "Central");
+});
+
+test("Crestline resolves to OHSAA 432, never to Colonel Crawford's 400", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const team = regionalsData.divisions.find((d) => d.label === "Girls Division IV").regions.northwest.teams.find((t) => t.name === "Crestline");
+  assert.equal(team.ohsaaSchoolId, 432);
+  assert.notEqual(team.ohsaaSchoolId, 400, "Crestline must never resolve to Colonel Crawford's OHSAA ID, even though Colonel Crawford's own city field reads Crestline");
+  assert.equal(team.city, "Crestline");
+  assert.equal(team.athleticDistrict, "Northwest");
+});
+
+test("the five newly resolved identities are consistent everywhere they appear in the file, across both teams and any supplemental individuals", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const expected = {
+    Hamilton: { ohsaaSchoolId: 685, city: "Hamilton", athleticDistrict: "Southwest" },
+    "Groveport-Madison": { ohsaaSchoolId: 682, city: "Groveport", athleticDistrict: "Central" },
+    Danville: { ohsaaSchoolId: 454, city: "Danville", athleticDistrict: "Central" },
+    Elgin: { ohsaaSchoolId: 524, city: "Marion", athleticDistrict: "Central" },
+    Crestline: { ohsaaSchoolId: 432, city: "Crestline", athleticDistrict: "Northwest" }
+  };
+  let checked = 0;
+  for (const division of regionalsData.divisions) {
+    for (const region of Object.values(division.regions)) {
+      for (const t of region.teams) {
+        if (expected[t.name]) {
+          assert.deepEqual({ ohsaaSchoolId: t.ohsaaSchoolId, city: t.city, athleticDistrict: t.athleticDistrict }, expected[t.name], `${division.label} / ${t.name} (team) must match the verified identity`);
+          checked += 1;
+        }
+      }
+      for (const ind of region.individuals || []) {
+        if (expected[ind.school]) {
+          assert.deepEqual({ ohsaaSchoolId: ind.ohsaaSchoolId, city: ind.city, athleticDistrict: ind.athleticDistrict }, expected[ind.school], `${division.label} / ${ind.name} (individual, school=${ind.school}) must match the verified identity`);
+          checked += 1;
+        }
+      }
+    }
+  }
+  assert.equal(checked, 6, "expected exactly 6 nodes (Boys D1 Hamilton, Girls D1 Hamilton, Girls D1 Groveport-Madison, Girls D4 Danville, Girls D4 Elgin, Girls D4 Crestline)");
+});
+
+test("Beaver Local's previously resolved identity (OHSAA 176) is unchanged by this pass, across its team entry and both individual entries", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const expectedBeaver = { ohsaaSchoolId: 176, city: "East Liverpool", athleticDistrict: "East" };
+  const team = regionalsData.divisions.find((d) => d.label === "Boys Division III").regions.central.teams.find((t) => t.name === "Beaver Local");
+  assert.deepEqual({ ohsaaSchoolId: team.ohsaaSchoolId, city: team.city, athleticDistrict: team.athleticDistrict }, expectedBeaver);
+  const individuals = regionalsData.divisions.find((d) => d.label === "Girls Division III").regions.central.individuals.filter((ind) => ind.school === "Beaver Local");
+  assert.equal(individuals.length, 2);
+  for (const ind of individuals) {
+    assert.deepEqual({ ohsaaSchoolId: ind.ohsaaSchoolId, city: ind.city, athleticDistrict: ind.athleticDistrict }, expectedBeaver);
+  }
+});
+
+test("no unrelated school's existing identity was overwritten by this pass (spot-check a school with a pre-existing, already-correct identity)", async () => {
+  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
+  const utica = regionalsData.divisions.find((d) => d.label === "Girls Division III").regions.central.individuals.find((ind) => ind.school === "Utica");
+  assert.equal(utica.ohsaaSchoolId, 1584, "Utica's pre-existing identity must be untouched by the school-identity resolution work in this file");
+  assert.equal(utica.city, "Utica");
+  assert.equal(utica.athleticDistrict, "Central");
+});
