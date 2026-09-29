@@ -1,5 +1,19 @@
 # Podium Watch next session
 
+## Most recent work (2026-09-29) -- read this first, supersedes everything below for anything results-import / school-identity / athlete-profile related
+
+**2026-09-26 weekly XC results import (girls job `184d3889-88c4-48de-aef1-276ee0975315`, 3,921 rows; boys job `7e3ec417-1f98-4b9c-ae78-1b7203930c41`, 5,754 rows) -- staged and identity-resolved, 6,876 new athlete profiles created (hidden), nothing approved/imported/published/pushed/deployed.**
+
+- Built a real OHSAA-directory-verified school identity reconciliation for both jobs: 70 new aliases + 68 new canonical `ohio_schools` records applied (`install/66`), on top of 5 earlier ones (`install/65`). Two labels ("Lakewood", "Fairfield") were excluded from the global alias batch because they already had conflicting aliases from an unrelated 2026-08-03 seed batch pointing to different real schools -- resolved instead per staging row, only where the row's own `meet_name` matched the expected source meet exactly (73 rows: 25 girls/Strongsville Invitational -> OHSAA 832, 48 boys/Princeton XC Invitational (HS) -> OHSAA 550).
+- Built a strict, mutually-exclusive 8-category reconciliation of all 9,675 staging rows (`dataimports/mock-meet-export/reconcile-categories.mjs`) that provably sums to the true total, after an earlier ad hoc report's overlapping metrics made a real number (6,876 "school matched, athlete unmatched") look like it didn't reconcile when it actually always did.
+- Created 6,876 new `athlete_profiles` (all `public_visible: false`) via the **existing** `createMissingAthleteProfiles`/`createOrLinkFinishTimingAthleteProfile` service, not a new insert path -- keyed by `source_identity_key` (name+gender+grad year+school), so the run was safely resumable through a real mid-run network interruption.
+- **Found and fixed two real bugs surfaced by this work**, both now committed (`0f36c6d`):
+  1. `resolveJobIdentities`/`matchAthleteCandidate` normalized athlete names with a local function that doesn't fold accents, so any accented name (e.g. "Walter Chávez") could be created correctly once and then silently unlinked by the very next identity-resolution rerun. Fixed by switching to the same `normalizeAthleteName` profile creation already uses. 9 new tests added.
+  2. The Lakewood/Fairfield per-row manual fix had no durable backing -- `resolveJobIdentities` recomputes `matched_school_id` from raw text on every run and reverted it twice. Replaced with a permanent table, `result_staging_row_school_resolutions` (`install/68`, run and confirmed live), which `resolveJobIdentities` now checks first. Verified stable across two consecutive reruns.
+- **Final reconciliation, confirmed exact and durable**: school+athlete matched 9,101; athlete ambiguous 2; school ambiguous 57; school unresolved 397; explicitly excluded 118. Sums to 9,675.
+- **Not yet done, on purpose**: no staging rows approved, no performances imported, no mock meet data touched, nothing pushed/deployed. The job-scoped/source-scoped identity-mapping design (a more general replacement for the per-row resolution table, for future ambiguous-school cases beyond Lakewood/Fairfield) was discussed but explicitly deferred by the user to after this import is fully wrapped up.
+- Also this session: extended this week's (2026-09-30) AOTW/TOTW `voting_closes` to Thursday 2026-10-01 9pm Eastern (`install/67`, run and confirmed live) -- no cron needed, `voting_closes` is checked live on every vote.
+
 ## Most recent work (2026-08-26) -- read this first, supersedes the 2026-08-25 section below for anything Split Watch
 
 Split Watch Live Race Day Fixes: diagnosed and fixed the real ~10-second timing discrepancy from the user's actual first live race (Shelby County Preview, 2026-08-25), plus the full race-day workflow rebuild the user's own detailed feedback spec asked for. Full detail in `docs/DECISIONS.md`, 2026-08-26. Summary:
