@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { assessParsedResults, canonicalizeResultUrl, classifyDocument, createPublicResultsSubmission, extractScoredLinks, fetchPage, matchAthleteCandidate, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
+import { assessParsedResults, canonicalizeResultUrl, classifyDocument, createPublicResultsSubmission, extractScoredLinks, fetchPage, isPerformanceMarksOnlyJob, matchAthleteCandidate, missingRequiredImportFields, parseGenericRows, providerSeedVariants, recognizeProvider, scoreResultLink, verifyResultContent } from "../lib/result_ingestion_engine.mjs";
 import { normalizeAthleteName } from "../lib/athlete_foundation_service.mjs";
 import { extractDocument, parsePastedOrDelimitedText, parserInternals } from "../lib/result_parsers.mjs";
 
@@ -627,4 +627,65 @@ test("matchAthleteCandidate is stable across repeated calls with the same inputs
   assert.equal(first.matched.id, "stable-1");
   assert.equal(second.matched.id, "stable-1");
   assert.equal(first.matched.id, second.matched.id);
+});
+
+function completeRow(overrides = {}) {
+  return {
+    athlete_name: "Jordan Reyes",
+    matched_athlete_id: "profile-1",
+    school_name: "Example High School",
+    matched_school_id: "school-1",
+    gender: "boys",
+    athlete_grade: "11",
+    sport: "cross_country",
+    season_year: 2026,
+    event_code: "xc_5k",
+    mark_text: "17:02.0",
+    mark_value: 1022,
+    meet_name: "Example Invitational",
+    meet_date: "2026-09-26",
+    document_id: "doc-1",
+    result_status: "official",
+    place: 4,
+    ...overrides
+  };
+}
+
+test("missingRequiredImportFields rejects a complete-meet-result row with no place", () => {
+  // Decided 2026-09-30: place stays required for a job presented as a
+  // complete official meet result -- job.options has no
+  // performance_marks_only flag here, so the default (place required)
+  // applies.
+  const job = { options: {} };
+  const row = completeRow({ place: null });
+  const missing = missingRequiredImportFields(row, job);
+  assert.ok(missing.includes("place"), "a complete-meet-result job must reject a row with no place");
+});
+
+test("missingRequiredImportFields accepts a verified performance-mark row with no place", () => {
+  // The 2026-09-26 weekly import: source CSVs never captured place at all.
+  // job.options.performance_marks_only makes place optional without
+  // computing, estimating, or inventing one -- it just stays null.
+  const job = { options: { performance_marks_only: true } };
+  const row = completeRow({ place: null });
+  const missing = missingRequiredImportFields(row, job);
+  assert.ok(!missing.includes("place"), "a performance-marks-only job must not require place");
+  assert.deepEqual(missing, [], "every other required field is present, so nothing else should be flagged");
+});
+
+test("isPerformanceMarksOnlyJob only reads job.options.performance_marks_only", () => {
+  assert.equal(isPerformanceMarksOnlyJob({ options: { performance_marks_only: true } }), true);
+  assert.equal(isPerformanceMarksOnlyJob({ options: { performance_marks_only: false } }), false);
+  assert.equal(isPerformanceMarksOnlyJob({ options: {} }), false);
+  assert.equal(isPerformanceMarksOnlyJob({}), false);
+  assert.equal(isPerformanceMarksOnlyJob(null), false);
+});
+
+test("missingRequiredImportFields still rejects a performance-marks-only row missing an unrelated required field (place being optional doesn't waive everything else)", () => {
+  const job = { options: { performance_marks_only: true } };
+  const row = completeRow({ place: null, mark_text: null, mark_value: null });
+  const missing = missingRequiredImportFields(row, job);
+  assert.ok(missing.includes("mark_text"));
+  assert.ok(missing.includes("mark_value"));
+  assert.ok(!missing.includes("place"));
 });

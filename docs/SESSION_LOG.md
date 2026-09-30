@@ -2414,3 +2414,11 @@ Full `npm test` (`scripts/test-results-ingestion.mjs`, `scripts/test-mock-meet-e
 ### Not yet done
 
 No staging rows approved, no performances imported to `athlete_performances`, no mock meet JSON changes, nothing pushed or deployed -- all explicit, standing constraints for this phase of the import. `install/66`, `install/67`, `install/68` all run by the user in the Supabase SQL Editor after explicit approval and confirmed live; code changes committed (`0f36c6d`), not pushed. School-name matching still uses the same cruder (non-accent-folding) normalization the athlete-name fix just replaced -- flagged as a real follow-up, deliberately not touched this pass to avoid disturbing the just-verified reconciliation counts. A more general job-scoped/source-scoped identity-mapping design (beyond the narrower per-row resolution table actually built) remains a proposal only, explicitly deferred by the user to after this import wraps up.
+
+## 2026 09 30 Place-optional performance-mark import policy, then the actual import + mock meet regeneration
+
+### What was built
+
+A narrow, user-approved policy distinguishing "verified performance mark" imports (place optional, never invented) from "complete official meet result" imports (place still required), reusing the existing `result_ingestion_jobs.options` jsonb classification pattern rather than adding a new column. New exported `isPerformanceMarksOnlyJob()`/`missingRequiredImportFields()` in `lib/result_ingestion_engine.mjs`; `importApprovedRows()` now assigns `result_status: "reviewed_result"` (not `"official_result"`) for performance-marks-only jobs so these records are never presented as a complete official result while still counting toward rankings/season bests. 4 new tests. Full reasoning in `docs/DECISIONS.md`, 2026-09-30.
+
+Continuation of the 2026-09-26 weekly import work logged above (2026-09-29 entry): all 9,101 previously-matched rows were revalidated under the new policy and the qualifying performances imported, followed by regional/state mock meet regeneration, full test/build verification, and (if everything reconciled) a commit/push/deploy. See the import/mock-meet/deployment report delivered to the user in-session for exact final counts -- not duplicated here in full to avoid drift between this log and the authoritative numbers reported directly.

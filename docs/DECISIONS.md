@@ -1812,3 +1812,30 @@ New: `install/66_WEEK_9_26_OFFICIAL_DIRECTORY_SCHOOL_IDENTITIES.sql`, `install/6
 - The broader job-scoped/source-scoped identity-mapping design remains a proposal only, not built.
 - No staging rows have been approved and no performances imported -- that is a distinct, still-outstanding step whenever the user wants to move forward with it.
 - `npm test` (`scripts/test-results-ingestion.mjs`, `scripts/test-mock-meet-export.mjs`) clean throughout (62/62, 50/50 after the final fix). `install/66`, `install/67`, `install/68` all run by the user directly in the Supabase SQL Editor after explicit approval and confirmed live. Code changes committed (`0f36c6d`), not pushed.
+
+## 2026 09 30 Narrow policy: place is optional for verified performance-mark imports, required for complete meet results
+
+### Decision
+
+The 2026-09-26 weekly import's source CSVs never captured a `place` column at all -- confirmed directly, 0 of 9,675 rows in either job have any value. `place` was never actually a required field anywhere in the existing ingestion pipeline (`result_parsers.mjs` parses it as optional; `importApprovedRows`'s own required-field check never touched it) -- the "must have place" requirement was one this session's own ad hoc validator script invented, not an existing rule.
+
+User-approved narrow rule, reusing the existing `result_ingestion_jobs.options` jsonb classification pattern (the same one already used for `is_public_submission`) rather than a new column or table:
+
+1. A job flagged `options.performance_marks_only: true` supplies verified athlete/school/mark/meet data, not a complete official meet result set. `place` is optional for it and is never computed, estimated, or inferred from finishing times -- it stays exactly `null` through import.
+2. Every other job (the default -- no flag, or the flag set `false`) is treated as a complete official meet result and `place` remains required.
+3. Performances imported from a `performance_marks_only` job get `result_status: "reviewed_result"` instead of the default `"official_result"`, so they are never presented as a complete official result/finishing order -- while still counting toward rankings, season bests, and PRs (every leaders/PR query already treats `official_result` and `reviewed_result` the same, confirmed in `install/03`).
+4. These records remain fully eligible for athlete histories, season bests, and regional/state mock meets -- mock meet scoring derives order entirely from mark/time (confirmed directly: zero references to a stored `place` field anywhere in `lib/mock_meet_export_service.mjs`), so a missing `place` never blocks or degrades scoring.
+
+### Alternatives considered
+
+1. A new boolean column on `result_ingestion_jobs` (e.g. `complete_result`) -- rejected; `options` jsonb already exists and already carries exactly this kind of per-job classification flag, so a new column would duplicate an existing mechanism for no benefit.
+2. Computing `place` by ranking `mark_value` within each meet/event/gender group before import -- rejected by the user; a derived place could disagree with a real race's own official order if the source data has gaps, and rule 4 explicitly prohibits inventing it.
+3. Changing `importApprovedRows`'s own required-field check to require `place` by default for every job -- rejected as too broad a blast radius for this pass. The live, currently-firing Finish Timing auto-scan pipeline and other historical jobs were never audited for whether they reliably populate `place`; making it a hard default-required field risks silently breaking that live pipeline, which would violate "preserve working features." The new `missingRequiredImportFields()` function enforces the real rule (place required unless flagged) as an explicit, opt-in gate any caller can use -- it is used for this import, but `importApprovedRows` itself is only changed narrowly (which `result_status` value to assign), not given a new hard gate of its own.
+
+### Files or systems affected
+
+`lib/result_ingestion_engine.mjs`: new exported `isPerformanceMarksOnlyJob(job)` and `missingRequiredImportFields(row, job)`; `importApprovedRows()` now assigns `result_status`/`metadata.performance_marks_only` based on the job flag instead of hardcoding `"official_result"`. `tests/results-ingestion.test.mjs`: 4 new tests (a complete-meet-result row with no place is rejected; a performance-marks-only row with no place is accepted; the job-flag reader itself; a performance-marks-only row still rejects on other missing fields).
+
+### Follow up
+
+None of this changes behavior for any existing job unless `options.performance_marks_only` is explicitly set -- fully backward compatible. Only the 2026-09-26 weekly import's two jobs have the flag set, applied directly via `job.options` update (no migration needed, `options` is already a flexible jsonb column).

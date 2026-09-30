@@ -24,7 +24,7 @@ Project rules:
 2. Do not expose secret values.
 3. Keep Supabase service role access on the server only.
 4. Create safe SQL migration files instead of changing the live database directly.
-5. Never invent athlete performances, divisions, regions, results, or statistics.
+5. Never invent athlete performances, divisions, regions, results, or statistics. This includes never computing, estimating, or inferring a missing `place` value from finishing times -- a verified performance-mark import (`result_ingestion_jobs.options.performance_marks_only = true`) may legitimately have no `place` at all; it stays `null`, and its performances are marked `result_status: "reviewed_result"` rather than `"official_result"` so they are never presented as a complete official meet result. A job without that flag is treated as a complete official meet result and `place` remains required. Decided 2026-09-30; see `docs/DECISIONS.md`.
 6. Clearly separate verified facts, projections, and Podium Watch editorial rankings.
 7. Use complete replacement files when practical.
 8. Use `npm.cmd` and `npx.cmd` on Windows.

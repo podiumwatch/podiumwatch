@@ -1,5 +1,9 @@
 # Podium Watch next session
 
+## Most recent work (2026-09-30) -- read this first, supersedes the 2026-09-29 section below
+
+Approved and implemented a narrow policy: a `result_ingestion_jobs.options.performance_marks_only = true` job's rows may import with `place = null` (never computed/estimated), tagged `result_status: "reviewed_result"` instead of `"official_result"`. Full reasoning in `docs/DECISIONS.md`, 2026-09-30. Applied to the two 2026-09-26 weekly import jobs so the actual import + regional/state mock meet regeneration could proceed -- see the in-session report for exact final counts (import totals, mock meet generation, test/build results, and deployment status).
+
 ## Most recent work (2026-09-29) -- read this first, supersedes everything below for anything results-import / school-identity / athlete-profile related
 
 **2026-09-26 weekly XC results import (girls job `184d3889-88c4-48de-aef1-276ee0975315`, 3,921 rows; boys job `7e3ec417-1f98-4b9c-ae78-1b7203930c41`, 5,754 rows) -- staged and identity-resolved, 6,876 new athlete profiles created (hidden), nothing approved/imported/published/pushed/deployed.**
