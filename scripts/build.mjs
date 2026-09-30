@@ -346,7 +346,7 @@ function homePage(stories, rankings) {
   // whenever the featured story is also among the most recent (the normal
   // case), it silently appeared twice on the homepage: once as the big
   // lead, again as the first card in the grid underneath.
-  const latestStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 3);
+  const latestStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 8);
   const rankingCards = rankings.slice(0, 3).map((ranking) => rankingCard(ranking)).join("");
   const rankingsContent = rankingCards || emptyState({
     title: "Rankings are being prepared",
@@ -363,7 +363,15 @@ function homePage(stories, rankings) {
   // Stories section, moved lower on the page (after Ohio
   // Today/Results/Rankings/Power Rankings, matching the mobile-first
   // priority order), and it is the only one.
-  const storyContent = latestStories.length ? latestStories.map((story, index) => storyCard(story, { featured: index === 0 })).join("") : emptyState({
+  // Swappable rail instead of a 3-card grid (2026-09-30): native CSS
+  // scroll-snap gives real touch swipe on mobile for free -- no JS
+  // needed for the gesture itself, and it can't get the "carousel
+  // nobody notices" reputation an auto-advancing slider earns, since
+  // nothing ever moves unless the reader moves it. The prev/next
+  // buttons are a desktop-only convenience (public/scripts/story-
+  // rail.js) for the same reason; touch devices already have the
+  // swipe itself. Shows up to 8 stories instead of 3.
+  const storyContent = latestStories.length ? latestStories.map((story) => storyCard(story)).join("") : emptyState({
     title: "Stories are coming soon",
     description: "Add a Markdown file to content/stories and redeploy the site.",
     actionLabel: "Open stories",
@@ -471,7 +479,13 @@ function homePage(stories, rankings) {
   <section class="section section-paper" aria-labelledby="latest-stories-title">
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Latest stories</p><h2 id="latest-stories-title">More than a finish time.</h2></div><a class="text-link" href="/stories/">From the newsroom ${icon("arrow")}</a></div>
-      <div class="stories-grid">${storyContent}</div>
+      ${latestStories.length
+        ? `<div class="story-rail-wrap">
+            <button class="story-rail-arrow story-rail-prev" type="button" aria-label="Previous stories" data-story-rail-prev>${icon("arrow")}</button>
+            <div class="story-rail" data-story-rail>${storyContent}</div>
+            <button class="story-rail-arrow story-rail-next" type="button" aria-label="Next stories" data-story-rail-next>${icon("arrow")}</button>
+          </div>`
+        : storyContent}
     </div>
   </section>
 
@@ -532,7 +546,8 @@ function homePage(stories, rankings) {
   <script src="/scripts/my-podium-store.js" defer></script>
   <script src="/scripts/my-podium-data.js" defer></script>
   <script src="/scripts/homepage.js" defer></script>
-  <script src="/scripts/recent-photos.js" defer></script>`;
+  <script src="/scripts/recent-photos.js" defer></script>
+  <script src="/scripts/story-rail.js" defer></script>`;
 
   return layout({
     site,

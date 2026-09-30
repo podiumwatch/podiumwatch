@@ -137,6 +137,27 @@ p { margin-top: 0; }
 .photo-card-credit { font-size: .68rem; color: var(--muted); }
 .empty-state-inline { color: var(--muted); }
 
+/* Swipeable story rail (2026-09-30) -- replaces the old 3-card grid on
+   the homepage's "Latest stories" section. scroll-snap gives real touch
+   swipe on mobile with no JS; the arrow buttons (public/scripts/
+   story-rail.js) are a pointer-device convenience only, hidden on touch
+   viewports since swipe already covers that case there. Deliberately
+   never auto-advances -- nothing moves unless the reader moves it. */
+.story-rail-wrap { position: relative; display: flex; align-items: center; gap: 10px; }
+.story-rail { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding-bottom: 2px; }
+.story-rail::-webkit-scrollbar { display: none; }
+.story-rail .story-card { grid-column: unset; flex: 0 0 320px; scroll-snap-align: start; }
+.story-rail-arrow { flex: 0 0 auto; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: var(--white); color: var(--ink); cursor: pointer; transition: background .15s ease, transform .15s ease; }
+.story-rail-arrow:hover { background: var(--pale-green); }
+.story-rail-arrow:active { transform: scale(.92); }
+.story-rail-arrow svg { width: 18px; height: 18px; }
+.story-rail-prev svg { transform: rotate(180deg); }
+.story-rail-arrow[disabled] { opacity: .3; cursor: default; pointer-events: none; }
+@media (max-width: 900px) {
+  .story-rail-arrow { display: none; }
+  .story-rail .story-card { flex-basis: 82vw; }
+}
+
 .stories-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
 .story-card { grid-column: span 4; display: flex; flex-direction: column; min-width: 0; overflow: hidden; color: var(--ink); background: var(--white); border: 1px solid var(--line); transition: transform .16s ease, box-shadow .16s ease; }
 .story-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
