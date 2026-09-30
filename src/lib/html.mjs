@@ -335,9 +335,17 @@ export function storyFallbackImage(category) {
 export function storyCard(story, { featured = false } = {}) {
   const fallback = storyFallbackImage(story.category);
   const image = story.featuredImage || fallback;
+  // Optional per-story override for which part of a taller-than-wide
+  // source photo stays visible once the site's fixed 16:9 card/hero
+  // crop is applied -- e.g. "center 20%" keeps the top of a portrait
+  // photo in frame instead of the default center crop. Plain CSS
+  // object-position syntax; omit the field and nothing changes from
+  // today's center-crop behavior. Added 2026-09-30 after a portrait
+  // photo's subject kept losing her face to a dead-center crop.
+  const positionStyle = story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : "";
   return `<article class="story-card${featured ? " story-card-featured" : ""}" data-story-card data-category="${escapeHtml(story.category.toLowerCase())}" data-search="${escapeHtml(`${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")}`.toLowerCase())}">
     <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}">
-      <img src="${image}" data-fallback="${fallback}" alt="${escapeHtml(story.featuredImageAlt || "")}" loading="lazy" width="960" height="540">
+      <img src="${image}" data-fallback="${fallback}" alt="${escapeHtml(story.featuredImageAlt || "")}" loading="lazy" width="960" height="540"${positionStyle}>
     </a>
     <div class="story-card-body">
       <div class="story-meta"><span class="category">${escapeHtml(story.category)}</span><span>${formatDate(story.date)}</span><span>${story.readingMinutes} min read</span></div>

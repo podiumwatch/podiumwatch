@@ -374,6 +374,7 @@ function homePage(stories, rankings) {
   const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
   const leadHref = featuredStory ? `/stories/${featuredStory.slug}/` : "/rankings/";
   const leadImage = featuredStory?.featuredImage || storyFallbackImage(featuredStory?.category);
+  const leadImagePosition = featuredStory?.featuredImagePosition || "";
   // Real, official OATCCC coaches poll data (top 4 teams per
   // classification, from that poll's own most recent week) -- replaced
   // Podium Watch's own simulated preseason power rankings here
@@ -457,7 +458,7 @@ function homePage(stories, rankings) {
 
   <section class="sports-home"><div class="container sports-home-grid">
     <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/?view=upcoming"><span>02</span>Meet Calendar</a><a href="/meets/?view=results"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><a href="/photos/"><span>06</span>Meet Photos</a><div class="home-newsletter"><p class="eyebrow">Stay Connected</p><h3>Follow your team.</h3><p>Get your school's schedule, results, and rankings from one place.</p><a href="/teams/">Follow Your Team</a></div></aside>
-    <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article></div>
+    <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"${leadImagePosition ? ` style="object-position:${escapeHtml(leadImagePosition)}"` : ""}><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article></div>
     <aside class="home-right">
       <section class="home-panel" data-upcoming-meets-panel>
         <div class="home-panel-title"><h2>Upcoming Meets</h2></div>
@@ -618,7 +619,7 @@ function storyPage(story, stories) {
   const content = `<article${articleShellAttrs}>
     <header class="article-hero"><div class="container article-hero-inner">${breadcrumb(crumbs)}<div class="article-meta"><span class="category">${escapeHtml(story.category)}</span><span>By ${escapeHtml(story.author)}</span><span>${formatDate(story.date)}</span>${story.updatedDate ? `<span>Updated ${formatDate(story.updatedDate)}</span>` : ""}<span>${story.readingMinutes} min read</span></div><h1>${escapeHtml(story.title)}</h1><p class="article-deck">${escapeHtml(story.description)}</p></div></header>
     ${preseasonStickyNav}
-    <img class="article-feature-image" src="${story.featuredImage || storyFallbackImage(story.category)}" data-fallback="${storyFallbackImage(story.category)}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900">
+    <img class="article-feature-image" src="${story.featuredImage || storyFallbackImage(story.category)}" data-fallback="${storyFallbackImage(story.category)}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}>
     ${story.featuredImageCaption ? `<p class="article-feature-caption">${escapeHtml(story.featuredImageCaption)}</p>` : ""}
 
     <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div>${navigation}${relatedBlock}</div>
