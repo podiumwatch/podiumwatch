@@ -2430,3 +2430,27 @@ Regional and state mock meets regenerated via the existing `scripts/mock-meet-ex
 Also fixed the same PostgREST 1000-row pagination cap (already found and fixed twice elsewhere in this pipeline -- `resolveJobIdentities`, `createMissingAthleteProfiles`) in `importApprovedRows`'s own approved-row fetch, which would have silently truncated the 5,383-row boys import to its first 1,000 rows.
 
 `npm test` (results-ingestion 66/66, mock-meet-export 50/50), `npm run build` (409 pages), and `npm run check` all clean. Live-verified with Playwright at 375px and 1440px on 2 regional + 2 state pages: zero horizontal overflow, zero content-related console errors (the only console errors were an ad script and Vercel-analytics/API-route 404s that only exist on the real deployment, not the local static server). Committed (`4a8b984`, rebased cleanly onto one unrelated remote commit -- a story publish, no file overlap), pushed, and confirmed live on production (`podiumwatch.vercel.app`) by fetching the actual regional and state pages and confirming the exact updated data renders.
+
+## 2026 09 30 Gender-cross-contamination cleanup: 12 profile merges, 12 rows imported
+
+### What was built
+
+Followed up on the 24 held-back cross-file-duplicate rows flagged in the entry above. Built a full evidence table for all 12 affected athletes (all confined to one meet, Mohawk Cross Country Classic, and three schools -- Peebles, Valley, Western) proving each pair shared identical meet/date/event/mark/school/graduation year, with the boys copy sourced from a correctly-labeled `Week 9_26 - Boys.csv` and the girls copy from an anomalously-named `Week 9_26 - Girls(1).csv` -- decisive, non-name-based provenance evidence of a real source-file mistake, not a coincidence.
+
+User merged the first pair (Calen Vogler) manually via the admin UI; the remaining 11 were merged by directly calling the existing `athlete_merge_profiles_v1` RPC (the same one the admin UI uses), one at a time, each independently verified after (merge record exists with a full reversible `source_snapshot`, source profile `merged_into_profile_id` set and archived, target profile untouched and active). All 12 confirmed correct.
+
+**A genuine, separate issue surfaced during verification**: right after the manual Calen Vogler merge, a 13th, unrelated stray profile appeared (`7ae0e766-...`, same name/school/gender/grad year, `source_identity_key: null`, `metadata: {}`, no performances or aliases attached) -- the slug pattern (`calen-vogler-2028-<random>`) matches the admin UI's manual "add athlete" form, not the automated pipeline, most likely an accidental extra submission while using that page. Flagged, not merged -- it wasn't part of the reviewed/approved 12 pairs and is empty enough to be low-risk, but merging it wasn't authorized.
+
+The 12 girls staging rows were rejected with reason "Source file gender cross contamination. Duplicate of verified boys performance."; the 12 boys rows (already correctly attached to their surviving merged profiles) were approved and imported under the same performance-marks-only policy (`place: null`, `public_visible: false`, `result_status: "reviewed_result"`).
+
+**Final reconciliation, exact**: 9,089 imported, 574 pending (2 athlete ambiguous + 57 school ambiguous + 397 school unresolved + 118 excluded), 12 rejected -- sums to 9,675.
+
+Mock meet regeneration was run again and came back a genuine no-op (draft hash identical to the currently-published data) -- confirmed directly that none of Peebles, Valley, or Western have any team entry in the mock regional/state dataset at all, so these 12 performances simply have no team to attach to. Not a bug.
+
+### Testing actually run
+
+`npm test` (results-ingestion 66/66, mock-meet-export 50/50), `npm run build` (410 pages), `npm run check` (clean) all pass. No file-level changes resulted from this phase (pure database writes plus a genuinely no-op mock export), so nothing was committed, pushed, or redeployed -- the site's live state is already correct and was already verified in the entry above.
+
+### Not yet done
+
+The stray 13th "Calen Vogler" profile needs the user's decision (likely a trivial merge into the same target, but not assumed). 574 rows remain pending as before. The broader job-scoped/source-scoped identity-mapping design and the school-name accent-normalization follow-up remain open, as noted above.
