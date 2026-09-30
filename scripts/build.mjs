@@ -88,6 +88,7 @@ import { claimTeamPage } from "../src/pages/claimteam.mjs";
 import { submitResultsPage } from "../src/pages/submitresults.mjs";
 import { submitTimingResultsPage } from "../src/pages/submittimingresults.mjs";
 import { submitPhotosPage } from "../src/pages/submitphotos.mjs";
+import { photosPage } from "../src/pages/photos.mjs";
 import { adminPhotoSubmissionsPage } from "../src/pages/adminphotosubmissions.mjs";
 import { rankingMethodologyPage } from "../src/pages/rankingmethodology.mjs";
 import { oatcccCoachesPollPage } from "../src/pages/oatcccpoll.mjs";
@@ -455,7 +456,7 @@ function homePage(stories, rankings) {
   </div></section>
 
   <section class="sports-home"><div class="container sports-home-grid">
-    <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/?view=upcoming"><span>02</span>Meet Calendar</a><a href="/meets/?view=results"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><div class="home-newsletter"><p class="eyebrow">Stay Connected</p><h3>Follow your team.</h3><p>Get your school's schedule, results, and rankings from one place.</p><a href="/teams/">Follow Your Team</a></div></aside>
+    <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/?view=upcoming"><span>02</span>Meet Calendar</a><a href="/meets/?view=results"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><a href="/photos/"><span>06</span>Meet Photos</a><div class="home-newsletter"><p class="eyebrow">Stay Connected</p><h3>Follow your team.</h3><p>Get your school's schedule, results, and rankings from one place.</p><a href="/teams/">Follow Your Team</a></div></aside>
     <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article></div>
     <aside class="home-right">
       <section class="home-panel" data-upcoming-meets-panel>
@@ -470,6 +471,13 @@ function homePage(stories, rankings) {
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Latest stories</p><h2 id="latest-stories-title">More than a finish time.</h2></div><a class="text-link" href="/stories/">From the newsroom ${icon("arrow")}</a></div>
       <div class="stories-grid">${storyContent}</div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="recent-photos-title" data-recent-photos-section hidden>
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">Submitted by fans</p><h2 id="recent-photos-title">Recent meet photos.</h2></div><a class="text-link" href="/photos/">See all photos ${icon("arrow")}</a></div>
+      <div class="photos-grid" data-recent-photos-grid data-photos-limit="8"></div>
     </div>
   </section>
 
@@ -522,7 +530,8 @@ function homePage(stories, rankings) {
 
   <script src="/scripts/my-podium-store.js" defer></script>
   <script src="/scripts/my-podium-data.js" defer></script>
-  <script src="/scripts/homepage.js" defer></script>`;
+  <script src="/scripts/homepage.js" defer></script>
+  <script src="/scripts/recent-photos.js" defer></script>`;
 
   return layout({
     site,
@@ -849,6 +858,7 @@ await writePage("/claim-your-team/", claimTeamPage(site));
 await writePage("/submit-results/", submitResultsPage(site));
 await writePage("/submit-timing-results/", submitTimingResultsPage(site));
 await writePage("/submit-photos/", submitPhotosPage(site));
+await writePage("/photos/", photosPage(site));
 await writePage("/admin/photo-submissions/", adminPhotoSubmissionsPage(site));
 await writePage("/athletes/", athletesPage(site));
 await writePage("/recruiting/", recruitingPage(site));

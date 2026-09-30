@@ -129,6 +129,14 @@ p { margin-top: 0; }
 .ranking-card a { width: max-content; margin-top: auto; padding-top: 24px; color: var(--green-dark); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; letter-spacing: .7px; text-transform: uppercase; }
 .ranking-card:first-child a { color: var(--green); }
 
+.photos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+.photo-card { margin: 0; overflow: hidden; background: var(--white); border: 1px solid var(--line); }
+.photo-card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.photo-card figcaption { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; }
+.photo-card-meet { font-size: .72rem; font-weight: 800; color: var(--ink); }
+.photo-card-credit { font-size: .68rem; color: var(--muted); }
+.empty-state-inline { color: var(--muted); }
+
 .stories-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
 .story-card { grid-column: span 4; display: flex; flex-direction: column; min-width: 0; overflow: hidden; color: var(--ink); background: var(--white); border: 1px solid var(--line); transition: transform .16s ease, box-shadow .16s ease; }
 .story-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
