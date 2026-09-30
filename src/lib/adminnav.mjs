@@ -85,7 +85,8 @@ export const ADMIN_NAV_GROUPS = [
       { id: "fan-poll", label: "Fan Poll", href: "/admin/fan-poll/", mark: "FP", description: "Weekly fan poll weeks and ballots.", keywords: "fan poll vote ballot week division" },
       { id: "awards", label: "Weekly Awards", href: "/admin/awards/", mark: "WA", description: "Athlete/Team of the Week nominations, finalists, and winners.", keywords: "aotw totw athlete team of the week nominate nominee finalist winner vote" },
       { id: "engagement", label: "Engagement Center", href: "/admin/engagement/", mark: "EC", description: "Follows, notifications, sponsor performance.", keywords: "engagement notifications sponsors subscribers analytics" },
-      { id: "photographers", label: "Photographer Network", href: "/admin/photographers/", mark: "PN", description: "Review, approve, and manage photographer listings.", keywords: "photographer network directory listing approve sports service area portfolio" }
+      { id: "photographers", label: "Photographer Network", href: "/admin/photographers/", mark: "PN", description: "Review, approve, and manage photographer listings.", keywords: "photographer network directory listing approve sports service area portfolio" },
+      { id: "photo-submissions", label: "Photo Submissions", href: "/admin/photo-submissions/", mark: "PS", description: "Browse and select submitted meet photos for articles and Instagram.", keywords: "photo submission upload album gallery credit permission" }
     ]
   }
 ];
