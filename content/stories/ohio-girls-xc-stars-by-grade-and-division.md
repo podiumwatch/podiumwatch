@@ -7,7 +7,7 @@ author: "Podium Watch"
 slug: "ohio-girls-xc-stars-by-grade-and-division"
 featuredImage: "/images/stories/ohio-girls-xc-stars-by-grade-and-division.jpg"
 featuredImageAlt: "Elle Campbell of Milford runs in a pink jersey, bib 2857, past orange safety fencing during a cross country meet"
-featuredImageCaption: "Photo credit: Kim Jorden"
+featuredImageCaption: "Milford senior Elle Campbell. Photo credit: Kim Jorden"
 featuredImagePosition: "center 25%"
 tags:
   - "Cross Country"
