@@ -2,7 +2,11 @@
 
 ## Most recent work (2026-09-30) -- read this first, supersedes the 2026-09-29 section below
 
-Approved and implemented a narrow policy: a `result_ingestion_jobs.options.performance_marks_only = true` job's rows may import with `place = null` (never computed/estimated), tagged `result_status: "reviewed_result"` instead of `"official_result"`. Full reasoning in `docs/DECISIONS.md`, 2026-09-30. Applied to the two 2026-09-26 weekly import jobs so the actual import + regional/state mock meet regeneration could proceed -- see the in-session report for exact final counts (import totals, mock meet generation, test/build results, and deployment status).
+Approved and implemented a narrow policy: a `result_ingestion_jobs.options.performance_marks_only = true` job's rows may import with `place = null` (never computed/estimated), tagged `result_status: "reviewed_result"` instead of `"official_result"`. Full reasoning in `docs/DECISIONS.md`, 2026-09-30.
+
+**The 2026-09-26 weekly import is now live**: 9,077 of 9,101 matched rows imported (all `public_visible: false`); 598 rows remain pending (2 athlete ambiguous, 57 school ambiguous, 397 school unresolved, 118 excluded, 24 held back as a real cross-file girls/boys duplicate bug in the source CSVs -- see `docs/SESSION_LOG.md`, may indicate 12 real athletes have duplicate profiles from the 2026-09-29 mass creation, not yet investigated). Regional and state mock meets regenerated and applied. Committed (`4a8b984`), pushed, deployed, and confirmed live on `podiumwatch.vercel.app`.
+
+**Real, confirmed follow-up, not yet done**: all 12 athletes behind the 24 held-back cross-file-duplicate rows DO have two `athlete_profiles` rows each (verified directly) -- one `gender: "girls"`, one `gender: "boys"`, same school and graduation year, from yesterday's 6,876-profile creation pass (each mislabeled-file row independently created its own profile). All 12 names read as boys' names, so the `girls` profile is almost certainly the spurious one in every case, but this was not assumed -- merging/deleting a profile is a real, hard-to-reverse action outside the scope of "import performances and generate mock meets," so nothing was merged or deleted. This needs the user's decision: the existing profile merge/unmerge system (`docs/DECISIONS.md`, 2026-08-30 entry) can resolve it once approved.
 
 ## Most recent work (2026-09-29) -- read this first, supersedes everything below for anything results-import / school-identity / athlete-profile related
 
