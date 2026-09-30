@@ -13,6 +13,7 @@ tags:
   - "Rankings"
   - "2026 Season"
 featured: false
+pinnedRank: 0
 draft: false
 updatedDate: "2026-09-30"
 ---
