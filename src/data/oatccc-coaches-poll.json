@@ -8524,6 +8524,220 @@
           ]
         }
       }
+    },
+    {
+      "pollLabel": "Week 5 Poll",
+      "pollDate": "2026-10-01",
+      "divisions": {
+        "girls": {
+          "4": [
+            {
+              "rank": 1,
+              "school": "Ottawa Hills",
+              "points": 288,
+              "first_place_votes": 12
+            },
+            {
+              "rank": 2,
+              "school": "Liberty Center",
+              "points": 267,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "Grandview Heights",
+              "points": 255,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Minster",
+              "points": 245,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Rittman",
+              "points": 241,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Kirtland",
+              "points": 230,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "McDonald",
+              "points": 223,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Bellaire",
+              "points": 196,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Maplewood",
+              "points": 177,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "West Liberty Salem",
+              "points": 172,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Fort Loramie",
+              "points": 169,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Summit Country Day",
+              "points": 159,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Archbold",
+              "points": 134,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Mount Gilead",
+              "points": 133,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Dayton Christian",
+              "points": 117,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Milan Edison",
+              "points": 90,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Crestline",
+              "points": 72,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Mechanicsburg",
+              "points": 68,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Margaretta",
+              "points": 58,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Sherwood Fairview",
+              "points": 54,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Tinora",
+              "points": 53,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Ashtabula St John",
+              "points": 42,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Cedarville",
+              "points": 40,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Seneca East",
+              "points": 34,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Carey",
+              "points": 31,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Newton",
+              "points": 20,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Riverdale",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Ashland Crestview",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Anna",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Botkins",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Fairbanks",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Lincolnview",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Columbus Academy",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Marion Local",
+              "points": 1,
+              "first_place_votes": null
+            }
+          ]
+        }
+      }
     }
   ]
 }
