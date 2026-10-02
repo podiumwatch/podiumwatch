@@ -637,9 +637,10 @@ function storyPage(story, stories) {
     <img class="article-feature-image" src="${story.featuredImage || storyFallbackImage(story.category)}" data-fallback="${storyFallbackImage(story.category)}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}>
     ${story.featuredImageCaption ? `<p class="article-feature-caption">${escapeHtml(story.featuredImageCaption)}</p>` : ""}
 
-    <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div>${navigation}${relatedBlock}</div>
+    <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div><p class="article-view-count" data-story-view-count hidden></p>${navigation}${relatedBlock}</div>
     ${preseasonDataScript}
     <script src="/scripts/story-view.js" defer></script>
+    <script src="/scripts/story-view-count.js" defer></script>
   </article>`;
   return layout({
     site,
