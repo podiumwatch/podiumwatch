@@ -5,6 +5,8 @@ description: "Ohio's Mideast Meet of Champions coach is asking seniors to submit
 category: "Cross Country"
 author: "Podium Watch"
 slug: "oatccc-mideast-meet-of-champions"
+featuredImage: "/images/stories/oatccc-mideast-meet-of-champions.png"
+featuredImageAlt: "The OATCCC logo, a blue Ohio-shaped badge with a red runner icon"
 tags:
   - "Boys Cross Country"
   - "Ohio"
