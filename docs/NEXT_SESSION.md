@@ -227,3 +227,8 @@ Built and tested against a real, complete dataset (the actual 2025 OHSAA Divisio
 5. Do not publish reported recruiting activity without confirmation and a source link.
 6. Do not automatically create athlete profiles from unmatched performance rows, except the one narrow exception approved 2026-08-05: an admin-opted-in, official-source-only, exact-school-match-only creation that always stays hidden. See "Statewide results import" above and `docs/DECISIONS.md`.
 7. Do not silently change star bands after ratings are published. Create a new methodology version.
+
+## Next: Division IV girls and other divisions
+
+- Division IV boys is refreshed (see SESSION_LOG 2026-10-05). The same process (Athletic.net top 75 teams, Athletic.net top 500 individuals with grades, MileSplit team scoring, fastest-7 merge, validator check) applies to the remaining divisions.
+- Open items: 6 Division IV boys runners lack grades; Calder Gentile's grade reads "Sr" on Athletic.net; Lakota and Sand. SMCC are not placed; Noah/Jonah Meyer, Alex/Caleb Franklin, and Zach/Jack Bockey are kept as separate runners.

@@ -2454,3 +2454,11 @@ Mock meet regeneration was run again and came back a genuine no-op (draft hash i
 ### Not yet done
 
 The stray 13th "Calen Vogler" profile needs the user's decision (likely a trivial merge into the same target, but not assumed). 574 rows remain pending as before. The broader job-scoped/source-scoped identity-mapping design and the school-name accent-normalization follow-up remain open, as noted above.
+
+## Division IV boys mock regional refresh (2026-10-05)
+
+- Replaced the Division IV boys section of `src/data/mock-regionals-2026.json` with a rebuilt field: 73 teams across Central, Northeast, Northwest, and Southwest, using each team's fastest 7 across Athletic.net and MileSplit (Athletic.net and MileSplit times are season bests / PRs, not a real meet result). Runners with fewer than 7 combined times (Russia, South Webster, Caldwell, Riverdale, Tri-Village, Open Door Christian) show their available count. 73 supplemental individuals from the top 500, placed by OHSAA athletic district; individuals from districts without a mock region and schools with no directory match were excluded.
+- Grades come from the Athletic.net individual list. Six runners have no grade (name variants and "Sr"/blank grades left empty).
+- Validated with `validateDivisionRoster` (0 problems); `npm run build`, `npm run check`, and `npm test` pass.
+- Updated the mock-meet test's identity count from 6 to 7 for the new Boys D4 Colten Keller (Crestline) individual, which carries the already-verified Crestline identity (OHSAA 432).
+- Scratch data and scripts remain under `dataimports/mock-meet-export/` (untracked).

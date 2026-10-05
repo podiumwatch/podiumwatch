@@ -1839,3 +1839,9 @@ User-approved narrow rule, reusing the existing `result_ingestion_jobs.options` 
 ### Follow up
 
 None of this changes behavior for any existing job unless `options.performance_marks_only` is explicitly set -- fully backward compatible. Only the 2026-09-26 weekly import's two jobs have the flag set, applied directly via `job.options` update (no migration needed, `options` is already a flexible jsonb column).
+
+## 2026-10-05: Mock regional team/runner data sourced from Athletic.net and MileSplit
+
+- Team lists come from the Athletic.net top 75 per division; runner times are the fastest of the Athletic.net team list, Athletic.net individual list, and MileSplit team scoring (season bests/PRs, never a real meet result).
+- Individuals are only the Athletic.net top 500 from schools not on a top-75 roster, placed in a region by OHSAA athletic district. Individuals whose district is not one of the four mock regions, or whose school has no directory match, are excluded rather than placed by guess.
+- A team with fewer than 7 combined times is shown with the available count rather than filled.

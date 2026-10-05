@@ -663,7 +663,7 @@ test("the five newly resolved identities are consistent everywhere they appear i
       }
     }
   }
-  assert.equal(checked, 6, "expected exactly 6 nodes (Boys D1 Hamilton, Girls D1 Hamilton, Girls D1 Groveport-Madison, Girls D4 Danville, Girls D4 Elgin, Girls D4 Crestline)");
+  assert.equal(checked, 7, "expected exactly 7 nodes (Boys D1 Hamilton, Girls D1 Hamilton, Girls D1 Groveport-Madison, Girls D4 Danville, Girls D4 Elgin, Girls D4 Crestline, Boys D4 Colten Keller at Crestline)");
 });
 
 test("Beaver Local's previously resolved identity (OHSAA 176) is unchanged by this pass, across its team entry and both individual entries", async () => {
