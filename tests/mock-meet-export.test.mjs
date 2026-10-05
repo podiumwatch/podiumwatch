@@ -679,7 +679,7 @@ test("Beaver Local's previously resolved identity (OHSAA 176) is unchanged by th
 
 test("no unrelated school's existing identity was overwritten by this pass (spot-check a school with a pre-existing, already-correct identity)", async () => {
   const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
-  const utica = regionalsData.divisions.find((d) => d.label === "Girls Division III").regions.central.individuals.find((ind) => ind.school === "Utica");
+  const utica = regionalsData.divisions.find((d) => d.label === "Girls Division III").regions.central.teams.find((t) => t.name === "Utica");
   assert.equal(utica.ohsaaSchoolId, 1584, "Utica's pre-existing identity must be untouched by the school-identity resolution work in this file");
   assert.equal(utica.city, "Utica");
   assert.equal(utica.athleticDistrict, "Central");
