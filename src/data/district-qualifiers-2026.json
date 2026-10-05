@@ -1,0 +1,143 @@
+{
+  "season": "2026",
+  "note": "Teams and individuals not on a qualifying team that advance from each district race to its regional. Each row is one district race.",
+  "regions": {
+    "southwest": {
+      "regionalSite": "Troy",
+      "feeds": [
+        {
+          "district": "Southwest District - Cedarville",
+          "source": "Sept. 18, 2026 OHSAA Southwest District letter",
+          "races": {
+            "boys-2": [{ "label": "District race", "teams": 11, "individuals": 22 }],
+            "girls-2": [{ "label": "District race", "teams": 10, "individuals": 20 }],
+            "boys-3": [{ "label": "District race", "teams": 11, "individuals": 22 }],
+            "girls-3": [{ "label": "District race", "teams": 12, "individuals": 24 }],
+            "boys-4": [{ "label": "District race", "teams": 14, "individuals": 28 }],
+            "girls-4": [{ "label": "District race", "teams": 13, "individuals": 26 }]
+          }
+        },
+        {
+          "district": "Southwest District - Voice of America Park",
+          "source": "2026 OHSAA SW District Championship Meet (VOA) document",
+          "races": {
+            "boys-2": [{ "label": "District race", "teams": 9, "individuals": 18 }],
+            "girls-2": [{ "label": "District race", "teams": 14, "individuals": 28 }],
+            "boys-3": [{ "label": "District race", "teams": 10, "individuals": 20 }],
+            "girls-3": [{ "label": "District race", "teams": 5, "individuals": 10 }],
+            "boys-4": [{ "label": "District race", "teams": 5, "individuals": 10 }],
+            "girls-4": [{ "label": "District race", "teams": 6, "individuals": 12 }]
+          }
+        }
+      ]
+    },
+    "northwest": {
+      "regionalSite": "Tiffin",
+      "feeds": [
+        {
+          "district": "Findlay (Owens)",
+          "source": "NWDAB Cross Country Fall 2026",
+          "races": {
+            "boys-2": [{ "label": "District race", "teams": 10, "individuals": 20 }],
+            "girls-2": [{ "label": "District race", "teams": 8, "individuals": 16 }],
+            "boys-3": [{ "label": "District race", "teams": 6, "individuals": 12 }],
+            "girls-3": [{ "label": "District race", "teams": 10, "individuals": 20 }],
+            "boys-4": [{ "label": "District race", "teams": 8, "individuals": 16 }],
+            "girls-4": [{ "label": "District race", "teams": 8, "individuals": 16 }]
+          }
+        },
+        {
+          "district": "Liberty Center",
+          "source": "NWDAB Cross Country Fall 2026",
+          "races": {
+            "boys-2": [{ "label": "District race", "teams": 8, "individuals": 16 }],
+            "girls-2": [{ "label": "District race", "teams": 7, "individuals": 14 }],
+            "boys-4": [{ "label": "District race", "teams": 9, "individuals": 18 }],
+            "girls-4": [{ "label": "District race", "teams": 9, "individuals": 18 }]
+          }
+        },
+        {
+          "district": "Galion",
+          "source": "NWDAB Cross Country Fall 2026",
+          "races": {
+            "boys-3": [{ "label": "District race", "teams": 5, "individuals": 10 }],
+            "girls-3": [{ "label": "District race", "teams": 5, "individuals": 10 }],
+            "boys-4": [{ "label": "District race", "teams": 7, "individuals": 14 }],
+            "girls-4": [{ "label": "District race", "teams": 8, "individuals": 16 }]
+          }
+        },
+        {
+          "district": "Columbus Grove",
+          "source": "NWDAB Cross Country Fall 2026",
+          "races": {
+            "boys-3": [{ "label": "District race", "teams": 6, "individuals": 12 }],
+            "girls-3": [{ "label": "District race", "teams": 5, "individuals": 10 }],
+            "boys-4": [{ "label": "District race", "teams": 9, "individuals": 18 }],
+            "girls-4": [{ "label": "District race", "teams": 9, "individuals": 18 }]
+          }
+        }
+      ]
+    },
+    "central": {
+      "regionalSite": "Pickerington North",
+      "feeds": [
+        {
+          "district": "Central District - Hilliard Darby",
+          "source": "OHSAA Central district page (summary, verify against page)",
+          "races": {
+            "boys-2": [
+              { "label": "District 1", "teams": 5, "individuals": 10 },
+              { "label": "District 2", "teams": 6, "individuals": 12 }
+            ],
+            "girls-2": [
+              { "label": "District 1", "teams": 5, "individuals": 10 },
+              { "label": "District 2", "teams": 5, "individuals": 10 }
+            ],
+            "boys-3": [
+              { "label": "District 1", "teams": 5, "individuals": 10 },
+              { "label": "District 2", "teams": 4, "individuals": 8 }
+            ],
+            "girls-3": [{ "label": "District race", "teams": 6, "individuals": 12 }],
+            "boys-4": [
+              { "label": "District 1", "teams": 4, "individuals": 8 },
+              { "label": "District 2", "teams": 4, "individuals": 8 }
+            ],
+            "girls-4": [
+              { "label": "District 1", "teams": 5, "individuals": 10 },
+              { "label": "District 2", "teams": 4, "individuals": 8 }
+            ]
+          }
+        },
+        {
+          "district": "Southeast District - Rio Grande",
+          "source": "Pickerington regional qualifier letter (pasted)",
+          "races": {
+            "boys-2": [{ "label": "District race", "teams": 6, "individuals": 12 }],
+            "girls-2": [{ "label": "District race", "teams": 6, "individuals": 12 }],
+            "boys-3": [{ "label": "District race", "teams": 11, "individuals": 22 }],
+            "girls-3": [{ "label": "District race", "teams": 8, "individuals": 16 }],
+            "boys-4": [{ "label": "District race", "teams": 11, "individuals": 22 }],
+            "girls-4": [{ "label": "District race", "teams": 8, "individuals": 16 }]
+          }
+        },
+        {
+          "district": "East District - Cambridge",
+          "source": "East district pages (pasted)",
+          "races": {
+            "boys-2": [{ "label": "District race", "teams": 3, "individuals": 6 }],
+            "girls-2": [{ "label": "District race", "teams": 4, "individuals": 8 }],
+            "boys-3": [{ "label": "District race", "teams": 12, "individuals": 24 }],
+            "girls-3": [{ "label": "District race", "teams": 13, "individuals": 26 }],
+            "boys-4": [{ "label": "District race", "teams": 4, "individuals": 8 }],
+            "girls-4": [{ "label": "District race", "teams": 4, "individuals": 8 }]
+          }
+        }
+      ]
+    },
+    "northeast": {
+      "regionalSite": null,
+      "status": "Qualifier counts TBD on 10/20/26 (NEDAB district sites: GlenOak, Lorain, Madison)",
+      "feeds": []
+    }
+  }
+}

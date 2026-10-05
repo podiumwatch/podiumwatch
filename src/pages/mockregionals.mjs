@@ -55,6 +55,23 @@ const REGION_ORDER = ["central", "northeast", "northwest", "southwest"];
 const REGION_LABELS = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
 const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams and the top 500 Athletic.net individuals for this division and gender, based on season best times. This is a modeled projection, not a real meet result. A supplemental individual is only included when their school does not already have a top-75 team roster in this division.";
 
+import districtQualifiers from "../data/district-qualifiers-2026.json" with { type: "json" };
+
+function districtFeedHtml(regionKey, divisionEntry) {
+  const regionData = districtQualifiers.regions[regionKey];
+  if (!regionData) return "";
+  if (regionData.status) {
+    return `<div class="mr-district-feed"><p class="eyebrow">District qualifiers</p><h2>Feeding this regional</h2><p class="mr-meta">${escapeHtml(regionData.status)}</p></div>`;
+  }
+  const key = `${divisionEntry.gender}-${divisionEntry.division}`;
+  const rows = regionData.feeds.flatMap((feed) => (feed.races[key] || []).map((race) => ({ district: feed.district, label: race.label, teams: race.teams, individuals: race.individuals })));
+  if (!rows.length) return "";
+  const totalTeams = rows.reduce((n, r) => n + r.teams, 0);
+  const totalIndividuals = rows.reduce((n, r) => n + r.individuals, 0);
+  const body = rows.map((r) => `<tr><td>${escapeHtml(r.district)}</td><td>${escapeHtml(r.label)}</td><td>${r.teams}</td><td>${r.individuals}</td></tr>`).join("");
+  return `<div class="mr-district-feed"><p class="eyebrow">District qualifiers</p><h2>Advancing from district races to this regional</h2><p class="mr-meta">Teams and individuals not on a qualifying team, from each district race that feeds the ${escapeHtml(regionData.regionalSite)} regional.</p><div class="mr-table-wrap"><table><thead><tr><th>District</th><th>Race</th><th>Teams</th><th>Individuals</th></tr></thead><tbody>${body}<tr><th>Total</th><th></th><th>${totalTeams}</th><th>${totalIndividuals}</th></tr></tbody></table></div></div>`;
+}
+
 function lastUpdatedText() {
   const date = new Date(`${regionalsData.lastUpdated}T12:00:00`);
   return `Last updated ${date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}.`;
@@ -414,6 +431,8 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
       ${crumbsRow(divisionEntry, regionKey)}
 
       <p class="mr-meta">Regional site: ${escapeHtml(region.siteName)} &middot; Top <strong>${region.stateQualifiers}</strong> team${region.stateQualifiers === 1 ? "" : "s"} advance${region.stateQualifiers === 1 ? "s" : ""} to the State mock meet &middot; Top <strong>${region.individualQualifiers || 0}</strong> individual${(region.individualQualifiers || 0) === 1 ? "" : "s"} from non-advancing teams also advance${(region.individualQualifiers || 0) === 1 ? "s" : ""}.</p>
+
+      ${districtFeedHtml(regionKey, divisionEntry)}
 
       <h2 id="mr-title" class="mr-heading">${teams.length} team${teams.length === 1 ? "" : "s"} entered</h2>
 
