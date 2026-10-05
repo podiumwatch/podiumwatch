@@ -55,6 +55,11 @@ const REGION_ORDER = ["central", "northeast", "northwest", "southwest"];
 const REGION_LABELS = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
 const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams and the top 500 Athletic.net individuals for this division and gender, based on season best times. This is a modeled projection, not a real meet result. A supplemental individual is only included when their school does not already have a top-75 team roster in this division.";
 
+function lastUpdatedText() {
+  const date = new Date(`${regionalsData.lastUpdated}T12:00:00`);
+  return `Last updated ${date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}.`;
+}
+
 function divisionLabel(entry) {
   return entry.label;
 }
@@ -392,7 +397,7 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
   const content = `${pageHero({
     eyebrow: "2026 Mock Regionals",
     title,
-    description: `Modeled team standings for the ${REGION_LABELS[regionKey]} region, ${divisionLabel(divisionEntry)}, built from each team's real supplied top-7 season-best times.`
+    description: `Modeled team standings for the ${REGION_LABELS[regionKey]} region, ${divisionLabel(divisionEntry)}, built from each team's real supplied top-7 season-best times. ${lastUpdatedText()}`
   })}
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="mr-title">
@@ -458,7 +463,7 @@ export function mockStatePage(site, divisionEntry) {
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}
 
       <div class="mr-explainer">
-        <p>This State field is not entered by hand -- it's the real number of qualifying teams and qualifying individuals pooled automatically from each region's mock regional, once every region has real rosters. Individual qualifiers are scored together with the teams, so a fast individual really can displace a team's scorers, exactly like a real meet.</p>
+        <p>This State field is not entered by hand -- it's the real number of qualifying teams and qualifying individuals pooled automatically from each region's mock regional, once every region has real rosters. Only the qualifying teams score: their runners are ranked in finish order and team points are assigned from that order. Individual qualifiers advance on their own and do not count toward any team score.</p>
         <a class="button button-primary" href="/mock-meets/">All mock meets ${icon("arrow")}</a>
       </div>
 
@@ -480,7 +485,7 @@ export function mockStatePage(site, divisionEntry) {
           `<div class="mr-individuals-section">
             <p class="eyebrow">Individual qualifiers</p>
             <h2>Qualifying individuals at State</h2>
-            <p class="mr-meta">Each shown with the region they qualified from. Their real time still counts toward the overall finish order above -- a fast individual here can push team scorers back a place.</p>
+            <p class="mr-meta">Each shown with the region they qualified from. Individual qualifiers do not count toward any team score.</p>
             ${individualsTableHtml(individuals, { showRegion: true })}
           </div>`
       }
@@ -520,7 +525,7 @@ export function mockRegionalsHubPage(site) {
   const content = `${pageHero({
     eyebrow: "Ohio Cross Country -- Modeled Results",
     title: "2026 Mock Regionals & State",
-    description: "Team mock meets built on the real 2026 OHSAA regional structure -- four regions, four divisions, boys and girls -- scored from each team's real supplied top-7 season-best times, plus real individual-qualifier displacement at State."
+    description: `Team mock meets built on the real 2026 OHSAA regional structure -- four regions, four divisions, boys and girls -- scored from each team's real supplied top-7 season-best times, plus real individual-qualifier displacement at State. ${lastUpdatedText()}`
   })}
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="mr-hub-title">

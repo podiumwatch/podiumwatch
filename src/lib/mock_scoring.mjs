@@ -360,6 +360,10 @@ export function computeStatePool(divisionEntry) {
     pooledIndividuals.push(...qualifyingIndividuals);
   }
 
-  const scored = scoreTeams(pooledTeams, pooledIndividuals);
-  return { teams: scored.teams, individuals: scored.individuals, poolLog, missing: [] };
+  // State team scoring: only the qualifying teams' own runners are ranked
+  // and scored, in their own finish order. Qualifying individuals are
+  // listed separately and never take a place or points from a team runner.
+  const teamScored = scoreTeams(pooledTeams, []);
+  const individualScored = scoreTeams(pooledTeams, pooledIndividuals);
+  return { teams: teamScored.teams, individuals: individualScored.individuals, poolLog, missing: [] };
 }
