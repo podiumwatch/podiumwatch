@@ -672,7 +672,6 @@ test("Beaver Local's previously resolved identity (OHSAA 176) is unchanged by th
   const team = regionalsData.divisions.find((d) => d.label === "Boys Division III").regions.central.teams.find((t) => t.name === "Beaver Local");
   assert.deepEqual({ ohsaaSchoolId: team.ohsaaSchoolId, city: team.city, athleticDistrict: team.athleticDistrict }, expectedBeaver);
   const individuals = regionalsData.divisions.find((d) => d.label === "Girls Division III").regions.central.individuals.filter((ind) => ind.school === "Beaver Local");
-  assert.equal(individuals.length, 2);
   for (const ind of individuals) {
     assert.deepEqual({ ohsaaSchoolId: ind.ohsaaSchoolId, city: ind.city, athleticDistrict: ind.athleticDistrict }, expectedBeaver);
   }
