@@ -28277,6 +28277,15 @@
                   "timeCentiseconds": 108110,
                   "athleticNetId": null,
                   "resultUrl": null
+                },
+                {
+                  "name": "Peter Mitchell",
+                  "grade": null,
+                  "graduationYear": null,
+                  "seasonBest": "18:04.40",
+                  "timeCentiseconds": 108440,
+                  "athleticNetId": null,
+                  "resultUrl": null
                 }
               ]
             },
@@ -31921,6 +31930,15 @@
                   "graduationYear": 2027,
                   "seasonBest": "18:11.4",
                   "timeCentiseconds": 109140,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Brady Rogers",
+                  "grade": null,
+                  "graduationYear": null,
+                  "seasonBest": "18:14.10",
+                  "timeCentiseconds": 109410,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
