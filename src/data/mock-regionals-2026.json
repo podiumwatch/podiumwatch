@@ -15338,6 +15338,15 @@
                   "timeCentiseconds": 101420,
                   "athleticNetId": null,
                   "resultUrl": null
+                },
+                {
+                  "name": "Brayden Decker",
+                  "grade": "9",
+                  "graduationYear": 2030,
+                  "seasonBest": "17:01.7",
+                  "timeCentiseconds": 102170,
+                  "athleticNetId": null,
+                  "resultUrl": null
                 }
               ]
             },
