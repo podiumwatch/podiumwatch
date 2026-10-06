@@ -6835,28 +6835,10 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Crabtree Nora",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "19:17.20",
-                  "timeCentiseconds": 115720,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Abigail Eiferman",
                   "grade": "12",
                   "graduationYear": 2027,
                   "seasonBest": "19:38.6",
-                  "timeCentiseconds": 117860,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Eiferman Abigail",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "19:38.60",
                   "timeCentiseconds": 117860,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -6871,20 +6853,38 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Yu Vienna",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:02.00",
-                  "timeCentiseconds": 126200,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Adelaide Plouck",
                   "grade": "11",
                   "graduationYear": 2028,
                   "seasonBest": "21:12.6",
                   "timeCentiseconds": 127260,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Elsie Ellerbrock",
+                  "grade": "10",
+                  "graduationYear": 2029,
+                  "seasonBest": "21:18.4",
+                  "timeCentiseconds": 127840,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Anna Bertke",
+                  "grade": "12",
+                  "graduationYear": 2027,
+                  "seasonBest": "21:53.8",
+                  "timeCentiseconds": 131380,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Grace Kennedy",
+                  "grade": "12",
+                  "graduationYear": 2027,
+                  "seasonBest": "22:58.6",
+                  "timeCentiseconds": 137860,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -7985,15 +7985,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Madelyn O'brien",
-                  "grade": "12",
-                  "graduationYear": 2027,
-                  "seasonBest": "18:54.7",
-                  "timeCentiseconds": 113470,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Lillian Hartenburg",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -8035,6 +8026,15 @@
                   "graduationYear": 2027,
                   "seasonBest": "20:52.9",
                   "timeCentiseconds": 125290,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Sophia Jordan",
+                  "grade": "10",
+                  "graduationYear": 2029,
+                  "seasonBest": "21:23.4",
+                  "timeCentiseconds": 128340,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
