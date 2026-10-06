@@ -35908,6 +35908,15 @@
                   "timeCentiseconds": 130538,
                   "athleticNetId": null,
                   "resultUrl": null
+                },
+                {
+                  "name": "Britten Logan",
+                  "grade": "11",
+                  "graduationYear": 2028,
+                  "seasonBest": "22:04.1",
+                  "timeCentiseconds": 132410,
+                  "athleticNetId": null,
+                  "resultUrl": null
                 }
               ]
             },
@@ -35947,18 +35956,9 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Maddie Singer",
+                  "name": "Madison Singer",
                   "grade": "12",
                   "graduationYear": 2027,
-                  "seasonBest": "20:31.1",
-                  "timeCentiseconds": 123110,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Madison Singer",
-                  "grade": null,
-                  "graduationYear": null,
                   "seasonBest": "20:31.10",
                   "timeCentiseconds": 123110,
                   "athleticNetId": null,
@@ -36116,6 +36116,15 @@
                   "graduationYear": 2027,
                   "seasonBest": "21:37.70",
                   "timeCentiseconds": 129770,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Olivia Bosca",
+                  "grade": "10",
+                  "graduationYear": 2029,
+                  "seasonBest": "21:41.3",
+                  "timeCentiseconds": 130130,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -40085,15 +40094,6 @@
                   "grade": "11",
                   "graduationYear": 2028,
                   "seasonBest": "21:31.1",
-                  "timeCentiseconds": 129110,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Kate Wiles",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:31.10",
                   "timeCentiseconds": 129110,
                   "athleticNetId": null,
                   "resultUrl": null
