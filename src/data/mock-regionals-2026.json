@@ -12355,6 +12355,24 @@
                   "timeCentiseconds": 102990,
                   "athleticNetId": null,
                   "resultUrl": null
+                },
+                {
+                  "name": "Dominic Scalera",
+                  "grade": "12",
+                  "graduationYear": 2027,
+                  "seasonBest": "17:19.2",
+                  "timeCentiseconds": 103920,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Joshua Blake",
+                  "grade": "11",
+                  "graduationYear": 2028,
+                  "seasonBest": "17:24.8",
+                  "timeCentiseconds": 104480,
+                  "athleticNetId": null,
+                  "resultUrl": null
                 }
               ]
             },
