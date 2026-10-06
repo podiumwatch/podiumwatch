@@ -578,41 +578,74 @@ export function mockRegionalsHubPage(site) {
 }
 
 const TOP10_DIVISIONS = [
-  { key: "boys-1", label: "Boys Division I" },
-  { key: "boys-2", label: "Boys Division II" },
-  { key: "boys-3", label: "Boys Division III" },
-  { key: "boys-4", label: "Boys Division IV" },
-  { key: "girls-1", label: "Girls Division I" },
-  { key: "girls-2", label: "Girls Division II" },
-  { key: "girls-3", label: "Girls Division III" },
-  { key: "girls-4", label: "Girls Division IV" },
+  { key: "boys-1", gender: "Boys", division: 1 },
+  { key: "boys-2", gender: "Boys", division: 2 },
+  { key: "boys-3", gender: "Boys", division: 3 },
+  { key: "boys-4", gender: "Boys", division: 4 },
+  { key: "girls-1", gender: "Girls", division: 1 },
+  { key: "girls-2", gender: "Girls", division: 2 },
+  { key: "girls-3", gender: "Girls", division: 3 },
+  { key: "girls-4", gender: "Girls", division: 4 },
 ];
 const TOP10_GRADES = [["9", "Freshmen"], ["10", "Sophomores"], ["11", "Juniors"], ["12", "Seniors"]];
+
+const TOP10_CSS = `
+.t10-jump { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 28px; }
+.t10-jump a { display:inline-block; padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:var(--white); color:var(--ink); font-weight:700; font-size:.9rem; text-decoration:none; }
+.t10-jump a:hover { background:var(--pale-green); }
+.t10-block { margin:0 0 44px; }
+.t10-block > h2 { margin:0 0 16px; font-size:1.5rem; }
+.t10-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:16px; }
+.t10-card { border:1px solid var(--line); border-radius:14px; background:var(--white); overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+.t10-card h3 { margin:0; padding:12px 16px; background:var(--green); color:#fff; font-size:.95rem; letter-spacing:.04em; text-transform:uppercase; }
+.t10-list { list-style:none; margin:0; padding:6px 0; }
+.t10-row { display:grid; grid-template-columns:34px 1fr auto; align-items:center; gap:10px; padding:9px 14px; border-top:1px solid var(--line); }
+.t10-row:first-child { border-top:0; }
+.t10-rank { display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--pale-green); color:var(--ink); font-weight:800; font-size:.85rem; font-variant-numeric:tabular-nums; }
+.t10-row.gold .t10-rank { background:#f5c542; }
+.t10-row.silver .t10-rank { background:#d5d9de; }
+.t10-row.bronze .t10-rank { background:#e0a96d; }
+.t10-name { min-width:0; }
+.t10-name strong { display:block; font-size:.95rem; line-height:1.25; overflow-wrap:anywhere; }
+.t10-name small { display:block; color:var(--muted); font-size:.8rem; margin-top:2px; overflow-wrap:anywhere; }
+.t10-time { font-weight:800; font-variant-numeric:tabular-nums; font-size:.98rem; white-space:nowrap; }
+.t10-empty { padding:16px; color:var(--muted); font-size:.9rem; margin:0; }
+@media (max-width: 600px) { .t10-grid { grid-template-columns:1fr; } }
+`;
+
+function top10Card(gradeLabel, rows) {
+  const items = rows.length
+    ? rows.map((r, i) => {
+        const tier = i === 0 ? " gold" : i === 1 ? " silver" : i === 2 ? " bronze" : "";
+        return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong>${escapeHtml(r.name)}</strong><small>${escapeHtml(r.school)}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
+      }).join("")
+    : `<li class="t10-empty">No times listed yet.</li>`;
+  return `<div class="t10-card"><h3>${gradeLabel}</h3><ol class="t10-list">${items}</ol></div>`;
+}
 
 export function top10ByGradePage(site) {
   const pathname = "/rankings/top-10/";
   const title = "Top 10";
   const lists = top10Data.lists;
-  const sections = TOP10_DIVISIONS.map(({ key, label }) => {
-    const grades = TOP10_GRADES.map(([grade, gradeLabel]) => {
-      const rows = (lists[key]?.[grade] || []).map((r, i) => `<tr><td>${i + 1}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.school)}</td><td>${escapeHtml(r.time)}</td></tr>`).join("");
-      return `<div class="mr-top10-grade"><h3>${gradeLabel}</h3><div class="mr-table-wrap"><table><thead><tr><th>#</th><th>Athlete</th><th>School</th><th>Time</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
-    }).join("");
-    return `<div class="mr-division-block"><h2>${label}</h2><div class="mr-top10-grid">${grades}</div></div>`;
+  const jump = TOP10_DIVISIONS.map(({ key, gender, division }) => `<a href="#${key}">${gender} Div ${division}</a>`).join("");
+  const sections = TOP10_DIVISIONS.map(({ key, gender, division }) => {
+    const cards = TOP10_GRADES.map(([grade, gradeLabel]) => top10Card(gradeLabel, lists[key]?.[grade] || [])).join("");
+    return `<section class="t10-block" id="${key}" aria-labelledby="${key}-title"><h2 id="${key}-title">${gender} Division ${division}</h2><div class="t10-grid">${cards}</div></section>`;
   }).join("");
 
   const content = `${pageHero({
     eyebrow: "2026 Rankings",
     title,
-    description: `Top 10 season-best times by grade in each division, from Athletic.net season-best lists. ${lastUpdatedText()}`
+    description: `The ten fastest season-best times in each grade, for every division and gender. ${lastUpdatedText()}`
   })}
   ${sharedStyles()}
+  <style>${TOP10_CSS}</style>
   <section class="section section-paper" aria-labelledby="mr-top10-title">
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: title }])}
-      <p class="mr-projection-note">${PROJECTION_NOTE}</p>
-      <h2 id="mr-top10-title" class="mr-heading">Top 10 by grade and division</h2>
-      <p class="mr-meta">Each list is the ten fastest season-best times in that grade and division, from Athletic.net. Each athlete appears once.</p>
+      <p class="mr-projection-note">Season-best times from Athletic.net and MileSplit, combined by runner so each athlete appears once. These are season bests, not results from a single meet.</p>
+      <h2 id="mr-top10-title" class="visually-hidden">Top 10 by grade and division</h2>
+      <nav class="t10-jump" aria-label="Jump to division">${jump}</nav>
       ${sections}
     </div>
   </section>`;
