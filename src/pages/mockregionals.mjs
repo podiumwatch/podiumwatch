@@ -56,6 +56,7 @@ const REGION_LABELS = { central: "Central", northeast: "Northeast", northwest: "
 const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams and the top 500 Athletic.net individuals for this division and gender, based on season best times. This is a modeled projection, not a real meet result. A supplemental individual is only included when their school does not already have a top-75 team roster in this division.";
 
 import districtQualifiers from "../data/district-qualifiers-2026.json" with { type: "json" };
+import top10Data from "../data/top10-by-grade-2026.json" with { type: "json" };
 
 function districtFeedHtml(regionKey, divisionEntry) {
   const regionData = districtQualifiers.regions[regionKey];
@@ -550,6 +551,7 @@ export function mockRegionalsHubPage(site) {
   <section class="section section-paper" aria-labelledby="mr-hub-title">
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets" }])}
+      <p><a class="button button-primary" href="/mock-meets/top-10/">Top 10 by grade and division</a></p>
 
       <div class="mr-explainer">
         <p>These are modeled meets, not real results. The regional groupings and the real team and individual qualifier counts are OHSAA's own real 2026 structure; every score comes from real supplied runner times.</p>
@@ -576,9 +578,59 @@ export function mockRegionalsHubPage(site) {
   });
 }
 
+const TOP10_DIVISIONS = [
+  { key: "boys-1", label: "Boys Division I" },
+  { key: "boys-2", label: "Boys Division II" },
+  { key: "boys-3", label: "Boys Division III" },
+  { key: "boys-4", label: "Boys Division IV" },
+  { key: "girls-1", label: "Girls Division I" },
+  { key: "girls-2", label: "Girls Division II" },
+  { key: "girls-3", label: "Girls Division III" },
+  { key: "girls-4", label: "Girls Division IV" },
+];
+const TOP10_GRADES = [["9", "Freshmen"], ["10", "Sophomores"], ["11", "Juniors"], ["12", "Seniors"]];
+
+export function top10ByGradePage(site) {
+  const pathname = "/mock-meets/top-10/";
+  const title = "2026 Top 10 by Grade";
+  const lists = top10Data.lists;
+  const sections = TOP10_DIVISIONS.map(({ key, label }) => {
+    const grades = TOP10_GRADES.map(([grade, gradeLabel]) => {
+      const rows = (lists[key]?.[grade] || []).map((r, i) => `<tr><td>${i + 1}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.school)}</td><td>${escapeHtml(r.time)}</td></tr>`).join("");
+      return `<div class="mr-top10-grade"><h3>${gradeLabel}</h3><div class="mr-table-wrap"><table><thead><tr><th>#</th><th>Athlete</th><th>School</th><th>Time</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+    }).join("");
+    return `<div class="mr-division-block"><h2>${label}</h2><div class="mr-top10-grid">${grades}</div></div>`;
+  }).join("");
+
+  const content = `${pageHero({
+    eyebrow: "2026 Season Bests",
+    title,
+    description: `Top 10 season-best times by grade in each division, from Athletic.net season-best lists. ${lastUpdatedText()}`
+  })}
+  ${sharedStyles()}
+  <section class="section section-paper" aria-labelledby="mr-top10-title">
+    <div class="container">
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}
+      <p class="mr-projection-note">${PROJECTION_NOTE}</p>
+      <h2 id="mr-top10-title" class="mr-heading">Top 10 by grade and division</h2>
+      <p class="mr-meta">Each list is the ten fastest season-best times in that grade and division, from Athletic.net. Each athlete appears once.</p>
+      ${sections}
+    </div>
+  </section>`;
+
+  return layout({
+    site,
+    title,
+    description: "Top 10 season-best times by grade and division for the 2026 cross country season.",
+    pathname,
+    content
+  });
+}
+
 export function mockRegionalsAllPages(site) {
   const pages = [];
   pages.push({ pathname: "/mock-meets/", html: mockRegionalsHubPage(site) });
+  pages.push({ pathname: "/mock-meets/top-10/", html: top10ByGradePage(site) });
   for (const divisionEntry of regionalsData.divisions) {
     const problems = validateDivisionRoster(divisionEntry, Object.entries(divisionEntry.regions));
     if (problems.length) {
