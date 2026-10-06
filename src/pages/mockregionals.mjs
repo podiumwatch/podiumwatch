@@ -598,6 +598,7 @@ const TOP10_CSS = `
 .t10-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:16px; }
 .t10-card { border:1px solid var(--line); border-radius:14px; background:var(--white); overflow:hidden; box-shadow:0 1px 2px rgba(0,0,0,.04); }
 .t10-card h3 { margin:0; padding:12px 16px; background:var(--green); color:#fff; font-size:.95rem; letter-spacing:.04em; text-transform:uppercase; }
+.t10-girls h3 { background:#EC4899; }
 .t10-list { list-style:none; margin:0; padding:6px 0; }
 .t10-row { display:grid; grid-template-columns:34px 1fr auto; align-items:center; gap:10px; padding:9px 14px; border-top:1px solid var(--line); }
 .t10-row:first-child { border-top:0; }
@@ -613,14 +614,14 @@ const TOP10_CSS = `
 @media (max-width: 600px) { .t10-grid { grid-template-columns:1fr; } }
 `;
 
-function top10Card(gradeLabel, rows) {
+function top10Card(gradeLabel, rows, girls) {
   const items = rows.length
     ? rows.map((r, i) => {
         const tier = i === 0 ? " gold" : i === 1 ? " silver" : i === 2 ? " bronze" : "";
         return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong>${escapeHtml(r.name)}</strong><small>${escapeHtml(r.school)}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
       }).join("")
     : `<li class="t10-empty">No times listed yet.</li>`;
-  return `<div class="t10-card"><h3>${gradeLabel}</h3><ol class="t10-list">${items}</ol></div>`;
+  return `<div class="t10-card${girls ? " t10-girls" : ""}"><h3>${gradeLabel}</h3><ol class="t10-list">${items}</ol></div>`;
 }
 
 export function top10ByGradePage(site) {
@@ -629,7 +630,7 @@ export function top10ByGradePage(site) {
   const lists = top10Data.lists;
   const jump = TOP10_DIVISIONS.map(({ key, gender, division }) => `<a href="#${key}">${gender} Div ${division}</a>`).join("");
   const sections = TOP10_DIVISIONS.map(({ key, gender, division }) => {
-    const cards = TOP10_GRADES.map(([grade, gradeLabel]) => top10Card(gradeLabel, lists[key]?.[grade] || [])).join("");
+    const cards = TOP10_GRADES.map(([grade, gradeLabel]) => top10Card(gradeLabel, lists[key]?.[grade] || [], gender === "Girls")).join("");
     return `<section class="t10-block" id="${key}" aria-labelledby="${key}-title"><h2 id="${key}-title">${gender} Division ${division}</h2><div class="t10-grid">${cards}</div></section>`;
   }).join("");
 
