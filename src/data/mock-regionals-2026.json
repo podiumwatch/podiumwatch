@@ -19971,15 +19971,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Charlee Skeen-Adrine",
-                  "grade": "9",
-                  "graduationYear": 2030,
-                  "seasonBest": "18:32.9",
-                  "timeCentiseconds": 111290,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Kate Kinast",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -20021,6 +20012,15 @@
                   "graduationYear": 2030,
                   "seasonBest": "20:20.4",
                   "timeCentiseconds": 122040,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Kate Laning",
+                  "grade": "10",
+                  "graduationYear": 2029,
+                  "seasonBest": "20:36.3",
+                  "timeCentiseconds": 123630,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -22591,20 +22591,20 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Madison Tucker",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:15.30",
-                  "timeCentiseconds": 121530,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Karen Chou",
                   "grade": "11",
                   "graduationYear": 2028,
                   "seasonBest": "20:42.1",
                   "timeCentiseconds": 124210,
+                  "athleticNetId": null,
+                  "resultUrl": null
+                },
+                {
+                  "name": "Anna Reiter",
+                  "grade": "10",
+                  "graduationYear": 2029,
+                  "seasonBest": "20:54.1",
+                  "timeCentiseconds": 125410,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
