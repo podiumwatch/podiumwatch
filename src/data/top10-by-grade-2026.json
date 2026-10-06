@@ -1,7 +1,6 @@
 {
   "season": "2026",
-  "source": "Athletic.net individual season-best lists for each division and gender (base); no MileSplit additions",
-  "generatedFrom": "Athletic Net division lists",
+  "source": "Athletic.net individual season-best lists for each division and gender; MileSplit times used only where faster than Athletic.net for the same runner. No MileSplit-only runners (no grade data).",
   "lists": {
     "boys-1": {
       "9": [
@@ -354,6 +353,12 @@
           "time": "16:17.0"
         },
         {
+          "name": "Rece Simon",
+          "school": "Bowling Green",
+          "grade": "10",
+          "time": "16:17.65"
+        },
+        {
           "name": "Landon Rodriguez",
           "school": "Syl. Northview",
           "grade": "10",
@@ -370,12 +375,6 @@
           "school": "Granville",
           "grade": "10",
           "time": "16:22.9"
-        },
-        {
-          "name": "Lucas Fair",
-          "school": "Bellbrook",
-          "grade": "10",
-          "time": "16:24.7"
         }
       ],
       "11": [
@@ -571,7 +570,7 @@
           "name": "Vincent Campbell",
           "school": "Meadowbrook",
           "grade": "10",
-          "time": "15:27.6"
+          "time": "15:25.42"
         },
         {
           "name": "Grant Hinkelman",
@@ -672,6 +671,12 @@
           "time": "15:41.3"
         },
         {
+          "name": "Logan Howard",
+          "school": "Canton South",
+          "grade": "11",
+          "time": "15:45.49"
+        },
+        {
           "name": "Jamie Yuronich",
           "school": "Keystone",
           "grade": "11",
@@ -682,12 +687,6 @@
           "school": "Kenton",
           "grade": "11",
           "time": "15:49.1"
-        },
-        {
-          "name": "Logan Howard",
-          "school": "Canton South",
-          "grade": "11",
-          "time": "15:56.8"
         }
       ],
       "12": [
@@ -810,10 +809,10 @@
           "time": "17:20.1"
         },
         {
-          "name": "Otis Fishtorn",
-          "school": "Jackson-Milton",
+          "name": "David Krauss",
+          "school": "Open Door Christian",
           "grade": "9",
-          "time": "17:24.1"
+          "time": "17:22.52"
         }
       ],
       "10": [
@@ -996,10 +995,10 @@
           "time": "16:22.1"
         },
         {
-          "name": "Nolan Rittenhouse",
-          "school": "Tinora",
+          "name": "Connor Rhein",
+          "school": "Black River",
           "grade": "12",
-          "time": "16:23.0"
+          "time": "16:22.43"
         }
       ]
     },
@@ -1256,7 +1255,7 @@
     "girls-2": {
       "9": [
         {
-          "name": "Charlee Skeen-Adrine",
+          "name": "Charlee Skeen",
           "school": "Hudson",
           "grade": "9",
           "time": "18:32.9"
@@ -1701,19 +1700,19 @@
           "name": "Katrina Neal",
           "school": "Clear Fork",
           "grade": "12",
-          "time": "18:20.9"
+          "time": "18:16.89"
+        },
+        {
+          "name": "Kali Wallace",
+          "school": "Claymont",
+          "grade": "12",
+          "time": "18:22.80"
         },
         {
           "name": "Marlena McCown",
           "school": "Ironton",
           "grade": "12",
           "time": "18:43.1"
-        },
-        {
-          "name": "Kali Wallace",
-          "school": "Claymont",
-          "grade": "12",
-          "time": "18:45.5"
         },
         {
           "name": "Rylie Towns",
@@ -1810,10 +1809,10 @@
           "time": "19:25.0"
         },
         {
-          "name": "Laila Nally",
-          "school": "Mohawk",
+          "name": "Gracie Steiner",
+          "school": "Kid. Cent. Christian",
           "grade": "9",
-          "time": "19:29.7"
+          "time": "19:28.64"
         }
       ],
       "10": [
@@ -1966,16 +1965,16 @@
           "time": "18:56.4"
         },
         {
+          "name": "Chloe Meholovitch",
+          "school": "Shadyside",
+          "grade": "12",
+          "time": "18:57.51"
+        },
+        {
           "name": "Marlee Beacom",
           "school": "Ash. St. John",
           "grade": "12",
           "time": "19:07.8"
-        },
-        {
-          "name": "Chloe Meholovitch",
-          "school": "Shadyside",
-          "grade": "12",
-          "time": "19:11.5"
         },
         {
           "name": "Isabella Stueve",

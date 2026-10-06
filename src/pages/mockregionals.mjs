@@ -551,7 +551,6 @@ export function mockRegionalsHubPage(site) {
   <section class="section section-paper" aria-labelledby="mr-hub-title">
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets" }])}
-      <p><a class="button button-primary" href="/mock-meets/top-10/">Top 10 by grade and division</a></p>
 
       <div class="mr-explainer">
         <p>These are modeled meets, not real results. The regional groupings and the real team and individual qualifier counts are OHSAA's own real 2026 structure; every score comes from real supplied runner times.</p>
@@ -591,8 +590,8 @@ const TOP10_DIVISIONS = [
 const TOP10_GRADES = [["9", "Freshmen"], ["10", "Sophomores"], ["11", "Juniors"], ["12", "Seniors"]];
 
 export function top10ByGradePage(site) {
-  const pathname = "/mock-meets/top-10/";
-  const title = "2026 Top 10 by Grade";
+  const pathname = "/rankings/top-10/";
+  const title = "Top 10";
   const lists = top10Data.lists;
   const sections = TOP10_DIVISIONS.map(({ key, label }) => {
     const grades = TOP10_GRADES.map(([grade, gradeLabel]) => {
@@ -603,14 +602,14 @@ export function top10ByGradePage(site) {
   }).join("");
 
   const content = `${pageHero({
-    eyebrow: "2026 Season Bests",
+    eyebrow: "2026 Rankings",
     title,
     description: `Top 10 season-best times by grade in each division, from Athletic.net season-best lists. ${lastUpdatedText()}`
   })}
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="mr-top10-title">
     <div class="container">
-      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: title }])}
       <p class="mr-projection-note">${PROJECTION_NOTE}</p>
       <h2 id="mr-top10-title" class="mr-heading">Top 10 by grade and division</h2>
       <p class="mr-meta">Each list is the ten fastest season-best times in that grade and division, from Athletic.net. Each athlete appears once.</p>
@@ -630,7 +629,7 @@ export function top10ByGradePage(site) {
 export function mockRegionalsAllPages(site) {
   const pages = [];
   pages.push({ pathname: "/mock-meets/", html: mockRegionalsHubPage(site) });
-  pages.push({ pathname: "/mock-meets/top-10/", html: top10ByGradePage(site) });
+  pages.push({ pathname: "/rankings/top-10/", html: top10ByGradePage(site) });
   for (const divisionEntry of regionalsData.divisions) {
     const problems = validateDivisionRoster(divisionEntry, Object.entries(divisionEntry.regions));
     if (problems.length) {
