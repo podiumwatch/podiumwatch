@@ -232,3 +232,9 @@ Built and tested against a real, complete dataset (the actual 2025 OHSAA Divisio
 
 - Division IV boys is refreshed (see SESSION_LOG 2026-10-05). The same process (Athletic.net top 75 teams, Athletic.net top 500 individuals with grades, MileSplit team scoring, fastest-7 merge, validator check) applies to the remaining divisions.
 - Open items: 6 Division IV boys runners lack grades; Calder Gentile's grade reads "Sr" on Athletic.net; Lakota and Sand. SMCC are not placed; Noah/Jonah Meyer, Alex/Caleb Franklin, and Zach/Jack Bockey are kept as separate runners.
+
+## Track and field divisions (added 2026-10-06)
+
+- Track Divisions page and directory track column are built and verified locally but not committed or pushed. Push only when the user says "push".
+- Open: confirm the directory column in a deployed browser check after the push. The directory needs `/api/`, so it can only be checked on a deployed site or with `vercel dev`.
+- Open: the Track Divisions page highlights moves using 2025-26 data from the CSV. If OHSAA publishes a corrected alignment, update `src/data/track-divisions-2027-28.json` and rebuild.

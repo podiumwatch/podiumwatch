@@ -2462,3 +2462,13 @@ The stray 13th "Calen Vogler" profile needs the user's decision (likely a trivia
 - Validated with `validateDivisionRoster` (0 problems); `npm run build`, `npm run check`, and `npm test` pass.
 - Updated the mock-meet test's identity count from 6 to 7 for the new Boys D4 Colten Keller (Crestline) individual, which carries the already-verified Crestline identity (OHSAA 432).
 - Scratch data and scripts remain under `dataimports/mock-meet-export/` (untracked).
+
+## 2026-10-06: Track and field divisions page and directory column
+
+- Added `/track-divisions/` (`src/pages/trackdivisions.mjs`): boys and girls Divisions I to V for 2026-27 and 2027-28, jump tabs, school search, and orange highlighting for schools that moved division since 2025-26. Linked from the Rankings menu (`src/config/site.mjs`) and written by `scripts/build.mjs`.
+- Added a "Track 2026-27 and 2027-28" column to the Ohio School directory table and a matching line on the mobile card. The API attaches `track_divisions: { boys, girls }` to each school row.
+- Checked the API handler directly against the live database for Mason, Lakota West, and Tinora: all three return the correct boys and girls divisions from the CSV.
+- Browser check of `/track-divisions/` at 390px and 1440px: no horizontal overflow, all 10 division tables render, search filters rows, no page errors. Remaining console errors are site-wide third-party scripts and `/api/` routes that a static local server cannot serve; the existing Top 10 page shows the same ones.
+- Directory page itself was not browser-tested because its data comes from `/api/`, which the local static server cannot serve. Its markup was checked by reading the code.
+- `npm run build`, `npm run check`, `npm run test:mock-meet-export` (50/50), and both project health scripts pass.
+- Nothing committed or pushed. Waiting on the user's "push".

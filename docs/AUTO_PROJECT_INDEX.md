@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-09-29 19:13:10
+Generated: 2026-10-06 11:45:52
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,27 +9,32 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 777 |
-| Page source files | 87 |
-| API files | 120 |
-| Route references | 99 |
+| Included source files | 951 |
+| Page source files | 91 |
+| API files | 126 |
+| Route references | 103 |
 | Environment variable names | 22 |
-| Supabase table references | 131 |
+| Supabase table references | 135 |
 
 ## Git state
 
 Latest commit:
 
-0f36c6d8b72039300b784ff477f50f8fb7c5a81f | 2026-09-29 19:10:33 -0400 | Add permanent per-row school resolution table; fix accented-name matching
+25a9c663bc7e6c36832fb8794735ff4a34c4e1a6 | 2026-10-06 10:41:47 -0400 | Use pink headers for girls grade cards on Top 10
 
 Working tree:
 
  M .claude/settings.json
+ M api/ohio-schools/index.js
  M docs/AUTO_PROJECT_INDEX.md
- M docs/DECISIONS.md
- M docs/NEXT_SESSION.md
- M docs/SESSION_LOG.md
+ M lib/ohio_foundation_service.mjs
+ M public/scripts/ohio-schools.js
+ M scripts/build.mjs
+ M src/config/site.mjs
+ M src/pages/ohioschools.mjs
 ?? dataimports/
+?? src/data/track-divisions-2027-28.json
+?? src/pages/trackdivisions.mjs
 
 ## Package commands
 
@@ -40,7 +45,7 @@ Working tree:
 | check | node scripts/check.mjs |
 | dev | node scripts/serve.mjs --watch |
 | preview | node scripts/serve.mjs |
-| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export |
+| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:photo-submissions |
 | test:archive-day-link | node scripts/test-archive-and-day-link.mjs |
 | test:article-polls | node scripts/test-article-polls.mjs |
 | test:athlete-goals | node scripts/test-athlete-goals.mjs |
@@ -59,6 +64,7 @@ Working tree:
 | test:pace-calculator | node scripts/test-pace-calculator.mjs |
 | test:path-to-state | node scripts/test-path-to-state.mjs |
 | test:photographer-billing | node scripts/test-photographer-billing.mjs |
+| test:photo-submissions | node scripts/test-photo-submissions.mjs |
 | test:podium-play | node scripts/test-podium-play.mjs |
 | test:podium-play-service | node scripts/test-podium-play-service.mjs |
 | test:race-day-access | node scripts/test-race-day-access.mjs |
@@ -90,6 +96,7 @@ Working tree:
 1. /admin/operations/
 1. /admin/path-to-state/
 1. /admin/photographers/
+1. /admin/photo-submissions/
 1. /admin/recruiting/
 1. /admin/results-sources/
 1. /admin/statewide-data/
@@ -124,6 +131,7 @@ Working tree:
 1. /photographers/
 1. /photographers/membership/
 1. /photographers/profile/
+1. /photos/
 1. /podium-play/
 1. /privacy/
 1. /race/
@@ -152,6 +160,7 @@ Working tree:
 1. /split-watch/review/
 1. /sponsors/
 1. /stories/
+1. /submit-photos/
 1. /submit-results/
 1. /submit-timing-results/
 1. /team/
@@ -167,6 +176,7 @@ Working tree:
 1. /teams/
 1. /team-schedule/
 1. /tournament-hub/
+1. /track-divisions/
 1. /writer-login/
 1. /writer-portal/
 1. /writer-portal/admin/
@@ -193,6 +203,7 @@ Working tree:
 1. /api/admin/operations
 1. /api/admin/path-to-state
 1. /api/admin/photographers
+1. /api/admin/photo-submissions
 1. /api/admin/presence
 1. /api/admin/recruiting
 1. /api/admin/results-sources
@@ -222,6 +233,7 @@ Working tree:
 1. /api/cron/finish-timing-scan
 1. /api/cron/notifications
 1. /api/cron/open-scheduled-nominations
+1. /api/cron/purge-photo-submissions
 1. /api/cron/team-instagram-digest
 1. /api/cron/weekly-digest
 1. /api/engagement/public
@@ -249,6 +261,9 @@ Working tree:
 1. /api/photographer/upload-media
 1. /api/photographers/detail
 1. /api/photographers/index
+1. /api/photos/recent
+1. /api/photo-submissions/request-upload
+1. /api/photo-submissions/submit
 1. /api/podium-play/leaderboard
 1. /api/podium-play/leaderboard-hurdle-dash
 1. /api/podium-play/me
@@ -273,6 +288,7 @@ Working tree:
 1. /api/split-watch/review
 1. /api/split-watch/sessions
 1. /api/split-watch/sync
+1. /api/stories/view-count
 1. /api/stripe/webhook
 1. /api/team/access
 1. /api/team/claim
@@ -385,6 +401,9 @@ Values are intentionally excluded.
 1. ohio_tournament_qualification_thresholds
 1. ohio_tournament_regional_assignments
 1. ohio_tournament_stage_calendar
+1. photo_submission_items
+1. photo_submission_upload_slots
+1. photo_submissions
 1. photographer_galleries
 1. photographer_meet_coverage
 1. photographer_members
@@ -395,6 +414,7 @@ Values are intentionally excluded.
 1. photographer_sports
 1. photographer_subscriptions
 1. photographers
+1. photo-submissions
 1. place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:29.20
 1. place,athlete_name,school_name,event_name,mark_text\n1,John Runner,Central,5K,15:30.20
 1. plain text file
@@ -474,6 +494,7 @@ Values are intentionally excluded.
 1. src\pages\adminoperations.mjs
 1. src\pages\adminpathtostate.mjs
 1. src\pages\adminphotographers.mjs
+1. src\pages\adminphotosubmissions.mjs
 1. src\pages\adminrecruiting.mjs
 1. src\pages\adminresultssources.mjs
 1. src\pages\adminstatewidedata.mjs
@@ -507,6 +528,7 @@ Values are intentionally excluded.
 1. src\pages\photographerlogin.mjs
 1. src\pages\photographermembership.mjs
 1. src\pages\photographers.mjs
+1. src\pages\photos.mjs
 1. src\pages\podiumplay.mjs
 1. src\pages\privacy.mjs
 1. src\pages\racepublic.mjs
@@ -525,6 +547,7 @@ Values are intentionally excluded.
 1. src\pages\splitwatchplan.mjs
 1. src\pages\splitwatchraces.mjs
 1. src\pages\splitwatchreview.mjs
+1. src\pages\submitphotos.mjs
 1. src\pages\submitrecruitingactivity.mjs
 1. src\pages\submitresults.mjs
 1. src\pages\submittimingresults.mjs
@@ -540,6 +563,7 @@ Values are intentionally excluded.
 1. src\pages\teams.mjs
 1. src\pages\teamschedule.mjs
 1. src\pages\tournamenthub.mjs
+1. src\pages\trackdivisions.mjs
 1. src\pages\weeklyawards.mjs
 1. src\pages\writerlogin.mjs
 1. src\pages\writerportal.mjs

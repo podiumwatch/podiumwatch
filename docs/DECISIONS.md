@@ -1845,3 +1845,10 @@ None of this changes behavior for any existing job unless `options.performance_m
 - Team lists come from the Athletic.net top 75 per division; runner times are the fastest of the Athletic.net team list, Athletic.net individual list, and MileSplit team scoring (season bests/PRs, never a real meet result).
 - Individuals are only the Athletic.net top 500 from schools not on a top-75 roster, placed in a region by OHSAA athletic district. Individuals whose district is not one of the four mock regions, or whose school has no directory match, are excluded rather than placed by guess.
 - A team with fewer than 7 combined times is shown with the available count rather than filled.
+
+## 2026-10-06: Track and field division alignments (2026-27 and 2027-28)
+
+- Source of truth is the user-supplied "All Divisions Track 2027-2028" CSV, which mirrors the OHSAA Boys and Girls Track & Field Divisional Alignments. PDF text extraction was rejected: row IDs drifted against the wrong rows, so the PDFs are reference only.
+- Data lives in `src/data/track-divisions-2027-28.json` (one row per school per sport, 1,311 rows). Every school ID is checked against `dataimports/mock-meet-export/ohsaa_official_directory.json`.
+- The Ohio School directory gets its track column by joining this file by OHSAA school ID inside `api/ohio-schools/index.js` (via `loadBundledTrackDivisions()` in `lib/ohio_foundation_service.mjs`). No database migration: track alignments are public, official, and change once a year, so a bundled file is enough.
+- Schools that moved division since 2025-26 are highlighted on the Track Divisions page, matching the Cross Country directory's "Changed from" treatment.

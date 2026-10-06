@@ -60,6 +60,7 @@ export const site = {
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" },
       { label: "Top 10", href: "/rankings/top-10/" },
+      { label: "Track Divisions", href: "/track-divisions/" },
       { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },

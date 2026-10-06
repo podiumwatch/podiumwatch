@@ -6,6 +6,7 @@ import {
   isMissingFoundationError,
   loadBundledSchoolDataset,
   loadBundledTrackDataset,
+  loadBundledTrackDivisions,
   normalizeLookup,
   summarizeSchoolDataset
 } from "../../lib/ohio_foundation_service.mjs";
@@ -308,6 +309,13 @@ export default async function handler(request, response) {
       rows = staticRows(dataset);
       databaseAvailable = false;
     }
+
+    const trackBySchool = await loadBundledTrackDivisions();
+    rows = rows.map((school) => ({
+      ...school,
+      track_divisions:
+        trackBySchool.get(String(school.ohsaa_school_id)) || null
+    }));
 
     const filtered = rows.filter((school) =>
       matchesFilters(school, input)

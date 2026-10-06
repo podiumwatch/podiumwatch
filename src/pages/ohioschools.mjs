@@ -406,6 +406,7 @@ export function ohioSchoolsPage(site) {
                 <th>Athletic district</th>
                 <th>2026 and 2027</th>
                 <th>2025 and 2026</th>
+                <th>Track 2026-27 and 2027-28</th>
                 <th>Boys enrollment</th>
                 <th>Team page</th>
               </tr>

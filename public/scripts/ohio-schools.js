@@ -134,6 +134,25 @@
     );
   }
 
+  function trackMarkup(school) {
+    const track = school.track_divisions;
+
+    if (!track || (!track.boys && !track.girls)) {
+      return "Not listed";
+    }
+
+    return ["boys", "girls"]
+      .filter((sport) => track[sport])
+      .map((sport) =>
+        '<div><span class="ohio-school-track-label">' +
+          (sport === "boys" ? "Boys" : "Girls") +
+        "</span> " +
+          escapeHtml(track[sport].division) +
+        "</div>"
+      )
+      .join("");
+  }
+
   function rowMarkup(school) {
     return (
       "<tr>" +
@@ -146,6 +165,7 @@
         "<td>" + escapeHtml(school.athletic_district) + "</td>" +
         "<td>" + divisionMarkup(school) + "</td>" +
         "<td>" + escapeHtml(school.previous_division || "Not listed") + "</td>" +
+        "<td>" + trackMarkup(school) + "</td>" +
         "<td>" + escapeHtml(school.base_enrollment ?? "Not listed") + "</td>" +
         "<td>" + teamLink(school) + "</td>" +
       "</tr>"
@@ -170,6 +190,9 @@
           "</strong></div>" +
           "<div><span>Boys enrollment</span><strong>" +
             escapeHtml(school.base_enrollment ?? "Not listed") +
+          "</strong></div>" +
+          "<div><span>Track 2026-27 and 2027-28</span><strong>" +
+            trackMarkup(school) +
           "</strong></div>" +
         "</div>" +
         teamLink(school) +

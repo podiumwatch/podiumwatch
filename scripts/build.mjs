@@ -94,6 +94,7 @@ import { rankingMethodologyPage } from "../src/pages/rankingmethodology.mjs";
 import { oatcccCoachesPollPage } from "../src/pages/oatcccpoll.mjs";
 import { mockMeetsPage } from "../src/pages/mockmeets.mjs";
 import { mockRegionalsAllPages } from "../src/pages/mockregionals.mjs";
+import { trackDivisionsPage } from "../src/pages/trackdivisions.mjs";
 import { rankingLeadersPage } from "../src/pages/rankingleaders.mjs";
 import { athletesPage } from "../src/pages/athletes.mjs";
 import { athleteDetailPage } from "../src/pages/athletedetail.mjs";
@@ -920,6 +921,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   await writePage("/rankings/leaders/", rankingLeadersPage(site));
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));
+  await writePage("/track-divisions/", trackDivisionsPage(site));
   for (const [sportName, sportPath, count] of [["Cross Country", "cross-country", 4], ["Track and Field", "track-and-field", 5]]) {
     for (const gender of ["Boys", "Girls"]) {
       for (let division = 1; division <= count; division += 1) {
