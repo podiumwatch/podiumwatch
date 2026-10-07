@@ -68,6 +68,21 @@
   const internWelcomeResult = document.querySelector(
     "[data-intern-welcome-result]"
   );
+  const correspondentApplicationsCount = document.querySelector(
+    "[data-correspondent-applications-count]"
+  );
+  const correspondentApplicationsStatus = document.querySelector(
+    "[data-correspondent-applications-status]"
+  );
+  const correspondentApplicationsRefresh = document.querySelector(
+    "[data-correspondent-applications-refresh]"
+  );
+  const correspondentApplicationsTable = document.querySelector(
+    "[data-correspondent-applications-table]"
+  );
+  const correspondentApplicationsEmpty = document.querySelector(
+    "[data-correspondent-applications-empty]"
+  );
   const staticData =
     window.PODIUM_OPERATIONS_STATIC || {
       stories: {
@@ -86,6 +101,7 @@
   let busy = false;
   let timingSubmissions = [];
   let internApplications = [];
+  let correspondentApplications = [];
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -1957,6 +1973,124 @@
     });
   }
 
+  const CORRESPONDENT_STATUS_OPTIONS = ["new", "reviewing", "contacted", "interview", "selected", "declined"];
+
+  function correspondentStatusSelectMarkup(application) {
+    return `<select data-correspondent-status-select="${escapeHtml(application.id)}">` +
+      CORRESPONDENT_STATUS_OPTIONS.map((value) =>
+        `<option value="${value}"${value === application.status ? " selected" : ""}>${escapeHtml(titleCaseWord(value))}</option>`
+      ).join("") +
+      "</select>";
+  }
+
+  function correspondentApplicationRow(application) {
+    const links = [
+      application.portfolio_url ? `<a href="${escapeHtml(application.portfolio_url)}" target="_blank" rel="noopener">Portfolio</a>` : "",
+      application.linkedin_url ? `<a href="${escapeHtml(application.linkedin_url)}" target="_blank" rel="noopener">LinkedIn</a>` : "",
+      application.video_url ? `<a href="${escapeHtml(application.video_url)}" target="_blank" rel="noopener">Video</a>` : "",
+      application.other_url ? `<a href="${escapeHtml(application.other_url)}" target="_blank" rel="noopener">Other link</a>` : "",
+      application.social_handle ? `<span>${escapeHtml(application.social_handle)}</span>` : ""
+    ].filter(Boolean).join(" &middot; ");
+
+    const detailFields = [
+      `<p><strong>At least 18:</strong> ${application.is_18_or_older ? "Yes" : "No"} &middot; <strong>Available Nov. 7:</strong> ${application.available_nov_7 ? "Yes" : "No"} &middot; <strong>Available full day:</strong> ${application.available_full_day ? "Yes" : "No"}</p>`,
+      `<p><strong>Comfortable interviewing:</strong> ${application.comfortable_interviewing ? "Yes" : "No"} &middot; <strong>Comfortable with video:</strong> ${application.comfortable_video ? "Yes" : "No"} &middot; <strong>XC/track familiarity:</strong> ${escapeHtml(application.xc_track_familiarity)}</p>`,
+      `<p><strong>Why interested:</strong><br>${escapeHtml(application.interest_reason).replaceAll("\n", "<br>")}</p>`,
+      application.experience ? `<p><strong>Experience:</strong><br>${escapeHtml(application.experience).replaceAll("\n", "<br>")}</p>` : "",
+      links ? `<p><strong>Links:</strong> ${links}</p>` : "",
+      application.additional_notes ? `<p><strong>Additional notes:</strong><br>${escapeHtml(application.additional_notes).replaceAll("\n", "<br>")}</p>` : "",
+      application.review_note ? `<p><strong>Review note:</strong> ${escapeHtml(application.review_note)}</p>` : ""
+    ].join("");
+
+    return `<tr>
+      <td><span class="admin-cell-label">Submitted</span>${escapeHtml(formatDate(application.created_at, true))}</td>
+      <td class="admin-cell-primary">${escapeHtml(application.first_name)} ${escapeHtml(application.last_name)}</td>
+      <td><span class="admin-cell-label">College</span>${escapeHtml(application.college)}</td>
+      <td><span class="admin-cell-label">Major</span>${escapeHtml(application.major)}</td>
+      <td><span class="admin-cell-label">Year</span>${escapeHtml(application.college_year)}</td>
+      <td><span class="admin-cell-label">Contact</span>${escapeHtml(application.email)}<br><small>${escapeHtml(application.phone)}</small></td>
+      <td><span class="admin-cell-label">Status</span>${correspondentStatusSelectMarkup(application)}</td>
+      <td>
+        <button class="button button-outline" type="button" data-correspondent-view="${escapeHtml(application.id)}">View</button>
+        <button class="button button-outline" type="button" data-correspondent-update="${escapeHtml(application.id)}">Update</button>
+      </td>
+    </tr>
+    <tr data-correspondent-detail-row="${escapeHtml(application.id)}" hidden>
+      <td colspan="8" style="background:rgba(var(--black-rgb),.03);">${detailFields}</td>
+    </tr>`;
+  }
+
+  async function loadCorrespondentApplications() {
+    if (!correspondentApplicationsTable) return;
+    try {
+      const data = await requestJson(
+        "/api/admin/state-meet-correspondent",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            action: "list",
+            status: correspondentApplicationsStatus?.value || "new"
+          })
+        }
+      );
+
+      correspondentApplications = data.applications || [];
+      correspondentApplicationsTable.innerHTML = correspondentApplications.map(correspondentApplicationRow).join("");
+      if (correspondentApplicationsEmpty) correspondentApplicationsEmpty.hidden = correspondentApplications.length > 0;
+      if (correspondentApplicationsCount) correspondentApplicationsCount.textContent = formatNumber(correspondentApplications.length);
+    } catch (error) {
+      showMessage(error.message || "The state meet correspondent queue could not be loaded.", "error");
+    }
+  }
+
+  if (correspondentApplicationsRefresh) {
+    correspondentApplicationsRefresh.addEventListener("click", () => loadCorrespondentApplications());
+  }
+  if (correspondentApplicationsStatus) {
+    correspondentApplicationsStatus.addEventListener("change", () => loadCorrespondentApplications());
+  }
+
+  if (correspondentApplicationsTable) {
+    correspondentApplicationsTable.addEventListener("click", async (event) => {
+      const viewButton = event.target.closest("[data-correspondent-view]");
+      const updateButton = event.target.closest("[data-correspondent-update]");
+      if (!viewButton && !updateButton) return;
+
+      const id = viewButton?.dataset.correspondentView || updateButton?.dataset.correspondentUpdate;
+
+      if (viewButton) {
+        const detailRow = correspondentApplicationsTable.querySelector(`[data-correspondent-detail-row="${CSS.escape(id)}"]`);
+        if (detailRow) detailRow.hidden = !detailRow.hidden;
+        return;
+      }
+
+      if (busy) return;
+
+      if (updateButton) {
+        const select = correspondentApplicationsTable.querySelector(`[data-correspondent-status-select="${CSS.escape(id)}"]`);
+        const status = select?.value;
+        if (!status) return;
+
+        setBusy(true);
+        try {
+          await requestJson(
+            "/api/admin/state-meet-correspondent",
+            {
+              method: "POST",
+              body: JSON.stringify({ action: "review", application_id: id, status })
+            }
+          );
+          showMessage("Application status updated.");
+          await loadCorrespondentApplications();
+        } catch (error) {
+          showMessage(error.message || "Could not update this application.", "error");
+        } finally {
+          setBusy(false);
+        }
+      }
+    });
+  }
+
   async function checkAuthentication() {
     try {
       const session = await requestJson(
@@ -1975,6 +2109,9 @@
         // dedicated API, own failure surface.
         await loadInternApplications();
         await loadInternWelcomePendingCount();
+        // Same isolation reasoning again -- its own dedicated API, own
+        // failure surface, independent of the dashboard and intern queue.
+        await loadCorrespondentApplications();
         return;
       }
 
@@ -2094,6 +2231,7 @@
       loadTimingSubmissions();
       loadInternApplications();
       loadInternWelcomePendingCount();
+      loadCorrespondentApplications();
     }
   );
 

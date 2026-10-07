@@ -115,6 +115,7 @@ import { recruitingTop250XcPage } from "../src/pages/recruitingtop250xc.mjs";
 import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mjs";
 import { submitRecruitingActivityPage } from "../src/pages/submitrecruitingactivity.mjs";
 import { applyPage } from "../src/pages/apply.mjs";
+import { applyStateMeetCorrespondentPage } from "../src/pages/applystatemeetcorrespondent.mjs";
 import { writerLoginPage } from "../src/pages/writerlogin.mjs";
 import { writerPortalPage } from "../src/pages/writerportal.mjs";
 import { writerPortalProfilePage } from "../src/pages/writerportalprofile.mjs";
@@ -515,6 +516,19 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
+  <!-- Temporary promotion: State Meet Media Correspondent application
+       (2026 OHSAA State Cross Country Championships). Reuses the existing
+       .intern-banner component above unchanged -- remove this one section
+       when the role is filled or the application window closes. -->
+  <section class="section">
+    <div class="container">
+      <div class="intern-banner">
+        <div><p class="eyebrow">Paid Media Opportunity</p><h2>Cover the OHSAA State Cross Country Championships</h2><p>Podium Watch is looking for a college student interested in sports journalism, broadcasting, or sports media to serve as our State Meet Media Correspondent on November 7 at Fortress Obetz.</p></div>
+        <div class="intern-banner-actions"><a class="button button-dark" href="/apply/state-meet-correspondent/">Apply Now</a></div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="latest-rankings-title">
     <div class="container">
       <div class="section-heading">
@@ -887,6 +901,7 @@ await writePage("/recruiting/top-250/boys-cross-country/", recruitingTop250XcPag
 await writePage("/recruiting/top-250/girls-cross-country/", recruitingTop250XcPage(site, { gender: "girls" }));
 await writePage("/recruiting/submit-activity/", submitRecruitingActivityPage(site));
 await writePage("/apply/", applyPage(site));
+await writePage("/apply/state-meet-correspondent/", applyStateMeetCorrespondentPage(site));
 await writePage("/writer-login/", writerLoginPage(site));
 await writePage("/writer-portal/", writerPortalPage(site));
 await writePage("/writer-portal/profile/", writerPortalProfilePage(site));
@@ -956,6 +971,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
     { type: "Page", title: "Submit Results", subtitle: "Send Podium Watch your meet results, no account required", href: "/submit-results/", searchText: "submit results coach timer meet host upload paste hy-tek semi colon delimited" },
     { type: "Page", title: "Submit Timing Results", subtitle: "Timing companies hand off finished results files, no account required", href: "/submit-timing-results/", searchText: "timing company submit results upload pdf csv xlsx hy-tek hy3 file" },
     { type: "Page", title: "Write for Podium Watch", subtitle: "High school intern writer applications, no account required", href: "/apply/", searchText: "apply intern writer application high school student parent consent" },
+    { type: "Page", title: "State Meet Media Correspondent Application", subtitle: "Paid media correspondent role at the 2026 OHSAA State Cross Country Championships", href: "/apply/state-meet-correspondent/", searchText: "state meet media correspondent application paid OHSAA state cross country championships Fortress Obetz stringer interview" },
     { type: "Page", title: "Writer Portal", subtitle: "Intern writer accounts: sign in, dashboard, profile, and staff writer management", href: "/writer-portal/", searchText: "writer portal login intern account article draft submitted review editor" },
     { type: "Page", title: "Ohio Tournament Hub", subtitle: "Boys cross country divisions and track regional sites", href: "/tournament-hub/", searchText: "OHSAA divisions regional sites representation tournament boys cross country track" },
     { type: "Page", title: "Athlete of the Week", subtitle: "Nominate, vote, and view winners", href: "/athlete-of-the-week/", searchText: "athlete week nominations finalists voting winner" },

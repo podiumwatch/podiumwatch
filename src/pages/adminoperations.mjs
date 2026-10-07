@@ -657,6 +657,15 @@ export function adminOperationsPage(
             >
               Intern Applications
             </button>
+
+            <button
+              class="button button-outline operations-tab"
+              type="button"
+              data-operations-tab="correspondent"
+              aria-selected="false"
+            >
+              State Meet Correspondent
+            </button>
           </div>
 
           <section
@@ -1514,6 +1523,108 @@ export function adminOperationsPage(
                 hidden
                 style="margin-top:12px;"
               ></div>
+            </article>
+          </section>
+
+          <section
+            class="operations-panel"
+            data-operations-panel="correspondent"
+            hidden
+          >
+            <article class="info-card operations-card">
+              <div class="operations-card-heading">
+                <div>
+                  <p class="eyebrow">
+                    State Meet Media Correspondent
+                  </p>
+                  <h2>Applications</h2>
+                  <p>
+                    Submitted at
+                    <code>/apply/state-meet-correspondent/</code>
+                    for the paid role covering the 2026 OHSAA
+                    State Cross Country Championships. A
+                    submission here is never an OHSAA media
+                    credential and never a selection -- review
+                    each application, change its status, and
+                    follow up by email or phone yourself.
+                    Podium Watch submits only the person it
+                    selects through OHSAA's own credential
+                    process.
+                  </p>
+                </div>
+
+                <span
+                  class="operations-count"
+                  data-correspondent-applications-count
+                >
+                  0
+                </span>
+              </div>
+
+              <div
+                class="operations-actions"
+                style="margin-bottom:14px;"
+              >
+                <select
+                  data-correspondent-applications-status
+                >
+                  <option
+                    value="new"
+                    selected
+                  >
+                    New
+                  </option>
+                  <option value="reviewing">
+                    Reviewing
+                  </option>
+                  <option value="contacted">
+                    Contacted
+                  </option>
+                  <option value="interview">
+                    Interview
+                  </option>
+                  <option value="selected">
+                    Selected
+                  </option>
+                  <option value="declined">
+                    Declined
+                  </option>
+                  <option value="all">
+                    All
+                  </option>
+                </select>
+
+                <button
+                  class="button button-outline"
+                  type="button"
+                  data-correspondent-applications-refresh
+                >
+                  Refresh
+                </button>
+              </div>
+
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Submitted</th>
+                      <th>Applicant</th>
+                      <th>College</th>
+                      <th>Major</th>
+                      <th>Year</th>
+                      <th>Contact</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody data-correspondent-applications-table></tbody>
+                </table>
+              </div>
+
+              <div data-correspondent-applications-empty hidden>
+                No applications right now.
+              </div>
             </article>
           </section>
         </div>

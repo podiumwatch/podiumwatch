@@ -231,5 +231,6 @@ export const NO_ADS_PATHS = [
   "/submit-results/",
   "/submit-timing-results/",
   "/recruiting/submit-activity/",
-  "/apply/"
+  "/apply/",
+  "/apply/state-meet-correspondent/"
 ];
