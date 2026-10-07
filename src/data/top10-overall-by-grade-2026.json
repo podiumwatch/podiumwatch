@@ -1,0 +1,506 @@
+{
+  "season": "2026",
+  "source": "Athletic.net individual season-best lists and the MileSplit 2026 grade rankings, combined by runner across every division. The fastest time for each runner across both sources is used. Grade comes from either source.",
+  "lists": {
+    "boys": {
+      "9": [
+        {
+          "name": "Lucas Thomas",
+          "school": "Gar. Garfield",
+          "grade": "9",
+          "time": "15:49.8"
+        },
+        {
+          "name": "Thomas King",
+          "school": "Watterson",
+          "grade": "9",
+          "time": "15:55.2"
+        },
+        {
+          "name": "Maxwell Frasure",
+          "school": "Sycamore",
+          "grade": "9",
+          "time": "16:10.9"
+        },
+        {
+          "name": "Luke Brickner",
+          "school": "Miller City",
+          "grade": "9",
+          "time": "16:13.9"
+        },
+        {
+          "name": "Oliver Scott",
+          "school": "Van Wert",
+          "grade": "9",
+          "time": "16:17.0"
+        },
+        {
+          "name": "Reed Henderson",
+          "school": "Teays Valley",
+          "grade": "9",
+          "time": "16:19.6"
+        },
+        {
+          "name": "Collin Melvin",
+          "school": "Nordonia",
+          "grade": "9",
+          "time": "16:20.3"
+        },
+        {
+          "name": "Sam McAfee",
+          "school": "Lak. West",
+          "grade": "9",
+          "time": "16:24.4"
+        },
+        {
+          "name": "James Piper",
+          "school": "Beavercreek",
+          "grade": "9",
+          "time": "16:31.4"
+        },
+        {
+          "name": "Jameson Byrne",
+          "school": "Chagrin Falls",
+          "grade": "9",
+          "time": "16:32.5"
+        }
+      ],
+      "10": [
+        {
+          "name": "Calvin Watson",
+          "school": "Thom. Worthington",
+          "grade": "10",
+          "time": "15:06.3"
+        },
+        {
+          "name": "Calvin Heithaus",
+          "school": "Mount Vernon",
+          "grade": "10",
+          "time": "15:24.4"
+        },
+        {
+          "name": "Vincent Campbell",
+          "school": "Meadowbrook",
+          "grade": "10",
+          "time": "15:25.42"
+        },
+        {
+          "name": "Thomas Moran",
+          "school": "Mason",
+          "grade": "10",
+          "time": "15:34.9"
+        },
+        {
+          "name": "Paxson Bixler",
+          "school": "Russia",
+          "grade": "10",
+          "time": "15:41.3"
+        },
+        {
+          "name": "Corbin Ott",
+          "school": "Mentor",
+          "grade": "10",
+          "time": "15:47.1"
+        },
+        {
+          "name": "Micah Ballinger",
+          "school": "Olen. Berlin",
+          "grade": "10",
+          "time": "15:55.1"
+        },
+        {
+          "name": "Grant Hinkelman",
+          "school": "Milton-Union",
+          "grade": "10",
+          "time": "15:56.2"
+        },
+        {
+          "name": "Lucas Kappel",
+          "school": "Beavercreek",
+          "grade": "10",
+          "time": "15:59.1"
+        },
+        {
+          "name": "Finn Swain",
+          "school": "Gah. Lincoln",
+          "grade": "10",
+          "time": "16:02.4"
+        }
+      ],
+      "11": [
+        {
+          "name": "Brice Fuller",
+          "school": "Fairless",
+          "grade": "11",
+          "time": "14:54.1"
+        },
+        {
+          "name": "Austin Benedict",
+          "school": "New Albany",
+          "grade": "11",
+          "time": "14:59.8"
+        },
+        {
+          "name": "Ian Patrick",
+          "school": "Little Miami",
+          "grade": "11",
+          "time": "15:02.1"
+        },
+        {
+          "name": "Carson Spencer",
+          "school": "Turpin",
+          "grade": "11",
+          "time": "15:08.3"
+        },
+        {
+          "name": "Cole Zang",
+          "school": "Margaretta",
+          "grade": "11",
+          "time": "15:11.0"
+        },
+        {
+          "name": "Gavin Swain",
+          "school": "Gah. Lincoln",
+          "grade": "11",
+          "time": "15:20.8"
+        },
+        {
+          "name": "Asher Cole",
+          "school": "West Liberty-Salem",
+          "grade": "11",
+          "time": "15:22.8"
+        },
+        {
+          "name": "Derek Young",
+          "school": "Con. Crestview",
+          "grade": "11",
+          "time": "15:26.8"
+        },
+        {
+          "name": "Brennan Higgins",
+          "school": "Tol. St. Francis",
+          "grade": "11",
+          "time": "15:27.7"
+        },
+        {
+          "name": "Logan Mix",
+          "school": "Mason",
+          "grade": "11",
+          "time": "15:28.7"
+        }
+      ],
+      "12": [
+        {
+          "name": "Jackson Spitzer",
+          "school": "Versailles",
+          "grade": "12",
+          "time": "14:54.9"
+        },
+        {
+          "name": "Ryne Reynolds",
+          "school": "Little Miami",
+          "grade": "12",
+          "time": "14:57.7"
+        },
+        {
+          "name": "Joel Smelcer",
+          "school": "Perkins",
+          "grade": "12",
+          "time": "15:08.8"
+        },
+        {
+          "name": "Logan Behm",
+          "school": "Hil. Darby",
+          "grade": "12",
+          "time": "15:09.1"
+        },
+        {
+          "name": "Henry Newman",
+          "school": "Milford",
+          "grade": "12",
+          "time": "15:10.2"
+        },
+        {
+          "name": "Steven Owen",
+          "school": "Syl. Southview",
+          "grade": "12",
+          "time": "15:16.9"
+        },
+        {
+          "name": "Holden Gray",
+          "school": "Wester. North",
+          "grade": "12",
+          "time": "15:17.0"
+        },
+        {
+          "name": "Ian Res",
+          "school": "West Geauga",
+          "grade": "12",
+          "time": "15:20.3"
+        },
+        {
+          "name": "Cowen Allender",
+          "school": "Olen. Orange",
+          "grade": "12",
+          "time": "15:20.9"
+        },
+        {
+          "name": "Bennett Lehman",
+          "school": "Ansonia",
+          "grade": "12",
+          "time": "15:21.1"
+        }
+      ]
+    },
+    "girls": {
+      "9": [
+        {
+          "name": "Ellery Jepson",
+          "school": "Olen. Orange",
+          "grade": "9",
+          "time": "18:08.1"
+        },
+        {
+          "name": "Paisley Farrier",
+          "school": "Bellaire",
+          "grade": "9",
+          "time": "18:23.7"
+        },
+        {
+          "name": "Luci Maschek",
+          "school": "Crestwood",
+          "grade": "9",
+          "time": "18:29.8"
+        },
+        {
+          "name": "Emma McCormick",
+          "school": "Sum. Co. Day",
+          "grade": "9",
+          "time": "18:30.4"
+        },
+        {
+          "name": "Charlee Skeen-Adrine",
+          "school": "Hudson",
+          "grade": "9",
+          "time": "18:32.9"
+        },
+        {
+          "name": "Elizabeth Niekamp",
+          "school": "Minster",
+          "grade": "9",
+          "time": "18:35.4"
+        },
+        {
+          "name": "Ava Reiheld",
+          "school": "West Holmes",
+          "grade": "9",
+          "time": "18:37.0"
+        },
+        {
+          "name": "Claire Passow",
+          "school": "Berkshire",
+          "grade": "9",
+          "time": "18:37.3"
+        },
+        {
+          "name": "Hayden Meyer",
+          "school": "Louisville",
+          "grade": "9",
+          "time": "18:37.5"
+        },
+        {
+          "name": "Hattie Kane",
+          "school": "Thom. Worthington",
+          "grade": "9",
+          "time": "18:46.6"
+        }
+      ],
+      "10": [
+        {
+          "name": "Julia Bocik",
+          "school": "Syl. Southview",
+          "grade": "10",
+          "time": "17:31.7"
+        },
+        {
+          "name": "Audrey Miller",
+          "school": "Aurora",
+          "grade": "10",
+          "time": "17:42.8"
+        },
+        {
+          "name": "Kaylee Ingratta",
+          "school": "Copley",
+          "grade": "10",
+          "time": "17:49.4"
+        },
+        {
+          "name": "Maya Gonzalez",
+          "school": "Bay",
+          "grade": "10",
+          "time": "17:53.4"
+        },
+        {
+          "name": "Beth Baker",
+          "school": "Upper Arlington",
+          "grade": "10",
+          "time": "17:56.6"
+        },
+        {
+          "name": "Tessa Andrews",
+          "school": "Springboro",
+          "grade": "10",
+          "time": "18:01.7"
+        },
+        {
+          "name": "Lillian (Lily) Kiser",
+          "school": "Fremont Ross",
+          "grade": "10",
+          "time": "18:20.2"
+        },
+        {
+          "name": "Karine Bhowmick",
+          "school": "Watterson",
+          "grade": "10",
+          "time": "18:27.5"
+        },
+        {
+          "name": "Elle Miesse",
+          "school": "Celina",
+          "grade": "10",
+          "time": "18:32.8"
+        },
+        {
+          "name": "Carmella Curtis",
+          "school": "Mentor",
+          "grade": "10",
+          "time": "18:33.6"
+        }
+      ],
+      "11": [
+        {
+          "name": "Gwen Huddle",
+          "school": "Napoleon",
+          "grade": "11",
+          "time": "17:26.4"
+        },
+        {
+          "name": "Lexi Schultz",
+          "school": "Perrysburg",
+          "grade": "11",
+          "time": "17:36.1"
+        },
+        {
+          "name": "Natalie Nixon",
+          "school": "Ottawa Hills",
+          "grade": "11",
+          "time": "17:45.9"
+        },
+        {
+          "name": "Annalise Costin",
+          "school": "Brecksville",
+          "grade": "11",
+          "time": "17:46.4"
+        },
+        {
+          "name": "Kaitlyn Van Zandt",
+          "school": "Watterson",
+          "grade": "11",
+          "time": "17:51.8"
+        },
+        {
+          "name": "Caroline Valentino",
+          "school": "Hathaway Brown",
+          "grade": "11",
+          "time": "17:57.5"
+        },
+        {
+          "name": "Gabby Byrne",
+          "school": "Chagrin Falls",
+          "grade": "11",
+          "time": "18:16.7"
+        },
+        {
+          "name": "Kate Michael",
+          "school": "Watkins Memorial",
+          "grade": "11",
+          "time": "18:18.7"
+        },
+        {
+          "name": "Kassadi Thompson",
+          "school": "Cle. Heights",
+          "grade": "11",
+          "time": "18:22.2"
+        },
+        {
+          "name": "Campbell Retzke",
+          "school": "Watterson",
+          "grade": "11",
+          "time": "18:29.0"
+        }
+      ],
+      "12": [
+        {
+          "name": "Mackenzie Kline",
+          "school": "Hil. Davidson",
+          "grade": "12",
+          "time": "17:46.7"
+        },
+        {
+          "name": "Elle Campbell",
+          "school": "Milford",
+          "grade": "12",
+          "time": "17:46.9"
+        },
+        {
+          "name": "Irelyn Johnson",
+          "school": "Marlington",
+          "grade": "12",
+          "time": "17:48.7"
+        },
+        {
+          "name": "Katherine Schuler",
+          "school": "Med Highland",
+          "grade": "12",
+          "time": "17:50.0"
+        },
+        {
+          "name": "Peyton Hughey",
+          "school": "Canal Winchester",
+          "grade": "12",
+          "time": "18:02.3"
+        },
+        {
+          "name": "Reese Galinger",
+          "school": "Teays Valley",
+          "grade": "12",
+          "time": "18:02.9"
+        },
+        {
+          "name": "Aleah Coster",
+          "school": "Oak Hills",
+          "grade": "12",
+          "time": "18:03.7"
+        },
+        {
+          "name": "Makayla Martuccio",
+          "school": "Tallmadge",
+          "grade": "12",
+          "time": "18:07.7"
+        },
+        {
+          "name": "Maddie O'Brien",
+          "school": "Stow-Munroe Falls",
+          "grade": "12",
+          "time": "18:10.3"
+        },
+        {
+          "name": "Lucia Sveda",
+          "school": "Green",
+          "grade": "12",
+          "time": "18:10.4"
+        }
+      ]
+    }
+  }
+}

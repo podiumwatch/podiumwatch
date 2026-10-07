@@ -2472,3 +2472,11 @@ The stray 13th "Calen Vogler" profile needs the user's decision (likely a trivia
 - Directory page itself was not browser-tested because its data comes from `/api/`, which the local static server cannot serve. Its markup was checked by reading the code.
 - `npm run build`, `npm run check`, `npm run test:mock-meet-export` (50/50), and both project health scripts pass.
 - Nothing committed or pushed. Waiting on the user's "push".
+
+## 2026-10-07: Overall (all-division) Top 10 by grade
+
+- Added an "Overall, regardless of division" section to the top of `/rankings/top-10/`: Boys Overall and Girls Overall, each broken into Freshmen, Sophomores, Juniors, and Seniors -- the ten fastest season-best times across every division combined, not split by division like the rest of the page.
+- New data file `src/data/top10-overall-by-grade-2026.json`, built by `dataimports/mock-meet-export/build-top10-overall.mjs`, which reuses the exact same Athletic.net/MileSplit pool-building and name/school merge logic as `build-top10-combined.mjs` (same alias fix included) -- the only change is grouping by gender and grade only, dropping division from the key.
+- Checked at 390px and 1440px: no horizontal overflow, both overall sections render above the by-division sections, all four grade cards populated for both genders.
+- `npm run build`, `npm run check`, and `npm run test:mock-meet-export` (50/50) pass.
+- Nothing committed or pushed. Waiting on the user's "push".

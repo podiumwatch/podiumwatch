@@ -57,6 +57,7 @@ const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams and the to
 
 import districtQualifiers from "../data/district-qualifiers-2026.json" with { type: "json" };
 import top10Data from "../data/top10-by-grade-2026.json" with { type: "json" };
+import top10OverallData from "../data/top10-overall-by-grade-2026.json" with { type: "json" };
 
 function districtFeedHtml(regionKey, divisionEntry) {
   const regionData = districtQualifiers.regions[regionKey];
@@ -628,6 +629,15 @@ export function top10ByGradePage(site) {
   const pathname = "/rankings/top-10/";
   const title = "Top 10";
   const lists = top10Data.lists;
+  const overallLists = top10OverallData.lists;
+
+  const overallJump = [["boys", "Boys Overall"], ["girls", "Girls Overall"]]
+    .map(([key, label]) => `<a href="#overall-${key}">${label}</a>`).join("");
+  const overallSections = [["boys", "Boys", "Overall Top 10"], ["girls", "Girls", "Overall Top 10"]].map(([key, gender]) => {
+    const cards = TOP10_GRADES.map(([grade, gradeLabel]) => top10Card(gradeLabel, overallLists[key]?.[grade] || [], gender === "Girls")).join("");
+    return `<section class="t10-block" id="overall-${key}" aria-labelledby="overall-${key}-title"><h2 id="overall-${key}-title">${gender} Overall</h2><div class="t10-grid">${cards}</div></section>`;
+  }).join("");
+
   const jump = TOP10_DIVISIONS.map(({ key, gender, division }) => `<a href="#${key}">${gender} Div ${division}</a>`).join("");
   const sections = TOP10_DIVISIONS.map(({ key, gender, division }) => {
     const cards = TOP10_GRADES.map(([grade, gradeLabel]) => top10Card(gradeLabel, lists[key]?.[grade] || [], gender === "Girls")).join("");
@@ -637,7 +647,7 @@ export function top10ByGradePage(site) {
   const content = `${pageHero({
     eyebrow: "2026 Rankings",
     title,
-    description: `The ten fastest season-best times in each grade, for every division and gender. ${lastUpdatedText()}`
+    description: `The ten fastest season-best times in each grade, overall and by division, for every gender. ${lastUpdatedText()}`
   })}
   ${sharedStyles()}
   <style>${TOP10_CSS}</style>
@@ -645,7 +655,13 @@ export function top10ByGradePage(site) {
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: title }])}
       <p class="mr-projection-note">Season-best times from Athletic.net and MileSplit, combined by runner so each athlete appears once. These are season bests, not results from a single meet.</p>
-      <h2 id="mr-top10-title" class="visually-hidden">Top 10 by grade and division</h2>
+      <h2 id="mr-top10-title" class="visually-hidden">Top 10 by grade, overall and by division</h2>
+
+      <p class="eyebrow" style="margin:0 0 10px;">Overall, regardless of division</p>
+      <nav class="t10-jump" aria-label="Jump to overall rankings">${overallJump}</nav>
+      ${overallSections}
+
+      <p class="eyebrow" style="margin:0 0 10px;">By division</p>
       <nav class="t10-jump" aria-label="Jump to division">${jump}</nav>
       ${sections}
     </div>
