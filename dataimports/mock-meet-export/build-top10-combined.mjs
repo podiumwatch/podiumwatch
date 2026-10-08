@@ -44,8 +44,31 @@ for (const [key, [anF, msF, fmt]] of Object.entries(AN)) {
   }
 }
 
+// The per-division AN loop above is authoritative: each school it has
+// pushed a row for is only ever pushed under ITS OWN division's file, so
+// grouping those rows by school tells us, school by school, which
+// division AN actually has them in (confirmed directly: this is exactly
+// where Margaretta's real Division III comes from). The MileSplit
+// grade-rankings workbook below (milesplit-top10-sheet2.xml) is a single
+// combined sheet covering every division at once, and it turns out to
+// literally duplicate a number of schools across two divisions in its own
+// source data (confirmed directly by reading the raw sheet -- e.g. Cole
+// Zang/Margaretta appears once under "Division 3" and again under
+// "Division 4", same two rows, same time). Rather than hardcode each
+// affected school, every xml row is checked against this AN-derived
+// canonical division before being pushed, and skipped if it conflicts --
+// this is the general fix for the whole class of bug, not a per-school
+// patch.
+const canonicalDivisionByTeam = new Map();
+for (const r of pool) {
+  const key = `${r.gender}|${norm(r.school)}`;
+  if (!canonicalDivisionByTeam.has(key)) canonicalDivisionByTeam.set(key, new Set());
+  canonicalDivisionByTeam.get(key).add(r.div);
+}
+
 const xml = fs.readFileSync(dir + "milesplit-top10-sheet2.xml", "utf8");
 const dec = (s) => s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&apos;/g, "'");
+let skippedXmlRows = 0;
 for (const r of xml.matchAll(/<x:row r="(\d+)"[^>]*>([\s\S]*?)<\/x:row>/g)) {
   if (Number(r[1]) < 6) continue;
   const cells = {};
@@ -55,23 +78,19 @@ for (const r of xml.matchAll(/<x:row r="(\d+)"[^>]*>([\s\S]*?)<\/x:row>/g)) {
   }
   const division = cells.A || "", gender = cells.B || "", grade = cells.C || "", athlete = cells.E || "", team = cells.F || "", time = cells.G || "";
   if (!athlete || !GRADE[grade] || !division) continue;
+  const genderKey = gender.toLowerCase().startsWith("g") ? "girls" : "boys";
+  const divKey = division.replace("Division ", "");
+  const school = schoolKey(team);
+  const canonical = canonicalDivisionByTeam.get(`${genderKey}|${norm(school)}`);
+  if (canonical && canonical.size === 1 && !canonical.has(divKey)) { skippedXmlRows++; continue; }
   const cs = Math.round(Number(time) * 86400 * 100);
   const m = Math.floor(cs / 6000), sec = (cs % 6000) / 100;
-  pool.push({ name: athlete, school: schoolKey(team), grade: GRADE[grade], time: `${m}:${sec.toFixed(1).padStart(4, "0")}`, cs, gender: gender.toLowerCase().startsWith("g") ? "girls" : "boys", div: division.replace("Division ", ""), src: "MileSplit" });
+  pool.push({ name: athlete, school, grade: GRADE[grade], time: `${m}:${sec.toFixed(1).padStart(4, "0")}`, cs, gender: genderKey, div: divKey, src: "MileSplit" });
 }
-
-// Margaretta's boys team is really Division III for 2026-27 (confirmed
-// against public/data/ohio-school-foundation-2026-27.json and matching
-// where src/data/mock-regionals-2026.json already has them) -- the MileSplit
-// D4 source file (milesplitd4final.csv) is stale from their 2025-26
-// division. Without this filter, Cole Zang and the rest of the Margaretta
-// boys roster show up twice: once correctly under boys-3, once wrongly
-// under boys-4.
-const EXCLUDE_FROM_DIVISION = new Set(["boys-4|margaretta"]);
-const filteredPool = pool.filter((r) => !EXCLUDE_FROM_DIVISION.has(`${r.gender}-${r.div}|${norm(r.school)}`));
+if (skippedXmlRows) console.log("Skipped", skippedXmlRows, "MileSplit sheet rows that conflicted with Athletic.net's own division for that school");
 
 const groups = {};
-for (const r of filteredPool) (groups[`${r.gender}-${r.div}-${r.grade}`] ||= []).push(r);
+for (const r of pool) (groups[`${r.gender}-${r.div}-${r.grade}`] ||= []).push(r);
 const result = {};
 const shortLists = [];
 for (const [k, rows] of Object.entries(groups)) {

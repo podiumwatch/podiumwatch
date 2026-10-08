@@ -52,8 +52,25 @@ for (const [key, [anF, msF, fmt]] of Object.entries(AN)) {
   }
 }
 
+// Same fix as build-top10-combined.mjs (see there for the full
+// explanation): the MileSplit grade-rankings workbook
+// (milesplit-top10-sheet2.xml) literally duplicates a number of schools
+// across two divisions in its own source data (e.g. Cole Zang/Margaretta
+// appears once under "Division 3" and again under "Division 4"). The
+// per-division Athletic.net loop above is authoritative -- it only ever
+// pushes a school under its own division's file -- so every xml row is
+// checked against that AN-derived canonical division and skipped if it
+// conflicts, before ever reaching this pooled-across-divisions list.
+const canonicalDivisionByTeam = new Map();
+for (const r of pool) {
+  const key = `${r.gender}|${norm(r.school)}`;
+  if (!canonicalDivisionByTeam.has(key)) canonicalDivisionByTeam.set(key, new Set());
+  canonicalDivisionByTeam.get(key).add(r.div);
+}
+
 const xml = fs.readFileSync(dir + "milesplit-top10-sheet2.xml", "utf8");
 const dec = (s) => s.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, "\"").replace(/&apos;/g, "'");
+let skippedXmlRows = 0;
 for (const r of xml.matchAll(/<x:row r="(\d+)"[^>]*>([\s\S]*?)<\/x:row>/g)) {
   if (Number(r[1]) < 6) continue;
   const cells = {};
@@ -63,25 +80,22 @@ for (const r of xml.matchAll(/<x:row r="(\d+)"[^>]*>([\s\S]*?)<\/x:row>/g)) {
   }
   const division = cells.A || "", gender = cells.B || "", grade = cells.C || "", athlete = cells.E || "", team = cells.F || "", time = cells.G || "";
   if (!athlete || !GRADE[grade] || !division) continue;
+  const genderKey = gender.toLowerCase().startsWith("g") ? "girls" : "boys";
+  const divKey = division.replace("Division ", "");
+  const school = schoolKey(team);
+  const canonical = canonicalDivisionByTeam.get(`${genderKey}|${norm(school)}`);
+  if (canonical && canonical.size === 1 && !canonical.has(divKey)) { skippedXmlRows++; continue; }
   const cs = Math.round(Number(time) * 86400 * 100);
   const m = Math.floor(cs / 6000), sec = (cs % 6000) / 100;
-  pool.push({ name: athlete, school: schoolKey(team), grade: GRADE[grade], time: `${m}:${sec.toFixed(1).padStart(4, "0")}`, cs, gender: gender.toLowerCase().startsWith("g") ? "girls" : "boys", div: division.replace("Division ", ""), src: "MileSplit" });
+  pool.push({ name: athlete, school, grade: GRADE[grade], time: `${m}:${sec.toFixed(1).padStart(4, "0")}`, cs, gender: genderKey, div: divKey, src: "MileSplit" });
 }
-
-// Same Margaretta/boys-4 fix as build-top10-combined.mjs (see there for
-// why): their boys team is really Division III for 2026-27, but the
-// MileSplit D4 source file is stale from 2025-26, so without this filter
-// Cole Zang (and the rest of the Margaretta boys roster) would be counted
-// twice in this pooled-across-divisions list -- once correctly from the
-// D3 source, once from the stale D4 one.
-const EXCLUDE_FROM_DIVISION = new Set(["boys-4|margaretta"]);
-const filteredPool = pool.filter((r) => !EXCLUDE_FROM_DIVISION.has(`${r.gender}-${r.div}|${norm(r.school)}`));
+if (skippedXmlRows) console.log("Skipped", skippedXmlRows, "MileSplit sheet rows that conflicted with Athletic.net's own division for that school");
 
 // Only real difference from build-top10-combined.mjs: group by
 // `${gender}-${grade}` -- division is dropped entirely here, so each
 // grade's list is the fastest 10 across every division combined.
 const groups = {};
-for (const r of filteredPool) (groups[`${r.gender}-${r.grade}`] ||= []).push(r);
+for (const r of pool) (groups[`${r.gender}-${r.grade}`] ||= []).push(r);
 const result = { boys: {}, girls: {} };
 const shortLists = [];
 for (const [k, rows] of Object.entries(groups)) {
