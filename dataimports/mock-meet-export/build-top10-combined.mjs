@@ -60,8 +60,18 @@ for (const r of xml.matchAll(/<x:row r="(\d+)"[^>]*>([\s\S]*?)<\/x:row>/g)) {
   pool.push({ name: athlete, school: schoolKey(team), grade: GRADE[grade], time: `${m}:${sec.toFixed(1).padStart(4, "0")}`, cs, gender: gender.toLowerCase().startsWith("g") ? "girls" : "boys", div: division.replace("Division ", ""), src: "MileSplit" });
 }
 
+// Margaretta's boys team is really Division III for 2026-27 (confirmed
+// against public/data/ohio-school-foundation-2026-27.json and matching
+// where src/data/mock-regionals-2026.json already has them) -- the MileSplit
+// D4 source file (milesplitd4final.csv) is stale from their 2025-26
+// division. Without this filter, Cole Zang and the rest of the Margaretta
+// boys roster show up twice: once correctly under boys-3, once wrongly
+// under boys-4.
+const EXCLUDE_FROM_DIVISION = new Set(["boys-4|margaretta"]);
+const filteredPool = pool.filter((r) => !EXCLUDE_FROM_DIVISION.has(`${r.gender}-${r.div}|${norm(r.school)}`));
+
 const groups = {};
-for (const r of pool) (groups[`${r.gender}-${r.div}-${r.grade}`] ||= []).push(r);
+for (const r of filteredPool) (groups[`${r.gender}-${r.div}-${r.grade}`] ||= []).push(r);
 const result = {};
 const shortLists = [];
 for (const [k, rows] of Object.entries(groups)) {

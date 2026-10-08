@@ -68,11 +68,20 @@ for (const r of xml.matchAll(/<x:row r="(\d+)"[^>]*>([\s\S]*?)<\/x:row>/g)) {
   pool.push({ name: athlete, school: schoolKey(team), grade: GRADE[grade], time: `${m}:${sec.toFixed(1).padStart(4, "0")}`, cs, gender: gender.toLowerCase().startsWith("g") ? "girls" : "boys", div: division.replace("Division ", ""), src: "MileSplit" });
 }
 
+// Same Margaretta/boys-4 fix as build-top10-combined.mjs (see there for
+// why): their boys team is really Division III for 2026-27, but the
+// MileSplit D4 source file is stale from 2025-26, so without this filter
+// Cole Zang (and the rest of the Margaretta boys roster) would be counted
+// twice in this pooled-across-divisions list -- once correctly from the
+// D3 source, once from the stale D4 one.
+const EXCLUDE_FROM_DIVISION = new Set(["boys-4|margaretta"]);
+const filteredPool = pool.filter((r) => !EXCLUDE_FROM_DIVISION.has(`${r.gender}-${r.div}|${norm(r.school)}`));
+
 // Only real difference from build-top10-combined.mjs: group by
 // `${gender}-${grade}` -- division is dropped entirely here, so each
 // grade's list is the fastest 10 across every division combined.
 const groups = {};
-for (const r of pool) (groups[`${r.gender}-${r.grade}`] ||= []).push(r);
+for (const r of filteredPool) (groups[`${r.gender}-${r.grade}`] ||= []).push(r);
 const result = { boys: {}, girls: {} };
 const shortLists = [];
 for (const [k, rows] of Object.entries(groups)) {

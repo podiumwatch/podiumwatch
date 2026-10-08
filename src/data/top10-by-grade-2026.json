@@ -879,12 +879,6 @@
       ],
       "11": [
         {
-          "name": "Cole Zang",
-          "school": "Margaretta",
-          "grade": "11",
-          "time": "15:11.0"
-        },
-        {
           "name": "Derek Young",
           "school": "Con. Crestview",
           "grade": "11",
@@ -937,6 +931,12 @@
           "school": "Spring. ECA",
           "grade": "11",
           "time": "16:18.2"
+        },
+        {
+          "name": "Jaxon League",
+          "school": "MVCA",
+          "grade": "11",
+          "time": "16:18.3"
         }
       ],
       "12": [
