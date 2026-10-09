@@ -1551,6 +1551,10 @@ export function adminOperationsPage(
                     selects through OHSAA's own credential
                     process.
                   </p>
+                  <p style="margin-top:8px;">
+                    <strong data-correspondent-view-count>&ndash;</strong>
+                    page open(s) on the application link, all-time.
+                  </p>
                 </div>
 
                 <span

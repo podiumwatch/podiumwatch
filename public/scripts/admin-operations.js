@@ -83,6 +83,9 @@
   const correspondentApplicationsEmpty = document.querySelector(
     "[data-correspondent-applications-empty]"
   );
+  const correspondentViewCount = document.querySelector(
+    "[data-correspondent-view-count]"
+  );
   const staticData =
     window.PODIUM_OPERATIONS_STATIC || {
       stories: {
@@ -2043,8 +2046,30 @@
     }
   }
 
+  // Independent of the applications list above -- its own dedicated
+  // action, own failure surface (shows "?" rather than breaking the rest
+  // of the tab if analytics data isn't available for any reason).
+  async function loadCorrespondentViewCount() {
+    if (!correspondentViewCount) return;
+    try {
+      const data = await requestJson(
+        "/api/admin/state-meet-correspondent",
+        {
+          method: "POST",
+          body: JSON.stringify({ action: "view_count" })
+        }
+      );
+      correspondentViewCount.textContent = formatNumber(data.view_count || 0);
+    } catch {
+      correspondentViewCount.textContent = "?";
+    }
+  }
+
   if (correspondentApplicationsRefresh) {
-    correspondentApplicationsRefresh.addEventListener("click", () => loadCorrespondentApplications());
+    correspondentApplicationsRefresh.addEventListener("click", () => {
+      loadCorrespondentApplications();
+      loadCorrespondentViewCount();
+    });
   }
   if (correspondentApplicationsStatus) {
     correspondentApplicationsStatus.addEventListener("change", () => loadCorrespondentApplications());
@@ -2112,6 +2137,7 @@
         // Same isolation reasoning again -- its own dedicated API, own
         // failure surface, independent of the dashboard and intern queue.
         await loadCorrespondentApplications();
+        await loadCorrespondentViewCount();
         return;
       }
 
@@ -2232,6 +2258,7 @@
       loadInternApplications();
       loadInternWelcomePendingCount();
       loadCorrespondentApplications();
+      loadCorrespondentViewCount();
     }
   );
 

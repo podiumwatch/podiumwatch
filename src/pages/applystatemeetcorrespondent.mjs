@@ -264,6 +264,7 @@ export function applyStateMeetCorrespondentPage(site) {
     </div>
   </section>
 
+  <script src="/scripts/page-view.js" defer></script>
   <script src="/scripts/apply-state-meet-correspondent.js" defer></script>`;
 
   return layout({

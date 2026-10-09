@@ -4,6 +4,12 @@ import {
   listStateMeetCorrespondentApplications,
   reviewStateMeetCorrespondentApplication
 } from "../../lib/state_meet_correspondent_service.mjs";
+import { getPageViewCount } from "../../lib/engagement_service.mjs";
+
+// The applicant-facing page's own path -- kept as one constant here
+// rather than accepting an arbitrary path from the request body, since
+// this admin endpoint has exactly one page it needs a count for.
+const APPLICATION_PAGE_PATH = "/apply/state-meet-correspondent/";
 
 // Admin-only management for State Meet Media Correspondent applications
 // (see install/70, lib/state_meet_correspondent_service.mjs). Lists what's
@@ -51,6 +57,8 @@ export default async function handler(request, response) {
 
     if (action === "list") {
       data = { applications: await listStateMeetCorrespondentApplications({ status: body.status }) };
+    } else if (action === "view_count") {
+      data = { view_count: await getPageViewCount(APPLICATION_PAGE_PATH) };
     } else if (action === "review") {
       data = { application: await reviewStateMeetCorrespondentApplication({
         applicationId: body.application_id,
