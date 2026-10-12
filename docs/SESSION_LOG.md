@@ -2492,3 +2492,14 @@ The stray 13th "Calen Vogler" profile needs the user's decision (likely a trivia
 - Scratch source files and the one-off apply script live under `dataimports/dyestat-2026/` (untracked).
 - Remaining 7 division/gender groups (Boys D1-D3, Girls D1-D4) still pending from the user.
 - Nothing committed or pushed yet.
+
+## 2026-10-12 (cont.): Boys Divisions I, II, III refresh from DyeStat
+
+- Same process as the Boys D4 refresh above, now generalized into reusable scripts: `dataimports/dyestat-2026/apply-dyestat-division.mjs` (takes a division id + CSV path; exact name match first, then a small edit-distance fallback within that division only, then a manual lookup table for genuinely new schools) and `dataimports/dyestat-2026/backfill-grade-division.mjs` (restores grade/graduation year from the last-pushed commit wherever team+name matches).
+- **Boys D1**: 75 teams applied (30 Central / 19 Northeast / 26 Southwest -- D1 has no Northwest region). 1 team dropped (Licking Hts.). 1 new team (Franklin Hts.) matched by hand to the official directory. 439 of 524 runners kept their prior grade.
+- **Boys D2**: 75 teams applied (35 Northeast / 12 Northwest / 17 Central / 11 Southwest). 22 teams dropped. 2 new teams (Marion Harding, Warren -> Warren G. Harding) matched by hand; both had stale individual entries removed (5 rows) once they gained a team roster. 469 of 525 runners kept their prior grade.
+- **Boys D3**: 75 teams applied (29 Northeast / 11 Southwest / 17 Central / 18 Northwest). 26 teams dropped. 5 new teams (Lake Cath. -> Lake Catholic, Liberty-Benton, Bluffton, Canton C.C. -> Canton Central Catholic, Coventry) matched by hand; all five had stale individual entries removed (15 rows total).
+- New school lookups recorded in `dataimports/dyestat-2026/manual-school-lookup.json` so they're never re-guessed if this script runs again.
+- `validateDivisionRoster` 0 problems on all three divisions, full `npm run build` (420 pages), `npm run check`, and the entire `npm test` suite (every test file, not just mock-meet-export) all pass.
+- Remaining 4 of 8 division/gender groups (Girls D1-D4) still pending from the user. DyeStat's Individuals export (for grade on the runners with none) has not been supplied yet for any division.
+- Nothing committed or pushed yet -- waiting on the user.

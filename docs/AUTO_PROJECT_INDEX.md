@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-12 11:39:06
+Generated: 2026-10-12 11:56:16
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 962 |
+| Included source files | 969 |
 | Page source files | 92 |
 | API files | 128 |
 | Route references | 104 |
@@ -20,7 +20,7 @@ This file is generated from the current project.
 
 Latest commit:
 
-11c4707d410dbd2b7d8ab4f3273058ac19e2a9ba | 2026-10-09 14:56:52 -0400 | Add page-open counter and new-application email for correspondent role
+213e6575eddf7cc1890f9dfdccf11905d1d27822 | 2026-10-12 11:43:57 -0400 | Refresh Boys Division IV mock regional rosters from DyeStat
 
 Working tree:
 
@@ -45,7 +45,12 @@ Working tree:
 ?? dataimports/boys-d3-2026/
 ?? dataimports/boys-d4-2026/
 ?? dataimports/boys_week_9_26_clean_import_v2.csv
-?? dataimports/dyestat-2026/
+?? "dataimports/dyestat-2026/Week 10_11 - boys d1.csv"
+?? "dataimports/dyestat-2026/Week 10_11 - boys d2.csv"
+?? "dataimports/dyestat-2026/Week 10_11 - boys d3.csv"
+?? dataimports/dyestat-2026/apply-dyestat-division.mjs
+?? dataimports/dyestat-2026/backfill-grade-division.mjs
+?? dataimports/dyestat-2026/manual-school-lookup.json
 ?? dataimports/girls-d1-2026/
 ?? dataimports/girls-d2-2026/
 ?? dataimports/girls-d3-2026/

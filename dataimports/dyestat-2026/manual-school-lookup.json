@@ -1,0 +1,16 @@
+{
+  "boys-d1|franklinhts": { "ohsaaSchoolId": 610, "city": "Columbus", "athleticDistrict": "Central" },
+  "boys-d2|marionharding": { "ohsaaSchoolId": 690, "city": "Marion", "athleticDistrict": "Central" },
+  "boys-d2|warren": { "ohsaaSchoolId": 692, "city": "Warren", "athleticDistrict": "Northeast" },
+  "boys-d3|lakecath": { "ohsaaSchoolId": 824, "city": "Mentor", "athleticDistrict": "Northeast" },
+  "boys-d3|libertybenton": { "ohsaaSchoolId": 862, "city": "Findlay", "athleticDistrict": "Northwest" },
+  "boys-d3|bluffton": { "ohsaaSchoolId": 236, "city": "Bluffton", "athleticDistrict": "Northwest" },
+  "boys-d3|cantoncc": { "ohsaaSchoolId": 340, "city": "Canton", "athleticDistrict": "Northeast" },
+  "boys-d3|coventry": { "ohsaaSchoolId": 428, "city": "Coventry Township", "athleticDistrict": "Northeast" },
+  "boys-d4|calvarychristian": { "ohsaaSchoolId": 9276, "city": "Bellefontaine", "athleticDistrict": "Southwest" },
+  "boys-d4|eastcanton": { "ohsaaSchoolId": 488, "city": "East Canton", "athleticDistrict": "Northeast" },
+  "boys-d4|sandsmcc": { "ohsaaSchoolId": 1372, "city": "Sandusky", "athleticDistrict": "Northwest" },
+  "boys-d4|lakeridgeacad": { "ohsaaSchoolId": 827, "city": "North Ridgeville", "athleticDistrict": "Northeast" },
+  "boys-d4|manschristian": { "ohsaaSchoolId": 942, "city": "Mansfield", "athleticDistrict": "Northwest" },
+  "boys-d4|bucyrus": { "ohsaaSchoolId": 290, "city": "Bucyrus", "athleticDistrict": "Northwest" }
+}
