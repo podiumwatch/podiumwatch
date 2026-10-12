@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-12 13:57:08
+Generated: 2026-10-12 14:30:22
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 983 |
+| Included source files | 987 |
 | Page source files | 92 |
 | API files | 128 |
 | Route references | 104 |
@@ -20,16 +20,11 @@ This file is generated from the current project.
 
 Latest commit:
 
-b81c70b02ed95bd50d4604e22fa9c2da4d9c6043 | 2026-10-12 12:27:46 -0400 | Add Team Score column to the finish-order tables
+ae08cb6aa17b72f51aa6be730a86d41881870bb6 | 2026-10-12 14:03:08 -0400 | Refresh all four Girls mock regional divisions from Athletic.net top-75
 
 Working tree:
 
  M .claude/settings.json
- M dataimports/dyestat-2026/apply-dyestat-division.mjs
- M dataimports/dyestat-2026/manual-school-lookup.json
- M dataimports/dyestat-2026/rebuild-top10-from-mock-regionals.mjs
- M dataimports/dyestat-2026/rebuild-top10-overall-from-mock-regionals.mjs
- M docs/AUTO_PROJECT_INDEX.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M src/data/mock-regionals-2026.json
@@ -54,10 +49,6 @@ Working tree:
 ?? dataimports/boys-d3-2026/
 ?? dataimports/boys-d4-2026/
 ?? dataimports/boys_week_9_26_clean_import_v2.csv
-?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d1.csv"
-?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d2.csv"
-?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d3.csv"
-?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d4.csv"
 ?? dataimports/girls-d1-2026/
 ?? dataimports/girls-d2-2026/
 ?? dataimports/girls-d3-2026/

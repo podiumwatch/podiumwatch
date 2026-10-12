@@ -8,7 +8,7 @@
           "name": "Maxwell Frasure",
           "school": "Sycamore",
           "grade": "9",
-          "time": "15:49.2"
+          "time": "15:49.20"
         },
         {
           "name": "Lucas Thomas",
@@ -20,7 +20,7 @@
           "name": "Thomas King",
           "school": "Watterson",
           "grade": "9",
-          "time": "15:55.2"
+          "time": "15:55.20"
         },
         {
           "name": "Luke Brickner",
@@ -38,31 +38,31 @@
           "name": "Reed Henderson",
           "school": "Teays Valley",
           "grade": "9",
-          "time": "16:19.6"
+          "time": "16:19.60"
         },
         {
           "name": "Collin Melvin",
           "school": "Nordonia",
           "grade": "9",
-          "time": "16:20.3"
-        },
-        {
-          "name": "Sam McAfee",
-          "school": "Lak. West",
-          "grade": "9",
-          "time": "16:24.4"
+          "time": "16:20.40"
         },
         {
           "name": "Dylan Chisanga",
           "school": "Lak. West",
           "grade": "9",
-          "time": "16:25.3"
+          "time": "16:25.30"
         },
         {
           "name": "James Piper",
           "school": "Beavercreek",
           "grade": "9",
-          "time": "16:31.4"
+          "time": "16:31.40"
+        },
+        {
+          "name": "Jameson Byrne",
+          "school": "Chagrin Falls",
+          "grade": "9",
+          "time": "16:32.50"
         }
       ],
       "10": [
@@ -70,7 +70,7 @@
           "name": "Calvin Watson",
           "school": "Thom. Worthington",
           "grade": "10",
-          "time": "15:06.3"
+          "time": "15:06.30"
         },
         {
           "name": "Vincent Campbell",
@@ -82,7 +82,7 @@
           "name": "Thomas Moran",
           "school": "Mason",
           "grade": "10",
-          "time": "15:34.9"
+          "time": "15:34.90"
         },
         {
           "name": "Paxson Bixler",
@@ -94,7 +94,7 @@
           "name": "Corbin Ott",
           "school": "Mentor",
           "grade": "10",
-          "time": "15:47.1"
+          "time": "15:47.10"
         },
         {
           "name": "Owen Cappuzello",
@@ -106,7 +106,7 @@
           "name": "Micah Ballinger",
           "school": "Olen. Berlin",
           "grade": "10",
-          "time": "15:55.1"
+          "time": "15:55.10"
         },
         {
           "name": "Grant Hinkelman",
@@ -118,13 +118,13 @@
           "name": "Lucas Kappel",
           "school": "Beavercreek",
           "grade": "10",
-          "time": "15:59.1"
+          "time": "15:59.10"
         },
         {
           "name": "Parker Simonson",
           "school": "Mass. Perry",
           "grade": "10",
-          "time": "16:00.6"
+          "time": "16:00.60"
         }
       ],
       "11": [
@@ -138,19 +138,19 @@
           "name": "Ian Patrick",
           "school": "Little Miami",
           "grade": "11",
-          "time": "14:54.4"
+          "time": "14:54.40"
         },
         {
           "name": "Austin Benedict",
           "school": "New Albany",
           "grade": "11",
-          "time": "14:59.8"
+          "time": "14:59.80"
         },
         {
           "name": "Carson Spencer",
           "school": "Turpin",
           "grade": "11",
-          "time": "15:08.3"
+          "time": "15:08.30"
         },
         {
           "name": "Cole Zang",
@@ -162,7 +162,7 @@
           "name": "Gavin Swain",
           "school": "Gah. Lincoln",
           "grade": "11",
-          "time": "15:20.8"
+          "time": "15:20.80"
         },
         {
           "name": "Asher Cole",
@@ -174,7 +174,7 @@
           "name": "Ethan Shultz",
           "school": "Big Walnut",
           "grade": "11",
-          "time": "15:25.2"
+          "time": "15:25.20"
         },
         {
           "name": "Derek Young",
@@ -186,7 +186,7 @@
           "name": "Brennan Higgins",
           "school": "Tol. St. Francis",
           "grade": "11",
-          "time": "15:27.7"
+          "time": "15:27.70"
         }
       ],
       "12": [
@@ -200,7 +200,7 @@
           "name": "Ryne Reynolds",
           "school": "Little Miami",
           "grade": "12",
-          "time": "14:57.7"
+          "time": "14:57.70"
         },
         {
           "name": "Joel Smelcer",
@@ -212,25 +212,25 @@
           "name": "Logan Behm",
           "school": "Hil. Darby",
           "grade": "12",
-          "time": "15:09.1"
+          "time": "15:09.10"
         },
         {
           "name": "Henry Newman",
           "school": "Milford",
           "grade": "12",
-          "time": "15:10.2"
+          "time": "15:10.20"
         },
         {
           "name": "Steven Owen",
           "school": "Syl. Southview",
           "grade": "12",
-          "time": "15:16.9"
+          "time": "15:16.90"
         },
         {
           "name": "Holden Gray",
           "school": "Wester. North",
           "grade": "12",
-          "time": "15:17.0"
+          "time": "15:17.00"
         },
         {
           "name": "Ian Putnam",
@@ -242,13 +242,13 @@
           "name": "Ian Res",
           "school": "West Geauga",
           "grade": "12",
-          "time": "15:20.3"
+          "time": "15:20.30"
         },
         {
           "name": "Cowen Allender",
           "school": "Olen. Orange",
           "grade": "12",
-          "time": "15:20.9"
+          "time": "15:20.90"
         }
       ]
     },

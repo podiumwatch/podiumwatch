@@ -645,7 +645,7 @@ test("the newly resolved identities are consistent everywhere they appear in the
       }
     }
   }
-  assert.equal(checked, 5, "expected exactly 5 nodes (Boys D1 Hamilton, Girls D1 Hamilton, Girls D1 Groveport-Madison, Girls D4 Crestline, Boys D4 Colten Keller at Crestline); Danville and Elgin dropped out of Girls Division IV's top-75 list in the 2026-10-12 DyeStat/Athletic.net refresh and no longer appear in this file");
+  assert.equal(checked, 6, "expected exactly 6 nodes (Boys D1 Hamilton, Girls D1 Hamilton, Boys D1 Groveport-Madison, Girls D1 Groveport-Madison, Boys D4 Crestline, Girls D4 Crestline), all as full top-75 team entries. Groveport-Madison is now confirmed Division I on the boys side too via the 2026-10-12 Boys D1 MileSplit correction, and Crestline is now a real team (not a standalone individual) on the boys side via the earlier Boys D4 MileSplit correction. Danville and Elgin dropped out of Girls Division IV's top-75 list in the 2026-10-12 DyeStat/Athletic.net refresh and no longer appear in this file");
 });
 
 test("Beaver Local's previously resolved identity (OHSAA 176) is unchanged by this pass, across its team entry and both individual entries", async () => {
