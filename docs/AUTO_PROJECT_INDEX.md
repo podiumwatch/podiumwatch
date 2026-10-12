@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-12 11:56:16
+Generated: 2026-10-12 13:57:08
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 969 |
+| Included source files | 983 |
 | Page source files | 92 |
 | API files | 128 |
 | Route references | 104 |
@@ -20,13 +20,22 @@ This file is generated from the current project.
 
 Latest commit:
 
-213e6575eddf7cc1890f9dfdccf11905d1d27822 | 2026-10-12 11:43:57 -0400 | Refresh Boys Division IV mock regional rosters from DyeStat
+b81c70b02ed95bd50d4604e22fa9c2da4d9c6043 | 2026-10-12 12:27:46 -0400 | Add Team Score column to the finish-order tables
 
 Working tree:
 
  M .claude/settings.json
+ M dataimports/dyestat-2026/apply-dyestat-division.mjs
+ M dataimports/dyestat-2026/manual-school-lookup.json
+ M dataimports/dyestat-2026/rebuild-top10-from-mock-regionals.mjs
+ M dataimports/dyestat-2026/rebuild-top10-overall-from-mock-regionals.mjs
  M docs/AUTO_PROJECT_INDEX.md
+ M docs/NEXT_SESSION.md
+ M docs/SESSION_LOG.md
  M src/data/mock-regionals-2026.json
+ M src/data/top10-by-grade-2026.json
+ M src/data/top10-overall-by-grade-2026.json
+ M tests/mock-meet-export.test.mjs
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
 ?? dataimports/BTF2027D2.pdf
@@ -45,18 +54,17 @@ Working tree:
 ?? dataimports/boys-d3-2026/
 ?? dataimports/boys-d4-2026/
 ?? dataimports/boys_week_9_26_clean_import_v2.csv
-?? "dataimports/dyestat-2026/Week 10_11 - boys d1.csv"
-?? "dataimports/dyestat-2026/Week 10_11 - boys d2.csv"
-?? "dataimports/dyestat-2026/Week 10_11 - boys d3.csv"
-?? dataimports/dyestat-2026/apply-dyestat-division.mjs
-?? dataimports/dyestat-2026/backfill-grade-division.mjs
-?? dataimports/dyestat-2026/manual-school-lookup.json
+?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d1.csv"
+?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d2.csv"
+?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d3.csv"
+?? "dataimports/dyestat-2026/Week 10_11 A Net - girls d4.csv"
 ?? dataimports/girls-d1-2026/
 ?? dataimports/girls-d2-2026/
 ?? dataimports/girls-d3-2026/
 ?? dataimports/girls-d4-2026/
 ?? dataimports/girls_week_9_26_clean_import.csv
 ?? dataimports/girls_week_9_26_clean_import_v2.csv
+?? dataimports/milesplit-2026/
 ?? dataimports/mock-meet-export/32d15d91-d3a0-4880-9743-b62a2652e89e/
 ?? dataimports/mock-meet-export/3b832abe-382b-4559-82de-c3df639d1398/
 ?? dataimports/mock-meet-export/7038c2d2-e066-46f9-9500-89023e7f8180/

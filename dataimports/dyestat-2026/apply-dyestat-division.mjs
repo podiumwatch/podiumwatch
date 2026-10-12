@@ -31,7 +31,11 @@ const lev = (a, b) => {
   return dp[a.length][b.length];
 };
 
-const REGION_KEY_BY_DISTRICT = { Central: "central", Northeast: "northeast", Northwest: "northwest", Southwest: "southwest" };
+const REGION_KEY_BY_DISTRICT = {
+  Central: "central", Northeast: "northeast", Northwest: "northwest", Southwest: "southwest",
+  East: "central", Southeast: "central"
+};
+const REGION_LABEL_BY_KEY = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
 const manualLookup = JSON.parse(fs.readFileSync("dataimports/dyestat-2026/manual-school-lookup.json", "utf8"));
 
 const path = "src/data/mock-regionals-2026.json";
@@ -95,7 +99,8 @@ for (const line of csvLines) {
   if (!placement) {
     const manual = manualLookup[`${divisionId}|${key}`];
     if (manual) {
-      placement = { name: rawName, regionKey: REGION_KEY_BY_DISTRICT[manual.athleticDistrict], region: manual.athleticDistrict, ohsaaSchoolId: manual.ohsaaSchoolId, city: manual.city, athleticDistrict: manual.athleticDistrict };
+      const regionKey = REGION_KEY_BY_DISTRICT[manual.athleticDistrict];
+      placement = { name: rawName, regionKey, region: REGION_LABEL_BY_KEY[regionKey], ohsaaSchoolId: manual.ohsaaSchoolId, city: manual.city, athleticDistrict: manual.athleticDistrict };
     }
   }
   if (!placement) {

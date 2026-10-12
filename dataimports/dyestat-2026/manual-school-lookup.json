@@ -12,5 +12,15 @@
   "boys-d4|sandsmcc": { "ohsaaSchoolId": 1372, "city": "Sandusky", "athleticDistrict": "Northwest" },
   "boys-d4|lakeridgeacad": { "ohsaaSchoolId": 827, "city": "North Ridgeville", "athleticDistrict": "Northeast" },
   "boys-d4|manschristian": { "ohsaaSchoolId": 942, "city": "Mansfield", "athleticDistrict": "Northwest" },
-  "boys-d4|bucyrus": { "ohsaaSchoolId": 290, "city": "Bucyrus", "athleticDistrict": "Northwest" }
+  "boys-d4|bucyrus": { "ohsaaSchoolId": 290, "city": "Bucyrus", "athleticDistrict": "Northwest" },
+  "girls-d4|concrestview": { "ohsaaSchoolId": 438, "city": "Convoy", "athleticDistrict": "Northwest" },
+  "girls-d4|limacc": { "ohsaaSchoolId": 874, "city": "Lima", "athleticDistrict": "Northwest" },
+  "girls-d3|geneva": { "ohsaaSchoolId": 634, "city": "Geneva", "athleticDistrict": "Northeast" },
+  "girls-d3|bethel": { "ohsaaSchoolId": 176, "city": "East Liverpool", "athleticDistrict": "East" },
+  "girls-d3|richedison": { "ohsaaSchoolId": 519, "city": "Richmond", "athleticDistrict": "East" },
+  "girls-d3|triway": { "ohsaaSchoolId": 1548, "city": "Wooster", "athleticDistrict": "Northeast" },
+  "girls-d2|holyname": { "ohsaaSchoolId": 728, "city": "Parma Heights", "athleticDistrict": "Northeast" },
+  "girls-d1|johnhay": { "ohsaaSchoolId": 790, "city": "Cleveland", "athleticDistrict": "Northeast" },
+  "girls-d1|cantonmckinley": { "ohsaaSchoolId": 306, "city": "Canton", "athleticDistrict": "Northeast" },
+  "girls-d1|start": { "ohsaaSchoolId": 1482, "city": "Toledo", "athleticDistrict": "Northwest" }
 }

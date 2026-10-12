@@ -612,22 +612,6 @@ test("Groveport-Madison (hyphenated in the mock data) resolves to Groveport Madi
   assert.equal(team.athleticDistrict, "Central");
 });
 
-test("Danville resolves to OHSAA 454 with a Central athletic district", async () => {
-  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
-  const team = regionalsData.divisions.find((d) => d.label === "Girls Division IV").regions.central.teams.find((t) => t.name === "Danville");
-  assert.equal(team.ohsaaSchoolId, 454);
-  assert.equal(team.city, "Danville");
-  assert.equal(team.athleticDistrict, "Central");
-});
-
-test("Elgin resolves to OHSAA 524 with its official city of Marion", async () => {
-  const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
-  const team = regionalsData.divisions.find((d) => d.label === "Girls Division IV").regions.central.teams.find((t) => t.name === "Elgin");
-  assert.equal(team.ohsaaSchoolId, 524);
-  assert.equal(team.city, "Marion", "Elgin's official city is Marion, not a city literally named Elgin");
-  assert.equal(team.athleticDistrict, "Central");
-});
-
 test("Crestline resolves to OHSAA 432, never to Colonel Crawford's 400", async () => {
   const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
   const team = regionalsData.divisions.find((d) => d.label === "Girls Division IV").regions.northwest.teams.find((t) => t.name === "Crestline");
@@ -637,13 +621,11 @@ test("Crestline resolves to OHSAA 432, never to Colonel Crawford's 400", async (
   assert.equal(team.athleticDistrict, "Northwest");
 });
 
-test("the five newly resolved identities are consistent everywhere they appear in the file, across both teams and any supplemental individuals", async () => {
+test("the newly resolved identities are consistent everywhere they appear in the file, across both teams and any supplemental individuals", async () => {
   const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
   const expected = {
     Hamilton: { ohsaaSchoolId: 685, city: "Hamilton", athleticDistrict: "Southwest" },
     "Groveport-Madison": { ohsaaSchoolId: 682, city: "Groveport", athleticDistrict: "Central" },
-    Danville: { ohsaaSchoolId: 454, city: "Danville", athleticDistrict: "Central" },
-    Elgin: { ohsaaSchoolId: 524, city: "Marion", athleticDistrict: "Central" },
     Crestline: { ohsaaSchoolId: 432, city: "Crestline", athleticDistrict: "Northwest" }
   };
   let checked = 0;
@@ -663,7 +645,7 @@ test("the five newly resolved identities are consistent everywhere they appear i
       }
     }
   }
-  assert.equal(checked, 7, "expected exactly 7 nodes (Boys D1 Hamilton, Girls D1 Hamilton, Girls D1 Groveport-Madison, Girls D4 Danville, Girls D4 Elgin, Girls D4 Crestline, Boys D4 Colten Keller at Crestline)");
+  assert.equal(checked, 5, "expected exactly 5 nodes (Boys D1 Hamilton, Girls D1 Hamilton, Girls D1 Groveport-Madison, Girls D4 Crestline, Boys D4 Colten Keller at Crestline); Danville and Elgin dropped out of Girls Division IV's top-75 list in the 2026-10-12 DyeStat/Athletic.net refresh and no longer appear in this file");
 });
 
 test("Beaver Local's previously resolved identity (OHSAA 176) is unchanged by this pass, across its team entry and both individual entries", async () => {
@@ -679,8 +661,8 @@ test("Beaver Local's previously resolved identity (OHSAA 176) is unchanged by th
 
 test("no unrelated school's existing identity was overwritten by this pass (spot-check a school with a pre-existing, already-correct identity)", async () => {
   const { default: regionalsData } = await import("../src/data/mock-regionals-2026.json", { with: { type: "json" } });
-  const utica = regionalsData.divisions.find((d) => d.label === "Girls Division III").regions.central.teams.find((t) => t.name === "Utica");
-  assert.equal(utica.ohsaaSchoolId, 1584, "Utica's pre-existing identity must be untouched by the school-identity resolution work in this file");
-  assert.equal(utica.city, "Utica");
-  assert.equal(utica.athleticDistrict, "Central");
+  const northmor = regionalsData.divisions.find((d) => d.label === "Girls Division III").regions.central.teams.find((t) => t.name === "Northmor");
+  assert.equal(northmor.ohsaaSchoolId, 1144, "Northmor's pre-existing identity must be untouched by the school-identity resolution work in this file");
+  assert.equal(northmor.city, "Galion");
+  assert.equal(northmor.athleticDistrict, "Central");
 });

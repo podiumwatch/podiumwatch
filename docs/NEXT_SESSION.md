@@ -1,5 +1,17 @@
 # Podium Watch next session
 
+## Most recent work (2026-10-12) -- read this first, supersedes everything below for mock regional/Top 10 data
+
+All 8 division/gender groups in `src/data/mock-regionals-2026.json` (Boys D1-D4, Girls D1-D4) have now been refreshed from real external sources this session -- see `docs/SESSION_LOG.md`'s 2026-10-12 entries for full detail on each. Summary of where things stand:
+
+- **Boys D4 and D3**: refreshed twice -- first from DyeStat top-75, then replaced again with MileSplit's full field (183 and 201 teams respectively), cross-checked against the official 2026-27 boys XC division document school-by-school, with every division mismatch, duplicate-runner row, and malformed CSV row found and fixed rather than guessed at.
+- **Boys D1 and D2**: refreshed once from DyeStat top-75 only. **Still pending the same MileSplit full-field correction pass D3/D4 got** -- no MileSplit export has been supplied for either yet.
+- **Girls D1-D4**: refreshed once from Athletic.net top-75 exports (same process as the original Boys D1-D4 pass, not the MileSplit full-field correction). All four validate clean, grades backfilled from prior data, Top 10 by grade and Overall Top 10 rebuilt for girls alongside boys.
+- A handful of schools that had a prior-session identity resolution (Danville, Elgin, Utica) dropped out of the real top-75 cut in this refresh and no longer appear in the file -- 4 stale test assertions in `tests/mock-meet-export.test.mjs` were updated to match (not a data bug, just schools that didn't make this week's top 75).
+- `dataimports/dyestat-2026/apply-dyestat-division.mjs` was extended to handle real East/Southeast athletic districts for manually-resolved schools (previously only the 4 region-bucket labels were recognized).
+- `npm run build`, `npm run check`, and the full `npm test` suite all pass as of this entry. Nothing in this entire effort has been committed or pushed yet -- waiting on the user's explicit "push".
+- Next natural step whenever the user supplies the data: the Boys D1/D2 MileSplit full-field correction, to bring all 8 groups to the same level of verification.
+
 ## Most recent work (2026-09-30) -- read this first, supersedes the 2026-09-29 section below
 
 Approved and implemented a narrow policy: a `result_ingestion_jobs.options.performance_marks_only = true` job's rows may import with `place = null` (never computed/estimated), tagged `result_status: "reviewed_result"` instead of `"official_result"`. Full reasoning in `docs/DECISIONS.md`, 2026-09-30.

@@ -1,10 +1,8 @@
 // Rebuilds the Top 10 by grade/division lists for whichever gender/
 // divisions have already been refreshed from DyeStat in
-// mock-regionals-2026.json (currently: boys-d1..d4), pooling every
+// mock-regionals-2026.json (boys-d1..d4 and girls-d1..d4), pooling every
 // runner with a known grade from that division's teams + supplemental
-// individuals, and taking the fastest 10 per grade. Girls keys are left
-// completely untouched -- they're still on the older Athletic.net/
-// MileSplit source until that refresh happens too.
+// individuals, and taking the fastest 10 per grade.
 //
 // This deliberately replaces build-top10-combined.mjs's job for just
 // these division keys: once mock-regionals-2026.json is the fresher,
@@ -12,7 +10,7 @@
 // page to keep showing older times for the same teams.
 import fs from "node:fs";
 
-const DIVISIONS_TO_REBUILD = ["boys-d1", "boys-d2", "boys-d3", "boys-d4"];
+const DIVISIONS_TO_REBUILD = ["boys-d1", "boys-d2", "boys-d3", "boys-d4", "girls-d1", "girls-d2", "girls-d3", "girls-d4"];
 
 const mock = JSON.parse(fs.readFileSync("src/data/mock-regionals-2026.json", "utf8"));
 const byGrade = JSON.parse(fs.readFileSync("src/data/top10-by-grade-2026.json", "utf8"));
@@ -49,6 +47,6 @@ for (const divisionId of DIVISIONS_TO_REBUILD) {
   console.log(resultKey, "rebuilt from mock-regionals-2026.json:", Object.fromEntries(Object.entries(lists).map(([g, rows]) => [g, rows.length])));
 }
 
-byGrade.source = "Boys divisions: rebuilt directly from this site's own mock regional rosters (src/data/mock-regionals-2026.json), which are sourced from DyeStat. Girls divisions: Athletic.net individual season-best lists and the MileSplit 2026 grade rankings, combined by runner, not yet refreshed.";
+byGrade.source = "Rebuilt directly from this site's own mock regional rosters (src/data/mock-regionals-2026.json), which are sourced from DyeStat/Athletic.net exports.";
 fs.writeFileSync("src/data/top10-by-grade-2026.json", JSON.stringify(byGrade, null, 2) + "\n");
 console.log("Wrote src/data/top10-by-grade-2026.json");

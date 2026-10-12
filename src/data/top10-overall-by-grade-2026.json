@@ -1,6 +1,6 @@
 {
   "season": "2026",
-  "source": "Boys: rebuilt directly from this site's own mock regional rosters (src/data/mock-regionals-2026.json), which are sourced from DyeStat, pooled across all four divisions. Girls: Athletic.net individual season-best lists and the MileSplit 2026 grade rankings, combined by runner, not yet refreshed.",
+  "source": "Rebuilt directly from this site's own mock regional rosters (src/data/mock-regionals-2026.json), which are sourced from DyeStat/Athletic.net exports, pooled across all four divisions per gender.",
   "lists": {
     "boys": {
       "9": [
@@ -14,7 +14,7 @@
           "name": "Lucas Thomas",
           "school": "Gar. Garfield",
           "grade": "9",
-          "time": "15:49.8"
+          "time": "15:49.78"
         },
         {
           "name": "Thomas King",
@@ -32,7 +32,7 @@
           "name": "Oliver Scott",
           "school": "Van Wert",
           "grade": "9",
-          "time": "16:17.0"
+          "time": "16:16.96"
         },
         {
           "name": "Reed Henderson",
@@ -76,7 +76,7 @@
           "name": "Vincent Campbell",
           "school": "Meadowbrook",
           "grade": "10",
-          "time": "15:27.6"
+          "time": "15:25.42"
         },
         {
           "name": "Thomas Moran",
@@ -88,7 +88,7 @@
           "name": "Paxson Bixler",
           "school": "Russia",
           "grade": "10",
-          "time": "15:41.3"
+          "time": "15:41.29"
         },
         {
           "name": "Corbin Ott",
@@ -100,7 +100,7 @@
           "name": "Owen Cappuzello",
           "school": "McDonald",
           "grade": "10",
-          "time": "15:54.4"
+          "time": "15:54.40"
         },
         {
           "name": "Micah Ballinger",
@@ -112,7 +112,7 @@
           "name": "Grant Hinkelman",
           "school": "Milton-Union",
           "grade": "10",
-          "time": "15:56.2"
+          "time": "15:56.20"
         },
         {
           "name": "Lucas Kappel",
@@ -132,7 +132,7 @@
           "name": "Brice Fuller",
           "school": "Fairless",
           "grade": "11",
-          "time": "14:54.1"
+          "time": "14:54.10"
         },
         {
           "name": "Ian Patrick",
@@ -156,7 +156,7 @@
           "name": "Cole Zang",
           "school": "Margaretta",
           "grade": "11",
-          "time": "15:11.0"
+          "time": "15:11.00"
         },
         {
           "name": "Gavin Swain",
@@ -168,7 +168,7 @@
           "name": "Asher Cole",
           "school": "West Liberty-Salem",
           "grade": "11",
-          "time": "15:22.8"
+          "time": "15:22.80"
         },
         {
           "name": "Ethan Shultz",
@@ -180,7 +180,7 @@
           "name": "Derek Young",
           "school": "Con. Crestview",
           "grade": "11",
-          "time": "15:26.9"
+          "time": "15:26.81"
         },
         {
           "name": "Brennan Higgins",
@@ -194,7 +194,7 @@
           "name": "Jackson Spitzer",
           "school": "Versailles",
           "grade": "12",
-          "time": "14:54.9"
+          "time": "14:54.90"
         },
         {
           "name": "Ryne Reynolds",
@@ -206,7 +206,7 @@
           "name": "Joel Smelcer",
           "school": "Perkins",
           "grade": "12",
-          "time": "15:08.8"
+          "time": "15:08.80"
         },
         {
           "name": "Logan Behm",
@@ -233,6 +233,12 @@
           "time": "15:17.0"
         },
         {
+          "name": "Ian Putnam",
+          "school": "Portsmouth",
+          "grade": "12",
+          "time": "15:18.30"
+        },
+        {
           "name": "Ian Res",
           "school": "West Geauga",
           "grade": "12",
@@ -243,17 +249,17 @@
           "school": "Olen. Orange",
           "grade": "12",
           "time": "15:20.9"
-        },
-        {
-          "name": "Bennett Lehman",
-          "school": "Ansonia",
-          "grade": "12",
-          "time": "15:21.1"
         }
       ]
     },
     "girls": {
       "9": [
+        {
+          "name": "Ava Reiheld",
+          "school": "West Holmes",
+          "grade": "9",
+          "time": "18:06.9"
+        },
         {
           "name": "Ellery Jepson",
           "school": "Olen. Orange",
@@ -279,22 +285,16 @@
           "time": "18:30.4"
         },
         {
-          "name": "Charlee Skeen-Adrine",
-          "school": "Hudson",
+          "name": "Hattie Kane",
+          "school": "Thom. Worthington",
           "grade": "9",
-          "time": "18:32.9"
+          "time": "18:34.6"
         },
         {
           "name": "Elizabeth Niekamp",
           "school": "Minster",
           "grade": "9",
           "time": "18:35.4"
-        },
-        {
-          "name": "Ava Reiheld",
-          "school": "West Holmes",
-          "grade": "9",
-          "time": "18:37.0"
         },
         {
           "name": "Claire Passow",
@@ -309,10 +309,10 @@
           "time": "18:37.5"
         },
         {
-          "name": "Hattie Kane",
-          "school": "Thom. Worthington",
+          "name": "Savannah Deschler",
+          "school": "Dub. Jerome",
           "grade": "9",
-          "time": "18:46.6"
+          "time": "18:47.8"
         }
       ],
       "10": [
@@ -329,10 +329,22 @@
           "time": "17:42.8"
         },
         {
+          "name": "Elle Miesse",
+          "school": "Celina",
+          "grade": "10",
+          "time": "17:45.4"
+        },
+        {
           "name": "Kaylee Ingratta",
           "school": "Copley",
           "grade": "10",
           "time": "17:49.4"
+        },
+        {
+          "name": "Lillian (Lily) Kiser",
+          "school": "Fremont Ross",
+          "grade": "10",
+          "time": "17:51.9"
         },
         {
           "name": "Maya Gonzalez",
@@ -344,7 +356,7 @@
           "name": "Beth Baker",
           "school": "Upper Arlington",
           "grade": "10",
-          "time": "17:56.6"
+          "time": "17:55.1"
         },
         {
           "name": "Tessa Andrews",
@@ -353,28 +365,16 @@
           "time": "18:01.7"
         },
         {
-          "name": "Lillian (Lily) Kiser",
-          "school": "Fremont Ross",
-          "grade": "10",
-          "time": "18:20.2"
-        },
-        {
           "name": "Karine Bhowmick",
           "school": "Watterson",
           "grade": "10",
           "time": "18:27.5"
         },
         {
-          "name": "Elle Miesse",
-          "school": "Celina",
+          "name": "Laney Schlessman",
+          "school": "Huron",
           "grade": "10",
-          "time": "18:32.8"
-        },
-        {
-          "name": "Carmella Curtis",
-          "school": "Mentor",
-          "grade": "10",
-          "time": "18:33.6"
+          "time": "18:32.6"
         }
       ],
       "11": [
@@ -383,12 +383,6 @@
           "school": "Napoleon",
           "grade": "11",
           "time": "17:26.4"
-        },
-        {
-          "name": "Lexi Schultz",
-          "school": "Perrysburg",
-          "grade": "11",
-          "time": "17:36.1"
         },
         {
           "name": "Natalie Nixon",
@@ -407,6 +401,12 @@
           "school": "Watterson",
           "grade": "11",
           "time": "17:51.8"
+        },
+        {
+          "name": "Naomi Sheesley",
+          "school": "McDonald",
+          "grade": "11",
+          "time": "17:52.3"
         },
         {
           "name": "Caroline Valentino",
@@ -430,7 +430,7 @@
           "name": "Kassadi Thompson",
           "school": "Cle. Heights",
           "grade": "11",
-          "time": "18:22.2"
+          "time": "18:22.3"
         },
         {
           "name": "Campbell Retzke",
@@ -465,6 +465,12 @@
           "time": "17:50.0"
         },
         {
+          "name": "Abigail Young",
+          "school": "Gah. Lincoln",
+          "grade": "12",
+          "time": "17:58.1"
+        },
+        {
           "name": "Peyton Hughey",
           "school": "Canal Winchester",
           "grade": "12",
@@ -489,16 +495,10 @@
           "time": "18:07.7"
         },
         {
-          "name": "Maddie O'Brien",
-          "school": "Stow-Munroe Falls",
+          "name": "Josie Cox",
+          "school": "Upper Arlington",
           "grade": "12",
-          "time": "18:10.3"
-        },
-        {
-          "name": "Lucia Sveda",
-          "school": "Green",
-          "grade": "12",
-          "time": "18:10.4"
+          "time": "18:09.4"
         }
       ]
     }
