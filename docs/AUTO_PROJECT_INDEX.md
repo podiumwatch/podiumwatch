@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-12 14:30:22
+Generated: 2026-10-12 15:30:24
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 987 |
+| Included source files | 992 |
 | Page source files | 92 |
 | API files | 128 |
 | Route references | 104 |
@@ -20,17 +20,17 @@ This file is generated from the current project.
 
 Latest commit:
 
-ae08cb6aa17b72f51aa6be730a86d41881870bb6 | 2026-10-12 14:03:08 -0400 | Refresh all four Girls mock regional divisions from Athletic.net top-75
+e393e4fa1f5211ce337f8eb0834d9ac838b7dc44 | 2026-10-12 14:30:39 -0400 | Replace Boys D1 and D2 with corrected full MileSplit field
 
 Working tree:
 
  M .claude/settings.json
+ M dataimports/dyestat-2026/apply-dyestat-division.mjs
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M src/data/mock-regionals-2026.json
  M src/data/top10-by-grade-2026.json
  M src/data/top10-overall-by-grade-2026.json
- M tests/mock-meet-export.test.mjs
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
 ?? dataimports/BTF2027D2.pdf
@@ -55,7 +55,19 @@ Working tree:
 ?? dataimports/girls-d4-2026/
 ?? dataimports/girls_week_9_26_clean_import.csv
 ?? dataimports/girls_week_9_26_clean_import_v2.csv
-?? dataimports/milesplit-2026/
+?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - Boys d4.csv"
+?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - boys d3.csv"
+?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d1.csv"
+?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d2.csv"
+?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d3.csv"
+?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d4.csv"
+?? dataimports/milesplit-2026/apply-boys-d4-milesplit.mjs
+?? dataimports/milesplit-2026/apply-milesplit-division.mjs
+?? dataimports/milesplit-2026/check-divisions-generic.mjs
+?? dataimports/milesplit-2026/check-divisions.mjs
+?? dataimports/milesplit-2026/manual-resolution-boys-d3.json
+?? dataimports/milesplit-2026/manual-resolution-boys-d4.json
+?? dataimports/milesplit-2026/merge-top75-into-roster.mjs
 ?? dataimports/mock-meet-export/32d15d91-d3a0-4880-9743-b62a2652e89e/
 ?? dataimports/mock-meet-export/3b832abe-382b-4559-82de-c3df639d1398/
 ?? dataimports/mock-meet-export/7038c2d2-e066-46f9-9500-89023e7f8180/

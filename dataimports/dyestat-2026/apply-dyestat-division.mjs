@@ -99,7 +99,12 @@ for (const line of csvLines) {
   if (!placement) {
     const manual = manualLookup[`${divisionId}|${key}`];
     if (manual) {
-      const regionKey = REGION_KEY_BY_DISTRICT[manual.athleticDistrict];
+      let regionKey = REGION_KEY_BY_DISTRICT[manual.athleticDistrict];
+      if (!entry.regions[regionKey]) {
+        // e.g. Division I has no northwest bucket -- OHSAA's real D1 regional
+        // draw folds Northwest-district schools into the Northeast region.
+        if (regionKey === "northwest" && entry.regions.northeast) regionKey = "northeast";
+      }
       placement = { name: rawName, regionKey, region: REGION_LABEL_BY_KEY[regionKey], ohsaaSchoolId: manual.ohsaaSchoolId, city: manual.city, athleticDistrict: manual.athleticDistrict };
     }
   }

@@ -1,5 +1,9 @@
 # Podium Watch next session
 
+## Most recent work (2026-10-12, cont.) -- read this first, supersedes the entry below it
+
+The user caught a real bug in everything the entry below describes: every MileSplit full-field "replace the roster" apply (all 8 groups) lost a team's real 7th runner whenever that runner didn't race the one specific week MileSplit's export covered. Fixed by merging the earlier top-75 source (DyeStat for boys, Athletic.net for girls) back into every team, picking the fastest 7 unique real runners across both sources rather than trusting either alone. Also found and fixed, while investigating: Division I (boys and girls) has no "northwest" region bucket in this site's data model (OHSAA folds Northwest-district D1 schools into the Northeast region) -- the apply scripts didn't know this and silently dropped any real Northwest D1 school with no error. This had already happened to 3 Boys D1 teams and 1 Girls D1 team in commits already pushed earlier this session; all 4 restored, and both apply scripts patched so it can't recur. Full detail in `docs/SESSION_LOG.md`, "2026-10-12 (cont. 8)". Everything from this fix is staged locally, not yet pushed -- waiting on the user's "push", which will also need to cover the already-pushed Boys/Girls D1 team-loss fix.
+
 ## Most recent work (2026-10-12) -- read this first, supersedes everything below for mock regional/Top 10 data
 
 **All 8 division/gender groups in `src/data/mock-regionals-2026.json` (Boys D1-D4, Girls D1-D4) have now been fully refreshed from real external sources AND received the MileSplit-vs-official-document correction pass this session** -- see `docs/SESSION_LOG.md`'s 2026-10-12 entries for full detail on each. Summary of where things stand:
