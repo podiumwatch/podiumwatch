@@ -2511,3 +2511,9 @@ The stray 13th "Calen Vogler" profile needs the user's decision (likely a trivia
 - Added a new "Complete individual results" section to both the regional pages and the State page, right after "Individual qualifiers": every runner from every team (scoring and displaced) plus every supplemental individual, in one real finish order, reusing the existing qualifiers table styling. Found and fixed a real scale mismatch in `computeStatePool()` while building this: team runners' `placePoints` there came from a team-only scored field, while individuals' came from a combined team+individual field -- sorting the two together by `placePoints` directly would have silently misordered them. Added `teamsForFullField` (teams re-scored in that same combined field) to `computeStatePool()`'s return specifically for this use.
 - `npm run build` (420 pages), `npm run check`, and the full `npm test` suite all pass. Checked live in a browser at 390px and 1440px on both page types -- no overflow, both new sections render with real data (confirmed the Southwest Boys D4 regional's full list: 131 runners, correctly led by Bennett Lehman at 15:21.1).
 - Nothing committed or pushed yet.
+
+## 2026-10-12 (cont. 3): Team Score column on the finish-order tables
+
+- Added a "Team Score" column next to "Place" on the "Complete individual results" tables (both the regional pages and the State page): shows the runner's real point value only when they're actually one of their team's scoring five, "--" otherwise (an individual qualifier or a team's own displaced 6th/7th runner took a real place in the field but never counts toward a team score).
+- `npm run build`, `npm run check`, and the mock-meet-export tests pass. Checked live at 390px and 1440px: no overflow, and verified the State Boys D4 page directly -- individual qualifiers (Bennett Lehman, Nigel Wenger, Titus Young) correctly show "--", scoring teammates show their real points.
+- Nothing committed or pushed yet.

@@ -364,14 +364,26 @@ function teamStandingsTable(teams, qualifierCount, { showRegion = false, highlig
 // page (who actually did, with their original region shown since they're
 // now mixed into a statewide field). No roster-toggle needed: an
 // individual is one row, not a team with a roster to expand.
-function individualsTableHtml(individuals, { showRegion = false } = {}) {
+function individualsTableHtml(individuals, { showRegion = false, showTeamScore = false } = {}) {
   if (!individuals.length) return "<p class=\"mr-meta\">None -- every qualifying spot from this region's non-advancing teams was already accounted for, or no individual qualifier slots exist here.</p>";
   const regionHeader = showRegion ? "<th>Region</th>" : "";
+  // Team Score is a separate column from Place on purpose: Place is this
+  // runner's real finish position in the whole combined field, while Team
+  // Score is only populated for a runner who is actually one of their
+  // team's scoring five (team.complete && teamPosition <= 5) -- an
+  // individual qualifier, or a team's own displaced 6th/7th runner, took
+  // a real place here but never counts toward any team's score, so that
+  // cell reads "--" for them rather than repeating the same number.
+  const teamScoreHeader = showTeamScore ? "<th>Team score</th>" : "";
   const rows = individuals.map((runner) => {
     const regionCell = showRegion ? `<td data-label="Region">${escapeHtml(runner.originalRegion || "--")}</td>` : "";
+    const teamScoreCell = showTeamScore
+      ? `<td class="mr-cell-num" data-label="Team score">${runner.scoring ? formatPoints(runner.placePoints) : "--"}</td>`
+      : "";
     return (
       `<tr>` +
       `<td class="mr-cell-num" data-label="Place">${formatPoints(runner.placePoints)}</td>` +
+      teamScoreCell +
       `<td class="mr-cell-school" data-label="Runner">${escapeHtml(runner.name)}</td>` +
       `<td data-label="School">${escapeHtml(runner.originalTeam)}</td>` +
       regionCell +
@@ -381,7 +393,7 @@ function individualsTableHtml(individuals, { showRegion = false } = {}) {
   }).join("");
   return `<div class="table-scroll" tabindex="0">
     <table class="mr-table">
-      <thead><tr><th>Place</th><th>Runner</th><th>School</th>${regionHeader}<th>Season best</th></tr></thead>
+      <thead><tr><th>Place</th>${teamScoreHeader}<th>Runner</th><th>School</th>${regionHeader}<th>Season best</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>`;
@@ -402,7 +414,10 @@ function fullFieldOrder(teams, individuals) {
       originalTeam: team.name,
       originalRegion: team.region,
       seasonBest: r.seasonBest,
-      placePoints: r.placePoints
+      placePoints: r.placePoints,
+      // Only ever true for one of a complete team's own top five -- an
+      // individual qualifier is never "scoring" (see individualsTableHtml).
+      scoring: Boolean(r.scoring)
     }))
   );
   const fromIndividuals = individuals.map((ind) => ({
@@ -410,7 +425,8 @@ function fullFieldOrder(teams, individuals) {
     originalTeam: ind.originalTeam,
     originalRegion: ind.originalRegion,
     seasonBest: ind.seasonBest,
-    placePoints: ind.placePoints
+    placePoints: ind.placePoints,
+    scoring: false
   }));
   return [...fromTeams, ...fromIndividuals].sort((a, b) => a.placePoints - b.placePoints);
 }
@@ -487,7 +503,7 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
         <p class="eyebrow">Complete individual results</p>
         <h2>How every runner would finish in the team race</h2>
         <p class="mr-meta">Every runner from every team in this region, plus every supplemental individual, in one real finish order -- so you can see exactly what times everyone is running against each other.</p>
-        ${individualsTableHtml(fullFieldOrder(teams, scoredIndividuals))}
+        ${individualsTableHtml(fullFieldOrder(teams, scoredIndividuals), { showTeamScore: true })}
       </div>` : ""}
     </div>
   </section>
@@ -548,7 +564,7 @@ export function mockStatePage(site, divisionEntry) {
             <p class="eyebrow">Complete individual results</p>
             <h2>How every qualifier would finish at State</h2>
             <p class="mr-meta">Every runner from every qualifying team, plus every individual qualifier, in one real finish order -- so you can see exactly what times everyone is running against each other.</p>
-            ${individualsTableHtml(fullFieldOrder(teamsForFullField, individuals), { showRegion: true })}
+            ${individualsTableHtml(fullFieldOrder(teamsForFullField, individuals), { showRegion: true, showTeamScore: true })}
           </div>`
       }
     </div>
