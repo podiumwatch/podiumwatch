@@ -382,15 +382,6 @@
                   "timeCentiseconds": 99920,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "William Bushbaker",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:39.2",
-                  "timeCentiseconds": 99920,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -553,15 +544,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "15:22.10",
-                  "timeCentiseconds": 92210,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Benjamin Canales",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "15:22.1",
                   "timeCentiseconds": 92210,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -877,28 +859,10 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Max Carpenter",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:51.2",
-                  "timeCentiseconds": 101120,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Alexander Hohman",
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "16:56.50",
-                  "timeCentiseconds": 101650,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Alex Hohman",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:56.5",
                   "timeCentiseconds": 101650,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -1074,15 +1038,6 @@
                   "graduationYear": 2028,
                   "seasonBest": "16:39.00",
                   "timeCentiseconds": 99900,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "jonathon joseph",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:40.40",
-                  "timeCentiseconds": 100040,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -2118,15 +2073,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Joshua Hand",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "19:42.0",
-                  "timeCentiseconds": 118200,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Marshall Ellingson",
                   "grade": null,
                   "graduationYear": null,
@@ -2178,15 +2124,6 @@
                   "graduationYear": null,
                   "seasonBest": "19:56.40",
                   "timeCentiseconds": 119640,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "landin fisher",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:47.50",
-                  "timeCentiseconds": 124750,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -2516,15 +2453,6 @@
                   "graduationYear": 2027,
                   "seasonBest": "15:36.60",
                   "timeCentiseconds": 93660,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Matt Scipione",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "15:45.60",
-                  "timeCentiseconds": 94560,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -2885,15 +2813,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Nicholas Thompson",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:30.0",
-                  "timeCentiseconds": 99000,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Jared Keressi",
                   "grade": "12",
                   "graduationYear": 2027,
@@ -3074,15 +2993,6 @@
                   "timeCentiseconds": 107120,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Alexander Crist",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:00.80",
-                  "timeCentiseconds": 108080,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -3195,15 +3105,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Gabriel Hierro",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:41.84",
-                  "timeCentiseconds": 106184,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Jake Timko",
                   "grade": "12",
                   "graduationYear": 2027,
@@ -3218,15 +3119,6 @@
                   "graduationYear": 2029,
                   "seasonBest": "18:08.60",
                   "timeCentiseconds": 108860,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Hunter saayre",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:15.42",
-                  "timeCentiseconds": 109542,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -4875,15 +4767,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Sam Weiss",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:27.9",
-                  "timeCentiseconds": 98790,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Andrew Poore",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -4998,15 +4881,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "16:24.40",
-                  "timeCentiseconds": 98440,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Sam McAfee",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:24.4",
                   "timeCentiseconds": 98440,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -6368,15 +6242,6 @@
                   "timeCentiseconds": 120440,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Katherine Ohl",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:04.40",
-                  "timeCentiseconds": 120440,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -6877,15 +6742,6 @@
                   "graduationYear": null,
                   "seasonBest": "21:20.96",
                   "timeCentiseconds": 128096,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Maddy Pulsfort",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:21.0",
-                  "timeCentiseconds": 128100,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -7584,15 +7440,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Kiriana Ianetta",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:23.38",
-                  "timeCentiseconds": 128338,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Leighton Sessor",
                   "grade": "12",
                   "graduationYear": 2027,
@@ -8193,15 +8040,6 @@
                   "timeCentiseconds": 149320,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Gabriella Adams",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "25:23.70",
-                  "timeCentiseconds": 152370,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -8502,15 +8340,6 @@
                   "graduationYear": 2027,
                   "seasonBest": "18:10.26",
                   "timeCentiseconds": 109026,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Madelyn O'brien",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:16.1",
-                  "timeCentiseconds": 109610,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -9040,15 +8869,6 @@
                   "graduationYear": 2030,
                   "seasonBest": "21:16.3",
                   "timeCentiseconds": 127630,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Katherine Magyar",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:17.10",
-                  "timeCentiseconds": 127710,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -9624,15 +9444,6 @@
                   "graduationYear": null,
                   "seasonBest": "32:52.05",
                   "timeCentiseconds": 197205,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Lily Provance",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "33:44.16",
-                  "timeCentiseconds": 202416,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -11163,15 +10974,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Alexandra Cruz Elkins",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "24:58.50",
-                  "timeCentiseconds": 149850,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Sophia Linz",
                   "grade": null,
                   "graduationYear": null,
@@ -11432,15 +11234,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "25:31.5",
-                  "timeCentiseconds": 153150,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Kalynne Stewart",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "25:31.50",
                   "timeCentiseconds": 153150,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -11883,15 +11676,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Ben Rose",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:34.0",
-                  "timeCentiseconds": 99400,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Jamison Shrode II",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -12244,15 +12028,6 @@
                   "graduationYear": null,
                   "seasonBest": "17:19.70",
                   "timeCentiseconds": 103970,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Nicholas Barnes",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:22.93",
-                  "timeCentiseconds": 104293,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -13471,15 +13246,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Alexander Hogue",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:52.20",
-                  "timeCentiseconds": 107220,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Aiden Miller",
                   "grade": null,
                   "graduationYear": null,
@@ -13777,15 +13543,6 @@
                   "graduationYear": null,
                   "seasonBest": "21:11.20",
                   "timeCentiseconds": 127120,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Jaelin Babbitt",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:15.20",
-                  "timeCentiseconds": 127520,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -14192,15 +13949,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Alex Hobe",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "15:49.8",
-                  "timeCentiseconds": 94980,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Samuel Baker",
                   "grade": "11",
                   "graduationYear": 2028,
@@ -14214,15 +13962,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "16:08.00",
-                  "timeCentiseconds": 96800,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Zach Renner",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:08.0",
                   "timeCentiseconds": 96800,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -15962,15 +15701,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Everett Parana",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:24.7",
-                  "timeCentiseconds": 104470,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Parker Lust",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -15984,15 +15714,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "17:40.40",
-                  "timeCentiseconds": 106040,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Joshua Penko",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:40.4",
                   "timeCentiseconds": 106040,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -16349,15 +16070,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "18:19.00",
-                  "timeCentiseconds": 109900,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Joe Kubiak",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:19.0",
                   "timeCentiseconds": 109900,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -17860,15 +17572,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Christopher Chris) Puza",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:11.50",
-                  "timeCentiseconds": 121150,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Aaron Powers",
                   "grade": null,
                   "graduationYear": null,
@@ -18937,15 +18640,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Will Dwyer",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:05.8",
-                  "timeCentiseconds": 96580,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Lucas Martin",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -19238,15 +18932,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Beckett Myers",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:05.0",
-                  "timeCentiseconds": 102500,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Brock Wannemacher",
                   "grade": "11",
                   "graduationYear": 2028,
@@ -19320,15 +19005,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Leej Gabel",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:45.30",
-                  "timeCentiseconds": 106530,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Dane Denman",
                   "grade": "12",
                   "graduationYear": 2027,
@@ -19379,15 +19055,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "17:30.00",
-                  "timeCentiseconds": 105000,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Harrison Grill",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:30.0",
                   "timeCentiseconds": 105000,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -19444,24 +19111,6 @@
                   "graduationYear": 2028,
                   "seasonBest": "16:58.75",
                   "timeCentiseconds": 101875,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Conner Dukeshire",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:59.7",
-                  "timeCentiseconds": 101970,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "nate Gaietto",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:32.40",
-                  "timeCentiseconds": 105240,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -20671,15 +20320,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Gavin Camack",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:26.39",
-                  "timeCentiseconds": 110639,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Tyler Hubbard",
                   "grade": null,
                   "graduationYear": null,
@@ -20986,15 +20626,6 @@
                   "graduationYear": null,
                   "seasonBest": "24:03.10",
                   "timeCentiseconds": 144310,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Trevor Gonzalex",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "24:26.74",
-                  "timeCentiseconds": 146674,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -22574,15 +22205,6 @@
                   "graduationYear": null,
                   "seasonBest": "20:59.40",
                   "timeCentiseconds": 125940,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Preston Pierson",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:05.80",
-                  "timeCentiseconds": 126580,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -26852,15 +26474,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Abigail (Abby) Henry",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "24:31.8",
-                  "timeCentiseconds": 147180,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Abigail Henry",
                   "grade": null,
                   "graduationYear": null,
@@ -27729,15 +27342,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Madison Tucker",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:15.30",
-                  "timeCentiseconds": 121530,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Karen Chou",
                   "grade": "11",
                   "graduationYear": 2028,
@@ -28048,15 +27652,6 @@
               "athleticDistrict": "Northwest",
               "region": "Northwest",
               "runners": [
-                {
-                  "name": "Avelyn (Avee) Lengel",
-                  "grade": "10",
-                  "graduationYear": 2029,
-                  "seasonBest": "18:56.2",
-                  "timeCentiseconds": 113620,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
                 {
                   "name": "Avelyn Lengel",
                   "grade": null,
@@ -28997,15 +28592,6 @@
                   "timeCentiseconds": 130240,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Libby Jane Magoteaux",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:42.40",
-                  "timeCentiseconds": 130240,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -29341,15 +28927,6 @@
                   "grade": "11",
                   "graduationYear": 2028,
                   "seasonBest": "21:51.0",
-                  "timeCentiseconds": 131100,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Maddy Sparks",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:51.00",
                   "timeCentiseconds": 131100,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -29992,15 +29569,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Zachery Norris",
-                  "grade": "11",
-                  "graduationYear": 2028,
-                  "seasonBest": "16:57.7",
-                  "timeCentiseconds": 101770,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Caleb Lemasters",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -30125,15 +29693,6 @@
                   "graduationYear": 2027,
                   "seasonBest": "15:52.50",
                   "timeCentiseconds": 95250,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Jj Percell",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "15:56.34",
-                  "timeCentiseconds": 95634,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -30745,15 +30304,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "17:40.40",
-                  "timeCentiseconds": 106040,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Samuel Dickhof",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:40.4",
                   "timeCentiseconds": 106040,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -31568,15 +31118,6 @@
                   "graduationYear": null,
                   "seasonBest": "17:34.90",
                   "timeCentiseconds": 105490,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Carter Elliot",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:02.30",
-                  "timeCentiseconds": 108230,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -34100,15 +33641,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Thoral (TJ) Mitchell",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:26.4",
-                  "timeCentiseconds": 98640,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Jameson Byrne",
                   "grade": "9",
                   "graduationYear": 2030,
@@ -34187,15 +33719,6 @@
                   "graduationYear": 2029,
                   "seasonBest": "17:05.40",
                   "timeCentiseconds": 102540,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Benjamin Townsend",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:14.6",
-                  "timeCentiseconds": 103460,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -34926,15 +34449,6 @@
                   "graduationYear": null,
                   "seasonBest": "18:35.28",
                   "timeCentiseconds": 111528,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Ben Lebzelter",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:35.3",
-                  "timeCentiseconds": 111530,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -35920,15 +35434,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "18:19.90",
-                  "timeCentiseconds": 109990,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Samuel (Sam) Sciaretti",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:19.9",
                   "timeCentiseconds": 109990,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -37986,15 +37491,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Lionel Reyes",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:27.0",
-                  "timeCentiseconds": 104700,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Isaiah Koenig",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -38214,15 +37710,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Zach Clapp",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:56.6",
-                  "timeCentiseconds": 113660,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Cooper Framstad",
                   "grade": null,
                   "graduationYear": null,
@@ -38265,15 +37752,6 @@
                   "graduationYear": 2028,
                   "seasonBest": "18:18.10",
                   "timeCentiseconds": 109810,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Riley Miller",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:30.60",
-                  "timeCentiseconds": 111060,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -38912,15 +38390,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "20:09.60",
-                  "timeCentiseconds": 120960,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Micah DeMarco",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:09.6",
                   "timeCentiseconds": 120960,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -39604,15 +39073,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Tony Spitzer",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:25.8",
-                  "timeCentiseconds": 98580,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Ben Pitsenbarger",
                   "grade": "12",
                   "graduationYear": 2027,
@@ -40097,15 +39557,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "William Fox",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:11.7",
-                  "timeCentiseconds": 97170,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Paxton Imperial",
                   "grade": "9",
                   "graduationYear": 2030,
@@ -40201,15 +39652,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "18:58.60",
-                  "timeCentiseconds": 113860,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Jacob Kuhlman",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:58.6",
                   "timeCentiseconds": 113860,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -42494,15 +41936,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Brooklynn Sponaugle",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:07.10",
-                  "timeCentiseconds": 126710,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Jillian Sponaugle",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -43316,15 +42749,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Alyssandra (Grace) Periano",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "22:09.80",
-                  "timeCentiseconds": 132980,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Sophia Trussel",
                   "grade": "9",
                   "graduationYear": 2030,
@@ -43339,15 +42763,6 @@
                   "graduationYear": 2030,
                   "seasonBest": "22:52.0",
                   "timeCentiseconds": 137200,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Alyssandra Peirano",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "23:40.9",
-                  "timeCentiseconds": 142090,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -43466,15 +42881,6 @@
                   "grade": "9",
                   "graduationYear": 2030,
                   "seasonBest": "23:13.4",
-                  "timeCentiseconds": 139340,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Italia Leadbetter",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "23:13.40",
                   "timeCentiseconds": 139340,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -43951,15 +43357,6 @@
                   "timeCentiseconds": 128120,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Ashlyn Brzozwoski",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:47.1",
-                  "timeCentiseconds": 130710,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -43977,15 +43374,6 @@
                   "graduationYear": 2027,
                   "seasonBest": "17:48.7",
                   "timeCentiseconds": 106870,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Brincyn (Brin) Boyce",
-                  "grade": "12",
-                  "graduationYear": 2027,
-                  "seasonBest": "19:17.3",
-                  "timeCentiseconds": 115730,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -44081,15 +43469,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Madison Singer",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:31.10",
-                  "timeCentiseconds": 123110,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Ella Roberts",
                   "grade": null,
                   "graduationYear": null,
@@ -44131,15 +43510,6 @@
                   "grade": "11",
                   "graduationYear": 2028,
                   "seasonBest": "20:06.4",
-                  "timeCentiseconds": 120640,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Liliana Pimentel-Alexande",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:06.40",
                   "timeCentiseconds": 120640,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -45080,15 +44450,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "21:59.2",
-                  "timeCentiseconds": 131920,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Esther Tan",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:59.20",
                   "timeCentiseconds": 131920,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -46912,15 +46273,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Mackayla Casey",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "24:15.71",
-                  "timeCentiseconds": 145571,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Addyson Barton",
                   "grade": null,
                   "graduationYear": null,
@@ -48139,15 +47491,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Madalyn Korte",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:50.50",
-                  "timeCentiseconds": 131050,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Amelia Iddings",
                   "grade": "11",
                   "graduationYear": 2028,
@@ -49203,15 +48546,6 @@
                   "timeCentiseconds": 120370,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Landen Bower",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:04.33",
-                  "timeCentiseconds": 126433,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -49265,15 +48599,6 @@
                   "graduationYear": 2027,
                   "seasonBest": "19:05.7",
                   "timeCentiseconds": 114570,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Cohen Ramnelsberg",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "19:33.97",
-                  "timeCentiseconds": 117397,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -50393,15 +49718,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Bauer Embrey",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:36.20",
-                  "timeCentiseconds": 129620,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "William Stallard",
                   "grade": null,
                   "graduationYear": null,
@@ -50535,15 +49851,6 @@
                   "graduationYear": null,
                   "seasonBest": "23:23.20",
                   "timeCentiseconds": 140320,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Raj Singh",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "23:37.90",
-                  "timeCentiseconds": 141790,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -54301,15 +53608,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Andy Heth",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:24.8",
-                  "timeCentiseconds": 104480,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Luke Sawmiller",
                   "grade": "11",
                   "graduationYear": 2028,
@@ -55077,15 +54375,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Will Lammers",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:06.00",
-                  "timeCentiseconds": 108600,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Noah Miller",
                   "grade": "11",
                   "graduationYear": 2028,
@@ -55318,15 +54607,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "18:53.50",
-                  "timeCentiseconds": 113350,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Colten Hoerig",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:53.5",
                   "timeCentiseconds": 113350,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -57341,15 +56621,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Brady Gellar",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "20:51.80",
-                  "timeCentiseconds": 125180,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Braden Ritz",
                   "grade": null,
                   "graduationYear": null,
@@ -57364,15 +56635,6 @@
                   "graduationYear": null,
                   "seasonBest": "24:13.90",
                   "timeCentiseconds": 145390,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Travis Hamas",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "24:51.99",
-                  "timeCentiseconds": 149199,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -57569,15 +56831,6 @@
               "athleticDistrict": "Northwest",
               "region": "Northwest",
               "runners": [
-                {
-                  "name": "Anderson (AJ) Griffin",
-                  "grade": "12",
-                  "graduationYear": 2027,
-                  "seasonBest": "17:27.90",
-                  "timeCentiseconds": 104790,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
                 {
                   "name": "Anderson Griffin",
                   "grade": null,
@@ -58561,15 +57814,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Jackson Qualich",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:12.70",
-                  "timeCentiseconds": 109270,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Brock Martin",
                   "grade": "12",
                   "graduationYear": 2027,
@@ -58603,15 +57847,6 @@
                   "graduationYear": null,
                   "seasonBest": "17:30.18",
                   "timeCentiseconds": 105018,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Zach Varner",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:30.2",
-                  "timeCentiseconds": 105020,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -58676,15 +57911,6 @@
                   "graduationYear": 2029,
                   "seasonBest": "15:54.40",
                   "timeCentiseconds": 95440,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Owen Cappuzzello",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "16:12.00",
-                  "timeCentiseconds": 97200,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -59364,15 +58590,6 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Isaac Simkanin",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:57.4",
-                  "timeCentiseconds": 113740,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Dylan Sturm",
                   "grade": "10",
                   "graduationYear": 2029,
@@ -59560,15 +58777,6 @@
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "18:46.80",
-                  "timeCentiseconds": 112680,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Benjamin Thompson",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:46.8",
                   "timeCentiseconds": 112680,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -61336,15 +60544,6 @@
                   "timeCentiseconds": 147900,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Hayley Thompson",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "24:39.00",
-                  "timeCentiseconds": 147900,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -61553,15 +60752,6 @@
                   "graduationYear": 2030,
                   "seasonBest": "24:50.34",
                   "timeCentiseconds": 149034,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Mekenzie West",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "25:39.80",
-                  "timeCentiseconds": 153980,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -63320,15 +62510,6 @@
                   "timeCentiseconds": 139935,
                   "athleticNetId": null,
                   "resultUrl": null
-                },
-                {
-                  "name": "Julianna Johnson",
-                  "grade": "11",
-                  "graduationYear": 2028,
-                  "seasonBest": "23:19.4",
-                  "timeCentiseconds": 139940,
-                  "athleticNetId": null,
-                  "resultUrl": null
                 }
               ]
             },
@@ -63797,28 +62978,10 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Emily Schwening",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:10.10",
-                  "timeCentiseconds": 127010,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
                   "name": "Sophia Keller",
                   "grade": null,
                   "graduationYear": null,
                   "seasonBest": "21:53.7",
-                  "timeCentiseconds": 131370,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Sophie Keller",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "21:53.70",
                   "timeCentiseconds": 131370,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -63956,15 +63119,6 @@
                   "grade": "12",
                   "graduationYear": 2027,
                   "seasonBest": "22:48.0",
-                  "timeCentiseconds": 136800,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Addie Manns",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "22:48.00",
                   "timeCentiseconds": 136800,
                   "athleticNetId": null,
                   "resultUrl": null
