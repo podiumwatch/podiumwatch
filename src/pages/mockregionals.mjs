@@ -387,6 +387,34 @@ function individualsTableHtml(individuals, { showRegion = false } = {}) {
   </div>`;
 }
 
+// Every runner who actually scored a placePoints value in this field --
+// every team's full listed roster (scoring and displaced alike, since
+// they all still ran and all still have a real finish place) plus every
+// supplemental individual -- flattened into one list and put in real
+// finish order. Reuses individualsTableHtml's exact row shape so this
+// renders with the same Place/Runner/School/Season best table as the
+// qualifiers list right above it, just for everyone instead of only the
+// individual qualifiers.
+function fullFieldOrder(teams, individuals) {
+  const fromTeams = teams.flatMap((team) =>
+    team.runners.map((r) => ({
+      name: r.name,
+      originalTeam: team.name,
+      originalRegion: team.region,
+      seasonBest: r.seasonBest,
+      placePoints: r.placePoints
+    }))
+  );
+  const fromIndividuals = individuals.map((ind) => ({
+    name: ind.name,
+    originalTeam: ind.originalTeam,
+    originalRegion: ind.originalRegion,
+    seasonBest: ind.seasonBest,
+    placePoints: ind.placePoints
+  }));
+  return [...fromTeams, ...fromIndividuals].sort((a, b) => a.placePoints - b.placePoints);
+}
+
 function crumbsRow(divisionEntry, activeKey) {
   const items = REGION_ORDER.filter((key) => divisionEntry.regions[key]).map((key) => {
     const href = `/mock-meets/regionals/${regionSlug(divisionEntry.id, key)}/`;
@@ -454,6 +482,13 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
         <p class="mr-meta">OHSAA's real rule: individual qualifiers are only selected from teams that did not qualify as a team, taken in real regional finish order.</p>
         ${individualsTableHtml(individualQualifiers)}
       </div>` : ""}
+
+      ${teams.length ? `<div class="mr-individuals-section">
+        <p class="eyebrow">Complete individual results</p>
+        <h2>How every runner would finish in the team race</h2>
+        <p class="mr-meta">Every runner from every team in this region, plus every supplemental individual, in one real finish order -- so you can see exactly what times everyone is running against each other.</p>
+        ${individualsTableHtml(fullFieldOrder(teams, scoredIndividuals))}
+      </div>` : ""}
     </div>
   </section>
   <script src="/scripts/page-view.js" defer></script>`;
@@ -471,7 +506,7 @@ export function mockStatePage(site, divisionEntry) {
   const pathname = `/mock-meets/state/${divisionEntry.id}/`;
   const title = `Mock State Meet -- ${divisionLabel(divisionEntry)}`;
   const regionKeys = REGION_ORDER.filter((key) => divisionEntry.regions[key]);
-  const { teams, individuals, poolLog, missing } = computeStatePool(divisionEntry);
+  const { teams, teamsForFullField, individuals, poolLog, missing } = computeStatePool(divisionEntry);
 
   const content = `${pageHero({
     eyebrow: "2026 Mock State Meet",
@@ -508,6 +543,12 @@ export function mockStatePage(site, divisionEntry) {
             <h2>Qualifying individuals at State</h2>
             <p class="mr-meta">Each shown with the region they qualified from. Individual qualifiers do not count toward any team score.</p>
             ${individualsTableHtml(individuals, { showRegion: true })}
+          </div>` +
+          `<div class="mr-individuals-section">
+            <p class="eyebrow">Complete individual results</p>
+            <h2>How every qualifier would finish at State</h2>
+            <p class="mr-meta">Every runner from every qualifying team, plus every individual qualifier, in one real finish order -- so you can see exactly what times everyone is running against each other.</p>
+            ${individualsTableHtml(fullFieldOrder(teamsForFullField, individuals), { showRegion: true })}
           </div>`
       }
     </div>

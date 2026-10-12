@@ -1,9 +1,15 @@
 {
   "season": "2026",
-  "source": "Athletic.net individual season-best lists and the MileSplit 2026 grade rankings, combined by runner across every division. The fastest time for each runner across both sources is used. Grade comes from either source.",
+  "source": "Boys: rebuilt directly from this site's own mock regional rosters (src/data/mock-regionals-2026.json), which are sourced from DyeStat, pooled across all four divisions. Girls: Athletic.net individual season-best lists and the MileSplit 2026 grade rankings, combined by runner, not yet refreshed.",
   "lists": {
     "boys": {
       "9": [
+        {
+          "name": "Maxwell Frasure",
+          "school": "Sycamore",
+          "grade": "9",
+          "time": "15:49.2"
+        },
         {
           "name": "Lucas Thomas",
           "school": "Gar. Garfield",
@@ -17,16 +23,10 @@
           "time": "15:55.2"
         },
         {
-          "name": "Maxwell Frasure",
-          "school": "Sycamore",
-          "grade": "9",
-          "time": "16:10.9"
-        },
-        {
           "name": "Luke Brickner",
           "school": "Miller City",
           "grade": "9",
-          "time": "16:13.9"
+          "time": "16:14.0"
         },
         {
           "name": "Oliver Scott",
@@ -53,16 +53,16 @@
           "time": "16:24.4"
         },
         {
+          "name": "Dylan Chisanga",
+          "school": "Lak. West",
+          "grade": "9",
+          "time": "16:25.3"
+        },
+        {
           "name": "James Piper",
           "school": "Beavercreek",
           "grade": "9",
           "time": "16:31.4"
-        },
-        {
-          "name": "Jameson Byrne",
-          "school": "Chagrin Falls",
-          "grade": "9",
-          "time": "16:32.5"
         }
       ],
       "10": [
@@ -73,16 +73,10 @@
           "time": "15:06.3"
         },
         {
-          "name": "Calvin Heithaus",
-          "school": "Mount Vernon",
-          "grade": "10",
-          "time": "15:24.4"
-        },
-        {
           "name": "Vincent Campbell",
           "school": "Meadowbrook",
           "grade": "10",
-          "time": "15:25.42"
+          "time": "15:27.6"
         },
         {
           "name": "Thomas Moran",
@@ -103,6 +97,12 @@
           "time": "15:47.1"
         },
         {
+          "name": "Owen Cappuzello",
+          "school": "McDonald",
+          "grade": "10",
+          "time": "15:54.4"
+        },
+        {
           "name": "Micah Ballinger",
           "school": "Olen. Berlin",
           "grade": "10",
@@ -121,10 +121,10 @@
           "time": "15:59.1"
         },
         {
-          "name": "Finn Swain",
-          "school": "Gah. Lincoln",
+          "name": "Parker Simonson",
+          "school": "Mass. Perry",
           "grade": "10",
-          "time": "16:02.4"
+          "time": "16:00.6"
         }
       ],
       "11": [
@@ -135,16 +135,16 @@
           "time": "14:54.1"
         },
         {
+          "name": "Ian Patrick",
+          "school": "Little Miami",
+          "grade": "11",
+          "time": "14:54.4"
+        },
+        {
           "name": "Austin Benedict",
           "school": "New Albany",
           "grade": "11",
           "time": "14:59.8"
-        },
-        {
-          "name": "Ian Patrick",
-          "school": "Little Miami",
-          "grade": "11",
-          "time": "15:02.1"
         },
         {
           "name": "Carson Spencer",
@@ -171,22 +171,22 @@
           "time": "15:22.8"
         },
         {
+          "name": "Ethan Shultz",
+          "school": "Big Walnut",
+          "grade": "11",
+          "time": "15:25.2"
+        },
+        {
           "name": "Derek Young",
           "school": "Con. Crestview",
           "grade": "11",
-          "time": "15:26.8"
+          "time": "15:26.9"
         },
         {
           "name": "Brennan Higgins",
           "school": "Tol. St. Francis",
           "grade": "11",
           "time": "15:27.7"
-        },
-        {
-          "name": "Logan Mix",
-          "school": "Mason",
-          "grade": "11",
-          "time": "15:28.7"
         }
       ],
       "12": [

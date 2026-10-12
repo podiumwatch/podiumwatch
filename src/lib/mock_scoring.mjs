@@ -365,5 +365,12 @@ export function computeStatePool(divisionEntry) {
   // listed separately and never take a place or points from a team runner.
   const teamScored = scoreTeams(pooledTeams, []);
   const individualScored = scoreTeams(pooledTeams, pooledIndividuals);
-  return { teams: teamScored.teams, individuals: individualScored.individuals, poolLog, missing: [] };
+  // individualScored.teams carries each runner's placePoints from the
+  // SAME combined field as individualScored.individuals (one shared
+  // scoreTeams call) -- unlike teamScored.teams, whose placePoints come
+  // from a team-only field and are therefore on a different scale from
+  // individuals' placePoints. A caller building one combined finish-order
+  // list (teams + individuals together) must use teamsForFullField, not
+  // teams, or the two groups' places won't be comparable to each other.
+  return { teams: teamScored.teams, teamsForFullField: individualScored.teams, individuals: individualScored.individuals, poolLog, missing: [] };
 }
