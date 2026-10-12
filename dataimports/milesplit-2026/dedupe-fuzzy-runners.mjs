@@ -36,7 +36,11 @@ const NICK = {
   katie: "katherine", kate: "katherine", addie: "adeline", addi: "adeline",
   abby: "abigail", ester: "esther", brooklyn: "brooklynn",
   conner: "connor", presten: "preston", leej: "lj",
-  everrett: "everett", joe: "joseph", harry: "harrison", avee: "avelyn"
+  everrett: "everett", joe: "joseph", harry: "harrison", avee: "avelyn",
+  lexi: "alexis", lexie: "alexis", allie: "allison", ally: "allison",
+  madeline: "madelyn", madi: "madelyn",
+  kaitlin: "katherine", caitlin: "katherine", katelyn: "katherine",
+  libby: "elizabeth", lizzie: "elizabeth", beth: "elizabeth"
 };
 const canon = (name) => { const n = norm(name); return NICK[n] || n; };
 const parts = (name) => name.replace(/["'(),.]/g, " ").trim().split(/\s+/).filter(Boolean);
