@@ -2480,3 +2480,15 @@ The stray 13th "Calen Vogler" profile needs the user's decision (likely a trivia
 - Checked at 390px and 1440px: no horizontal overflow, both overall sections render above the by-division sections, all four grade cards populated for both genders.
 - `npm run build`, `npm run check`, and `npm run test:mock-meet-export` (50/50) pass.
 - Nothing committed or pushed. Waiting on the user's "push".
+
+## 2026-10-12: Boys Division IV refresh from DyeStat (first of 8 division/gender groups)
+
+- Source switched from Athletic.net/MileSplit to DyeStat's Week 10/11 Hypothetical Meet export (Scoring Depth 5, Placing Depth 7), supplied by the user as CSV one division/gender at a time since their tool can only read one page, not navigate between pages.
+- Replaced Boys Division IV's entire team roster (75 teams, matching the new top-75 field) in `src/data/mock-regionals-2026.json`. 69 of 75 teams matched an existing entry by name and kept their already-verified OHSAA school ID/region/city; 6 new teams (Calvary Christian, East Canton, Lake Ridge Acad., Mans. Christian, Sand. SMCC, Bucyrus) were matched against `ohsaa_official_directory.json` by hand.
+- 25 teams that were in the old roster but are not in the new top-75 list were dropped (this also resolves the open "Ridgedale needs a fifth runner" item from a prior session -- Ridgedale is no longer in Division IV's top 75).
+- 3 of those 6 new teams had stale "supplemental individual" entries left over from when they weren't on a top-75 roster (Calvary Christian x3, Bucyrus x2, East Canton x2) -- removed, since `validateDivisionRoster` correctly flags a school having both a team roster and a standalone individual entry as an error.
+- DyeStat's Hypothetical Meet export has no grade column. Per the user's instruction, backfilled grade/graduation year from the previously committed version of this file wherever a runner's team + name matched (469 of 517 Boys D4 runners) -- the remaining 48 (new teams, or no prior record) are left blank rather than guessed. `dataimports/dyestat-2026/backfill-grade-d4.mjs` keeps this reproducible. A later Individuals export from DyeStat can still fill in the rest.
+- `validateDivisionRoster` 0 problems, `npm run build` (420 pages), `npm run check`, and `npm test` (all suites, including mock-meet-export's identity tests) all pass.
+- Scratch source files and the one-off apply script live under `dataimports/dyestat-2026/` (untracked).
+- Remaining 7 division/gender groups (Boys D1-D3, Girls D1-D4) still pending from the user.
+- Nothing committed or pushed yet.

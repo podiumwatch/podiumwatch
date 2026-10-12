@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-06 11:45:52
+Generated: 2026-10-12 11:39:06
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,32 +9,191 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 951 |
-| Page source files | 91 |
-| API files | 126 |
-| Route references | 103 |
+| Included source files | 962 |
+| Page source files | 92 |
+| API files | 128 |
+| Route references | 104 |
 | Environment variable names | 22 |
-| Supabase table references | 135 |
+| Supabase table references | 136 |
 
 ## Git state
 
 Latest commit:
 
-25a9c663bc7e6c36832fb8794735ff4a34c4e1a6 | 2026-10-06 10:41:47 -0400 | Use pink headers for girls grade cards on Top 10
+11c4707d410dbd2b7d8ab4f3273058ac19e2a9ba | 2026-10-09 14:56:52 -0400 | Add page-open counter and new-application email for correspondent role
 
 Working tree:
 
  M .claude/settings.json
- M api/ohio-schools/index.js
  M docs/AUTO_PROJECT_INDEX.md
- M lib/ohio_foundation_service.mjs
- M public/scripts/ohio-schools.js
- M scripts/build.mjs
- M src/config/site.mjs
- M src/pages/ohioschools.mjs
-?? dataimports/
-?? src/data/track-divisions-2027-28.json
-?? src/pages/trackdivisions.mjs
+ M src/data/mock-regionals-2026.json
+?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
+?? dataimports/BTF2027D1.pdf
+?? dataimports/BTF2027D2.pdf
+?? dataimports/BTF2027D3.pdf
+?? dataimports/BTF2027D4.pdf
+?? dataimports/BTF2027D5.pdf
+?? dataimports/GTF2027D1.pdf
+?? dataimports/GTF2027D2.pdf
+?? dataimports/GTF2027D3.pdf
+?? dataimports/GTF2027D4.pdf
+?? dataimports/GTF2027D5.pdf
+?? dataimports/Ohio_Senior_Boys_Top_250.xlsx
+?? dataimports/Podium_Watch_Weekend_Results.xlsx
+?? dataimports/boys-d1-2026/
+?? dataimports/boys-d2-2026/
+?? dataimports/boys-d3-2026/
+?? dataimports/boys-d4-2026/
+?? dataimports/boys_week_9_26_clean_import_v2.csv
+?? dataimports/dyestat-2026/
+?? dataimports/girls-d1-2026/
+?? dataimports/girls-d2-2026/
+?? dataimports/girls-d3-2026/
+?? dataimports/girls-d4-2026/
+?? dataimports/girls_week_9_26_clean_import.csv
+?? dataimports/girls_week_9_26_clean_import_v2.csv
+?? dataimports/mock-meet-export/32d15d91-d3a0-4880-9743-b62a2652e89e/
+?? dataimports/mock-meet-export/3b832abe-382b-4559-82de-c3df639d1398/
+?? dataimports/mock-meet-export/7038c2d2-e066-46f9-9500-89023e7f8180/
+?? dataimports/mock-meet-export/914c5a85-1232-4991-8b34-8d24dd8cb307/
+?? "dataimports/mock-meet-export/Athletic Net - d1boys.csv"
+?? "dataimports/mock-meet-export/Athletic Net - d1girls.csv"
+?? "dataimports/mock-meet-export/Athletic Net - d2 boys.csv"
+?? "dataimports/mock-meet-export/Athletic Net - d2girls.csv"
+?? "dataimports/mock-meet-export/Athletic Net - d3 boys.csv"
+?? "dataimports/mock-meet-export/Athletic Net - d3 girls.csv"
+?? dataimports/mock-meet-export/FINAL-official-directory-report.json
+?? dataimports/mock-meet-export/FINAL-official-directory-report.md
+?? "dataimports/mock-meet-export/Milesplit - d1boys.csv"
+?? "dataimports/mock-meet-export/Milesplit - d1girls.csv"
+?? "dataimports/mock-meet-export/Milesplit - d2boys.csv"
+?? "dataimports/mock-meet-export/Milesplit - d2girls.csv"
+?? "dataimports/mock-meet-export/Milesplit - d3boys.csv"
+?? "dataimports/mock-meet-export/Milesplit - d3girls.csv"
+?? dataimports/mock-meet-export/NEDAB/
+?? dataimports/mock-meet-export/PROPOSED-database-changes-revised.json
+?? dataimports/mock-meet-export/PROPOSED-database-changes.json
+?? dataimports/mock-meet-export/add-d4-regional-teams.mjs
+?? dataimports/mock-meet-export/add-regional-teams-d2d3.mjs
+?? dataimports/mock-meet-export/add-week5-remaining-divisions.mjs
+?? dataimports/mock-meet-export/all-staging-rows-final.json
+?? dataimports/mock-meet-export/apply-d4-boys-to-live.mjs
+?? dataimports/mock-meet-export/apply-d4-girls-to-live.mjs
+?? dataimports/mock-meet-export/apply-permanent-school-resolutions.mjs
+?? dataimports/mock-meet-export/approve-and-import.mjs
+?? dataimports/mock-meet-export/article-hero-position-fix.png
+?? dataimports/mock-meet-export/athlete-creation-audit-final.json
+?? dataimports/mock-meet-export/athlete-creation-audit-resume.json
+?? dataimports/mock-meet-export/athlete-creation-audit.json
+?? dataimports/mock-meet-export/athlete-creation-preview.json
+?? dataimports/mock-meet-export/athlete-creation-preview.mjs
+?? dataimports/mock-meet-export/b9574ea7-7bde-4d9b-9045-eba2328172b3/
+?? dataimports/mock-meet-export/boys-csv-preview-impact.json
+?? dataimports/mock-meet-export/boys-lakewood-fairfield-rows.json
+?? dataimports/mock-meet-export/boys-staging-rows-snapshot.json
+?? dataimports/mock-meet-export/build-corrected-markdown.mjs
+?? dataimports/mock-meet-export/build-corrected-report.mjs
+?? dataimports/mock-meet-export/build-d4-boys-draft.mjs
+?? dataimports/mock-meet-export/build-d4-boys-pr-draft.mjs
+?? dataimports/mock-meet-export/build-d4-girls-fastest7.mjs
+?? dataimports/mock-meet-export/build-final-reports.mjs
+?? dataimports/mock-meet-export/build-revised-proposal.mjs
+?? dataimports/mock-meet-export/build-top10-by-grade.mjs
+?? dataimports/mock-meet-export/cf3de5ac-1018-47d6-a408-d9ac8f81343c/
+?? dataimports/mock-meet-export/check-divisions.mjs
+?? dataimports/mock-meet-export/check-t10.mjs
+?? dataimports/mock-meet-export/combined-school-identity-report.json
+?? dataimports/mock-meet-export/combined-school-identity-report.md
+?? dataimports/mock-meet-export/combined-top10.json
+?? dataimports/mock-meet-export/combined-unresolved-schools.json
+?? dataimports/mock-meet-export/corrected-combined-report-final.json
+?? dataimports/mock-meet-export/corrected-combined-report-full.json
+?? dataimports/mock-meet-export/corrected-combined-report.md
+?? dataimports/mock-meet-export/corrected-report-part1.json
+?? dataimports/mock-meet-export/create-athlete-profiles.mjs
+?? dataimports/mock-meet-export/crop-image.ps1
+?? dataimports/mock-meet-export/csv-preview-impact.json
+?? dataimports/mock-meet-export/d4-boys-full.csv
+?? dataimports/mock-meet-export/d4-boys-grades-input.mjs
+?? dataimports/mock-meet-export/d4-match-output.txt
+?? "dataimports/mock-meet-export/d4girlsanet - Sheet1.csv"
+?? "dataimports/mock-meet-export/d4girlsmilesplit - Sheet2.csv"
+?? dataimports/mock-meet-export/draft-d4-boys-fastest7.json
+?? dataimports/mock-meet-export/draft-d4-boys-input.mjs
+?? dataimports/mock-meet-export/draft-d4-boys-match.mjs
+?? dataimports/mock-meet-export/draft-d4-boys-pr.json
+?? dataimports/mock-meet-export/draft-d4-boys.json
+?? dataimports/mock-meet-export/draft-d4-girls-fastest7.json
+?? dataimports/mock-meet-export/draft-mock-regionals-2026.json
+?? dataimports/mock-meet-export/duplicate-pairs-evidence.json
+?? dataimports/mock-meet-export/e2e-photo-submissions.mjs
+?? dataimports/mock-meet-export/existing-mock-team-lookup.json
+?? dataimports/mock-meet-export/faster-list.json
+?? dataimports/mock-meet-export/fastest7-output.txt
+?? dataimports/mock-meet-export/final-before-after-report.json
+?? dataimports/mock-meet-export/final-before-after-report.mjs
+?? dataimports/mock-meet-export/finalize-d4-boys-regional.mjs
+?? dataimports/mock-meet-export/full-test-output.txt
+?? dataimports/mock-meet-export/generate-migration-sql.mjs
+?? dataimports/mock-meet-export/girls-crop-test.jpg
+?? dataimports/mock-meet-export/girls-lakewood-fairfield-rows.json
+?? dataimports/mock-meet-export/homepage-fixed-crop-desktop.png
+?? dataimports/mock-meet-export/homepage-fixed-crop-desktop2.png
+?? dataimports/mock-meet-export/homepage-fixed-crop.png
+?? dataimports/mock-meet-export/homepage-latest-stories.png
+?? dataimports/mock-meet-export/homepage-mobile-lead.png
+?? dataimports/mock-meet-export/homepage-mobile.png
+?? dataimports/mock-meet-export/homepage-position-fix-desktop.png
+?? dataimports/mock-meet-export/homepage-position-fix-mobile.png
+?? dataimports/mock-meet-export/import-results.json
+?? dataimports/mock-meet-export/import-validation-report.json
+?? dataimports/mock-meet-export/lakewood-fairfield-manual-resolution-audit.json
+?? dataimports/mock-meet-export/latest-draft-id.txt
+?? dataimports/mock-meet-export/manually-resolve-lakewood-fairfield.mjs
+?? dataimports/mock-meet-export/match-against-official-directory.mjs
+?? dataimports/mock-meet-export/match-d4-boys-full-csv.mjs
+?? dataimports/mock-meet-export/match-d4-boys-grades.mjs
+?? dataimports/mock-meet-export/merge-d4-boys-fastest7.mjs
+?? dataimports/mock-meet-export/merge-dup-runners.mjs
+?? dataimports/mock-meet-export/milesplit-top10-sheet2.xml
+?? dataimports/mock-meet-export/milesplitd4final.csv
+?? dataimports/mock-meet-export/official-directory-matched-report.json
+?? dataimports/mock-meet-export/ohio-school-aliases-full.json
+?? dataimports/mock-meet-export/ohio-schools-full.json
+?? dataimports/mock-meet-export/ohsaa_enrollment_raw.html
+?? dataimports/mock-meet-export/ohsaa_official_directory.json
+?? dataimports/mock-meet-export/photo-storage-plan.html
+?? dataimports/mock-meet-export/project-final-matches.mjs
+?? dataimports/mock-meet-export/project-matched-athletes.mjs
+?? dataimports/mock-meet-export/projection-summary.json
+?? dataimports/mock-meet-export/rail-desktop.png
+?? dataimports/mock-meet-export/rail-mobile.png
+?? dataimports/mock-meet-export/reconcile-categories.mjs
+?? dataimports/mock-meet-export/reconciliation-report.json
+?? dataimports/mock-meet-export/report.json
+?? dataimports/mock-meet-export/resize-image.ps1
+?? dataimports/mock-meet-export/resume-athlete-profiles.mjs
+?? dataimports/mock-meet-export/staging-rows-snapshot.json
+?? dataimports/mock-meet-export/story-mobile-image.png
+?? dataimports/mock-meet-export/story-mobile-table.png
+?? dataimports/mock-meet-export/story-mobile-table2.png
+?? dataimports/mock-meet-export/story-mobile-top.png
+?? dataimports/mock-meet-export/t10-desktop.png
+?? dataimports/mock-meet-export/t10-mobile.png
+?? dataimports/mock-meet-export/update-d1-mock.mjs
+?? dataimports/mock-meet-export/update-d2-mock.mjs
+?? dataimports/mock-meet-export/update-d3-mock.mjs
+?? dataimports/mock-meet-export/update-d4-mock.mjs
+?? dataimports/mock-meet-export/validate-approved-changes.mjs
+?? dataimports/mock-meet-export/validate-matched-rows.mjs
+?? dataimports/mock-meet-export/validation-result.json
+?? dataimports/mock-meet-export/verify-pages-urls.mjs
+?? dataimports/mock-meet-export/verify-pages.mjs
+?? dataimports/mock-meet-export/verify-rail.mjs
+?? dataimports/mock-meet-export/verify-story.mjs
+?? dataimports/photographer-network-marketing-plan.html
+?? dataimports/podium_watch_2026_ohio_xc_top_10_by_grade.xlsx
+?? dataimports/track-alignments/
 
 ## Package commands
 
@@ -107,6 +266,7 @@ Working tree:
 1. /admin/teams/
 1. /admin/team-schedules/
 1. /apply/
+1. /apply/state-meet-correspondent/
 1. /athlete/
 1. /athlete-home/
 1. /athlete-login/
@@ -207,6 +367,7 @@ Working tree:
 1. /api/admin/presence
 1. /api/admin/recruiting
 1. /api/admin/results-sources
+1. /api/admin/state-meet-correspondent
 1. /api/admin/statewide-data
 1. /api/admin/team-content
 1. /api/admin/team-instagram
@@ -288,6 +449,7 @@ Working tree:
 1. /api/split-watch/review
 1. /api/split-watch/sessions
 1. /api/split-watch/sync
+1. /api/state-meet-correspondent/submit
 1. /api/stories/view-count
 1. /api/stripe/webhook
 1. /api/team/access
@@ -451,6 +613,7 @@ Values are intentionally excluded.
 1. results_source_providers
 1. result-source-documents
 1. site_presence
+1. state_meet_correspondent_applications
 1. team_admin_audit_log
 1. team_advancement_status
 1. team_analytics_events
@@ -505,6 +668,7 @@ Values are intentionally excluded.
 1. src\pages\adminteams.mjs
 1. src\pages\adminteamschedules.mjs
 1. src\pages\apply.mjs
+1. src\pages\applystatemeetcorrespondent.mjs
 1. src\pages\athletedetail.mjs
 1. src\pages\athletehome.mjs
 1. src\pages\athletelogin.mjs
