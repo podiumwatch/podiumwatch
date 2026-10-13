@@ -141,7 +141,8 @@ const COUNT_EXACT_PATTERN = /count:\s*["']exact["']/;
 // caused the 2026-08-31 incident today.
 const KNOWN_SAFE_EXCEPTIONS = new Set([
   path.join("api", "recruiting", "index.js"), // summary() is fed by queries with .limit(5000)/.limit(10000).
-  path.join("lib", "engagement_service.mjs") // aggregateAnalytics() is fed by queries with .limit(20000)/.limit(30000), both time-windowed.
+  path.join("lib", "engagement_service.mjs"), // aggregateAnalytics() is fed by queries with .limit(20000)/.limit(30000), both time-windowed.
+  path.join("lib", "athletic_net_rankings_service.mjs") // validateRankingDataset()'s tally loop counts duplicate athlete_urls within the in-memory parsed CSV rows array -- it never touches a Supabase result at all. The file's real Supabase selects (loadExternalIdProfileMap, loadNameMatchProfiles, loadExistingSourceKeys) are either .limit()-bounded or used only to build a Set/Map for membership checks, not an unbounded per-key tally.
 ]);
 
 const flagged = [];

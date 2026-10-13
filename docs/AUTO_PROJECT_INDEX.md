@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-12 19:06:54
+Generated: 2026-10-13 09:33:30
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 994 |
+| Included source files | 1002 |
 | Page source files | 92 |
 | API files | 128 |
 | Route references | 104 |
@@ -20,16 +20,16 @@ This file is generated from the current project.
 
 Latest commit:
 
-55229c4d3a0119840c0890b883a91e2407c1f1c9 | 2026-10-12 18:53:19 -0400 | Fix duplicate-person entries from the two-source merge
+369573c1bf2d47d5c81773f3a39308783c94055c | 2026-10-12 19:07:09 -0400 | Fix a deeper duplicate-runner bug: reversed-name-order MileSplit rows
 
 Working tree:
 
  M .claude/settings.json
- M dataimports/milesplit-2026/dedupe-fuzzy-runners.mjs
+ M docs/DECISIONS.md
  M docs/SESSION_LOG.md
- M src/data/mock-regionals-2026.json
- M src/data/top10-by-grade-2026.json
- M src/data/top10-overall-by-grade-2026.json
+ M lib/recruiting_service.mjs
+ M package.json
+ M scripts/test-vote-count-safety.mjs
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
 ?? dataimports/BTF2027D2.pdf
@@ -54,6 +54,7 @@ Working tree:
 ?? dataimports/girls-d4-2026/
 ?? dataimports/girls_week_9_26_clean_import.csv
 ?? dataimports/girls_week_9_26_clean_import_v2.csv
+?? dataimports/import-ohio-xc-2026-athletic-net-rankings.mjs
 ?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - Boys d4.csv"
 ?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - boys d3.csv"
 ?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d1.csv"
@@ -65,7 +66,6 @@ Working tree:
 ?? dataimports/milesplit-2026/check-divisions.mjs
 ?? dataimports/milesplit-2026/manual-resolution-boys-d3.json
 ?? dataimports/milesplit-2026/manual-resolution-boys-d4.json
-?? dataimports/milesplit-2026/rebuild-roster-from-sources.mjs
 ?? dataimports/mock-meet-export/32d15d91-d3a0-4880-9743-b62a2652e89e/
 ?? dataimports/mock-meet-export/3b832abe-382b-4559-82de-c3df639d1398/
 ?? dataimports/mock-meet-export/7038c2d2-e066-46f9-9500-89023e7f8180/
@@ -205,9 +205,16 @@ Working tree:
 ?? dataimports/mock-meet-export/verify-pages.mjs
 ?? dataimports/mock-meet-export/verify-rail.mjs
 ?? dataimports/mock-meet-export/verify-story.mjs
+?? dataimports/ohio_xc_2026_top_1000_all_divisions_week7.SOURCE_NOTE.md
+?? dataimports/ohio_xc_2026_top_1000_all_divisions_week7.csv
+?? dataimports/ohio_xc_2026_top_1000_all_divisionsweek7.xlsx
 ?? dataimports/photographer-network-marketing-plan.html
 ?? dataimports/podium_watch_2026_ohio_xc_top_10_by_grade.xlsx
 ?? dataimports/track-alignments/
+?? install/71_ATHLETIC_NET_EXTERNAL_ID_UNIQUE.sql
+?? lib/athletic_net_rankings_service.mjs
+?? scripts/test-athletic-net-rankings.mjs
+?? tests/athletic-net-rankings-import.test.mjs
 
 ## Package commands
 
@@ -218,12 +225,13 @@ Working tree:
 | check | node scripts/check.mjs |
 | dev | node scripts/serve.mjs --watch |
 | preview | node scripts/serve.mjs |
-| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:photo-submissions |
+| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:photo-submissions && npm run test:athletic-net-rankings |
 | test:archive-day-link | node scripts/test-archive-and-day-link.mjs |
 | test:article-polls | node scripts/test-article-polls.mjs |
 | test:athlete-goals | node scripts/test-athlete-goals.mjs |
 | test:athlete-leaders | node scripts/test-athlete-leaders.mjs |
 | test:athletes | node scripts/test-athlete-foundation.mjs |
+| test:athletic-net-rankings | node scripts/test-athletic-net-rankings.mjs |
 | test:award-media | node scripts/test-award-media.mjs |
 | test:awards | node scripts/test-awards-service.mjs |
 | test:command-center | node scripts/test-command-center.mjs |
