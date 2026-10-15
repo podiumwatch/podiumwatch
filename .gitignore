@@ -16,7 +16,4 @@ backups/
 design-backup-*/
 .team-manager-backup-*/
 
-# Private, locally generated simulator/audit artifacts.
-/private/audits/
-
 performance-import-ready.csv
