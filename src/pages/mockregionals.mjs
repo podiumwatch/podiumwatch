@@ -92,6 +92,9 @@ function sharedStyles() {
     .mr-explainer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 20px; padding: 22px 26px; border: 1px solid var(--line); border-left: 6px solid var(--green); background: var(--paper); }
     .mr-explainer p { margin: 0; max-width: 62ch; color: var(--ink); }
     .mr-explainer .button { flex-shrink: 0; }
+    .mr-area-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; border-bottom: 1px solid var(--line); }
+    .mr-area-tabs a { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 18px; border-bottom: 4px solid transparent; color: var(--muted); font-weight: 800; text-decoration: none; }
+    .mr-area-tabs a:hover, .mr-area-tabs a:focus-visible, .mr-area-tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--green); }
     .mr-projection-note { margin: 0 0 28px; padding: 14px 18px; border: 1px dashed var(--line); color: var(--muted); font-size: .86rem; }
     .mr-crumbs-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
     .mr-crumbs-row a { padding: 8px 16px; border: 1px solid var(--ink); color: var(--ink); font-weight: 700; font-size: .86rem; }
@@ -130,6 +133,26 @@ function sharedStyles() {
     .mr-division-block h2 { margin-bottom: 14px; }
     .mr-individuals-section { margin-top: 40px; }
     .mr-individuals-section h2 { margin-bottom: 8px; }
+    .d4sim { margin: 28px 0 42px; border: 1px solid var(--line); border-top: 6px solid var(--green); background: var(--white); box-shadow: 0 14px 36px rgba(0, 0, 0, .08); }
+    .d4sim-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px; padding: 28px; background: var(--black); color: var(--white); }
+    .d4sim-head .eyebrow { color: var(--green); margin-bottom: 6px; }
+    .d4sim-head h2 { margin: 0 0 8px; color: var(--white); font-size: clamp(1.65rem, 4vw, 2.45rem); }
+    .d4sim-head p { max-width: 68ch; margin: 0; color: #d4d8d5; }
+    .d4sim-division-tabs { display: flex; flex-wrap: wrap; gap: 10px; padding: 18px 28px; border-bottom: 1px solid var(--line); background: #f6f7f6; }
+    .d4sim-division-tabs button { min-height: 42px; padding: 9px 18px; border: 1px solid var(--ink); background: var(--white); color: var(--ink); font-weight: 800; cursor: pointer; }
+    .d4sim-division-tabs button[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: var(--black); }
+    .d4sim-run { min-width: 150px; font-size: 1rem; }
+    .d4sim-run:disabled { cursor: wait; opacity: .65; }
+    .d4sim-meta { margin: 0; padding: 12px 28px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+    .d4sim-field-note { margin: 0; padding: 12px 28px; border-bottom: 1px solid #ead8a5; background: #fff8e5; color: #5f4911; font-size: .86rem; }
+    .d4sim-results { padding: 26px 28px 32px; scroll-margin-top: 20px; }
+    .d4sim-summary { margin: 0 0 22px; padding: 16px 18px; border-left: 5px solid var(--green); background: #f0faf3; font-size: 1.02rem; }
+    .d4sim-results h3 { margin: 30px 0 6px; font-size: 1.2rem; }
+    .d4sim-results h3:first-of-type { margin-top: 0; }
+    .d4sim-results .mr-meta { margin-bottom: 14px; }
+    .d4sim-table td, .d4sim-table th { font-variant-numeric: tabular-nums; }
+    .d4sim-region { display: block; margin-top: 2px; color: var(--muted); font-size: .75rem; font-weight: 500; }
+    .d4sim-note { margin: 24px 0 0; color: var(--muted); font-size: .8rem; }
 
     /* Mobile: the site-wide table-to-card system (main.css, @700px) already
        stacks a .table-scroll table's rows into label/value cards via
@@ -266,6 +289,13 @@ function sharedStyles() {
         background: #fafafa;
         border-radius: 8px;
       }
+      .d4sim { margin: 22px 0 34px; }
+      .d4sim-head { grid-template-columns: 1fr; padding: 22px 20px; }
+      .d4sim-run { width: 100%; }
+      .d4sim-division-tabs { padding: 14px 20px; }
+      .d4sim-division-tabs button { flex: 1 1 140px; }
+      .d4sim-meta, .d4sim-field-note { padding: 11px 20px; }
+      .d4sim-results { padding: 22px 16px 28px; }
     }
   </style>`;
 }
@@ -440,6 +470,52 @@ function crumbsRow(divisionEntry, activeKey) {
   return `<div class="mr-crumbs-row" role="group" aria-label="Choose a region">${items.join("")}</div>`;
 }
 
+function mockMeetAreaTabs(active) {
+  return `<nav class="mr-area-tabs" aria-label="Mock Meets sections">
+    <a href="/mock-meets/"${active === "home" ? ' aria-current="page"' : ""}>Mock Meets</a>
+    <a href="/mock-meets/simulate/"${active === "simulate" ? ' aria-current="page"' : ""}>Simulate</a>
+  </nav>`;
+}
+
+function d4SimulatorHtml() {
+  return `<section class="d4sim" data-d4-state-simulator data-division-id="boys-d4" data-source="/data/d4-state-simulator-2026.json" aria-labelledby="d4sim-title">
+    <div class="d4sim-head">
+      <div>
+        <p class="eyebrow">Run the race</p>
+        <h2 id="d4sim-title">Division IV state meet simulator</h2>
+        <p>Choose the boys or girls field, then run a complete race. Every runner gets a place and simulated time, and all 24 team scores come from that same finish order.</p>
+      </div>
+      <button class="button button-primary d4sim-run" type="button" data-d4sim-run disabled>Simulate</button>
+    </div>
+    <div class="d4sim-division-tabs" role="group" aria-label="Choose a Division IV race">
+      <button type="button" data-d4sim-division="boys-d4" aria-pressed="true">Boys Division IV</button>
+      <button type="button" data-d4sim-division="girls-d4" aria-pressed="false">Girls Division IV</button>
+    </div>
+    <p class="d4sim-meta" data-d4sim-status role="status" aria-live="polite">Loading simulator data…</p>
+    <p class="d4sim-field-note" data-d4sim-field-note hidden></p>
+    <div class="d4sim-results" data-d4sim-results hidden>
+      <p class="d4sim-summary" data-d4sim-summary aria-live="polite"></p>
+      <h3>Team scores</h3>
+      <p class="mr-meta">Five runners score. Every sixth and seventh runner still occupies a place and displaces runners behind them; the sixth runner also breaks an equal team score. Individual qualifiers occupy places but never score for a team.</p>
+      <div class="table-scroll" tabindex="0">
+        <table class="mr-table d4sim-table">
+          <thead><tr><th>Place</th><th>Team</th><th>Score</th><th>Scorers</th><th>Sixth</th><th>Seventh</th></tr></thead>
+          <tbody data-d4sim-team-rows></tbody>
+        </table>
+      </div>
+      <h3>Complete finish order</h3>
+      <p class="mr-meta">All team runners and projected individual qualifiers are shown in the exact order produced by this simulation.</p>
+      <div class="table-scroll" tabindex="0">
+        <table class="mr-table d4sim-table">
+          <thead><tr><th>Place</th><th>Runner</th><th>School</th><th>Region</th><th>Simulated 5K</th><th>Team role</th></tr></thead>
+          <tbody data-d4sim-finisher-rows></tbody>
+        </table>
+      </div>
+      <p class="d4sim-note">Podium Watch projection using eligible 2026 5K performances dated before October 13, 2026. Athlete ability uses up to the four strongest course-adjusted performances. This is a model result, not an official entry list or race result.</p>
+    </div>
+  </section>`;
+}
+
 export function mockRegionalPage(site, divisionEntry, regionKey) {
   const region = divisionEntry.regions[regionKey];
   const pathname = `/mock-meets/regionals/${regionSlug(divisionEntry.id, regionKey)}/`;
@@ -466,6 +542,7 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
   <section class="section section-paper" aria-labelledby="mr-title">
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}
+      ${mockMeetAreaTabs("home")}
 
       <div class="mr-explainer">
         <p>This is a modeled regional meet, not a real result -- every runner's real supplied season-best 5K decides the score. The top ${region.stateQualifiers} teams here are highlighted as the real number that would advance to the State mock meet.</p>
@@ -523,7 +600,27 @@ export function mockStatePage(site, divisionEntry) {
   const title = `Mock State Meet -- ${divisionLabel(divisionEntry)}`;
   const regionKeys = REGION_ORDER.filter((key) => divisionEntry.regions[key]);
   const { teams, teamsForFullField, individuals, poolLog, missing } = computeStatePool(divisionEntry);
-
+  const standingsHtml = missing.length
+    ? emptyState({
+        title: "Waiting on regional results",
+        description: `The State field pools each region's real qualifying teams and individuals automatically, but ${missing.length} region${missing.length === 1 ? "" : "s"} (${missing.map((k) => REGION_LABELS[k]).join(", ")}) still ${missing.length === 1 ? "has" : "have"} no rosters entered yet.`,
+        actionLabel: "See every region and division",
+        actionHref: "/mock-meets/"
+      })
+    : `<p class="mr-meta">Pooled from: ${poolLog.map((p) => `${p.region} (${p.teamCount} of ${p.teamQualifiers} team qualifiers, ${p.individualCount} of ${p.individualQualifiers} individual qualifiers)`).join(" &middot; ")}</p>` +
+      teamStandingsTable(teams, null, { showRegion: true, highlightMedals: true }) +
+      `<div class="mr-individuals-section">
+        <p class="eyebrow">Individual qualifiers</p>
+        <h2>Qualifying individuals at State</h2>
+        <p class="mr-meta">Each shown with the region they qualified from. Individual qualifiers do not count toward any team score.</p>
+        ${individualsTableHtml(individuals, { showRegion: true })}
+      </div>` +
+      `<div class="mr-individuals-section">
+        <p class="eyebrow">Complete individual results</p>
+        <h2>How every qualifier would finish at State</h2>
+        <p class="mr-meta">Every runner from every qualifying team, plus every individual qualifier, in one real finish order -- so you can see exactly what times everyone is running against each other.</p>
+        ${individualsTableHtml(fullFieldOrder(teamsForFullField, individuals), { showRegion: true, showTeamScore: true })}
+      </div>`;
   const content = `${pageHero({
     eyebrow: "2026 Mock State Meet",
     title,
@@ -533,6 +630,7 @@ export function mockStatePage(site, divisionEntry) {
   <section class="section section-paper" aria-labelledby="mr-title">
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}
+      ${mockMeetAreaTabs("home")}
 
       <div class="mr-explainer">
         <p>This State field is not entered by hand -- it's the real number of qualifying teams and qualifying individuals pooled automatically from each region's mock regional, once every region has real rosters. Only the qualifying teams score: their runners are ranked in finish order and team points are assigned from that order. Individual qualifiers advance on their own and do not count toward any team score.</p>
@@ -544,29 +642,7 @@ export function mockStatePage(site, divisionEntry) {
       ${crumbsRow(divisionEntry, "state")}
 
       <h2 id="mr-title" class="mr-heading">${divisionLabel(divisionEntry)}</h2>
-
-      ${missing.length
-        ? emptyState({
-            title: "Waiting on regional results",
-            description: `The State field pools each region's real qualifying teams and individuals automatically, but ${missing.length} region${missing.length === 1 ? "" : "s"} (${missing.map((k) => REGION_LABELS[k]).join(", ")}) still ${missing.length === 1 ? "has" : "have"} no rosters entered yet.`,
-            actionLabel: "See every region and division",
-            actionHref: "/mock-meets/"
-          })
-        : `<p class="mr-meta">Pooled from: ${poolLog.map((p) => `${p.region} (${p.teamCount} of ${p.teamQualifiers} team qualifiers, ${p.individualCount} of ${p.individualQualifiers} individual qualifiers)`).join(" &middot; ")}</p>` +
-          teamStandingsTable(teams, null, { showRegion: true, highlightMedals: true }) +
-          `<div class="mr-individuals-section">
-            <p class="eyebrow">Individual qualifiers</p>
-            <h2>Qualifying individuals at State</h2>
-            <p class="mr-meta">Each shown with the region they qualified from. Individual qualifiers do not count toward any team score.</p>
-            ${individualsTableHtml(individuals, { showRegion: true })}
-          </div>` +
-          `<div class="mr-individuals-section">
-            <p class="eyebrow">Complete individual results</p>
-            <h2>How every qualifier would finish at State</h2>
-            <p class="mr-meta">Every runner from every qualifying team, plus every individual qualifier, in one real finish order -- so you can see exactly what times everyone is running against each other.</p>
-            ${individualsTableHtml(fullFieldOrder(teamsForFullField, individuals), { showRegion: true, showTeamScore: true })}
-          </div>`
-      }
+      ${standingsHtml}
     </div>
   </section>
   <script src="/scripts/page-view.js" defer></script>`;
@@ -609,6 +685,7 @@ export function mockRegionalsHubPage(site) {
   <section class="section section-paper" aria-labelledby="mr-hub-title">
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets" }])}
+      ${mockMeetAreaTabs("home")}
 
       <div class="mr-explainer">
         <p>These are modeled meets, not real results. The regional groupings and the real team and individual qualifier counts are OHSAA's own real 2026 structure; every score comes from real supplied runner times.</p>
@@ -616,6 +693,11 @@ export function mockRegionalsHubPage(site) {
       </div>
 
       <p class="mr-projection-note">${PROJECTION_NOTE}</p>
+
+      <div class="mr-explainer">
+        <p><strong>Run the Division IV state race yourself.</strong> The simulator creates a new complete boys or girls finish order and recalculates all 24 team scores on every click.</p>
+        <a class="button button-primary" href="/mock-meets/simulate/">Open Simulate ${icon("arrow")}</a>
+      </div>
 
       <div class="section-heading">
         <div><p class="eyebrow">Every division</p><h2 id="mr-hub-title">Pick a division to see its regions and State field</h2></div>
@@ -630,6 +712,42 @@ export function mockRegionalsHubPage(site) {
     site,
     title,
     description: "2026 mock cross country regionals and State meets for every OHSAA division, boys and girls, built from real supplied team rosters and the real regional qualifying structure.",
+    pathname,
+    content
+  });
+}
+
+export function mockMeetSimulatorPage(site) {
+  const pathname = "/mock-meets/simulate/";
+  const title = "Division IV State Meet Simulator";
+  const content = `${pageHero({
+    eyebrow: "Mock Meets -- Simulate",
+    title,
+    description: "Run a complete projected Ohio Division IV boys or girls state race, then inspect every individual place and all 24 team scores."
+  })}
+  ${sharedStyles()}
+  <section class="section section-paper" aria-labelledby="d4sim-page-title">
+    <div class="container">
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: "Simulate" }])}
+      ${mockMeetAreaTabs("simulate")}
+
+      <div class="mr-explainer">
+        <p id="d4sim-page-title">This is the interactive simulation area. It is separate from the season-best mock regional and State standings. Each click represents one possible race—not a prediction that the exact result will happen.</p>
+        <a class="button button-outline" href="/mock-meets/">View Mock Meets ${icon("arrow")}</a>
+      </div>
+
+      <p class="mr-projection-note">The current prototype covers the 2026 Division IV boys and girls projected State fields. A team must have at least five runners with eligible history. All team runners, including every sixth and seventh runner, and all projected individual qualifiers occupy real finish places.</p>
+
+      ${d4SimulatorHtml()}
+    </div>
+  </section>
+  <script type="module" src="/scripts/d4-state-simulator.js"></script>
+  <script src="/scripts/page-view.js" defer></script>`;
+
+  return layout({
+    site,
+    title,
+    description: "Simulate a complete 2026 Ohio Division IV boys or girls cross country State race with every finisher and all 24 team scores.",
     pathname,
     content
   });
@@ -736,6 +854,7 @@ export function top10ByGradePage(site) {
 export function mockRegionalsAllPages(site) {
   const pages = [];
   pages.push({ pathname: "/mock-meets/", html: mockRegionalsHubPage(site) });
+  pages.push({ pathname: "/mock-meets/simulate/", html: mockMeetSimulatorPage(site) });
   pages.push({ pathname: "/rankings/top-10/", html: top10ByGradePage(site) });
   for (const divisionEntry of regionalsData.divisions) {
     const problems = validateDivisionRoster(divisionEntry, Object.entries(divisionEntry.regions));

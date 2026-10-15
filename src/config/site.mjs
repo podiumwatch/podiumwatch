@@ -64,11 +64,12 @@ export const site = {
       { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },
-    // Mock Meets (2026-09-21): explicit user request for its own visible
-    // top-level tab, not buried in the Rankings dropdown -- see
-    // src/pages/mockregionals.mjs for the feature itself (real 2026 OHSAA
-    // regional structure, team-only mock meets).
-    { label: "Mock Meets", href: "/mock-meets/" },
+    // Mock Meets stays a visible top-level area, with the new race
+    // simulator separated from the season-best regional/state pages.
+    { label: "Mock Meets", items: [
+      { label: "Mock Meets Home", href: "/mock-meets/" },
+      { label: "Simulate", href: "/mock-meets/simulate/" }
+    ] },
     // AdSense readiness (2026-09-16): Meets, Teams & Schools, and
     // Athletes hidden from the top nav for now, real request -- a
     // simpler, shorter nav while the site is under AdSense review. The
