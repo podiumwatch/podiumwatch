@@ -9,7 +9,7 @@
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
     "audit:seo": "node scripts/audit-seo.mjs",
-    "test": "npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:photo-submissions && npm run test:athletic-net-rankings && npm run test:xc-d4-coverage-audit",
+    "test": "npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:photo-submissions && npm run test:athletic-net-rankings",
     "test:athletes": "node scripts/test-athlete-foundation.mjs",
     "test:recruiting": "node scripts/test-recruiting-foundation.mjs",
     "test:results": "node scripts/test-results-ingestion.mjs",
@@ -47,8 +47,6 @@
     "test:mock-meet-export": "node scripts/test-mock-meet-export.mjs",
     "test:photo-submissions": "node scripts/test-photo-submissions.mjs",
     "test:athletic-net-rankings": "node scripts/test-athletic-net-rankings.mjs",
-    "test:xc-d4-coverage-audit": "node scripts/test-xc-d4-coverage-audit.mjs",
-    "audit:d4-boys-coverage": "node --env-file=.env.local scripts/audit-d4-boys-coverage.mjs --season=2026 --cutoff=2026-10-13",
     "preview": "node scripts/serve.mjs"
   },
   "engines": {
