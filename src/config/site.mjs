@@ -64,11 +64,23 @@ export const site = {
       { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },
-    // Mock Meets (2026-09-21): explicit user request for its own visible
-    // top-level tab, not buried in the Rankings dropdown -- see
-    // src/pages/mockregionals.mjs for the feature itself (real 2026 OHSAA
-    // regional structure, team-only mock meets).
-    { label: "Mock Meets", href: "/mock-meets/" },
+    // Mock Meets (2026-09-21, dropdown added 2026-10-19): explicit user
+    // request for its own visible top-level tab, not buried in the
+    // Rankings dropdown. Regionals and State currently share one combined
+    // hub page (/mock-meets/, "2026 Mock Regionals & State" -- every
+    // division's region cards and State card together), so both items
+    // below point there for now rather than two nav links to two pages
+    // that don't yet exist separately. Districts (src/pages/mockdistricts.mjs,
+    // src/data/mock-districts-2026.json) is built and committed but
+    // deliberately left out of this nav and out of scripts/build.mjs's
+    // page list -- the user wants it kept off the live site until more
+    // district data is sent and real coverage improves; add a "Districts"
+    // item here and the mockDistrictsAllPages() call in build.mjs back in
+    // when told to make it live.
+    { label: "Mock Meets", items: [
+      { label: "Regionals", href: "/mock-meets/" },
+      { label: "State", href: "/mock-meets/" }
+    ] },
     // AdSense readiness (2026-09-16): Meets, Teams & Schools, and
     // Athletes hidden from the top nav for now, real request -- a
     // simpler, shorter nav while the site is under AdSense review. The

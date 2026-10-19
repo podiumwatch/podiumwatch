@@ -94,6 +94,13 @@ import { rankingMethodologyPage } from "../src/pages/rankingmethodology.mjs";
 import { oatcccCoachesPollPage } from "../src/pages/oatcccpoll.mjs";
 import { mockMeetsPage } from "../src/pages/mockmeets.mjs";
 import { mockRegionalsAllPages } from "../src/pages/mockregionals.mjs";
+// mockDistrictsAllPages (src/pages/mockdistricts.mjs) is built and
+// committed but deliberately not called below yet -- the user wants Mock
+// Districts kept off the live site until more district data is sent and
+// real school/division coverage improves. Re-add the call in the page
+// loop below (and the "Districts" nav item in src/config/site.mjs) when
+// told to make it live.
+// import { mockDistrictsAllPages } from "../src/pages/mockdistricts.mjs";
 import { trackDivisionsPage } from "../src/pages/trackdivisions.mjs";
 import { rankingLeadersPage } from "../src/pages/rankingleaders.mjs";
 import { athletesPage } from "../src/pages/athletes.mjs";
@@ -933,6 +940,8 @@ await writePage("/podium-play/", podiumPlayPage(site));
   for (const page of mockRegionalsAllPages(site)) {
     await writePage(page.pathname, page.html);
   }
+  // Mock Districts pages intentionally not generated yet -- see the
+  // import comment above.
   await writePage("/rankings/leaders/", rankingLeadersPage(site));
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));
