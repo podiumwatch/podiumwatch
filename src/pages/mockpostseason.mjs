@@ -34,6 +34,14 @@ function divisionLabel(division) {
   return DIVISION_LABEL[divisionNum(division)] || `Division ${division}`;
 }
 
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function formatHumanDate(isoDate) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate || "");
+  if (!m) return isoDate;
+  return `${MONTH_NAMES[Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`;
+}
+const AS_OF_LABEL = `Projected &middot; as of ${formatHumanDate(data.asOf)} &middot; not official`;
+
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
@@ -98,12 +106,16 @@ function genderAccentVar(gender) {
   return gender && gender.toLowerCase() === "girls" ? "var(--mp-pink)" : "var(--mp-green)";
 }
 
-// Cross-link anchors: a team row carries data-team-anchor="<gender>|D<n>|<team name>"
-// so the next level's page can find and pre-open that exact row (and
-// highlight it) when arriving via a ?team= query param, without needing
-// the two pages to share any other identifier.
+// Cross-link anchors: a team row carries data-anchor="<gender>|D<n>|team|<team name>",
+// an individual row carries data-anchor="<gender>|D<n>|runner|<name>|<school>"
+// -- one unified attribute/param (not two separate systems) so the next
+// level's page can find and pre-open that exact row (team or runner)
+// and highlight it, arriving via a single ?anchor= query param.
 function teamAnchorKey(gender, divNum, teamName) {
-  return `${gender.toLowerCase()}|D${divNum}|${teamName}`;
+  return `${gender.toLowerCase()}|D${divNum}|team|${teamName}`;
+}
+function runnerAnchorKey(gender, divNum, name, school) {
+  return `${gender.toLowerCase()}|D${divNum}|runner|${name}|${school}`;
 }
 
 // Real regional site name -> the 4-value region key mock-regionals-2026.json
@@ -112,8 +124,8 @@ function teamAnchorKey(gender, divNum, teamName) {
 // already-built JSON, not the chain script).
 const REGIONAL_SITE_TO_KEY = { Pickerington: "central", Boardman: "northeast", Tiffin: "northwest", Troy: "southwest" };
 
-function crossLinkHref({ tab, gender, divNum, teamName, hash }) {
-  const sp = new URLSearchParams({ tab, g: gender.toLowerCase(), d: String(divNum), team: teamAnchorKey(gender, divNum, teamName) });
+function crossLinkHref({ tab, gender, divNum, anchor, hash }) {
+  const sp = new URLSearchParams({ tab, g: gender.toLowerCase(), d: String(divNum), anchor });
   return `/mock-postseason/?${sp.toString()}#${hash}`;
 }
 
@@ -138,6 +150,8 @@ const SHARED_STYLE = `<style>
   .mp-filterdivider { flex: 0 0 auto; width: 1px; background: var(--line); margin: 4px 2px; }
   .mp-racechip.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
 
+  .mp-breadcrumb { padding: 10px 16px; font-size: .8rem; color: var(--muted); border-bottom: 1px solid var(--line); }
+  .mp-d1-regionals-btn { min-height: 44px; padding: 0 18px; border: none; border-radius: 6px; background: var(--ink); color: var(--white); font-weight: 700; font-size: .88rem; cursor: pointer; margin-top: 8px; }
   .mp-totop { position: fixed; right: 16px; bottom: 16px; z-index: 25; width: 46px; height: 46px; border-radius: 999px; background: var(--black); color: var(--white); border: none; font-size: 1.1rem; display: none; cursor: pointer; }
   .mp-totop.show { display: block; }
 
@@ -202,6 +216,7 @@ const SHARED_STYLE = `<style>
   .mp-rosterplace { flex: 0 0 auto; width: 22px; text-align: right; font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--muted); }
   .mp-rosterrole { flex: 0 0 auto; width: 56px; text-align: right; white-space: nowrap; font-size: .62rem; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; color: var(--muted); }
   .mp-rosterfooter { padding: 8px 8px 2px; font-size: .78rem; color: var(--muted); }
+  .mp-qualifiedfrom { padding: 2px 8px 2px; font-size: .78rem; color: var(--muted); }
   .mp-rosterlink { display: inline-block; padding: 8px; min-height: 32px; font-size: .8rem; font-weight: 700; color: var(--row-accent, var(--mp-green)); }
   .mp-highlight { animation: mp-flash 1.6s ease-out 1; }
   @keyframes mp-flash { from { background: color-mix(in srgb, var(--row-accent, var(--mp-green)) 30%, var(--white)); } to { background: transparent; } }
@@ -236,7 +251,7 @@ function compactHero({ eyebrow, title, description }) {
     <span class="mp-eyebrow">${escapeHtml(eyebrow)}</span>
     <h1>${escapeHtml(title)}</h1>
     <p>${escapeHtml(description)}</p>
-    <div class="mp-statuspill">Projected &middot; as of ${data.asOf} &middot; not official</div>
+    <div class="mp-statuspill">${AS_OF_LABEL}</div>
   </div></div>`;
 }
 
@@ -279,6 +294,24 @@ function rosterRunnerRow(runner, index, individualKeys, teamName, accent) {
   </div>`;
 }
 
+function ordinalWord(n) {
+  if (n == null) return null;
+  return n === 1 ? "1st" : n === 2 ? "2nd" : n === 3 ? "3rd" : `${n}th`;
+}
+
+// "Qualified from: Cedarville district, 1st" (regional team rows) or
+// "Qualified from: Troy regional, 1st" (state team rows) -- same wording
+// pattern individual rows already use, now on teams too (Round 4).
+function qualifiedFromLineHtml(team) {
+  if (team.qualifiedFromDistrict != null) {
+    return `<div class="mp-qualifiedfrom">Qualified from: ${schoolDisplay(team.qualifiedFromDistrict)} district, ${ordinalWord(team.qualifiedFromDistrictOrdinal)}</div>`;
+  }
+  if (team.qualifiedFromRegional != null) {
+    return `<div class="mp-qualifiedfrom">Qualified from: ${schoolDisplay(team.qualifiedFromRegional)} regional, ${ordinalWord(team.qualifiedFromRegionalOrdinal)}</div>`;
+  }
+  return "";
+}
+
 function rosterFooterHtml(team, crossLink) {
   const scorers = team.runners.slice(0, 5).filter((r) => r.timeCentiseconds != null);
   const parts = [`Team score ${formatPoints(team.score)}`];
@@ -288,8 +321,8 @@ function rosterFooterHtml(team, crossLink) {
     const avg = times.reduce((a, b) => a + b, 0) / times.length;
     parts.push(`1-5 split ${formatTimeFromCentiseconds(split)}`, `avg ${formatTimeFromCentiseconds(avg)}`);
   }
-  const line = `<div class="mp-rosterfooter">${parts.join(" &middot; ")}</div>`;
-  return crossLink ? `${line}<a class="mp-rosterlink" href="${escapeHtml(crossLink.url)}">View in ${escapeHtml(crossLink.label)} &rarr;</a>` : line;
+  const line = `<div class="mp-rosterfooter">${parts.join(" &middot; ")}</div>` + qualifiedFromLineHtml(team);
+  return crossLink ? `${line}<a class="mp-rosterlink" href="${escapeHtml(crossLink.url)}">Advances to ${escapeHtml(crossLink.label)} &rarr;</a>` : line;
 }
 
 // A team row IS its own roster dropdown -- the whole row is the tap
@@ -303,7 +336,7 @@ function teamRosterRow(team, rank, state, individualKeys, accent, anchorValue, c
     ? `${formatPoints(team.score)} pts${team.sixthPlace != null ? ` &middot; 6th ${formatPoints(team.sixthPlace)}` : ""}`
     : "fewer than 5 runners";
   const roster = team.runners.map((r, i) => rosterRunnerRow(r, i, individualKeys, team.name, accent)).join("");
-  return `<details class="mp-teamrow${stateClass}" style="--row-accent:${accent}" ${anchorValue ? `data-team-anchor="${escapeHtml(anchorValue)}"` : ""}>
+  return `<details class="mp-teamrow${stateClass}" style="--row-accent:${accent}" ${anchorValue ? `data-anchor="${escapeHtml(anchorValue)}"` : ""}>
     <summary>
       <span class="mp-rownum">${rank != null ? rank : "--"}</span>
       ${logoHtml(team.name)}
@@ -377,13 +410,24 @@ function combinedFinishOrder(scoredTeams, qualifyingTeamNames, individuals) {
 // a team row -- summary is the flat row, body shows grade/time/where
 // they qualified from. TEAM-tagged and untagged rows stay plain (their
 // own team's roster, shown elsewhere, already covers this).
-function runnerRowsHtml(rows, limit, allOhioAfter) {
+// crossLinkFor(runner) -> { url, label } | null -- same "Advances to X"
+// link pattern team rows get, now also on individual qualifier rows
+// (IND tag only; TEAM-tagged/untagged rows have their own roster
+// elsewhere, which already carries this link). gender/divNum (when
+// given) set a stable data-anchor on every IND row regardless of
+// whether it has a further "advances to" link -- state's own
+// individual list has no next level to advance to, but its rows are
+// still valid landing targets for an incoming regional-to-state link.
+function runnerRowsHtml(rows, limit, allOhioAfter, crossLinkFor, gender, divNum) {
   const shown = limit ? rows.slice(0, limit) : rows;
   const body = shown.map((r, i) => {
     const qualifyClass = r.tag ? " mp-qualifies" : "";
     let row;
     if (r.tag === "IND") {
-      row = `<details class="mp-indrow${qualifyClass}">
+      const crossLink = crossLinkFor ? crossLinkFor(r) : null;
+      const advancesLink = crossLink ? `<a class="mp-rosterlink" href="${escapeHtml(crossLink.url)}">Advances to ${escapeHtml(crossLink.label)} &rarr;</a>` : "";
+      const anchorValue = gender && divNum ? runnerAnchorKey(gender, divNum, r.name, r.school) : null;
+      row = `<details class="mp-indrow${qualifyClass}" ${anchorValue ? `data-anchor="${escapeHtml(anchorValue)}"` : ""}>
         <summary>
           <span class="mp-rownum">${formatPlace(r.placePoints)}</span>
           ${logoHtml(r.school)}
@@ -395,7 +439,7 @@ function runnerRowsHtml(rows, limit, allOhioAfter) {
           <span class="mp-tag mp-tag-ind">IND</span>
           <span class="mp-chevron">&#9660;</span>
         </summary>
-        <div class="mp-indrow-body">${[r.grade ? `Gr ${escapeHtml(r.grade)}` : null, escapeHtml(r.seasonBest), r.qualifiedFrom ? `Qualified from: ${escapeHtml(r.qualifiedFrom)}` : null].filter(Boolean).join(" &middot; ")}</div>
+        <div class="mp-indrow-body">${[r.grade ? `Gr ${escapeHtml(r.grade)}` : null, escapeHtml(r.seasonBest), r.qualifiedFrom ? `Qualified from: ${escapeHtml(r.qualifiedFrom)}` : null].filter(Boolean).join(" &middot; ")}${advancesLink}</div>
       </details>`;
     } else {
       row = `<div class="mp-row${qualifyClass}">
@@ -421,21 +465,44 @@ function enteredNoDataHtml(schools) {
   return `<details class="mp-footnote"><summary>${schools.length} school${schools.length === 1 ? "" : "s"} entered, no projection data</summary><ul>${items}</ul></details>`;
 }
 
-// Reads ?tab=&g=&d=&team= from the URL, applies tab/filter, and if a
-// `team` param matches a rendered data-team-anchor, opens every <details>
-// ancestor (regional card, team roster) and scrolls to + briefly
-// highlights that row -- this is how a district/regional qualifier link
-// lands on the next level already expanded at the right team.
+// Reads ?tab=&g=&d=&anchor= from the URL, applies tab/filter, and if an
+// `anchor` param matches a rendered data-anchor (team OR runner row),
+// opens every <details> ancestor (regional card, team roster) and
+// scrolls to + highlights that row for 2 seconds -- this is how a
+// district/regional qualifier link lands on the next level already
+// expanded at the right row. Also keeps a breadcrumb in sync with the
+// current tab/filter/open-card state.
+const TAB_LABEL = { districts: "Districts", regionals: "Regionals", state: "State" };
 const HUB_SCRIPT = `<script>
 (function(){
   var params = new URLSearchParams(location.search);
   var tab = params.get('tab') || 'districts';
   var g = params.get('g') || 'boys';
   var d = params.get('d') || '1';
-  var team = params.get('team');
+  var anchor = params.get('anchor');
+  var tabLabels = ${JSON.stringify(TAB_LABEL)};
+
+  function renderBreadcrumb(){
+    var bc = document.getElementById('mp-breadcrumb');
+    if (!bc) return;
+    var parts = [tabLabels[tab] || tab];
+    if (tab === 'regionals') {
+      var openCard = document.querySelector('.mp-tabpanel[data-tab="regionals"] .mp-regionalcard[open]:not([hidden])');
+      if (openCard) {
+        var h3 = openCard.querySelector('h3');
+        if (h3) parts.push(h3.textContent);
+      }
+    }
+    if (tab !== 'districts') {
+      parts.push((g === 'boys' ? 'Boys' : 'Girls') + ' D' + d);
+    }
+    bc.textContent = parts.join(' › ');
+  }
+
   function applyTab(t){
     document.querySelectorAll('.mp-tabpanel').forEach(function(p){ p.hidden = p.dataset.tab !== t; });
     document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.classList.toggle('active', b.dataset.tab === t); });
+    renderBreadcrumb();
   }
   function applyFilter(gg,dd){
     document.querySelectorAll('[data-filter-gender][data-filter-division]').forEach(function(el){
@@ -443,6 +510,15 @@ const HUB_SCRIPT = `<script>
     });
     document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.classList.toggle('active', b.dataset.gender===gg); });
     document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.classList.toggle('active', b.dataset.division===dd); });
+    // D1 has no district stage at all -- the Districts tab shows a
+    // short note + a button to D1 Regionals instead of the normal site
+    // list, which is only ever true/false by division (gender doesn't
+    // matter here, both genders skip districts the same way).
+    var d1Note = document.querySelector('[data-districts-d1-note]');
+    var districtsList = document.querySelector('[data-districts-list]');
+    if (d1Note) d1Note.hidden = dd !== '1';
+    if (districtsList) districtsList.hidden = dd === '1';
+    renderBreadcrumb();
   }
   function updateUrl(){
     var sp = new URLSearchParams(); sp.set('tab',tab); sp.set('g',g); sp.set('d',d);
@@ -451,24 +527,29 @@ const HUB_SCRIPT = `<script>
   document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.addEventListener('click', function(){ tab=b.dataset.tab; applyTab(tab); updateUrl(); }); });
   document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); updateUrl(); }); });
   document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); updateUrl(); }); });
+  // toggle doesn't bubble in all browsers -- listen in the capture phase
+  // at the document so opening/closing ANY regional card updates the
+  // breadcrumb's site-name segment.
+  document.addEventListener('toggle', renderBreadcrumb, true);
   applyTab(tab); applyFilter(g,d);
 
-  if (team) {
+  if (anchor) {
     // Scoped to the TARGET tab's panel, not a blind global match -- the
-    // same team can have a row (and therefore the same anchor) in both
-    // the Regionals and State tabs at once, and a global querySelector
-    // would silently grab whichever one comes first in the DOM (always
-    // Regionals, since it's rendered before State), opening the wrong
-    // panel for a regional-to-state cross-link.
+    // same team/runner can have a row (and therefore the same anchor) in
+    // both the Regionals and State tabs at once, and a global
+    // querySelector would silently grab whichever one comes first in the
+    // DOM (always Regionals, since it's rendered before State), opening
+    // the wrong panel for a regional-to-state cross-link.
     var scopeEl = document.querySelector('.mp-tabpanel[data-tab="' + tab + '"]') || document;
-    var target = scopeEl.querySelector('[data-team-anchor="' + team.replace(/"/g, '\\\\"') + '"]');
+    var target = scopeEl.querySelector('[data-anchor="' + anchor.replace(/"/g, '\\\\"') + '"]');
     if (target) {
       var el = target;
       while (el) { if (el.tagName === 'DETAILS') el.open = true; el = el.parentElement; }
+      renderBreadcrumb();
       setTimeout(function(){
         target.scrollIntoView({ block: 'center' });
         target.classList.add('mp-highlight');
-        setTimeout(function(){ target.classList.remove('mp-highlight'); }, 1700);
+        setTimeout(function(){ target.classList.remove('mp-highlight'); }, 2000);
       }, 50);
     }
   }
@@ -500,12 +581,16 @@ function raceSectionHtml(race, idx) {
     const qualifyingTeamNames = new Set(race.qualifyingTeams.map((t) => t.name));
     const finishOrder = combinedFinishOrder(race.scoredTeams, qualifyingTeamNames, race.qualifiers);
     const regionKey = REGIONAL_SITE_TO_KEY[data.districtsBySite[race.site]?.regional];
+    const regionalSiteName = data.districtsBySite[race.site]?.regional;
     const crossLinkFor = regionKey
-      ? (team) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, teamName: team.name, hash: `${genderLower}_D${divNum}_${regionKey}` }), label: "regional" })
+      ? (team) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `${genderLower}_D${divNum}_${regionKey}` }), label: regionalSiteName || "Regionals" })
+      : null;
+    const indCrossLinkFor = regionKey
+      ? (r) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, r.name, r.school), hash: `${genderLower}_D${divNum}_${regionKey}` }), label: regionalSiteName || "Regionals" })
       : null;
     body = `${teamRowsHtml(race.scoredTeams, race.teamsAdvance, race.qualifiers, accent, genderLower, divNum, crossLinkFor)}
       <p class="mp-h3">Top 32 (combined, includes individual qualifiers)</p>
-      ${runnerRowsHtml(finishOrder, 32)}
+      ${runnerRowsHtml(finishOrder, 32, null, indCrossLinkFor, genderLower, divNum)}
       ${enteredNoDataHtml(race.enteredNoProjectionData)}`;
   }
   return `<div class="mp-section mp-racepanel" data-race-idx="${idx}" style="--row-accent:${accent}" ${idx > 0 ? "hidden" : ""}>
@@ -522,20 +607,51 @@ export function mockPostseasonDistrictSitePage(site, siteKey) {
   const title = `${siteData.name} (review build)`;
   const chips = siteData.races.map((r, i) => {
     const chipLabel = `${(r.startTime || "").replace(/\s*(AM|PM)$/i, "")} &middot; ${GENDER_LABEL[r.gender.toLowerCase()]} ${divisionLabel(r.division).replace("Division ", "D")}`;
-    return `<button type="button" class="mp-racechip${i === 0 ? " active" : ""}" data-chip-idx="${i}">${chipLabel}</button>`;
+    return `<button type="button" class="mp-racechip${i === 0 ? " active" : ""}" data-chip-idx="${i}" data-chip-gender="${r.gender.toLowerCase()}" data-chip-division="${divisionNum(r.division)}">${chipLabel}</button>`;
   }).join("");
+  const firstRace = siteData.races[0];
+  const initialBreadcrumb = firstRace ? `Districts &rsaquo; ${escapeHtml(siteData.name)} &rsaquo; ${GENDER_LABEL[firstRace.gender.toLowerCase()]} D${divisionNum(firstRace.division)}` : `Districts &rsaquo; ${escapeHtml(siteData.name)}`;
   const content = `${compactHero({ eyebrow: "Local review build -- not live", title: siteData.name, description: `Feeds the ${siteData.regional} regional.` })}
   ${SHARED_STYLE}
-  <div class="mp-stickyblock"><div class="mp-filterrow">${chips}</div></div>
+  <div class="mp-stickyblock">
+    <div class="mp-tabbar">
+      <button type="button" class="mp-tabbtn active" data-nav-tab="districts">Districts</button>
+      <button type="button" class="mp-tabbtn" data-nav-tab="regionals">Regionals</button>
+      <button type="button" class="mp-tabbtn" data-nav-tab="state">State</button>
+    </div>
+    <div class="mp-filterrow">${chips}</div>
+  </div>
+  <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">${initialBreadcrumb}</nav>
   <section class="section section-paper mp-pagesection"><div class="container">
     ${siteData.races.map(raceSectionHtml).join("")}
   </div></section>
   <script>
+  var siteName = ${JSON.stringify(siteData.name)};
   document.querySelectorAll('.mp-racechip').forEach(function(chip){
     chip.addEventListener('click', function(){
       var idx = chip.dataset.chipIdx;
       document.querySelectorAll('.mp-racechip').forEach(function(c){ c.classList.toggle('active', c===chip); });
       document.querySelectorAll('.mp-racepanel').forEach(function(p){ p.hidden = p.dataset.raceIdx !== idx; });
+      var bc = document.getElementById('mp-breadcrumb');
+      if (bc) {
+        var genderLabel = chip.dataset.chipGender === 'boys' ? 'Boys' : 'Girls';
+        bc.textContent = 'Districts › ' + siteName + ' › ' + genderLabel + ' D' + chip.dataset.chipDivision;
+      }
+    });
+  });
+  // "Same sticky Districts | Regionals | State control at the top of
+  // every page" -- clicking Regionals/State here navigates back to the
+  // hub with that tab active and this district's currently-shown race's
+  // gender/division carried over, matching the uniform cross-level
+  // navigation pattern every other page uses.
+  document.querySelectorAll('[data-nav-tab]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var tab = b.dataset.navTab;
+      if (tab === 'districts') { location.href = '/mock-postseason/?tab=districts'; return; }
+      var active = document.querySelector('.mp-racechip.active');
+      var g = active ? active.dataset.chipGender : 'boys';
+      var d = active ? active.dataset.chipDivision : '1';
+      location.href = '/mock-postseason/?tab=' + tab + '&g=' + g + '&d=' + d;
     });
   });
   </script>`;
@@ -582,6 +698,16 @@ function regionalSummaryCard(key, r) {
   const lastIn = r.stateQualifiers ? complete[r.stateQualifiers - 1] : null;
   const firstOut = r.stateQualifiers ? complete[r.stateQualifiers] : null;
   const gap = lastIn && firstOut ? formatPoints(firstOut.score - lastIn.score) : null;
+  // Every pooled district individual qualifier already carries a real
+  // "Advances to [Regional]" link from its district page (section 2's
+  // uniform cross-level nav) -- that link must always land on a rendered
+  // data-anchor here, even when the individual's real overall finish
+  // place falls outside a plain top-32 cutoff (found in QA: a district
+  // qualifier placing 102nd combined had no anchor to land on). Extend
+  // the limit just enough to cover the lowest-placed IND row, never
+  // shrinking the normal top-32 view.
+  const lastIndPosition = finishOrder.reduce((max, row, i) => (row.tag === "IND" ? i : max), -1);
+  const showAllLimit = Math.max(32, lastIndPosition + 1);
 
   return `<details class="mp-regionalcard" id="${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
     <summary>
@@ -594,8 +720,8 @@ function regionalSummaryCard(key, r) {
     </summary>
     <div class="mp-regionalcard-body">
       <p class="mp-h3">State qualifiers</p>
-      ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, teamName: team.name, hash: `state-${genderLower}_D${divNum}` }), label: "State" }))}
-      <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, 32)}</details>
+      ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }), label: "State" }))}
+      <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }), label: "State" }), genderLower, divNum)}</details>
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
     </div>
   </details>`;
@@ -630,7 +756,7 @@ function stateSectionHtml(key, s) {
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
-    ${individualTop40.length ? `<p class="mp-h3">Projected individual top ${individualTop40.length}</p>${runnerRowsHtml(individualTop40, null, Math.min(25, individualTop40.length))}` : ""}
+    ${individualTop40.length ? `<p class="mp-h3">Projected individual top ${individualTop40.length}</p>${runnerRowsHtml(individualTop40, null, Math.min(25, individualTop40.length), null, genderLower, divNum)}` : ""}
   </div>`;
 }
 
@@ -656,13 +782,30 @@ export function mockPostseasonHubPage(site) {
     </div>
     <div class="mp-filterrow">${filterChips}</div>
   </div>
+  <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">Districts</nav>
   <section class="section section-paper mp-pagesection"><div class="container">
-    <div class="mp-tabpanel" id="districts-panel" data-tab="districts">${districtsHubTabHtml()}</div>
+    <div class="mp-tabpanel" id="districts-panel" data-tab="districts">
+      <div data-districts-d1-note hidden>
+        <p class="mp-meta">D1 teams enter at regionals.</p>
+        <button type="button" class="mp-d1-regionals-btn">Go to D1 Regionals &rarr;</button>
+      </div>
+      <div data-districts-list>${districtsHubTabHtml()}</div>
+    </div>
     <div class="mp-tabpanel" id="regionals-panel" data-tab="regionals" hidden>${regionalsTabHtml()}</div>
     <div class="mp-tabpanel" id="state-panel" data-tab="state" hidden>${stateTabHtml()}</div>
   </div></section>
   <button type="button" class="mp-totop" aria-label="Back to top">&uarr;</button>
-  ${HUB_SCRIPT}`;
+  ${HUB_SCRIPT}
+  <script>
+  (function(){
+    var btn = document.querySelector('.mp-d1-regionals-btn');
+    if (btn) btn.addEventListener('click', function(){
+      var params = new URLSearchParams(location.search);
+      var g = params.get('g') || 'boys';
+      location.href = '/mock-postseason/?tab=regionals&g=' + g + '&d=1';
+    });
+  })();
+  </script>`;
   return layout({ site, title: "2026 Mock Postseason (review build)", description: "Local review build of the 2026 Mock Postseason (Districts, Regionals, State).", pathname, content });
 }
 

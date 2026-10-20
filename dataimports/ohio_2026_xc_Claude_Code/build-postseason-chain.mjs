@@ -101,9 +101,23 @@ function scoreField(teamsForScoring, individualsForScoring) {
   const completeOnly = teamsForScoring.filter((t) => t.runners.length >= 5);
   const teamOnly = completeOnly.length ? scoreTeams(completeOnly, []) : { teams: [] };
   const teamOnlyByName = new Map(teamOnly.teams.map((t) => [t.name, t]));
+  // mock_scoring.mjs's scoreTeams() returns a FIXED shape for each team
+  // ({name, region, complete, score, sixthPlace, seventhPlace, runners})
+  // -- it does not spread the input team object, so any extra field the
+  // caller attached (provisional, qualifiedFromDistrict/Ordinal,
+  // qualifiedFromRegional/Ordinal) is silently dropped. Found 2026-10-20
+  // while wiring "Qualified from" onto team rows: the "Prov." tag has
+  // never actually rendered for the same reason, since team.provisional
+  // was always undefined after scoring. Re-attached here from the
+  // original INPUT team (by name) rather than touching the shared engine.
+  const inputByName = new Map(teamsForScoring.map((t) => [t.name, t]));
   const mergedTeams = combined.teams.map((t) => {
+    const input = inputByName.get(t.name);
     const only = teamOnlyByName.get(t.name);
-    if (!only) return t; // incomplete team -- no team-only score to merge; keep combined's (already null/not complete)
+    const withOriginal = input
+      ? { ...t, provisional: input.provisional, qualifiedFromDistrict: input.qualifiedFromDistrict, qualifiedFromDistrictOrdinal: input.qualifiedFromDistrictOrdinal, qualifiedFromRegional: input.qualifiedFromRegional, qualifiedFromRegionalOrdinal: input.qualifiedFromRegionalOrdinal }
+      : t;
+    if (!only) return withOriginal; // incomplete team -- no team-only score to merge; keep combined's (already null/not complete)
     // The roster dropdown (Round 3) shows each runner's OWN team-scoring
     // place ("points in this meet"), which must come from this team-only
     // field, not the combined field's runner-level placePoints (that's
@@ -112,8 +126,8 @@ function scoreField(teamsForScoring, individualsForScoring) {
     // display needs the same fix). Matched by name since team-only and
     // combined share the identical runner set for any complete team.
     const onlyByName = new Map(only.runners.map((r) => [r.name, r]));
-    const runners = t.runners.map((r) => ({ ...r, teamPlacePoints: onlyByName.get(r.name)?.placePoints ?? null }));
-    return { ...t, runners, score: only.score, sixthPlace: only.sixthPlace, seventhPlace: only.seventhPlace, mockRank: only.mockRank };
+    const runners = withOriginal.runners.map((r) => ({ ...r, teamPlacePoints: onlyByName.get(r.name)?.placePoints ?? null }));
+    return { ...withOriginal, runners, score: only.score, sixthPlace: only.sixthPlace, seventhPlace: only.seventhPlace, mockRank: only.mockRank };
   });
   const completeSorted = mergedTeams.filter((t) => t.complete).sort((a, b) => a.mockRank - b.mockRank);
   const incompleteTeams = mergedTeams.filter((t) => !t.complete);
@@ -180,7 +194,12 @@ for (const race of district.races) {
   } else {
     status = "scored";
     qualifyingTeams = complete.slice(0, race.teams_advance);
-    qualifiers = selectIndividualQualifiers(scored, individuals, race.teams_advance, race.individuals_advance || 0);
+    // Ordinal added (Round 4) for "Qualified from: Cedarville district,
+    // 1st" -- same uniform wording teams already got via
+    // qualifiedFromDistrictOrdinal above. selectIndividualQualifiers
+    // already returns them in real qualifying order, so the array index
+    // IS the ordinal.
+    qualifiers = selectIndividualQualifiers(scored, individuals, race.teams_advance, race.individuals_advance || 0).map((q, i) => ({ ...q, districtQualifyOrdinal: i + 1 }));
   }
 
   districtResults.push({
@@ -265,10 +284,13 @@ for (const cat of Object.values(candidate.categories)) {
     }
     for (const t of dr.qualifyingTeams) {
       const original = teamsBySiteGenderDiv.get(`${dr.site}|${genderLower}|${divNum}|${dr.raceLabel || ""}`).find((x) => x.name === t.name);
-      byRegionKey.get(regionalKey).teams.push({ name: t.name, region: REGION_LABEL[regionalKey], runners: original.runners.map(toScoringRunner), provisional: original.provisional });
+      // "Qualified from: Cedarville district, 3rd" (Round 4) -- same
+      // pattern as the individuals' qualifiedFromDistrict below, but for
+      // the TEAM itself, using its own real district mockRank.
+      byRegionKey.get(regionalKey).teams.push({ name: t.name, region: REGION_LABEL[regionalKey], runners: original.runners.map(toScoringRunner), provisional: original.provisional, qualifiedFromDistrict: site.name, qualifiedFromDistrictOrdinal: t.mockRank });
     }
     for (const q of dr.qualifiers) {
-      byRegionKey.get(regionalKey).individuals.push({ name: q.name, seasonBest: q.seasonBest, timeCentiseconds: q.timeCentiseconds, grade: q.grade, originalTeam: q.originalTeam, originalRegion: REGION_LABEL[regionalKey], qualifiedFromDistrict: site.name });
+      byRegionKey.get(regionalKey).individuals.push({ name: q.name, seasonBest: q.seasonBest, timeCentiseconds: q.timeCentiseconds, grade: q.grade, originalTeam: q.originalTeam, originalRegion: REGION_LABEL[regionalKey], qualifiedFromDistrict: site.name, qualifiedFromDistrictOrdinal: q.districtQualifyOrdinal });
     }
   }
   for (const [regionalKey, pool] of byRegionKey) {
@@ -351,9 +373,25 @@ for (const divEntry of existingRegionals.divisions) {
         stateIncompleteReason = built.incompleteReason;
       }
     }
+    // "Qualified from: Troy regional, 1st" (Round 4) for TEAMS, same
+    // idea as individuals below -- attach each qualifying team's own
+    // regional site name + regional mockRank BEFORE computeStatePool
+    // recomputes a fresh state-only rank, since that real-games rank
+    // would otherwise be gone by the time state scoring runs.
+    // MUST keep incomplete teams in this list (not filter them out):
+    // computeStatePool's own scoreTeams() call re-derives every runner's
+    // finish place from the full field passed in here. Dropping incomplete
+    // teams removes their runners from that field, which shifts every
+    // remaining runner's place/score and can flip the real regional
+    // rank order (found in QA: Black River, regional rank 5, silently
+    // lost its state slot to rank-6 Lake Center Chr. once incomplete
+    // teams were excluded from this re-score).
+    const teamsWithOrigin = built
+      ? built.teams.map((t) => ({ ...t, qualifiedFromRegional: regionData.siteName, qualifiedFromRegionalOrdinal: t.mockRank }))
+      : [];
     newDivEntry.regions[regionKeyLower] = {
       ...regionData,
-      teams: built ? built.teams.filter((t) => t.complete) : [],
+      teams: teamsWithOrigin,
       individuals: built ? built.individuals : []
     };
   }
@@ -374,7 +412,54 @@ for (const divEntry of existingRegionals.divisions) {
       regionalQualifyOrder.set(`${q.name}|${q.originalTeam}`, { ordinal: i + 1, siteName: regionData.siteName });
     });
   }
+  // Lookup for each team's real regional origin (site + ordinal) and
+  // provisional flag, built from the per-region team lists just above --
+  // computeStatePool's own scoreTeams() call drops these same unknown
+  // fields (see scoreField's comment), so they must be re-merged after.
+  const teamOriginByName = new Map();
+  for (const regionData of Object.values(newDivEntry.regions)) {
+    for (const t of regionData.teams) {
+      teamOriginByName.set(t.name, { qualifiedFromRegional: t.qualifiedFromRegional, qualifiedFromRegionalOrdinal: t.qualifiedFromRegionalOrdinal, provisional: t.provisional });
+    }
+  }
   const statePool = computeStatePool(newDivEntry);
+  // Found in QA 2026-10-20: computeStatePool (mock_scoring.mjs, unmodified)
+  // picks each region's qualifying TEAMS by re-scoring region.teams WITH
+  // individuals mixed into the finish order (mock_scoring.mjs line ~347),
+  // but scoreField's own team-only "A1" pass above -- the basis for the
+  // mockRank/score every team already shows on its regional page, and for
+  // the qualifiedFromRegionalOrdinal on every team row -- deliberately
+  // excludes individuals (and incomplete teams) from that same finish
+  // order. When an individual's displacement shifts order near the state
+  // cut line, computeStatePool can silently pool the WRONG team: boys D4
+  // Northeast real rank 5 (Black River) lost its state slot to real rank
+  // 6 (Lake Center Chr.) this way. Recompute each region's real top-N by
+  // the authoritative mockRank and, if computeStatePool's own selection
+  // disagrees, rebuild the team pool with the real N ourselves using the
+  // same scoreTeams(pooledTeams, []) team-only step computeStatePool uses
+  // for final team scoring (so the actual STATE SCORE computation is
+  // unchanged) -- individuals' own separate qualifier-selection logic
+  // above (regionalQualifyOrder) is untouched by this.
+  const REGION_LABELS_STATE = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
+  const realRegionTeams = {};
+  for (const [regionKeyLower, regionData] of Object.entries(newDivEntry.regions)) {
+    if (!regionData.stateQualifiers) continue;
+    realRegionTeams[regionKeyLower] = regionData.teams.filter((t) => t.complete).sort((a, b) => a.mockRank - b.mockRank).slice(0, regionData.stateQualifiers);
+  }
+  const realNames = new Set();
+  for (const list of Object.values(realRegionTeams)) for (const t of list) realNames.add(t.name);
+  const poolNames = new Set(statePool.teams.map((t) => t.name));
+  const teamSelectionMismatched = realNames.size !== poolNames.size || [...realNames].some((n) => !poolNames.has(n));
+  if (teamSelectionMismatched) {
+    const correctedPooledTeams = [];
+    for (const [regionKeyLower, list] of Object.entries(realRegionTeams)) {
+      for (const team of list) {
+        correctedPooledTeams.push({ name: team.name, region: REGION_LABELS_STATE[regionKeyLower], runners: team.runners.map(({ scoring, placePoints, teamPosition, ...rest }) => rest) });
+      }
+    }
+    statePool.teams = scoreTeams(correctedPooledTeams, []).teams;
+    console.log(`  [${divKey}] corrected state team selection (computeStatePool's own individuals-displaced re-score disagreed with the real team-only regional mockRank)`);
+  }
   // Bug found in Round 3 review: computeStatePool's returned team.runners
   // objects still carry whatever `teamPlacePoints` scoreField() attached
   // at the REGIONAL stage (object spreads preserve unknown keys, and
@@ -387,7 +472,10 @@ for (const divEntry of existingRegionals.divisions) {
   // `placePoints` -- this just copies that over `teamPlacePoints` so the
   // roster shows the same number the team's own displayed score was
   // summed from.
-  const stateTeams = statePool.teams.map((t) => ({ ...t, runners: t.runners.map((r) => ({ ...r, teamPlacePoints: r.placePoints })) }));
+  const stateTeams = statePool.teams.map((t) => {
+    const origin = teamOriginByName.get(t.name);
+    return { ...t, ...origin, runners: t.runners.map((r) => ({ ...r, teamPlacePoints: r.placePoints })) };
+  });
   const ordinalWord = (n) => (n === 1 ? "1st" : n === 2 ? "2nd" : n === 3 ? "3rd" : `${n}th`);
   const enrichedIndividuals = statePool.individuals.map((ind) => {
     const origin = regionalQualifyOrder.get(`${ind.name}|${ind.originalTeam}`);

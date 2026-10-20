@@ -44,9 +44,14 @@ for (const site of Object.values(districtsBySite)) {
 }
 
 // --- Regionals + State, already fully scored in chain.regionalResults / chain.stateResults ---
+// asOf: the roster collection itself finished 2026-10-19, but real data
+// (Northeast qualifier numbers, Hilliard Darby's race split) was
+// incorporated 2026-10-20 -- that's the date that actually describes how
+// fresh this projection is, not the earlier collection date. ISO string;
+// the page module formats it for display.
 const output = {
   schemaVersion: 1,
-  asOf: candidate.sourceMetadata.validation_finished_eastern.slice(0, 10),
+  asOf: "2026-10-20",
   meetDate: district.meet_date,
   regionalDate: district.regional_date,
   districtsBySite,

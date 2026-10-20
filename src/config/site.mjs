@@ -64,22 +64,26 @@ export const site = {
       { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },
-    // Mock Meets (2026-09-21, dropdown added 2026-10-19): explicit user
-    // request for its own visible top-level tab, not buried in the
-    // Rankings dropdown. Regionals and State currently share one combined
-    // hub page (/mock-meets/, "2026 Mock Regionals & State" -- every
-    // division's region cards and State card together), so both items
-    // below point there for now rather than two nav links to two pages
-    // that don't yet exist separately. Districts (src/pages/mockdistricts.mjs,
-    // src/data/mock-districts-2026.json) is built and committed but
-    // deliberately left out of this nav and out of scripts/build.mjs's
-    // page list -- the user wants it kept off the live site until more
-    // district data is sent and real coverage improves; add a "Districts"
-    // item here and the mockDistrictsAllPages() call in build.mjs back in
-    // when told to make it live.
+    // Mock Meets (2026-09-21, dropdown added 2026-10-19, repointed to
+    // /mock-postseason/ 2026-10-20): the new Districts -> Regionals -> State
+    // chain at /mock-postseason/ is the real Districts/Regionals/State
+    // build and is the primary nav destination now (still noindex'd and
+    // out of the sitemap until the user says launch -- see
+    // NOINDEX_NOFOLLOW_PREFIXES below). The old /mock-meets/ hub
+    // (src/pages/mockregionals.mjs, "2026 Mock Regionals & State") has real
+    // live features not yet in /mock-postseason/ (CSV export + live search
+    // at /rankings/mock-meets/2026-09-17/, medal highlighting, a
+    // crumbs/sub-nav pill row, and a district-qualifier feed table on
+    // regional pages), so it stays linked rather than removed -- kept as
+    // one combined legacy entry below instead of the old duplicate-pointing
+    // "Regionals"/"State" pair. Districts (src/pages/mockdistricts.mjs,
+    // src/data/mock-districts-2026.json) is a separate, still-unused old
+    // build, deliberately left out of scripts/build.mjs's page list.
     { label: "Mock Meets", items: [
-      { label: "Regionals", href: "/mock-meets/" },
-      { label: "State", href: "/mock-meets/" }
+      { label: "Districts", href: "/mock-postseason/?tab=districts" },
+      { label: "Regionals", href: "/mock-postseason/?tab=regionals" },
+      { label: "State", href: "/mock-postseason/?tab=state" },
+      { label: "2026 Mock Meets (Regionals & State)", href: "/mock-meets/" }
     ] },
     // AdSense readiness (2026-09-16): Meets, Teams & Schools, and
     // Athletes hidden from the top nav for now, real request -- a
