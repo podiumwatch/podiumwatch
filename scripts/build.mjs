@@ -94,6 +94,13 @@ import { rankingMethodologyPage } from "../src/pages/rankingmethodology.mjs";
 import { oatcccCoachesPollPage } from "../src/pages/oatcccpoll.mjs";
 import { mockMeetsPage } from "../src/pages/mockmeets.mjs";
 import { mockRegionalsAllPages } from "../src/pages/mockregionals.mjs";
+// mockPostseasonAllPages (/mock-postseason/...) is a LOCAL-ONLY REVIEW
+// BUILD of the districts-fed Mock Postseason chain, entirely separate
+// from the live /mock-meets/... routes above and not linked from any
+// nav. Do not remove this comment boundary when wiring the real feature
+// in later -- that migration replaces mockRegionalsAllPages's data
+// source, it does not add these routes alongside it.
+import { mockPostseasonAllPages } from "../src/pages/mockpostseason.mjs";
 // mockDistrictsAllPages (src/pages/mockdistricts.mjs) is built and
 // committed but deliberately not called below yet -- the user wants Mock
 // Districts kept off the live site until more district data is sent and
@@ -940,8 +947,11 @@ await writePage("/podium-play/", podiumPlayPage(site));
   for (const page of mockRegionalsAllPages(site)) {
     await writePage(page.pathname, page.html);
   }
-  // Mock Districts pages intentionally not generated yet -- see the
-  // import comment above.
+  // Mock Districts pages (live /mock-meets/districts/...) intentionally
+  // not generated yet -- see the import comment above.
+  for (const page of mockPostseasonAllPages(site)) {
+    await writePage(page.pathname, page.html);
+  }
   await writePage("/rankings/leaders/", rankingLeadersPage(site));
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));

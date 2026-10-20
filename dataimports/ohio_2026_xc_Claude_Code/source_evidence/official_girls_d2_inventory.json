@@ -1,0 +1,672 @@
+[
+  {
+    "id": "124",
+    "name": "ANTHONY WAYNE",
+    "city": "Whitehouse"
+  },
+  {
+    "id": "586",
+    "name": "FINDLAY",
+    "city": "Findlay"
+  },
+  {
+    "id": "1408",
+    "name": "SHAKER HEIGHTS",
+    "city": "Shaker Heights"
+  },
+  {
+    "id": "150",
+    "name": "AVON",
+    "city": "Avon"
+  },
+  {
+    "id": "740",
+    "name": "HUDSON",
+    "city": "Hudson"
+  },
+  {
+    "id": "1154",
+    "name": "NORTH ROYALTON",
+    "city": "North Royalton"
+  },
+  {
+    "id": "1606",
+    "name": "WADSWORTH",
+    "city": "Wadsworth"
+  },
+  {
+    "id": "302",
+    "name": "CANAL WINCHESTER",
+    "city": "Canal Winchester"
+  },
+  {
+    "id": "1380",
+    "name": "ST URSULA ACADEMY",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "148",
+    "name": "AUSTINTOWN-FITCH",
+    "city": "Austintown"
+  },
+  {
+    "id": "1552",
+    "name": "TROY",
+    "city": "Troy"
+  },
+  {
+    "id": "730",
+    "name": "HOOVER",
+    "city": "North Canton"
+  },
+  {
+    "id": "1698",
+    "name": "WHETSTONE",
+    "city": "Columbus"
+  },
+  {
+    "id": "1366",
+    "name": "ST JOSEPH ACADEMY",
+    "city": "Cleveland"
+  },
+  {
+    "id": "832",
+    "name": "LAKEWOOD",
+    "city": "Lakewood"
+  },
+  {
+    "id": "214",
+    "name": "BIG WALNUT",
+    "city": "Sunbury"
+  },
+  {
+    "id": "1244",
+    "name": "PERRY",
+    "city": "Massillon"
+  },
+  {
+    "id": "980",
+    "name": "MAYFIELD",
+    "city": "Mayfield Village"
+  },
+  {
+    "id": "1076",
+    "name": "MOUNT NOTRE DAME",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "1312",
+    "name": "RIVERSIDE",
+    "city": "Painesville"
+  },
+  {
+    "id": "1292",
+    "name": "RHODES SCHOOL OF ENVIRONMENTAL STUDIES",
+    "city": "Cleveland"
+  },
+  {
+    "id": "1116",
+    "name": "NORDONIA",
+    "city": "Macedonia"
+  },
+  {
+    "id": "670",
+    "name": "GREEN",
+    "city": "Uniontown"
+  },
+  {
+    "id": "1510",
+    "name": "SYLVANIA NORTHVIEW",
+    "city": "Sylvania"
+  },
+  {
+    "id": "350",
+    "name": "TWINSBURG",
+    "city": "Twinsburg"
+  },
+  {
+    "id": "592",
+    "name": "FIRESTONE COMMUNITY LEARNING CENTER",
+    "city": "Akron"
+  },
+  {
+    "id": "1484",
+    "name": "STEBBINS",
+    "city": "Dayton"
+  },
+  {
+    "id": "118",
+    "name": "ANDERSON",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "904",
+    "name": "LOVELAND",
+    "city": "Loveland"
+  },
+  {
+    "id": "1512",
+    "name": "SYLVANIA SOUTHVIEW",
+    "city": "Sylvania"
+  },
+  {
+    "id": "548",
+    "name": "FAIRBORN",
+    "city": "Fairborn"
+  },
+  {
+    "id": "801",
+    "name": "GARFIELD COMMUNITY LEARNING CENTER",
+    "city": "Akron"
+  },
+  {
+    "id": "1078",
+    "name": "MOUNT VERNON",
+    "city": "Mt Vernon"
+  },
+  {
+    "id": "224",
+    "name": "BISHOP WATTERSON",
+    "city": "Columbus"
+  },
+  {
+    "id": "516",
+    "name": "EDGEWOOD",
+    "city": "Trenton"
+  },
+  {
+    "id": "822",
+    "name": "LAKE",
+    "city": "Uniontown"
+  },
+  {
+    "id": "1204",
+    "name": "OLMSTED FALLS",
+    "city": "Olmsted Falls"
+  },
+  {
+    "id": "444",
+    "name": "CUYAHOGA FALLS",
+    "city": "Cuyahoga Falls"
+  },
+  {
+    "id": "248",
+    "name": "BRECKSVILLE-BROADVIEW HTS",
+    "city": "Brecksville"
+  },
+  {
+    "id": "710",
+    "name": "HIGHLAND",
+    "city": "Medina"
+  },
+  {
+    "id": "1736",
+    "name": "WOOSTER",
+    "city": "Wooster"
+  },
+  {
+    "id": "372",
+    "name": "CLAY",
+    "city": "Oregon"
+  },
+  {
+    "id": "1554",
+    "name": "TURPIN",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "888",
+    "name": "LOGAN",
+    "city": "Logan"
+  },
+  {
+    "id": "1258",
+    "name": "PIQUA",
+    "city": "Piqua"
+  },
+  {
+    "id": "270",
+    "name": "BRUSH",
+    "city": "Lyndhurst"
+  },
+  {
+    "id": "1486",
+    "name": "STEELE",
+    "city": "Amherst"
+  },
+  {
+    "id": "1382",
+    "name": "ST URSULA ACADEMY",
+    "city": "Toledo"
+  },
+  {
+    "id": "1348",
+    "name": "ST FRANCIS",
+    "city": "DeSALES Columbus"
+  },
+  {
+    "id": "160",
+    "name": "BARBERTON",
+    "city": "Barberton"
+  },
+  {
+    "id": "616",
+    "name": "FREMONT ROSS",
+    "city": "Fremont"
+  },
+  {
+    "id": "106",
+    "name": "AIKEN",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "152",
+    "name": "AVON LAKE",
+    "city": "Avon Lake"
+  },
+  {
+    "id": "1684",
+    "name": "WESTLAKE",
+    "city": "Westlake"
+  },
+  {
+    "id": "218",
+    "name": "BISHOP HARTLEY",
+    "city": "Columbus"
+  },
+  {
+    "id": "690",
+    "name": "MARION HARDING",
+    "city": "Marion"
+  },
+  {
+    "id": "138",
+    "name": "ASHLAND",
+    "city": "Ashland"
+  },
+  {
+    "id": "364",
+    "name": "CHILLICOTHE",
+    "city": "Chillicothe"
+  },
+  {
+    "id": "1062",
+    "name": "Monroe",
+    "city": "High School Monroe"
+  },
+  {
+    "id": "1582",
+    "name": "URSULINE ACADEMY",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "146",
+    "name": "AURORA",
+    "city": "Aurora"
+  },
+  {
+    "id": "238",
+    "name": "BOARDMAN",
+    "city": "Youngstown"
+  },
+  {
+    "id": "1520",
+    "name": "TALAWANDA",
+    "city": "Oxford"
+  },
+  {
+    "id": "1614",
+    "name": "WALSH JESUIT",
+    "city": "Cuyahoga Falls"
+  },
+  {
+    "id": "902",
+    "name": "LOUISVILLE",
+    "city": "Louisville"
+  },
+  {
+    "id": "242",
+    "name": "BOWLING GREEN",
+    "city": "Bowling Green"
+  },
+  {
+    "id": "212",
+    "name": "BEXLEY",
+    "city": "Bexley"
+  },
+  {
+    "id": "1224",
+    "name": "PADUA FRANCISCAN",
+    "city": "Parma"
+  },
+  {
+    "id": "292",
+    "name": "BUTLER",
+    "city": "Vandalia"
+  },
+  {
+    "id": "1616",
+    "name": "WAPAKONETA",
+    "city": "Wapakoneta"
+  },
+  {
+    "id": "724",
+    "name": "ARCHBISHOP HOBAN",
+    "city": "Akron"
+  },
+  {
+    "id": "1664",
+    "name": "WESTERN BROWN",
+    "city": "Mount Orab"
+  },
+  {
+    "id": "1022",
+    "name": "MIAMI TRACE",
+    "city": "Washington C.H."
+  },
+  {
+    "id": "1182",
+    "name": "NOTRE DAME ACADEMY",
+    "city": "Toledo"
+  },
+  {
+    "id": "666",
+    "name": "GRANVILLE",
+    "city": "Granville"
+  },
+  {
+    "id": "528",
+    "name": "ELLET COMMUNITY LEARNING CENTER",
+    "city": "Akron"
+  },
+  {
+    "id": "1324",
+    "name": "ROGERS",
+    "city": "Toledo"
+  },
+  {
+    "id": "448",
+    "name": "CUYAHOGA VALLEY CHRISTIAN ACADEMY",
+    "city": "Cuyahoga Falls"
+  },
+  {
+    "id": "1288",
+    "name": "REVERE",
+    "city": "Richfield"
+  },
+  {
+    "id": "184",
+    "name": "BELLBROOK",
+    "city": "Bellbrook"
+  },
+  {
+    "id": "1544",
+    "name": "TRI-VALLEY",
+    "city": "Dresden"
+  },
+  {
+    "id": "422",
+    "name": "COPLEY",
+    "city": "Copley"
+  },
+  {
+    "id": "158",
+    "name": "BADIN",
+    "city": "Hamilton"
+  },
+  {
+    "id": "1330",
+    "name": "ROSS",
+    "city": "Hamilton"
+  },
+  {
+    "id": "472",
+    "name": "DOVER",
+    "city": "Dover"
+  },
+  {
+    "id": "1528",
+    "name": "TECUMSEH",
+    "city": "New Carlisle"
+  },
+  {
+    "id": "1180",
+    "name": "NOTRE DAME-CATHEDRAL LATIN",
+    "city": "Chardon"
+  },
+  {
+    "id": "1106",
+    "name": "NEW PHILADELPHIA",
+    "city": "New Philadelphia"
+  },
+  {
+    "id": "922",
+    "name": "MADISON",
+    "city": "Madison"
+  },
+  {
+    "id": "390",
+    "name": "CLOVERLEAF",
+    "city": "Seville"
+  },
+  {
+    "id": "1320",
+    "name": "ROCKY RIVER",
+    "city": "Rocky River"
+  },
+  {
+    "id": "984",
+    "name": "MERCY MCAULEY",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "1030",
+    "name": "MIDVIEW",
+    "city": "Grafton"
+  },
+  {
+    "id": "1160",
+    "name": "NORWALK",
+    "city": "Norwalk"
+  },
+  {
+    "id": "802",
+    "name": "KENSTON",
+    "city": "Chagrin Falls"
+  },
+  {
+    "id": "1534",
+    "name": "TIPPECANOE",
+    "city": "Tipp City"
+  },
+  {
+    "id": "608",
+    "name": "FRANKLIN",
+    "city": "Franklin"
+  },
+  {
+    "id": "728",
+    "name": "HOLY NAME",
+    "city": "Parma Heights"
+  },
+  {
+    "id": "352",
+    "name": "CHAMINADE JULIENNE",
+    "city": "Dayton"
+  },
+  {
+    "id": "144",
+    "name": "ATHENS",
+    "city": "The Plains"
+  },
+  {
+    "id": "678",
+    "name": "GREENVILLE",
+    "city": "Greenville"
+  },
+  {
+    "id": "976",
+    "name": "MAUMEE",
+    "city": "Maumee"
+  },
+  {
+    "id": "956",
+    "name": "MARIETTA",
+    "city": "Marietta"
+  },
+  {
+    "id": "998",
+    "name": "ARCHBISHOP",
+    "city": "McNICHOLAS Cincinnati"
+  },
+  {
+    "id": "1522",
+    "name": "TALLMADGE",
+    "city": "Tallmadge"
+  },
+  {
+    "id": "330",
+    "name": "CELINA",
+    "city": "Celina"
+  },
+  {
+    "id": "406",
+    "name": "COLUMBIAN",
+    "city": "Tiffin"
+  },
+  {
+    "id": "360",
+    "name": "CHARDON",
+    "city": "Chardon"
+  },
+  {
+    "id": "232",
+    "name": "Bloom-Carroll",
+    "city": "High School Carroll"
+  },
+  {
+    "id": "926",
+    "name": "MADISON COMPREHENSIVE",
+    "city": "Mansfield"
+  },
+  {
+    "id": "1206",
+    "name": "ONTARIO",
+    "city": "Ontario"
+  },
+  {
+    "id": "168",
+    "name": "BAY",
+    "city": "Bay Village"
+  },
+  {
+    "id": "1420",
+    "name": "SHERIDAN",
+    "city": "Thornville"
+  },
+  {
+    "id": "1714",
+    "name": "WILMINGTON",
+    "city": "Wilmington"
+  },
+  {
+    "id": "464",
+    "name": "DEFIANCE",
+    "city": "Defiance"
+  },
+  {
+    "id": "762",
+    "name": "JACKSON",
+    "city": "Jackson"
+  },
+  {
+    "id": "164",
+    "name": "BATAVIA",
+    "city": "Batavia"
+  },
+  {
+    "id": "892",
+    "name": "LONDON",
+    "city": "London"
+  },
+  {
+    "id": "736",
+    "name": "HOWLAND",
+    "city": "Warren"
+  },
+  {
+    "id": "1568",
+    "name": "UNIOTO",
+    "city": "Chillicothe"
+  },
+  {
+    "id": "796",
+    "name": "JONATHAN ALDER",
+    "city": "Plain City"
+  },
+  {
+    "id": "304",
+    "name": "CANFIELD",
+    "city": "Canfield"
+  },
+  {
+    "id": "1412",
+    "name": "SHAWNEE",
+    "city": "Lima"
+  },
+  {
+    "id": "320",
+    "name": "ARCHBISHOP CARROLL",
+    "city": "Dayton"
+  },
+  {
+    "id": "856",
+    "name": "LEXINGTON",
+    "city": "Lexington"
+  },
+  {
+    "id": "1678",
+    "name": "WEST GEAUGA",
+    "city": "Chesterland"
+  },
+  {
+    "id": "1108",
+    "name": "NEW RICHMOND",
+    "city": "New Richmond"
+  },
+  {
+    "id": "1488",
+    "name": "STEUBENVILLE",
+    "city": "Steubenville"
+  },
+  {
+    "id": "752",
+    "name": "INDIAN HILL",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "1618",
+    "name": "WARREN",
+    "city": "Vincent"
+  },
+  {
+    "id": "788",
+    "name": "JOHN GLENN",
+    "city": "New Concord"
+  },
+  {
+    "id": "870",
+    "name": "LICKING VALLEY",
+    "city": "Newark"
+  },
+  {
+    "id": "510",
+    "name": "EATON",
+    "city": "Eaton"
+  },
+  {
+    "id": "1322",
+    "name": "ROGER BACON",
+    "city": "Saint Bernard"
+  }
+]

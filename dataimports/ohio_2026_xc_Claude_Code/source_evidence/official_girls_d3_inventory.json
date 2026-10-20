@@ -1,0 +1,667 @@
+[
+  {
+    "id": "206",
+    "name": "BETHEL",
+    "city": "Tipp City"
+  },
+  {
+    "id": "634",
+    "name": "GENEVA",
+    "city": "Geneva"
+  },
+  {
+    "id": "1080",
+    "name": "NAPOLEON",
+    "city": "Napoleon"
+  },
+  {
+    "id": "322",
+    "name": "CARROLLTON",
+    "city": "Carrollton"
+  },
+  {
+    "id": "526",
+    "name": "ELIDA",
+    "city": "Elida"
+  },
+  {
+    "id": "286",
+    "name": "BUCKEYE VALLEY",
+    "city": "Delaware"
+  },
+  {
+    "id": "174",
+    "name": "BEAUMONT SCHOOL",
+    "city": "Cleveland Heights"
+  },
+  {
+    "id": "1012",
+    "name": "ST MARYS MEMORIAL",
+    "city": "St. Marys"
+  },
+  {
+    "id": "276",
+    "name": "BUCKEYE",
+    "city": "Medina"
+  },
+  {
+    "id": "554",
+    "name": "FAIRFIELD UNION",
+    "city": "Lancaster"
+  },
+  {
+    "id": "1190",
+    "name": "OAKWOOD",
+    "city": "Dayton"
+  },
+  {
+    "id": "700",
+    "name": "HATHAWAY BROWN SCHOOL",
+    "city": "Shaker Heights"
+  },
+  {
+    "id": "188",
+    "name": "BELLEFONTAINE",
+    "city": "Bellefontaine"
+  },
+  {
+    "id": "1496",
+    "name": "STREETSBORO",
+    "city": "Streetsboro"
+  },
+  {
+    "id": "1208",
+    "name": "ORANGE",
+    "city": "Pepper Pike"
+  },
+  {
+    "id": "392",
+    "name": "CLYDE",
+    "city": "Clyde"
+  },
+  {
+    "id": "514",
+    "name": "EDGEWOOD",
+    "city": "Ashtabula"
+  },
+  {
+    "id": "584",
+    "name": "FIELD",
+    "city": "Mogadore"
+  },
+  {
+    "id": "1252",
+    "name": "PHILO",
+    "city": "Duncan Falls"
+  },
+  {
+    "id": "176",
+    "name": "BEAVER",
+    "city": "East Liverpool"
+  },
+  {
+    "id": "1046",
+    "name": "MINERVA",
+    "city": "Minerva"
+  },
+  {
+    "id": "964",
+    "name": "MARLINGTON",
+    "city": "Alliance"
+  },
+  {
+    "id": "1416",
+    "name": "SHELBY",
+    "city": "Shelby"
+  },
+  {
+    "id": "622",
+    "name": "GALLIA ACADEMY",
+    "city": "Gallipolis"
+  },
+  {
+    "id": "1744",
+    "name": "WYOMING",
+    "city": "Wyoming"
+  },
+  {
+    "id": "820",
+    "name": "LAKE",
+    "city": "Millbury"
+  },
+  {
+    "id": "1240",
+    "name": "PERKINS",
+    "city": "Sandusky"
+  },
+  {
+    "id": "534",
+    "name": "ELYRIA CATHOLIC",
+    "city": "Elyria"
+  },
+  {
+    "id": "1604",
+    "name": "VINTON COUNTY",
+    "city": "McArthur"
+  },
+  {
+    "id": "758",
+    "name": "INDIAN VALLEY",
+    "city": "Gnadenhutten"
+  },
+  {
+    "id": "1590",
+    "name": "VALLEY VIEW",
+    "city": "Germantown"
+  },
+  {
+    "id": "1314",
+    "name": "RIVER VALLEY",
+    "city": "Caledonia"
+  },
+  {
+    "id": "804",
+    "name": "KENTON",
+    "city": "Kenton"
+  },
+  {
+    "id": "712",
+    "name": "HIGHLAND",
+    "city": "Marengo"
+  },
+  {
+    "id": "1724",
+    "name": "WOODRIDGE",
+    "city": "Peninsula"
+  },
+  {
+    "id": "272",
+    "name": "BRYAN",
+    "city": "Bryan"
+  },
+  {
+    "id": "1212",
+    "name": "OTSEGO",
+    "city": "Bowling Green"
+  },
+  {
+    "id": "890",
+    "name": "LOGAN ELM",
+    "city": "Circleville"
+  },
+  {
+    "id": "1392",
+    "name": "SALEM",
+    "city": "Salem"
+  },
+  {
+    "id": "830",
+    "name": "LAKEWOOD",
+    "city": "Hebron"
+  },
+  {
+    "id": "642",
+    "name": "GILMOUR ACADEMY",
+    "city": "Gates Mills"
+  },
+  {
+    "id": "190",
+    "name": "BELLEVUE",
+    "city": "Bellevue"
+  },
+  {
+    "id": "824",
+    "name": "LAKE CATHOLIC",
+    "city": "Mentor"
+  },
+  {
+    "id": "1580",
+    "name": "URSULINE",
+    "city": "Youngstown"
+  },
+  {
+    "id": "816",
+    "name": "RIVER VALLEY",
+    "city": "Bidwell"
+  },
+  {
+    "id": "1162",
+    "name": "NORTHWEST",
+    "city": "Canal Fulton"
+  },
+  {
+    "id": "1658",
+    "name": "WEST BRANCH",
+    "city": "Beloit"
+  },
+  {
+    "id": "988",
+    "name": "MC CLAIN",
+    "city": "Greenfield"
+  },
+  {
+    "id": "1578",
+    "name": "URBANA",
+    "city": "Urbana"
+  },
+  {
+    "id": "774",
+    "name": "JEFFERSON AREA",
+    "city": "Jefferson"
+  },
+  {
+    "id": "166",
+    "name": "BATH",
+    "city": "Lima"
+  },
+  {
+    "id": "1696",
+    "name": "WHEELERSBURG",
+    "city": "Wheelersburg"
+  },
+  {
+    "id": "388",
+    "name": "CLINTON-MASSIE",
+    "city": "Clarksville"
+  },
+  {
+    "id": "1214",
+    "name": "OTTAWA-GLANDORF",
+    "city": "Ottawa"
+  },
+  {
+    "id": "1634",
+    "name": "WAUSEON",
+    "city": "Wauseon"
+  },
+  {
+    "id": "1246",
+    "name": "PERRY",
+    "city": "Perry"
+  },
+  {
+    "id": "1636",
+    "name": "WAVERLY",
+    "city": "Waverly"
+  },
+  {
+    "id": "132",
+    "name": "ARCHBISHOP ALTER",
+    "city": "Dayton"
+  },
+  {
+    "id": "369",
+    "name": "CINCINNATI HILLS CHRISTIAN ACADEMY",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "198",
+    "name": "BENJAMIN LOGAN",
+    "city": "Bellefontaine"
+  },
+  {
+    "id": "1384",
+    "name": "ST VINCENT-ST MARY",
+    "city": "Akron"
+  },
+  {
+    "id": "416",
+    "name": "CONNEAUT",
+    "city": "Conneaut"
+  },
+  {
+    "id": "1574",
+    "name": "UPPER SANDUSKY",
+    "city": "Upper Sandusky"
+  },
+  {
+    "id": "1596",
+    "name": "VAN WERT",
+    "city": "Van Wert"
+  },
+  {
+    "id": "620",
+    "name": "GALION",
+    "city": "Galion"
+  },
+  {
+    "id": "264",
+    "name": "BROOKVILLE",
+    "city": "Brookville"
+  },
+  {
+    "id": "300",
+    "name": "CAMBRIDGE",
+    "city": "Cambridge"
+  },
+  {
+    "id": "590",
+    "name": "FIRELANDS",
+    "city": "Oberlin"
+  },
+  {
+    "id": "508",
+    "name": "EASTWOOD",
+    "city": "Pemberville"
+  },
+  {
+    "id": "676",
+    "name": "GREENON",
+    "city": "Enon"
+  },
+  {
+    "id": "170",
+    "name": "BEACHWOOD",
+    "city": "Beachwood"
+  },
+  {
+    "id": "346",
+    "name": "CHAGRIN FALLS",
+    "city": "Chagrin Falls"
+  },
+  {
+    "id": "828",
+    "name": "LAKEVIEW",
+    "city": "Cortland"
+  },
+  {
+    "id": "1332",
+    "name": "ROSSFORD",
+    "city": "Rossford"
+  },
+  {
+    "id": "808",
+    "name": "KEYSTONE",
+    "city": "Lagrange"
+  },
+  {
+    "id": "1560",
+    "name": "TUSLAW",
+    "city": "Massillon"
+  },
+  {
+    "id": "1680",
+    "name": "WEST HOLMES",
+    "city": "Millersburg"
+  },
+  {
+    "id": "1432",
+    "name": "CANTON SOUTH",
+    "city": "Canton"
+  },
+  {
+    "id": "1316",
+    "name": "RIVER VIEW",
+    "city": "Warsaw"
+  },
+  {
+    "id": "1344",
+    "name": "ST CLAIRSVILLE",
+    "city": "St. Clairsville"
+  },
+  {
+    "id": "1168",
+    "name": "NORTHWESTERN",
+    "city": "Springfield"
+  },
+  {
+    "id": "582",
+    "name": "BISHOP FENWICK",
+    "city": "Franklin"
+  },
+  {
+    "id": "954",
+    "name": "MARIEMONT",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "1264",
+    "name": "POLAND SEMINARY",
+    "city": "Poland"
+  },
+  {
+    "id": "862",
+    "name": "LIBERTY-BENTON",
+    "city": "Findlay"
+  },
+  {
+    "id": "920",
+    "name": "MADEIRA",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "1644",
+    "name": "WAYNESVILLE",
+    "city": "Waynesville"
+  },
+  {
+    "id": "1584",
+    "name": "UTICA",
+    "city": "Utica"
+  },
+  {
+    "id": "636",
+    "name": "GENOA AREA",
+    "city": "Genoa"
+  },
+  {
+    "id": "660",
+    "name": "GRAHAM LOCAL",
+    "city": "Saint Paris"
+  },
+  {
+    "id": "1448",
+    "name": "SOUTHEAST",
+    "city": "Ravenna"
+  },
+  {
+    "id": "378",
+    "name": "CLEAR FORK",
+    "city": "Bellville"
+  },
+  {
+    "id": "530",
+    "name": "ELMWOOD",
+    "city": "Bloomdale"
+  },
+  {
+    "id": "1281",
+    "name": "RAVENNA",
+    "city": "Ravenna"
+  },
+  {
+    "id": "754",
+    "name": "INDIAN LAKE",
+    "city": "Lewistown"
+  },
+  {
+    "id": "1676",
+    "name": "WESTFALL",
+    "city": "Williamsport"
+  },
+  {
+    "id": "1000",
+    "name": "MEADOWBROOK",
+    "city": "Byesville"
+  },
+  {
+    "id": "1396",
+    "name": "SANDY VALLEY",
+    "city": "Magnolia"
+  },
+  {
+    "id": "1472",
+    "name": "SPRINGFIELD",
+    "city": "Akron"
+  },
+  {
+    "id": "440",
+    "name": "CRESTWOOD",
+    "city": "Mantua"
+  },
+  {
+    "id": "630",
+    "name": "GARFIELD",
+    "city": "Garrettsville"
+  },
+  {
+    "id": "746",
+    "name": "HURON",
+    "city": "Huron"
+  },
+  {
+    "id": "1558",
+    "name": "TUSCARAWAS VALLEY",
+    "city": "Zoarville"
+  },
+  {
+    "id": "644",
+    "name": "GIRARD",
+    "city": "Girard"
+  },
+  {
+    "id": "1042",
+    "name": "MILTON-UNION",
+    "city": "West Milton"
+  },
+  {
+    "id": "1018",
+    "name": "MIAMI EAST",
+    "city": "Casstown"
+  },
+  {
+    "id": "376",
+    "name": "CLAYMONT",
+    "city": "Uhrichsville"
+  },
+  {
+    "id": "428",
+    "name": "COVENTRY",
+    "city": "Coventry Township"
+  },
+  {
+    "id": "570",
+    "name": "FAIRVIEW",
+    "city": "Fairview Park"
+  },
+  {
+    "id": "208",
+    "name": "BETHEL-TATE",
+    "city": "Bethel"
+  },
+  {
+    "id": "202",
+    "name": "BERKSHIRE",
+    "city": "Burton"
+  },
+  {
+    "id": "162",
+    "name": "BARNESVILLE",
+    "city": "Barnesville"
+  },
+  {
+    "id": "414",
+    "name": "COLUMBUS SCHOOL FOR GIRLS",
+    "city": "Columbus"
+  },
+  {
+    "id": "519",
+    "name": "EDISON",
+    "city": "Richmond"
+  },
+  {
+    "id": "1260",
+    "name": "PLEASANT",
+    "city": "Marion"
+  },
+  {
+    "id": "844",
+    "name": "LAUREL",
+    "city": "Shaker Heights"
+  },
+  {
+    "id": "1210",
+    "name": "ORRVILLE",
+    "city": "Orrville"
+  },
+  {
+    "id": "1710",
+    "name": "WILLARD",
+    "city": "Willard"
+  },
+  {
+    "id": "1174",
+    "name": "NORWAYNE",
+    "city": "Creston"
+  },
+  {
+    "id": "744",
+    "name": "HUNTINGTON",
+    "city": "Chillicothe"
+  },
+  {
+    "id": "560",
+    "name": "FAIRLESS",
+    "city": "Brewster"
+  },
+  {
+    "id": "366",
+    "name": "CHIPPEWA",
+    "city": "Doylestown"
+  },
+  {
+    "id": "394",
+    "name": "COLDWATER",
+    "city": "Coldwater"
+  },
+  {
+    "id": "1256",
+    "name": "PIKETON",
+    "city": "Piketon"
+  },
+  {
+    "id": "936",
+    "name": "MANCHESTER",
+    "city": "New Franklin"
+  },
+  {
+    "id": "282",
+    "name": "BUCKEYE LOCAL",
+    "city": "Rayland"
+  },
+  {
+    "id": "1740",
+    "name": "WORTHINGTON CHRISTIAN",
+    "city": "Westerville"
+  },
+  {
+    "id": "968",
+    "name": "MARTINS FERRY",
+    "city": "Martins Ferry"
+  },
+  {
+    "id": "1236",
+    "name": "PAULDING",
+    "city": "Paulding"
+  },
+  {
+    "id": "1144",
+    "name": "NORTHMOR",
+    "city": "Galion"
+  },
+  {
+    "id": "1460",
+    "name": "SOUTH RANGE",
+    "city": "Canfield"
+  },
+  {
+    "id": "466",
+    "name": "DELTA",
+    "city": "Delta"
+  },
+  {
+    "id": "1600",
+    "name": "VERSAILLES",
+    "city": "Versailles"
+  }
+]

@@ -1,0 +1,4290 @@
+{
+  "races": [
+    {
+      "gender": "boys",
+      "division": 2,
+      "session": 1,
+      "startTime": "1:30 PM",
+      "declaredCount": 54,
+      "athleticNetDivId": 1140745,
+      "entries": [
+        {
+          "name": "Lucas Steele",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "15:37.9"
+        },
+        {
+          "name": "Brody Schaffer",
+          "team": "Hartley",
+          "grade": "11",
+          "time": "15:39.6"
+        },
+        {
+          "name": "Jack Flanagan",
+          "team": "Dub. Scioto",
+          "grade": "12",
+          "time": "15:48.5"
+        },
+        {
+          "name": "Logan Miller",
+          "team": "Granville",
+          "grade": "11",
+          "time": "16:02.0"
+        },
+        {
+          "name": "Isaac Reash",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "16:02.2"
+        },
+        {
+          "name": "Connor Boissy",
+          "team": "Granville",
+          "grade": "10",
+          "time": "16:22.9"
+        },
+        {
+          "name": "Grady Kothe",
+          "team": "Dub. Scioto",
+          "grade": "11",
+          "time": "16:23.2"
+        },
+        {
+          "name": "Ben Rose",
+          "team": "Granville",
+          "grade": "12",
+          "time": "16:34.0"
+        },
+        {
+          "name": "Henry Rizek",
+          "team": "Col. DeSales",
+          "grade": "10",
+          "time": "16:35.0"
+        },
+        {
+          "name": "Quinn Robinson",
+          "team": "Dub. Scioto",
+          "grade": "12",
+          "time": "16:37.6"
+        },
+        {
+          "name": "Brandon Engle",
+          "team": "Jonathan Alder",
+          "grade": "11",
+          "time": "16:41.1"
+        },
+        {
+          "name": "Jace Harmon",
+          "team": "Hartley",
+          "grade": "11",
+          "time": "16:41.6"
+        },
+        {
+          "name": "Jake Meier",
+          "team": "Dub. Scioto",
+          "grade": "10",
+          "time": "16:43.3"
+        },
+        {
+          "name": "Andrew Tackett",
+          "team": "Marion Harding",
+          "grade": "12",
+          "time": "16:44.8"
+        },
+        {
+          "name": "Charles Temple",
+          "team": "Hartley",
+          "grade": "11",
+          "time": "16:57.7"
+        },
+        {
+          "name": "Jackson Peters",
+          "team": "Marion Harding",
+          "grade": "12",
+          "time": "16:59.4"
+        },
+        {
+          "name": "Jack Greulich",
+          "team": "Jonathan Alder",
+          "grade": "11",
+          "time": "16:59.7"
+        },
+        {
+          "name": "Jamison Shrode II",
+          "team": "Granville",
+          "grade": "10",
+          "time": "17:03.3"
+        },
+        {
+          "name": "Jake Goode",
+          "team": "Jonathan Alder",
+          "grade": "10",
+          "time": "17:03.9"
+        },
+        {
+          "name": "Owen McCombs",
+          "team": "Marion Harding",
+          "grade": "10",
+          "time": "17:05.2"
+        },
+        {
+          "name": "Declan Shepardson",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "17:06.8"
+        },
+        {
+          "name": "Sawyer Ellison",
+          "team": "Hartley",
+          "grade": "10",
+          "time": "17:16.4"
+        },
+        {
+          "name": "Johnathon White",
+          "team": "Licking Valley",
+          "grade": "12",
+          "time": "17:23.5"
+        },
+        {
+          "name": "Matthew Cooper",
+          "team": "Jonathan Alder",
+          "grade": "10",
+          "time": "17:24.0"
+        },
+        {
+          "name": "Christopher Donathan",
+          "team": "Hartley",
+          "grade": "11",
+          "time": "17:29.5"
+        },
+        {
+          "name": "Jude Butcher",
+          "team": "Granville",
+          "grade": "12",
+          "time": "17:31.1"
+        },
+        {
+          "name": "Brenden Martt",
+          "team": "Jonathan Alder",
+          "grade": "10",
+          "time": "17:33.6"
+        },
+        {
+          "name": "Caleb Shelton",
+          "team": "Col. DeSales",
+          "grade": "9",
+          "time": "17:34.8"
+        },
+        {
+          "name": "Matthew Vince",
+          "team": "Hartley",
+          "grade": "12",
+          "time": "17:35.0"
+        },
+        {
+          "name": "Wyatt Merchant",
+          "team": "Licking Valley",
+          "grade": "12",
+          "time": "17:36.7"
+        },
+        {
+          "name": "Mahmoud Abukhres",
+          "team": "Dub. Scioto",
+          "grade": "11",
+          "time": "17:38.5"
+        },
+        {
+          "name": "Daylin Short",
+          "team": "Hartley",
+          "grade": "11",
+          "time": "17:39.2"
+        },
+        {
+          "name": "Nathan Kovacs",
+          "team": "Dub. Scioto",
+          "grade": "9",
+          "time": "17:41.3"
+        },
+        {
+          "name": "Alex Bukala",
+          "team": "Granville",
+          "grade": "11",
+          "time": "17:44.8"
+        },
+        {
+          "name": "Franklin Weaver",
+          "team": "Marion Harding",
+          "grade": "12",
+          "time": "17:45.1"
+        },
+        {
+          "name": "Trevor Lott",
+          "team": "Granville",
+          "grade": "9",
+          "time": "17:47.1"
+        },
+        {
+          "name": "Sam Gilliam",
+          "team": "Dub. Scioto",
+          "grade": "11",
+          "time": "17:52.7"
+        },
+        {
+          "name": "Garrett Martt",
+          "team": "Jonathan Alder",
+          "grade": "10",
+          "time": "17:52.7"
+        },
+        {
+          "name": "James Morris",
+          "team": "Col. DeSales",
+          "grade": "10",
+          "time": "17:57.2"
+        },
+        {
+          "name": "Neil Odell",
+          "team": "Jonathan Alder",
+          "grade": "10",
+          "time": "18:00.6"
+        },
+        {
+          "name": "Eli Busic",
+          "team": "Licking Valley",
+          "grade": "11",
+          "time": "18:02.8"
+        },
+        {
+          "name": "Sam Shoemaker",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "18:15.9"
+        },
+        {
+          "name": "Deacon Durain",
+          "team": "Marion Harding",
+          "grade": "9",
+          "time": "18:16.0"
+        },
+        {
+          "name": "Luke Estrada",
+          "team": "Marion Harding",
+          "grade": "10",
+          "time": "18:54.3"
+        },
+        {
+          "name": "Trenton Estrada",
+          "team": "Marion Harding",
+          "grade": "10",
+          "time": "19:10.5"
+        },
+        {
+          "name": "Dawson Blume",
+          "team": "Licking Valley",
+          "grade": "11",
+          "time": "19:51.5"
+        },
+        {
+          "name": "Ethan Wiley",
+          "team": "Licking Valley",
+          "grade": "10",
+          "time": "20:18.2"
+        },
+        {
+          "name": "Andrew Bouchard",
+          "team": "Licking Valley",
+          "grade": "9",
+          "time": "21:37.6"
+        },
+        {
+          "name": "Austin Blizzard",
+          "team": "Licking Valley",
+          "grade": "11",
+          "time": "22:30.2"
+        },
+        {
+          "name": "Qualin Scott",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": "31:51.3"
+        },
+        {
+          "name": "Terron Ward",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": "38:52.3"
+        },
+        {
+          "name": "Jelani Taffe",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": "43:11.4"
+        },
+        {
+          "name": "Patrick Johnson",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": null
+        },
+        {
+          "name": "Traveon Munns",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": null
+        }
+      ]
+    },
+    {
+      "gender": "boys",
+      "division": 3,
+      "session": 1,
+      "startTime": "12:00 PM",
+      "declaredCount": 59,
+      "athleticNetDivId": 1140747,
+      "entries": [
+        {
+          "name": "Andrew Bebout",
+          "team": "Utica",
+          "grade": "12",
+          "time": "16:55.4"
+        },
+        {
+          "name": "Sam Krueger",
+          "team": "Utica",
+          "grade": "11",
+          "time": "17:19.8"
+        },
+        {
+          "name": "William Hennosy",
+          "team": "Heb. Lakewood",
+          "grade": "11",
+          "time": "17:20.7"
+        },
+        {
+          "name": "Daniel Thomas",
+          "team": "Fairbanks",
+          "grade": "12",
+          "time": "17:22.5"
+        },
+        {
+          "name": "Colin Carn",
+          "team": "London",
+          "grade": "11",
+          "time": "17:46.9"
+        },
+        {
+          "name": "Carson Pound",
+          "team": "Heb. Lakewood",
+          "grade": "12",
+          "time": "17:49.1"
+        },
+        {
+          "name": "Howard Peppercorn",
+          "team": "Col. Academy",
+          "grade": "12",
+          "time": "17:54.0"
+        },
+        {
+          "name": "Brady Adams",
+          "team": "Fairbanks",
+          "grade": "12",
+          "time": "17:55.9"
+        },
+        {
+          "name": "Andrew Becknell",
+          "team": "Col. Academy",
+          "grade": "12",
+          "time": "18:02.0"
+        },
+        {
+          "name": "Anthony Shoaf",
+          "team": "London",
+          "grade": "11",
+          "time": "18:07.7"
+        },
+        {
+          "name": "Holden Quinif",
+          "team": "Utica",
+          "grade": "12",
+          "time": "18:09.9"
+        },
+        {
+          "name": "Gus Feliks",
+          "team": "London",
+          "grade": "12",
+          "time": "18:10.3"
+        },
+        {
+          "name": "Mouhamadou Welle",
+          "team": "Eastmoor Acad.",
+          "grade": "11",
+          "time": "18:11.3"
+        },
+        {
+          "name": "Beau Gillespie",
+          "team": "Johnstown",
+          "grade": "10",
+          "time": "18:16.0"
+        },
+        {
+          "name": "Jude Suh",
+          "team": "Col. Academy",
+          "grade": "11",
+          "time": "18:25.0"
+        },
+        {
+          "name": "Blake Lewis",
+          "team": "Utica",
+          "grade": "11",
+          "time": "18:26.1"
+        },
+        {
+          "name": "Keagan Williams",
+          "team": "Heath",
+          "grade": "10",
+          "time": "18:29.3"
+        },
+        {
+          "name": "Braylon Fayne",
+          "team": "Eastmoor Acad.",
+          "grade": "11",
+          "time": "18:32.8"
+        },
+        {
+          "name": "Rory Amin",
+          "team": "Col. Academy",
+          "grade": "9",
+          "time": "18:46.0"
+        },
+        {
+          "name": "Caelan Mars",
+          "team": "London",
+          "grade": "12",
+          "time": "18:52.8"
+        },
+        {
+          "name": "Zav Fulsom",
+          "team": "Heath",
+          "grade": "11",
+          "time": "19:03.9"
+        },
+        {
+          "name": "Elijah Green",
+          "team": "Utica",
+          "grade": "9",
+          "time": "19:04.1"
+        },
+        {
+          "name": "Zachary Niehaus",
+          "team": "Fairbanks",
+          "grade": "10",
+          "time": "19:04.9"
+        },
+        {
+          "name": "Matthew Prince",
+          "team": "Utica",
+          "grade": "9",
+          "time": "19:06.0"
+        },
+        {
+          "name": "Jacob Sayre",
+          "team": "Fairbanks",
+          "grade": "10",
+          "time": "19:10.0"
+        },
+        {
+          "name": "Lijah Leigh",
+          "team": "Eastmoor Acad.",
+          "grade": "12",
+          "time": "19:18.5"
+        },
+        {
+          "name": "Linus Johnson",
+          "team": "Heath",
+          "grade": "11",
+          "time": "19:21.8"
+        },
+        {
+          "name": "Sam McBride",
+          "team": "Heb. Lakewood",
+          "grade": "12",
+          "time": "19:25.9"
+        },
+        {
+          "name": "Evan Gardner",
+          "team": "Heb. Lakewood",
+          "grade": "12",
+          "time": "19:32.2"
+        },
+        {
+          "name": "Ryan Bower",
+          "team": "London",
+          "grade": "11",
+          "time": "19:32.6"
+        },
+        {
+          "name": "Logan Lucas",
+          "team": "Johnstown",
+          "grade": "12",
+          "time": "19:34.3"
+        },
+        {
+          "name": "Tony Rose",
+          "team": "Johnstown",
+          "grade": "12",
+          "time": "19:38.6"
+        },
+        {
+          "name": "Carson Gemmell",
+          "team": "Heath",
+          "grade": "12",
+          "time": "19:40.6"
+        },
+        {
+          "name": "Joseph Young",
+          "team": "Heb. Lakewood",
+          "grade": "12",
+          "time": "19:43.6"
+        },
+        {
+          "name": "Parker Stillion",
+          "team": "Heath",
+          "grade": "11",
+          "time": "19:45.5"
+        },
+        {
+          "name": "Luke Knutsen",
+          "team": "Col. Academy",
+          "grade": "12",
+          "time": "19:58.0"
+        },
+        {
+          "name": "Ryan Wang",
+          "team": "Col. Academy",
+          "grade": "10",
+          "time": "20:07.3"
+        },
+        {
+          "name": "Joey Barb",
+          "team": "Johnstown",
+          "grade": "9",
+          "time": "20:11.2"
+        },
+        {
+          "name": "Malachi Robbins",
+          "team": "Fairbanks",
+          "grade": "10",
+          "time": "20:19.6"
+        },
+        {
+          "name": "Gabe Scholl",
+          "team": "London",
+          "grade": "12",
+          "time": "20:22.3"
+        },
+        {
+          "name": "Tristan Hanna",
+          "team": "Col. Academy",
+          "grade": "9",
+          "time": "20:26.0"
+        },
+        {
+          "name": "Leo Dyer",
+          "team": "Johnstown",
+          "grade": "9",
+          "time": "20:28.0"
+        },
+        {
+          "name": "Theodore Thomas",
+          "team": "Fairbanks",
+          "grade": "9",
+          "time": "20:29.3"
+        },
+        {
+          "name": "Elton Bailey",
+          "team": "Fairbanks",
+          "grade": "12",
+          "time": "20:32.6"
+        },
+        {
+          "name": "Cash Christian",
+          "team": "Utica",
+          "grade": "10",
+          "time": "20:34.6"
+        },
+        {
+          "name": "Brice Graham",
+          "team": "Eastmoor Acad.",
+          "grade": "12",
+          "time": "20:43.9"
+        },
+        {
+          "name": "Caleb White",
+          "team": "Heb. Lakewood",
+          "grade": "10",
+          "time": "20:45.6"
+        },
+        {
+          "name": "Jaydyn Turner",
+          "team": "Eastmoor Acad.",
+          "grade": "12",
+          "time": "20:47.6"
+        },
+        {
+          "name": "Kaleb Hammond",
+          "team": "Eastmoor Acad.",
+          "grade": "9",
+          "time": "20:58.4"
+        },
+        {
+          "name": "Aedyn Posten",
+          "team": "Eastmoor Acad.",
+          "grade": "10",
+          "time": "21:01.3"
+        },
+        {
+          "name": "Clark Corum",
+          "team": "Heb. Lakewood",
+          "grade": "11",
+          "time": "21:04.2"
+        },
+        {
+          "name": "Cam Dodson",
+          "team": "Johnstown",
+          "grade": "11",
+          "time": "21:09.4"
+        },
+        {
+          "name": "Reed Robertson",
+          "team": "Heath",
+          "grade": "11",
+          "time": "21:27.5"
+        },
+        {
+          "name": "Abe Taylor",
+          "team": "Ready",
+          "grade": "9",
+          "time": "22:06.6"
+        },
+        {
+          "name": "Abe Krouse",
+          "team": "Johnstown",
+          "grade": "11",
+          "time": "23:15.3"
+        },
+        {
+          "name": "Aaron McVay",
+          "team": "Heath",
+          "grade": "10",
+          "time": "24:30.7"
+        },
+        {
+          "name": "Josh Forster",
+          "team": "Ready",
+          "grade": "9",
+          "time": "25:32.3"
+        },
+        {
+          "name": "Crixus Aranda Arteaga",
+          "team": "Ready",
+          "grade": "9",
+          "time": "27:22.2"
+        },
+        {
+          "name": "Justin Bosque",
+          "team": "Ready",
+          "grade": "9",
+          "time": "27:56.2"
+        }
+      ]
+    },
+    {
+      "gender": "boys",
+      "division": 4,
+      "session": 1,
+      "startTime": "10:00 AM",
+      "declaredCount": 60,
+      "athleticNetDivId": 1140749,
+      "entries": [
+        {
+          "name": "Henry Bartlett",
+          "team": "Mount Gilead",
+          "grade": "11",
+          "time": "16:03.1"
+        },
+        {
+          "name": "Brycen Gabriel",
+          "team": "Mount Gilead",
+          "grade": "11",
+          "time": "16:11.0"
+        },
+        {
+          "name": "Aiden McLain",
+          "team": "Mount Gilead",
+          "grade": "10",
+          "time": "16:23.9"
+        },
+        {
+          "name": "Liam Stalnaker",
+          "team": "Mount Gilead",
+          "grade": "12",
+          "time": "16:49.1"
+        },
+        {
+          "name": "Ben Austin",
+          "team": "Wellington School",
+          "grade": "9",
+          "time": "16:50.0"
+        },
+        {
+          "name": "Ethan Turner",
+          "team": "Mount Gilead",
+          "grade": "12",
+          "time": "16:54.1"
+        },
+        {
+          "name": "Andrew Gannon",
+          "team": "Mount Gilead",
+          "grade": "10",
+          "time": "16:56.9"
+        },
+        {
+          "name": "Grayson Smith",
+          "team": "Mount Gilead",
+          "grade": "11",
+          "time": "16:57.3"
+        },
+        {
+          "name": "Brayden Alwood",
+          "team": "Cardington-Lincoln",
+          "grade": "11",
+          "time": "17:01.2"
+        },
+        {
+          "name": "William McCreery",
+          "team": "Liberty Union",
+          "grade": "12",
+          "time": "17:05.6"
+        },
+        {
+          "name": "Kaeden Bossard",
+          "team": "Cardington-Lincoln",
+          "grade": "10",
+          "time": "17:29.4"
+        },
+        {
+          "name": "Josh Nye",
+          "team": "Berne Union",
+          "grade": "12",
+          "time": "17:37.0"
+        },
+        {
+          "name": "Tyler Welsh",
+          "team": "Wester. Genoa Christian",
+          "grade": "9",
+          "time": "17:41.5"
+        },
+        {
+          "name": "Adrian Miller",
+          "team": "Mechanicsburg",
+          "grade": "12",
+          "time": "18:19.6"
+        },
+        {
+          "name": "Jake Creviston",
+          "team": "Elgin",
+          "grade": "9",
+          "time": "18:45.7"
+        },
+        {
+          "name": "Dmitri Pack",
+          "team": "Mechanicsburg",
+          "grade": "10",
+          "time": "18:47.8"
+        },
+        {
+          "name": "Kalyn Rome",
+          "team": "Cristo Rey",
+          "grade": "12",
+          "time": "19:13.1"
+        },
+        {
+          "name": "Ben Montgomery",
+          "team": "Mechanicsburg",
+          "grade": "9",
+          "time": "19:25.2"
+        },
+        {
+          "name": "Hunter Jones",
+          "team": "Cardington-Lincoln",
+          "grade": "11",
+          "time": "19:34.1"
+        },
+        {
+          "name": "Stephen Fisher",
+          "team": "Berne Union",
+          "grade": "11",
+          "time": "19:38.1"
+        },
+        {
+          "name": "Thomas Good",
+          "team": "Mechanicsburg",
+          "grade": "10",
+          "time": "19:51.4"
+        },
+        {
+          "name": "Philip Corrigan",
+          "team": "Cristo Rey",
+          "grade": "11",
+          "time": "19:57.1"
+        },
+        {
+          "name": "Levi Hendershot",
+          "team": "Liberty Union",
+          "grade": "11",
+          "time": "19:59.0"
+        },
+        {
+          "name": "Benaiah Cox",
+          "team": "Elgin",
+          "grade": "9",
+          "time": "20:05.3"
+        },
+        {
+          "name": "Jake Van Derzee",
+          "team": "Del. Christian",
+          "grade": "12",
+          "time": "20:07.8"
+        },
+        {
+          "name": "Micah Fisher",
+          "team": "Liberty Union",
+          "grade": "11",
+          "time": "20:22.8"
+        },
+        {
+          "name": "Grant Reams",
+          "team": "Wellington School",
+          "grade": "9",
+          "time": "20:30.0"
+        },
+        {
+          "name": "Jaxon Reynolds",
+          "team": "Pat. Liberty Christian",
+          "grade": "12",
+          "time": "20:30.7"
+        },
+        {
+          "name": "Maxwell Smith",
+          "team": "Wellington School",
+          "grade": "11",
+          "time": "20:41.6"
+        },
+        {
+          "name": "Silas Kohler",
+          "team": "Liberty Union",
+          "grade": "12",
+          "time": "20:48.1"
+        },
+        {
+          "name": "William Gonzalez",
+          "team": "Liberty Union",
+          "grade": "12",
+          "time": "20:49.3"
+        },
+        {
+          "name": "Patrick Madden",
+          "team": "Madison-Plains",
+          "grade": "12",
+          "time": "20:54.6"
+        },
+        {
+          "name": "Chad Valentine",
+          "team": "Liberty Union",
+          "grade": "9",
+          "time": "20:55.2"
+        },
+        {
+          "name": "James Graham",
+          "team": "Pat. Liberty Christian",
+          "grade": "10",
+          "time": "21:01.3"
+        },
+        {
+          "name": "Zach Ramsey",
+          "team": "Pat. Liberty Christian",
+          "grade": "12",
+          "time": "21:03.4"
+        },
+        {
+          "name": "Drew Reed",
+          "team": "Millersport",
+          "grade": "9",
+          "time": "21:10.1"
+        },
+        {
+          "name": "James Virgin",
+          "team": "Berne Union",
+          "grade": "11",
+          "time": "21:11.8"
+        },
+        {
+          "name": "Nathan Bossard",
+          "team": "Cardington-Lincoln",
+          "grade": "12",
+          "time": "21:12.7"
+        },
+        {
+          "name": "Rylan Downour",
+          "team": "Berne Union",
+          "grade": "9",
+          "time": "21:25.6"
+        },
+        {
+          "name": "Elijah Angelo",
+          "team": "Millersport",
+          "grade": "11",
+          "time": "21:26.0"
+        },
+        {
+          "name": "Christopher Bisel",
+          "team": "Liberty Union",
+          "grade": "10",
+          "time": "21:31.3"
+        },
+        {
+          "name": "William Lower",
+          "team": "Del. Christian",
+          "grade": "9",
+          "time": "21:36.8"
+        },
+        {
+          "name": "Keegan Riffle",
+          "team": "Madison-Plains",
+          "grade": "12",
+          "time": "21:42.0"
+        },
+        {
+          "name": "Liam Canterbury",
+          "team": "Elgin",
+          "grade": "9",
+          "time": "21:55.9"
+        },
+        {
+          "name": "Zavier Bogenrife",
+          "team": "Madison-Plains",
+          "grade": "12",
+          "time": "22:02.3"
+        },
+        {
+          "name": "Jonathan Mendoza Martinez",
+          "team": "Cristo Rey",
+          "grade": "11",
+          "time": "22:23.0"
+        },
+        {
+          "name": "Gabriel Webb",
+          "team": "Cardington-Lincoln",
+          "grade": "9",
+          "time": "22:27.1"
+        },
+        {
+          "name": "Evan Abels",
+          "team": "Del. Christian",
+          "grade": "11",
+          "time": "22:59.8"
+        },
+        {
+          "name": "Ethan Schaffner",
+          "team": "Mechanicsburg",
+          "grade": "12",
+          "time": "23:13.2"
+        },
+        {
+          "name": "Hunter Alexander",
+          "team": "Pat. Liberty Christian",
+          "grade": "10",
+          "time": "23:25.9"
+        },
+        {
+          "name": "Owen Pulsinelli",
+          "team": "Millersport",
+          "grade": "9",
+          "time": "23:41.9"
+        },
+        {
+          "name": "Jaxon Henderson",
+          "team": "Millersport",
+          "grade": "12",
+          "time": "23:46.1"
+        },
+        {
+          "name": "Emmett Doolittle",
+          "team": "Wellington School",
+          "grade": "10",
+          "time": "24:06.3"
+        },
+        {
+          "name": "Jacob Webb",
+          "team": "Cardington-Lincoln",
+          "grade": "12",
+          "time": "24:22.2"
+        },
+        {
+          "name": "Jacob Moreland",
+          "team": "Berne Union",
+          "grade": "9",
+          "time": "25:09.9"
+        },
+        {
+          "name": "Lincoln Platte",
+          "team": "Pat. Liberty Christian",
+          "grade": "9",
+          "time": "25:56.0"
+        },
+        {
+          "name": "Anthony AJ Jacobs",
+          "team": "Madison-Plains",
+          "grade": "12",
+          "time": "25:59.0"
+        },
+        {
+          "name": "Noah Adams",
+          "team": "Madison-Plains",
+          "grade": "12",
+          "time": "26:29.2"
+        },
+        {
+          "name": "Evan Moreland",
+          "team": "Berne Union",
+          "grade": "12",
+          "time": "26:49.1"
+        },
+        {
+          "name": "Jack Wethington",
+          "team": "Madison-Plains",
+          "grade": "10",
+          "time": "28:42.9"
+        }
+      ]
+    },
+    {
+      "gender": "boys",
+      "division": 2,
+      "session": 2,
+      "startTime": "2:00 PM",
+      "declaredCount": 79,
+      "athleticNetDivId": 1140765,
+      "entries": [
+        {
+          "name": "Ethan Shultz",
+          "team": "Big Walnut",
+          "grade": "11",
+          "time": "15:23.7"
+        },
+        {
+          "name": "Calvin Heithaus",
+          "team": "Mount Vernon",
+          "grade": "10",
+          "time": "15:24.4"
+        },
+        {
+          "name": "Owen Comes",
+          "team": "Bexley",
+          "grade": "11",
+          "time": "15:40.9"
+        },
+        {
+          "name": "Thomas King",
+          "team": "Watterson",
+          "grade": "9",
+          "time": "15:55.2"
+        },
+        {
+          "name": "Frank Evener",
+          "team": "Big Walnut",
+          "grade": "12",
+          "time": "16:06.2"
+        },
+        {
+          "name": "Alex Stankus",
+          "team": "Buckeye Valley",
+          "grade": "12",
+          "time": "16:15.3"
+        },
+        {
+          "name": "Trew Tinsley",
+          "team": "Bloom-Carroll",
+          "grade": "11",
+          "time": "16:15.8"
+        },
+        {
+          "name": "Collin Ritter",
+          "team": "Watterson",
+          "grade": "11",
+          "time": "16:19.0"
+        },
+        {
+          "name": "Tucker Gortner",
+          "team": "Bloom-Carroll",
+          "grade": "11",
+          "time": "16:20.2"
+        },
+        {
+          "name": "Jason Shady",
+          "team": "Big Walnut",
+          "grade": "11",
+          "time": "16:26.7"
+        },
+        {
+          "name": "Jalen Jones",
+          "team": "Big Walnut",
+          "grade": "10",
+          "time": "16:30.4"
+        },
+        {
+          "name": "Max Kowalski",
+          "team": "Watterson",
+          "grade": "11",
+          "time": "16:37.2"
+        },
+        {
+          "name": "Quincy Varughese",
+          "team": "Big Walnut",
+          "grade": "12",
+          "time": "16:39.5"
+        },
+        {
+          "name": "Nathan Monahan",
+          "team": "Watterson",
+          "grade": "12",
+          "time": "16:41.3"
+        },
+        {
+          "name": "Reide Klamorick",
+          "team": "Canal Winchester",
+          "grade": "11",
+          "time": "16:44.9"
+        },
+        {
+          "name": "Linus Rosenthal",
+          "team": "Bexley",
+          "grade": "10",
+          "time": "16:46.0"
+        },
+        {
+          "name": "Leo Bianconi",
+          "team": "Big Walnut",
+          "grade": "10",
+          "time": "16:48.9"
+        },
+        {
+          "name": "Kaiden Bennett",
+          "team": "Canal Winchester",
+          "grade": "9",
+          "time": "16:52.0"
+        },
+        {
+          "name": "Ryan Genheimer",
+          "team": "Bexley",
+          "grade": "11",
+          "time": "16:55.2"
+        },
+        {
+          "name": "Samuel Cochran",
+          "team": "Big Walnut",
+          "grade": "12",
+          "time": "16:59.9"
+        },
+        {
+          "name": "Bronson Mathena",
+          "team": "Canal Winchester",
+          "grade": "10",
+          "time": "17:00.9"
+        },
+        {
+          "name": "Chris Haynes",
+          "team": "Canal Winchester",
+          "grade": "10",
+          "time": "17:01.8"
+        },
+        {
+          "name": "Patrick Monahan",
+          "team": "Watterson",
+          "grade": "10",
+          "time": "17:03.2"
+        },
+        {
+          "name": "Dallin Knowles",
+          "team": "Canal Winchester",
+          "grade": "12",
+          "time": "17:15.6"
+        },
+        {
+          "name": "Jack Streb",
+          "team": "Watterson",
+          "grade": "12",
+          "time": "17:17.0"
+        },
+        {
+          "name": "Eric Hirsch",
+          "team": "Watterson",
+          "grade": "10",
+          "time": "17:19.3"
+        },
+        {
+          "name": "Owen Petrie",
+          "team": "Mount Vernon",
+          "grade": "12",
+          "time": "17:20.7"
+        },
+        {
+          "name": "Abraham Morgan",
+          "team": "Whetstone",
+          "grade": "9",
+          "time": "17:32.3"
+        },
+        {
+          "name": "Parker Craig",
+          "team": "Canal Winchester",
+          "grade": "10",
+          "time": "17:37.1"
+        },
+        {
+          "name": "Conrad Hinze",
+          "team": "Whetstone",
+          "grade": "12",
+          "time": "17:39.9"
+        },
+        {
+          "name": "Ezekiel Geyer",
+          "team": "Hamilton Township",
+          "grade": "11",
+          "time": "17:50.1"
+        },
+        {
+          "name": "Josh Condrac",
+          "team": "Canal Winchester",
+          "grade": "10",
+          "time": "17:57.9"
+        },
+        {
+          "name": "Jacob Wilker",
+          "team": "Buckeye Valley",
+          "grade": "9",
+          "time": "17:58.1"
+        },
+        {
+          "name": "Kayden Jackson",
+          "team": "Whetstone",
+          "grade": "11",
+          "time": "17:59.0"
+        },
+        {
+          "name": "Indio Silva",
+          "team": "Bexley",
+          "grade": "12",
+          "time": "17:59.2"
+        },
+        {
+          "name": "Jude Denton",
+          "team": "Buckeye Valley",
+          "grade": "10",
+          "time": "17:59.5"
+        },
+        {
+          "name": "Lucas Bixler",
+          "team": "Bexley",
+          "grade": "9",
+          "time": "18:03.0"
+        },
+        {
+          "name": "Haddon Daniels",
+          "team": "Mount Vernon",
+          "grade": "9",
+          "time": "18:07.7"
+        },
+        {
+          "name": "Nolan Wolf",
+          "team": "Buckeye Valley",
+          "grade": "11",
+          "time": "18:11.0"
+        },
+        {
+          "name": "Honest Lundy",
+          "team": "Whitehall-Yearling",
+          "grade": "11",
+          "time": "18:12.3"
+        },
+        {
+          "name": "Brenden Hedges",
+          "team": "Buckeye Valley",
+          "grade": "9",
+          "time": "18:13.0"
+        },
+        {
+          "name": "Jonah Eggert",
+          "team": "Mount Vernon",
+          "grade": "11",
+          "time": "18:16.6"
+        },
+        {
+          "name": "John Gortner",
+          "team": "Bloom-Carroll",
+          "grade": "9",
+          "time": "18:17.9"
+        },
+        {
+          "name": "Emmett Dodge",
+          "team": "Bexley",
+          "grade": "12",
+          "time": "18:18.0"
+        },
+        {
+          "name": "Ben Helder",
+          "team": "Buckeye Valley",
+          "grade": "12",
+          "time": "18:21.0"
+        },
+        {
+          "name": "Jackson Hughes",
+          "team": "Buckeye Valley",
+          "grade": "9",
+          "time": "18:25.0"
+        },
+        {
+          "name": "Nathaniel Gebray",
+          "team": "Whitehall-Yearling",
+          "grade": "11",
+          "time": "18:29.0"
+        },
+        {
+          "name": "Blake Tabol-wheeler",
+          "team": "Bloom-Carroll",
+          "grade": "12",
+          "time": "18:30.2"
+        },
+        {
+          "name": "Benjamin Ornstein",
+          "team": "Bexley",
+          "grade": "12",
+          "time": "18:35.8"
+        },
+        {
+          "name": "Maxfield (Max) Kuhns",
+          "team": "Whetstone",
+          "grade": "9",
+          "time": "18:45.6"
+        },
+        {
+          "name": "Jonas Brownell",
+          "team": "Whetstone",
+          "grade": "10",
+          "time": "18:45.7"
+        },
+        {
+          "name": "Anderson Seng",
+          "team": "Mount Vernon",
+          "grade": "11",
+          "time": "18:58.9"
+        },
+        {
+          "name": "James Mauck",
+          "team": "Bloom-Carroll",
+          "grade": "9",
+          "time": "19:05.1"
+        },
+        {
+          "name": "Nils Sellman Skinner",
+          "team": "Whetstone",
+          "grade": "11",
+          "time": "19:06.4"
+        },
+        {
+          "name": "Josiah Baker",
+          "team": "Hamilton Township",
+          "grade": "11",
+          "time": "19:07.9"
+        },
+        {
+          "name": "Luke Whitney",
+          "team": "Hamilton Township",
+          "grade": "10",
+          "time": "19:08.6"
+        },
+        {
+          "name": "Zachary Cramer",
+          "team": "Mount Vernon",
+          "grade": "10",
+          "time": "19:10.4"
+        },
+        {
+          "name": "Quinn Schniter",
+          "team": "Whetstone",
+          "grade": "11",
+          "time": "19:12.9"
+        },
+        {
+          "name": "Nathan Jose",
+          "team": "Mount Vernon",
+          "grade": "10",
+          "time": "19:20.0"
+        },
+        {
+          "name": "Joshua Beau Mcdowell",
+          "team": "Bloom-Carroll",
+          "grade": "10",
+          "time": "19:43.8"
+        },
+        {
+          "name": "Abdullahi Ahmed",
+          "team": "Col. International",
+          "grade": "11",
+          "time": "19:57.8"
+        },
+        {
+          "name": "Keaton Zech",
+          "team": "Bloom-Carroll",
+          "grade": "12",
+          "time": "20:06.1"
+        },
+        {
+          "name": "Ali Cisse",
+          "team": "Walnut Ridge",
+          "grade": "11",
+          "time": "20:14.3"
+        },
+        {
+          "name": "Jaelin Babbitt",
+          "team": "Whitehall-Yearling",
+          "grade": "11",
+          "time": "20:20.0"
+        },
+        {
+          "name": "Dominic Stringer",
+          "team": "Hamilton Township",
+          "grade": "9",
+          "time": "20:33.2"
+        },
+        {
+          "name": "Jayedon Mitchell",
+          "team": "Col. Horizon Science Aca.",
+          "grade": "10",
+          "time": "20:45.7"
+        },
+        {
+          "name": "Lowensky Felima",
+          "team": "Col. Horizon Science Aca.",
+          "grade": "10",
+          "time": "21:21.5"
+        },
+        {
+          "name": "Nehemiah Makanda",
+          "team": "Col. Horizon Science Aca.",
+          "grade": "10",
+          "time": "21:33.5"
+        },
+        {
+          "name": "Mason Hollingshead",
+          "team": "Whitehall-Yearling",
+          "grade": "10",
+          "time": "22:15.0"
+        },
+        {
+          "name": "Larry Justice",
+          "team": "Whitehall-Yearling",
+          "grade": "11",
+          "time": "22:15.6"
+        },
+        {
+          "name": "Rogelio Cruz",
+          "team": "Whitehall-Yearling",
+          "grade": "11",
+          "time": "22:20.0"
+        },
+        {
+          "name": "Berlen Sanon",
+          "team": "Mifflin",
+          "grade": "Jr",
+          "time": "22:22.4"
+        },
+        {
+          "name": "Julian Pike",
+          "team": "Hamilton Township",
+          "grade": "9",
+          "time": "22:25.7"
+        },
+        {
+          "name": "Jontez Watson",
+          "team": "Mifflin",
+          "grade": "10",
+          "time": "23:02.9"
+        },
+        {
+          "name": "Lourvens Senorvil",
+          "team": "Col. International",
+          "grade": "11",
+          "time": "24:32.3"
+        },
+        {
+          "name": "Samuel Schneider",
+          "team": "Whitehall-Yearling",
+          "grade": "9",
+          "time": "24:41.6"
+        },
+        {
+          "name": "Rion Green Harper",
+          "team": "Hamilton Township",
+          "grade": "9",
+          "time": "26:28.2"
+        },
+        {
+          "name": "Jonathon Hollis",
+          "team": "Hamilton Township",
+          "grade": "12",
+          "time": "27:37.4"
+        },
+        {
+          "name": "Sawents Charles",
+          "team": "Mifflin",
+          "grade": "10",
+          "time": "34:39.6"
+        }
+      ]
+    },
+    {
+      "gender": "boys",
+      "division": 3,
+      "session": 2,
+      "startTime": "12:30 PM",
+      "declaredCount": 51,
+      "athleticNetDivId": 1140771,
+      "entries": [
+        {
+          "name": "Joey Dietsch",
+          "team": "Pleasant",
+          "grade": "12",
+          "time": "16:02.4"
+        },
+        {
+          "name": "Kael Swartz",
+          "team": "Cal. River Valley",
+          "grade": "12",
+          "time": "16:20.5"
+        },
+        {
+          "name": "Lincoln Snyder",
+          "team": "Fredericktown",
+          "grade": "12",
+          "time": "16:50.8"
+        },
+        {
+          "name": "Lucas Jolliff",
+          "team": "Wor. Christian",
+          "grade": "9",
+          "time": "16:51.0"
+        },
+        {
+          "name": "Felix Plouck",
+          "team": "North Union",
+          "grade": "12",
+          "time": "17:03.2"
+        },
+        {
+          "name": "Allen Swartzentruber",
+          "team": "Fredericktown",
+          "grade": "10",
+          "time": "17:09.1"
+        },
+        {
+          "name": "Carter Netting",
+          "team": "Centerburg",
+          "grade": "12",
+          "time": "17:15.1"
+        },
+        {
+          "name": "Samuel Dickhof",
+          "team": "Centerburg",
+          "grade": "10",
+          "time": "17:32.3"
+        },
+        {
+          "name": "Gideon Rashley",
+          "team": "Fredericktown",
+          "grade": "11",
+          "time": "17:46.6"
+        },
+        {
+          "name": "Lane Kloss",
+          "team": "Centerburg",
+          "grade": "10",
+          "time": "18:01.9"
+        },
+        {
+          "name": "Maddox Weiss",
+          "team": "Mar. Highland",
+          "grade": "12",
+          "time": "18:06.1"
+        },
+        {
+          "name": "Thomas Hilton",
+          "team": "John. Northridge",
+          "grade": "10",
+          "time": "18:08.3"
+        },
+        {
+          "name": "Jonas Bostic",
+          "team": "Fredericktown",
+          "grade": "11",
+          "time": "18:09.1"
+        },
+        {
+          "name": "Mason Shaw",
+          "team": "Centerburg",
+          "grade": "11",
+          "time": "18:09.7"
+        },
+        {
+          "name": "Joseph Wiley",
+          "team": "North Union",
+          "grade": "9",
+          "time": "18:09.9"
+        },
+        {
+          "name": "Mack Marlette",
+          "team": "North Union",
+          "grade": "11",
+          "time": "18:10.0"
+        },
+        {
+          "name": "Grant Ruth",
+          "team": "John. Northridge",
+          "grade": "9",
+          "time": "18:12.2"
+        },
+        {
+          "name": "Bram Hodge",
+          "team": "Centerburg",
+          "grade": "9",
+          "time": "18:15.1"
+        },
+        {
+          "name": "Turner Wilson",
+          "team": "Pleasant",
+          "grade": "9",
+          "time": "18:20.6"
+        },
+        {
+          "name": "Hager Adams",
+          "team": "Cal. River Valley",
+          "grade": "11",
+          "time": "18:21.6"
+        },
+        {
+          "name": "Trace Armstrong",
+          "team": "Fredericktown",
+          "grade": "11",
+          "time": "18:22.5"
+        },
+        {
+          "name": "Jacob Meyers",
+          "team": "Pleasant",
+          "grade": "12",
+          "time": "18:29.3"
+        },
+        {
+          "name": "Gavin Wooten",
+          "team": "Wor. Christian",
+          "grade": "10",
+          "time": "18:37.3"
+        },
+        {
+          "name": "Corbin Netting",
+          "team": "Centerburg",
+          "grade": "10",
+          "time": "18:38.6"
+        },
+        {
+          "name": "Wyatt Payne",
+          "team": "Fredericktown",
+          "grade": "11",
+          "time": "18:57.9"
+        },
+        {
+          "name": "Zachary Stull",
+          "team": "Wor. Christian",
+          "grade": "11",
+          "time": "18:58.0"
+        },
+        {
+          "name": "Ciaran Gilmore",
+          "team": "Mar. Highland",
+          "grade": "9",
+          "time": "18:58.8"
+        },
+        {
+          "name": "Bodee Byler",
+          "team": "Mar. Highland",
+          "grade": "10",
+          "time": "19:06.4"
+        },
+        {
+          "name": "William Koon",
+          "team": "Cal. River Valley",
+          "grade": "9",
+          "time": "19:07.1"
+        },
+        {
+          "name": "Carson Young",
+          "team": "Mar. Highland",
+          "grade": "11",
+          "time": "19:10.1"
+        },
+        {
+          "name": "Cameron Riley",
+          "team": "Centerburg",
+          "grade": "12",
+          "time": "19:18.2"
+        },
+        {
+          "name": "Garrett Neal",
+          "team": "John. Northridge",
+          "grade": "9",
+          "time": "19:19.3"
+        },
+        {
+          "name": "Iverson Raiden",
+          "team": "John. Northridge",
+          "grade": "9",
+          "time": "19:21.0"
+        },
+        {
+          "name": "Garrett Austin",
+          "team": "John. Northridge",
+          "grade": "11",
+          "time": "19:24.6"
+        },
+        {
+          "name": "Sebastian Seaux",
+          "team": "Mar. Highland",
+          "grade": "9",
+          "time": "19:28.7"
+        },
+        {
+          "name": "Ben Sorrell",
+          "team": "Mar. Highland",
+          "grade": "11",
+          "time": "19:29.5"
+        },
+        {
+          "name": "Adam Stevens",
+          "team": "Pleasant",
+          "grade": "12",
+          "time": "19:40.4"
+        },
+        {
+          "name": "Colton Smith",
+          "team": "North Union",
+          "grade": "11",
+          "time": "19:42.3"
+        },
+        {
+          "name": "Iain Linville",
+          "team": "Cal. River Valley",
+          "grade": "12",
+          "time": "19:43.4"
+        },
+        {
+          "name": "Caden Korodi",
+          "team": "Wor. Christian",
+          "grade": "11",
+          "time": "19:55.0"
+        },
+        {
+          "name": "Markus Parsons",
+          "team": "Cal. River Valley",
+          "grade": "11",
+          "time": "19:57.2"
+        },
+        {
+          "name": "Nathan Wagenblast",
+          "team": "Pleasant",
+          "grade": "12",
+          "time": "19:59.4"
+        },
+        {
+          "name": "Harrison Lee",
+          "team": "Cal. River Valley",
+          "grade": "12",
+          "time": "20:02.0"
+        },
+        {
+          "name": "Chase Kerr",
+          "team": "Mar. Highland",
+          "grade": "9",
+          "time": "20:13.6"
+        },
+        {
+          "name": "Anderson Perler",
+          "team": "John. Northridge",
+          "grade": "10",
+          "time": "20:31.2"
+        },
+        {
+          "name": "Brocktyn Caudill",
+          "team": "Cal. River Valley",
+          "grade": "10",
+          "time": "20:41.7"
+        },
+        {
+          "name": "Pierce Dennis",
+          "team": "Wor. Christian",
+          "grade": "9",
+          "time": "21:46.7"
+        },
+        {
+          "name": "Evan West",
+          "team": "Wor. Christian",
+          "grade": "11",
+          "time": "22:06.0"
+        },
+        {
+          "name": "Anson Wenger",
+          "team": "Fredericktown",
+          "grade": "12",
+          "time": "22:36.2"
+        },
+        {
+          "name": "Jackson Todd",
+          "team": "John. Northridge",
+          "grade": "10",
+          "time": "22:47.2"
+        },
+        {
+          "name": "Asher Ward",
+          "team": "Wor. Christian",
+          "grade": "10",
+          "time": "24:20.5"
+        }
+      ]
+    },
+    {
+      "gender": "boys",
+      "division": 4,
+      "session": 2,
+      "startTime": "10:30 AM",
+      "declaredCount": 60,
+      "athleticNetDivId": 1140773,
+      "entries": [
+        {
+          "name": "Elliot Weston",
+          "team": "Ridgedale",
+          "grade": "11",
+          "time": "15:45.0"
+        },
+        {
+          "name": "Jack Dean",
+          "team": "Northmor",
+          "grade": "10",
+          "time": "16:40.9"
+        },
+        {
+          "name": "Ethan Roberts",
+          "team": "West Jefferson",
+          "grade": "12",
+          "time": "16:41.4"
+        },
+        {
+          "name": "Corbin Stobart",
+          "team": "Fisher Catholic",
+          "grade": "11",
+          "time": "17:04.1"
+        },
+        {
+          "name": "Owen Calvin",
+          "team": "Grandview Hts.",
+          "grade": "12",
+          "time": "17:21.0"
+        },
+        {
+          "name": "Lukas Sisco",
+          "team": "Lan. Fair Chr.",
+          "grade": "12",
+          "time": "17:27.7"
+        },
+        {
+          "name": "Oliver Hatta",
+          "team": "Grandview Hts.",
+          "grade": "9",
+          "time": "17:43.2"
+        },
+        {
+          "name": "Gordon Crabtree",
+          "team": "Fisher Catholic",
+          "grade": "10",
+          "time": "17:45.0"
+        },
+        {
+          "name": "Mark Monson",
+          "team": "Grandview Hts.",
+          "grade": "9",
+          "time": "17:47.5"
+        },
+        {
+          "name": "Carter Thomas",
+          "team": "Northmor",
+          "grade": "12",
+          "time": "17:49.7"
+        },
+        {
+          "name": "Neil Colahan",
+          "team": "Grandview Hts.",
+          "grade": "11",
+          "time": "18:01.0"
+        },
+        {
+          "name": "Ethan Mikles",
+          "team": "Tree of Life Christian",
+          "grade": "11",
+          "time": "18:33.7"
+        },
+        {
+          "name": "Oliver Huddleston",
+          "team": "Northmor",
+          "grade": "10",
+          "time": "18:34.0"
+        },
+        {
+          "name": "Colton Randolph",
+          "team": "Northmor",
+          "grade": "9",
+          "time": "18:37.7"
+        },
+        {
+          "name": "Cale McNamara",
+          "team": "Grandview Hts.",
+          "grade": "12",
+          "time": "18:39.0"
+        },
+        {
+          "name": "Calder Gentile",
+          "team": "Grandview Hts.",
+          "grade": "Sr",
+          "time": "18:50.0"
+        },
+        {
+          "name": "Leo Decker",
+          "team": "Grandview Hts.",
+          "grade": "12",
+          "time": "18:51.4"
+        },
+        {
+          "name": "Jonathan Stephens",
+          "team": "Danville",
+          "grade": "10",
+          "time": "19:00.0"
+        },
+        {
+          "name": "Grady Householder-Wise",
+          "team": "Newark Cath.",
+          "grade": "12",
+          "time": "19:01.3"
+        },
+        {
+          "name": "Lucas VanZuiden",
+          "team": "Gr. City Chr.",
+          "grade": "11",
+          "time": "19:01.5"
+        },
+        {
+          "name": "Jack Deboard",
+          "team": "Madison Christian",
+          "grade": "12",
+          "time": "19:07.0"
+        },
+        {
+          "name": "Kyle Stark",
+          "team": "Lan. Fair Chr.",
+          "grade": "12",
+          "time": "19:07.0"
+        },
+        {
+          "name": "Conlan Stobart",
+          "team": "Fisher Catholic",
+          "grade": "9",
+          "time": "19:38.4"
+        },
+        {
+          "name": "Walker Strouse",
+          "team": "Tree of Life Christian",
+          "grade": "12",
+          "time": "19:45.0"
+        },
+        {
+          "name": "Andreh Abdelmassih",
+          "team": "Northmor",
+          "grade": "10",
+          "time": "19:48.3"
+        },
+        {
+          "name": "Warren Carpenter",
+          "team": "Madison Christian",
+          "grade": "9",
+          "time": "19:48.8"
+        },
+        {
+          "name": "Finn Richardson",
+          "team": "Newark Cath.",
+          "grade": "11",
+          "time": "19:53.4"
+        },
+        {
+          "name": "Allister Edwards",
+          "team": "Gr. City Chr.",
+          "grade": "9",
+          "time": "19:54.0"
+        },
+        {
+          "name": "Colby Kent",
+          "team": "Northmor",
+          "grade": "9",
+          "time": "20:03.7"
+        },
+        {
+          "name": "Easton Shafer",
+          "team": "West Jefferson",
+          "grade": "12",
+          "time": "20:21.1"
+        },
+        {
+          "name": "Sonny Shumaker",
+          "team": "Ridgedale",
+          "grade": "9",
+          "time": "20:22.1"
+        },
+        {
+          "name": "Nick Mosher",
+          "team": "Danville",
+          "grade": "11",
+          "time": "20:22.4"
+        },
+        {
+          "name": "Cale Brewer",
+          "team": "East Knox",
+          "grade": "12",
+          "time": "20:28.4"
+        },
+        {
+          "name": "Leighton Cox",
+          "team": "Gr. City Chr.",
+          "grade": "9",
+          "time": "20:34.5"
+        },
+        {
+          "name": "Ben Jungers",
+          "team": "Newark Cath.",
+          "grade": "9",
+          "time": "20:41.0"
+        },
+        {
+          "name": "Caleb Woodard",
+          "team": "Tree of Life Christian",
+          "grade": "12",
+          "time": "20:41.9"
+        },
+        {
+          "name": "Grant Householder-Wise",
+          "team": "Newark Cath.",
+          "grade": "12",
+          "time": "20:43.7"
+        },
+        {
+          "name": "Jacob Mortera",
+          "team": "East Knox",
+          "grade": "11",
+          "time": "20:50.1"
+        },
+        {
+          "name": "Griffin Sprague",
+          "team": "Madison Christian",
+          "grade": "11",
+          "time": "20:59.7"
+        },
+        {
+          "name": "Luke Minshall",
+          "team": "Madison Christian",
+          "grade": "12",
+          "time": "21:02.1"
+        },
+        {
+          "name": "Jack Thorne",
+          "team": "Newark Cath.",
+          "grade": "9",
+          "time": "21:09.9"
+        },
+        {
+          "name": "Aidan Shimp",
+          "team": "Madison Christian",
+          "grade": "12",
+          "time": "21:33.0"
+        },
+        {
+          "name": "Nicholas Schorr",
+          "team": "Fisher Catholic",
+          "grade": "9",
+          "time": "21:35.0"
+        },
+        {
+          "name": "Jackson Gallagher",
+          "team": "Fisher Catholic",
+          "grade": "9",
+          "time": "21:36.0"
+        },
+        {
+          "name": "Riley Keller",
+          "team": "Ridgedale",
+          "grade": "10",
+          "time": "21:42.4"
+        },
+        {
+          "name": "Thomas Schorr",
+          "team": "Fisher Catholic",
+          "grade": "9",
+          "time": "22:00.0"
+        },
+        {
+          "name": "Urijah Bever",
+          "team": "Gr. City Chr.",
+          "grade": "9",
+          "time": "22:09.4"
+        },
+        {
+          "name": "Jeremiah Williams",
+          "team": "East Knox",
+          "grade": "9",
+          "time": "22:12.4"
+        },
+        {
+          "name": "Lukas McDonald",
+          "team": "Newark Cath.",
+          "grade": "12",
+          "time": "22:22.0"
+        },
+        {
+          "name": "Peter Moberg",
+          "team": "Newark Cath.",
+          "grade": "12",
+          "time": "22:23.4"
+        },
+        {
+          "name": "Gabe Smith",
+          "team": "Gr. City Chr.",
+          "grade": "9",
+          "time": "22:37.3"
+        },
+        {
+          "name": "Zeke DeBoard",
+          "team": "Madison Christian",
+          "grade": "10",
+          "time": "23:12.9"
+        },
+        {
+          "name": "Clark Chandler",
+          "team": "Tree of Life Christian",
+          "grade": "9",
+          "time": "23:20.1"
+        },
+        {
+          "name": "Tucker Phipps",
+          "team": "West Jefferson",
+          "grade": "12",
+          "time": "23:23.4"
+        },
+        {
+          "name": "Michael Harrington",
+          "team": "Tree of Life Christian",
+          "grade": "9",
+          "time": "23:32.6"
+        },
+        {
+          "name": "Simon Vaughn",
+          "team": "Madison Christian",
+          "grade": "9",
+          "time": "23:37.2"
+        },
+        {
+          "name": "Vincent Frazee",
+          "team": "East Knox",
+          "grade": "9",
+          "time": "23:42.8"
+        },
+        {
+          "name": "Philip Harrington",
+          "team": "Tree of Life Christian",
+          "grade": "9",
+          "time": "24:00.8"
+        },
+        {
+          "name": "Samuel Verhoff",
+          "team": "Gran. Chr. Acad.",
+          "grade": "11",
+          "time": "24:27.2"
+        },
+        {
+          "name": "Liam Savageau",
+          "team": "Tree of Life Christian",
+          "grade": "12",
+          "time": "25:50.3"
+        }
+      ]
+    },
+    {
+      "gender": "girls",
+      "division": 2,
+      "session": 1,
+      "startTime": "2:30 PM",
+      "declaredCount": 62,
+      "athleticNetDivId": 1140746,
+      "entries": [
+        {
+          "name": "Peyton Hughey",
+          "team": "Canal Winchester",
+          "grade": "12",
+          "time": "18:02.3"
+        },
+        {
+          "name": "Elsa Tonnessen",
+          "team": "Granville",
+          "grade": "11",
+          "time": "18:56.6"
+        },
+        {
+          "name": "Lillian Stepp",
+          "team": "Canal Winchester",
+          "grade": "12",
+          "time": "18:58.2"
+        },
+        {
+          "name": "Blake Witter",
+          "team": "Granville",
+          "grade": "12",
+          "time": "18:58.6"
+        },
+        {
+          "name": "Zoey Smith",
+          "team": "Canal Winchester",
+          "grade": "12",
+          "time": "19:06.4"
+        },
+        {
+          "name": "Caroline Kitsmiller",
+          "team": "Hartley",
+          "grade": "12",
+          "time": "19:08.7"
+        },
+        {
+          "name": "Quinn Klamorick",
+          "team": "Canal Winchester",
+          "grade": "10",
+          "time": "19:09.8"
+        },
+        {
+          "name": "Olive Dorman",
+          "team": "Granville",
+          "grade": "12",
+          "time": "19:31.1"
+        },
+        {
+          "name": "Adele Bishop",
+          "team": "Granville",
+          "grade": "9",
+          "time": "19:50.1"
+        },
+        {
+          "name": "Poppy Reed",
+          "team": "Granville",
+          "grade": "9",
+          "time": "19:50.6"
+        },
+        {
+          "name": "Margaret Mcdonald",
+          "team": "Granville",
+          "grade": "12",
+          "time": "19:54.9"
+        },
+        {
+          "name": "Rubi Lechuga",
+          "team": "Granville",
+          "grade": "11",
+          "time": "20:15.8"
+        },
+        {
+          "name": "Gracelynne Bloom",
+          "team": "Bloom-Carroll",
+          "grade": "10",
+          "time": "20:16.1"
+        },
+        {
+          "name": "Elizabeth Rippl",
+          "team": "Canal Winchester",
+          "grade": "11",
+          "time": "20:20.1"
+        },
+        {
+          "name": "Sydney Vonderwell",
+          "team": "Hartley",
+          "grade": "12",
+          "time": "20:21.6"
+        },
+        {
+          "name": "Carli Frankhauser",
+          "team": "Bloom-Carroll",
+          "grade": "9",
+          "time": "20:28.1"
+        },
+        {
+          "name": "Maria Haunn",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "20:31.4"
+        },
+        {
+          "name": "Gabby Dages",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "20:33.7"
+        },
+        {
+          "name": "Dasha Vura",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "20:34.3"
+        },
+        {
+          "name": "Hayleigh Ellison",
+          "team": "Hartley",
+          "grade": "11",
+          "time": "20:37.5"
+        },
+        {
+          "name": "Ashley Nolan",
+          "team": "London",
+          "grade": "12",
+          "time": "20:41.6"
+        },
+        {
+          "name": "Lydia Purdy",
+          "team": "Col. DeSales",
+          "grade": "10",
+          "time": "20:49.3"
+        },
+        {
+          "name": "Evelyn Bishop",
+          "team": "Col. DeSales",
+          "grade": "12",
+          "time": "20:58.3"
+        },
+        {
+          "name": "Lillian Young",
+          "team": "Col. DeSales",
+          "grade": "10",
+          "time": "21:02.9"
+        },
+        {
+          "name": "Ruby Daron",
+          "team": "Canal Winchester",
+          "grade": "9",
+          "time": "21:03.5"
+        },
+        {
+          "name": "Aminata Ly",
+          "team": "Canal Winchester",
+          "grade": "11",
+          "time": "21:07.6"
+        },
+        {
+          "name": "Lucy Aaron",
+          "team": "Col. DeSales",
+          "grade": "9",
+          "time": "21:07.8"
+        },
+        {
+          "name": "Emma McElroy",
+          "team": "Bloom-Carroll",
+          "grade": "12",
+          "time": "21:12.7"
+        },
+        {
+          "name": "Georgia Robson",
+          "team": "Hartley",
+          "grade": "12",
+          "time": "21:29.5"
+        },
+        {
+          "name": "Sophia Held",
+          "team": "Hartley",
+          "grade": "12",
+          "time": "21:45.3"
+        },
+        {
+          "name": "Hannah Held",
+          "team": "Hartley",
+          "grade": "10",
+          "time": "21:51.3"
+        },
+        {
+          "name": "Ella Dunmon",
+          "team": "London",
+          "grade": "11",
+          "time": "21:56.3"
+        },
+        {
+          "name": "Callie Peugh",
+          "team": "Mount Vernon",
+          "grade": "11",
+          "time": "22:14.8"
+        },
+        {
+          "name": "Molly Cassidy",
+          "team": "Hartley",
+          "grade": "10",
+          "time": "22:20.8"
+        },
+        {
+          "name": "Alexandra Whitney",
+          "team": "Hamilton Township",
+          "grade": "11",
+          "time": "22:22.9"
+        },
+        {
+          "name": "Lillie Henderson",
+          "team": "Bloom-Carroll",
+          "grade": "12",
+          "time": "22:28.3"
+        },
+        {
+          "name": "Cora Stetler",
+          "team": "Mount Vernon",
+          "grade": "11",
+          "time": "22:50.2"
+        },
+        {
+          "name": "Rachel Jackman",
+          "team": "London",
+          "grade": "12",
+          "time": "23:00.5"
+        },
+        {
+          "name": "Vivian Mars",
+          "team": "London",
+          "grade": "9",
+          "time": "23:02.4"
+        },
+        {
+          "name": "Allison Dimas Jimenez",
+          "team": "Walnut Ridge",
+          "grade": "12",
+          "time": "23:47.0"
+        },
+        {
+          "name": "Martha Rock",
+          "team": "Hamilton Township",
+          "grade": "9",
+          "time": "24:06.4"
+        },
+        {
+          "name": "Amanda Misarti",
+          "team": "Mount Vernon",
+          "grade": "12",
+          "time": "24:14.0"
+        },
+        {
+          "name": "Taryn Marx",
+          "team": "Mount Vernon",
+          "grade": "9",
+          "time": "24:20.1"
+        },
+        {
+          "name": "Cora Bell",
+          "team": "Bloom-Carroll",
+          "grade": "12",
+          "time": "24:24.3"
+        },
+        {
+          "name": "Maci West",
+          "team": "Bloom-Carroll",
+          "grade": "9",
+          "time": "24:47.2"
+        },
+        {
+          "name": "Jamilla Rock",
+          "team": "Hamilton Township",
+          "grade": "12",
+          "time": "24:56.9"
+        },
+        {
+          "name": "Kaylynne Miller",
+          "team": "Mount Vernon",
+          "grade": "10",
+          "time": "25:08.0"
+        },
+        {
+          "name": "Josselyn Perez",
+          "team": "Hamilton Township",
+          "grade": "11",
+          "time": "25:10.4"
+        },
+        {
+          "name": "Irelynne Moffat",
+          "team": "Mount Vernon",
+          "grade": "11",
+          "time": "25:37.2"
+        },
+        {
+          "name": "Gracie Howe",
+          "team": "London",
+          "grade": "12",
+          "time": "25:44.6"
+        },
+        {
+          "name": "Thiany Suryani",
+          "team": "Hamilton Township",
+          "grade": "12",
+          "time": "26:06.0"
+        },
+        {
+          "name": "Ann Raiza Merisier",
+          "team": "Hamilton Township",
+          "grade": "10",
+          "time": "27:12.1"
+        },
+        {
+          "name": "Jamiyah Kelly-Burns",
+          "team": "Col. Independence",
+          "grade": "10",
+          "time": "28:48.0"
+        },
+        {
+          "name": "Skylar Adams",
+          "team": "Col. Horizon Science Aca.",
+          "grade": "9",
+          "time": "29:10.8"
+        },
+        {
+          "name": "Marcella Barrett",
+          "team": "Mount Vernon",
+          "grade": "9",
+          "time": "30:28.9"
+        },
+        {
+          "name": "Deloris Ofori",
+          "team": "Col. Horizon Science Aca.",
+          "grade": "11",
+          "time": "31:08.8"
+        },
+        {
+          "name": "Kelsey Adams",
+          "team": "Col. Horizon Science Aca.",
+          "grade": "10",
+          "time": "31:32.6"
+        },
+        {
+          "name": "A'Iesha Aleem",
+          "team": "Col. Independence",
+          "grade": "10",
+          "time": "32:52.0"
+        },
+        {
+          "name": "Emanuella Afram",
+          "team": "Col. Independence",
+          "grade": "12",
+          "time": "40:17.0"
+        },
+        {
+          "name": "Aaliyah Carter",
+          "team": "Col. Independence",
+          "grade": null,
+          "time": "46:48.0"
+        },
+        {
+          "name": "Brianna Brezil",
+          "team": "Col. Independence",
+          "grade": "10",
+          "time": null
+        },
+        {
+          "name": "Tamya Whaley",
+          "team": "Col. Independence",
+          "grade": "10",
+          "time": null
+        }
+      ]
+    },
+    {
+      "gender": "girls",
+      "division": 3,
+      "session": 1,
+      "startTime": "1:00 PM",
+      "declaredCount": 85,
+      "athleticNetDivId": 1140748,
+      "entries": [
+        {
+          "name": "Madisyn Ruhe",
+          "team": "Pleasant",
+          "grade": "9",
+          "time": "19:02.3"
+        },
+        {
+          "name": "Vada Walters",
+          "team": "Northmor",
+          "grade": "9",
+          "time": "19:06.4"
+        },
+        {
+          "name": "Siloam Bohler",
+          "team": "Wor. Christian",
+          "grade": "9",
+          "time": "19:48.5"
+        },
+        {
+          "name": "Olive Edgel",
+          "team": "Wor. Christian",
+          "grade": "12",
+          "time": "19:53.8"
+        },
+        {
+          "name": "Kailin McElroy",
+          "team": "North Union",
+          "grade": "12",
+          "time": "20:00.6"
+        },
+        {
+          "name": "Layney Wilds",
+          "team": "North Union",
+          "grade": "9",
+          "time": "20:04.3"
+        },
+        {
+          "name": "Veronica Ballard",
+          "team": "Mar. Highland",
+          "grade": "10",
+          "time": "20:10.1"
+        },
+        {
+          "name": "Abigail Montgomery",
+          "team": "Buckeye Valley",
+          "grade": "10",
+          "time": "20:12.6"
+        },
+        {
+          "name": "Ella Hiebel",
+          "team": "Johnstown",
+          "grade": "10",
+          "time": "20:15.0"
+        },
+        {
+          "name": "Alexa Diebler",
+          "team": "Buckeye Valley",
+          "grade": "9",
+          "time": "20:22.2"
+        },
+        {
+          "name": "Isabella (Bella) Smith",
+          "team": "Northmor",
+          "grade": "11",
+          "time": "20:27.1"
+        },
+        {
+          "name": "Valerie Shetler",
+          "team": "Pleasant",
+          "grade": "12",
+          "time": "20:27.3"
+        },
+        {
+          "name": "Macie Witherell",
+          "team": "Northmor",
+          "grade": "12",
+          "time": "20:42.5"
+        },
+        {
+          "name": "Madison Lust",
+          "team": "Cal. River Valley",
+          "grade": "12",
+          "time": "20:54.6"
+        },
+        {
+          "name": "Maggie Carney",
+          "team": "Col. S. Girls",
+          "grade": "11",
+          "time": "20:56.4"
+        },
+        {
+          "name": "Annabelle Marburger",
+          "team": "John. Northridge",
+          "grade": "10",
+          "time": "21:09.3"
+        },
+        {
+          "name": "Janey Creswell",
+          "team": "Northmor",
+          "grade": "10",
+          "time": "21:13.3"
+        },
+        {
+          "name": "Delaney Landin",
+          "team": "Northmor",
+          "grade": "11",
+          "time": "21:30.5"
+        },
+        {
+          "name": "Sarah Jordan",
+          "team": "Pleasant",
+          "grade": "12",
+          "time": "21:31.3"
+        },
+        {
+          "name": "Emma Hough",
+          "team": "Buckeye Valley",
+          "grade": "11",
+          "time": "21:46.2"
+        },
+        {
+          "name": "Kathryn Naylor",
+          "team": "Northmor",
+          "grade": "10",
+          "time": "21:47.9"
+        },
+        {
+          "name": "Addy Noble",
+          "team": "John. Northridge",
+          "grade": "10",
+          "time": "21:48.6"
+        },
+        {
+          "name": "Harper Schaller",
+          "team": "Heb. Lakewood",
+          "grade": "10",
+          "time": "21:49.5"
+        },
+        {
+          "name": "Avril Mason",
+          "team": "Cal. River Valley",
+          "grade": "10",
+          "time": "21:53.5"
+        },
+        {
+          "name": "Lilianna Molden",
+          "team": "Utica",
+          "grade": "11",
+          "time": "21:53.8"
+        },
+        {
+          "name": "Caedynce Nihiser",
+          "team": "Heath",
+          "grade": "9",
+          "time": "22:00.9"
+        },
+        {
+          "name": "Veronica Kanagy",
+          "team": "Northmor",
+          "grade": "11",
+          "time": "22:05.4"
+        },
+        {
+          "name": "Lauren Beverick",
+          "team": "Johnstown",
+          "grade": "10",
+          "time": "22:17.1"
+        },
+        {
+          "name": "Zoe Ryan",
+          "team": "Wor. Christian",
+          "grade": "12",
+          "time": "22:24.6"
+        },
+        {
+          "name": "Emmy Sloan",
+          "team": "Col. S. Girls",
+          "grade": "12",
+          "time": "22:26.5"
+        },
+        {
+          "name": "Braylin Romshak",
+          "team": "Mar. Highland",
+          "grade": "11",
+          "time": "22:31.0"
+        },
+        {
+          "name": "Emily Stevens",
+          "team": "Mar. Highland",
+          "grade": "10",
+          "time": "22:31.5"
+        },
+        {
+          "name": "Malayna McMahon",
+          "team": "Wor. Christian",
+          "grade": "10",
+          "time": "22:33.0"
+        },
+        {
+          "name": "Evelyn Hughes",
+          "team": "Wor. Christian",
+          "grade": "9",
+          "time": "22:35.2"
+        },
+        {
+          "name": "Simone Dean",
+          "team": "Col. S. Girls",
+          "grade": "10",
+          "time": "22:35.6"
+        },
+        {
+          "name": "Allana Smith",
+          "team": "North Union",
+          "grade": "11",
+          "time": "22:38.1"
+        },
+        {
+          "name": "Haddie Glover",
+          "team": "Utica",
+          "grade": "10",
+          "time": "22:50.1"
+        },
+        {
+          "name": "Sydney Thompson",
+          "team": "Heath",
+          "grade": "12",
+          "time": "22:50.9"
+        },
+        {
+          "name": "Amanda Dunbar",
+          "team": "Utica",
+          "grade": "9",
+          "time": "22:51.8"
+        },
+        {
+          "name": "Hayley Bentley",
+          "team": "Pleasant",
+          "grade": "10",
+          "time": "22:59.7"
+        },
+        {
+          "name": "Abigail Beyer",
+          "team": "Johnstown",
+          "grade": "12",
+          "time": "23:04.5"
+        },
+        {
+          "name": "Beatrice Mollmann",
+          "team": "Wor. Christian",
+          "grade": "11",
+          "time": "23:05.3"
+        },
+        {
+          "name": "Bridget Bolton",
+          "team": "Buckeye Valley",
+          "grade": "12",
+          "time": "23:07.8"
+        },
+        {
+          "name": "Lillian Furniss",
+          "team": "Col. S. Girls",
+          "grade": "12",
+          "time": "23:07.9"
+        },
+        {
+          "name": "Amelia Bonito",
+          "team": "Johnstown",
+          "grade": "12",
+          "time": "23:08.9"
+        },
+        {
+          "name": "Rylie Schildknecht",
+          "team": "Buckeye Valley",
+          "grade": "11",
+          "time": "23:11.5"
+        },
+        {
+          "name": "Italia Leadbeater",
+          "team": "Mar. Highland",
+          "grade": "9",
+          "time": "23:13.4"
+        },
+        {
+          "name": "Katherine Beineke",
+          "team": "Cal. River Valley",
+          "grade": "10",
+          "time": "23:17.3"
+        },
+        {
+          "name": "Makayla Rhea",
+          "team": "Mar. Highland",
+          "grade": "9",
+          "time": "23:23.2"
+        },
+        {
+          "name": "Brooklynn Macy",
+          "team": "Utica",
+          "grade": "11",
+          "time": "23:24.6"
+        },
+        {
+          "name": "Adalee Hunt",
+          "team": "North Union",
+          "grade": "10",
+          "time": "23:30.6"
+        },
+        {
+          "name": "Cailey Chamberlain",
+          "team": "Mar. Highland",
+          "grade": "9",
+          "time": "23:41.8"
+        },
+        {
+          "name": "Taleah Clark",
+          "team": "Utica",
+          "grade": "10",
+          "time": "23:46.7"
+        },
+        {
+          "name": "Lybertei Nihiser",
+          "team": "Heath",
+          "grade": "11",
+          "time": "24:02.2"
+        },
+        {
+          "name": "Analeigh Kelson",
+          "team": "North Union",
+          "grade": "10",
+          "time": "24:07.0"
+        },
+        {
+          "name": "Avery Molenaar",
+          "team": "Johnstown",
+          "grade": "10",
+          "time": "24:16.0"
+        },
+        {
+          "name": "Samantha Kinsinger",
+          "team": "Col. S. Girls",
+          "grade": "9",
+          "time": "24:17.1"
+        },
+        {
+          "name": "Lilly Farley",
+          "team": "Buckeye Valley",
+          "grade": "10",
+          "time": "24:22.9"
+        },
+        {
+          "name": "Katy Wells",
+          "team": "Buckeye Valley",
+          "grade": "9",
+          "time": "24:25.2"
+        },
+        {
+          "name": "Kathryn Keller",
+          "team": "Heb. Lakewood",
+          "grade": "9",
+          "time": "24:32.6"
+        },
+        {
+          "name": "Joslyn Snyder",
+          "team": "Utica",
+          "grade": "10",
+          "time": "24:33.7"
+        },
+        {
+          "name": "Berkley McMahon",
+          "team": "Wor. Christian",
+          "grade": "12",
+          "time": "24:54.6"
+        },
+        {
+          "name": "Kendra Wallar",
+          "team": "Heb. Lakewood",
+          "grade": "10",
+          "time": "24:57.6"
+        },
+        {
+          "name": "Grace Ernsberger",
+          "team": "Mar. Highland",
+          "grade": "12",
+          "time": "25:06.3"
+        },
+        {
+          "name": "Kylie Berry",
+          "team": "Pleasant",
+          "grade": "12",
+          "time": "25:09.3"
+        },
+        {
+          "name": "Shay Firman",
+          "team": "Utica",
+          "grade": "10",
+          "time": "25:10.8"
+        },
+        {
+          "name": "Laina Purington",
+          "team": "Heath",
+          "grade": "10",
+          "time": "25:10.8"
+        },
+        {
+          "name": "Ronisha Dhimal",
+          "team": "Cristo Rey",
+          "grade": "Jr",
+          "time": "25:13.3"
+        },
+        {
+          "name": "Lynn Eveland",
+          "team": "Heath",
+          "grade": "9",
+          "time": "25:27.3"
+        },
+        {
+          "name": "Lauren Abbott",
+          "team": "Heb. Lakewood",
+          "grade": "10",
+          "time": "25:32.8"
+        },
+        {
+          "name": "Josie Held",
+          "team": "North Union",
+          "grade": "12",
+          "time": "26:01.1"
+        },
+        {
+          "name": "Emma Lahrmer",
+          "team": "John. Northridge",
+          "grade": "9",
+          "time": "26:42.1"
+        },
+        {
+          "name": "Chloe Thayer",
+          "team": "Ready",
+          "grade": "11",
+          "time": "27:16.3"
+        },
+        {
+          "name": "Morgan Ludholtz",
+          "team": "Heath",
+          "grade": "9",
+          "time": "27:21.6"
+        },
+        {
+          "name": "Abigail Macvey",
+          "team": "Heath",
+          "grade": "11",
+          "time": "27:28.1"
+        },
+        {
+          "name": "Anna Knutsen",
+          "team": "Col. S. Girls",
+          "grade": "So",
+          "time": "27:59.2"
+        },
+        {
+          "name": "Stella Sardone-Jones",
+          "team": "Col. S. Girls",
+          "grade": "9",
+          "time": "28:15.9"
+        },
+        {
+          "name": "Tori Hartman",
+          "team": "John. Northridge",
+          "grade": "10",
+          "time": "28:52.4"
+        },
+        {
+          "name": "Leah Conrad",
+          "team": "North Union",
+          "grade": "9",
+          "time": "29:21.4"
+        },
+        {
+          "name": "Anna Turner",
+          "team": "Ready",
+          "grade": "11",
+          "time": "29:23.3"
+        },
+        {
+          "name": "Dana Dolby",
+          "team": "Ready",
+          "grade": "9",
+          "time": "29:26.2"
+        },
+        {
+          "name": "Kierra Donahue",
+          "team": "Madison-Plains",
+          "grade": "10",
+          "time": "32:05.6"
+        },
+        {
+          "name": "Gabriella McPeak",
+          "team": "Heb. Lakewood",
+          "grade": "12",
+          "time": "32:11.2"
+        },
+        {
+          "name": "Larissa Johnson",
+          "team": "John. Northridge",
+          "grade": "11",
+          "time": "34:03.0"
+        },
+        {
+          "name": "Tilda Rusch",
+          "team": "Madison-Plains",
+          "grade": "11",
+          "time": null
+        }
+      ]
+    },
+    {
+      "gender": "girls",
+      "division": 4,
+      "session": 1,
+      "startTime": "11:00 AM",
+      "declaredCount": 75,
+      "athleticNetDivId": 1140750,
+      "entries": [
+        {
+          "name": "Lucy Wonder",
+          "team": "Gr. City Chr.",
+          "grade": "9",
+          "time": "19:01.2"
+        },
+        {
+          "name": "Julia Albright",
+          "team": "Grandview Hts.",
+          "grade": "12",
+          "time": "19:12.9"
+        },
+        {
+          "name": "Adalyn Calvin",
+          "team": "Grandview Hts.",
+          "grade": "11",
+          "time": "19:23.6"
+        },
+        {
+          "name": "Sadie Miller",
+          "team": "Fairbanks",
+          "grade": "12",
+          "time": "19:39.5"
+        },
+        {
+          "name": "Hadley Mickley",
+          "team": "Grandview Hts.",
+          "grade": "11",
+          "time": "20:01.4"
+        },
+        {
+          "name": "Ava Lahmers",
+          "team": "Fairbanks",
+          "grade": "12",
+          "time": "20:01.4"
+        },
+        {
+          "name": "Sydney Hatta",
+          "team": "Grandview Hts.",
+          "grade": "12",
+          "time": "20:07.4"
+        },
+        {
+          "name": "Mary Grace Crabtree",
+          "team": "Fisher Catholic",
+          "grade": "12",
+          "time": "20:12.0"
+        },
+        {
+          "name": "Isabelle Mathews",
+          "team": "Elgin",
+          "grade": "12",
+          "time": "20:26.0"
+        },
+        {
+          "name": "Halle McNamara",
+          "team": "Grandview Hts.",
+          "grade": "10",
+          "time": "20:28.2"
+        },
+        {
+          "name": "Ella Hostetler",
+          "team": "West Jefferson",
+          "grade": "12",
+          "time": "20:39.8"
+        },
+        {
+          "name": "Eve Ohwofahworaye",
+          "team": "Fisher Catholic",
+          "grade": "12",
+          "time": "20:41.4"
+        },
+        {
+          "name": "Emma Jane Lumbley",
+          "team": "Wellington School",
+          "grade": "9",
+          "time": "20:45.5"
+        },
+        {
+          "name": "Kate McIntosh",
+          "team": "Grandview Hts.",
+          "grade": "12",
+          "time": "20:57.4"
+        },
+        {
+          "name": "Hayley Duling",
+          "team": "Grandview Hts.",
+          "grade": "9",
+          "time": "21:06.4"
+        },
+        {
+          "name": "Claire Chan",
+          "team": "Col. Academy",
+          "grade": "11",
+          "time": "21:23.6"
+        },
+        {
+          "name": "Livia Peppercorn",
+          "team": "Col. Academy",
+          "grade": "10",
+          "time": "21:26.7"
+        },
+        {
+          "name": "Rachel Sponseller",
+          "team": "Liberty Union",
+          "grade": "12",
+          "time": "21:33.3"
+        },
+        {
+          "name": "Allie Krile",
+          "team": "Fisher Catholic",
+          "grade": "12",
+          "time": "21:42.6"
+        },
+        {
+          "name": "Addison Pennartz",
+          "team": "Gr. City Chr.",
+          "grade": "9",
+          "time": "21:58.6"
+        },
+        {
+          "name": "Cloe Tucker",
+          "team": "East Knox",
+          "grade": "12",
+          "time": "22:10.0"
+        },
+        {
+          "name": "Hadley Premuda",
+          "team": "Fairbanks",
+          "grade": "11",
+          "time": "22:12.1"
+        },
+        {
+          "name": "Reece Lanier",
+          "team": "Elgin",
+          "grade": "11",
+          "time": "22:24.3"
+        },
+        {
+          "name": "Eloise (Ellie) Spangler",
+          "team": "Liberty Union",
+          "grade": "9",
+          "time": "22:25.2"
+        },
+        {
+          "name": "Stella Koehler",
+          "team": "Fisher Catholic",
+          "grade": "10",
+          "time": "22:25.6"
+        },
+        {
+          "name": "Maryam Christian",
+          "team": "Col. Academy",
+          "grade": "10",
+          "time": "22:27.6"
+        },
+        {
+          "name": "Emily Shultz",
+          "team": "Liberty Union",
+          "grade": "10",
+          "time": "22:29.6"
+        },
+        {
+          "name": "Norah Chaney",
+          "team": "Liberty Union",
+          "grade": "9",
+          "time": "22:30.3"
+        },
+        {
+          "name": "Claire Hill",
+          "team": "Col. Academy",
+          "grade": "11",
+          "time": "22:46.4"
+        },
+        {
+          "name": "Nevaye Kauffman",
+          "team": "Gr. City Chr.",
+          "grade": "11",
+          "time": "22:48.0"
+        },
+        {
+          "name": "Bailey Abbott",
+          "team": "Elgin",
+          "grade": "11",
+          "time": "23:00.9"
+        },
+        {
+          "name": "Sloane Thompson",
+          "team": "West Jefferson",
+          "grade": "10",
+          "time": "23:01.6"
+        },
+        {
+          "name": "Julia Maroo",
+          "team": "Col. Academy",
+          "grade": "11",
+          "time": "23:02.6"
+        },
+        {
+          "name": "Lilly Smith",
+          "team": "Fairbanks",
+          "grade": "11",
+          "time": "23:13.8"
+        },
+        {
+          "name": "Rylan Myers",
+          "team": "Liberty Union",
+          "grade": "10",
+          "time": "23:24.6"
+        },
+        {
+          "name": "Sienna Kinley",
+          "team": "Wester. Genoa Christian",
+          "grade": "12",
+          "time": "23:34.2"
+        },
+        {
+          "name": "Taylor Jones",
+          "team": "Liberty Union",
+          "grade": "12",
+          "time": "23:42.0"
+        },
+        {
+          "name": "Prairie Bailey",
+          "team": "Fairbanks",
+          "grade": "11",
+          "time": "23:52.3"
+        },
+        {
+          "name": "Leah Herbruck",
+          "team": "Wester. Genoa Christian",
+          "grade": "10",
+          "time": "24:14.1"
+        },
+        {
+          "name": "Alaina Brate",
+          "team": "Liberty Union",
+          "grade": "10",
+          "time": "24:40.1"
+        },
+        {
+          "name": "Claire Albert",
+          "team": "Gr. City Chr.",
+          "grade": "9",
+          "time": "24:41.0"
+        },
+        {
+          "name": "Ava Porner",
+          "team": "Wellington School",
+          "grade": "9",
+          "time": "24:44.0"
+        },
+        {
+          "name": "Zoey Camboni",
+          "team": "Fairbanks",
+          "grade": "10",
+          "time": "24:44.8"
+        },
+        {
+          "name": "Hannah Boltz",
+          "team": "Tree of Life Christian",
+          "grade": "12",
+          "time": "24:58.1"
+        },
+        {
+          "name": "Gwen Opheim",
+          "team": "East Knox",
+          "grade": "10",
+          "time": "24:59.2"
+        },
+        {
+          "name": "Lilly Pargeter",
+          "team": "Wellington School",
+          "grade": "9",
+          "time": "25:03.6"
+        },
+        {
+          "name": "Emma Sexton",
+          "team": "Wester. Genoa Christian",
+          "grade": "10",
+          "time": "25:07.3"
+        },
+        {
+          "name": "Hannah Slaby",
+          "team": "Fisher Catholic",
+          "grade": "10",
+          "time": "25:14.0"
+        },
+        {
+          "name": "Norina Meier",
+          "team": "Fisher Catholic",
+          "grade": "10",
+          "time": "25:23.0"
+        },
+        {
+          "name": "Reagan Schnipke",
+          "team": "Elgin",
+          "grade": "12",
+          "time": "25:32.7"
+        },
+        {
+          "name": "Alexis Wilhelm",
+          "team": "Wellington School",
+          "grade": "9",
+          "time": "25:36.0"
+        },
+        {
+          "name": "Lanay Sommers",
+          "team": "Fairbanks",
+          "grade": "11",
+          "time": "25:39.6"
+        },
+        {
+          "name": "Skyla Brammer",
+          "team": "Elgin",
+          "grade": "9",
+          "time": "25:41.7"
+        },
+        {
+          "name": "Eliza Smith",
+          "team": "Tree of Life Christian",
+          "grade": "9",
+          "time": "25:42.4"
+        },
+        {
+          "name": "Khloe Hubbell",
+          "team": "Wester. Genoa Christian",
+          "grade": "11",
+          "time": "25:43.8"
+        },
+        {
+          "name": "Delaney Miller",
+          "team": "Wellington School",
+          "grade": "9",
+          "time": "25:47.0"
+        },
+        {
+          "name": "Cristen Kusumo",
+          "team": "Tree of Life Christian",
+          "grade": "10",
+          "time": "26:34.3"
+        },
+        {
+          "name": "Jillian Boltz",
+          "team": "Tree of Life Christian",
+          "grade": "10",
+          "time": "26:42.8"
+        },
+        {
+          "name": "Ava Johnson",
+          "team": "Gr. City Chr.",
+          "grade": "10",
+          "time": "27:13.0"
+        },
+        {
+          "name": "Kate Wang",
+          "team": "Col. Academy",
+          "grade": "10",
+          "time": "27:17.1"
+        },
+        {
+          "name": "Kaylee Greene",
+          "team": "Elgin",
+          "grade": "11",
+          "time": "27:26.4"
+        },
+        {
+          "name": "Haley Hsiao Fang-Yen",
+          "team": "Col. Academy",
+          "grade": "10",
+          "time": "27:46.4"
+        },
+        {
+          "name": "Clementine Smith",
+          "team": "Wellington School",
+          "grade": "10",
+          "time": "27:55.2"
+        },
+        {
+          "name": "Mae Austin",
+          "team": "Wellington School",
+          "grade": "11",
+          "time": "27:56.0"
+        },
+        {
+          "name": "Sadie Spitznagle",
+          "team": "Tree of Life Christian",
+          "grade": "11",
+          "time": "28:01.2"
+        },
+        {
+          "name": "Kaylie Barlock",
+          "team": "East Knox",
+          "grade": "10",
+          "time": "28:16.2"
+        },
+        {
+          "name": "Ale' Aguiar",
+          "team": "Berne Union",
+          "grade": "11",
+          "time": "28:43.3"
+        },
+        {
+          "name": "Bridget Kirwin",
+          "team": "Wester. Genoa Christian",
+          "grade": "12",
+          "time": "29:00.6"
+        },
+        {
+          "name": "Eliana Riley",
+          "team": "Madison Christian",
+          "grade": "10",
+          "time": "30:06.0"
+        },
+        {
+          "name": "Ally Hackett",
+          "team": "Berne Union",
+          "grade": "12",
+          "time": "30:47.0"
+        },
+        {
+          "name": "Abigail Eyayaw",
+          "team": "Madison Christian",
+          "grade": "12",
+          "time": "32:28.6"
+        },
+        {
+          "name": "Kaniya Tomak",
+          "team": "Madison Christian",
+          "grade": "11",
+          "time": "33:27.6"
+        },
+        {
+          "name": "Cora Blind",
+          "team": "Wester. Genoa Christian",
+          "grade": "10",
+          "time": "35:21.3"
+        },
+        {
+          "name": "Kaylene Leffel",
+          "team": "Madison Christian",
+          "grade": "11",
+          "time": "37:11.7"
+        },
+        {
+          "name": "Riley Williamson",
+          "team": "Gr. City Chr.",
+          "grade": "12",
+          "time": null
+        }
+      ]
+    },
+    {
+      "gender": "girls",
+      "division": 2,
+      "session": 2,
+      "startTime": "3:00 PM",
+      "declaredCount": 57,
+      "athleticNetDivId": 1140766,
+      "entries": [
+        {
+          "name": "Kaitlyn Van Zandt",
+          "team": "Watterson",
+          "grade": "11",
+          "time": "17:51.8"
+        },
+        {
+          "name": "Karine Bhowmick",
+          "team": "Watterson",
+          "grade": "10",
+          "time": "18:27.5"
+        },
+        {
+          "name": "Campbell Retzke",
+          "team": "Watterson",
+          "grade": "11",
+          "time": "18:29.0"
+        },
+        {
+          "name": "Grace Buskirk",
+          "team": "Big Walnut",
+          "grade": "12",
+          "time": "18:39.2"
+        },
+        {
+          "name": "Berkley LaCount",
+          "team": "Watterson",
+          "grade": "11",
+          "time": "18:40.3"
+        },
+        {
+          "name": "Lindsey Cochran",
+          "team": "Big Walnut",
+          "grade": "10",
+          "time": "18:48.6"
+        },
+        {
+          "name": "Emma Shultz",
+          "team": "Big Walnut",
+          "grade": "10",
+          "time": "19:26.1"
+        },
+        {
+          "name": "Finley Streit",
+          "team": "Jonathan Alder",
+          "grade": "10",
+          "time": "19:29.6"
+        },
+        {
+          "name": "Carlie McGann",
+          "team": "Big Walnut",
+          "grade": "9",
+          "time": "19:31.0"
+        },
+        {
+          "name": "Lanie White",
+          "team": "Big Walnut",
+          "grade": "10",
+          "time": "19:32.2"
+        },
+        {
+          "name": "Leighton Coey",
+          "team": "Big Walnut",
+          "grade": "12",
+          "time": "19:40.2"
+        },
+        {
+          "name": "Amelia Lynch",
+          "team": "Bexley",
+          "grade": "11",
+          "time": "19:55.6"
+        },
+        {
+          "name": "Grace VanDeusen",
+          "team": "Big Walnut",
+          "grade": "12",
+          "time": "19:55.7"
+        },
+        {
+          "name": "Noel Stidham",
+          "team": "Marion Harding",
+          "grade": "10",
+          "time": "19:58.0"
+        },
+        {
+          "name": "Emma Drab",
+          "team": "Watterson",
+          "grade": "12",
+          "time": "19:58.6"
+        },
+        {
+          "name": "Hadley Schilling",
+          "team": "Watterson",
+          "grade": "12",
+          "time": "20:17.6"
+        },
+        {
+          "name": "Bree Gray",
+          "team": "Jonathan Alder",
+          "grade": "11",
+          "time": "20:26.1"
+        },
+        {
+          "name": "Elise Efkeman",
+          "team": "Watterson",
+          "grade": "12",
+          "time": "20:27.6"
+        },
+        {
+          "name": "Emmalyn Moyer",
+          "team": "Jonathan Alder",
+          "grade": "11",
+          "time": "20:31.5"
+        },
+        {
+          "name": "Natalie Tann",
+          "team": "Bexley",
+          "grade": "10",
+          "time": "20:51.6"
+        },
+        {
+          "name": "Sophia Smith",
+          "team": "Bexley",
+          "grade": "11",
+          "time": "20:54.4"
+        },
+        {
+          "name": "Eliana Layton",
+          "team": "Licking Valley",
+          "grade": "10",
+          "time": "21:08.6"
+        },
+        {
+          "name": "Isabella Lestini",
+          "team": "Bexley",
+          "grade": "12",
+          "time": "21:08.8"
+        },
+        {
+          "name": "Cara Curtiss",
+          "team": "Jonathan Alder",
+          "grade": "12",
+          "time": "21:28.1"
+        },
+        {
+          "name": "Aubrie Banks",
+          "team": "Licking Valley",
+          "grade": "9",
+          "time": "21:39.6"
+        },
+        {
+          "name": "Michelle Morado",
+          "team": "Bexley",
+          "grade": "11",
+          "time": "21:40.9"
+        },
+        {
+          "name": "Lyla McFadden",
+          "team": "Whetstone",
+          "grade": "12",
+          "time": "22:10.9"
+        },
+        {
+          "name": "Mila Saas",
+          "team": "Whetstone",
+          "grade": "10",
+          "time": "22:12.5"
+        },
+        {
+          "name": "Brea Robinson",
+          "team": "Licking Valley",
+          "grade": "9",
+          "time": "22:22.4"
+        },
+        {
+          "name": "Zora Douglass",
+          "team": "Licking Valley",
+          "grade": "10",
+          "time": "22:24.8"
+        },
+        {
+          "name": "Athena Baith",
+          "team": "Bexley",
+          "grade": "11",
+          "time": "22:24.9"
+        },
+        {
+          "name": "Penelope Hickman-Filipow",
+          "team": "Bexley",
+          "grade": "9",
+          "time": "22:27.2"
+        },
+        {
+          "name": "Michaela Thompson",
+          "team": "Jonathan Alder",
+          "grade": "11",
+          "time": "22:36.6"
+        },
+        {
+          "name": "Opal Feller",
+          "team": "Whetstone",
+          "grade": "12",
+          "time": "22:41.4"
+        },
+        {
+          "name": "Kaylee O'Neill",
+          "team": "Whetstone",
+          "grade": "10",
+          "time": "22:42.4"
+        },
+        {
+          "name": "Cailie Beachy",
+          "team": "Jonathan Alder",
+          "grade": "9",
+          "time": "22:51.7"
+        },
+        {
+          "name": "Gwen Bowman",
+          "team": "Licking Valley",
+          "grade": "9",
+          "time": "22:54.7"
+        },
+        {
+          "name": "Hiedi Flegle",
+          "team": "Licking Valley",
+          "grade": "11",
+          "time": "23:07.9"
+        },
+        {
+          "name": "Elise Droughton",
+          "team": "Whetstone",
+          "grade": "10",
+          "time": "24:03.6"
+        },
+        {
+          "name": "Kennley Cruz",
+          "team": "Marion Harding",
+          "grade": "10",
+          "time": "24:39.5"
+        },
+        {
+          "name": "Rylynn Walker",
+          "team": "Licking Valley",
+          "grade": "10",
+          "time": "25:19.5"
+        },
+        {
+          "name": "Layla Grime",
+          "team": "Whetstone",
+          "grade": "9",
+          "time": "25:36.0"
+        },
+        {
+          "name": "Margaret Angerman",
+          "team": "Whetstone",
+          "grade": "10",
+          "time": "25:42.7"
+        },
+        {
+          "name": "Arianna Williams",
+          "team": "Marion Harding",
+          "grade": "10",
+          "time": "26:37.6"
+        },
+        {
+          "name": "Thidavong Sihavong",
+          "team": "Whitehall-Yearling",
+          "grade": "9",
+          "time": "27:21.2"
+        },
+        {
+          "name": "Stephanie Ayala",
+          "team": "Whitehall-Yearling",
+          "grade": "9",
+          "time": "27:22.5"
+        },
+        {
+          "name": "Evelyn Funk",
+          "team": "Jonathan Alder",
+          "grade": "9",
+          "time": "28:16.6"
+        },
+        {
+          "name": "Jalani Smith",
+          "team": "Whitehall-Yearling",
+          "grade": "11",
+          "time": "28:43.2"
+        },
+        {
+          "name": "Hemen Mersha",
+          "team": "Whitehall-Yearling",
+          "grade": "11",
+          "time": "29:00.5"
+        },
+        {
+          "name": "Addalynn Elsasser",
+          "team": "Marion Harding",
+          "grade": "9",
+          "time": "29:25.2"
+        },
+        {
+          "name": "Angelie Perez Gonzalez",
+          "team": "Linden McKinley",
+          "grade": "11",
+          "time": "31:15.2"
+        },
+        {
+          "name": "Eleanor Sies",
+          "team": "Whitehall-Yearling",
+          "grade": "9",
+          "time": "32:58.9"
+        },
+        {
+          "name": "Tamyira Whitaker",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": "33:43.1"
+        },
+        {
+          "name": "Janet Knight",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": "51:17.0"
+        },
+        {
+          "name": "Nashae'lyn Houston",
+          "team": "Linden McKinley",
+          "grade": "11",
+          "time": "54:45.6"
+        },
+        {
+          "name": "Honesty Giles",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": null
+        },
+        {
+          "name": "Kenyatta Nelms",
+          "team": "Linden McKinley",
+          "grade": "12",
+          "time": null
+        }
+      ]
+    },
+    {
+      "gender": "girls",
+      "division": 4,
+      "session": 2,
+      "startTime": "11:30 AM",
+      "declaredCount": 54,
+      "athleticNetDivId": 1140774,
+      "entries": [
+        {
+          "name": "Mickenzie White",
+          "team": "Cardington-Lincoln",
+          "grade": "10",
+          "time": "19:05.8"
+        },
+        {
+          "name": "Reiner Schaadt",
+          "team": "Mechanicsburg",
+          "grade": "9",
+          "time": "19:25.0"
+        },
+        {
+          "name": "Evelyn Shultz",
+          "team": "Mechanicsburg",
+          "grade": "11",
+          "time": "20:05.3"
+        },
+        {
+          "name": "Gwen Hershner",
+          "team": "Mount Gilead",
+          "grade": "11",
+          "time": "20:37.2"
+        },
+        {
+          "name": "Hayden Combs",
+          "team": "Mount Gilead",
+          "grade": "9",
+          "time": "20:37.2"
+        },
+        {
+          "name": "Gwen Lavin",
+          "team": "Fredericktown",
+          "grade": "10",
+          "time": "20:46.9"
+        },
+        {
+          "name": "Sophie Mosher",
+          "team": "Mount Gilead",
+          "grade": "12",
+          "time": "20:47.4"
+        },
+        {
+          "name": "Elizabeth Shuryan",
+          "team": "Mechanicsburg",
+          "grade": "11",
+          "time": "20:48.6"
+        },
+        {
+          "name": "Leona Schwartz",
+          "team": "Mount Gilead",
+          "grade": "10",
+          "time": "21:07.7"
+        },
+        {
+          "name": "Blake Rausch",
+          "team": "Mechanicsburg",
+          "grade": "9",
+          "time": "21:11.0"
+        },
+        {
+          "name": "Madi Shade",
+          "team": "Fredericktown",
+          "grade": "12",
+          "time": "21:39.5"
+        },
+        {
+          "name": "Ella Flynn",
+          "team": "Fredericktown",
+          "grade": "11",
+          "time": "21:51.9"
+        },
+        {
+          "name": "Paisley Douglas",
+          "team": "Mount Gilead",
+          "grade": "9",
+          "time": "22:27.1"
+        },
+        {
+          "name": "Jenna Aurand",
+          "team": "Fredericktown",
+          "grade": "12",
+          "time": "22:28.7"
+        },
+        {
+          "name": "Claire Ashman",
+          "team": "Danville",
+          "grade": "9",
+          "time": "22:32.2"
+        },
+        {
+          "name": "Hazel Doup",
+          "team": "Danville",
+          "grade": "9",
+          "time": "22:33.5"
+        },
+        {
+          "name": "Callie Ziemba",
+          "team": "Mount Gilead",
+          "grade": "9",
+          "time": "22:35.0"
+        },
+        {
+          "name": "Ginny Ewing",
+          "team": "Newark Cath.",
+          "grade": "12",
+          "time": "22:42.7"
+        },
+        {
+          "name": "Olivia Overholt",
+          "team": "Fredericktown",
+          "grade": "12",
+          "time": "23:13.7"
+        },
+        {
+          "name": "Bailee Eyink",
+          "team": "Mechanicsburg",
+          "grade": "9",
+          "time": "23:16.2"
+        },
+        {
+          "name": "Alena Villavicencio",
+          "team": "Ridgedale",
+          "grade": "12",
+          "time": "23:25.1"
+        },
+        {
+          "name": "Susie Caton",
+          "team": "Newark Cath.",
+          "grade": "10",
+          "time": "23:26.8"
+        },
+        {
+          "name": "Raegan Malone",
+          "team": "Danville",
+          "grade": "10",
+          "time": "23:38.5"
+        },
+        {
+          "name": "Brooklyn Bruff",
+          "team": "Danville",
+          "grade": "9",
+          "time": "23:48.0"
+        },
+        {
+          "name": "Ayla Picklesimon",
+          "team": "Mechanicsburg",
+          "grade": "12",
+          "time": "23:51.3"
+        },
+        {
+          "name": "Jazmyne Floyd",
+          "team": "Mount Gilead",
+          "grade": "9",
+          "time": "24:02.3"
+        },
+        {
+          "name": "Haley Thompson",
+          "team": "Fredericktown",
+          "grade": "10",
+          "time": "24:07.9"
+        },
+        {
+          "name": "Brooklyn Ashman",
+          "team": "Danville",
+          "grade": "11",
+          "time": "24:15.9"
+        },
+        {
+          "name": "Molly Henry",
+          "team": "Centerburg",
+          "grade": "10",
+          "time": "24:24.7"
+        },
+        {
+          "name": "Olivia Schaller",
+          "team": "Centerburg",
+          "grade": "9",
+          "time": "24:31.0"
+        },
+        {
+          "name": "Ella Jackson",
+          "team": "Centerburg",
+          "grade": "11",
+          "time": "24:34.7"
+        },
+        {
+          "name": "Chloe Hindes",
+          "team": "Newark Cath.",
+          "grade": "9",
+          "time": "24:42.1"
+        },
+        {
+          "name": "Ally Dingey",
+          "team": "Mechanicsburg",
+          "grade": "11",
+          "time": "24:47.1"
+        },
+        {
+          "name": "McKenzie West",
+          "team": "Cardington-Lincoln",
+          "grade": "9",
+          "time": "24:50.5"
+        },
+        {
+          "name": "Carson Adkins",
+          "team": "Fredericktown",
+          "grade": "9",
+          "time": "24:54.2"
+        },
+        {
+          "name": "Afton Ellis",
+          "team": "Centerburg",
+          "grade": "11",
+          "time": "24:59.0"
+        },
+        {
+          "name": "Ana Ours",
+          "team": "Gran. Chr. Acad.",
+          "grade": "11",
+          "time": "25:21.1"
+        },
+        {
+          "name": "Brianna Giehl",
+          "team": "Centerburg",
+          "grade": "11",
+          "time": "25:30.5"
+        },
+        {
+          "name": "Ellie Powell",
+          "team": "Lan. Fair Chr.",
+          "grade": "9",
+          "time": "25:44.5"
+        },
+        {
+          "name": "Cate Weisert",
+          "team": "Lan. Fair Chr.",
+          "grade": "9",
+          "time": "25:57.8"
+        },
+        {
+          "name": "Emma Sisco",
+          "team": "Lan. Fair Chr.",
+          "grade": "9",
+          "time": "26:24.7"
+        },
+        {
+          "name": "Hailey Colopy",
+          "team": "Danville",
+          "grade": "10",
+          "time": "26:44.5"
+        },
+        {
+          "name": "Nahtali Ramos-Rios",
+          "team": "Danville",
+          "grade": "9",
+          "time": "26:54.3"
+        },
+        {
+          "name": "Emma Esch",
+          "team": "Newark Cath.",
+          "grade": "9",
+          "time": "27:19.1"
+        },
+        {
+          "name": "Maggie Ewing",
+          "team": "Newark Cath.",
+          "grade": "10",
+          "time": "27:30.7"
+        },
+        {
+          "name": "Gwennan Ellis",
+          "team": "Centerburg",
+          "grade": "12",
+          "time": "27:36.1"
+        },
+        {
+          "name": "Adalyn Morgan",
+          "team": "Ridgedale",
+          "grade": "9",
+          "time": "27:39.6"
+        },
+        {
+          "name": "Isla Ryen",
+          "team": "Newark Cath.",
+          "grade": "11",
+          "time": "27:43.9"
+        },
+        {
+          "name": "Sammy Wilkinson",
+          "team": "Lan. Fair Chr.",
+          "grade": "12",
+          "time": "28:16.0"
+        },
+        {
+          "name": "Ryleigh Scarpitti",
+          "team": "Centerburg",
+          "grade": "9",
+          "time": "28:45.6"
+        },
+        {
+          "name": "Elyza Tucker",
+          "team": "Ridgedale",
+          "grade": "9",
+          "time": "29:07.8"
+        },
+        {
+          "name": "Campbell Cooper",
+          "team": "Lan. Fair Chr.",
+          "grade": "10",
+          "time": "29:13.0"
+        },
+        {
+          "name": "Abigail Dose",
+          "team": "Gran. Chr. Acad.",
+          "grade": "11",
+          "time": "31:08.8"
+        },
+        {
+          "name": "Zion Llewellyn",
+          "team": "Pat. Liberty Christian",
+          "grade": "11",
+          "time": "32:11.6"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+[
+  {
+    "type": "identical-time",
+    "gender": "Boys",
+    "division": "D1",
+    "school": "Whitmer",
+    "a": "Elijah (Eli) Campos (20:42.8)",
+    "b": "Alex Rosenthal (20:42.8)",
+    "aUrl": "https://www.athletic.net/athlete/25682196/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/29496427/cross-country"
+  },
+  {
+    "type": "name-match",
+    "gender": "Boys",
+    "division": "D2",
+    "school": "Defiance",
+    "a": "Beckett Myers (17:05.0)",
+    "b": "Beckett Meyers (17:10.1)",
+    "aUrl": "https://www.athletic.net/athlete/26376696/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/30788990/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Boys",
+    "division": "D2",
+    "school": "No. Olmsted",
+    "a": "Ziad Younes (18:13.9)",
+    "b": "Alexander Fratini (18:13.9)",
+    "aUrl": "https://www.athletic.net/athlete/23717253/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/23717290/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Boys",
+    "division": "D2",
+    "school": "Whetstone",
+    "a": "Conrad Hinze (17:39.9)",
+    "b": "Mose Tanguay (17:39.9)",
+    "aUrl": "https://www.athletic.net/athlete/23539035/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/28450138/cross-country"
+  },
+  {
+    "type": "name-match",
+    "gender": "Boys",
+    "division": "D2",
+    "school": "Mansfield Senior",
+    "a": "Ezekiel Macnamara (25:49.5)",
+    "b": "Ezekiel McNamara (26:32.3)",
+    "aUrl": "https://www.athletic.net/athlete/29496921/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/31400132/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Boys",
+    "division": "D3",
+    "school": "Oak Hill",
+    "a": "Mason Malone (17:48.7)",
+    "b": "Easton Ehman (17:48.7)",
+    "aUrl": "https://www.athletic.net/athlete/29497024/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/31159801/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Boys",
+    "division": "D4",
+    "school": "Bridgeport",
+    "a": "Desi Patino (21:15.0)",
+    "b": "Dylan McCaw (21:15.0)",
+    "aUrl": "https://www.athletic.net/athlete/28262123/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/29929664/cross-country"
+  },
+  {
+    "type": "name-match",
+    "gender": "Girls",
+    "division": "D2",
+    "school": "Wooster",
+    "a": "Kennedy Wolf (22:19.6)",
+    "b": "Kennedy Wolfe (22:55.1)",
+    "aUrl": "https://www.athletic.net/athlete/26333650/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/26432256/cross-country"
+  },
+  {
+    "type": "name-match",
+    "gender": "Girls",
+    "division": "D3",
+    "school": "Glenville",
+    "a": "La'Nayshia Bailey (27:04.5)",
+    "b": "Kanayshia Bailey (30:56.6)",
+    "aUrl": "https://www.athletic.net/athlete/33413556/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/33413559/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Girls",
+    "division": "D4",
+    "school": "Mount Gilead",
+    "a": "Gwen Hershner (20:37.2)",
+    "b": "Hayden Combs (20:37.2)",
+    "aUrl": "https://www.athletic.net/athlete/26410062/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/31847666/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Girls",
+    "division": "D4",
+    "school": "New London",
+    "a": "Brookelyn Cox (26:03.4)",
+    "b": "Ireland Pelham (26:03.4)",
+    "aUrl": "https://www.athletic.net/athlete/32954294/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/32954297/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Girls",
+    "division": "D4",
+    "school": "Toledo Christian",
+    "a": "Megan Biggs (25:35.9)",
+    "b": "Emelia Jakubowski (25:35.9)",
+    "aUrl": "https://www.athletic.net/athlete/28831580/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/33006056/cross-country"
+  },
+  {
+    "type": "identical-time",
+    "gender": "Girls",
+    "division": "D4",
+    "school": "Africentric",
+    "a": "Janiyah Robinson (33:24.0)",
+    "b": "Candice Thomas (33:24.0)",
+    "aUrl": "https://www.athletic.net/athlete/26685638/cross-country",
+    "bUrl": "https://www.athletic.net/athlete/29734569/cross-country"
+  }
+]

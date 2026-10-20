@@ -1,0 +1,23 @@
+{
+  "step_2": "complete, explicit review items retained",
+  "checks": "All school orders, maximum seven, unique profile IDs, dates, links, category totals, CSV columns and coverage completion verified.",
+  "counts": {
+    "collection_started_eastern": "2026-10-19T09:33:31.345675-04:00",
+    "last_rankings_capture_eastern": "2026-10-19T11:06:26.547092-04:00",
+    "validation_finished_eastern": "2026-10-19T19:00:51.353942-04:00",
+    "runners": 8158,
+    "school_category_records": 1383,
+    "official_school_category_records": 1024,
+    "raw_rankings_rows": 12002,
+    "duplicate_concerns": 35,
+    "unresolved_duplicate_concerns": 30,
+    "seventh_tie_schools": 3,
+    "schools_fewer_than_seven": 494,
+    "inventory_review_records": 359,
+    "unclear_grades": 5,
+    "official_name_unmatched_schools": 227,
+    "remaining_inaccessible_pages": 0
+  },
+  "finished_eastern": "2026-10-19T19:05:35.917605-04:00",
+  "next": "Final workbook export and permanent file saving"
+}

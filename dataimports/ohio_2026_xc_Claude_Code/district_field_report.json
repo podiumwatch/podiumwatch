@@ -1,0 +1,2488 @@
+{
+  "unmatchedEntries": [
+    {
+      "site": "HD",
+      "fullName": "Col. Independence",
+      "athleticNetName": "Col. Independence"
+    },
+    {
+      "site": "HD",
+      "fullName": "Col. International",
+      "athleticNetName": "Col. International"
+    },
+    {
+      "site": "HD",
+      "fullName": "Col. Patriot Prep",
+      "athleticNetName": "Col. Patriot Prep"
+    },
+    {
+      "site": "HD",
+      "fullName": "Hilliard Darby",
+      "athleticNetName": "Hil. Darby"
+    },
+    {
+      "site": "HD",
+      "fullName": "Linden McKinley",
+      "athleticNetName": "Linden McKinley"
+    },
+    {
+      "site": "HD",
+      "fullName": "Marion-Franklin",
+      "athleticNetName": "Marion-Franklin"
+    },
+    {
+      "site": "HD",
+      "fullName": "Mifflin",
+      "athleticNetName": "Mifflin"
+    },
+    {
+      "site": "GO",
+      "fullName": "Acad. For Urban Scholars",
+      "athleticNetName": "Acad. For Urban Scholars"
+    },
+    {
+      "site": "GO",
+      "fullName": "Ak. East",
+      "athleticNetName": "Ak. East"
+    },
+    {
+      "site": "GO",
+      "fullName": "Buchtel",
+      "athleticNetName": "Buchtel"
+    },
+    {
+      "site": "GO",
+      "fullName": "Garfield Hts.",
+      "athleticNetName": "Garfield Hts."
+    },
+    {
+      "site": "GO",
+      "fullName": "GlenOak",
+      "athleticNetName": "GlenOak"
+    },
+    {
+      "site": "GO",
+      "fullName": "Seb. McKinley",
+      "athleticNetName": "Seb. McKinley"
+    },
+    {
+      "site": "GO",
+      "fullName": "Wellsville",
+      "athleticNetName": "Wellsville"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Collinwood",
+      "athleticNetName": "Collinwood"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Columbia",
+      "athleticNetName": "Columbia"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "East Technical",
+      "athleticNetName": "East Technical"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "John Hay",
+      "athleticNetName": "John Hay"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Luth. East",
+      "athleticNetName": "Luth. East"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Maple Hts.",
+      "athleticNetName": "Maple Hts."
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Our Lady Elms",
+      "athleticNetName": "Our Lady Elms"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Shaw",
+      "athleticNetName": "Shaw"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Trinity",
+      "athleticNetName": "Trinity"
+    },
+    {
+      "site": "LCCC",
+      "fullName": "Windham",
+      "athleticNetName": "Windham"
+    },
+    {
+      "site": "MAD",
+      "fullName": "Bedford",
+      "athleticNetName": "Bedford"
+    },
+    {
+      "site": "MAD",
+      "fullName": "Bloomfield",
+      "athleticNetName": "Bloomfield"
+    },
+    {
+      "site": "MAD",
+      "fullName": "Chaney",
+      "athleticNetName": "Chaney"
+    },
+    {
+      "site": "MAD",
+      "fullName": "Cornerstone Christian",
+      "athleticNetName": "Cornerstone Christian"
+    },
+    {
+      "site": "MAD",
+      "fullName": "Garrett Morgan",
+      "athleticNetName": "Garrett Morgan"
+    },
+    {
+      "site": "MAD",
+      "fullName": "Max Hayes",
+      "athleticNetName": "Max Hayes"
+    },
+    {
+      "site": "MAD",
+      "fullName": "Warrensville Hts.",
+      "athleticNetName": "Warrensville Hts."
+    },
+    {
+      "site": "GAL",
+      "fullName": "Kelleys Island",
+      "athleticNetName": "Kelleys Island"
+    },
+    {
+      "site": "LF",
+      "fullName": "Toledo Scott",
+      "athleticNetName": "Scott"
+    },
+    {
+      "site": "CED",
+      "fullName": "Belmont",
+      "athleticNetName": "Belmont"
+    },
+    {
+      "site": "CED",
+      "fullName": "Day. Jefferson Twp.",
+      "athleticNetName": "Day. Jefferson Twp."
+    },
+    {
+      "site": "CED",
+      "fullName": "Dunbar",
+      "athleticNetName": "Dunbar"
+    },
+    {
+      "site": "CED",
+      "fullName": "Springfield Catholic Central",
+      "athleticNetName": "Spr. Cath. Cent."
+    },
+    {
+      "site": "CED",
+      "fullName": "Tri-County North",
+      "athleticNetName": "Tri-County North"
+    },
+    {
+      "site": "CED",
+      "fullName": "Trotwood-Madison",
+      "athleticNetName": "Trotwood-Madison"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Blanchester",
+      "athleticNetName": "Blanchester"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Cin. Coll. Prep. Academy",
+      "athleticNetName": "Cin. Coll. Prep. Academy"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Gamble Montessori",
+      "athleticNetName": "Gamble Montessori"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Lakota East",
+      "athleticNetName": "Lak. East"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Lockland",
+      "athleticNetName": "Lockland"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Mt. Healthy",
+      "athleticNetName": "Mt. Healthy"
+    },
+    {
+      "site": "VOA",
+      "fullName": "New Miami",
+      "athleticNetName": "New Miami"
+    },
+    {
+      "site": "VOA",
+      "fullName": "No. College Hill",
+      "athleticNetName": "No. College Hill"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Shroder",
+      "athleticNetName": "Shroder"
+    },
+    {
+      "site": "VOA",
+      "fullName": "Withrow",
+      "athleticNetName": "Withrow"
+    }
+  ],
+  "divisionConflicts": [],
+  "divisionReviewResolvedByEntry": [
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Goshen",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Zanesville",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Lima Senior",
+      "site": "OW"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Col. West",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Steubenville",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Mansfield Senior",
+      "site": "OW"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Whitehall-Yearling",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Thurgood Marshall",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Hughes",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Ak. North",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Niles McKinley",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Glenville",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Portsmouth",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Wellston",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Pleasant",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Chesapeake",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Dawson-Bryant",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Ak. Springfield",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "New Richmond",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Spr. Shawnee",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Wickliffe",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Indian Valley",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "McD. Northwest",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "South Point",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Clear Fork",
+      "site": "GAL"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Oak Harbor",
+      "site": "OW"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Chippewa",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Field",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Ravenna",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "West Muskingum",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Carlisle",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Alexander",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Swanton",
+      "site": "CG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Mid. Madison",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Harrison Central",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Col. Crestview",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "John Adams",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Vermilion",
+      "site": "GAL"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Minford",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Norwood",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Meadowdale",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "North Adams",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Amanda-Clearcreek",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "New Lexington",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Struthers",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Philo",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Ridgedale",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Miller City",
+      "site": "CG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Mohawk",
+      "site": "OW"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Twin Valley So.",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Wellington School",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "No. Central",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Spencerville",
+      "site": "CG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Cardinal",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Crooksville",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Crestline",
+      "site": "GAL"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Danbury",
+      "site": "GAL"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Berne Union",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Wester. Genoa Christian",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Tuscar. C.C.",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Han. River",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Ottoville",
+      "site": "CG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Steub. Cath. Cent.",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Northeastern",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Lima C.C.",
+      "site": "CG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Hiland",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Hillsdale",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Mechanicsburg",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Bradford",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "National Trail",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Lucas",
+      "site": "GAL"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Tree of Life Christian",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Peebles",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Northwood",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "B.C. Western Reserve",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Elgin",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Mississinawa Valley",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Patrick Henry",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "United",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "David Anderson",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Mathews",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Danville",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Gr. City Chr.",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Chalker",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Federal Hocking",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Port. West",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Cristo Rey",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Houston",
+      "site": "CED"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Western",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Fre. St. Joseph C.C.",
+      "site": "OW"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Lima Perry",
+      "site": "CG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Calvert",
+      "site": "OW"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Montpelier",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Buckeye Trail",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Africentric",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Stryker",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Newcomerstown",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Fairport Harding",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Cin. Christian",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Warren JFK",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Strasburg-Franklin",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "DePaul Cristo Rey",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "South Gallia",
+      "site": "RG"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Del. Christian",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "South Central",
+      "site": "GAL"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Deer Park",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Finneytown",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Loudonville",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Young. Valley Christian",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Purcell Marian",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Waterloo",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Medina Christian Academy",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "East Palestine",
+      "site": "GO"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Cin. SCPA",
+      "site": "VOA"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Bard Early College",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "St. Martin dePorres",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Shadyside",
+      "site": "CAM"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Millersport",
+      "site": "HD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Hilltop",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Stritch Cath.",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Put-In-Bay",
+      "site": "GAL"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Newton Falls",
+      "site": "MAD"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Ridgemont",
+      "site": "OW"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Edon",
+      "site": "LF"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Monroeville",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Miamisburg",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Will. South",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "No. Olmsted",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Thurgood Marshall",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Alliance",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Hamilton Township",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Mass. Washington",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Centennial",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Stivers",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Eastlake North",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "No. Ridgeville",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Euclid",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Goshen",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Lakeside",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Ponitz CTC",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Zanesville",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "West Carrollton",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Cin. Woodward",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Walnut Ridge",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "John Marshall",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Warren G Harding",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Cin. SCPA",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Hol. Springfield",
+      "site": "LF"
+    },
+    {
+      "gender": "Girls",
+      "division": "D2",
+      "team": "Xenia",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Ironton",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Oak Harbor",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Luth. West",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Portsmouth",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "North Union",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Johnstown",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Taylor",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Triway",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Hawken",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Liberty",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Chesapeake",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "John. Northridge",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "WCH Washington",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Greeneview",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Norton",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Hubbard",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Spr. Shawnee",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Morgan",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "West Muskingum",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Heath",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "East Liverpool",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Fostoria",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Maysville",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Carlisle",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Indian Creek",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Bard Early College",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Eastmoor Acad.",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Mid. Madison",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "War. Champion",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Kenton Ridge",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Vermilion",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Union Local",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Hillsboro",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Alexander",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Circleville",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Cle. VASJ",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "New Lexington",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Port Clinton",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Brookside",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Reading",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Struthers",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Cristo Rey",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Lincoln West",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "South Point",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Amanda-Clearcreek",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Toledo C.C.",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Clermont NE",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Clark Montessori",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Glenville",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Ready",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Day. Northridge",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Meadowdale",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Purcell Marian",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Cle. Cent. Cath.",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Niles McKinley",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Shenandoah",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Gr. City Chr.",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Allen East",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Patrick Henry",
+      "site": "LF"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Maumee Va. C.D.",
+      "site": "LF"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Fairlawn",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Mohawk",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Fort Frye",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Mogadore",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Andrews Osborne Acad.",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Cin. Christian",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Tri-Village",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Lima C.C.",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Fisher Catholic",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Crestline",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Rac. Southern",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Jackson-Milton",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Cuy. Heights",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Elgin",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Ridgedale",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Hillsdale",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Arcanum",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "West Jefferson",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Spencerville",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Lowellville",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "S. Char. SE",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Wellington School",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Mathews",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Triad",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Steub. Cath. Cent.",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Spring. ECA",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Bea. Eastern",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Houston",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Caldwell",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Leipsic",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Miller City",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Reed. Eastern",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Federal Hocking",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Jackson Center",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Paint Valley",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Lynchburg-Clay",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Wynford",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Cory-Rawson",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "East Knox",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Monroeville",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Lordstown",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Danville",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Hilltop",
+      "site": "LF"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "South Webster",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Danbury",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "New Knoxville",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Hardin Northern",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Sand. SMCC",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Stryker",
+      "site": "LF"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Twin Valley So.",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Pymatuning Valley",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Wickliffe",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Buckeye Trail",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Toledo Christian",
+      "site": "LF"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "W.S. Northwestern",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Col. Crestview",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Bucyrus",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "East Clinton",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Coll Western Reserve",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Evergreen",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Preble Shawnee",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Garaway",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Bridgeport",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Calvary Christian",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "New Riegel",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Hiland",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Bradford",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Upper Scioto Valley",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Bristol",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Manchester",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Wellston",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Warren JFK",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Winc. Eastern",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Dawson-Bryant",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Lakota",
+      "site": "OW"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Lucas",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "David Anderson",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Felicity-Franklin",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "South Central",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Western",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Strasburg-Franklin",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Tree of Life Christian",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "F.F. Green",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Rock Hill",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "LaBrae",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Fairport Harding",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Crooksville",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Medina Christian Academy",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Pandora-Gilboa",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Northeastern",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Stritch Cath.",
+      "site": "LF"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Han. River",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Minford",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Brooklyn",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Swanton",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "B.C. Western Reserve",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Frontier",
+      "site": "CAM"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "St. Thomas Aquinas",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Newton Falls",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Chil. Southeastern",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Lima Perry",
+      "site": "CG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Put-In-Bay",
+      "site": "GAL"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Waterloo",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Miami Valley School",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Mooney",
+      "site": "GO"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "DeG. Riverside",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Deer Park",
+      "site": "VOA"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Berne Union",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Peebles",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Whiteoak",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Dixie",
+      "site": "CED"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Africentric",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Young. Valley Christian",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Madison Christian",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "John Adams",
+      "site": "MAD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "McD. Northwest",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Pat. Liberty Christian",
+      "site": "HD"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Ripley-Union",
+      "site": "RG"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Clearview",
+      "site": "LCCC"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Oyler",
+      "site": "VOA"
+    }
+  ],
+  "hdGaps": [
+    {
+      "site": "HD",
+      "gender": "Boys",
+      "division": "D2",
+      "raceLabels": [
+        "Race 1",
+        "Race 2"
+      ],
+      "teamsAffected": [
+        "Big Walnut",
+        "Mount Vernon",
+        "Col. DeSales",
+        "Hartley",
+        "Bexley",
+        "Dub. Scioto",
+        "Watterson",
+        "Granville",
+        "Buckeye Valley",
+        "Bloom-Carroll",
+        "Jonathan Alder",
+        "Marion Harding",
+        "Canal Winchester",
+        "Licking Valley",
+        "Whetstone",
+        "Col. West",
+        "Hamilton Township",
+        "Whitehall-Yearling",
+        "Col. Horizon Science Aca.",
+        "Centennial"
+      ]
+    },
+    {
+      "site": "HD",
+      "gender": "Boys",
+      "division": "D3",
+      "raceLabels": [
+        "Race 1",
+        "Race 2"
+      ],
+      "teamsAffected": [
+        "Pleasant",
+        "Cal. River Valley",
+        "Wor. Christian",
+        "Utica",
+        "Fredericktown",
+        "North Union",
+        "Centerburg",
+        "Heb. Lakewood",
+        "Fairbanks",
+        "Mar. Highland",
+        "London",
+        "Col. Academy",
+        "John. Northridge",
+        "Eastmoor Acad.",
+        "Johnstown",
+        "Heath"
+      ]
+    },
+    {
+      "site": "HD",
+      "gender": "Boys",
+      "division": "D4",
+      "raceLabels": [
+        "Race 1",
+        "Race 2"
+      ],
+      "teamsAffected": [
+        "Ridgedale",
+        "Mount Gilead",
+        "Northmor",
+        "West Jefferson",
+        "Wellington School",
+        "Cardington-Lincoln",
+        "Fisher Catholic",
+        "Liberty Union",
+        "Grandview Hts.",
+        "Lan. Fair Chr.",
+        "Berne Union",
+        "Wester. Genoa Christian",
+        "Mechanicsburg",
+        "Tree of Life Christian",
+        "Elgin",
+        "Danville",
+        "Newark Cath.",
+        "Gr. City Chr.",
+        "Madison Christian",
+        "Cristo Rey",
+        "Africentric",
+        "Del. Christian",
+        "East Knox",
+        "Pat. Liberty Christian",
+        "Madison-Plains",
+        "Millersport"
+      ]
+    },
+    {
+      "site": "HD",
+      "gender": "Girls",
+      "division": "D2",
+      "raceLabels": [
+        "Race 1",
+        "Race 2"
+      ],
+      "teamsAffected": [
+        "Watterson",
+        "Canal Winchester",
+        "Big Walnut",
+        "Granville",
+        "Hartley",
+        "Jonathan Alder",
+        "Bexley",
+        "Marion Harding",
+        "Bloom-Carroll",
+        "Col. DeSales",
+        "London",
+        "Licking Valley",
+        "Whetstone",
+        "Mount Vernon",
+        "Hamilton Township",
+        "Centennial",
+        "Walnut Ridge"
+      ]
+    },
+    {
+      "site": "HD",
+      "gender": "Girls",
+      "division": "D4",
+      "raceLabels": [
+        "Race 1",
+        "Race 2"
+      ],
+      "teamsAffected": [
+        "Gr. City Chr.",
+        "Cardington-Lincoln",
+        "Grandview Hts.",
+        "Mechanicsburg",
+        "Fairbanks",
+        "Fisher Catholic",
+        "Elgin",
+        "Ridgedale",
+        "Mount Gilead",
+        "West Jefferson",
+        "Wellington School",
+        "Fredericktown",
+        "Col. Academy",
+        "Liberty Union",
+        "East Knox",
+        "Danville",
+        "Newark Cath.",
+        "Wester. Genoa Christian",
+        "Centerburg",
+        "Tree of Life Christian",
+        "Gran. Chr. Acad.",
+        "Lan. Fair Chr.",
+        "Berne Union",
+        "Africentric",
+        "Madison Christian",
+        "Pat. Liberty Christian"
+      ]
+    }
+  ],
+  "notEntered": [
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Col. South",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Boys",
+      "division": "D2",
+      "team": "Bowsher",
+      "region": "Northwest",
+      "regionSource": "ohsaa_directory"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Chesterton Academy Of St. Benedict",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Boys",
+      "division": "D3",
+      "team": "Brooklyn",
+      "region": "Northeast",
+      "regionSource": "district_entry_list_confirms_directory"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Chesterton Academy of St. Joseph",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "Chess Christian",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Boys",
+      "division": "D4",
+      "team": "The Compass Academy",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "SPIRE Academy",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Chesterton Academy Of St. Benedict",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Girls",
+      "division": "D3",
+      "team": "Cle. JFK",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Chesterton Academy of St. Joseph",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Chess Christian",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "The Compass Academy",
+      "region": null,
+      "regionSource": "unresolved"
+    },
+    {
+      "gender": "Girls",
+      "division": "D4",
+      "team": "Leetonia",
+      "region": "Northeast",
+      "regionSource": "ohsaa_directory"
+    }
+  ]
+}

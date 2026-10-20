@@ -1,0 +1,337 @@
+[
+  {
+    "id": "972",
+    "name": "MASON",
+    "city": "Mason"
+  },
+  {
+    "id": "550",
+    "name": "FAIRFIELD",
+    "city": "Fairfield"
+  },
+  {
+    "id": "837",
+    "name": "LAKOTA WEST",
+    "city": "West Chester"
+  },
+  {
+    "id": "876",
+    "name": "GAHANNA LINCOLN",
+    "city": "Gahanna"
+  },
+  {
+    "id": "336",
+    "name": "CENTERVILLE",
+    "city": "Centerville"
+  },
+  {
+    "id": "836",
+    "name": "LAKOTA EAST",
+    "city": "Liberty Township"
+  },
+  {
+    "id": "178",
+    "name": "BEAVERCREEK",
+    "city": "Beavercreek"
+  },
+  {
+    "id": "1188",
+    "name": "OAK HILLS",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "807",
+    "name": "KETTERING FAIRMONT",
+    "city": "Kettering"
+  },
+  {
+    "id": "1201",
+    "name": "OLENTANGY BERLIN",
+    "city": "Delaware"
+  },
+  {
+    "id": "1016",
+    "name": "MENTOR",
+    "city": "Mentor"
+  },
+  {
+    "id": "1211",
+    "name": "OLENTANGY ORANGE",
+    "city": "Lewis Center"
+  },
+  {
+    "id": "268",
+    "name": "BRUNSWICK",
+    "city": "Brunswick"
+  },
+  {
+    "id": "1034",
+    "name": "MILFORD",
+    "city": "Milford"
+  },
+  {
+    "id": "486",
+    "name": "DUBLIN JEROME",
+    "city": "Dublin"
+  },
+  {
+    "id": "1572",
+    "name": "UPPER ARLINGTON",
+    "city": "Upper Arlington"
+  },
+  {
+    "id": "1704",
+    "name": "WHITMER",
+    "city": "Toledo"
+  },
+  {
+    "id": "1254",
+    "name": "PICKERINGTON HIGH SCHOOL CENTRAL",
+    "city": "Pickerington"
+  },
+  {
+    "id": "1255",
+    "name": "PICKERINGTON HIGH SCHOOL NORTH",
+    "city": "Pickerington"
+  },
+  {
+    "id": "1470",
+    "name": "SPRINGBORO",
+    "city": "Springboro"
+  },
+  {
+    "id": "532",
+    "name": "ELYRIA",
+    "city": "Elyria"
+  },
+  {
+    "id": "1006",
+    "name": "MEDINA",
+    "city": "Medina"
+  },
+  {
+    "id": "1498",
+    "name": "STRONGSVILLE",
+    "city": "Strongsville"
+  },
+  {
+    "id": "970",
+    "name": "MARYSVILLE",
+    "city": "Marysville"
+  },
+  {
+    "id": "1026",
+    "name": "MIDDLETOWN",
+    "city": "Middletown"
+  },
+  {
+    "id": "1203",
+    "name": "OLENTANGY LIBERTY",
+    "city": "Powell"
+  },
+  {
+    "id": "1202",
+    "name": "OLENTANGY",
+    "city": "Lewis Center"
+  },
+  {
+    "id": "894",
+    "name": "LORAIN",
+    "city": "Lorain"
+  },
+  {
+    "id": "1686",
+    "name": "WESTLAND",
+    "city": "Galloway"
+  },
+  {
+    "id": "716",
+    "name": "HILLIARD DAVIDSON",
+    "city": "Hilliard"
+  },
+  {
+    "id": "1610",
+    "name": "WALNUT HILLS",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "713",
+    "name": "HILLIARD BRADLEY",
+    "city": "Hilliard"
+  },
+  {
+    "id": "838",
+    "name": "LANCASTER",
+    "city": "Lancaster"
+  },
+  {
+    "id": "680",
+    "name": "GROVE CITY",
+    "city": "Grove City"
+  },
+  {
+    "id": "474",
+    "name": "DUBLIN COFFMAN",
+    "city": "Dublin"
+  },
+  {
+    "id": "650",
+    "name": "GLENOAK",
+    "city": "Canton"
+  },
+  {
+    "id": "1508",
+    "name": "SYCAMORE",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "764",
+    "name": "JACKSON",
+    "city": "Massillon"
+  },
+  {
+    "id": "345",
+    "name": "CENTRAL CROSSING",
+    "city": "Grove City"
+  },
+  {
+    "id": "846",
+    "name": "LEBANON",
+    "city": "Lebanon"
+  },
+  {
+    "id": "884",
+    "name": "LITTLE MIAMI",
+    "city": "Morrow"
+  },
+  {
+    "id": "1088",
+    "name": "NEWARK",
+    "city": "Newark"
+  },
+  {
+    "id": "1248",
+    "name": "Perrysburg",
+    "city": "High School Perrysburg"
+  },
+  {
+    "id": "868",
+    "name": "LICKING HEIGHTS",
+    "city": "Pataskala"
+  },
+  {
+    "id": "1142",
+    "name": "NORTHMONT",
+    "city": "Clayton"
+  },
+  {
+    "id": "1672",
+    "name": "WESTERVILLE NORTH",
+    "city": "Westerville"
+  },
+  {
+    "id": "200",
+    "name": "BEREA-MIDPARK",
+    "city": "Berea"
+  },
+  {
+    "id": "1741",
+    "name": "WORTHINGTON KILBOURNE",
+    "city": "Columbus"
+  },
+  {
+    "id": "385",
+    "name": "CLEVELAND HEIGHTS",
+    "city": "Cleveland Heights"
+  },
+  {
+    "id": "704",
+    "name": "DELAWARE HAYES",
+    "city": "Delaware"
+  },
+  {
+    "id": "1428",
+    "name": "SOLON",
+    "city": "Solon"
+  },
+  {
+    "id": "717",
+    "name": "HILLIARD DARBY",
+    "city": "Hilliard"
+  },
+  {
+    "id": "1738",
+    "name": "THOMAS WORTHINGTON",
+    "city": "Worthington"
+  },
+  {
+    "id": "1492",
+    "name": "STOW-MUNROE FALLS",
+    "city": "Stow"
+  },
+  {
+    "id": "810",
+    "name": "KINGS",
+    "city": "Kings Mills"
+  },
+  {
+    "id": "1086",
+    "name": "NEW ALBANY",
+    "city": "New Albany"
+  },
+  {
+    "id": "1632",
+    "name": "WATKINS MEMORIAL",
+    "city": "Pataskala"
+  },
+  {
+    "id": "1402",
+    "name": "SETON",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "696",
+    "name": "HARRISON",
+    "city": "Harrison"
+  },
+  {
+    "id": "475",
+    "name": "DUBLIN SCIOTO",
+    "city": "Dublin"
+  },
+  {
+    "id": "1674",
+    "name": "WESTERVILLE SOUTH",
+    "city": "Westerville"
+  },
+  {
+    "id": "1118",
+    "name": "NORMANDY",
+    "city": "Parma"
+  },
+  {
+    "id": "1526",
+    "name": "TEAYS VALLEY",
+    "city": "Ashville"
+  },
+  {
+    "id": "1671",
+    "name": "WESTERVILLE CENTRAL",
+    "city": "WESTERVILLE"
+  },
+  {
+    "id": "610",
+    "name": "FRANKLIN HEIGHTS",
+    "city": "Columbus"
+  },
+  {
+    "id": "1719",
+    "name": "WINTON WOODS",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "930",
+    "name": "MAGNIFICAT",
+    "city": "Rocky River"
+  }
+]

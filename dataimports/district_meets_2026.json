@@ -1,3692 +1,3692 @@
 {
- "as_of": "2026-10-19",
- "meet_date": "2026-10-24",
- "regional_date": "2026-10-31",
- "source": "athletic.net meet pages + OHSAA 2026 district/regional representation documents (compiled by Podium Watch)",
- "rule": {
-  "teams": "Top N teams by team place advance; all 7 rostered varsity runners on a qualifying team advance.",
-  "individuals": "Then the first 2N finishers (by place) who are NOT on a qualifying team advance. Runners from incomplete teams count as individuals.",
-  "d1": "Division I has no district meets in 2026; D1 schools enter regionals directly."
- },
- "regional_by_region": {
-  "Central": "Pickerington",
-  "East": "Pickerington",
-  "Southeast": "Pickerington",
-  "Northeast": "Boardman",
-  "Northwest": "Tiffin",
-  "Southwest": "Troy"
- },
- "region_totals": {
-  "M2": {
-   "Central": 11,
-   "East": 3,
-   "Southeast": 6,
-   "Northeast": 38,
-   "Northwest": 18,
-   "Southwest": 20
+  "as_of": "2026-10-19",
+  "meet_date": "2026-10-24",
+  "regional_date": "2026-10-31",
+  "source": "athletic.net meet pages + OHSAA 2026 district/regional representation documents (compiled by Podium Watch)",
+  "rule": {
+    "teams": "Top N teams by team place advance; all 7 rostered varsity runners on a qualifying team advance.",
+    "individuals": "Then the first 2N finishers (by place) who are NOT on a qualifying team advance. Runners from incomplete teams count as individuals.",
+    "d1": "Division I has no district meets in 2026; D1 schools enter regionals directly."
   },
-  "F2": {
-   "Central": 10,
-   "East": 4,
-   "Southeast": 6,
-   "Northeast": 37,
-   "Northwest": 15,
-   "Southwest": 24
+  "regional_by_region": {
+    "Central": "Pickerington",
+    "East": "Pickerington",
+    "Southeast": "Pickerington",
+    "Northeast": "Boardman",
+    "Northwest": "Tiffin",
+    "Southwest": "Troy"
   },
-  "M3": {
-   "Central": 9,
-   "East": 12,
-   "Southeast": 11,
-   "Northeast": 26,
-   "Northwest": 17,
-   "Southwest": 21
-  },
-  "F3": {
-   "Central": 6,
-   "East": 13,
-   "Southeast": 8,
-   "Northeast": 32,
-   "Northwest": 20,
-   "Southwest": 17
-  },
-  "M4": {
-   "Central": 8,
-   "East": 4,
-   "Southeast": 11,
-   "Northeast": 21,
-   "Northwest": 33,
-   "Southwest": 19
-  },
-  "F4": {
-   "Central": 9,
-   "East": 4,
-   "Southeast": 8,
-   "Northeast": 22,
-   "Northwest": 34,
-   "Southwest": 19
-  }
- },
- "northeast_note": "Northeast per-site N is announced Oct 20, 2026; teams_advance/individuals_advance are null until then. Region totals are known.",
- "sites": [
-  {
-   "key": "HD",
-   "name": "Hilliard Darby HS",
-   "region": "Central",
-   "regional": "Pickerington",
-   "athletic_net_meet_id": 286386,
-   "url": "https://www.athletic.net/CrossCountry/meet/286386/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Africentric",
-     "full_name": "Africentric"
-    },
-    {
-     "athletic_net_name": "Berne Union",
-     "full_name": "Berne Union"
-    },
-    {
-     "athletic_net_name": "Bexley",
-     "full_name": "Bexley"
-    },
-    {
-     "athletic_net_name": "Big Walnut",
-     "full_name": "Big Walnut"
-    },
-    {
-     "athletic_net_name": "Bloom-Carroll",
-     "full_name": "Bloom-Carroll"
-    },
-    {
-     "athletic_net_name": "Buckeye Valley",
-     "full_name": "Buckeye Valley"
-    },
-    {
-     "athletic_net_name": "Cal. River Valley",
-     "full_name": "River Valley"
-    },
-    {
-     "athletic_net_name": "Canal Winchester",
-     "full_name": "Canal Winchester"
-    },
-    {
-     "athletic_net_name": "Cardington-Lincoln",
-     "full_name": "Cardington-Lincoln"
-    },
-    {
-     "athletic_net_name": "Centennial",
-     "full_name": "Centennial"
-    },
-    {
-     "athletic_net_name": "Centerburg",
-     "full_name": "Centerburg"
-    },
-    {
-     "athletic_net_name": "Col. Academy",
-     "full_name": "Columbus Academy"
-    },
-    {
-     "athletic_net_name": "Col. DeSales",
-     "full_name": "Col. DeSales"
-    },
-    {
-     "athletic_net_name": "Col. Horizon Science Aca.",
-     "full_name": "Col. Horizon Science Aca."
-    },
-    {
-     "athletic_net_name": "Col. Independence",
-     "full_name": "Col. Independence"
-    },
-    {
-     "athletic_net_name": "Col. International",
-     "full_name": "Col. International"
-    },
-    {
-     "athletic_net_name": "Col. Patriot Prep",
-     "full_name": "Col. Patriot Prep"
-    },
-    {
-     "athletic_net_name": "Col. S. Girls",
-     "full_name": "Columbus School for Girls"
-    },
-    {
-     "athletic_net_name": "Col. West",
-     "full_name": "Col. West"
-    },
-    {
-     "athletic_net_name": "Danville",
-     "full_name": "Danville"
-    },
-    {
-     "athletic_net_name": "Del. Christian",
-     "full_name": "Del. Christian"
-    },
-    {
-     "athletic_net_name": "Dub. Scioto",
-     "full_name": "Dublin Scioto"
-    },
-    {
-     "athletic_net_name": "East Knox",
-     "full_name": "East Knox"
-    },
-    {
-     "athletic_net_name": "Eastmoor Acad.",
-     "full_name": "Eastmoor Acad."
-    },
-    {
-     "athletic_net_name": "Elgin",
-     "full_name": "Elgin"
-    },
-    {
-     "athletic_net_name": "Fairbanks",
-     "full_name": "Fairbanks"
-    },
-    {
-     "athletic_net_name": "Fisher Catholic",
-     "full_name": "Fisher Catholic"
-    },
-    {
-     "athletic_net_name": "Fredericktown",
-     "full_name": "Fredericktown"
-    },
-    {
-     "athletic_net_name": "Gr. City Chr.",
-     "full_name": "Grove City Christian"
-    },
-    {
-     "athletic_net_name": "Gran. Chr. Acad.",
-     "full_name": "Gran. Chr. Acad."
-    },
-    {
-     "athletic_net_name": "Grandview Hts.",
-     "full_name": "Grandview Heights"
-    },
-    {
-     "athletic_net_name": "Granville",
-     "full_name": "Granville"
-    },
-    {
-     "athletic_net_name": "Hamilton Township",
-     "full_name": "Hamilton Township"
-    },
-    {
-     "athletic_net_name": "Hartley",
-     "full_name": "Hartley"
-    },
-    {
-     "athletic_net_name": "Heath",
-     "full_name": "Heath"
-    },
-    {
-     "athletic_net_name": "Heb. Lakewood",
-     "full_name": "Lakewood (Hebron)"
-    },
-    {
-     "athletic_net_name": "Hil. Darby",
-     "full_name": "Hilliard Darby"
-    },
-    {
-     "athletic_net_name": "John. Northridge",
-     "full_name": "Northridge (Johnstown)"
-    },
-    {
-     "athletic_net_name": "Johnstown",
-     "full_name": "Johnstown"
-    },
-    {
-     "athletic_net_name": "Jonathan Alder",
-     "full_name": "Jonathan Alder"
-    },
-    {
-     "athletic_net_name": "Lan. Fair Chr.",
-     "full_name": "Fairfield Christian"
-    },
-    {
-     "athletic_net_name": "Liberty Union",
-     "full_name": "Liberty Union"
-    },
-    {
-     "athletic_net_name": "Licking Valley",
-     "full_name": "Licking Valley"
-    },
-    {
-     "athletic_net_name": "Linden McKinley",
-     "full_name": "Linden McKinley"
-    },
-    {
-     "athletic_net_name": "London",
-     "full_name": "London"
-    },
-    {
-     "athletic_net_name": "Madison Christian",
-     "full_name": "Madison Christian"
-    },
-    {
-     "athletic_net_name": "Madison-Plains",
-     "full_name": "Madison-Plains"
-    },
-    {
-     "athletic_net_name": "Mar. Highland",
-     "full_name": "Mar. Highland"
-    },
-    {
-     "athletic_net_name": "Marion Harding",
-     "full_name": "Marion Harding"
-    },
-    {
-     "athletic_net_name": "Marion-Franklin",
-     "full_name": "Marion-Franklin"
-    },
-    {
-     "athletic_net_name": "Mechanicsburg",
-     "full_name": "Mechanicsburg"
-    },
-    {
-     "athletic_net_name": "Mifflin",
-     "full_name": "Mifflin"
-    },
-    {
-     "athletic_net_name": "Millersport",
-     "full_name": "Millersport"
-    },
-    {
-     "athletic_net_name": "Mount Gilead",
-     "full_name": "Mount Gilead"
-    },
-    {
-     "athletic_net_name": "Mount Vernon",
-     "full_name": "Mount Vernon"
-    },
-    {
-     "athletic_net_name": "Newark Cath.",
-     "full_name": "Newark Catholic"
-    },
-    {
-     "athletic_net_name": "North Union",
-     "full_name": "North Union"
-    },
-    {
-     "athletic_net_name": "Northmor",
-     "full_name": "Northmor"
-    },
-    {
-     "athletic_net_name": "Pat. Liberty Christian",
-     "full_name": "Pat. Liberty Christian"
-    },
-    {
-     "athletic_net_name": "Pleasant",
-     "full_name": "Pleasant"
-    },
-    {
-     "athletic_net_name": "Ready",
-     "full_name": "Bishop Ready"
-    },
-    {
-     "athletic_net_name": "Ridgedale",
-     "full_name": "Ridgedale"
-    },
-    {
-     "athletic_net_name": "Tree of Life Christian",
-     "full_name": "Tree of Life Christian"
-    },
-    {
-     "athletic_net_name": "Utica",
-     "full_name": "Utica"
-    },
-    {
-     "athletic_net_name": "Walnut Ridge",
-     "full_name": "Walnut Ridge"
-    },
-    {
-     "athletic_net_name": "Watterson",
-     "full_name": "Watterson"
-    },
-    {
-     "athletic_net_name": "Wellington School",
-     "full_name": "Wellington School"
-    },
-    {
-     "athletic_net_name": "West Jefferson",
-     "full_name": "West Jefferson"
-    },
-    {
-     "athletic_net_name": "Wester. Genoa Christian",
-     "full_name": "Wester. Genoa Christian"
-    },
-    {
-     "athletic_net_name": "Whetstone",
-     "full_name": "Whetstone"
-    },
-    {
-     "athletic_net_name": "Whitehall-Yearling",
-     "full_name": "Whitehall-Yearling"
-    },
-    {
-     "athletic_net_name": "Wor. Christian",
-     "full_name": "Worthington Christian"
+  "region_totals": {
+    "M2": {
+      "Central": 11,
+      "East": 3,
+      "Southeast": 6,
+      "Northeast": 38,
+      "Northwest": 18,
+      "Southwest": 20
+    },
+    "F2": {
+      "Central": 10,
+      "East": 4,
+      "Southeast": 6,
+      "Northeast": 37,
+      "Northwest": 15,
+      "Southwest": 24
+    },
+    "M3": {
+      "Central": 9,
+      "East": 12,
+      "Southeast": 11,
+      "Northeast": 26,
+      "Northwest": 17,
+      "Southwest": 21
+    },
+    "F3": {
+      "Central": 6,
+      "East": 13,
+      "Southeast": 8,
+      "Northeast": 32,
+      "Northwest": 20,
+      "Southwest": 17
+    },
+    "M4": {
+      "Central": 8,
+      "East": 4,
+      "Southeast": 11,
+      "Northeast": 21,
+      "Northwest": 33,
+      "Southwest": 19
+    },
+    "F4": {
+      "Central": 9,
+      "East": 4,
+      "Southeast": 8,
+      "Northeast": 22,
+      "Northwest": 34,
+      "Southwest": 19
     }
-   ]
   },
-  {
-   "key": "CAM",
-   "name": "Cambridge HS",
-   "region": "East",
-   "regional": "Pickerington",
-   "athletic_net_meet_id": 286394,
-   "url": "https://www.athletic.net/CrossCountry/meet/286394/info",
-   "entered_schools": [
+  "northeast_note": "Northeast per-site N is announced Oct 20, 2026; teams_advance/individuals_advance are null until then. Region totals are known.",
+  "sites": [
     {
-     "athletic_net_name": "Barnesville",
-     "full_name": "Barnesville"
+      "key": "HD",
+      "name": "Hilliard Darby HS",
+      "region": "Central",
+      "regional": "Pickerington",
+      "athletic_net_meet_id": 286386,
+      "url": "https://www.athletic.net/CrossCountry/meet/286386/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Africentric",
+          "full_name": "Africentric"
+        },
+        {
+          "athletic_net_name": "Berne Union",
+          "full_name": "Berne Union"
+        },
+        {
+          "athletic_net_name": "Bexley",
+          "full_name": "Bexley"
+        },
+        {
+          "athletic_net_name": "Big Walnut",
+          "full_name": "Big Walnut"
+        },
+        {
+          "athletic_net_name": "Bloom-Carroll",
+          "full_name": "Bloom-Carroll"
+        },
+        {
+          "athletic_net_name": "Buckeye Valley",
+          "full_name": "Buckeye Valley"
+        },
+        {
+          "athletic_net_name": "Cal. River Valley",
+          "full_name": "River Valley"
+        },
+        {
+          "athletic_net_name": "Canal Winchester",
+          "full_name": "Canal Winchester"
+        },
+        {
+          "athletic_net_name": "Cardington-Lincoln",
+          "full_name": "Cardington-Lincoln"
+        },
+        {
+          "athletic_net_name": "Centennial",
+          "full_name": "Centennial"
+        },
+        {
+          "athletic_net_name": "Centerburg",
+          "full_name": "Centerburg"
+        },
+        {
+          "athletic_net_name": "Col. Academy",
+          "full_name": "Columbus Academy"
+        },
+        {
+          "athletic_net_name": "Col. DeSales",
+          "full_name": "Col. DeSales"
+        },
+        {
+          "athletic_net_name": "Col. Horizon Science Aca.",
+          "full_name": "Col. Horizon Science Aca."
+        },
+        {
+          "athletic_net_name": "Col. Independence",
+          "full_name": "Col. Independence"
+        },
+        {
+          "athletic_net_name": "Col. International",
+          "full_name": "Col. International"
+        },
+        {
+          "athletic_net_name": "Col. Patriot Prep",
+          "full_name": "Col. Patriot Prep"
+        },
+        {
+          "athletic_net_name": "Col. S. Girls",
+          "full_name": "Columbus School for Girls"
+        },
+        {
+          "athletic_net_name": "Col. West",
+          "full_name": "Col. West"
+        },
+        {
+          "athletic_net_name": "Danville",
+          "full_name": "Danville"
+        },
+        {
+          "athletic_net_name": "Del. Christian",
+          "full_name": "Del. Christian"
+        },
+        {
+          "athletic_net_name": "Dub. Scioto",
+          "full_name": "Dublin Scioto"
+        },
+        {
+          "athletic_net_name": "East Knox",
+          "full_name": "East Knox"
+        },
+        {
+          "athletic_net_name": "Eastmoor Acad.",
+          "full_name": "Eastmoor Acad."
+        },
+        {
+          "athletic_net_name": "Elgin",
+          "full_name": "Elgin"
+        },
+        {
+          "athletic_net_name": "Fairbanks",
+          "full_name": "Fairbanks"
+        },
+        {
+          "athletic_net_name": "Fisher Catholic",
+          "full_name": "Fisher Catholic"
+        },
+        {
+          "athletic_net_name": "Fredericktown",
+          "full_name": "Fredericktown"
+        },
+        {
+          "athletic_net_name": "Gr. City Chr.",
+          "full_name": "Grove City Christian"
+        },
+        {
+          "athletic_net_name": "Gran. Chr. Acad.",
+          "full_name": "Gran. Chr. Acad."
+        },
+        {
+          "athletic_net_name": "Grandview Hts.",
+          "full_name": "Grandview Heights"
+        },
+        {
+          "athletic_net_name": "Granville",
+          "full_name": "Granville"
+        },
+        {
+          "athletic_net_name": "Hamilton Township",
+          "full_name": "Hamilton Township"
+        },
+        {
+          "athletic_net_name": "Hartley",
+          "full_name": "Hartley"
+        },
+        {
+          "athletic_net_name": "Heath",
+          "full_name": "Heath"
+        },
+        {
+          "athletic_net_name": "Heb. Lakewood",
+          "full_name": "Lakewood (Hebron)"
+        },
+        {
+          "athletic_net_name": "Hil. Darby",
+          "full_name": "Hilliard Darby"
+        },
+        {
+          "athletic_net_name": "John. Northridge",
+          "full_name": "Northridge (Johnstown)"
+        },
+        {
+          "athletic_net_name": "Johnstown",
+          "full_name": "Johnstown"
+        },
+        {
+          "athletic_net_name": "Jonathan Alder",
+          "full_name": "Jonathan Alder"
+        },
+        {
+          "athletic_net_name": "Lan. Fair Chr.",
+          "full_name": "Fairfield Christian"
+        },
+        {
+          "athletic_net_name": "Liberty Union",
+          "full_name": "Liberty Union"
+        },
+        {
+          "athletic_net_name": "Licking Valley",
+          "full_name": "Licking Valley"
+        },
+        {
+          "athletic_net_name": "Linden McKinley",
+          "full_name": "Linden McKinley"
+        },
+        {
+          "athletic_net_name": "London",
+          "full_name": "London"
+        },
+        {
+          "athletic_net_name": "Madison Christian",
+          "full_name": "Madison Christian"
+        },
+        {
+          "athletic_net_name": "Madison-Plains",
+          "full_name": "Madison-Plains"
+        },
+        {
+          "athletic_net_name": "Mar. Highland",
+          "full_name": "Mar. Highland"
+        },
+        {
+          "athletic_net_name": "Marion Harding",
+          "full_name": "Marion Harding"
+        },
+        {
+          "athletic_net_name": "Marion-Franklin",
+          "full_name": "Marion-Franklin"
+        },
+        {
+          "athletic_net_name": "Mechanicsburg",
+          "full_name": "Mechanicsburg"
+        },
+        {
+          "athletic_net_name": "Mifflin",
+          "full_name": "Mifflin"
+        },
+        {
+          "athletic_net_name": "Millersport",
+          "full_name": "Millersport"
+        },
+        {
+          "athletic_net_name": "Mount Gilead",
+          "full_name": "Mount Gilead"
+        },
+        {
+          "athletic_net_name": "Mount Vernon",
+          "full_name": "Mount Vernon"
+        },
+        {
+          "athletic_net_name": "Newark Cath.",
+          "full_name": "Newark Catholic"
+        },
+        {
+          "athletic_net_name": "North Union",
+          "full_name": "North Union"
+        },
+        {
+          "athletic_net_name": "Northmor",
+          "full_name": "Northmor"
+        },
+        {
+          "athletic_net_name": "Pat. Liberty Christian",
+          "full_name": "Pat. Liberty Christian"
+        },
+        {
+          "athletic_net_name": "Pleasant",
+          "full_name": "Pleasant"
+        },
+        {
+          "athletic_net_name": "Ready",
+          "full_name": "Bishop Ready"
+        },
+        {
+          "athletic_net_name": "Ridgedale",
+          "full_name": "Ridgedale"
+        },
+        {
+          "athletic_net_name": "Tree of Life Christian",
+          "full_name": "Tree of Life Christian"
+        },
+        {
+          "athletic_net_name": "Utica",
+          "full_name": "Utica"
+        },
+        {
+          "athletic_net_name": "Walnut Ridge",
+          "full_name": "Walnut Ridge"
+        },
+        {
+          "athletic_net_name": "Watterson",
+          "full_name": "Watterson"
+        },
+        {
+          "athletic_net_name": "Wellington School",
+          "full_name": "Wellington School"
+        },
+        {
+          "athletic_net_name": "West Jefferson",
+          "full_name": "West Jefferson"
+        },
+        {
+          "athletic_net_name": "Wester. Genoa Christian",
+          "full_name": "Wester. Genoa Christian"
+        },
+        {
+          "athletic_net_name": "Whetstone",
+          "full_name": "Whetstone"
+        },
+        {
+          "athletic_net_name": "Whitehall-Yearling",
+          "full_name": "Whitehall-Yearling"
+        },
+        {
+          "athletic_net_name": "Wor. Christian",
+          "full_name": "Worthington Christian"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Beaver Local",
-     "full_name": "Beaver Local"
+      "key": "CAM",
+      "name": "Cambridge HS",
+      "region": "East",
+      "regional": "Pickerington",
+      "athletic_net_meet_id": 286394,
+      "url": "https://www.athletic.net/CrossCountry/meet/286394/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Barnesville",
+          "full_name": "Barnesville"
+        },
+        {
+          "athletic_net_name": "Beaver Local",
+          "full_name": "Beaver Local"
+        },
+        {
+          "athletic_net_name": "Bellaire",
+          "full_name": "Bellaire"
+        },
+        {
+          "athletic_net_name": "Bridgeport",
+          "full_name": "Bridgeport"
+        },
+        {
+          "athletic_net_name": "Buckeye Local",
+          "full_name": "Buckeye Local"
+        },
+        {
+          "athletic_net_name": "Buckeye Trail",
+          "full_name": "Buckeye Trail"
+        },
+        {
+          "athletic_net_name": "Caldwell",
+          "full_name": "Caldwell"
+        },
+        {
+          "athletic_net_name": "Cambridge",
+          "full_name": "Cambridge"
+        },
+        {
+          "athletic_net_name": "Carrollton",
+          "full_name": "Carrollton"
+        },
+        {
+          "athletic_net_name": "Claymont",
+          "full_name": "Claymont"
+        },
+        {
+          "athletic_net_name": "Crooksville",
+          "full_name": "Crooksville"
+        },
+        {
+          "athletic_net_name": "Dover",
+          "full_name": "Dover"
+        },
+        {
+          "athletic_net_name": "East Liverpool",
+          "full_name": "East Liverpool"
+        },
+        {
+          "athletic_net_name": "Fairless",
+          "full_name": "Fairless"
+        },
+        {
+          "athletic_net_name": "Fort Frye",
+          "full_name": "Fort Frye"
+        },
+        {
+          "athletic_net_name": "Frontier",
+          "full_name": "Frontier"
+        },
+        {
+          "athletic_net_name": "Garaway",
+          "full_name": "Garaway"
+        },
+        {
+          "athletic_net_name": "Han. River",
+          "full_name": "Han. River"
+        },
+        {
+          "athletic_net_name": "Harrison Central",
+          "full_name": "Harrison Central"
+        },
+        {
+          "athletic_net_name": "Hiland",
+          "full_name": "Hiland"
+        },
+        {
+          "athletic_net_name": "Indian Creek",
+          "full_name": "Indian Creek"
+        },
+        {
+          "athletic_net_name": "Indian Valley",
+          "full_name": "Indian Valley"
+        },
+        {
+          "athletic_net_name": "John Glenn",
+          "full_name": "John Glenn"
+        },
+        {
+          "athletic_net_name": "Malvern",
+          "full_name": "Malvern"
+        },
+        {
+          "athletic_net_name": "Martins Ferry",
+          "full_name": "Martins Ferry"
+        },
+        {
+          "athletic_net_name": "Maysville",
+          "full_name": "Maysville"
+        },
+        {
+          "athletic_net_name": "Meadowbrook",
+          "full_name": "Meadowbrook"
+        },
+        {
+          "athletic_net_name": "Minerva",
+          "full_name": "Minerva"
+        },
+        {
+          "athletic_net_name": "Morgan",
+          "full_name": "Morgan"
+        },
+        {
+          "athletic_net_name": "New Philadelphia",
+          "full_name": "New Philadelphia"
+        },
+        {
+          "athletic_net_name": "Newcomerstown",
+          "full_name": "Newcomerstown"
+        },
+        {
+          "athletic_net_name": "Philo",
+          "full_name": "Philo"
+        },
+        {
+          "athletic_net_name": "Rich. Edison",
+          "full_name": "Rich. Edison"
+        },
+        {
+          "athletic_net_name": "Ridgewood",
+          "full_name": "Ridgewood"
+        },
+        {
+          "athletic_net_name": "River View",
+          "full_name": "River View"
+        },
+        {
+          "athletic_net_name": "Sandy Valley",
+          "full_name": "Sandy Valley"
+        },
+        {
+          "athletic_net_name": "Shadyside",
+          "full_name": "Shadyside"
+        },
+        {
+          "athletic_net_name": "Shenandoah",
+          "full_name": "Shenandoah"
+        },
+        {
+          "athletic_net_name": "St. Clairsville",
+          "full_name": "St. Clairsville"
+        },
+        {
+          "athletic_net_name": "Steub. Cath. Cent.",
+          "full_name": "Steub. Cath. Cent."
+        },
+        {
+          "athletic_net_name": "Steubenville",
+          "full_name": "Steubenville"
+        },
+        {
+          "athletic_net_name": "Strasburg-Franklin",
+          "full_name": "Strasburg-Franklin"
+        },
+        {
+          "athletic_net_name": "Toronto",
+          "full_name": "Toronto"
+        },
+        {
+          "athletic_net_name": "Tri-Valley",
+          "full_name": "Tri-Valley"
+        },
+        {
+          "athletic_net_name": "Tuscar. C.C.",
+          "full_name": "Tuscarawas Central Catholic"
+        },
+        {
+          "athletic_net_name": "Tuscar. Valley",
+          "full_name": "Tuscarawas Valley"
+        },
+        {
+          "athletic_net_name": "Union Local",
+          "full_name": "Union Local"
+        },
+        {
+          "athletic_net_name": "West Holmes",
+          "full_name": "West Holmes"
+        },
+        {
+          "athletic_net_name": "West Muskingum",
+          "full_name": "West Muskingum"
+        },
+        {
+          "athletic_net_name": "Zanesville",
+          "full_name": "Zanesville"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Bellaire",
-     "full_name": "Bellaire"
+      "key": "GO",
+      "name": "GlenOak HS",
+      "region": "Northeast",
+      "regional": "Boardman",
+      "athletic_net_meet_id": 286397,
+      "url": "https://www.athletic.net/CrossCountry/meet/286397/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Acad. For Urban Scholars",
+          "full_name": "Acad. For Urban Scholars"
+        },
+        {
+          "athletic_net_name": "Ak. East",
+          "full_name": "Ak. East"
+        },
+        {
+          "athletic_net_name": "Ak. Garfield",
+          "full_name": "Ak. Garfield"
+        },
+        {
+          "athletic_net_name": "Ak. Manchester",
+          "full_name": "Manchester (Akron)"
+        },
+        {
+          "athletic_net_name": "Ak. North",
+          "full_name": "Ak. North"
+        },
+        {
+          "athletic_net_name": "Ak. Springfield",
+          "full_name": "Ak. Springfield"
+        },
+        {
+          "athletic_net_name": "Akron SVSM",
+          "full_name": "Akron SVSM"
+        },
+        {
+          "athletic_net_name": "Alliance",
+          "full_name": "Alliance"
+        },
+        {
+          "athletic_net_name": "Austintown-Fitch",
+          "full_name": "Austintown-Fitch"
+        },
+        {
+          "athletic_net_name": "B.C. Western Reserve",
+          "full_name": "B.C. Western Reserve"
+        },
+        {
+          "athletic_net_name": "Barberton",
+          "full_name": "Barberton"
+        },
+        {
+          "athletic_net_name": "Boardman",
+          "full_name": "Boardman"
+        },
+        {
+          "athletic_net_name": "Buchtel",
+          "full_name": "Buchtel"
+        },
+        {
+          "athletic_net_name": "CF Northwest",
+          "full_name": "Canal Fulton Northwest"
+        },
+        {
+          "athletic_net_name": "Canfield",
+          "full_name": "Canfield"
+        },
+        {
+          "athletic_net_name": "Canton C.C.",
+          "full_name": "Canton C.C."
+        },
+        {
+          "athletic_net_name": "Canton South",
+          "full_name": "Canton South"
+        },
+        {
+          "athletic_net_name": "Chippewa",
+          "full_name": "Chippewa"
+        },
+        {
+          "athletic_net_name": "Columbiana",
+          "full_name": "Columbiana"
+        },
+        {
+          "athletic_net_name": "Coventry",
+          "full_name": "Coventry"
+        },
+        {
+          "athletic_net_name": "Cuy. Falls",
+          "full_name": "Cuy. Falls"
+        },
+        {
+          "athletic_net_name": "David Anderson",
+          "full_name": "David Anderson"
+        },
+        {
+          "athletic_net_name": "East Canton",
+          "full_name": "East Canton"
+        },
+        {
+          "athletic_net_name": "East Palestine",
+          "full_name": "East Palestine"
+        },
+        {
+          "athletic_net_name": "Ellet",
+          "full_name": "Ellet"
+        },
+        {
+          "athletic_net_name": "Field",
+          "full_name": "Field"
+        },
+        {
+          "athletic_net_name": "Firestone",
+          "full_name": "Firestone"
+        },
+        {
+          "athletic_net_name": "Garfield Hts.",
+          "full_name": "Garfield Hts."
+        },
+        {
+          "athletic_net_name": "Girard",
+          "full_name": "Girard"
+        },
+        {
+          "athletic_net_name": "GlenOak",
+          "full_name": "GlenOak"
+        },
+        {
+          "athletic_net_name": "Green",
+          "full_name": "Green"
+        },
+        {
+          "athletic_net_name": "Heartland Christian",
+          "full_name": "Heartland Christian"
+        },
+        {
+          "athletic_net_name": "Hoban",
+          "full_name": "Archbishop Hoban"
+        },
+        {
+          "athletic_net_name": "Hoover",
+          "full_name": "Hoover"
+        },
+        {
+          "athletic_net_name": "Hubbard",
+          "full_name": "Hubbard"
+        },
+        {
+          "athletic_net_name": "Hudson",
+          "full_name": "Hudson"
+        },
+        {
+          "athletic_net_name": "Jackson-Milton",
+          "full_name": "Jackson-Milton"
+        },
+        {
+          "athletic_net_name": "Lake Center Chr.",
+          "full_name": "Lake Center Chr."
+        },
+        {
+          "athletic_net_name": "Louisville",
+          "full_name": "Louisville"
+        },
+        {
+          "athletic_net_name": "Lowellville",
+          "full_name": "Lowellville"
+        },
+        {
+          "athletic_net_name": "Marlington",
+          "full_name": "Marlington"
+        },
+        {
+          "athletic_net_name": "Mass. Perry",
+          "full_name": "Massillon Perry"
+        },
+        {
+          "athletic_net_name": "Mass. Washington",
+          "full_name": "Mass. Washington"
+        },
+        {
+          "athletic_net_name": "Mogadore",
+          "full_name": "Mogadore"
+        },
+        {
+          "athletic_net_name": "Mooney",
+          "full_name": "Mooney"
+        },
+        {
+          "athletic_net_name": "N. Mid. Springfield",
+          "full_name": "Springfield (New Middletown)"
+        },
+        {
+          "athletic_net_name": "Norton",
+          "full_name": "Norton"
+        },
+        {
+          "athletic_net_name": "Poland Seminary",
+          "full_name": "Poland Seminary"
+        },
+        {
+          "athletic_net_name": "Ravenna",
+          "full_name": "Ravenna"
+        },
+        {
+          "athletic_net_name": "Roosevelt",
+          "full_name": "Roosevelt"
+        },
+        {
+          "athletic_net_name": "Rootstown",
+          "full_name": "Rootstown"
+        },
+        {
+          "athletic_net_name": "Sal. Southern",
+          "full_name": "Sal. Southern"
+        },
+        {
+          "athletic_net_name": "Salem",
+          "full_name": "Salem"
+        },
+        {
+          "athletic_net_name": "Seb. McKinley",
+          "full_name": "Seb. McKinley"
+        },
+        {
+          "athletic_net_name": "South Range",
+          "full_name": "South Range"
+        },
+        {
+          "athletic_net_name": "Southeast",
+          "full_name": "Southeast"
+        },
+        {
+          "athletic_net_name": "St. Thomas Aquinas",
+          "full_name": "St. Thomas Aquinas"
+        },
+        {
+          "athletic_net_name": "Struthers",
+          "full_name": "Struthers"
+        },
+        {
+          "athletic_net_name": "Tallmadge",
+          "full_name": "Tallmadge"
+        },
+        {
+          "athletic_net_name": "Tuslaw",
+          "full_name": "Tuslaw"
+        },
+        {
+          "athletic_net_name": "Uniont. Lake",
+          "full_name": "Uniontown Lake"
+        },
+        {
+          "athletic_net_name": "United",
+          "full_name": "United"
+        },
+        {
+          "athletic_net_name": "Wadsworth",
+          "full_name": "Wadsworth"
+        },
+        {
+          "athletic_net_name": "Walsh Jesuit",
+          "full_name": "Walsh Jesuit"
+        },
+        {
+          "athletic_net_name": "Waterloo",
+          "full_name": "Waterloo"
+        },
+        {
+          "athletic_net_name": "Wellsville",
+          "full_name": "Wellsville"
+        },
+        {
+          "athletic_net_name": "West Branch",
+          "full_name": "West Branch"
+        },
+        {
+          "athletic_net_name": "Wooster",
+          "full_name": "Wooster"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Bridgeport",
-     "full_name": "Bridgeport"
+      "key": "LCCC",
+      "name": "Lorain County CC",
+      "region": "Northeast",
+      "regional": "Boardman",
+      "athletic_net_meet_id": 286398,
+      "url": "https://www.athletic.net/CrossCountry/meet/286398/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Avon",
+          "full_name": "Avon"
+        },
+        {
+          "athletic_net_name": "Avon Lake",
+          "full_name": "Avon Lake"
+        },
+        {
+          "athletic_net_name": "Bard Early College",
+          "full_name": "Bard Early College"
+        },
+        {
+          "athletic_net_name": "Bay",
+          "full_name": "Bay"
+        },
+        {
+          "athletic_net_name": "Beachwood",
+          "full_name": "Beachwood"
+        },
+        {
+          "athletic_net_name": "Benedictine",
+          "full_name": "Benedictine"
+        },
+        {
+          "athletic_net_name": "Black River",
+          "full_name": "Black River"
+        },
+        {
+          "athletic_net_name": "Brecksville",
+          "full_name": "Brecksville"
+        },
+        {
+          "athletic_net_name": "Brooklyn",
+          "full_name": "Brooklyn"
+        },
+        {
+          "athletic_net_name": "Brookside",
+          "full_name": "Brookside"
+        },
+        {
+          "athletic_net_name": "Buckeye",
+          "full_name": "Buckeye"
+        },
+        {
+          "athletic_net_name": "CVCA",
+          "full_name": "CVCA"
+        },
+        {
+          "athletic_net_name": "Cle. Cent. Cath.",
+          "full_name": "Cle. Cent. Cath."
+        },
+        {
+          "athletic_net_name": "Cle. St. Joseph Acad.",
+          "full_name": "Cle. St. Joseph Acad."
+        },
+        {
+          "athletic_net_name": "Clearview",
+          "full_name": "Clearview"
+        },
+        {
+          "athletic_net_name": "Cloverleaf",
+          "full_name": "Cloverleaf"
+        },
+        {
+          "athletic_net_name": "Col. Crestview",
+          "full_name": "Col. Crestview"
+        },
+        {
+          "athletic_net_name": "Collinwood",
+          "full_name": "Collinwood"
+        },
+        {
+          "athletic_net_name": "Columbia",
+          "full_name": "Columbia"
+        },
+        {
+          "athletic_net_name": "Copley",
+          "full_name": "Copley"
+        },
+        {
+          "athletic_net_name": "Cuy. Heights",
+          "full_name": "Cuyahoga Heights"
+        },
+        {
+          "athletic_net_name": "Dalton",
+          "full_name": "Dalton"
+        },
+        {
+          "athletic_net_name": "East Technical",
+          "full_name": "East Technical"
+        },
+        {
+          "athletic_net_name": "Elyria Catholic",
+          "full_name": "Elyria Catholic"
+        },
+        {
+          "athletic_net_name": "Fair. Park Fairview",
+          "full_name": "Fairview (Fairview Park)"
+        },
+        {
+          "athletic_net_name": "Firelands",
+          "full_name": "Firelands"
+        },
+        {
+          "athletic_net_name": "Hillsdale",
+          "full_name": "Hillsdale"
+        },
+        {
+          "athletic_net_name": "Holy Name",
+          "full_name": "Holy Name"
+        },
+        {
+          "athletic_net_name": "Independence",
+          "full_name": "Independence"
+        },
+        {
+          "athletic_net_name": "John Hay",
+          "full_name": "John Hay"
+        },
+        {
+          "athletic_net_name": "Keystone",
+          "full_name": "Keystone"
+        },
+        {
+          "athletic_net_name": "Kid. Cent. Christian",
+          "full_name": "Kidron Central Christian"
+        },
+        {
+          "athletic_net_name": "Lake Ridge Acad.",
+          "full_name": "Lake Ridge Acad."
+        },
+        {
+          "athletic_net_name": "Lakewood",
+          "full_name": "Lakewood"
+        },
+        {
+          "athletic_net_name": "Laurel",
+          "full_name": "Laurel"
+        },
+        {
+          "athletic_net_name": "Lincoln West",
+          "full_name": "Lincoln West"
+        },
+        {
+          "athletic_net_name": "Loudonville",
+          "full_name": "Loudonville"
+        },
+        {
+          "athletic_net_name": "Luth. East",
+          "full_name": "Luth. East"
+        },
+        {
+          "athletic_net_name": "Luth. West",
+          "full_name": "Lutheran West"
+        },
+        {
+          "athletic_net_name": "Maple Hts.",
+          "full_name": "Maple Hts."
+        },
+        {
+          "athletic_net_name": "Mapleton",
+          "full_name": "Mapleton"
+        },
+        {
+          "athletic_net_name": "Med Highland",
+          "full_name": "Medina Highland"
+        },
+        {
+          "athletic_net_name": "Medina Christian Academy",
+          "full_name": "Medina Christian Academy"
+        },
+        {
+          "athletic_net_name": "Midview",
+          "full_name": "Midview"
+        },
+        {
+          "athletic_net_name": "No. Olmsted",
+          "full_name": "North Olmsted"
+        },
+        {
+          "athletic_net_name": "No. Ridgeville",
+          "full_name": "North Ridgeville"
+        },
+        {
+          "athletic_net_name": "No. Royalton",
+          "full_name": "North Royalton"
+        },
+        {
+          "athletic_net_name": "Norwayne",
+          "full_name": "Norwayne"
+        },
+        {
+          "athletic_net_name": "Oberlin",
+          "full_name": "Oberlin"
+        },
+        {
+          "athletic_net_name": "Olmsted Falls",
+          "full_name": "Olmsted Falls"
+        },
+        {
+          "athletic_net_name": "Open Door Christian",
+          "full_name": "Open Door Christian"
+        },
+        {
+          "athletic_net_name": "Orrville",
+          "full_name": "Orrville"
+        },
+        {
+          "athletic_net_name": "Our Lady Elms",
+          "full_name": "Our Lady Elms"
+        },
+        {
+          "athletic_net_name": "Padua Franciscan",
+          "full_name": "Padua Franciscan"
+        },
+        {
+          "athletic_net_name": "Revere",
+          "full_name": "Revere"
+        },
+        {
+          "athletic_net_name": "Rittman",
+          "full_name": "Rittman"
+        },
+        {
+          "athletic_net_name": "Rocky River",
+          "full_name": "Rocky River"
+        },
+        {
+          "athletic_net_name": "Shaw",
+          "full_name": "Shaw"
+        },
+        {
+          "athletic_net_name": "Smithville",
+          "full_name": "Smithville"
+        },
+        {
+          "athletic_net_name": "St. Martin dePorres",
+          "full_name": "St. Martin dePorres"
+        },
+        {
+          "athletic_net_name": "Steele",
+          "full_name": "Steele"
+        },
+        {
+          "athletic_net_name": "Streetsboro",
+          "full_name": "Streetsboro"
+        },
+        {
+          "athletic_net_name": "Trinity",
+          "full_name": "Trinity"
+        },
+        {
+          "athletic_net_name": "Triway",
+          "full_name": "Triway"
+        },
+        {
+          "athletic_net_name": "W.S. Northwestern",
+          "full_name": "Northwestern (West Salem)"
+        },
+        {
+          "athletic_net_name": "Waynedale",
+          "full_name": "Waynedale"
+        },
+        {
+          "athletic_net_name": "Wellington",
+          "full_name": "Wellington"
+        },
+        {
+          "athletic_net_name": "Westlake",
+          "full_name": "Westlake"
+        },
+        {
+          "athletic_net_name": "Windham",
+          "full_name": "Windham"
+        },
+        {
+          "athletic_net_name": "Woodridge",
+          "full_name": "Woodridge"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Buckeye Local",
-     "full_name": "Buckeye Local"
+      "key": "MAD",
+      "name": "Madison HS",
+      "region": "Northeast",
+      "regional": "Boardman",
+      "athletic_net_meet_id": 286401,
+      "url": "https://www.athletic.net/CrossCountry/meet/286401/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Andrews Osborne Acad.",
+          "full_name": "Andrews Osborne Acad."
+        },
+        {
+          "athletic_net_name": "Ash. Edgewood",
+          "full_name": "Ashtabula Edgewood"
+        },
+        {
+          "athletic_net_name": "Ash. St. John",
+          "full_name": "Ash. St. John"
+        },
+        {
+          "athletic_net_name": "Aurora",
+          "full_name": "Aurora"
+        },
+        {
+          "athletic_net_name": "Badger",
+          "full_name": "Badger"
+        },
+        {
+          "athletic_net_name": "Beaumont",
+          "full_name": "Beaumont"
+        },
+        {
+          "athletic_net_name": "Bedford",
+          "full_name": "Bedford"
+        },
+        {
+          "athletic_net_name": "Berkshire",
+          "full_name": "Berkshire"
+        },
+        {
+          "athletic_net_name": "Bloomfield",
+          "full_name": "Bloomfield"
+        },
+        {
+          "athletic_net_name": "Bristol",
+          "full_name": "Bristol"
+        },
+        {
+          "athletic_net_name": "Brookfield",
+          "full_name": "Brookfield"
+        },
+        {
+          "athletic_net_name": "Brush",
+          "full_name": "Brush"
+        },
+        {
+          "athletic_net_name": "Cardinal",
+          "full_name": "Cardinal"
+        },
+        {
+          "athletic_net_name": "Chagrin Falls",
+          "full_name": "Chagrin Falls"
+        },
+        {
+          "athletic_net_name": "Chalker",
+          "full_name": "Chalker"
+        },
+        {
+          "athletic_net_name": "Chaney",
+          "full_name": "Chaney"
+        },
+        {
+          "athletic_net_name": "Chardon",
+          "full_name": "Chardon"
+        },
+        {
+          "athletic_net_name": "Chardon NDCL",
+          "full_name": "Notre Dame-Cathedral Latin"
+        },
+        {
+          "athletic_net_name": "Cle. VASJ",
+          "full_name": "Cle. VASJ"
+        },
+        {
+          "athletic_net_name": "Conneaut",
+          "full_name": "Conneaut"
+        },
+        {
+          "athletic_net_name": "Cornerstone Christian",
+          "full_name": "Cornerstone Christian"
+        },
+        {
+          "athletic_net_name": "Crestwood",
+          "full_name": "Crestwood"
+        },
+        {
+          "athletic_net_name": "Eastlake North",
+          "full_name": "Eastlake North"
+        },
+        {
+          "athletic_net_name": "Euclid",
+          "full_name": "Euclid"
+        },
+        {
+          "athletic_net_name": "Fairport Harding",
+          "full_name": "Fairport Harding"
+        },
+        {
+          "athletic_net_name": "Gar. Garfield",
+          "full_name": "Gar. Garfield"
+        },
+        {
+          "athletic_net_name": "Garrett Morgan",
+          "full_name": "Garrett Morgan"
+        },
+        {
+          "athletic_net_name": "Geneva",
+          "full_name": "Geneva"
+        },
+        {
+          "athletic_net_name": "Gilmour Academy",
+          "full_name": "Gilmour Academy"
+        },
+        {
+          "athletic_net_name": "Glenville",
+          "full_name": "Glenville"
+        },
+        {
+          "athletic_net_name": "Grand Valley",
+          "full_name": "Grand Valley"
+        },
+        {
+          "athletic_net_name": "Harvey",
+          "full_name": "Harvey"
+        },
+        {
+          "athletic_net_name": "Hathaway Brown",
+          "full_name": "Hathaway Brown"
+        },
+        {
+          "athletic_net_name": "Hawken",
+          "full_name": "Hawken"
+        },
+        {
+          "athletic_net_name": "Howland",
+          "full_name": "Howland"
+        },
+        {
+          "athletic_net_name": "Jefferson Area",
+          "full_name": "Jefferson Area"
+        },
+        {
+          "athletic_net_name": "John Adams",
+          "full_name": "John Adams"
+        },
+        {
+          "athletic_net_name": "John Marshall",
+          "full_name": "John Marshall"
+        },
+        {
+          "athletic_net_name": "Kenston",
+          "full_name": "Kenston"
+        },
+        {
+          "athletic_net_name": "Kirtland",
+          "full_name": "Kirtland"
+        },
+        {
+          "athletic_net_name": "LaBrae",
+          "full_name": "LaBrae"
+        },
+        {
+          "athletic_net_name": "Lake Cath.",
+          "full_name": "Lake Catholic"
+        },
+        {
+          "athletic_net_name": "Lakeside",
+          "full_name": "Lakeside"
+        },
+        {
+          "athletic_net_name": "Lakeview",
+          "full_name": "Lakeview"
+        },
+        {
+          "athletic_net_name": "Liberty",
+          "full_name": "Liberty"
+        },
+        {
+          "athletic_net_name": "Lordstown",
+          "full_name": "Lordstown"
+        },
+        {
+          "athletic_net_name": "Madison",
+          "full_name": "Madison"
+        },
+        {
+          "athletic_net_name": "Maplewood",
+          "full_name": "Maplewood"
+        },
+        {
+          "athletic_net_name": "Mathews",
+          "full_name": "Mathews"
+        },
+        {
+          "athletic_net_name": "Max Hayes",
+          "full_name": "Max Hayes"
+        },
+        {
+          "athletic_net_name": "Mayfield",
+          "full_name": "Mayfield"
+        },
+        {
+          "athletic_net_name": "McDonald",
+          "full_name": "McDonald"
+        },
+        {
+          "athletic_net_name": "Mineral Ridge",
+          "full_name": "Mineral Ridge"
+        },
+        {
+          "athletic_net_name": "Newton Falls",
+          "full_name": "Newton Falls"
+        },
+        {
+          "athletic_net_name": "Niles McKinley",
+          "full_name": "Niles McKinley"
+        },
+        {
+          "athletic_net_name": "Nordonia",
+          "full_name": "Nordonia"
+        },
+        {
+          "athletic_net_name": "Orange",
+          "full_name": "Orange"
+        },
+        {
+          "athletic_net_name": "Paine. Riverside",
+          "full_name": "Painesville Riverside"
+        },
+        {
+          "athletic_net_name": "Perry",
+          "full_name": "Perry"
+        },
+        {
+          "athletic_net_name": "Pymatuning Valley",
+          "full_name": "Pymatuning Valley"
+        },
+        {
+          "athletic_net_name": "Rhodes",
+          "full_name": "Rhodes"
+        },
+        {
+          "athletic_net_name": "Richmond Hts.",
+          "full_name": "Richmond Heights"
+        },
+        {
+          "athletic_net_name": "Shaker Hts.",
+          "full_name": "Shaker Heights"
+        },
+        {
+          "athletic_net_name": "Twinsburg",
+          "full_name": "Twinsburg"
+        },
+        {
+          "athletic_net_name": "University School",
+          "full_name": "University School"
+        },
+        {
+          "athletic_net_name": "Ursuline",
+          "full_name": "Ursuline"
+        },
+        {
+          "athletic_net_name": "War. Champion",
+          "full_name": "War. Champion"
+        },
+        {
+          "athletic_net_name": "Warren G Harding",
+          "full_name": "Warren G Harding"
+        },
+        {
+          "athletic_net_name": "Warren JFK",
+          "full_name": "Warren JFK"
+        },
+        {
+          "athletic_net_name": "Warrensville Hts.",
+          "full_name": "Warrensville Hts."
+        },
+        {
+          "athletic_net_name": "West Geauga",
+          "full_name": "West Geauga"
+        },
+        {
+          "athletic_net_name": "Wickliffe",
+          "full_name": "Wickliffe"
+        },
+        {
+          "athletic_net_name": "Will. South",
+          "full_name": "Willoughby South"
+        },
+        {
+          "athletic_net_name": "Young. Valley Christian",
+          "full_name": "Young. Valley Christian"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Buckeye Trail",
-     "full_name": "Buckeye Trail"
+      "key": "GAL",
+      "name": "Amann's Park, Galion",
+      "region": "Northwest",
+      "regional": "Tiffin",
+      "athletic_net_meet_id": 286413,
+      "url": "https://www.athletic.net/CrossCountry/meet/286413/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Ash. Crestview",
+          "full_name": "Ashland Crestview"
+        },
+        {
+          "athletic_net_name": "Buckeye Central",
+          "full_name": "Buckeye Central"
+        },
+        {
+          "athletic_net_name": "Bucyrus",
+          "full_name": "Bucyrus"
+        },
+        {
+          "athletic_net_name": "Clear Fork",
+          "full_name": "Clear Fork"
+        },
+        {
+          "athletic_net_name": "Coll Western Reserve",
+          "full_name": "Western Reserve (Collins)"
+        },
+        {
+          "athletic_net_name": "Colonel Crawford",
+          "full_name": "Colonel Crawford"
+        },
+        {
+          "athletic_net_name": "Crestline",
+          "full_name": "Crestline"
+        },
+        {
+          "athletic_net_name": "Danbury",
+          "full_name": "Danbury"
+        },
+        {
+          "athletic_net_name": "Galion",
+          "full_name": "Galion"
+        },
+        {
+          "athletic_net_name": "Huron",
+          "full_name": "Huron"
+        },
+        {
+          "athletic_net_name": "Kelleys Island",
+          "full_name": "Kelleys Island"
+        },
+        {
+          "athletic_net_name": "Kenton",
+          "full_name": "Kenton"
+        },
+        {
+          "athletic_net_name": "Lucas",
+          "full_name": "Lucas"
+        },
+        {
+          "athletic_net_name": "Mans. Christian",
+          "full_name": "Mansfield Christian"
+        },
+        {
+          "athletic_net_name": "Mil. Edison",
+          "full_name": "Edison (Milan)"
+        },
+        {
+          "athletic_net_name": "Monroeville",
+          "full_name": "Monroeville"
+        },
+        {
+          "athletic_net_name": "New London",
+          "full_name": "New London"
+        },
+        {
+          "athletic_net_name": "Perkins",
+          "full_name": "Perkins"
+        },
+        {
+          "athletic_net_name": "Plymouth",
+          "full_name": "Plymouth"
+        },
+        {
+          "athletic_net_name": "Port Clinton",
+          "full_name": "Port Clinton"
+        },
+        {
+          "athletic_net_name": "Put-In-Bay",
+          "full_name": "Put-In-Bay"
+        },
+        {
+          "athletic_net_name": "Sand. SMCC",
+          "full_name": "Sandusky St. Mary CC"
+        },
+        {
+          "athletic_net_name": "South Central",
+          "full_name": "South Central"
+        },
+        {
+          "athletic_net_name": "St. Paul",
+          "full_name": "St. Paul"
+        },
+        {
+          "athletic_net_name": "Upper Sandusky",
+          "full_name": "Upper Sandusky"
+        },
+        {
+          "athletic_net_name": "Vermilion",
+          "full_name": "Vermilion"
+        },
+        {
+          "athletic_net_name": "Willard",
+          "full_name": "Willard"
+        },
+        {
+          "athletic_net_name": "Wynford",
+          "full_name": "Wynford"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Caldwell",
-     "full_name": "Caldwell"
+      "key": "CG",
+      "name": "Columbus Grove HS",
+      "region": "Northwest",
+      "regional": "Tiffin",
+      "athletic_net_meet_id": 286411,
+      "url": "https://www.athletic.net/CrossCountry/meet/286411/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Archbold",
+          "full_name": "Archbold"
+        },
+        {
+          "athletic_net_name": "Bath",
+          "full_name": "Bath"
+        },
+        {
+          "athletic_net_name": "Bluffton",
+          "full_name": "Bluffton"
+        },
+        {
+          "athletic_net_name": "Bryan",
+          "full_name": "Bryan"
+        },
+        {
+          "athletic_net_name": "Coldwater",
+          "full_name": "Coldwater"
+        },
+        {
+          "athletic_net_name": "Columbus Grove",
+          "full_name": "Columbus Grove"
+        },
+        {
+          "athletic_net_name": "Con. Crestview",
+          "full_name": "Convoy Crestview"
+        },
+        {
+          "athletic_net_name": "Cory-Rawson",
+          "full_name": "Cory-Rawson"
+        },
+        {
+          "athletic_net_name": "Del. St. John's",
+          "full_name": "Delphos St. John's"
+        },
+        {
+          "athletic_net_name": "Delta",
+          "full_name": "Delta"
+        },
+        {
+          "athletic_net_name": "Elmwood",
+          "full_name": "Elmwood"
+        },
+        {
+          "athletic_net_name": "Kalida",
+          "full_name": "Kalida"
+        },
+        {
+          "athletic_net_name": "Liberty-Benton",
+          "full_name": "Liberty-Benton"
+        },
+        {
+          "athletic_net_name": "Lima C.C.",
+          "full_name": "Lima Central Catholic"
+        },
+        {
+          "athletic_net_name": "Lima Perry",
+          "full_name": "Lima Perry"
+        },
+        {
+          "athletic_net_name": "Lincolnview",
+          "full_name": "Lincolnview"
+        },
+        {
+          "athletic_net_name": "Marion Local",
+          "full_name": "Marion Local"
+        },
+        {
+          "athletic_net_name": "Miller City",
+          "full_name": "Miller City"
+        },
+        {
+          "athletic_net_name": "New Bremen",
+          "full_name": "New Bremen"
+        },
+        {
+          "athletic_net_name": "New Knoxville",
+          "full_name": "New Knoxville"
+        },
+        {
+          "athletic_net_name": "Ottoville",
+          "full_name": "Ottoville"
+        },
+        {
+          "athletic_net_name": "Pandora-Gilboa",
+          "full_name": "Pandora-Gilboa"
+        },
+        {
+          "athletic_net_name": "Parkway",
+          "full_name": "Parkway"
+        },
+        {
+          "athletic_net_name": "Paulding",
+          "full_name": "Paulding"
+        },
+        {
+          "athletic_net_name": "Spencerville",
+          "full_name": "Spencerville"
+        },
+        {
+          "athletic_net_name": "St. Henry",
+          "full_name": "St. Henry"
+        },
+        {
+          "athletic_net_name": "Swanton",
+          "full_name": "Swanton"
+        },
+        {
+          "athletic_net_name": "Upper Scioto Valley",
+          "full_name": "Upper Scioto Valley"
+        },
+        {
+          "athletic_net_name": "Van Wert",
+          "full_name": "Van Wert"
+        },
+        {
+          "athletic_net_name": "Wauseon",
+          "full_name": "Wauseon"
+        },
+        {
+          "athletic_net_name": "Wayne Trace",
+          "full_name": "Wayne Trace"
+        },
+        {
+          "athletic_net_name": "Waynesfield-Goshen",
+          "full_name": "Waynesfield-Goshen"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Cambridge",
-     "full_name": "Cambridge"
+      "key": "LF",
+      "name": "Leaders Farms, Napoleon",
+      "region": "Northwest",
+      "regional": "Tiffin",
+      "athletic_net_meet_id": 286409,
+      "url": "https://www.athletic.net/CrossCountry/meet/286409/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Antwerp",
+          "full_name": "Antwerp"
+        },
+        {
+          "athletic_net_name": "Ayersville",
+          "full_name": "Ayersville"
+        },
+        {
+          "athletic_net_name": "Bowling Green",
+          "full_name": "Bowling Green"
+        },
+        {
+          "athletic_net_name": "Defiance",
+          "full_name": "Defiance"
+        },
+        {
+          "athletic_net_name": "Edgerton",
+          "full_name": "Edgerton"
+        },
+        {
+          "athletic_net_name": "Edon",
+          "full_name": "Edon"
+        },
+        {
+          "athletic_net_name": "Fayette",
+          "full_name": "Fayette"
+        },
+        {
+          "athletic_net_name": "Hicksville",
+          "full_name": "Hicksville"
+        },
+        {
+          "athletic_net_name": "Hilltop",
+          "full_name": "Hilltop"
+        },
+        {
+          "athletic_net_name": "Hol. Springfield",
+          "full_name": "Springfield (Holland)"
+        },
+        {
+          "athletic_net_name": "Holgate",
+          "full_name": "Holgate"
+        },
+        {
+          "athletic_net_name": "Liberty Center",
+          "full_name": "Liberty Center"
+        },
+        {
+          "athletic_net_name": "Maumee",
+          "full_name": "Maumee"
+        },
+        {
+          "athletic_net_name": "Maumee Va. C.D.",
+          "full_name": "Maumee Va. C.D."
+        },
+        {
+          "athletic_net_name": "Montpelier",
+          "full_name": "Montpelier"
+        },
+        {
+          "athletic_net_name": "No. Central",
+          "full_name": "No. Central"
+        },
+        {
+          "athletic_net_name": "Northwood",
+          "full_name": "Northwood"
+        },
+        {
+          "athletic_net_name": "Oregon Clay",
+          "full_name": "Oregon Clay"
+        },
+        {
+          "athletic_net_name": "Patrick Henry",
+          "full_name": "Patrick Henry"
+        },
+        {
+          "athletic_net_name": "Pettisville",
+          "full_name": "Pettisville"
+        },
+        {
+          "athletic_net_name": "Rogers",
+          "full_name": "Toledo Rogers"
+        },
+        {
+          "athletic_net_name": "Sandusky",
+          "full_name": "Sandusky"
+        },
+        {
+          "athletic_net_name": "Scott",
+          "full_name": "Toledo Scott"
+        },
+        {
+          "athletic_net_name": "Sher. Fairview",
+          "full_name": "Sherwood Fairview"
+        },
+        {
+          "athletic_net_name": "Stritch Cath.",
+          "full_name": "Stritch Cath."
+        },
+        {
+          "athletic_net_name": "Stryker",
+          "full_name": "Stryker"
+        },
+        {
+          "athletic_net_name": "Syl. Northview",
+          "full_name": "Sylvania Northview"
+        },
+        {
+          "athletic_net_name": "Syl. Southview",
+          "full_name": "Sylvania Southview"
+        },
+        {
+          "athletic_net_name": "Tinora",
+          "full_name": "Tinora"
+        },
+        {
+          "athletic_net_name": "Tol. Horizon Science",
+          "full_name": "Tol. Horizon Science"
+        },
+        {
+          "athletic_net_name": "Tol. Notre Dame",
+          "full_name": "Tol. Notre Dame"
+        },
+        {
+          "athletic_net_name": "Tol. St. Francis",
+          "full_name": "Tol. St. Francis"
+        },
+        {
+          "athletic_net_name": "Tol. St. John's Jesuit",
+          "full_name": "Tol. St. John's Jesuit"
+        },
+        {
+          "athletic_net_name": "Tol. St. Ursula Acad.",
+          "full_name": "Tol. St. Ursula Acad."
+        },
+        {
+          "athletic_net_name": "Toledo Christian",
+          "full_name": "Toledo Christian"
+        },
+        {
+          "athletic_net_name": "Waite",
+          "full_name": "Toledo Waite"
+        },
+        {
+          "athletic_net_name": "Woodmore",
+          "full_name": "Woodmore"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Carrollton",
-     "full_name": "Carrollton"
+      "key": "OW",
+      "name": "Owens CC, Findlay",
+      "region": "Northwest",
+      "regional": "Tiffin",
+      "athletic_net_meet_id": 286408,
+      "url": "https://www.athletic.net/CrossCountry/meet/286408/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Allen East",
+          "full_name": "Allen East"
+        },
+        {
+          "athletic_net_name": "Anthony Wayne",
+          "full_name": "Anthony Wayne"
+        },
+        {
+          "athletic_net_name": "Ashland",
+          "full_name": "Ashland"
+        },
+        {
+          "athletic_net_name": "Bellevue",
+          "full_name": "Bellevue"
+        },
+        {
+          "athletic_net_name": "Calvert",
+          "full_name": "Calvert"
+        },
+        {
+          "athletic_net_name": "Carey",
+          "full_name": "Carey"
+        },
+        {
+          "athletic_net_name": "Celina",
+          "full_name": "Celina"
+        },
+        {
+          "athletic_net_name": "Clyde",
+          "full_name": "Clyde"
+        },
+        {
+          "athletic_net_name": "Columbian",
+          "full_name": "Columbian"
+        },
+        {
+          "athletic_net_name": "Eastwood",
+          "full_name": "Eastwood"
+        },
+        {
+          "athletic_net_name": "Elida",
+          "full_name": "Elida"
+        },
+        {
+          "athletic_net_name": "Evergreen",
+          "full_name": "Evergreen"
+        },
+        {
+          "athletic_net_name": "Findlay",
+          "full_name": "Findlay"
+        },
+        {
+          "athletic_net_name": "Fostoria",
+          "full_name": "Fostoria"
+        },
+        {
+          "athletic_net_name": "Fre. St. Joseph C.C.",
+          "full_name": "Fremont St. Joseph"
+        },
+        {
+          "athletic_net_name": "Fremont Ross",
+          "full_name": "Fremont Ross"
+        },
+        {
+          "athletic_net_name": "Genoa Area",
+          "full_name": "Genoa Area"
+        },
+        {
+          "athletic_net_name": "Gibsonburg",
+          "full_name": "Gibsonburg"
+        },
+        {
+          "athletic_net_name": "Hardin Northern",
+          "full_name": "Hardin Northern"
+        },
+        {
+          "athletic_net_name": "Hopewell-Loudon",
+          "full_name": "Hopewell-Loudon"
+        },
+        {
+          "athletic_net_name": "Lakota",
+          "full_name": "Lakota (Kansas)"
+        },
+        {
+          "athletic_net_name": "Leipsic",
+          "full_name": "Leipsic"
+        },
+        {
+          "athletic_net_name": "Lexington",
+          "full_name": "Lexington"
+        },
+        {
+          "athletic_net_name": "Lima Senior",
+          "full_name": "Lima Senior"
+        },
+        {
+          "athletic_net_name": "Lima Shawnee",
+          "full_name": "Lima Shawnee"
+        },
+        {
+          "athletic_net_name": "Mad. Comprehensive",
+          "full_name": "Madison Comprehensive"
+        },
+        {
+          "athletic_net_name": "Mansfield Senior",
+          "full_name": "Mansfield Senior"
+        },
+        {
+          "athletic_net_name": "Margaretta",
+          "full_name": "Margaretta"
+        },
+        {
+          "athletic_net_name": "Mil. Lake",
+          "full_name": "Lake (Millbury)"
+        },
+        {
+          "athletic_net_name": "Mohawk",
+          "full_name": "Mohawk"
+        },
+        {
+          "athletic_net_name": "Napoleon",
+          "full_name": "Napoleon"
+        },
+        {
+          "athletic_net_name": "New Riegel",
+          "full_name": "New Riegel"
+        },
+        {
+          "athletic_net_name": "No. Baltimore",
+          "full_name": "North Baltimore"
+        },
+        {
+          "athletic_net_name": "Norwalk",
+          "full_name": "Norwalk"
+        },
+        {
+          "athletic_net_name": "Oak Harbor",
+          "full_name": "Oak Harbor"
+        },
+        {
+          "athletic_net_name": "Old Fort",
+          "full_name": "Old Fort"
+        },
+        {
+          "athletic_net_name": "Ontario",
+          "full_name": "Ontario"
+        },
+        {
+          "athletic_net_name": "Otsego",
+          "full_name": "Otsego"
+        },
+        {
+          "athletic_net_name": "Ottawa Hills",
+          "full_name": "Ottawa Hills"
+        },
+        {
+          "athletic_net_name": "Ottawa-Glandorf",
+          "full_name": "Ottawa-Glandorf"
+        },
+        {
+          "athletic_net_name": "Ridgemont",
+          "full_name": "Ridgemont"
+        },
+        {
+          "athletic_net_name": "Riverdale",
+          "full_name": "Riverdale"
+        },
+        {
+          "athletic_net_name": "Rossford",
+          "full_name": "Rossford"
+        },
+        {
+          "athletic_net_name": "Seneca East",
+          "full_name": "Seneca East"
+        },
+        {
+          "athletic_net_name": "Shelby",
+          "full_name": "Shelby"
+        },
+        {
+          "athletic_net_name": "St. Marys Memorial",
+          "full_name": "St. Marys Memorial"
+        },
+        {
+          "athletic_net_name": "Toledo C.C.",
+          "full_name": "Toledo C.C."
+        },
+        {
+          "athletic_net_name": "Van Buren",
+          "full_name": "Van Buren"
+        },
+        {
+          "athletic_net_name": "Wapakoneta",
+          "full_name": "Wapakoneta"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Claymont",
-     "full_name": "Claymont"
+      "key": "RG",
+      "name": "Rio Grande",
+      "region": "Southeast",
+      "regional": "Pickerington",
+      "athletic_net_meet_id": 286414,
+      "url": "https://www.athletic.net/CrossCountry/meet/286414/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Adena",
+          "full_name": "Adena"
+        },
+        {
+          "athletic_net_name": "Alexander",
+          "full_name": "Alexander"
+        },
+        {
+          "athletic_net_name": "Amanda-Clearcreek",
+          "full_name": "Amanda-Clearcreek"
+        },
+        {
+          "athletic_net_name": "Athens",
+          "full_name": "Athens"
+        },
+        {
+          "athletic_net_name": "Bea. Eastern",
+          "full_name": "Eastern (Beaver)"
+        },
+        {
+          "athletic_net_name": "Belpre",
+          "full_name": "Belpre"
+        },
+        {
+          "athletic_net_name": "Bid. River Valley",
+          "full_name": "River Valley (Bidwell)"
+        },
+        {
+          "athletic_net_name": "Chesapeake",
+          "full_name": "Chesapeake"
+        },
+        {
+          "athletic_net_name": "Chil. Southeastern",
+          "full_name": "Southeastern (Chillicothe)"
+        },
+        {
+          "athletic_net_name": "Chillicothe",
+          "full_name": "Chillicothe"
+        },
+        {
+          "athletic_net_name": "Circleville",
+          "full_name": "Circleville"
+        },
+        {
+          "athletic_net_name": "Dawson-Bryant",
+          "full_name": "Dawson-Bryant"
+        },
+        {
+          "athletic_net_name": "F.F. Green",
+          "full_name": "Green (Franklin Furnace)"
+        },
+        {
+          "athletic_net_name": "Fairfield Union",
+          "full_name": "Fairfield Union"
+        },
+        {
+          "athletic_net_name": "Fairland",
+          "full_name": "Fairland"
+        },
+        {
+          "athletic_net_name": "Federal Hocking",
+          "full_name": "Federal Hocking"
+        },
+        {
+          "athletic_net_name": "Gallia Academy",
+          "full_name": "Gallia Academy"
+        },
+        {
+          "athletic_net_name": "Hillsboro",
+          "full_name": "Hillsboro"
+        },
+        {
+          "athletic_net_name": "Huntington",
+          "full_name": "Huntington"
+        },
+        {
+          "athletic_net_name": "Ironton",
+          "full_name": "Ironton"
+        },
+        {
+          "athletic_net_name": "Jackson",
+          "full_name": "Jackson"
+        },
+        {
+          "athletic_net_name": "Lee. Fairfield",
+          "full_name": "Fairfield (Leesburg)"
+        },
+        {
+          "athletic_net_name": "Logan",
+          "full_name": "Logan"
+        },
+        {
+          "athletic_net_name": "Logan Elm",
+          "full_name": "Logan Elm"
+        },
+        {
+          "athletic_net_name": "Lynchburg-Clay",
+          "full_name": "Lynchburg-Clay"
+        },
+        {
+          "athletic_net_name": "Manchester",
+          "full_name": "Manchester"
+        },
+        {
+          "athletic_net_name": "Marietta",
+          "full_name": "Marietta"
+        },
+        {
+          "athletic_net_name": "McClain",
+          "full_name": "McClain"
+        },
+        {
+          "athletic_net_name": "McD. Northwest",
+          "full_name": "Northwest (McDermott)"
+        },
+        {
+          "athletic_net_name": "Miami Trace",
+          "full_name": "Miami Trace"
+        },
+        {
+          "athletic_net_name": "Minford",
+          "full_name": "Minford"
+        },
+        {
+          "athletic_net_name": "Nelsonville-York",
+          "full_name": "Nelsonville-York"
+        },
+        {
+          "athletic_net_name": "New Lexington",
+          "full_name": "New Lexington"
+        },
+        {
+          "athletic_net_name": "North Adams",
+          "full_name": "North Adams"
+        },
+        {
+          "athletic_net_name": "Oak Hill",
+          "full_name": "Oak Hill"
+        },
+        {
+          "athletic_net_name": "Paint Valley",
+          "full_name": "Paint Valley"
+        },
+        {
+          "athletic_net_name": "Peebles",
+          "full_name": "Peebles"
+        },
+        {
+          "athletic_net_name": "Piketon",
+          "full_name": "Piketon"
+        },
+        {
+          "athletic_net_name": "Port. Clay",
+          "full_name": "Clay (Portsmouth)"
+        },
+        {
+          "athletic_net_name": "Port. West",
+          "full_name": "Portsmouth West"
+        },
+        {
+          "athletic_net_name": "Portsmouth",
+          "full_name": "Portsmouth"
+        },
+        {
+          "athletic_net_name": "Rac. Southern",
+          "full_name": "Southern (Racine)"
+        },
+        {
+          "athletic_net_name": "Reed. Eastern",
+          "full_name": "Eastern (Reedsville)"
+        },
+        {
+          "athletic_net_name": "Ripley-Union",
+          "full_name": "Ripley-Union"
+        },
+        {
+          "athletic_net_name": "Rock Hill",
+          "full_name": "Rock Hill"
+        },
+        {
+          "athletic_net_name": "Sheridan",
+          "full_name": "Sheridan"
+        },
+        {
+          "athletic_net_name": "South Gallia",
+          "full_name": "South Gallia"
+        },
+        {
+          "athletic_net_name": "South Point",
+          "full_name": "South Point"
+        },
+        {
+          "athletic_net_name": "South Webster",
+          "full_name": "South Webster"
+        },
+        {
+          "athletic_net_name": "Symmes Valley",
+          "full_name": "Symmes Valley"
+        },
+        {
+          "athletic_net_name": "Trimble",
+          "full_name": "Trimble"
+        },
+        {
+          "athletic_net_name": "Unioto",
+          "full_name": "Unioto"
+        },
+        {
+          "athletic_net_name": "Valley",
+          "full_name": "Valley (Lucasville)"
+        },
+        {
+          "athletic_net_name": "Vinton County",
+          "full_name": "Vinton County"
+        },
+        {
+          "athletic_net_name": "WCH Washington",
+          "full_name": "WCH Washington"
+        },
+        {
+          "athletic_net_name": "Warren",
+          "full_name": "Warren"
+        },
+        {
+          "athletic_net_name": "Waterford",
+          "full_name": "Waterford"
+        },
+        {
+          "athletic_net_name": "Waverly",
+          "full_name": "Waverly"
+        },
+        {
+          "athletic_net_name": "Wellston",
+          "full_name": "Wellston"
+        },
+        {
+          "athletic_net_name": "West Union",
+          "full_name": "West Union"
+        },
+        {
+          "athletic_net_name": "Western",
+          "full_name": "Western (Latham)"
+        },
+        {
+          "athletic_net_name": "Westfall",
+          "full_name": "Westfall"
+        },
+        {
+          "athletic_net_name": "Wheelersburg",
+          "full_name": "Wheelersburg"
+        },
+        {
+          "athletic_net_name": "Whiteoak",
+          "full_name": "Whiteoak"
+        },
+        {
+          "athletic_net_name": "Winc. Eastern",
+          "full_name": "Eastern (Winchester)"
+        },
+        {
+          "athletic_net_name": "Zane Trace",
+          "full_name": "Zane Trace"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Crooksville",
-     "full_name": "Crooksville"
+      "key": "CED",
+      "name": "Cedarville University",
+      "region": "Southwest",
+      "regional": "Troy",
+      "athletic_net_meet_id": 286416,
+      "url": "https://www.athletic.net/CrossCountry/meet/286416/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Alter",
+          "full_name": "Alter"
+        },
+        {
+          "athletic_net_name": "Anna",
+          "full_name": "Anna"
+        },
+        {
+          "athletic_net_name": "Ansonia",
+          "full_name": "Ansonia"
+        },
+        {
+          "athletic_net_name": "Arcanum",
+          "full_name": "Arcanum"
+        },
+        {
+          "athletic_net_name": "Bellbrook",
+          "full_name": "Bellbrook"
+        },
+        {
+          "athletic_net_name": "Bellefontaine",
+          "full_name": "Bellefontaine"
+        },
+        {
+          "athletic_net_name": "Belmont",
+          "full_name": "Belmont"
+        },
+        {
+          "athletic_net_name": "Ben. Logan",
+          "full_name": "Benjamin Logan"
+        },
+        {
+          "athletic_net_name": "Bethel",
+          "full_name": "Bethel"
+        },
+        {
+          "athletic_net_name": "Botkins",
+          "full_name": "Botkins"
+        },
+        {
+          "athletic_net_name": "Bradford",
+          "full_name": "Bradford"
+        },
+        {
+          "athletic_net_name": "Brookville",
+          "full_name": "Brookville"
+        },
+        {
+          "athletic_net_name": "Butler",
+          "full_name": "Butler"
+        },
+        {
+          "athletic_net_name": "Calvary Christian",
+          "full_name": "Calvary Christian"
+        },
+        {
+          "athletic_net_name": "Carlisle",
+          "full_name": "Carlisle"
+        },
+        {
+          "athletic_net_name": "Carroll",
+          "full_name": "Carroll"
+        },
+        {
+          "athletic_net_name": "Cedarville",
+          "full_name": "Cedarville"
+        },
+        {
+          "athletic_net_name": "Cham. Julienne",
+          "full_name": "Cham. Julienne"
+        },
+        {
+          "athletic_net_name": "Covington",
+          "full_name": "Covington"
+        },
+        {
+          "athletic_net_name": "Day. Jefferson Twp.",
+          "full_name": "Day. Jefferson Twp."
+        },
+        {
+          "athletic_net_name": "Day. Northridge",
+          "full_name": "Northridge (Dayton)"
+        },
+        {
+          "athletic_net_name": "DeG. Riverside",
+          "full_name": "Riverside (DeGraff)"
+        },
+        {
+          "athletic_net_name": "Dixie",
+          "full_name": "Dixie"
+        },
+        {
+          "athletic_net_name": "Dunbar",
+          "full_name": "Dunbar"
+        },
+        {
+          "athletic_net_name": "Eaton",
+          "full_name": "Eaton"
+        },
+        {
+          "athletic_net_name": "Fairborn",
+          "full_name": "Fairborn"
+        },
+        {
+          "athletic_net_name": "Fairlawn",
+          "full_name": "Fairlawn"
+        },
+        {
+          "athletic_net_name": "Franklin",
+          "full_name": "Franklin"
+        },
+        {
+          "athletic_net_name": "Franklin Monroe",
+          "full_name": "Franklin Monroe"
+        },
+        {
+          "athletic_net_name": "Ft. Loramie",
+          "full_name": "Fort Loramie"
+        },
+        {
+          "athletic_net_name": "Ft. Recovery",
+          "full_name": "Fort Recovery"
+        },
+        {
+          "athletic_net_name": "Graham Local",
+          "full_name": "Graham Local"
+        },
+        {
+          "athletic_net_name": "Greeneview",
+          "full_name": "Greeneview"
+        },
+        {
+          "athletic_net_name": "Greenon",
+          "full_name": "Greenon"
+        },
+        {
+          "athletic_net_name": "Greenville",
+          "full_name": "Greenville"
+        },
+        {
+          "athletic_net_name": "Houston",
+          "full_name": "Houston"
+        },
+        {
+          "athletic_net_name": "Indian Lake",
+          "full_name": "Indian Lake"
+        },
+        {
+          "athletic_net_name": "Jackson Center",
+          "full_name": "Jackson Center"
+        },
+        {
+          "athletic_net_name": "Kenton Ridge",
+          "full_name": "Kenton Ridge"
+        },
+        {
+          "athletic_net_name": "Legacy Christian",
+          "full_name": "Legacy Christian"
+        },
+        {
+          "athletic_net_name": "Lehman Cath.",
+          "full_name": "Lehman Catholic"
+        },
+        {
+          "athletic_net_name": "Meadowdale",
+          "full_name": "Meadowdale"
+        },
+        {
+          "athletic_net_name": "Miami East",
+          "full_name": "Miami East"
+        },
+        {
+          "athletic_net_name": "Miamisburg",
+          "full_name": "Miamisburg"
+        },
+        {
+          "athletic_net_name": "Mid. Madison",
+          "full_name": "Madison (Middletown)"
+        },
+        {
+          "athletic_net_name": "Milton-Union",
+          "full_name": "Milton-Union"
+        },
+        {
+          "athletic_net_name": "Minster",
+          "full_name": "Minster"
+        },
+        {
+          "athletic_net_name": "Mississinawa Valley",
+          "full_name": "Mississinawa Valley"
+        },
+        {
+          "athletic_net_name": "National Trail",
+          "full_name": "National Trail"
+        },
+        {
+          "athletic_net_name": "Newton Local",
+          "full_name": "Newton Local"
+        },
+        {
+          "athletic_net_name": "Northeastern",
+          "full_name": "Northeastern (South Vienna)"
+        },
+        {
+          "athletic_net_name": "Oakwood",
+          "full_name": "Oakwood"
+        },
+        {
+          "athletic_net_name": "Piqua",
+          "full_name": "Piqua"
+        },
+        {
+          "athletic_net_name": "Ponitz CTC",
+          "full_name": "Ponitz CTC"
+        },
+        {
+          "athletic_net_name": "Preble Shawnee",
+          "full_name": "Preble Shawnee"
+        },
+        {
+          "athletic_net_name": "Russia",
+          "full_name": "Russia"
+        },
+        {
+          "athletic_net_name": "S. Char. SE",
+          "full_name": "Southeastern (South Charleston)"
+        },
+        {
+          "athletic_net_name": "Sidney",
+          "full_name": "Sidney"
+        },
+        {
+          "athletic_net_name": "Spr. Cath. Cent.",
+          "full_name": "Springfield Catholic Central"
+        },
+        {
+          "athletic_net_name": "Spr. Northwestern",
+          "full_name": "Northwestern (Springfield)"
+        },
+        {
+          "athletic_net_name": "Spr. Shawnee",
+          "full_name": "Shawnee (Springfield)"
+        },
+        {
+          "athletic_net_name": "Spring. ECA",
+          "full_name": "Spring. ECA"
+        },
+        {
+          "athletic_net_name": "Stebbins",
+          "full_name": "Stebbins"
+        },
+        {
+          "athletic_net_name": "Stivers",
+          "full_name": "Stivers"
+        },
+        {
+          "athletic_net_name": "Tecumseh",
+          "full_name": "Tecumseh"
+        },
+        {
+          "athletic_net_name": "Thurgood Marshall",
+          "full_name": "Thurgood Marshall"
+        },
+        {
+          "athletic_net_name": "Tippecanoe",
+          "full_name": "Tippecanoe"
+        },
+        {
+          "athletic_net_name": "Tri-County North",
+          "full_name": "Tri-County North"
+        },
+        {
+          "athletic_net_name": "Tri-Village",
+          "full_name": "Tri-Village"
+        },
+        {
+          "athletic_net_name": "Triad",
+          "full_name": "Triad"
+        },
+        {
+          "athletic_net_name": "Trotwood-Madison",
+          "full_name": "Trotwood-Madison"
+        },
+        {
+          "athletic_net_name": "Troy",
+          "full_name": "Troy"
+        },
+        {
+          "athletic_net_name": "Troy Christian",
+          "full_name": "Troy Christian"
+        },
+        {
+          "athletic_net_name": "Twin Valley So.",
+          "full_name": "Twin Valley South"
+        },
+        {
+          "athletic_net_name": "Urbana",
+          "full_name": "Urbana"
+        },
+        {
+          "athletic_net_name": "Valley View",
+          "full_name": "Valley View"
+        },
+        {
+          "athletic_net_name": "Versailles",
+          "full_name": "Versailles"
+        },
+        {
+          "athletic_net_name": "Waynesville",
+          "full_name": "Waynesville"
+        },
+        {
+          "athletic_net_name": "West Carrollton",
+          "full_name": "West Carrollton"
+        },
+        {
+          "athletic_net_name": "West Liberty-Salem",
+          "full_name": "West Liberty-Salem"
+        },
+        {
+          "athletic_net_name": "Wilmington",
+          "full_name": "Wilmington"
+        },
+        {
+          "athletic_net_name": "Xenia",
+          "full_name": "Xenia"
+        },
+        {
+          "athletic_net_name": "Yellow Springs",
+          "full_name": "Yellow Springs"
+        }
+      ]
     },
     {
-     "athletic_net_name": "Dover",
-     "full_name": "Dover"
-    },
-    {
-     "athletic_net_name": "East Liverpool",
-     "full_name": "East Liverpool"
-    },
-    {
-     "athletic_net_name": "Fairless",
-     "full_name": "Fairless"
-    },
-    {
-     "athletic_net_name": "Fort Frye",
-     "full_name": "Fort Frye"
-    },
-    {
-     "athletic_net_name": "Frontier",
-     "full_name": "Frontier"
-    },
-    {
-     "athletic_net_name": "Garaway",
-     "full_name": "Garaway"
-    },
-    {
-     "athletic_net_name": "Han. River",
-     "full_name": "Han. River"
-    },
-    {
-     "athletic_net_name": "Harrison Central",
-     "full_name": "Harrison Central"
-    },
-    {
-     "athletic_net_name": "Hiland",
-     "full_name": "Hiland"
-    },
-    {
-     "athletic_net_name": "Indian Creek",
-     "full_name": "Indian Creek"
-    },
-    {
-     "athletic_net_name": "Indian Valley",
-     "full_name": "Indian Valley"
-    },
-    {
-     "athletic_net_name": "John Glenn",
-     "full_name": "John Glenn"
-    },
-    {
-     "athletic_net_name": "Malvern",
-     "full_name": "Malvern"
-    },
-    {
-     "athletic_net_name": "Martins Ferry",
-     "full_name": "Martins Ferry"
-    },
-    {
-     "athletic_net_name": "Maysville",
-     "full_name": "Maysville"
-    },
-    {
-     "athletic_net_name": "Meadowbrook",
-     "full_name": "Meadowbrook"
-    },
-    {
-     "athletic_net_name": "Minerva",
-     "full_name": "Minerva"
-    },
-    {
-     "athletic_net_name": "Morgan",
-     "full_name": "Morgan"
-    },
-    {
-     "athletic_net_name": "New Philadelphia",
-     "full_name": "New Philadelphia"
-    },
-    {
-     "athletic_net_name": "Newcomerstown",
-     "full_name": "Newcomerstown"
-    },
-    {
-     "athletic_net_name": "Philo",
-     "full_name": "Philo"
-    },
-    {
-     "athletic_net_name": "Rich. Edison",
-     "full_name": "Rich. Edison"
-    },
-    {
-     "athletic_net_name": "Ridgewood",
-     "full_name": "Ridgewood"
-    },
-    {
-     "athletic_net_name": "River View",
-     "full_name": "River View"
-    },
-    {
-     "athletic_net_name": "Sandy Valley",
-     "full_name": "Sandy Valley"
-    },
-    {
-     "athletic_net_name": "Shadyside",
-     "full_name": "Shadyside"
-    },
-    {
-     "athletic_net_name": "Shenandoah",
-     "full_name": "Shenandoah"
-    },
-    {
-     "athletic_net_name": "St. Clairsville",
-     "full_name": "St. Clairsville"
-    },
-    {
-     "athletic_net_name": "Steub. Cath. Cent.",
-     "full_name": "Steub. Cath. Cent."
-    },
-    {
-     "athletic_net_name": "Steubenville",
-     "full_name": "Steubenville"
-    },
-    {
-     "athletic_net_name": "Strasburg-Franklin",
-     "full_name": "Strasburg-Franklin"
-    },
-    {
-     "athletic_net_name": "Toronto",
-     "full_name": "Toronto"
-    },
-    {
-     "athletic_net_name": "Tri-Valley",
-     "full_name": "Tri-Valley"
-    },
-    {
-     "athletic_net_name": "Tuscar. C.C.",
-     "full_name": "Tuscarawas Central Catholic"
-    },
-    {
-     "athletic_net_name": "Tuscar. Valley",
-     "full_name": "Tuscarawas Valley"
-    },
-    {
-     "athletic_net_name": "Union Local",
-     "full_name": "Union Local"
-    },
-    {
-     "athletic_net_name": "West Holmes",
-     "full_name": "West Holmes"
-    },
-    {
-     "athletic_net_name": "West Muskingum",
-     "full_name": "West Muskingum"
-    },
-    {
-     "athletic_net_name": "Zanesville",
-     "full_name": "Zanesville"
+      "key": "VOA",
+      "name": "Voice of America Park",
+      "region": "Southwest",
+      "regional": "Troy",
+      "athletic_net_meet_id": 286417,
+      "url": "https://www.athletic.net/CrossCountry/meet/286417/info",
+      "entered_schools": [
+        {
+          "athletic_net_name": "Aiken",
+          "full_name": "Aiken"
+        },
+        {
+          "athletic_net_name": "Anderson",
+          "full_name": "Anderson"
+        },
+        {
+          "athletic_net_name": "Badin",
+          "full_name": "Badin"
+        },
+        {
+          "athletic_net_name": "Batavia",
+          "full_name": "Batavia"
+        },
+        {
+          "athletic_net_name": "Bethel-Tate",
+          "full_name": "Bethel-Tate"
+        },
+        {
+          "athletic_net_name": "Blanchester",
+          "full_name": "Blanchester"
+        },
+        {
+          "athletic_net_name": "Cin. CHCA",
+          "full_name": "Cin. CHCA"
+        },
+        {
+          "athletic_net_name": "Cin. Christian",
+          "full_name": "Cin. Christian"
+        },
+        {
+          "athletic_net_name": "Cin. Co. Day",
+          "full_name": "Cin. Co. Day"
+        },
+        {
+          "athletic_net_name": "Cin. Coll. Prep. Academy",
+          "full_name": "Cin. Coll. Prep. Academy"
+        },
+        {
+          "athletic_net_name": "Cin. Northwest",
+          "full_name": "Cin. Northwest"
+        },
+        {
+          "athletic_net_name": "Cin. SCPA",
+          "full_name": "Cin. SCPA"
+        },
+        {
+          "athletic_net_name": "Cin. Spencer Center",
+          "full_name": "Cin. Spencer Center"
+        },
+        {
+          "athletic_net_name": "Cin. St. Ursula Acad.",
+          "full_name": "St. Ursula Academy"
+        },
+        {
+          "athletic_net_name": "Cin. Woodward",
+          "full_name": "Cin. Woodward"
+        },
+        {
+          "athletic_net_name": "Clark Montessori",
+          "full_name": "Clark Montessori"
+        },
+        {
+          "athletic_net_name": "Clermont NE",
+          "full_name": "Clermont Northeastern"
+        },
+        {
+          "athletic_net_name": "Clinton-Massie",
+          "full_name": "Clinton-Massie"
+        },
+        {
+          "athletic_net_name": "Day. Christian",
+          "full_name": "Dayton Christian"
+        },
+        {
+          "athletic_net_name": "DePaul Cristo Rey",
+          "full_name": "DePaul Cristo Rey"
+        },
+        {
+          "athletic_net_name": "Deer Park",
+          "full_name": "Deer Park"
+        },
+        {
+          "athletic_net_name": "East Clinton",
+          "full_name": "East Clinton"
+        },
+        {
+          "athletic_net_name": "Felicity-Franklin",
+          "full_name": "Felicity-Franklin"
+        },
+        {
+          "athletic_net_name": "Fenwick",
+          "full_name": "Fenwick"
+        },
+        {
+          "athletic_net_name": "Finneytown",
+          "full_name": "Finneytown"
+        },
+        {
+          "athletic_net_name": "Gamble Montessori",
+          "full_name": "Gamble Montessori"
+        },
+        {
+          "athletic_net_name": "Georgetown",
+          "full_name": "Georgetown"
+        },
+        {
+          "athletic_net_name": "Goshen",
+          "full_name": "Goshen"
+        },
+        {
+          "athletic_net_name": "Harrison",
+          "full_name": "Harrison"
+        },
+        {
+          "athletic_net_name": "Hughes",
+          "full_name": "Hughes"
+        },
+        {
+          "athletic_net_name": "Indian Hill",
+          "full_name": "Indian Hill"
+        },
+        {
+          "athletic_net_name": "La Salle",
+          "full_name": "La Salle"
+        },
+        {
+          "athletic_net_name": "Lak. East",
+          "full_name": "Lakota East"
+        },
+        {
+          "athletic_net_name": "Lockland",
+          "full_name": "Lockland"
+        },
+        {
+          "athletic_net_name": "Loveland",
+          "full_name": "Loveland"
+        },
+        {
+          "athletic_net_name": "MVCA",
+          "full_name": "MVCA"
+        },
+        {
+          "athletic_net_name": "Madeira",
+          "full_name": "Madeira"
+        },
+        {
+          "athletic_net_name": "Mariemont",
+          "full_name": "Mariemont"
+        },
+        {
+          "athletic_net_name": "McNicholas",
+          "full_name": "McNicholas"
+        },
+        {
+          "athletic_net_name": "Mercy McAuley",
+          "full_name": "Mercy McAuley"
+        },
+        {
+          "athletic_net_name": "Miami Valley School",
+          "full_name": "Miami Valley School"
+        },
+        {
+          "athletic_net_name": "Mid. Christian",
+          "full_name": "Mid. Christian"
+        },
+        {
+          "athletic_net_name": "Monroe",
+          "full_name": "Monroe"
+        },
+        {
+          "athletic_net_name": "Mt. Healthy",
+          "full_name": "Mt. Healthy"
+        },
+        {
+          "athletic_net_name": "Mt. Notre Dame",
+          "full_name": "Mount Notre Dame"
+        },
+        {
+          "athletic_net_name": "New Miami",
+          "full_name": "New Miami"
+        },
+        {
+          "athletic_net_name": "New Richmond",
+          "full_name": "New Richmond"
+        },
+        {
+          "athletic_net_name": "No. College Hill",
+          "full_name": "No. College Hill"
+        },
+        {
+          "athletic_net_name": "Norwood",
+          "full_name": "Norwood"
+        },
+        {
+          "athletic_net_name": "Oyler",
+          "full_name": "Oyler"
+        },
+        {
+          "athletic_net_name": "Purcell Marian",
+          "full_name": "Purcell Marian"
+        },
+        {
+          "athletic_net_name": "Reading",
+          "full_name": "Reading"
+        },
+        {
+          "athletic_net_name": "Roger Bacon",
+          "full_name": "Roger Bacon"
+        },
+        {
+          "athletic_net_name": "Ross",
+          "full_name": "Ross"
+        },
+        {
+          "athletic_net_name": "Seven Hills",
+          "full_name": "Seven Hills"
+        },
+        {
+          "athletic_net_name": "Shroder",
+          "full_name": "Shroder"
+        },
+        {
+          "athletic_net_name": "St. Bernard",
+          "full_name": "St. Bernard"
+        },
+        {
+          "athletic_net_name": "Sum. Co. Day",
+          "full_name": "Sum. Co. Day"
+        },
+        {
+          "athletic_net_name": "Taft",
+          "full_name": "Taft"
+        },
+        {
+          "athletic_net_name": "Talawanda",
+          "full_name": "Talawanda"
+        },
+        {
+          "athletic_net_name": "Taylor",
+          "full_name": "Taylor"
+        },
+        {
+          "athletic_net_name": "Tre. Edgewood",
+          "full_name": "Edgewood (Trenton)"
+        },
+        {
+          "athletic_net_name": "Turpin",
+          "full_name": "Turpin"
+        },
+        {
+          "athletic_net_name": "Ursuline Academy",
+          "full_name": "Ursuline Academy"
+        },
+        {
+          "athletic_net_name": "Western Brown",
+          "full_name": "Western Brown"
+        },
+        {
+          "athletic_net_name": "Williamsburg",
+          "full_name": "Williamsburg"
+        },
+        {
+          "athletic_net_name": "Withrow",
+          "full_name": "Withrow"
+        },
+        {
+          "athletic_net_name": "Wyoming",
+          "full_name": "Wyoming"
+        }
+      ]
     }
-   ]
-  },
-  {
-   "key": "GO",
-   "name": "GlenOak HS",
-   "region": "Northeast",
-   "regional": "Boardman",
-   "athletic_net_meet_id": 286397,
-   "url": "https://www.athletic.net/CrossCountry/meet/286397/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Acad. For Urban Scholars",
-     "full_name": "Acad. For Urban Scholars"
-    },
-    {
-     "athletic_net_name": "Ak. East",
-     "full_name": "Ak. East"
-    },
-    {
-     "athletic_net_name": "Ak. Garfield",
-     "full_name": "Ak. Garfield"
-    },
-    {
-     "athletic_net_name": "Ak. Manchester",
-     "full_name": "Manchester (Akron)"
-    },
-    {
-     "athletic_net_name": "Ak. North",
-     "full_name": "Ak. North"
-    },
-    {
-     "athletic_net_name": "Ak. Springfield",
-     "full_name": "Ak. Springfield"
-    },
-    {
-     "athletic_net_name": "Akron SVSM",
-     "full_name": "Akron SVSM"
-    },
-    {
-     "athletic_net_name": "Alliance",
-     "full_name": "Alliance"
-    },
-    {
-     "athletic_net_name": "Austintown-Fitch",
-     "full_name": "Austintown-Fitch"
-    },
-    {
-     "athletic_net_name": "B.C. Western Reserve",
-     "full_name": "B.C. Western Reserve"
-    },
-    {
-     "athletic_net_name": "Barberton",
-     "full_name": "Barberton"
-    },
-    {
-     "athletic_net_name": "Boardman",
-     "full_name": "Boardman"
-    },
-    {
-     "athletic_net_name": "Buchtel",
-     "full_name": "Buchtel"
-    },
-    {
-     "athletic_net_name": "CF Northwest",
-     "full_name": "Canal Fulton Northwest"
-    },
-    {
-     "athletic_net_name": "Canfield",
-     "full_name": "Canfield"
-    },
-    {
-     "athletic_net_name": "Canton C.C.",
-     "full_name": "Canton C.C."
-    },
-    {
-     "athletic_net_name": "Canton South",
-     "full_name": "Canton South"
-    },
-    {
-     "athletic_net_name": "Chippewa",
-     "full_name": "Chippewa"
-    },
-    {
-     "athletic_net_name": "Columbiana",
-     "full_name": "Columbiana"
-    },
-    {
-     "athletic_net_name": "Coventry",
-     "full_name": "Coventry"
-    },
-    {
-     "athletic_net_name": "Cuy. Falls",
-     "full_name": "Cuy. Falls"
-    },
-    {
-     "athletic_net_name": "David Anderson",
-     "full_name": "David Anderson"
-    },
-    {
-     "athletic_net_name": "East Canton",
-     "full_name": "East Canton"
-    },
-    {
-     "athletic_net_name": "East Palestine",
-     "full_name": "East Palestine"
-    },
-    {
-     "athletic_net_name": "Ellet",
-     "full_name": "Ellet"
-    },
-    {
-     "athletic_net_name": "Field",
-     "full_name": "Field"
-    },
-    {
-     "athletic_net_name": "Firestone",
-     "full_name": "Firestone"
-    },
-    {
-     "athletic_net_name": "Garfield Hts.",
-     "full_name": "Garfield Hts."
-    },
-    {
-     "athletic_net_name": "Girard",
-     "full_name": "Girard"
-    },
-    {
-     "athletic_net_name": "GlenOak",
-     "full_name": "GlenOak"
-    },
-    {
-     "athletic_net_name": "Green",
-     "full_name": "Green"
-    },
-    {
-     "athletic_net_name": "Heartland Christian",
-     "full_name": "Heartland Christian"
-    },
-    {
-     "athletic_net_name": "Hoban",
-     "full_name": "Archbishop Hoban"
-    },
-    {
-     "athletic_net_name": "Hoover",
-     "full_name": "Hoover"
-    },
-    {
-     "athletic_net_name": "Hubbard",
-     "full_name": "Hubbard"
-    },
-    {
-     "athletic_net_name": "Hudson",
-     "full_name": "Hudson"
-    },
-    {
-     "athletic_net_name": "Jackson-Milton",
-     "full_name": "Jackson-Milton"
-    },
-    {
-     "athletic_net_name": "Lake Center Chr.",
-     "full_name": "Lake Center Chr."
-    },
-    {
-     "athletic_net_name": "Louisville",
-     "full_name": "Louisville"
-    },
-    {
-     "athletic_net_name": "Lowellville",
-     "full_name": "Lowellville"
-    },
-    {
-     "athletic_net_name": "Marlington",
-     "full_name": "Marlington"
-    },
-    {
-     "athletic_net_name": "Mass. Perry",
-     "full_name": "Massillon Perry"
-    },
-    {
-     "athletic_net_name": "Mass. Washington",
-     "full_name": "Mass. Washington"
-    },
-    {
-     "athletic_net_name": "Mogadore",
-     "full_name": "Mogadore"
-    },
-    {
-     "athletic_net_name": "Mooney",
-     "full_name": "Mooney"
-    },
-    {
-     "athletic_net_name": "N. Mid. Springfield",
-     "full_name": "Springfield (New Middletown)"
-    },
-    {
-     "athletic_net_name": "Norton",
-     "full_name": "Norton"
-    },
-    {
-     "athletic_net_name": "Poland Seminary",
-     "full_name": "Poland Seminary"
-    },
-    {
-     "athletic_net_name": "Ravenna",
-     "full_name": "Ravenna"
-    },
-    {
-     "athletic_net_name": "Roosevelt",
-     "full_name": "Roosevelt"
-    },
-    {
-     "athletic_net_name": "Rootstown",
-     "full_name": "Rootstown"
-    },
-    {
-     "athletic_net_name": "Sal. Southern",
-     "full_name": "Sal. Southern"
-    },
-    {
-     "athletic_net_name": "Salem",
-     "full_name": "Salem"
-    },
-    {
-     "athletic_net_name": "Seb. McKinley",
-     "full_name": "Seb. McKinley"
-    },
-    {
-     "athletic_net_name": "South Range",
-     "full_name": "South Range"
-    },
-    {
-     "athletic_net_name": "Southeast",
-     "full_name": "Southeast"
-    },
-    {
-     "athletic_net_name": "St. Thomas Aquinas",
-     "full_name": "St. Thomas Aquinas"
-    },
-    {
-     "athletic_net_name": "Struthers",
-     "full_name": "Struthers"
-    },
-    {
-     "athletic_net_name": "Tallmadge",
-     "full_name": "Tallmadge"
-    },
-    {
-     "athletic_net_name": "Tuslaw",
-     "full_name": "Tuslaw"
-    },
-    {
-     "athletic_net_name": "Uniont. Lake",
-     "full_name": "Uniontown Lake"
-    },
-    {
-     "athletic_net_name": "United",
-     "full_name": "United"
-    },
-    {
-     "athletic_net_name": "Wadsworth",
-     "full_name": "Wadsworth"
-    },
-    {
-     "athletic_net_name": "Walsh Jesuit",
-     "full_name": "Walsh Jesuit"
-    },
-    {
-     "athletic_net_name": "Waterloo",
-     "full_name": "Waterloo"
-    },
-    {
-     "athletic_net_name": "Wellsville",
-     "full_name": "Wellsville"
-    },
-    {
-     "athletic_net_name": "West Branch",
-     "full_name": "West Branch"
-    },
-    {
-     "athletic_net_name": "Wooster",
-     "full_name": "Wooster"
+  ],
+  "races": [
+    {
+      "site": "HD",
+      "gender": "boys",
+      "division": 4,
+      "race_label": "Race 1",
+      "start_time": "10:00 AM",
+      "teams_advance": 4,
+      "individuals_advance": 8,
+      "athletic_net_div_id": 1140749
+    },
+    {
+      "site": "HD",
+      "gender": "boys",
+      "division": 4,
+      "race_label": "Race 2",
+      "start_time": "10:30 AM",
+      "teams_advance": 4,
+      "individuals_advance": 8,
+      "athletic_net_div_id": 1140773
+    },
+    {
+      "site": "HD",
+      "gender": "girls",
+      "division": 4,
+      "race_label": "Race 1",
+      "start_time": "11:00 AM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140750
+    },
+    {
+      "site": "HD",
+      "gender": "girls",
+      "division": 4,
+      "race_label": "Race 2",
+      "start_time": "11:30 AM",
+      "teams_advance": 4,
+      "individuals_advance": 8,
+      "athletic_net_div_id": 1140774
+    },
+    {
+      "site": "HD",
+      "gender": "boys",
+      "division": 3,
+      "race_label": "Race 1",
+      "start_time": "12:00 PM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140747
+    },
+    {
+      "site": "HD",
+      "gender": "boys",
+      "division": 3,
+      "race_label": "Race 2",
+      "start_time": "12:30 PM",
+      "teams_advance": 4,
+      "individuals_advance": 8,
+      "athletic_net_div_id": 1140771
+    },
+    {
+      "site": "HD",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "1:00 PM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140748
+    },
+    {
+      "site": "HD",
+      "gender": "boys",
+      "division": 2,
+      "race_label": "Race 1",
+      "start_time": "1:30 PM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140745
+    },
+    {
+      "site": "HD",
+      "gender": "boys",
+      "division": 2,
+      "race_label": "Race 2",
+      "start_time": "2:00 PM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140765
+    },
+    {
+      "site": "HD",
+      "gender": "girls",
+      "division": 2,
+      "race_label": "Race 1",
+      "start_time": "2:30 PM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140746
+    },
+    {
+      "site": "HD",
+      "gender": "girls",
+      "division": 2,
+      "race_label": "Race 2",
+      "start_time": "3:00 PM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140766
+    },
+    {
+      "site": "CAM",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 4,
+      "individuals_advance": 8,
+      "athletic_net_div_id": 1140782
+    },
+    {
+      "site": "CAM",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:45 AM",
+      "teams_advance": 3,
+      "individuals_advance": 6,
+      "athletic_net_div_id": 1140781
+    },
+    {
+      "site": "CAM",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:45 AM",
+      "teams_advance": 13,
+      "individuals_advance": 26,
+      "athletic_net_div_id": 1140784
+    },
+    {
+      "site": "CAM",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:30 PM",
+      "teams_advance": 12,
+      "individuals_advance": 24,
+      "athletic_net_div_id": 1140783
+    },
+    {
+      "site": "CAM",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "1:30 PM",
+      "teams_advance": 4,
+      "individuals_advance": 8,
+      "athletic_net_div_id": 1140786
+    },
+    {
+      "site": "CAM",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "2:15 PM",
+      "teams_advance": 4,
+      "individuals_advance": 8,
+      "athletic_net_div_id": 1140785
+    },
+    {
+      "site": "GO",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 13,
+      "individuals_advance": 26,
+      "athletic_net_div_id": 1140798
+    },
+    {
+      "site": "GO",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:45 AM",
+      "teams_advance": 14,
+      "individuals_advance": 28,
+      "athletic_net_div_id": 1140797
+    },
+    {
+      "site": "GO",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:45 AM",
+      "teams_advance": 10,
+      "individuals_advance": 20,
+      "athletic_net_div_id": 1140800
+    },
+    {
+      "site": "GO",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:30 PM",
+      "teams_advance": 9,
+      "individuals_advance": 18,
+      "athletic_net_div_id": 1140799
+    },
+    {
+      "site": "GO",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "1:30 PM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140802
+    },
+    {
+      "site": "GO",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "2:15 PM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140801
+    },
+    {
+      "site": "LCCC",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 13,
+      "individuals_advance": 26,
+      "athletic_net_div_id": 1140804
+    },
+    {
+      "site": "LCCC",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:45 AM",
+      "teams_advance": 11,
+      "individuals_advance": 22,
+      "athletic_net_div_id": 1140803
+    },
+    {
+      "site": "LCCC",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:45 AM",
+      "teams_advance": 10,
+      "individuals_advance": 20,
+      "athletic_net_div_id": 1140806
+    },
+    {
+      "site": "LCCC",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:30 PM",
+      "teams_advance": 7,
+      "individuals_advance": 14,
+      "athletic_net_div_id": 1140805
+    },
+    {
+      "site": "LCCC",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "1:30 PM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140808
+    },
+    {
+      "site": "LCCC",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "2:15 PM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140807
+    },
+    {
+      "site": "MAD",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 11,
+      "individuals_advance": 22,
+      "athletic_net_div_id": 1140820
+    },
+    {
+      "site": "MAD",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:45 AM",
+      "teams_advance": 13,
+      "individuals_advance": 26,
+      "athletic_net_div_id": 1140819
+    },
+    {
+      "site": "MAD",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:45 AM",
+      "teams_advance": 12,
+      "individuals_advance": 24,
+      "athletic_net_div_id": 1140822
+    },
+    {
+      "site": "MAD",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:30 PM",
+      "teams_advance": 10,
+      "individuals_advance": 20,
+      "athletic_net_div_id": 1140821
+    },
+    {
+      "site": "MAD",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "1:30 PM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140824
+    },
+    {
+      "site": "MAD",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "2:15 PM",
+      "teams_advance": 7,
+      "individuals_advance": 14,
+      "athletic_net_div_id": 1140823
+    },
+    {
+      "site": "GAL",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140891
+    },
+    {
+      "site": "GAL",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "10:45 AM",
+      "teams_advance": 7,
+      "individuals_advance": 14,
+      "athletic_net_div_id": 1140890
+    },
+    {
+      "site": "GAL",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:30 AM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140889
+    },
+    {
+      "site": "GAL",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:15 PM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140888
+    },
+    {
+      "site": "CG",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 9,
+      "individuals_advance": 18,
+      "athletic_net_div_id": 1140880
+    },
+    {
+      "site": "CG",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "10:40 AM",
+      "teams_advance": 9,
+      "individuals_advance": 18,
+      "athletic_net_div_id": 1140881
+    },
+    {
+      "site": "CG",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:20 AM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140878
+    },
+    {
+      "site": "CG",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:00 PM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140879
+    },
+    {
+      "site": "LF",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "9:00 AM",
+      "teams_advance": 9,
+      "individuals_advance": 18,
+      "athletic_net_div_id": 1140871
+    },
+    {
+      "site": "LF",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "9:40 AM",
+      "teams_advance": 9,
+      "individuals_advance": 18,
+      "athletic_net_div_id": 1140870
+    },
+    {
+      "site": "LF",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:30 AM",
+      "teams_advance": 7,
+      "individuals_advance": 14,
+      "athletic_net_div_id": 1140867
+    },
+    {
+      "site": "LF",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "11:10 AM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140866
+    },
+    {
+      "site": "OW",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "9:00 AM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140865
+    },
+    {
+      "site": "OW",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "9:40 AM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140864
+    },
+    {
+      "site": "OW",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "10:20 AM",
+      "teams_advance": 10,
+      "individuals_advance": 20,
+      "athletic_net_div_id": 1140863
+    },
+    {
+      "site": "OW",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:00 AM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140862
+    },
+    {
+      "site": "OW",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "11:40 AM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140861
+    },
+    {
+      "site": "OW",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "12:20 PM",
+      "teams_advance": 10,
+      "individuals_advance": 20,
+      "athletic_net_div_id": 1140860
+    },
+    {
+      "site": "RG",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140897
+    },
+    {
+      "site": "RG",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "10:45 AM",
+      "teams_advance": 11,
+      "individuals_advance": 22,
+      "athletic_net_div_id": 1140896
+    },
+    {
+      "site": "RG",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:00 PM",
+      "teams_advance": 8,
+      "individuals_advance": 16,
+      "athletic_net_div_id": 1140895
+    },
+    {
+      "site": "RG",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:45 PM",
+      "teams_advance": 11,
+      "individuals_advance": 22,
+      "athletic_net_div_id": 1140894
+    },
+    {
+      "site": "RG",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "2:00 PM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140893
+    },
+    {
+      "site": "RG",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "2:45 PM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140892
+    },
+    {
+      "site": "CED",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 10,
+      "individuals_advance": 20,
+      "athletic_net_div_id": 1140903
+    },
+    {
+      "site": "CED",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:45 AM",
+      "teams_advance": 11,
+      "individuals_advance": 22,
+      "athletic_net_div_id": 1140902
+    },
+    {
+      "site": "CED",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:30 AM",
+      "teams_advance": 12,
+      "individuals_advance": 24,
+      "athletic_net_div_id": 1140905
+    },
+    {
+      "site": "CED",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "12:15 PM",
+      "teams_advance": 11,
+      "individuals_advance": 22,
+      "athletic_net_div_id": 1140904
+    },
+    {
+      "site": "CED",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "1:00 PM",
+      "teams_advance": 13,
+      "individuals_advance": 26,
+      "athletic_net_div_id": 1140907
+    },
+    {
+      "site": "CED",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "1:45 PM",
+      "teams_advance": 14,
+      "individuals_advance": 28,
+      "athletic_net_div_id": 1140906
+    },
+    {
+      "site": "VOA",
+      "gender": "girls",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:00 AM",
+      "teams_advance": 14,
+      "individuals_advance": 28,
+      "athletic_net_div_id": 1140912
+    },
+    {
+      "site": "VOA",
+      "gender": "boys",
+      "division": 2,
+      "race_label": null,
+      "start_time": "10:30 AM",
+      "teams_advance": 9,
+      "individuals_advance": 18,
+      "athletic_net_div_id": 1140911
+    },
+    {
+      "site": "VOA",
+      "gender": "girls",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:00 AM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140914
+    },
+    {
+      "site": "VOA",
+      "gender": "boys",
+      "division": 3,
+      "race_label": null,
+      "start_time": "11:30 AM",
+      "teams_advance": 10,
+      "individuals_advance": 20,
+      "athletic_net_div_id": 1140913
+    },
+    {
+      "site": "VOA",
+      "gender": "girls",
+      "division": 4,
+      "race_label": null,
+      "start_time": "12:00 PM",
+      "teams_advance": 6,
+      "individuals_advance": 12,
+      "athletic_net_div_id": 1140916
+    },
+    {
+      "site": "VOA",
+      "gender": "boys",
+      "division": 4,
+      "race_label": null,
+      "start_time": "12:30 PM",
+      "teams_advance": 5,
+      "individuals_advance": 10,
+      "athletic_net_div_id": 1140915
     }
-   ]
-  },
-  {
-   "key": "LCCC",
-   "name": "Lorain County CC",
-   "region": "Northeast",
-   "regional": "Boardman",
-   "athletic_net_meet_id": 286398,
-   "url": "https://www.athletic.net/CrossCountry/meet/286398/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Avon",
-     "full_name": "Avon"
-    },
-    {
-     "athletic_net_name": "Avon Lake",
-     "full_name": "Avon Lake"
-    },
-    {
-     "athletic_net_name": "Bard Early College",
-     "full_name": "Bard Early College"
-    },
-    {
-     "athletic_net_name": "Bay",
-     "full_name": "Bay"
-    },
-    {
-     "athletic_net_name": "Beachwood",
-     "full_name": "Beachwood"
-    },
-    {
-     "athletic_net_name": "Benedictine",
-     "full_name": "Benedictine"
-    },
-    {
-     "athletic_net_name": "Black River",
-     "full_name": "Black River"
-    },
-    {
-     "athletic_net_name": "Brecksville",
-     "full_name": "Brecksville"
-    },
-    {
-     "athletic_net_name": "Brooklyn",
-     "full_name": "Brooklyn"
-    },
-    {
-     "athletic_net_name": "Brookside",
-     "full_name": "Brookside"
-    },
-    {
-     "athletic_net_name": "Buckeye",
-     "full_name": "Buckeye"
-    },
-    {
-     "athletic_net_name": "CVCA",
-     "full_name": "CVCA"
-    },
-    {
-     "athletic_net_name": "Cle. Cent. Cath.",
-     "full_name": "Cle. Cent. Cath."
-    },
-    {
-     "athletic_net_name": "Cle. St. Joseph Acad.",
-     "full_name": "Cle. St. Joseph Acad."
-    },
-    {
-     "athletic_net_name": "Clearview",
-     "full_name": "Clearview"
-    },
-    {
-     "athletic_net_name": "Cloverleaf",
-     "full_name": "Cloverleaf"
-    },
-    {
-     "athletic_net_name": "Col. Crestview",
-     "full_name": "Col. Crestview"
-    },
-    {
-     "athletic_net_name": "Collinwood",
-     "full_name": "Collinwood"
-    },
-    {
-     "athletic_net_name": "Columbia",
-     "full_name": "Columbia"
-    },
-    {
-     "athletic_net_name": "Copley",
-     "full_name": "Copley"
-    },
-    {
-     "athletic_net_name": "Cuy. Heights",
-     "full_name": "Cuyahoga Heights"
-    },
-    {
-     "athletic_net_name": "Dalton",
-     "full_name": "Dalton"
-    },
-    {
-     "athletic_net_name": "East Technical",
-     "full_name": "East Technical"
-    },
-    {
-     "athletic_net_name": "Elyria Catholic",
-     "full_name": "Elyria Catholic"
-    },
-    {
-     "athletic_net_name": "Fair. Park Fairview",
-     "full_name": "Fairview (Fairview Park)"
-    },
-    {
-     "athletic_net_name": "Firelands",
-     "full_name": "Firelands"
-    },
-    {
-     "athletic_net_name": "Hillsdale",
-     "full_name": "Hillsdale"
-    },
-    {
-     "athletic_net_name": "Holy Name",
-     "full_name": "Holy Name"
-    },
-    {
-     "athletic_net_name": "Independence",
-     "full_name": "Independence"
-    },
-    {
-     "athletic_net_name": "John Hay",
-     "full_name": "John Hay"
-    },
-    {
-     "athletic_net_name": "Keystone",
-     "full_name": "Keystone"
-    },
-    {
-     "athletic_net_name": "Kid. Cent. Christian",
-     "full_name": "Kidron Central Christian"
-    },
-    {
-     "athletic_net_name": "Lake Ridge Acad.",
-     "full_name": "Lake Ridge Acad."
-    },
-    {
-     "athletic_net_name": "Lakewood",
-     "full_name": "Lakewood"
-    },
-    {
-     "athletic_net_name": "Laurel",
-     "full_name": "Laurel"
-    },
-    {
-     "athletic_net_name": "Lincoln West",
-     "full_name": "Lincoln West"
-    },
-    {
-     "athletic_net_name": "Loudonville",
-     "full_name": "Loudonville"
-    },
-    {
-     "athletic_net_name": "Luth. East",
-     "full_name": "Luth. East"
-    },
-    {
-     "athletic_net_name": "Luth. West",
-     "full_name": "Lutheran West"
-    },
-    {
-     "athletic_net_name": "Maple Hts.",
-     "full_name": "Maple Hts."
-    },
-    {
-     "athletic_net_name": "Mapleton",
-     "full_name": "Mapleton"
-    },
-    {
-     "athletic_net_name": "Med Highland",
-     "full_name": "Medina Highland"
-    },
-    {
-     "athletic_net_name": "Medina Christian Academy",
-     "full_name": "Medina Christian Academy"
-    },
-    {
-     "athletic_net_name": "Midview",
-     "full_name": "Midview"
-    },
-    {
-     "athletic_net_name": "No. Olmsted",
-     "full_name": "North Olmsted"
-    },
-    {
-     "athletic_net_name": "No. Ridgeville",
-     "full_name": "North Ridgeville"
-    },
-    {
-     "athletic_net_name": "No. Royalton",
-     "full_name": "North Royalton"
-    },
-    {
-     "athletic_net_name": "Norwayne",
-     "full_name": "Norwayne"
-    },
-    {
-     "athletic_net_name": "Oberlin",
-     "full_name": "Oberlin"
-    },
-    {
-     "athletic_net_name": "Olmsted Falls",
-     "full_name": "Olmsted Falls"
-    },
-    {
-     "athletic_net_name": "Open Door Christian",
-     "full_name": "Open Door Christian"
-    },
-    {
-     "athletic_net_name": "Orrville",
-     "full_name": "Orrville"
-    },
-    {
-     "athletic_net_name": "Our Lady Elms",
-     "full_name": "Our Lady Elms"
-    },
-    {
-     "athletic_net_name": "Padua Franciscan",
-     "full_name": "Padua Franciscan"
-    },
-    {
-     "athletic_net_name": "Revere",
-     "full_name": "Revere"
-    },
-    {
-     "athletic_net_name": "Rittman",
-     "full_name": "Rittman"
-    },
-    {
-     "athletic_net_name": "Rocky River",
-     "full_name": "Rocky River"
-    },
-    {
-     "athletic_net_name": "Shaw",
-     "full_name": "Shaw"
-    },
-    {
-     "athletic_net_name": "Smithville",
-     "full_name": "Smithville"
-    },
-    {
-     "athletic_net_name": "St. Martin dePorres",
-     "full_name": "St. Martin dePorres"
-    },
-    {
-     "athletic_net_name": "Steele",
-     "full_name": "Steele"
-    },
-    {
-     "athletic_net_name": "Streetsboro",
-     "full_name": "Streetsboro"
-    },
-    {
-     "athletic_net_name": "Trinity",
-     "full_name": "Trinity"
-    },
-    {
-     "athletic_net_name": "Triway",
-     "full_name": "Triway"
-    },
-    {
-     "athletic_net_name": "W.S. Northwestern",
-     "full_name": "Northwestern (West Salem)"
-    },
-    {
-     "athletic_net_name": "Waynedale",
-     "full_name": "Waynedale"
-    },
-    {
-     "athletic_net_name": "Wellington",
-     "full_name": "Wellington"
-    },
-    {
-     "athletic_net_name": "Westlake",
-     "full_name": "Westlake"
-    },
-    {
-     "athletic_net_name": "Windham",
-     "full_name": "Windham"
-    },
-    {
-     "athletic_net_name": "Woodridge",
-     "full_name": "Woodridge"
-    }
-   ]
-  },
-  {
-   "key": "MAD",
-   "name": "Madison HS",
-   "region": "Northeast",
-   "regional": "Boardman",
-   "athletic_net_meet_id": 286401,
-   "url": "https://www.athletic.net/CrossCountry/meet/286401/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Andrews Osborne Acad.",
-     "full_name": "Andrews Osborne Acad."
-    },
-    {
-     "athletic_net_name": "Ash. Edgewood",
-     "full_name": "Ashtabula Edgewood"
-    },
-    {
-     "athletic_net_name": "Ash. St. John",
-     "full_name": "Ash. St. John"
-    },
-    {
-     "athletic_net_name": "Aurora",
-     "full_name": "Aurora"
-    },
-    {
-     "athletic_net_name": "Badger",
-     "full_name": "Badger"
-    },
-    {
-     "athletic_net_name": "Beaumont",
-     "full_name": "Beaumont"
-    },
-    {
-     "athletic_net_name": "Bedford",
-     "full_name": "Bedford"
-    },
-    {
-     "athletic_net_name": "Berkshire",
-     "full_name": "Berkshire"
-    },
-    {
-     "athletic_net_name": "Bloomfield",
-     "full_name": "Bloomfield"
-    },
-    {
-     "athletic_net_name": "Bristol",
-     "full_name": "Bristol"
-    },
-    {
-     "athletic_net_name": "Brookfield",
-     "full_name": "Brookfield"
-    },
-    {
-     "athletic_net_name": "Brush",
-     "full_name": "Brush"
-    },
-    {
-     "athletic_net_name": "Cardinal",
-     "full_name": "Cardinal"
-    },
-    {
-     "athletic_net_name": "Chagrin Falls",
-     "full_name": "Chagrin Falls"
-    },
-    {
-     "athletic_net_name": "Chalker",
-     "full_name": "Chalker"
-    },
-    {
-     "athletic_net_name": "Chaney",
-     "full_name": "Chaney"
-    },
-    {
-     "athletic_net_name": "Chardon",
-     "full_name": "Chardon"
-    },
-    {
-     "athletic_net_name": "Chardon NDCL",
-     "full_name": "Notre Dame-Cathedral Latin"
-    },
-    {
-     "athletic_net_name": "Cle. VASJ",
-     "full_name": "Cle. VASJ"
-    },
-    {
-     "athletic_net_name": "Conneaut",
-     "full_name": "Conneaut"
-    },
-    {
-     "athletic_net_name": "Cornerstone Christian",
-     "full_name": "Cornerstone Christian"
-    },
-    {
-     "athletic_net_name": "Crestwood",
-     "full_name": "Crestwood"
-    },
-    {
-     "athletic_net_name": "Eastlake North",
-     "full_name": "Eastlake North"
-    },
-    {
-     "athletic_net_name": "Euclid",
-     "full_name": "Euclid"
-    },
-    {
-     "athletic_net_name": "Fairport Harding",
-     "full_name": "Fairport Harding"
-    },
-    {
-     "athletic_net_name": "Gar. Garfield",
-     "full_name": "Gar. Garfield"
-    },
-    {
-     "athletic_net_name": "Garrett Morgan",
-     "full_name": "Garrett Morgan"
-    },
-    {
-     "athletic_net_name": "Geneva",
-     "full_name": "Geneva"
-    },
-    {
-     "athletic_net_name": "Gilmour Academy",
-     "full_name": "Gilmour Academy"
-    },
-    {
-     "athletic_net_name": "Glenville",
-     "full_name": "Glenville"
-    },
-    {
-     "athletic_net_name": "Grand Valley",
-     "full_name": "Grand Valley"
-    },
-    {
-     "athletic_net_name": "Harvey",
-     "full_name": "Harvey"
-    },
-    {
-     "athletic_net_name": "Hathaway Brown",
-     "full_name": "Hathaway Brown"
-    },
-    {
-     "athletic_net_name": "Hawken",
-     "full_name": "Hawken"
-    },
-    {
-     "athletic_net_name": "Howland",
-     "full_name": "Howland"
-    },
-    {
-     "athletic_net_name": "Jefferson Area",
-     "full_name": "Jefferson Area"
-    },
-    {
-     "athletic_net_name": "John Adams",
-     "full_name": "John Adams"
-    },
-    {
-     "athletic_net_name": "John Marshall",
-     "full_name": "John Marshall"
-    },
-    {
-     "athletic_net_name": "Kenston",
-     "full_name": "Kenston"
-    },
-    {
-     "athletic_net_name": "Kirtland",
-     "full_name": "Kirtland"
-    },
-    {
-     "athletic_net_name": "LaBrae",
-     "full_name": "LaBrae"
-    },
-    {
-     "athletic_net_name": "Lake Cath.",
-     "full_name": "Lake Catholic"
-    },
-    {
-     "athletic_net_name": "Lakeside",
-     "full_name": "Lakeside"
-    },
-    {
-     "athletic_net_name": "Lakeview",
-     "full_name": "Lakeview"
-    },
-    {
-     "athletic_net_name": "Liberty",
-     "full_name": "Liberty"
-    },
-    {
-     "athletic_net_name": "Lordstown",
-     "full_name": "Lordstown"
-    },
-    {
-     "athletic_net_name": "Madison",
-     "full_name": "Madison"
-    },
-    {
-     "athletic_net_name": "Maplewood",
-     "full_name": "Maplewood"
-    },
-    {
-     "athletic_net_name": "Mathews",
-     "full_name": "Mathews"
-    },
-    {
-     "athletic_net_name": "Max Hayes",
-     "full_name": "Max Hayes"
-    },
-    {
-     "athletic_net_name": "Mayfield",
-     "full_name": "Mayfield"
-    },
-    {
-     "athletic_net_name": "McDonald",
-     "full_name": "McDonald"
-    },
-    {
-     "athletic_net_name": "Mineral Ridge",
-     "full_name": "Mineral Ridge"
-    },
-    {
-     "athletic_net_name": "Newton Falls",
-     "full_name": "Newton Falls"
-    },
-    {
-     "athletic_net_name": "Niles McKinley",
-     "full_name": "Niles McKinley"
-    },
-    {
-     "athletic_net_name": "Nordonia",
-     "full_name": "Nordonia"
-    },
-    {
-     "athletic_net_name": "Orange",
-     "full_name": "Orange"
-    },
-    {
-     "athletic_net_name": "Paine. Riverside",
-     "full_name": "Painesville Riverside"
-    },
-    {
-     "athletic_net_name": "Perry",
-     "full_name": "Perry"
-    },
-    {
-     "athletic_net_name": "Pymatuning Valley",
-     "full_name": "Pymatuning Valley"
-    },
-    {
-     "athletic_net_name": "Rhodes",
-     "full_name": "Rhodes"
-    },
-    {
-     "athletic_net_name": "Richmond Hts.",
-     "full_name": "Richmond Heights"
-    },
-    {
-     "athletic_net_name": "Shaker Hts.",
-     "full_name": "Shaker Heights"
-    },
-    {
-     "athletic_net_name": "Twinsburg",
-     "full_name": "Twinsburg"
-    },
-    {
-     "athletic_net_name": "University School",
-     "full_name": "University School"
-    },
-    {
-     "athletic_net_name": "Ursuline",
-     "full_name": "Ursuline"
-    },
-    {
-     "athletic_net_name": "War. Champion",
-     "full_name": "War. Champion"
-    },
-    {
-     "athletic_net_name": "Warren G Harding",
-     "full_name": "Warren G Harding"
-    },
-    {
-     "athletic_net_name": "Warren JFK",
-     "full_name": "Warren JFK"
-    },
-    {
-     "athletic_net_name": "Warrensville Hts.",
-     "full_name": "Warrensville Hts."
-    },
-    {
-     "athletic_net_name": "West Geauga",
-     "full_name": "West Geauga"
-    },
-    {
-     "athletic_net_name": "Wickliffe",
-     "full_name": "Wickliffe"
-    },
-    {
-     "athletic_net_name": "Will. South",
-     "full_name": "Willoughby South"
-    },
-    {
-     "athletic_net_name": "Young. Valley Christian",
-     "full_name": "Young. Valley Christian"
-    }
-   ]
-  },
-  {
-   "key": "GAL",
-   "name": "Amann's Park, Galion",
-   "region": "Northwest",
-   "regional": "Tiffin",
-   "athletic_net_meet_id": 286413,
-   "url": "https://www.athletic.net/CrossCountry/meet/286413/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Ash. Crestview",
-     "full_name": "Ashland Crestview"
-    },
-    {
-     "athletic_net_name": "Buckeye Central",
-     "full_name": "Buckeye Central"
-    },
-    {
-     "athletic_net_name": "Bucyrus",
-     "full_name": "Bucyrus"
-    },
-    {
-     "athletic_net_name": "Clear Fork",
-     "full_name": "Clear Fork"
-    },
-    {
-     "athletic_net_name": "Coll Western Reserve",
-     "full_name": "Western Reserve (Collins)"
-    },
-    {
-     "athletic_net_name": "Colonel Crawford",
-     "full_name": "Colonel Crawford"
-    },
-    {
-     "athletic_net_name": "Crestline",
-     "full_name": "Crestline"
-    },
-    {
-     "athletic_net_name": "Danbury",
-     "full_name": "Danbury"
-    },
-    {
-     "athletic_net_name": "Galion",
-     "full_name": "Galion"
-    },
-    {
-     "athletic_net_name": "Huron",
-     "full_name": "Huron"
-    },
-    {
-     "athletic_net_name": "Kelleys Island",
-     "full_name": "Kelleys Island"
-    },
-    {
-     "athletic_net_name": "Kenton",
-     "full_name": "Kenton"
-    },
-    {
-     "athletic_net_name": "Lucas",
-     "full_name": "Lucas"
-    },
-    {
-     "athletic_net_name": "Mans. Christian",
-     "full_name": "Mansfield Christian"
-    },
-    {
-     "athletic_net_name": "Mil. Edison",
-     "full_name": "Edison (Milan)"
-    },
-    {
-     "athletic_net_name": "Monroeville",
-     "full_name": "Monroeville"
-    },
-    {
-     "athletic_net_name": "New London",
-     "full_name": "New London"
-    },
-    {
-     "athletic_net_name": "Perkins",
-     "full_name": "Perkins"
-    },
-    {
-     "athletic_net_name": "Plymouth",
-     "full_name": "Plymouth"
-    },
-    {
-     "athletic_net_name": "Port Clinton",
-     "full_name": "Port Clinton"
-    },
-    {
-     "athletic_net_name": "Put-In-Bay",
-     "full_name": "Put-In-Bay"
-    },
-    {
-     "athletic_net_name": "Sand. SMCC",
-     "full_name": "Sandusky St. Mary CC"
-    },
-    {
-     "athletic_net_name": "South Central",
-     "full_name": "South Central"
-    },
-    {
-     "athletic_net_name": "St. Paul",
-     "full_name": "St. Paul"
-    },
-    {
-     "athletic_net_name": "Upper Sandusky",
-     "full_name": "Upper Sandusky"
-    },
-    {
-     "athletic_net_name": "Vermilion",
-     "full_name": "Vermilion"
-    },
-    {
-     "athletic_net_name": "Willard",
-     "full_name": "Willard"
-    },
-    {
-     "athletic_net_name": "Wynford",
-     "full_name": "Wynford"
-    }
-   ]
-  },
-  {
-   "key": "CG",
-   "name": "Columbus Grove HS",
-   "region": "Northwest",
-   "regional": "Tiffin",
-   "athletic_net_meet_id": 286411,
-   "url": "https://www.athletic.net/CrossCountry/meet/286411/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Archbold",
-     "full_name": "Archbold"
-    },
-    {
-     "athletic_net_name": "Bath",
-     "full_name": "Bath"
-    },
-    {
-     "athletic_net_name": "Bluffton",
-     "full_name": "Bluffton"
-    },
-    {
-     "athletic_net_name": "Bryan",
-     "full_name": "Bryan"
-    },
-    {
-     "athletic_net_name": "Coldwater",
-     "full_name": "Coldwater"
-    },
-    {
-     "athletic_net_name": "Columbus Grove",
-     "full_name": "Columbus Grove"
-    },
-    {
-     "athletic_net_name": "Con. Crestview",
-     "full_name": "Convoy Crestview"
-    },
-    {
-     "athletic_net_name": "Cory-Rawson",
-     "full_name": "Cory-Rawson"
-    },
-    {
-     "athletic_net_name": "Del. St. John's",
-     "full_name": "Delphos St. John's"
-    },
-    {
-     "athletic_net_name": "Delta",
-     "full_name": "Delta"
-    },
-    {
-     "athletic_net_name": "Elmwood",
-     "full_name": "Elmwood"
-    },
-    {
-     "athletic_net_name": "Kalida",
-     "full_name": "Kalida"
-    },
-    {
-     "athletic_net_name": "Liberty-Benton",
-     "full_name": "Liberty-Benton"
-    },
-    {
-     "athletic_net_name": "Lima C.C.",
-     "full_name": "Lima Central Catholic"
-    },
-    {
-     "athletic_net_name": "Lima Perry",
-     "full_name": "Lima Perry"
-    },
-    {
-     "athletic_net_name": "Lincolnview",
-     "full_name": "Lincolnview"
-    },
-    {
-     "athletic_net_name": "Marion Local",
-     "full_name": "Marion Local"
-    },
-    {
-     "athletic_net_name": "Miller City",
-     "full_name": "Miller City"
-    },
-    {
-     "athletic_net_name": "New Bremen",
-     "full_name": "New Bremen"
-    },
-    {
-     "athletic_net_name": "New Knoxville",
-     "full_name": "New Knoxville"
-    },
-    {
-     "athletic_net_name": "Ottoville",
-     "full_name": "Ottoville"
-    },
-    {
-     "athletic_net_name": "Pandora-Gilboa",
-     "full_name": "Pandora-Gilboa"
-    },
-    {
-     "athletic_net_name": "Parkway",
-     "full_name": "Parkway"
-    },
-    {
-     "athletic_net_name": "Paulding",
-     "full_name": "Paulding"
-    },
-    {
-     "athletic_net_name": "Spencerville",
-     "full_name": "Spencerville"
-    },
-    {
-     "athletic_net_name": "St. Henry",
-     "full_name": "St. Henry"
-    },
-    {
-     "athletic_net_name": "Swanton",
-     "full_name": "Swanton"
-    },
-    {
-     "athletic_net_name": "Upper Scioto Valley",
-     "full_name": "Upper Scioto Valley"
-    },
-    {
-     "athletic_net_name": "Van Wert",
-     "full_name": "Van Wert"
-    },
-    {
-     "athletic_net_name": "Wauseon",
-     "full_name": "Wauseon"
-    },
-    {
-     "athletic_net_name": "Wayne Trace",
-     "full_name": "Wayne Trace"
-    },
-    {
-     "athletic_net_name": "Waynesfield-Goshen",
-     "full_name": "Waynesfield-Goshen"
-    }
-   ]
-  },
-  {
-   "key": "LF",
-   "name": "Leaders Farms, Napoleon",
-   "region": "Northwest",
-   "regional": "Tiffin",
-   "athletic_net_meet_id": 286409,
-   "url": "https://www.athletic.net/CrossCountry/meet/286409/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Antwerp",
-     "full_name": "Antwerp"
-    },
-    {
-     "athletic_net_name": "Ayersville",
-     "full_name": "Ayersville"
-    },
-    {
-     "athletic_net_name": "Bowling Green",
-     "full_name": "Bowling Green"
-    },
-    {
-     "athletic_net_name": "Defiance",
-     "full_name": "Defiance"
-    },
-    {
-     "athletic_net_name": "Edgerton",
-     "full_name": "Edgerton"
-    },
-    {
-     "athletic_net_name": "Edon",
-     "full_name": "Edon"
-    },
-    {
-     "athletic_net_name": "Fayette",
-     "full_name": "Fayette"
-    },
-    {
-     "athletic_net_name": "Hicksville",
-     "full_name": "Hicksville"
-    },
-    {
-     "athletic_net_name": "Hilltop",
-     "full_name": "Hilltop"
-    },
-    {
-     "athletic_net_name": "Hol. Springfield",
-     "full_name": "Springfield (Holland)"
-    },
-    {
-     "athletic_net_name": "Holgate",
-     "full_name": "Holgate"
-    },
-    {
-     "athletic_net_name": "Liberty Center",
-     "full_name": "Liberty Center"
-    },
-    {
-     "athletic_net_name": "Maumee",
-     "full_name": "Maumee"
-    },
-    {
-     "athletic_net_name": "Maumee Va. C.D.",
-     "full_name": "Maumee Va. C.D."
-    },
-    {
-     "athletic_net_name": "Montpelier",
-     "full_name": "Montpelier"
-    },
-    {
-     "athletic_net_name": "No. Central",
-     "full_name": "No. Central"
-    },
-    {
-     "athletic_net_name": "Northwood",
-     "full_name": "Northwood"
-    },
-    {
-     "athletic_net_name": "Oregon Clay",
-     "full_name": "Oregon Clay"
-    },
-    {
-     "athletic_net_name": "Patrick Henry",
-     "full_name": "Patrick Henry"
-    },
-    {
-     "athletic_net_name": "Pettisville",
-     "full_name": "Pettisville"
-    },
-    {
-     "athletic_net_name": "Rogers",
-     "full_name": "Toledo Rogers"
-    },
-    {
-     "athletic_net_name": "Sandusky",
-     "full_name": "Sandusky"
-    },
-    {
-     "athletic_net_name": "Scott",
-     "full_name": "Toledo Scott"
-    },
-    {
-     "athletic_net_name": "Sher. Fairview",
-     "full_name": "Sherwood Fairview"
-    },
-    {
-     "athletic_net_name": "Stritch Cath.",
-     "full_name": "Stritch Cath."
-    },
-    {
-     "athletic_net_name": "Stryker",
-     "full_name": "Stryker"
-    },
-    {
-     "athletic_net_name": "Syl. Northview",
-     "full_name": "Sylvania Northview"
-    },
-    {
-     "athletic_net_name": "Syl. Southview",
-     "full_name": "Sylvania Southview"
-    },
-    {
-     "athletic_net_name": "Tinora",
-     "full_name": "Tinora"
-    },
-    {
-     "athletic_net_name": "Tol. Horizon Science",
-     "full_name": "Tol. Horizon Science"
-    },
-    {
-     "athletic_net_name": "Tol. Notre Dame",
-     "full_name": "Tol. Notre Dame"
-    },
-    {
-     "athletic_net_name": "Tol. St. Francis",
-     "full_name": "Tol. St. Francis"
-    },
-    {
-     "athletic_net_name": "Tol. St. John's Jesuit",
-     "full_name": "Tol. St. John's Jesuit"
-    },
-    {
-     "athletic_net_name": "Tol. St. Ursula Acad.",
-     "full_name": "Tol. St. Ursula Acad."
-    },
-    {
-     "athletic_net_name": "Toledo Christian",
-     "full_name": "Toledo Christian"
-    },
-    {
-     "athletic_net_name": "Waite",
-     "full_name": "Toledo Waite"
-    },
-    {
-     "athletic_net_name": "Woodmore",
-     "full_name": "Woodmore"
-    }
-   ]
-  },
-  {
-   "key": "OW",
-   "name": "Owens CC, Findlay",
-   "region": "Northwest",
-   "regional": "Tiffin",
-   "athletic_net_meet_id": 286408,
-   "url": "https://www.athletic.net/CrossCountry/meet/286408/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Allen East",
-     "full_name": "Allen East"
-    },
-    {
-     "athletic_net_name": "Anthony Wayne",
-     "full_name": "Anthony Wayne"
-    },
-    {
-     "athletic_net_name": "Ashland",
-     "full_name": "Ashland"
-    },
-    {
-     "athletic_net_name": "Bellevue",
-     "full_name": "Bellevue"
-    },
-    {
-     "athletic_net_name": "Calvert",
-     "full_name": "Calvert"
-    },
-    {
-     "athletic_net_name": "Carey",
-     "full_name": "Carey"
-    },
-    {
-     "athletic_net_name": "Celina",
-     "full_name": "Celina"
-    },
-    {
-     "athletic_net_name": "Clyde",
-     "full_name": "Clyde"
-    },
-    {
-     "athletic_net_name": "Columbian",
-     "full_name": "Columbian"
-    },
-    {
-     "athletic_net_name": "Eastwood",
-     "full_name": "Eastwood"
-    },
-    {
-     "athletic_net_name": "Elida",
-     "full_name": "Elida"
-    },
-    {
-     "athletic_net_name": "Evergreen",
-     "full_name": "Evergreen"
-    },
-    {
-     "athletic_net_name": "Findlay",
-     "full_name": "Findlay"
-    },
-    {
-     "athletic_net_name": "Fostoria",
-     "full_name": "Fostoria"
-    },
-    {
-     "athletic_net_name": "Fre. St. Joseph C.C.",
-     "full_name": "Fremont St. Joseph"
-    },
-    {
-     "athletic_net_name": "Fremont Ross",
-     "full_name": "Fremont Ross"
-    },
-    {
-     "athletic_net_name": "Genoa Area",
-     "full_name": "Genoa Area"
-    },
-    {
-     "athletic_net_name": "Gibsonburg",
-     "full_name": "Gibsonburg"
-    },
-    {
-     "athletic_net_name": "Hardin Northern",
-     "full_name": "Hardin Northern"
-    },
-    {
-     "athletic_net_name": "Hopewell-Loudon",
-     "full_name": "Hopewell-Loudon"
-    },
-    {
-     "athletic_net_name": "Lakota",
-     "full_name": "Lakota (Kansas)"
-    },
-    {
-     "athletic_net_name": "Leipsic",
-     "full_name": "Leipsic"
-    },
-    {
-     "athletic_net_name": "Lexington",
-     "full_name": "Lexington"
-    },
-    {
-     "athletic_net_name": "Lima Senior",
-     "full_name": "Lima Senior"
-    },
-    {
-     "athletic_net_name": "Lima Shawnee",
-     "full_name": "Lima Shawnee"
-    },
-    {
-     "athletic_net_name": "Mad. Comprehensive",
-     "full_name": "Madison Comprehensive"
-    },
-    {
-     "athletic_net_name": "Mansfield Senior",
-     "full_name": "Mansfield Senior"
-    },
-    {
-     "athletic_net_name": "Margaretta",
-     "full_name": "Margaretta"
-    },
-    {
-     "athletic_net_name": "Mil. Lake",
-     "full_name": "Lake (Millbury)"
-    },
-    {
-     "athletic_net_name": "Mohawk",
-     "full_name": "Mohawk"
-    },
-    {
-     "athletic_net_name": "Napoleon",
-     "full_name": "Napoleon"
-    },
-    {
-     "athletic_net_name": "New Riegel",
-     "full_name": "New Riegel"
-    },
-    {
-     "athletic_net_name": "No. Baltimore",
-     "full_name": "North Baltimore"
-    },
-    {
-     "athletic_net_name": "Norwalk",
-     "full_name": "Norwalk"
-    },
-    {
-     "athletic_net_name": "Oak Harbor",
-     "full_name": "Oak Harbor"
-    },
-    {
-     "athletic_net_name": "Old Fort",
-     "full_name": "Old Fort"
-    },
-    {
-     "athletic_net_name": "Ontario",
-     "full_name": "Ontario"
-    },
-    {
-     "athletic_net_name": "Otsego",
-     "full_name": "Otsego"
-    },
-    {
-     "athletic_net_name": "Ottawa Hills",
-     "full_name": "Ottawa Hills"
-    },
-    {
-     "athletic_net_name": "Ottawa-Glandorf",
-     "full_name": "Ottawa-Glandorf"
-    },
-    {
-     "athletic_net_name": "Ridgemont",
-     "full_name": "Ridgemont"
-    },
-    {
-     "athletic_net_name": "Riverdale",
-     "full_name": "Riverdale"
-    },
-    {
-     "athletic_net_name": "Rossford",
-     "full_name": "Rossford"
-    },
-    {
-     "athletic_net_name": "Seneca East",
-     "full_name": "Seneca East"
-    },
-    {
-     "athletic_net_name": "Shelby",
-     "full_name": "Shelby"
-    },
-    {
-     "athletic_net_name": "St. Marys Memorial",
-     "full_name": "St. Marys Memorial"
-    },
-    {
-     "athletic_net_name": "Toledo C.C.",
-     "full_name": "Toledo C.C."
-    },
-    {
-     "athletic_net_name": "Van Buren",
-     "full_name": "Van Buren"
-    },
-    {
-     "athletic_net_name": "Wapakoneta",
-     "full_name": "Wapakoneta"
-    }
-   ]
-  },
-  {
-   "key": "RG",
-   "name": "Rio Grande",
-   "region": "Southeast",
-   "regional": "Pickerington",
-   "athletic_net_meet_id": 286414,
-   "url": "https://www.athletic.net/CrossCountry/meet/286414/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Adena",
-     "full_name": "Adena"
-    },
-    {
-     "athletic_net_name": "Alexander",
-     "full_name": "Alexander"
-    },
-    {
-     "athletic_net_name": "Amanda-Clearcreek",
-     "full_name": "Amanda-Clearcreek"
-    },
-    {
-     "athletic_net_name": "Athens",
-     "full_name": "Athens"
-    },
-    {
-     "athletic_net_name": "Bea. Eastern",
-     "full_name": "Eastern (Beaver)"
-    },
-    {
-     "athletic_net_name": "Belpre",
-     "full_name": "Belpre"
-    },
-    {
-     "athletic_net_name": "Bid. River Valley",
-     "full_name": "River Valley (Bidwell)"
-    },
-    {
-     "athletic_net_name": "Chesapeake",
-     "full_name": "Chesapeake"
-    },
-    {
-     "athletic_net_name": "Chil. Southeastern",
-     "full_name": "Southeastern (Chillicothe)"
-    },
-    {
-     "athletic_net_name": "Chillicothe",
-     "full_name": "Chillicothe"
-    },
-    {
-     "athletic_net_name": "Circleville",
-     "full_name": "Circleville"
-    },
-    {
-     "athletic_net_name": "Dawson-Bryant",
-     "full_name": "Dawson-Bryant"
-    },
-    {
-     "athletic_net_name": "F.F. Green",
-     "full_name": "Green (Franklin Furnace)"
-    },
-    {
-     "athletic_net_name": "Fairfield Union",
-     "full_name": "Fairfield Union"
-    },
-    {
-     "athletic_net_name": "Fairland",
-     "full_name": "Fairland"
-    },
-    {
-     "athletic_net_name": "Federal Hocking",
-     "full_name": "Federal Hocking"
-    },
-    {
-     "athletic_net_name": "Gallia Academy",
-     "full_name": "Gallia Academy"
-    },
-    {
-     "athletic_net_name": "Hillsboro",
-     "full_name": "Hillsboro"
-    },
-    {
-     "athletic_net_name": "Huntington",
-     "full_name": "Huntington"
-    },
-    {
-     "athletic_net_name": "Ironton",
-     "full_name": "Ironton"
-    },
-    {
-     "athletic_net_name": "Jackson",
-     "full_name": "Jackson"
-    },
-    {
-     "athletic_net_name": "Lee. Fairfield",
-     "full_name": "Fairfield (Leesburg)"
-    },
-    {
-     "athletic_net_name": "Logan",
-     "full_name": "Logan"
-    },
-    {
-     "athletic_net_name": "Logan Elm",
-     "full_name": "Logan Elm"
-    },
-    {
-     "athletic_net_name": "Lynchburg-Clay",
-     "full_name": "Lynchburg-Clay"
-    },
-    {
-     "athletic_net_name": "Manchester",
-     "full_name": "Manchester"
-    },
-    {
-     "athletic_net_name": "Marietta",
-     "full_name": "Marietta"
-    },
-    {
-     "athletic_net_name": "McClain",
-     "full_name": "McClain"
-    },
-    {
-     "athletic_net_name": "McD. Northwest",
-     "full_name": "Northwest (McDermott)"
-    },
-    {
-     "athletic_net_name": "Miami Trace",
-     "full_name": "Miami Trace"
-    },
-    {
-     "athletic_net_name": "Minford",
-     "full_name": "Minford"
-    },
-    {
-     "athletic_net_name": "Nelsonville-York",
-     "full_name": "Nelsonville-York"
-    },
-    {
-     "athletic_net_name": "New Lexington",
-     "full_name": "New Lexington"
-    },
-    {
-     "athletic_net_name": "North Adams",
-     "full_name": "North Adams"
-    },
-    {
-     "athletic_net_name": "Oak Hill",
-     "full_name": "Oak Hill"
-    },
-    {
-     "athletic_net_name": "Paint Valley",
-     "full_name": "Paint Valley"
-    },
-    {
-     "athletic_net_name": "Peebles",
-     "full_name": "Peebles"
-    },
-    {
-     "athletic_net_name": "Piketon",
-     "full_name": "Piketon"
-    },
-    {
-     "athletic_net_name": "Port. Clay",
-     "full_name": "Clay (Portsmouth)"
-    },
-    {
-     "athletic_net_name": "Port. West",
-     "full_name": "Portsmouth West"
-    },
-    {
-     "athletic_net_name": "Portsmouth",
-     "full_name": "Portsmouth"
-    },
-    {
-     "athletic_net_name": "Rac. Southern",
-     "full_name": "Southern (Racine)"
-    },
-    {
-     "athletic_net_name": "Reed. Eastern",
-     "full_name": "Eastern (Reedsville)"
-    },
-    {
-     "athletic_net_name": "Ripley-Union",
-     "full_name": "Ripley-Union"
-    },
-    {
-     "athletic_net_name": "Rock Hill",
-     "full_name": "Rock Hill"
-    },
-    {
-     "athletic_net_name": "Sheridan",
-     "full_name": "Sheridan"
-    },
-    {
-     "athletic_net_name": "South Gallia",
-     "full_name": "South Gallia"
-    },
-    {
-     "athletic_net_name": "South Point",
-     "full_name": "South Point"
-    },
-    {
-     "athletic_net_name": "South Webster",
-     "full_name": "South Webster"
-    },
-    {
-     "athletic_net_name": "Symmes Valley",
-     "full_name": "Symmes Valley"
-    },
-    {
-     "athletic_net_name": "Trimble",
-     "full_name": "Trimble"
-    },
-    {
-     "athletic_net_name": "Unioto",
-     "full_name": "Unioto"
-    },
-    {
-     "athletic_net_name": "Valley",
-     "full_name": "Valley (Lucasville)"
-    },
-    {
-     "athletic_net_name": "Vinton County",
-     "full_name": "Vinton County"
-    },
-    {
-     "athletic_net_name": "WCH Washington",
-     "full_name": "WCH Washington"
-    },
-    {
-     "athletic_net_name": "Warren",
-     "full_name": "Warren"
-    },
-    {
-     "athletic_net_name": "Waterford",
-     "full_name": "Waterford"
-    },
-    {
-     "athletic_net_name": "Waverly",
-     "full_name": "Waverly"
-    },
-    {
-     "athletic_net_name": "Wellston",
-     "full_name": "Wellston"
-    },
-    {
-     "athletic_net_name": "West Union",
-     "full_name": "West Union"
-    },
-    {
-     "athletic_net_name": "Western",
-     "full_name": "Western (Latham)"
-    },
-    {
-     "athletic_net_name": "Westfall",
-     "full_name": "Westfall"
-    },
-    {
-     "athletic_net_name": "Wheelersburg",
-     "full_name": "Wheelersburg"
-    },
-    {
-     "athletic_net_name": "Whiteoak",
-     "full_name": "Whiteoak"
-    },
-    {
-     "athletic_net_name": "Winc. Eastern",
-     "full_name": "Eastern (Winchester)"
-    },
-    {
-     "athletic_net_name": "Zane Trace",
-     "full_name": "Zane Trace"
-    }
-   ]
-  },
-  {
-   "key": "CED",
-   "name": "Cedarville University",
-   "region": "Southwest",
-   "regional": "Troy",
-   "athletic_net_meet_id": 286416,
-   "url": "https://www.athletic.net/CrossCountry/meet/286416/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Alter",
-     "full_name": "Alter"
-    },
-    {
-     "athletic_net_name": "Anna",
-     "full_name": "Anna"
-    },
-    {
-     "athletic_net_name": "Ansonia",
-     "full_name": "Ansonia"
-    },
-    {
-     "athletic_net_name": "Arcanum",
-     "full_name": "Arcanum"
-    },
-    {
-     "athletic_net_name": "Bellbrook",
-     "full_name": "Bellbrook"
-    },
-    {
-     "athletic_net_name": "Bellefontaine",
-     "full_name": "Bellefontaine"
-    },
-    {
-     "athletic_net_name": "Belmont",
-     "full_name": "Belmont"
-    },
-    {
-     "athletic_net_name": "Ben. Logan",
-     "full_name": "Benjamin Logan"
-    },
-    {
-     "athletic_net_name": "Bethel",
-     "full_name": "Bethel"
-    },
-    {
-     "athletic_net_name": "Botkins",
-     "full_name": "Botkins"
-    },
-    {
-     "athletic_net_name": "Bradford",
-     "full_name": "Bradford"
-    },
-    {
-     "athletic_net_name": "Brookville",
-     "full_name": "Brookville"
-    },
-    {
-     "athletic_net_name": "Butler",
-     "full_name": "Butler"
-    },
-    {
-     "athletic_net_name": "Calvary Christian",
-     "full_name": "Calvary Christian"
-    },
-    {
-     "athletic_net_name": "Carlisle",
-     "full_name": "Carlisle"
-    },
-    {
-     "athletic_net_name": "Carroll",
-     "full_name": "Carroll"
-    },
-    {
-     "athletic_net_name": "Cedarville",
-     "full_name": "Cedarville"
-    },
-    {
-     "athletic_net_name": "Cham. Julienne",
-     "full_name": "Cham. Julienne"
-    },
-    {
-     "athletic_net_name": "Covington",
-     "full_name": "Covington"
-    },
-    {
-     "athletic_net_name": "Day. Jefferson Twp.",
-     "full_name": "Day. Jefferson Twp."
-    },
-    {
-     "athletic_net_name": "Day. Northridge",
-     "full_name": "Northridge (Dayton)"
-    },
-    {
-     "athletic_net_name": "DeG. Riverside",
-     "full_name": "Riverside (DeGraff)"
-    },
-    {
-     "athletic_net_name": "Dixie",
-     "full_name": "Dixie"
-    },
-    {
-     "athletic_net_name": "Dunbar",
-     "full_name": "Dunbar"
-    },
-    {
-     "athletic_net_name": "Eaton",
-     "full_name": "Eaton"
-    },
-    {
-     "athletic_net_name": "Fairborn",
-     "full_name": "Fairborn"
-    },
-    {
-     "athletic_net_name": "Fairlawn",
-     "full_name": "Fairlawn"
-    },
-    {
-     "athletic_net_name": "Franklin",
-     "full_name": "Franklin"
-    },
-    {
-     "athletic_net_name": "Franklin Monroe",
-     "full_name": "Franklin Monroe"
-    },
-    {
-     "athletic_net_name": "Ft. Loramie",
-     "full_name": "Fort Loramie"
-    },
-    {
-     "athletic_net_name": "Ft. Recovery",
-     "full_name": "Fort Recovery"
-    },
-    {
-     "athletic_net_name": "Graham Local",
-     "full_name": "Graham Local"
-    },
-    {
-     "athletic_net_name": "Greeneview",
-     "full_name": "Greeneview"
-    },
-    {
-     "athletic_net_name": "Greenon",
-     "full_name": "Greenon"
-    },
-    {
-     "athletic_net_name": "Greenville",
-     "full_name": "Greenville"
-    },
-    {
-     "athletic_net_name": "Houston",
-     "full_name": "Houston"
-    },
-    {
-     "athletic_net_name": "Indian Lake",
-     "full_name": "Indian Lake"
-    },
-    {
-     "athletic_net_name": "Jackson Center",
-     "full_name": "Jackson Center"
-    },
-    {
-     "athletic_net_name": "Kenton Ridge",
-     "full_name": "Kenton Ridge"
-    },
-    {
-     "athletic_net_name": "Legacy Christian",
-     "full_name": "Legacy Christian"
-    },
-    {
-     "athletic_net_name": "Lehman Cath.",
-     "full_name": "Lehman Catholic"
-    },
-    {
-     "athletic_net_name": "Meadowdale",
-     "full_name": "Meadowdale"
-    },
-    {
-     "athletic_net_name": "Miami East",
-     "full_name": "Miami East"
-    },
-    {
-     "athletic_net_name": "Miamisburg",
-     "full_name": "Miamisburg"
-    },
-    {
-     "athletic_net_name": "Mid. Madison",
-     "full_name": "Madison (Middletown)"
-    },
-    {
-     "athletic_net_name": "Milton-Union",
-     "full_name": "Milton-Union"
-    },
-    {
-     "athletic_net_name": "Minster",
-     "full_name": "Minster"
-    },
-    {
-     "athletic_net_name": "Mississinawa Valley",
-     "full_name": "Mississinawa Valley"
-    },
-    {
-     "athletic_net_name": "National Trail",
-     "full_name": "National Trail"
-    },
-    {
-     "athletic_net_name": "Newton Local",
-     "full_name": "Newton Local"
-    },
-    {
-     "athletic_net_name": "Northeastern",
-     "full_name": "Northeastern (South Vienna)"
-    },
-    {
-     "athletic_net_name": "Oakwood",
-     "full_name": "Oakwood"
-    },
-    {
-     "athletic_net_name": "Piqua",
-     "full_name": "Piqua"
-    },
-    {
-     "athletic_net_name": "Ponitz CTC",
-     "full_name": "Ponitz CTC"
-    },
-    {
-     "athletic_net_name": "Preble Shawnee",
-     "full_name": "Preble Shawnee"
-    },
-    {
-     "athletic_net_name": "Russia",
-     "full_name": "Russia"
-    },
-    {
-     "athletic_net_name": "S. Char. SE",
-     "full_name": "Southeastern (South Charleston)"
-    },
-    {
-     "athletic_net_name": "Sidney",
-     "full_name": "Sidney"
-    },
-    {
-     "athletic_net_name": "Spr. Cath. Cent.",
-     "full_name": "Springfield Catholic Central"
-    },
-    {
-     "athletic_net_name": "Spr. Northwestern",
-     "full_name": "Northwestern (Springfield)"
-    },
-    {
-     "athletic_net_name": "Spr. Shawnee",
-     "full_name": "Shawnee (Springfield)"
-    },
-    {
-     "athletic_net_name": "Spring. ECA",
-     "full_name": "Spring. ECA"
-    },
-    {
-     "athletic_net_name": "Stebbins",
-     "full_name": "Stebbins"
-    },
-    {
-     "athletic_net_name": "Stivers",
-     "full_name": "Stivers"
-    },
-    {
-     "athletic_net_name": "Tecumseh",
-     "full_name": "Tecumseh"
-    },
-    {
-     "athletic_net_name": "Thurgood Marshall",
-     "full_name": "Thurgood Marshall"
-    },
-    {
-     "athletic_net_name": "Tippecanoe",
-     "full_name": "Tippecanoe"
-    },
-    {
-     "athletic_net_name": "Tri-County North",
-     "full_name": "Tri-County North"
-    },
-    {
-     "athletic_net_name": "Tri-Village",
-     "full_name": "Tri-Village"
-    },
-    {
-     "athletic_net_name": "Triad",
-     "full_name": "Triad"
-    },
-    {
-     "athletic_net_name": "Trotwood-Madison",
-     "full_name": "Trotwood-Madison"
-    },
-    {
-     "athletic_net_name": "Troy",
-     "full_name": "Troy"
-    },
-    {
-     "athletic_net_name": "Troy Christian",
-     "full_name": "Troy Christian"
-    },
-    {
-     "athletic_net_name": "Twin Valley So.",
-     "full_name": "Twin Valley South"
-    },
-    {
-     "athletic_net_name": "Urbana",
-     "full_name": "Urbana"
-    },
-    {
-     "athletic_net_name": "Valley View",
-     "full_name": "Valley View"
-    },
-    {
-     "athletic_net_name": "Versailles",
-     "full_name": "Versailles"
-    },
-    {
-     "athletic_net_name": "Waynesville",
-     "full_name": "Waynesville"
-    },
-    {
-     "athletic_net_name": "West Carrollton",
-     "full_name": "West Carrollton"
-    },
-    {
-     "athletic_net_name": "West Liberty-Salem",
-     "full_name": "West Liberty-Salem"
-    },
-    {
-     "athletic_net_name": "Wilmington",
-     "full_name": "Wilmington"
-    },
-    {
-     "athletic_net_name": "Xenia",
-     "full_name": "Xenia"
-    },
-    {
-     "athletic_net_name": "Yellow Springs",
-     "full_name": "Yellow Springs"
-    }
-   ]
-  },
-  {
-   "key": "VOA",
-   "name": "Voice of America Park",
-   "region": "Southwest",
-   "regional": "Troy",
-   "athletic_net_meet_id": 286417,
-   "url": "https://www.athletic.net/CrossCountry/meet/286417/info",
-   "entered_schools": [
-    {
-     "athletic_net_name": "Aiken",
-     "full_name": "Aiken"
-    },
-    {
-     "athletic_net_name": "Anderson",
-     "full_name": "Anderson"
-    },
-    {
-     "athletic_net_name": "Badin",
-     "full_name": "Badin"
-    },
-    {
-     "athletic_net_name": "Batavia",
-     "full_name": "Batavia"
-    },
-    {
-     "athletic_net_name": "Bethel-Tate",
-     "full_name": "Bethel-Tate"
-    },
-    {
-     "athletic_net_name": "Blanchester",
-     "full_name": "Blanchester"
-    },
-    {
-     "athletic_net_name": "Cin. CHCA",
-     "full_name": "Cin. CHCA"
-    },
-    {
-     "athletic_net_name": "Cin. Christian",
-     "full_name": "Cin. Christian"
-    },
-    {
-     "athletic_net_name": "Cin. Co. Day",
-     "full_name": "Cin. Co. Day"
-    },
-    {
-     "athletic_net_name": "Cin. Coll. Prep. Academy",
-     "full_name": "Cin. Coll. Prep. Academy"
-    },
-    {
-     "athletic_net_name": "Cin. Northwest",
-     "full_name": "Cin. Northwest"
-    },
-    {
-     "athletic_net_name": "Cin. SCPA",
-     "full_name": "Cin. SCPA"
-    },
-    {
-     "athletic_net_name": "Cin. Spencer Center",
-     "full_name": "Cin. Spencer Center"
-    },
-    {
-     "athletic_net_name": "Cin. St. Ursula Acad.",
-     "full_name": "St. Ursula Academy"
-    },
-    {
-     "athletic_net_name": "Cin. Woodward",
-     "full_name": "Cin. Woodward"
-    },
-    {
-     "athletic_net_name": "Clark Montessori",
-     "full_name": "Clark Montessori"
-    },
-    {
-     "athletic_net_name": "Clermont NE",
-     "full_name": "Clermont Northeastern"
-    },
-    {
-     "athletic_net_name": "Clinton-Massie",
-     "full_name": "Clinton-Massie"
-    },
-    {
-     "athletic_net_name": "Day. Christian",
-     "full_name": "Dayton Christian"
-    },
-    {
-     "athletic_net_name": "DePaul Cristo Rey",
-     "full_name": "DePaul Cristo Rey"
-    },
-    {
-     "athletic_net_name": "Deer Park",
-     "full_name": "Deer Park"
-    },
-    {
-     "athletic_net_name": "East Clinton",
-     "full_name": "East Clinton"
-    },
-    {
-     "athletic_net_name": "Felicity-Franklin",
-     "full_name": "Felicity-Franklin"
-    },
-    {
-     "athletic_net_name": "Fenwick",
-     "full_name": "Fenwick"
-    },
-    {
-     "athletic_net_name": "Finneytown",
-     "full_name": "Finneytown"
-    },
-    {
-     "athletic_net_name": "Gamble Montessori",
-     "full_name": "Gamble Montessori"
-    },
-    {
-     "athletic_net_name": "Georgetown",
-     "full_name": "Georgetown"
-    },
-    {
-     "athletic_net_name": "Goshen",
-     "full_name": "Goshen"
-    },
-    {
-     "athletic_net_name": "Harrison",
-     "full_name": "Harrison"
-    },
-    {
-     "athletic_net_name": "Hughes",
-     "full_name": "Hughes"
-    },
-    {
-     "athletic_net_name": "Indian Hill",
-     "full_name": "Indian Hill"
-    },
-    {
-     "athletic_net_name": "La Salle",
-     "full_name": "La Salle"
-    },
-    {
-     "athletic_net_name": "Lak. East",
-     "full_name": "Lakota East"
-    },
-    {
-     "athletic_net_name": "Lockland",
-     "full_name": "Lockland"
-    },
-    {
-     "athletic_net_name": "Loveland",
-     "full_name": "Loveland"
-    },
-    {
-     "athletic_net_name": "MVCA",
-     "full_name": "MVCA"
-    },
-    {
-     "athletic_net_name": "Madeira",
-     "full_name": "Madeira"
-    },
-    {
-     "athletic_net_name": "Mariemont",
-     "full_name": "Mariemont"
-    },
-    {
-     "athletic_net_name": "McNicholas",
-     "full_name": "McNicholas"
-    },
-    {
-     "athletic_net_name": "Mercy McAuley",
-     "full_name": "Mercy McAuley"
-    },
-    {
-     "athletic_net_name": "Miami Valley School",
-     "full_name": "Miami Valley School"
-    },
-    {
-     "athletic_net_name": "Mid. Christian",
-     "full_name": "Mid. Christian"
-    },
-    {
-     "athletic_net_name": "Monroe",
-     "full_name": "Monroe"
-    },
-    {
-     "athletic_net_name": "Mt. Healthy",
-     "full_name": "Mt. Healthy"
-    },
-    {
-     "athletic_net_name": "Mt. Notre Dame",
-     "full_name": "Mount Notre Dame"
-    },
-    {
-     "athletic_net_name": "New Miami",
-     "full_name": "New Miami"
-    },
-    {
-     "athletic_net_name": "New Richmond",
-     "full_name": "New Richmond"
-    },
-    {
-     "athletic_net_name": "No. College Hill",
-     "full_name": "No. College Hill"
-    },
-    {
-     "athletic_net_name": "Norwood",
-     "full_name": "Norwood"
-    },
-    {
-     "athletic_net_name": "Oyler",
-     "full_name": "Oyler"
-    },
-    {
-     "athletic_net_name": "Purcell Marian",
-     "full_name": "Purcell Marian"
-    },
-    {
-     "athletic_net_name": "Reading",
-     "full_name": "Reading"
-    },
-    {
-     "athletic_net_name": "Roger Bacon",
-     "full_name": "Roger Bacon"
-    },
-    {
-     "athletic_net_name": "Ross",
-     "full_name": "Ross"
-    },
-    {
-     "athletic_net_name": "Seven Hills",
-     "full_name": "Seven Hills"
-    },
-    {
-     "athletic_net_name": "Shroder",
-     "full_name": "Shroder"
-    },
-    {
-     "athletic_net_name": "St. Bernard",
-     "full_name": "St. Bernard"
-    },
-    {
-     "athletic_net_name": "Sum. Co. Day",
-     "full_name": "Sum. Co. Day"
-    },
-    {
-     "athletic_net_name": "Taft",
-     "full_name": "Taft"
-    },
-    {
-     "athletic_net_name": "Talawanda",
-     "full_name": "Talawanda"
-    },
-    {
-     "athletic_net_name": "Taylor",
-     "full_name": "Taylor"
-    },
-    {
-     "athletic_net_name": "Tre. Edgewood",
-     "full_name": "Edgewood (Trenton)"
-    },
-    {
-     "athletic_net_name": "Turpin",
-     "full_name": "Turpin"
-    },
-    {
-     "athletic_net_name": "Ursuline Academy",
-     "full_name": "Ursuline Academy"
-    },
-    {
-     "athletic_net_name": "Western Brown",
-     "full_name": "Western Brown"
-    },
-    {
-     "athletic_net_name": "Williamsburg",
-     "full_name": "Williamsburg"
-    },
-    {
-     "athletic_net_name": "Withrow",
-     "full_name": "Withrow"
-    },
-    {
-     "athletic_net_name": "Wyoming",
-     "full_name": "Wyoming"
-    }
-   ]
-  }
- ],
- "races": [
-  {
-   "site": "HD",
-   "gender": "boys",
-   "division": 4,
-   "race_label": "Race 1",
-   "start_time": "10:00 AM",
-   "teams_advance": 4,
-   "individuals_advance": 8,
-   "athletic_net_div_id": 1140749
-  },
-  {
-   "site": "HD",
-   "gender": "boys",
-   "division": 4,
-   "race_label": "Race 2",
-   "start_time": "10:30 AM",
-   "teams_advance": 4,
-   "individuals_advance": 8,
-   "athletic_net_div_id": 1140773
-  },
-  {
-   "site": "HD",
-   "gender": "girls",
-   "division": 4,
-   "race_label": "Race 1",
-   "start_time": "11:00 AM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140750
-  },
-  {
-   "site": "HD",
-   "gender": "girls",
-   "division": 4,
-   "race_label": "Race 2",
-   "start_time": "11:30 AM",
-   "teams_advance": 4,
-   "individuals_advance": 8,
-   "athletic_net_div_id": 1140774
-  },
-  {
-   "site": "HD",
-   "gender": "boys",
-   "division": 3,
-   "race_label": "Race 1",
-   "start_time": "12:00 PM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140747
-  },
-  {
-   "site": "HD",
-   "gender": "boys",
-   "division": 3,
-   "race_label": "Race 2",
-   "start_time": "12:30 PM",
-   "teams_advance": 4,
-   "individuals_advance": 8,
-   "athletic_net_div_id": 1140771
-  },
-  {
-   "site": "HD",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "1:00 PM",
-   "teams_advance": 6,
-   "individuals_advance": 12,
-   "athletic_net_div_id": 1140748
-  },
-  {
-   "site": "HD",
-   "gender": "boys",
-   "division": 2,
-   "race_label": "Race 1",
-   "start_time": "1:30 PM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140745
-  },
-  {
-   "site": "HD",
-   "gender": "boys",
-   "division": 2,
-   "race_label": "Race 2",
-   "start_time": "2:00 PM",
-   "teams_advance": 6,
-   "individuals_advance": 12,
-   "athletic_net_div_id": 1140765
-  },
-  {
-   "site": "HD",
-   "gender": "girls",
-   "division": 2,
-   "race_label": "Race 1",
-   "start_time": "2:30 PM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140746
-  },
-  {
-   "site": "HD",
-   "gender": "girls",
-   "division": 2,
-   "race_label": "Race 2",
-   "start_time": "3:00 PM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140766
-  },
-  {
-   "site": "CAM",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": 4,
-   "individuals_advance": 8,
-   "athletic_net_div_id": 1140782
-  },
-  {
-   "site": "CAM",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:45 AM",
-   "teams_advance": 3,
-   "individuals_advance": 6,
-   "athletic_net_div_id": 1140781
-  },
-  {
-   "site": "CAM",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:45 AM",
-   "teams_advance": 13,
-   "individuals_advance": 26,
-   "athletic_net_div_id": 1140784
-  },
-  {
-   "site": "CAM",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:30 PM",
-   "teams_advance": 12,
-   "individuals_advance": 24,
-   "athletic_net_div_id": 1140783
-  },
-  {
-   "site": "CAM",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "1:30 PM",
-   "teams_advance": 4,
-   "individuals_advance": 8,
-   "athletic_net_div_id": 1140786
-  },
-  {
-   "site": "CAM",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "2:15 PM",
-   "teams_advance": 4,
-   "individuals_advance": 8,
-   "athletic_net_div_id": 1140785
-  },
-  {
-   "site": "GO",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140798
-  },
-  {
-   "site": "GO",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:45 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140797
-  },
-  {
-   "site": "GO",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:45 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140800
-  },
-  {
-   "site": "GO",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:30 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140799
-  },
-  {
-   "site": "GO",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "1:30 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140802
-  },
-  {
-   "site": "GO",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "2:15 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140801
-  },
-  {
-   "site": "LCCC",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140804
-  },
-  {
-   "site": "LCCC",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:45 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140803
-  },
-  {
-   "site": "LCCC",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:45 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140806
-  },
-  {
-   "site": "LCCC",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:30 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140805
-  },
-  {
-   "site": "LCCC",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "1:30 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140808
-  },
-  {
-   "site": "LCCC",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "2:15 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140807
-  },
-  {
-   "site": "MAD",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140820
-  },
-  {
-   "site": "MAD",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:45 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140819
-  },
-  {
-   "site": "MAD",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:45 AM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140822
-  },
-  {
-   "site": "MAD",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:30 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140821
-  },
-  {
-   "site": "MAD",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "1:30 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140824
-  },
-  {
-   "site": "MAD",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "2:15 PM",
-   "teams_advance": null,
-   "individuals_advance": null,
-   "athletic_net_div_id": 1140823
-  },
-  {
-   "site": "GAL",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": 8,
-   "individuals_advance": 16,
-   "athletic_net_div_id": 1140891
-  },
-  {
-   "site": "GAL",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "10:45 AM",
-   "teams_advance": 7,
-   "individuals_advance": 14,
-   "athletic_net_div_id": 1140890
-  },
-  {
-   "site": "GAL",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:30 AM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140889
-  },
-  {
-   "site": "GAL",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:15 PM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140888
-  },
-  {
-   "site": "CG",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": 9,
-   "individuals_advance": 18,
-   "athletic_net_div_id": 1140880
-  },
-  {
-   "site": "CG",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "10:40 AM",
-   "teams_advance": 9,
-   "individuals_advance": 18,
-   "athletic_net_div_id": 1140881
-  },
-  {
-   "site": "CG",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:20 AM",
-   "teams_advance": 6,
-   "individuals_advance": 12,
-   "athletic_net_div_id": 1140878
-  },
-  {
-   "site": "CG",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:00 PM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140879
-  },
-  {
-   "site": "LF",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "9:00 AM",
-   "teams_advance": 9,
-   "individuals_advance": 18,
-   "athletic_net_div_id": 1140871
-  },
-  {
-   "site": "LF",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "9:40 AM",
-   "teams_advance": 9,
-   "individuals_advance": 18,
-   "athletic_net_div_id": 1140870
-  },
-  {
-   "site": "LF",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:30 AM",
-   "teams_advance": 7,
-   "individuals_advance": 14,
-   "athletic_net_div_id": 1140867
-  },
-  {
-   "site": "LF",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "11:10 AM",
-   "teams_advance": 8,
-   "individuals_advance": 16,
-   "athletic_net_div_id": 1140866
-  },
-  {
-   "site": "OW",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "9:00 AM",
-   "teams_advance": 8,
-   "individuals_advance": 16,
-   "athletic_net_div_id": 1140865
-  },
-  {
-   "site": "OW",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "9:40 AM",
-   "teams_advance": 8,
-   "individuals_advance": 16,
-   "athletic_net_div_id": 1140864
-  },
-  {
-   "site": "OW",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "10:20 AM",
-   "teams_advance": 10,
-   "individuals_advance": 20,
-   "athletic_net_div_id": 1140863
-  },
-  {
-   "site": "OW",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:00 AM",
-   "teams_advance": 6,
-   "individuals_advance": 12,
-   "athletic_net_div_id": 1140862
-  },
-  {
-   "site": "OW",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "11:40 AM",
-   "teams_advance": 8,
-   "individuals_advance": 16,
-   "athletic_net_div_id": 1140861
-  },
-  {
-   "site": "OW",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "12:20 PM",
-   "teams_advance": 10,
-   "individuals_advance": 20,
-   "athletic_net_div_id": 1140860
-  },
-  {
-   "site": "RG",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": 8,
-   "individuals_advance": 16,
-   "athletic_net_div_id": 1140897
-  },
-  {
-   "site": "RG",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "10:45 AM",
-   "teams_advance": 11,
-   "individuals_advance": 22,
-   "athletic_net_div_id": 1140896
-  },
-  {
-   "site": "RG",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:00 PM",
-   "teams_advance": 8,
-   "individuals_advance": 16,
-   "athletic_net_div_id": 1140895
-  },
-  {
-   "site": "RG",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:45 PM",
-   "teams_advance": 11,
-   "individuals_advance": 22,
-   "athletic_net_div_id": 1140894
-  },
-  {
-   "site": "RG",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "2:00 PM",
-   "teams_advance": 6,
-   "individuals_advance": 12,
-   "athletic_net_div_id": 1140893
-  },
-  {
-   "site": "RG",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "2:45 PM",
-   "teams_advance": 6,
-   "individuals_advance": 12,
-   "athletic_net_div_id": 1140892
-  },
-  {
-   "site": "CED",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": 10,
-   "individuals_advance": 20,
-   "athletic_net_div_id": 1140903
-  },
-  {
-   "site": "CED",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:45 AM",
-   "teams_advance": 11,
-   "individuals_advance": 22,
-   "athletic_net_div_id": 1140902
-  },
-  {
-   "site": "CED",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:30 AM",
-   "teams_advance": 12,
-   "individuals_advance": 24,
-   "athletic_net_div_id": 1140905
-  },
-  {
-   "site": "CED",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "12:15 PM",
-   "teams_advance": 11,
-   "individuals_advance": 22,
-   "athletic_net_div_id": 1140904
-  },
-  {
-   "site": "CED",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "1:00 PM",
-   "teams_advance": 13,
-   "individuals_advance": 26,
-   "athletic_net_div_id": 1140907
-  },
-  {
-   "site": "CED",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "1:45 PM",
-   "teams_advance": 14,
-   "individuals_advance": 28,
-   "athletic_net_div_id": 1140906
-  },
-  {
-   "site": "VOA",
-   "gender": "girls",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:00 AM",
-   "teams_advance": 14,
-   "individuals_advance": 28,
-   "athletic_net_div_id": 1140912
-  },
-  {
-   "site": "VOA",
-   "gender": "boys",
-   "division": 2,
-   "race_label": null,
-   "start_time": "10:30 AM",
-   "teams_advance": 9,
-   "individuals_advance": 18,
-   "athletic_net_div_id": 1140911
-  },
-  {
-   "site": "VOA",
-   "gender": "girls",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:00 AM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140914
-  },
-  {
-   "site": "VOA",
-   "gender": "boys",
-   "division": 3,
-   "race_label": null,
-   "start_time": "11:30 AM",
-   "teams_advance": 10,
-   "individuals_advance": 20,
-   "athletic_net_div_id": 1140913
-  },
-  {
-   "site": "VOA",
-   "gender": "girls",
-   "division": 4,
-   "race_label": null,
-   "start_time": "12:00 PM",
-   "teams_advance": 6,
-   "individuals_advance": 12,
-   "athletic_net_div_id": 1140916
-  },
-  {
-   "site": "VOA",
-   "gender": "boys",
-   "division": 4,
-   "race_label": null,
-   "start_time": "12:30 PM",
-   "teams_advance": 5,
-   "individuals_advance": 10,
-   "athletic_net_div_id": 1140915
-  }
- ]
+  ]
 }

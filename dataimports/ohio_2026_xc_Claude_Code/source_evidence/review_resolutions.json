@@ -1,0 +1,338 @@
+{
+  "checkpoints/boys_d1_processed.json": [
+    {
+      "school": "Euclid",
+      "athlete_1": "Zach Mocadlo",
+      "athlete_2": "Zachary Mocadlo",
+      "url_1": "https://www.athletic.net/athlete/32887301/cross-country",
+      "url_2": "https://www.athletic.net/athlete/27105430/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Strongsville",
+      "athlete_1": "Alex Crist",
+      "athlete_2": "Alexander Crist",
+      "url_1": "https://www.athletic.net/athlete/23679702/cross-country",
+      "url_2": "https://www.athletic.net/athlete/30779420/cross-country",
+      "evidence": "Nickname and full name profiles share school and grade, with nonoverlapping 2026 races. Distinct identity not established. Both profiles withheld.",
+      "status": "unresolved, both profiles withheld"
+    }
+  ],
+  "checkpoints/girls_d3_processed.json": [
+    {
+      "school": "Hathaway Brown",
+      "athlete_1": "Adeline Comar",
+      "athlete_2": "Jacqueline Comar",
+      "url_1": "https://www.athletic.net/athlete/23679492/cross-country",
+      "url_2": "https://www.athletic.net/athlete/26506491/cross-country",
+      "evidence": "Different grades, 12 and 11, and separate finishes at the same 2026 races, including Legends places 102 and 117.",
+      "status": "resolved distinct"
+    },
+    {
+      "school": "Bethel",
+      "athlete_1": "Alyssandra \"Grace\" Peirano",
+      "athlete_2": "Alyssandra Peirano",
+      "url_1": "https://www.athletic.net/athlete/26770703/cross-country",
+      "url_2": "https://www.athletic.net/athlete/31073684/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Hubbard",
+      "athlete_1": "Lilly Steele",
+      "athlete_2": "Lily Steele",
+      "url_1": "https://www.athletic.net/athlete/30765956/cross-country",
+      "url_2": "https://www.athletic.net/athlete/32826518/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Willard",
+      "athlete_1": "Helen Acosta Cerda",
+      "athlete_2": "Helen Acosta Cerda",
+      "url_1": "https://www.athletic.net/athlete/29919262/cross-country",
+      "url_2": "https://www.athletic.net/athlete/23833055/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Beaver Local",
+      "athlete_1": "Nayia Springer",
+      "athlete_2": "Naiya Springer",
+      "url_1": "https://www.athletic.net/athlete/29572071/cross-country",
+      "url_2": "https://www.athletic.net/athlete/30943162/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Glenville",
+      "athlete_1": "La'Nayshia Bailey",
+      "athlete_2": "Kanayshia Bailey",
+      "url_1": "https://www.athletic.net/athlete/33413556/cross-country",
+      "url_2": "https://www.athletic.net/athlete/33413559/cross-country",
+      "evidence": "Different grades, 11 and 12, and separate finishes at Senate Athletic League Championship, places 5 and 12.",
+      "status": "resolved distinct"
+    },
+    {
+      "school": "Rossford",
+      "athlete_1": "Izzy Matthews",
+      "athlete_2": "Isabella Matthews",
+      "url_1": "https://www.athletic.net/athlete/31059400/cross-country",
+      "url_2": "https://www.athletic.net/athlete/29496442/cross-country",
+      "evidence": "Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed.",
+      "status": "unresolved, both profiles withheld",
+      "category": "girls_d3"
+    }
+  ],
+  "checkpoints/boys_d2_processed.json": [
+    {
+      "school": "Tol. St. Francis",
+      "athlete_1": "Will Dwyer",
+      "athlete_2": "William Dwyer",
+      "url_1": "https://www.athletic.net/athlete/27132513/cross-country",
+      "url_2": "https://www.athletic.net/athlete/23729533/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Norton",
+      "athlete_1": "Franklin Sisson",
+      "athlete_2": "Frank Sisson",
+      "url_1": "https://www.athletic.net/athlete/26432320/cross-country",
+      "url_2": "https://www.athletic.net/athlete/30976610/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Wooster",
+      "athlete_1": "Trent Johnson",
+      "athlete_2": "Trenton (Trent) Johnson",
+      "url_1": "https://www.athletic.net/athlete/31009636/cross-country",
+      "url_2": "https://www.athletic.net/athlete/29268379/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Ellet",
+      "athlete_1": "Isaiah Prockno",
+      "athlete_2": "Isiah Prockno",
+      "url_1": "https://www.athletic.net/athlete/29911372/cross-country",
+      "url_2": "https://www.athletic.net/athlete/33086710/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Eastlake North",
+      "athlete_1": "Nick Hogan",
+      "athlete_2": "Nicholas Hogan",
+      "url_1": "https://www.athletic.net/athlete/29527456/cross-country",
+      "url_2": "https://www.athletic.net/athlete/31308904/cross-country",
+      "evidence": "Nickname and full name profiles share school and grade, with nonoverlapping 2026 races. Distinct identity not established. Both profiles withheld.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Syl. Southview",
+      "athlete_1": "Robert (Bob) Vanasdale",
+      "athlete_2": "Bob Vanasdale",
+      "url_1": "https://www.athletic.net/athlete/23795963/cross-country",
+      "url_2": "https://www.athletic.net/athlete/27015161/cross-country",
+      "evidence": "Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed.",
+      "status": "unresolved, both profiles withheld",
+      "category": "boys_d2"
+    },
+    {
+      "school": "Granville",
+      "athlete_1": "Ben Rose",
+      "athlete_2": "Benjamin Rose",
+      "url_1": "https://www.athletic.net/athlete/23609888/cross-country",
+      "url_2": "https://www.athletic.net/athlete/24820783/cross-country",
+      "evidence": "Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed.",
+      "status": "unresolved, both profiles withheld",
+      "category": "boys_d2"
+    }
+  ],
+  "checkpoints/boys_d4_processed.json": [
+    {
+      "school": "Bucyrus",
+      "athlete_1": "Anderson Griffin",
+      "athlete_2": "Anderson (AJ) Griffin",
+      "url_1": "https://www.athletic.net/athlete/26376655/cross-country",
+      "url_2": "https://www.athletic.net/athlete/23729107/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review."
+    },
+    {
+      "school": "N. Mid. Springfield",
+      "athlete_1": "Matthew Robertson",
+      "athlete_2": "Mathew Robertson",
+      "url_1": "https://www.athletic.net/athlete/29705852/cross-country",
+      "url_2": "https://www.athletic.net/athlete/31987486/cross-country",
+      "evidence": "Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed.",
+      "status": "unresolved, both profiles withheld",
+      "category": "boys_d4"
+    }
+  ],
+  "checkpoints/girls_d1_processed.json": [
+    {
+      "school": "Stow-Munroe Falls",
+      "athlete_1": "Mckaylynn Tobin",
+      "athlete_2": "Baylynn Tobin",
+      "url_1": "https://www.athletic.net/athlete/32883520/cross-country",
+      "url_2": "https://www.athletic.net/athlete/32883519/cross-country",
+      "evidence": "Separate finishes at the same 2026 races, including Stow Bulldog Invitational places 54 and 64, times 23:20.1 and 23:36.4.",
+      "status": "resolved distinct"
+    },
+    {
+      "school": "Beavercreek",
+      "athlete_1": "Rebekah Ward",
+      "athlete_2": "Rebeka Ward",
+      "url_1": "https://www.athletic.net/athlete/25804833/cross-country",
+      "url_2": "https://www.athletic.net/athlete/29896034/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Gah. Lincoln",
+      "athlete_1": "Kate Ohl",
+      "athlete_2": "Katherine Ohl",
+      "url_1": "https://www.athletic.net/athlete/29445897/cross-country",
+      "url_2": "https://www.athletic.net/athlete/30664103/cross-country",
+      "evidence": "Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed.",
+      "status": "unresolved, both profiles withheld",
+      "category": "girls_d1"
+    }
+  ],
+  "checkpoints/girls_d4_processed.json": [
+    {
+      "school": "Minster",
+      "athlete_1": "Raelynn Pollitz",
+      "athlete_2": "Raekynn Pollitz",
+      "url_1": "https://www.athletic.net/athlete/33329286/cross-country",
+      "url_2": "https://www.athletic.net/athlete/33014012/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "N. Mid. Springfield",
+      "athlete_1": "Gabrielle Girondi",
+      "athlete_2": "Isabelle Girondi",
+      "url_1": "https://www.athletic.net/athlete/29705849/cross-country",
+      "url_2": "https://www.athletic.net/athlete/29705850/cross-country",
+      "evidence": "Separate finishes in the same 2026 races, including Aug 29 Salem Early Bird, places 46 and 63, times 26:22.1 and 27:47.7.",
+      "status": "resolved distinct"
+    },
+    {
+      "school": "Riverdale",
+      "athlete_1": "Addi Manns",
+      "athlete_2": "Addie Manns",
+      "url_1": "https://www.athletic.net/athlete/29450615/cross-country",
+      "url_2": "https://www.athletic.net/athlete/23659222/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Lake Ridge Acad.",
+      "athlete_1": "Lily Shmois",
+      "athlete_2": "Lilly Shmois",
+      "url_1": "https://www.athletic.net/athlete/23717217/cross-country",
+      "url_2": "https://www.athletic.net/athlete/31151971/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Loudonville",
+      "athlete_1": "Gracie-Lynn Jefferies",
+      "athlete_2": "Gracie Jefferies",
+      "url_1": "https://www.athletic.net/athlete/29496912/cross-country",
+      "url_2": "https://www.athletic.net/athlete/32986400/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Upper Scioto Valley",
+      "athlete_1": "Lilly McCoy",
+      "athlete_2": "Lily McCoy",
+      "url_1": "https://www.athletic.net/athlete/29450643/cross-country",
+      "url_2": "https://www.athletic.net/athlete/23729537/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    }
+  ],
+  "checkpoints/girls_d2_processed.json": [
+    {
+      "school": "Canal Winchester",
+      "athlete_1": "Izabella Kleinline",
+      "athlete_2": "Izabella Kleinline",
+      "url_1": "https://www.athletic.net/athlete/24873831/cross-country",
+      "url_2": "https://www.athletic.net/athlete/21142269/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Kenston",
+      "athlete_1": "Addi Lowe",
+      "athlete_2": "Addison Lowe",
+      "url_1": "https://www.athletic.net/athlete/32863432/cross-country",
+      "url_2": "https://www.athletic.net/athlete/26662041/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Steele",
+      "athlete_1": "Sam Falbo",
+      "athlete_2": "Sam Falbo",
+      "url_1": "https://www.athletic.net/athlete/30953076/cross-country",
+      "url_2": "https://www.athletic.net/athlete/24327610/cross-country",
+      "evidence": "Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed.",
+      "status": "unresolved, both profiles withheld",
+      "category": "girls_d2"
+    }
+  ],
+  "checkpoints/boys_d3_processed.json": [
+    {
+      "school": "Van Wert",
+      "athlete_1": "Nash Hillery",
+      "athlete_2": "Noah Hillery",
+      "url_1": "https://www.athletic.net/athlete/29496299/cross-country",
+      "url_2": "https://www.athletic.net/athlete/31002499/cross-country",
+      "evidence": "Different grades, 10 and 12, and separate finishes at the same 2026 races.",
+      "status": "resolved distinct"
+    },
+    {
+      "school": "Sandy Valley",
+      "athlete_1": "Jonathon Casto",
+      "athlete_2": "Jonathan Casto",
+      "url_1": "https://www.athletic.net/athlete/29655430/cross-country",
+      "url_2": "https://www.athletic.net/athlete/33078308/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Bellevue",
+      "athlete_1": "Dominick Simon",
+      "athlete_2": "Dominic Simon",
+      "url_1": "https://www.athletic.net/athlete/26415182/cross-country",
+      "url_2": "https://www.athletic.net/athlete/29450445/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Mooney",
+      "athlete_1": "John Luke Robles",
+      "athlete_2": "Jon Luke Robles",
+      "url_1": "https://www.athletic.net/athlete/29705841/cross-country",
+      "url_2": "https://www.athletic.net/athlete/31665152/cross-country",
+      "evidence": "Similar first names and same surname, distinct athlete URLs. Requires identity review.",
+      "status": "unresolved, both profiles withheld"
+    },
+    {
+      "school": "Berkshire",
+      "athlete_1": "Ben Townsend",
+      "athlete_2": "Benjamin Townsend",
+      "url_1": "https://www.athletic.net/athlete/32515969/cross-country",
+      "url_2": "https://www.athletic.net/athlete/31212219/cross-country",
+      "evidence": "Nickname and full name profiles share school and grade, with nonoverlapping 2026 races. Distinct identity not established. Both profiles withheld.",
+      "status": "unresolved, both profiles withheld"
+    }
+  ]
+}

@@ -1,0 +1,792 @@
+[
+  {
+    "id": "1682",
+    "name": "WEST JEFFERSON",
+    "city": "West Jefferson"
+  },
+  {
+    "id": "860",
+    "name": "LIBERTY",
+    "city": "Youngstown"
+  },
+  {
+    "id": "864",
+    "name": "LIBERTY CENTER",
+    "city": "Liberty Center"
+  },
+  {
+    "id": "638",
+    "name": "GEORGETOWN",
+    "city": "Georgetown"
+  },
+  {
+    "id": "290",
+    "name": "BUCYRUS",
+    "city": "Bucyrus"
+  },
+  {
+    "id": "916",
+    "name": "LYNCHBURG-CLAY",
+    "city": "Lynchburg"
+  },
+  {
+    "id": "496",
+    "name": "EASTERN",
+    "city": "Winchester"
+  },
+  {
+    "id": "624",
+    "name": "GARAWAY",
+    "city": "Sugarcreek"
+  },
+  {
+    "id": "7488",
+    "name": "STIVERS SCHOOL FOR THE ARTS",
+    "city": "Dayton"
+  },
+  {
+    "id": "866",
+    "name": "LIBERTY UNION",
+    "city": "Baltimore"
+  },
+  {
+    "id": "744",
+    "name": "HUNTINGTON",
+    "city": "Chillicothe"
+  },
+  {
+    "id": "1450",
+    "name": "SOUTHEASTERN",
+    "city": "Chillicothe"
+  },
+  {
+    "id": "664",
+    "name": "GRANDVIEW HEIGHTS",
+    "city": "Columbus"
+  },
+  {
+    "id": "1532",
+    "name": "TINORA",
+    "city": "Defiance,"
+  },
+  {
+    "id": "1722",
+    "name": "WOODMORE",
+    "city": "Elmore"
+  },
+  {
+    "id": "120",
+    "name": "ANNA",
+    "city": "Anna"
+  },
+  {
+    "id": "1460",
+    "name": "SOUTH RANGE",
+    "city": "Canfield"
+  },
+  {
+    "id": "1586",
+    "name": "VALLEY",
+    "city": "Lucasville"
+  },
+  {
+    "id": "1170",
+    "name": "NORTHWESTERN",
+    "city": "WEST SALEM"
+  },
+  {
+    "id": "1592",
+    "name": "VAN BUREN",
+    "city": "Van Buren"
+  },
+  {
+    "id": "1216",
+    "name": "OTTAWA HILLS",
+    "city": "Ottawa Hills"
+  },
+  {
+    "id": "1084",
+    "name": "NELSONVILLE-YORK",
+    "city": "Nelsonville"
+  },
+  {
+    "id": "110",
+    "name": "ALLEN EAST",
+    "city": "Harrod"
+  },
+  {
+    "id": "1400",
+    "name": "SENECA EAST",
+    "city": "Attica"
+  },
+  {
+    "id": "498",
+    "name": "EAST KNOX",
+    "city": "Howard"
+  },
+  {
+    "id": "928",
+    "name": "MADISON-PLAINS",
+    "city": "London"
+  },
+  {
+    "id": "314",
+    "name": "CARDINGTON-LINCOLN",
+    "city": "Cardington"
+  },
+  {
+    "id": "1072",
+    "name": "MOUNT GILEAD",
+    "city": "Mount Gilead"
+  },
+  {
+    "id": "1044",
+    "name": "MINERAL RIDGE",
+    "city": "Mineral Ridge"
+  },
+  {
+    "id": "1328",
+    "name": "ROOTSTOWN",
+    "city": "Rootstown"
+  },
+  {
+    "id": "466",
+    "name": "DELTA",
+    "city": "Delta"
+  },
+  {
+    "id": "1230",
+    "name": "PARKWAY",
+    "city": "Rockford"
+  },
+  {
+    "id": "460",
+    "name": "DAYTON CHRISTIAN",
+    "city": "Miamisburg"
+  },
+  {
+    "id": "1144",
+    "name": "NORTHMOR",
+    "city": "Galion"
+  },
+  {
+    "id": "1650",
+    "name": "WELLINGTON",
+    "city": "Wellington"
+  },
+  {
+    "id": "316",
+    "name": "CAREY",
+    "city": "Carey"
+  },
+  {
+    "id": "662",
+    "name": "GRAND VALLEY",
+    "city": "Orwell"
+  },
+  {
+    "id": "834",
+    "name": "LAKOTA",
+    "city": "Kansas"
+  },
+  {
+    "id": "1340",
+    "name": "ST BERNARD-ELMWOOD PLACE",
+    "city": "Saint Bernard"
+  },
+  {
+    "id": "408",
+    "name": "COLUMBIANA",
+    "city": "Columbiana"
+  },
+  {
+    "id": "1742",
+    "name": "WYNFORD",
+    "city": "Bucyrus"
+  },
+  {
+    "id": "430",
+    "name": "COVINGTON",
+    "city": "Covington"
+  },
+  {
+    "id": "823",
+    "name": "LAKE CENTER CHRISTIAN SCHOOL",
+    "city": "Hartville"
+  },
+  {
+    "id": "1352",
+    "name": "ST HENRY",
+    "city": "St. Henry"
+  },
+  {
+    "id": "226",
+    "name": "BLACK RIVER",
+    "city": "Sullivan"
+  },
+  {
+    "id": "470",
+    "name": "DIXIE",
+    "city": "New Lebanon"
+  },
+  {
+    "id": "818",
+    "name": "LABRAE",
+    "city": "Leavittsburg"
+  },
+  {
+    "id": "400",
+    "name": "COLONEL CRAWFORD",
+    "city": "Crestline"
+  },
+  {
+    "id": "572",
+    "name": "FAIRVIEW",
+    "city": "Sherwood"
+  },
+  {
+    "id": "250",
+    "name": "BRIDGEPORT",
+    "city": "Bridgeport"
+  },
+  {
+    "id": "1418",
+    "name": "SHENANDOAH",
+    "city": "Sarahsville"
+  },
+  {
+    "id": "438",
+    "name": "CRESTVIEW",
+    "city": "Convoy"
+  },
+  {
+    "id": "412",
+    "name": "COLUMBUS GROVE",
+    "city": "Columbus Grove"
+  },
+  {
+    "id": "1404",
+    "name": "SEVEN HILLS",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "1670",
+    "name": "WESTERN RESERVE",
+    "city": "Collins"
+  },
+  {
+    "id": "1478",
+    "name": "SPRINGFIELD",
+    "city": "New Middletown"
+  },
+  {
+    "id": "1294",
+    "name": "RICHMOND HEIGHTS",
+    "city": "Richmond Heights"
+  },
+  {
+    "id": "9015",
+    "name": "OYLER",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "750",
+    "name": "INDEPENDENCE",
+    "city": "Independence"
+  },
+  {
+    "id": "450",
+    "name": "DALTON",
+    "city": "Dalton"
+  },
+  {
+    "id": "1546",
+    "name": "TRI-VILLAGE",
+    "city": "New Madison"
+  },
+  {
+    "id": "296",
+    "name": "CALDWELL",
+    "city": "Caldwell"
+  },
+  {
+    "id": "434",
+    "name": "CRESTVIEW",
+    "city": "Ashland"
+  },
+  {
+    "id": "1308",
+    "name": "RIVERDALE",
+    "city": "Mt. Blanchard"
+  },
+  {
+    "id": "1426",
+    "name": "SMITHVILLE",
+    "city": "Smithville"
+  },
+  {
+    "id": "878",
+    "name": "LINCOLNVIEW",
+    "city": "Van Wert"
+  },
+  {
+    "id": "1192",
+    "name": "OBERLIN",
+    "city": "Oberlin"
+  },
+  {
+    "id": "194",
+    "name": "BELPRE",
+    "city": "Belpre"
+  },
+  {
+    "id": "1628",
+    "name": "WATERFORD",
+    "city": "Waterford"
+  },
+  {
+    "id": "1538",
+    "name": "TRIAD",
+    "city": "North Lewisburg"
+  },
+  {
+    "id": "1058",
+    "name": "MOGADORE",
+    "city": "Mogadore"
+  },
+  {
+    "id": "1304",
+    "name": "RITTMAN",
+    "city": "Rittman"
+  },
+  {
+    "id": "1302",
+    "name": "RIPLEY-UNION-LEWIS-HUNTINGTON",
+    "city": "Ripley"
+  },
+  {
+    "id": "1102",
+    "name": "NEW LONDON",
+    "city": "New London"
+  },
+  {
+    "id": "708",
+    "name": "HICKSVILLE",
+    "city": "Hicksville"
+  },
+  {
+    "id": "1646",
+    "name": "WAYNE TRACE",
+    "city": "Haviland"
+  },
+  {
+    "id": "1536",
+    "name": "TORONTO",
+    "city": "Toronto"
+  },
+  {
+    "id": "946",
+    "name": "MAPLETON",
+    "city": "Ashland"
+  },
+  {
+    "id": "1092",
+    "name": "NEW BREMEN",
+    "city": "New Bremen"
+  },
+  {
+    "id": "938",
+    "name": "MANCHESTER",
+    "city": "Manchester"
+  },
+  {
+    "id": "1553",
+    "name": "TROY CHRISTIAN",
+    "city": "Troy"
+  },
+  {
+    "id": "1052",
+    "name": "MINSTER",
+    "city": "Minster"
+  },
+  {
+    "id": "552",
+    "name": "FAIRFIELD",
+    "city": "Leesburg"
+  },
+  {
+    "id": "492",
+    "name": "EASTERN",
+    "city": "Beaver"
+  },
+  {
+    "id": "122",
+    "name": "ANSONIA",
+    "city": "Ansonia"
+  },
+  {
+    "id": "154",
+    "name": "AYERSVILLE",
+    "city": "Defiance"
+  },
+  {
+    "id": "732",
+    "name": "HOPEWELL-LOUDON",
+    "city": "Bascom"
+  },
+  {
+    "id": "854",
+    "name": "LEIPSIC",
+    "city": "Leipsic"
+  },
+  {
+    "id": "1454",
+    "name": "SOUTHERN",
+    "city": "Racine"
+  },
+  {
+    "id": "602",
+    "name": "FORT LORAMIE",
+    "city": "Fort Loramie"
+  },
+  {
+    "id": "488",
+    "name": "EAST CANTON",
+    "city": "East Canton"
+  },
+  {
+    "id": "992",
+    "name": "MCDONALD",
+    "city": "McDonald"
+  },
+  {
+    "id": "958",
+    "name": "MARION LOCAL",
+    "city": "Maria Stein"
+  },
+  {
+    "id": "1514",
+    "name": "SYMMES VALLEY",
+    "city": "Willow Wood"
+  },
+  {
+    "id": "1540",
+    "name": "TRIMBLE",
+    "city": "Glouster"
+  },
+  {
+    "id": "278",
+    "name": "BUCKEYE CENTRAL",
+    "city": "New Washington"
+  },
+  {
+    "id": "942",
+    "name": "MANSFIELD CHRISTIAN",
+    "city": "Mansfield"
+  },
+  {
+    "id": "230",
+    "name": "SOUTH WEBSTER",
+    "city": "South Webster"
+  },
+  {
+    "id": "368",
+    "name": "CINCINNATI COUNTRY DAY",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "768",
+    "name": "JACKSON-MILTON",
+    "city": "North Jackson"
+  },
+  {
+    "id": "640",
+    "name": "GIBSONBURG",
+    "city": "Gibsonburg"
+  },
+  {
+    "id": "604",
+    "name": "FORT RECOVERY",
+    "city": "Fort Recovery"
+  },
+  {
+    "id": "1748",
+    "name": "YELLOW SPRINGS",
+    "city": "Yellow Springs"
+  },
+  {
+    "id": "240",
+    "name": "BOTKINS",
+    "city": "Botkins"
+  },
+  {
+    "id": "446",
+    "name": "CUYAHOGA HEIGHTS",
+    "city": "Cuyahoga Heights"
+  },
+  {
+    "id": "343",
+    "name": "TOLEDO CHRISTIAN",
+    "city": "Toledo"
+  },
+  {
+    "id": "1702",
+    "name": "WHITEOAK",
+    "city": "Mowrystown"
+  },
+  {
+    "id": "1747",
+    "name": "LEGACY CHRISTIAN ACADEMY",
+    "city": "Xenia"
+  },
+  {
+    "id": "1023",
+    "name": "MIAMI VALLEY CHRISTIAN ACADEMY",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "1090",
+    "name": "NEWARK CATHOLIC",
+    "city": "Newark"
+  },
+  {
+    "id": "948",
+    "name": "MAPLEWOOD",
+    "city": "Cortland"
+  },
+  {
+    "id": "1525",
+    "name": "ANDREWS OSBORNE ACADEMY",
+    "city": "Willoughby"
+  },
+  {
+    "id": "1130",
+    "name": "NORTH BALTIMORE",
+    "city": "North Baltimore"
+  },
+  {
+    "id": "1374",
+    "name": "ST PAUL",
+    "city": "Norwalk"
+  },
+  {
+    "id": "1372",
+    "name": "SANDUSKY CENTRAL CATHOLIC",
+    "city": "Sandusky"
+  },
+  {
+    "id": "1452",
+    "name": "SOUTHEASTERN LOCAL",
+    "city": "South Charleston"
+  },
+  {
+    "id": "328",
+    "name": "CEDARVILLE",
+    "city": "Cedarville"
+  },
+  {
+    "id": "1466",
+    "name": "SPENCER CENTER",
+    "city": "Cincinnati"
+  },
+  {
+    "id": "934",
+    "name": "MALVERN",
+    "city": "Malvern"
+  },
+  {
+    "id": "1226",
+    "name": "PAINT VALLEY",
+    "city": "Bainbridge"
+  },
+  {
+    "id": "798",
+    "name": "KALIDA",
+    "city": "Kalida"
+  },
+  {
+    "id": "1114",
+    "name": "NEWTON LOCAL",
+    "city": "Pleasant Hill"
+  },
+  {
+    "id": "1200",
+    "name": "OLD FORT",
+    "city": "Old Fort"
+  },
+  {
+    "id": "1336",
+    "name": "RUSSIA",
+    "city": "Russia"
+  },
+  {
+    "id": "612",
+    "name": "FRANKLIN MONROE",
+    "city": "Arcanum"
+  },
+  {
+    "id": "1262",
+    "name": "PLYMOUTH",
+    "city": "Plymouth"
+  },
+  {
+    "id": "156",
+    "name": "BADGER",
+    "city": "Kinsman"
+  },
+  {
+    "id": "424",
+    "name": "CORY-RAWSON",
+    "city": "Rawson"
+  },
+  {
+    "id": "1228",
+    "name": "PANDORA-GILBOA",
+    "city": "Pandora"
+  },
+  {
+    "id": "852",
+    "name": "LEHMAN CATHOLIC",
+    "city": "Sidney"
+  },
+  {
+    "id": "126",
+    "name": "ANTWERP",
+    "city": "Antwerp"
+  },
+  {
+    "id": "9594",
+    "name": "Horizon Science Academy",
+    "city": "Toledo"
+  },
+  {
+    "id": "1359",
+    "name": "ST JOHN SCHOOL",
+    "city": "Ashtabula"
+  },
+  {
+    "id": "512",
+    "name": "EDGERTON",
+    "city": "Edgerton"
+  },
+  {
+    "id": "1358",
+    "name": "ST JOHN'S",
+    "city": "Delphos"
+  },
+  {
+    "id": "1576",
+    "name": "UPPER SCIOTO VALLEY",
+    "city": "McGuffey"
+  },
+  {
+    "id": "766",
+    "name": "JACKSON CENTER",
+    "city": "Jackson Center"
+  },
+  {
+    "id": "1207",
+    "name": "OPEN DOOR CHRISTIAN",
+    "city": "Elyria"
+  },
+  {
+    "id": "726",
+    "name": "HOLGATE",
+    "city": "Holgate"
+  },
+  {
+    "id": "1024",
+    "name": "MIAMI VALLEY SCHOOL",
+    "city": "Dayton"
+  },
+  {
+    "id": "9388",
+    "name": "LIBERTY CHRISTIAN ACADEMY",
+    "city": "Pataskala"
+  },
+  {
+    "id": "254",
+    "name": "BRISTOL",
+    "city": "Bristolville"
+  },
+  {
+    "id": "1250",
+    "name": "PETTISVILLE",
+    "city": "Pettisville"
+  },
+  {
+    "id": "1110",
+    "name": "NEW RIEGEL",
+    "city": "New Riegel"
+  },
+  {
+    "id": "906",
+    "name": "LOWELLVILLE",
+    "city": "Lowellville"
+  },
+  {
+    "id": "977",
+    "name": "MAUMEE VALLEY COUNTRY DAY",
+    "city": "Toledo"
+  },
+  {
+    "id": "341",
+    "name": "CENTRAL CHRISTIAN",
+    "city": "Kidron"
+  },
+  {
+    "id": "703",
+    "name": "HEARTLAND CHRISTIAN SCHOOL",
+    "city": "Columbiana"
+  },
+  {
+    "id": "1642",
+    "name": "WAYNESFIELD-GOSHEN",
+    "city": "Waynesfield"
+  },
+  {
+    "id": "694",
+    "name": "HARDIN NORTHERN",
+    "city": "Dola"
+  },
+  {
+    "id": "594",
+    "name": "FISHER CATHOLIC",
+    "city": "Lancaster"
+  },
+  {
+    "id": "591",
+    "name": "EMMANUEL CHRISTIAN ACADEMY",
+    "city": "Springfield"
+  },
+  {
+    "id": "553",
+    "name": "FAIRFIELD CHRISTIAN ACADEMY",
+    "city": "Lancaster"
+  },
+  {
+    "id": "1098",
+    "name": "NEW KNOXVILLE",
+    "city": "New Knoxville"
+  },
+  {
+    "id": "9276",
+    "name": "CALVARY CHRISTIAN SCHOOL",
+    "city": "Bellefontaine"
+  },
+  {
+    "id": "656",
+    "name": "FAYETTE",
+    "city": "Fayette"
+  },
+  {
+    "id": "925",
+    "name": "MADISON CHRISTIAN",
+    "city": "Groveport"
+  },
+  {
+    "id": "827",
+    "name": "LAKE RIDGE ACADEMY",
+    "city": "North Ridgeville"
+  }
+]

@@ -188,6 +188,12 @@ export const site = {
 // /race/) and internal site search (/search/, matching Google's own
 // long-standing guidance against indexing internal search results).
 export const NOINDEX_NOFOLLOW_PREFIXES = [
+  // Local-only review build of the districts-fed Mock Postseason chain
+  // (src/pages/mockpostseason.mjs) -- not linked from nav, not approved
+  // to go live. Excluded from the sitemap here deliberately, before any
+  // commit, so it can never ride along into a real deploy by accident.
+  // Remove this line only as part of actually launching the feature.
+  "/mock-postseason/",
   "/admin/",
   "/writer-portal/",
   "/writer-login/",

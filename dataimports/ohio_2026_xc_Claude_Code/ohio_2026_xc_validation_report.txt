@@ -1,0 +1,948 @@
+OHIO 2026 CROSS COUNTRY TEAM DATABASE
+
+VALIDATION REPORT
+{
+  "collection_started_eastern": "2026-10-19T09:33:31.345675-04:00",
+  "last_rankings_capture_eastern": "2026-10-19T11:06:26.547092-04:00",
+  "validation_finished_eastern": "2026-10-19T19:00:51.353942-04:00",
+  "runners": 8158,
+  "school_category_records": 1383,
+  "official_school_category_records": 1024,
+  "raw_rankings_rows": 12002,
+  "duplicate_concerns": 35,
+  "unresolved_duplicate_concerns": 30,
+  "seventh_tie_schools": 3,
+  "schools_fewer_than_seven": 494,
+  "inventory_review_records": 359,
+  "unclear_grades": 5,
+  "official_name_unmatched_schools": 227,
+  "remaining_inaccessible_pages": 0
+}
+
+CATEGORY TOTALS
+Boys D1: 78 official schools expected, 85 Athletic.net schools found, 77 schools with seven verified runners and no identity or tie hold, 6 schools with fewer than seven, 580 saved athletes, 2 provisional teams. Rankings: 1500 rows through rank 1500. First 1000 cutoff: 18:41.5, 1001 rows including ties. Ties exceed 1000: True. Ties exceed 1500: False.
+Boys D2: 160 official schools expected, 172 Athletic.net schools found, 149 schools with seven verified runners and no identity or tie hold, 16 schools with fewer than seven, 1154 saved athletes, 7 provisional teams. Rankings: 1500 rows through rank 1500. First 1000 cutoff: 18:49.3, 1000 rows including ties. Ties exceed 1000: False. Ties exceed 1500: False.
+Boys D3: 160 official schools expected, 197 Athletic.net schools found, 130 schools with seven verified runners and no identity or tie hold, 64 schools with fewer than seven, 1223 saved athletes, 7 provisional teams. Rankings: 1501 rows through rank 1500. First 1000 cutoff: 19:59.4, 1001 rows including ties. Ties exceed 1000: True. Ties exceed 1500: True.
+Boys D4: 158 official schools expected, 240 Athletic.net schools found, 120 schools with seven verified runners and no identity or tie hold, 118 schools with fewer than seven, 1324 saved athletes, 2 provisional teams. Rankings: 1501 rows through rank 1500. First 1000 cutoff: 20:37.1, 1000 rows including ties. Ties exceed 1000: False. Ties exceed 1500: True.
+Girls D1: 67 official schools expected, 77 Athletic.net schools found, 65 schools with seven verified runners and no identity or tie hold, 10 schools with fewer than seven, 505 saved athletes, 2 provisional teams. Rankings: 1500 rows through rank 1500. First 1000 cutoff: 24:18.6, 1000 rows including ties. Ties exceed 1000: False. Ties exceed 1500: False.
+Girls D2: 134 official schools expected, 158 Athletic.net schools found, 121 schools with seven verified runners and no identity or tie hold, 34 schools with fewer than seven, 1006 saved athletes, 3 provisional teams. Rankings: 1500 rows through rank 1500. First 1000 cutoff: 23:27.0, 1000 rows including ties. Ties exceed 1000: False. Ties exceed 1500: False.
+Girls D3: 133 official schools expected, 191 Athletic.net schools found, 109 schools with seven verified runners and no identity or tie hold, 79 schools with fewer than seven, 1107 saved athletes, 5 provisional teams. Rankings: 1500 rows through rank 1500. First 1000 cutoff: 25:27.3, 1000 rows including ties. Ties exceed 1000: False. Ties exceed 1500: False.
+Girls D4: 134 official schools expected, 263 Athletic.net schools found, 94 schools with seven verified runners and no identity or tie hold, 167 schools with fewer than seven, 1259 saved athletes, 5 provisional teams. Rankings: 1500 rows through rank 1500. First 1000 cutoff: 26:10.0, 1000 rows including ties. Ties exceed 1000: False. Ties exceed 1500: False.
+
+LIMITATIONS AND REVIEW RULES
+Collection and validation checks are finished. This does not resolve the explicitly listed identity, tie, grade or school inventory questions. Teams with unresolved identity profiles withheld remain provisional even when seven alternative eligible candidates are saved.
+School counts refer to school and gender and division records, not unique physical schools. Schools missing from category PDFs remain included and flagged for division review.
+The rankings and team pages were captured over a collection period. Faster marks appearing on team pages during validation were retained when verified eligible. This is a dated source snapshot, not a live synchronized database.
+Raw rankings cutoffs include the original source population, including Open results and the excluded collegiate row. Those raw entries are evidence only and are not accepted team candidates.
+Some eligible best times differ from the displayed all event season best because the latter came from an excluded Open race.
+All source pages needed by this validation were accessible after retries. Five grades remain unclear. No missing athlete, team, result or ranking links remain in accepted rows.
+No mock meet scores were calculated.
+
+EVERY SCHOOL WITH FEWER THAN SEVEN VERIFIED SAVED RUNNERS
+Boys D1 | Central Crossing | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/29783/cross-country
+Boys D1 | Springfield | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7711/cross-country
+Boys D1 | Valley Forge | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8224/cross-country
+Boys D1 | Groveport-Madison | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7983/cross-country
+Boys D1 | Winton Woods | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8186/cross-country
+Boys D1 | Youngstown | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/29207/cross-country
+Boys D2 | Goshen | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7973/cross-country
+Boys D2 | Waite | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7750/cross-country
+Boys D2 | Zanesville | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7459/cross-country
+Boys D2 | Sidney | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7696/cross-country
+Boys D2 | Hillsboro | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8001/cross-country
+Boys D2 | Sandusky | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7683/cross-country
+Boys D2 | Hughes | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8343/cross-country
+Boys D2 | Harvey | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7818/cross-country
+Boys D2 | Col. Horizon Science Aca. | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/39286/cross-country
+Boys D2 | Ak. Garfield | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8402/cross-country
+Boys D2 | Brush | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/29784/cross-country
+Boys D2 | Aiken | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8330/cross-country
+Boys D2 | Bowsher | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/7746/cross-country
+Boys D2 | Stebbins | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8103/cross-country
+Boys D2 | Centennial | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8243/cross-country
+Boys D2 | Cin. Northwest | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8164/cross-country
+Boys D3 | Portsmouth | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7845/cross-country
+Boys D3 | Bellaire | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8454/cross-country
+Boys D3 | Kenton | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8026/cross-country
+Boys D3 | Wellston | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7607/cross-country
+Boys D3 | Union Local | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8262/cross-country
+Boys D3 | Waverly | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7603/cross-country
+Boys D3 | Pleasant | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7894/cross-country
+Boys D3 | Bid. River Valley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8323/cross-country
+Boys D3 | Chesapeake | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8322/cross-country
+Boys D3 | Ak. Springfield | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8410/cross-country
+Boys D3 | Port Clinton | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7842/cross-country
+Boys D3 | Cambridge | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8294/cross-country
+Boys D3 | New Richmond | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7775/cross-country
+Boys D3 | Lake Cath. | 6 saved | 1 missing | provisional=True | https://www.athletic.net/team/7915/cross-country
+Boys D3 | Spr. Shawnee | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7714/cross-country
+Boys D3 | Wickliffe | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7627/cross-country
+Boys D3 | East Liverpool | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8123/cross-country
+Boys D3 | Archbold | 6 saved | 1 missing | provisional=True | https://www.athletic.net/team/8423/cross-country
+Boys D3 | Roger Bacon | 6 saved | 1 missing | provisional=True | https://www.athletic.net/team/8172/cross-country
+Boys D3 | North Union | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7663/cross-country
+Boys D3 | Indian Valley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7972/cross-country
+Boys D3 | Ironton | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8013/cross-country
+Boys D3 | McD. Northwest | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7907/cross-country
+Boys D3 | Adena | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8151/cross-country
+Boys D3 | South Point | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7700/cross-country
+Boys D3 | Clear Fork | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8261/cross-country
+Boys D3 | Bluffton | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8273/cross-country
+Boys D3 | Orrville | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7810/cross-country
+Boys D3 | Oak Harbor | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7801/cross-country
+Boys D3 | Chippewa | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8118/cross-country
+Boys D3 | London | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7861/cross-country
+Boys D3 | Crestwood | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7887/cross-country
+Boys D3 | Ravenna | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7848/cross-country
+Boys D3 | Circleville | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8190/cross-country
+Boys D3 | West Muskingum | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7661/cross-country
+Boys D3 | Rossford | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7672/cross-country
+Boys D3 | East Clinton | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8042/cross-country
+Boys D3 | Indian Lake | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8047/cross-country
+Boys D3 | Mooney | 6 saved | 1 missing | provisional=True | https://www.athletic.net/team/7651/cross-country
+Boys D3 | Rock Hill | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8014/cross-country
+Boys D3 | Carlisle | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8152/cross-country
+Boys D3 | Alexander | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8411/cross-country
+Boys D3 | Bethel-Tate | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8268/cross-country
+Boys D3 | Indian Creek | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7638/cross-country
+Boys D3 | Swanton | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7731/cross-country
+Boys D3 | Mid. Madison | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7924/cross-country
+Boys D3 | Harrison Central | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8291/cross-country
+Boys D3 | Col. Crestview | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8234/cross-country
+Boys D3 | West Union | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7618/cross-country
+Boys D3 | Chesterton Academy Of St. Benedict | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/101485/cross-country
+Boys D3 | Vermilion | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7586/cross-country
+Boys D3 | Zane Trace | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8329/cross-country
+Boys D3 | Minford | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7937/cross-country
+Boys D3 | Meadowdale | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8097/cross-country
+Boys D3 | Amanda-Clearcreek | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8414/cross-country
+Boys D3 | New Lexington | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7767/cross-country
+Boys D3 | Struthers | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7725/cross-country
+Boys D3 | Galion | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7956/cross-country
+Boys D3 | Brooklyn | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8282/cross-country
+Boys D3 | Taft | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8171/cross-country
+Boys D3 | Philo | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7829/cross-country
+Boys D3 | Glenville | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8201/cross-country
+Boys D3 | Pymatuning Valley | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8416/cross-country
+Boys D3 | Brookfield | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8281/cross-country
+Boys D4 | Ansonia | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8418/cross-country
+Boys D4 | Ridgedale | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7946/cross-country
+Boys D4 | Miller City | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7932/cross-country
+Boys D4 | Spring. ECA | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7708/cross-country
+Boys D4 | South Webster | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7701/cross-country
+Boys D4 | Mohawk | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7732/cross-country
+Boys D4 | Leipsic | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/30169/cross-country
+Boys D4 | West Jefferson | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7611/cross-country
+Boys D4 | Caldwell | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8292/cross-country
+Boys D4 | Twin Valley So. | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7609/cross-country
+Boys D4 | Tri-Village | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7769/cross-country
+Boys D4 | Wellington School | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/42682/cross-country
+Boys D4 | Calvary Christian | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/53164/cross-country
+Boys D4 | No. Central | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7833/cross-country
+Boys D4 | Spencerville | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7704/cross-country
+Boys D4 | Fisher Catholic | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8038/cross-country
+Boys D4 | Cardinal | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7921/cross-country
+Boys D4 | Riverdale | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7948/cross-country
+Boys D4 | Jackson-Milton | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7789/cross-country
+Boys D4 | Belpre | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8264/cross-country
+Boys D4 | Oberlin | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7804/cross-country
+Boys D4 | Crestline | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8081/cross-country
+Boys D4 | Lan. Fair Chr. | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/29472/cross-country
+Boys D4 | No. Baltimore | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7785/cross-country
+Boys D4 | Danbury | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8032/cross-country
+Boys D4 | Ripley-Union | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7665/cross-country
+Boys D4 | Berne Union | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7727/cross-country
+Boys D4 | Kalida | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8023/cross-country
+Boys D4 | Wester. Genoa Christian | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/84917/cross-country
+Boys D4 | Marion Local | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7889/cross-country
+Boys D4 | Richmond Hts. | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7856/cross-country
+Boys D4 | Tuscar. C.C. | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7774/cross-country
+Boys D4 | Han. River | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7991/cross-country
+Boys D4 | Ottoville | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7815/cross-country
+Boys D4 | Steub. Cath. Cent. | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7716/cross-country
+Boys D4 | Northeastern | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7712/cross-country
+Boys D4 | Waterford | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7601/cross-country
+Boys D4 | Lima C.C. | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8050/cross-country
+Boys D4 | Wynford | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8288/cross-country
+Boys D4 | Hiland | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8266/cross-country
+Boys D4 | Fayette | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8140/cross-country
+Boys D4 | Hillsdale | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8020/cross-country
+Boys D4 | Mechanicsburg | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7910/cross-country
+Boys D4 | W.S. Northwestern | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7616/cross-country
+Boys D4 | Bradford | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8277/cross-country
+Boys D4 | Cin. Co. Day | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8335/cross-country
+Boys D4 | Hardin Northern | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8116/cross-country
+Boys D4 | Malvern | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7878/cross-country
+Boys D4 | National Trail | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7772/cross-country
+Boys D4 | Lucas | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7872/cross-country
+Boys D4 | Pandora-Gilboa | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7819/cross-country
+Boys D4 | Waynesfield-Goshen | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7604/cross-country
+Boys D4 | St. Paul | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7800/cross-country
+Boys D4 | Ayersville | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8107/cross-country
+Boys D4 | Peebles | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7823/cross-country
+Boys D4 | Northwood | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7797/cross-country
+Boys D4 | B.C. Western Reserve | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8267/cross-country
+Boys D4 | Elgin | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7891/cross-country
+Boys D4 | Mississinawa Valley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7576/cross-country
+Boys D4 | Valley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7873/cross-country
+Boys D4 | David Anderson | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7858/cross-country
+Boys D4 | Mathews | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7588/cross-country
+Boys D4 | Danville | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8087/cross-country
+Boys D4 | Chalker | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7702/cross-country
+Boys D4 | Federal Hocking | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7718/cross-country
+Boys D4 | Allen East | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8030/cross-country
+Boys D4 | Port. West | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7615/cross-country
+Boys D4 | Cristo Rey | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/71476/cross-country
+Boys D4 | Houston | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8004/cross-country
+Boys D4 | Plymouth | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7839/cross-country
+Boys D4 | Western | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8039/cross-country
+Boys D4 | Fre. St. Joseph C.C. | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7954/cross-country
+Boys D4 | Lima Perry | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8053/cross-country
+Boys D4 | Manchester | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7879/cross-country
+Boys D4 | Chess Christian | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/101492/cross-country
+Boys D4 | Calvert | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7741/cross-country
+Boys D4 | Montpelier | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7945/cross-country
+Boys D4 | Buckeye Trail | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7866/cross-country
+Boys D4 | Toronto | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7568/cross-country
+Boys D4 | Stryker | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7726/cross-country
+Boys D4 | Paint Valley | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8439/cross-country
+Boys D4 | Newcomerstown | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7782/cross-country
+Boys D4 | Fairport Harding | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8138/cross-country
+Boys D4 | Cin. Christian | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7985/cross-country
+Boys D4 | Warren JFK | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7594/cross-country
+Boys D4 | Strasburg-Franklin | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7722/cross-country
+Boys D4 | Liberty | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7653/cross-country
+Boys D4 | DePaul Cristo Rey | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/63032/cross-country
+Boys D4 | South Gallia | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8084/cross-country
+Boys D4 | Del. Christian | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8111/cross-country
+Boys D4 | South Central | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7981/cross-country
+Boys D4 | Finneytown | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8341/cross-country
+Boys D4 | East Knox | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8005/cross-country
+Boys D4 | Loudonville | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7867/cross-country
+Boys D4 | Pat. Liberty Christian | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8251/cross-country
+Boys D4 | Young. Valley Christian | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7655/cross-country
+Boys D4 | Purcell Marian | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8169/cross-country
+Boys D4 | Waterloo | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8434/cross-country
+Boys D4 | Medina Christian Academy | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7913/cross-country
+Boys D4 | Madison-Plains | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7862/cross-country
+Boys D4 | East Palestine | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8124/cross-country
+Boys D4 | St. Martin dePorres | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/36705/cross-country
+Boys D4 | Shadyside | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7689/cross-country
+Boys D4 | Millersport | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7934/cross-country
+Boys D4 | Hilltop | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7619/cross-country
+Boys D4 | Stritch Cath. | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7807/cross-country
+Boys D4 | Put-In-Bay | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/34227/cross-country
+Boys D4 | Newton Falls | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7783/cross-country
+Boys D4 | Ridgemont | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7664/cross-country
+Boys D4 | Upper Scioto Valley | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7909/cross-country
+Boys D4 | Edon | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8128/cross-country
+Boys D4 | Monroeville | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7944/cross-country
+Boys D4 | Oyler | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/67610/cross-country
+Boys D4 | Heartland Christian | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/8235/cross-country
+Boys D4 | Bristol | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8279/cross-country
+Boys D4 | Tol. Horizon Science | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/75953/cross-country
+Boys D4 | LaBrae | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/8040/cross-country
+Boys D4 | Whiteoak | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/7953/cross-country
+Girls D1 | Wayne | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8007/cross-country
+Girls D1 | Princeton | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8168/cross-country
+Girls D1 | Reynoldsburg | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7853/cross-country
+Girls D1 | Groveport-Madison | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7983/cross-country
+Girls D1 | Central Crossing | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/29783/cross-country
+Girls D1 | Middletown | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7926/cross-country
+Girls D1 | Lorain | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/38703/cross-country
+Girls D1 | Canton McKinley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8306/cross-country
+Girls D1 | Valley Forge | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8224/cross-country
+Girls D1 | Western Hills | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8185/cross-country
+Girls D2 | Chardon NDCL | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8321/cross-country
+Girls D2 | Tri-Valley | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8119/cross-country
+Girls D2 | Marion Harding | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7892/cross-country
+Girls D2 | Marietta | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7890/cross-country
+Girls D2 | Will. South | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7634/cross-country
+Girls D2 | Findlay | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8143/cross-country
+Girls D2 | London | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7861/cross-country
+Girls D2 | Thurgood Marshall | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/30029/cross-country
+Girls D2 | Alliance | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8412/cross-country
+Girls D2 | Hamilton Township | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8249/cross-country
+Girls D2 | Jackson | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8016/cross-country
+Girls D2 | Centennial | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8243/cross-country
+Girls D2 | Stivers | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/30175/cross-country
+Girls D2 | Eastlake North | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8125/cross-country
+Girls D2 | Euclid | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8135/cross-country
+Girls D2 | Goshen | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7973/cross-country
+Girls D2 | Lakeside | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8430/cross-country
+Girls D2 | Barberton | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8441/cross-country
+Girls D2 | Ponitz CTC | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/37124/cross-country
+Girls D2 | Tre. Edgewood | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7569/cross-country
+Girls D2 | Zanesville | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7459/cross-country
+Girls D2 | West Carrollton | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8105/cross-country
+Girls D2 | Cin. Woodward | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8188/cross-country
+Girls D2 | Walnut Ridge | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8064/cross-country
+Girls D2 | John Marshall | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8208/cross-country
+Girls D2 | Warren G Harding | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7597/cross-country
+Girls D2 | Cin. SCPA | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8181/cross-country
+Girls D2 | Hol. Springfield | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8003/cross-country
+Girls D2 | Xenia | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7646/cross-country
+Girls D2 | Rhodes | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8204/cross-country
+Girls D2 | Ak. Garfield | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/8402/cross-country
+Girls D2 | Brush | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/29784/cross-country
+Girls D2 | Ellet | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8401/cross-country
+Girls D2 | Aiken | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8330/cross-country
+Girls D3 | Clear Fork | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8261/cross-country
+Girls D3 | Claymont | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7575/cross-country
+Girls D3 | Conneaut | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8071/cross-country
+Girls D3 | Pleasant | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7894/cross-country
+Girls D3 | Oak Harbor | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7801/cross-country
+Girls D3 | Kenton | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8026/cross-country
+Girls D3 | Portsmouth | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7845/cross-country
+Girls D3 | Johnstown | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8021/cross-country
+Girls D3 | St. Clairsville | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7675/cross-country
+Girls D3 | Bid. River Valley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8323/cross-country
+Girls D3 | Ak. Springfield | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8410/cross-country
+Girls D3 | Lakeview | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8077/cross-country
+Girls D3 | Gallia Academy | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7958/cross-country
+Girls D3 | Liberty | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7653/cross-country
+Girls D3 | Cal. River Valley | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8293/cross-country
+Girls D3 | Wheelersburg | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7625/cross-country
+Girls D3 | SPIRE Academy | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/73801/cross-country
+Girls D3 | Chesapeake | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8322/cross-country
+Girls D3 | Indian Lake | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8047/cross-country
+Girls D3 | John. Northridge | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8022/cross-country
+Girls D3 | WCH Washington | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7902/cross-country
+Girls D3 | Greeneview | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8018/cross-country
+Girls D3 | Bryan | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8285/cross-country
+Girls D3 | Elyria Catholic | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8131/cross-country
+Girls D3 | Spr. Shawnee | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7714/cross-country
+Girls D3 | Chippewa | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8118/cross-country
+Girls D3 | Meadowbrook | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8290/cross-country
+Girls D3 | McClain | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7978/cross-country
+Girls D3 | Canton South | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8302/cross-country
+Girls D3 | Perkins | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7681/cross-country
+Girls D3 | Morgan | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7906/cross-country
+Girls D3 | Heb. Lakewood | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7997/cross-country
+Girls D3 | Rossford | 4 saved | 3 missing | provisional=True | https://www.athletic.net/team/7672/cross-country
+Girls D3 | West Muskingum | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7661/cross-country
+Girls D3 | East Liverpool | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8123/cross-country
+Girls D3 | Carlisle | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8152/cross-country
+Girls D3 | Southeast | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7849/cross-country
+Girls D3 | Indian Creek | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7638/cross-country
+Girls D3 | Mid. Madison | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7924/cross-country
+Girls D3 | War. Champion | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7592/cross-country
+Girls D3 | Kenton Ridge | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7710/cross-country
+Girls D3 | Vermilion | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7586/cross-country
+Girls D3 | Clinton-Massie | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8192/cross-country
+Girls D3 | Paulding | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7822/cross-country
+Girls D3 | Union Local | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8262/cross-country
+Girls D3 | Hillsboro | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8001/cross-country
+Girls D3 | Alexander | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8411/cross-country
+Girls D3 | Circleville | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8190/cross-country
+Girls D3 | Martins Ferry | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7895/cross-country
+Girls D3 | Beaver Local | 6 saved | 1 missing | provisional=True | https://www.athletic.net/team/7857/cross-country
+Girls D3 | Bethel-Tate | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8268/cross-country
+Girls D3 | Cle. VASJ | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8225/cross-country
+Girls D3 | Chesterton Academy Of St. Benedict | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/101485/cross-country
+Girls D3 | New Lexington | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7767/cross-country
+Girls D3 | Port Clinton | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7842/cross-country
+Girls D3 | Coventry | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8399/cross-country
+Girls D3 | Ravenna | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7848/cross-country
+Girls D3 | River View | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7598/cross-country
+Girls D3 | Brookside | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7691/cross-country
+Girls D3 | Piketon | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7832/cross-country
+Girls D3 | Reading | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8170/cross-country
+Girls D3 | Valley View | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7968/cross-country
+Girls D3 | Struthers | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7725/cross-country
+Girls D3 | Cristo Rey | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/71476/cross-country
+Girls D3 | Lincoln West | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8209/cross-country
+Girls D3 | South Point | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7700/cross-country
+Girls D3 | Amanda-Clearcreek | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8414/cross-country
+Girls D3 | Toledo C.C. | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7745/cross-country
+Girls D3 | Clermont NE | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8446/cross-country
+Girls D3 | Clark Montessori | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8337/cross-country
+Girls D3 | Glenville | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8201/cross-country
+Girls D3 | Ready | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8240/cross-country
+Girls D3 | Day. Northridge | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8099/cross-country
+Girls D3 | Cle. JFK | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8206/cross-country
+Girls D3 | Buckeye Local | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7851/cross-country
+Girls D3 | Meadowdale | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8097/cross-country
+Girls D3 | Purcell Marian | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8169/cross-country
+Girls D3 | Cle. Cent. Cath. | 0 saved | 7 missing | provisional=False | https://www.athletic.net/team/8195/cross-country
+Girls D3 | Niles McKinley | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7784/cross-country
+Girls D4 | Newton Local | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7837/cross-country
+Girls D4 | Shenandoah | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7684/cross-country
+Girls D4 | Gr. City Chr. | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/29198/cross-country
+Girls D4 | Allen East | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8030/cross-country
+Girls D4 | Patrick Henry | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7990/cross-country
+Girls D4 | Maumee Va. C.D. | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7749/cross-country
+Girls D4 | Smithville | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7697/cross-country
+Girls D4 | Fairlawn | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7694/cross-country
+Girls D4 | Mohawk | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7732/cross-country
+Girls D4 | Covington | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8080/cross-country
+Girls D4 | Mogadore | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7941/cross-country
+Girls D4 | Franklin Monroe | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7835/cross-country
+Girls D4 | Andrews Osborne Acad. | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7631/cross-country
+Girls D4 | Cin. Christian | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7985/cross-country
+Girls D4 | No. Baltimore | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7785/cross-country
+Girls D4 | Williamsburg | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7629/cross-country
+Girls D4 | Tri-Village | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7769/cross-country
+Girls D4 | Botkins | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8274/cross-country
+Girls D4 | Bluffton | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8273/cross-country
+Girls D4 | Lima C.C. | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8050/cross-country
+Girls D4 | Fisher Catholic | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8038/cross-country
+Girls D4 | Rac. Southern | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7847/cross-country
+Girls D4 | Mid. Christian | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7925/cross-country
+Girls D4 | Jackson-Milton | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7789/cross-country
+Girls D4 | Cuy. Heights | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8198/cross-country
+Girls D4 | Elgin | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7891/cross-country
+Girls D4 | Ridgedale | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7946/cross-country
+Girls D4 | Hillsdale | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8020/cross-country
+Girls D4 | West Jefferson | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7611/cross-country
+Girls D4 | Spencerville | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7704/cross-country
+Girls D4 | Lowellville | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7871/cross-country
+Girls D4 | S. Char. SE | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/22458/cross-country
+Girls D4 | Mathews | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7588/cross-country
+Girls D4 | Triad | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7790/cross-country
+Girls D4 | Northwood | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7797/cross-country
+Girls D4 | St. Paul | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7800/cross-country
+Girls D4 | Van Buren | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7582/cross-country
+Girls D4 | Bea. Eastern | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8451/cross-country
+Girls D4 | Ridgewood | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7612/cross-country
+Girls D4 | Lake Ridge Acad. | 5 saved | 2 missing | provisional=True | https://www.athletic.net/team/7793/cross-country
+Girls D4 | Kalida | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8023/cross-country
+Girls D4 | Houston | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8004/cross-country
+Girls D4 | Caldwell | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8292/cross-country
+Girls D4 | Leipsic | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/30169/cross-country
+Girls D4 | Malvern | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7878/cross-country
+Girls D4 | Miller City | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7932/cross-country
+Girls D4 | Russia | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7673/cross-country
+Girls D4 | Mineral Ridge | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7935/cross-country
+Girls D4 | Badger | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8029/cross-country
+Girls D4 | Reed. Eastern | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7852/cross-country
+Girls D4 | Federal Hocking | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7718/cross-country
+Girls D4 | Jackson Center | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8017/cross-country
+Girls D4 | Paint Valley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8439/cross-country
+Girls D4 | Open Door Christian | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8134/cross-country
+Girls D4 | Lynchburg-Clay | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7874/cross-country
+Girls D4 | Adena | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8151/cross-country
+Girls D4 | Wynford | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8288/cross-country
+Girls D4 | Fayette | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8140/cross-country
+Girls D4 | Pettisville | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7828/cross-country
+Girls D4 | East Knox | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8005/cross-country
+Girls D4 | Monroeville | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7944/cross-country
+Girls D4 | Lordstown | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7595/cross-country
+Girls D4 | Newcomerstown | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7782/cross-country
+Girls D4 | Hilltop | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7619/cross-country
+Girls D4 | National Trail | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7772/cross-country
+Girls D4 | South Webster | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7701/cross-country
+Girls D4 | Danbury | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8032/cross-country
+Girls D4 | New Knoxville | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7765/cross-country
+Girls D4 | Belpre | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8264/cross-country
+Girls D4 | Ash. Crestview | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8426/cross-country
+Girls D4 | Hardin Northern | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8116/cross-country
+Girls D4 | Black River | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7729/cross-country
+Girls D4 | Sand. SMCC | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7682/cross-country
+Girls D4 | Stryker | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7726/cross-country
+Girls D4 | Twin Valley So. | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7609/cross-country
+Girls D4 | Pymatuning Valley | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8416/cross-country
+Girls D4 | Wickliffe | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7627/cross-country
+Girls D4 | Buckeye Trail | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7866/cross-country
+Girls D4 | Toledo Christian | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7565/cross-country
+Girls D4 | W.S. Northwestern | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7616/cross-country
+Girls D4 | Col. Crestview | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8234/cross-country
+Girls D4 | Bucyrus | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8286/cross-country
+Girls D4 | East Clinton | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8042/cross-country
+Girls D4 | Coll Western Reserve | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8231/cross-country
+Girls D4 | Preble Shawnee | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8295/cross-country
+Girls D4 | Garaway | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7728/cross-country
+Girls D4 | Bridgeport | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8278/cross-country
+Girls D4 | Wester. Genoa Christian | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/84917/cross-country
+Girls D4 | Oberlin | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7804/cross-country
+Girls D4 | Calvary Christian | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/53164/cross-country
+Girls D4 | New Riegel | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7776/cross-country
+Girls D4 | Calvert | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7741/cross-country
+Girls D4 | Hiland | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8266/cross-country
+Girls D4 | Port. Clay | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7843/cross-country
+Girls D4 | Bradford | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8277/cross-country
+Girls D4 | Loudonville | 4 saved | 3 missing | provisional=True | https://www.athletic.net/team/7867/cross-country
+Girls D4 | Wellington | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7606/cross-country
+Girls D4 | Symmes Valley | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7635/cross-country
+Girls D4 | Mapleton | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8427/cross-country
+Girls D4 | North Adams | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7687/cross-country
+Girls D4 | Upper Scioto Valley | 1 saved | 6 missing | provisional=True | https://www.athletic.net/team/7909/cross-country
+Girls D4 | Bristol | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8279/cross-country
+Girls D4 | Manchester | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7879/cross-country
+Girls D4 | Cin. Co. Day | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8335/cross-country
+Girls D4 | Wellston | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7607/cross-country
+Girls D4 | Warren JFK | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7594/cross-country
+Girls D4 | Winc. Eastern | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/7685/cross-country
+Girls D4 | Dawson-Bryant | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8012/cross-country
+Girls D4 | Sal. Southern | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7680/cross-country
+Girls D4 | Lakota | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/8024/cross-country
+Girls D4 | Lucas | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7872/cross-country
+Girls D4 | Heartland Christian | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8235/cross-country
+Girls D4 | Brookfield | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8281/cross-country
+Girls D4 | David Anderson | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7858/cross-country
+Girls D4 | Felicity-Franklin | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8142/cross-country
+Girls D4 | South Central | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/7981/cross-country
+Girls D4 | Hopewell-Loudon | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8443/cross-country
+Girls D4 | Edon | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8128/cross-country
+Girls D4 | Western | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8039/cross-country
+Girls D4 | Strasburg-Franklin | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7722/cross-country
+Girls D4 | F.F. Green | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8154/cross-country
+Girls D4 | Rock Hill | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8014/cross-country
+Girls D4 | LaBrae | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8040/cross-country
+Girls D4 | Gran. Chr. Acad. | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/38164/cross-country
+Girls D4 | Plymouth | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/7839/cross-country
+Girls D4 | Fairport Harding | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8138/cross-country
+Girls D4 | Crooksville | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8083/cross-country
+Girls D4 | Lan. Fair Chr. | 6 saved | 1 missing | provisional=False | https://www.athletic.net/team/29472/cross-country
+Girls D4 | Medina Christian Academy | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7913/cross-country
+Girls D4 | Pandora-Gilboa | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7819/cross-country
+Girls D4 | Northeastern | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7712/cross-country
+Girls D4 | Stritch Cath. | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7807/cross-country
+Girls D4 | Han. River | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7991/cross-country
+Girls D4 | Minford | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7937/cross-country
+Girls D4 | Brooklyn | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8282/cross-country
+Girls D4 | Chess Christian | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/101492/cross-country
+Girls D4 | Swanton | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7731/cross-country
+Girls D4 | B.C. Western Reserve | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/8267/cross-country
+Girls D4 | Frontier | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7770/cross-country
+Girls D4 | St. Thomas Aquinas | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7869/cross-country
+Girls D4 | Newton Falls | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7783/cross-country
+Girls D4 | Chil. Southeastern | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/8327/cross-country
+Girls D4 | Lima Perry | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8053/cross-country
+Girls D4 | The Compass Academy | 5 saved | 2 missing | provisional=False | https://www.athletic.net/team/101704/cross-country
+Girls D4 | Put-In-Bay | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/34227/cross-country
+Girls D4 | Waterloo | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8434/cross-country
+Girls D4 | Miami Valley School | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/8098/cross-country
+Girls D4 | Mooney | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7651/cross-country
+Girls D4 | DeG. Riverside | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8106/cross-country
+Girls D4 | Deer Park | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8339/cross-country
+Girls D4 | Berne Union | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7727/cross-country
+Girls D4 | Peebles | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7823/cross-country
+Girls D4 | Whiteoak | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7953/cross-country
+Girls D4 | Dixie | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7766/cross-country
+Girls D4 | Waterford | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7601/cross-country
+Girls D4 | Africentric | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/8236/cross-country
+Girls D4 | Young. Valley Christian | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/7655/cross-country
+Girls D4 | Mississinawa Valley | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7576/cross-country
+Girls D4 | Madison Christian | 4 saved | 3 missing | provisional=False | https://www.athletic.net/team/29598/cross-country
+Girls D4 | St. Bernard | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7674/cross-country
+Girls D4 | John Adams | 3 saved | 4 missing | provisional=False | https://www.athletic.net/team/30030/cross-country
+Girls D4 | McD. Northwest | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7907/cross-country
+Girls D4 | Pat. Liberty Christian | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8251/cross-country
+Girls D4 | Leetonia | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/8044/cross-country
+Girls D4 | Ripley-Union | 1 saved | 6 missing | provisional=False | https://www.athletic.net/team/7665/cross-country
+Girls D4 | Clearview | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/7864/cross-country
+Girls D4 | Oyler | 2 saved | 5 missing | provisional=False | https://www.athletic.net/team/67610/cross-country
+
+DUPLICATE ATHLETE REVIEW
+Boys D1 | Euclid | Zach Mocadlo | Zachary Mocadlo | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/32887301/cross-country | https://www.athletic.net/athlete/27105430/cross-country
+Boys D1 | Strongsville | Alex Crist | Alexander Crist | unresolved, both profiles withheld | Nickname and full name profiles share school and grade, with nonoverlapping 2026 races. Distinct identity not established. Both profiles withheld. | https://www.athletic.net/athlete/23679702/cross-country | https://www.athletic.net/athlete/30779420/cross-country
+Boys D2 | Tol. St. Francis | Will Dwyer | William Dwyer | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/27132513/cross-country | https://www.athletic.net/athlete/23729533/cross-country
+Boys D2 | Norton | Franklin Sisson | Frank Sisson | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/26432320/cross-country | https://www.athletic.net/athlete/30976610/cross-country
+Boys D2 | Wooster | Trent Johnson | Trenton (Trent) Johnson | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/31009636/cross-country | https://www.athletic.net/athlete/29268379/cross-country
+Boys D2 | Ellet | Isaiah Prockno | Isiah Prockno | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29911372/cross-country | https://www.athletic.net/athlete/33086710/cross-country
+Boys D2 | Eastlake North | Nick Hogan | Nicholas Hogan | unresolved, both profiles withheld | Nickname and full name profiles share school and grade, with nonoverlapping 2026 races. Distinct identity not established. Both profiles withheld. | https://www.athletic.net/athlete/29527456/cross-country | https://www.athletic.net/athlete/31308904/cross-country
+Boys D2 | Syl. Southview | Robert (Bob) Vanasdale | Bob Vanasdale | unresolved, both profiles withheld | Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed. | https://www.athletic.net/athlete/23795963/cross-country | https://www.athletic.net/athlete/27015161/cross-country
+Boys D2 | Granville | Ben Rose | Benjamin Rose | unresolved, both profiles withheld | Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed. | https://www.athletic.net/athlete/23609888/cross-country | https://www.athletic.net/athlete/24820783/cross-country
+Boys D3 | Van Wert | Nash Hillery | Noah Hillery | resolved distinct | Different grades, 10 and 12, and separate finishes at the same 2026 races. | https://www.athletic.net/athlete/29496299/cross-country | https://www.athletic.net/athlete/31002499/cross-country
+Boys D3 | Sandy Valley | Jonathon Casto | Jonathan Casto | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29655430/cross-country | https://www.athletic.net/athlete/33078308/cross-country
+Boys D3 | Bellevue | Dominick Simon | Dominic Simon | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/26415182/cross-country | https://www.athletic.net/athlete/29450445/cross-country
+Boys D3 | Mooney | John Luke Robles | Jon Luke Robles | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29705841/cross-country | https://www.athletic.net/athlete/31665152/cross-country
+Boys D3 | Berkshire | Ben Townsend | Benjamin Townsend | unresolved, both profiles withheld | Nickname and full name profiles share school and grade, with nonoverlapping 2026 races. Distinct identity not established. Both profiles withheld. | https://www.athletic.net/athlete/32515969/cross-country | https://www.athletic.net/athlete/31212219/cross-country
+Boys D4 | Bucyrus | Anderson Griffin | Anderson (AJ) Griffin | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/26376655/cross-country | https://www.athletic.net/athlete/23729107/cross-country
+Boys D4 | N. Mid. Springfield | Matthew Robertson | Mathew Robertson | unresolved, both profiles withheld | Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed. | https://www.athletic.net/athlete/29705852/cross-country | https://www.athletic.net/athlete/31987486/cross-country
+Girls D1 | Stow-Munroe Falls | Mckaylynn Tobin | Baylynn Tobin | resolved distinct | Separate finishes at the same 2026 races, including Stow Bulldog Invitational places 54 and 64, times 23:20.1 and 23:36.4. | https://www.athletic.net/athlete/32883520/cross-country | https://www.athletic.net/athlete/32883519/cross-country
+Girls D1 | Beavercreek | Rebekah Ward | Rebeka Ward | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/25804833/cross-country | https://www.athletic.net/athlete/29896034/cross-country
+Girls D1 | Gah. Lincoln | Kate Ohl | Katherine Ohl | unresolved, both profiles withheld | Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed. | https://www.athletic.net/athlete/29445897/cross-country | https://www.athletic.net/athlete/30664103/cross-country
+Girls D2 | Canal Winchester | Izabella Kleinline | Izabella Kleinline | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/24873831/cross-country | https://www.athletic.net/athlete/21142269/cross-country
+Girls D2 | Kenston | Addi Lowe | Addison Lowe | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/32863432/cross-country | https://www.athletic.net/athlete/26662041/cross-country
+Girls D2 | Steele | Sam Falbo | Sam Falbo | unresolved, both profiles withheld | Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed. | https://www.athletic.net/athlete/30953076/cross-country | https://www.athletic.net/athlete/24327610/cross-country
+Girls D3 | Hathaway Brown | Adeline Comar | Jacqueline Comar | resolved distinct | Different grades, 12 and 11, and separate finishes at the same 2026 races, including Legends places 102 and 117. | https://www.athletic.net/athlete/23679492/cross-country | https://www.athletic.net/athlete/26506491/cross-country
+Girls D3 | Bethel | Alyssandra "Grace" Peirano | Alyssandra Peirano | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/26770703/cross-country | https://www.athletic.net/athlete/31073684/cross-country
+Girls D3 | Hubbard | Lilly Steele | Lily Steele | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/30765956/cross-country | https://www.athletic.net/athlete/32826518/cross-country
+Girls D3 | Willard | Helen Acosta Cerda | Helen Acosta Cerda | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29919262/cross-country | https://www.athletic.net/athlete/23833055/cross-country
+Girls D3 | Beaver Local | Nayia Springer | Naiya Springer | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29572071/cross-country | https://www.athletic.net/athlete/30943162/cross-country
+Girls D3 | Glenville | La'Nayshia Bailey | Kanayshia Bailey | resolved distinct | Different grades, 11 and 12, and separate finishes at Senate Athletic League Championship, places 5 and 12. | https://www.athletic.net/athlete/33413556/cross-country | https://www.athletic.net/athlete/33413559/cross-country
+Girls D3 | Rossford | Izzy Matthews | Isabella Matthews | unresolved, both profiles withheld | Similar first names or known nickname forms, same surname and school, different athlete profile URLs. Individual identity remains unconfirmed. | https://www.athletic.net/athlete/31059400/cross-country | https://www.athletic.net/athlete/29496442/cross-country
+Girls D4 | Minster | Raelynn Pollitz | Raekynn Pollitz | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/33329286/cross-country | https://www.athletic.net/athlete/33014012/cross-country
+Girls D4 | N. Mid. Springfield | Gabrielle Girondi | Isabelle Girondi | resolved distinct | Separate finishes in the same 2026 races, including Aug 29 Salem Early Bird, places 46 and 63, times 26:22.1 and 27:47.7. | https://www.athletic.net/athlete/29705849/cross-country | https://www.athletic.net/athlete/29705850/cross-country
+Girls D4 | Riverdale | Addi Manns | Addie Manns | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29450615/cross-country | https://www.athletic.net/athlete/23659222/cross-country
+Girls D4 | Lake Ridge Acad. | Lily Shmois | Lilly Shmois | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/23717217/cross-country | https://www.athletic.net/athlete/31151971/cross-country
+Girls D4 | Loudonville | Gracie-Lynn Jefferies | Gracie Jefferies | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29496912/cross-country | https://www.athletic.net/athlete/32986400/cross-country
+Girls D4 | Upper Scioto Valley | Lilly McCoy | Lily McCoy | unresolved, both profiles withheld | Similar first names and same surname, distinct athlete URLs. Requires identity review. | https://www.athletic.net/athlete/29450643/cross-country | https://www.athletic.net/athlete/23729537/cross-country
+
+EVERY SEVENTH POSITION TIE
+Boys D3 | Lake Cath. | Sean Waite | 19:15.2 | https://www.athletic.net/athlete/26506500/cross-country | http://www.athletic.net/result/MDFRzRZHWAWal
+Boys D3 | Lake Cath. | Connor Lorenz | 19:15.2 | https://www.athletic.net/athlete/29527314/cross-country | http://www.athletic.net/result/3DF8zQOHyJDmz
+Boys D3 | Archbold | Zach Krueger | 19:15.3 | https://www.athletic.net/athlete/23888484/cross-country | http://www.athletic.net/result/oxFoRNYhq6Nmm
+Boys D3 | Archbold | Eli King | 19:15.3 | https://www.athletic.net/athlete/32853289/cross-country | http://www.athletic.net/result/BvFk0mXH2MJJJ
+Boys D3 | Roger Bacon | Kameron Griffin-Harris | 21:42.1 | https://www.athletic.net/athlete/26589722/cross-country | http://www.athletic.net/result/ZlFeZEqinKZlA
+Boys D3 | Roger Bacon | Kingston Paul | 21:42.1 | https://www.athletic.net/athlete/32898375/cross-country | http://www.athletic.net/result/mXFoXzqTPkPON
+
+EVERY SCHOOL INVENTORY DIVISION REVIEW
+Boys D1 | Springfield | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7711/cross-country
+Boys D1 | Valley Forge | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8224/cross-country
+Boys D1 | Hamilton | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7987/cross-country
+Boys D1 | Groveport-Madison | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7983/cross-country
+Boys D1 | Euclid | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8135/cross-country
+Boys D1 | Cle. Heights | OHSAA name: CLEVELAND HEIGHTS | Official school name linked by Athletic.net team ID from girls_d1. No entry in the supplied boys_d1 inventory. | https://www.athletic.net/team/8228/cross-country
+Boys D1 | Youngstown | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/29207/cross-country
+Boys D2 | Goshen | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7973/cross-country
+Boys D2 | Zanesville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7459/cross-country
+Boys D2 | Lima Senior | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8052/cross-country
+Boys D2 | Col. West | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8066/cross-country
+Boys D2 | Steubenville | OHSAA name: STEUBENVILLE | Official school name linked by Athletic.net team ID from girls_d2. No entry in the supplied boys_d2 inventory. | https://www.athletic.net/team/7717/cross-country
+Boys D2 | Mansfield Senior | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7883/cross-country
+Boys D2 | Whitehall-Yearling | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8068/cross-country
+Boys D2 | Col. South | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8060/cross-country
+Boys D2 | Thurgood Marshall | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/30029/cross-country
+Boys D2 | Hughes | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8343/cross-country
+Boys D2 | Ak. North | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8407/cross-country
+Boys D2 | Niles McKinley | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7784/cross-country
+Boys D3 | Portsmouth | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7845/cross-country
+Boys D3 | Wellston | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7607/cross-country
+Boys D3 | Pleasant | OHSAA name: PLEASANT | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/7894/cross-country
+Boys D3 | Chesapeake | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8322/cross-country
+Boys D3 | Dawson-Bryant | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8012/cross-country
+Boys D3 | Ak. Springfield | OHSAA name: SPRINGFIELD | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/8410/cross-country
+Boys D3 | New Richmond | OHSAA name: NEW RICHMOND | Official school name linked by Athletic.net team ID from girls_d2. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/7775/cross-country
+Boys D3 | Spr. Shawnee | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7714/cross-country
+Boys D3 | Wickliffe | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7627/cross-country
+Boys D3 | Indian Valley | OHSAA name: INDIAN VALLEY | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/7972/cross-country
+Boys D3 | McD. Northwest | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7907/cross-country
+Boys D3 | South Point | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7700/cross-country
+Boys D3 | Clear Fork | OHSAA name: CLEAR FORK | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/8261/cross-country
+Boys D3 | Oak Harbor | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7801/cross-country
+Boys D3 | Chippewa | OHSAA name: CHIPPEWA | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/8118/cross-country
+Boys D3 | Field | OHSAA name: FIELD | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/7940/cross-country
+Boys D3 | Ravenna | OHSAA name: RAVENNA | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/7848/cross-country
+Boys D3 | West Muskingum | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7661/cross-country
+Boys D3 | Carlisle | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8152/cross-country
+Boys D3 | Alexander | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8411/cross-country
+Boys D3 | Swanton | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7731/cross-country
+Boys D3 | Mid. Madison | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7924/cross-country
+Boys D3 | Harrison Central | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8291/cross-country
+Boys D3 | Col. Crestview | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8234/cross-country
+Boys D3 | John Adams | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/30030/cross-country
+Boys D3 | Chesterton Academy Of St. Benedict | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101485/cross-country
+Boys D3 | Vermilion | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7586/cross-country
+Boys D3 | Minford | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7937/cross-country
+Boys D3 | Norwood | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8166/cross-country
+Boys D3 | Meadowdale | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8097/cross-country
+Boys D3 | North Adams | OHSAA name: NORTH ADAMS | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/7687/cross-country
+Boys D3 | Amanda-Clearcreek | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8414/cross-country
+Boys D3 | New Lexington | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7767/cross-country
+Boys D3 | Struthers | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7725/cross-country
+Boys D3 | Brooklyn | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8282/cross-country
+Boys D3 | Philo | OHSAA name: PHILO | Official school name linked by Athletic.net team ID from girls_d3. No entry in the supplied boys_d3 inventory. | https://www.athletic.net/team/7829/cross-country
+Boys D3 | Glenville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8201/cross-country
+Boys D4 | Ridgedale | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7946/cross-country
+Boys D4 | Miller City | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7932/cross-country
+Boys D4 | Mohawk | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7732/cross-country
+Boys D4 | Twin Valley So. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7609/cross-country
+Boys D4 | Wellington School | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/42682/cross-country
+Boys D4 | No. Central | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7833/cross-country
+Boys D4 | Spencerville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7704/cross-country
+Boys D4 | Cardinal | OHSAA name: CARDINAL | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7921/cross-country
+Boys D4 | Crooksville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8083/cross-country
+Boys D4 | Chesterton Academy of St. Joseph | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101552/cross-country
+Boys D4 | Crestline | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8081/cross-country
+Boys D4 | Danbury | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8032/cross-country
+Boys D4 | Berne Union | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7727/cross-country
+Boys D4 | Wester. Genoa Christian | OHSAA name: Genoa Christian Academy | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/84917/cross-country
+Boys D4 | Tuscar. C.C. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7774/cross-country
+Boys D4 | Han. River | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7991/cross-country
+Boys D4 | Ottoville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7815/cross-country
+Boys D4 | Steub. Cath. Cent. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7716/cross-country
+Boys D4 | Northeastern | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7712/cross-country
+Boys D4 | Lima C.C. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8050/cross-country
+Boys D4 | Hiland | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8266/cross-country
+Boys D4 | Hillsdale | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8020/cross-country
+Boys D4 | Mechanicsburg | OHSAA name: MECHANICSBURG | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7910/cross-country
+Boys D4 | Bradford | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8277/cross-country
+Boys D4 | National Trail | OHSAA name: NATIONAL TRAIL | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7772/cross-country
+Boys D4 | Lucas | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7872/cross-country
+Boys D4 | Tree of Life Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8062/cross-country
+Boys D4 | Peebles | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7823/cross-country
+Boys D4 | Northwood | OHSAA name: NORTHWOOD | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7797/cross-country
+Boys D4 | B.C. Western Reserve | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8267/cross-country
+Boys D4 | Elgin | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7891/cross-country
+Boys D4 | Mississinawa Valley | OHSAA name: MISSISSINAWA VALLEY | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7576/cross-country
+Boys D4 | Patrick Henry | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7990/cross-country
+Boys D4 | United | OHSAA name: UNITED | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7992/cross-country
+Boys D4 | David Anderson | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7858/cross-country
+Boys D4 | Mathews | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7588/cross-country
+Boys D4 | Danville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8087/cross-country
+Boys D4 | Gr. City Chr. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/29198/cross-country
+Boys D4 | Chalker | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7702/cross-country
+Boys D4 | Federal Hocking | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7718/cross-country
+Boys D4 | Port. West | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7615/cross-country
+Boys D4 | Cristo Rey | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/71476/cross-country
+Boys D4 | Houston | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8004/cross-country
+Boys D4 | Western | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8039/cross-country
+Boys D4 | Fre. St. Joseph C.C. | OHSAA name: ST JOSEPH CENTRAL CATHOLIC | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7954/cross-country
+Boys D4 | Lima Perry | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8053/cross-country
+Boys D4 | Chess Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101492/cross-country
+Boys D4 | Calvert | OHSAA name: CALVERT | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7741/cross-country
+Boys D4 | Montpelier | OHSAA name: MONTPELIER | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7945/cross-country
+Boys D4 | Buckeye Trail | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7866/cross-country
+Boys D4 | Africentric | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8236/cross-country
+Boys D4 | Stryker | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7726/cross-country
+Boys D4 | Newcomerstown | OHSAA name: NEWCOMERSTOWN | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7782/cross-country
+Boys D4 | Fairport Harding | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8138/cross-country
+Boys D4 | Cin. Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7985/cross-country
+Boys D4 | Warren JFK | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7594/cross-country
+Boys D4 | Strasburg-Franklin | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7722/cross-country
+Boys D4 | DePaul Cristo Rey | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/63032/cross-country
+Boys D4 | South Gallia | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8084/cross-country
+Boys D4 | Del. Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8111/cross-country
+Boys D4 | South Central | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7981/cross-country
+Boys D4 | Deer Park | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8339/cross-country
+Boys D4 | Finneytown | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8341/cross-country
+Boys D4 | Loudonville | OHSAA name: LOUDONVILLE | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7867/cross-country
+Boys D4 | Young. Valley Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7655/cross-country
+Boys D4 | The Compass Academy | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101704/cross-country
+Boys D4 | Purcell Marian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8169/cross-country
+Boys D4 | Waterloo | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8434/cross-country
+Boys D4 | Medina Christian Academy | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7913/cross-country
+Boys D4 | East Palestine | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8124/cross-country
+Boys D4 | Cin. SCPA | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8181/cross-country
+Boys D4 | Bard Early College | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/83207/cross-country
+Boys D4 | St. Martin dePorres | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/36705/cross-country
+Boys D4 | Shadyside | OHSAA name: SHADYSIDE | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/7689/cross-country
+Boys D4 | Millersport | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7934/cross-country
+Boys D4 | Hilltop | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7619/cross-country
+Boys D4 | Stritch Cath. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7807/cross-country
+Boys D4 | Put-In-Bay | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/34227/cross-country
+Boys D4 | Newton Falls | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7783/cross-country
+Boys D4 | Ridgemont | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7664/cross-country
+Boys D4 | Edon | OHSAA name: EDON | Official school name linked by Athletic.net team ID from girls_d4. No entry in the supplied boys_d4 inventory. | https://www.athletic.net/team/8128/cross-country
+Boys D4 | Monroeville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7944/cross-country
+Girls D1 | Hamilton | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7987/cross-country
+Girls D1 | Colerain | OHSAA name: COLERAIN | Official school name linked by Athletic.net team ID from boys_d1. No entry in the supplied girls_d1 inventory. | https://www.athletic.net/team/8338/cross-country
+Girls D1 | West Clermont | OHSAA name: WEST CLERMONT | Official school name linked by Athletic.net team ID from boys_d1. No entry in the supplied girls_d1 inventory. | https://www.athletic.net/team/74232/cross-country
+Girls D1 | Wayne | OHSAA name: WAYNE | Official school name linked by Athletic.net team ID from boys_d1. No entry in the supplied girls_d1 inventory. | https://www.athletic.net/team/8007/cross-country
+Girls D1 | Princeton | OHSAA name: PRINCETON | Official school name linked by Athletic.net team ID from boys_d1. No entry in the supplied girls_d1 inventory. | https://www.athletic.net/team/8168/cross-country
+Girls D1 | Reynoldsburg | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7853/cross-country
+Girls D1 | Groveport-Madison | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7983/cross-country
+Girls D1 | Canton McKinley | OHSAA name: CANTON McKINLEY SENIOR | Official school name linked by Athletic.net team ID from boys_d1. No entry in the supplied girls_d1 inventory. | https://www.athletic.net/team/8306/cross-country
+Girls D1 | Valley Forge | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8224/cross-country
+Girls D1 | Western Hills | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8185/cross-country
+Girls D2 | Miamisburg | OHSAA name: MIAMISBURG | Official school name linked by Athletic.net team ID from boys_d1. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/7920/cross-country
+Girls D2 | Will. South | OHSAA name: SOUTH | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/7634/cross-country
+Girls D2 | No. Olmsted | OHSAA name: NORTH OLMSTED | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/7792/cross-country
+Girls D2 | Thurgood Marshall | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/30029/cross-country
+Girls D2 | Alliance | OHSAA name: ALLIANCE | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/8412/cross-country
+Girls D2 | Hamilton Township | OHSAA name: HAMILTON TOWNSHIP | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/8249/cross-country
+Girls D2 | Mass. Washington | OHSAA name: WASHINGTON | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/29776/cross-country
+Girls D2 | Centennial | OHSAA name: CENTENNIAL | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/8243/cross-country
+Girls D2 | Stivers | OHSAA name: STIVERS SCHOOL FOR THE ARTS | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/30175/cross-country
+Girls D2 | Eastlake North | OHSAA name: NORTH | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/8125/cross-country
+Girls D2 | No. Ridgeville | OHSAA name: NORTH RIDGEVILLE | Official school name linked by Athletic.net team ID from boys_d1. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/7794/cross-country
+Girls D2 | Euclid | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8135/cross-country
+Girls D2 | Goshen | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7973/cross-country
+Girls D2 | Lakeside | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8430/cross-country
+Girls D2 | Ponitz CTC | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/37124/cross-country
+Girls D2 | Zanesville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7459/cross-country
+Girls D2 | West Carrollton | OHSAA name: WEST CARROLLTON | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/8105/cross-country
+Girls D2 | Cin. Woodward | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8188/cross-country
+Girls D2 | Walnut Ridge | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8064/cross-country
+Girls D2 | John Marshall | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8208/cross-country
+Girls D2 | Warren G Harding | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7597/cross-country
+Girls D2 | Cin. SCPA | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8181/cross-country
+Girls D2 | Hol. Springfield | OHSAA name: SPRINGFIELD | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/8003/cross-country
+Girls D2 | Xenia | OHSAA name: XENIA | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d2 inventory. | https://www.athletic.net/team/7646/cross-country
+Girls D3 | Ironton | OHSAA name: IRONTON | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8013/cross-country
+Girls D3 | Oak Harbor | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7801/cross-country
+Girls D3 | Luth. West | OHSAA name: LUTHERAN WEST | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7668/cross-country
+Girls D3 | Portsmouth | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7845/cross-country
+Girls D3 | North Union | OHSAA name: NORTH UNION | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7663/cross-country
+Girls D3 | Johnstown | OHSAA name: JOHNSTOWN | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8021/cross-country
+Girls D3 | Taylor | OHSAA name: TAYLOR | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7786/cross-country
+Girls D3 | Triway | OHSAA name: TRIWAY | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7640/cross-country
+Girls D3 | Hawken | OHSAA name: HAWKEN | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7964/cross-country
+Girls D3 | Liberty | OHSAA name: LIBERTY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7653/cross-country
+Girls D3 | SPIRE Academy | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/73801/cross-country
+Girls D3 | Chesapeake | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8322/cross-country
+Girls D3 | John. Northridge | OHSAA name: NORTHRIDGE | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8022/cross-country
+Girls D3 | WCH Washington | OHSAA name: WASHINGTON | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7902/cross-country
+Girls D3 | Greeneview | OHSAA name: GREENEVIEW | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8018/cross-country
+Girls D3 | Norton | OHSAA name: NORTON | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7798/cross-country
+Girls D3 | Hubbard | OHSAA name: HUBBARD | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8006/cross-country
+Girls D3 | Spr. Shawnee | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7714/cross-country
+Girls D3 | Morgan | OHSAA name: MORGAN | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7906/cross-country
+Girls D3 | West Muskingum | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7661/cross-country
+Girls D3 | Heath | OHSAA name: HEATH | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7995/cross-country
+Girls D3 | East Liverpool | OHSAA name: EAST LIVERPOOL | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8123/cross-country
+Girls D3 | Fostoria | OHSAA name: FOSTORIA | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8149/cross-country
+Girls D3 | Maysville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7659/cross-country
+Girls D3 | Carlisle | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8152/cross-country
+Girls D3 | Indian Creek | OHSAA name: INDIAN CREEK | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7638/cross-country
+Girls D3 | Bard Early College | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/83207/cross-country
+Girls D3 | Eastmoor Acad. | OHSAA name: EASTMOOR ACADEMY | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8246/cross-country
+Girls D3 | Mid. Madison | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7924/cross-country
+Girls D3 | War. Champion | OHSAA name: CHAMPION | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7592/cross-country
+Girls D3 | Kenton Ridge | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7710/cross-country
+Girls D3 | Vermilion | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7586/cross-country
+Girls D3 | Union Local | OHSAA name: UNION LOCAL | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8262/cross-country
+Girls D3 | Hillsboro | OHSAA name: HILLSBORO | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8001/cross-country
+Girls D3 | Alexander | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8411/cross-country
+Girls D3 | Circleville | OHSAA name: CIRCLEVILLE | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8190/cross-country
+Girls D3 | Cle. VASJ | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8225/cross-country
+Girls D3 | Chesterton Academy Of St. Benedict | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101485/cross-country
+Girls D3 | New Lexington | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7767/cross-country
+Girls D3 | Port Clinton | OHSAA name: PORT CLINTON | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7842/cross-country
+Girls D3 | Brookside | OHSAA name: BROOKSIDE | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7691/cross-country
+Girls D3 | Reading | OHSAA name: READING | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8170/cross-country
+Girls D3 | Struthers | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7725/cross-country
+Girls D3 | Cristo Rey | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/71476/cross-country
+Girls D3 | Lincoln West | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8209/cross-country
+Girls D3 | South Point | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7700/cross-country
+Girls D3 | Amanda-Clearcreek | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8414/cross-country
+Girls D3 | Toledo C.C. | OHSAA name: CENTRAL CATHOLIC | Official school name linked by Athletic.net team ID from boys_d2. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/7745/cross-country
+Girls D3 | Clermont NE | OHSAA name: CLERMONT NORTHEASTERN | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8446/cross-country
+Girls D3 | Clark Montessori | OHSAA name: CLARK MONTESSORI | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d3 inventory. | https://www.athletic.net/team/8337/cross-country
+Girls D3 | Glenville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8201/cross-country
+Girls D3 | Ready | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8240/cross-country
+Girls D3 | Day. Northridge | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8099/cross-country
+Girls D3 | Cle. JFK | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8206/cross-country
+Girls D3 | Meadowdale | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8097/cross-country
+Girls D3 | Purcell Marian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8169/cross-country
+Girls D3 | Cle. Cent. Cath. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8195/cross-country
+Girls D3 | Niles McKinley | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7784/cross-country
+Girls D4 | Shenandoah | OHSAA name: SHENANDOAH | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7684/cross-country
+Girls D4 | Gr. City Chr. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/29198/cross-country
+Girls D4 | Allen East | OHSAA name: ALLEN EAST | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8030/cross-country
+Girls D4 | Patrick Henry | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7990/cross-country
+Girls D4 | Maumee Va. C.D. | OHSAA name: MAUMEE VALLEY COUNTRY DAY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7749/cross-country
+Girls D4 | Fairlawn | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7694/cross-country
+Girls D4 | Mohawk | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7732/cross-country
+Girls D4 | Fort Frye | OHSAA name: FORT FRYE | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8270/cross-country
+Girls D4 | Mogadore | OHSAA name: MOGADORE | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7941/cross-country
+Girls D4 | Andrews Osborne Acad. | OHSAA name: ANDREWS OSBORNE ACADEMY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7631/cross-country
+Girls D4 | Cin. Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7985/cross-country
+Girls D4 | Tri-Village | OHSAA name: TRI-VILLAGE | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7769/cross-country
+Girls D4 | Lima C.C. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8050/cross-country
+Girls D4 | Fisher Catholic | OHSAA name: FISHER CATHOLIC | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8038/cross-country
+Girls D4 | Crestline | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8081/cross-country
+Girls D4 | Rac. Southern | OHSAA name: SOUTHERN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7847/cross-country
+Girls D4 | Jackson-Milton | OHSAA name: JACKSON-MILTON | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7789/cross-country
+Girls D4 | Cuy. Heights | OHSAA name: CUYAHOGA HEIGHTS | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8198/cross-country
+Girls D4 | Elgin | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7891/cross-country
+Girls D4 | Ridgedale | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7946/cross-country
+Girls D4 | Hillsdale | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8020/cross-country
+Girls D4 | Arcanum | OHSAA name: ARCANUM | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8422/cross-country
+Girls D4 | West Jefferson | OHSAA name: WEST JEFFERSON | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7611/cross-country
+Girls D4 | Spencerville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7704/cross-country
+Girls D4 | Lowellville | OHSAA name: LOWELLVILLE | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7871/cross-country
+Girls D4 | S. Char. SE | OHSAA name: SOUTHEASTERN LOCAL | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/22458/cross-country
+Girls D4 | Wellington School | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/42682/cross-country
+Girls D4 | Mathews | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7588/cross-country
+Girls D4 | Triad | OHSAA name: TRIAD | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7790/cross-country
+Girls D4 | Steub. Cath. Cent. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7716/cross-country
+Girls D4 | Spring. ECA | OHSAA name: EMMANUEL CHRISTIAN ACADEMY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7708/cross-country
+Girls D4 | Bea. Eastern | OHSAA name: EASTERN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8451/cross-country
+Girls D4 | Houston | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8004/cross-country
+Girls D4 | Caldwell | OHSAA name: CALDWELL | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8292/cross-country
+Girls D4 | Leipsic | OHSAA name: LEIPSIC | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/30169/cross-country
+Girls D4 | Miller City | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7932/cross-country
+Girls D4 | Reed. Eastern | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7852/cross-country
+Girls D4 | Federal Hocking | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7718/cross-country
+Girls D4 | Jackson Center | OHSAA name: JACKSON CENTER | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8017/cross-country
+Girls D4 | Paint Valley | OHSAA name: PAINT VALLEY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8439/cross-country
+Girls D4 | Lynchburg-Clay | OHSAA name: LYNCHBURG-CLAY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7874/cross-country
+Girls D4 | Wynford | OHSAA name: WYNFORD | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8288/cross-country
+Girls D4 | Cory-Rawson | OHSAA name: CORY-RAWSON | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7850/cross-country
+Girls D4 | East Knox | OHSAA name: EAST KNOX | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8005/cross-country
+Girls D4 | Monroeville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7944/cross-country
+Girls D4 | Lordstown | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7595/cross-country
+Girls D4 | Danville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8087/cross-country
+Girls D4 | Hilltop | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7619/cross-country
+Girls D4 | South Webster | OHSAA name: SOUTH WEBSTER | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7701/cross-country
+Girls D4 | Danbury | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8032/cross-country
+Girls D4 | New Knoxville | OHSAA name: NEW KNOXVILLE | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7765/cross-country
+Girls D4 | Hardin Northern | OHSAA name: HARDIN NORTHERN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8116/cross-country
+Girls D4 | Sand. SMCC | OHSAA name: SANDUSKY CENTRAL CATHOLIC | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7682/cross-country
+Girls D4 | Stryker | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7726/cross-country
+Girls D4 | Twin Valley So. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7609/cross-country
+Girls D4 | Pymatuning Valley | OHSAA name: PYMATUNING VALLEY | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8416/cross-country
+Girls D4 | Wickliffe | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7627/cross-country
+Girls D4 | Buckeye Trail | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7866/cross-country
+Girls D4 | Toledo Christian | OHSAA name: TOLEDO CHRISTIAN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7565/cross-country
+Girls D4 | W.S. Northwestern | OHSAA name: NORTHWESTERN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7616/cross-country
+Girls D4 | Col. Crestview | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8234/cross-country
+Girls D4 | Bucyrus | OHSAA name: BUCYRUS | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8286/cross-country
+Girls D4 | East Clinton | OHSAA name: EAST CLINTON | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8042/cross-country
+Girls D4 | Coll Western Reserve | OHSAA name: WESTERN RESERVE | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8231/cross-country
+Girls D4 | Evergreen | OHSAA name: EVERGREEN | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7918/cross-country
+Girls D4 | Preble Shawnee | OHSAA name: PREBLE SHAWNEE | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8295/cross-country
+Girls D4 | Garaway | OHSAA name: GARAWAY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7728/cross-country
+Girls D4 | Bridgeport | OHSAA name: BRIDGEPORT | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8278/cross-country
+Girls D4 | Calvary Christian | OHSAA name: CALVARY CHRISTIAN SCHOOL | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/53164/cross-country
+Girls D4 | New Riegel | OHSAA name: NEW RIEGEL | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7776/cross-country
+Girls D4 | Hiland | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8266/cross-country
+Girls D4 | Bradford | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8277/cross-country
+Girls D4 | Upper Scioto Valley | OHSAA name: UPPER SCIOTO VALLEY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7909/cross-country
+Girls D4 | Bristol | OHSAA name: BRISTOL | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8279/cross-country
+Girls D4 | Manchester | OHSAA name: MANCHESTER | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7879/cross-country
+Girls D4 | Wellston | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7607/cross-country
+Girls D4 | Warren JFK | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7594/cross-country
+Girls D4 | Chesterton Academy of St. Joseph | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101552/cross-country
+Girls D4 | Winc. Eastern | OHSAA name: EASTERN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7685/cross-country
+Girls D4 | Dawson-Bryant | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8012/cross-country
+Girls D4 | Lakota | OHSAA name: LAKOTA | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8024/cross-country
+Girls D4 | Lucas | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7872/cross-country
+Girls D4 | David Anderson | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7858/cross-country
+Girls D4 | Felicity-Franklin | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8142/cross-country
+Girls D4 | South Central | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7981/cross-country
+Girls D4 | Western | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8039/cross-country
+Girls D4 | Strasburg-Franklin | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7722/cross-country
+Girls D4 | Tree of Life Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8062/cross-country
+Girls D4 | F.F. Green | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8154/cross-country
+Girls D4 | Rock Hill | OHSAA name: ROCK HILL | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8014/cross-country
+Girls D4 | LaBrae | OHSAA name: LABRAE | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8040/cross-country
+Girls D4 | Fairport Harding | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8138/cross-country
+Girls D4 | Crooksville | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8083/cross-country
+Girls D4 | Medina Christian Academy | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7913/cross-country
+Girls D4 | Pandora-Gilboa | OHSAA name: PANDORA-GILBOA | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7819/cross-country
+Girls D4 | Northeastern | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7712/cross-country
+Girls D4 | Stritch Cath. | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7807/cross-country
+Girls D4 | Han. River | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7991/cross-country
+Girls D4 | Minford | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7937/cross-country
+Girls D4 | Brooklyn | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8282/cross-country
+Girls D4 | Chess Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101492/cross-country
+Girls D4 | Swanton | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7731/cross-country
+Girls D4 | B.C. Western Reserve | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8267/cross-country
+Girls D4 | Frontier | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7770/cross-country
+Girls D4 | St. Thomas Aquinas | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7869/cross-country
+Girls D4 | Newton Falls | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7783/cross-country
+Girls D4 | Chil. Southeastern | OHSAA name: SOUTHEASTERN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8327/cross-country
+Girls D4 | Lima Perry | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8053/cross-country
+Girls D4 | The Compass Academy | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/101704/cross-country
+Girls D4 | Put-In-Bay | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/34227/cross-country
+Girls D4 | Waterloo | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8434/cross-country
+Girls D4 | Miami Valley School | OHSAA name: MIAMI VALLEY SCHOOL | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8098/cross-country
+Girls D4 | Mooney | OHSAA name: CARDINAL MOONEY | Official school name linked by Athletic.net team ID from boys_d3. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7651/cross-country
+Girls D4 | DeG. Riverside | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8106/cross-country
+Girls D4 | Deer Park | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8339/cross-country
+Girls D4 | Berne Union | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7727/cross-country
+Girls D4 | Peebles | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7823/cross-country
+Girls D4 | Whiteoak | OHSAA name: WHITEOAK | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7953/cross-country
+Girls D4 | Dixie | OHSAA name: DIXIE | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7766/cross-country
+Girls D4 | Africentric | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8236/cross-country
+Girls D4 | Young. Valley Christian | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7655/cross-country
+Girls D4 | Madison Christian | OHSAA name: MADISON CHRISTIAN | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/29598/cross-country
+Girls D4 | John Adams | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/30030/cross-country
+Girls D4 | McD. Northwest | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7907/cross-country
+Girls D4 | Pat. Liberty Christian | OHSAA name: LIBERTY CHRISTIAN ACADEMY | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/8251/cross-country
+Girls D4 | Leetonia | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/8044/cross-country
+Girls D4 | Ripley-Union | OHSAA name: RIPLEY-UNION-LEWIS-HUNTINGTON | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/7665/cross-country
+Girls D4 | Clearview | OHSAA name: unmatched | Absent from supplied category PDF, division review required. | https://www.athletic.net/team/7864/cross-country
+Girls D4 | Oyler | OHSAA name: OYLER | Official school name linked by Athletic.net team ID from boys_d4. No entry in the supplied girls_d4 inventory. | https://www.athletic.net/team/67610/cross-country
+
+EVERY UNCLEAR GRADE
+Boys D3 | Brookfield | Conner O'Brien | displayed grade: - | https://www.athletic.net/athlete/29838706/cross-country
+Boys D4 | Gr. City Chr. | Jace Tuggle | displayed grade: - | https://www.athletic.net/athlete/33488234/cross-country
+Girls D3 | Maysville | Khloe Henderson | displayed grade: 14 | https://www.athletic.net/athlete/33077445/cross-country
+Girls D3 | Maysville | Elizabeth Tucker | displayed grade: 14 | https://www.athletic.net/athlete/33077443/cross-country
+Girls D4 | Cin. Co. Day | Delle Zamary | displayed grade: - | https://www.athletic.net/athlete/33051175/cross-country
