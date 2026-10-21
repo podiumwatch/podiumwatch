@@ -1,0 +1,2906 @@
+{
+  "Mount Gilead": {
+    "sourceFile": "mountgilead.png",
+    "slug": "mount-gilead"
+  },
+  "Liberty Union": {
+    "sourceFile": "10-15__liberty_union.webp",
+    "slug": "liberty-union"
+  },
+  "Mechanicsburg": {
+    "sourceFile": "10.6g__mechanicsburg.png",
+    "slug": "mechanicsburg"
+  },
+  "Berne Union": {
+    "sourceFile": "Adding_10.6__berneunion.jpg",
+    "slug": "berne-union"
+  },
+  "Pat. Liberty Christian": {
+    "sourceFile": "10-19__pataskala_liberty_christian.webp",
+    "slug": "pat-liberty-christian"
+  },
+  "Madison-Plains": {
+    "sourceFile": "10-15__madison-plains.png",
+    "slug": "madison-plains"
+  },
+  "Wellington School": {
+    "sourceFile": "wellington_school.jpg",
+    "slug": "wellington-school"
+  },
+  "Cardington-Lincoln": {
+    "sourceFile": "10.6g__Cardington_Lincoln.png",
+    "slug": "cardington-lincoln"
+  },
+  "Wester. Genoa Christian": {
+    "sourceFile": "10-19__westerville_genora_christian.jpg",
+    "slug": "wester-genoa-christian"
+  },
+  "Elgin": {
+    "sourceFile": "Adding_10.6__elgin.png",
+    "slug": "elgin"
+  },
+  "Cristo Rey": {
+    "sourceFile": "Adding_10.6__cristorey.png",
+    "slug": "cristo-rey"
+  },
+  "Del. Christian": {
+    "sourceFile": "10-19__delaware_christian.png",
+    "slug": "del-christian"
+  },
+  "Millersport": {
+    "sourceFile": "10-16__millersport.webp",
+    "slug": "millersport"
+  },
+  "Col. Independence": {
+    "sourceFile": "10-19__columbs_independence.webp",
+    "slug": "col-independence"
+  },
+  "Col. International": {
+    "sourceFile": "10-19__columbus_international.png",
+    "slug": "col-international"
+  },
+  "Col. Patriot Prep": {
+    "sourceFile": "10-19__patriot_prep.jpg",
+    "slug": "col-patriot-prep"
+  },
+  "Hilliard Darby": {
+    "sourceFile": "hilliarddarby.jpg",
+    "slug": "hilliard-darby"
+  },
+  "Linden McKinley": {
+    "sourceFile": "10-15__linden_mckinley.png",
+    "slug": "linden-mckinley"
+  },
+  "Marion-Franklin": {
+    "sourceFile": "10-19__marion_franklin.png",
+    "slug": "marion-franklin"
+  },
+  "Mifflin": {
+    "sourceFile": "10-15__mifflin.jpg",
+    "slug": "mifflin"
+  },
+  "Grandview Hts.": {
+    "sourceFile": "grandview_heights.png",
+    "slug": "grandview-hts"
+  },
+  "Northmor": {
+    "sourceFile": "northmor.png",
+    "slug": "northmor"
+  },
+  "Fisher Catholic": {
+    "sourceFile": "10-16__fisher_catholic.png",
+    "slug": "fisher-catholic"
+  },
+  "Newark Cath.": {
+    "sourceFile": "10-16__newark_catholic.webp",
+    "slug": "newark-cath"
+  },
+  "Madison Christian": {
+    "sourceFile": "10-19__madison_christian.png",
+    "slug": "madison-christian"
+  },
+  "Gr. City Chr.": {
+    "sourceFile": "10-15__grove_city_christian.png",
+    "slug": "gr-city-chr"
+  },
+  "Ridgedale": {
+    "sourceFile": "10-16__ridgedale.png",
+    "slug": "ridgedale"
+  },
+  "West Jefferson": {
+    "sourceFile": "10.6g__West-Jefferson-Logo.png",
+    "slug": "west-jefferson"
+  },
+  "Lan. Fair Chr.": {
+    "sourceFile": "10-19__lancaster_fairfield_union.jpg",
+    "slug": "lan-fair-chr"
+  },
+  "Tree of Life Christian": {
+    "sourceFile": "10-19__tree_of_life.webp",
+    "slug": "tree-of-life-christian"
+  },
+  "Danville": {
+    "sourceFile": "10-16__danville.webp",
+    "slug": "danville"
+  },
+  "East Knox": {
+    "sourceFile": "10-15__east_knox.png",
+    "slug": "east-knox"
+  },
+  "Fairbanks": {
+    "sourceFile": "fairbanks.png",
+    "slug": "fairbanks"
+  },
+  "Col. Academy": {
+    "sourceFile": "10-15__columbus_academy.png",
+    "slug": "col-academy"
+  },
+  "Fredericktown": {
+    "sourceFile": "fredericktown.png",
+    "slug": "fredericktown"
+  },
+  "Centerburg": {
+    "sourceFile": "10-15__centerburg.jpg",
+    "slug": "centerburg"
+  },
+  "Gran. Chr. Acad.": {
+    "sourceFile": "10-19__granville_christian_academy.webp",
+    "slug": "gran-chr-acad"
+  },
+  "Utica": {
+    "sourceFile": "utica.webp",
+    "slug": "utica"
+  },
+  "London": {
+    "sourceFile": "10-15__london.png",
+    "slug": "london"
+  },
+  "Heb. Lakewood": {
+    "sourceFile": "hebron_lakewood.png",
+    "slug": "heb-lakewood"
+  },
+  "Eastmoor Acad.": {
+    "sourceFile": "10-15__eastmoor_academy.png",
+    "slug": "eastmoor-acad"
+  },
+  "Heath": {
+    "sourceFile": "10-15__heath.png",
+    "slug": "heath"
+  },
+  "Johnstown": {
+    "sourceFile": "10-15__johnstown.jpg",
+    "slug": "johnstown"
+  },
+  "Pleasant": {
+    "sourceFile": "pleasant.png",
+    "slug": "pleasant"
+  },
+  "John. Northridge": {
+    "sourceFile": "10-15__northridge_johnstown.png",
+    "slug": "john-northridge"
+  },
+  "Cal. River Valley": {
+    "sourceFile": "10.6g__rivervalley.jpg",
+    "slug": "cal-river-valley"
+  },
+  "Mar. Highland": {
+    "sourceFile": "10-15__highland_marengo.jpg",
+    "slug": "mar-highland"
+  },
+  "Wor. Christian": {
+    "sourceFile": "10-15__worthington_christian.webp",
+    "slug": "wor-christian"
+  },
+  "North Union": {
+    "sourceFile": "10-15__north_union.png",
+    "slug": "north-union"
+  },
+  "Buckeye Valley": {
+    "sourceFile": "buckeye_valley.png",
+    "slug": "buckeye-valley"
+  },
+  "Col. S. Girls": {
+    "sourceFile": "10-15__columbus_school_for_girls.jpg",
+    "slug": "col-s-girls"
+  },
+  "Ready": {
+    "sourceFile": "10-16__bishop_ready.jpg",
+    "slug": "ready"
+  },
+  "Dub. Scioto": {
+    "sourceFile": "10.6g__dublinscioto.png",
+    "slug": "dub-scioto"
+  },
+  "Col. DeSales": {
+    "sourceFile": "10-9__columbus_desales.webp",
+    "slug": "col-desales"
+  },
+  "Hartley": {
+    "sourceFile": "hartley.webp",
+    "slug": "hartley"
+  },
+  "Granville": {
+    "sourceFile": "granville.png",
+    "slug": "granville"
+  },
+  "Jonathan Alder": {
+    "sourceFile": "Adding_10.6__jonathan_alder.png",
+    "slug": "jonathan-alder"
+  },
+  "Marion Harding": {
+    "sourceFile": "10-15__marion_harding.png",
+    "slug": "marion-harding"
+  },
+  "Licking Valley": {
+    "sourceFile": "Adding_10.6__licking_valley.jpg",
+    "slug": "licking-valley"
+  },
+  "Big Walnut": {
+    "sourceFile": "bigwalnut.jpg",
+    "slug": "big-walnut"
+  },
+  "Watterson": {
+    "sourceFile": "bishopwatterson.png",
+    "slug": "watterson"
+  },
+  "Canal Winchester": {
+    "sourceFile": "canal_winchester.jpg",
+    "slug": "canal-winchester"
+  },
+  "Bexley": {
+    "sourceFile": "bexley.jpg",
+    "slug": "bexley"
+  },
+  "Mount Vernon": {
+    "sourceFile": "mountvernon.png",
+    "slug": "mount-vernon"
+  },
+  "Bloom-Carroll": {
+    "sourceFile": "Adding_10.6__bloomcarroll.jpg",
+    "slug": "bloom-carroll"
+  },
+  "Whetstone": {
+    "sourceFile": "10-15__whetstone.png",
+    "slug": "whetstone"
+  },
+  "Hamilton Township": {
+    "sourceFile": "10-15__hamilton_township.jpg",
+    "slug": "hamilton-township"
+  },
+  "Whitehall-Yearling": {
+    "sourceFile": "10-15__whitehall_yearling.png",
+    "slug": "whitehall-yearling"
+  },
+  "Walnut Ridge": {
+    "sourceFile": "10-15__walnutridge.png",
+    "slug": "walnut-ridge"
+  },
+  "New Philadelphia": {
+    "sourceFile": "10-15__new_philadelphia.jpg",
+    "slug": "new-philadelphia"
+  },
+  "Dover": {
+    "sourceFile": "10-15__dover.jpg",
+    "slug": "dover"
+  },
+  "John Glenn": {
+    "sourceFile": "10-15__john_glenn.png",
+    "slug": "john-glenn"
+  },
+  "Tri-Valley": {
+    "sourceFile": "10-15__trivalley.jpg",
+    "slug": "tri-valley"
+  },
+  "Steubenville": {
+    "sourceFile": "Adding_10.6__stubenville.png",
+    "slug": "steubenville"
+  },
+  "Zanesville": {
+    "sourceFile": "10.6g__zanesville.jpg",
+    "slug": "zanesville"
+  },
+  "Carrollton": {
+    "sourceFile": "10-15__carrollton.jpg",
+    "slug": "carrollton"
+  },
+  "Minerva": {
+    "sourceFile": "minerva.png",
+    "slug": "minerva"
+  },
+  "Tuscar. Valley": {
+    "sourceFile": "tuskyvalley_logo.png",
+    "slug": "tuscar-valley"
+  },
+  "Indian Valley": {
+    "sourceFile": "indian_valley.png",
+    "slug": "indian-valley"
+  },
+  "West Holmes": {
+    "sourceFile": "west_holmes.jpg",
+    "slug": "west-holmes"
+  },
+  "Claymont": {
+    "sourceFile": "claymont.png",
+    "slug": "claymont"
+  },
+  "Fairless": {
+    "sourceFile": "fairless.jpg",
+    "slug": "fairless"
+  },
+  "Rich. Edison": {
+    "sourceFile": "Adding_10.6__edison_richmond.jpg",
+    "slug": "rich-edison"
+  },
+  "Barnesville": {
+    "sourceFile": "10-15__barnesville.jpg",
+    "slug": "barnesville"
+  },
+  "Sandy Valley": {
+    "sourceFile": "10-15__sandy_valley.jpg",
+    "slug": "sandy-valley"
+  },
+  "Meadowbrook": {
+    "sourceFile": "meadowbrook.jpg",
+    "slug": "meadowbrook"
+  },
+  "Morgan": {
+    "sourceFile": "Adding_10.6__morgan.jpg",
+    "slug": "morgan"
+  },
+  "Cambridge": {
+    "sourceFile": "10-15__cambridge.jpg",
+    "slug": "cambridge"
+  },
+  "Maysville": {
+    "sourceFile": "10-15__maysville.jpg",
+    "slug": "maysville"
+  },
+  "Philo": {
+    "sourceFile": "10-15__philo.jpg",
+    "slug": "philo"
+  },
+  "West Muskingum": {
+    "sourceFile": "Adding_10.6__westmuskingum.jpg",
+    "slug": "west-muskingum"
+  },
+  "Beaver Local": {
+    "sourceFile": "10-19__beaver_local.webp",
+    "slug": "beaver-local"
+  },
+  "River View": {
+    "sourceFile": "10-15__river_view.png",
+    "slug": "river-view"
+  },
+  "St. Clairsville": {
+    "sourceFile": "st._clairsville.png",
+    "slug": "st-clairsville"
+  },
+  "East Liverpool": {
+    "sourceFile": "10-15__east_liverpool.png",
+    "slug": "east-liverpool"
+  },
+  "Indian Creek": {
+    "sourceFile": "10-15__indian_creek.jpg",
+    "slug": "indian-creek"
+  },
+  "Union Local": {
+    "sourceFile": "Adding_10.6__union_local.jpg",
+    "slug": "union-local"
+  },
+  "Martins Ferry": {
+    "sourceFile": "martinsferry.png",
+    "slug": "martins-ferry"
+  },
+  "Buckeye Local": {
+    "sourceFile": "Adding_10.6__buckeye_local.jpg",
+    "slug": "buckeye-local"
+  },
+  "Bellaire": {
+    "sourceFile": "bellaire.png",
+    "slug": "bellaire"
+  },
+  "Fort Frye": {
+    "sourceFile": "fortfrye.jpg",
+    "slug": "fort-frye"
+  },
+  "Harrison Central": {
+    "sourceFile": "Adding_10.6__harrisoncentral.jpg",
+    "slug": "harrison-central"
+  },
+  "Shadyside": {
+    "sourceFile": "shadyside.webp",
+    "slug": "shadyside"
+  },
+  "Steub. Cath. Cent.": {
+    "sourceFile": "10-19__stubenville_catholic_central.jpg",
+    "slug": "steub-cath-cent"
+  },
+  "Shenandoah": {
+    "sourceFile": "shenandoah.png",
+    "slug": "shenandoah"
+  },
+  "Newcomerstown": {
+    "sourceFile": "Adding_10.6__newcomerstown.png",
+    "slug": "newcomerstown"
+  },
+  "Malvern": {
+    "sourceFile": "10-19__malvern.webp",
+    "slug": "malvern"
+  },
+  "Caldwell": {
+    "sourceFile": "caldwell.png",
+    "slug": "caldwell"
+  },
+  "Buckeye Trail": {
+    "sourceFile": "10.6g__buckeyetrail.jpg",
+    "slug": "buckeye-trail"
+  },
+  "Garaway": {
+    "sourceFile": "10.6g__garaway.png",
+    "slug": "garaway"
+  },
+  "Bridgeport": {
+    "sourceFile": "10-19__bridgeport.png",
+    "slug": "bridgeport"
+  },
+  "Hiland": {
+    "sourceFile": "10-19__highland.png",
+    "slug": "hiland"
+  },
+  "Strasburg-Franklin": {
+    "sourceFile": "10-19__strasburg_franklin.png",
+    "slug": "strasburg-franklin"
+  },
+  "Crooksville": {
+    "sourceFile": "10-15__crooksville.png",
+    "slug": "crooksville"
+  },
+  "Han. River": {
+    "sourceFile": "10-19__hannabil_river.webp",
+    "slug": "han-river"
+  },
+  "Frontier": {
+    "sourceFile": "10-19__frontier.jpg",
+    "slug": "frontier"
+  },
+  "Tuscar. C.C.": {
+    "sourceFile": "10-19__tuscarawas_central_catholic.png",
+    "slug": "tuscar-c-c"
+  },
+  "Toronto": {
+    "sourceFile": "10-19__toronto.png",
+    "slug": "toronto"
+  },
+  "Wadsworth": {
+    "sourceFile": "wadsworth.jpg",
+    "slug": "wadsworth"
+  },
+  "Hudson": {
+    "sourceFile": "hudson.png",
+    "slug": "hudson"
+  },
+  "Boardman": {
+    "sourceFile": "10-9__boardman.png",
+    "slug": "boardman"
+  },
+  "Tallmadge": {
+    "sourceFile": "tallmadge.jpg",
+    "slug": "tallmadge"
+  },
+  "Hoover": {
+    "sourceFile": "hoover.png",
+    "slug": "hoover"
+  },
+  "Walsh Jesuit": {
+    "sourceFile": "10-15__walsh_jesuit.webp",
+    "slug": "walsh-jesuit"
+  },
+  "Louisville": {
+    "sourceFile": "louisville.png",
+    "slug": "louisville"
+  },
+  "Uniont. Lake": {
+    "sourceFile": "uniontown_lake.png",
+    "slug": "uniont-lake"
+  },
+  "Green": {
+    "sourceFile": "10.8__green.png",
+    "slug": "green"
+  },
+  "Canfield": {
+    "sourceFile": "10-15__canfield.webp",
+    "slug": "canfield"
+  },
+  "Mass. Perry": {
+    "sourceFile": "massperry.png",
+    "slug": "mass-perry"
+  },
+  "Wooster": {
+    "sourceFile": "10-15__wooster.jpg",
+    "slug": "wooster"
+  },
+  "Firestone": {
+    "sourceFile": "10-15__firestone.png",
+    "slug": "firestone"
+  },
+  "Hoban": {
+    "sourceFile": "10-15__archbishop_hoban.jpg",
+    "slug": "hoban"
+  },
+  "Cuy. Falls": {
+    "sourceFile": "Adding_10.6__cuyahogafalls.png",
+    "slug": "cuy-falls"
+  },
+  "Mass. Washington": {
+    "sourceFile": "10-15__washington_massillon.png",
+    "slug": "mass-washington"
+  },
+  "Austintown-Fitch": {
+    "sourceFile": "10-15__austontown-fitch.png",
+    "slug": "austintown-fitch"
+  },
+  "Ellet": {
+    "sourceFile": "10-15__ellet.jpg",
+    "slug": "ellet"
+  },
+  "Alliance": {
+    "sourceFile": "10-15__alliance.png",
+    "slug": "alliance"
+  },
+  "Barberton": {
+    "sourceFile": "10-15__barberton.png",
+    "slug": "barberton"
+  },
+  "Acad. For Urban Scholars": {
+    "sourceFile": "10-19__academy_for_urban_scholars.jpg",
+    "slug": "acad-for-urban-scholars"
+  },
+  "Ak. East": {
+    "sourceFile": "10-19__akron_east.jpg",
+    "slug": "ak-east"
+  },
+  "Buchtel": {
+    "sourceFile": "10-15__buchtel.webp",
+    "slug": "buchtel"
+  },
+  "GlenOak": {
+    "sourceFile": "glenoak.png",
+    "slug": "glenoak"
+  },
+  "Seb. McKinley": {
+    "sourceFile": "10-19__sebring_mckinley.png",
+    "slug": "seb-mckinley"
+  },
+  "Wellsville": {
+    "sourceFile": "10-19__wellsville.jpg",
+    "slug": "wellsville"
+  },
+  "Theodore Roosevelt": {
+    "sourceFile": "10-15__theodore_roosevelt.png",
+    "slug": "theodore-roosevelt"
+  },
+  "St. Vincent St. Mary": {
+    "sourceFile": "Adding_10.6__st.vincentst.mary.png",
+    "slug": "st-vincent-st-mary"
+  },
+  "Salem": {
+    "sourceFile": "salem.jpg",
+    "slug": "salem"
+  },
+  "Norton": {
+    "sourceFile": "norton.png",
+    "slug": "norton"
+  },
+  "Ak. North": {
+    "sourceFile": "10-19__akron_north.webp",
+    "slug": "ak-north"
+  },
+  "Marlington": {
+    "sourceFile": "marlington.png",
+    "slug": "marlington"
+  },
+  "Akron SVSM": {
+    "sourceFile": "10-19__akron_svsm.png",
+    "slug": "akron-svsm"
+  },
+  "CF Northwest": {
+    "sourceFile": "canalfulton.png",
+    "slug": "cf-northwest"
+  },
+  "West Branch": {
+    "sourceFile": "10-15__west_branch.png",
+    "slug": "west-branch"
+  },
+  "Field": {
+    "sourceFile": "10-15__field.jpg",
+    "slug": "field"
+  },
+  "Tuslaw": {
+    "sourceFile": "Adding_10.6__tuslaw.png",
+    "slug": "tuslaw"
+  },
+  "Poland Seminary": {
+    "sourceFile": "10.6g__poland_seminary.png",
+    "slug": "poland-seminary"
+  },
+  "South Range": {
+    "sourceFile": "southrange.png",
+    "slug": "south-range"
+  },
+  "Hubbard": {
+    "sourceFile": "hubbard.png",
+    "slug": "hubbard"
+  },
+  "Girard": {
+    "sourceFile": "Adding_10.6__girard.jpg",
+    "slug": "girard"
+  },
+  "Canton South": {
+    "sourceFile": "canton_south.png",
+    "slug": "canton-south"
+  },
+  "Ak. Manchester": {
+    "sourceFile": "10-15__manchester.png",
+    "slug": "ak-manchester"
+  },
+  "Chippewa": {
+    "sourceFile": "10-15__chippewa.webp",
+    "slug": "chippewa"
+  },
+  "Coventry": {
+    "sourceFile": "10-15__coventry.png",
+    "slug": "coventry"
+  },
+  "Struthers": {
+    "sourceFile": "10-15__struthers.png",
+    "slug": "struthers"
+  },
+  "Canton C.C.": {
+    "sourceFile": "10-15__canton_central_catholic.webp",
+    "slug": "canton-c-c"
+  },
+  "Mooney": {
+    "sourceFile": "10-15__cardinal_mooney.png",
+    "slug": "mooney"
+  },
+  "Columbiana": {
+    "sourceFile": "10-15__columbiana.png",
+    "slug": "columbiana"
+  },
+  "Rootstown": {
+    "sourceFile": "10-15__rootstown.webp",
+    "slug": "rootstown"
+  },
+  "East Canton": {
+    "sourceFile": "10-19__east_canton.png",
+    "slug": "east-canton"
+  },
+  "N. Mid. Springfield": {
+    "sourceFile": "10-19__springfield_new_middletown.jpg",
+    "slug": "n-mid-springfield"
+  },
+  "United": {
+    "sourceFile": "10-15__united.png",
+    "slug": "united"
+  },
+  "Mogadore": {
+    "sourceFile": "10-19__mogadore.png",
+    "slug": "mogadore"
+  },
+  "Jackson-Milton": {
+    "sourceFile": "10-19__jackson_milton.jpg",
+    "slug": "jackson-milton"
+  },
+  "Lowellville": {
+    "sourceFile": "lowellville.png",
+    "slug": "lowellville"
+  },
+  "Sal. Southern": {
+    "sourceFile": "10-19__salineville_southern.webp",
+    "slug": "sal-southern"
+  },
+  "Heartland Christian": {
+    "sourceFile": "10-19__heartland_christian.png",
+    "slug": "heartland-christian"
+  },
+  "David Anderson": {
+    "sourceFile": "10-19__david_anderson.jpg",
+    "slug": "david-anderson"
+  },
+  "B.C. Western Reserve": {
+    "sourceFile": "10-19__berlin_center_western_reserve.png",
+    "slug": "b-c-western-reserve"
+  },
+  "St. Thomas Aquinas": {
+    "sourceFile": "10-19__st._thomas_aquinas.jpg",
+    "slug": "st-thomas-aquinas"
+  },
+  "Waterloo": {
+    "sourceFile": "10-19__waterloo.png",
+    "slug": "waterloo"
+  },
+  "East Palestine": {
+    "sourceFile": "10-19__east_palestine.png",
+    "slug": "east-palestine"
+  },
+  "Avon": {
+    "sourceFile": "avon.jpg",
+    "slug": "avon"
+  },
+  "Westlake": {
+    "sourceFile": "westlake.jpg",
+    "slug": "westlake"
+  },
+  "Bay": {
+    "sourceFile": "bay.png",
+    "slug": "bay"
+  },
+  "CVCA": {
+    "sourceFile": "cvca.png",
+    "slug": "cvca"
+  },
+  "Med Highland": {
+    "sourceFile": "10.8__medina_highland.png",
+    "slug": "med-highland"
+  },
+  "Revere": {
+    "sourceFile": "revere.png",
+    "slug": "revere"
+  },
+  "Brecksville": {
+    "sourceFile": "10.8__brecksville.png",
+    "slug": "brecksville"
+  },
+  "Rocky River": {
+    "sourceFile": "rockyriver.png",
+    "slug": "rocky-river"
+  },
+  "Steele": {
+    "sourceFile": "steele.png",
+    "slug": "steele"
+  },
+  "Copley": {
+    "sourceFile": "copley.png",
+    "slug": "copley"
+  },
+  "Avon Lake": {
+    "sourceFile": "avonlake.png",
+    "slug": "avon-lake"
+  },
+  "Cloverleaf": {
+    "sourceFile": "Adding_10.6__cloverleaf.jpeg",
+    "slug": "cloverleaf"
+  },
+  "Padua Franciscan": {
+    "sourceFile": "10-15__padua_franciscan.png",
+    "slug": "padua-franciscan"
+  },
+  "Lakewood": {
+    "sourceFile": "lakewood.png",
+    "slug": "lakewood"
+  },
+  "Holy Name": {
+    "sourceFile": "10.6g__holyname.jpg",
+    "slug": "holy-name"
+  },
+  "Olmsted Falls": {
+    "sourceFile": "10-15__olmsted_falls.png",
+    "slug": "olmsted-falls"
+  },
+  "No. Royalton": {
+    "sourceFile": "Adding_10.6__northroyalton.png",
+    "slug": "no-royalton"
+  },
+  "Midview": {
+    "sourceFile": "10-15__midview.png",
+    "slug": "midview"
+  },
+  "No. Olmsted": {
+    "sourceFile": "10-15__north_olmsted.png",
+    "slug": "no-olmsted"
+  },
+  "No. Ridgeville": {
+    "sourceFile": "Adding_10.6__northridgeville.png",
+    "slug": "no-ridgeville"
+  },
+  "Collinwood": {
+    "sourceFile": "10-19__collinwood.jpg",
+    "slug": "collinwood"
+  },
+  "Columbia": {
+    "sourceFile": "Adding_10.6__columbia.jpg",
+    "slug": "columbia"
+  },
+  "East Technical": {
+    "sourceFile": "10-19__east_technical.png",
+    "slug": "east-technical"
+  },
+  "John Hay": {
+    "sourceFile": "10-15__john_hay.png",
+    "slug": "john-hay"
+  },
+  "Our Lady Elms": {
+    "sourceFile": "10-19__our_lady_of_the_elms.png",
+    "slug": "our-lady-elms"
+  },
+  "Shaw": {
+    "sourceFile": "10-15__shaw.jpg",
+    "slug": "shaw"
+  },
+  "Trinity": {
+    "sourceFile": "10-15__trinity.jpg",
+    "slug": "trinity"
+  },
+  "Windham": {
+    "sourceFile": "10-19__WindhamLogo.png",
+    "slug": "windham"
+  },
+  "Clearview": {
+    "sourceFile": "10-16__clearview.png",
+    "slug": "clearview"
+  },
+  "Buckeye": {
+    "sourceFile": "Adding_10.6__buckeye_medina.png",
+    "slug": "buckeye"
+  },
+  "Firelands": {
+    "sourceFile": "10-15__firelands.png",
+    "slug": "firelands"
+  },
+  "Benedictine": {
+    "sourceFile": "10-15__benedictine.png",
+    "slug": "benedictine"
+  },
+  "Woodridge": {
+    "sourceFile": "woodridge.png",
+    "slug": "woodridge"
+  },
+  "Beachwood": {
+    "sourceFile": "10.6g__beachwood.jpg",
+    "slug": "beachwood"
+  },
+  "Fair. Park Fairview": {
+    "sourceFile": "Adding_10.6__fairview_Fairview_park.png",
+    "slug": "fair-park-fairview"
+  },
+  "Luth. West": {
+    "sourceFile": "lutheran_west.png",
+    "slug": "luth-west"
+  },
+  "Triway": {
+    "sourceFile": "Adding_10.6__triway.jpg",
+    "slug": "triway"
+  },
+  "Elyria Catholic": {
+    "sourceFile": "10.6g__elyria_catholic.png",
+    "slug": "elyria-catholic"
+  },
+  "Norwayne": {
+    "sourceFile": "norwayne.png",
+    "slug": "norwayne"
+  },
+  "Orrville": {
+    "sourceFile": "10.6g__orrville.jpg",
+    "slug": "orrville"
+  },
+  "Streetsboro": {
+    "sourceFile": "10-15__streetsboro.png",
+    "slug": "streetsboro"
+  },
+  "Keystone": {
+    "sourceFile": "Adding_10.6__keystone.png",
+    "slug": "keystone"
+  },
+  "Brookside": {
+    "sourceFile": "10.6g__brookside.png",
+    "slug": "brookside"
+  },
+  "Lincoln West": {
+    "sourceFile": "10-19__lincoln_west.png",
+    "slug": "lincoln-west"
+  },
+  "Cle. Cent. Cath.": {
+    "sourceFile": "10-19__cleveland_central_catholic.png",
+    "slug": "cle-cent-cath"
+  },
+  "Waynedale": {
+    "sourceFile": "waynedale.png",
+    "slug": "waynedale"
+  },
+  "Rittman": {
+    "sourceFile": "rittman.png",
+    "slug": "rittman"
+  },
+  "Kid. Cent. Christian": {
+    "sourceFile": "10-9__kidron_central_christian.jpg",
+    "slug": "kid-cent-christian"
+  },
+  "Dalton": {
+    "sourceFile": "10.6g__dalton.jpg",
+    "slug": "dalton"
+  },
+  "Independence": {
+    "sourceFile": "independence.jpg",
+    "slug": "independence"
+  },
+  "Open Door Christian": {
+    "sourceFile": "open_door_christian.png",
+    "slug": "open-door-christian"
+  },
+  "Black River": {
+    "sourceFile": "10.6g__blackriver.png",
+    "slug": "black-river"
+  },
+  "Smithville": {
+    "sourceFile": "smithville.jpg",
+    "slug": "smithville"
+  },
+  "Lake Ridge Acad.": {
+    "sourceFile": "10-19__lake_ridge_academy.png",
+    "slug": "lake-ridge-acad"
+  },
+  "Mapleton": {
+    "sourceFile": "10-16__mapleton.png",
+    "slug": "mapleton"
+  },
+  "W.S. Northwestern": {
+    "sourceFile": "10-15__northwestern_west_salem.png",
+    "slug": "w-s-northwestern"
+  },
+  "Wellington": {
+    "sourceFile": "10.6g__wellington.png",
+    "slug": "wellington"
+  },
+  "Oberlin": {
+    "sourceFile": "10-16__oberlin.webp",
+    "slug": "oberlin"
+  },
+  "Cuy. Heights": {
+    "sourceFile": "10-16__cuyahoga_heights.jpg",
+    "slug": "cuy-heights"
+  },
+  "Hillsdale": {
+    "sourceFile": "Adding_10.6__hillsdale.jpg",
+    "slug": "hillsdale"
+  },
+  "Loudonville": {
+    "sourceFile": "10-16__loudonville.webp",
+    "slug": "loudonville"
+  },
+  "Medina Christian Academy": {
+    "sourceFile": "10-19__medina_christian.png",
+    "slug": "medina-christian-academy"
+  },
+  "Brooklyn": {
+    "sourceFile": "10-16__brookyln.png",
+    "slug": "brooklyn"
+  },
+  "St. Martin dePorres": {
+    "sourceFile": "10-19__st_martin_de_porres.jpg",
+    "slug": "st-martin-deporres"
+  },
+  "Aurora": {
+    "sourceFile": "aurora.png",
+    "slug": "aurora"
+  },
+  "Shaker Hts.": {
+    "sourceFile": "shaker_heights.png",
+    "slug": "shaker-hts"
+  },
+  "Kenston": {
+    "sourceFile": "kenston.png",
+    "slug": "kenston"
+  },
+  "Nordonia": {
+    "sourceFile": "nordonia.png",
+    "slug": "nordonia"
+  },
+  "Howland": {
+    "sourceFile": "10.6g__howland.png",
+    "slug": "howland"
+  },
+  "Chardon": {
+    "sourceFile": "10-15__chardon.jpg",
+    "slug": "chardon"
+  },
+  "Madison": {
+    "sourceFile": "10-15__madison_Madison.jpg",
+    "slug": "madison"
+  },
+  "Twinsburg": {
+    "sourceFile": "10-15__twinsburg.jpg",
+    "slug": "twinsburg"
+  },
+  "Chardon NDCL": {
+    "sourceFile": "10-15__notre_dame_cathedral_latin.png",
+    "slug": "chardon-ndcl"
+  },
+  "Mayfield": {
+    "sourceFile": "10-15__mayfield.png",
+    "slug": "mayfield"
+  },
+  "West Geauga": {
+    "sourceFile": "westgeauga.png",
+    "slug": "west-geauga"
+  },
+  "Will. South": {
+    "sourceFile": "10-15__south_willoughby.png",
+    "slug": "will-south"
+  },
+  "Eastlake North": {
+    "sourceFile": "10-16__eastlake_north.png",
+    "slug": "eastlake-north"
+  },
+  "Lakeside": {
+    "sourceFile": "10-15__lakeside_ashtabula.jpg",
+    "slug": "lakeside"
+  },
+  "Euclid": {
+    "sourceFile": "Adding_10.6__euclid.jpg",
+    "slug": "euclid"
+  },
+  "John Marshall": {
+    "sourceFile": "10-19__john_marshall.jpg",
+    "slug": "john-marshall"
+  },
+  "Warren G Harding": {
+    "sourceFile": "Adding_10.6__warren_g_harding.png",
+    "slug": "warren-g-harding"
+  },
+  "Rhodes": {
+    "sourceFile": "10-15__rhodes.jpg",
+    "slug": "rhodes"
+  },
+  "Brush": {
+    "sourceFile": "10-15__brush.png",
+    "slug": "brush"
+  },
+  "Bedford": {
+    "sourceFile": "10-15__bedford.jpg",
+    "slug": "bedford"
+  },
+  "Bloomfield": {
+    "sourceFile": "10-19__bloomfield.jpg",
+    "slug": "bloomfield"
+  },
+  "Chaney": {
+    "sourceFile": "Adding_10.6__chaney.png",
+    "slug": "chaney"
+  },
+  "Cornerstone Christian": {
+    "sourceFile": "10-19__cornerstone_christian.png",
+    "slug": "cornerstone-christian"
+  },
+  "Garrett Morgan": {
+    "sourceFile": "10-15__garrett_morgan.png",
+    "slug": "garrett-morgan"
+  },
+  "Max Hayes": {
+    "sourceFile": "10-19__max_hayes.png",
+    "slug": "max-hayes"
+  },
+  "Harvey": {
+    "sourceFile": "10-16__harvey.png",
+    "slug": "harvey"
+  },
+  "Orange": {
+    "sourceFile": "orange.png",
+    "slug": "orange"
+  },
+  "Geneva": {
+    "sourceFile": "Adding_10.6__geneva.png",
+    "slug": "geneva"
+  },
+  "Hawken": {
+    "sourceFile": "10-15__hawken.png",
+    "slug": "hawken"
+  },
+  "Niles McKinley": {
+    "sourceFile": "10-15__niles_mckinley.png",
+    "slug": "niles-mckinley"
+  },
+  "Glenville": {
+    "sourceFile": "10-15__glenville.webp",
+    "slug": "glenville"
+  },
+  "Crestwood": {
+    "sourceFile": "crestwood.jpg",
+    "slug": "crestwood"
+  },
+  "Berkshire": {
+    "sourceFile": "berkshire.png",
+    "slug": "berkshire"
+  },
+  "Chagrin Falls": {
+    "sourceFile": "chagrin_falls.png",
+    "slug": "chagrin-falls"
+  },
+  "Conneaut": {
+    "sourceFile": "10-9__conneaut.png",
+    "slug": "conneaut"
+  },
+  "Gar. Garfield": {
+    "sourceFile": "garrettsville_garfield.png",
+    "slug": "gar-garfield"
+  },
+  "Beaumont": {
+    "sourceFile": "10-15__beaumont.png",
+    "slug": "beaumont"
+  },
+  "Gilmour Academy": {
+    "sourceFile": "Adding_10.6__gilmour_academy.png",
+    "slug": "gilmour-academy"
+  },
+  "Perry": {
+    "sourceFile": "10-15__perry.png",
+    "slug": "perry"
+  },
+  "Lakeview": {
+    "sourceFile": "10-15__lakeview.jpg",
+    "slug": "lakeview"
+  },
+  "Ursuline": {
+    "sourceFile": "10-15__ursuline.jpg",
+    "slug": "ursuline"
+  },
+  "Jefferson Area": {
+    "sourceFile": "10-15__jefferson_area.webp",
+    "slug": "jefferson-area"
+  },
+  "Lake Cath.": {
+    "sourceFile": "Adding_10.6__lake_catholic.png",
+    "slug": "lake-cath"
+  },
+  "Liberty": {
+    "sourceFile": "10-19__liberty.png",
+    "slug": "liberty"
+  },
+  "Ash. Edgewood": {
+    "sourceFile": "10-16__ashtabula_edgewood.webp",
+    "slug": "ash-edgewood"
+  },
+  "War. Champion": {
+    "sourceFile": "10-15__champion_warren.png",
+    "slug": "war-champion"
+  },
+  "Cle. VASJ": {
+    "sourceFile": "10-15__villa_angela_st._joseph.png",
+    "slug": "cle-vasj"
+  },
+  "Kirtland": {
+    "sourceFile": "kirtland.png",
+    "slug": "kirtland"
+  },
+  "Brookfield": {
+    "sourceFile": "10-15__brookfield.png",
+    "slug": "brookfield"
+  },
+  "Wickliffe": {
+    "sourceFile": "10-15__wickliffe.png",
+    "slug": "wickliffe"
+  },
+  "Pymatuning Valley": {
+    "sourceFile": "10-15__pymatuning_valley.png",
+    "slug": "pymatuning-valley"
+  },
+  "McDonald": {
+    "sourceFile": "mcdonald.png",
+    "slug": "mcdonald"
+  },
+  "Maplewood": {
+    "sourceFile": "maplewood.png",
+    "slug": "maplewood"
+  },
+  "Mineral Ridge": {
+    "sourceFile": "10-15__mineral_ridge.png",
+    "slug": "mineral-ridge"
+  },
+  "Cardinal": {
+    "sourceFile": "10-19__cardinal.png",
+    "slug": "cardinal"
+  },
+  "Badger": {
+    "sourceFile": "badger.jpeg",
+    "slug": "badger"
+  },
+  "Andrews Osborne Acad.": {
+    "sourceFile": "10-19__andrews_osborne.jpg",
+    "slug": "andrews-osborne-acad"
+  },
+  "Lordstown": {
+    "sourceFile": "10-19__Lordstownlogo.png",
+    "slug": "lordstown"
+  },
+  "Mathews": {
+    "sourceFile": "10-19__mathews.png",
+    "slug": "mathews"
+  },
+  "Bristol": {
+    "sourceFile": "10-19__briston.png",
+    "slug": "bristol"
+  },
+  "Warren JFK": {
+    "sourceFile": "10-19__warren_jfk.webp",
+    "slug": "warren-jfk"
+  },
+  "LaBrae": {
+    "sourceFile": "10-19__labrae.jpg",
+    "slug": "labrae"
+  },
+  "Fairport Harding": {
+    "sourceFile": "10-16__fairport_harding.webp",
+    "slug": "fairport-harding"
+  },
+  "Newton Falls": {
+    "sourceFile": "Adding_10.6__newton_falls.jpg",
+    "slug": "newton-falls"
+  },
+  "Young. Valley Christian": {
+    "sourceFile": "10-19__youngston_valley_chrsitian.png",
+    "slug": "young-valley-christian"
+  },
+  "Richmond Hts.": {
+    "sourceFile": "Adding_10.6__richmondheights.jpg",
+    "slug": "richmond-hts"
+  },
+  "Chalker": {
+    "sourceFile": "10-19__chalker.png",
+    "slug": "chalker"
+  },
+  "Crestline": {
+    "sourceFile": "crestline.png",
+    "slug": "crestline"
+  },
+  "Mil. Edison": {
+    "sourceFile": "edison.jpg",
+    "slug": "mil-edison"
+  },
+  "Colonel Crawford": {
+    "sourceFile": "Adding_10.6__colonel_crawford.png",
+    "slug": "colonel-crawford"
+  },
+  "St. Paul": {
+    "sourceFile": "10-16__saint_paul.png",
+    "slug": "st-paul"
+  },
+  "Wynford": {
+    "sourceFile": "10.6g__wynford.png",
+    "slug": "wynford"
+  },
+  "Mans. Christian": {
+    "sourceFile": "10-16__mansfield_christian.jpg",
+    "slug": "mans-christian"
+  },
+  "New London": {
+    "sourceFile": "10-16__new_london.jpg",
+    "slug": "new-london"
+  },
+  "Sand. SMCC": {
+    "sourceFile": "10-16__sandusky_st_mary_central_catholic.jpg",
+    "slug": "sand-smcc"
+  },
+  "Ash. Crestview": {
+    "sourceFile": "Adding_10.6__crestviewashland.png",
+    "slug": "ash-crestview"
+  },
+  "Coll Western Reserve": {
+    "sourceFile": "Adding_10.6__western_reserve.jpg",
+    "slug": "coll-western-reserve"
+  },
+  "Bucyrus": {
+    "sourceFile": "Adding_10.6__bucyrus.png",
+    "slug": "bucyrus"
+  },
+  "South Central": {
+    "sourceFile": "10-16__South_Central_Local_OH_logo.png",
+    "slug": "south-central"
+  },
+  "Monroeville": {
+    "sourceFile": "10-16__monroeville.jpg",
+    "slug": "monroeville"
+  },
+  "Danbury": {
+    "sourceFile": "10-16__danbury.webp",
+    "slug": "danbury"
+  },
+  "Lucas": {
+    "sourceFile": "10-19__lucas.png",
+    "slug": "lucas"
+  },
+  "Plymouth": {
+    "sourceFile": "10-16__plymouth.webp",
+    "slug": "plymouth"
+  },
+  "Put-In-Bay": {
+    "sourceFile": "10-19__put_in_bay.png",
+    "slug": "put-in-bay"
+  },
+  "Kelleys Island": {
+    "sourceFile": "10-19__kelleys_island.jpg",
+    "slug": "kelleys-island"
+  },
+  "Huron": {
+    "sourceFile": "huron.png",
+    "slug": "huron"
+  },
+  "Galion": {
+    "sourceFile": "Adding_10.6__galion.jpg",
+    "slug": "galion"
+  },
+  "Upper Sandusky": {
+    "sourceFile": "upper_sandusky.png",
+    "slug": "upper-sandusky"
+  },
+  "Clear Fork": {
+    "sourceFile": "10-15__clearfork.png",
+    "slug": "clear-fork"
+  },
+  "Willard": {
+    "sourceFile": "Adding_10.6__willard.png",
+    "slug": "willard"
+  },
+  "Kenton": {
+    "sourceFile": "10-9__kenton.png",
+    "slug": "kenton"
+  },
+  "Perkins": {
+    "sourceFile": "10.8__perkins.jpg",
+    "slug": "perkins"
+  },
+  "Vermilion": {
+    "sourceFile": "10-15__vermilion.png",
+    "slug": "vermilion"
+  },
+  "Port Clinton": {
+    "sourceFile": "10-15__port_clinton.jpg",
+    "slug": "port-clinton"
+  },
+  "Con. Crestview": {
+    "sourceFile": "concrestview.jpg",
+    "slug": "con-crestview"
+  },
+  "St. Henry": {
+    "sourceFile": "sthenry.jpg",
+    "slug": "st-henry"
+  },
+  "New Bremen": {
+    "sourceFile": "newbremen.png",
+    "slug": "new-bremen"
+  },
+  "Columbus Grove": {
+    "sourceFile": "columbusgrove.jpg",
+    "slug": "columbus-grove"
+  },
+  "Del. St. John's": {
+    "sourceFile": "10-16__delphos_st_john.png",
+    "slug": "del-st-john-s"
+  },
+  "New Knoxville": {
+    "sourceFile": "newknoxville.png",
+    "slug": "new-knoxville"
+  },
+  "Lincolnview": {
+    "sourceFile": "10.6g__lincolnview.png",
+    "slug": "lincolnview"
+  },
+  "Cory-Rawson": {
+    "sourceFile": "10-16__cory_rawson.jpg",
+    "slug": "cory-rawson"
+  },
+  "Wayne Trace": {
+    "sourceFile": "Adding_10.6__wayne_trace.jpg",
+    "slug": "wayne-trace"
+  },
+  "Parkway": {
+    "sourceFile": "10.6g__parkway.jpg",
+    "slug": "parkway"
+  },
+  "Delta": {
+    "sourceFile": "10-15__delta.jpg",
+    "slug": "delta"
+  },
+  "Lima C.C.": {
+    "sourceFile": "10-16__lima_central_catholic.png",
+    "slug": "lima-c-c"
+  },
+  "Marion Local": {
+    "sourceFile": "10.6g__marionlocal.png",
+    "slug": "marion-local"
+  },
+  "Waynesfield-Goshen": {
+    "sourceFile": "10-16__waynesfield_goshen.png",
+    "slug": "waynesfield-goshen"
+  },
+  "Miller City": {
+    "sourceFile": "millercity.jpg",
+    "slug": "miller-city"
+  },
+  "Spencerville": {
+    "sourceFile": "10-15__spencerville.jpg",
+    "slug": "spencerville"
+  },
+  "Kalida": {
+    "sourceFile": "10-19__kalida.jpg",
+    "slug": "kalida"
+  },
+  "Ottoville": {
+    "sourceFile": "10-19__ottoville.png",
+    "slug": "ottoville"
+  },
+  "Lima Perry": {
+    "sourceFile": "10-16__lima_perry.png",
+    "slug": "lima-perry"
+  },
+  "Upper Scioto Valley": {
+    "sourceFile": "10-16__upper_scioto_valley.jpg",
+    "slug": "upper-scioto-valley"
+  },
+  "Archbold": {
+    "sourceFile": "archbold.jpg",
+    "slug": "archbold"
+  },
+  "Bluffton": {
+    "sourceFile": "10-15__bluffton.png",
+    "slug": "bluffton"
+  },
+  "Swanton": {
+    "sourceFile": "10-15__swanton.png",
+    "slug": "swanton"
+  },
+  "Van Wert": {
+    "sourceFile": "vanwert.jpg",
+    "slug": "van-wert"
+  },
+  "Bryan": {
+    "sourceFile": "bryan.png",
+    "slug": "bryan"
+  },
+  "Elmwood": {
+    "sourceFile": "elmwood.jpg",
+    "slug": "elmwood"
+  },
+  "Paulding": {
+    "sourceFile": "paulding.png",
+    "slug": "paulding"
+  },
+  "Liberty-Benton": {
+    "sourceFile": "liberty_benton.webp",
+    "slug": "liberty-benton"
+  },
+  "Wauseon": {
+    "sourceFile": "10-15__wauseon.jpg",
+    "slug": "wauseon"
+  },
+  "Coldwater": {
+    "sourceFile": "coldwater.jpg",
+    "slug": "coldwater"
+  },
+  "Bath": {
+    "sourceFile": "10-15__bath.jpg",
+    "slug": "bath"
+  },
+  "Liberty Center": {
+    "sourceFile": "libertycenter.png",
+    "slug": "liberty-center"
+  },
+  "Tinora": {
+    "sourceFile": "tinora.png",
+    "slug": "tinora"
+  },
+  "Sher. Fairview": {
+    "sourceFile": "sherfairview.png",
+    "slug": "sher-fairview"
+  },
+  "Antwerp": {
+    "sourceFile": "10-16__antwerp.jpg",
+    "slug": "antwerp"
+  },
+  "Woodmore": {
+    "sourceFile": "Adding_10.6__woodmore.png",
+    "slug": "woodmore"
+  },
+  "Edgerton": {
+    "sourceFile": "10-16__edgerton.png",
+    "slug": "edgerton"
+  },
+  "Holgate": {
+    "sourceFile": "holgate.jpg",
+    "slug": "holgate"
+  },
+  "Maumee Va. C.D.": {
+    "sourceFile": "10-19__maumee_valley_country_day.jpg",
+    "slug": "maumee-va-c-d"
+  },
+  "Hicksville": {
+    "sourceFile": "hicksville.png",
+    "slug": "hicksville"
+  },
+  "Pettisville": {
+    "sourceFile": "pettisville.jpg",
+    "slug": "pettisville"
+  },
+  "Ayersville": {
+    "sourceFile": "10-16__ayersville.png",
+    "slug": "ayersville"
+  },
+  "Montpelier": {
+    "sourceFile": "10-19__montpelier.jpg",
+    "slug": "montpelier"
+  },
+  "Edon": {
+    "sourceFile": "10-19__edon.webp",
+    "slug": "edon"
+  },
+  "Patrick Henry": {
+    "sourceFile": "patrick_henry.png",
+    "slug": "patrick-henry"
+  },
+  "Northwood": {
+    "sourceFile": "10-16__northwood.gif",
+    "slug": "northwood"
+  },
+  "Fayette": {
+    "sourceFile": "10-19__fayette.png",
+    "slug": "fayette"
+  },
+  "Hilltop": {
+    "sourceFile": "10-19__hilltop.png",
+    "slug": "hilltop"
+  },
+  "Stryker": {
+    "sourceFile": "10-19__stryker.png",
+    "slug": "stryker"
+  },
+  "Toledo Christian": {
+    "sourceFile": "10-19__toledo_christian.png",
+    "slug": "toledo-christian"
+  },
+  "Stritch Cath.": {
+    "sourceFile": "10-19__cardinal_stritch.jpg",
+    "slug": "stritch-cath"
+  },
+  "Toledo Scott": {
+    "sourceFile": "10-15__toledo_scott.png",
+    "slug": "toledo-scott"
+  },
+  "Tol. Horizon Science": {
+    "sourceFile": "10-19__toledo_horizion_zcience.jpeg",
+    "slug": "tol-horizon-science"
+  },
+  "No. Central": {
+    "sourceFile": "10-19__north_central.jpg",
+    "slug": "no-central"
+  },
+  "Syl. Southview": {
+    "sourceFile": "slyvaniasouthview.png",
+    "slug": "syl-southview"
+  },
+  "Bowling Green": {
+    "sourceFile": "bowlinggreen.png",
+    "slug": "bowling-green"
+  },
+  "Maumee": {
+    "sourceFile": "10-15__maumee.png",
+    "slug": "maumee"
+  },
+  "Syl. Northview": {
+    "sourceFile": "slyvania_northview.webp",
+    "slug": "syl-northview"
+  },
+  "Tol. Notre Dame": {
+    "sourceFile": "10-15__notre_dame_academy.webp",
+    "slug": "tol-notre-dame"
+  },
+  "Defiance": {
+    "sourceFile": "defiance.png",
+    "slug": "defiance"
+  },
+  "Oregon Clay": {
+    "sourceFile": "10-15__clay.png",
+    "slug": "oregon-clay"
+  },
+  "Rogers": {
+    "sourceFile": "10-15__rogers.png",
+    "slug": "rogers"
+  },
+  "Hol. Springfield": {
+    "sourceFile": "10-15__springfield_holland.webp",
+    "slug": "hol-springfield"
+  },
+  "Tol. St. Francis": {
+    "sourceFile": "tol._st._francis.jpg",
+    "slug": "tol-st-francis"
+  },
+  "Waite": {
+    "sourceFile": "10-15__waite.png",
+    "slug": "waite"
+  },
+  "Sandusky": {
+    "sourceFile": "10-15__sandusky.jpg",
+    "slug": "sandusky"
+  },
+  "Ottawa Hills": {
+    "sourceFile": "ottawahills.png",
+    "slug": "ottawa-hills"
+  },
+  "Margaretta": {
+    "sourceFile": "10.8__margaretta.png",
+    "slug": "margaretta"
+  },
+  "Carey": {
+    "sourceFile": "Adding_10.6__carey.png",
+    "slug": "carey"
+  },
+  "Seneca East": {
+    "sourceFile": "senecaeast.png",
+    "slug": "seneca-east"
+  },
+  "Riverdale": {
+    "sourceFile": "Adding_10.6__riverdale.jpg",
+    "slug": "riverdale"
+  },
+  "No. Baltimore": {
+    "sourceFile": "10-16__north_baltimore.png",
+    "slug": "no-baltimore"
+  },
+  "Gibsonburg": {
+    "sourceFile": "10-16__gibsonburg.png",
+    "slug": "gibsonburg"
+  },
+  "Fre. St. Joseph C.C.": {
+    "sourceFile": "10-16__st_joseph_central_catholic.jpg",
+    "slug": "fre-st-joseph-c-c"
+  },
+  "Lakota": {
+    "sourceFile": "10.6g__lakota_kansas.png",
+    "slug": "lakota"
+  },
+  "Evergreen": {
+    "sourceFile": "10-15__evergreen_Metamora.jpg",
+    "slug": "evergreen"
+  },
+  "Allen East": {
+    "sourceFile": "Adding_10.6__alleneast.jpg",
+    "slug": "allen-east"
+  },
+  "Mohawk": {
+    "sourceFile": "mohawk.png",
+    "slug": "mohawk"
+  },
+  "Hardin Northern": {
+    "sourceFile": "10-16__hardin_northern.png",
+    "slug": "hardin-northern"
+  },
+  "New Riegel": {
+    "sourceFile": "new_riegel.jpg",
+    "slug": "new-riegel"
+  },
+  "Hopewell-Loudon": {
+    "sourceFile": "Hopewell-Loudon.png",
+    "slug": "hopewell-loudon"
+  },
+  "Ridgemont": {
+    "sourceFile": "10-16__ridgemont.png",
+    "slug": "ridgemont"
+  },
+  "Ottawa-Glandorf": {
+    "sourceFile": "ottawaglandorf.png",
+    "slug": "ottawa-glandorf"
+  },
+  "Napoleon": {
+    "sourceFile": "10.8__napoleon.png",
+    "slug": "napoleon"
+  },
+  "Bellevue": {
+    "sourceFile": "bellevue.jpg",
+    "slug": "bellevue"
+  },
+  "Shelby": {
+    "sourceFile": "shelby.webp",
+    "slug": "shelby"
+  },
+  "Eastwood": {
+    "sourceFile": "Adding_10.6__eastwood_Pemberville.png",
+    "slug": "eastwood"
+  },
+  "Genoa Area": {
+    "sourceFile": "10.6g__geona_area.png",
+    "slug": "genoa-area"
+  },
+  "Oak Harbor": {
+    "sourceFile": "Adding_10.6__oakharbor.png",
+    "slug": "oak-harbor"
+  },
+  "Otsego": {
+    "sourceFile": "10-15__otsego.png",
+    "slug": "otsego"
+  },
+  "Mil. Lake": {
+    "sourceFile": "10-15__lake_millbury.png",
+    "slug": "mil-lake"
+  },
+  "Clyde": {
+    "sourceFile": "10-15__clyde.webp",
+    "slug": "clyde"
+  },
+  "Fostoria": {
+    "sourceFile": "10-15__fostoria.png",
+    "slug": "fostoria"
+  },
+  "Elida": {
+    "sourceFile": "10.6g__Elida.png",
+    "slug": "elida"
+  },
+  "St. Marys Memorial": {
+    "sourceFile": "10-15__st._marys_memorial.png",
+    "slug": "st-marys-memorial"
+  },
+  "Rossford": {
+    "sourceFile": "10-15__rossford.webp",
+    "slug": "rossford"
+  },
+  "Fremont Ross": {
+    "sourceFile": "fremont_ross.jpg",
+    "slug": "fremont-ross"
+  },
+  "Celina": {
+    "sourceFile": "celina.jpg",
+    "slug": "celina"
+  },
+  "Lexington": {
+    "sourceFile": "lexington.jpg",
+    "slug": "lexington"
+  },
+  "Anthony Wayne": {
+    "sourceFile": "anthony_wayne.jpg",
+    "slug": "anthony-wayne"
+  },
+  "Findlay": {
+    "sourceFile": "findlay.png",
+    "slug": "findlay"
+  },
+  "Norwalk": {
+    "sourceFile": "Adding_10.6__norwalk.png",
+    "slug": "norwalk"
+  },
+  "Wapakoneta": {
+    "sourceFile": "10-15__wapakoneta.png",
+    "slug": "wapakoneta"
+  },
+  "Ashland": {
+    "sourceFile": "10-15__ashland.png",
+    "slug": "ashland"
+  },
+  "Columbian": {
+    "sourceFile": "10-15__columbian.jpg",
+    "slug": "columbian"
+  },
+  "Ontario": {
+    "sourceFile": "10-15__ontario.webp",
+    "slug": "ontario"
+  },
+  "Lima Shawnee": {
+    "sourceFile": "10-16__lima_shawnee.png",
+    "slug": "lima-shawnee"
+  },
+  "Mad. Comprehensive": {
+    "sourceFile": "10.6g__Madison_Comprehensive__OH__Rams_Logo.png",
+    "slug": "mad-comprehensive"
+  },
+  "Mansfield Senior": {
+    "sourceFile": "10-15__mansfield_senior.jpg",
+    "slug": "mansfield-senior"
+  },
+  "Lima Senior": {
+    "sourceFile": "10-15__lima_senior.webp",
+    "slug": "lima-senior"
+  },
+  "Fairland": {
+    "sourceFile": "fairland.png",
+    "slug": "fairland"
+  },
+  "West Union": {
+    "sourceFile": "west_union.png",
+    "slug": "west-union"
+  },
+  "Paint Valley": {
+    "sourceFile": "10-16__paint_valley.jpg",
+    "slug": "paint-valley"
+  },
+  "Lee. Fairfield": {
+    "sourceFile": "10.6g__fairfield_leesburg.png",
+    "slug": "lee-fairfield"
+  },
+  "Zane Trace": {
+    "sourceFile": "10-15__zane_trace.jpg",
+    "slug": "zane-trace"
+  },
+  "Oak Hill": {
+    "sourceFile": "10-16__oak_hill.png",
+    "slug": "oak-hill"
+  },
+  "Federal Hocking": {
+    "sourceFile": "10-16__federal_hocking.jpeg",
+    "slug": "federal-hocking"
+  },
+  "Belpre": {
+    "sourceFile": "10-16__belpre.png",
+    "slug": "belpre"
+  },
+  "North Adams": {
+    "sourceFile": "10-15__north_adams.png",
+    "slug": "north-adams"
+  },
+  "Winc. Eastern": {
+    "sourceFile": "10-15__eastern_Winchester.png",
+    "slug": "winc-eastern"
+  },
+  "Port. Clay": {
+    "sourceFile": "10-16__clay_portsmouth.jpg",
+    "slug": "port-clay"
+  },
+  "Rock Hill": {
+    "sourceFile": "10-15__rock_hill.webp",
+    "slug": "rock-hill"
+  },
+  "Chil. Southeastern": {
+    "sourceFile": "10.6g__southeastern_chillicothe.jpg",
+    "slug": "chil-southeastern"
+  },
+  "Rac. Southern": {
+    "sourceFile": "racine_southern.png",
+    "slug": "rac-southern"
+  },
+  "Bea. Eastern": {
+    "sourceFile": "10-16__eastern_beaver.png",
+    "slug": "bea-eastern"
+  },
+  "Reed. Eastern": {
+    "sourceFile": "10-16__eastern_reedsville.png",
+    "slug": "reed-eastern"
+  },
+  "Lynchburg-Clay": {
+    "sourceFile": "10-15__lynchburg-clay.jpg",
+    "slug": "lynchburg-clay"
+  },
+  "Adena": {
+    "sourceFile": "10-15__adena.png",
+    "slug": "adena"
+  },
+  "South Webster": {
+    "sourceFile": "southwebster.png",
+    "slug": "south-webster"
+  },
+  "Symmes Valley": {
+    "sourceFile": "10-16__symmes_valley.png",
+    "slug": "symmes-valley"
+  },
+  "Manchester": {
+    "sourceFile": "manchester_shac_adams_county.jpg",
+    "slug": "manchester"
+  },
+  "Wellston": {
+    "sourceFile": "wellston.png",
+    "slug": "wellston"
+  },
+  "Dawson-Bryant": {
+    "sourceFile": "10-15__dawson_bryant_Coral_grove.jpg",
+    "slug": "dawson-bryant"
+  },
+  "Western": {
+    "sourceFile": "10-16__western_latham.jpg",
+    "slug": "western"
+  },
+  "F.F. Green": {
+    "sourceFile": "10-16__green_franklin_furnace.png",
+    "slug": "f-f-green"
+  },
+  "Minford": {
+    "sourceFile": "10-16__minford.jpg",
+    "slug": "minford"
+  },
+  "Peebles": {
+    "sourceFile": "10-15__peebles.png",
+    "slug": "peebles"
+  },
+  "Whiteoak": {
+    "sourceFile": "10-16__whiteoak.png",
+    "slug": "whiteoak"
+  },
+  "Waterford": {
+    "sourceFile": "10-16__waterford.jpg",
+    "slug": "waterford"
+  },
+  "McD. Northwest": {
+    "sourceFile": "10-16__northwest_mcdermott.png",
+    "slug": "mcd-northwest"
+  },
+  "Ripley-Union": {
+    "sourceFile": "10-16__ripley_union.webp",
+    "slug": "ripley-union"
+  },
+  "Nelsonville-York": {
+    "sourceFile": "10-15__nelsonville-york.png",
+    "slug": "nelsonville-york"
+  },
+  "Trimble": {
+    "sourceFile": "10-16__trimple.webp",
+    "slug": "trimble"
+  },
+  "Port. West": {
+    "sourceFile": "10-15__portsmouth_west.png",
+    "slug": "port-west"
+  },
+  "Huntington": {
+    "sourceFile": "10-15__huntington_Chillicothe.jpg",
+    "slug": "huntington"
+  },
+  "Valley": {
+    "sourceFile": "10-15__valley.jpg",
+    "slug": "valley"
+  },
+  "South Gallia": {
+    "sourceFile": "10-16__south_gallia.png",
+    "slug": "south-gallia"
+  },
+  "Fairfield Union": {
+    "sourceFile": "fairfield_union.png",
+    "slug": "fairfield-union"
+  },
+  "Vinton County": {
+    "sourceFile": "vintoncounty.png",
+    "slug": "vinton-county"
+  },
+  "Waverly": {
+    "sourceFile": "10-15__waverly.jpg",
+    "slug": "waverly"
+  },
+  "Logan Elm": {
+    "sourceFile": "10-15__logan_elm.png",
+    "slug": "logan-elm"
+  },
+  "Gallia Academy": {
+    "sourceFile": "10-15__gallia_adademy.jpg",
+    "slug": "gallia-academy"
+  },
+  "Bid. River Valley": {
+    "sourceFile": "10-16__river_valley_bidwell.jpg",
+    "slug": "bid-river-valley"
+  },
+  "Westfall": {
+    "sourceFile": "10-15__westfall.png",
+    "slug": "westfall"
+  },
+  "Wheelersburg": {
+    "sourceFile": "Adding_10.6__wheelersburg.png",
+    "slug": "wheelersburg"
+  },
+  "Ironton": {
+    "sourceFile": "10-15__ironton.webp",
+    "slug": "ironton"
+  },
+  "Hillsboro": {
+    "sourceFile": "Adding_10.6__hillsboro.png",
+    "slug": "hillsboro"
+  },
+  "McClain": {
+    "sourceFile": "10-15__mcclain.jpg",
+    "slug": "mcclain"
+  },
+  "Circleville": {
+    "sourceFile": "10-15__circleville.webp",
+    "slug": "circleville"
+  },
+  "New Lexington": {
+    "sourceFile": "10-15__new_lexington.jpg",
+    "slug": "new-lexington"
+  },
+  "Amanda-Clearcreek": {
+    "sourceFile": "Adding_10.6__Amanda-Clearcreek.png",
+    "slug": "amanda-clearcreek"
+  },
+  "Portsmouth": {
+    "sourceFile": "portsmouth.jpg",
+    "slug": "portsmouth"
+  },
+  "Chesapeake": {
+    "sourceFile": "10-15__chesapeake.webp",
+    "slug": "chesapeake"
+  },
+  "WCH Washington": {
+    "sourceFile": "10-15__washington_court_house.jpg",
+    "slug": "wch-washington"
+  },
+  "Alexander": {
+    "sourceFile": "Adding_10.6__Alexander.png",
+    "slug": "alexander"
+  },
+  "Piketon": {
+    "sourceFile": "Adding_10.6__piketon.png",
+    "slug": "piketon"
+  },
+  "South Point": {
+    "sourceFile": "10.6g__southpoint.png",
+    "slug": "south-point"
+  },
+  "Logan": {
+    "sourceFile": "10-15__logan.png",
+    "slug": "logan"
+  },
+  "Warren": {
+    "sourceFile": "10-19__sarren.png",
+    "slug": "warren"
+  },
+  "Sheridan": {
+    "sourceFile": "10.6g__sheridan.jpg",
+    "slug": "sheridan"
+  },
+  "Athens": {
+    "sourceFile": "Adding_10.6__athens.jpg",
+    "slug": "athens"
+  },
+  "Unioto": {
+    "sourceFile": "unioto.png",
+    "slug": "unioto"
+  },
+  "Chillicothe": {
+    "sourceFile": "chilicothe.png",
+    "slug": "chillicothe"
+  },
+  "Marietta": {
+    "sourceFile": "10-15__marietta.png",
+    "slug": "marietta"
+  },
+  "Miami Trace": {
+    "sourceFile": "10-15__miami_trace.jpg",
+    "slug": "miami-trace"
+  },
+  "Jackson": {
+    "sourceFile": "jackson.jpg",
+    "slug": "jackson"
+  },
+  "Bellbrook": {
+    "sourceFile": "bellbrook.jpg",
+    "slug": "bellbrook"
+  },
+  "Piqua": {
+    "sourceFile": "piqua.png",
+    "slug": "piqua"
+  },
+  "Troy": {
+    "sourceFile": "troy.jpg",
+    "slug": "troy"
+  },
+  "Tippecanoe": {
+    "sourceFile": "10.6g__tippecanoe.png",
+    "slug": "tippecanoe"
+  },
+  "Butler": {
+    "sourceFile": "10-15__vandalia_butler.png",
+    "slug": "butler"
+  },
+  "Greenville": {
+    "sourceFile": "10-15__greenville.png",
+    "slug": "greenville"
+  },
+  "Franklin": {
+    "sourceFile": "10.6g__franklin.png",
+    "slug": "franklin"
+  },
+  "Miamisburg": {
+    "sourceFile": "10.6g__miamisbrg.png",
+    "slug": "miamisburg"
+  },
+  "Carroll": {
+    "sourceFile": "carroll.jpg",
+    "slug": "carroll"
+  },
+  "Tecumseh": {
+    "sourceFile": "10-15__tecumseh.png",
+    "slug": "tecumseh"
+  },
+  "Stebbins": {
+    "sourceFile": "10-15__stebbins.png",
+    "slug": "stebbins"
+  },
+  "Cham. Julienne": {
+    "sourceFile": "10-15__chaminade_julienne.avif",
+    "slug": "cham-julienne"
+  },
+  "Eaton": {
+    "sourceFile": "10-15__eaton.png",
+    "slug": "eaton"
+  },
+  "West Carrollton": {
+    "sourceFile": "10-15__west_carrollton.png",
+    "slug": "west-carrollton"
+  },
+  "Wilmington": {
+    "sourceFile": "10.6g__wilmington.png",
+    "slug": "wilmington"
+  },
+  "Fairborn": {
+    "sourceFile": "10-15__fairborn.jpg",
+    "slug": "fairborn"
+  },
+  "Xenia": {
+    "sourceFile": "10-15__xenia.png",
+    "slug": "xenia"
+  },
+  "Thurgood Marshall": {
+    "sourceFile": "10-19__thurgood_marshall.jpg",
+    "slug": "thurgood-marshall"
+  },
+  "Stivers": {
+    "sourceFile": "10-15__stivers.jpg",
+    "slug": "stivers"
+  },
+  "Day. Jefferson Twp.": {
+    "sourceFile": "10-19__dayton_jefferson_township.jpg",
+    "slug": "day-jefferson-twp"
+  },
+  "Dunbar": {
+    "sourceFile": "10-19__dunbar.webp",
+    "slug": "dunbar"
+  },
+  "Tri-County North": {
+    "sourceFile": "10-19__tri_county_north.webp",
+    "slug": "tri-county-north"
+  },
+  "Trotwood-Madison": {
+    "sourceFile": "10-15__trotwood_madison.png",
+    "slug": "trotwood-madison"
+  },
+  "Bellefontaine": {
+    "sourceFile": "bellefontaine.png",
+    "slug": "bellefontaine"
+  },
+  "Bethel": {
+    "sourceFile": "10-15__Bethel-Bee-logo.png",
+    "slug": "bethel"
+  },
+  "Sidney": {
+    "sourceFile": "10-15__sidney.png",
+    "slug": "sidney"
+  },
+  "Oakwood": {
+    "sourceFile": "oakwood.png",
+    "slug": "oakwood"
+  },
+  "Versailles": {
+    "sourceFile": "versailles.png",
+    "slug": "versailles"
+  },
+  "Greenon": {
+    "sourceFile": "greenon.jpg",
+    "slug": "greenon"
+  },
+  "Milton-Union": {
+    "sourceFile": "miltonunion.png",
+    "slug": "milton-union"
+  },
+  "Urbana": {
+    "sourceFile": "10-15__urbana.jpg",
+    "slug": "urbana"
+  },
+  "Brookville": {
+    "sourceFile": "10-15__brookville.png",
+    "slug": "brookville"
+  },
+  "Miami East": {
+    "sourceFile": "miami_east.png",
+    "slug": "miami-east"
+  },
+  "Waynesville": {
+    "sourceFile": "10.6g__waynesville.png",
+    "slug": "waynesville"
+  },
+  "Indian Lake": {
+    "sourceFile": "Adding_10.6__indianlake.png",
+    "slug": "indian-lake"
+  },
+  "Spr. Northwestern": {
+    "sourceFile": "10.6g__northwestern_springfield.png",
+    "slug": "spr-northwestern"
+  },
+  "Ben. Logan": {
+    "sourceFile": "10-15__benjamin_logan.webp",
+    "slug": "ben-logan"
+  },
+  "Graham Local": {
+    "sourceFile": "10.6g__graham.png",
+    "slug": "graham-local"
+  },
+  "Carlisle": {
+    "sourceFile": "10-15__carlisle.webp",
+    "slug": "carlisle"
+  },
+  "Greeneview": {
+    "sourceFile": "10-15__greeneview.png",
+    "slug": "greeneview"
+  },
+  "Spr. Shawnee": {
+    "sourceFile": "10.6g__shawnee.png",
+    "slug": "spr-shawnee"
+  },
+  "Mid. Madison": {
+    "sourceFile": "10-15__madison_Middletown.webp",
+    "slug": "mid-madison"
+  },
+  "Kenton Ridge": {
+    "sourceFile": "10-15__kenton_ridge.png",
+    "slug": "kenton-ridge"
+  },
+  "Valley View": {
+    "sourceFile": "10.6g__valleyview.png",
+    "slug": "valley-view"
+  },
+  "Day. Northridge": {
+    "sourceFile": "10-15__northridge_dayton.png",
+    "slug": "day-northridge"
+  },
+  "Meadowdale": {
+    "sourceFile": "10-15__meadowdale.webp",
+    "slug": "meadowdale"
+  },
+  "West Liberty-Salem": {
+    "sourceFile": "westlibsalem.jpg",
+    "slug": "west-liberty-salem"
+  },
+  "Preble Shawnee": {
+    "sourceFile": "10-15__preble_shawnee.png",
+    "slug": "preble-shawnee"
+  },
+  "Arcanum": {
+    "sourceFile": "10-15__arcanum.jpg",
+    "slug": "arcanum"
+  },
+  "Minster": {
+    "sourceFile": "minster.png",
+    "slug": "minster"
+  },
+  "Ft. Loramie": {
+    "sourceFile": "10-9__ft._loramie.png",
+    "slug": "ft-loramie"
+  },
+  "Botkins": {
+    "sourceFile": "botkins.jpg",
+    "slug": "botkins"
+  },
+  "Lehman Cath.": {
+    "sourceFile": "lehmancatholic.jpg",
+    "slug": "lehman-cath"
+  },
+  "Cedarville": {
+    "sourceFile": "cedarville.png",
+    "slug": "cedarville"
+  },
+  "Anna": {
+    "sourceFile": "anna.png",
+    "slug": "anna"
+  },
+  "Newton Local": {
+    "sourceFile": "newtonlocal.png",
+    "slug": "newton-local"
+  },
+  "Covington": {
+    "sourceFile": "covington.png",
+    "slug": "covington"
+  },
+  "Tri-Village": {
+    "sourceFile": "tri-village.png",
+    "slug": "tri-village"
+  },
+  "Ansonia": {
+    "sourceFile": "10.8__ansonia.jpg",
+    "slug": "ansonia"
+  },
+  "Troy Christian": {
+    "sourceFile": "troychristian.png",
+    "slug": "troy-christian"
+  },
+  "Legacy Christian": {
+    "sourceFile": "legacychristian.png",
+    "slug": "legacy-christian"
+  },
+  "Russia": {
+    "sourceFile": "russia.png",
+    "slug": "russia"
+  },
+  "Ft. Recovery": {
+    "sourceFile": "ftrecovery.png",
+    "slug": "ft-recovery"
+  },
+  "Houston": {
+    "sourceFile": "10-16__houston.png",
+    "slug": "houston"
+  },
+  "National Trail": {
+    "sourceFile": "10-15__national_trail.png",
+    "slug": "national-trail"
+  },
+  "Spring. ECA": {
+    "sourceFile": "10-19__springfield_eca.png",
+    "slug": "spring-eca"
+  },
+  "Calvary Christian": {
+    "sourceFile": "10-19__calvary_christian.jpg",
+    "slug": "calvary-christian"
+  },
+  "Yellow Springs": {
+    "sourceFile": "10-19__yellow_springs.jpg",
+    "slug": "yellow-springs"
+  },
+  "Fairlawn": {
+    "sourceFile": "10-16__fairlawn.png",
+    "slug": "fairlawn"
+  },
+  "Franklin Monroe": {
+    "sourceFile": "10-16__franklin_monroe.jpg",
+    "slug": "franklin-monroe"
+  },
+  "S. Char. SE": {
+    "sourceFile": "10-16__southeastern_south_charleston.png",
+    "slug": "s-char-se"
+  },
+  "Triad": {
+    "sourceFile": "Adding_10.6__triad.png",
+    "slug": "triad"
+  },
+  "Jackson Center": {
+    "sourceFile": "10-16__jackson_center.webp",
+    "slug": "jackson-center"
+  },
+  "Twin Valley So.": {
+    "sourceFile": "10-16__twin_valley_south.webp",
+    "slug": "twin-valley-so"
+  },
+  "Bradford": {
+    "sourceFile": "10-16__bradford.jpg",
+    "slug": "bradford"
+  },
+  "Northeastern": {
+    "sourceFile": "10-15__northeastern_south_vienna.png",
+    "slug": "northeastern"
+  },
+  "DeG. Riverside": {
+    "sourceFile": "10-16__riverside_degraff.jpg",
+    "slug": "deg-riverside"
+  },
+  "Dixie": {
+    "sourceFile": "10-15__dixie.png",
+    "slug": "dixie"
+  },
+  "Mississinawa Valley": {
+    "sourceFile": "10-16__mississinawa_valley.jpg",
+    "slug": "mississinawa-valley"
+  },
+  "Turpin": {
+    "sourceFile": "turpin.png",
+    "slug": "turpin"
+  },
+  "Cin. St. Ursula Acad.": {
+    "sourceFile": "st._ursula.webp",
+    "slug": "cin-st-ursula-acad"
+  },
+  "Indian Hill": {
+    "sourceFile": "indian_hill.png",
+    "slug": "indian-hill"
+  },
+  "Loveland": {
+    "sourceFile": "loveland.png",
+    "slug": "loveland"
+  },
+  "Talawanda": {
+    "sourceFile": "10-15__talawanda.jpg",
+    "slug": "talawanda"
+  },
+  "Mercy McAuley": {
+    "sourceFile": "10.6g__mercy_mcauley.jpg",
+    "slug": "mercy-mcauley"
+  },
+  "Ursuline Academy": {
+    "sourceFile": "10-15__ursuline_adademy.jpg",
+    "slug": "ursuline-academy"
+  },
+  "Anderson": {
+    "sourceFile": "anderson.webp",
+    "slug": "anderson"
+  },
+  "Western Brown": {
+    "sourceFile": "10-15__western_brown.jpg",
+    "slug": "western-brown"
+  },
+  "Mt. Notre Dame": {
+    "sourceFile": "10-15__mount_notre_dame.webp",
+    "slug": "mt-notre-dame"
+  },
+  "Ross": {
+    "sourceFile": "10-15__ross.png",
+    "slug": "ross"
+  },
+  "Monroe": {
+    "sourceFile": "10-15__monroe.png",
+    "slug": "monroe"
+  },
+  "Roger Bacon": {
+    "sourceFile": "10-15__rogerbacon.png",
+    "slug": "roger-bacon"
+  },
+  "New Richmond": {
+    "sourceFile": "10-15__new_richmond.jpg",
+    "slug": "new-richmond"
+  },
+  "Badin": {
+    "sourceFile": "Adding_10.6__badin.png",
+    "slug": "badin"
+  },
+  "Tre. Edgewood": {
+    "sourceFile": "10-15__edgewood_trenton.png",
+    "slug": "tre-edgewood"
+  },
+  "Batavia": {
+    "sourceFile": "10-15__batavia.png",
+    "slug": "batavia"
+  },
+  "Cin. SCPA": {
+    "sourceFile": "10-19__cincinnati_scpa.webp",
+    "slug": "cin-scpa"
+  },
+  "Goshen": {
+    "sourceFile": "10-16__goshen.png",
+    "slug": "goshen"
+  },
+  "Cin. Woodward": {
+    "sourceFile": "10-19__cincinnati_woodward.webp",
+    "slug": "cin-woodward"
+  },
+  "Aiken": {
+    "sourceFile": "10-15__aiken.jpg",
+    "slug": "aiken"
+  },
+  "Blanchester": {
+    "sourceFile": "10-15__blanchester.png",
+    "slug": "blanchester"
+  },
+  "Gamble Montessori": {
+    "sourceFile": "10-19__gamble_montessori.jpg",
+    "slug": "gamble-montessori"
+  },
+  "Lakota East": {
+    "sourceFile": "10-16__lakota_east.png",
+    "slug": "lakota-east"
+  },
+  "Lockland": {
+    "sourceFile": "10-19__lockland.png",
+    "slug": "lockland"
+  },
+  "New Miami": {
+    "sourceFile": "10-19__new_miami.png",
+    "slug": "new-miami"
+  },
+  "Shroder": {
+    "sourceFile": "10-19__shroder.png",
+    "slug": "shroder"
+  },
+  "Withrow": {
+    "sourceFile": "10-19__withrow.jpg",
+    "slug": "withrow"
+  },
+  "La Salle": {
+    "sourceFile": "10-15__la_salle.png",
+    "slug": "la-salle"
+  },
+  "Hughes": {
+    "sourceFile": "10-19__hughes.png",
+    "slug": "hughes"
+  },
+  "Wyoming": {
+    "sourceFile": "wyoming.png",
+    "slug": "wyoming"
+  },
+  "Mariemont": {
+    "sourceFile": "Adding_10.6__mariemont.jpg",
+    "slug": "mariemont"
+  },
+  "Taylor": {
+    "sourceFile": "10-15__taylor.webp",
+    "slug": "taylor"
+  },
+  "Clinton-Massie": {
+    "sourceFile": "10-15__clinton_massie.png",
+    "slug": "clinton-massie"
+  },
+  "Reading": {
+    "sourceFile": "10-15__reading.png",
+    "slug": "reading"
+  },
+  "Clermont NE": {
+    "sourceFile": "10-15__clermont_northeastern.jpg",
+    "slug": "clermont-ne"
+  },
+  "Bethel-Tate": {
+    "sourceFile": "10.6g__betheltate.png",
+    "slug": "bethel-tate"
+  },
+  "Clark Montessori": {
+    "sourceFile": "clark_montessori.png",
+    "slug": "clark-montessori"
+  },
+  "Purcell Marian": {
+    "sourceFile": "10-19__purcell_marian.png",
+    "slug": "purcell-marian"
+  },
+  "Williamsburg": {
+    "sourceFile": "10-15__williamsburg.png",
+    "slug": "williamsburg"
+  },
+  "East Clinton": {
+    "sourceFile": "10-15__east_clinton.png",
+    "slug": "east-clinton"
+  },
+  "Norwood": {
+    "sourceFile": "Adding_10.6__norwood.png",
+    "slug": "norwood"
+  },
+  "Taft": {
+    "sourceFile": "10-19__taft.png",
+    "slug": "taft"
+  },
+  "Day. Christian": {
+    "sourceFile": "Adding_10.6__daytonchristian.png",
+    "slug": "day-christian"
+  },
+  "Seven Hills": {
+    "sourceFile": "Adding_10.6__sevenhills.jpg",
+    "slug": "seven-hills"
+  },
+  "Georgetown": {
+    "sourceFile": "Adding_10.6__georgetown.png",
+    "slug": "georgetown"
+  },
+  "MVCA": {
+    "sourceFile": "mvca.png",
+    "slug": "mvca"
+  },
+  "Mid. Christian": {
+    "sourceFile": "10-19__middletwon_christian.png",
+    "slug": "mid-christian"
+  },
+  "Cin. Co. Day": {
+    "sourceFile": "cincinnati_country_day.jpg",
+    "slug": "cin-co-day"
+  },
+  "Felicity-Franklin": {
+    "sourceFile": "10-16__felicity_franklin.jpg",
+    "slug": "felicity-franklin"
+  },
+  "Miami Valley School": {
+    "sourceFile": "10-19__miami_valley_school.png",
+    "slug": "miami-valley-school"
+  },
+  "Deer Park": {
+    "sourceFile": "deer_park.webp",
+    "slug": "deer-park"
+  },
+  "St. Bernard": {
+    "sourceFile": "st._bernard.png",
+    "slug": "st-bernard"
+  },
+  "Oyler": {
+    "sourceFile": "10-19__oyler.jpg",
+    "slug": "oyler"
+  },
+  "Cin. Spencer Center": {
+    "sourceFile": "10-19__cincinnati_spencer_center.png",
+    "slug": "cin-spencer-center"
+  },
+  "Finneytown": {
+    "sourceFile": "10-15__finneytown.png",
+    "slug": "finneytown"
+  },
+  "Mason": {
+    "sourceFile": "mason.png",
+    "slug": "mason"
+  },
+  "Springboro": {
+    "sourceFile": "springboro.png",
+    "slug": "springboro"
+  },
+  "Beavercreek": {
+    "sourceFile": "beavercreek.png",
+    "slug": "beavercreek"
+  },
+  "St. Xavier": {
+    "sourceFile": "st._xavier.jpg",
+    "slug": "st-xavier"
+  },
+  "Milford": {
+    "sourceFile": "milford.png",
+    "slug": "milford"
+  },
+  "Sycamore": {
+    "sourceFile": "10.8__sycamore.png",
+    "slug": "sycamore"
+  },
+  "Little Miami": {
+    "sourceFile": "littlemiami.jpg",
+    "slug": "little-miami"
+  },
+  "Lebanon": {
+    "sourceFile": "lebanon.png",
+    "slug": "lebanon"
+  },
+  "Northmont": {
+    "sourceFile": "northmont.png",
+    "slug": "northmont"
+  },
+  "Lak. West": {
+    "sourceFile": "10.8__lakota_west.png",
+    "slug": "lak-west"
+  },
+  "Kings": {
+    "sourceFile": "10.6g__kings.png",
+    "slug": "kings"
+  },
+  "Oak Hills": {
+    "sourceFile": "10.8__oakhills.png",
+    "slug": "oak-hills"
+  },
+  "Centerville": {
+    "sourceFile": "centerville.png",
+    "slug": "centerville"
+  },
+  "Lak. East": {
+    "sourceFile": "10-16__lakota_east.png",
+    "slug": "lak-east"
+  },
+  "Walnut Hills": {
+    "sourceFile": "10-15__walnut_hills.jpg",
+    "slug": "walnut-hills"
+  },
+  "Moeller": {
+    "sourceFile": "10-15__moeller.jpg",
+    "slug": "moeller"
+  },
+  "Middletown": {
+    "sourceFile": "10-15__middletown.png",
+    "slug": "middletown"
+  },
+  "Fairmont": {
+    "sourceFile": "fairmont.png",
+    "slug": "fairmont"
+  },
+  "Wayne": {
+    "sourceFile": "10-15__wayne.png",
+    "slug": "wayne"
+  },
+  "Elder": {
+    "sourceFile": "10-15__elder.jpg",
+    "slug": "elder"
+  },
+  "West Clermont": {
+    "sourceFile": "10-15__west_clermont.png",
+    "slug": "west-clermont"
+  },
+  "Princeton": {
+    "sourceFile": "10-15__princeton.jpg",
+    "slug": "princeton"
+  },
+  "Colerain": {
+    "sourceFile": "10-15__colerian.webp",
+    "slug": "colerain"
+  },
+  "Hamilton": {
+    "sourceFile": "10-15__hamilton.png",
+    "slug": "hamilton"
+  },
+  "Winton Woods": {
+    "sourceFile": "10-15__winton_woods.png",
+    "slug": "winton-woods"
+  },
+  "Gah. Lincoln": {
+    "sourceFile": "gah._lincoln.png",
+    "slug": "gah-lincoln"
+  },
+  "Olen. Berlin": {
+    "sourceFile": "olen._berlin.png",
+    "slug": "olen-berlin"
+  },
+  "Wester. North": {
+    "sourceFile": "westerville_north.png",
+    "slug": "wester-north"
+  },
+  "Dub. Jerome": {
+    "sourceFile": "dublin_jerome.jpg",
+    "slug": "dub-jerome"
+  },
+  "Thom. Worthington": {
+    "sourceFile": "thomasworthington.png",
+    "slug": "thom-worthington"
+  },
+  "Mass. Jackson": {
+    "sourceFile": "mass._jackson.png",
+    "slug": "mass-jackson"
+  },
+  "Olen. Liberty": {
+    "sourceFile": "olentangy_liberty.png",
+    "slug": "olen-liberty"
+  },
+  "Olen. Orange": {
+    "sourceFile": "10.8__olentangyorange.png",
+    "slug": "olen-orange"
+  },
+  "Dub. Coffman": {
+    "sourceFile": "dublin_coffman.webp",
+    "slug": "dub-coffman"
+  },
+  "New Albany": {
+    "sourceFile": "newalbany.png",
+    "slug": "new-albany"
+  },
+  "Hil. Darby": {
+    "sourceFile": "hilliarddarby.jpg",
+    "slug": "hil-darby"
+  },
+  "Del. Hayes": {
+    "sourceFile": "10-9__delaware_hayes.png",
+    "slug": "del-hayes"
+  },
+  "Wester. Central": {
+    "sourceFile": "10-15__westerville_central.png",
+    "slug": "wester-central"
+  },
+  "Olentangy": {
+    "sourceFile": "10-15__olentangy.jpg",
+    "slug": "olentangy"
+  },
+  "Lancaster": {
+    "sourceFile": "lancaster.png",
+    "slug": "lancaster"
+  },
+  "Upper Arlington": {
+    "sourceFile": "upperarlington.png",
+    "slug": "upper-arlington"
+  },
+  "Hil. Davidson": {
+    "sourceFile": "hilliarddavidson.png",
+    "slug": "hil-davidson"
+  },
+  "Pick. North": {
+    "sourceFile": "pickerington_north.webp",
+    "slug": "pick-north"
+  },
+  "Hil. Bradley": {
+    "sourceFile": "hilliard_bradley.png",
+    "slug": "hil-bradley"
+  },
+  "St. Charles": {
+    "sourceFile": "Adding_10.6__st.charles.png",
+    "slug": "st-charles"
+  },
+  "Watkins Memorial": {
+    "sourceFile": "10.8__watkins_memorial.png",
+    "slug": "watkins-memorial"
+  },
+  "Pick. Central": {
+    "sourceFile": "10-15__pickerington_central.webp",
+    "slug": "pick-central"
+  },
+  "Wester. South": {
+    "sourceFile": "westerville_south.png",
+    "slug": "wester-south"
+  },
+  "Wor. Kilbourne": {
+    "sourceFile": "10-15__worthington_kilbourne.png",
+    "slug": "wor-kilbourne"
+  },
+  "Newark": {
+    "sourceFile": "newark.png",
+    "slug": "newark"
+  },
+  "Central Crossing": {
+    "sourceFile": "centralcrossing.png",
+    "slug": "central-crossing"
+  },
+  "Teays Valley": {
+    "sourceFile": "teays_valley.png",
+    "slug": "teays-valley"
+  },
+  "Marysville": {
+    "sourceFile": "marysville.webp",
+    "slug": "marysville"
+  },
+  "Westland": {
+    "sourceFile": "10-15__westland.png",
+    "slug": "westland"
+  },
+  "Grove City": {
+    "sourceFile": "10-15__grove_city.jpg",
+    "slug": "grove-city"
+  },
+  "Franklin Hts.": {
+    "sourceFile": "Adding_10.6__franklinheights.png",
+    "slug": "franklin-hts"
+  },
+  "Licking Hts.": {
+    "sourceFile": "10-15__licking_heights.jpg",
+    "slug": "licking-hts"
+  },
+  "Mentor": {
+    "sourceFile": "mentor.png",
+    "slug": "mentor"
+  },
+  "Medina": {
+    "sourceFile": "medina.png",
+    "slug": "medina"
+  },
+  "Solon": {
+    "sourceFile": "solon.jpg",
+    "slug": "solon"
+  },
+  "St. Ignatius": {
+    "sourceFile": "st._ignatius.png",
+    "slug": "st-ignatius"
+  },
+  "Stow-Munroe Falls": {
+    "sourceFile": "stow-munroe_falls.png",
+    "slug": "stow-munroe-falls"
+  },
+  "Brunswick": {
+    "sourceFile": "Brunswickhighschoollogo.png",
+    "slug": "brunswick"
+  },
+  "Strongsville": {
+    "sourceFile": "10-15__strongsville.png",
+    "slug": "strongsville"
+  },
+  "Elyria": {
+    "sourceFile": "10-15__Elyria_High_School_school_logo.png",
+    "slug": "elyria"
+  },
+  "Berea-Midpark": {
+    "sourceFile": "berea-midpark.webp",
+    "slug": "berea-midpark"
+  },
+  "Normandy": {
+    "sourceFile": "10-15__normandy.jpg",
+    "slug": "normandy"
+  },
+  "Whitmer": {
+    "sourceFile": "10-15__whitmer.png",
+    "slug": "whitmer"
+  },
+  "Canton McKinley": {
+    "sourceFile": "10-15__canton_mckinley.png",
+    "slug": "canton-mckinley"
+  },
+  "Cle. Heights": {
+    "sourceFile": "10.8__cleveland_heights.jpg",
+    "slug": "cle-heights"
+  },
+  "Lorain": {
+    "sourceFile": "10-15__lorain.png",
+    "slug": "lorain"
+  },
+  "Valley Forge": {
+    "sourceFile": "10-15__valley_forge.jpeg",
+    "slug": "valley-forge"
+  },
+  "Perrysburg": {
+    "sourceFile": "perrysburg.png",
+    "slug": "perrysburg"
+  },
+  "Reynoldsburg": {
+    "sourceFile": "10-15__reynoldsburg.png",
+    "slug": "reynoldsburg"
+  },
+  "Seton": {
+    "sourceFile": "10-15__seton.jpg",
+    "slug": "seton"
+  },
+  "Western Hills": {
+    "sourceFile": "10-15__western_hills.png",
+    "slug": "western-hills"
+  }
+}

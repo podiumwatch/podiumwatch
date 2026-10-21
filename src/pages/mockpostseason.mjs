@@ -2,6 +2,7 @@ import { layout } from "../lib/html.mjs";
 import data from "../data/mock-postseason-2026.json" with { type: "json" };
 import schoolExpansions from "../data/mock-postseason-school-expansions-2026.json" with { type: "json" };
 import nameOverrides from "../data/mock-postseason-name-overrides-2026.json" with { type: "json" };
+import logoManifest from "../data/mock-postseason-logo-manifest-2026.json" with { type: "json" };
 
 // 2026 Mock Postseason: Districts -> Regionals -> State, built from the
 // full statewide Ohio 2026 XC roster package (ohio_2026_xc_Claude_Code),
@@ -98,9 +99,78 @@ function initials(name) {
   if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
   return (clean.slice(0, 2) || "?").toUpperCase();
 }
+// Real school logos (Round 5, 2026-10-21): logoManifest maps a team/school
+// name exactly as it appears in this data (schoolName -> { sourceFile, slug })
+// to a pre-resized 96x96 PNG already copied into public/images/mock-
+// postseason-logos/schools/ by _tmp_resize_logos.mjs (one-off script, not
+// part of the build). Never pulled from the web, never guessed -- a name
+// with no manifest entry always falls back to the neutral initials circle.
 function logoHtml(name) {
+  const entry = logoManifest[name];
+  if (entry) {
+    return `<img class="mp-logo mp-logo-img" src="/images/mock-postseason-logos/schools/${entry.slug}.png" alt="" aria-hidden="true" loading="lazy" width="28" height="28">`;
+  }
   return `<span class="mp-logo" aria-hidden="true">${escapeHtml(initials(name))}</span>`;
 }
+
+// Bicarb sponsor placements (Round 5, 2026-10-21): one shared component
+// (bar / card / footer) reused everywhere per the user's spec -- same
+// link, same code, same FTC disclosure line. data-copy-code is wired by
+// BICARB_SCRIPT (appended to every page that renders a placement) rather
+// than per-placement inline handlers, so there's exactly one click
+// listener per page regardless of how many placements it has.
+const BICARB_URL = "https://bicarb.shop/?ref=podiumwatch";
+const BICARB_CODE = "PODIUMWATCH";
+const BICARB_LOGO = "/images/mock-postseason-logos/bicarb.png";
+const BICARB_DISCLOSURE = `<span class="mp-sponsor-disclosure">Affiliate link &middot; Podium Watch may earn a commission</span>`;
+function bicarbCodeButtonHtml(label) {
+  return `<button type="button" class="mp-copycode" data-copy-code="${BICARB_CODE}">${escapeHtml(label)}</button>`;
+}
+function bicarbBarHtml() {
+  return `<div class="mp-sponsorbar">
+    <img src="${BICARB_LOGO}" alt="Bicarb" class="mp-sponsorbar-logo" loading="lazy">
+    <span class="mp-sponsorbar-text">${bicarbCodeButtonHtml("Use code PODIUMWATCH")} at Bicarb</span>
+    <a class="mp-sponsorbar-cta" href="${BICARB_URL}" target="_blank" rel="sponsored noopener noreferrer">Shop Bicarb</a>
+    ${BICARB_DISCLOSURE}
+  </div>`;
+}
+function bicarbCardHtml() {
+  return `<div class="mp-sponsorcard">
+    <img src="${BICARB_LOGO}" alt="Bicarb" class="mp-sponsorcard-logo" loading="lazy">
+    <div class="mp-sponsorcard-body">
+      <p class="mp-sponsorcard-title">Shop Bicarb</p>
+      <p class="mp-sponsorcard-code">${bicarbCodeButtonHtml("Use code PODIUMWATCH")}</p>
+    </div>
+    <a class="mp-sponsorcard-cta" href="${BICARB_URL}" target="_blank" rel="sponsored noopener noreferrer">Shop Bicarb &rarr;</a>
+    ${BICARB_DISCLOSURE}
+  </div>`;
+}
+function bicarbFooterHtml() {
+  return `<div class="mp-sponsorfooter">
+    <img src="${BICARB_LOGO}" alt="Bicarb" class="mp-sponsorfooter-logo" loading="lazy">
+    <span class="mp-sponsorfooter-text">${bicarbCodeButtonHtml("Use code PODIUMWATCH")} at <a href="${BICARB_URL}" target="_blank" rel="sponsored noopener noreferrer">Bicarb</a></span>
+    ${BICARB_DISCLOSURE}
+  </div>`;
+}
+// Appended once per page (never twice) -- handles every [data-copy-code]
+// button on that page, however many placements it has.
+const BICARB_SCRIPT = `<script>
+document.querySelectorAll('[data-copy-code]').forEach(function(btn){
+  var original = btn.textContent;
+  btn.addEventListener('click', function(){
+    var code = btn.dataset.copyCode;
+    var done = function(){
+      btn.textContent = 'Copied';
+      setTimeout(function(){ btn.textContent = original; }, 2000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(done).catch(done);
+    } else {
+      done();
+    }
+  });
+});
+</script>`;
 
 function genderAccentVar(gender) {
   return gender && gender.toLowerCase() === "girls" ? "var(--mp-pink)" : "var(--mp-green)";
@@ -173,6 +243,7 @@ const SHARED_STYLE = `<style>
   .mp-row.mp-incomplete { opacity: .6; font-style: italic; }
   .mp-rownum { flex: 0 0 auto; width: 22px; text-align: right; font-variant-numeric: tabular-nums; font-size: .82rem; color: var(--muted); }
   .mp-logo { flex: 0 0 auto; width: 28px; height: 28px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-size: .62rem; font-weight: 800; color: var(--muted); }
+  .mp-logo-img { object-fit: contain; padding: 3px; box-sizing: border-box; }
   .mp-rowmain { flex: 1 1 auto; min-width: 0; }
   .mp-rowname { font-size: .92rem; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .mp-rowsub { font-size: .76rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -244,6 +315,27 @@ const SHARED_STYLE = `<style>
   .mp-regionalcard .mp-rc-line strong { color: var(--ink); }
   .mp-regionalcard[open] summary { border-bottom: 1px solid var(--line); }
   .mp-regionalcard-body { padding: 4px 14px 14px; }
+
+  /* Bicarb sponsor placements -- one line at 375px, 44px tall; inline
+     card capped at 120px tall so it never pushes results down. */
+  .mp-sponsorbar { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 14px; background: var(--paper); border-bottom: 1px solid var(--line); flex-wrap: nowrap; overflow: hidden; }
+  .mp-sponsorbar-logo { height: 22px; width: auto; flex: 0 0 auto; }
+  .mp-sponsorbar-text { font-size: .74rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 auto; min-width: 0; }
+  .mp-sponsorbar-cta { flex: 0 0 auto; font-size: .74rem; font-weight: 800; padding: 6px 10px; border-radius: 6px; background: var(--ink); color: var(--white); min-height: 32px; display: inline-flex; align-items: center; }
+  .mp-sponsorbar .mp-sponsor-disclosure { display: none; }
+  .mp-sponsorcard { display: flex; align-items: center; gap: 10px; max-height: 120px; padding: 10px 14px; margin: 10px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); flex-wrap: wrap; }
+  .mp-sponsorcard-logo { height: 36px; width: auto; flex: 0 0 auto; }
+  .mp-sponsorcard-body { flex: 1 1 auto; min-width: 0; }
+  .mp-sponsorcard-title { margin: 0; font-weight: 800; font-size: .88rem; }
+  .mp-sponsorcard-code { margin: 2px 0 0; font-size: .78rem; color: var(--muted); }
+  .mp-sponsorcard-cta { flex: 0 0 auto; font-size: .8rem; font-weight: 800; padding: 8px 12px; border-radius: 6px; background: var(--ink); color: var(--white); min-height: 36px; display: inline-flex; align-items: center; }
+  .mp-sponsorcard .mp-sponsor-disclosure { flex-basis: 100%; }
+  .mp-sponsorfooter { display: flex; align-items: center; gap: 8px; padding: 14px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .mp-sponsorfooter-logo { height: 24px; width: auto; }
+  .mp-sponsorfooter-text { font-size: .78rem; color: var(--muted); }
+  .mp-sponsorfooter-text a { color: var(--ink); font-weight: 700; }
+  .mp-sponsor-disclosure { font-size: .66rem; color: var(--muted); font-style: italic; }
+  .mp-copycode { font: inherit; font-weight: 800; color: var(--ink); background: var(--white); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; cursor: pointer; min-height: 28px; }
 </style>`;
 
 function compactHero({ eyebrow, title, description }) {
@@ -589,6 +681,7 @@ function raceSectionHtml(race, idx) {
       ? (r) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, r.name, r.school), hash: `${genderLower}_D${divNum}_${regionKey}` }), label: regionalSiteName || "Regionals" })
       : null;
     body = `${teamRowsHtml(race.scoredTeams, race.teamsAdvance, race.qualifiers, accent, genderLower, divNum, crossLinkFor)}
+      ${idx === 0 ? bicarbCardHtml() : ""}
       <p class="mp-h3">Top 32 (combined, includes individual qualifiers)</p>
       ${runnerRowsHtml(finishOrder, 32, null, indCrossLinkFor, genderLower, divNum)}
       ${enteredNoDataHtml(race.enteredNoProjectionData)}`;
@@ -625,6 +718,8 @@ export function mockPostseasonDistrictSitePage(site, siteKey) {
   <section class="section section-paper mp-pagesection"><div class="container">
     ${siteData.races.map(raceSectionHtml).join("")}
   </div></section>
+  ${bicarbFooterHtml()}
+  ${BICARB_SCRIPT}
   <script>
   var siteName = ${JSON.stringify(siteData.name)};
   document.querySelectorAll('.mp-racechip').forEach(function(chip){
@@ -678,7 +773,7 @@ function districtsHubTabHtml() {
 // Northeast pending) shows the incomplete banner ABOVE this same
 // projected summary, not instead of it -- Pickerington and Boardman
 // still have a real, if partial, field worth seeing.
-function regionalSummaryCard(key, r) {
+function regionalSummaryCard(key, r, isFirst) {
   const accent = genderAccentVar(r.gender);
   const genderLower = r.gender.toLowerCase();
   const divNum = divisionNum(r.division);
@@ -724,11 +819,11 @@ function regionalSummaryCard(key, r) {
       <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }), label: "State" }), genderLower, divNum)}</details>
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
     </div>
-  </details>`;
+  </details>${isFirst ? bicarbCardHtml() : ""}`;
 }
 
 function regionalsTabHtml() {
-  const sections = Object.entries(data.regionalResults).map(([key, r]) => regionalSummaryCard(key, r)).join("");
+  const sections = Object.entries(data.regionalResults).map(([key, r], i) => regionalSummaryCard(key, r, i === 0)).join("");
   const underReviewHtml = Object.entries(data.underReviewByCategory || {}).map(([cat, schools]) => {
     const [genderLower, div] = cat.split("_");
     return `<p><strong>${GENDER_LABEL[genderLower]} ${div}:</strong> ${schools.map((s) => schoolDisplay(s)).join(", ")}</p>`;
@@ -739,7 +834,7 @@ function regionalsTabHtml() {
   return sections + underReview;
 }
 
-function stateSectionHtml(key, s) {
+function stateSectionHtml(key, s, isFirst) {
   const [genderLower, div] = key.split("_");
   const accent = genderAccentVar(genderLower);
   const divNum = divisionNum(div);
@@ -756,12 +851,13 @@ function stateSectionHtml(key, s) {
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
+    ${isFirst ? bicarbCardHtml() : ""}
     ${individualTop40.length ? `<p class="mp-h3">Projected individual top ${individualTop40.length}</p>${runnerRowsHtml(individualTop40, null, Math.min(25, individualTop40.length), null, genderLower, divNum)}` : ""}
   </div>`;
 }
 
 function stateTabHtml() {
-  return Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s)).join("");
+  return Object.entries(data.stateResults).map(([key, s], i) => stateSectionHtml(key, s, i === 0)).join("");
 }
 
 export function mockPostseasonHubPage(site) {
@@ -782,6 +878,7 @@ export function mockPostseasonHubPage(site) {
     </div>
     <div class="mp-filterrow">${filterChips}</div>
   </div>
+  ${bicarbBarHtml()}
   <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">Districts</nav>
   <section class="section section-paper mp-pagesection"><div class="container">
     <div class="mp-tabpanel" id="districts-panel" data-tab="districts">
@@ -794,8 +891,10 @@ export function mockPostseasonHubPage(site) {
     <div class="mp-tabpanel" id="regionals-panel" data-tab="regionals" hidden>${regionalsTabHtml()}</div>
     <div class="mp-tabpanel" id="state-panel" data-tab="state" hidden>${stateTabHtml()}</div>
   </div></section>
+  ${bicarbFooterHtml()}
   <button type="button" class="mp-totop" aria-label="Back to top">&uarr;</button>
   ${HUB_SCRIPT}
+  ${BICARB_SCRIPT}
   <script>
   (function(){
     var btn = document.querySelector('.mp-d1-regionals-btn');
