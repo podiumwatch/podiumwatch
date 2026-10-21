@@ -271,6 +271,10 @@
     "sourceFile": "10-15__whitehall_yearling.png",
     "slug": "whitehall-yearling"
   },
+  "Col. Horizon Science Aca.": {
+    "sourceFile": "Adding_10.6__horizon_science_adademy_columbus.jpg",
+    "slug": "col-horizon-science-aca"
+  },
   "Walnut Ridge": {
     "sourceFile": "10-15__walnutridge.png",
     "slug": "walnut-ridge"
@@ -415,6 +419,10 @@
     "sourceFile": "10-19__stubenville_catholic_central.jpg",
     "slug": "steub-cath-cent"
   },
+  "Ridgewood": {
+    "sourceFile": "10-15__ridgewood_west_lafayette.png",
+    "slug": "ridgewood"
+  },
   "Shenandoah": {
     "sourceFile": "shenandoah.png",
     "slug": "shenandoah"
@@ -551,6 +559,10 @@
     "sourceFile": "10-15__barberton.png",
     "slug": "barberton"
   },
+  "Ak. Garfield": {
+    "sourceFile": "10-15__garfield_akron.png",
+    "slug": "ak-garfield"
+  },
   "Acad. For Urban Scholars": {
     "sourceFile": "10-19__academy_for_urban_scholars.jpg",
     "slug": "acad-for-urban-scholars"
@@ -563,13 +575,13 @@
     "sourceFile": "10-15__buchtel.webp",
     "slug": "buchtel"
   },
+  "Garfield Hts.": {
+    "sourceFile": "10.8__garfieldheights.jpg",
+    "slug": "garfield-hts"
+  },
   "GlenOak": {
     "sourceFile": "glenoak.png",
     "slug": "glenoak"
-  },
-  "Seb. McKinley": {
-    "sourceFile": "10-19__sebring_mckinley.png",
-    "slug": "seb-mckinley"
   },
   "Wellsville": {
     "sourceFile": "10-19__wellsville.jpg",
@@ -582,6 +594,10 @@
   "St. Vincent St. Mary": {
     "sourceFile": "Adding_10.6__st.vincentst.mary.png",
     "slug": "st-vincent-st-mary"
+  },
+  "Sebring McKinley": {
+    "sourceFile": "10-19__sebring_mckinley.png",
+    "slug": "sebring-mckinley"
   },
   "Salem": {
     "sourceFile": "salem.jpg",
@@ -615,6 +631,10 @@
     "sourceFile": "10-15__field.jpg",
     "slug": "field"
   },
+  "Ak. Springfield": {
+    "sourceFile": "10.6g__springfield_akron.png",
+    "slug": "ak-springfield"
+  },
   "Tuslaw": {
     "sourceFile": "Adding_10.6__tuslaw.png",
     "slug": "tuslaw"
@@ -643,9 +663,17 @@
     "sourceFile": "10-15__manchester.png",
     "slug": "ak-manchester"
   },
+  "Ravenna": {
+    "sourceFile": "10.6g__ravenna.png",
+    "slug": "ravenna"
+  },
   "Chippewa": {
     "sourceFile": "10-15__chippewa.webp",
     "slug": "chippewa"
+  },
+  "Southeast": {
+    "sourceFile": "Adding_10.6__southeast_ravenna.png",
+    "slug": "southeast"
   },
   "Coventry": {
     "sourceFile": "10-15__coventry.png",
@@ -811,13 +839,13 @@
     "sourceFile": "Adding_10.6__columbia.jpg",
     "slug": "columbia"
   },
-  "East Technical": {
-    "sourceFile": "10-19__east_technical.png",
-    "slug": "east-technical"
-  },
   "John Hay": {
     "sourceFile": "10-15__john_hay.png",
     "slug": "john-hay"
+  },
+  "Maple Hts.": {
+    "sourceFile": "10-15__maple_heights.png",
+    "slug": "maple-hts"
   },
   "Our Lady Elms": {
     "sourceFile": "10-19__our_lady_of_the_elms.png",
@@ -838,6 +866,10 @@
   "Clearview": {
     "sourceFile": "10-16__clearview.png",
     "slug": "clearview"
+  },
+  "East Tech": {
+    "sourceFile": "10-19__east_technical.png",
+    "slug": "east-tech"
   },
   "Buckeye": {
     "sourceFile": "Adding_10.6__buckeye_medina.png",
@@ -895,6 +927,10 @@
     "sourceFile": "10.6g__brookside.png",
     "slug": "brookside"
   },
+  "Bard Early College": {
+    "sourceFile": "10-15__Bard_Early_College_Raptors_logo.png",
+    "slug": "bard-early-college"
+  },
   "Lincoln West": {
     "sourceFile": "10-19__lincoln_west.png",
     "slug": "lincoln-west"
@@ -906,6 +942,10 @@
   "Waynedale": {
     "sourceFile": "waynedale.png",
     "slug": "waynedale"
+  },
+  "Col. Crestview": {
+    "sourceFile": "10-15__crestview_columbiana_rebels.png",
+    "slug": "col-crestview"
   },
   "Rittman": {
     "sourceFile": "rittman.png",
@@ -1079,9 +1119,17 @@
     "sourceFile": "10-19__max_hayes.png",
     "slug": "max-hayes"
   },
+  "Warrensville Hts.": {
+    "sourceFile": "10-15__warrensville_heights.png",
+    "slug": "warrensville-hts"
+  },
   "Harvey": {
     "sourceFile": "10-16__harvey.png",
     "slug": "harvey"
+  },
+  "University School": {
+    "sourceFile": "10-9__universityschool.png",
+    "slug": "university-school"
   },
   "Orange": {
     "sourceFile": "orange.png",
@@ -1110,6 +1158,10 @@
   "Berkshire": {
     "sourceFile": "berkshire.png",
     "slug": "berkshire"
+  },
+  "Hathaway Brown": {
+    "sourceFile": "10.8__hathaway_brown.png",
+    "slug": "hathaway-brown"
   },
   "Chagrin Falls": {
     "sourceFile": "chagrin_falls.png",
@@ -1171,6 +1223,10 @@
     "sourceFile": "kirtland.png",
     "slug": "kirtland"
   },
+  "John Adams": {
+    "sourceFile": "Adding_10.6__john_adams_cleveland.jpg",
+    "slug": "john-adams"
+  },
   "Brookfield": {
     "sourceFile": "10-15__brookfield.png",
     "slug": "brookfield"
@@ -1190,6 +1246,10 @@
   "Maplewood": {
     "sourceFile": "maplewood.png",
     "slug": "maplewood"
+  },
+  "Ash. St. John": {
+    "sourceFile": "10-9__ashtabula_st_john.webp",
+    "slug": "ash-st-john"
   },
   "Mineral Ridge": {
     "sourceFile": "10-15__mineral_ridge.png",
@@ -1583,6 +1643,10 @@
     "sourceFile": "10-15__maumee.png",
     "slug": "maumee"
   },
+  "Tol. St. Ursula Acad.": {
+    "sourceFile": "soledo_st_ursula.png",
+    "slug": "tol-st-ursula-acad"
+  },
   "Syl. Northview": {
     "sourceFile": "slyvania_northview.webp",
     "slug": "syl-northview"
@@ -1610,6 +1674,10 @@
   "Tol. St. Francis": {
     "sourceFile": "tol._st._francis.jpg",
     "slug": "tol-st-francis"
+  },
+  "Tol. St. John's Jesuit": {
+    "sourceFile": "10-15__st._john_jesuit.jpg",
+    "slug": "tol-st-john-s-jesuit"
   },
   "Waite": {
     "sourceFile": "10-15__waite.png",
@@ -1738,6 +1806,10 @@
   "Rossford": {
     "sourceFile": "10-15__rossford.webp",
     "slug": "rossford"
+  },
+  "Toledo C.C.": {
+    "sourceFile": "10-15__central_catholic_toledo.jpg",
+    "slug": "toledo-c-c"
   },
   "Fremont Ross": {
     "sourceFile": "fremont_ross.jpg",
@@ -2123,6 +2195,10 @@
     "sourceFile": "10-15__fairborn.jpg",
     "slug": "fairborn"
   },
+  "Ponitz CTC": {
+    "sourceFile": "10-15__ponitz.jpg",
+    "slug": "ponitz-ctc"
+  },
   "Xenia": {
     "sourceFile": "10-15__xenia.png",
     "slug": "xenia"
@@ -2135,6 +2211,10 @@
     "sourceFile": "10-15__stivers.jpg",
     "slug": "stivers"
   },
+  "Belmont": {
+    "sourceFile": "10-15__belmont_dayton.png",
+    "slug": "belmont"
+  },
   "Day. Jefferson Twp.": {
     "sourceFile": "10-19__dayton_jefferson_township.jpg",
     "slug": "day-jefferson-twp"
@@ -2142,6 +2222,10 @@
   "Dunbar": {
     "sourceFile": "10-19__dunbar.webp",
     "slug": "dunbar"
+  },
+  "Springfield Catholic Central": {
+    "sourceFile": "10-16__spring_central_catholic.jpg",
+    "slug": "springfield-catholic-central"
   },
   "Tri-County North": {
     "sourceFile": "10-19__tri_county_north.webp",
@@ -2194,6 +2278,10 @@
   "Waynesville": {
     "sourceFile": "10.6g__waynesville.png",
     "slug": "waynesville"
+  },
+  "Alter": {
+    "sourceFile": "10-15__archbishop_alter.webp",
+    "slug": "alter"
   },
   "Indian Lake": {
     "sourceFile": "Adding_10.6__indianlake.png",
@@ -2419,6 +2507,10 @@
     "sourceFile": "10-15__ross.png",
     "slug": "ross"
   },
+  "McNicholas": {
+    "sourceFile": "10.6g__mcnicholas.png",
+    "slug": "mcnicholas"
+  },
   "Monroe": {
     "sourceFile": "10-15__monroe.png",
     "slug": "monroe"
@@ -2463,6 +2555,10 @@
     "sourceFile": "10-15__blanchester.png",
     "slug": "blanchester"
   },
+  "Cin. Coll. Prep. Academy": {
+    "sourceFile": "Adding_10.6__cincinnati_college_prep_CCPA.jpg",
+    "slug": "cin-coll-prep-academy"
+  },
   "Gamble Montessori": {
     "sourceFile": "10-19__gamble_montessori.jpg",
     "slug": "gamble-montessori"
@@ -2474,6 +2570,10 @@
   "Lockland": {
     "sourceFile": "10-19__lockland.png",
     "slug": "lockland"
+  },
+  "Mt. Healthy": {
+    "sourceFile": "10-15__mount_healthy.png",
+    "slug": "mt-healthy"
   },
   "New Miami": {
     "sourceFile": "10-19__new_miami.png",
@@ -2495,6 +2595,14 @@
     "sourceFile": "10-19__hughes.png",
     "slug": "hughes"
   },
+  "Cin. Northwest": {
+    "sourceFile": "10-15__northwest_cin.png",
+    "slug": "cin-northwest"
+  },
+  "Fenwick": {
+    "sourceFile": "10-9__fenwick.png",
+    "slug": "fenwick"
+  },
   "Wyoming": {
     "sourceFile": "wyoming.png",
     "slug": "wyoming"
@@ -2502,6 +2610,10 @@
   "Mariemont": {
     "sourceFile": "Adding_10.6__mariemont.jpg",
     "slug": "mariemont"
+  },
+  "Cin. CHCA": {
+    "sourceFile": "Adding_10.6__chca_Cincinnati_hills_christian.jpg",
+    "slug": "cin-chca"
   },
   "Taylor": {
     "sourceFile": "10-15__taylor.webp",
@@ -2530,6 +2642,10 @@
   "Purcell Marian": {
     "sourceFile": "10-19__purcell_marian.png",
     "slug": "purcell-marian"
+  },
+  "Sum. Co. Day": {
+    "sourceFile": "Adding_10.6__summitcoday.jpg",
+    "slug": "sum-co-day"
   },
   "Williamsburg": {
     "sourceFile": "10-15__williamsburg.png",
@@ -2567,6 +2683,10 @@
     "sourceFile": "10-19__middletwon_christian.png",
     "slug": "mid-christian"
   },
+  "Cin. Christian": {
+    "sourceFile": "10.6g__cincinnati_christian.jpg",
+    "slug": "cin-christian"
+  },
   "Cin. Co. Day": {
     "sourceFile": "cincinnati_country_day.jpg",
     "slug": "cin-co-day"
@@ -2594,6 +2714,10 @@
   "Cin. Spencer Center": {
     "sourceFile": "10-19__cincinnati_spencer_center.png",
     "slug": "cin-spencer-center"
+  },
+  "DePaul Cristo Rey": {
+    "sourceFile": "10.6g__depaul_cristo_rey.jpg",
+    "slug": "depaul-cristo-rey"
   },
   "Finneytown": {
     "sourceFile": "10-15__finneytown.png",
@@ -2842,6 +2966,10 @@
   "St. Ignatius": {
     "sourceFile": "st._ignatius.png",
     "slug": "st-ignatius"
+  },
+  "St. Edward": {
+    "sourceFile": "10-15__st._edwards.png",
+    "slug": "st-edward"
   },
   "Stow-Munroe Falls": {
     "sourceFile": "stow-munroe_falls.png",

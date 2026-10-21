@@ -147,10 +147,31 @@ for (const u of districtFieldReport.unmatchedEntries) {
 // originally flagged this way, turned out to be a division mismatch,
 // not a missing school -- already fixed by moving it from D3 to D2, so
 // it is NOT in this list.)
+// Deduped 2026-10-21 (user audit): several names here turned out to be
+// the SAME school as either (a) a real roster team we already have (no
+// "entered, no roster" treatment needed -- it was already being scored
+// normally the whole time; the footer line was just a confusing,
+// purely-cosmetic duplicate with zero effect on scoring/qualification)
+// or (b) the same school counted twice between this list and
+// districtFieldReport.unmatchedEntries under a different spelling.
+// Removed: North (Akron) [= real roster team "Ak. North", Boys D2/GO],
+// Cle. Central Cath [= real roster team "Cle. Cent. Cath.", Girls D3/LCCC,
+// 0 runners -- still incomplete either way], VASJ [= real roster team
+// "Cle. VASJ", Girls D3/MAD, 1 runner -- still incomplete either way],
+// Richmond Hts [= real roster team "Richmond Hts.", Boys D4/MAD, 5
+// runners, COMPLETE -- was already being scored under its real-roster
+// spelling the whole time], Acad. Urban Scholars [same school, same site
+// (GO) as districtFieldReport's "Acad. For Urban Scholars" -- kept that
+// spelling instead, matches the real logo file's own naming], Maple Hts
+// [same school/site (LCCC) as districtFieldReport's "Maple Hts." --
+// kept that spelling]. Verified via chain diff: zero rank/score/cut-line
+// changes anywhere (expected -- these were purely duplicate/cosmetic
+// footer lines, never a second team entry competing for a qualifying
+// slot).
 const EXTRA_NO_ROSTER_BY_SITE = {
-  GO: ["Theodore Roosevelt", "North (Akron)", "Acad. Urban Scholars", "St. Vincent St. Mary", "Sebring McKinley", "Southern Local"],
-  LCCC: ["John Hay", "Maple Hts", "Cle. Central Cath", "Clearview", "East Tech"],
-  MAD: ["Bedford", "Lakeside", "Max Hayes", "Harvey", "VASJ", "Warrensville", "Richmond Hts"]
+  GO: ["Theodore Roosevelt", "St. Vincent St. Mary", "Sebring McKinley", "Southern Local"],
+  LCCC: ["John Hay", "Clearview", "East Tech"],
+  MAD: ["Bedford", "Lakeside", "Max Hayes", "Harvey"]
 };
 for (const [site, names] of Object.entries(EXTRA_NO_ROSTER_BY_SITE)) {
   if (!noRosterBySite.has(site)) noRosterBySite.set(site, []);
