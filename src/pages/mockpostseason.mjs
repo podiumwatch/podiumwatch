@@ -113,63 +113,97 @@ function logoHtml(name) {
   return `<span class="mp-logo" aria-hidden="true">${escapeHtml(initials(name))}</span>`;
 }
 
-// Bicarb sponsor placements (Round 5, 2026-10-21): one shared component
-// (bar / card / footer) reused everywhere per the user's spec -- same
-// link, same code, same FTC disclosure line. data-copy-code is wired by
-// BICARB_SCRIPT (appended to every page that renders a placement) rather
-// than per-placement inline handlers, so there's exactly one click
-// listener per page regardless of how many placements it has.
+// Bicarb ad units (Round 6, 2026-10-21, per BICARB_ADS_BRIEF.md): replaces
+// the earlier simple bar/card/footer component entirely. Every unit is the
+// same link + alt text + disclosure; only size/placement differ. Assets
+// are pre-sized retina PNGs (2x, mobile ones 3x) copied once into
+// public/images/sponsors/bicarb/ -- displayed at their CSS size via width/
+// height attributes so the browser never has to guess or reflow. Halfpage
+// 300x600 is deliberately not built: this site has no 2-column layout for
+// a sticky sidebar to live in, and the user chose "skip, no layout
+// restructure" over adding one.
 const BICARB_URL = "https://bicarb.shop/?ref=podiumwatch";
-const BICARB_CODE = "PODIUMWATCH";
-const BICARB_LOGO = "/images/mock-postseason-logos/bicarb.png";
-const BICARB_DISCLOSURE = `<span class="mp-sponsor-disclosure">Affiliate link &middot; Podium Watch may earn a commission</span>`;
-function bicarbCodeButtonHtml(label) {
-  return `<button type="button" class="mp-copycode" data-copy-code="${BICARB_CODE}">${escapeHtml(label)}</button>`;
+const BICARB_ALT = "Bicarb race-day fuel. Use code PODIUMWATCH. Affiliate ad.";
+const BICARB_IMG_BASE = "/images/sponsors/bicarb";
+const BICARB_DISCLOSURE = `<span class="mp-sponsor-disclosure">AFFILIATE &middot; AD</span>`;
+// unit/position feed data-bicarb-unit / data-bicarb-position for the
+// shared click tracker (BICARB_SCRIPT) to read off the clicked link itself
+// -- no per-call-site JS needed.
+function bicarbLinkOpen(unit, position, extraClass, lazy) {
+  return `<a class="mp-bicarb-link${extraClass ? ` ${extraClass}` : ""}" href="${BICARB_URL}" target="_blank" rel="sponsored noopener" data-bicarb-unit="${unit}" data-bicarb-position="${position}">`;
 }
-function bicarbBarHtml() {
-  return `<div class="mp-sponsorbar">
-    <img src="${BICARB_LOGO}" alt="Bicarb" class="mp-sponsorbar-logo" loading="lazy">
-    <span class="mp-sponsorbar-text">${bicarbCodeButtonHtml("Use code PODIUMWATCH")} at Bicarb</span>
-    <a class="mp-sponsorbar-cta" href="${BICARB_URL}" target="_blank" rel="sponsored noopener noreferrer">Shop Bicarb</a>
+function bicarbBillboardHtml() {
+  // Hub page only, >=1000px, under the sticky tab block.
+  return `<div class="mp-bicarb-billboard">
+    ${bicarbLinkOpen("billboard", "hub-header")}<img src="${BICARB_IMG_BASE}/bicarb-billboard-970x250.png" alt="${BICARB_ALT}" width="970" height="250"></a>
     ${BICARB_DISCLOSURE}
   </div>`;
 }
-function bicarbCardHtml() {
-  return `<div class="mp-sponsorcard">
-    <img src="${BICARB_LOGO}" alt="Bicarb" class="mp-sponsorcard-logo" loading="lazy">
-    <div class="mp-sponsorcard-body">
-      <p class="mp-sponsorcard-title">Shop Bicarb</p>
-      <p class="mp-sponsorcard-code">${bicarbCodeButtonHtml("Use code PODIUMWATCH")}</p>
-    </div>
-    <a class="mp-sponsorcard-cta" href="${BICARB_URL}" target="_blank" rel="sponsored noopener noreferrer">Shop Bicarb &rarr;</a>
+// <picture> swaps the file by viewport width -- a phone never downloads
+// the desktop leaderboard PNG and vice versa. Top of every district,
+// regional and state page.
+function bicarbLeaderboardHtml(position) {
+  return `<div class="mp-bicarb-leaderboard">
+    ${bicarbLinkOpen("leaderboard_or_mobile-banner", position)}<picture>
+      <source media="(min-width: 760px)" srcset="${BICARB_IMG_BASE}/bicarb-leaderboard-728x90.png">
+      <img src="${BICARB_IMG_BASE}/bicarb-mobile-banner-320x100.png" alt="${BICARB_ALT}" width="320" height="100">
+    </picture></a>
     ${BICARB_DISCLOSURE}
   </div>`;
 }
-function bicarbFooterHtml() {
-  return `<div class="mp-sponsorfooter">
-    <img src="${BICARB_LOGO}" alt="Bicarb" class="mp-sponsorfooter-logo" loading="lazy">
-    <span class="mp-sponsorfooter-text">${bicarbCodeButtonHtml("Use code PODIUMWATCH")} at <a href="${BICARB_URL}" target="_blank" rel="sponsored noopener noreferrer">Bicarb</a></span>
+// Between races/sections. Never between a team list and its cut line --
+// every call site places this after the full team table (and, on
+// regionals/state, before the individual list), never mid-list.
+function bicarbInfeedHtml(position) {
+  return `<div class="mp-bicarb-infeed">
+    ${bicarbLinkOpen("infeed", position)}<img src="${BICARB_IMG_BASE}/bicarb-infeed-640x200.png" alt="${BICARB_ALT}" width="640" height="200" loading="lazy"></a>
     ${BICARB_DISCLOSURE}
   </div>`;
 }
-// Appended once per page (never twice) -- handles every [data-copy-code]
-// button on that page, however many placements it has.
+// Bottom of each page. variant: "light" | "dark".
+function bicarbRectangleHtml(position, variant) {
+  const file = variant === "dark" ? "bicarb-rectangle-dark-300x250.png" : "bicarb-rectangle-300x250.png";
+  return `<div class="mp-bicarb-rectangle">
+    ${bicarbLinkOpen("rectangle", position)}<img src="${BICARB_IMG_BASE}/${file}" alt="${BICARB_ALT}" width="300" height="250" loading="lazy"></a>
+    ${BICARB_DISCLOSURE}
+  </div>`;
+}
+// Phone-only pinned bottom bar. Dismiss is sessionStorage-backed (stays
+// closed for the rest of this browser session, per the brief) and adds
+// bottom padding to <body> while visible so it never covers the cut line
+// or a row's text -- removed the instant it's dismissed.
+function bicarbMobileStickyHtml() {
+  return `<div class="mp-bicarb-sticky" id="mp-bicarb-sticky">
+    ${bicarbLinkOpen("mobile-sticky", "pinned-bottom")}<img src="${BICARB_IMG_BASE}/bicarb-mobile-sticky-320x50.png" alt="${BICARB_ALT}" width="320" height="50" loading="lazy"></a>
+    <button type="button" class="mp-bicarb-sticky-close" aria-label="Close">&times;</button>
+  </div>`;
+}
+// Appended once per page. Delegated click tracking for every unit
+// (gtag event bicarb_click) plus the mobile-sticky show/dismiss logic.
 const BICARB_SCRIPT = `<script>
-document.querySelectorAll('[data-copy-code]').forEach(function(btn){
-  var original = btn.textContent;
-  btn.addEventListener('click', function(){
-    var code = btn.dataset.copyCode;
-    var done = function(){
-      btn.textContent = 'Copied';
-      setTimeout(function(){ btn.textContent = original; }, 2000);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).then(done).catch(done);
-    } else {
-      done();
-    }
+(function(){
+  document.querySelectorAll('.mp-bicarb-link').forEach(function(a){
+    a.addEventListener('click', function(){
+      if (window.gtag) gtag('event', 'bicarb_click', { page: location.pathname, unit: a.dataset.bicarbUnit, position: a.dataset.bicarbPosition });
+    });
   });
-});
+  var sticky = document.getElementById('mp-bicarb-sticky');
+  if (sticky) {
+    var KEY = 'mp_bicarb_sticky_dismissed';
+    var dismissed = false;
+    try { dismissed = sessionStorage.getItem(KEY) === '1'; } catch (e) {}
+    if (dismissed) {
+      sticky.remove();
+    } else {
+      document.body.classList.add('mp-has-bicarb-sticky');
+      sticky.querySelector('.mp-bicarb-sticky-close').addEventListener('click', function(){
+        sticky.remove();
+        document.body.classList.remove('mp-has-bicarb-sticky');
+        try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+      });
+    }
+  }
+})();
 </script>`;
 
 function genderAccentVar(gender) {
@@ -316,26 +350,33 @@ const SHARED_STYLE = `<style>
   .mp-regionalcard[open] summary { border-bottom: 1px solid var(--line); }
   .mp-regionalcard-body { padding: 4px 14px 14px; }
 
-  /* Bicarb sponsor placements -- one line at 375px, 44px tall; inline
-     card capped at 120px tall so it never pushes results down. */
-  .mp-sponsorbar { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 14px; background: var(--paper); border-bottom: 1px solid var(--line); flex-wrap: nowrap; overflow: hidden; }
-  .mp-sponsorbar-logo { height: 22px; width: auto; flex: 0 0 auto; }
-  .mp-sponsorbar-text { font-size: .74rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 auto; min-width: 0; }
-  .mp-sponsorbar-cta { flex: 0 0 auto; font-size: .74rem; font-weight: 800; padding: 6px 10px; border-radius: 6px; background: var(--ink); color: var(--white); min-height: 32px; display: inline-flex; align-items: center; }
-  .mp-sponsorbar .mp-sponsor-disclosure { display: none; }
-  .mp-sponsorcard { display: flex; align-items: center; gap: 10px; max-height: 120px; padding: 10px 14px; margin: 10px 0; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); flex-wrap: wrap; }
-  .mp-sponsorcard-logo { height: 36px; width: auto; flex: 0 0 auto; }
-  .mp-sponsorcard-body { flex: 1 1 auto; min-width: 0; }
-  .mp-sponsorcard-title { margin: 0; font-weight: 800; font-size: .88rem; }
-  .mp-sponsorcard-code { margin: 2px 0 0; font-size: .78rem; color: var(--muted); }
-  .mp-sponsorcard-cta { flex: 0 0 auto; font-size: .8rem; font-weight: 800; padding: 8px 12px; border-radius: 6px; background: var(--ink); color: var(--white); min-height: 36px; display: inline-flex; align-items: center; }
-  .mp-sponsorcard .mp-sponsor-disclosure { flex-basis: 100%; }
-  .mp-sponsorfooter { display: flex; align-items: center; gap: 8px; padding: 14px; border-top: 1px solid var(--line); flex-wrap: wrap; }
-  .mp-sponsorfooter-logo { height: 24px; width: auto; }
-  .mp-sponsorfooter-text { font-size: .78rem; color: var(--muted); }
-  .mp-sponsorfooter-text a { color: var(--ink); font-weight: 700; }
-  .mp-sponsor-disclosure { font-size: .66rem; color: var(--muted); font-style: italic; }
-  .mp-copycode { font: inherit; font-weight: 800; color: var(--ink); background: var(--white); border: 1px solid var(--line); border-radius: 4px; padding: 2px 6px; cursor: pointer; min-height: 28px; }
+  /* Bicarb ad units -- each wrapper centers its image at the image's own
+     intrinsic size (max-width:100% lets it shrink on narrow screens) and
+     carries the AFFILIATE · AD disclosure directly beneath it. */
+  .mp-bicarb-billboard, .mp-bicarb-leaderboard, .mp-bicarb-infeed, .mp-bicarb-rectangle { text-align: center; margin: 14px 0; }
+  .mp-bicarb-link { display: inline-block; line-height: 0; }
+  .mp-bicarb-link img { max-width: 100%; height: auto; }
+  .mp-bicarb-billboard { display: none; }
+  @media (min-width: 1000px) { .mp-bicarb-billboard { display: block; } }
+  .mp-bicarb-leaderboard img { max-width: 480px; }
+  @media (min-width: 760px) { .mp-bicarb-leaderboard img { max-width: 100%; } }
+  .mp-bicarb-infeed img, .mp-bicarb-rectangle img { max-width: 100%; }
+  .mp-sponsor-disclosure { display: block; margin-top: 4px; font-size: .62rem; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
+  /* Mobile sticky bar: pinned bottom, phone only, closable, never covers
+     the bottom tab bar or a row's text -- mp-has-bicarb-sticky adds body
+     padding exactly while it's visible. */
+  .mp-bicarb-sticky { display: none; }
+  @media (max-width: 759px) {
+    /* The site's own .mobile-dock (bottom tab bar: Home/Results/Meets/...)
+       is fixed at bottom:0 with z-index:120 and ~64px tall -- stack this
+       bar ABOVE it (bottom: 64px + safe-area, not bottom:0) so neither
+       covers the other and the dock's own links stay clickable. */
+    .mp-bicarb-sticky { position: fixed; left: 0; right: 0; bottom: calc(64px + env(safe-area-inset-bottom)); z-index: 30; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; background: var(--paper); border-top: 1px solid var(--line); padding: 0 8px; }
+    .mp-bicarb-sticky .mp-bicarb-link { flex: 1 1 auto; max-width: 320px; }
+    .mp-bicarb-sticky img { width: 100%; height: auto; display: block; }
+    .mp-bicarb-sticky-close { flex: 0 0 auto; width: 32px; height: 32px; min-width: 32px; border: none; background: transparent; font-size: 1.2rem; line-height: 1; cursor: pointer; color: var(--muted); }
+    body.mp-has-bicarb-sticky { padding-bottom: calc(50px + 64px + env(safe-area-inset-bottom)); }
+  }
 </style>`;
 
 function compactHero({ eyebrow, title, description }) {
@@ -681,21 +722,32 @@ function raceSectionHtml(race, idx) {
       ? (r) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, r.name, r.school), hash: `${genderLower}_D${divNum}_${regionKey}` }), label: regionalSiteName || "Regionals" })
       : null;
     body = `${teamRowsHtml(race.scoredTeams, race.teamsAdvance, race.qualifiers, accent, genderLower, divNum, crossLinkFor)}
-      ${idx === 0 ? bicarbCardHtml() : ""}
       <p class="mp-h3">Top 32 (combined, includes individual qualifiers)</p>
       ${runnerRowsHtml(finishOrder, 32, null, indCrossLinkFor, genderLower, divNum)}
       ${enteredNoDataHtml(race.enteredNoProjectionData)}`;
   }
+  // In-feed unit after every 2nd race (races 2, 4, 6, 8, 10 -- idx is
+  // 0-based, so odd idx). Only one race panel is ever visible at a time
+  // here (chip-toggled, not a scrolling list), so the unit lives inside
+  // that race's own panel -- it shows up "between races" exactly when the
+  // reader is on an even-numbered one. Always after the full results
+  // (Top 32 / enteredNoData), never between a team list and its cut line.
+  const infeed = idx % 2 === 1 ? bicarbInfeedHtml(`district-race-${idx + 1}`) : "";
   return `<div class="mp-section mp-racepanel" data-race-idx="${idx}" style="--row-accent:${accent}" ${idx > 0 ? "hidden" : ""}>
     <h2 style="color:${accent}">${title}</h2>
     <p class="mp-meta">${escapeHtml((race.startTime || "").replace(/\s*(AM|PM)$/i, ""))}${race.teamsAdvance != null ? ` &middot; top ${race.teamsAdvance} teams + ${race.individualsAdvance} individuals advance` : ""}</p>
     ${body}
+    ${infeed}
   </div>`;
 }
 
 export function mockPostseasonDistrictSitePage(site, siteKey) {
   const siteData = data.districtsBySite[siteKey];
   if (!siteData) return null;
+  // Rectangle alternates light/dark by this site's position in the
+  // district list (section 2 of the Bicarb ads brief).
+  const siteIndex = Object.keys(data.districtsBySite).indexOf(siteKey);
+  const rectangleVariant = siteIndex % 2 === 0 ? "light" : "dark";
   const pathname = `/mock-postseason/districts/${siteKey.toLowerCase()}/`;
   const title = `${siteData.name} (review build)`;
   const chips = siteData.races.map((r, i) => {
@@ -716,9 +768,11 @@ export function mockPostseasonDistrictSitePage(site, siteKey) {
   </div>
   <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">${initialBreadcrumb}</nav>
   <section class="section section-paper mp-pagesection"><div class="container">
+    ${bicarbLeaderboardHtml("district-top")}
     ${siteData.races.map(raceSectionHtml).join("")}
+    ${bicarbRectangleHtml("district-bottom", rectangleVariant)}
   </div></section>
-  ${bicarbFooterHtml()}
+  ${bicarbMobileStickyHtml()}
   ${BICARB_SCRIPT}
   <script>
   var siteName = ${JSON.stringify(siteData.name)};
@@ -773,7 +827,7 @@ function districtsHubTabHtml() {
 // Northeast pending) shows the incomplete banner ABOVE this same
 // projected summary, not instead of it -- Pickerington and Boardman
 // still have a real, if partial, field worth seeing.
-function regionalSummaryCard(key, r, isFirst) {
+function regionalSummaryCard(key, r) {
   const accent = genderAccentVar(r.gender);
   const genderLower = r.gender.toLowerCase();
   const divNum = divisionNum(r.division);
@@ -816,14 +870,15 @@ function regionalSummaryCard(key, r, isFirst) {
     <div class="mp-regionalcard-body">
       <p class="mp-h3">State qualifiers</p>
       ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }), label: "State" }))}
+      ${bicarbInfeedHtml(`regional-${key}`)}
       <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }), label: "State" }), genderLower, divNum)}</details>
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
     </div>
-  </details>${isFirst ? bicarbCardHtml() : ""}`;
+  </details>`;
 }
 
 function regionalsTabHtml() {
-  const sections = Object.entries(data.regionalResults).map(([key, r], i) => regionalSummaryCard(key, r, i === 0)).join("");
+  const sections = Object.entries(data.regionalResults).map(([key, r]) => regionalSummaryCard(key, r)).join("");
   const underReviewHtml = Object.entries(data.underReviewByCategory || {}).map(([cat, schools]) => {
     const [genderLower, div] = cat.split("_");
     return `<p><strong>${GENDER_LABEL[genderLower]} ${div}:</strong> ${schools.map((s) => schoolDisplay(s)).join(", ")}</p>`;
@@ -831,10 +886,10 @@ function regionalsTabHtml() {
   const underReview = Object.keys(data.underReviewByCategory || {}).length
     ? `<div class="mp-under-review"><h2>Under review: region not confirmed</h2><p class="mp-meta">These schools have no confirmed regional assignment and are not scored or counted against any cut line.</p>${underReviewHtml}</div>`
     : "";
-  return sections + underReview;
+  return `${bicarbLeaderboardHtml("regionals-top")}${sections}${underReview}${bicarbRectangleHtml("regionals-bottom", "light")}`;
 }
 
-function stateSectionHtml(key, s, isFirst) {
+function stateSectionHtml(key, s) {
   const [genderLower, div] = key.split("_");
   const accent = genderAccentVar(genderLower);
   const divNum = divisionNum(div);
@@ -851,13 +906,14 @@ function stateSectionHtml(key, s, isFirst) {
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
-    ${isFirst ? bicarbCardHtml() : ""}
+    ${bicarbInfeedHtml(`state-${key}`)}
     ${individualTop40.length ? `<p class="mp-h3">Projected individual top ${individualTop40.length}</p>${runnerRowsHtml(individualTop40, null, Math.min(25, individualTop40.length), null, genderLower, divNum)}` : ""}
   </div>`;
 }
 
 function stateTabHtml() {
-  return Object.entries(data.stateResults).map(([key, s], i) => stateSectionHtml(key, s, i === 0)).join("");
+  const sections = Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s)).join("");
+  return `${bicarbLeaderboardHtml("state-top")}${sections}${bicarbRectangleHtml("state-bottom", "dark")}`;
 }
 
 export function mockPostseasonHubPage(site) {
@@ -878,7 +934,7 @@ export function mockPostseasonHubPage(site) {
     </div>
     <div class="mp-filterrow">${filterChips}</div>
   </div>
-  ${bicarbBarHtml()}
+  ${bicarbBillboardHtml()}
   <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">Districts</nav>
   <section class="section section-paper mp-pagesection"><div class="container">
     <div class="mp-tabpanel" id="districts-panel" data-tab="districts">
@@ -891,7 +947,7 @@ export function mockPostseasonHubPage(site) {
     <div class="mp-tabpanel" id="regionals-panel" data-tab="regionals" hidden>${regionalsTabHtml()}</div>
     <div class="mp-tabpanel" id="state-panel" data-tab="state" hidden>${stateTabHtml()}</div>
   </div></section>
-  ${bicarbFooterHtml()}
+  ${bicarbMobileStickyHtml()}
   <button type="button" class="mp-totop" aria-label="Back to top">&uarr;</button>
   ${HUB_SCRIPT}
   ${BICARB_SCRIPT}
