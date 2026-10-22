@@ -11667,272 +11667,3138 @@
       "divisions": {
         "boys": {
           "1": [
-            { "rank": 1, "school": "Springboro", "points": 240, "first_place_votes": 12 },
-            { "rank": 2, "school": "Mentor", "points": 225, "first_place_votes": null },
-            { "rank": 3, "school": "Mason", "points": 216, "first_place_votes": null },
-            { "rank": 4, "school": "Olentangy Berlin", "points": 193, "first_place_votes": null },
-            { "rank": 5, "school": "St Xavier", "points": 186, "first_place_votes": null },
-            { "rank": 6, "school": "Gahanna Lincoln", "points": 182, "first_place_votes": null },
-            { "rank": 7, "school": "Beavercreek", "points": 163, "first_place_votes": null },
-            { "rank": 8, "school": "Westerville North", "points": 142, "first_place_votes": null },
-            { "rank": 9, "school": "Dublin Jerome", "points": 129, "first_place_votes": null },
-            { "rank": 10, "school": "Thomas Worthington", "points": 122, "first_place_votes": null },
-            { "rank": 11, "school": "Lebanon", "points": 103, "first_place_votes": null },
-            { "rank": 12, "school": "Milford", "points": 89, "first_place_votes": null },
-            { "rank": 13, "school": "Sycamore", "points": 70, "first_place_votes": null },
-            { "rank": 14, "school": "Little Miami", "points": 69, "first_place_votes": null },
-            { "rank": 15, "school": "New Albany", "points": 56, "first_place_votes": null },
-            { "rank": 16, "school": "Dublin Coffman", "points": 55, "first_place_votes": null },
-            { "rank": 17, "school": "Mass. Jackson", "points": 54, "first_place_votes": null },
-            { "rank": 18, "school": "Olentangy Orange", "points": 47, "first_place_votes": null },
-            { "rank": 19, "school": "Olentangy Liberty", "points": 41, "first_place_votes": null },
-            { "rank": 20, "school": "Northmont", "points": 31, "first_place_votes": null },
-            { "rank": 21, "school": "Medina", "points": 30, "first_place_votes": null },
-            { "rank": 22, "school": "Perrysburg", "points": 27, "first_place_votes": null },
-            { "rank": 23, "school": "Solon", "points": 26, "first_place_votes": null },
-            { "rank": 24, "school": "Kings", "points": 15, "first_place_votes": null },
-            { "rank": 25, "school": "Lakota West", "points": 5, "first_place_votes": null },
-            { "rank": 26, "school": "Stow-Munroe Falls", "points": 4, "first_place_votes": null },
-            { "rank": 27, "school": "Westerville Central", "points": 3, "first_place_votes": null },
-            { "rank": 28, "school": "Pickerington North", "points": 2, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Springboro",
+              "points": 240,
+              "first_place_votes": 12
+            },
+            {
+              "rank": 2,
+              "school": "Mentor",
+              "points": 225,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "Mason",
+              "points": 216,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Olentangy Berlin",
+              "points": 193,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "St Xavier",
+              "points": 186,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Gahanna Lincoln",
+              "points": 182,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Beavercreek",
+              "points": 163,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Westerville North",
+              "points": 142,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Dublin Jerome",
+              "points": 129,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Thomas Worthington",
+              "points": 122,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Lebanon",
+              "points": 103,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Milford",
+              "points": 89,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Sycamore",
+              "points": 70,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Little Miami",
+              "points": 69,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "New Albany",
+              "points": 56,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Dublin Coffman",
+              "points": 55,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Mass. Jackson",
+              "points": 54,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Olentangy Orange",
+              "points": 47,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Olentangy Liberty",
+              "points": 41,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Northmont",
+              "points": 31,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Medina",
+              "points": 30,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Perrysburg",
+              "points": 27,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Solon",
+              "points": 26,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Kings",
+              "points": 15,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Lakota West",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Stow-Munroe Falls",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Westerville Central",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Pickerington North",
+              "points": 2,
+              "first_place_votes": null
+            }
           ],
           "2": [
-            { "rank": 1, "school": "Uniontown Lake", "points": 285, "first_place_votes": 10 },
-            { "rank": 2, "school": "Tol. St Francis", "points": 274, "first_place_votes": 1 },
-            { "rank": 3, "school": "Hoover", "points": 258, "first_place_votes": null },
-            { "rank": 4, "school": "CVCA", "points": 232, "first_place_votes": null },
-            { "rank": 5, "school": "Lexington", "points": 221, "first_place_votes": null },
-            { "rank": 6, "school": "Bowling Green", "points": 216, "first_place_votes": null },
-            { "rank": 7, "school": "Big Walnut", "points": 206, "first_place_votes": 1 },
-            { "rank": 8, "school": "Unioto", "points": 189, "first_place_votes": null },
-            { "rank": 9, "school": "Shaker Heights", "points": 188, "first_place_votes": null },
-            { "rank": 10, "school": "Loveland", "points": 177, "first_place_votes": null },
-            { "rank": 11, "school": "Kenston", "points": 164, "first_place_votes": null },
-            { "rank": 12, "school": "Watterson", "points": 148, "first_place_votes": null },
-            { "rank": 13, "school": "Hudson", "points": 146, "first_place_votes": null },
-            { "rank": 14, "school": "Turpin", "points": 112, "first_place_votes": null },
-            { "rank": 15, "school": "Mass. Perry", "points": 93, "first_place_votes": null },
-            { "rank": 16, "school": "Granville", "points": 92, "first_place_votes": null },
-            { "rank": 17, "school": "Revere", "points": 81, "first_place_votes": null },
-            { "rank": 18, "school": "Cloverleaf", "points": 78, "first_place_votes": null },
-            { "rank": 19, "school": "Salem", "points": 69, "first_place_votes": null },
-            { "rank": 20, "school": "Wadsworth", "points": 62, "first_place_votes": null },
-            { "rank": 21, "school": "Dublin Scioto", "points": 60, "first_place_votes": null },
-            { "rank": 22, "school": "Nordonia", "points": 58, "first_place_votes": null },
-            { "rank": 23, "school": "Med. Highland", "points": 45, "first_place_votes": null },
-            { "rank": 24, "school": "Syl. Northview", "points": 38, "first_place_votes": null },
-            { "rank": 25, "school": "Rocky River", "points": 37, "first_place_votes": null },
-            { "rank": 26, "school": "DeSales", "points": 22, "first_place_votes": null },
-            { "rank": 27, "school": "Defiance", "points": 19, "first_place_votes": null },
-            { "rank": 28, "school": "Buckeye", "points": 10, "first_place_votes": null },
-            { "rank": 29, "school": "Carroll", "points": 9, "first_place_votes": null },
-            { "rank": 30, "school": "Westlake", "points": 7, "first_place_votes": null },
-            { "rank": 31, "school": "Bellbrook", "points": 3, "first_place_votes": null },
-            { "rank": 32, "school": "Boardman", "points": 2, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Uniontown Lake",
+              "points": 285,
+              "first_place_votes": 10
+            },
+            {
+              "rank": 2,
+              "school": "Tol. St Francis",
+              "points": 274,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 3,
+              "school": "Hoover",
+              "points": 258,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "CVCA",
+              "points": 232,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Lexington",
+              "points": 221,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Bowling Green",
+              "points": 216,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Big Walnut",
+              "points": 206,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 8,
+              "school": "Unioto",
+              "points": 189,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Shaker Heights",
+              "points": 188,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Loveland",
+              "points": 177,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Kenston",
+              "points": 164,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Watterson",
+              "points": 148,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Hudson",
+              "points": 146,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Turpin",
+              "points": 112,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Mass. Perry",
+              "points": 93,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Granville",
+              "points": 92,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Revere",
+              "points": 81,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Cloverleaf",
+              "points": 78,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Salem",
+              "points": 69,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Wadsworth",
+              "points": 62,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Dublin Scioto",
+              "points": 60,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Nordonia",
+              "points": 58,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Med. Highland",
+              "points": 45,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Syl. Northview",
+              "points": 38,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Rocky River",
+              "points": 37,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "DeSales",
+              "points": 22,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Defiance",
+              "points": 19,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Buckeye",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Carroll",
+              "points": 9,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Westlake",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Bellbrook",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Boardman",
+              "points": 2,
+              "first_place_votes": null
+            }
           ],
           "3": [
-            { "rank": 1, "school": "Woodridge", "points": 288, "first_place_votes": 12 },
-            { "rank": 2, "school": "Versailles", "points": 265, "first_place_votes": null },
-            { "rank": 3, "school": "West Liberty", "points": 263, "first_place_votes": null },
-            { "rank": 4, "school": "Fairless", "points": 250, "first_place_votes": null },
-            { "rank": 5, "school": "Chagrin Falls", "points": 247, "first_place_votes": null },
-            { "rank": 6, "school": "Van Wert", "points": 221, "first_place_votes": null },
-            { "rank": 7, "school": "Fairfield Union", "points": 207, "first_place_votes": null },
-            { "rank": 8, "school": "Bryan", "points": 205, "first_place_votes": null },
-            { "rank": 9, "school": "Berkshire", "points": 184, "first_place_votes": null },
-            { "rank": 10, "school": "Oakwood", "points": 177, "first_place_votes": null },
-            { "rank": 11, "school": "Minerva", "points": 162, "first_place_votes": null },
-            { "rank": 12, "school": "Waynesville", "points": 148, "first_place_votes": null },
-            { "rank": 13, "school": "Madeira", "points": 127, "first_place_votes": null },
-            { "rank": 14, "school": "Marlington", "points": 121, "first_place_votes": null },
-            { "rank": 15, "school": "Elmwood", "points": 118, "first_place_votes": null },
-            { "rank": 16, "school": "Upper Sandusky", "points": 101, "first_place_votes": null },
-            { "rank": 17, "school": "Margaretta", "points": 89, "first_place_votes": null },
-            { "rank": 18, "school": "Archbold", "points": 85, "first_place_votes": null },
-            { "rank": 19, "school": "CF Northwest", "points": 83, "first_place_votes": null },
-            { "rank": 20, "school": "Norwayne", "points": 49, "first_place_votes": null },
-            { "rank": 21, "school": "Keystone", "points": 41, "first_place_votes": null },
-            { "rank": 22, "school": "Wyoming", "points": 32, "first_place_votes": null },
-            { "rank": 23, "school": "Gilmour Academy", "points": 31, "first_place_votes": null },
-            { "rank": 24, "school": "CHCA", "points": 26, "first_place_votes": null },
-            { "rank": 25, "school": "Tusc. Valley", "points": 23, "first_place_votes": null },
-            { "rank": 26, "school": "Paulding", "points": 12, "first_place_votes": null },
-            { "rank": 27, "school": "Utica", "points": 11, "first_place_votes": null },
-            { "rank": 28, "school": "Triway", "points": 9, "first_place_votes": null },
-            { "rank": 29, "school": "Fredericktown", "points": 8, "first_place_votes": null },
-            { "rank": 30, "school": "Milton Union", "points": 7, "first_place_votes": null },
-            { "rank": 31, "school": "Waynedale", "points": 5, "first_place_votes": null },
-            { "rank": 32, "school": "Akron SVSM", "points": 4, "first_place_votes": null },
-            { "rank": 33, "school": "Liberty-Benton", "points": 3, "first_place_votes": null },
-            { "rank": 34, "school": "Bellaire", "points": 2, "first_place_votes": null },
-            { "rank": 35, "school": "Vinton County", "points": 1, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Woodridge",
+              "points": 288,
+              "first_place_votes": 12
+            },
+            {
+              "rank": 2,
+              "school": "Versailles",
+              "points": 265,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "West Liberty",
+              "points": 263,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Fairless",
+              "points": 250,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Chagrin Falls",
+              "points": 247,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Van Wert",
+              "points": 221,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Fairfield Union",
+              "points": 207,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Bryan",
+              "points": 205,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Berkshire",
+              "points": 184,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Oakwood",
+              "points": 177,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Minerva",
+              "points": 162,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Waynesville",
+              "points": 148,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Madeira",
+              "points": 127,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Marlington",
+              "points": 121,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Elmwood",
+              "points": 118,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Upper Sandusky",
+              "points": 101,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Margaretta",
+              "points": 89,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Archbold",
+              "points": 85,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "CF Northwest",
+              "points": 83,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Norwayne",
+              "points": 49,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Keystone",
+              "points": 41,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Wyoming",
+              "points": 32,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Gilmour Academy",
+              "points": 31,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "CHCA",
+              "points": 26,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Tusc. Valley",
+              "points": 23,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Paulding",
+              "points": 12,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Utica",
+              "points": 11,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Triway",
+              "points": 9,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Fredericktown",
+              "points": 8,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Milton Union",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Waynedale",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Akron SVSM",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Liberty-Benton",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Bellaire",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 35,
+              "school": "Vinton County",
+              "points": 1,
+              "first_place_votes": null
+            }
           ],
           "4": [
-            { "rank": 1, "school": "Mount Gilead", "points": 283, "first_place_votes": 8 },
-            { "rank": 2, "school": "Russia", "points": 271, "first_place_votes": 3 },
-            { "rank": 3, "school": "Convoy Crestview", "points": 252, "first_place_votes": null },
-            { "rank": 4, "school": "Tinora", "points": 247, "first_place_votes": null },
-            { "rank": 5, "school": "Botkins", "points": 246, "first_place_votes": 1 },
-            { "rank": 6, "school": "Maplewood", "points": 237, "first_place_votes": null },
-            { "rank": 7, "school": "Legacy Christian", "points": 224, "first_place_votes": null },
-            { "rank": 8, "school": "Independence", "points": 204, "first_place_votes": null },
-            { "rank": 9, "school": "Cedarville", "points": 192, "first_place_votes": null },
-            { "rank": 10, "school": "Hicksville", "points": 160, "first_place_votes": null },
-            { "rank": 11, "school": "St Henry", "points": 149, "first_place_votes": null },
-            { "rank": 12, "school": "New Bremen", "points": 148, "first_place_votes": null },
-            { "rank": 13, "school": "Columbus Grove", "points": 146, "first_place_votes": null },
-            { "rank": 14, "school": "Lehman Catholic", "points": 124, "first_place_votes": null },
-            { "rank": 15, "school": "Sherwood Fairview", "points": 119, "first_place_votes": null },
-            { "rank": 16, "school": "Minster", "points": 105, "first_place_votes": null },
-            { "rank": 17, "school": "Shenandoah", "points": 87, "first_place_votes": null },
-            { "rank": 18, "school": "South Webster", "points": 75, "first_place_votes": null },
-            { "rank": 19, "school": "Lake Center Christian", "points": 66, "first_place_votes": null },
-            { "rank": 20, "school": "Rittman", "points": 49, "first_place_votes": null },
-            { "rank": 21, "school": "Kidron Central Christian", "points": 45, "first_place_votes": null },
-            { "rank": 22, "school": "New Riegel", "points": 44, "first_place_votes": null },
-            { "rank": 23, "school": "Black River", "points": 33, "first_place_votes": null },
-            { "rank": 24, "school": "Seneca East", "points": 26, "first_place_votes": null },
-            { "rank": 25, "school": "Pettisville", "points": 18, "first_place_votes": null },
-            { "rank": 26, "school": "Tri Village", "points": 16, "first_place_votes": null },
-            { "rank": 27, "school": "Liberty Center", "points": 10, "first_place_votes": null },
-            { "rank": 28, "school": "Open Door Christian", "points": 8, "first_place_votes": null },
-            { "rank": 29, "school": "Badger", "points": 6, "first_place_votes": null },
-            { "rank": 30, "school": "McDonald", "points": 4, "first_place_votes": null },
-            { "rank": 31, "school": "Anna", "points": 2, "first_place_votes": null },
-            { "rank": 32, "school": "Covington", "points": 1, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Mount Gilead",
+              "points": 283,
+              "first_place_votes": 8
+            },
+            {
+              "rank": 2,
+              "school": "Russia",
+              "points": 271,
+              "first_place_votes": 3
+            },
+            {
+              "rank": 3,
+              "school": "Convoy Crestview",
+              "points": 252,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Tinora",
+              "points": 247,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Botkins",
+              "points": 246,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 6,
+              "school": "Maplewood",
+              "points": 237,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Legacy Christian",
+              "points": 224,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Independence",
+              "points": 204,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Cedarville",
+              "points": 192,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Hicksville",
+              "points": 160,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "St Henry",
+              "points": 149,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "New Bremen",
+              "points": 148,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Columbus Grove",
+              "points": 146,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Lehman Catholic",
+              "points": 124,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Sherwood Fairview",
+              "points": 119,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Minster",
+              "points": 105,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Shenandoah",
+              "points": 87,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "South Webster",
+              "points": 75,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Lake Center Christian",
+              "points": 66,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Rittman",
+              "points": 49,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Kidron Central Christian",
+              "points": 45,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "New Riegel",
+              "points": 44,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Black River",
+              "points": 33,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Seneca East",
+              "points": 26,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Pettisville",
+              "points": 18,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Tri Village",
+              "points": 16,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Liberty Center",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Open Door Christian",
+              "points": 8,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Badger",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "McDonald",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Anna",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Covington",
+              "points": 1,
+              "first_place_votes": null
+            }
           ]
         },
         "girls": {
           "1": [
-            { "rank": 1, "school": "Milford", "points": 237, "first_place_votes": 9 },
-            { "rank": 2, "school": "Upper Arlington", "points": 231, "first_place_votes": 3 },
-            { "rank": 3, "school": "Centerville", "points": 205, "first_place_votes": null },
-            { "rank": 4, "school": "Springboro", "points": 197, "first_place_votes": null },
-            { "rank": 5, "school": "Mass. Jackson", "points": 183, "first_place_votes": null },
-            { "rank": 6, "school": "Hilliard Davidson", "points": 179, "first_place_votes": null },
-            { "rank": 7, "school": "Gahanna Lincoln", "points": 169, "first_place_votes": null },
-            { "rank": 8, "school": "Oak Hills", "points": 168, "first_place_votes": null },
-            { "rank": 9, "school": "Perrysburg", "points": 128, "first_place_votes": null },
-            { "rank": 10, "school": "Mason", "points": 127, "first_place_votes": null },
-            { "rank": 11, "school": "Sycamore", "points": 121, "first_place_votes": null },
-            { "rank": 12, "school": "Beavercreek", "points": 112, "first_place_votes": null },
-            { "rank": 13, "school": "Stow-Munroe Falls", "points": 82, "first_place_votes": null },
-            { "rank": 14, "school": "Dublin Jerome", "points": 81, "first_place_votes": null },
-            { "rank": 15, "school": "Lancaster", "points": 71, "first_place_votes": null },
-            { "rank": 16, "school": "Solon", "points": 56, "first_place_votes": null },
-            { "rank": 17, "school": "Mentor", "points": 39, "first_place_votes": null },
-            { "rank": 18, "school": "Olentangy Berlin", "points": 29, "first_place_votes": null },
-            { "rank": 19, "school": "Northmont", "points": 28, "first_place_votes": null },
-            { "rank": 20, "school": "Olentangy Liberty", "points": 22, "first_place_votes": null },
-            { "rank": 21, "school": "Thomas Worthington", "points": 20, "first_place_votes": null },
-            { "rank": 22, "school": "Westerville South", "points": 16, "first_place_votes": null },
-            { "rank": 23, "school": "Marysville", "points": 7, "first_place_votes": null },
-            { "rank": 24, "school": "GlenOak", "points": 6, "first_place_votes": null },
-            { "rank": 25, "school": "Hilliard Darby", "points": 5, "first_place_votes": null },
-            { "rank": 26, "school": "Teays Valley", "points": 4, "first_place_votes": null },
-            { "rank": 27, "school": "Watkins Memorial", "points": 3, "first_place_votes": null },
-            { "rank": 28, "school": "Kings", "points": 2, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Milford",
+              "points": 237,
+              "first_place_votes": 9
+            },
+            {
+              "rank": 2,
+              "school": "Upper Arlington",
+              "points": 231,
+              "first_place_votes": 3
+            },
+            {
+              "rank": 3,
+              "school": "Centerville",
+              "points": 205,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Springboro",
+              "points": 197,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Mass. Jackson",
+              "points": 183,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Hilliard Davidson",
+              "points": 179,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Gahanna Lincoln",
+              "points": 169,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Oak Hills",
+              "points": 168,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Perrysburg",
+              "points": 128,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Mason",
+              "points": 127,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Sycamore",
+              "points": 121,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Beavercreek",
+              "points": 112,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Stow-Munroe Falls",
+              "points": 82,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Dublin Jerome",
+              "points": 81,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Lancaster",
+              "points": 71,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Solon",
+              "points": 56,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Mentor",
+              "points": 39,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Olentangy Berlin",
+              "points": 29,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Northmont",
+              "points": 28,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Olentangy Liberty",
+              "points": 22,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Thomas Worthington",
+              "points": 20,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Westerville South",
+              "points": 16,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Marysville",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "GlenOak",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Hilliard Darby",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Teays Valley",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Watkins Memorial",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Kings",
+              "points": 2,
+              "first_place_votes": null
+            }
           ],
           "2": [
-            { "rank": 1, "school": "Watterson", "points": 286, "first_place_votes": 11 },
-            { "rank": 2, "school": "Avon", "points": 276, "first_place_votes": 1 },
-            { "rank": 3, "school": "Granville", "points": 250, "first_place_votes": null },
-            { "rank": 4, "school": "Canal Winchester", "points": 243, "first_place_votes": null },
-            { "rank": 5, "school": "Aurora", "points": 237, "first_place_votes": null },
-            { "rank": 6, "school": "Fremont Ross", "points": 224, "first_place_votes": null },
-            { "rank": 7, "school": "Big Walnut", "points": 210, "first_place_votes": null },
-            { "rank": 8, "school": "Wadsworth", "points": 196, "first_place_votes": null },
-            { "rank": 9, "school": "Bellbrook", "points": 173, "first_place_votes": null },
-            { "rank": 10, "school": "Syl. Southview", "points": 170, "first_place_votes": null },
-            { "rank": 11, "school": "Shaker Heights", "points": 167, "first_place_votes": null },
-            { "rank": 12, "school": "Hudson", "points": 160, "first_place_votes": null },
-            { "rank": 13, "school": "Bay", "points": 124, "first_place_votes": null },
-            { "rank": 14, "school": "Med. Highland", "points": 118, "first_place_votes": null },
-            { "rank": 15, "school": "Turpin", "points": 110, "first_place_votes": null },
-            { "rank": 16, "school": "Cle. St Joseph Academy", "points": 106, "first_place_votes": null },
-            { "rank": 17, "school": "CVCA", "points": 95, "first_place_votes": null },
-            { "rank": 18, "school": "Westlake", "points": 91, "first_place_votes": null },
-            { "rank": 19, "school": "Brecksville", "points": 64, "first_place_votes": null },
-            { "rank": 20, "school": "Cin. St Ursula", "points": 62, "first_place_votes": null },
-            { "rank": 21, "school": "Boardman", "points": 53, "first_place_votes": null },
-            { "rank": 22, "school": "Tol. St Ursula", "points": 47, "first_place_votes": null },
-            { "rank": 23, "school": "Bowling Green", "points": 40, "first_place_votes": null },
-            { "rank": 24, "school": "Tallmadge", "points": 37, "first_place_votes": null },
-            { "rank": 25, "school": "Harrison", "points": 19, "first_place_votes": null },
-            { "rank": 26, "school": "Revere", "points": 16, "first_place_votes": null },
-            { "rank": 27, "school": "Indian Hill", "points": 13, "first_place_votes": null },
-            { "rank": 28, "school": "Lexington", "points": 7, "first_place_votes": null },
-            { "rank": 29, "school": "Loveland", "points": 3, "first_place_votes": null },
-            { "rank": 30, "school": "Steele", "points": 2, "first_place_votes": null },
-            { "rank": 31, "school": "Celina", "points": 1, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Watterson",
+              "points": 286,
+              "first_place_votes": 11
+            },
+            {
+              "rank": 2,
+              "school": "Avon",
+              "points": 276,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 3,
+              "school": "Granville",
+              "points": 250,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Canal Winchester",
+              "points": 243,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Aurora",
+              "points": 237,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Fremont Ross",
+              "points": 224,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Big Walnut",
+              "points": 210,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Wadsworth",
+              "points": 196,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Bellbrook",
+              "points": 173,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Syl. Southview",
+              "points": 170,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Shaker Heights",
+              "points": 167,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Hudson",
+              "points": 160,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Bay",
+              "points": 124,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Med. Highland",
+              "points": 118,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Turpin",
+              "points": 110,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Cle. St Joseph Academy",
+              "points": 106,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "CVCA",
+              "points": 95,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Westlake",
+              "points": 91,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Brecksville",
+              "points": 64,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Cin. St Ursula",
+              "points": 62,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Boardman",
+              "points": 53,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Tol. St Ursula",
+              "points": 47,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Bowling Green",
+              "points": 40,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Tallmadge",
+              "points": 37,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Harrison",
+              "points": 19,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Revere",
+              "points": 16,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Indian Hill",
+              "points": 13,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Lexington",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Loveland",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Steele",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Celina",
+              "points": 1,
+              "first_place_votes": null
+            }
           ],
           "3": [
-            { "rank": 1, "school": "Huron", "points": 288, "first_place_votes": 12 },
-            { "rank": 2, "school": "Oakwood", "points": 272, "first_place_votes": null },
-            { "rank": 3, "school": "Minerva", "points": 267, "first_place_votes": null },
-            { "rank": 4, "school": "Ottawa Glandorf", "points": 252, "first_place_votes": null },
-            { "rank": 5, "school": "Marlington", "points": 229, "first_place_votes": null },
-            { "rank": 6, "school": "Woodridge", "points": 214, "first_place_votes": null },
-            { "rank": 7, "school": "Berkshire", "points": 208, "first_place_votes": null },
-            { "rank": 8, "school": "Crestwood", "points": 207, "first_place_votes": null },
-            { "rank": 9, "school": "Van Wert", "points": 206, "first_place_votes": null },
-            { "rank": 10, "school": "Versailles", "points": 189, "first_place_votes": null },
-            { "rank": 11, "school": "Salem", "points": 165, "first_place_votes": null },
-            { "rank": 12, "school": "Madeira", "points": 163, "first_place_votes": null },
-            { "rank": 13, "school": "Napoleon", "points": 125, "first_place_votes": null },
-            { "rank": 14, "school": "Indian Valley", "points": 121, "first_place_votes": null },
-            { "rank": 15, "school": "Hathaway Brown", "points": 120, "first_place_votes": null },
-            { "rank": 16, "school": "Fairfield Union", "points": 103, "first_place_votes": null },
-            { "rank": 17, "school": "Akron SVSM", "points": 101, "first_place_votes": null },
-            { "rank": 18, "school": "Tusc. Valley", "points": 96, "first_place_votes": null },
-            { "rank": 19, "school": "CF Northwest", "points": 63, "first_place_votes": null },
-            { "rank": 20, "school": "Shelby", "points": 44, "first_place_votes": null },
-            { "rank": 21, "school": "Northmor", "points": 40, "first_place_votes": null },
-            { "rank": 22, "school": "Claymont", "points": 34, "first_place_votes": null },
-            { "rank": 23, "school": "West Holmes", "points": 33, "first_place_votes": null },
-            { "rank": 24, "school": "Fenwick", "points": 24, "first_place_votes": null },
-            { "rank": 25, "school": "Bellevue", "points": 18, "first_place_votes": null },
-            { "rank": 26, "school": "Chagrin Falls", "points": 7, "first_place_votes": null },
-            { "rank": 27, "school": "Beechwood", "points": 5, "first_place_votes": null },
-            { "rank": 28, "school": "Bath", "points": 4, "first_place_votes": null },
-            { "rank": 29, "school": "Waynesville", "points": 3, "first_place_votes": null },
-            { "rank": 30, "school": "Coldwater", "points": 2, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Huron",
+              "points": 288,
+              "first_place_votes": 12
+            },
+            {
+              "rank": 2,
+              "school": "Oakwood",
+              "points": 272,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "Minerva",
+              "points": 267,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Ottawa Glandorf",
+              "points": 252,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Marlington",
+              "points": 229,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Woodridge",
+              "points": 214,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Berkshire",
+              "points": 208,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Crestwood",
+              "points": 207,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Van Wert",
+              "points": 206,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Versailles",
+              "points": 189,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Salem",
+              "points": 165,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Madeira",
+              "points": 163,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Napoleon",
+              "points": 125,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Indian Valley",
+              "points": 121,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Hathaway Brown",
+              "points": 120,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Fairfield Union",
+              "points": 103,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Akron SVSM",
+              "points": 101,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Tusc. Valley",
+              "points": 96,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "CF Northwest",
+              "points": 63,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Shelby",
+              "points": 44,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Northmor",
+              "points": 40,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Claymont",
+              "points": 34,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "West Holmes",
+              "points": 33,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Fenwick",
+              "points": 24,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Bellevue",
+              "points": 18,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Chagrin Falls",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Beechwood",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Bath",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Waynesville",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Coldwater",
+              "points": 2,
+              "first_place_votes": null
+            }
           ],
           "4": [
-            { "rank": 1, "school": "Ottawa Hills", "points": 285, "first_place_votes": 11 },
-            { "rank": 2, "school": "Grandview Heights", "points": 272, "first_place_votes": 1 },
-            { "rank": 3, "school": "Minster", "points": 259, "first_place_votes": null },
-            { "rank": 4, "school": "Liberty Center", "points": 242, "first_place_votes": null },
-            { "rank": 5, "school": "Rittman", "points": 240, "first_place_votes": null },
-            { "rank": 6, "school": "Kirtland", "points": 238, "first_place_votes": null },
-            { "rank": 7, "school": "Maplewood", "points": 210, "first_place_votes": null },
-            { "rank": 8, "school": "Fort Loramie", "points": 195, "first_place_votes": null },
-            { "rank": 9, "school": "McDonald", "points": 194, "first_place_votes": null },
-            { "rank": 10, "school": "West Liberty Salem", "points": 184, "first_place_votes": null },
-            { "rank": 11, "school": "Bellaire", "points": 179, "first_place_votes": null },
-            { "rank": 12, "school": "Archbold", "points": 154, "first_place_votes": null },
-            { "rank": 13, "school": "Summit Country Day", "points": 151, "first_place_votes": null },
-            { "rank": 14, "school": "Mount Gilead", "points": 125, "first_place_votes": null },
-            { "rank": 15, "school": "Milan Edison", "points": 96, "first_place_votes": null },
-            { "rank": 16, "school": "Mechanicsburg", "points": 91, "first_place_votes": null },
-            { "rank": 17, "school": "Dayton Christian", "points": 83, "first_place_votes": null },
-            { "rank": 18, "school": "Lincolnview", "points": 78, "first_place_votes": null },
-            { "rank": 19, "school": "Tinora", "points": 63, "first_place_votes": null },
-            { "rank": 20, "school": "Ashtabula St John", "points": 50, "first_place_votes": null },
-            { "rank": 21, "school": "Crestline", "points": 37, "first_place_votes": null },
-            { "rank": 22, "school": "Sherwood Fairview", "points": 36, "first_place_votes": null },
-            { "rank": 23, "school": "Margaretta", "points": 27, "first_place_votes": null },
-            { "rank": 24, "school": "Newton", "points": 24, "first_place_votes": null },
-            { "rank": 25, "school": "Carey", "points": 19, "first_place_votes": null },
-            { "rank": 26, "school": "Columbus Grove", "points": 16, "first_place_votes": null },
-            { "rank": 27, "school": "Seneca East", "points": 12, "first_place_votes": null },
-            { "rank": 28, "school": "Botkins", "points": 10, "first_place_votes": null },
-            { "rank": 29, "school": "Marion Local", "points": 8, "first_place_votes": null },
-            { "rank": 30, "school": "Riverdale", "points": 7, "first_place_votes": null },
-            { "rank": 31, "school": "Cedarville", "points": 5, "first_place_votes": null },
-            { "rank": 32, "school": "Legacy Christian", "points": 4, "first_place_votes": null },
-            { "rank": 33, "school": "Anna", "points": 3, "first_place_votes": null },
-            { "rank": 34, "school": "West Union", "points": 2, "first_place_votes": null }
+            {
+              "rank": 1,
+              "school": "Ottawa Hills",
+              "points": 285,
+              "first_place_votes": 11
+            },
+            {
+              "rank": 2,
+              "school": "Grandview Heights",
+              "points": 272,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 3,
+              "school": "Minster",
+              "points": 259,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Liberty Center",
+              "points": 242,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Rittman",
+              "points": 240,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Kirtland",
+              "points": 238,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Maplewood",
+              "points": 210,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Fort Loramie",
+              "points": 195,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "McDonald",
+              "points": 194,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "West Liberty Salem",
+              "points": 184,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Bellaire",
+              "points": 179,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Archbold",
+              "points": 154,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Summit Country Day",
+              "points": 151,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Mount Gilead",
+              "points": 125,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Milan Edison",
+              "points": 96,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Mechanicsburg",
+              "points": 91,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Dayton Christian",
+              "points": 83,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Lincolnview",
+              "points": 78,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Tinora",
+              "points": 63,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Ashtabula St John",
+              "points": 50,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Crestline",
+              "points": 37,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Sherwood Fairview",
+              "points": 36,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Margaretta",
+              "points": 27,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Newton",
+              "points": 24,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Carey",
+              "points": 19,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Columbus Grove",
+              "points": 16,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Seneca East",
+              "points": 12,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Botkins",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Marion Local",
+              "points": 8,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Riverdale",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Cedarville",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Legacy Christian",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Anna",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "West Union",
+              "points": 2,
+              "first_place_votes": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pollLabel": "Pre-District Poll",
+      "pollDate": "2026-10-22",
+      "divisions": {
+        "boys": {
+          "1": [
+            {
+              "rank": 1,
+              "school": "Springboro",
+              "points": 240,
+              "first_place_votes": 12
+            },
+            {
+              "rank": 2,
+              "school": "Mentor",
+              "points": 224,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "Mason",
+              "points": 210,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Beavercreek",
+              "points": 194,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Gahanna Lincoln",
+              "points": 186,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "St Xavier",
+              "points": 184,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Olentangy Berlin",
+              "points": 172,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Dublin Jerome",
+              "points": 152,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Westerville North",
+              "points": 147,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Lebanon",
+              "points": 119,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Milford",
+              "points": 99,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Thomas Worthington",
+              "points": 79,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Sycamore",
+              "points": 77,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Massillon Jackson",
+              "points": 61,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "New Albany",
+              "points": 59,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Olentangy Orange",
+              "points": 48,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Little Miami",
+              "points": 47,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Olentangy Liberty",
+              "points": 46,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Dublin Coffman",
+              "points": 39,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Medina",
+              "points": 30,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Solon",
+              "points": 27,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Northmont",
+              "points": 25,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Perrysburg",
+              "points": 20,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Kings",
+              "points": 19,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Hilliard Darby",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Lakota West",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Pickerington North",
+              "points": 2,
+              "first_place_votes": null
+            }
+          ],
+          "2": [
+            {
+              "rank": 1,
+              "school": "Bowling Green",
+              "points": 272,
+              "first_place_votes": 5
+            },
+            {
+              "rank": 2,
+              "school": "Tol. St Francis",
+              "points": 270,
+              "first_place_votes": 3
+            },
+            {
+              "rank": 3,
+              "school": "Uniontown Lake",
+              "points": 257,
+              "first_place_votes": 3
+            },
+            {
+              "rank": 4,
+              "school": "Hoover",
+              "points": 254,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Big Walnut",
+              "points": 244,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 6,
+              "school": "Lexington",
+              "points": 222,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "CVCA",
+              "points": 218,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Unioto",
+              "points": 190,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Shaker Heights",
+              "points": 185,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Loveland",
+              "points": 172,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Watterson",
+              "points": 167,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Kenston",
+              "points": 138,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Hudson",
+              "points": 128,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Massillon Perry",
+              "points": 121,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Turpin",
+              "points": 120,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Salem",
+              "points": 93,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Cloverleaf",
+              "points": 84,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Dublin Scioto",
+              "points": 68,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Granville",
+              "points": 61,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "DeSales",
+              "points": 46,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Nordonia",
+              "points": 45,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Westlake",
+              "points": 44,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Revere",
+              "points": 37,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Wadsworth",
+              "points": 35,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Med. Highland",
+              "points": 25,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Rocky River",
+              "points": 24,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Syl. Northview",
+              "points": 22,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Defiance",
+              "points": 16,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Bellbrook",
+              "points": 13,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Buckeye",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Carroll",
+              "points": 9,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Boardman",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Troy",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Tippecanoe",
+              "points": 2,
+              "first_place_votes": null
+            }
+          ],
+          "3": [
+            {
+              "rank": 1,
+              "school": "Woodridge",
+              "points": 288,
+              "first_place_votes": 12
+            },
+            {
+              "rank": 2,
+              "school": "Versailles",
+              "points": 272,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "West Liberty Salem",
+              "points": 261,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Fairless",
+              "points": 246,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Chagrin Falls",
+              "points": 238,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Van Wert",
+              "points": 229,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Berkshire",
+              "points": 209,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Bryan",
+              "points": 200,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Fairfield Union",
+              "points": 190,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Oakwood",
+              "points": 180,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Waynesville",
+              "points": 161,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Minerva",
+              "points": 139,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Madeira",
+              "points": 138,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Marlington",
+              "points": 101,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Margaretta",
+              "points": 100,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Upper Sandusky",
+              "points": 96,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "CHCA",
+              "points": 95,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Elmwood",
+              "points": 93,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Wyoming",
+              "points": 70,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "CF Northwest",
+              "points": 58,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Archbold",
+              "points": 56,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Norwayne",
+              "points": 46,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Keystone",
+              "points": 28,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Tusc. Valley",
+              "points": 27,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Gilmour Academy",
+              "points": 18,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Milton Union",
+              "points": 14,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Summit Co Day",
+              "points": 11,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Paulding",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Utica",
+              "points": 8,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Fredericktown",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Waynedale",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Bellaire",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Centerburg",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Vinton County",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 35,
+              "school": "Eastwood",
+              "points": 1,
+              "first_place_votes": null
+            }
+          ],
+          "4": [
+            {
+              "rank": 1,
+              "school": "Mount Gilead",
+              "points": 287,
+              "first_place_votes": 11
+            },
+            {
+              "rank": 2,
+              "school": "Russia",
+              "points": 263,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 3,
+              "school": "Botkins",
+              "points": 262,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Convoy Crestview",
+              "points": 253,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Tinora",
+              "points": 241,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Maplewood",
+              "points": 234,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Legacy Christian",
+              "points": 223,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Independence",
+              "points": 194,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Cedarville",
+              "points": 189,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "St Henry",
+              "points": 169,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "New Bremen",
+              "points": 154,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Columbus Grove",
+              "points": 149,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Hicksville",
+              "points": 145,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Sherwood Fairview",
+              "points": 120,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Lehman Catholic",
+              "points": 109,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Minster",
+              "points": 104,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "South Webster",
+              "points": 82,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Shenandoah",
+              "points": 76,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Lake Center Christian",
+              "points": 65,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Rittman",
+              "points": 60,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Kid Cent Christian",
+              "points": 41,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Seneca East",
+              "points": 32,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "New Riegel",
+              "points": 26,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Fort Recovery",
+              "points": 16,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Ash Crestview",
+              "points": 15,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Badger",
+              "points": 13,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Fort Loramie",
+              "points": 12,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Open Door Christian",
+              "points": 11,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "McDonald",
+              "points": 10,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Colonel Crawford",
+              "points": 9,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Southern",
+              "points": 8,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Grandview Heights",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Tri Village",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Anna",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 35,
+              "school": "Black River",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 36,
+              "school": "Pettisville",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 37,
+              "school": "Liberty Center",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 38,
+              "school": "Win. Eastern",
+              "points": 1,
+              "first_place_votes": null
+            }
+          ]
+        },
+        "girls": {
+          "1": [
+            {
+              "rank": 1,
+              "school": "Milford",
+              "points": 237,
+              "first_place_votes": 10
+            },
+            {
+              "rank": 2,
+              "school": "Upper Arlington",
+              "points": 231,
+              "first_place_votes": 2
+            },
+            {
+              "rank": 3,
+              "school": "Springboro",
+              "points": 202,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Centerville",
+              "points": 199,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Gahanna Lincoln",
+              "points": 192,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Hilliard Davidson",
+              "points": 173,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Massillon Jackson",
+              "points": 171,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Oak Hills",
+              "points": 142,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Perrysburg",
+              "points": 138,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Mason",
+              "points": 132,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Sycamore",
+              "points": 126,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Beavercreek",
+              "points": 105,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Dublin Jerome",
+              "points": 103,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Stow-Munroe Falls",
+              "points": 87,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Lancaster",
+              "points": 77,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Mentor",
+              "points": 41,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Olentangy Berlin",
+              "points": 39,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Solon",
+              "points": 35,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Olentangy Liberty",
+              "points": 32,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Northmont",
+              "points": 18,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Westerville South",
+              "points": 17,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Marysville",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Thomas Worthington",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Watkins Memorial",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Teays Valley",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Hilliard Bradley",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "GlenOak",
+              "points": 2,
+              "first_place_votes": null
+            }
+          ],
+          "2": [
+            {
+              "rank": 1,
+              "school": "Watterson",
+              "points": 286,
+              "first_place_votes": 11
+            },
+            {
+              "rank": 2,
+              "school": "Avon",
+              "points": 276,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 3,
+              "school": "Canal Winchester",
+              "points": 241,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Fremont Ross",
+              "points": 238,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Granville",
+              "points": 236,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Aurora",
+              "points": 231,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Big Walnut",
+              "points": 228,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Wadsworth",
+              "points": 198,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Bellbrook",
+              "points": 181,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Syl. Southview",
+              "points": 158,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Shaker Heights",
+              "points": 157,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Hudson",
+              "points": 146,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Bay",
+              "points": 142,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Westlake",
+              "points": 136,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Cle. St Joseph Academy",
+              "points": 108,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Turpin",
+              "points": 102,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Bowling Green",
+              "points": 96,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "CVCA",
+              "points": 89,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Med. Highland",
+              "points": 77,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Cin. St Ursula",
+              "points": 67,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Brecksville",
+              "points": 41,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Celina",
+              "points": 30,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Boardman",
+              "points": 24,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Tol. St Ursula",
+              "points": 23,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Lexington",
+              "points": 22,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Indian Hill",
+              "points": 21,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Harrison",
+              "points": 20,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Tallmadge",
+              "points": 11,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Piqua",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Revere",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Logan",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Hoover",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "Loveland",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Steele",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Hartley",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Troy",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 37,
+              "school": "Anthony Wayne",
+              "points": 1,
+              "first_place_votes": null
+            },
+            {
+              "rank": 37,
+              "school": "DeSales",
+              "points": 1,
+              "first_place_votes": null
+            }
+          ],
+          "3": [
+            {
+              "rank": 1,
+              "school": "Huron",
+              "points": 288,
+              "first_place_votes": 12
+            },
+            {
+              "rank": 2,
+              "school": "Oakwood",
+              "points": 275,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "Minerva",
+              "points": 257,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Ottawa Glandorf",
+              "points": 252,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Crestwood",
+              "points": 229,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Marlington",
+              "points": 228,
+              "first_place_votes": null
+            },
+            {
+              "rank": 7,
+              "school": "Versailles",
+              "points": 209,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Woodridge",
+              "points": 195,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "Berkshire",
+              "points": 194,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "Van Wert",
+              "points": 185,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Madeira",
+              "points": 184,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Salem",
+              "points": 163,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Hathaway Brown",
+              "points": 117,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Napoleon",
+              "points": 105,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Fairfield Union",
+              "points": 102,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Indian Valley",
+              "points": 99,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Tusc. Valley",
+              "points": 92,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Northmor",
+              "points": 81,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Akron SVSM",
+              "points": 75,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Coldwater",
+              "points": 66,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "CF Northwest",
+              "points": 48,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "West Holmes",
+              "points": 43,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Bellevue",
+              "points": 31,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Shelby",
+              "points": 24,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Fenwick",
+              "points": 20,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Bath",
+              "points": 17,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Claymont",
+              "points": 11,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Upper Sandusky",
+              "points": 5,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "Waynesville",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Galion",
+              "points": 3,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Beechwood",
+              "points": 2,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Ash. Edgewood",
+              "points": 1,
+              "first_place_votes": null
+            }
+          ],
+          "4": [
+            {
+              "rank": 1,
+              "school": "Ottawa Hills",
+              "points": 287,
+              "first_place_votes": 11
+            },
+            {
+              "rank": 2,
+              "school": "Grandview Heights",
+              "points": 267,
+              "first_place_votes": null
+            },
+            {
+              "rank": 3,
+              "school": "Minster",
+              "points": 266,
+              "first_place_votes": null
+            },
+            {
+              "rank": 4,
+              "school": "Rittman",
+              "points": 242,
+              "first_place_votes": null
+            },
+            {
+              "rank": 5,
+              "school": "Kirtland",
+              "points": 233,
+              "first_place_votes": null
+            },
+            {
+              "rank": 6,
+              "school": "Liberty Center",
+              "points": 232,
+              "first_place_votes": 1
+            },
+            {
+              "rank": 7,
+              "school": "Maplewood",
+              "points": 218,
+              "first_place_votes": null
+            },
+            {
+              "rank": 8,
+              "school": "Fort Loramie",
+              "points": 200,
+              "first_place_votes": null
+            },
+            {
+              "rank": 9,
+              "school": "McDonald",
+              "points": 191,
+              "first_place_votes": null
+            },
+            {
+              "rank": 10,
+              "school": "West Liberty Salem",
+              "points": 182,
+              "first_place_votes": null
+            },
+            {
+              "rank": 11,
+              "school": "Bellaire",
+              "points": 179,
+              "first_place_votes": null
+            },
+            {
+              "rank": 12,
+              "school": "Archbold",
+              "points": 153,
+              "first_place_votes": null
+            },
+            {
+              "rank": 13,
+              "school": "Summit Co Day",
+              "points": 150,
+              "first_place_votes": null
+            },
+            {
+              "rank": 14,
+              "school": "Mount Gilead",
+              "points": 135,
+              "first_place_votes": null
+            },
+            {
+              "rank": 15,
+              "school": "Mechanicsburg",
+              "points": 100,
+              "first_place_votes": null
+            },
+            {
+              "rank": 16,
+              "school": "Milan Edison",
+              "points": 96,
+              "first_place_votes": null
+            },
+            {
+              "rank": 17,
+              "school": "Lincolnview",
+              "points": 88,
+              "first_place_votes": null
+            },
+            {
+              "rank": 18,
+              "school": "Dayton Christian",
+              "points": 66,
+              "first_place_votes": null
+            },
+            {
+              "rank": 19,
+              "school": "Ash. St John",
+              "points": 43,
+              "first_place_votes": null
+            },
+            {
+              "rank": 20,
+              "school": "Botkins",
+              "points": 42,
+              "first_place_votes": null
+            },
+            {
+              "rank": 21,
+              "school": "Tinora",
+              "points": 39,
+              "first_place_votes": null
+            },
+            {
+              "rank": 22,
+              "school": "Newton",
+              "points": 31,
+              "first_place_votes": null
+            },
+            {
+              "rank": 23,
+              "school": "Crestline",
+              "points": 30,
+              "first_place_votes": null
+            },
+            {
+              "rank": 24,
+              "school": "Margaretta",
+              "points": 21,
+              "first_place_votes": null
+            },
+            {
+              "rank": 25,
+              "school": "Columbus Grove",
+              "points": 17,
+              "first_place_votes": null
+            },
+            {
+              "rank": 26,
+              "school": "Seneca East",
+              "points": 16,
+              "first_place_votes": null
+            },
+            {
+              "rank": 27,
+              "school": "Carey",
+              "points": 15,
+              "first_place_votes": null
+            },
+            {
+              "rank": 28,
+              "school": "Cedarville",
+              "points": 14,
+              "first_place_votes": null
+            },
+            {
+              "rank": 29,
+              "school": "St Henry",
+              "points": 12,
+              "first_place_votes": null
+            },
+            {
+              "rank": 30,
+              "school": "Sherwood Fairview",
+              "points": 11,
+              "first_place_votes": null
+            },
+            {
+              "rank": 31,
+              "school": "Riverdale",
+              "points": 7,
+              "first_place_votes": null
+            },
+            {
+              "rank": 32,
+              "school": "Fairland",
+              "points": 6,
+              "first_place_votes": null
+            },
+            {
+              "rank": 33,
+              "school": "West Union",
+              "points": 4,
+              "first_place_votes": null
+            },
+            {
+              "rank": 34,
+              "school": "Legacy Christian",
+              "points": 3,
+              "first_place_votes": null
+            }
           ]
         }
       }
