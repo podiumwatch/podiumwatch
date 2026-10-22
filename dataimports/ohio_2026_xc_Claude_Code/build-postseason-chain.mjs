@@ -432,6 +432,18 @@ for (const divEntry of existingRegionals.divisions) {
     qualifying.forEach((q, i) => {
       regionalQualifyOrder.set(`${q.name}|${q.originalTeam}`, { ordinal: i + 1, siteName: regionData.siteName });
     });
+    // Found 2026-10-22 (user report): the regional page's own combined
+    // finish-order list was tagging EVERY pooled district individual as
+    // "advancing to State" regardless of whether they actually rank
+    // inside this region's real individualQualifiers cutoff, while a
+    // runner on a non-qualifying TEAM who personally ran fast enough for
+    // an individual berth got no such tag at all. `qualifying` here is
+    // the exact same real selection computeStatePool uses (same inputs,
+    // same selectIndividualQualifiers call) -- exposing it on the
+    // regional's own data lets the page tag the real set on both kinds
+    // of row instead of just "is in the pooled list" / "team qualifies".
+    const built = regionalResults[`${divEntry.gender.toLowerCase()}_D${divEntry.division}_${regionKeyLower}`];
+    if (built) built.stateQualifyingIndividualKeys = qualifying.map((q) => `${q.name}|${q.originalTeam}`);
   }
   // Lookup for each team's real regional origin (site + ordinal) and
   // provisional flag, built from the per-region team lists just above --

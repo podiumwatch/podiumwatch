@@ -522,20 +522,43 @@ function teamRowsHtml(scoredTeams, teamsAdvance, individuals, accent, gender, di
 // teams' own rosters -- an individual qualifier is STILL one of that
 // team's own listed runners, so team rows exclude anyone who also
 // appears in `individuals` to avoid listing that same person twice.
-function combinedFinishOrder(scoredTeams, qualifyingTeamNames, individuals) {
+// realAdvancingKeys (Set of "name|school", optional): at the district
+// level `individuals` is already the exact, final selected list
+// (selectIndividualQualifiers already applied upstream), so every pooled
+// individual shown here genuinely advances -- omit this param there. At
+// the regional level `individuals` is the FULL pooled district-origin
+// list (for real-finish-place display), which is NOT the same as who
+// actually advances to state from this region -- found 2026-10-22 (user
+// report): every pooled individual was being tagged/linked as advancing
+// regardless of the region's real individualQualifiers cutoff, while a
+// runner on a non-qualifying TEAM who personally ran fast enough for an
+// individual berth got no tag/link at all. Pass the region's real
+// built.stateQualifyingIndividualKeys here so both kinds of row reflect
+// actual advancement instead of just "pooled" / "team qualifies".
+function combinedFinishOrder(scoredTeams, qualifyingTeamNames, individuals, realAdvancingKeys) {
   const individualKeys = new Set((individuals || []).map((q) => `${q.name}|${q.originalTeam}`));
   const teamRows = scoredTeams.flatMap((team) =>
     team.runners
       .filter((r) => !individualKeys.has(`${r.name}|${team.name}`))
-      .map((r) => ({
-        name: r.name, grade: r.grade, school: team.name, seasonBest: r.seasonBest, placePoints: r.placePoints,
-        tag: qualifyingTeamNames.has(team.name) ? "TEAM" : null
-      }))
+      .map((r) => {
+        const teamQualifies = qualifyingTeamNames.has(team.name);
+        const key = `${r.name}|${team.name}`;
+        const personallyAdvances = !teamQualifies && realAdvancingKeys && realAdvancingKeys.has(key);
+        return {
+          name: r.name, grade: r.grade, school: team.name, seasonBest: r.seasonBest, placePoints: r.placePoints,
+          tag: teamQualifies ? "TEAM" : (personallyAdvances ? "IND" : null),
+          advancing: teamQualifies || personallyAdvances
+        };
+      })
   );
-  const individualRows = (individuals || []).map((q) => ({
-    name: q.name, grade: q.grade, school: q.originalTeam, seasonBest: q.seasonBest, placePoints: q.placePoints, tag: "IND",
-    qualifiedFrom: q.qualifiedFromDistrict ? `${q.qualifiedFromDistrict} district (IND)` : (q.qualifiedFromRegional ? `${q.qualifiedFromRegional} regional, ${q.qualifiedFromRegionalOrdinal}` : null)
-  }));
+  const individualRows = (individuals || []).map((q) => {
+    const key = `${q.name}|${q.originalTeam}`;
+    return {
+      name: q.name, grade: q.grade, school: q.originalTeam, seasonBest: q.seasonBest, placePoints: q.placePoints, tag: "IND",
+      advancing: realAdvancingKeys ? realAdvancingKeys.has(key) : true,
+      qualifiedFrom: q.qualifiedFromDistrict ? `${q.qualifiedFromDistrict} district (IND)` : (q.qualifiedFromRegional ? `${q.qualifiedFromRegional} regional, ${q.qualifiedFromRegionalOrdinal}` : null)
+    };
+  });
   return [...teamRows, ...individualRows].sort((a, b) => a.placePoints - b.placePoints);
 }
 
@@ -554,10 +577,11 @@ function combinedFinishOrder(scoredTeams, qualifyingTeamNames, individuals) {
 function runnerRowsHtml(rows, limit, allOhioAfter, crossLinkFor, gender, divNum) {
   const shown = limit ? rows.slice(0, limit) : rows;
   const body = shown.map((r, i) => {
-    const qualifyClass = r.tag ? " mp-qualifies" : "";
+    const advancing = r.advancing != null ? r.advancing : Boolean(r.tag);
+    const qualifyClass = advancing ? " mp-qualifies" : "";
     let row;
     if (r.tag === "IND") {
-      const crossLink = crossLinkFor ? crossLinkFor(r) : null;
+      const crossLink = advancing && crossLinkFor ? crossLinkFor(r) : null;
       const advancesLink = crossLink ? `<a class="mp-rosterlink" href="${escapeHtml(crossLink.url)}">Advances to ${escapeHtml(crossLink.label)} &rarr;</a>` : "";
       const anchorValue = gender && divNum ? runnerAnchorKey(gender, divNum, r.name, r.school) : null;
       row = `<details class="mp-indrow${qualifyClass}" ${anchorValue ? `data-anchor="${escapeHtml(anchorValue)}"` : ""}>
@@ -835,7 +859,8 @@ function regionalSummaryCard(key, r) {
   const smallLabel = `${GENDER_LABEL[genderLower]} ${divisionLabel(r.division)}`;
   const complete = r.teams.filter((t) => t.complete);
   const qualifyingNames = new Set(complete.slice(0, r.stateQualifiers || 0).map((t) => t.name));
-  const finishOrder = combinedFinishOrder(r.teams, qualifyingNames, r.individuals);
+  const realAdvancingKeys = new Set(r.stateQualifyingIndividualKeys || []);
+  const finishOrder = combinedFinishOrder(r.teams, qualifyingNames, r.individuals, realAdvancingKeys);
 
   const incompleteBanner = r.incomplete
     ? `<div class="mp-banner">Incomplete: ${escapeHtml(r.incompleteReason)}</div>`
