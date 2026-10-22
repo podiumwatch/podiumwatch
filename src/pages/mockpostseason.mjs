@@ -923,16 +923,26 @@ function stateSectionHtml(key, s) {
     return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}"><h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2><div class="mp-banner">Incomplete: ${escapeHtml(reason)}</div></div>`;
   }
   const complete = s.teams.filter((t) => t.complete);
-  const individualTop40 = (s.individuals || []).slice(0, 40).map((q) => ({
+  // Every entry in s.individuals is a real state qualifier that an
+  // incoming "Advances to State" link from some regional can point at --
+  // found 2026-10-22 (same class of bug as the regional Top-32 cutoff
+  // fixed earlier): slicing this list to the top 40 for display dropped
+  // the data-anchor for anyone ranked 41+ statewide, so that link landed
+  // with nothing to highlight. Keep the visible "top 40" summary, but
+  // render everyone past it too (collapsed, same mp-showall pattern used
+  // at the regional level) so every real qualifier always has an anchor.
+  const individualAll = (s.individuals || []).map((q) => ({
     name: q.name, grade: q.grade, school: q.originalTeam, seasonBest: q.seasonBest, placePoints: q.placePoints, tag: "IND",
     qualifiedFrom: q.qualifiedFromRegional ? `${q.qualifiedFromRegional} regional, ${q.qualifiedFromRegionalOrdinal}` : null
   }));
+  const visibleCount = Math.min(40, individualAll.length);
+  const overflowCount = individualAll.length - visibleCount;
   return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
     ${bicarbInfeedHtml(`state-${key}`)}
-    ${individualTop40.length ? `<p class="mp-h3">Projected individual top ${individualTop40.length}</p>${runnerRowsHtml(individualTop40, null, Math.min(25, individualTop40.length), null, genderLower, divNum)}` : ""}
+    ${individualAll.length ? `<p class="mp-h3">Projected individual top ${visibleCount}</p>${runnerRowsHtml(individualAll.slice(0, visibleCount), null, Math.min(25, visibleCount), null, genderLower, divNum)}${overflowCount ? `<details class="mp-showall"><summary>Show all ${individualAll.length} individuals</summary>${runnerRowsHtml(individualAll.slice(visibleCount), null, null, null, genderLower, divNum)}</details>` : ""}` : ""}
   </div>`;
 }
 
