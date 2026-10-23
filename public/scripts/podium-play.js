@@ -365,6 +365,7 @@
     if (gameType === "finish_chute") return participationScale(gameScore / FINISH_CHUTE_STRONG_SCORE);
     if (gameType === "spike_shuffle") return participationScale(gameScore / SPIKE_SHUFFLE_STRONG_SCORE);
     if (gameType === "runner_says") return participationScale(gameScore / RUNNER_SAYS_STRONG_SCORE);
+    if (gameType === "guess_the_logo") return participationScale(gameScore / GUESS_LOGO_STRONG_SCORE);
     return MIN_PARTICIPATION_POINTS;
   }
 
@@ -674,6 +675,26 @@
   const RUNNER_SAYS_CUE_GAP_MS = 200;
   const RUNNER_SAYS_FAST_RESPONSE_THRESHOLD_MS = 1200;
   const RUNNER_SAYS_STRONG_SCORE = 1800;
+  const GUESS_LOGO_MAX_GUESSES = 5;
+  const GUESS_LOGO_SCORE_BY_GUESS = { 1: 250, 2: 200, 3: 150, 4: 100, 5: 50 };
+  const GUESS_LOGO_STRONG_SCORE = 250; // matches a real 1-guess solve, same as the server copy
+  function guessLogoGameScore(guessesUsed, solved) {
+    if (!solved) return 10;
+    return GUESS_LOGO_SCORE_BY_GUESS[guessesUsed] ?? 10;
+  }
+  // A simple, stable string hash -- doesn't need to be cryptographic,
+  // just deterministic for a given calendar day and spread out enough
+  // that consecutive days don't usually land on the same logo. Declared
+  // at module scope (not nested inside initPanel) so it's reachable both
+  // from the game logic below and from the window.PodiumPlay export
+  // block above, which the Node parity test loads this file for.
+  function dailyPoolIndex(dateKey, poolLength) {
+    let hash = 0;
+    for (let i = 0; i < dateKey.length; i += 1) {
+      hash = (hash * 31 + dateKey.charCodeAt(i)) >>> 0;
+    }
+    return poolLength > 0 ? hash % poolLength : 0;
+  }
 
   function runnerSaysCueDurationForRound(roundNumber) {
     return Math.max(RUNNER_SAYS_MIN_CUE_MS, RUNNER_SAYS_INITIAL_CUE_MS - roundNumber * 25);
@@ -694,6 +715,17 @@
     if (safeLen >= 10) score += 1500;
     score += safeFast * 100;
     return score;
+  }
+
+  // Guess the Logo's own day boundary: real Ohio midnight (America/
+  // New_York), not the visitor's own device timezone -- otherwise two
+  // players in different timezones could get different daily puzzles
+  // on what they both think of as "the same day." Intl.DateTimeFormat
+  // with a fixed timeZone handles the DST transition correctly on its
+  // own; this mirrors lib/podium_play_service.mjs's easternDateKey()
+  // exactly (parity-tested, same as every other date-sensitive value).
+  function easternDateKey(date = new Date()) {
+    return new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
   }
 
   function todayLocalDateKey(date = new Date()) {
@@ -738,6 +770,13 @@
       finishChute: { bestStreak: null, bestScore: null, attempts: 0 },
       spikeShuffle: { bestStreak: null, bestScore: null, attempts: 0 },
       runnerSays: { bestSequenceLength: null, bestScore: null, attempts: 0 },
+      // Guess the Logo is the one daily puzzle here -- lastPlayedDate is
+      // a local, convenience-only hint for the idle screen (so a repeat
+      // visitor sees "come back tomorrow" without waiting on a server
+      // round trip); the real once-per-day gate lives server-side in
+      // lib/podium_play_service.mjs and wins if the two ever disagree
+      // (e.g. a new device, or local storage was cleared).
+      guessLogo: { bestScore: null, currentStreak: 0, bestStreak: null, lastPlayedDate: null, attempts: 0 },
       lastActivityAt: null
     };
   }
@@ -771,6 +810,7 @@
       const fc = raw.finishChute && typeof raw.finishChute === "object" ? raw.finishChute : {};
       const ss = raw.spikeShuffle && typeof raw.spikeShuffle === "object" ? raw.spikeShuffle : {};
       const rs = raw.runnerSays && typeof raw.runnerSays === "object" ? raw.runnerSays : {};
+      const gl = raw.guessLogo && typeof raw.guessLogo === "object" ? raw.guessLogo : {};
       const safeNonNegative = (value) => (Number.isFinite(value) && value >= 0 ? value : null);
       return {
         ...base,
@@ -840,6 +880,13 @@
           bestSequenceLength: safeNonNegative(rs.bestSequenceLength),
           bestScore: safeNonNegative(rs.bestScore),
           attempts: Number.isFinite(rs.attempts) ? Math.max(0, rs.attempts) : 0
+        },
+        guessLogo: {
+          bestScore: safeNonNegative(gl.bestScore),
+          currentStreak: Number.isFinite(gl.currentStreak) ? Math.max(0, gl.currentStreak) : 0,
+          bestStreak: safeNonNegative(gl.bestStreak),
+          lastPlayedDate: typeof gl.lastPlayedDate === "string" ? gl.lastPlayedDate : null,
+          attempts: Number.isFinite(gl.attempts) ? Math.max(0, gl.attempts) : 0
         },
         lastActivityAt: typeof raw.lastActivityAt === "string" ? raw.lastActivityAt : null
       };
@@ -1008,6 +1055,8 @@
     runnerSaysCueDurationForRound,
     runnerSaysNextSymbolIndex,
     runnerSaysGameScore,
+    guessLogoGameScore,
+    dailyPoolIndex,
     todayLocalDateKey,
     defaultProfile,
     sanitizeProfile,
@@ -1275,6 +1324,11 @@
             <h3>Runner Says</h3>
             <p>Watch the sequence and repeat it.</p>
             <button class="button button-primary" type="button" data-pp-play="runner-says">Play</button>
+          </div>
+          <div class="pp-game-card" data-pp-game="guess-the-logo">
+            <h3>Guess the Logo</h3>
+            <p>One Ohio school logo a day. How few guesses can you solve it in?</p>
+            <button class="button button-primary" type="button" data-pp-play="guess-the-logo">Play</button>
           </div>
         </div>
         <div class="pp-game-stage" data-pp-stage hidden></div>
@@ -3936,6 +3990,188 @@
       }
     }
 
+    // --- Guess the Logo (2026-10-23) --------------------------------------
+    // One real daily puzzle: the same Ohio school logo for every player,
+    // picked deterministically from a public pool (public/data/guess-
+    // the-logo-pool.json) so every visitor gets the same answer without
+    // needing a server round trip just to start. Multiple choice, not
+    // free text -- avoids spelling/abbreviation false negatives against
+    // 758 real school names. Up to 5 guesses; each wrong guess reveals
+    // more of the logo (it starts tightly zoomed-in). Only guessesUsed
+    // and solved are ever sent to the server -- see
+    // lib/podium_play_service.mjs's own header for why, and for the
+    // real once-per-day enforcement this client can't fake its way past.
+    const GUESS_LOGO_REVEAL_SCALE = [5, 3.4, 2.4, 1.6, 1]; // index 0 = first guess (most zoomed), index 4 = last guess (full logo)
+    let guessLogoPoolPromise = null;
+    function loadGuessLogoPool() {
+      if (!guessLogoPoolPromise) {
+        guessLogoPoolPromise = fetch("/data/guess-the-logo-pool.json")
+          .then((r) => (r.ok ? r.json() : []))
+          .then((data) => (Array.isArray(data) ? data : []))
+          .catch(() => []);
+      }
+      return guessLogoPoolPromise;
+    }
+    function pickGuessLogoRound(pool, dateKey) {
+      const answerIndex = dailyPoolIndex(dateKey, pool.length);
+      const answer = pool[answerIndex];
+      const decoyPool = pool.filter((_, i) => i !== answerIndex);
+      // Decoys are picked with the same date-seeded hash (offset per
+      // slot) rather than Math.random() -- every player sees the exact
+      // same multiple-choice set for today's puzzle, not just the same
+      // answer.
+      const decoys = [];
+      const usedIndexes = new Set();
+      for (let slot = 1; decoys.length < 5 && slot < decoyPool.length + 6; slot += 1) {
+        const idx = dailyPoolIndex(`${dateKey}:${slot}`, decoyPool.length);
+        if (usedIndexes.has(idx)) continue;
+        usedIndexes.add(idx);
+        decoys.push(decoyPool[idx]);
+      }
+      const options = [answer, ...decoys];
+      // Shuffle, still date-seeded so the option ORDER is also identical
+      // for every player on a given day.
+      for (let i = options.length - 1; i > 0; i -= 1) {
+        const j = dailyPoolIndex(`${dateKey}:shuffle:${i}`, i + 1);
+        [options[i], options[j]] = [options[j], options[i]];
+      }
+      return { answer, options };
+    }
+
+    function openGuessLogo() {
+      const stage = panel.querySelector("[data-pp-stage]");
+      const games = panel.querySelector("[data-pp-games]");
+      if (!stage) return;
+      games.hidden = true;
+      stage.hidden = false;
+      track("podium_play_game_started", { content_type: "game", content_id: "guess_the_logo" });
+      renderGuessLogoIdle(stage, games);
+    }
+
+    function renderGuessLogoIdle(stage, games) {
+      const gl = profile.guessLogo;
+      const today = easternDateKey();
+      const alreadyPlayedToday = gl.lastPlayedDate === today;
+      const prParts = [];
+      if (gl.currentStreak > 0) prParts.push(`Current streak: ${gl.currentStreak} day${gl.currentStreak === 1 ? "" : "s"}`);
+      if (gl.bestStreak !== null) prParts.push(`Best streak: ${gl.bestStreak}`);
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Guess the Logo</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        ${alreadyPlayedToday
+          ? `<p>You've already played today's logo. A new one is waiting tomorrow.</p>`
+          : `<p>One Ohio school logo a day. You get 5 guesses -- it starts zoomed in and reveals more each time you miss.</p>`}
+        ${prParts.length ? `<p class="pp-pr">${escapeHtml(prParts.join(" · "))}</p>` : ""}
+        ${alreadyPlayedToday ? "" : `<button class="button button-primary pp-stage-action" type="button" data-pp-gtl-start>Start today's puzzle</button>`}
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+      stage.querySelector("[data-pp-gtl-start]")?.addEventListener("click", () => startGuessLogoGame(stage, games));
+    }
+
+    async function startGuessLogoGame(stage, games) {
+      stage.innerHTML = `
+        <div class="pp-stage-head"><h3>Guess the Logo</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+        <p>Loading today's puzzle...</p>
+      `;
+      stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+
+      const pool = await loadGuessLogoPool();
+      if (pool.length < 6) {
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Guess the Logo</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p>Today's puzzle couldn't load. Try again in a moment.</p>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        return;
+      }
+
+      const today = easternDateKey();
+      const { answer, options } = pickGuessLogoRound(pool, today);
+      let guessesUsed = 0;
+      let ended = false;
+
+      function render() {
+        const scale = GUESS_LOGO_REVEAL_SCALE[Math.min(guessesUsed, GUESS_LOGO_REVEAL_SCALE.length - 1)];
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Guess the Logo</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <p class="pp-btr-round">Guess ${guessesUsed + 1} of ${GUESS_LOGO_REVEAL_SCALE.length}</p>
+          <div class="pp-gtl-image-wrap"><img class="pp-gtl-image" src="/images/mock-postseason-logos/schools/${answer.slug}.png" style="transform: scale(${scale})" alt="Mystery Ohio school logo, partially revealed"></div>
+          <div class="pp-gtl-choices" data-pp-gtl-choices>
+            ${options.map((opt, i) => `<button class="button pp-gtl-choice" type="button" data-pp-gtl-choice="${i}">${escapeHtml(opt.name)}</button>`).join("")}
+          </div>
+          <p class="pp-gtl-feedback" data-pp-gtl-feedback aria-live="polite"></p>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        stage.querySelectorAll("[data-pp-gtl-choice]").forEach((button, i) => {
+          button.addEventListener("click", () => handleChoice(options[i], button));
+        });
+      }
+
+      function handleChoice(choice, button) {
+        if (ended) return;
+        guessesUsed += 1;
+        if (choice.slug === answer.slug) {
+          endGame(true);
+          return;
+        }
+        button.disabled = true;
+        button.classList.add("pp-gtl-choice-wrong");
+        if (guessesUsed >= GUESS_LOGO_REVEAL_SCALE.length) {
+          endGame(false);
+          return;
+        }
+        const feedback = stage.querySelector("[data-pp-gtl-feedback]");
+        if (feedback) feedback.textContent = "Not quite -- a bit more of the logo is showing now.";
+        render();
+      }
+
+      currentAttempt = { cleanup: () => { ended = true; } };
+
+      function endGame(solved) {
+        ended = true;
+        cancelCurrentAttempt();
+        profile.guessLogo.attempts += 1;
+        const today2 = easternDateKey();
+        const alreadyPlayedToday = profile.guessLogo.lastPlayedDate === today2;
+        submitToServer("guess_the_logo", { guessesUsed, solved }).then(() => {
+          if (accountSummary?.records?.guessLogo) {
+            profile.guessLogo.bestScore = accountSummary.records.guessLogo.bestScore;
+            profile.guessLogo.currentStreak = accountSummary.records.guessLogo.currentStreak || 0;
+            profile.guessLogo.bestStreak = accountSummary.records.guessLogo.bestStreak;
+          }
+          profile.guessLogo.lastPlayedDate = today2;
+          persist();
+        });
+
+        let pointsEarned = 0;
+        if (!alreadyPlayedToday) {
+          if (!sessionAwardedFirstGame) {
+            pointsEarned += awardPoints(profile, `first-game-${pageSessionKey}`, FIRST_GAME_IN_COOLDOWN_POINTS);
+            sessionAwardedFirstGame = true;
+          }
+          pointsEarned += awardPoints(profile, `guess-logo-play-${today2}`, participationPointsForPlay("guess_the_logo", { gameScore: guessLogoGameScore(guessesUsed, solved) }));
+        }
+        profile.guessLogo.lastPlayedDate = today2;
+        persist();
+        renderProgress();
+        track("podium_play_game_completed", { content_type: "game", content_id: "guess_the_logo", result_band: solved ? String(guessesUsed) : "miss" });
+
+        const resultLine = solved
+          ? `Solved in ${guessesUsed} guess${guessesUsed === 1 ? "" : "es"}! It was ${answer.name}.`
+          : `Out of guesses -- it was ${answer.name}.`;
+        stage.innerHTML = `
+          <div class="pp-stage-head"><h3>Guess the Logo</h3><button class="pp-stage-close" type="button" data-pp-close aria-label="Back to games">Back</button></div>
+          <div class="pp-gtl-image-wrap"><img class="pp-gtl-image" src="/images/mock-postseason-logos/schools/${answer.slug}.png" alt="${escapeHtml(answer.name)} logo"></div>
+          <p class="pp-result${solved ? " pp-result-celebrate" : ""}">${escapeHtml(resultLine)}</p>
+          ${pointsEarned > 0 ? `<p class="pp-score">+${pointsEarned} Podium Points</p>` : ""}
+          <p class="pp-pr">Come back tomorrow for the next one.</p>
+        `;
+        stage.querySelector("[data-pp-close]").addEventListener("click", () => closeGameStage(stage, games));
+        announce(`${resultLine} Come back tomorrow for the next one.`);
+      }
+
+      render();
+    }
+
     // Renders the panel and wires everything ONCE, immediately -- games
     // are available for the whole page visit, not gated behind voting
     // (see the file header). A real vote succeeding later only ever
@@ -3972,6 +4208,7 @@
       wireGameButton("tap-sprint", openTapSprint);
       wireGameButton("beat-the-runner", openBeatTheRunner);
       wireGameButton("memory-match", openMemoryMatch);
+      wireGameButton("guess-the-logo", openGuessLogo);
       // Relay Exchange (2026-09-02): taken down -- pulled from
       // buildPanelMarkup()'s game grid after a real "it's all messed up"
       // user report, right after an earlier visual fix. Not deleted:

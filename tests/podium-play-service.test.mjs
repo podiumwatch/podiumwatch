@@ -26,7 +26,9 @@ import {
   packPassGameScore,
   finishChuteGameScore,
   spikeShuffleGameScore,
-  runnerSaysGameScore
+  runnerSaysGameScore,
+  guessLogoGameScore,
+  GUESS_LOGO_MAX_GUESSES
 } from "../lib/podium_play_service.mjs";
 
 // --- photoFinishScoreBand ----------------------------------------------
@@ -183,6 +185,17 @@ assert.equal(spikeShuffleGameScore(5, 2), 5 * 250 + 2 * 500 + 1000);
 
 assert.equal(runnerSaysGameScore(5, 0, 0), (100 + 200 + 300 + 400 + 500) + 500);
 
+assert.equal(guessLogoGameScore(1, true), 250, "Solving on the first guess earns the max score.");
+assert.equal(guessLogoGameScore(5, true), 50, "Solving on the last guess still earns the solved floor.");
+assert.equal(guessLogoGameScore(5, false), 10, "A real miss (all guesses used) still earns a small participation score.");
+assert.equal(guessLogoGameScore(3, false), 10, "An unsolved result always scores the same regardless of guessesUsed -- there is no partial credit for a miss.");
+
+assert.throws(() => validateRawInput("guess_the_logo", { guessesUsed: 3, solved: false }), /INVALID_GUESS_LOGO_RESULT|isn't valid/, "solved:false with guesses remaining is not a real play state -- there is no give-up button.");
+assert.throws(() => validateRawInput("guess_the_logo", { guessesUsed: 0, solved: true }), /INVALID_GUESS_LOGO_RESULT|isn't valid/, "guessesUsed must be at least 1.");
+assert.throws(() => validateRawInput("guess_the_logo", { guessesUsed: GUESS_LOGO_MAX_GUESSES + 1, solved: false }), /INVALID_GUESS_LOGO_RESULT|isn't valid/, "guessesUsed cannot exceed GUESS_LOGO_MAX_GUESSES.");
+assert.deepEqual(validateRawInput("guess_the_logo", { guessesUsed: 2, solved: true }), { guessesUsed: 2, solved: true });
+assert.deepEqual(validateRawInput("guess_the_logo", { guessesUsed: GUESS_LOGO_MAX_GUESSES, solved: false }), { guessesUsed: GUESS_LOGO_MAX_GUESSES, solved: false });
+
 // --- Guest identity: isValidInstallId / generateGuestLabel -------------
 
 assert.equal(isValidInstallId("3267650b-245e-4627-903a-07c5fd887e80"), true, "A real, correctly-shaped v4 UUID (the exact shape crypto.randomUUID() produces) must be accepted.");
@@ -314,6 +327,24 @@ for (const [len, taps, fast] of [[0, 0, 0], [2, 9, 0], [5, 0, 0], [10, 0, 3]]) {
   assert.equal(runnerSaysGameScore(len, taps, fast), client.runnerSaysGameScore(len, taps, fast), `runnerSaysGameScore must match for (${len}, ${taps}, ${fast})`);
 }
 
+for (const [guessesUsed, solved] of [[1, true], [2, true], [3, true], [4, true], [5, true], [5, false]]) {
+  assert.equal(guessLogoGameScore(guessesUsed, solved), client.guessLogoGameScore(guessesUsed, solved), `guessLogoGameScore must match for (${guessesUsed}, ${solved})`);
+}
+// dailyPoolIndex only exists client-side (the server never validates
+// which logo was shown -- see its own comment) -- no server copy to
+// parity-check against. What matters is that it's deterministic and
+// always lands in bounds, so every player's own browser independently
+// picks the exact same logo for the exact same real day.
+{
+  const d = client.dailyPoolIndex;
+  assert.equal(d("2026-10-23", 758), d("2026-10-23", 758), "dailyPoolIndex must be deterministic for the same inputs.");
+  assert.equal(d("2026-01-01", 1), 0, "A pool of length 1 always returns index 0.");
+  for (const dateKey of ["2026-10-23", "2026-01-01", "2026-12-31", "2027-02-28:shuffle:3"]) {
+    const index = d(dateKey, 758);
+    assert.ok(Number.isInteger(index) && index >= 0 && index < 758, `dailyPoolIndex(${dateKey}, 758) must be a valid in-bounds index, got ${index}`);
+  }
+}
+
 for (const points of [0, 50, 100, 299, 300, 700, 1199, 3000, 10000, 50000, 16500, 20000]) {
   assert.deepEqual(levelForPoints(points), client.levelForPoints(points), `Level must match at points=${points}`);
 }
@@ -342,3 +373,4 @@ console.log("generateGuestLabel checked: the exact promised \"podiumwatchguest##
 console.log("participationPointsForPlay checked: every game's real floor/max/scaling, the suspicious-Starting-Gun anti-farm floor, malformed-input safety, and client/server parity.");
 console.log("validateRawInput checked for all 7 more games: every real structural/range constraint (exactly 3 relay exchanges, exactly 16 pace beats, position 1-20, the real blocked-choices/mistake-count ending conditions, streak-cannot-exceed-total relationships) and client/server scoring parity for every one of them.");
 console.log("Client/server scoring parity checked across a real range of inputs for every scoring function (all 13 games) and the full level table -- the two independent copies (one for instant client feedback, one server-authoritative) cannot silently drift apart without this test catching it.");
+console.log("Guess the Logo (14th game) checked: real score bands (1-5 guesses and a real miss), validateRawInput's \"no give-up button\" and guess-count bounds, client/server guessLogoGameScore parity, and dailyPoolIndex determinism + in-bounds guarantee (no server copy to parity-check against -- the server never validates which logo was shown, see its own comment).");

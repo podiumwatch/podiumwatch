@@ -893,6 +893,18 @@ p { margin-top: 0; }
 .pp-mm-card-up { background: var(--white); color: var(--black); border-color: var(--black); }
 .pp-mm-card-matched { background: var(--green); border-color: var(--green-dark); cursor: default; }
 .pp-stage-action { min-width: 180px; min-height: 52px; }
+
+/* Guess the Logo -- the zoomed crop lives in a fixed, clipped square so
+   a scale() reveal never changes the surrounding layout as it reveals
+   more of the image each guess. */
+.pp-gtl-image-wrap { width: 160px; height: 160px; margin: 12px auto; border: 2px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--white); }
+.pp-gtl-image { width: 100%; height: 100%; object-fit: contain; transition: transform .25s ease; }
+.pp-gtl-choices { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+.pp-gtl-choice { min-height: 44px; text-align: left; padding: 10px 14px; }
+.pp-gtl-choice:disabled { opacity: .45; cursor: default; }
+.pp-gtl-choice-wrong { border-color: var(--danger); }
+.pp-gtl-feedback { margin-top: 8px; color: var(--muted); min-height: 1.2em; }
+@media (min-width: 480px) { .pp-gtl-choices { grid-template-columns: 1fr 1fr; } }
 .pp-result { margin: 16px 0 4px; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: clamp(1.6rem, 6vw, 2.2rem); }
 .pp-result-celebrate { animation: pp-celebrate .5s ease; }
 @keyframes pp-celebrate { 0% { transform: scale(1); color: var(--ink); } 40% { transform: scale(1.08); color: var(--green-dark); } 100% { transform: scale(1); color: var(--ink); } }
