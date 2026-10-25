@@ -1,0 +1,994 @@
+MEET: Cedarville District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Bellbrook,50,"7,8,9,11,15,28,36"
+2,Carroll,88,"5,16,17,21,29,31,46"
+3,Tippecanoe,90,"1,2,19,30,38,45,53"
+4,Bellefontaine,102,"3,18,20,27,34,42,49"
+5,Butler,166,"6,13,35,50,62,66,71"
+6,Piqua,196,"12,25,40,52,67,68,83"
+7,Bethel,215,"4,24,47,48,92,93,100"
+8,Troy,216,"23,32,41,55,65,70,73"
+9,Greenville,261,"22,54,57,59,69,74,76"
+10,Franklin,270,"37,44,56,61,72,84,86"
+11,West Carrollton,330,"14,26,82,99,109,116,117"
+12,Cham. Julienne,359,"10,51,81,107,110,115,121"
+13,Tecumseh,367,"33,63,85,90,96,98,104"
+14,Wilmington,378,"39,75,87,88,89,101,105"
+15,Sidney,392,"43,78,80,94,97,111"
+16,Xenia,421,"58,60,77,112,114,120"
+17,Fairborn,459,"64,91,95,103,106,108,119"
+18,Stebbins,534,"79,102,113,118,122"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Everett Muhlenkamp,12,Tippecanoe,15:54.7
+2,Eli Ramos,12,Tippecanoe,16:12.1
+3,Oliver Grandstaff,12,Bellefontaine,16:20.8
+4,Justin Brinson,12,Bethel,16:35.6
+5,Lochlan Dwyer,11,Carroll,16:37.2
+6,Jack Rosson,12,Butler,16:43.8
+7,Lucas Fair,10,Bellbrook,16:47.9
+8,Joshua Johnson,12,Bellbrook,16:55.9
+9,Nathan Fisher,12,Bellbrook,16:56.8
+10,Daniel Lehner,12,Cham. Julienne,17:00.3
+11,Dalton McPeck,12,Bellbrook,17:06.6
+12,Nolan Butler,10,Piqua,17:06.8
+13,Aiden White,12,Butler,17:13.5
+14,Cooper Hensley,11,West Carrollton,17:15.6
+15,Eddie Alyanak,11,Bellbrook,17:16.6
+16,Colin Mueller,11,Carroll,17:18.0
+17,Charlie Brush,10,Carroll,17:18.1
+18,Will Myers,12,Bellefontaine,17:20.8
+19,Seth Shroyer,9,Tippecanoe,17:22.5
+20,Brenden Murray,12,Bellefontaine,17:24.5
+21,Abraham Jacinto Juarez,11,Carroll,17:26.7
+22,C T McRill,10,Greenville,17:32.6
+23,Ryan Gillig,12,Troy,17:33.0
+24,Peter Digby,9,Bethel,17:41.0
+25,Reed McGraw,9,Piqua,17:44.5
+26,Michael Towle,12,West Carrollton,17:45.9
+27,Jackson Maus,9,Bellefontaine,17:46.8
+28,Alex Hendricks,11,Bellbrook,17:49.8
+29,Andrew Dirks,11,Carroll,17:50.5
+30,Lukas Heitbrink,12,Tippecanoe,17:52.6
+31,Andrew LeBrun,10,Carroll,17:54.8
+32,Samuel Swanson,12,Troy,17:56.7
+33,Micah Sharbaugh,12,Tecumseh,17:58.0
+34,Landon Gerwels,11,Bellefontaine,17:58.2
+35,Carter Sowders,9,Butler,17:59.3
+36,Ridge Price,10,Bellbrook,17:59.3
+37,Oliver Crosthwaite,12,Franklin,18:00.7
+38,Noah Heisey,12,Tippecanoe,18:00.9
+39,Billy Skinner,11,Wilmington,18:02.3
+40,Alex Nolte,9,Piqua,18:02.4
+41,Caden Zink,10,Troy,18:03.7
+42,Jake Moreland,12,Bellefontaine,18:03.8
+43,Jeremiah Taylor,10,Sidney,18:05.8
+44,Treson Henley,12,Franklin,18:06.6
+45,Oliver Ranly,10,Tippecanoe,18:07.3
+46,Jacob Comer,11,Carroll,18:09.8
+47,Michael Trussel,11,Bethel,18:15.6
+48,Caleb Ratliff,11,Bethel,18:18.4
+49,Andrew Myers,10,Bellefontaine,18:19.4
+50,Nate Stiffler,9,Butler,18:21.8
+51,Preston Goff,12,Cham. Julienne,18:22.2
+52,Cohen Manson,10,Piqua,18:23.7
+53,Luke Ranly,9,Tippecanoe,18:24.6
+54,Blaze Burton,12,Greenville,18:25.4
+55,Anthony Kurmas,10,Troy,18:28.2
+56,Daniel Osborne,12,Franklin,18:32.5
+57,Oliver Weaver,10,Greenville,18:33.2
+58,Micah Fleming,11,Xenia,18:33.4
+59,Jack Fitzgerald,12,Greenville,18:35.7
+60,Ezra Mackiewicz,12,Xenia,18:38.3
+61,Donovan Schuyler,11,Franklin,18:38.7
+62,Karter Snyder,12,Butler,18:39.4
+63,Gabriel Spencer,9,Tecumseh,18:41.8
+64,Mason Yeary,10,Fairborn,18:43.7
+65,Bennet Gascho,12,Troy,18:47.6
+66,Nico Riggs,10,Butler,18:50.6
+67,Elijah Hasselbeck,12,Piqua,18:53.8
+68,Dayton Townsend,10,Piqua,18:57.8
+69,Connor Price,10,Greenville,18:59.3
+70,Micah Wainscott,9,Troy,19:04.5
+71,Bradley Stratman,11,Butler,19:11.9
+72,Kellan Dunn,10,Franklin,19:12.1
+73,Kaito Taketani,11,Troy,19:13.8
+74,Evan Willman,11,Greenville,19:16.6
+75,Daudi Ishara,9,Thurgood Marshall,19:20.4
+76,David Young,12,Wilmington,19:23.4
+77,Brody Baumann,11,Greenville,19:26.7
+78,Zachary Elsner,11,Xenia,19:31.7
+79,Dakota Porter,11,Sidney,19:32.0
+80,Aiden Quice,10,Stebbins,19:32.1
+81,Marlon Tucker,11,Sidney,19:32.1
+82,Xander Fattah,9,Cham. Julienne,19:34.2
+83,Presten Pierson,11,West Carrollton,19:37.1
+84,Braylin Staley,9,Piqua,19:38.4
+85,Kian Gatliff,9,Franklin,19:46.9
+86,William Jamison,10,Tecumseh,19:47.1
+87,Cherif Sore,11,Franklin,19:48.7
+88,Carson Bryd,9,Wilmington,19:48.8
+89,Isaiah Thirey,10,Wilmington,19:52.5
+90,Max Mccoy,12,Wilmington,19:54.2
+91,Gavin Frascone,12,Tecumseh,19:56.8
+92,Christian Saffle,9,Fairborn,19:59.7
+93,Dane Littlefield,11,Bethel,20:02.1
+94,Benjamin Tate,9,Bethel,20:04.4
+95,Carter Shurts,10,Sidney,20:15.1
+96,Caden Warner,11,Fairborn,20:17.1
+97,Raiden Birman,12,Tecumseh,20:19.6
+98,Anderson Blackford,12,Sidney,20:22.6
+99,Jaydyn Sanning,10,Tecumseh,20:32.7
+100,Kaden Davis,12,West Carrollton,20:34.8
+101,Cullen Firstenberger,11,Bethel,20:57.7
+102,Tad Shidaker,9,Wilmington,20:59.5
+103,Brayden Otoski,11,Stebbins,21:07.8
+104,Evan Raleigh,9,Fairborn,21:14.6
+105,Sven Johnson,11,Tecumseh,21:19.8
+106,Brady Roe,10,Wilmington,21:22.4
+107,Robert Freeze III,12,Fairborn,21:23.9
+108,Sawyer Cultice,9,Kenton Ridge,21:31.8
+109,Ethan Baker,12,Cham. Julienne,21:43.8
+110,Ke'Andre Sims,11,Ponitz CTC,21:44.6
+111,Josiah Garrett,10,Fairborn,21:55.9
+112,Zane Williams,9,West Carrollton,21:56.4
+113,King McDougal,12,Trotwood-Madison,22:01.1
+114,Herbert Best,10,Cham. Julienne,22:09.9
+115,Ashton Krabill,11,Sidney,22:20.3
+116,Malachi Bell,10,Ponitz CTC,22:20.4
+117,Logan Garrett,12,Xenia,22:26.3
+118,Matthew Zheng,11,Stebbins,22:35.4
+119,Devon Andrea,12,Xenia,22:38.3
+120,Luis Mayancela Huerta,9,Cham. Julienne,22:42.4
+121,Tyson Nguyen,12,West Carrollton,22:43.6
+122,Axel Hernandez,10,West Carrollton,22:52.5
+123,Juan Naranjo,11,Stebbins,23:17.0
+124,Liam Stewart,11,Fairborn,23:25.8
+125,Matthew Kingsolver,10,Xenia,24:03.9
+126,Harry Tulleners,10,Kenton Ridge,24:04.8
+127,William Baten Lopez,10,Cham. Julienne,24:11.5
+128,My Ho,12,Stebbins,25:11.7
+129,Julian Burroughs,12,Trotwood-Madison,26:02.9
+
+MEET: Cedarville District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Versailles,60,"1,7,11,14,27,28,34"
+2,Oakwood,78,"9,10,17,20,22,30,39"
+3,West Liberty-Salem,81,"3,12,18,19,29,36,40"
+4,Waynesville,108,"5,16,21,31,35,44,66"
+5,Milton-Union,128,"4,6,8,53,57,85,93"
+6,Brookville,167,"23,24,32,43,45,78,94"
+7,Valley View,211,"2,26,33,70,80,81,107"
+8,Miami East,266,"15,46,62,68,75,83,87"
+9,Preble Shawnee,322,"13,51,72,82,104,112,124"
+10,Alter,334,"37,55,71,76,95,100,114"
+11,Urbana,357,"48,59,67,91,92,96,103"
+12,Eaton,366,"42,64,79,84,97,102,110"
+13,Spr. Northwestern,380,"49,63,73,86,109,113,126"
+14,Graham Local,393,"50,56,77,90,120,122,125"
+15,Greenon,397,"41,58,60,115,123,132,135"
+16,Greeneview,400,"47,54,69,111,119,128,129"
+17,Ben. Logan,407,"38,74,88,99,108,117,118"
+18,Arcanum,417,"25,65,105,106,116,121"
+19,Mid. Madison,508,"61,89,98,127,133"
+20,Carlisle,548,"52,101,130,131,134"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Jackson Spitzer,12,Versailles,14:57.7
+2,Aaron Geswein,11,Valley View,15:52.4
+3,Asher Cole,11,West Liberty-Salem,15:57.1
+4,Colin Hinkelman,12,Milton-Union,16:11.2
+5,Jake Todd,11,Waynesville,16:16.7
+6,Grant Hinkelman,10,Milton-Union,16:22.7
+7,Tony Spitzer,12,Versailles,16:25.2
+8,Finn Hinkelman,10,Milton-Union,16:25.6
+9,Jackson Morrissey,11,Oakwood,16:29.6
+10,Ollie DeLong,11,Oakwood,16:40.2
+11,Max McKibben,11,Versailles,16:41.0
+12,Brayan Gullett,11,West Liberty-Salem,16:44.6
+13,Evan Shields,12,Preble Shawnee,16:53.2
+14,Ben Pitsenbarger,12,Versailles,16:58.9
+15,Johnathan Hedrick,11,Miami East,17:01.1
+16,Grant Peters,12,Spr. Shawnee,17:03.4
+17,Tony Garafolo,10,Waynesville,17:03.8
+18,Josh Bryant,12,Oakwood,17:13.1
+19,Zeke Longshore,11,West Liberty-Salem,17:14.7
+20,Eric Hoover,10,West Liberty-Salem,17:17.7
+21,Cedric Dixon-Beam,9,Oakwood,17:20.2
+22,Wyatt Raymond,10,Waynesville,17:20.9
+23,Gavin Clark,12,Oakwood,17:24.7
+24,Miles Bland,10,Brookville,17:25.8
+25,Tyler Tait,10,Brookville,17:26.3
+26,Leland Neumaier,11,Arcanum,17:26.5
+27,Titus Walton,12,Valley View,17:30.6
+28,Jack DeMange,11,Versailles,17:31.1
+29,Adam Rauh,12,Versailles,17:33.4
+30,Zeke Lauck,9,West Liberty-Salem,17:39.0
+31,Ezra Dixon-Beam,9,Oakwood,17:42.4
+32,Cole Brunett,9,Waynesville,17:44.6
+33,Jonah Rhodes,10,Brookville,17:47.4
+34,Blake Peters,11,Spr. Shawnee,17:51.9
+35,Aiden Wilson,9,Valley View,17:52.8
+36,Luke DeMange,12,Versailles,17:54.3
+37,Matt Steiner,11,Waynesville,17:54.7
+38,Zeke Sidders,12,West Liberty-Salem,17:55.1
+39,Matthew Orlando,12,Alter,17:55.7
+40,Greyson Butler,11,Ben. Logan,17:55.7
+41,Landon Ford,9,Oakwood,18:02.1
+42,Gauge Lee,11,West Liberty-Salem,18:03.2
+43,Philip Clonch,10,Greenon,18:07.7
+44,Reed Daniels,11,Eaton,18:15.0
+45,Luuk Fokkink,12,Brookville,18:16.6
+46,Nathan White,10,Indian Lake,18:16.6
+47,James Behymer,10,Waynesville,18:26.7
+48,Drew Stammen,12,Brookville,18:29.5
+49,Landon Moran,12,Miami East,18:33.8
+50,Landon Robertson,12,Greeneview,18:34.3
+51,Levi Zachrich,10,Urbana,18:38.1
+52,Beau Ryder,10,Spr. Northwestern,18:38.9
+53,Hayden Kuhlke,9,Indian Lake,18:41.0
+54,Jesse Jenkins,12,Graham Local,18:46.9
+55,Dennis Hall,12,Preble Shawnee,18:47.2
+56,Julian Combs,11,Carlisle,18:49.8
+57,Bruno Alvarez,12,Milton-Union,18:50.8
+58,Kristian Bingamon,10,Greeneview,18:52.1
+59,Colin Szabo,10,Alter,18:52.8
+60,Brandon Lockery,9,Graham Local,18:54.5
+61,Ezra Smith,9,Milton-Union,18:56.5
+62,Bryan Alfred,11,Greenon,19:02.5
+63,Landon McKellop,11,Urbana,19:05.5
+64,Jason Beachler,9,Greenon,19:05.8
+65,Blake Foster,9,Mid. Madison,19:08.3
+66,Andrew Miller,10,Miami East,19:08.5
+67,Noah Trick,9,Spr. Northwestern,19:09.4
+68,Kale Cook,11,Eaton,19:12.6
+69,Jesse Hootman,12,Arcanum,19:19.5
+70,Caeson Walton,10,Waynesville,19:19.8
+71,Anthony Keeran,11,Urbana,19:24.2
+72,Tai McAdams,12,Miami East,19:24.5
+73,Carter Wheatcraft,12,Greeneview,19:28.6
+74,Tanner Arnett,11,Valley View,19:28.7
+75,Ryan Schweickart,9,Alter,19:31.6
+76,Kyle Bruno,11,Preble Shawnee,19:34.0
+77,Ollie Roach,10,Spr. Northwestern,19:35.5
+78,Oliver Morse,12,Ben. Logan,19:36.2
+79,Conner Rice,9,Miami East,19:38.3
+80,Paul Blakeley,9,Alter,19:38.6
+81,Hunter Demarco,12,Graham Local,19:47.9
+82,Jacob Thomas,9,Brookville,19:50.2
+83,Tony Fomin,11,Eaton,19:53.1
+84,Trotter Jarbo,10,Valley View,19:53.1
+85,Braxton Abner,12,Valley View,19:53.7
+86,Alex Myers,12,Preble Shawnee,19:54.8
+87,Pierce Gipe,9,Miami East,19:56.2
+88,Mitchell Simmons,11,Eaton,19:56.8
+89,Brendan Bennett,10,Milton-Union,19:57.8
+90,Isaac Smith,12,Spr. Northwestern,19:58.4
+91,Sam Mitchell,9,Miami East,19:58.7
+92,Cason Lacher,12,Ben. Logan,20:05.8
+93,Reece Edgren,9,Mid. Madison,20:08.4
+94,Maddex Cushard,11,Graham Local,20:12.3
+95,Henry Chapman,10,Urbana,20:12.8
+96,Alex McCrae,11,Urbana,20:20.7
+97,Evan Henderson,9,Milton-Union,20:23.2
+98,Alex Waggoner,11,Brookville,20:27.2
+99,Joseph Uhl,11,Alter,20:29.7
+100,Landon McKenzie,10,Urbana,20:31.0
+101,Jaxon Schamel,10,Eaton,20:31.1
+102,Easton Evans,10,Mid. Madison,20:36.7
+103,John Tingley,9,Ben. Logan,20:38.0
+104,Ben Egan,10,Alter,20:47.4
+105,Mason Turner,12,Carlisle,20:49.5
+106,Michael Fomin,12,Eaton,20:52.0
+107,Sawyer Risner,10,Urbana,20:53.4
+108,Ethan Scott,12,Preble Shawnee,20:55.1
+109,William Schwartz,9,Arcanum,20:56.7
+110,Hunter Eley,12,Arcanum,20:58.1
+111,Davey Alsip,11,Valley View,20:59.5
+112,Baraka Bahati,12,Meadowdale,21:01.2
+113,Maxwell Troth,12,Ben. Logan,21:09.5
+114,Clayton Lightner,9,Spr. Northwestern,21:13.7
+115,Dane McElwain,11,Eaton,21:17.4
+116,Giobany Avila,12,Meadowdale,21:25.4
+117,Harrison Sargent,12,Greeneview,21:26.8
+118,Garrett Wysong,9,Preble Shawnee,21:37.7
+119,Clay Scannell,9,Spr. Northwestern,21:42.4
+120,Nicholas Chapman,9,Spr. Shawnee,21:48.2
+121,Matthew Radlowski,9,Alter,21:50.5
+122,Oussama Ibrahim,11,Meadowdale,21:57.9
+123,Sam Collins,11,Greenon,22:13.5
+124,Gideon Duncan,9,Arcanum,22:29.8
+125,Gavin Jordan,12,Ben. Logan,22:36.4
+126,Gabe Elsasser,12,Ben. Logan,22:42.7
+127,Colton Evans,9,Greeneview,22:47.9
+128,Alex Daubenspeck,12,Graham Local,22:55.8
+129,Logan Roeser,10,Arcanum,22:59.4
+130,Sully Uhl,12,Graham Local,23:03.5
+131,Kaleb Bamks,11,Meadowdale,23:10.0
+132,Griffin South,12,Greenon,23:10.7
+133,Toby Graham,11,Preble Shawnee,23:17.0
+134,Tucker Fenton,10,Graham Local,23:18.8
+135,Evan Carroll,9,Spr. Northwestern,23:26.7
+136,Kayden Justice,9,Mid. Madison,24:17.6
+137,Brady Robinson,11,Greeneview,25:04.4
+138,Jackson Wheatcraft,9,Greeneview,25:14.4
+139,Cole Gordon,9,Carlisle,25:37.7
+140,Daniel Messham,11,Carlisle,26:53.9
+141,Matheo Al Haddad,9,Greenon,26:56.5
+142,Griffin Wilson,10,Mid. Madison,27:07.8
+143,Samuel Pennington,10,Spr. Shawnee,27:10.4
+144,Brayden Turner,10,Carlisle,28:19.4
+145,Simon Savage,10,Greenon,30:40.5
+
+MEET: Cedarville District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Russia,45,"3,4,8,9,21,37,50"
+2,Botkins,77,"5,14,16,19,23,31,58"
+3,Legacy Christian,81,"2,11,12,26,30,43,53"
+4,Cedarville,127,"13,17,18,28,51,54,71"
+5,Lehman Cath.,185,"20,24,34,47,60,65,86"
+6,Ft. Recovery,250,"29,39,57,59,66,83,99"
+7,Troy Christian,258,"22,27,44,81,84,96,105"
+8,Anna,273,"10,40,46,82,95,101,107"
+9,Ft. Loramie,292,"6,45,72,75,94,141,146"
+10,Minster,299,"35,56,64,68,76,97"
+11,Tri-Village,331,"15,33,74,93,116,139"
+12,Triad,352,"41,52,69,88,102,133,151"
+13,Covington,364,"32,70,73,80,109,125,127"
+14,Ansonia,398,"1,61,92,114,130,148"
+15,Newton Local,406,"49,63,85,98,111,112,113"
+16,Jackson Center,440,"25,78,79,122,136,145"
+17,Dixie,449,"42,87,89,108,123,134,138"
+18,Spring. ECA,453,"7,36,119,128,163"
+19,Franklin Monroe,480,"38,100,104,117,121,129"
+20,Bradford,586,"67,90,131,142,156"
+21,S. Char. SE,588,"48,106,126,153,155,158,160"
+22,Houston,589,"103,110,115,124,137"
+23,Yellow Springs,609,"55,118,135,147,154,159"
+24,Northeastern,631,"77,91,144,157,162"
+25,Mississinawa Valley,654,"62,132,149,150,161"
+26,Stivers,719,"120,140,143,152,164"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Bennett Lehman,12,Ansonia,15:33.0
+2,Stephen Wojtowicz,12,Legacy Christian,15:36.5
+3,Paxson Bixler,10,Russia,15:36.9
+4,Samuel Philpot,12,Russia,15:44.7
+5,Liam Schumann,10,Botkins,16:15.5
+6,Ean Grillot,12,Ft. Loramie,16:27.2
+7,Elijah Scales,11,Spring. ECA,16:29.1
+8,Evan Smith,11,Russia,16:30.1
+9,Owen Sargent,12,Russia,16:35.6
+10,Titus Young,12,Anna,16:35.7
+11,Ethan Michael,11,Legacy Christian,16:38.3
+12,Elam Sparks,12,Legacy Christian,16:42.8
+13,Isaac Sultan,10,Cedarville,16:48.7
+14,Wesley Gutman,11,Botkins,16:52.8
+15,Adly Knox,11,Calvary Christian,16:53.3
+16,Carter Trantham,11,Tri-Village,16:54.7
+17,Tyler Arnold,9,Botkins,16:55.8
+18,Nathan Sultan,12,Cedarville,17:00.2
+19,Gabriel Duncan,12,Cedarville,17:04.0
+20,Sawyer Braun,10,Botkins,17:04.0
+21,Hunter Todd,12,Twin Valley So.,17:05.6
+22,Kieran O'Leary,10,Lehman Cath.,17:06.6
+23,Keagan Baldridge,12,Russia,17:06.8
+24,Steven Edmonds,11,Troy Christian,17:07.3
+25,Lucas Arnold,12,Botkins,17:13.7
+26,Luke Dexter,11,Lehman Cath.,17:14.8
+27,Braylon Elmore,11,Jackson Center,17:16.1
+28,Lucas Thompson,12,Legacy Christian,17:17.2
+29,Jeffrey Estes,10,Troy Christian,17:18.5
+30,Benaiah Soma,11,Calvary Christian,17:20.8
+31,Asher Stewart,12,Cedarville,17:21.8
+32,Alex Roessner,10,Ft. Recovery,17:23.4
+33,Josh Grimson,12,Legacy Christian,17:23.5
+34,Wesley Manger,12,Botkins,17:24.3
+35,Kent Welborn,12,Covington,17:25.3
+36,Coleman Trantham,11,Tri-Village,17:25.7
+37,Newton Rocke,10,Lehman Cath.,17:25.7
+38,Jack Strausbaugh,11,Minster,17:26.1
+39,Zek Scales,11,Spring. ECA,17:26.3
+40,Francis Phlipot,9,Russia,17:26.4
+41,Charlie Stull,11,Franklin Monroe,17:29.0
+42,Reese Diller,12,Ft. Recovery,17:30.1
+43,Dawson Homan,9,Anna,17:30.7
+44,Henry Beaverson,12,Triad,17:31.2
+45,James McNew,12,Dixie,17:37.2
+46,Jeremy Carter,11,Legacy Christian,17:37.7
+47,Jerrod Estes,9,Troy Christian,17:39.3
+48,Aydan Knox,10,Calvary Christian,17:40.5
+49,Paul Bornhorst,9,Ft. Loramie,17:43.4
+50,Derek Meyer,11,Anna,17:44.7
+51,Thaddeus Bezy,11,Lehman Cath.,17:54.8
+52,Josiah Zimmerman,12,S. Char. SE,17:54.9
+53,Garrison Hughes,11,Newton Local,17:55.3
+54,Jacob Muhlenkamp,9,Russia,17:55.8
+55,Tait Franz,9,Cedarville,17:58.0
+56,Daniel Ishida-Garwood,10,Triad,18:01.0
+57,Chris Gallagher,11,Legacy Christian,18:05.0
+58,Owen Cole,11,Cedarville,18:05.1
+59,Wills Oberg,12,Yellow Springs,18:12.4
+60,Collin Cedarleaf,12,Minster,18:13.2
+61,Andon Roessner,10,Ft. Recovery,18:14.7
+62,Reid Gutman,9,Botkins,18:15.4
+63,Andrew Rehmert,10,Ft. Recovery,18:17.8
+64,Leopold Schmiesing,12,Lehman Cath.,18:19.2
+65,Wyatt Unrast,12,Ansonia,18:20.9
+66,Elijah McKeeth,10,Mississinawa Valley,18:22.5
+67,Tanner Long,11,Newton Local,18:24.0
+68,Aiden Wietholter,11,Minster,18:26.4
+69,Caleb Unger,9,Lehman Cath.,18:28.7
+70,Jack Gleason,9,Ft. Recovery,18:30.5
+71,Eli Hoffman,11,Bradford,18:31.8
+72,Henry Corona,9,Minster,18:33.8
+73,Jacob Johnson,9,Triad,18:34.2
+74,Liam Deaton,9,Covington,18:35.7
+75,Micah McLaughlin,11,Cedarville,18:37.7
+76,Merek Mumm,12,National Trail,18:37.8
+77,Sean Bornhorst,12,Ft. Loramie,18:38.1
+78,Wyatt Pierce,11,Covington,18:40.9
+79,Owen Ridout,10,Tri-Village,18:42.0
+80,Ryan Jacobs,12,Ft. Loramie,18:42.5
+81,Evan Homan,12,Minster,18:42.6
+82,Gavyn Wheeler,10,Northeastern,18:43.4
+83,Gabriel Fleming,12,Jackson Center,18:45.5
+84,Eli Prenger,11,Jackson Center,18:46.9
+85,Samuel DeHart,12,Twin Valley So.,18:48.1
+86,Zaiden Maroney,11,Covington,18:49.7
+87,Rhett Baldwin,11,Troy Christian,18:50.3
+88,Preston Barnes,10,National Trail,18:51.7
+89,Grant Stone,9,Anna,18:52.0
+90,Russell Hart,12,Ft. Recovery,18:52.9
+91,Jacob Pierce,11,Troy Christian,18:54.1
+92,Colton Shellenberger,11,Newton Local,18:55.1
+93,Alex Goubeaux,12,Lehman Cath.,18:55.2
+94,Evan Jackle,12,Dixie,18:59.0
+95,Noah Humphrey,10,Triad,19:02.9
+96,Josh Hurd,10,Dixie,19:03.6
+97,Zeb Lavey,11,Bradford,19:04.2
+98,Roland Goff,10,Northeastern,19:10.1
+99,Treyton Spence,11,Ansonia,19:10.9
+100,Carsen Dyson,12,Tri-Village,19:11.1
+101,Max Hoying,10,Ft. Loramie,19:12.0
+102,Griffin Pettus,10,Anna,19:16.3
+103,Collin Patel,10,Troy Christian,19:18.7
+104,Jackson Corona,12,Minster,19:19.9
+105,Bryce Couvutsakis,11,National Trail,19:26.7
+106,Eli Leingang,11,Newton Local,19:28.6
+107,Gavin Heitkamp,10,Ft. Recovery,19:32.2
+108,James Oswalt,10,Franklin Monroe,19:33.7
+109,Wesley Dickman,9,Anna,19:35.4
+110,Hayden Williams,12,Triad,19:35.6
+111,Brennan Diehl,9,Houston,19:35.7
+112,Levi Heck,9,Franklin Monroe,19:37.0
+113,Henry Rupnik,11,Troy Christian,19:39.0
+114,Ian Crutchfield,10,S. Char. SE,19:43.8
+115,Isaac Harshbarger,9,Anna,19:45.1
+116,Will Bender,10,Calvary Christian,19:54.0
+117,Alijah Trammell,9,Dixie,20:01.0
+118,Landon Reynolds,12,Covington,20:01.0
+119,Johnathon Young,9,Houston,20:02.6
+120,Ethan Hogan,9,Newton Local,20:05.7
+121,Lincoln Smith,11,Newton Local,20:08.3
+122,Travis Stanhope,12,Newton Local,20:10.0
+123,Elijah Kocher,11,Ansonia,20:11.7
+124,Konner Pleiman,12,Houston,20:15.2
+125,Caison Stewart,9,Tri-Village,20:18.4
+126,Tristan Gilbert,9,Franklin Monroe,20:19.0
+127,Oskar Dennis,12,Yellow Springs,20:22.9
+128,Isaac Scales,9,Spring. ECA,20:29.7
+129,Abraham Ramirez Jesus,10,Stivers,20:30.8
+130,Evan Klosterman,11,Franklin Monroe,20:34.0
+131,Kashton Elsass,10,Jackson Center,20:34.7
+132,Alvin Vollmer,10,Dixie,20:35.8
+133,Jaden Pleiman,10,Houston,20:42.7
+134,Drake Angle,11,Covington,20:49.8
+135,Cole Caldwell,12,S. Char. SE,20:50.1
+136,Devin Abke,9,Covington,20:50.9
+137,Carlton Glaze,11,Spring. ECA,20:57.6
+138,Mason Imhoff,9,Franklin Monroe,20:58.3
+139,Max Lentz,10,Ansonia,20:59.3
+140,Jackson Felver,10,Bradford,21:11.7
+141,Chayne Stewart,10,Mississinawa Valley,21:13.9
+142,Chris May,9,Triad,21:18.8
+143,Levi Russell,9,Dixie,21:25.1
+144,Matteo Chaiten,11,Yellow Springs,21:26.8
+145,Brayden Nation,11,Jackson Center,21:27.6
+146,Nathanael Keating,9,Houston,21:42.1
+147,Brayden Day,11,Dixie,21:47.8
+148,Caleb Sachs,10,Tri-Village,21:49.2
+149,Scott Kelly,9,Stivers,21:49.8
+150,Will Rethman,11,Ft. Loramie,21:50.1
+151,Brendan Hansen,11,Bradford,21:51.8
+152,Musemil Mohamed,10,Stivers,22:00.8
+153,Isaiah Hodge,12,Northeastern,22:26.0
+154,Johnathan Meadows,9,Jackson Center,22:27.4
+155,Paxton Mescher,9,Ft. Loramie,22:28.8
+156,Graham Turnmire,11,Yellow Springs,22:37.7
+157,Branson Landis,10,Ansonia,22:50.0
+158,Peyton Wolfe,10,Mississinawa Valley,22:58.7
+159,Zachariah McKeeth,12,Mississinawa Valley,23:12.9
+160,Alex McComas,9,Triad,23:14.8
+161,Terrance Morgan ll,9,Stivers,23:35.7
+162,Trenton Stiles,12,S. Char. SE,23:45.5
+163,Brodan Chaffee,11,Yellow Springs,24:20.0
+164,Brandon Porr,11,S. Char. SE,24:23.1
+165,Kyree Roberts,12,Bradford,24:41.8
+166,Maverick Bonham,9,Northeastern,25:07.1
+167,Noah Bruns,10,S. Char. SE,25:43.8
+168,Adrian Benedict,11,Yellow Springs,26:11.7
+169,John Crutchfield,11,S. Char. SE,26:28.2
+170,Wyatt Barga,11,Mississinawa Valley,27:16.9
+171,Samuel Clemens,9,Northeastern,30:02.5
+172,Aaron Jones,11,Spring. ECA,31:02.1
+173,Desmond Truitt,10,Stivers,31:03.2
+174,Brenden Lattimer,10,DeG. Riverside,33:08.9
+
+MEET: Cedarville District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Bellbrook,44,"1,3,9,13,18,22,31"
+2,Butler,79,"2,4,8,25,40,64"
+3,Tippecanoe,87,"7,11,19,24,26,48,52"
+4,Piqua,95,"6,14,16,17,42,45,73"
+5,Troy,124,"10,20,23,32,39,41,44"
+6,Carroll,190,"12,29,35,56,58,69,84"
+7,Greenville,199,"27,28,38,47,59,65,66"
+8,Miamisburg,238,"5,21,55,67,90,103,106"
+9,Tecumseh,265,"30,50,54,60,71,80,95"
+10,Franklin,269,"15,43,51,75,85,89,113"
+11,Cham. Julienne,305,"33,57,61,76,78,82,94"
+12,Stebbins,333,"37,68,70,77,81,92"
+13,Eaton,333,"34,49,62,91,97,105"
+14,Wilmington,350,"36,53,86,87,88"
+15,West Carrollton,407,"63,72,74,96,102"
+16,Stivers,460,"46,93,98,111,112"
+17,Fairborn,497,"83,99,100,107,108,109,110"
+18,Xenia,513,"79,101,104,114,115"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Allison High,12,Bellbrook,19:02.2
+2,Kareena Vandervort,12,Butler,19:19.2
+3,Morgan Dalton,12,Bellbrook,19:44.5
+4,Peyton Wilmoth,11,Butler,19:46.2
+5,Kim Donbar,12,Miamisburg,20:03.2
+6,Olivia McGraw,9,Piqua,20:11.9
+7,Delia Parrott,11,Tippecanoe,20:13.2
+8,Cecelia Campbell,11,Butler,20:17.2
+9,Olive Varvel,12,Bellbrook,20:18.7
+10,Norah Ullery,10,Troy,20:22.3
+11,Delainey Stout,10,Tippecanoe,20:26.9
+12,Audrey Molnar,11,Carroll,20:28.9
+13,Laura Hnatiuk,11,Bellbrook,20:31.1
+14,Elizabeth Wessel,10,Piqua,20:35.0
+15,Laila Black,12,Franklin,20:35.7
+16,Layla King,10,Piqua,20:36.0
+17,Layna Angle,9,Piqua,20:37.9
+18,Elsie Bruckart,11,Bellbrook,20:43.0
+19,Sydney LaBreck,11,Tippecanoe,20:45.3
+20,Avyn Spagnola,11,Troy,20:45.4
+21,Sidney Toole,11,Miamisburg,20:45.5
+22,Embri Lloyd,9,Bellbrook,20:45.5
+23,McKenna Lynch,12,Troy,20:48.1
+24,Lucia Ranly,12,Tippecanoe,20:48.6
+25,Lydia Vieth,11,Butler,20:49.9
+26,Mary Waibel,11,Tippecanoe,20:51.7
+27,Kinsey Fiora,9,Greenville,20:51.8
+28,Sami Elam,12,Greenville,20:58.1
+29,Makayla Mcloughlin,12,Carroll,20:59.8
+30,Lucy MacDonald,9,Tecumseh,21:03.2
+31,Inara Heiner,12,Bellbrook,21:09.1
+32,Azaria Stokes,11,Thurgood Marshall,21:13.8
+33,Reid Bowser,10,Troy,21:17.8
+34,Jane Haley,11,Cham. Julienne,21:21.9
+35,Kylie Elliott,9,Eaton,21:31.1
+36,Beth Poling,11,Carroll,21:31.3
+37,Josey King,10,Wilmington,21:42.9
+38,Taytum Mahan,12,Stebbins,21:43.0
+39,Callie Marker,10,Greenville,21:44.1
+40,Ruby Zimmerman,11,Troy,21:45.8
+41,Reese Landis,11,Butler,21:47.2
+42,Caroline Rohlfs,12,Troy,21:48.6
+43,Kendall Soto,12,Piqua,21:49.1
+44,Marilynn Perkins,10,Franklin,21:53.0
+45,Peyton Scott,11,Troy,21:55.1
+46,Libby Magoteaux,11,Piqua,21:56.8
+47,Perry Richter,10,Stivers,22:11.9
+48,Lydia Force,10,Greenville,22:19.0
+49,Kali Greth,12,Tippecanoe,22:24.8
+50,Avery Bleil,11,Eaton,22:25.3
+51,Mackenna Sharbaugh,12,Tecumseh,22:25.9
+52,Kydee Shults,12,Franklin,22:30.1
+53,Aubrey Davis,11,Tippecanoe,22:31.2
+54,Alexa Benitez,12,Wilmington,22:33.2
+55,Jocelyn Sharbaugh,9,Tecumseh,22:38.9
+56,Jocelyn Peterson,11,Miamisburg,22:56.8
+57,Maci Brooks,9,Carroll,23:01.5
+58,Aida Riegel,12,Cham. Julienne,23:04.2
+59,Gabriela Albertson,9,Carroll,23:10.3
+60,Clair Rammel,12,Greenville,23:24.6
+61,Yocelyn Mendoza Esparza,12,Tecumseh,23:33.0
+62,Molly Schoen,12,Cham. Julienne,23:36.7
+63,Vivian Weadick-hoover,12,Eaton,23:44.9
+64,Isabel Williams,11,West Carrollton,23:49.8
+65,Adoncia Torres,12,Butler,23:51.9
+66,Leah Force,11,Greenville,23:52.7
+67,Meredith Hunt,11,Greenville,23:54.0
+68,Zoe Dalpayrat,11,Miamisburg,23:55.2
+69,Shannon Friel,12,Stebbins,23:56.5
+70,Felicity Englefield,11,Carroll,23:58.0
+71,Payton Matheney,11,Stebbins,24:00.2
+72,Amee Hoover,12,Tecumseh,24:02.4
+73,Addison Porter,11,West Carrollton,24:08.3
+74,Madi Cantrell,11,Piqua,24:11.8
+75,Isabella Birrueta Perez,10,West Carrollton,24:17.2
+76,Bryley Wulff,12,Franklin,24:29.2
+77,Miriam Stebel,12,Cham. Julienne,24:30.9
+78,Eva Maddix,12,Stebbins,24:32.3
+79,Lily Best,12,Cham. Julienne,24:33.9
+80,Morgan Fleming,9,Xenia,24:35.0
+81,Emery Milligan,11,Tecumseh,24:57.8
+82,Karis Vassar,12,Stebbins,25:03.9
+83,Denia Ramirez Dominguez,10,Cham. Julienne,25:07.2
+84,Addison Barringer,9,Fairborn,25:07.2
+85,Rhiannon Leopold,11,Carroll,25:17.0
+86,Meryn Berry,10,Franklin,25:22.2
+87,Florence Jaetzold,11,Wilmington,25:23.6
+88,Mileigh Hollingsworth,11,Wilmington,25:32.3
+89,Bristyl Ruddle,10,Wilmington,25:35.1
+90,Brooklyn Hall,10,Franklin,25:39.1
+91,Evelyn Jacobo Perez,9,Miamisburg,25:41.6
+92,Audrey Helsinger,11,Eaton,25:42.1
+93,Cylie Wade,11,Stebbins,25:48.1
+94,Olivia Tucker,12,Stivers,25:49.3
+95,Milah Schulker,12,Cham. Julienne,25:49.9
+96,Meleny Diaz-Velasquez,12,Tecumseh,25:50.2
+97,Kaylnn Sherman,11,West Carrollton,26:02.2
+98,Emma Pierce,12,Eaton,26:06.9
+99,Analiese Pettiford,12,Stivers,26:16.0
+100,Emma Kunkle,10,Fairborn,26:29.9
+101,Emma Schmiesing,11,Sidney,26:50.8
+102,Gwenith Poling,12,Fairborn,26:53.2
+103,Emili Aguilar,9,Xenia,27:00.9
+104,Tyla Wilson,10,West Carrollton,27:11.8
+105,Alyssa Anderson,10,Miamisburg,27:50.3
+106,Satyanna Cates,10,Xenia,28:40.2
+107,Briella Conklin,10,Eaton,28:46.9
+108,Nevaeh Watson,10,Sidney,29:02.8
+109,Cambria Thompson,12,Miamisburg,29:28.2
+110,Aniya Rucker,12,Trotwood-Madison,29:39.8
+111,Daisy Kirkman,9,Fairborn,30:00.4
+112,Adrianna Barrett,10,Sidney,31:24.2
+113,Ruth Atelus,9,Sidney,31:29.1
+114,Jaylynn Bishop,10,Fairborn,31:30.7
+115,Adalyn Allen,9,Fairborn,31:40.9
+116,Rehema Qudra,12,Ponitz CTC,32:01.3
+117,Rylee Allen,12,Fairborn,32:36.3
+118,Adrienne Drake,12,Stivers,34:11.9
+119,Elise Jeffries,10,Stivers,36:03.3
+120,Chloe Moore,10,Franklin,36:14.7
+121,Alyssa Bradley,9,Xenia,37:00.1
+122,Aylin Kotze,12,Xenia,42:52.2
+123,Anleymarie Ortiz Delgado,9,Ponitz CTC,44:32.1
+,Clementine Icyizanye,11,Ponitz CTC,DNF
+
+MEET: Cedarville District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Oakwood,30,"2,4,7,8,9,12,16"
+2,Versailles,82,"10,14,18,19,21,23,24"
+3,Greenon,163,"3,29,30,39,62,74,89"
+4,Bellefontaine,166,"5,35,38,42,46,59,64"
+5,Urbana,179,"13,22,37,47,60,96,99"
+6,Milton-Union,181,"11,31,41,43,55,68,94"
+7,Waynesville,194,"6,25,32,48,83,86"
+8,Alter,195,"15,26,50,51,53,61,73"
+9,Miami East,214,"1,44,45,57,67,70,82"
+10,Bethel,225,"28,33,40,52,72,92,100"
+11,Brookville,247,"17,36,63,65,66,77,79"
+12,Ben. Logan,308,"54,56,58,69,71,78,84"
+13,Spr. Northwestern,326,"34,49,75,80,88,93,95"
+14,Indian Lake,362,"27,76,81,87,91"
+15,Graham Local,390,"20,85,90,97,98,101"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Tessa Kress,11,Miami East,18:27.3
+2,Evelyn Reinoehl,10,Oakwood,18:53.1
+3,Ruby Clark,12,Greenon,19:08.2
+4,Katherine Erwin,12,Oakwood,19:43.4
+5,Grace Brown,12,Bellefontaine,19:43.5
+6,Aislin Turkelson,12,Waynesville,19:46.2
+7,Maggie Basom,11,Oakwood,19:46.5
+8,Sylvia Gallagher-Yerman,12,Oakwood,19:48.8
+9,Bella Fulton,10,Oakwood,20:08.2
+10,Laini Simon,9,Versailles,20:09.9
+11,Aubree Bates,11,Milton-Union,20:12.4
+12,Ava McManamon,9,Oakwood,20:19.0
+13,Hazel Lightle,12,Urbana,20:19.0
+14,Naomi Rahm,9,Versailles,20:31.3
+15,Veronica Johnston,11,Alter,20:35.2
+16,Anna Peters,12,Oakwood,20:41.4
+17,Cayleigh Tipton,11,Brookville,20:45.8
+18,Ava Rismiller,12,Versailles,20:53.3
+19,Blair Schellhase,10,Versailles,20:59.7
+20,Harriet Uhl,10,Graham Local,21:02.8
+21,Isabelle Dirksen,12,Versailles,21:08.0
+22,Avery Smith,11,Urbana,21:18.3
+23,Myra Braun,12,Versailles,21:21.1
+24,Abigail Wilker,10,Versailles,21:22.7
+25,Madison Bell,11,Waynesville,21:23.5
+26,Jossy Kasner,12,Greeneview,21:25.8
+27,Elaina Vaglienty,10,Alter,21:36.0
+28,Emelia Krouse,9,Spr. Shawnee,21:40.4
+29,Laura Metzger,10,Indian Lake,21:47.9
+30,Olivia Brumbaugh,11,Bethel,21:51.2
+31,Kaitlin Wiles,11,Greenon,21:54.9
+32,Calynn Ropp,10,Greenon,21:56.2
+33,Madelyn Korte,11,Milton-Union,22:01.5
+34,Cora Roberts,11,Waynesville,22:01.5
+35,Natalie Sonnanstine,12,Bethel,22:03.0
+36,Shannon Rosenbaum,12,Spr. Northwestern,22:06.3
+37,Hannah Wilson,12,Bellefontaine,22:06.3
+38,Riley Lake,11,Brookville,22:09.1
+39,Sara Hildebrand,11,Urbana,22:15.3
+40,Camila Cely-Hernandez,11,Bellefontaine,22:24.2
+41,Aubrey Clark,10,Greenon,22:26.2
+42,Alyssandra "Grace" Peirano,12,Bethel,22:29.1
+43,Amelia Iddings,11,Milton-Union,22:29.8
+44,Sloan Stolly,11,Bellefontaine,22:38.3
+45,Sydnie Bartlett,12,Milton-Union,22:40.1
+46,Savannah Brown,10,Miami East,22:40.3
+47,Braylee Coffee,9,Mid. Madison,22:43.2
+48,Haley Gearhardt,9,Miami East,22:43.8
+49,Cameo Greene,10,Bellefontaine,22:44.8
+50,Olivia MacKendrick,12,Urbana,22:48.6
+51,Kendra Ball,12,Waynesville,22:52.6
+52,Abigail Cuy Castellanos,9,Spr. Northwestern,22:55.2
+53,Olivia Baker,10,Carlisle,22:55.5
+54,Nora Blakeley,10,Alter,22:57.2
+55,Maddie Zimmer,12,Alter,22:58.2
+56,Charlotte Damron,9,Bethel,23:03.3
+57,Kenzie Dodge,12,Alter,23:05.7
+58,Mollie Siefring,12,Ben. Logan,23:08.4
+59,Kayleigh Smith,9,Milton-Union,23:08.5
+60,Anna Bennett,11,Greeneview,23:11.2
+61,Shelby Siefring,9,Ben. Logan,23:11.3
+62,Reese Chilcote,12,Spr. Shawnee,23:12.1
+63,Ella Doss,10,Kenton Ridge,23:15.3
+64,Addison Cenky,9,Miami East,23:15.6
+65,Lucy Wenger,12,Ben. Logan,23:18.2
+66,Chloe O'Chocke,10,Bellefontaine,23:24.4
+67,Meghan Hoskins,9,Urbana,23:26.2
+68,Madeline Stearns,11,Alter,23:27.4
+69,Emma Wilson,11,Greenon,23:32.7
+70,Peyton Osswald,9,Brookville,23:40.0
+71,Teagan Combs,10,Carlisle,23:44.4
+72,Leila Hammond,10,Bellefontaine,23:45.9
+73,Kyra Hope,11,Brookville,23:48.8
+74,Elin Stockslager,9,Brookville,23:51.2
+75,Grace Shively,11,Miami East,23:53.3
+76,Mallory Coate,11,Milton-Union,23:56.1
+77,Gwendolyn Smith,11,Ben. Logan,24:05.6
+78,Juliet Russell,9,Miami East,24:07.2
+79,Elliott Butler,12,Ben. Logan,24:09.4
+80,Sophia Trussel,9,Bethel,24:11.3
+81,Caroline Miller,10,Alter,24:12.3
+82,Charlotte Campbell,10,Greenon,24:13.4
+83,Bella Highlen,12,Spr. Northwestern,24:23.6
+84,Kayleigh Taylor,12,Indian Lake,24:27.6
+85,Carol Thomas,9,Brookville,24:30.3
+86,Lottie Bodin,11,Ben. Logan,24:32.6
+87,Savannah Williams,9,Brookville,24:33.6
+88,Rylie Bussert,11,Spr. Northwestern,24:45.9
+89,Haley Metzger,12,Indian Lake,24:49.7
+90,Rehgan Hufford,11,Miami East,24:53.1
+91,Ali Larsen,11,Waynesville,24:54.3
+92,Lauren Kennedy,12,Ben. Logan,25:03.1
+93,Adelaide Shearer,11,Graham Local,25:04.9
+94,Stella Gremling,11,Waynesville,25:19.4
+95,Caroline Jones,9,Indian Lake,25:28.2
+96,Kathryn Dinh,10,Spr. Northwestern,25:31.0
+97,Ellie Wyant,9,Greenon,25:34.5
+98,Kendall Nichols,10,Graham Local,25:35.3
+99,Abby Arnett,9,Indian Lake,25:40.6
+100,Alyssa Thorn,10,Carlisle,26:01.2
+101,Ibtisam Eljawad,12,Bethel,26:09.5
+102,Kaylin Flory,9,Mid. Madison,26:11.5
+103,Elizabeth Hill,10,Spr. Shawnee,26:15.0
+104,Eden Fife,9,Greeneview,26:24.9
+105,Braelynn Fitzsimmons,9,Spr. Northwestern,26:50.7
+106,Lola Taylor,11,Milton-Union,27:00.3
+107,Ava Bussert,9,Spr. Northwestern,27:07.1
+108,Addison Bass,12,Urbana,27:39.6
+109,Tori Ford,11,Graham Local,29:15.2
+110,Cosette Randall,10,Kenton Ridge,29:20.3
+111,Lilyana Krumm,10,Mid. Madison,30:06.1
+112,Cece Mockbee,9,Graham Local,30:18.7
+113,Zaylor Rogan,10,Urbana,31:03.2
+114,Gracie Myers,9,Greeneview,31:09.4
+115,Izabella Ayers,11,Bethel,34:32.3
+116,Stella Leighty,10,Graham Local,35:42.3
+
+MEET: Cedarville District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Minster,62,"3,4,5,24,26,37,40"
+2,Ft. Loramie,84,"2,14,18,23,27,32,61"
+3,West Liberty-Salem,113,"7,12,13,30,51,54,56"
+4,Botkins,182,"10,11,21,67,73"
+5,Cedarville,185,"6,36,46,48,49,53,78"
+6,Anna,193,"19,33,39,47,55,57,62"
+7,Arcanum,208,"15,38,43,52,60,76,82"
+8,Covington,211,"9,17,31,63,91,109"
+9,Lehman Cath.,217,"22,28,35,58,74,84,87"
+10,Tri-Village,220,"20,25,44,59,72"
+11,Ansonia,249,"1,8,71,77,92,97,101"
+12,Legacy Christian,297,"34,45,64,75,79,81,89"
+13,Ft. Recovery,314,"16,41,66,95,96,104,105"
+14,Russia,336,"29,65,69,83,90,99"
+15,Troy Christian,410,"42,68,93,100,107,111"
+16,Houston,475,"70,88,94,110,113"
+17,National Trail,486,"80,86,98,106,116"
+18,Spring. ECA,502,"50,103,114,117,118"
+19,Yellow Springs,522,"85,102,108,112,115"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Anna Yeomans,10,Ansonia,18:51.5
+2,Michaela Flora,11,Newton Local,19:07.7
+3,Elaina Borchers,10,Ft. Loramie,19:11.2
+4,Joanna Topp,11,Minster,19:14.2
+5,Elizabeth Niekamp,9,Minster,19:15.1
+6,Claire Bohman,12,Minster,19:17.2
+7,Amelia Middleton,9,Fairlawn,19:47.5
+8,Mandy Mark,11,Cedarville,19:51.1
+9,Claire Stull,12,Newton Local,19:52.9
+10,Isla Leichty,11,West Liberty-Salem,19:57.5
+11,Claire Barga,9,Ansonia,20:00.6
+12,Alice Larson,10,Covington,20:12.2
+13,Ella Eshleman,10,Franklin Monroe,20:18.8
+14,Quinn Schnippel,11,Botkins,20:19.4
+15,Leah Ivey,12,Botkins,20:19.8
+16,Elin Leichty,9,West Liberty-Salem,20:21.2
+17,Josie Cress,9,Newton Local,20:23.4
+18,Addi Wallen,11,West Liberty-Salem,20:27.1
+19,Olivia Sanders,10,Ft. Loramie,20:31.5
+20,Lilly Moore,9,Arcanum,20:32.1
+21,Makenna Huelskamp,12,Ft. Recovery,20:35.4
+22,Tessa Lyons,9,Covington,20:38.3
+23,Addie Mohler,10,S. Char. SE,20:40.5
+24,Aubrey Johnson,11,Triad,20:40.6
+25,Janelle Siegel,12,Ft. Loramie,20:50.2
+26,Melanie Kranenburg,12,Anna,20:55.0
+27,Kruz Mead,9,Tri-Village,20:55.1
+28,Amelia Koenig,9,Botkins,21:06.6
+29,Katie Schmiesing,10,Lehman Cath.,21:07.6
+30,Evelyn Poeppelman,11,Ft. Loramie,21:08.7
+31,Ava Colter,11,Minster,21:11.2
+32,Bailey Foster,9,Tri-Village,21:12.1
+33,Olivia Blindauer,9,Minster,21:12.3
+34,Carly Holthaus,12,Ft. Loramie,21:19.2
+35,Margaret Schmiesing,12,Lehman Cath.,21:29.4
+36,Vivian Hoehne,9,Russia,21:29.7
+37,Elia Matthews,10,West Liberty-Salem,21:29.9
+38,Natalie Parke,9,Covington,21:33.2
+39,Addison Turner,10,Ft. Loramie,21:33.8
+40,Addison Wentz,10,Anna,21:38.1
+41,Abby Cole,9,Legacy Christian,21:42.6
+42,Emma Linson,9,Lehman Cath.,21:46.5
+43,Molly Dray,9,Cedarville,21:52.1
+44,Catelyn Cedarleaf,10,Minster,21:52.3
+45,Sadie Waldo,10,Arcanum,21:54.3
+46,Claire Poppe,9,Anna,21:54.7
+47,Cara Bornhornst,10,Minster,21:55.5
+48,Riley Heitkamp,11,Ft. Recovery,21:59.2
+49,Maiya Williams,9,Troy Christian,22:03.1
+50,Ella Warren,11,Arcanum,22:12.5
+51,Shelby Finkbine,9,Tri-Village,22:14.2
+52,Liberty Hines,11,Legacy Christian,22:15.2
+53,Gloria Lopez,12,Cedarville,22:16.6
+54,Sheridan Williamson,11,Anna,22:17.7
+55,Madeline Minor,12,Cedarville,22:18.8
+56,Ana McClure,10,Cedarville,22:19.4
+57,Jessica Whetstone,11,Spring. ECA,22:25.3
+58,Charlee Albers,10,West Liberty-Salem,22:26.2
+59,Maci Pechie,11,Arcanum,22:29.1
+60,Paige Minor,11,Cedarville,22:31.3
+61,Hattie Jacobs,12,West Liberty-Salem,22:33.2
+62,Morgan Fogt,9,Anna,22:35.1
+63,Olive Matthews,11,West Liberty-Salem,22:38.2
+64,Lani Edwards,10,Anna,22:39.2
+65,Lauren Dexter,9,Lehman Cath.,22:39.4
+66,Sophie Goins,12,Tri-Village,22:40.0
+67,Esme Smith,10,Arcanum,22:43.1
+68,Liza Poeppelman,11,Ft. Loramie,22:47.2
+69,Mia Ahrens,9,Anna,22:52.1
+70,Lucy Welborn,12,Covington,22:53.3
+71,Lainey Back,12,Legacy Christian,22:54.5
+72,Averie Kress,10,Russia,22:55.1
+73,Victoria Jutte,9,Ft. Recovery,22:56.1
+74,Courtney Mann,10,Botkins,22:56.9
+75,Aleah Erdahl,10,Troy Christian,23:04.4
+76,Madison Schulte,12,Russia,23:04.7
+77,Paisley McDermit,9,Houston,23:10.4
+78,Addison Gelhaus,10,Ansonia,23:11.1
+79,Aleena Thomas,9,Tri-Village,23:12.2
+80,Eleanor Koenig,11,Botkins,23:15.5
+81,Ariel Cole,9,Twin Valley So.,23:18.5
+82,Emily Gudorf,9,Lehman Cath.,23:20.9
+83,Peyton Nation,9,Jackson Center,23:23.1
+84,Faith Hammerstrom,12,Legacy Christian,23:24.1
+85,Megan Timmerman,9,Arcanum,23:26.9
+86,Kayla Clark,9,Bradford,23:29.1
+87,Tara Seger,10,Ansonia,23:31.1
+88,Elena Hannon,9,Cedarville,23:32.8
+89,Alex Phillips,10,Legacy Christian,23:36.1
+90,Ioma Alavez,10,National Trail,23:44.1
+91,Violet Fulton,10,Legacy Christian,23:48.4
+92,Brynn Byers,11,Arcanum,23:50.4
+93,Ava Hughes,10,Newton Local,24:00.1
+94,Delia Goubeaux,10,Russia,24:18.1
+95,Evie White,9,Calvary Christian,24:23.1
+96,Julia Gudorf,11,Lehman Cath.,24:31.1
+97,Lilly Brown,9,Yellow Springs,24:33.7
+98,Stella Fugate,11,Franklin Monroe,24:37.3
+99,Maddison Loranzan,9,National Trail,24:38.1
+100,Holly Canavan,12,Lehman Cath.,24:54.1
+101,Ava Mowery,11,Houston,24:55.3
+102,Neomi Garcia,9,Legacy Christian,24:59.3
+103,Grace Caldwell,11,Russia,25:02.2
+104,Mia Brookey,12,Franklin Monroe,25:12.5
+105,Mosley Welborn,10,Covington,25:15.3
+106,Avery McCarty,10,Calvary Christian,25:30.1
+107,Lillian Rammel,11,Ansonia,25:32.1
+108,Hadassah Pierce,9,Troy Christian,25:39.2
+109,Lyla Niekamp,11,Houston,25:41.1
+110,Yoselin Juarez-Gomez,10,Ft. Recovery,25:49.9
+111,Claire Grube,10,Ft. Recovery,25:52.1
+112,Natalie Wood,12,Bradford,25:54.1
+113,Savannah Beachler,12,Bradford,25:55.1
+114,Allyson Marshall,11,Ansonia,26:04.3
+115,Kira Rutan,11,National Trail,26:16.7
+116,Cara Hawley,12,Northeastern,26:17.2
+117,Maci Armstrong,11,Russia,26:38.5
+118,Kaidie Williams,9,Troy Christian,26:43.3
+119,Iris Martinez-Navarro,11,Ansonia,27:15.1
+120,Winona Dean,9,Yellow Springs,27:21.1
+121,Scarlett Cantrell,10,Dixie,27:31.1
+122,Soma Mayumi,9,Calvary Christian,27:35.5
+123,Julia Burch,10,Jackson Center,27:47.1
+124,Lauren Flax,12,S. Char. SE,27:49.5
+125,Naomi Jones,10,Spring. ECA,27:52.2
+126,Kendall Ranly,11,Ft. Recovery,27:55.3
+127,Katelyn Siefring,9,Ft. Recovery,28:19.9
+128,Taygen Toothman,11,National Trail,28:22.2
+129,Eliana Erdahl,10,Troy Christian,28:43.0
+130,Samantha Highlander,9,Yellow Springs,29:07.2
+131,McKinley Stachler,10,Mississinawa Valley,29:18.4
+132,Serenity Weaver,12,Covington,30:02.3
+133,Gabriella Harding,11,Houston,30:15.3
+134,Sylvia Rupnik,10,Troy Christian,30:43.1
+135,Leela Cooksey,9,Yellow Springs,30:52.2
+136,Jocelyn Wylie,9,Calvary Christian,31:23.3
+137,Kaelyn Richardson,11,Houston,31:47.4
+138,Grace Whetstone,11,Spring. ECA,32:00.3
+139,Ella Readon,10,Yellow Springs,32:05.4
+140,Madisyn Mann,12,National Trail,32:29.0
+141,Kristen Thompson,10,DeG. Riverside,32:59.2
+142,Charlie Powell,9,Spring. ECA,41:15.2
+143,Melissa Heuer,12,Spring. ECA,51:21.1

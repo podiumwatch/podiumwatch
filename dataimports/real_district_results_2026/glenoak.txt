@@ -1,0 +1,810 @@
+MEET: GlenOak District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Hoover,94,"2,4,28,29,31,34,50"
+2,Salem,102,"10,13,16,22,41,67,117"
+3,Uniont. Lake,115,"6,17,20,26,46,56,66"
+4,Hudson,127,"5,15,19,43,45,63,65"
+5,Mass. Perry,148,"7,12,38,44,47,48,55"
+6,Firestone,216,"9,30,32,58,87,95,123"
+7,Boardman,226,"3,14,40,70,99,135,139"
+8,Wadsworth,242,"35,37,42,57,71,110"
+9,Green,261,"21,25,61,74,80,106,107"
+10,Walsh Jesuit,269,"8,51,53,68,89,91,104"
+11,Tallmadge,289,"1,60,72,75,81,82,90"
+12,Norton,299,"11,18,76,79,115,146,149"
+13,Mass. Washington,349,"24,64,73,88,100,154,158"
+14,Wooster,370,"27,69,83,93,98,103,119"
+15,Austintown-Fitch,381,"23,62,77,108,111,125,132"
+16,Louisville,383,"39,54,92,97,101,102,109"
+17,Hoban,383,"33,52,84,94,120,124,130"
+18,Alliance,421,"49,59,86,105,122,141,157"
+19,Canfield,426,"36,78,85,113,114,118"
+20,Cuy. Falls,610,"96,121,127,128,138,142,145"
+21,Roosevelt,662,"112,126,137,143,144,153,155"
+22,Barberton,682,"116,129,136,150,151,152"
+23,Ellet,685,"131,133,134,140,147,156"
+24,Ak. North,790,"148,159,160,161,162,163"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Donevan Noah,11,Tallmadge,15:55.7
+2,Samuel Baker,11,Hoover,16:02.1
+3,Dylan White,12,Boardman,16:03.4
+4,Alex Hobe,12,Hoover,16:06.7
+5,Liam Knuth,10,Hudson,16:17.6
+6,Andrew Vensel,12,Uniont. Lake,16:17.7
+7,Parker Simonson,10,Mass. Perry,16:21.8
+8,Caleb Hamilton,12,Walsh Jesuit,16:30.0
+9,Leo Ward,11,Firestone,16:33.7
+10,Luke Stephens,12,Salem,16:34.9
+11,Max Goldy,10,Norton,16:35.0
+12,Noah Dostal,11,Mass. Perry,16:36.8
+13,Colton Hall,11,Salem,16:49.7
+14,Jacob Turek,11,Boardman,16:51.0
+15,Baylor Harrell,10,Hudson,16:53.0
+16,Taven Tice,9,Salem,16:54.3
+17,Brady Norcia,11,Uniont. Lake,16:55.1
+18,Gavin Supple,12,Norton,16:56.2
+19,David Banweg,12,Hudson,16:57.3
+20,Nolan Brasko,12,Uniont. Lake,16:57.7
+21,Dane Whittaker,9,Green,17:01.0
+22,Alex Rea,11,Salem,17:01.7
+23,Parker Lame,11,Austintown-Fitch,17:02.3
+24,Benjamin Vitale,12,Mass. Washington,17:03.7
+25,Carter Buckshaw,11,Green,17:03.8
+26,Mason DeBois,11,Uniont. Lake,17:04.0
+27,Ben Burgett,10,Wooster,17:04.1
+28,Jacob Plazak,12,Hoover,17:05.1
+29,Zach Renner,11,Hoover,17:07.6
+30,Aaron Skeriotis,10,Firestone,17:08.1
+31,Broderick Grimm,12,Hoover,17:09.4
+32,Micah Miller,10,Firestone,17:10.7
+33,Max Gursky,11,Hoban,17:13.8
+34,Joshua Blake,11,Hoover,17:14.6
+35,Chase Otradovec,12,Wadsworth,17:14.6
+36,Alex Taranto,12,Canfield,17:14.6
+37,Carter Myers,11,Wadsworth,17:15.1
+38,Ryan Sexton,12,Mass. Perry,17:16.6
+39,Ryan Mann,10,Louisville,17:18.0
+40,Donovan Simione,11,Boardman,17:18.8
+41,Sam Yakubek,12,Salem,17:19.3
+42,Landon Lanham,11,Wadsworth,17:21.4
+43,Benjamin Siegler,10,Hudson,17:22.3
+44,Connor McCann,12,Mass. Perry,17:24.5
+45,Maxwell Dooley,10,Hudson,17:25.6
+46,Brycen Vensel,11,Uniont. Lake,17:26.3
+47,Broderick Gore,11,Mass. Perry,17:26.6
+48,Andrew Ramos,11,Mass. Perry,17:26.6
+49,Camden Butcher,11,Alliance,17:26.9
+50,Dominic Scalera,12,Hoover,17:27.0
+51,Ryan Sagun,12,Walsh Jesuit,17:29.4
+52,AJ Clemans,11,Hoban,17:32.5
+53,Patrick Warczak,12,Walsh Jesuit,17:32.6
+54,Istvan Hendricks,10,Louisville,17:32.7
+55,Michael Norris,10,Mass. Perry,17:35.0
+56,Chase Kubitza,10,Uniont. Lake,17:35.3
+57,James Echols,9,Wadsworth,17:36.6
+58,Drew Boyes,11,Firestone,17:37.9
+59,Gideon Cox,10,Alliance,17:41.3
+60,Bryson Whitmer,9,Tallmadge,17:42.3
+61,Luke San Jose,10,Green,17:42.6
+62,Jackson Berni,11,Austintown-Fitch,17:43.2
+63,Andrew Sichko,10,Hudson,17:44.1
+64,Jayce McKinney,12,Mass. Washington,17:46.1
+65,Samuel Kinast,12,Hudson,17:49.4
+66,Nathaniel Cheronis,11,Uniont. Lake,17:54.1
+67,Jackson Dowd,12,Salem,17:54.6
+68,Peyton Berthelot,11,Walsh Jesuit,17:55.5
+69,Bode Richard,11,Wooster,17:56.2
+70,Tommy Sullivan III,12,Boardman,17:57.9
+71,Jude Cole,11,Wadsworth,18:01.2
+72,Logan Miller,10,Tallmadge,18:02.5
+73,Max Perkowski,12,Mass. Washington,18:03.1
+74,Brayden Hane,11,Green,18:10.4
+75,Alex Nicolino,9,Tallmadge,18:11.1
+76,Braden Tarry,11,Norton,18:11.3
+77,Ethan Jarvis,12,Austintown-Fitch,18:11.3
+78,Hudson Littler,10,Canfield,18:12.0
+79,Frank Sisson,11,Norton,18:13.7
+80,Tristan Rutherford,12,Green,18:15.2
+81,Bryson Durbin,12,Tallmadge,18:15.7
+82,Austin Dougherty,9,Tallmadge,18:16.2
+83,Wilson Hinkle,10,Wooster,18:17.6
+84,Griffin Thomas,9,Hoban,18:17.9
+85,Eli Mains,9,Canfield,18:19.5
+86,Eli Butcher,9,Alliance,18:20.7
+87,Parker Wiandt,10,Firestone,18:21.4
+88,Xavier Price,10,Mass. Washington,18:21.5
+89,Ben Schrag,11,Walsh Jesuit,18:24.3
+90,Mark Bauknecht,12,Tallmadge,18:25.6
+91,Chris Regula,9,Walsh Jesuit,18:28.8
+92,Isaac Beltz,12,Louisville,18:30.3
+93,Trenton (Trent) Johnson,11,Wooster,18:33.3
+94,Ethan Baxter,9,Hoban,18:33.8
+95,Riley Peace,10,Firestone,18:35.8
+96,Nathan Fox,12,Cuy. Falls,18:36.0
+97,Cael Benson,12,Louisville,18:37.4
+98,Gavin Brooks,11,Wooster,18:39.1
+99,Austin Gillin,9,Boardman,18:39.3
+100,Nathan Myers,11,Mass. Washington,18:42.6
+101,Cade Allan,11,Louisville,18:45.3
+102,Lucas Brown,9,Louisville,18:48.7
+103,Everett Kelly,9,Wooster,18:48.9
+104,Grant Cotter,11,Walsh Jesuit,18:51.1
+105,Liam Sponseller,9,Alliance,18:52.5
+106,Jackson Nine,9,Green,18:53.0
+107,Levi Ritchie,11,Green,18:57.3
+108,Sawyer Williams,12,Austintown-Fitch,18:58.3
+109,Weston Sudomir,10,Louisville,18:59.7
+110,Jacob Mount,10,Wadsworth,19:01.0
+111,Colten McCutcheon,12,Austintown-Fitch,19:01.5
+112,Robert Simon,11,Roosevelt,19:03.6
+113,Jacob Marciniak,10,Canfield,19:03.8
+114,Noah Vennetti,11,Canfield,19:06.7
+115,Ezra Neidlinger,11,Norton,19:15.8
+116,George Blacken Jr,12,Barberton,19:16.5
+117,Cj Siembida,12,Salem,19:22.2
+118,Shane Sinkovich,10,Canfield,19:25.4
+119,Trey Richard,12,Wooster,19:29.4
+120,Zachary Fuhrer,12,Hoban,19:29.9
+121,Jackson Taylor,10,Cuy. Falls,19:30.6
+122,Gavin Fontaine,11,Alliance,19:32.1
+123,Elijah Ware,10,Firestone,19:33.4
+124,Hunter Jopperi,11,Hoban,19:35.0
+125,Dailyn Underhill,10,Austintown-Fitch,19:39.5
+126,Harri Wunderle,12,Roosevelt,19:45.3
+127,Jameson Barnett,10,Cuy. Falls,19:46.9
+128,Mason Edmunds,11,Cuy. Falls,19:54.9
+129,Jaylen Bechler,10,Barberton,19:56.1
+130,Owen Swanson,9,Hoban,19:58.8
+131,Cartel Williams,12,Ellet,20:03.5
+132,Parker Cline,12,Austintown-Fitch,20:08.0
+133,Tyler Slusser,11,Ellet,20:20.8
+134,Deagan Lozier,12,Ellet,20:29.2
+135,Ezekiel Doyle,10,Boardman,20:29.5
+136,Trenton O'Brien,9,Barberton,20:35.1
+137,Dominic Joseph,11,Roosevelt,20:41.8
+138,Tommy Smas,11,Cuy. Falls,20:44.3
+139,Cooper Moore,10,Boardman,20:45.6
+140,Ayden Bunn,12,Ellet,20:50.0
+141,Cooper Fontaine,11,Alliance,20:53.0
+142,Enzo Roldan Toci,12,Cuy. Falls,21:06.8
+143,Indiana Geldhof,9,Roosevelt,21:07.0
+144,Brennan Knowles,11,Roosevelt,21:19.0
+145,Aaron Zainitdinov,12,Cuy. Falls,21:31.3
+146,Carter Plybon,12,Norton,21:35.7
+147,Isaiah Prockno,12,Ellet,21:39.8
+148,Darshawn Mc Craney,12,Ak. North,21:45.0
+149,Carson Latham,9,Norton,21:52.4
+150,Timothy Blacken,10,Barberton,22:05.2
+151,Sully Sudomir,9,Barberton,22:09.2
+152,Isaac Swanson,11,Barberton,22:26.5
+153,Alexander Jurovcik,9,Roosevelt,22:37.5
+154,Razaq Watak,11,Ak. Garfield,22:43.1
+155,Masyn Strange,9,Mass. Washington,23:08.7
+156,Grayson Kruger,11,Roosevelt,23:09.5
+157,Xzavier Isley,12,Ellet,23:11.2
+158,Brennen Drain,10,Alliance,23:15.1
+159,Bryan Mateo,9,Mass. Washington,23:22.7
+160,Junior Aguilar,10,Ak. North,24:38.9
+161,Noah Smeznik,10,Ak. Garfield,24:57.1
+162,Mission Rai,12,Ak. North,26:00.5
+163,Anthony Valentine,11,Ak. North,27:39.8
+164,Reynard Richardson,11,Ak. North,28:36.7
+165,Newang Sherpa,12,Ak. North,29:49.3
+
+MEET: GlenOak District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,CF Northwest,72,"2,7,8,22,33,45,72"
+2,Marlington,79,"5,11,13,20,30,35,38"
+3,West Branch,98,"3,17,19,28,31,32,49"
+4,Akron SVSM,128,"4,16,25,40,43,54,85"
+5,Hubbard,130,"9,18,23,34,46,60,68"
+6,Canton C.C.,196,"24,36,39,44,53,56,77"
+7,Canton South,219,"1,15,50,61,92,93,95"
+8,Southeast,242,"6,52,59,62,63,66,82"
+9,Girard,256,"14,29,64,70,79,98,105"
+10,Poland Seminary,257,"10,41,57,71,78,80,94"
+11,Field,268,"27,47,51,67,76,87,89"
+12,Tuslaw,274,"12,21,58,86,97,106"
+13,Coventry,308,"26,48,69,81,84,90,100"
+14,Ak. Manchester,353,"37,55,74,91,96,99,103"
+15,Mooney,353,"42,65,75,83,88,101,104"
+16,Struthers,499,"73,102,107,108,109"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Logan Howard,11,Canton South,15:47.4
+2,Luca Novakovic,12,CF Northwest,16:27.9
+3,Kyle Ormiston,12,West Branch,17:01.0
+4,Marcus Chuba,12,Akron SVSM,17:07.6
+5,Brady Griggs,10,Marlington,17:08.2
+6,Caden Dillon,11,Southeast,17:09.7
+7,Willard Kunkler,10,Ak. Springfield,17:12.3
+8,Colin Harris,10,CF Northwest,17:16.2
+9,Isaac Swartz,12,CF Northwest,17:20.8
+10,TJ Arci,9,Hubbard,17:25.0
+11,Nathan Hupp,12,Poland Seminary,17:28.8
+12,Gabe Minor,11,Marlington,17:30.3
+13,Cash Iams,12,Tuslaw,17:32.7
+14,Jacob Bailey,9,Marlington,17:33.5
+15,Bohden Paquin,10,Girard,17:36.6
+16,Brayden Pipher,12,Canton South,17:49.7
+17,Isaac Sullivan,12,Akron SVSM,17:51.1
+18,Logan Williams,10,West Branch,17:58.9
+19,Logan Balla,12,Hubbard,18:00.3
+20,Colton Cantwell,12,West Branch,18:03.2
+21,Casey Minor,11,Marlington,18:06.0
+22,Nathan Rowbotham,11,Tuslaw,18:07.2
+23,Kaeden Croft,11,Chippewa,18:07.7
+24,Elijah Givens,12,CF Northwest,18:08.2
+25,Trip Matthews,10,Hubbard,18:11.0
+26,Dom Minocchi,10,Canton C.C.,18:12.7
+27,Evan Rea,10,Akron SVSM,18:13.0
+28,Travis Chapman,11,Coventry,18:13.9
+29,Zander Mehalic,12,Ravenna,18:14.4
+30,Jason Kline,9,Field,18:22.5
+31,Jake Blinn,11,West Branch,18:25.0
+32,Caleb Edwards,10,Girard,18:27.0
+33,Mason Lovejoy,9,Marlington,18:27.2
+34,Trevor Greenfield,12,West Branch,18:28.7
+35,Sevin Woods,11,West Branch,18:29.1
+36,Colton Eaver,9,CF Northwest,18:29.5
+37,Casey Herrholtz,10,Hubbard,18:30.4
+38,Kent Ronske,9,Marlington,18:32.4
+39,Mason Schilling,11,Canton C.C.,18:35.2
+40,Nick Pfahler,12,Ak. Manchester,18:39.6
+41,Apollo Lipfird,9,Marlington,18:44.8
+42,Caleb Paul,10,Canton C.C.,18:45.4
+43,Griffin Coss,9,Akron SVSM,18:51.1
+44,Ash Adams,9,Poland Seminary,18:53.5
+45,Maximus Marino,11,Mooney,18:54.2
+46,Joseph Kurple,9,Akron SVSM,18:56.0
+47,Samuel (Sam) Sciaretti,10,Canton C.C.,18:57.0
+48,Ty Whitmer,9,CF Northwest,18:59.6
+49,Dominic Martinez,10,Hubbard,19:07.1
+50,Sean Green,11,Field,19:07.5
+51,Kristian Harman,10,Coventry,19:11.6
+52,Bennett Biggs,12,West Branch,19:11.6
+53,Mason Elliott,11,Canton South,19:13.0
+54,Miles Taylor,9,Field,19:13.7
+55,Mason Dix,10,Southeast,19:14.4
+56,Daniel Vlacovsky,9,Canton C.C.,19:14.8
+57,Alex Kee,12,Akron SVSM,19:17.4
+58,Nathaniel Seib,11,Ak. Manchester,19:19.6
+59,Jonah Rohr,9,Canton C.C.,19:21.2
+60,Jack Downie,11,Poland Seminary,19:23.4
+61,Keanu Miklas,9,Tuslaw,19:25.4
+62,Cohen Richardson,12,Southeast,19:27.0
+63,Leo Mariano,12,Hubbard,19:27.4
+64,Mason Richards,10,Canton South,19:32.1
+65,Seth Dillon,10,Southeast,19:33.3
+66,Adam Canale,9,Southeast,19:33.4
+67,William Kasiewicz,9,Girard,19:42.3
+68,Wyatt Funk,9,Chippewa,19:44.3
+69,Bryce Steyer,9,Mooney,19:45.3
+70,Noah Croston,10,Southeast,19:48.1
+71,Ronin Jacobs,12,Field,19:48.7
+72,Eli Doolan,9,Ravenna,19:49.2
+73,Noah Wildman,12,Hubbard,19:50.4
+74,Brodie Powell,12,Coventry,19:53.8
+75,Andre Kosovan,9,Girard,19:56.9
+76,Kyle McVay,10,Poland Seminary,19:57.4
+77,Jacob Bolinger,12,CF Northwest,20:01.1
+78,Victor DiVito,9,Struthers,20:06.9
+79,Hayden Moll,9,Ak. Manchester,20:10.5
+80,Gus Glenellen,9,Mooney,20:11.0
+81,Matthew Myers,9,Field,20:11.2
+82,Rowan Benjamin,12,Canton C.C.,20:13.3
+83,Wesley Cowles,12,Poland Seminary,20:13.7
+84,Orion Patrone,11,Girard,20:17.6
+85,Connor McNinch,12,Poland Seminary,20:18.7
+86,Griffin Davis,12,Coventry,20:19.9
+87,Micah Craver,11,Southeast,20:24.0
+88,James Moreton,9,Mooney,20:27.1
+89,Ethan Walker,9,Coventry,20:30.4
+90,Karlen Clark,12,Akron SVSM,20:35.2
+91,Dylan Hacker,11,Tuslaw,20:42.7
+92,Xander Noussias,9,Field,20:54.4
+93,Brendan Markey,10,Mooney,20:58.8
+94,John Sessions,9,Field,21:01.1
+95,Carson Kress,10,Coventry,21:03.7
+96,Keegan Gruver,11,Chippewa,21:15.8
+97,Jacob Lesher,11,Ak. Manchester,21:21.7
+98,Conner Voorhies,11,Canton South,21:27.6
+99,Xavier Murphy,9,Canton South,21:28.0
+100,Owen Blackann,12,Poland Seminary,21:28.7
+101,Pierce Livesay,9,Canton South,21:31.7
+102,Josiah Meiser,9,Chippewa,21:32.7
+103,Carson Headrick,10,Ak. Manchester,21:37.9
+104,Ezra Lammlein,11,Tuslaw,22:07.7
+105,Connor Shilling,12,Girard,22:22.9
+106,Ian Gray,11,Ak. Manchester,22:23.8
+107,Nathan Vaught,9,Coventry,22:34.8
+108,Jon Luke Robles,10,Mooney,22:40.3
+109,Alexander Crespo,9,Struthers,22:41.8
+110,Coy Lindeman,10,Ak. Manchester,22:43.1
+111,Leo Henry,12,Mooney,23:06.0
+112,Aidan Hernandez,12,Ak. Springfield,23:40.5
+113,Ryan DePaul,10,Girard,23:43.0
+114,Ben Roberts,9,Tuslaw,24:38.3
+115,Henry Hawkins,10,Struthers,26:51.1
+116,Zuriel Nieves,10,Acad. For Urban Scholars,27:25.2
+117,Ryan Jones,11,Struthers,28:39.3
+118,Yamil Rivera Hermandez,11,Struthers,29:36.2
+119,Andrew Duvall,9,Ravenna,33:02.2
+
+MEET: GlenOak District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Lake Center Chr.,67,"5,11,12,13,26,35,42"
+2,South Range,93,"1,10,14,27,41,53,62"
+3,East Canton,100,"2,7,20,28,43,45,57"
+4,Columbiana,119,"15,16,25,30,33,54,61"
+5,Lowellville,123,"3,4,6,47,63,65,68"
+6,N. Mid. Springfield,127,"8,9,22,40,48,55,56"
+7,Rootstown,131,"18,19,24,34,36,46,51"
+8,Mogadore,136,"17,21,29,31,38,49,59"
+9,United,222,"37,39,44,50,52,64"
+10,David Anderson,239,"23,32,58,60,66,67"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Ryan Fieldhouse,9,South Range,17:05.6
+2,Michael Crissman,11,East Canton,17:15.3
+3,Steven Yon,10,Lowellville,17:22.4
+4,Jesse Coon,9,Lowellville,17:26.5
+5,Isaac Larson,12,Lake Center Chr.,17:49.6
+6,Jayden Coon,11,Lowellville,17:57.1
+7,Tyler Elliott,12,East Canton,18:13.6
+8,Caden Hudak,10,N. Mid. Springfield,18:16.4
+9,Calvin Geiss,10,N. Mid. Springfield,18:19.3
+10,Chase Seelbach,11,B.C. Western Reserve,18:20.3
+11,Luke Bomberger,11,South Range,18:21.6
+12,Keegan Lawrence,12,Lake Center Chr.,18:27.1
+13,Zach Varner,12,Lake Center Chr.,18:29.5
+14,Otis Fishtorn,9,Jackson-Milton,18:29.8
+15,Kristian Patrick,9,Lake Center Chr.,18:44.3
+16,Andrew Bomberger,9,South Range,18:46.5
+17,Jace Zelonish,11,Columbiana,18:50.2
+18,Carson Greene,9,Columbiana,18:50.6
+19,Scotty Shaffer,11,Mogadore,18:52.2
+20,Brayden Dougherty,12,Rootstown,18:59.5
+21,Grant Stevenson,10,Rootstown,19:00.4
+22,Benjamin Bacorn,12,Jackson-Milton,19:03.5
+23,Kirby Kilgore,9,East Canton,19:04.0
+24,Declan Wicks,9,Mogadore,19:06.6
+25,Cooper Meyers,10,N. Mid. Springfield,19:09.9
+26,Caiden Carlisle,12,David Anderson,19:11.1
+27,Tycho Smolk,12,Rootstown,19:16.2
+28,Eric Hepner,11,Columbiana,19:17.2
+29,Cleyten Graham,10,Jackson-Milton,19:22.6
+30,Landon Young,10,Lake Center Chr.,19:29.9
+31,Giovanni Testa,9,South Range,19:30.9
+32,Alex Clark,12,East Canton,19:31.6
+33,Judd Jones,11,Mogadore,19:32.3
+34,Peyton Boggs,10,Columbiana,19:33.9
+35,Thomas McEwen,11,Mogadore,19:34.2
+36,Russell Carlisle,9,David Anderson,19:43.6
+37,Nolan Clark,10,Columbiana,19:48.0
+38,Isaac Simkanin,12,Rootstown,19:50.0
+39,Joey McAboy,12,Lake Center Chr.,19:51.8
+40,Maxwell Saltsman,9,Rootstown,19:52.2
+41,Lukas Hamilton,12,United,19:54.4
+42,Crosby Smith,11,Mogadore,19:58.8
+43,Cole Billy,12,United,20:05.7
+44,Trevor Wyatt,11,N. Mid. Springfield,20:06.0
+45,Joshua Theis,10,Jackson-Milton,20:09.4
+46,Andrew Phelps,11,South Range,20:14.9
+47,Landen Griffing,12,Lake Center Chr.,20:18.1
+48,Foster Varian,10,East Canton,20:19.6
+49,Carter Lucas,10,United,20:19.7
+50,Kadin Leach,12,East Canton,20:20.0
+51,Dylan Sturm,10,Rootstown,20:28.4
+52,Dominic McCaughtry,9,Lowellville,20:39.9
+53,Wyatt Stock,9,N. Mid. Springfield,20:44.7
+54,Collin Butcher,9,Mogadore,20:48.6
+55,Zachary Gingerich,11,United,20:52.2
+56,Andrew DeLotell,10,Rootstown,20:52.6
+57,Wyatt Smith,10,United,20:56.3
+58,Landon Gerchak,11,B.C. Western Reserve,20:59.7
+59,Nathan Cope,10,Waterloo,21:00.1
+60,Teagan Biser,10,East Palestine,21:00.4
+61,Jack Martinez,10,South Range,21:19.0
+62,Michael Conrad,11,Columbiana,22:14.8
+63,Wyatt Sneddon,10,N. Mid. Springfield,22:26.2
+64,Mathew Robertson,10,N. Mid. Springfield,22:41.0
+65,Dominic Vaught,9,B.C. Western Reserve,22:45.2
+66,AJ Heppe,9,Waterloo,22:53.0
+67,Connor Dotterweich,9,East Canton,22:58.8
+68,Ashden Donaldson,10,David Anderson,23:03.7
+69,Elijah Whetstone,11,Mogadore,23:03.8
+70,Brock Beamer,9,Waterloo,23:07.3
+71,Evan Pacola,11,David Anderson,23:27.5
+72,Caleb Witherstine,10,Columbiana,24:02.8
+73,Michael Lydic,9,South Range,24:15.1
+74,Levi Moore,12,Lowellville,24:28.9
+75,Jacob Mellott,9,Seb. McKinley,24:38.5
+76,Drew Winters,12,Sal. Southern,24:48.4
+77,Damon Harr,10,United,24:49.8
+78,Kosta Klimis,11,Lowellville,26:43.2
+79,Carter Hayes,11,David Anderson,27:06.8
+80,Elijah McCurdy,10,David Anderson,27:12.2
+81,Pedro Torres,11,Lowellville,27:14.0
+
+MEET: GlenOak District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Wadsworth,88,"9,12,14,23,30,37,84"
+2,Boardman,95,"1,13,19,28,34,43,45"
+3,Hoover,100,"6,7,8,39,40,51,77"
+4,Hudson,107,"5,15,27,29,31,48,54"
+5,Louisville,155,"3,4,32,47,69,78,87"
+6,Tallmadge,165,"17,33,35,36,44,56,60"
+7,Walsh Jesuit,167,"11,24,25,50,57,72,79"
+8,Green,198,"2,10,20,67,99,112,113"
+9,Uniont. Lake,200,"16,22,49,52,61,71,75"
+10,Canfield,244,"18,46,53,63,64,70,98"
+11,Mass. Perry,265,"38,41,42,68,76,86,88"
+12,Firestone,321,"26,58,73,81,83,85,96"
+13,Wooster,351,"55,65,66,74,91,93"
+14,Hoban,418,"21,94,100,101,102,103,104"
+15,Cuy. Falls,447,"59,90,95,97,106,107,110"
+16,Mass. Washington,465,"80,82,89,105,109"
+17,Austintown-Fitch,527,"62,114,116,117,118"
+18,Ellet,545,"92,108,111,115,119"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Olivia Brady,12,Boardman,18:49.8
+2,Lucia Sveda,12,Green,19:00.2
+3,Hayden Meyer,9,Louisville,19:19.6
+4,Amelie Anderson,12,Louisville,19:40.2
+5,Charlee Skeen-Adrine,9,Hudson,19:50.3
+6,Tessa Gabriel,10,Hoover,19:53.0
+7,Lily Wineka,11,Hoover,19:54.6
+8,Kay Hayford,12,Hoover,19:56.0
+9,Natalie Buzard,11,Wadsworth,19:58.6
+10,Mackenzie Muniak,9,Green,20:00.0
+11,Maya Amador,11,Walsh Jesuit,20:01.4
+12,Ella Dolgowicz,11,Wadsworth,20:08.3
+13,Kealia Bravo,10,Boardman,20:08.5
+14,Maggie Gerschutz,12,Wadsworth,20:09.8
+15,Alyssa Claxton,10,Hudson,20:13.1
+16,Heidi Hart,10,Uniont. Lake,20:14.5
+17,Makayla Martuccio,12,Tallmadge,20:16.5
+18,Sabrina Baskett,12,Canfield,20:23.0
+19,Haley Bero,11,Boardman,20:32.1
+20,Luciana Ritchie,9,Green,20:34.2
+21,Ashlyn Dougherty,10,Hoban,20:36.0
+22,Ava Potashnik,12,Uniont. Lake,20:37.5
+23,Kyleigh Friedl,12,Wadsworth,20:40.3
+24,Anna Shamrock,11,Walsh Jesuit,20:44.3
+25,Flor Guzman-Silva,12,Walsh Jesuit,20:55.9
+26,Kathryn Miller,12,Firestone,20:57.2
+27,Mia Dooley,10,Hudson,20:58.3
+28,Mia Duble,11,Boardman,21:00.6
+29,Kate Kinast,10,Hudson,21:00.7
+30,Hadley Dietz,10,Wadsworth,21:01.4
+31,Keira Middleton,10,Hudson,21:08.1
+32,Faith Brown,9,Louisville,21:08.4
+33,Philomena Novelli,9,Tallmadge,21:08.9
+34,Jordyn Lacivita,12,Boardman,21:09.9
+35,Alana Kelley,12,Tallmadge,21:10.4
+36,Savannah Osburn,12,Tallmadge,21:11.2
+37,Elaina Brothers,9,Wadsworth,21:12.4
+38,Julia Thompson,12,Mass. Perry,21:13.4
+39,Ceci Baltes,9,Hoover,21:14.4
+40,Savanna Arnold,11,Hoover,21:16.3
+41,Brielle Thom,12,Mass. Perry,21:17.7
+42,Kiley Szakacs,10,Mass. Perry,21:21.2
+43,Moriah Doyle,12,Boardman,21:22.8
+44,Mackenzie Martuccio,12,Tallmadge,21:23.5
+45,Abigail Marks,9,Boardman,21:27.0
+46,Carina Gamberale,12,Canfield,21:31.3
+47,Samantha Cline,9,Louisville,21:37.6
+48,Mollie Ayers,9,Hudson,21:38.9
+49,Cora Patrick,11,Uniont. Lake,21:42.5
+50,Ava Magers,12,Walsh Jesuit,21:42.6
+51,Adriana Gyde,11,Hoover,21:42.6
+52,Lillian Corcoran,11,Uniont. Lake,21:43.6
+53,Ari Reyes,11,Canfield,21:44.8
+54,Kate Laning,10,Hudson,21:47.8
+55,Madelynn Whyte,12,Wooster,21:50.2
+56,Emily Burkholder,11,Tallmadge,21:51.5
+57,Olivia Skinner,11,Walsh Jesuit,21:51.6
+58,Fallon Highfield,12,Firestone,21:52.5
+59,Emily Clayton,9,Cuy. Falls,21:53.3
+60,Allie Donnell,9,Tallmadge,22:00.7
+61,Elizabeth Petros,10,Uniont. Lake,22:04.2
+62,Tayrismar Mendez,12,Austintown-Fitch,22:05.5
+63,Renae Burtz,11,Alliance,22:06.8
+64,Gianna Gamberale,12,Canfield,22:08.1
+65,Alyssa Ilgenfritz,11,Canfield,22:10.8
+66,Harper McAfoos,9,Wooster,22:17.4
+67,Lily Tudor,12,Wooster,22:19.1
+68,Giana Giovanini,11,Green,22:24.7
+69,Annamae Rogers,10,Mass. Perry,22:28.7
+70,Madelynn Bailey,12,Louisville,22:28.9
+71,Lillian Klimas,12,Canfield,22:32.3
+72,Mary Schank,10,Uniont. Lake,22:37.2
+73,Caroline Marrone,12,Walsh Jesuit,22:38.5
+74,Elana Dent,9,Firestone,22:41.2
+75,Kennedy Wolf,11,Wooster,22:46.9
+76,Amelia Volpe,9,Uniont. Lake,22:48.7
+77,Lillian Stewart,10,Mass. Perry,22:51.7
+78,Eleanor Linke,10,Hoover,23:00.0
+79,Estelle (Stella) Blommel,10,Louisville,23:01.7
+80,Audrey Wain,9,Walsh Jesuit,23:10.1
+81,Amya Copeland,9,Mass. Washington,23:10.9
+82,Darly Malinky,11,Firestone,23:16.0
+83,Destiny Copeland,9,Mass. Washington,23:16.6
+84,Gwyneth Currie,10,Firestone,23:17.9
+85,Delaney White,11,Wadsworth,23:19.4
+86,Rosemary Hollister,11,Firestone,23:19.5
+87,Paige Schwab,12,Mass. Perry,23:32.4
+88,Maegan Bellamy,12,Louisville,23:35.0
+89,Natalie Moecia,11,Mass. Perry,23:39.5
+90,Brynlee Lamp,9,Mass. Washington,23:41.0
+91,Bella Hayes,12,Cuy. Falls,23:45.6
+92,Tristen Shaffer,12,Wooster,23:55.3
+93,Nevaeh Eason,12,Ellet,24:00.9
+94,Emma Whyte,9,Wooster,24:03.3
+95,Lucie Kenst,11,Hoban,24:06.3
+96,Cadence Simmons,12,Cuy. Falls,24:12.0
+97,Abby Young,12,Firestone,24:15.2
+98,Bella Shay,12,Cuy. Falls,24:34.5
+99,Mollie Gerhardstein,10,Canfield,24:44.4
+100,Jenna Mikes,12,Green,24:47.0
+101,Avery Neugebauer,12,Hoban,24:47.7
+102,Elisa (Ellie) Quernemoen,10,Hoban,24:48.1
+103,Frances Knauer,11,Hoban,24:53.0
+104,Sammy Gorbach,9,Hoban,24:59.3
+105,Adelle Tucke,11,Hoban,25:00.4
+106,Elodie Perkowski,9,Mass. Washington,25:05.5
+107,Jenna Kisner,11,Cuy. Falls,25:15.1
+108,Eleanore Decock,11,Cuy. Falls,25:43.5
+109,Lynn Withington,12,Ellet,26:39.6
+110,Cate Simms,11,Roosevelt,26:46.7
+111,Jacqueline Taschwer,10,Mass. Washington,26:56.4
+112,Maliyah Chinn,11,Cuy. Falls,27:13.5
+113,Samantha Wooten,12,Ellet,27:32.3
+114,Mia Sveda,10,Green,28:39.5
+115,Brooke Perrin,10,Green,28:45.1
+116,Jamison Warnock,10,Austintown-Fitch,29:35.7
+117,Alaizha Fisher,11,Ak. North,29:40.2
+118,Aubrey Terrell-Brown,9,Ellet,29:57.9
+119,Lily Lavassaur,12,Austintown-Fitch,30:18.5
+120,Rylee Pisino,12,Alliance,34:25.3
+121,Marlee Leach,10,Austintown-Fitch,35:57.7
+122,Michelle Hernandez,12,Ak. North,36:59.9
+123,Omay Ya,12,Ak. North,37:10.2
+124,Riley Cox,10,Austintown-Fitch,38:13.6
+125,Carlusie Kazadi,10,Roosevelt,41:50.9
+126,Alexis France,9,Ellet,45:12.4
+
+MEET: GlenOak District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Marlington,42,"1,5,6,12,18,25,41"
+2,Salem,64,"2,10,11,17,24,37,47"
+3,CF Northwest,77,"8,9,14,19,27,35,36"
+4,Akron SVSM,86,"4,7,20,21,34,39,44"
+5,Ak. Springfield,170,"15,23,31,40,61"
+6,West Branch,177,"13,29,42,45,48,58,65"
+7,Tuslaw,214,"3,32,51,55,73,88"
+8,Field,232,"22,28,30,69,83,85"
+9,South Range,272,"46,50,52,57,67,70,72"
+10,Canton South,297,"26,38,63,76,94,99"
+11,Poland Seminary,306,"54,60,62,64,66,80,90"
+12,Hubbard,319,"43,56,68,75,77,78,84"
+13,Norton,326,"16,49,81,89,91,97"
+14,Girard,329,"33,59,71,79,87,93,95"
+15,Ak. Manchester,387,"53,74,82,86,92,96,98"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Irelyn Johnson,12,Marlington,18:09.7
+2,Addison Hopple,10,Salem,19:15.6
+3,Adriana Pudloski,12,Tuslaw,19:58.3
+4,Julia Rea,12,Akron SVSM,20:15.2
+5,Jordynn Martz,11,Marlington,20:19.5
+6,Brincyn (Brin) Boyce,12,Marlington,20:25.2
+7,Grace Shoemaker,12,Akron SVSM,20:29.2
+8,Violet Bukuts,10,CF Northwest,20:38.0
+9,Maria Beckett,9,CF Northwest,20:43.9
+10,Liliana Pimentel-Alexander,11,Salem,20:44.9
+11,Emily Sinsley,12,Salem,20:44.9
+12,Kari Smith,11,Marlington,20:51.0
+13,Tenley Stitle,9,West Branch,20:54.1
+14,Alissa Pauken,9,CF Northwest,20:56.3
+15,Nora Kunkler,12,Ak. Springfield,21:12.3
+16,Sara Blaz,10,Chippewa,21:19.4
+17,Baylee Tarry,9,Norton,21:21.6
+18,Cassidy Wallace,12,Salem,21:27.0
+19,Brynne Reese,12,Marlington,21:31.1
+20,Abigail Schreiner,10,CF Northwest,21:33.8
+21,Jane Porter,12,Akron SVSM,21:34.6
+22,Daphne Kindbom,11,Akron SVSM,21:35.5
+23,Alison Church,10,Field,21:40.6
+24,Brianna Curry,11,Ak. Springfield,21:44.1
+25,Chaya Murray,10,Salem,21:47.4
+26,Bella Ritchie,10,Marlington,21:51.7
+27,Savanna Rueschman,11,Canton South,21:56.3
+28,Lucy LaVoie,10,CF Northwest,21:56.5
+29,Leia Brugler,11,Field,21:57.1
+30,Ellie Bickle,9,West Branch,21:57.2
+31,Annabel Miller,9,Field,21:57.4
+32,Kendall Furlong,10,Ak. Springfield,21:59.2
+33,Bailey Mitchell,12,Tuslaw,22:00.4
+34,Emma Latell,10,Girard,22:02.4
+35,Maddie Sellers,10,Akron SVSM,22:03.2
+36,Hailey Allen,12,CF Northwest,22:04.6
+37,Hannah Pauken,9,CF Northwest,22:12.5
+38,Chloe Webber,12,Salem,22:13.9
+39,Emma Smith,10,Southeast,22:19.1
+40,Kaelyn Hein,10,Canton South,22:20.7
+41,Caroline Varga,9,Akron SVSM,22:27.3
+42,Taylor Hanna,9,Ak. Springfield,22:28.7
+43,Olivia Bosca,10,Marlington,22:36.9
+44,Rachel Teague,10,West Branch,22:37.1
+45,Taylor Rodgers,12,Hubbard,22:41.4
+46,Lucy Pariso,12,Akron SVSM,22:43.3
+47,Andi Cioffi,9,Southeast,22:46.0
+48,Kelly Ewing,10,West Branch,22:51.3
+49,Juliana Swiskoski,11,South Range,22:54.4
+50,Ali Herold,9,Salem,23:02.9
+51,Izzy Cantwell,9,West Branch,23:08.7
+52,Jillian Schaffner,10,Southeast,23:21.9
+53,Amelia Hurd,10,Norton,23:24.9
+54,Helena Webber,9,South Range,23:24.9
+55,Olivia Fahrni,11,Tuslaw,23:26.9
+56,Sydney Slagle,11,South Range,23:27.5
+57,Riley Moore,10,Ak. Manchester,23:29.0
+58,Mila Milosevic,12,Poland Seminary,23:30.6
+59,Brooke Ritchie,11,Tuslaw,23:46.7
+60,Sophie Harris,10,Hubbard,23:51.0
+61,Harper Bailey,11,South Range,23:52.1
+62,Luna Woolf,10,West Branch,23:56.1
+63,Carina DeChant,9,Girard,23:59.1
+64,Lucy Crowe,9,Poland Seminary,24:13.3
+65,Charleigh Reisinger,9,Ak. Springfield,24:16.0
+66,Maya Walker,11,Poland Seminary,24:25.2
+67,Kadence Spencer,12,Canton South,24:25.7
+68,Corinne Murphy,9,Poland Seminary,24:30.1
+69,Sonja Sanor,12,West Branch,24:34.0
+70,Bella DiPasqua,12,Poland Seminary,24:34.7
+71,Katlyn Durch,11,South Range,24:37.5
+72,Colleen Francis,9,Hubbard,24:44.1
+73,Caylor Shutty,11,Field,24:47.1
+74,Olivia Stroh,11,Ravenna,24:50.8
+75,Emma Wunderle,10,Ravenna,24:50.8
+76,Willow Mungai,11,South Range,25:02.5
+77,Paris Moore,9,Girard,25:13.8
+78,Angie Thomas,11,Coventry,25:14.3
+79,Lia Smith,10,South Range,25:27.1
+80,Delphia Criswell,11,Tuslaw,25:33.8
+81,Savannah King,10,Southeast,25:36.1
+82,Addison Lamielle,10,Ak. Manchester,25:44.1
+83,Gianna Fox,10,Hubbard,25:46.0
+84,Ermani Murphy,11,Canton South,26:03.1
+85,Lilly Steele,11,Hubbard,26:05.8
+86,Izzie Slifka,10,Hubbard,26:08.5
+87,Linda Allaby,10,Girard,26:15.4
+88,Anna Maria Whorten,11,Poland Seminary,26:35.3
+89,Samantha Lombardi,9,Norton,26:35.4
+90,Marissa Hill,12,Ak. Manchester,26:54.5
+91,Rylee Stoicoiu,11,Field,26:55.9
+92,Maria Rotunno,11,Hubbard,27:01.8
+93,Karlie Van Nostrand,9,Field,27:20.8
+94,Owynn Smith,11,Ak. Manchester,27:46.6
+95,Julia Glenellen,9,Struthers,28:04.0
+96,Kaela Maniscalco,11,Girard,28:16.0
+97,Rebecca Criswell,12,Tuslaw,28:19.3
+98,Paisley Wackerly,9,Norton,28:26.0
+99,Mariah Rolland,11,Poland Seminary,28:26.6
+100,Natalia Vlach,10,Norton,28:28.1
+101,Katie Dixon,9,Ak. Manchester,28:54.6
+102,Maya Carreno,10,Girard,28:58.1
+103,Shelby Carmichael,12,Coventry,28:58.9
+104,Maddison Duckworth,10,Canton South,29:12.9
+105,Alina Neal,9,Girard,29:20.5
+106,Elliot Odom,12,Ak. Manchester,29:57.8
+107,Addison Jones,10,Struthers,30:21.7
+108,Delaney Painter,11,Struthers,30:31.0
+109,Lorena Vaught,11,Coventry,30:39.4
+110,Dannica Brown,10,Norton,31:06.7
+111,Hannah Jones,12,Ravenna,31:11.4
+112,Elizabeth Hercules,12,Ak. Manchester,31:26.6
+113,Isabella Castiglione,11,Ravenna,31:33.8
+114,Aubrey Taylor,12,Canton South,32:32.7
+115,Alexandra Phillips,9,Coventry,33:36.9
+116,Abby Ashcraft,9,Chippewa,37:31.0
+117,Hallie Nelder,10,Acad. For Urban Scholars,1:01:38.0
+
+MEET: GlenOak District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Columbiana,48,"3,6,7,14,18,29,31"
+2,Rootstown,62,"4,8,10,17,23,25,32"
+3,East Canton,76,"2,11,15,21,27,33,39"
+4,Lake Center Chr.,86,"5,12,19,24,26,28,30"
+5,N. Mid. Springfield,93,"1,16,20,22,34,35,40"
+6,United,133,"9,13,36,37,38,41"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Alexandria Fiumara,10,N. Mid. Springfield,19:58.6
+2,Kasey Bolyard,12,Mogadore,20:58.5
+3,Nora Schwarten,12,Jackson-Milton,21:06.2
+4,Savanna Rayl,12,East Canton,21:18.1
+5,Kaitlin Benner,11,Columbiana,21:25.8
+6,Brynn Bird,12,Rootstown,21:39.5
+7,Morgan Demain,11,Lowellville,21:39.8
+8,Delia Karam,9,Lake Center Chr.,22:09.6
+9,Sidney Schlueter,11,Columbiana,22:18.1
+10,Madelyn (Maddie) Jackson,12,Columbiana,22:28.8
+11,Cara Crandell,11,Rootstown,22:35.4
+12,Ruby Marshall,10,United,22:50.5
+13,Abigail DeLotell,10,Rootstown,23:01.9
+14,Alicia Simons,12,East Canton,23:02.3
+15,Annabelle Hehr,9,Canton C.C.,23:05.6
+16,Lila Kirkpatrick,11,Lake Center Chr.,23:12.6
+17,Riley Merryman,10,United,23:13.3
+18,Aubrie Quetot,11,Columbiana,23:18.8
+19,Lydia Parker,9,East Canton,23:21.9
+20,Regina Miller,10,N. Mid. Springfield,23:30.2
+21,Paisley Day,10,Rootstown,23:46.3
+22,Sydney Webb,11,Columbiana,23:53.6
+23,Jillian Griffing,11,Lake Center Chr.,24:01.8
+24,Gwenn Patoray,11,N. Mid. Springfield,24:02.8
+25,Theo Motts,11,East Canton,24:06.4
+26,Gabrielle Girondi,10,N. Mid. Springfield,24:19.9
+27,Charlotte Simkanin,10,Rootstown,24:20.0
+28,Aleyna Woods,10,Lake Center Chr.,24:22.5
+29,Ava Elizabeth Bell,10,Rootstown,24:25.3
+30,Nell Craig,11,Lake Center Chr.,24:35.2
+31,Kaylee Brady,11,Mogadore,24:52.6
+32,Libby Little,12,East Canton,25:03.9
+33,Ava Reed,12,Sal. Southern,25:12.2
+34,Emily Gerber,9,Lake Center Chr.,25:20.6
+35,Ashlyn Peak,12,Columbiana,25:29.6
+36,Melannia Daniels,9,Lake Center Chr.,25:30.0
+37,Evie Kibbe,11,Heartland Christian,25:31.8
+38,Aubrey Loosli,9,Columbiana,25:37.5
+39,Samantha Smolk,10,Rootstown,26:14.9
+40,Kaitlin Carter,10,East Canton,26:19.0
+41,Amelia Poracky,12,B.C. Western Reserve,26:19.8
+42,Isabelle Girondi,10,N. Mid. Springfield,26:20.8
+43,Lainey Harris,10,Waterloo,26:29.6
+44,Maddie Garner,11,Sal. Southern,26:32.4
+45,Morgan Robertson,10,N. Mid. Springfield,26:42.9
+46,Alyssa Stanek,11,St. Thomas Aquinas,27:41.2
+47,Morgan Laibe,9,United,27:49.5
+48,Brittany Miller,12,United,27:50.6
+49,Alivia Ludwig,10,United,27:56.6
+50,Jessica Nelson,10,East Canton,27:59.4
+51,Faith Massey,11,St. Thomas Aquinas,28:46.9
+52,Samantha Hull,10,Canton C.C.,29:27.3
+53,Riley Beck,11,N. Mid. Springfield,29:35.0
+54,Emalynn Hayes,11,Mogadore,29:35.9
+55,Elizabeth Henry,10,Mooney,29:43.0
+56,Molly Gerchak,10,B.C. Western Reserve,29:55.9
+57,Evangeline McCoy,10,Heartland Christian,31:06.4
+58,Helyn Willis,12,Waterloo,31:28.7
+59,Addison Ferenczy,12,Jackson-Milton,31:32.2
+60,Abigail Ramsey,11,B.C. Western Reserve,31:40.6
+61,Myleah Parrish,12,Sal. Southern,31:41.8
+62,Abigail Stout,12,United,31:57.5
+63,Abby Campailla,9,Waterloo,35:32.5
+64,Lily Campailla,9,Waterloo,35:53.0
+65,Danika Sontag,10,Lowellville,37:44.2
+66,Cassiel Myers,12,Sal. Southern,43:18.0

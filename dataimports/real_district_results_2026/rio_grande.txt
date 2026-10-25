@@ -1,0 +1,699 @@
+MEET: Rio Grande District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Rac. Southern,54,"3,8,13,14,16,60,65"
+2,South Webster,55,"1,6,11,18,19"
+3,Winc. Eastern,115,"4,23,25,26,37,50,51"
+4,Lynchburg-Clay,134,"2,17,28,43,44,71,83"
+5,Nelsonville-York,154,"15,22,30,42,45,67,69"
+6,Bea. Eastern,180,"10,24,29,47,70,74,86"
+7,Lee. Fairfield,215,"33,38,41,49,54,62,66"
+8,Belpre,215,"12,34,36,40,93"
+9,Trimble,224,"7,9,39,78,91"
+10,Port. West,259,"21,27,59,63,89"
+11,Peebles,270,"5,20,73,84,88"
+12,Chil. Southeastern,297,"31,48,58,64,96,97"
+13,Paint Valley,298,"46,55,57,61,79,82"
+14,Huntington,319,"32,53,72,75,87,94,95"
+15,Western,341,"52,56,76,77,80,85"
+16,Symmes Valley,366,"35,68,81,90,92,98,99"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Luke Yarnell,9,South Webster,16:29.6
+2,Tavion Huguely,11,Lynchburg-Clay,17:01.4
+3,Cohen Roush,12,Rac. Southern,17:15.1
+4,Dalton Day,11,Winc. Eastern,17:25.9
+5,Cole Elliot,11,Peebles,17:27.9
+6,Aiden Rowland,11,South Webster,17:29.2
+7,Alex Nash,12,Ripley-Union,17:40.9
+8,Hunter Brandeberry,12,Trimble,17:49.3
+9,Caden Hupp,12,Rac. Southern,17:50.2
+10,Brady Jajczyk,12,Trimble,17:56.0
+11,Dawson Cody,12,Bea. Eastern,17:56.2
+12,Griffin Allard,10,South Webster,17:56.4
+13,Drew Williams,10,Belpre,18:02.7
+14,Drew Lewis,12,Rac. Southern,18:04.0
+15,Dayton Reiber,10,Rac. Southern,18:05.2
+16,Stevie Blair,11,Nelsonville-York,18:07.3
+17,Braydin Thomas,12,Rac. Southern,18:08.7
+18,Owen Faust,10,Lynchburg-Clay,18:11.9
+19,Cade McGraw,10,South Webster,18:12.0
+20,Liam Osborne,12,South Webster,18:20.4
+21,Calen Vogler,11,Peebles,18:21.7
+22,Noah Fannin,11,Port. West,18:23.7
+23,Tyson Franchino,12,Waterford,18:23.9
+24,Noah Vandyke,10,Nelsonville-York,18:25.9
+25,Evan Duzan,10,Winc. Eastern,18:28.8
+26,Atwood Fox,11,Bea. Eastern,18:36.0
+27,Kayne Dotson,12,Winc. Eastern,18:40.4
+28,Trayden Stivers-Figgins,9,Winc. Eastern,18:45.8
+29,David Brickey,11,Port. West,18:48.4
+30,Glenn Watson,10,Lynchburg-Clay,18:49.7
+31,Storm Jennings,12,Bea. Eastern,18:51.2
+32,Landon Bond,10,Valley,18:52.0
+33,Colin McKinney,11,Nelsonville-York,18:54.8
+34,Keegan Mccoy,11,Chil. Southeastern,18:56.5
+35,Mason Barker,10,Huntington,18:57.3
+36,Owen VanDyke,9,Lee. Fairfield,18:59.4
+37,Paxton Hudnall-Bolian,11,Belpre,19:19.3
+38,Braydon Mills,12,Symmes Valley,19:20.2
+39,Wyatt Blower,10,Federal Hocking,19:24.4
+40,Maddox Crum,11,Belpre,19:25.5
+41,Ty Wilson,12,Valley,19:26.7
+42,Jayse Riggs,12,Winc. Eastern,19:38.8
+43,Archer Cline,9,Lee. Fairfield,19:49.4
+44,Isaiah Mulford,12,Trimble,19:50.9
+45,Brayden McDaniel,11,Belpre,19:53.0
+46,Bentley Sowards,9,Lee. Fairfield,19:54.1
+47,Ryan Parker,10,Manchester,19:54.9
+48,Julius Rogers,9,Nelsonville-York,19:58.9
+49,Logan West,10,Lynchburg-Clay,20:00.5
+50,John Michael,9,Lynchburg-Clay,20:03.5
+51,Raiden Boney,11,Nelsonville-York,20:06.6
+52,James Thompson,11,Paint Valley,20:07.4
+53,Colton Hines,9,Bea. Eastern,20:08.1
+54,Brian Bledsoe,9,Chil. Southeastern,20:08.8
+55,Connor Ayers,12,Lee. Fairfield,20:10.1
+56,Sam Ramer,12,Winc. Eastern,20:12.7
+57,Elliott DeHass,10,Winc. Eastern,20:18.6
+58,Landon Strahler,10,Waterford,20:30.7
+59,Chandler Stephson,11,Western,20:37.1
+60,Graeme Pryor,9,Huntington,20:38.8
+61,Blake Walters,10,Lee. Fairfield,20:52.5
+62,Karson Kelly,9,Paint Valley,20:54.5
+63,Chase Hersman,10,Western,20:56.1
+64,Kayne Scott,11,Paint Valley,20:56.8
+65,Cruz Knight,9,Chil. Southeastern,21:03.3
+66,Koltyn Spitznagel,9,Whiteoak,21:04.0
+67,Gabe Nichols,11,Port. West,21:05.2
+68,Colton Grubb,9,Rac. Southern,21:08.9
+69,Issiah Krivak,11,Paint Valley,21:11.6
+70,Holden Moore,9,Lee. Fairfield,21:12.2
+71,Tre Lamb,10,Whiteoak,21:22.0
+72,Josef Begley,10,Port. West,21:26.2
+73,Jameson Sweeney,10,Ripley-Union,21:34.7
+74,Colton Thompson,9,Chil. Southeastern,21:34.9
+75,Landen Smith,12,Rac. Southern,21:40.2
+76,Lennon Giraldez,9,Federal Hocking,21:40.4
+77,Gage Carter,9,Manchester,21:47.1
+78,Noah Kerns,10,Lee. Fairfield,21:53.1
+79,Richard Vohlken,9,Nelsonville-York,21:57.8
+80,Bronson Doss,9,Symmes Valley,22:01.6
+81,Jackson Carmack,9,Nelsonville-York,22:02.5
+82,Evan Hines,12,Bea. Eastern,22:12.6
+83,Ronnie Riley,10,Federal Hocking,22:15.2
+84,Jase Lang,12,Ripley-Union,22:20.4
+85,Connor Faust,9,Lynchburg-Clay,22:23.1
+86,Cam Stritenberger,11,Huntington,22:25.6
+87,Ethan Chamblin,11,Peebles,22:32.8
+88,Zain Brigner,9,Bea. Eastern,22:38.7
+89,Jason Edler,12,Huntington,22:48.8
+90,Alex Stephson,10,Western,22:52.2
+91,Xander Thurman,12,Western,22:57.9
+92,Oliver Conley,12,Trimble,23:05.4
+93,Cooper Annon,9,Paint Valley,23:09.2
+94,Wyatt McClay,12,Western,23:12.2
+95,Cashus Wilson,10,Waterford,23:12.8
+96,Jackson Walker,9,Symmes Valley,23:15.6
+97,Trace Matson,9,Paint Valley,23:21.0
+98,Colton Grabill,9,Lynchburg-Clay,23:33.8
+99,Cole Dickhaus,12,Ripley-Union,23:41.2
+100,Damian Shoemaker,10,Peebles,23:48.6
+101,Jace Rexroad,9,Western,23:57.9
+102,Jax Doll,9,Bea. Eastern,24:01.0
+103,Cain Steele,9,Huntington,24:06.2
+104,Alexander Dees,12,Peebles,24:16.0
+105,Gabe Swanner,12,Port. West,24:16.3
+106,Hayden Holbrook,12,Symmes Valley,24:21.1
+107,Cade Burba,12,Trimble,24:38.7
+108,Peyton Clary,9,Symmes Valley,24:42.0
+109,Trenton Reese,9,Belpre,25:13.6
+110,Ayden Neff,12,Huntington,25:41.7
+111,Braxton Murray,9,Huntington,26:19.8
+112,Jaron Collier,9,Chil. Southeastern,26:29.0
+113,Jacob Bunke,10,Chil. Southeastern,28:20.7
+114,Wyatt Treadway,12,Symmes Valley,31:59.3
+115,Jonathon Coriell,9,Symmes Valley,35:58.3
+
+MEET: Rio Grande District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Fairfield Union,48,"2,5,11,13,17,25,39"
+2,Vinton County,81,"6,12,18,22,23,41,79"
+3,Oak Hill,145,"19,20,24,38,44,51,59"
+4,Westfall,151,"16,28,31,34,42,65,93"
+5,Adena,196,"8,15,32,70,71,82"
+6,Fairland,198,"7,21,33,60,77,81,95"
+7,Circleville,222,"26,29,35,63,69,75"
+8,Bid. River Valley,251,"3,43,54,55,96"
+9,Wellston,258,"1,9,64,90,94"
+10,McClain,287,"36,50,61,67,73,98,99"
+11,Dawson-Bryant,287,"4,48,58,68,109,115"
+12,Wheelersburg,299,"10,45,66,87,91,104"
+13,Piketon,300,"27,37,56,83,97,102,103"
+14,Alexander,350,"30,47,76,89,108"
+15,Zane Trace,370,"49,52,57,101,111"
+16,WCH Washington,372,"53,72,74,85,88,100"
+17,West Union,379,"40,62,78,92,107,113"
+18,Waverly,402,"14,80,84,110,114"
+19,North Adams,455,"46,86,105,106,112"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Elijah Goodell,12,Wellston,15:20.5
+2,Connor Runkle,12,Fairfield Union,15:21.5
+3,Owen Russell,12,Logan Elm,16:05.1
+4,JJ Purcell,12,Portsmouth,16:07.1
+5,Jansyn Smith,12,Bid. River Valley,16:17.0
+6,Ian Putnam,12,Portsmouth,16:39.6
+7,Garrett Graley,11,Chesapeake,16:48.3
+8,Seth Hamm,12,Dawson-Bryant,16:50.1
+9,Chase Myers,10,Fairfield Union,16:53.8
+10,Reid Click,12,Portsmouth,16:55.6
+11,Wesley Newton,11,Vinton County,16:56.5
+12,Connor Wilson,9,Fairland,16:59.9
+13,Carter Elliott,11,Adena,17:04.1
+14,Alex Cantrell,10,McD. Northwest,17:06.6
+15,Trey Dille,11,Logan Elm,17:11.7
+16,Andrew Goodell,9,Wellston,17:12.6
+17,Noah Dingus,10,Chesapeake,17:13.2
+18,Grant Kallner,12,Wheelersburg,17:15.4
+19,Colin Reindle,11,Fairfield Union,17:18.4
+20,Easton Skeens,11,Vinton County,17:18.9
+21,Caleb Tiller,11,Fairfield Union,17:20.7
+22,Gabe Clifton,12,Waverly,17:22.0
+23,Pacey Clever,10,Adena,17:25.3
+24,Caleb Henry,10,Westfall,17:36.1
+25,Ethan Phillips,11,Fairfield Union,17:39.7
+26,Jax Hale,10,South Point,17:43.7
+27,Levi Boyd,12,Vinton County,17:53.4
+28,Easton Ehman,9,Oak Hill,17:57.0
+29,Mason Malone,11,Oak Hill,18:02.7
+30,Bryce Vance,9,Fairland,18:04.4
+31,Scotty Brewer,11,Vinton County,18:08.8
+32,Ashton Lawson,12,Ironton,18:11.9
+33,Gavin Bobo,10,Vinton County,18:12.7
+34,Jacob Lyons,11,Oak Hill,18:16.5
+35,Landen Winters,10,Fairfield Union,18:17.4
+36,Kevin Downing,11,Circleville,18:23.5
+37,Emmitt Wallace,10,Piketon,18:38.7
+38,Reid Minor,12,Westfall,18:44.2
+39,Asher Noone,10,Circleville,18:46.7
+40,Zayden Gray,9,Alexander,18:46.8
+41,Davis Dick,11,Westfall,18:47.0
+42,Sawyer Bluck,11,Adena,18:49.9
+43,Evan Shook,11,Fairland,18:53.4
+44,Josh Elder,9,Westfall,18:55.0
+45,Hayes Smith,10,Circleville,18:59.1
+46,James Harrison,11,Rock Hill,19:03.0
+47,Isaac Mincey,10,McClain,19:08.7
+48,Carter Smith,10,Piketon,19:11.5
+49,Graham Michael,9,Oak Hill,19:12.5
+50,Brody Lecrone,10,Fairfield Union,19:18.2
+51,Fletcher Watkins,10,West Union,19:21.6
+52,Landon Prater,11,Vinton County,19:26.3
+53,Grady Harrison,10,Westfall,19:34.4
+54,Jake Holdren,10,Bid. River Valley,19:34.5
+55,Clayton Lester,9,Oak Hill,19:38.5
+56,Carter Evans,10,Wheelersburg,19:44.6
+57,Mason Stefanik,9,South Point,19:45.0
+58,Jacob Thatcher,12,North Adams,19:48.5
+59,William Sullivan,9,Alexander,19:48.8
+60,Cyrus Chaffin,10,Dawson-Bryant,19:54.1
+61,Logan Lyle,12,Zane Trace,19:54.4
+62,Landan Cullom,9,McClain,19:55.4
+63,Ty Irwin,11,Oak Hill,19:57.5
+64,Tristan Fulk,9,New Lexington,19:58.5
+65,Houston Joosse,9,Zane Trace,20:02.0
+66,Caleb Atkinson,11,WCH Washington,20:04.7
+67,Blake Louden,12,Bid. River Valley,20:04.9
+68,Gabe Smith,12,Bid. River Valley,20:09.7
+69,Gabriel Spencer,9,Piketon,20:10.9
+70,Johnny Reed,12,Zane Trace,20:13.0
+71,Zaylan Blakeman,10,Dawson-Bryant,20:14.4
+72,Chris Anthony,11,Oak Hill,20:16.4
+73,Dallas Birchem,12,Minford,20:17.3
+74,Mitchell Dunlap,12,Fairland,20:22.1
+75,Bryce Barber,10,McClain,20:27.0
+76,Hunter Hinkle,12,New Lexington,20:30.7
+77,Gavin Rowe,11,West Union,20:31.6
+78,Vincent Wade,9,Circleville,20:32.3
+79,Dorian Hill,10,Wellston,20:34.7
+80,Kaleb Maynard,11,Westfall,20:39.8
+81,Eli Salyers,10,Wheelersburg,20:42.4
+82,Jayden Burgess,10,McClain,20:44.9
+83,Cameron Porter,10,Dawson-Bryant,20:51.8
+84,Aiden Graf,10,Minford,20:56.8
+85,Tobias Ramey,12,Minford,20:57.4
+86,Landon Angles,9,Circleville,21:00.0
+87,Ivan Ealey,12,McD. Northwest,21:03.3
+88,Lucas Starr,10,Adena,21:05.5
+89,Mason Burns,10,Adena,21:05.6
+90,Om Patel,10,WCH Washington,21:06.4
+91,Braiden Murphy,9,Amanda-Clearcreek,21:10.5
+92,Zander Lyons,11,McClain,21:13.1
+93,Isaiah Fuhr,12,Rock Hill,21:14.4
+94,Nathan Reed,12,WCH Washington,21:18.3
+95,Owen Cameron,9,Circleville,21:20.7
+96,Carson Collins,9,Alexander,21:28.0
+97,Liam Shook,10,Fairland,21:30.8
+98,Davian Moran,10,Logan Elm,21:32.5
+99,Gavin Cooper,12,McD. Northwest,21:33.3
+100,John Smith,10,West Union,21:34.4
+101,Elliott Douthitt,9,Vinton County,21:41.5
+102,David Leith,9,Ironton,21:43.1
+103,William McCown,10,Ironton,21:46.8
+104,Luke Willison,9,Waverly,21:47.2
+105,Ayden Napier,10,Fairland,21:51.1
+106,Wyatt Ewing,11,Adena,21:52.9
+107,Mason Carroll,12,Piketon,21:57.1
+108,Mark Yanko,12,Waverly,22:03.3
+109,Colten Osborn,11,WCH Washington,22:06.0
+110,Maddox Martin,12,North Adams,22:11.9
+111,Luke Sarver,12,Wheelersburg,22:13.2
+112,David Bennett,12,WCH Washington,22:13.9
+113,Luke Zuchowski,12,Alexander,22:17.4
+114,Si Billbe,12,Wellston,22:21.0
+115,Ryan Salyers,10,Wheelersburg,22:27.3
+116,Michael Skinner,12,West Union,22:34.4
+117,Landon Ash,9,Westfall,22:46.4
+118,Andrew Marquis,10,Wellston,22:55.2
+119,Brady Adkins,10,Fairland,22:59.1
+120,Aiden Boelte,9,Bid. River Valley,23:04.2
+121,Gavin Roar,10,Piketon,23:08.2
+122,Owen Sykes,10,McClain,23:15.9
+123,Brody Murdock,9,McClain,23:28.8
+124,Ethan Miteff,12,WCH Washington,23:45.9
+125,Mason Warnement,9,Zane Trace,23:46.4
+126,Ramseise Conkel,11,Piketon,23:51.2
+127,Jace Tinney,10,Piketon,23:58.9
+128,Daniel Thomas,10,Wheelersburg,24:00.4
+129,Jesse Kennedy,12,North Adams,24:03.5
+130,James Work,12,North Adams,24:07.6
+131,Parker Lewis,11,West Union,24:11.7
+132,Charlie Zuchowski,9,Alexander,24:37.3
+133,Moses Holland,10,Dawson-Bryant,24:41.3
+134,Ivan Knerr,11,New Lexington,25:26.6
+135,Landon Thompson,10,Waverly,25:30.9
+136,Joe Durr,10,Amanda-Clearcreek,25:39.5
+137,Maverick McCorkle,10,Zane Trace,25:47.2
+138,Atley Watters,9,North Adams,26:41.5
+139,Tristen Bales,12,West Union,27:00.5
+140,Payton Poling,9,New Lexington,27:31.8
+141,Zander Meddock,10,McD. Northwest,28:44.0
+142,Cohen Watkins,10,Waverly,29:27.2
+143,Liam Basham,10,Dawson-Bryant,29:30.5
+
+MEET: Rio Grande District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Unioto,51,"3,6,7,16,19,23,30"
+2,Jackson,83,"8,12,13,24,26,37,42"
+3,Chillicothe,102,"2,10,15,36,39,56,57"
+4,Warren,111,"5,9,28,31,38,48,54"
+5,Athens,131,"11,18,22,35,45,49,53"
+6,Sheridan,149,"4,20,40,41,44,47,51"
+7,Logan,158,"14,17,29,46,52,58,62"
+8,Marietta,191,"25,27,34,50,55,59,61"
+9,Gallia Academy,192,"1,21,43,60,67,68"
+10,Miami Trace,257,"32,33,63,64,65,66"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Lane Shaffer,12,Gallia Academy,15:51.0
+2,Levi Wood,11,Chillicothe,15:51.1
+3,Corbin Scott,10,Unioto,16:03.4
+4,Hudson Wilson,12,Sheridan,16:07.8
+5,Luke Rettenberger,12,Warren,16:20.1
+6,Ethan Purtee,12,Unioto,16:27.5
+7,William Lynch,12,Unioto,16:27.8
+8,Nick Barnes,11,Jackson,16:29.4
+9,Alex Bishop,12,Warren,16:44.5
+10,Sam Hurff,10,Chillicothe,16:47.3
+11,Josh Szolosi,11,Athens,16:48.6
+12,Deegan Evans,12,Jackson,17:03.5
+13,Carter Rhea,10,Jackson,17:06.2
+14,Elias Hembree,12,Logan,17:08.9
+15,Payne Huggins,12,Chillicothe,17:09.7
+16,Jayden Lewis,12,Unioto,17:25.0
+17,Colson Mender,9,Logan,17:27.8
+18,Davis Talbert,11,Athens,17:28.1
+19,Rudy Leadingham,11,Unioto,17:32.0
+20,Logan Adams,9,Sheridan,17:32.1
+21,Riley Kuhn,11,Gallia Academy,17:32.5
+22,Gabe Rempel,11,Athens,17:37.8
+23,Cameron Caplinger,10,Unioto,17:38.2
+24,Kruiz Kuhn,9,Jackson,17:40.3
+25,Emmett Parman,11,Marietta,17:43.6
+26,Kayden Newman,10,Jackson,17:45.5
+27,Ezekiel Minard,10,Marietta,17:45.5
+28,Nick Bishop,12,Warren,17:50.6
+29,Braxton Mender,12,Logan,17:52.5
+30,Eli Good,9,Unioto,17:52.9
+31,Ben Rettenberger,11,Warren,17:53.0
+32,Xzavier Pedroza,10,Miami Trace,17:55.1
+33,Griffin Strider,10,Miami Trace,17:56.8
+34,Camden Space,10,Marietta,17:58.6
+35,Coltrane Parsons,12,Athens,18:01.5
+36,Sutton Behmer,11,Chillicothe,18:02.2
+37,Anthony Winn,10,Jackson,18:04.9
+38,Caleb Yost,12,Warren,18:07.6
+39,Owen Meachum,9,Chillicothe,18:11.4
+40,Seth Johnson,12,Sheridan,18:12.8
+41,Aiden O'Reilly,11,Sheridan,18:14.1
+42,Griffen Michael,10,Jackson,18:22.8
+43,Luke Thompson,10,Hillsboro,18:28.0
+44,Jack Sang,9,Gallia Academy,18:30.6
+45,Michael Flowers,9,Sheridan,18:38.1
+46,Yadier Jokisch,9,Athens,18:39.1
+47,Landon Fuller,12,Logan,18:45.3
+48,Tyler Tinto,10,Sheridan,18:54.4
+49,Kyler Robey,10,Warren,18:55.9
+50,Mark Burden,10,Athens,18:58.9
+51,Dane Stewart,11,Marietta,19:02.4
+52,Ben Helsel,12,Sheridan,19:12.9
+53,Brendan Parker,10,Logan,19:18.5
+54,Jack Phillips,11,Athens,19:26.8
+55,Easton Morgan,10,Warren,19:28.3
+56,Austin Shuler,12,Marietta,19:39.4
+57,Isaac Austin,11,Chillicothe,20:00.0
+58,Walker Throne,10,Chillicothe,20:13.6
+59,Ben Klingelhafer,9,Logan,20:20.5
+60,Finley Rider,9,Marietta,20:54.5
+61,Brenner Greenlee,9,Gallia Academy,21:10.3
+62,Lane Huffman,11,Marietta,21:18.7
+63,Lukas West,11,Logan,21:20.9
+64,Issac Dill,9,Miami Trace,22:24.5
+65,Kaden Batson,11,Miami Trace,22:49.9
+66,Maxten Gullufsen,9,Miami Trace,24:52.5
+67,Jace Noble,9,Miami Trace,24:59.8
+68,Erik Remington,10,Hillsboro,26:52.3
+69,Skylar Francies,12,Gallia Academy,28:48.7
+70,Jackson Loveday,12,Gallia Academy,28:49.5
+71,Jayden Wells,12,Hillsboro,30:35.3
+,Connor Heath,11,Sheridan,DNS
+
+MEET: Rio Grande District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Fairland,38,"2,3,9,11,13,20,25"
+2,West Union,48,"5,6,7,14,16,28,53"
+3,Lee. Fairfield,120,"8,18,26,27,41,61,62"
+4,Paint Valley,137,"10,12,30,31,54"
+5,Zane Trace,142,"1,21,37,38,45,46"
+6,Oak Hill,164,"4,29,36,47,48"
+7,Federal Hocking,166,"15,17,33,43,58,63"
+8,Belpre,185,"22,23,40,44,56,60"
+9,Winc. Eastern,202,"24,34,35,50,59"
+10,North Adams,212,"19,39,42,55,57,65"
+11,Port. Clay,248,"32,49,51,52,64"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Edie Templeton,12,Rac. Southern,19:55.1
+2,Carli Wireman,9,Zane Trace,20:46.7
+3,Lauren Baker,9,Fairland,20:53.8
+4,Jetta Gue,9,Fairland,20:55.1
+5,Addy Brown,12,Oak Hill,20:56.9
+6,Stella Rhonemus,11,West Union,21:08.2
+7,Mariah Gadd,10,West Union,21:19.8
+8,Lydia Armstrong,12,West Union,21:24.9
+9,Daphne Zink,9,Lee. Fairfield,21:30.0
+10,Meredith Dunlap,10,Fairland,21:30.1
+11,Evie Sharp,9,Paint Valley,21:33.8
+12,Brooklyn Fogle,9,Reed. Eastern,21:37.9
+13,Lillian Layne,11,Lynchburg-Clay,21:43.9
+14,Rylee Russell,10,Fairland,21:44.7
+15,Kiya Weaver,9,Paint Valley,21:52.2
+16,Raeley Stephenson,11,Adena,21:54.9
+17,Avary Wandling,11,Rac. Southern,21:56.6
+18,Hadley Wallace,9,Bea. Eastern,21:57.2
+19,Stella Whitley,11,Fairland,22:15.7
+20,Madison Stout,12,West Union,22:25.6
+21,Elsie Amlin,10,Federal Hocking,22:29.1
+22,Tabitha Armstrong,10,West Union,22:30.4
+23,Miley Pierce,10,Lynchburg-Clay,22:31.7
+24,Mackenzie Foster,9,Federal Hocking,22:35.3
+25,Ellie Reeves,9,Lee. Fairfield,22:44.2
+26,Trinity Bosko,10,North Adams,22:46.4
+27,Lola Donahue,10,Fairland,22:49.0
+28,Madilynn Snider,10,Zane Trace,22:50.8
+29,Addison Lancaster,9,South Webster,23:15.9
+30,Ellie Whitlatch,9,Belpre,23:20.2
+31,Gabby Campbell,10,Belpre,23:22.2
+32,Regan Jiles,12,Dawson-Bryant,23:29.7
+33,Charlize Hauke,12,Winc. Eastern,23:33.7
+34,Brynlee Leach,11,Wellston,23:37.5
+35,Teagan Allard,9,South Webster,23:38.8
+36,Morgan Elkins,10,Fairland,23:42.1
+37,Zoey Neibling,10,Lee. Fairfield,23:57.1
+38,Laurel McCoy,9,Lee. Fairfield,24:05.3
+39,Eden Smith,12,South Webster,24:08.6
+40,Ella Shupert,11,West Union,24:14.9
+41,Gracyn Allen,9,Oak Hill,24:17.7
+42,Madelynn Dennis,12,Adena,24:25.8
+43,Emily Burke,10,Paint Valley,24:26.9
+44,Emmalyn Sharp,11,Paint Valley,24:27.2
+45,Macy Boyd,9,Rock Hill,24:27.7
+46,Cora Collins,11,Western,24:34.4
+47,Elin Shaw,11,Port. Clay,24:37.4
+48,Ellie Needs,12,Federal Hocking,24:46.8
+49,Emma Leachman,11,Rac. Southern,24:49.1
+50,Ava Lucas,9,Winc. Eastern,24:59.6
+51,Addison Hauke,12,Winc. Eastern,25:03.7
+52,Mycah Martin,9,Oak Hill,25:04.9
+53,Sydney Bainer,12,F.F. Green,25:08.3
+54,Arayla Montgomery,9,Whiteoak,25:09.4
+55,Leah Congrove,9,Zane Trace,25:10.5
+56,Fiona Gillow,12,Zane Trace,25:13.7
+57,Haylee Wheeler,9,North Adams,25:14.9
+58,Anna Miller,12,Belpre,25:21.5
+59,Shelby Fyffe,10,Chil. Southeastern,25:37.2
+60,Iryna Reeves,11,Lee. Fairfield,25:54.9
+61,Emma Thatcher,12,North Adams,26:04.1
+62,Kyrie Osterland,9,Federal Hocking,26:10.4
+63,Nevaeh Holbrook,11,Symmes Valley,26:21.0
+64,Addy Stewart,11,Belpre,26:21.9
+65,Maddie Napier,12,Manchester,26:24.8
+66,Ava Wiget,9,Zane Trace,26:26.1
+67,Evelyn Wigget,10,Zane Trace,26:28.9
+68,Chelcie Fowble,10,Oak Hill,26:36.8
+69,Emaree Lusk,11,Oak Hill,26:45.8
+70,Mia Lunsford,11,Port. Clay,26:57.7
+71,Jolene Graves,11,Adena,27:14.0
+72,Izzy Graf,9,Minford,27:29.3
+73,Layla Addis,9,Rock Hill,27:43.3
+74,cydney Beaver,10,Winc. Eastern,27:50.8
+75,Lillie Shope,9,Manchester,28:11.9
+76,Alayna Shepherd,11,Port. Clay,28:22.2
+77,Charlie Cooper,9,Port. Clay,28:23.3
+78,Aubree Hoop,10,West Union,28:25.6
+79,Mckenna Thompson,9,Paint Valley,28:38.0
+80,Ellie Bosko,11,North Adams,28:39.5
+81,Lila Dugan,12,Belpre,28:42.6
+82,Annabelle Thompson,9,Lynchburg-Clay,28:58.6
+83,Alyssa McAdams,11,North Adams,29:16.4
+84,Illeana Carroll,9,Chil. Southeastern,29:27.3
+85,Eve Ingles,9,Federal Hocking,29:29.4
+86,Lily Howard,12,Peebles,29:41.4
+87,Alexandra Davis,10,Winc. Eastern,29:48.2
+88,Dylan Skaggs,12,Chil. Southeastern,29:50.9
+89,Harper Rogers,10,Belpre,29:51.5
+90,Kaylee McClain,9,Lee. Fairfield,30:03.6
+91,Fallan Leach,11,Wellston,30:16.4
+92,Trinity Everhart,11,Lee. Fairfield,30:39.3
+93,Peyton Amlin,11,Federal Hocking,31:05.5
+94,Lexi Kennison,10,Port. Clay,31:05.8
+95,Reagan McAdams,9,North Adams,31:12.3
+96,Mariah Brossart,9,Ripley-Union,31:17.3
+97,Elizabeth Townsend,11,Symmes Valley,31:18.4
+98,Allie Cantrell,11,McD. Northwest,31:35.4
+99,Bayleigh Sims,9,Manchester,36:28.0
+100,Abigail Gullett,12,Valley,40:21.8
+
+MEET: Rio Grande District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Fairfield Union,60,"1,8,14,17,20,39"
+2,Waverly,81,"7,12,16,22,24,34,49"
+3,Vinton County,98,"3,4,15,32,44,52"
+4,Logan Elm,106,"6,13,19,27,41,42,54"
+5,Gallia Academy,117,"10,18,28,30,31,53"
+6,Bid. River Valley,131,"5,9,25,45,47"
+7,Ironton,141,"2,21,29,43,46,48"
+8,Huntington,159,"11,33,37,38,40,50,51"
+9,Westfall,175,"23,26,35,36,55,56"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Sadie Schultz,10,Fairfield Union,18:25.9
+2,Marlena McCown,12,Ironton,18:40.2
+3,Ryan Purcell,12,Portsmouth,20:13.3
+4,Naomi Boyd,10,Vinton County,20:19.5
+5,Faith Goodson,12,Vinton County,20:23.4
+6,Bella Hersman,10,Bid. River Valley,20:36.1
+7,Harper Shonkwiler,10,Logan Elm,20:38.5
+8,Paisley Turner,12,Waverly,20:40.5
+9,Ellen Morgan,12,Fairfield Union,20:41.3
+10,Christina Voigt,11,Bid. River Valley,20:45.8
+11,Avery Krajnak,9,Gallia Academy,20:49.2
+12,Lila Banks,10,McClain,20:56.9
+13,Rachel Lute,12,Huntington,20:59.0
+14,Brooke Burleson,12,Waverly,21:00.0
+15,Aubrey Johnston,9,Logan Elm,21:07.0
+16,Katie Saul,10,Chesapeake,21:12.1
+17,Ava Wilkinson,12,Fairfield Union,21:14.1
+18,Maddi Channell,12,Vinton County,21:14.5
+19,Giselle Miller,11,Wheelersburg,21:17.5
+20,Emma Lansing,11,Waverly,21:25.0
+21,Kate Springer,10,Fairfield Union,21:42.6
+22,Camryn Smith,9,Gallia Academy,21:55.2
+23,Evelyn Sykes,11,Logan Elm,22:05.2
+24,Anna Tackage,11,WCH Washington,22:11.7
+25,Katherine Welsh,12,Fairfield Union,22:20.9
+26,Gabriella Moran,11,Alexander,22:25.7
+27,Emily Nichols,12,Ironton,22:35.6
+28,Emily Acord,11,Piketon,22:49.4
+29,Adalynn Legg,9,Waverly,22:59.7
+30,Macie Campbell,9,Wheelersburg,23:24.1
+31,Megan Wolfe,11,Westfall,23:26.5
+32,Olivia Emmert,12,New Lexington,23:34.6
+33,Emily Strain,9,Waverly,23:36.4
+34,Rose Holdren,12,Bid. River Valley,23:36.8
+35,Kylie Evans,11,Westfall,23:57.7
+36,Kenzie Waddell,10,Logan Elm,24:05.0
+37,Halley Taylor,10,Gallia Academy,24:12.0
+38,Raylee Lawson,9,Ironton,24:15.7
+39,Ryen Nunn,12,Gallia Academy,24:27.0
+40,Hadley Smith,9,Gallia Academy,24:30.7
+41,Tabatha Brewer,10,Vinton County,24:48.6
+42,Meloney Sims,11,Huntington,24:52.1
+43,Hillery Gleason,11,Waverly,24:59.9
+44,Reina Elder,9,Westfall,25:06.6
+45,Cadence Fullen,10,Westfall,25:08.1
+46,Ellen Cullom,9,McClain,25:14.2
+47,Rebekah Shackleford,11,Circleville,25:16.2
+48,Sydney Richards,12,Huntington,25:17.5
+49,Cory Haning,11,Alexander,25:25.1
+50,Quinn Swope,10,Hillsboro,25:26.2
+51,Hayden Magill,12,Huntington,25:31.2
+52,Annalese Berry,12,Fairfield Union,25:34.7
+53,Mia Magill,9,Huntington,25:52.6
+54,Tinley Maxson,10,Logan Elm,25:53.3
+55,Brynne Holsted,12,Hillsboro,26:16.8
+56,Amelia Hicks,9,New Lexington,26:17.7
+57,Isabella Copeland,12,New Lexington,26:18.7
+58,Evalina Kesner,10,Logan Elm,26:20.4
+59,Ruby Maginn,10,Circleville,26:33.8
+60,Clover Lewis,9,Ironton,26:37.0
+61,Sky Belt,9,Vinton County,26:46.7
+62,Addison Browning,12,Bid. River Valley,26:52.2
+63,Autumn Lewis,10,South Point,26:52.4
+64,Aubrey Lockwood,9,Ironton,27:08.5
+65,Belle Coffman,10,South Point,27:12.1
+66,Ellie Stewart,9,Amanda-Clearcreek,27:30.8
+67,Lisek Beltran,12,Portsmouth,27:48.3
+68,Kynleigh Waugh,10,Bid. River Valley,28:01.8
+69,Avery Goldcamp,9,Ironton,28:03.1
+70,Madison Legg,11,Waverly,28:09.2
+71,Morgan Magill,10,Huntington,28:11.1
+72,Cloe Stansberry,9,Huntington,28:14.0
+73,Lillian Roach,12,Alexander,28:17.3
+74,Addison Jividen,9,Vinton County,28:22.1
+75,Avery Schuldt,9,Gallia Academy,28:39.2
+76,Eleanor Schmaltz,9,Alexander,28:42.3
+77,Samantha Moats,9,Circleville,28:44.1
+78,Peyton Roberts,9,Amanda-Clearcreek,29:18.9
+79,Ava Schooley,10,Logan Elm,29:45.8
+80,Charlie Hastings,9,Circleville,29:48.6
+81,Rachel Elder,10,Westfall,30:11.8
+82,Joselyn Howard,11,Piketon,30:48.1
+83,Elleana Yeager,12,Westfall,32:37.7
+84,Abby Wiseman,9,McClain,32:46.3
+85,Keira Whiting,11,Piketon,32:52.3
+86,Mikiah Longhenry,11,New Lexington,33:30.8
+87,Alainna Mikkelsen,11,Hillsboro,34:31.0
+88,Sofia Mezo-Mil,12,Hillsboro,35:52.4
+89,Vada Ponder,12,McClain,36:54.8
+
+MEET: Rio Grande District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Logan,66,"3,4,10,22,27,30,40"
+2,Athens,83,"1,12,21,24,25,54,58"
+3,Sheridan,92,"8,9,14,26,35,44,46"
+4,Warren,106,"11,15,16,28,36,42,51"
+5,Unioto,109,"7,13,19,33,37,39,45"
+6,Miami Trace,121,"5,6,31,38,41,48"
+7,Chillicothe,131,"2,20,32,34,43,49,52"
+8,Marietta,173,"18,23,29,50,53"
+9,Jackson,232,"17,47,55,56,57,59"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Zoe Wayner,11,Athens,19:02.6
+2,Gabby Maranzana,11,Chillicothe,19:37.3
+3,Kaylen Goss,12,Logan,19:44.8
+4,Brynlee Beatty,9,Logan,19:52.2
+5,Alli Knecht,11,Miami Trace,20:06.7
+6,Tori Peterson,12,Miami Trace,20:17.5
+7,Alex McDonald,11,Unioto,20:24.5
+8,Sheriden Glanemann,12,Sheridan,20:41.4
+9,Adriana Pack,11,Sheridan,20:54.8
+10,Aria Anderson,9,Logan,20:55.4
+11,Ashlee Pate,12,Warren,20:57.0
+12,Margaret Nunemaker,12,Athens,21:06.9
+13,Ellen Slack,10,Unioto,21:09.4
+14,Eva Jones,10,Sheridan,21:18.3
+15,Rania Singh,12,Warren,21:20.8
+16,Adilynn Greenup,10,Warren,21:23.8
+17,Madilynn Riddle,12,Jackson,21:32.3
+18,Kelly Nicholas,12,Marietta,21:33.7
+19,Caroline Scott,10,Unioto,21:34.7
+20,Lura Crawford,9,Chillicothe,21:58.1
+21,Bree Lindauer,9,Athens,22:07.5
+22,Aeriabella Anderson,11,Logan,22:13.8
+23,Hailey Powell,12,Marietta,22:20.6
+24,JuJu Anderson,12,Athens,22:22.2
+25,Lucy Dodd,9,Athens,22:27.3
+26,Addie Dennis,12,Sheridan,22:34.2
+27,Addison Barbini,12,Logan,22:34.8
+28,Camryn Edgell,10,Warren,22:36.5
+29,Anna Knaus,10,Marietta,22:40.8
+30,Gracyn Cozad,11,Logan,22:44.9
+31,Kamri Reno,9,Miami Trace,22:54.5
+32,Michell George,10,Chillicothe,23:01.6
+33,Ellie Knisley,10,Unioto,23:08.9
+34,Ava Hickman-Beck,12,Chillicothe,23:21.2
+35,Kayeleigh Cochran,11,Sheridan,23:25.4
+36,Violet Gibson,9,Warren,23:28.2
+37,Adeline Lloyd,12,Unioto,23:28.3
+38,Karleigh Cooper,12,Miami Trace,23:33.2
+39,Jordynn Cochenour,11,Unioto,23:36.0
+40,Dylan Stevelt-Mitchell,9,Logan,23:36.4
+41,Harley Arnold,9,Miami Trace,23:47.1
+42,Suzanna Whipkey,12,Warren,23:47.5
+43,Selma Janes,9,Chillicothe,23:55.7
+44,Payton Dittoe,10,Sheridan,23:59.3
+45,Ansley Smith,11,Unioto,24:12.2
+46,Ellie Huffman,9,Sheridan,24:16.7
+47,Peyton Carpenter,11,Jackson,24:16.9
+48,Jayda Jones,12,Miami Trace,24:23.0
+49,Reina Cunningham,12,Chillicothe,24:26.1
+50,Amelia Loughry,9,Marietta,24:37.3
+51,Olivia Stark,9,Warren,24:38.5
+52,Allie Johnson,9,Chillicothe,24:56.8
+53,Teagan Brown,10,Marietta,24:57.6
+54,Adrianna Clapp,9,Athens,25:34.3
+55,Piper Gentry,11,Jackson,26:55.8
+56,Isabella Harris,12,Jackson,27:15.8
+57,Micaela Gibson,12,Jackson,29:16.1
+58,Isabella Bowser,12,Athens,30:57.0
+59,Elina Lan,9,Jackson,32:18.6

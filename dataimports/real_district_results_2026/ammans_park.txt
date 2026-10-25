@@ -1,0 +1,371 @@
+MEET: Amman's Park District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Ash. Crestview,58,"3,7,13,17,18,27,46"
+2,New London,94,"1,8,22,26,37,40,45"
+3,Colonel Crawford,95,"2,12,19,28,34,48,54"
+4,Mans. Christian,142,"9,23,24,35,51,55,65"
+5,Sand. SMCC,144,"4,5,14,57,64,68,70"
+6,Crestline,179,"6,30,31,41,71,75,79"
+7,Buckeye Central,181,"10,15,44,53,59,67,69"
+8,St. Paul,191,"25,29,36,43,58,80"
+9,Bucyrus,204,"16,21,50,56,61,66,72"
+10,Coll Western Reserve,219,"32,38,42,47,60,62,63"
+11,Danbury,248,"11,33,52,74,78"
+12,Plymouth,257,"20,39,49,73,76,77"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Carter Hicks,11,New London,16:22.5
+2,Isaac Stirm,11,Colonel Crawford,16:22.5
+3,Isaac McFarland,11,Ash. Crestview,16:42.8
+4,Eli Etchill,12,Sand. SMCC,17:10.0
+5,Levi Reynoso,9,Sand. SMCC,17:19.6
+6,Colten Keller,12,Crestline,17:23.9
+7,Isaac Smith,10,Ash. Crestview,17:26.3
+8,Ryan Twining,12,New London,17:28.8
+9,David De Lorenzo,11,Mans. Christian,17:39.3
+10,Jeremiah Roberson,11,Buckeye Central,17:42.7
+11,Graham Bartzen,9,Danbury,17:45.3
+12,Landon Strausbaugh,12,Colonel Crawford,17:47.5
+13,Logan Robinson,11,Ash. Crestview,17:49.1
+14,Evan Stacklin,12,Wynford,17:55.5
+15,Trey Robinson,12,Sand. SMCC,18:04.6
+16,Blaise Metzger,11,Buckeye Central,18:07.7
+17,Micah Spears,10,Bucyrus,18:16.0
+18,Easton Smith,9,Ash. Crestview,18:18.7
+19,Brant Leidigh,11,Ash. Crestview,18:19.3
+20,Wilson Amert,10,Lucas,18:32.7
+21,Christian Mott,11,Colonel Crawford,18:34.5
+22,Carter Jester,10,Plymouth,18:36.0
+23,Anderson Griffin,12,Bucyrus,18:40.6
+24,Fritz McCully,12,New London,18:42.6
+25,Abraham Evans,11,Mans. Christian,18:44.5
+26,Matthew Kalashnik,11,Mans. Christian,18:44.6
+27,Jacob Collins,10,St. Paul,18:50.4
+28,Luke Fawcett,10,New London,18:54.1
+29,Jackson VanScyoc,11,Ash. Crestview,18:56.8
+30,Gordie Ekin,12,Colonel Crawford,19:03.9
+31,Tanner Denman,10,St. Paul,19:09.3
+32,Aaron Lykins,10,Crestline,19:14.1
+33,Dominic Campbell,10,Crestline,19:14.8
+34,Jaxon Dalton,11,Coll Western Reserve,19:20.4
+35,Brady Geller,11,Danbury,19:25.5
+36,Bryce Parsons,10,Colonel Crawford,19:26.6
+37,Blaine Houser,11,Mans. Christian,19:29.4
+38,Franklyn Wright,9,St. Paul,19:33.0
+39,Logan Stanley,10,New London,19:36.9
+40,Levi Wolf,10,Coll Western Reserve,19:37.9
+41,Weston Smith,10,Plymouth,19:43.6
+42,Trace Landis,12,New London,19:48.8
+43,Quinn Keller,9,Crestline,19:51.6
+44,Ezra Green,12,Coll Western Reserve,19:52.3
+45,Noah Alt,10,St. Paul,19:56.2
+46,Walker Daniel,9,Buckeye Central,20:07.1
+47,Michael Hardman,10,New London,20:14.4
+48,Jacob Putt,12,South Central,20:23.7
+49,Cody Wolford,9,Ash. Crestview,20:25.6
+50,Chase Welch,11,Coll Western Reserve,20:26.1
+51,Wyatt Burge,11,Colonel Crawford,20:27.8
+52,Levi Foley,10,Plymouth,20:28.0
+53,Khasen Bowser,11,Bucyrus,20:31.3
+54,Tyler Webb,9,Mans. Christian,20:38.9
+55,Liam Griffith,9,Danbury,20:47.6
+56,Evan Niese,10,Buckeye Central,20:49.8
+57,Grayden Bohach,11,Colonel Crawford,20:50.8
+58,Colton Zehner,11,Mans. Christian,20:52.2
+59,Micah Burke,11,Bucyrus,20:59.0
+60,Tanner Back,12,South Central,21:01.5
+61,Adam Hicks,9,Lucas,21:06.5
+62,Brady Jones,9,Sand. SMCC,21:09.1
+63,Elliot Kline,10,St. Paul,21:11.1
+64,Carter Rannells,10,Buckeye Central,21:22.2
+65,Wyatt Tansey,10,Coll Western Reserve,21:26.5
+66,Leland Koppert-Smith,11,Lucas,21:27.5
+67,Izaak Ross,11,South Central,21:30.8
+68,Austin Barkus,9,Bucyrus,21:33.6
+69,Wesley Wilson,12,Coll Western Reserve,21:36.0
+70,Lake Crosby,12,Coll Western Reserve,21:45.9
+71,Carson Eskins,10,Sand. SMCC,21:54.3
+72,Parker Trease,9,Mans. Christian,21:58.9
+73,Paul Demarco,12,Monroeville,22:01.6
+74,Landon Grosswiler,12,Monroeville,22:02.9
+75,Aaydyn Kruszynski,11,Put-In-Bay,22:47.2
+76,Keaton Coleman,9,Bucyrus,22:48.4
+77,Keegan Durnwald,10,Buckeye Central,22:51.8
+78,Carter Snyder,11,Sand. SMCC,22:58.7
+79,Gus Metzger,9,Buckeye Central,23:04.7
+80,Patrick Kelly,9,Sand. SMCC,23:08.2
+81,Bentley Woogerd,10,Crestline,23:12.4
+82,Elijah Williams,12,Bucyrus,23:14.4
+83,Trevor Furr,11,Plymouth,23:26.8
+84,Travis Hamass,10,Danbury,24:00.5
+85,Caleb Kowalski,10,Put-In-Bay,24:21.8
+86,Marcus Wilson,10,Crestline,24:24.0
+87,Luke Kelbley,12,Plymouth,25:12.9
+88,Landon Dillion,9,Put-In-Bay,25:27.6
+89,Blake Hamons,10,Monroeville,26:04.7
+90,Gabe Tackett,9,Plymouth,26:16.5
+91,Braden Ritz,11,Danbury,26:29.5
+92,Hyuga Ito,10,Crestline,27:53.6
+93,Michael Hall,9,South Central,28:26.9
+94,Owen Fries,10,St. Paul,30:03.5
+
+MEET: Amman's Park District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Mil. Edison,54,"6,10,11,12,15,18,28"
+2,Upper Sandusky,84,"4,9,13,25,33,34,36"
+3,Huron,92,"7,17,21,23,24,26,43"
+4,Kenton,94,"2,3,14,31,44,52"
+5,Port Clinton,104,"5,16,22,29,32"
+6,Perkins,114,"1,19,20,35,39,40,47"
+7,Willard,148,"8,27,30,37,46,48,54"
+8,Vermilion,224,"38,41,42,50,53"
+9,Galion,256,"45,49,51,55,56,57"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Joel Smelcer,12,Perkins,15:34.6
+2,Wade Manns,11,Kenton,16:19.8
+3,Garry Phipps,11,Kenton,16:54.4
+4,Carter Pohlman,11,Upper Sandusky,16:57.5
+5,Charlie Simpson,12,Port Clinton,17:06.4
+6,Mason Leber,10,Mil. Edison,17:17.9
+7,Logan Kerstetter,9,Huron,17:20.7
+8,Dream Mills,10,Willard,17:21.4
+9,Henry Minehart,12,Upper Sandusky,17:31.5
+10,Ezekiel Rutger,9,Mil. Edison,17:40.0
+11,Trey Hines,12,Mil. Edison,17:46.8
+12,Caleb Jeremay,12,Mil. Edison,17:52.5
+13,Andrew Leightey,11,Upper Sandusky,17:55.4
+14,Finley Dalton,10,Kenton,17:56.4
+15,Peyton Freitag,12,Clear Fork,17:57.8
+16,Austin Jones,9,Mil. Edison,17:58.7
+17,Isaac Schaaf,10,Port Clinton,17:59.1
+18,Jude Elliott,10,Huron,18:03.6
+19,Liam Chase,10,Mil. Edison,18:18.3
+20,Ryley Miller,11,Perkins,18:29.2
+21,Jackson Zolman,11,Perkins,18:43.5
+22,Achilles Figueroa,11,Huron,18:48.6
+23,Gabe Garza,11,Port Clinton,18:49.2
+24,Brayden Schiffler,11,Huron,18:53.0
+25,Carter Brennan,12,Huron,18:54.0
+26,Joshua Craig,10,Upper Sandusky,18:54.9
+27,Kellan Hall,10,Huron,19:00.9
+28,Lincoln Sallee,9,Willard,19:01.9
+29,Landon Capizzi,9,Mil. Edison,19:03.2
+30,Grady Northrop,11,Port Clinton,19:09.2
+31,Hayden Maglott,10,Clear Fork,19:11.7
+32,Riley Branham,10,Willard,19:18.8
+33,Koby Henderickson,10,Kenton,19:23.5
+34,Abram Sandvick,11,Port Clinton,19:24.9
+35,Christian Miller,12,Upper Sandusky,19:29.8
+36,Bryce Weyand,12,Upper Sandusky,19:31.2
+37,Kenneth Bratt,10,Perkins,19:32.4
+38,Logan Ruth,12,Upper Sandusky,19:33.2
+39,Lucas Winans,11,Willard,19:34.4
+40,Warren Boyd,12,Vermilion,19:34.5
+41,Gavin Schlett,11,Perkins,19:46.7
+42,Aiden Speer,9,Perkins,19:56.7
+43,Kyle Oravec,9,Vermilion,20:12.6
+44,Jayden Weemhoff,10,Clear Fork,20:20.8
+45,Logan Slingwine,12,Vermilion,20:30.2
+46,Solon OTT,12,Huron,20:31.0
+47,Sawyer Buxton,12,Kenton,20:31.7
+48,Nicky Weiss,10,Galion,20:41.7
+49,Eli Tackett,12,Willard,20:53.6
+50,Logan Cooley,10,Perkins,21:20.4
+51,Nick Adkins,12,Willard,21:23.3
+52,Aydan Griffith,10,Galion,21:37.3
+53,Cole Sellers,11,Clear Fork,22:17.1
+54,Dominic Burrelli,9,Vermilion,22:17.8
+55,Ryan Sand,11,Galion,22:53.1
+56,Robbie McMahon,10,Kenton,24:04.4
+57,Rye Jepson,10,Vermilion,25:02.7
+58,Cullen Escalera,10,Willard,25:06.6
+59,Jaxon Slone,9,Galion,25:33.2
+60,Braxton Hall,10,Galion,26:39.7
+61,Braxton Drake,9,Galion,36:56.2
+
+MEET: Amman's Park District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Crestline,36,"3,4,6,8,15,17,33"
+2,Mil. Edison,49,"1,2,10,16,20,26,41"
+3,Colonel Crawford,97,"5,11,23,24,34,46,58"
+4,St. Paul,111,"7,18,19,32,35,42"
+5,New London,171,"12,22,36,48,53,54,63"
+6,Mans. Christian,188,"28,37,39,40,44,45,47"
+7,Sand. SMCC,202,"14,25,30,59,74"
+8,Buckeye Central,203,"13,38,49,51,52,55,57"
+9,Ash. Crestview,228,"9,31,61,62,65"
+10,Coll Western Reserve,243,"21,27,60,67,68,69"
+11,Bucyrus,252,"29,43,50,64,66,70"
+12,Plymouth,347,"56,71,72,73,75,76,77"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Claire Michaelis,10,Mil. Edison,19:43.0
+2,Addison McDonnell,9,Mil. Edison,19:58.6
+3,Nevaeh Hill,12,Crestline,20:18.7
+4,Addison Hill,12,Crestline,20:19.8
+5,Avary Stirm,9,Colonel Crawford,20:35.5
+6,Jocelyn Noblit,12,Crestline,20:54.6
+7,Kate Ware,12,St. Paul,21:01.3
+8,Addysen Giesige,12,Crestline,21:30.3
+9,Laynie Kemp,11,Ash. Crestview,21:46.7
+10,Penny Stoll,9,Mil. Edison,21:50.2
+11,Sophia Keller,10,Colonel Crawford,21:55.9
+12,Kaitlyn Messmer,9,Wynford,21:58.7
+13,Lydia Geist,10,New London,22:05.9
+14,Kenley Schafer,10,Monroeville,22:07.1
+15,Samantha Auck,12,Buckeye Central,22:20.5
+16,Charlotte Robinson,9,Sand. SMCC,22:21.4
+17,Annaka Ruggles,9,Monroeville,22:23.1
+18,Lillian Mills,10,Crestline,22:26.7
+19,Julianna Johnson,11,Mil. Edison,22:29.0
+20,Faith Songer,10,Crestline,22:30.2
+21,Frances Donnelly,11,St. Paul,22:34.8
+22,Jenny Schwan,11,St. Paul,22:37.3
+23,Aili Corfman,12,Mil. Edison,22:37.7
+24,Allyson Goebbel,12,Coll Western Reserve,22:41.2
+25,Hailey Crockett,11,New London,22:42.7
+26,Emily Schwenning,10,Colonel Crawford,22:52.4
+27,Sydney Link,11,Colonel Crawford,22:56.5
+28,Clare Whelan,9,Sand. SMCC,23:01.0
+29,Madison Moon,9,Mil. Edison,23:05.2
+30,Annelies Barajas-Larios,9,South Central,23:06.4
+31,Madison Kiess,9,Wynford,23:07.3
+32,Kara Woodruff,12,Coll Western Reserve,23:08.7
+33,Leah de Lorenzo,10,Mans. Christian,23:09.3
+34,Leah Jones,9,Bucyrus,23:10.7
+35,Miranda Ertsenian,12,Danbury,23:11.7
+36,Evie Dinsmore,10,Sand. SMCC,23:12.5
+37,Gracie Gallaway,11,Ash. Crestview,23:18.1
+38,Deanna Vazquez,10,St. Paul,23:20.3
+39,Anna Erwin,10,Crestline,23:23.7
+40,Peyton Crose,9,Lucas,23:25.0
+41,Alyssa Crank,11,Colonel Crawford,23:27.1
+42,Aubrey Brewer,11,Wynford,23:36.7
+43,Mary Dvorak,9,St. Paul,23:42.2
+44,Lillian Denbow,10,New London,23:46.8
+45,Florence De Coster,10,Mans. Christian,23:46.9
+46,Phoebe Dallas,10,Buckeye Central,24:03.3
+47,Adalyn Dean,11,Mans. Christian,24:10.3
+48,Leah Robinson,12,Mans. Christian,24:11.8
+49,Saxon O'Neal,9,Mil. Edison,24:15.1
+50,Anna Wright,12,St. Paul,24:15.6
+51,Madalyn Weiler,12,Bucyrus,24:21.3
+52,Lydia Roggio,11,Mans. Christian,24:24.6
+53,Stephanie Baughman,12,Mans. Christian,24:25.4
+54,Ady Stevens,11,South Central,24:36.2
+55,Vik Skeans,11,Danbury,24:41.2
+56,Eva Kozinski,11,Colonel Crawford,24:48.6
+57,Kyelyn Rowedda,9,Wynford,24:57.5
+58,Lauren Zehner,9,Mans. Christian,25:00.8
+59,Samantha Hudson,9,New London,25:10.6
+60,Magdalene Parsons,9,Buckeye Central,25:16.8
+61,Jasmin Ramey,9,Lucas,25:19.3
+62,Makinsey Weiler,10,Bucyrus,25:46.9
+63,Julia Schimpf,10,Buckeye Central,25:55.7
+64,Catherine Parsons,11,Buckeye Central,25:57.4
+65,Ireland Pelham,9,New London,26:01.0
+66,Brookelyn Cox,9,New London,26:01.4
+67,Veronica Rietschlin,9,Buckeye Central,26:06.0
+68,Anna Caughenbaugh,11,Plymouth,26:11.1
+69,Tessa Stahl,9,Buckeye Central,26:18.5
+70,Violet Rossman,9,Colonel Crawford,26:21.8
+71,Caylin Mielke,9,Sand. SMCC,26:33.1
+72,Addie Harris,12,Danbury,27:06.3
+73,Abecka Ruggles,11,Monroeville,27:15.3
+74,Makenna Myers,12,Coll Western Reserve,27:21.8
+75,Kate Hubner,11,Put-In-Bay,27:23.0
+76,Alexandra (Alex) Cutlip,11,Ash. Crestview,27:30.7
+77,Emily Pond,11,Ash. Crestview,27:51.0
+78,Madison Kilgore,10,New London,27:54.9
+79,Mya Ditmars,11,Bucyrus,27:59.2
+80,Elianna Kelley,9,Ash. Crestview,28:08.8
+81,Carey Campbell,11,Bucyrus,29:17.2
+82,Carsyn Sullen,10,Coll Western Reserve,29:33.8
+83,Korissa Fraelich,12,Coll Western Reserve,29:47.6
+84,Aliya Lopez,11,South Central,30:59.8
+85,Jocelyn Ramey,11,Lucas,31:14.2
+86,Addie French,9,Coll Western Reserve,34:24.5
+87,Aleah Holcomb,11,Bucyrus,34:51.8
+88,Meredith Cooper,9,Put-In-Bay,36:01.3
+89,Grace Edwards,10,Plymouth,36:17.6
+90,Audrey Smith,12,Plymouth,36:19.9
+91,Ari Miller,9,Plymouth,37:19.9
+92,Ella James,9,Sand. SMCC,38:07.2
+93,Gianna Hughes,12,Plymouth,40:01.5
+94,Madison Conley,11,Plymouth,41:37.4
+95,Ragen Oney,12,Plymouth,41:37.4
+
+MEET: Amman's Park District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Huron,18,"1,2,3,5,7,10,11"
+2,Galion,57,"8,9,12,13,15,35,41"
+3,Upper Sandusky,78,"4,6,20,23,25,30,34"
+4,Willard,104,"18,19,21,22,24,27,33"
+5,Vermilion,155,"17,26,29,40,43"
+6,Perkins,156,"16,31,32,38,39,42"
+7,Clear Fork,159,"14,28,36,37,44"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Laney Schlessman,10,Huron,18:46.1
+2,Rylie Towns,12,Huron,19:06.1
+3,Andrea Lesnak,10,Huron,19:30.9
+4,Jocelyn Leightey,12,Upper Sandusky,19:46.6
+5,Claire Putman,12,Huron,20:01.3
+6,Marissa Ledley,12,Kenton,20:22.3
+7,Madison Miles,10,Upper Sandusky,20:37.6
+8,Sasha Fry,12,Huron,20:44.4
+9,Makayla Halbisen,12,Galion,20:53.6
+10,Katelyn Carr,10,Galion,21:23.0
+11,Leah Kohlmann,10,Huron,21:27.3
+12,Allison Kohlmann,10,Huron,21:39.0
+13,Alayna Griffith,12,Galion,21:41.8
+14,Makenzie Halbisen,12,Galion,22:08.9
+15,Eliyah Molina,10,Clear Fork,22:20.5
+16,Ashley Soha,11,Galion,22:23.4
+17,Lillie Price,12,Perkins,22:25.6
+18,Keely Walts,12,Vermilion,22:48.7
+19,Audrey Yonley,10,Willard,22:52.2
+20,Kaylee Tenore,10,Willard,22:59.0
+21,Felicity Bils,10,Upper Sandusky,22:59.9
+22,Helen Acosta Cerda,12,Willard,23:27.9
+23,Keilly Hernandez Rojas,12,Willard,23:28.8
+24,Madison Wengerd,12,Upper Sandusky,23:34.4
+25,Genesis Arce,10,Willard,23:37.5
+26,Nora Leightey,9,Upper Sandusky,23:39.1
+27,Ava Bunn,11,Vermilion,23:43.4
+28,Salaeyah Odom,10,Willard,23:43.9
+29,Kendyll Hartlaub,10,Port Clinton,23:44.4
+30,Raegan Sudol,10,Clear Fork,23:44.9
+31,Georgia Rado,9,Vermilion,24:04.5
+32,Abigail Ault,12,Upper Sandusky,24:18.1
+33,Ella Mischler,12,Perkins,24:25.8
+34,Jasmine McClusky,10,Perkins,24:26.7
+35,Emma Goodsite,10,Willard,24:37.4
+36,Lia Wilkinson,12,Upper Sandusky,24:40.8
+37,Janeysa Legge,10,Kenton,25:04.5
+38,Alexa Kauffman,10,Galion,25:05.2
+39,Caylen Sellers,10,Clear Fork,25:57.0
+40,Micaela Wiechman,10,Port Clinton,26:26.2
+41,Kaitlyn Gerhart,10,Clear Fork,26:53.5
+42,Gianna Stewart,10,Perkins,27:28.4
+43,Leah Blue,12,Kenton,27:56.9
+44,Kaylee Hilsher,12,Kenton,27:58.6
+45,Julia Cooley,12,Perkins,28:05.5
+46,Kola Johnson,10,Vermilion,28:09.7
+47,Savannah Nelson,11,Galion,29:01.2
+48,Isabella Halstead,9,Perkins,29:16.6
+49,Kenzie Boyd,9,Vermilion,31:21.4
+50,Amiee Greene,10,Clear Fork,36:00.0

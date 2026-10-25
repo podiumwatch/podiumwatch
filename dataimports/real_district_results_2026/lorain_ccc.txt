@@ -1,0 +1,775 @@
+MEET: Lorain CCC District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,CVCA,96,"1,2,3,29,61,75,92"
+2,Westlake,107,"9,16,17,26,39,43,77"
+3,Cloverleaf,108,"10,13,15,19,51,69,90"
+4,Rocky River,116,"18,22,24,25,27,84,105"
+5,Med Highland,128,"11,12,23,36,46,62,95"
+6,Lakewood,141,"4,6,35,44,52,57,94"
+7,Revere,165,"5,28,34,40,58,78,99"
+8,Buckeye,179,"7,8,41,56,67,73,76"
+9,Avon Lake,206,"21,30,42,54,59,74,93"
+10,Bay,258,"31,37,45,60,85,108,117"
+11,Brecksville,267,"14,49,66,68,70,71,104"
+12,Olmsted Falls,269,"20,33,48,82,86,101,107"
+13,Steele,341,"47,53,55,83,103,110,115"
+14,Copley,342,"38,63,72,81,88,98,102"
+15,No. Olmsted,417,"65,79,87,89,97,106,111"
+16,Midview,434,"32,64,96,114,128,129,130"
+17,Padua Franciscan,514,"80,100,109,112,113,118,122"
+18,Firelands,538,"50,119,120,124,125,132,133"
+19,Benedictine,577,"91,116,121,123,126,127,131"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Isaac Solomon,12,CVCA,16:24.6
+2,Zac Andamasaris,11,CVCA,16:28.0
+3,Andrew Clark,12,CVCA,16:28.8
+4,Porter Gilliland,12,Lakewood,16:30.5
+5,John Owens,11,Revere,16:32.6
+6,Will Schuldt,10,Lakewood,16:37.3
+7,Dimitry Pshonyak,12,Buckeye,16:37.4
+8,Joseph Stahl,10,Buckeye,16:38.6
+9,Andrew Shaver,12,Westlake,16:43.3
+10,Matthew Jenkins,12,Cloverleaf,16:44.7
+11,John Hildenbrand,11,Med Highland,16:53.3
+12,Andrew Welch,11,Med Highland,16:53.8
+13,Noah Mion,12,Cloverleaf,16:56.2
+14,Logan Sidaway,11,Brecksville,16:58.5
+15,Evan Riegler,9,Cloverleaf,17:03.1
+16,Benjamin Brogan,9,Westlake,17:05.2
+17,Gavin Patterson,11,Westlake,17:06.8
+18,Reid Sutherland,10,Rocky River,17:07.2
+19,Clay Gucker,11,Cloverleaf,17:07.8
+20,Jacob Iafigliola,10,Olmsted Falls,17:09.8
+21,Niko Koutouras,12,Avon Lake,17:11.8
+22,Ryan Stirm,12,Rocky River,17:13.3
+23,Colton Klein,12,Med Highland,17:14.4
+24,Miles Mayich,12,Rocky River,17:16.3
+25,Conrad Reilly,12,Rocky River,17:17.0
+26,Carter Moden,10,Westlake,17:19.4
+27,Henry Galla,11,Rocky River,17:20.3
+28,Jack Ledley,12,Revere,17:21.4
+29,Preston Rostedt,12,CVCA,17:22.8
+30,Luke Gunter,11,Avon Lake,17:22.9
+31,Liam Jager,11,Bay,17:24.7
+32,Hayden Maxwell,11,Midview,17:25.9
+33,Liam Kuri,12,Olmsted Falls,17:27.5
+34,Quin Albrecht,12,Revere,17:28.9
+35,Jack Toubaya,11,Lakewood,17:30.6
+36,Logan Conrad,10,Med Highland,17:32.3
+37,Gavin English,10,Bay,17:37.1
+38,Brayden Malpass,12,Copley,17:37.1
+39,Evan Kascak,10,Westlake,17:37.5
+40,John Long,9,Revere,17:38.6
+41,Nolan Rieth,12,Buckeye,17:39.0
+42,Alex Schulz,12,Avon Lake,17:40.2
+43,Shaurya Chowdhry,12,Westlake,17:40.9
+44,Finn Haney,11,Lakewood,17:42.2
+45,Adrian Ray,12,Bay,17:42.2
+46,Nate Boyce,12,Med Highland,17:42.8
+47,Eli Nicely,11,Steele,17:43.0
+48,Oliver Zale,9,Olmsted Falls,17:43.3
+49,Tyler Roth,11,Brecksville,17:43.9
+50,Carter Woods,12,Firelands,17:44.0
+51,Gavin Ferrone,10,Cloverleaf,17:45.4
+52,Elijah Mondt,12,Lakewood,17:46.0
+53,Carter Banyas,10,Steele,17:46.4
+54,Daniel Muckerheide,9,Avon Lake,17:47.0
+55,Jackson Strawn,10,Steele,17:49.8
+56,Nick Rieth,10,Buckeye,17:51.7
+57,James Babson,12,Lakewood,17:51.9
+58,Toby Shirley,10,Revere,17:53.8
+59,Aidan Diamond,11,Avon Lake,17:54.4
+60,Sam McClellan,9,Bay,17:55.3
+61,Caleb Knobloch,11,CVCA,17:57.4
+62,Andrew Bossart,12,Med Highland,17:58.5
+63,Parker Lust,10,Copley,17:59.1
+64,Andrew Downey,10,Midview,17:59.9
+65,Alexander Hill,11,No. Olmsted,18:01.0
+66,Ryan Reissig,11,Brecksville,18:01.4
+67,John Galayda,12,Buckeye,18:03.9
+68,Matt Smithberger,12,Brecksville,18:05.5
+69,Mason Clapp,12,Cloverleaf,18:06.4
+70,Cole Hileman,12,Brecksville,18:07.5
+71,Nathan Petras,11,Brecksville,18:09.2
+72,Owen Frazee,11,Copley,18:09.8
+73,Gavin Waibel,12,Buckeye,18:10.1
+74,Liam Fritz,11,Avon Lake,18:13.6
+75,Will Hyatt,12,CVCA,18:14.0
+76,Cameron Wyman,9,Buckeye,18:14.1
+77,Anthony Whitmore,10,Westlake,18:16.2
+78,Will Janke,12,Revere,18:17.5
+79,Anthony Fratini,12,No. Olmsted,18:19.2
+80,Ian Ketvertis,10,Padua Franciscan,18:20.2
+81,Everett Parana,10,Copley,18:22.2
+82,Declan Hannon,11,Olmsted Falls,18:22.6
+83,Cale Miller,11,Steele,18:22.7
+84,Rory Petrulis,9,Rocky River,18:22.7
+85,Carver Vovos,10,Bay,18:23.7
+86,Brady Mackert,12,Olmsted Falls,18:24.1
+87,Cameron Krider,9,No. Olmsted,18:25.5
+88,Joshua Penko,9,Copley,18:26.1
+89,Anthony D'Alessandro,12,No. Olmsted,18:27.0
+90,Clayton Cornett,10,Cloverleaf,18:27.2
+91,James Wancata,10,Benedictine,18:28.0
+92,Max Khalil,12,CVCA,18:29.1
+93,Liam Maitland,12,Avon Lake,18:31.4
+94,Andrew Babson,10,Lakewood,18:32.5
+95,Jackson Hildenbrand,9,Med Highland,18:34.7
+96,Noah Brady,11,Midview,18:39.5
+97,Ziad Younes,12,No. Olmsted,18:46.2
+98,Zackary Dodson,11,Copley,18:47.1
+99,Jonah Astrosky,12,Revere,18:49.9
+100,David Norton,12,Padua Franciscan,18:51.9
+101,Jamison Markle,9,Olmsted Falls,18:54.4
+102,Aiden Tufts,12,Copley,18:55.4
+103,Cameron Gilboy,9,Steele,18:56.6
+104,Jordan Welch,11,Brecksville,19:02.9
+105,Sam Wolf,9,Rocky River,19:03.7
+106,Adrian Starner,12,No. Olmsted,19:05.0
+107,Connor Peeler,10,Olmsted Falls,19:18.1
+108,Liam Loeffler,10,Bay,19:21.8
+109,Bryson Barther,9,Padua Franciscan,19:22.6
+110,Owen Cooksey,10,Steele,19:24.0
+111,Alexander Fratini,12,No. Olmsted,19:29.4
+112,Matthew Golias,11,Padua Franciscan,19:30.4
+113,Lucas Pickel,12,Padua Franciscan,19:35.0
+114,Joseph Snyder,10,Midview,19:42.9
+115,Nolan Cislo,11,Steele,19:43.1
+116,Rocco Walton,11,Benedictine,19:44.3
+117,Charles Juratic,10,Bay,19:47.6
+118,Colin Becker,9,Padua Franciscan,19:48.7
+119,Collin Vaughn,11,Firelands,20:24.7
+120,Christopher (Chris) Puza,12,Firelands,20:25.4
+121,David Stewart,11,Benedictine,20:26.8
+122,Logan Russell,11,Padua Franciscan,20:36.5
+123,Rafael Koonce,10,Benedictine,21:30.2
+124,Evan Meszaros,12,Firelands,21:31.5
+125,Nathan Doane,9,Firelands,21:36.9
+126,Gabriel Tangen,11,Benedictine,21:54.5
+127,Jackson Verhoff,11,Benedictine,22:25.8
+128,Reed Gibson,10,Midview,22:26.6
+129,Holden Sukey,9,Midview,22:27.4
+130,Jessie Wildhaber,9,Midview,22:37.9
+131,Patrick Janor,10,Benedictine,22:48.4
+132,Brody Schlechter,12,Firelands,23:35.0
+133,Emerson Simmons,9,Firelands,24:31.5
+134,Noah Vaughn,12,Maple Hts.,25:58.7
+135,Judah Latimer,11,Maple Hts.,26:18.4
+
+MEET: Lorain CCC District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Woodridge,25,"1,3,4,8,9,12,16"
+2,Norwayne,99,"5,15,24,27,28,64,88"
+3,Holy Name,115,"7,11,26,30,41,46,53"
+4,Triway,135,"10,17,20,22,66,72,75"
+5,Keystone,149,"2,13,23,44,67,73,79"
+6,Streetsboro,176,"18,32,33,43,50,57,70"
+7,Waynedale,177,"6,37,39,47,48,56,68"
+8,Fair. Park Fairview,179,"29,34,35,36,45,61,63"
+9,Elyria Catholic,203,"19,25,40,59,60,69,82"
+10,Luth. West,236,"14,21,52,71,78,83,84"
+11,Beachwood,272,"31,49,54,62,76,81"
+12,Orrville,303,"38,55,58,65,87"
+13,Brookside,324,"42,51,74,77,80,85,86"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,John Brock,12,Woodridge,16:01.7
+2,Jamie Yuronich,11,Keystone,16:08.0
+3,Remington Griffiths,11,Woodridge,16:16.5
+4,Eli White,11,Woodridge,16:37.6
+5,Romagn Wingate,12,Norwayne,16:46.4
+6,David Byler,11,Waynedale,16:52.9
+7,Zach Jules,11,Holy Name,16:59.6
+8,Devin Pietrowski,11,Woodridge,17:00.1
+9,Nathan Adams,12,Woodridge,17:04.6
+10,Brady Speicher,12,Triway,17:18.2
+11,Jackson Stewart,11,Holy Name,17:22.4
+12,Frankie Teston,11,Woodridge,17:25.4
+13,Brooks Thompson,11,Keystone,17:26.5
+14,Jacob Vonhof,11,Luth. West,17:26.9
+15,Drake Goddard,10,Norwayne,17:29.8
+16,Tyler Souza,12,Woodridge,17:35.7
+17,Kaden Hilty,12,Triway,17:48.3
+18,Preston Krzeminski,10,Streetsboro,17:52.2
+19,John Barber,12,Elyria Catholic,17:54.3
+20,Liam Brink,10,Triway,17:56.0
+21,Jackson Heisner,11,Luth. West,17:57.1
+22,Emory Sherrick,9,Triway,18:02.4
+23,Sam McConoughey,11,Keystone,18:03.1
+24,Nathaniel Mason,12,Norwayne,18:16.3
+25,Luke Jones,11,Elyria Catholic,18:19.3
+26,Matt Giuliano,11,Holy Name,18:24.0
+27,Kaleb Labo,10,Norwayne,18:24.1
+28,Coltin Dreibelbis,12,Norwayne,18:24.5
+29,Nate Stoessner,12,Fair. Park Fairview,18:24.8
+30,Joe Dolder,11,Holy Name,18:27.8
+31,Asher Hardis,12,Beachwood,18:28.7
+32,Aiden Beaver,10,Streetsboro,18:29.7
+33,Troy Mazer,11,Streetsboro,18:30.8
+34,Reed Ross,12,Fair. Park Fairview,18:32.6
+35,Anderson Lull,10,Fair. Park Fairview,18:36.9
+36,Vance Smith,11,Fair. Park Fairview,18:36.9
+37,Sebastian Schmeltzer,11,Waynedale,18:37.2
+38,Parker Hochstetler,11,Orrville,18:41.9
+39,Noah Shaffer,11,Waynedale,18:45.3
+40,Brian Simonetta,10,Elyria Catholic,18:47.0
+41,Aaron Piper,10,Holy Name,18:47.8
+42,Mason Lascola,11,Brookside,18:48.6
+43,Brendan Malloy,10,Streetsboro,18:49.7
+44,Matthew Gordon,9,Keystone,18:50.9
+45,Chris Malasi,11,Fair. Park Fairview,18:57.3
+46,Andrew Brown,9,Holy Name,18:58.8
+47,Weston Moore,11,Waynedale,18:58.9
+48,Jack Holcomb,11,Waynedale,19:00.5
+49,Aaron Zheng,11,Beachwood,19:00.5
+50,Ryan Haber,10,Streetsboro,19:10.0
+51,Zane Palmer,12,Brookside,19:17.2
+52,Mark Disch,10,Luth. West,19:21.0
+53,Lucas Stranak,11,Holy Name,19:21.2
+54,Artium Tkachenko,12,Beachwood,19:22.3
+55,Kenny Comito,11,Orrville,19:24.9
+56,Adam Steiner,10,Waynedale,19:26.3
+57,Ares Miller,12,Streetsboro,19:29.8
+58,Jacob Crawford,12,Orrville,19:29.8
+59,Ian Pallardy,12,Elyria Catholic,19:32.4
+60,Brayden Van Dyke,12,Elyria Catholic,19:33.1
+61,Daniel Davis,12,Fair. Park Fairview,19:33.3
+62,Felix Ream,11,Beachwood,19:33.7
+63,Jesten Wandrup,11,Fair. Park Fairview,19:35.6
+64,Carson Corp,12,Norwayne,19:37.7
+65,Logan Lovette,12,Orrville,19:41.9
+66,Zade Fletcher,12,Triway,19:44.8
+67,Jake Handrosh,11,Keystone,19:47.6
+68,Carter George,11,Waynedale,19:47.7
+69,Charlie Piskur,10,Elyria Catholic,19:50.0
+70,Corban Brunner,10,Streetsboro,19:51.2
+71,Braylon Johnson,11,Luth. West,19:51.4
+72,Braxton White,10,Triway,20:03.1
+73,James Van De Weerd,11,Keystone,20:11.8
+74,Grant Brezinski,11,Brookside,20:23.5
+75,Parker Daugherty,11,Triway,20:33.3
+76,Maximus Kress,10,Beachwood,20:41.5
+77,Huston Drake,10,Col. Crestview,20:51.9
+78,Mark Kramp,11,Brookside,20:55.6
+79,Russell Polenz,9,Luth. West,20:56.7
+80,Alex Willi,12,Keystone,20:57.4
+81,Matthew Mahnke,11,Brookside,21:01.3
+82,Sean Taylor,11,Beachwood,21:38.0
+83,Lucas Conner,10,Elyria Catholic,21:42.2
+84,Roberto Rodriguez,9,Luth. West,21:49.8
+85,Nathan Miree,12,Luth. West,21:52.2
+86,Jaxson Centifanti,9,Brookside,21:55.8
+87,Danny Fries,12,Brookside,22:24.9
+88,Kenny Martinez,9,Orrville,22:57.1
+89,Brody Delpropost,10,Norwayne,23:48.8
+90,Joe Colon,11,Clearview,26:36.6
+91,Jeremiah Steele,9,Cle. Cent. Cath.,29:06.8
+
+MEET: Lorain CCC District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Independence,44,"3,6,7,9,19,23,47"
+2,Rittman,78,"8,10,11,22,27,32,70"
+3,Kid. Cent. Christian,103,"12,13,16,28,34,36,61"
+4,Black River,105,"2,17,21,26,39,64,71"
+5,Smithville,121,"1,4,14,43,59,66"
+6,Dalton,131,"5,20,31,37,38,40,62"
+7,Open Door Christian,171,"24,25,30,41,51,60,67"
+8,Lake Ridge Acad.,192,"15,42,44,45,46,55,58"
+9,Mapleton,199,"18,29,49,50,53,56,63"
+10,Cuy. Heights,257,"33,35,52,68,69,72,73"
+11,Wellington,298,"48,54,57,65,74"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Nigel Wenger,11,Smithville,16:41.3
+2,Connor Rhein,12,Black River,17:03.8
+3,Mitchell Creel,11,Independence,17:13.0
+4,Josiah Erdman,10,Smithville,17:25.1
+5,Holden Himes,12,Dalton,17:29.2
+6,Jayden Musni,9,Independence,17:29.3
+7,Archer Dlugolinski,9,Independence,17:37.5
+8,Logan Chaplin,12,Rittman,17:39.3
+9,Andrew Gibbons,10,Independence,17:46.8
+10,Gavin Bolender,12,Rittman,17:47.6
+11,Peter Caldwell-Kepner,12,Oberlin,17:52.1
+12,Caleb Bolender,12,Rittman,17:52.1
+13,Gannon Myers,12,Kid. Cent. Christian,17:53.0
+14,Max Murza,9,Kid. Cent. Christian,17:55.5
+15,Grayson Duenke,10,Smithville,18:03.2
+16,Daniel Anastasoaie,10,Lake Ridge Acad.,18:06.0
+17,Logan Kister,12,Kid. Cent. Christian,18:07.2
+18,Jackson Quallich,9,Black River,18:14.3
+19,Donald Michalak,9,W.S. Northwestern,18:14.7
+20,Ridge Meyer,10,Mapleton,18:15.1
+21,Finn McGovern,9,Independence,18:16.5
+22,Cody Hofstetter,12,Dalton,18:16.9
+23,Jacob Gardner,12,Hillsdale,18:29.2
+24,Ray Brakefield,10,Black River,18:37.6
+25,Nathanael Decker,9,Rittman,18:39.4
+26,Liam Polter,9,Independence,18:41.5
+27,Cooper Baker,11,Hillsdale,18:41.7
+28,Tripp Taylor,11,Open Door Christian,18:48.1
+29,David Krauss,9,Open Door Christian,18:50.1
+30,Archer Combs,10,Black River,18:53.9
+31,Wyatt Thompson,9,Rittman,18:54.2
+32,Luke Nofziger,10,Kid. Cent. Christian,18:54.4
+33,Brandon Bertoni,11,Oberlin,19:01.9
+34,Gage Morgan,9,Mapleton,19:07.5
+35,Nicholas Danczak,12,Open Door Christian,19:08.7
+36,Braylon Miller,10,Dalton,19:11.2
+37,Wyatt Ramsier,10,Rittman,19:14.0
+38,Ayden Jasany,9,Cuy. Heights,19:15.7
+39,Carson Combs,12,Kid. Cent. Christian,19:19.9
+40,Matthew Kitral,12,Cuy. Heights,19:22.0
+41,Corwin Singleton,11,Oberlin,19:25.5
+42,Edward Lehman,11,Kid. Cent. Christian,19:32.3
+43,Malachi Steiner,12,Dalton,19:32.7
+44,William Keim,9,Dalton,19:36.1
+45,Brock Martin,12,Black River,19:39.5
+46,Zeke Martinez,12,Dalton,19:43.9
+47,Cooper Szwagulak,10,Open Door Christian,19:48.1
+48,Arjun Gupta,11,Lake Ridge Acad.,19:48.5
+49,Andrew Murray,10,Smithville,19:50.0
+50,Yuanxi Zhao,9,Lake Ridge Acad.,19:53.6
+51,Benjamin Thompson,9,Lake Ridge Acad.,19:55.8
+52,Jerry Chiu,10,Lake Ridge Acad.,20:00.5
+53,William Stray,12,Independence,20:07.1
+54,Nicholas Sword,11,Wellington,20:07.3
+55,Tyler Hartzler,12,Mapleton,20:08.0
+56,William McFarland,11,Oberlin,20:09.2
+57,Trenton Schneiter,11,Mapleton,20:09.2
+58,Samuel (Sammy) Humphrey,9,Open Door Christian,20:11.8
+59,Zhou Wei Ni,12,Cuy. Heights,20:13.9
+60,Stanley Kucnick,10,Mapleton,20:14.5
+61,Max Hook,12,Wellington,20:19.0
+62,Jack Zahler,10,Lake Ridge Acad.,20:19.2
+63,Josiah Kucnick,12,Mapleton,20:19.6
+64,Finley Eastman,10,Wellington,20:22.1
+65,Caleb Stephens,10,Lake Ridge Acad.,20:22.1
+66,Joshua Murray,10,Smithville,20:22.2
+67,Charles Murphy,12,Open Door Christian,20:30.3
+68,Sebastian Schaaf,9,Kid. Cent. Christian,20:46.7
+69,Charles Leslie,11,Hillsdale,20:58.5
+70,Jacoby Zuercher,10,Dalton,20:59.4
+71,Jacob Bigham,10,Mapleton,21:00.5
+72,Ilerioluwa Abiodun,10,St. Martin dePorres,21:01.3
+73,Leland Gallatin,9,Black River,21:04.6
+74,Patton Keener,9,Loudonville,21:20.7
+75,Zachary Chapman,11,Hillsdale,21:22.6
+76,Trenton Carroll,10,Wellington,21:25.1
+77,Logan Duell,9,Smithville,21:34.2
+78,Emerson Ulrich,10,W.S. Northwestern,21:41.8
+79,Milo Clawson,10,Bard Early College,21:59.3
+80,Caleb Woods,10,Open Door Christian,22:12.7
+81,Jeremy Christensen,11,Cuy. Heights,22:16.2
+82,Callan Hensley,9,Cuy. Heights,22:16.5
+83,Florian Gabele,10,Rittman,22:29.8
+84,Logan Taylor,11,Loudonville,22:44.8
+85,Logan Rhein,12,Black River,23:09.8
+86,Jamir Whitt,12,Cuy. Heights,24:03.1
+87,Gabe Sampsell,12,W.S. Northwestern,24:03.3
+88,Adham Gharib,12,Cuy. Heights,24:15.4
+89,John Thompson,9,Wellington,24:36.2
+90,Nehemiah Yohe,9,Loudonville,24:37.1
+91,Ramazani Bazimba,10,St. Martin dePorres,24:44.1
+92,Dorian Milgate,11,Loudonville,25:10.9
+93,Jason Gaines,9,Bard Early College,25:16.1
+94,Luke Kubacki,9,Medina Christian Academy,29:42.0
+95,Henry Cowen,10,Bard Early College,38:42.0
+
+MEET: Lorain CCC District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,CVCA,104,"7,12,22,27,36,45,59"
+2,Avon,115,"8,11,25,30,41,43,44"
+3,Cle. St. Joseph Acad.,155,"5,9,14,56,71,94,97"
+4,Bay,157,"1,15,32,54,55,72,79"
+5,Westlake,172,"6,10,24,46,86,96,101"
+6,Brecksville,173,"2,20,33,57,61,69,91"
+7,Revere,184,"21,37,38,40,48,62,82"
+8,Med Highland,237,"3,29,42,75,88,90,103"
+9,Steele,249,"19,35,60,67,68,70,107"
+10,Avon Lake,271,"13,26,34,83,115,116,119"
+11,Rocky River,277,"16,49,58,76,78,80,106"
+12,Cloverleaf,289,"28,47,53,77,84,98,100"
+13,Copley,308,"4,50,73,89,92,109,121"
+14,Lakewood,334,"51,52,65,81,85,99,104"
+15,Padua Franciscan,346,"39,63,64,87,93,111,113"
+16,Olmsted Falls,397,"17,31,95,124,130,137"
+17,Holy Name,409,"18,23,112,127,129,132,135"
+18,No. Royalton,505,"74,102,105,110,114,118,120"
+19,Midview,575,"66,117,122,134,136,138"
+20,No. Ridgeville,610,"108,123,125,126,128,131,133"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Maya Gonzalez,10,Bay,18:18.7
+2,Annalise Costin,11,Brecksville,18:22.2
+3,Katherine Schuler,12,Med Highland,18:32.4
+4,Kaylee Ingratta,10,Copley,18:41.1
+5,Maddie Koons,10,Cle. St. Joseph Acad.,19:10.7
+6,Sheila Snyder,9,Westlake,19:23.1
+7,Logan Romanini,11,CVCA,19:26.5
+8,Ava Melott,12,Avon,19:26.7
+9,Elizabeth Siefker,11,Cle. St. Joseph Acad.,19:41.8
+10,Elizabeth Herr,12,Westlake,19:43.0
+11,Brooke Tindera,9,Avon,19:49.0
+12,Grace Gunyula,12,CVCA,19:49.0
+13,Cassidy Valerino,12,Avon Lake,19:51.1
+14,Avery Stives,12,Cle. St. Joseph Acad.,19:54.7
+15,Anika Schulz,10,Bay,20:01.1
+16,Kara McCann,10,Rocky River,20:01.9
+17,Abby Thompson,12,Olmsted Falls,20:02.0
+18,Bella Dinya,11,Holy Name,20:05.4
+19,Lola Schaaf,10,Steele,20:05.6
+20,Alexandra French,10,Brecksville,20:16.1
+21,Ella Slaby,12,Revere,20:19.8
+22,Leah Samsonas,9,CVCA,20:22.2
+23,Sienna Nemitz,12,Holy Name,20:25.3
+24,Penelope Redmon,9,Westlake,20:26.6
+25,Molly Suter,11,Avon,20:27.3
+26,Gianna Brannen,9,Avon Lake,20:27.4
+27,Greta Bigham,12,CVCA,20:30.1
+28,Elise Mion,10,Cloverleaf,20:30.1
+29,Olivia Keough,10,Med Highland,20:32.9
+30,Madison Colaizzi,11,Avon,20:33.5
+31,Lucia Mazzarella,12,Olmsted Falls,20:35.0
+32,Kai Ripley,10,Bay,20:36.0
+33,Annelies Chase,11,Brecksville,20:36.3
+34,Kelsey Sheehan,12,Avon Lake,20:36.8
+35,Sam Falbo,10,Steele,20:36.8
+36,Lizzie Dolan,12,CVCA,20:37.3
+37,Laura Fondran,12,Revere,20:37.5
+38,Andrea Karas,9,Revere,20:37.8
+39,Allison Krayzel,12,Padua Franciscan,20:39.0
+40,Hannah Eldridge,9,Revere,20:40.3
+41,Lauren Kershaw,11,Avon,20:40.3
+42,Mary Cullen,10,Med Highland,20:42.7
+43,Momoka Tanaka,11,Avon,20:43.0
+44,Molly Pomfrey,12,Avon,20:44.4
+45,Brielle Varney,12,CVCA,20:52.2
+46,Kendall Hunter,10,Westlake,20:58.8
+47,Leah Monhemius,10,Cloverleaf,20:59.4
+48,Alani Tomaneng,9,Revere,21:00.8
+49,Anna Buehrle,12,Rocky River,21:01.0
+50,Claire Ingersoll,11,Copley,21:03.7
+51,Frances Kaletta,12,Lakewood,21:07.3
+52,Mady Lee,12,Lakewood,21:10.5
+53,Addison Taylor,9,Cloverleaf,21:15.6
+54,Elyse Edelman,10,Bay,21:22.3
+55,Clare Messmore,10,Bay,21:22.4
+56,Annie Collins,9,Cle. St. Joseph Acad.,21:22.8
+57,Amiya Bindra,12,Brecksville,21:25.7
+58,Brooke Hogan,12,Rocky River,21:26.9
+59,Lily Chahulski,10,CVCA,21:28.1
+60,Lila Woskobunik,10,Steele,21:28.4
+61,Cate Gutridge,12,Brecksville,21:33.5
+62,Sophie Cibula,10,Revere,21:36.6
+63,Arianna Codispoti,10,Padua Franciscan,21:37.7
+64,Briley Poplyk,11,Padua Franciscan,21:41.0
+65,Chelsea Payne,12,Lakewood,21:43.1
+66,Molly Ockuly,11,Midview,21:44.4
+67,Aubrey Brenot,12,Steele,21:45.2
+68,Maddy Merthe,10,Steele,21:48.6
+69,Amy Tytko,12,Brecksville,21:49.0
+70,Rosalie Kapalin,12,Steele,21:49.9
+71,Anna Heuberger,11,Cle. St. Joseph Acad.,21:50.9
+72,Olivia D'Alessandro,10,No. Olmsted,21:53.3
+73,Ainsley Scheid,12,Bay,21:56.3
+74,Kateri Villarreal,9,Copley,21:56.8
+75,Kate Mathis,12,No. Royalton,21:58.6
+76,Madison Forshey,12,Med Highland,22:00.7
+77,Lila Meyer,10,Rocky River,22:00.8
+78,Gwyneth Staiger,10,Cloverleaf,22:02.1
+79,Priya Smith,9,Rocky River,22:03.0
+80,Nolie Piktel,12,Bay,22:03.5
+81,Eve Buehrle,10,Rocky River,22:09.1
+82,Lily Gingerich,9,Lakewood,22:10.2
+83,Jenevieve Borys,10,Revere,22:10.4
+84,Sadie Siefert,10,Avon Lake,22:12.0
+85,Lily Dluzynski,10,Cloverleaf,22:14.5
+86,Zenovia Parkanzky,11,Lakewood,22:15.1
+87,Grace Colman,9,Westlake,22:17.8
+88,Violet Eiskamp,10,Padua Franciscan,22:18.4
+89,Evalyn Eshleman,10,Med Highland,22:18.8
+90,Ellie Savage,10,Copley,22:19.8
+91,Celia Pylypiak,12,Med Highland,22:21.7
+92,Anna Brobst,12,Brecksville,22:24.0
+93,Lily Church,10,Copley,22:28.5
+94,Leah Panteck,12,Padua Franciscan,22:29.7
+95,Olivia Newman,11,Cle. St. Joseph Acad.,22:30.1
+96,Brielle Gaughan,10,Olmsted Falls,22:31.0
+97,Amelia Barone,12,Westlake,22:31.6
+98,Grace Litten,10,Cle. St. Joseph Acad.,22:34.0
+99,Addison Fallow,11,Cloverleaf,22:34.4
+100,Luna Marquez-Potts,12,Lakewood,22:36.5
+101,Samantha Porter,12,Cloverleaf,22:42.9
+102,Bridget Snyder,11,Westlake,22:46.5
+103,Katie Crucitt,12,No. Royalton,22:49.5
+104,Claire Hartschuh,9,Med Highland,22:49.6
+105,Phoebe Dombrowski,9,Lakewood,22:59.7
+106,Melissa Hajek,11,No. Royalton,23:04.8
+107,Molly Preto,12,Rocky River,23:06.6
+108,Taelyn Nida,9,Steele,23:07.0
+109,Megan Shollenberger,9,No. Ridgeville,23:11.8
+110,Ava Capper,12,Copley,23:24.3
+111,Kylie Paulesc,11,No. Royalton,23:28.1
+112,Emerson Bodamer,12,Padua Franciscan,23:31.3
+113,Mary Hatgas,11,Holy Name,23:34.6
+114,Amanda Ocilka,12,Padua Franciscan,23:35.9
+115,Corinne Frydryk,11,No. Royalton,23:36.4
+116,Olivia Lemmerbrock,9,Avon Lake,23:44.7
+117,Carolyn McVey,10,Avon Lake,23:51.7
+118,Sophia Morgan,11,Midview,23:56.3
+119,Cali Wise,12,No. Royalton,23:59.6
+120,Marissa Craig,9,Avon Lake,24:01.0
+121,Gabriella Ramos,12,No. Olmsted,24:26.5
+122,Reagan Cox,12,No. Royalton,24:40.8
+123,Magdalena Villarreal,11,Copley,24:46.1
+124,Alison Winslow,12,Midview,24:47.0
+125,Brigid Grady,9,No. Ridgeville,24:48.3
+126,Lyla Hollingsworth,11,Olmsted Falls,24:51.1
+127,Alexandrea Cicerchi,12,No. Ridgeville,25:08.9
+128,Cicerchi Delaney,9,No. Ridgeville,25:18.5
+129,Adele Stewart,9,Holy Name,25:23.5
+130,Adrianna Layne,9,No. Ridgeville,25:30.5
+131,Julianna Thompson,11,Holy Name,26:02.2
+132,Sandy Bassit,12,Olmsted Falls,26:14.4
+133,Emma Furth,9,No. Ridgeville,26:17.5
+134,Maddie Koenig,12,Holy Name,26:20.4
+135,Jodi Abazied,12,No. Ridgeville,26:46.7
+136,Keira Kuklis,11,Midview,27:02.3
+137,Maeve McDonald,9,Holy Name,27:29.0
+138,Payton Morgan,12,Midview,27:42.1
+139,Amira Diab,10,No. Olmsted,28:10.9
+140,Eliza Voldrich,10,Olmsted Falls,28:15.8
+141,Madelyn Czellath,12,Midview,30:08.1
+
+MEET: Lorain CCC District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Woodridge,27,"1,2,4,9,11,16,17"
+2,Buckeye,122,"12,15,23,26,46,51,62"
+3,Laurel,141,"10,14,19,48,50,54,56"
+4,Fair. Park Fairview,142,"5,27,28,40,42,43,49"
+5,Triway,147,"8,30,34,37,38,47,84"
+6,Beachwood,187,"3,6,13,82,83,85"
+7,Firelands,190,"21,22,35,52,60,61,73"
+8,Luth. West,245,"7,45,55,64,74,86"
+9,Elyria Catholic,245,"24,31,39,63,88"
+10,Streetsboro,247,"20,29,59,67,72,75,80"
+11,Orrville,253,"36,41,53,57,66,68,76"
+12,Norwayne,270,"25,32,65,69,79,96"
+13,Keystone,280,"18,44,70,71,77,89,94"
+14,Bard Early College,399,"33,87,91,93,95"
+15,Brookside,399,"58,78,81,90,92"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Lola Mullen,12,Woodridge,20:11.6
+2,Lillian Singer,12,Woodridge,20:21.9
+3,Meena Abdul-Basser,11,Beachwood,20:34.5
+4,JaJa Rosario-Johnson,11,Woodridge,20:47.0
+5,Emily Dahler,11,Fair. Park Fairview,20:48.4
+6,Kasey Flowers,10,Beachwood,20:49.2
+7,Hannah Mueller,9,Luth. West,20:50.0
+8,Sophie Irving,9,Triway,20:50.8
+9,Ella Roberts,9,Woodridge,20:51.0
+10,Juliana Wingard,9,Laurel,21:01.6
+11,Maddie Singer,12,Woodridge,21:07.1
+12,Hannah Dugan,9,Buckeye,21:14.1
+13,Hailey Flowers,12,Beachwood,21:22.1
+14,Ester Tan,11,Laurel,21:34.0
+15,Hayleigh Kreeger,10,Buckeye,21:37.0
+16,Becky Adame,11,Woodridge,22:04.2
+17,Ella Vaughn,12,Woodridge,22:04.4
+18,Amme Wilson,10,Keystone,22:05.6
+19,Katie Spellacy,11,Laurel,22:06.9
+20,Kaelyn Malloy,12,Streetsboro,22:16.2
+21,Natalie Smith,11,Firelands,22:19.1
+22,Dilynn Copley,12,Firelands,22:21.6
+23,Lila Hoover,10,Buckeye,22:23.4
+24,Claire Lewis,12,Elyria Catholic,22:30.7
+25,Carrie Graham,12,Norwayne,22:39.5
+26,Lilyanna (Lily) Regiec,11,Buckeye,22:46.0
+27,Amelia Kay,11,Fair. Park Fairview,22:53.4
+28,Claire Dahler,11,Fair. Park Fairview,22:56.2
+29,Cara Thomson,11,Streetsboro,23:02.6
+30,Lucy Acker,12,Triway,23:05.0
+31,Alena Bray,12,Elyria Catholic,23:11.9
+32,Ginny Graham,9,Norwayne,23:17.0
+33,Zamia Call,10,Bard Early College,23:25.2
+34,Ella Reith,9,Triway,23:26.6
+35,Diem Vanderpool,10,Firelands,23:28.6
+36,Olivia Kozma,10,Orrville,23:29.6
+37,Landri Kister,9,Triway,23:33.0
+38,Laona Neyhart,9,Triway,23:33.0
+39,Lucy Groshek,11,Elyria Catholic,23:44.5
+40,Ella Bozin,9,Fair. Park Fairview,23:46.0
+41,Meredith Stamp,9,Orrville,23:46.5
+42,Sadie Shugrue,11,Fair. Park Fairview,23:49.4
+43,Pary Anagnostos,9,Fair. Park Fairview,23:53.7
+44,Avery Kastler,9,Keystone,23:59.1
+45,Alina Mortus,10,Luth. West,23:59.9
+46,Aria Knight,12,Buckeye,24:08.3
+47,Martha Johnson,12,Triway,24:12.0
+48,Olivia Keck,12,Laurel,24:17.8
+49,Autumn Cuscire,11,Fair. Park Fairview,24:28.4
+50,Elizabeth Matsievich,10,Laurel,24:34.1
+51,Mackenzie Anderson,12,Buckeye,24:36.5
+52,Scarlett Vaughn,10,Firelands,24:37.8
+53,Brielle Kendrick,11,Orrville,24:47.6
+54,Hannah Rosenfeld,12,Laurel,24:53.6
+55,Quinn Huber,9,Luth. West,24:55.2
+56,Finley Blackann,10,Laurel,25:00.8
+57,Kayleigh Lierer,10,Orrville,25:04.5
+58,Emma Allen,10,Brookside,25:04.7
+59,Reagan Rippey,10,Streetsboro,25:07.6
+60,Adelynn Schlechter,10,Firelands,25:18.3
+61,Reagan Moore,9,Firelands,25:19.7
+62,Kate Shearer,12,Buckeye,25:23.1
+63,Amelia Neugebauer,10,Elyria Catholic,25:25.8
+64,Callie Hawkins,9,Luth. West,25:26.6
+65,Kaylyn Licht,12,Norwayne,25:26.8
+66,Sarah-Grace Miyashita,10,Orrville,25:30.2
+67,Harmony Cook,11,Streetsboro,25:41.2
+68,Madeleine Carter,11,Orrville,25:44.9
+69,Madison Rickett,9,Norwayne,25:50.4
+70,Hailey Wilson,11,Keystone,25:50.7
+71,Marin Fedor,11,Keystone,25:52.2
+72,Sadie Honroth,10,Streetsboro,25:59.8
+73,Sarah Bartish,12,Firelands,26:18.6
+74,Tori Slack,10,Luth. West,26:26.6
+75,Arianna Mrak,9,Streetsboro,26:29.2
+76,Abby Severe,11,Orrville,26:44.5
+77,Charli Leach,10,Keystone,26:50.5
+78,Aubrey Winkler,9,Brookside,26:54.6
+79,Noelle Wingate,11,Norwayne,27:00.5
+80,Lola Maglionico,12,Streetsboro,27:06.7
+81,Jenna Hall,9,Brookside,27:16.2
+82,Rivers McKinney,11,Beachwood,27:26.7
+83,Farai Chiunda,9,Beachwood,27:30.2
+84,Jocelynn Johnson,9,Triway,27:33.3
+85,Arynne Chang,11,Beachwood,28:14.8
+86,Julia Silvestri,10,Luth. West,28:38.8
+87,Dasia Coleman,10,Bard Early College,29:44.6
+88,Lindsay Kalyn,10,Elyria Catholic,29:47.4
+89,AnnaKat Buckingham,10,Keystone,30:06.1
+90,Jillian Polly,9,Brookside,32:13.4
+91,Santana Hughes,9,Bard Early College,32:35.9
+92,Marley Misorski,10,Brookside,32:57.8
+93,Soliann Arzuaga,12,Bard Early College,33:21.0
+94,Madison Askew,10,Keystone,34:01.0
+95,Kalani Castro,12,Bard Early College,34:27.6
+96,Jayla Winkler,12,Norwayne,35:26.1
+
+MEET: Lorain CCC District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Rittman,28,"2,3,6,7,10,11,19"
+2,Kid. Cent. Christian,92,"1,4,21,27,39,62"
+3,Independence,116,"8,9,28,29,42,44,55"
+4,Waynedale,128,"5,25,31,33,34,43,47"
+5,Dalton,130,"13,15,17,40,45,56,60"
+6,Open Door Christian,138,"14,16,26,30,52,61"
+7,Black River,168,"20,22,23,46,57,59"
+8,Lake Ridge Acad.,169,"18,24,38,41,48,58"
+9,Smithville,198,"12,36,49,50,51"
+10,Mapleton,211,"32,35,37,53,54"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Gracie Steiner,9,Kid. Cent. Christian,20:12.6
+2,Adyson Fosen,12,Rittman,20:26.0
+3,Eilash Widmer,11,Rittman,20:32.5
+4,Izzy Rohrer,12,Kid. Cent. Christian,20:48.1
+5,Piper Polen,11,Waynedale,20:53.5
+6,Ryver Ramsier,12,Rittman,20:55.5
+7,Kloe Smith,11,Hillsdale,21:10.2
+8,Annabelle Snyder,12,Rittman,21:15.0
+9,Lucy Lu,10,Independence,21:19.7
+10,Leah Creel,10,Independence,21:19.7
+11,Selah Amos,12,Rittman,21:23.9
+12,Joee Cichocki,11,Cuy. Heights,21:30.1
+13,Hannah Shipley,10,Rittman,21:49.7
+14,Maryn Erdman,12,Smithville,22:08.7
+15,Ellis Dobes,10,Dalton,22:19.7
+16,Claire Hepner,12,Open Door Christian,22:21.8
+17,Maggie Hershberger,10,Dalton,22:43.6
+18,Alayna Boone,11,Open Door Christian,22:53.9
+19,Hazel Hamity,9,Dalton,22:57.9
+20,Lilly Shmois,12,Lake Ridge Acad.,23:04.2
+21,Hailey Pastorelle,10,Rittman,23:09.6
+22,Jade Mitchell,11,Black River,23:12.9
+23,Abi Mendez,11,Kid. Cent. Christian,23:14.3
+24,Ella McCann,10,Black River,23:22.4
+25,Scarlett Olive,10,Black River,23:25.0
+26,Lena Foltin,11,Lake Ridge Acad.,23:31.3
+27,Emma Brown,11,Waynedale,23:32.2
+28,Brianna Couture,12,Open Door Christian,23:34.1
+29,Elisabeth Hilliard,9,Kid. Cent. Christian,23:42.6
+30,Paige Noggle,9,Independence,23:45.7
+31,Alexis Conklyn,9,Independence,23:46.0
+32,Allison Powers,11,Open Door Christian,24:05.5
+33,Gabby Palmer,10,W.S. Northwestern,24:14.1
+34,Lucy Schrock,9,Waynedale,24:25.7
+35,Gracie-Lynn Jefferies,10,Loudonville,24:31.6
+36,Rose Marie Boyer,11,Oberlin,24:32.9
+37,Fynlee Morris,10,Wellington,24:35.8
+38,Maddison Hopstetter,11,Mapleton,24:39.1
+39,Makenzie George,9,Waynedale,24:44.5
+40,Hope Shaffer,9,Waynedale,24:50.9
+41,Abby MacKay,9,Col. Crestview,24:52.6
+42,Layla Perzy,12,Mapleton,24:54.7
+43,Elise Marullo,9,Smithville,24:56.3
+44,Molly Caldwell-Kepner,11,Oberlin,25:05.1
+45,Kaylee Gault,12,Mapleton,25:08.2
+46,Kristen Troyer,10,Loudonville,25:13.9
+47,Arielle Kluth,12,Lake Ridge Acad.,25:16.4
+48,Lillian Miller,9,Kid. Cent. Christian,25:17.2
+49,Lydia Palmer,12,W.S. Northwestern,25:17.6
+50,Adeline Carpenter,11,Dalton,25:21.3
+51,Zeali Overstreet,12,Lake Ridge Acad.,25:38.0
+52,Mckenna Peters,10,Independence,25:51.4
+53,Adelyn Conrad,9,Waynedale,25:51.4
+54,Alyssa Hujarski,11,Independence,25:58.5
+55,Hadley Fleming,10,Wellington,26:01.4
+56,Maya Wenger,12,Dalton,26:10.2
+57,Ruby Johnston,12,Black River,26:16.2
+58,Makena Conrad,11,Waynedale,26:33.0
+59,Kathryn Krueger,12,Lake Ridge Acad.,26:33.4
+60,Gracie Garrett,9,W.S. Northwestern,26:50.4
+61,Katie MacKay,11,Col. Crestview,26:53.3
+62,Kyrie Wynn,9,Smithville,27:07.4
+63,Tessa Duell,11,Smithville,27:12.0
+64,Brooke Harmon,11,Smithville,27:33.9
+65,Aubrey Steele,9,Medina Christian Academy,27:48.8
+66,Lillyanna Nichols,9,Open Door Christian,28:08.9
+67,Aleigha Hissong,12,Mapleton,28:13.7
+68,Ava Kane,10,Mapleton,29:11.3
+69,Faith Sifferlin,9,Loudonville,29:57.7
+70,Emilia Mikolic,10,Independence,29:59.7
+71,Liliana Yutzy,10,Dalton,30:56.8
+72,Ava Workinger,12,Black River,31:59.5
+73,Graycen Rowe,12,Lake Ridge Acad.,32:20.6
+74,Grace Bowen,10,Black River,32:42.3
+75,Brianne Fink,12,Dalton,33:15.6
+76,Avery Pentz,9,Open Door Christian,33:17.5
+77,Lilly Boyer,9,Oberlin,33:21.3
+78,Leanah Mast,10,Kid. Cent. Christian,33:36.8
+79,Giada Amato,11,Cuy. Heights,33:42.9
+80,Ariana Pettry,11,W.S. Northwestern,35:00.3
+81,Kennedi Lucas,10,Col. Crestview,35:03.1
+82,Shamira Santiago,10,Clearview,37:31.2

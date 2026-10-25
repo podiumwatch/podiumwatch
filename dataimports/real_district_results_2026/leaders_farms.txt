@@ -1,0 +1,439 @@
+MEET: Leaders Farms District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Tinora,43,"2,6,10,11,14,19,33"
+2,Sher. Fairview,89,"1,3,13,26,46,58,62"
+3,Pettisville,101,"4,7,18,29,43,60,61"
+4,Liberty Center,107,"8,20,22,25,32,45,64"
+5,Hicksville,116,"15,17,23,30,31,36,38"
+6,Maumee Va. C.D.,162,"9,12,34,48,59,69,78"
+7,Antwerp,193,"24,35,39,40,55,70,72"
+8,Edgerton,237,"16,44,49,52,76,81,87"
+9,Fayette,252,"27,42,47,63,73,75"
+10,Holgate,254,"5,50,57,65,77,90,97"
+11,Toledo Christian,258,"21,37,41,79,80,82,83"
+12,Woodmore,269,"28,51,56,66,68,71"
+13,Patrick Henry,364,"53,67,74,84,86,88,95"
+14,Northwood,411,"54,85,89,91,92"
+15,Tol. Horizon Science,480,"93,94,96,98,99"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Malaki Neilson,12,Sher. Fairview,15:56.0
+2,Noah Meyer,12,Tinora,16:07.2
+3,Jett Roose,11,No. Central,16:16.6
+4,Cael Neilson,10,Sher. Fairview,16:23.2
+5,Alex Galvin,11,Pettisville,16:24.1
+6,Carter Fritz,11,Holgate,16:32.3
+7,Nolan Rittenhouse,12,Tinora,16:39.5
+8,Jalen Thompson,9,Pettisville,16:40.5
+9,Ryan Navarre,11,Liberty Center,16:43.2
+10,Charlie Harris,12,Maumee Va. C.D.,16:49.0
+11,Graham Hammon,11,Tinora,16:51.5
+12,Wesley Maxwell,12,Tinora,16:59.6
+13,Harlan Poupard,12,Maumee Va. C.D.,17:06.1
+14,Kale Marsee,11,Sher. Fairview,17:10.0
+15,Gavin Rittenhouse,11,Tinora,17:13.3
+16,Zephraim Rittenhouse,11,Hicksville,17:14.5
+17,Breck Hesselschwardt,10,Edgerton,17:16.8
+18,Alexander Franklin,12,Hicksville,17:17.2
+19,Tyler Wilburn,12,Pettisville,17:18.4
+20,Jared Neff,12,Tinora,17:22.6
+21,Brady Chapa,12,Liberty Center,17:30.2
+22,Liam Sawyer,10,Toledo Christian,17:30.8
+23,Raleigh Aschemeier,11,Liberty Center,17:32.0
+24,Jonah Laker,11,Hicksville,17:35.5
+25,Jason McKay,11,Antwerp,17:36.7
+26,Landyn Evans,10,Liberty Center,17:52.2
+27,Kaleb Rabe,12,Sher. Fairview,17:52.4
+28,Koewin Burkhard,10,Fayette,17:53.6
+29,Marcus Schroder,11,Woodmore,17:54.4
+30,Eli Mansfield,9,Pettisville,17:55.1
+31,Kaleb Rost,11,Hicksville,17:56.3
+32,Greyson Combs,10,Hicksville,18:03.8
+33,Isaiah Gutierrez,9,Liberty Center,18:06.0
+34,JT Zolman,11,Tinora,18:07.4
+35,Keegan Ambler,11,No. Central,18:13.9
+36,Liam King,10,Maumee Va. C.D.,18:15.7
+37,Braxton Peters,11,Antwerp,18:17.5
+38,Caleb Franklin,10,Hicksville,18:18.8
+39,Mark Thurlow,10,Toledo Christian,18:19.0
+40,Clay Marshman,12,Hicksville,18:19.6
+41,Marshall Rice,9,Antwerp,18:26.1
+42,Tucker Doster,11,Antwerp,18:27.3
+43,Trevor Turnick,11,Toledo Christian,18:27.5
+44,Garrett Stambaugh,10,Fayette,18:28.7
+45,Ryan Bishop,12,Pettisville,18:31.8
+46,Nathan Krill,11,Edgerton,18:32.2
+47,Calvin Junge,10,Liberty Center,18:33.3
+48,Mathias Neilson,9,Sher. Fairview,18:33.9
+49,Mason Leininger,11,Fayette,18:41.7
+50,Luke Oberlin,10,Maumee Va. C.D.,18:42.5
+51,Caden Apt,12,Edgerton,18:46.7
+52,Alex Rupright,12,Holgate,18:49.5
+53,Cooper Hillkirk,9,Woodmore,18:53.5
+54,Devon Bonecutter,12,Edgerton,18:55.0
+55,Jaxson Dietelbach,9,Patrick Henry,18:56.3
+56,Mitchel Fowler,11,Northwood,19:04.1
+57,Gage Barker,11,Antwerp,19:05.3
+58,Liam Combs,10,Woodmore,19:05.6
+59,Jackson Guelde,11,Holgate,19:09.1
+60,Isaac Kennedy,11,Ayersville,19:12.7
+61,Gabe Boyd,10,Montpelier,19:15.8
+62,Sam Brown,12,Ayersville,19:18.6
+63,Layne Ford,10,Sher. Fairview,19:19.2
+64,Alex Dewire,10,Maumee Va. C.D.,19:19.8
+65,Samuel Hartman,11,Pettisville,19:20.8
+66,Luke Sigler,9,Ayersville,19:21.3
+67,Lendrix Miller,9,Pettisville,19:22.2
+68,Barrett Grant,12,Sher. Fairview,19:22.4
+69,Dawson Schang,11,Fayette,19:26.5
+70,Jack Jones,12,Liberty Center,19:28.0
+71,Izak Payne,12,Holgate,19:39.4
+72,Cohen Broud,9,Woodmore,19:41.6
+73,Jack Vennekotter,9,Patrick Henry,19:45.7
+74,Peyton Carnahan,10,Ayersville,19:47.9
+75,Owen Ziebold,10,Woodmore,19:51.5
+76,Jakob Cohen,9,Maumee Va. C.D.,19:52.2
+77,Aiden Hook,12,Antwerp,19:57.4
+78,Cooper Martin,9,Woodmore,20:00.5
+79,Kahne Moore,9,Antwerp,20:01.9
+80,Lliam Duncan,9,Fayette,20:20.0
+81,Grahm Rosebrook,12,Patrick Henry,20:22.7
+82,Parker Botjer,9,Stryker,20:27.3
+83,Riddik Proper,9,Fayette,20:30.5
+84,Grady Bonecutter,10,Edgerton,20:33.7
+85,Liam Leaders,9,Holgate,20:36.9
+86,Bennet Heyrman,10,Maumee Va. C.D.,20:42.5
+87,Cap Filipiak,9,Toledo Christian,21:00.9
+88,Ian Hanson,11,Hilltop,21:01.1
+89,Luke Timms,9,Toledo Christian,21:01.8
+90,Nate Howell,12,Edgerton,21:24.6
+91,Dakota Turnick,9,Toledo Christian,21:35.4
+92,Ian Oliver,10,Toledo Christian,21:36.1
+93,Dexter Kannel,10,Montpelier,21:43.7
+94,Connor Rowland,11,Stritch Cath.,21:52.6
+95,Eli Snyder,12,Edon,22:04.6
+96,Grant Berg,9,Patrick Henry,22:06.3
+97,Kaleb Mata,11,Northwood,22:15.4
+98,Skyler Whitney,11,Edon,22:19.0
+99,Isaac Martin,10,Stritch Cath.,22:24.7
+100,Jaxon Cordes,9,Patrick Henry,22:49.5
+101,Rubix Kaiser,11,Edgerton,23:17.1
+102,Kayden Robinette,11,Patrick Henry,23:24.9
+103,Malakai Lamphier,10,Northwood,23:33.3
+104,Levi Leaders,9,Holgate,24:28.2
+105,Christian Herrera,9,Northwood,25:17.2
+106,Alexander Mannon,11,Northwood,25:27.3
+107,Ceagan Oberlin,9,Edon,25:41.0
+108,Cameron Martin,12,Stritch Cath.,25:46.9
+109,Dhiren Brown,12,Tol. Horizon Science,26:28.2
+110,Israel Byrd,12,Tol. Horizon Science,27:21.7
+111,Carter Rettig,9,Patrick Henry,27:30.5
+112,Fidencio Pribe,10,Tol. Horizon Science,29:04.2
+113,Santos Orozco,10,Holgate,30:44.4
+114,Delars Oliver-Young,12,Tol. Horizon Science,33:19.7
+115,Elijah Belcher,12,Tol. Horizon Science,35:05.1
+116,Liam Hillard,9,Montpelier,39:30.3
+
+MEET: Leaders Farms District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Tol. St. Francis,40,"2,4,8,12,14,19"
+2,Bowling Green,43,"3,5,6,7,22,23,28"
+3,Syl. Northview,90,"9,15,17,24,25,27,34"
+4,Syl. Southview,108,"1,11,29,32,35,36,40"
+5,Defiance,138,"18,20,21,38,41,45,55"
+6,Tol. St. John's Jesuit,145,"10,16,33,39,47,49,50"
+7,Hol. Springfield,200,"13,31,43,56,57,68,79"
+8,Maumee,226,"30,37,48,53,58,64,78"
+9,Rogers,255,"42,46,52,54,61,70,75"
+10,Waite,268,"26,44,62,65,71,77"
+11,Oregon Clay,324,"59,60,63,69,73,74,76"
+12,Sandusky,336,"51,66,67,72,80"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Steven Owen,12,Syl. Southview,15:27.3
+2,Brennan Higgins,11,Tol. St. Francis,15:43.5
+3,Sam Wiles,12,Bowling Green,15:47.4
+4,Spencer Frangou,12,Tol. St. Francis,15:48.4
+5,Adam Proulx,11,Bowling Green,15:48.6
+6,Lloyd Waldron,11,Bowling Green,15:48.8
+7,Rece Simon,10,Bowling Green,15:52.4
+8,Will Dwyer,12,Tol. St. Francis,16:13.0
+9,Landon Rodriguez,10,Syl. Northview,16:21.3
+10,Nick Walker,11,Tol. St. John's Jesuit,16:32.6
+11,Gabe Duran,9,Syl. Southview,16:39.0
+12,Lucas Martin,10,Tol. St. Francis,16:40.1
+13,Johnathan (John) Iman,12,Hol. Springfield,16:44.1
+14,Evan Martinez,10,Tol. St. Francis,16:44.9
+15,Tate Manthey,11,Syl. Northview,16:47.9
+16,Benjamin Kuhlman,12,Tol. St. John's Jesuit,16:52.0
+17,Mason Schweizer,11,Syl. Northview,16:56.7
+18,Xavier Gonzales,11,Defiance,16:57.8
+19,Tyson Walker,12,Tol. St. Francis,16:59.2
+20,Jayden Mendoza,10,Defiance,17:01.1
+21,Beckett Meyers,11,Defiance,17:01.3
+22,Isaac Wiles,9,Bowling Green,17:03.5
+23,Ashton Loomis,10,Bowling Green,17:07.3
+24,Ryan Hall,10,Syl. Northview,17:07.8
+25,Grayson Dillon,10,Syl. Northview,17:09.2
+26,Oscar Valdez,12,Waite,17:13.7
+27,Spencer Stacy,9,Syl. Northview,17:16.4
+28,Samuel Niekamp,9,Bowling Green,17:19.5
+29,Harrison Grill,11,Syl. Southview,17:19.5
+30,Bryson Danielski,11,Maumee,17:21.3
+31,David Eckel,12,Hol. Springfield,17:24.4
+32,Robert (Bob) Vanasdale,12,Syl. Southview,17:29.9
+33,Graysen McNear,11,Tol. St. John's Jesuit,17:31.0
+34,Jacob Rowland,11,Syl. Northview,17:35.0
+35,Boston Vallejo,9,Syl. Southview,17:36.2
+36,Nathanael Chen,10,Syl. Southview,17:38.0
+37,Aaron Powell,11,Maumee,17:39.8
+38,Jediah Bronson,11,Defiance,17:40.6
+39,Beckett Fenbert,12,Tol. St. John's Jesuit,17:41.6
+40,Jack Budas,12,Syl. Southview,17:44.2
+41,Jace Schultz,10,Defiance,17:45.0
+42,Xavier Williams,12,Rogers,17:46.7
+43,Levi Perlmutter,10,Hol. Springfield,17:47.4
+44,Cristian Hernandez-Galvan,11,Waite,17:48.3
+45,Grady Schaffer,12,Defiance,17:53.0
+46,Aiden Grimes,11,Rogers,17:55.2
+47,Nathan Perry,11,Tol. St. John's Jesuit,18:04.0
+48,Noah Wagner,11,Maumee,18:16.4
+49,Ryder Rush,9,Tol. St. John's Jesuit,18:24.9
+50,Dean Bernard,9,Tol. St. John's Jesuit,18:26.8
+51,Vincynt Rose,10,Sandusky,18:38.1
+52,Patrick Garrett,10,Rogers,18:40.2
+53,Luke Reeves,11,Maumee,18:45.4
+54,Kaleb Moore,12,Rogers,19:04.3
+55,Trevin Flores,11,Defiance,19:06.0
+56,Tayler Tanberg,10,Hol. Springfield,19:17.5
+57,Kam Lyons,11,Hol. Springfield,19:21.3
+58,Cullen Carpenter,9,Maumee,19:22.1
+59,Christian Stephens,11,Oregon Clay,19:28.9
+60,Brecken Hower,12,Oregon Clay,19:52.2
+61,Kingston Davis,10,Rogers,19:58.8
+62,Marcello Olivera-Villegas,10,Waite,19:59.6
+63,Max Miller,12,Oregon Clay,20:03.8
+64,Rory Kennedy,9,Maumee,20:04.4
+65,Anthony Garcia,11,Waite,20:06.9
+66,Ta'jir Spillman,9,Sandusky,20:11.9
+67,Gabriel Mischler,11,Sandusky,20:12.8
+68,Callen Wright,9,Hol. Springfield,20:24.6
+69,Jackson Ketcham,11,Oregon Clay,20:52.2
+70,DeNay Tucker,11,Rogers,21:16.0
+71,Rylen Johnson,9,Scott,21:19.7
+72,Sebastian Lopez,12,Waite,21:39.4
+73,Trevor Gonzalez,9,Sandusky,22:01.4
+74,Rowen Lockhart,11,Oregon Clay,22:06.6
+75,Caden Kaminski,11,Oregon Clay,22:17.2
+76,William Nix,10,Rogers,22:38.7
+77,Hunter Lemon,10,Oregon Clay,23:05.2
+78,Joelle Turner,12,Waite,23:08.4
+79,Keshawn Easter,9,Maumee,23:09.4
+80,Colin Wanamakok,12,Hol. Springfield,23:25.4
+81,Zhaikahr Ali,10,Sandusky,24:26.6
+82,Armon Fane,10,Scott,27:16.5
+
+MEET: Leaders Farms District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Liberty Center,19,"1,2,3,6,7,11,13"
+2,Tinora,82,"9,12,16,20,25,49,51"
+3,Sher. Fairview,114,"5,15,19,22,53,55"
+4,Antwerp,116,"10,14,26,29,37,40,59"
+5,Woodmore,131,"8,23,27,35,38,57"
+6,Edgerton,173,"18,32,33,43,47,48,60"
+7,Pettisville,174,"17,21,24,50,62"
+8,Holgate,194,"4,31,36,54,69,72"
+9,Hicksville,224,"30,42,44,52,56,63,70"
+10,Montpelier,239,"34,39,41,58,67,68,71"
+11,Ayersville,244,"28,45,46,61,64,65,66"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Colbie Strayer,12,Liberty Center,18:09.2
+2,Mya Stark,10,Liberty Center,19:11.4
+3,Castyn Miller,10,Liberty Center,19:22.1
+4,Kinsley Schuette,9,Holgate,19:34.4
+5,Meredith Alvarez,9,Sher. Fairview,19:34.8
+6,Blythe Fitzenreiter,9,Patrick Henry,19:53.0
+7,Ryley Miller,11,Liberty Center,20:02.3
+8,Brynn Gyurasics,9,Liberty Center,20:05.7
+9,Isabella Stueve,12,Maumee Va. C.D.,20:19.9
+10,Hazel Baranowski,9,Woodmore,20:44.6
+11,Cheyenne Myers,12,Tinora,20:45.2
+12,Reese Durbin,12,Antwerp,20:46.3
+13,Emma Bailey,9,Liberty Center,20:47.4
+14,Emily Reichow,11,Northwood,20:48.7
+15,Lauren Rittenhouse,9,Tinora,21:00.5
+16,Hailey Bowen,10,Liberty Center,21:03.0
+17,Gianna Laker,10,Antwerp,21:03.8
+18,Autumn Becker,12,Sher. Fairview,21:12.8
+19,India Okuley,12,Tinora,21:23.1
+20,Keren Maldonado,11,Pettisville,21:32.3
+21,Emily Suydam,11,Hilltop,21:37.4
+22,Samantha Metzger,12,Maumee Va. C.D.,21:43.8
+23,Nora Gerschutz,9,Edgerton,21:47.2
+24,Lily Rabe,12,Sher. Fairview,21:49.1
+25,Kennedy Kunkle,11,Fayette,21:51.3
+26,Caroline Vance,10,Tinora,21:52.1
+27,Grace Davis,11,Pettisville,21:52.9
+28,Rose Harris,9,Sher. Fairview,21:55.2
+29,Peyton Damschroder,10,Woodmore,22:02.4
+30,Kynzie Rice,9,Pettisville,22:16.2
+31,Hartley Waltmire,9,Tinora,22:21.3
+32,Gabriella Snyder,12,Antwerp,22:22.7
+33,Addison Lowry,11,Woodmore,22:23.9
+34,Peyton Messer,10,Ayersville,22:24.6
+35,Elsie Arnos,9,Stryker,22:26.8
+36,Veronica Fowler,10,Northwood,22:29.2
+37,Emily Laker,12,Antwerp,22:33.4
+38,Mya Haggerty,10,Hicksville,22:36.3
+39,Jocelyn McMillen,9,Holgate,22:43.4
+40,Mia Sikula,9,Stryker,22:53.2
+41,Rhiana Arps,11,Patrick Henry,22:55.6
+42,Chloe Hazelton,11,Edgerton,23:03.0
+43,Kyndal Hazelton,9,Edgerton,23:04.7
+44,Janessa Humbarger,11,Montpelier,23:11.5
+45,Ayla Henn,10,Woodmore,23:16.5
+46,Sarah Bok,12,Holgate,23:17.7
+47,Kora Zuber,11,Antwerp,23:29.0
+48,Bella Sawyer,12,Toledo Christian,23:30.3
+49,Morgan Farber,10,Woodmore,23:30.6
+50,Gracelynn Bauer,9,Montpelier,23:33.7
+51,Aleta Sorrell,10,Antwerp,23:34.1
+52,Libby Bishop,11,Montpelier,23:39.8
+53,Vaida Van Horn,10,Hicksville,23:48.8
+54,Addyson King,10,Edgerton,23:50.7
+55,Braelyn Adams,10,Hicksville,23:53.0
+56,AnnMarie Sigler,11,Ayersville,24:14.7
+57,Megan Biggs,12,Toledo Christian,24:16.9
+58,Linley Clark,11,Ayersville,24:23.3
+59,Camille Rice,10,Maumee Va. C.D.,24:24.5
+60,Eve Gerschutz,12,Edgerton,24:33.7
+61,Kaydance Hobeck,10,Edgerton,24:38.2
+62,Chloie Evilsizor,11,Edon,24:43.4
+63,Lexie Hay,11,Edon,24:45.1
+64,Harper Spieth,9,Tinora,24:47.4
+65,Shelby Phillips,10,Fayette,24:55.2
+66,Keyla Osuna,11,Pettisville,24:56.1
+67,Myah Dominique,9,Tinora,25:06.3
+68,Trinity Campbell,9,Hicksville,25:08.4
+69,Sammy Mavis,12,Sher. Fairview,25:08.4
+70,Lillian Peck,11,Holgate,25:16.5
+71,Emelia Jakubowski,10,Toledo Christian,25:16.5
+72,Lily McBride,11,Edon,25:26.8
+73,Peyton McCann,11,Sher. Fairview,25:39.2
+74,Anna Saunders,12,Hicksville,25:41.4
+75,Uriella Coley,11,Toledo Christian,25:47.9
+76,Kenlee Brigle,10,Edon,25:49.4
+77,Grace Blausey,9,Woodmore,25:56.5
+78,Liliana Clair,9,Montpelier,26:03.1
+79,Brooklynn Lawson,10,Antwerp,26:15.6
+80,Isabel Breen,10,Edgerton,26:19.5
+81,Lizzie Healy,11,Ayersville,26:33.6
+82,Sophia Loar,12,Pettisville,27:04.9
+83,Neveah Phillips,10,Hicksville,27:14.6
+84,Kynlee Sprow,10,Ayersville,27:29.6
+85,Hazel Shields,10,Northwood,27:47.3
+86,Ava Sandleben,12,Ayersville,28:29.3
+87,Kylah Altstaetter,9,Ayersville,28:51.0
+88,Liah O'Brien,10,Stritch Cath.,29:01.6
+89,Addison Gawle,11,Stritch Cath.,29:54.6
+90,Payten Hall,12,Montpelier,30:48.8
+91,Precious Stoner,12,Montpelier,31:02.3
+92,Layla Hoffer,10,Holgate,31:33.7
+93,Valeria Tomas,11,Hicksville,32:17.4
+94,Willow Hickling,9,Montpelier,33:35.8
+95,Amanda Parsons,10,Holgate,34:40.1
+96,Frankiemarae Rayford,10,Tol. Horizon Science,49:09.7
+
+MEET: Leaders Farms District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Bowling Green,45,"2,8,10,12,13,14,17"
+2,Syl. Southview,84,"1,16,20,22,25,31,33"
+3,Tol. Notre Dame,91,"5,6,7,36,37,41,48"
+4,Syl. Northview,97,"9,11,23,26,28,30,39"
+5,Tol. St. Ursula Acad.,99,"3,19,21,27,29,35,42"
+6,Maumee,115,"4,15,18,38,40,58,60"
+7,Defiance,196,"24,32,44,47,49,52,53"
+8,Oregon Clay,236,"34,45,50,51,56,57,61"
+9,Rogers,257,"43,46,54,55,59,62,63"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Julia Bocik,10,Syl. Southview,17:20.6
+2,Lilly Downey,11,Bowling Green,18:58.3
+3,Emerie Schmidlin,10,Tol. St. Ursula Acad.,19:13.9
+4,Arriana Dugan,11,Maumee,19:28.8
+5,Stella LeBlanc,10,Tol. Notre Dame,19:34.9
+6,June Ogrodowski,9,Tol. Notre Dame,19:35.0
+7,Valerie Seymour,10,Tol. Notre Dame,19:38.2
+8,Avery Wrighten,9,Bowling Green,19:39.2
+9,Kennedy Connell,9,Syl. Northview,19:40.7
+10,Sara Carr,9,Bowling Green,19:44.6
+11,Kaylee Bick,9,Syl. Northview,19:46.8
+12,Madeline Evans,12,Bowling Green,19:51.1
+13,Nora Vanneman,9,Bowling Green,19:59.7
+14,Kate Scarletto-Scholl,12,Bowling Green,19:59.8
+15,Cienna Fraley,10,Maumee,20:00.3
+16,Addison Fairbanks,10,Syl. Southview,20:04.3
+17,Madison Carney,11,Bowling Green,20:05.6
+18,Bentley Stewart,10,Maumee,20:10.5
+19,Audrey Geletka,12,Tol. St. Ursula Acad.,20:12.1
+20,Sarah Chen,9,Syl. Southview,20:12.7
+21,Kylee Diller,11,Tol. St. Ursula Acad.,20:26.2
+22,Maddie Tucker,9,Syl. Southview,20:32.9
+23,Abigail (Abby) Ballard,11,Syl. Northview,20:36.0
+24,Naudiya Leatherman,12,Defiance,20:39.8
+25,Karen Chou,11,Syl. Southview,20:41.6
+26,Brooke Herald,10,Syl. Northview,20:44.4
+27,Sarah D'Amico,12,Tol. St. Ursula Acad.,20:46.0
+28,Riley Phillips,9,Syl. Northview,20:48.1
+29,Ava Rechtine,9,Tol. St. Ursula Acad.,20:51.6
+30,Kealie Kalita,11,Syl. Northview,21:08.4
+31,Carmen Bills,11,Syl. Southview,21:16.4
+32,Lauren Walz,12,Defiance,21:17.8
+33,Anna Reiter,10,Syl. Southview,21:19.4
+34,Ella Adams,11,Oregon Clay,21:20.0
+35,Eden Thomas,12,Tol. St. Ursula Acad.,21:22.6
+36,Piper Cordes,9,Tol. Notre Dame,21:29.6
+37,Kateri Lubomirski,10,Tol. Notre Dame,21:31.0
+38,Giliahna Cavazos,10,Maumee,21:36.4
+39,Chloe Geha,9,Syl. Northview,21:40.7
+40,Evyn Pawlicki,9,Maumee,21:43.1
+41,Eleanore Poca,12,Tol. Notre Dame,22:01.4
+42,Reagan Savage,9,Tol. St. Ursula Acad.,22:02.6
+43,Ka'miyah Green,9,Rogers,22:09.6
+44,Payton Dobbins,11,Defiance,22:12.3
+45,Audrey Miller,12,Oregon Clay,22:16.9
+46,Nina Adams,10,Rogers,22:30.0
+47,Andrea Macias,10,Defiance,22:38.9
+48,Cecilia Melvin,12,Tol. Notre Dame,22:52.2
+49,Ava Trudell,11,Defiance,23:04.6
+50,Lydia Maletich,11,Oregon Clay,23:15.2
+51,Brooke Davis,9,Oregon Clay,23:17.4
+52,Olivia Lopez,10,Defiance,23:31.9
+53,Grace Pendlton,10,Defiance,23:44.9
+54,Amia Love,12,Rogers,23:54.7
+55,Sa'Nih Booth,12,Scott,24:05.3
+56,Ka'Mauri Green,9,Rogers,24:14.7
+57,Lillian Cordell,12,Oregon Clay,24:19.6
+58,Brynlee Rogers,11,Oregon Clay,24:37.9
+59,Jordyn Dugan,9,Maumee,24:55.9
+60,Kayla Snyder,12,Hol. Springfield,25:15.7
+61,Arieah Warner,9,Rogers,25:32.9
+62,Kylie Brown,12,Maumee,25:48.1
+63,Ra'ny Hands,9,Scott,25:48.2
+64,Miyah Griggs,11,Scott,25:56.6
+65,Izzy Rios,9,Oregon Clay,26:03.7
+66,Miracle Divine-Robinson,10,Rogers,27:03.1
+67,Se'Maje Carter,11,Rogers,28:49.5

@@ -1,0 +1,579 @@
+MEET: Cambridge District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Dover,35,"2,4,6,10,13,14,20"
+2,Carrollton,50,"5,7,8,9,21,27,34"
+3,New Philadelphia,56,"1,3,11,17,24,29,30"
+4,John Glenn,115,"16,18,19,26,36"
+5,Tri-Valley,116,"15,22,23,25,31,33,37"
+6,Steubenville,145,"12,28,32,35,38,39"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Kevin Smith,12,New Philadelphia,16:53.0
+2,Tyler Shuss,12,Dover,17:09.0
+3,Kolton Darnes,11,Zanesville,17:11.8
+4,Holden Rotunno,10,New Philadelphia,17:16.4
+5,Tony Pastor-Calel,12,Dover,17:18.3
+6,Landyn Winkler,12,Carrollton,17:27.2
+7,Deacon Wise,11,Dover,17:31.4
+8,Andrew Childs,11,Carrollton,17:36.6
+9,Carson Murphy,10,Carrollton,17:41.7
+10,Jacob Day,9,Carrollton,17:54.3
+11,Trevor Shuss,10,Dover,17:58.5
+12,Luka Rotunno,10,New Philadelphia,18:02.4
+13,Jude Kimble,11,Steubenville,18:02.7
+14,Elijah Perlaky,11,Dover,18:09.2
+15,Maddox Miller,12,Dover,18:27.3
+16,Alex Hogue,12,Tri-Valley,18:28.4
+17,Nicholas Yarrington,10,John Glenn,19:02.0
+18,Finnegan Blocker,11,New Philadelphia,19:04.7
+19,Alexander Applegarth,10,John Glenn,19:08.0
+20,Kaid Ritchey,12,John Glenn,19:08.3
+21,Kyler Roberson,11,Dover,19:16.8
+22,Diesel Long,10,Carrollton,19:17.9
+23,Bryce Hardman,10,Tri-Valley,19:30.0
+24,Aiden Miller,9,Tri-Valley,19:36.9
+25,Jacob Haren,12,New Philadelphia,20:04.5
+26,Evan Dusenbery,10,Tri-Valley,20:07.7
+27,Xander Townsend,10,John Glenn,20:16.3
+28,Andy Husk,11,Carrollton,20:18.6
+29,Isaiah Ramsey,9,Steubenville,20:21.1
+30,Max Malloy,12,New Philadelphia,20:27.3
+31,Arlo Bowers,9,New Philadelphia,20:54.8
+32,Vincent Karczinski,10,Maysville,21:10.9
+33,Adrian Mill,9,Tri-Valley,21:13.9
+34,James Trimmer,9,Steubenville,21:14.3
+35,Carter Winland,9,Tri-Valley,21:35.5
+36,Lance Hutchison,11,Carrollton,21:40.8
+37,Dylan Coconis,12,Maysville,21:51.7
+38,Ethan Goff,10,Steubenville,21:53.6
+39,Rhett Bankes,9,Maysville,22:08.5
+40,Brandon Martinez,11,John Glenn,22:15.5
+41,Braylon King,9,Tri-Valley,24:41.9
+42,Dugan Mills,11,Steubenville,24:50.6
+43,Blake Kniszek,9,Steubenville,27:35.0
+44,Tysean Bash,10,Zanesville,29:18.6
+
+MEET: Cambridge District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Fairless,44,"1,5,7,15,16,20,25"
+2,Minerva,86,"6,12,18,21,29,43,44"
+3,Tuscar. Valley,134,"14,24,28,32,36,76,79"
+4,Bellaire,191,"3,13,52,53,70,113"
+5,Martins Ferry,193,"17,33,40,45,58,81,112"
+6,Beaver Local,201,"4,34,48,51,64,91,105"
+7,West Holmes,205,"19,30,35,54,67,78,104"
+8,Meadowbrook,224,"2,27,62,65,68,87"
+9,Morgan,224,"22,41,46,49,66,98,107"
+10,Fort Frye,227,"10,26,39,72,80,100,111"
+11,St. Clairsville,257,"9,37,57,60,94,96,97"
+12,Claymont,274,"23,50,61,69,71,84,103"
+13,Sandy Valley,312,"11,59,74,83,85,88,101"
+14,Barnesville,338,"38,47,75,86,92,93,108"
+15,Rich. Edison,344,"42,63,73,77,89,102,109"
+16,River View,378,"55,56,82,90,95,99,106"
+17,Indian Valley,378,"8,31,110,114,115"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Brice Fuller,11,Fairless,15:06.7
+2,Connor Bendo,12,Union Local,15:40.3
+3,Vincent Campbell,10,Meadowbrook,15:49.0
+4,Landen Perdue,12,Bellaire,15:52.8
+5,Luke Warrick,12,Beaver Local,16:29.6
+6,Brayden Biddle,11,Cambridge,16:37.7
+7,Cohen Amos,9,Fairless,16:45.2
+8,Anderson Scott,10,Minerva,16:53.5
+9,Rowan Askren,11,Fairless,16:54.7
+10,Nolan Patacca,12,Indian Valley,17:08.0
+11,George Dormas,11,St. Clairsville,17:12.0
+12,Brody Griffin,12,Fort Frye,17:13.4
+13,Gleason Pfeffer,11,Sandy Valley,17:14.3
+14,Fox Johnson,12,Minerva,17:20.7
+15,Kai'Jon Cerritos,12,Bellaire,17:21.2
+16,Cade Conrad,12,Tuscar. Valley,17:26.5
+17,Nolan Kutz,11,Fairless,17:27.8
+18,Calvin Kegley,9,Fairless,17:28.6
+19,Christopher Miller,12,East Liverpool,17:30.7
+20,Nicholas Miller,12,Martins Ferry,17:35.1
+21,Zachery Norris,11,Minerva,17:40.4
+22,Marshall Yoder,11,West Holmes,17:40.5
+23,Daniel Ondrus,9,Fairless,17:51.2
+24,Caleb Lemasters,10,Minerva,17:53.0
+25,Carson Steimer,11,Morgan,17:53.1
+26,Kason Bazzoli,9,Claymont,17:57.5
+27,Mason Tidrick,12,Tuscar. Valley,17:58.3
+28,David Ondrus,9,Fairless,18:00.4
+29,Declan Schaad,10,Fort Frye,18:02.6
+30,Luke Norman,11,Meadowbrook,18:04.8
+31,Lucas McCoy,12,Tuscar. Valley,18:05.4
+32,Kaden Knappenberger,12,Minerva,18:08.3
+33,Jimmy Wengerd,11,West Holmes,18:13.3
+34,Mason Curran,9,Indian Valley,18:13.8
+35,Logan Roth,12,Tuscar. Valley,18:17.3
+36,Aries Tolliver,10,Martins Ferry,18:19.4
+37,Mason Boggs,12,Beaver Local,18:20.4
+38,Keith Kaster,9,West Holmes,18:28.1
+39,Michael Abel,11,Harrison Central,18:36.6
+40,Sam Uvena,12,Tuscar. Valley,18:40.6
+41,Bryce Henry,11,St. Clairsville,18:43.3
+42,Linkoln Jendrusik,12,Barnesville,18:43.8
+43,Ethan Huffman,10,Fort Frye,18:44.7
+44,Liam Liberatore,10,Martins Ferry,18:45.3
+45,Brandon Haines,11,Morgan,18:45.3
+46,Jayden Sciance,10,Rich. Edison,18:48.5
+47,Zavien Diaz,9,Minerva,18:48.8
+48,Sam Doerr,12,Indian Creek,18:49.1
+49,Landyn Wade,11,Minerva,18:49.2
+50,Matthew Shirley,10,Martins Ferry,18:53.9
+51,Rylan Tom,11,Morgan,18:56.0
+52,Cohen Mowery,9,West Muskingum,18:56.4
+53,Jayden Barker,11,Barnesville,18:57.0
+54,Abe Rettos,10,Beaver Local,18:58.9
+55,Jordan Blackburn,10,Morgan,18:59.7
+56,Korbin Burkholder,12,Claymont,19:00.6
+57,Cole Long,12,Beaver Local,19:01.0
+58,Landon Leasure,9,Bellaire,19:02.7
+59,Brae Schmidli,12,Bellaire,19:03.6
+60,Bryson Glassford,9,West Holmes,19:04.5
+61,Carson Hoke,12,River View,19:06.2
+62,Jayden Wright,12,River View,19:06.4
+63,Chase Crum,11,St. Clairsville,19:09.7
+64,Prestyn Callaway,12,Martins Ferry,19:12.7
+65,Ben Gibson,12,Sandy Valley,19:13.4
+66,Asher Bryniarski,9,St. Clairsville,19:17.1
+67,Hunter Messer,11,Claymont,19:18.1
+68,Grady Forbes,12,Meadowbrook,19:18.6
+69,Nate Kline,11,Rich. Edison,19:18.8
+70,Hank Johns,12,Beaver Local,19:19.3
+71,Gavin Koscoe,12,Meadowbrook,19:22.7
+72,Owen Lahmers,9,Morgan,19:22.9
+73,Jayden Miller,9,West Holmes,19:24.1
+74,Camdon Rogers,10,Meadowbrook,19:25.4
+75,Rocco Scalambrino,12,Claymont,19:33.3
+76,David Gaspard,12,Bellaire,19:33.6
+77,Tucker Armstrong,11,Claymont,19:37.4
+78,Jude Kehl,10,Fort Frye,19:46.1
+79,Kolton Decker,11,Rich. Edison,19:46.9
+80,Cooper Schoeppner,9,Sandy Valley,19:50.0
+81,Ryder Gallagher,10,Barnesville,19:50.9
+82,Zach Beun,12,Tuscar. Valley,19:55.1
+83,Oliver Breuninger,9,Rich. Edison,19:55.9
+84,Finn McClintock,10,West Holmes,19:56.6
+85,Wesley Heckert,9,Tuscar. Valley,19:58.7
+86,Marcus Hillard,11,West Muskingum,20:02.6
+87,Noah Tingler,10,Union Local,20:14.5
+88,Isaac Christian,12,East Liverpool,20:20.8
+89,Collin McCurdy,9,Fort Frye,20:24.7
+90,Noah Shirley,10,Martins Ferry,20:29.0
+91,Hunter Patterson,11,Harrison Central,20:32.8
+92,Garrett Hogue,9,River View,20:37.6
+93,Zeke Sanderson,9,West Muskingum,20:40.7
+94,Braden Wiley,9,Sandy Valley,20:42.2
+95,Waylen Peterson,12,Claymont,20:42.5
+96,Richard Nelson,11,Sandy Valley,20:44.3
+97,Camden Cole,11,Barnesville,20:45.9
+98,Easton Bell,9,Meadowbrook,20:46.2
+99,Ozias Sarver,11,Sandy Valley,20:49.3
+100,Noah Lucas,10,Rich. Edison,20:50.1
+101,Russell Maroni,10,River View,20:51.9
+102,Aaden Ring,12,Beaver Local,20:54.0
+103,Ethan Marcum,11,Barnesville,20:55.8
+104,Mason Starr,12,Barnesville,20:56.4
+105,Xander Davis,12,St. Clairsville,20:58.4
+106,Jonathan Sibert,11,River View,20:58.5
+107,Eli Guthrie,9,St. Clairsville,20:58.7
+108,Gage McDole,9,East Liverpool,21:03.6
+109,Cohen Snyder,11,St. Clairsville,21:09.5
+110,Nash Bowman,9,Morgan,21:12.8
+111,Rylan Moore,10,River View,21:17.0
+112,Coen McCurdy,9,Fort Frye,21:17.6
+113,Mason Freday,9,Sandy Valley,21:25.8
+114,Ronnie White,11,Rich. Edison,21:26.0
+115,Kaden Bache,12,Claymont,21:28.6
+116,Remy Beachy,12,West Holmes,21:30.6
+117,Ollie Servette,10,Beaver Local,21:48.9
+118,Alex Smailes,12,River View,21:52.5
+119,Preston Wilson,9,Morgan,21:57.2
+120,Liam Thomas,10,Buckeye Local,21:57.8
+121,Dominic Sutton,12,Union Local,22:02.3
+122,Kingston Bendo,10,Union Local,22:03.7
+123,Brock Trigg,10,Barnesville,22:12.3
+124,Pierson Fulmer,10,Indian Creek,22:17.2
+125,Cooper Finley,11,Philo,22:23.9
+126,Nathan Green,12,Rich. Edison,22:25.4
+127,Cordova Winkler,10,Indian Valley,22:44.5
+128,Spencer Long,10,Fort Frye,22:47.4
+129,Aiden Daugherty,9,Indian Creek,23:05.7
+130,Parker Neff,10,Cambridge,23:21.6
+131,Jayden Hastings-Schunn,10,Martins Ferry,23:36.2
+132,Andrew Dalton,12,East Liverpool,23:46.5
+133,Levi Bookman,10,Buckeye Local,24:08.6
+134,Zach Kendle,9,Bellaire,24:38.3
+135,Jeremy Warne,11,Ridgewood,25:35.8
+136,Jayse Carter,11,Buckeye Local,26:03.0
+137,Knox Krupinski,9,Harrison Central,26:11.5
+138,Dominic Tipton,9,Philo,26:33.8
+139,Owen Compston,9,Indian Valley,27:03.5
+140,Silas Jones,9,Indian Valley,28:13.3
+141,Elijah Painter,9,Indian Creek,28:20.9
+142,Joe Hepburn,10,Buckeye Local,28:43.6
+
+MEET: Cambridge District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Shenandoah,26,"1,4,6,7,8,9,14"
+2,Caldwell,85,"2,10,18,19,36,47"
+3,Garaway,94,"13,15,20,22,24,25"
+4,Malvern,116,"11,16,17,33,39"
+5,Han. River,125,"5,27,29,30,34,40"
+6,Newcomerstown,152,"12,23,31,42,44"
+7,Bridgeport,153,"21,28,32,35,37,38,43"
+8,Crooksville,161,"3,26,41,45,46"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Joel Tewksbary,10,Shenandoah,16:34.5
+2,Zane Boyd,10,Caldwell,17:43.6
+3,Luke Sheets,11,Crooksville,17:46.0
+4,Alex Mercier,11,Tuscar. C.C.,17:51.7
+5,Noah McElroy,12,Shenandoah,18:02.7
+6,Dietrich Aanerud,9,Han. River,18:06.0
+7,Emmitt Slevin,12,Shenandoah,18:14.8
+8,George Hanlin,9,Steub. Cath. Cent.,18:19.6
+9,Kaden Rossiter,12,Shenandoah,18:21.7
+10,Caleb Mcelroy,9,Shenandoah,18:41.3
+11,Brant Stottsberry,10,Shenandoah,18:42.5
+12,Landon Troyer,11,Hiland,18:44.7
+13,Aiden Danford,11,Caldwell,18:59.9
+14,Dekon Pennington,10,Malvern,19:00.3
+15,Bryson Eckelberry,9,Newcomerstown,19:14.1
+16,Dominic Schlabach,11,Garaway,19:14.9
+17,Carter Johnson,12,Buckeye Trail,19:15.1
+18,Carter Wentworth,10,Shenandoah,19:24.8
+19,Austin Swartzentruber,11,Garaway,19:31.4
+20,Jacob McClelland,11,Malvern,19:33.2
+21,Cooper Dorr,11,Malvern,19:39.5
+22,Marcus Rohrbaugh,11,Caldwell,19:43.3
+23,Emery NAU,9,Caldwell,19:48.1
+24,Jake Troyer,12,Hiland,20:05.2
+25,John Long,10,Buckeye Trail,20:14.0
+26,Micaden Hostetler,9,Hiland,20:20.7
+27,Hudson McKenzie,11,Strasburg-Franklin,20:25.4
+28,Shepherd Wharton,11,Garaway,20:26.9
+29,Zander Vargas,9,Bridgeport,20:29.2
+30,Abram McCullough,10,Garaway,20:37.5
+31,Liam Antill,10,Toronto,20:42.0
+32,Marcus Mercer,9,Newcomerstown,20:45.7
+33,Chris Beachy,10,Garaway,20:50.7
+34,Aaron Miller,9,Garaway,20:53.6
+35,Xavier Allen,12,Crooksville,21:08.4
+36,Trent Jeane,11,Buckeye Trail,21:09.2
+37,Keller King,9,Han. River,21:20.2
+38,Desi Patino,11,Bridgeport,21:23.6
+39,Collin Virag,11,Tuscar. C.C.,21:25.4
+40,Adam Datkuliak,10,Han. River,21:36.8
+41,Hagen Headley,9,Han. River,21:43.0
+42,Kasin Pryor,11,Strasburg-Franklin,21:45.5
+43,Diego Berkshire,9,Newcomerstown,21:45.6
+44,Dylan McCaw,10,Bridgeport,21:49.9
+45,Parker Babiczuk,10,Malvern,22:10.5
+46,Kaysen Lipscomb,9,Han. River,22:10.6
+47,Brendan Bolster,9,Steub. Cath. Cent.,22:13.6
+48,AxZavior Santana,12,Bridgeport,22:13.7
+49,Aiden Burch,10,Caldwell,22:19.5
+50,Cole Weekley,12,Bridgeport,22:54.7
+51,Desmond Sears,11,Bridgeport,22:57.0
+52,Jakarri Johnson,9,Malvern,23:00.4
+53,Aiden Vincent,10,Han. River,23:03.5
+54,Jude Balzano,11,Steub. Cath. Cent.,23:13.5
+55,Bauer Embrey,12,Crooksville,23:15.8
+56,Jake Dobbs,10,Toronto,23:18.2
+57,Brody Smith,9,Shadyside,23:29.5
+58,Max Ringer,9,Shadyside,24:02.6
+59,Landyn Rodriguez,12,Newcomerstown,24:31.4
+60,Trevor Nelson,9,Bridgeport,25:40.2
+61,Byron Bailey,10,Newcomerstown,25:57.4
+62,Parker Sturgill,10,Crooksville,26:18.4
+63,Tristan Bresett,9,Crooksville,28:11.3
+64,Aidan Myslinsky,11,Toronto,30:21.2
+65,Gavin Virag,9,Tuscar. C.C.,31:02.2
+66,Will Hickman,10,Buckeye Trail,32:10.5
+67,Kaiden Spence,11,Caldwell,36:18.0
+
+MEET: Cambridge District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,New Philadelphia,46,"3,8,10,11,14,18,23"
+2,Tri-Valley,52,"2,6,7,16,21"
+3,Dover,65,"5,9,15,17,19,20"
+4,John Glenn,79,"1,4,22,24,28,30"
+5,Steubenville,103,"12,13,25,26,27,29,31"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Ashlynn Kuklica,12,John Glenn,19:34.0
+2,Erin Hogue,12,Tri-Valley,20:13.4
+3,Kylie Smith,12,New Philadelphia,20:35.8
+4,Addy Kent,10,John Glenn,21:28.9
+5,Bethany Hutchison,11,Dover,21:32.7
+6,Camryn Cunningham,10,Tri-Valley,22:30.1
+7,Naomi Harris,11,Tri-Valley,22:32.6
+8,Kamri Patterson,11,New Philadelphia,22:52.0
+9,Aubrie Hindman,10,Dover,22:58.1
+10,Angel Kaufman,10,New Philadelphia,23:07.2
+11,Katelyn Beaber,10,New Philadelphia,23:08.7
+12,Gena Smith,12,Steubenville,23:21.1
+13,Erica Smith,9,Steubenville,23:31.2
+14,Jillian Hanes,11,New Philadelphia,23:42.0
+15,Reese Penix,12,Dover,23:46.9
+16,Jordyn Frost,11,Tri-Valley,23:51.5
+17,Miah Wilcox,11,Zanesville,23:55.7
+18,Lauren Couts,12,Dover,23:56.7
+19,Devlin Herrington,12,New Philadelphia,24:17.3
+20,Emma Wells,12,Zanesville,24:27.9
+21,Natalie Bambeck,12,Dover,24:35.4
+22,Adlee Klaiber,12,Dover,24:44.8
+23,Rylee Frost,11,Tri-Valley,25:01.4
+24,Sadie Gardinsky,12,John Glenn,25:11.3
+25,Ellie Byers,11,New Philadelphia,25:28.6
+26,Ava Brown,9,John Glenn,25:58.1
+27,Callista Nelson,12,Steubenville,26:44.8
+28,Tessa Rusnak,12,Steubenville,26:54.3
+29,Charity Sirilla,12,Steubenville,27:09.1
+30,Rebekah Clark,10,John Glenn,28:12.5
+31,Cabella Hudson,10,Steubenville,29:02.2
+32,Lily Tharp,9,John Glenn,29:23.0
+33,Lucy Wear,12,Steubenville,32:14.4
+34,Isabella Kehl,12,Zanesville,35:25.9
+
+MEET: Cambridge District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Minerva,60,"6,10,11,15,18,20,21"
+2,Tuscar. Valley,78,"7,8,13,23,27,67,83"
+3,Indian Valley,96,"5,9,17,30,35,56,73"
+4,Claymont,111,"2,14,16,29,50"
+5,West Holmes,126,"1,3,34,42,46,49,63"
+6,Fairless,134,"4,12,26,41,51,53,79"
+7,Rich. Edison,183,"19,33,38,39,54,61,62"
+8,Carrollton,201,"36,37,40,43,45,70"
+9,Sandy Valley,235,"24,31,52,60,68,76,84"
+10,Barnesville,268,"28,55,57,59,69,72,80"
+11,Morgan,302,"25,32,66,86,93"
+12,Meadowbrook,311,"22,58,65,81,85"
+13,Philo,363,"47,64,77,87,88,89,90"
+14,River View,366,"48,71,74,82,91,92"
+15,Cambridge,386,"44,75,78,94,95"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Ava Reiheld,9,West Holmes,18:14.9
+2,Kali Wallace,12,Claymont,19:08.6
+3,Iriel Mena,11,West Holmes,19:35.3
+4,Adelyn Peterson,11,Fairless,19:58.1
+5,Rowan Harshey,10,Indian Valley,20:03.6
+6,Tateum Richard,11,Minerva,20:20.8
+7,Josie Eick,11,Tuscar. Valley,20:28.1
+8,Natalie Rennicker,11,Tuscar. Valley,20:28.5
+9,Bridget Pittis,9,Indian Valley,20:29.4
+10,Charlie Galley,10,Minerva,20:31.0
+11,Addison Keyser,11,Minerva,20:31.4
+12,Sophia Saho,9,St. Clairsville,20:48.3
+13,Ashton Vincent,10,Fairless,20:48.8
+14,Brooklyn Sponaugle,9,Tuscar. Valley,20:56.2
+15,Corabell Morris,9,Claymont,21:02.7
+16,Presley Tarbet,9,Minerva,21:03.3
+17,Riley Roach,9,Claymont,21:08.2
+18,Bailey Herbert,10,Indian Valley,21:09.0
+19,Hannah Gram,9,Minerva,21:11.2
+20,Annie Board,12,Rich. Edison,21:11.7
+21,Chloe Carson,10,Minerva,21:11.8
+22,Taylor McGeorge,12,Minerva,21:17.9
+23,Raegan Daugherty,12,Meadowbrook,21:19.2
+24,Natalie Stokes,10,Tuscar. Valley,21:21.4
+25,Shekinah Palmer,9,St. Clairsville,21:31.2
+26,Libby Frase,9,Sandy Valley,21:35.4
+27,Ayla Mowery,Sr,West Muskingum,21:36.1
+28,Elana Wilson,12,Morgan,21:40.5
+29,Jada Doane,11,Fairless,21:43.2
+30,Hayden Huffman,12,Tuscar. Valley,21:45.2
+31,Addy Reed,10,Barnesville,21:58.7
+32,Emma McPherson,10,Claymont,22:01.6
+33,Jillian Welch,12,Indian Valley,22:02.8
+34,Reagan Adams,10,Sandy Valley,22:05.1
+35,Dakota Johnson,9,Morgan,22:08.4
+36,Leila Cable,12,Rich. Edison,22:08.8
+37,Briseis Nussbaum,9,West Holmes,22:11.9
+38,Blaire Harshey,11,Indian Valley,22:13.2
+39,Gabi Mccort,12,Carrollton,22:18.4
+40,Calista Cozart,11,Indian Creek,22:21.4
+41,Ella Barkan,12,Carrollton,22:30.3
+42,Hallie Westbrook,12,Rich. Edison,22:34.9
+43,Lydia Krepps,11,Rich. Edison,22:36.0
+44,Addison Butler,9,Carrollton,22:52.0
+45,Daminyka Lisk,10,East Liverpool,22:56.7
+46,Grace Hollstein,10,Fairless,23:01.7
+47,Sophie Arnold,10,West Holmes,23:05.5
+48,Olivia Mccort,12,Carrollton,23:07.1
+49,Skye Craft,12,Cambridge,23:10.4
+50,Heather Allbritain,10,Carrollton,23:13.3
+51,Ellie Greenwood,11,Union Local,23:16.6
+52,Ellie Babitt,11,West Holmes,23:17.6
+53,Tiffany Bertke,10,Philo,23:28.3
+54,Emma Cochran,11,River View,23:30.4
+55,Chelsie Cooper,11,West Holmes,23:36.8
+56,Heidi Johnson,12,Claymont,23:42.4
+57,Olivia Rusnak,11,Maysville,23:45.3
+58,Cheyenne Kegley,12,Fairless,23:45.9
+59,Lucia Meade,10,Sandy Valley,23:49.6
+60,Hannah Shoup,11,Fairless,23:57.7
+61,Akaila Williams,11,Martins Ferry,24:03.8
+62,Layla White,12,Rich. Edison,24:04.5
+63,Morgan Horan,10,St. Clairsville,24:05.0
+64,Makayla Vitale,12,Barnesville,24:08.5
+65,Sam Wales,10,Indian Valley,24:13.2
+66,Bonita Passmore,12,Barnesville,24:14.7
+67,Aubri Norman,12,Meadowbrook,24:19.1
+68,Kelsey Mayberry,10,Union Local,24:20.0
+69,Bradie Nixon,11,Barnesville,24:25.2
+70,Alice Jones,9,Sandy Valley,24:25.5
+71,Kaleigh Herring,9,Martins Ferry,24:28.4
+72,Leah Hendrix,11,Rich. Edison,24:33.8
+73,Jaylin Donahue,11,Martins Ferry,24:33.9
+74,Lucy Roth,11,Rich. Edison,24:34.4
+75,Audrey Dixon,11,West Holmes,24:36.7
+76,Kinleigh Krause,10,Philo,24:38.9
+77,Eleanor Webb,9,Meadowbrook,24:39.2
+78,Iva Heagen,9,Morgan,24:44.2
+79,Jillian Sponaugle,10,Tuscar. Valley,24:48.5
+80,Kate McLeroy,11,Sandy Valley,24:56.7
+81,Ansley Clouse,10,Barnesville,25:00.6
+82,Savanna Modranski,9,Carrollton,25:01.5
+83,Ashlyn Stone,10,River View,25:02.1
+84,Georgie Long,10,Beaver Local,25:07.5
+85,Mallory Spence,10,Barnesville,25:11.4
+86,Sadie Holbrook,12,Indian Valley,25:18.2
+87,Adalynn Endsley,10,River View,25:23.9
+88,Summer Callahan,11,Cambridge,25:28.1
+89,Kimberle Diehl,10,Sandy Valley,25:34.7
+90,Taylor Bertke,10,Philo,25:37.2
+91,Joanna Brown,11,Cambridge,25:44.7
+92,Clare McCabe,12,West Muskingum,25:51.3
+93,Aubrey Kornish,12,Fairless,25:56.7
+94,Natalie Showalter,9,Barnesville,25:57.7
+95,Kairi Marston,12,Meadowbrook,25:59.4
+96,Charley Reed,10,River View,26:01.3
+97,Avery Bollinger,10,West Muskingum,26:20.7
+98,Aleah Wozniak,12,Tuscar. Valley,26:28.8
+99,Alayna Wheeler,10,West Muskingum,26:48.3
+100,Hailey Smith,11,Sandy Valley,26:51.3
+101,Drew Daugherty,11,Meadowbrook,27:04.2
+102,Hadley Johnston,12,Beaver Local,27:20.4
+103,Payton Lahmers,12,Morgan,27:28.2
+104,Madisyn Smith,10,Buckeye Local,28:42.4
+105,Ezra Hull,9,Beaver Local,28:49.4
+106,Lillyanne Fuller,9,Philo,28:59.4
+107,Ava Mcgrath,11,Philo,29:07.5
+108,Anibella McManes,9,Philo,29:11.3
+109,Emma Nutter,11,Philo,29:13.9
+110,Shiloh Kinzel,11,River View,29:16.9
+111,Julia Adams,11,River View,29:30.2
+112,Emma Griesmyer,10,Morgan,29:48.8
+113,Emerson Lanning,9,Cambridge,30:07.0
+114,Sophia Vaughn,9,Martins Ferry,33:14.6
+115,Aubrey Hepburn,12,Buckeye Local,35:51.7
+116,Valentina Carlini,10,Maysville,36:07.1
+117,Leena Howard,10,Buckeye Local,36:25.2
+118,Grace Rush,12,Maysville,37:29.7
+119,Kennedi Pearce,10,Indian Creek,37:41.7
+120,Isabell Brown,9,Cambridge,37:50.6
+121,Izzy Price,9,Beaver Local,38:10.9
+
+MEET: Cambridge District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Bellaire,33,"3,4,5,9,12,15,17"
+2,Shadyside,74,"1,7,20,21,25,27,35"
+3,Fort Frye,85,"6,14,19,22,24,31,34"
+4,Steub. Cath. Cent.,115,"10,16,23,29,37,40,42"
+5,Malvern,129,"11,13,26,36,43,45"
+6,Shenandoah,133,"2,28,30,32,41"
+7,Newcomerstown,136,"8,18,33,38,39,44"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Chloe Meholovitch,12,Shadyside,18:49.8
+2,Ida Estadt,12,Shenandoah,19:03.3
+3,Paisley Farrier,9,Bellaire,19:42.8
+4,Kamdin Snider,10,Bellaire,19:52.6
+5,Kayla Edgar,12,Bellaire,20:47.3
+6,Elliot Handley,11,Fort Frye,21:02.9
+7,Jaylynne Johnson,10,Shadyside,21:05.6
+8,Clara Allen,10,Newcomerstown,21:42.8
+9,Liz Mayer,12,Bellaire,21:46.5
+10,Emma Hayes,10,Caldwell,21:52.4
+11,Claire Flannery,12,Steub. Cath. Cent.,22:01.6
+12,Emma Maher,12,Malvern,22:08.8
+13,Payton Charlton,10,Bridgeport,22:58.3
+14,Gigi Kendle,12,Bellaire,23:13.1
+15,Kloie Eagon,12,Buckeye Trail,23:14.0
+16,Olivia Maher,10,Malvern,23:21.2
+17,Lydia Raber,12,Garaway,23:25.5
+18,Lydia Huck,11,Fort Frye,23:31.1
+19,Lexi Fry,11,Bellaire,23:33.1
+20,Clara Andersen,10,Steub. Cath. Cent.,23:33.4
+21,Lyla Blazek,10,Bellaire,23:35.8
+22,Solee Garland,12,Newcomerstown,23:41.9
+23,Spencer Thieman,9,Fort Frye,23:43.3
+24,Laken Miller,12,Shadyside,24:09.1
+25,Bayden Parr,11,Shadyside,24:12.2
+26,Heather Phelps,9,Fort Frye,24:18.0
+27,Anna Troyer,11,Ridgewood,24:19.2
+28,Zoe Wise,11,Steub. Cath. Cent.,24:25.6
+29,Kya Kehl,11,Fort Frye,24:26.0
+30,Laynee Reneker,10,Garaway,24:39.3
+31,Addyson Buckingham,12,Shadyside,24:45.5
+32,Lexus Buckman,12,Malvern,24:46.3
+33,Georgiana Yoder,9,Hiland,24:48.9
+34,Aylah Albright,10,Shadyside,24:54.7
+35,Elliha Barlock,9,Shenandoah,25:01.8
+36,Kirsten Miller,10,Garaway,25:14.3
+37,Lilly Yoder,10,Garaway,25:23.5
+38,Genevieve Liebhaber,9,Steub. Cath. Cent.,25:30.2
+39,Kaylin Hupp,9,Shenandoah,25:37.4
+40,Audrey Witten,9,Fort Frye,25:37.6
+41,Brynlee Hostetler,10,Strasburg-Franklin,25:37.7
+42,Ashley McKnight,9,Han. River,26:00.5
+43,Sabella Gilliam,9,Shenandoah,26:12.0
+44,Liliana Lopez,11,Newcomerstown,26:29.6
+45,Layla Moore,11,Ridgewood,26:30.7
+46,Arabella Beasley,9,Fort Frye,26:52.7
+47,Kendyl Simpson,9,Shadyside,27:06.9
+48,Scarlett McLoughlin,9,Malvern,27:08.6
+49,Gianna Liebhaber,11,Steub. Cath. Cent.,27:21.9
+50,Brayleigh Hickman,11,Buckeye Trail,27:22.7
+51,Aven Tacy,12,Frontier,27:23.9
+52,Jordyn Fields,12,Crooksville,27:24.3
+53,Millie Richards,12,Strasburg-Franklin,27:30.3
+54,Scarlet Dorsey,9,Newcomerstown,27:57.6
+55,Kaylyn Kinsey,12,Newcomerstown,28:08.9
+56,Faye Reaume,9,Steub. Cath. Cent.,28:19.2
+57,Hope Bertini,9,Shenandoah,28:30.4
+58,Urlene Rohall,12,Steub. Cath. Cent.,28:38.1
+59,Sophia Yoder,9,Hiland,30:17.9
+60,Annabell Renz,10,Malvern,30:40.3
+61,Rylee Miller,11,Ridgewood,30:54.6
+62,Brooke Hochstetler,9,Hiland,31:35.8
+63,Lydia King,9,Crooksville,36:15.5
+64,Ariah Gamble,11,Newcomerstown,37:43.1
+65,Gloria Dunwoody,9,Crooksville,40:15.4
+66,Evangeline Abramides,11,Malvern,40:19.9

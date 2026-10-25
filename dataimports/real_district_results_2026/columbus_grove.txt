@@ -1,0 +1,435 @@
+MEET: Columbus Grove District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Con. Crestview,40,"1,3,7,10,19,33,43"
+2,St. Henry,63,"6,8,13,16,20,26,35"
+3,New Bremen,97,"4,14,15,25,39,56,71"
+4,Columbus Grove,115,"2,5,11,47,50,51,68"
+5,Del. St. John's,166,"21,30,36,38,41,53,62"
+6,Lincolnview,168,"9,31,32,44,52,63,67"
+7,Cory-Rawson,191,"17,24,28,58,64,65,84"
+8,New Knoxville,197,"18,40,45,46,48,72,92"
+9,Wayne Trace,235,"12,22,57,59,85,90,93"
+10,Delta,266,"23,27,69,73,74,80,91"
+11,Lima C.C.,307,"34,49,66,76,82,88"
+12,Marion Local,317,"29,55,60,86,87"
+13,Waynesfield-Goshen,327,"42,54,61,81,89"
+14,Parkway,337,"37,70,75,77,78,79,83"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Derek Young,11,Con. Crestview,15:26.2
+2,Caiden Squillante,12,Columbus Grove,16:03.5
+3,Hudson Perrott,12,Con. Crestview,16:19.5
+4,Luke Long,10,New Bremen,16:20.1
+5,Aidan Vogt,12,Columbus Grove,16:20.5
+6,Michael Rindler,12,St. Henry,16:20.9
+7,Kale Vining,12,Con. Crestview,16:21.6
+8,Tanner Braun,12,Spencerville,16:22.7
+9,Dominic Pfau,12,Miller City,16:24.8
+10,Johan Horstman,10,St. Henry,16:24.9
+11,Luke Brickner,9,Miller City,16:35.7
+12,Aaron Sawyer,11,Lincolnview,16:37.2
+13,Caleb Thomas,12,Con. Crestview,16:41.0
+14,Zach Bryan,12,Columbus Grove,16:51.8
+15,Jaxon Cook,11,Wayne Trace,16:56.3
+16,Jack Siefring,12,St. Henry,16:56.6
+17,Tobiah Wittenbrink,11,New Bremen,16:56.8
+18,Simon Shroyer,12,New Bremen,16:57.3
+19,Riley Kemper,12,Ottoville,16:57.9
+20,Michael Kunkler,12,St. Henry,17:10.1
+21,Micah Benedict,10,Cory-Rawson,17:11.5
+22,William Lammers,11,New Knoxville,17:12.6
+23,Andy Heth,12,Con. Crestview,17:15.5
+24,Daniel Fullenkamp,10,St. Henry,17:18.3
+25,Jaxon Bayliff,11,Del. St. John's,17:18.9
+26,Eli Treece,12,Wayne Trace,17:20.2
+27,Liam Easton,12,Delta,17:21.0
+28,Thomas Craig,9,Cory-Rawson,17:21.3
+29,Isaiah Wittenbrink,9,New Bremen,17:23.0
+30,Clayton Koesters,10,St. Henry,17:23.2
+31,Matt Foppe,10,Kalida,17:24.0
+32,Bryson Welch,11,Delta,17:24.0
+33,Wyatt Foust,12,Cory-Rawson,17:28.5
+34,Jordan Bohman,9,Marion Local,17:28.8
+35,Caleb Bockey,10,Del. St. John's,17:32.7
+36,Max Hammons,12,Lincolnview,17:34.5
+37,Zander Coil,12,Lincolnview,17:38.0
+38,Luke Sawmiller,11,Con. Crestview,17:39.7
+39,Chayce Farrington,11,Lima C.C.,17:39.7
+40,Jack Fullenkamp,12,St. Henry,17:41.2
+41,Max Hohman,11,Del. St. John's,17:41.4
+42,Ethan Stolly,11,Parkway,17:41.6
+43,Kaden Laudick,10,Del. St. John's,17:43.2
+44,Jett Jellison,12,New Bremen,17:43.8
+45,Noah Miller,11,New Knoxville,17:44.0
+46,Zach Bockey,12,Del. St. John's,17:45.6
+47,Maurice Smith,10,Waynesfield-Goshen,17:46.3
+48,Levi Hoblet,11,Con. Crestview,17:46.7
+49,Evan Young,10,Lincolnview,17:47.7
+50,Michael Hoge,9,New Knoxville,17:51.8
+51,Brentley Van Skyock,11,New Knoxville,17:53.4
+52,Joel Schumacher,10,Columbus Grove,17:53.6
+53,Ty Koenig,11,New Knoxville,17:53.9
+54,Nicklaus Gronas,9,Lima C.C.,17:54.7
+55,Collin Sprague,10,Columbus Grove,17:57.2
+56,Nathaniel Jones,9,Columbus Grove,17:58.3
+57,Ethan Renner,11,Lincolnview,18:02.9
+58,Carter Roessner,10,Del. St. John's,18:04.5
+59,Ryley Walters,10,Waynesfield-Goshen,18:06.0
+60,Austin Mescher,11,Marion Local,18:06.0
+61,Colin Zimpfer,12,New Bremen,18:08.9
+62,Jerrick Johnson,11,Wayne Trace,18:10.3
+63,Anthony Giesige,10,Pandora-Gilboa,18:10.8
+64,Jadyn Sammet,10,Cory-Rawson,18:18.3
+65,Wyatt Head,9,Wayne Trace,18:22.9
+66,Tanner Hartings,11,Marion Local,18:23.0
+67,Carter Pence,9,Waynesfield-Goshen,18:24.4
+68,Mason Roessner,11,Del. St. John's,18:25.5
+69,Wyatt Davis,11,Lincolnview,18:26.8
+70,Tobin Foust,9,Cory-Rawson,18:30.2
+71,Daniel Reese,9,Cory-Rawson,18:30.3
+72,Gideon Wey,9,Lima C.C.,18:33.5
+73,Hunter Osborne,11,Lincolnview,18:37.2
+74,Ethan Basinger,9,Columbus Grove,18:41.8
+75,Jaxon Elliott,9,Delta,18:43.1
+76,Justin Leighner,11,Parkway,18:43.8
+77,Eli Hilty,11,Pandora-Gilboa,19:08.3
+78,Gabe Bernhold,10,New Bremen,19:13.9
+79,Cainen Pimentel-Melching,12,Lima Perry,19:23.8
+80,Liam Druckemiller,12,Ottoville,19:26.3
+81,Henry Hoge,9,New Knoxville,19:33.9
+82,Teodore Machado,10,Delta,19:38.7
+83,Asher Adkins,9,Delta,19:39.7
+84,Isaiah Keeler,10,Miller City,19:49.7
+85,Beckett Marchal,9,Parkway,19:52.9
+86,Collin Frick,11,Lima C.C.,19:58.7
+87,Rogan Luginbill,10,Parkway,20:10.3
+88,Nathaniel Hallman,10,Parkway,20:15.4
+89,Zeke Laux,10,Parkway,20:23.2
+90,Dason Snyder,9,Delta,20:24.6
+91,John Bond,10,Waynesfield-Goshen,20:36.7
+92,Cody Decker,12,Kalida,20:39.4
+93,Luke Weitz,10,Lima C.C.,20:40.9
+94,Aiden Sawmiller,10,Parkway,20:41.1
+95,Josiah Bergstrand,11,Cory-Rawson,20:49.6
+96,Ethan Recker,12,Pandora-Gilboa,20:52.3
+97,Nathan Benschneider,10,Wayne Trace,20:58.8
+98,Ryan Houck,9,Kalida,21:01.4
+99,Harper Fledderjohann,10,Marion Local,21:10.5
+100,Isaac Tobe,9,Marion Local,21:17.5
+101,Grant Tolliver,10,Lima C.C.,21:41.6
+102,Miles Joseph,12,Upper Scioto Valley,21:43.0
+103,Bo Brown,9,Miller City,21:49.5
+104,Kasen Zorn,10,Waynesfield-Goshen,22:08.1
+105,Kamden Fore,11,Wayne Trace,22:08.8
+106,Alex Calvelage,12,Kalida,22:14.8
+107,Brian Stultz,9,Delta,22:35.8
+108,Jude Holland,12,New Knoxville,23:17.9
+109,Koltin Salyers,10,Lima Perry,23:29.1
+110,Jaxon Rahrig,9,Spencerville,24:00.3
+111,Evan Benschneider,12,Wayne Trace,26:04.6
+112,Nathan Eickholt,10,Ottoville,26:33.4
+113,Isaak Calvelage,9,Ottoville,30:27.9
+
+MEET: Columbus Grove District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Van Wert,45,"6,7,9,10,13,17,44"
+2,Elmwood,57,"1,4,12,14,26,38,57"
+3,Bryan,61,"2,3,5,20,31,35,36"
+4,Archbold,101,"8,15,21,24,33,42,43"
+5,Paulding,133,"11,18,22,28,54,67,68"
+6,Wauseon,179,"19,30,40,41,49,56,59"
+7,Bluffton,183,"23,25,34,39,62,65"
+8,Coldwater,199,"27,32,45,47,48,53,60"
+9,Liberty-Benton,200,"16,37,46,50,51,58,66"
+10,Bath,260,"29,52,55,61,63,64"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Henry Good,10,Elmwood,15:41.1
+2,Colton Sheline,11,Bryan,15:42.1
+3,Josiah Cummins,11,Bryan,15:58.7
+4,Evan Strausbaugh,11,Elmwood,16:12.9
+5,John Deitemeyer,10,Bryan,16:16.6
+6,Oliver Scott,9,Van Wert,16:20.4
+7,Calvin Byrum,10,Van Wert,16:29.9
+8,Jude Hudson,12,Archbold,16:32.5
+9,Alex Bauer,11,Van Wert,16:38.7
+10,Harrison Sloan,12,Van Wert,16:42.5
+11,Lionel Reyes,12,Paulding,16:47.6
+12,Trever Shaffer,12,Elmwood,16:51.4
+13,Quintin Parrish,12,Van Wert,16:53.1
+14,Braxton Benner,11,Elmwood,16:53.8
+15,Amarion Moreno,12,Archbold,16:53.9
+16,Cohen Levenhagen,12,Liberty-Benton,16:57.6
+17,Nate Drerup,9,Van Wert,17:00.0
+18,Max Daeger,12,Paulding,17:00.2
+19,Clay Wasnich,12,Wauseon,17:01.9
+20,Elijah Cummins,12,Bryan,17:02.2
+21,Bo King,12,Archbold,17:02.6
+22,Landon Grinell,12,Paulding,17:03.2
+23,Levin Essinger,11,Bluffton,17:09.7
+24,Connor Plassman,12,Archbold,17:15.6
+25,Owen Shoemaker,12,Bluffton,17:20.2
+26,Gavin Reinhart,12,Elmwood,17:20.6
+27,Noah Obringer,12,Coldwater,17:20.7
+28,Achilles Mead,12,Paulding,17:21.8
+29,Enon Fultz,9,Bath,17:25.5
+30,Zenas Siefker,11,Wauseon,17:26.9
+31,Joshua Sampson,12,Bryan,17:29.1
+32,Ethan Schmitmeyer,10,Coldwater,17:33.6
+33,Trevor Osterland,11,Archbold,17:45.0
+34,Atticus Prothro,10,Bluffton,17:57.9
+35,Jeremiah Taylor,11,Bryan,17:59.0
+36,Fred Parmer,10,Bryan,18:10.6
+37,Matthew Strete,10,Liberty-Benton,18:11.7
+38,Aidan Reinhart,12,Elmwood,18:14.6
+39,Toby Clevidence,11,Bluffton,18:15.0
+40,Alejandro Aranjo,10,Wauseon,18:25.8
+41,Carter St. John,12,Wauseon,18:26.9
+42,Eli King,9,Archbold,18:29.9
+43,Braxton Nofziger,10,Archbold,18:29.9
+44,Kyzic Seekings,9,Van Wert,18:30.7
+45,Eli Simper,9,Coldwater,18:31.1
+46,Bentley Roelle,11,Liberty-Benton,18:32.5
+47,Briggs Hileman,10,Coldwater,18:35.9
+48,Lucas Broering,10,Coldwater,18:39.9
+49,Nicolas Hernandez,11,Wauseon,18:41.4
+50,Jayden Hobbs,12,Liberty-Benton,18:45.4
+51,Grayson Karhoff,9,Liberty-Benton,18:45.9
+52,Carson Hamilton,11,Swanton,18:46.2
+53,Will Bensman,11,Bath,18:47.5
+54,Jay Liette,12,Coldwater,18:53.4
+55,Isaiah Koenig,10,Paulding,18:55.3
+56,Caleb Dunlap,10,Bath,19:02.8
+57,Tristan Pena,12,Wauseon,19:07.7
+58,Corbin Stephenson,9,Elmwood,19:09.3
+59,Adam Subramanian,12,Liberty-Benton,19:10.5
+60,Robert Tarrance Williams,9,Wauseon,19:11.2
+61,Lukas Mendenhall,10,Swanton,19:11.8
+62,Zach Powell,10,Coldwater,19:15.8
+63,Lucas Bensman,9,Bath,19:29.2
+64,Micah DeMarco,10,Bluffton,19:49.5
+65,Cyrus Bensman,11,Bath,19:50.5
+66,Levi Grime,11,Bath,19:58.6
+67,Ian Scott,9,Bluffton,20:03.9
+68,Levi Smallman,10,Swanton,20:14.3
+69,Cameron Wappelhorst,12,Liberty-Benton,20:43.7
+70,Rooney Cortes,10,Paulding,23:22.5
+71,Quinton Laker,11,Paulding,26:07.7
+
+MEET: Columbus Grove District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Archbold,51,"3,7,8,14,19,26,29"
+2,St. Henry,92,"2,13,17,22,38,39,53"
+3,Lincolnview,130,"1,9,28,36,56,62,81"
+4,Marion Local,135,"4,16,23,44,48,57,63"
+5,Del. St. John's,140,"12,21,30,35,42,74,86"
+6,Columbus Grove,170,"10,18,20,58,64,79,93"
+7,Parkway,199,"11,15,41,65,67,70,76"
+8,Bluffton,215,"5,32,49,60,69,72,96"
+9,Wayne Trace,221,"27,37,50,52,55,66,73"
+10,New Bremen,232,"25,33,45,54,75,82,83"
+11,Con. Crestview,240,"24,31,46,68,71,78,80"
+12,Lima C.C.,247,"6,40,51,61,89,95"
+13,Waynesfield-Goshen,331,"34,47,77,85,88,92,94"
+14,Cory-Rawson,363,"43,59,84,87,90,91"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Maeleigh Evans,9,Lincolnview,19:02.5
+2,Aliyah Zimmerman,10,St. Henry,19:11.6
+3,Hadley Hudson,11,Archbold,19:12.5
+4,Colleen Dirksen,10,Marion Local,19:12.9
+5,Xandra Gatchel,11,Bluffton,19:41.8
+6,Hannah Brunk,11,Spencerville,19:51.2
+7,Rae Newman,10,Lima C.C.,19:55.6
+8,Jovie Hudson,10,Archbold,20:07.6
+9,Janae Murillo,12,Archbold,20:12.8
+10,Kassidy Hammons,12,Lincolnview,20:14.3
+11,Claire Koch,11,Columbus Grove,20:29.4
+12,Alyssa Kahle,10,Kalida,20:31.8
+13,Tabitha Meyer,10,Parkway,20:32.0
+14,Claire Martz,12,Del. St. John's,20:32.9
+15,Stella Huwer,9,St. Henry,20:36.2
+16,Natalie Schmucker,12,Archbold,20:36.5
+17,Savannah Tickle,9,Parkway,20:37.3
+18,Evelyn Bills,12,Marion Local,20:48.1
+19,Kenzie Franck,11,St. Henry,20:51.7
+20,Alexa Kamphaus,10,Columbus Grove,20:56.3
+21,Claire Bowers,9,Archbold,20:57.6
+22,Paige Lugibill,9,Columbus Grove,20:59.0
+23,Maria Bockey,10,Del. St. John's,20:59.9
+24,Macy Uhlenhake,9,St. Henry,21:05.2
+25,Alivia Beasley,11,Marion Local,21:06.5
+26,Emily Heth,10,Con. Crestview,21:07.1
+27,Chloe Elking,10,New Bremen,21:13.6
+28,Cagnee Grime,12,Archbold,21:16.3
+29,Avery Welch,9,Wayne Trace,21:16.4
+30,Josie Miller,12,Lincolnview,21:18.5
+31,Elyn Gerschutz,9,Miller City,21:19.3
+32,Madison Bowers,12,Archbold,21:19.4
+33,Madelyn Haehn,12,Del. St. John's,21:21.4
+34,Lydia Grace,12,Con. Crestview,21:30.8
+35,Tessa Tarplee,10,Bluffton,21:31.9
+36,Kara Suchland,11,New Bremen,21:36.3
+37,Olivia Dulebohn,9,Waynesfield-Goshen,21:37.3
+38,Carley DeVelvis,10,Del. St. John's,21:37.6
+39,Addie Breese,9,Lincolnview,21:38.3
+40,Ellie Kurtz,11,Wayne Trace,21:42.3
+41,Audrey Huelsman,11,St. Henry,21:45.1
+42,Catherine Post,12,St. Henry,21:45.9
+43,Elaine Brickner,9,Lima C.C.,21:55.2
+44,Emily Bambauer,12,New Knoxville,21:59.3
+45,Julia Recker,11,Miller City,22:02.1
+46,Lydia Gibbons,9,Parkway,22:03.4
+47,Mariska Freewalt,9,Del. St. John's,22:05.2
+48,Libby Kempf,11,Cory-Rawson,22:06.8
+49,Hailey Bohman,11,Marion Local,22:09.6
+50,Tara Kremer,12,New Bremen,22:15.5
+51,MacKenzie Harting,12,Con. Crestview,22:17.5
+52,Abigail Dulebohn,12,Waynesfield-Goshen,22:20.5
+53,Molly Bruns,12,Marion Local,22:22.2
+54,Georgia Hagen,10,Bluffton,22:29.2
+55,Elynn Clemens,11,Wayne Trace,22:30.1
+56,Olivia Barhorst,9,Lima C.C.,22:32.1
+57,Madelyn Miller,10,Kalida,22:32.7
+58,Jenna Kipfer,11,Wayne Trace,22:33.3
+59,Emma Rindler,10,St. Henry,22:34.9
+60,Jordan Schroeder,10,Miller City,22:37.4
+61,Lauren Thompson,12,Upper Scioto Valley,22:38.1
+62,Aurora Laterbach,12,New Bremen,22:38.2
+63,Kenzie Manz,9,Wayne Trace,22:45.5
+64,Destiny Breese,12,Lincolnview,22:49.4
+65,Alayna Birt,12,Marion Local,22:49.9
+66,Lydia Schumacher,12,Columbus Grove,22:51.3
+67,Ayla Fought,10,Cory-Rawson,22:52.9
+68,Karlee Gilgenbach,12,Miller City,22:58.8
+69,Corrine Brinkman,11,Kalida,23:00.2
+70,Zaeda Hermiller,11,Bluffton,23:04.5
+71,Lucy Bensinger,12,Lima C.C.,23:04.7
+72,Moriah Bertsch,12,Lincolnview,23:06.4
+73,Deanna Dirksen,11,Marion Local,23:10.5
+74,Isabella Martello,9,Spencerville,23:11.1
+75,Abby Greve,12,Columbus Grove,23:11.6
+76,Kaitlyn Clement,12,Spencerville,23:17.0
+77,Sierra McDorman,10,Parkway,23:23.0
+78,Lauren Kipfer,9,Wayne Trace,23:42.3
+79,Amelia Schmidt,11,Parkway,23:46.0
+80,Ava Motycka,12,Con. Crestview,24:02.1
+81,Hope Luginbill,9,Bluffton,24:09.8
+82,Abby Williamson,11,Parkway,24:10.5
+83,Marlee Temple,11,Con. Crestview,24:15.9
+84,Tala Gipson,12,Bluffton,24:25.2
+85,Addilynn Gerardot,10,Wayne Trace,24:29.9
+86,Maddie Ricker,11,Del. St. John's,24:30.5
+87,Elizabeth Knueven,12,Pandora-Gilboa,24:32.9
+88,Gracie Pape,9,New Bremen,24:36.9
+89,Kallee Bransteter,9,Parkway,24:45.3
+90,Korynn Sutherland,11,Waynesfield-Goshen,24:50.9
+91,Chloe Miller,12,Con. Crestview,24:57.6
+92,Rose Siefker,11,Columbus Grove,25:01.1
+93,Jetta Merkle,11,Con. Crestview,25:09.8
+94,Deanna Dearing,10,Lincolnview,25:19.5
+95,Leanne Evers,12,New Bremen,25:21.1
+96,Sofia Aguirre,10,Swanton,25:22.5
+97,Josie Bornhorst,12,New Bremen,25:39.3
+98,Abby Kosier,12,Swanton,25:53.5
+99,Rory Walters,10,Cory-Rawson,25:58.1
+100,Emma Pence,12,Waynesfield-Goshen,25:59.1
+101,Landen McCormick,10,Del. St. John's,25:59.2
+102,Lilly Reese,9,Cory-Rawson,26:11.4
+103,Chloe Stachler,10,Waynesfield-Goshen,26:43.0
+104,Olivia Joseph,12,Lima C.C.,26:51.0
+105,Asia Boehm,12,Cory-Rawson,27:11.3
+106,Amaris Thomas,9,Cory-Rawson,27:17.0
+107,Emma Shininger,11,Kalida,27:21.8
+108,Ellison Thompson,10,Waynesfield-Goshen,27:51.5
+109,Emma Greve,10,Columbus Grove,28:03.1
+110,Evelyn Keys,9,Swanton,28:14.5
+111,Kaymi Sutherland,12,Waynesfield-Goshen,28:40.1
+112,Aliyah Suter,9,Pandora-Gilboa,29:57.8
+113,Sophia Luchini,11,Lima C.C.,30:55.2
+114,Jora Boisvert,10,Bluffton,32:01.6
+
+MEET: Columbus Grove District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Van Wert,42,"2,5,8,12,15,24,26"
+2,Coldwater,58,"1,11,13,16,17,18,31"
+3,Bath,83,"3,9,20,22,29,37,49"
+4,Elmwood,103,"4,10,19,34,36,57,59"
+5,Liberty-Benton,120,"6,21,28,30,35,46,50"
+6,Delta,155,"7,14,38,44,52,56"
+7,Bryan,169,"23,32,33,40,41,55"
+8,Wauseon,181,"25,27,39,42,48,51,58"
+9,Paulding,242,"43,45,47,53,54"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Abby Alig,10,Coldwater,19:03.8
+2,Noelle Byrum,12,Van Wert,19:05.0
+3,Penny Francis,11,Bath,19:09.2
+4,Janessa Childress,12,Elmwood,19:29.4
+5,Symphony Schuerman,11,Van Wert,19:41.0
+6,Josie Kern,10,Liberty-Benton,19:45.8
+7,Sydnie Whitinger,11,Delta,20:04.1
+8,Jasleen Sharma,10,Van Wert,20:10.2
+9,Morgan Schrock,11,Bath,20:17.8
+10,Alayna Beasley,12,Elmwood,20:23.0
+11,Lana Kaiser,11,Coldwater,20:31.8
+12,Ruby Dicke,10,Van Wert,20:32.3
+13,Audrey Alig,12,Coldwater,20:33.1
+14,Mia Rollins,9,Delta,20:33.5
+15,Faith Stoller,10,Van Wert,20:51.3
+16,Allie Evans,9,Coldwater,20:55.2
+17,Grace Heyne,10,Coldwater,21:11.3
+18,Channing Lefeld,11,Coldwater,21:12.6
+19,Grace Morgart,12,Elmwood,21:14.5
+20,Fran Deters,10,Bath,21:16.4
+21,Claire St Amour,10,Liberty-Benton,21:29.3
+22,Katelyn Shields,10,Bath,21:31.0
+23,Lila Brock,10,Bryan,21:34.1
+24,Ava Keuneke,9,Van Wert,21:37.1
+25,Peyton Richer,10,Wauseon,21:41.0
+26,Whitney Holliday,10,Van Wert,22:01.6
+27,Brooklyn Smith,9,Wauseon,22:09.9
+28,Saraphina Bouaphakeo,11,Liberty-Benton,22:10.0
+29,Amelia Francis,9,Bath,22:11.9
+30,Ruby Cramer,9,Liberty-Benton,22:19.8
+31,Breann Mathewson,12,Coldwater,22:20.7
+32,Riley Bever,9,Bryan,22:21.7
+33,Claire Thormeier,11,Bryan,22:21.9
+34,Reagan Delamatre,11,Elmwood,22:38.2
+35,Ava Ellerbrock,10,Liberty-Benton,22:46.9
+36,Mackayla (Mack) Casey,11,Elmwood,23:01.2
+37,Valerie Griffieth,10,Bath,23:08.7
+38,Gabriella Carrizales,10,Delta,23:15.5
+39,Morgan Raymo,10,Wauseon,23:17.1
+40,Lily Pittman,11,Bryan,23:18.7
+41,Addison Grant,10,Bryan,23:50.2
+42,Emma Henry,10,Wauseon,23:50.5
+43,Dani Borland,10,Paulding,23:54.2
+44,Hannah Tedrow,11,Delta,23:59.4
+45,Kyler Foor,11,Paulding,24:22.8
+46,Elise Harvey,9,Liberty-Benton,24:23.4
+47,Maria Lopez,9,Paulding,24:26.3
+48,Summer Rochefort,10,Wauseon,24:54.3
+49,Vivian Padinjarethala,10,Bath,24:54.8
+50,Bethany Wappelhorst,10,Liberty-Benton,25:35.5
+51,Lauren Hanak,10,Wauseon,25:43.7
+52,Grace Whitinger,10,Delta,26:05.5
+53,Alayna White,11,Paulding,26:09.5
+54,Karlee Kohart,10,Paulding,26:14.5
+55,Kassi McDade,12,Bryan,26:21.9
+56,Arieana Mull,11,Delta,26:33.6
+57,Addyson Barton,11,Elmwood,27:33.7
+58,Aryana Jacobs,10,Wauseon,29:23.9
+59,Molly Barringer,12,Elmwood,33:06.3

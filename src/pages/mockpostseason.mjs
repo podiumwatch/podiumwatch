@@ -1,5 +1,6 @@
 import { layout } from "../lib/html.mjs";
-import data from "../data/mock-postseason-2026.json" with { type: "json" };
+import seasonData from "../data/mock-postseason-2026.json" with { type: "json" };
+import realData from "../data/mock-postseason-2026-real.json" with { type: "json" };
 import schoolExpansions from "../data/mock-postseason-school-expansions-2026.json" with { type: "json" };
 import nameOverrides from "../data/mock-postseason-name-overrides-2026.json" with { type: "json" };
 import logoManifest from "../data/mock-postseason-logo-manifest-2026.json" with { type: "json" };
@@ -41,7 +42,17 @@ function formatHumanDate(isoDate) {
   if (!m) return isoDate;
   return `${MONTH_NAMES[Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`;
 }
-const AS_OF_LABEL = `Projected &middot; as of ${formatHumanDate(data.asOf)} &middot; not official`;
+// Two universes share this module: "season" (the original season-best
+// projection -- unchanged) and "real" (built from the actual Oct 24,
+// 2026 district results -- see dataimports/real_district_results_2026/).
+// asOfLabelHtml/statusEyebrow are the only two things that differ in
+// WORDING between them; everything else (basePath threading below) is
+// structural, not textual.
+function asOfLabelHtml(data, isReal) {
+  return isReal
+    ? `Real district results &middot; ${formatHumanDate(data.asOf)} &middot; Regionals/State recomputed, not official`
+    : `Projected &middot; as of ${formatHumanDate(data.asOf)} &middot; not official`;
+}
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -228,9 +239,9 @@ function runnerAnchorKey(gender, divNum, name, school) {
 // already-built JSON, not the chain script).
 const REGIONAL_SITE_TO_KEY = { Pickerington: "central", Boardman: "northeast", Tiffin: "northwest", Troy: "southwest" };
 
-function crossLinkHref({ tab, gender, divNum, anchor, hash }) {
+function crossLinkHref({ tab, gender, divNum, anchor, hash }, basePath) {
   const sp = new URLSearchParams({ tab, g: gender.toLowerCase(), d: String(divNum), anchor });
-  return `/mock-postseason/?${sp.toString()}#${hash}`;
+  return `${basePath}?${sp.toString()}#${hash}`;
 }
 
 const SHARED_STYLE = `<style>
@@ -240,6 +251,17 @@ const SHARED_STYLE = `<style>
   .mp-compacthero h1 { margin: 0 0 4px; font-size: 1.7rem; line-height: 1.1; }
   .mp-compacthero p { margin: 0; color: var(--muted); font-size: .88rem; }
   .mp-statuspill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); font-size: .74rem; color: var(--muted); font-weight: 600; margin-top: 6px; }
+  .mp-universetoggle { display: inline-block; margin: 6px 0 0 8px; font-size: .78rem; font-weight: 700; color: var(--green); }
+  .mp-sitetabbar { display: flex; gap: 2px; padding: 6px 6px 0; }
+  .mp-sitetabbtn { flex: 0 0 auto; border: none; background: transparent; padding: 7px 12px; min-height: 36px; font-weight: 700; font-size: .8rem; color: var(--muted); border-radius: 7px; cursor: pointer; }
+  .mp-sitetabbtn.active { background: var(--paper); color: var(--ink); }
+  .mp-pvatable { width: 100%; border-collapse: collapse; font-size: .84rem; margin: 0 0 18px; }
+  .mp-pvatable caption { text-align: left; font-weight: 800; padding: 10px 0 6px; color: var(--ink); }
+  .mp-pvatable th, .mp-pvatable td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .mp-pvatable th { font-size: .72rem; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); }
+  .mp-pva-hit { color: var(--green); font-weight: 700; }
+  .mp-pva-miss { color: #b45309; }
+  .mp-pva-surprise { color: #be123c; font-weight: 700; }
 
   .mp-stickyblock { position: sticky; top: var(--mp-sticky-top); z-index: 20; background: var(--white); border-bottom: 1px solid var(--line); }
   .mp-tabbar { display: flex; gap: 2px; padding: 6px 6px 4px; }
@@ -379,13 +401,26 @@ const SHARED_STYLE = `<style>
   }
 </style>`;
 
-function compactHero({ eyebrow, title, description }) {
+function compactHero({ eyebrow, title, description, statusLabel, toggleHtml }) {
   return `<div class="mp-compacthero"><div class="container">
     <span class="mp-eyebrow">${escapeHtml(eyebrow)}</span>
     <h1>${escapeHtml(title)}</h1>
     <p>${escapeHtml(description)}</p>
-    <div class="mp-statuspill">${AS_OF_LABEL}</div>
+    <div class="mp-statuspill">${statusLabel}</div>
+    ${toggleHtml || ""}
   </div></div>`;
+}
+
+// The global toggle: one link, switches the current page for its
+// counterpart in the other universe (season-best <-> real-results), same
+// page/tab/filter state carried over via the query string + hash. A full
+// navigation, not an instant client-side swap -- this is a local review
+// build, not a public feature, and two parallel page trees (basePath
+// "/mock-postseason/" vs "/mock-postseason/real/") is far lower-risk than
+// duplicating every render path's DOM in one page for a JS toggle.
+function universeToggleHtml(isReal, otherPathname) {
+  const label = isReal ? "View season-best projection instead" : "View real district results instead";
+  return `<a class="mp-universetoggle" href="${escapeHtml(otherPathname)}">${label} &rarr;</a>`;
 }
 
 function provisionalTag(provisional) {
@@ -719,7 +754,7 @@ const HUB_SCRIPT = `<script>
 })();
 </script>`;
 
-function raceSectionHtml(race, idx) {
+function raceSectionHtml(race, idx, data, basePath) {
   const accent = genderAccentVar(race.gender);
   const genderLower = race.gender.toLowerCase();
   const divNum = divisionNum(race.division);
@@ -740,10 +775,10 @@ function raceSectionHtml(race, idx) {
     const regionKey = REGIONAL_SITE_TO_KEY[data.districtsBySite[race.site]?.regional];
     const regionalSiteName = data.districtsBySite[race.site]?.regional;
     const crossLinkFor = regionKey
-      ? (team) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `${genderLower}_D${divNum}_${regionKey}` }), label: regionalSiteName || "Regionals" })
+      ? (team) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `${genderLower}_D${divNum}_${regionKey}` }, basePath), label: regionalSiteName || "Regionals" })
       : null;
     const indCrossLinkFor = regionKey
-      ? (r) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, r.name, r.school), hash: `${genderLower}_D${divNum}_${regionKey}` }), label: regionalSiteName || "Regionals" })
+      ? (r) => ({ url: crossLinkHref({ tab: "regionals", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, r.name, r.school), hash: `${genderLower}_D${divNum}_${regionKey}` }, basePath), label: regionalSiteName || "Regionals" })
       : null;
     body = `${teamRowsHtml(race.scoredTeams, race.teamsAdvance, race.qualifiers, accent, genderLower, divNum, crossLinkFor)}
       <p class="mp-h3">Top 32 (combined, includes individual qualifiers)</p>
@@ -765,22 +800,68 @@ function raceSectionHtml(race, idx) {
   </div>`;
 }
 
-export function mockPostseasonDistrictSitePage(site, siteKey) {
+// Predictions vs. Actual: for each real race, what the season-best
+// universe projected to qualify (teams only -- that's the number both
+// universes can compare apples-to-apples) vs. who the real district
+// results actually sent through. Matched by site+gender+division+
+// raceLabel, the same key both chains use. A season race with no real
+// counterpart (shouldn't happen -- every real race has a matching
+// season entry by construction) is simply skipped rather than guessed.
+function predictionsVsActualHtml(seasonSiteData, realSiteData) {
+  if (!seasonSiteData || !realSiteData) return "";
+  const seasonByKey = new Map(
+    (seasonSiteData.races || []).map((r) => [`${r.gender}|${r.division}|${r.raceLabel || ""}`, r])
+  );
+  const rows = (realSiteData.races || []).map((realRace) => {
+    const key = `${realRace.gender}|${realRace.division}|${realRace.raceLabel || ""}`;
+    const seasonRace = seasonByKey.get(key);
+    const title = `${GENDER_LABEL[realRace.gender] || realRace.gender} ${divisionLabel(realRace.division)}${realRace.raceLabel ? ` (${realRace.raceLabel})` : ""}`;
+    if (!seasonRace || seasonRace.status !== "scored") {
+      return `<tr><td>${escapeHtml(title)}</td><td colspan="3" class="mp-meta">No season-best projection to compare (pending at build time).</td></tr>`;
+    }
+    const projectedNames = new Set(seasonRace.qualifyingTeams.map((t) => t.name));
+    const realNames = new Set(realRace.qualifyingTeams.map((t) => t.name));
+    const hits = [...projectedNames].filter((n) => realNames.has(n));
+    const misses = [...projectedNames].filter((n) => !realNames.has(n));
+    const surprises = [...realNames].filter((n) => !projectedNames.has(n));
+    const list = (names, cls) => names.length ? names.map((n) => `<span class="${cls}">${schoolDisplay(n)}</span>`).join(", ") : "--";
+    return `<tr>
+      <td>${escapeHtml(title)}</td>
+      <td>${hits.length}/${projectedNames.size} correct<div class="mp-rowsub">${list(hits, "mp-pva-hit")}</div></td>
+      <td>${list(misses, "mp-pva-miss")}</td>
+      <td>${list(surprises, "mp-pva-surprise")}</td>
+    </tr>`;
+  }).join("");
+  return `<table class="mp-pvatable">
+    <caption>Projected vs. real district qualifiers (teams)</caption>
+    <thead><tr><th>Race</th><th>Hit (projected &amp; qualified)</th><th>Miss (projected, didn't qualify)</th><th>Surprise (qualified, not projected)</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <p class="mp-meta">"Hit"/"Miss" compare the season-best universe's projected district qualifying teams against who the real Oct 24, 2026 district results actually sent to regionals. Individual qualifiers aren't compared here -- team qualification is the clean apples-to-apples number.</p>`;
+}
+
+export function mockPostseasonDistrictSitePage(site, siteKey, data, basePath, isReal, otherBasePath) {
   const siteData = data.districtsBySite[siteKey];
   if (!siteData) return null;
   // Rectangle alternates light/dark by this site's position in the
   // district list (section 2 of the Bicarb ads brief).
   const siteIndex = Object.keys(data.districtsBySite).indexOf(siteKey);
   const rectangleVariant = siteIndex % 2 === 0 ? "light" : "dark";
-  const pathname = `/mock-postseason/districts/${siteKey.toLowerCase()}/`;
+  const pathname = `${basePath}districts/${siteKey.toLowerCase()}/`;
   const title = `${siteData.name} (review build)`;
   const chips = siteData.races.map((r, i) => {
-    const chipLabel = `${(r.startTime || "").replace(/\s*(AM|PM)$/i, "")} &middot; ${GENDER_LABEL[r.gender.toLowerCase()]} ${divisionLabel(r.division).replace("Division ", "D")}`;
+    const chipLabel = `${(r.startTime || "").replace(/\s*(AM|PM)$/i, "")}${r.startTime ? " &middot; " : ""}${GENDER_LABEL[r.gender.toLowerCase()]} ${divisionLabel(r.division).replace("Division ", "D")}`;
     return `<button type="button" class="mp-racechip${i === 0 ? " active" : ""}" data-chip-idx="${i}" data-chip-gender="${r.gender.toLowerCase()}" data-chip-division="${divisionNum(r.division)}">${chipLabel}</button>`;
   }).join("");
   const firstRace = siteData.races[0];
   const initialBreadcrumb = firstRace ? `Districts &rsaquo; ${escapeHtml(siteData.name)} &rsaquo; ${GENDER_LABEL[firstRace.gender.toLowerCase()]} D${divisionNum(firstRace.division)}` : `Districts &rsaquo; ${escapeHtml(siteData.name)}`;
-  const content = `${compactHero({ eyebrow: "Local review build -- not live", title: siteData.name, description: `Feeds the ${siteData.regional} regional.` })}
+  const seasonSiteData = seasonData.districtsBySite[siteKey];
+  const realSiteData = realData.districtsBySite[siteKey];
+  const pvaHtml = predictionsVsActualHtml(seasonSiteData, realSiteData);
+  const content = `${compactHero({
+    eyebrow: "Local review build -- not live", title: siteData.name, description: `Feeds the ${siteData.regional} regional.`,
+    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, `${otherBasePath}districts/${siteKey.toLowerCase()}/`)
+  })}
   ${SHARED_STYLE}
   <div class="mp-stickyblock">
     <div class="mp-tabbar">
@@ -788,18 +869,32 @@ export function mockPostseasonDistrictSitePage(site, siteKey) {
       <button type="button" class="mp-tabbtn" data-nav-tab="regionals">Regionals</button>
       <button type="button" class="mp-tabbtn" data-nav-tab="state">State</button>
     </div>
-    <div class="mp-filterrow">${chips}</div>
+    <div class="mp-sitetabbar">
+      <button type="button" class="mp-sitetabbtn active" data-sitetab="results">Results</button>
+      <button type="button" class="mp-sitetabbtn" data-sitetab="predictions">Predictions vs. Actual</button>
+    </div>
+    <div class="mp-filterrow" data-sitetabpanel="results">${chips}</div>
   </div>
   <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">${initialBreadcrumb}</nav>
   <section class="section section-paper mp-pagesection"><div class="container">
-    ${bicarbLeaderboardHtml("district-top")}
-    ${siteData.races.map(raceSectionHtml).join("")}
-    ${bicarbRectangleHtml("district-bottom", rectangleVariant)}
+    <div data-sitetabpanel="results">
+      ${bicarbLeaderboardHtml("district-top")}
+      ${siteData.races.map((r, i) => raceSectionHtml(r, i, data, basePath)).join("")}
+      ${bicarbRectangleHtml("district-bottom", rectangleVariant)}
+    </div>
+    <div data-sitetabpanel="predictions" hidden>${pvaHtml}</div>
   </div></section>
   ${bicarbMobileStickyHtml()}
   ${BICARB_SCRIPT}
   <script>
   var siteName = ${JSON.stringify(siteData.name)};
+  document.querySelectorAll('.mp-sitetabbtn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var t = b.dataset.sitetab;
+      document.querySelectorAll('.mp-sitetabbtn').forEach(function(x){ x.classList.toggle('active', x===b); });
+      document.querySelectorAll('[data-sitetabpanel]').forEach(function(p){ p.hidden = p.dataset.sitetabpanel !== t; });
+    });
+  });
   document.querySelectorAll('.mp-racechip').forEach(function(chip){
     chip.addEventListener('click', function(){
       var idx = chip.dataset.chipIdx;
@@ -820,23 +915,23 @@ export function mockPostseasonDistrictSitePage(site, siteKey) {
   document.querySelectorAll('[data-nav-tab]').forEach(function(b){
     b.addEventListener('click', function(){
       var tab = b.dataset.navTab;
-      if (tab === 'districts') { location.href = '/mock-postseason/?tab=districts'; return; }
+      if (tab === 'districts') { location.href = ${JSON.stringify(basePath)} + '?tab=districts'; return; }
       var active = document.querySelector('.mp-racechip.active');
       var g = active ? active.dataset.chipGender : 'boys';
       var d = active ? active.dataset.chipDivision : '1';
-      location.href = '/mock-postseason/?tab=' + tab + '&g=' + g + '&d=' + d;
+      location.href = ${JSON.stringify(basePath)} + '?tab=' + tab + '&g=' + g + '&d=' + d;
     });
   });
   </script>`;
-  return layout({ site, title, description: `Projected district results for ${siteData.name}.`, pathname, content });
+  return layout({ site, title, description: `${isReal ? "Real" : "Projected"} district results for ${siteData.name}.`, pathname, content });
 }
 
-function districtsHubTabHtml() {
+function districtsHubTabHtml(data, basePath) {
   const sites = Object.values(data.districtsBySite);
   const byRegion = new Map();
   for (const s of sites) { if (!byRegion.has(s.region)) byRegion.set(s.region, []); byRegion.get(s.region).push(s); }
   return [...byRegion.entries()].map(([region, siteList]) => {
-    const rows = siteList.map((s) => `<a class="mp-row" href="/mock-postseason/districts/${s.key.toLowerCase()}/">
+    const rows = siteList.map((s) => `<a class="mp-row" href="${basePath}districts/${s.key.toLowerCase()}/">
       <div class="mp-rowmain"><div class="mp-rowname">${escapeHtml(s.name)}</div><div class="mp-rowsub">${s.races.length} races &middot; feeds ${escapeHtml(s.regional)}</div></div>
     </a>`).join("");
     return `<div class="mp-section"><h2>${escapeHtml(region)}</h2><div class="mp-rowlist">${rows}</div></div>`;
@@ -851,7 +946,7 @@ function districtsHubTabHtml() {
 // Northeast pending) shows the incomplete banner ABOVE this same
 // projected summary, not instead of it -- Pickerington and Boardman
 // still have a real, if partial, field worth seeing.
-function regionalSummaryCard(key, r) {
+function regionalSummaryCard(key, r, data, basePath) {
   const accent = genderAccentVar(r.gender);
   const genderLower = r.gender.toLowerCase();
   const divNum = divisionNum(r.division);
@@ -894,16 +989,16 @@ function regionalSummaryCard(key, r) {
     </summary>
     <div class="mp-regionalcard-body">
       <p class="mp-h3">State qualifiers</p>
-      ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }), label: "State" }))}
+      ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }))}
       ${bicarbInfeedHtml(`regional-${key}`)}
-      <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }), label: "State" }), genderLower, divNum)}</details>
+      <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), genderLower, divNum)}</details>
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
     </div>
   </details>`;
 }
 
-function regionalsTabHtml() {
-  const sections = Object.entries(data.regionalResults).map(([key, r]) => regionalSummaryCard(key, r)).join("");
+function regionalsTabHtml(data, basePath) {
+  const sections = Object.entries(data.regionalResults).map(([key, r]) => regionalSummaryCard(key, r, data, basePath)).join("");
   const underReviewHtml = Object.entries(data.underReviewByCategory || {}).map(([cat, schools]) => {
     const [genderLower, div] = cat.split("_");
     return `<p><strong>${GENDER_LABEL[genderLower]} ${div}:</strong> ${schools.map((s) => schoolDisplay(s)).join(", ")}</p>`;
@@ -946,20 +1041,24 @@ function stateSectionHtml(key, s) {
   </div>`;
 }
 
-function stateTabHtml() {
+function stateTabHtml(data) {
   const sections = Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s)).join("");
   return `${bicarbLeaderboardHtml("state-top")}${sections}${bicarbRectangleHtml("state-bottom", "dark")}`;
 }
 
-export function mockPostseasonHubPage(site) {
-  const pathname = "/mock-postseason/";
+export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePath) {
+  const pathname = basePath;
   const filterChips = [
     ...GENDERS.map((g) => `<button type="button" class="mp-filterbtn${g === "boys" ? " active" : ""}" data-gender="${g}">${GENDER_LABEL[g]}</button>`),
     `<span class="mp-filterdivider"></span>`,
     ...DIVISIONS.map((d) => `<button type="button" class="mp-filterbtn${d === 1 ? " active" : ""}" data-division="${d}">D${d}</button>`)
   ].join("");
 
-  const content = `${compactHero({ eyebrow: "Local review build -- not live", title: "Mock Postseason", description: "Districts, Regionals, and State in one place." })}
+  const content = `${compactHero({
+    eyebrow: "Local review build -- not live", title: "Mock Postseason",
+    description: isReal ? "Districts, Regionals, and State, recomputed from the real Oct 24, 2026 district results (D2-D4 only; D1 has no districts, shown as season-best)." : "Districts, Regionals, and State in one place.",
+    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, otherBasePath)
+  })}
   ${SHARED_STYLE}
   <div class="mp-stickyblock">
     <div class="mp-tabbar">
@@ -977,10 +1076,10 @@ export function mockPostseasonHubPage(site) {
         <p class="mp-meta">D1 teams enter at regionals.</p>
         <button type="button" class="mp-d1-regionals-btn">Go to D1 Regionals &rarr;</button>
       </div>
-      <div data-districts-list>${districtsHubTabHtml()}</div>
+      <div data-districts-list>${districtsHubTabHtml(data, basePath)}</div>
     </div>
-    <div class="mp-tabpanel" id="regionals-panel" data-tab="regionals" hidden>${regionalsTabHtml()}</div>
-    <div class="mp-tabpanel" id="state-panel" data-tab="state" hidden>${stateTabHtml()}</div>
+    <div class="mp-tabpanel" id="regionals-panel" data-tab="regionals" hidden>${regionalsTabHtml(data, basePath)}</div>
+    <div class="mp-tabpanel" id="state-panel" data-tab="state" hidden>${stateTabHtml(data)}</div>
   </div></section>
   ${bicarbMobileStickyHtml()}
   <button type="button" class="mp-totop" aria-label="Back to top">&uarr;</button>
@@ -992,20 +1091,27 @@ export function mockPostseasonHubPage(site) {
     if (btn) btn.addEventListener('click', function(){
       var params = new URLSearchParams(location.search);
       var g = params.get('g') || 'boys';
-      location.href = '/mock-postseason/?tab=regionals&g=' + g + '&d=1';
+      location.href = ${JSON.stringify(basePath)} + '?tab=regionals&g=' + g + '&d=1';
     });
   })();
   </script>`;
-  return layout({ site, title: "2026 Mock Postseason (review build)", description: "Local review build of the 2026 Mock Postseason (Districts, Regionals, State).", pathname, content });
+  return layout({ site, title: `2026 Mock Postseason (review build${isReal ? " -- real results" : ""})`, description: "Local review build of the 2026 Mock Postseason (Districts, Regionals, State).", pathname, content });
+}
+
+function mockPostseasonPagesFor(site, data, basePath, isReal, otherBasePath) {
+  const pages = [
+    { pathname: basePath, html: mockPostseasonHubPage(site, data, basePath, isReal, otherBasePath) }
+  ];
+  for (const key of Object.keys(data.districtsBySite)) {
+    const html = mockPostseasonDistrictSitePage(site, key, data, basePath, isReal, otherBasePath);
+    if (html) pages.push({ pathname: `${basePath}districts/${key.toLowerCase()}/`, html });
+  }
+  return pages;
 }
 
 export function mockPostseasonAllPages(site) {
-  const pages = [
-    { pathname: "/mock-postseason/", html: mockPostseasonHubPage(site) }
+  return [
+    ...mockPostseasonPagesFor(site, seasonData, "/mock-postseason/", false, "/mock-postseason/real/"),
+    ...mockPostseasonPagesFor(site, realData, "/mock-postseason/real/", true, "/mock-postseason/")
   ];
-  for (const key of Object.keys(data.districtsBySite)) {
-    const html = mockPostseasonDistrictSitePage(site, key);
-    if (html) pages.push({ pathname: `/mock-postseason/districts/${key.toLowerCase()}/`, html });
-  }
-  return pages;
 }

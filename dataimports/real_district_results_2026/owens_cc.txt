@@ -1,0 +1,710 @@
+MEET: Owens CC District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Seneca East,52,"5,6,7,12,22,41,50"
+2,New Riegel,78,"9,11,14,21,23,27,33"
+3,Hopewell-Loudon,144,"2,20,30,44,48,63,75"
+4,Old Fort,145,"13,17,32,40,43,56,61"
+5,Carey,161,"19,25,26,34,57,59,72"
+6,Ottawa Hills,163,"8,15,28,52,60,65,74"
+7,Riverdale,207,"3,16,38,70,80,92"
+8,Mohawk,216,"1,18,47,64,86,88,90"
+9,Van Buren,230,"31,35,42,49,73,78,82"
+10,Gibsonburg,236,"29,36,39,53,79,81,87"
+11,Leipsic,239,"4,37,51,62,85"
+12,No. Baltimore,282,"10,24,66,89,93,94"
+13,Lakota,304,"46,54,67,68,69,71,84"
+14,Allen East,326,"45,55,58,77,91"
+15,Ridgemont,447,"76,83,95,96,97"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Kolton Wood,11,Mohawk,16:08.3
+2,Ian Bloom,10,Hopewell-Loudon,16:21.6
+3,Kolten Evans,12,Riverdale,16:22.1
+4,Calvin Miller,12,Leipsic,16:28.8
+5,Owen Wise,9,Seneca East,16:51.1
+6,Francisco Lantz,11,Seneca East,16:53.6
+7,Remington Newell,10,Seneca East,16:56.3
+8,William Connelly,11,Ottawa Hills,17:02.6
+9,Grady Faeth,11,New Riegel,17:06.3
+10,Camden McCartney,11,No. Baltimore,17:13.1
+11,Lance Clouse,11,New Riegel,17:27.9
+12,Easton Voorhees,11,Seneca East,17:30.4
+13,Owen Miller,9,Old Fort,17:31.6
+14,Luke Conley,10,New Riegel,17:38.2
+15,Alex Cooper,11,Ottawa Hills,17:41.7
+16,Gabe Donaldson,12,Riverdale,17:43.5
+17,Colten Hoerig,11,Old Fort,17:45.1
+18,Collin Wertz,9,Mohawk,17:45.7
+19,Sawyer Miller,9,Carey,17:46.3
+20,Hudson Schmidutz,11,Hopewell-Loudon,17:50.5
+21,Isaiah Wood,12,New Riegel,17:50.5
+22,Jaxon Carter,9,Seneca East,17:50.8
+23,Porter Lafontaine,12,New Riegel,17:54.3
+24,Garrett Williams,11,No. Baltimore,17:54.8
+25,Brylon Middleton,12,Carey,17:55.2
+26,Riley Miller,12,Carey,17:56.3
+27,Hudson Kelbley,9,New Riegel,17:57.2
+28,Simon Rose,9,Ottawa Hills,18:02.8
+29,Elijah Boulee,9,Gibsonburg,18:05.0
+30,Hayden Koehler,11,Hopewell-Loudon,18:06.4
+31,Paxon Sendelbaugh,9,Van Buren,18:07.3
+32,Grant Miller,10,Old Fort,18:07.5
+33,Jaren Popenberg,12,New Riegel,18:07.6
+34,Owen Sidor,12,Carey,18:09.5
+35,Matthew Puperi,11,Van Buren,18:13.3
+36,Isaiah Crispen,10,Gibsonburg,18:14.2
+37,Ernesto Soto,10,Leipsic,18:14.2
+38,Gio Noascono,10,Riverdale,18:17.1
+39,Zander Shreffler,10,Gibsonburg,18:20.6
+40,Collin Patrick,11,Old Fort,18:22.2
+41,Eibling Treyson,11,Hardin Northern,18:22.8
+42,Aiden Falter,10,Seneca East,18:23.6
+43,Ramone Johnson,11,Van Buren,18:23.8
+44,Reed Hessick,9,Old Fort,18:25.7
+45,Liam Pfleiderer,9,Calvert,18:27.8
+46,Rion Biddle,11,Hopewell-Loudon,18:29.0
+47,Jaden Covault,12,Allen East,18:32.9
+48,Steven Bensman,12,Lakota,18:33.8
+49,Timmy Horner,10,Mohawk,18:38.3
+50,Maveric Flory,10,Hopewell-Loudon,18:42.1
+51,Colin Treece,11,Van Buren,18:51.4
+52,Thomas Schiefer,10,Seneca East,18:54.0
+53,David Garcia,12,Leipsic,18:56.1
+54,George Kile,10,Ottawa Hills,18:57.0
+55,Griffin Garza,10,Gibsonburg,19:00.8
+56,Andrew Burkhalter,9,Lakota,19:05.2
+57,Kendrick Bell,11,Allen East,19:13.5
+58,Aiden Dick,12,Old Fort,19:16.7
+59,Michael Perry,9,Calvert,19:17.5
+60,Jacob Marben,11,Calvert,19:17.6
+61,Oliver Sidor,11,Carey,19:19.0
+62,Cole Niese,12,Allen East,19:20.4
+63,Carter Hall,11,Carey,19:26.8
+64,Colton Harst,11,Ottawa Hills,19:30.4
+65,Jake Le-Morales,12,Old Fort,19:33.2
+66,Kash Walther,11,Leipsic,19:34.8
+67,Parker Jackson,10,Hopewell-Loudon,19:36.0
+68,Max Pursell,11,Mohawk,19:40.7
+69,Ebrahim Arshad,9,Ottawa Hills,19:40.9
+70,Levi Vanlerberg,11,No. Baltimore,19:42.7
+71,Alexander Burkhalter,12,Lakota,19:48.5
+72,Reid Dussel,12,Lakota,19:50.2
+73,Cooper Kaser,12,Lakota,19:52.5
+74,Cohen Phillips,11,Riverdale,19:58.2
+75,Carson Hull,11,Lakota,19:59.5
+76,Camper Evan,11,Hardin Northern,20:11.1
+77,Callen Lewis,11,Carey,20:17.1
+78,Ben Palmcook,9,Van Buren,20:25.2
+79,Ashton Wolf,9,Fre. St. Joseph C.C.,20:28.4
+80,Gates Begeman,12,Ottawa Hills,20:32.3
+81,Michael Barrick,10,Hopewell-Loudon,20:34.4
+82,Jakob Wallace,12,Ridgemont,20:44.3
+83,Brody Sloan,9,Allen East,20:54.3
+84,Giovanni Ramm,11,Van Buren,21:02.3
+85,Gabriel Null,9,Gibsonburg,21:10.6
+86,Mike Penwell,11,Riverdale,21:11.3
+87,Avery Bowser,9,Gibsonburg,21:20.9
+88,Joe Chamberlain,11,Hardin Northern,21:28.7
+89,Isaiah Moyer,11,Van Buren,21:38.0
+90,Camden Thompson,9,Ridgemont,21:43.4
+91,Kyle Fawcett,12,Lakota,21:47.0
+92,Casey Clem,12,Hardin Northern,21:52.7
+93,Alex Niese,11,Leipsic,22:06.6
+94,Mason Theis,9,Mohawk,22:11.1
+95,Xander Zimmerman,12,Gibsonburg,23:13.7
+96,Andrew Smith,9,Calvert,23:29.4
+97,Brady Hannam,12,Mohawk,23:33.4
+98,Grady DeLancy,9,No. Baltimore,23:52.5
+99,Brexton Scherger,11,Mohawk,24:57.3
+100,Trace Waughtel,9,Allen East,25:22.9
+101,Zane Voll,9,Riverdale,25:54.7
+102,Brennen Llanas,10,No. Baltimore,27:23.7
+103,William Fitzgerald,9,No. Baltimore,28:55.9
+104,Carter Mccarthy,10,Ridgemont,33:10.2
+105,Luke Stacklin,12,Ridgemont,33:59.4
+106,Caleb Mccarthy,10,Ridgemont,39:19.9
+
+MEET: Owens CC District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Eastwood,59,"3,10,14,15,17,19,22"
+2,Margaretta,79,"1,4,6,21,47,54"
+3,Clyde,80,"2,8,20,24,26,59,63"
+4,Genoa Area,94,"5,12,16,30,31,32,33"
+5,Mil. Lake,114,"7,18,25,27,37,44,46"
+6,Bellevue,139,"13,23,28,34,41,55,60"
+7,Otsego,181,"9,29,45,48,50,51,56"
+8,Fostoria,193,"35,36,39,40,43,58,66"
+9,Rossford,211,"11,38,52,53,57,61"
+10,Evergreen,282,"42,49,62,64,65,67,68"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Cole Zang,11,Margaretta,14:52.9
+2,Reese Rex,11,Clyde,16:48.0
+3,Ben Buehler,12,Eastwood,16:50.9
+4,Kyle Walton,12,Margaretta,16:53.6
+5,Haiden Pickett,12,Genoa Area,16:57.8
+6,Cash Ward,10,Margaretta,17:09.3
+7,Frank Swails III,12,Mil. Lake,17:13.3
+8,Zach Clapp,11,Clyde,17:24.8
+9,Evan Beach,10,Otsego,17:28.0
+10,Trent Snyder,10,Eastwood,17:33.2
+11,Chase Lenin,11,Rossford,17:33.9
+12,Sebastian Zellner,11,Genoa Area,17:34.1
+13,Jeremiah Jump,9,Bellevue,17:34.4
+14,Caleb Shaffer-Hoffmann,9,Eastwood,17:37.2
+15,Zachary McClure,10,Eastwood,17:38.4
+16,Chase Cooper,12,Genoa Area,17:40.0
+17,Matthew Ward Jr.,9,Eastwood,17:41.9
+18,Tyce Brown,10,Mil. Lake,17:43.6
+19,Scotty McKenzie,11,Eastwood,17:44.4
+20,Ethan Skeels,10,Clyde,17:48.5
+21,Cain Orosco,10,Margaretta,17:52.0
+22,Declan Sloan,10,Oak Harbor,17:52.9
+23,Oliver St. Louis,11,Eastwood,18:03.7
+24,Austin Lovins,9,Bellevue,18:08.4
+25,Chris Bulger,11,Clyde,18:17.0
+26,Maxwell Morse,12,Mil. Lake,18:22.0
+27,Bentley Meade,10,Clyde,18:24.5
+28,Vincent Mass,10,Mil. Lake,18:25.3
+29,Bryson McElwain,9,Bellevue,18:27.6
+30,Quinn Bischoff,12,Otsego,18:33.8
+31,Marcos Mata,10,Genoa Area,18:34.7
+32,Gavin Peters,10,Genoa Area,18:38.3
+33,Alex Snyder,10,Genoa Area,18:46.2
+34,Bryce Ruch,10,Genoa Area,18:48.4
+35,Layne Fries,9,Bellevue,18:50.4
+36,Zaymere Tucker,9,Fostoria,18:52.4
+37,Royal Ferguson,12,Fostoria,18:53.3
+38,Ricky Fox III,11,Mil. Lake,18:58.0
+39,Levi Colapietro,10,Rossford,19:00.1
+40,Jayden Schmitz,12,Fostoria,19:18.2
+41,Mason Jakcsy,9,Fostoria,19:20.2
+42,Caden Martin,11,Bellevue,19:26.0
+43,Brayden Miller,9,Evergreen,19:32.5
+44,Andrew Lira,12,Fostoria,19:46.9
+45,Ford Mink,12,Mil. Lake,19:50.0
+46,William Krupp,11,Otsego,19:53.1
+47,Hunter Butte,11,Mil. Lake,19:55.9
+48,Will Coffman,12,Margaretta,19:56.0
+49,Nolan Vollmar,11,Otsego,19:56.6
+50,Sean Murry,9,Evergreen,20:14.8
+51,Brandon Carroll,11,Otsego,20:22.6
+52,Elijah Wishard,9,Otsego,20:23.7
+53,Bryce Nusbaum,12,Rossford,20:26.5
+54,Michael Cervenec,10,Rossford,20:33.6
+55,Jackson Covell,10,Margaretta,20:58.4
+56,Aaden Duskins,9,Bellevue,20:58.6
+57,Gavin Wendt,10,Otsego,21:05.7
+58,Ethan Brown,12,Rossford,21:30.8
+59,Jax Camp,10,Fostoria,22:07.1
+60,Cooper Framstad,11,Clyde,22:21.6
+61,Blake Hammer,11,Bellevue,22:56.8
+62,Ricky Prunner,12,Rossford,22:58.8
+63,Mason Condon,10,Evergreen,23:05.0
+64,Woo Jin Jung,12,Clyde,23:11.5
+65,Ryan Brehmer,10,Evergreen,23:56.6
+66,Donovan Dula,11,Evergreen,23:56.9
+67,Brayson Galvan,11,Fostoria,25:21.0
+68,Henry Pennington,10,Evergreen,26:18.9
+69,Blake Cousino,10,Evergreen,29:55.6
+
+MEET: Owens CC District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Lexington,42,"3,5,6,8,20,27,32"
+2,Fremont Ross,126,"2,23,30,35,36,75,85"
+3,Lima Shawnee,126,"12,14,16,19,65,80,103"
+4,Columbian,144,"11,17,25,45,46,87,101"
+5,Celina,146,"10,15,29,43,49,61,79"
+6,Findlay,170,"1,4,34,63,68,74,96"
+7,Napoleon,184,"28,33,38,41,44,78,83"
+8,Wapakoneta,220,"7,13,56,71,73,76,104"
+9,Shelby,221,"31,39,48,51,52,55,81"
+10,Ontario,221,"21,22,24,66,88,92,97"
+11,Ashland,262,"9,57,59,67,70,72,82"
+12,Mad. Comprehensive,313,"18,42,53,98,102,107,117"
+13,Elida,351,"26,37,69,108,111,122,124"
+14,Ottawa-Glandorf,377,"47,64,84,89,93,95,105"
+15,Norwalk,379,"60,62,77,86,94,100,114"
+16,Mansfield Senior,438,"40,58,99,115,126,128"
+17,St. Marys Memorial,494,"54,106,109,112,113,118,125"
+18,Lima Senior,506,"50,90,119,120,127,129"
+19,Toledo C.C.,561,"91,110,116,121,123"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Russell Stine,12,Findlay,15:18.0
+2,Bentley Lopez,11,Fremont Ross,15:40.4
+3,Will Hooper,12,Lexington,15:48.7
+4,Camden Stechschulte,11,Findlay,15:55.1
+5,John Bartone,12,Lexington,16:03.0
+6,Christian Estep,11,Lexington,16:04.0
+7,Hans Sammetinger,11,Wapakoneta,16:14.3
+8,Mathias Bender,10,Lexington,16:19.7
+9,Oliver Watson,10,Ashland,16:20.2
+10,Kaleb Dameron,12,Celina,16:29.7
+11,Xavier Melick,11,Columbian,16:45.1
+12,Kasey Hohe,11,Lima Shawnee,16:45.7
+13,Jackson Serr,11,Wapakoneta,16:46.0
+14,Ryan Moreland,11,Lima Shawnee,16:47.5
+15,Caleb Lehman,12,Celina,16:47.7
+16,Ian Delgado,11,Lima Shawnee,16:48.1
+17,Conner Dukeshire,10,Columbian,16:52.6
+18,Evan Larsen,12,Mad. Comprehensive,16:55.8
+19,Kamdyn Lauf,11,Lima Shawnee,16:56.4
+20,Chidalu Ezike,11,Lexington,16:57.1
+21,Logan Sesco,10,Ontario,17:03.4
+22,Liam Hershberger,11,Ontario,17:03.9
+23,Blake Henry,12,Fremont Ross,17:08.9
+24,Alex Simmering,10,Ontario,17:10.5
+25,Owen Hoyda,11,Columbian,17:12.0
+26,Hudson Lieurance,11,Elida,17:12.2
+27,Jace Dawson,10,Lexington,17:16.2
+28,Connor Morris,10,Napoleon,17:18.1
+29,Corbin Meyer,9,Celina,17:22.8
+30,Will Spotts,12,Fremont Ross,17:24.8
+31,Jake Frangella,10,Shelby,17:27.9
+32,Caden Henry,10,Lexington,17:32.2
+33,Tristan Brown,10,Napoleon,17:32.5
+34,Corban Johnson,11,Findlay,17:34.6
+35,LJ Gabel,11,Fremont Ross,17:35.6
+36,Colin Rich,12,Fremont Ross,17:36.7
+37,Brenden Slaughter,11,Elida,17:38.2
+38,Adam Salaz Jr,11,Napoleon,17:39.8
+39,Isaac Friebel,11,Shelby,17:40.5
+40,Gavin Camak,12,Mansfield Senior,17:40.9
+41,Alistair Cordes,12,Napoleon,17:43.5
+42,Jackson Brummett,12,Mad. Comprehensive,17:46.3
+43,Isaac Helmer,11,Celina,17:50.2
+44,Brycelee Warner,11,Napoleon,17:50.4
+45,Landon Hinke,10,Columbian,17:50.7
+46,Nathan Gaietto,10,Columbian,17:51.0
+47,Gage Recker,12,Ottawa-Glandorf,17:53.3
+48,Avery Schroeder,9,Shelby,17:55.6
+49,Beau Koester,12,Celina,17:55.7
+50,Mason Oen,12,Lima Senior,17:56.8
+51,Kolton Parsons,9,Shelby,17:58.0
+52,Grayson Schroeder,9,Shelby,17:58.7
+53,Gannon Conway,9,Mad. Comprehensive,18:00.3
+54,Gavin Luebke,12,St. Marys Memorial,18:01.3
+55,Kc Cooke,10,Shelby,18:02.2
+56,Andrew Hesse,12,Wapakoneta,18:03.8
+57,Austin Metzger,10,Ashland,18:05.8
+58,Prince Converse,9,Mansfield Senior,18:09.0
+59,Hunter Smith,12,Ashland,18:11.6
+60,Clay Heyman,11,Norwalk,18:12.8
+61,Cole Buening,11,Celina,18:15.2
+62,Nolan Jones,11,Norwalk,18:18.5
+63,Zachary Barnhart,12,Findlay,18:18.7
+64,Ethan Weis,12,Ottawa-Glandorf,18:19.3
+65,Logan Foster,9,Lima Shawnee,18:20.3
+66,Braxton Schneider,9,Ontario,18:20.8
+67,Brayden Burgett,12,Ashland,18:21.1
+68,Dexter Stripe,10,Findlay,18:23.2
+69,Jayden Snyder,12,Elida,18:30.6
+70,Cameron Bosley,10,Ashland,18:31.5
+71,Wesley Snyder,11,Wapakoneta,18:33.2
+72,Oscar Parillo,11,Ashland,18:34.2
+73,Seth Augsburger,10,Wapakoneta,18:36.6
+74,Troy Palte,12,Findlay,18:40.5
+75,Owen Ewing,9,Fremont Ross,18:42.1
+76,Reed Miller,12,Wapakoneta,18:43.2
+77,Isaiah Kelsey,11,Norwalk,18:45.2
+78,Grady Pedroza,11,Napoleon,18:47.0
+79,Jackson Bange,12,Celina,18:48.6
+80,Nolan Reed,9,Lima Shawnee,18:50.4
+81,Anthony Tackett,11,Shelby,18:57.5
+82,Geo Kruger,9,Ashland,18:59.6
+83,Austin Gerken,9,Napoleon,19:00.5
+84,Carter Vorst,12,Ottawa-Glandorf,19:02.5
+85,Dane Denman,12,Fremont Ross,19:09.2
+86,Josiah Metcalf,10,Norwalk,19:11.5
+87,Christopher Edwards,10,Columbian,19:12.7
+88,Jackson Buttil,10,Ontario,19:19.4
+89,Greg Rosengarten,11,Ottawa-Glandorf,19:23.8
+90,Maxwell Foley,9,Lima Senior,19:28.4
+91,Peter Bertke,11,Toledo C.C.,19:31.2
+92,Cruz Schroeder,9,Ontario,19:33.6
+93,Liam Alt,10,Ottawa-Glandorf,19:33.6
+94,Parker Good,9,Norwalk,19:34.0
+95,Logan Stoepfel,11,Ottawa-Glandorf,19:37.6
+96,Owen Hassan,10,Findlay,19:39.9
+97,Mason Wilkerson,11,Ontario,19:45.2
+98,Alden Washington,10,Mad. Comprehensive,19:54.6
+99,Tyler Hubbard,12,Mansfield Senior,19:57.6
+100,Owen Resor,10,Norwalk,19:57.7
+101,Colton Whitmer,9,Columbian,20:00.4
+102,Jonas Stapleton,9,Mad. Comprehensive,20:04.1
+103,Hunter Collins,10,Lima Shawnee,20:07.5
+104,Andrew Manger,10,Wapakoneta,20:27.3
+105,Grady Recker,11,Ottawa-Glandorf,20:31.8
+106,Dominyk Wilkins,12,St. Marys Memorial,20:33.6
+107,Phillip Wiggins,11,Mad. Comprehensive,20:38.6
+108,Logan Moran,12,Elida,20:56.1
+109,Vince Walter,11,St. Marys Memorial,21:00.7
+110,Marcus Stephens,11,Toledo C.C.,21:14.8
+111,Dustin Sherrick,11,Elida,21:27.4
+112,Bryce Bertke,10,St. Marys Memorial,21:34.0
+113,Nickolas Dietz,11,St. Marys Memorial,21:36.0
+114,Declan Hanna,11,Norwalk,21:39.6
+115,Christian Cole,9,Mansfield Senior,21:46.4
+116,Michael Luther,11,Toledo C.C.,22:42.2
+117,Cameron Williams,10,Mad. Comprehensive,23:11.5
+118,Kaden Neal,12,St. Marys Memorial,23:21.5
+119,Charlie Graham,10,Lima Senior,23:22.4
+120,Connor McKinley,10,Lima Senior,24:09.7
+121,Shamario Jenkins,9,Toledo C.C.,24:13.1
+122,Ethan Baker,11,Elida,24:19.2
+123,Henry Hartman,11,Toledo C.C.,24:25.6
+124,Ian Kelly,12,Elida,24:56.9
+125,Lincoln James,11,St. Marys Memorial,24:58.4
+126,Ezekiel Macnamara,10,Mansfield Senior,26:00.4
+127,Emanuel Luckett lll,9,Lima Senior,27:19.7
+128,Eli Lewis,9,Mansfield Senior,27:25.6
+129,Adrian Owsley,9,Lima Senior,29:28.3
+
+MEET: Owens CC District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Ottawa Hills,42,"1,3,7,13,18,23,24"
+2,Seneca East,95,"2,12,17,30,34,48,66"
+3,Margaretta,109,"4,19,27,28,31,52,55"
+4,Carey,127,"11,15,20,38,43,50,61"
+5,Riverdale,134,"14,21,22,37,40,49,69"
+6,Gibsonburg,167,"9,25,33,36,64,74"
+7,No. Baltimore,178,"6,8,47,58,59,72"
+8,Old Fort,180,"10,29,41,46,54,78,79"
+9,Mohawk,206,"5,26,35,65,75"
+10,Van Buren,248,"16,45,51,63,73,83"
+11,Fre. St. Joseph C.C.,263,"32,44,57,62,68,80,81"
+12,Calvert,292,"39,42,53,76,82,84"
+13,Lakota,324,"56,60,67,70,71,77"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Natalie Nixon,11,Ottawa Hills,17:15.4
+2,Aubrey Ritzler,10,Seneca East,18:37.3
+3,Piper Padgett,10,Ottawa Hills,18:46.4
+4,Morgan Miller,9,Margaretta,18:48.8
+5,Laila Nally,9,Mohawk,19:12.9
+6,Kylee Korte,9,Allen East,19:26.1
+7,Ady Reynolds,11,No. Baltimore,19:38.8
+8,Emily Chen,11,Ottawa Hills,19:42.9
+9,Maddie Stufft,11,No. Baltimore,19:45.3
+10,Jorja Flores,10,Gibsonburg,19:59.4
+11,Grace Tackett,11,Old Fort,20:03.7
+12,Scarlett Sizemore,9,Carey,20:12.7
+13,Avery Schwab,10,Seneca East,20:16.7
+14,Sofia Elfituri,11,Ottawa Hills,20:19.0
+15,Paige Vent,11,Riverdale,20:20.9
+16,Elysa Holsinger,11,Carey,20:35.2
+17,Lydia Kramer,9,Van Buren,20:38.4
+18,Julia Enders,12,Seneca East,20:42.5
+19,Elliannah Hiegel,11,Leipsic,20:42.9
+20,Evelyn Sandretto,11,Ottawa Hills,20:50.0
+21,Tenlee Hemmer,10,Margaretta,20:56.6
+22,Ellianna Arnold,10,Carey,20:58.3
+23,Annalese Woodruff,12,Riverdale,21:32.2
+24,Ava Brooks,11,Riverdale,21:34.9
+25,Ruth Mezo,11,Ottawa Hills,21:35.9
+26,Daisy Mullan,12,Ottawa Hills,21:38.7
+27,Macey Kohler,12,Gibsonburg,21:38.7
+28,Eva Johnson,11,Mohawk,21:45.9
+29,Nora Schroeder,11,Leipsic,21:54.0
+30,Ayana Ramon-Quintero,11,Margaretta,21:55.4
+31,Aryanna Ahner,11,Margaretta,21:57.1
+32,Ella Kistler,9,Old Fort,21:59.3
+33,Jordyn Enders,12,Seneca East,22:02.2
+34,Lucy Hartman,12,Margaretta,22:03.7
+35,Nadia Gutierrez,11,Fre. St. Joseph C.C.,22:05.6
+36,Chloe Jividen,9,Gibsonburg,22:07.3
+37,Kaeli Rellinger,9,Seneca East,22:07.4
+38,Charlotte Dilley,12,Evergreen,22:08.0
+39,Addie Nye,9,Mohawk,22:10.5
+40,Sydney Aldrich,9,Gibsonburg,22:17.8
+41,Addi Manns,12,Riverdale,22:20.1
+42,Michelle Hohman,9,Carey,22:25.8
+43,Emily Feasel,11,Calvert,22:40.6
+44,Lexi Dailey,10,Riverdale,22:40.9
+45,Leia Burks,9,Old Fort,22:42.5
+46,Madeline Zeno,10,Calvert,22:43.3
+47,Kinsey Motter,11,Carey,22:43.4
+48,Mila Gutierrez,9,Fre. St. Joseph C.C.,22:47.7
+49,Grace Harrington,10,Van Buren,22:49.0
+50,Addison Hull,10,Old Fort,22:49.4
+51,Rylee Fennell,11,No. Baltimore,22:54.3
+52,Molly Hillis,10,Seneca East,22:55.7
+53,Abigail Counts,10,Hopewell-Loudon,22:57.7
+54,Gwen Bucher,11,Riverdale,22:58.4
+55,Jaelyn Tong,11,Carey,23:00.1
+56,Audrey Schalk,12,New Riegel,23:13.7
+57,Ali Schalk,10,New Riegel,23:26.1
+58,Ashleigh Doyle,12,Van Buren,23:31.5
+59,Julia Packman,11,Margaretta,23:32.7
+60,Regan Camper,9,Hardin Northern,23:45.5
+61,Gabriella Jones,10,Calvert,23:50.2
+62,Alayna Hessick,12,Old Fort,23:54.1
+63,Lily Woolaver,12,Margaretta,23:57.7
+64,Ellie Craig,10,Lakota,24:00.0
+65,Aleah Gonya,10,Fre. St. Joseph C.C.,24:04.6
+66,Megan Althauser,9,No. Baltimore,24:04.7
+67,Attlee Rowlinson,12,No. Baltimore,24:14.9
+68,Briana Bolen,9,Lakota,24:19.3
+69,Ema Ritter,10,Carey,24:37.5
+70,Reagan Margraf,9,Fre. St. Joseph C.C.,24:43.2
+71,Brookelynn Miller,12,Evergreen,24:46.6
+72,Kenna Dilley,9,Evergreen,24:48.3
+73,Taylor Smith,11,Van Buren,25:09.9
+74,Olivia Reed,12,Gibsonburg,25:10.2
+75,Norah Schmits,9,Mohawk,25:15.0
+76,Kinsey Cook,10,Seneca East,25:22.9
+77,Chloe Foos,12,Lakota,25:30.4
+78,Molly Daniel,10,Hopewell-Loudon,25:31.5
+79,Tory Wilkins,9,Fre. St. Joseph C.C.,25:43.1
+80,Hannah Vent,11,Riverdale,25:43.7
+81,Natalie Weirich,10,Evergreen,25:59.6
+82,Bailynn Keeran,10,Lakota,26:03.8
+83,Kayden Reinhart,9,Lakota,26:07.6
+84,Lyv Amburgey,11,No. Baltimore,26:12.5
+85,Chloe Dewar,9,Van Buren,26:13.3
+86,Claire Mapus,10,Gibsonburg,26:20.4
+87,Izzy Lawson,12,Mohawk,26:58.5
+88,Monserrat Perez-Ramirez,10,Calvert,27:04.5
+89,Lilly Wilson,11,Leipsic,27:21.9
+90,Tessa Crook,10,Lakota,29:05.6
+91,Nataleigh Wilson,12,Hopewell-Loudon,29:08.2
+92,Kailey Haugh,11,Old Fort,29:21.7
+93,Ellis Wylykanowitz,12,Old Fort,29:37.0
+94,Pamela Russell,10,Fre. St. Joseph C.C.,30:02.5
+95,Rebecca Wetzel,10,Fre. St. Joseph C.C.,30:27.9
+96,Evelyn Pfleiderer,11,Calvert,31:42.8
+97,Gwendolyn Schaefer,12,Allen East,31:58.5
+98,Leah Sheeks,11,Van Buren,34:16.8
+99,Kaydence Kopp,11,Calvert,36:04.9
+
+MEET: Owens CC District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Ottawa-Glandorf,43,"2,5,10,12,14,23,68"
+2,Bellevue,90,"6,9,11,16,48,61,72"
+3,Shelby,97,"3,15,19,27,33,45,57"
+4,Napoleon,111,"1,20,24,25,41,52,67"
+5,Mil. Lake,166,"18,22,29,43,54,74,83"
+6,Clyde,182,"7,13,47,53,62,65,78"
+7,Otsego,184,"30,31,37,42,44,46,73"
+8,Oak Harbor,184,"4,26,32,58,64,94"
+9,Eastwood,185,"17,21,36,51,60,69,87"
+10,Genoa Area,225,"8,28,38,75,76,81,86"
+11,Fostoria,288,"39,50,59,63,77,82,89"
+12,Elida,304,"34,55,56,71,88,91,92"
+13,Rossford,327,"40,49,66,79,93"
+14,St. Marys Memorial,354,"35,70,80,84,85,90"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Gwen Huddle,11,Napoleon,17:05.5
+2,Lily Nienberg,9,Ottawa-Glandorf,18:57.0
+3,Anna Will,12,Shelby,19:00.1
+4,Olivia Cherry,12,Oak Harbor,19:04.1
+5,Maci Maag,10,Ottawa-Glandorf,19:24.3
+6,Reese Meacham,11,Bellevue,19:26.3
+7,Gretta Framstad,9,Clyde,19:34.0
+8,Lindsey Brown,12,Genoa Area,19:38.3
+9,Kameron Koch,11,Bellevue,19:39.6
+10,Alivia Schroeder,11,Ottawa-Glandorf,19:59.1
+11,Natalie Morrow,9,Bellevue,20:04.3
+12,Brea Recker,12,Ottawa-Glandorf,20:19.3
+13,Laney Renfro,12,Clyde,20:27.7
+14,Liana Fortman,12,Ottawa-Glandorf,20:33.3
+15,Natalia Peters,12,Shelby,20:34.3
+16,Brynlee Porter,10,Bellevue,20:37.3
+17,Melody Myers,10,Eastwood,20:38.8
+18,Lauren Wheeler,9,Mil. Lake,20:40.3
+19,Jordyn Thauvette,10,Shelby,20:47.2
+20,Tessa Ressler,11,Napoleon,20:48.4
+21,Brynn Sheets,12,Eastwood,20:49.9
+22,Julia Swartz,10,Mil. Lake,20:50.0
+23,Kayt Croy,10,Ottawa-Glandorf,20:53.2
+24,Leala Hoffman,11,Napoleon,20:55.4
+25,Kobyn Pedroza,9,Napoleon,21:01.1
+26,Reese Wittman,9,Oak Harbor,21:04.9
+27,Kendall Bowman,11,Shelby,21:06.3
+28,Mariah Sprague,12,Genoa Area,21:27.0
+29,Belle Tippey,10,Mil. Lake,21:34.1
+30,Maci Curtis,9,Otsego,21:35.1
+31,Clara Charnesky,9,Otsego,21:37.2
+32,Leah Fleckner,9,Oak Harbor,21:38.2
+33,Emma Mahek,12,Shelby,21:40.7
+34,Alliece Kellermeyer,12,Elida,21:43.7
+35,Piper Reams,11,St. Marys Memorial,21:46.4
+36,Raegan Russell,12,Eastwood,21:48.7
+37,Katelyn Cline,12,Otsego,21:55.6
+38,Opal Trainer,9,Genoa Area,21:56.5
+39,Kaliyah Day,11,Fostoria,21:58.9
+40,Elsa Tovar,10,Rossford,22:01.5
+41,Alexis Calvin,9,Napoleon,22:03.8
+42,Abrie Wallace,12,Otsego,22:04.0
+43,Victoria Wilkins,9,Mil. Lake,22:04.5
+44,Sophia Gerwin,9,Otsego,22:08.2
+45,Kendall Green,9,Shelby,22:11.2
+46,Austyn Troendle,12,Otsego,22:15.1
+47,Ella Piasecki,10,Clyde,22:20.8
+48,Holly Caranfa,12,Bellevue,22:31.9
+49,Isabella Matthews,10,Rossford,22:35.0
+50,Ahzenet Hatter,12,Fostoria,22:35.9
+51,Kylie Mathia,11,Eastwood,22:42.8
+52,Piper Speiser,9,Napoleon,22:52.4
+53,Adysen Wettrich,12,Clyde,22:59.1
+54,Allie Byington,11,Mil. Lake,23:08.6
+55,Maebry Monfort,10,Elida,23:11.2
+56,Kayla Vermillion,10,Elida,23:13.2
+57,Delaney West,10,Shelby,23:16.9
+58,Amelia Reinbolt,9,Oak Harbor,23:20.8
+59,Makayla Cooley,9,Fostoria,23:23.2
+60,Kylie Sikora,10,Eastwood,23:24.8
+61,Charlotte Dendinger,10,Bellevue,23:25.5
+62,Anabelle Zieber,12,Clyde,23:27.9
+63,Adelayde Guernsey,11,Fostoria,23:29.6
+64,Elsie Kreager,10,Oak Harbor,23:34.6
+65,Alessia Moya,12,Clyde,23:55.8
+66,Serenity Hall,9,Rossford,24:13.5
+67,Avery Gerken,11,Napoleon,24:15.0
+68,Carly Siefker,11,Ottawa-Glandorf,24:23.2
+69,Sydney Bell,12,Eastwood,24:28.4
+70,Paytin Wilker,10,St. Marys Memorial,24:29.2
+71,Taylor Shattuck,12,Elida,24:33.8
+72,Emma Raymond,11,Bellevue,24:35.7
+73,Piper Simpson,9,Otsego,24:45.1
+74,Stephanie Folley,12,Mil. Lake,24:47.4
+75,Paigelyn McWatters,12,Genoa Area,24:52.8
+76,Blair Auxter,10,Genoa Area,24:54.5
+77,Alyssa Doogs,10,Fostoria,24:58.3
+78,Emme Good,9,Clyde,25:06.6
+79,Mackenzy Wise,10,Rossford,25:11.5
+80,Kacey Regedanz,12,St. Marys Memorial,25:13.4
+81,Lindsey Krumnow,12,Genoa Area,25:14.7
+82,Aliyanna Cousins,12,Fostoria,25:25.1
+83,Morgan Zaborowski-Norton,9,Mil. Lake,25:48.4
+84,Sherlyn Ramirez-Guzman,12,Toledo C.C.,25:59.7
+85,Journie Rahrig,10,St. Marys Memorial,26:19.6
+86,Maci Ridgway,9,St. Marys Memorial,26:41.6
+87,Brielle Ninke,10,Genoa Area,26:45.3
+88,Payton Sweeny,9,Eastwood,27:06.5
+89,Makenna Wieging,12,Elida,27:07.2
+90,Cecilia Bringman,10,Fostoria,27:10.0
+91,Emily Howell,12,St. Marys Memorial,28:08.4
+92,Journey Pfister,9,Elida,29:05.1
+93,Aubrey Twining,11,Elida,29:08.4
+94,Isabella Hall,9,Rossford,29:24.4
+95,Joanna Catri,11,Oak Harbor,31:36.7
+
+MEET: Owens CC District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Fremont Ross,51,"2,5,9,14,21,26,41"
+2,Anthony Wayne,69,"4,13,15,18,19,33,34"
+3,Lexington,75,"3,7,10,27,28,30,45"
+4,Celina,91,"1,12,17,22,39,51,53"
+5,Norwalk,152,"8,11,42,43,48,52,62"
+6,Findlay,155,"20,24,35,36,40"
+7,Wapakoneta,181,"6,16,38,60,61,64,72"
+8,Ashland,209,"23,32,47,50,57,58,75"
+9,Ontario,237,"31,44,49,54,59,65,77"
+10,Columbian,239,"25,29,55,63,67"
+11,Lima Shawnee,273,"37,46,56,66,68,69,70"
+12,Mad. Comprehensive,372,"71,73,74,76,78,79,80"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Elle Miesse,10,Celina,17:27.6
+2,Lillian (Lily) Kiser,10,Fremont Ross,17:54.0
+3,Gabi Twedt,10,Lexington,18:21.3
+4,Avelyn (Avee) Lengel,10,Anthony Wayne,18:35.5
+5,Julia Norris,10,Fremont Ross,18:44.5
+6,Kenzie Schneider,12,Wapakoneta,18:46.1
+7,Jenna Halfhill,12,Lexington,18:52.3
+8,Saige Konik,11,Norwalk,18:56.5
+9,Brooklynn Eisenhauer,9,Fremont Ross,19:04.4
+10,Evalynn Adkins,12,Lexington,19:07.2
+11,Olive Leavitt,10,Norwalk,19:28.2
+12,Sophie Gudorf,11,Celina,19:35.3
+13,Simone Strickland,9,Anthony Wayne,19:43.4
+14,Sophia Metcalf,12,Fremont Ross,19:47.4
+15,Lily Greer,10,Anthony Wayne,19:51.3
+16,Olivia Hudnall,11,Wapakoneta,19:54.5
+17,Claire Huwer,10,Celina,19:57.7
+18,Mikaya Peabody,9,Anthony Wayne,20:01.5
+19,Koralyn Lengel,9,Anthony Wayne,20:02.2
+20,Isla Crim,10,Findlay,20:04.7
+21,Kennedy Walker,12,Fremont Ross,20:14.3
+22,Janelle Dameron,10,Celina,20:21.3
+23,Arya Fisher,9,Ashland,20:25.8
+24,Kayla Moyer,12,Findlay,20:29.2
+25,Emma Musgrave,12,Columbian,20:37.6
+26,Ariana Hinojosa-Williams,12,Fremont Ross,20:39.2
+27,Brynlee Brokaw,9,Lexington,20:49.3
+28,Nyra Loy,9,Lexington,20:58.1
+29,Brynn Moyer,9,Columbian,21:02.0
+30,Adria Sharrock,11,Lexington,21:08.0
+31,Ava Zehe,11,Ontario,21:14.4
+32,Jillian Stickney,9,Ashland,21:17.8
+33,Hannah Howard,9,Anthony Wayne,21:18.0
+34,Sophie Canos,10,Anthony Wayne,21:20.7
+35,Abanna Dotson,12,Findlay,21:21.9
+36,Gabby Brankamp,11,Findlay,21:22.0
+37,Chloe Kouns,11,Lima Shawnee,21:24.3
+38,Maci Neumeier,11,Wapakoneta,21:28.1
+39,Amelia Miesse,9,Celina,21:31.0
+40,Raia Koomen,10,Findlay,21:40.0
+41,Malaya Hughes,12,Fremont Ross,21:46.2
+42,Brooke Moreland,9,Lima Shawnee,22:08.4
+43,Hudsyn Pelphrey,9,Ontario,22:53.4
+44,Hadley Bechtol,11,Ashland,22:10.8
+45,Alexis Neal,10,Lexington,22:07.4
+46,Olivia Ysaguirre,10,Norwalk,22:11.0
+47,Zoey Shaffer,10,Ontario,22:11.5
+48,Jaylee Dills,10,Norwalk,21:48.1
+49,Grace Norris,12,Norwalk,21:51.6
+50,Melody Smith,10,Ashland,22:21.8
+51,Ella Driggs,11,Celina,22:24.5
+52,Malayna Sullivan,9,Norwalk,22:30.5
+53,Danica Draiss,12,Celina,22:34.9
+54,Molly Sapp,9,Ontario,22:35.6
+55,Gabriella Hohman,11,Columbian,22:42.7
+56,Razann Elbabour,9,Lima Shawnee,22:49.8
+57,Brynlynn Burgett,10,Ashland,22:53.5
+58,Lilyanna Metzger,9,Ashland,22:55.7
+59,Olivia Sandwall,10,Ontario,23:09.7
+60,Marlow Johnston,9,Wapakoneta,23:22.2
+61,Addi Schneider,11,Wapakoneta,23:33.2
+62,Allison Konik,12,Norwalk,23:36.8
+63,Aubrey Myers,11,Columbian,23:44.4
+64,Kelsey Schneider,9,Wapakoneta,23:46.2
+65,Aleiya Cantey,10,Ontario,23:49.4
+66,Mia Kohli,11,Lima Shawnee,23:51.4
+67,Anne Young,12,Columbian,23:53.6
+68,Aubrey Heitmeyer,11,Lima Shawnee,24:00.9
+69,Elaina Hahn,10,Lima Shawnee,24:13.2
+70,Paige Babani,9,Lima Shawnee,24:22.0
+71,Casey Rachel,9,Mad. Comprehensive,24:23.7
+72,Lily Doty,10,Wapakoneta,24:35.7
+73,Livia Grove,11,Mad. Comprehensive,24:57.2
+74,Sophie McKinley,12,Lima Senior,25:06.0
+75,Chloe Jeffers,12,Mad. Comprehensive,25:16.9
+76,Alanah Cole,12,Ashland,25:28.7
+77,Mariah Stacy,9,Mad. Comprehensive,25:39.5
+78,Cooper Schroeder,12,Ontario,25:41.4
+79,Ava Lewis,9,Mad. Comprehensive,26:33.8
+80,Sadie Jones,9,Mad. Comprehensive,26:41.8
+81,Alayna Mitchell,12,Lima Senior,27:24.7
+82,Isabella Conway,12,Mad. Comprehensive,31:57.7

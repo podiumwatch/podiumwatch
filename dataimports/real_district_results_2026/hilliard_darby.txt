@@ -1,0 +1,820 @@
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Boys Division IV Session 1
+TEAM_SCORES
+place,school,score,scorer_places
+1,Mount Gilead,15,"1,2,3,4,5,6,8"
+2,Mechanicsburg,90,"13,14,15,16,32"
+3,Liberty Union,96,"10,20,21,22,23,24,27"
+4,Cardington-Lincoln,99,"7,11,17,31,33,34"
+5,Berne Union,123,"9,12,29,35,38"
+6,Pat. Liberty Christian,138,"18,19,28,36,37"
+7,Madison-Plains,160,"25,26,30,39,40,41"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Henry Bartlett,11,Mount Gilead,15:49.8
+2,Brycen Gabriel,11,Mount Gilead,15:55.6
+3,Aiden McLain,10,Mount Gilead,16:12.8
+4,Ben Austin,9,Wellington School,16:18.3
+5,Ethan Turner,12,Mount Gilead,16:31.4
+6,Liam Stalnaker,12,Mount Gilead,16:38.5
+7,Andrew Gannon,10,Mount Gilead,16:40.5
+8,Brayden Alwood,11,Cardington-Lincoln,16:45.1
+9,Grayson Smith,11,Mount Gilead,16:52.1
+10,Tyler Welsh,9,Wester. Genoa Christian,16:53.1
+11,Josh Nye,12,Berne Union,17:03.3
+12,William McCreery,12,Liberty Union,17:05.6
+13,Kaeden Bossard,10,Cardington-Lincoln,17:27.9
+14,Stephen Fisher,11,Berne Union,18:28.2
+15,Jake Creviston,9,Elgin,18:30.9
+16,Kalyn Rome,12,Cristo Rey,18:34.8
+17,Ben Montgomery,9,Mechanicsburg,18:44.8
+18,Thomas Good,10,Mechanicsburg,18:53.8
+19,Adrian Miller,12,Mechanicsburg,18:59.5
+20,Dmitri Pack,10,Mechanicsburg,19:02.3
+21,Hunter Jones,11,Cardington-Lincoln,19:07.5
+22,Grant Reams,9,Wellington School,19:24.2
+23,Philip Corrigan,11,Cristo Rey,19:24.6
+24,Jaxon Reynolds,12,Pat. Liberty Christian,19:41.3
+25,Zach Ramsey,12,Pat. Liberty Christian,19:42.7
+26,Levi Hendershot,11,Liberty Union,19:42.8
+27,Elijah Angelo,11,Millersport,19:47.9
+28,Maxwell Smith,11,Wellington School,19:55.0
+29,Silas Kohler,12,Liberty Union,19:57.6
+30,William Gonzalez,12,Liberty Union,20:05.9
+31,Chad Valentine,9,Liberty Union,20:07.8
+32,Micah Fisher,11,Liberty Union,20:20.5
+33,Benaiah Cox,9,Elgin,20:25.0
+34,Patrick Madden,12,Madison-Plains,20:30.5
+35,Keegan Riffle,12,Madison-Plains,20:30.6
+36,William Lower,9,Del. Christian,20:41.7
+37,Christopher Bisel,10,Liberty Union,20:54.0
+38,James Graham,10,Pat. Liberty Christian,20:54.1
+39,Drew Reed,9,Millersport,20:54.7
+40,Jonathan Mendoza Martinez,11,Cristo Rey,21:01.0
+41,Rylan Downour,9,Berne Union,21:05.7
+42,Zavier Bogenrife,12,Madison-Plains,21:20.0
+43,Gabriel Webb,9,Cardington-Lincoln,21:27.8
+44,Ethan Schaffner,12,Mechanicsburg,21:47.9
+45,Nathan Bossard,12,Cardington-Lincoln,22:34.4
+46,Owen Pulsinelli,9,Millersport,22:50.6
+47,Evan Abels,11,Del. Christian,23:09.7
+48,Jaxon Henderson,12,Millersport,23:32.4
+49,Jacob Webb,12,Cardington-Lincoln,23:56.0
+50,Jacob Moreland,9,Berne Union,24:14.0
+51,Lincoln Platte,9,Pat. Liberty Christian,24:15.1
+52,Hunter Alexander,10,Pat. Liberty Christian,24:18.5
+53,Evan Moreland,12,Berne Union,25:25.8
+54,Anthony AJ Jacobs,12,Madison-Plains,25:29.7
+55,Noah Adams,12,Madison-Plains,25:32.8
+56,Emmett Doolittle,10,Wellington School,25:58.4
+57,Jack Wethington,10,Madison-Plains,29:51.2
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Boys Division IV Session 2
+TEAM_SCORES
+place,school,score,scorer_places
+1,Grandview Hts.,38,"4,5,6,9,14,17,19"
+2,Northmor,44,"1,7,8,10,18,25"
+3,Fisher Catholic,75,"2,3,13,27,30,33"
+4,Newark Cath.,104,"11,20,22,23,28,31,32"
+5,Madison Christian,114,"12,15,24,29,34,35,37"
+6,Tree of Life Christian,137,"16,21,26,36,38,39"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Ethan Roberts,12,West Jefferson,16:24.2
+2,Jack Dean,10,Northmor,16:32.5
+3,Corbin Stobart,11,Fisher Catholic,16:37.5
+4,Gordon Crabtree,10,Fisher Catholic,16:49.3
+5,Elliot Weston,11,Ridgedale,17:06.1
+6,Owen Calvin,12,Grandview Hts.,17:10.4
+7,Oliver Hatta,9,Grandview Hts.,17:30.8
+8,Mark Monson,9,Grandview Hts.,17:32.9
+9,Lukas Sisco,12,Lan. Fair Chr.,17:41.9
+10,Carter Thomas,12,Northmor,17:49.2
+11,Oliver Huddleston,10,Northmor,18:06.6
+12,Neil Colahan,11,Grandview Hts.,18:18.8
+13,Kyle Stark,12,Lan. Fair Chr.,18:21.2
+14,Colton Randolph,9,Northmor,18:21.5
+15,Grady Householder-Wise,12,Newark Cath.,18:23.0
+16,Jack Deboard,12,Madison Christian,18:24.8
+17,Jonathan Stephens,10,Danville,18:33.7
+18,Conlan Stobart,9,Fisher Catholic,18:35.8
+19,Lucas VanZuiden,11,Gr. City Chr.,18:42.7
+20,Leo Decker,12,Grandview Hts.,18:44.2
+21,Warren Carpenter,9,Madison Christian,18:47.9
+22,Ethan Mikles,11,Tree of Life Christian,18:56.6
+23,Kai Byers,12,Grandview Hts.,18:59.2
+24,Andreh Abdelmassih,10,Northmor,19:01.7
+25,Cale McNamara,12,Grandview Hts.,19:04.3
+26,Nick Mosher,11,Danville,19:19.8
+27,Finn Richardson,11,Newark Cath.,19:25.0
+28,Walker Strouse,12,Tree of Life Christian,19:30.9
+29,Ben Jungers,9,Newark Cath.,19:37.1
+30,Jack Thorne,9,Newark Cath.,19:40.2
+31,Jacob Mortera,11,East Knox,19:42.2
+32,Luke Minshall,12,Madison Christian,19:43.1
+33,Colby Kent,9,Northmor,19:49.9
+34,Caleb Woodard,12,Tree of Life Christian,20:16.8
+35,Leighton Cox,9,Gr. City Chr.,20:20.7
+36,Nicholas Schorr,9,Fisher Catholic,20:24.9
+37,Grant Householder-Wise,12,Newark Cath.,20:38.6
+38,Cale Brewer,12,East Knox,20:41.1
+39,Griffin Sprague,11,Madison Christian,21:00.3
+40,Thomas Schorr,9,Fisher Catholic,21:07.3
+41,Peter Moberg,12,Newark Cath.,21:11.0
+42,Lukas McDonald,12,Newark Cath.,21:21.0
+43,Jackson Gallagher,9,Fisher Catholic,21:24.3
+44,Aidan Shimp,12,Madison Christian,21:33.8
+45,Jeremiah Williams,9,East Knox,21:36.8
+46,Easton Shafer,12,West Jefferson,21:56.5
+47,Riley Keller,10,Ridgedale,22:15.6
+48,Will Clasby,10,Madison Christian,22:39.8
+49,Clark Chandler,9,Tree of Life Christian,22:48.6
+50,Zeke DeBoard,10,Madison Christian,22:51.0
+51,Gabe Smith,9,Gr. City Chr.,22:58.9
+52,Samuel Verhoff,11,Gran. Chr. Acad.,23:00.4
+53,Michael Harrington,9,Tree of Life Christian,23:51.2
+54,Liam Savageau,12,Tree of Life Christian,24:29.3
+55,Tucker Phipps,12,West Jefferson,26:48.1
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Boys Division III Session 1
+TEAM_SCORES
+place,school,score,scorer_places
+1,Utica,51,"3,4,11,14,19,23,37"
+2,London,72,"5,6,16,17,28,48"
+3,Fairbanks,89,"2,9,20,26,32,36,44"
+4,Heb. Lakewood,92,"1,8,21,24,38,39,52"
+5,Col. Academy,106,"7,13,22,29,35,42,46"
+6,Heath,136,"10,25,27,34,40,54"
+7,Eastmoor Acad.,144,"12,15,33,41,43,45,51"
+8,Johnstown,175,"18,30,31,47,49,50,53"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Carson Pound,12,Heb. Lakewood,16:55.4
+2,Daniel Thomas,12,Fairbanks,16:56.4
+3,Andrew Bebout,12,Utica,17:00.8
+4,Sam Krueger,11,Utica,17:04.5
+5,Anthony Shoaf,11,London,17:11.7
+6,Colin Carn,11,London,17:20.2
+7,Howard Peppercorn,12,Col. Academy,17:26.8
+8,William Hennosy,11,Heb. Lakewood,17:28.8
+9,Brady Adams,12,Fairbanks,17:31.6
+10,Keagan Williams,10,Heath,17:41.1
+11,Holden Quinif,12,Utica,17:44.2
+12,Braylon Fayne,11,Eastmoor Acad.,17:46.2
+13,Andrew Becknell,12,Col. Academy,17:53.0
+14,Blake Lewis,11,Utica,17:54.5
+15,Mouhamadou Welle,11,Eastmoor Acad.,17:55.6
+16,Caelan Mars,12,London,17:59.8
+17,Gus Feliks,12,London,18:04.1
+18,Beau Gillespie,10,Johnstown,18:09.1
+19,Matthew Prince,9,Utica,18:13.6
+20,Jacob Sayre,10,Fairbanks,18:26.6
+21,Joseph Young,12,Heb. Lakewood,18:27.1
+22,Jude Suh,11,Col. Academy,18:30.9
+23,Elijah Green,9,Utica,18:39.9
+24,Evan Gardner,12,Heb. Lakewood,18:40.0
+25,Zav Fulsom,11,Heath,18:40.1
+26,Zachary Niehaus,10,Fairbanks,18:42.3
+27,Carson Gemmell,12,Heath,18:58.7
+28,Ryan Bower,11,London,19:01.2
+29,Rory Amin,9,Col. Academy,19:03.3
+30,Logan Lucas,12,Johnstown,19:05.7
+31,Tony Rose,12,Johnstown,19:07.5
+32,Malachi Robbins,10,Fairbanks,19:11.0
+33,Lijah Leigh,12,Eastmoor Acad.,19:18.5
+34,Linus Johnson,11,Heath,19:22.9
+35,Luke Knutsen,12,Col. Academy,19:31.9
+36,Theodore Thomas,9,Fairbanks,19:36.4
+37,Cody Baker,10,Utica,19:37.2
+38,Caleb White,10,Heb. Lakewood,19:41.4
+39,Sam McBride,12,Heb. Lakewood,19:47.2
+40,Parker Stillion,11,Heath,19:49.7
+41,Kaleb Hammond,9,Eastmoor Acad.,19:54.6
+42,Ryan Wang,10,Col. Academy,19:57.1
+43,Brice Graham,12,Eastmoor Acad.,20:01.4
+44,Elton Bailey,12,Fairbanks,20:06.2
+45,Jaydyn Turner,12,Eastmoor Acad.,20:10.5
+46,Tristan Hanna,9,Col. Academy,20:13.6
+47,Leo Dyer,9,Johnstown,20:18.6
+48,Gabe Scholl,12,London,20:45.1
+49,Joey Barb,9,Johnstown,20:45.8
+50,Abe Taylor,9,Ready,20:53.0
+51,Cam Dodson,11,Johnstown,20:56.3
+52,Aedyn Posten,10,Eastmoor Acad.,21:41.9
+53,Clark Corum,11,Heb. Lakewood,21:47.8
+54,Abe Krouse,11,Johnstown,22:32.1
+55,Aaron McVay,10,Heath,24:53.7
+56,Crixus Aranda Arteaga,9,Ready,26:44.3
+57,Justin Bosque,9,Ready,26:51.5
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Boys Division III Session 2
+TEAM_SCORES
+place,school,score,scorer_places
+1,Fredericktown,49,"4,5,11,12,17,21,35"
+2,Centerburg,58,"6,7,10,13,22,23,26"
+3,Cal. River Valley,104,"2,18,24,29,31,32,43"
+4,Pleasant,110,"1,15,16,37,41"
+5,Mar. Highland,111,"14,19,20,25,33,34,40"
+6,John. Northridge,119,"8,9,27,36,39"
+7,Wor. Christian,141,"3,28,30,38,42,44,45"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Joey Dietsch,12,Pleasant,16:04.3
+2,Kael Swartz,12,Cal. River Valley,16:21.2
+3,Felix Plouck,12,North Union,16:30.9
+4,Lucas Jolliff,9,Wor. Christian,16:34.6
+5,Allen Swartzentruber,10,Fredericktown,16:39.9
+6,Lincoln Snyder,12,Fredericktown,16:57.4
+7,Samuel Dickhof,10,Centerburg,17:06.8
+8,Carter Netting,12,Centerburg,17:21.8
+9,Thomas Hilton,10,John. Northridge,17:34.0
+10,Grant Ruth,9,John. Northridge,17:35.0
+11,Bram Hodge,9,Centerburg,17:47.9
+12,Gideon Rashley,11,Fredericktown,17:56.1
+13,Jonas Bostic,11,Fredericktown,17:57.1
+14,Mack Marlette,11,North Union,17:58.5
+15,Joseph Wiley,9,North Union,17:58.6
+16,Mason Shaw,11,Centerburg,17:58.8
+17,Maddox Weiss,12,Mar. Highland,17:59.3
+18,Turner Wilson,9,Pleasant,18:02.6
+19,Jacob Meyers,12,Pleasant,18:07.9
+20,Trace Armstrong,11,Fredericktown,18:11.3
+21,Hager Adams,11,Cal. River Valley,18:11.5
+22,Ciaran Gilmore,9,Mar. Highland,18:22.9
+23,Bodee Byler,10,Mar. Highland,18:26.6
+24,Wyatt Payne,11,Fredericktown,18:27.6
+25,Lane Kloss,10,Centerburg,18:33.2
+26,Cameron Riley,12,Centerburg,18:33.7
+27,William Koon,9,Cal. River Valley,18:34.8
+28,Carson Young,11,Mar. Highland,18:42.0
+29,Corbin Netting,10,Centerburg,18:44.5
+30,Iverson Raiden,9,John. Northridge,18:53.9
+31,Gavin Wooten,10,Wor. Christian,18:57.1
+32,Harrison Lee,12,Cal. River Valley,18:59.7
+33,Zachary Stull,11,Wor. Christian,19:00.1
+34,Markus Parsons,11,Cal. River Valley,19:02.9
+35,Iain Linville,12,Cal. River Valley,19:05.4
+36,Ben Sorrell,11,Mar. Highland,19:05.8
+37,Sebastian Seaux,9,Mar. Highland,19:27.7
+38,Anson Wenger,12,Fredericktown,19:38.9
+39,Garrett Austin,11,John. Northridge,19:39.6
+40,Nathan Wagenblast,12,Pleasant,19:49.7
+41,Caden Korodi,11,Wor. Christian,19:51.5
+42,Anderson Perler,10,John. Northridge,19:55.2
+43,Chase Kerr,9,Mar. Highland,20:06.4
+44,Adam Stevens,12,Pleasant,20:10.5
+45,Pierce Dennis,9,Wor. Christian,20:32.4
+46,Brocktyn Caudill,10,Cal. River Valley,20:35.7
+47,Colton Smith,11,North Union,20:55.1
+48,Evan West,11,Wor. Christian,21:41.0
+49,Asher Ward,10,Wor. Christian,22:46.2
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Boys Division II Session 1
+TEAM_SCORES
+place,school,score,scorer_places
+1,Granville,47,"2,6,7,12,20,26,39"
+2,Col. DeSales,56,"1,4,10,11,30,31,43"
+3,Dub. Scioto,78,"5,9,13,15,36,41,42"
+4,Hartley,85,"3,18,19,21,24,25,32"
+5,Jonathan Alder,115,"14,17,22,29,33,34,35"
+6,Marion Harding,125,"8,16,23,38,40,44,45"
+7,Licking Valley,185,"27,28,37,46,47,48,49"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Lucas Steele,12,Col. DeSales,15:26.3
+2,Logan Miller,11,Granville,15:28.1
+3,Brody Schaffer,11,Hartley,15:39.6
+4,Isaac Reash,12,Col. DeSales,15:43.8
+5,Jack Flanagan,12,Dub. Scioto,15:44.6
+6,Ben Rose,12,Granville,15:59.9
+7,Connor Boissy,10,Granville,15:59.9
+8,Jackson Peters,12,Marion Harding,16:18.3
+9,Grady Kothe,11,Dub. Scioto,16:30.3
+10,Henry Rizek,10,Col. DeSales,16:35.0
+11,Declan Shepardson,12,Col. DeSales,16:35.8
+12,Jamison Shrode II,10,Granville,16:36.6
+13,Quinn Robinson,12,Dub. Scioto,16:41.3
+14,Brandon Engle,11,Jonathan Alder,16:42.9
+15,Jake Meier,10,Dub. Scioto,16:47.5
+16,Andrew Tackett,12,Marion Harding,16:50.0
+17,Jack Greulich,11,Jonathan Alder,16:52.0
+18,Jace Harmon,11,Hartley,16:52.9
+19,Charles Temple,11,Hartley,16:53.2
+20,Jude Butcher,12,Granville,16:53.4
+21,Sawyer Ellison,10,Hartley,16:53.8
+22,Matthew Cooper,10,Jonathan Alder,16:56.6
+23,Owen McCombs,10,Marion Harding,16:57.3
+24,Christopher Donathan,11,Hartley,16:58.0
+25,Daylin Short,11,Hartley,17:04.6
+26,Alex Bukala,11,Granville,17:05.2
+27,Wyatt Merchant,12,Licking Valley,17:07.2
+28,Johnathon White,12,Licking Valley,17:07.7
+29,Kadence Dotson,10,Col. West,17:15.4
+30,Jake Goode,10,Jonathan Alder,17:18.7
+31,Caleb Shelton,9,Col. DeSales,17:19.7
+32,James Morris,10,Col. DeSales,17:23.2
+33,Matthew Vince,12,Hartley,17:29.8
+34,Garrett Martt,10,Jonathan Alder,17:35.0
+35,Brenden Martt,10,Jonathan Alder,17:35.1
+36,Neil Odell,10,Jonathan Alder,17:38.8
+37,Mahmoud Abukhres,11,Dub. Scioto,17:39.2
+38,Eli Busic,11,Licking Valley,17:46.5
+39,Franklin Weaver,12,Marion Harding,17:50.1
+40,Trevor Lott,9,Granville,17:52.2
+41,Deacon Durain,9,Marion Harding,18:03.0
+42,Sam Gilliam,11,Dub. Scioto,18:08.4
+43,Nathan Kovacs,9,Dub. Scioto,18:13.4
+44,Sam Shoemaker,12,Col. DeSales,18:38.3
+45,Luke Estrada,10,Marion Harding,18:42.3
+46,Trenton Estrada,10,Marion Harding,19:19.7
+47,Ethan Wiley,10,Licking Valley,20:33.6
+48,Dawson Blume,11,Licking Valley,20:42.9
+49,Austin Blizzard,11,Licking Valley,20:49.1
+50,Abdu Hussen,10,Col. West,24:05.6
+51,Andrew Bouchard,9,Licking Valley,24:06.4
+52,Alavon Mayle,11,Col. West,25:44.3
+53,Darrius Cumberland,11,Col. West,29:04.8
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Boys Division II Session 2
+TEAM_SCORES
+place,school,score,scorer_places
+1,Big Walnut,46,"2,5,10,14,15,17,19"
+2,Watterson,54,"4,6,7,16,21,26,32"
+3,Canal Winchester,101,"12,18,20,24,27,29,37"
+4,Bexley,112,"3,13,22,36,38,47,54"
+5,Mount Vernon,143,"1,23,30,44,45,46,55"
+6,Buckeye Valley,159,"11,33,34,40,41,43,56"
+7,Bloom-Carroll,169,"8,9,42,50,60,62,63"
+8,Whetstone,201,"25,28,48,49,51,52,57"
+9,Whitehall-Yearling,253,"31,35,58,64,65,66,69"
+10,Hamilton Township,279,"39,53,59,61,67,68"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Calvin Heithaus,10,Mount Vernon,15:13.4
+2,Ethan Shultz,11,Big Walnut,15:19.0
+3,Owen Comes,11,Bexley,15:25.1
+4,Thomas King,9,Watterson,15:40.4
+5,Frank Evener,12,Big Walnut,15:57.1
+6,Collin Ritter,11,Watterson,16:04.7
+7,Nathan Monahan,12,Watterson,16:11.1
+8,Trew Tinsley,11,Bloom-Carroll,16:15.2
+9,Tucker Gortner,11,Bloom-Carroll,16:23.0
+10,Jalen Jones,10,Big Walnut,16:24.4
+11,Alex Stankus,12,Buckeye Valley,16:26.1
+12,Reide Klamorick,11,Canal Winchester,16:30.8
+13,Linus Rosenthal,10,Bexley,16:33.9
+14,Samuel Cochran,12,Big Walnut,16:35.3
+15,Jason Shady,11,Big Walnut,16:37.5
+16,Max Kowalski,11,Watterson,16:40.1
+17,Leo Bianconi,10,Big Walnut,16:41.3
+18,Kaiden Bennett,9,Canal Winchester,16:42.5
+19,Quincy Varughese,12,Big Walnut,16:47.7
+20,Bronson Mathena,10,Canal Winchester,16:49.6
+21,Patrick Monahan,10,Watterson,16:58.2
+22,Ryan Genheimer,11,Bexley,17:01.3
+23,Owen Petrie,12,Mount Vernon,17:01.6
+24,Chris Haynes,10,Canal Winchester,17:09.8
+25,Abraham Morgan,9,Whetstone,17:14.0
+26,Eric Hirsch,10,Watterson,17:17.2
+27,Dallin Knowles,12,Canal Winchester,17:17.9
+28,Conrad Hinze,12,Whetstone,17:21.3
+29,Parker Craig,10,Canal Winchester,17:29.2
+30,Haddon Daniels,9,Mount Vernon,17:32.2
+31,Honest Lundy,11,Whitehall-Yearling,17:50.3
+32,Jack Streb,12,Watterson,17:53.6
+33,Jude Denton,10,Buckeye Valley,17:55.0
+34,Jacob Wilker,9,Buckeye Valley,17:58.8
+35,Nathaniel Gebray,11,Whitehall-Yearling,18:02.4
+36,Lucas Bixler,9,Bexley,18:02.5
+37,Caleb Fryer,10,Canal Winchester,18:07.1
+38,Emmett Dodge,12,Bexley,18:10.8
+39,Ezekiel Geyer,11,Hamilton Township,18:11.2
+40,Nolan Wolf,11,Buckeye Valley,18:11.8
+41,Brenden Hedges,9,Buckeye Valley,18:14.7
+42,John Gortner,9,Bloom-Carroll,18:14.8
+43,Ben Helder,12,Buckeye Valley,18:16.4
+44,Jonah Eggert,11,Mount Vernon,18:26.6
+45,Zachary Cramer,10,Mount Vernon,18:27.0
+46,Anderson Seng,11,Mount Vernon,18:28.0
+47,Alex Spiker,9,Bexley,18:34.1
+48,Kayden Jackson,11,Whetstone,18:38.2
+49,Maxfield (Max) Kuhns,9,Whetstone,18:46.7
+50,Blake Tabol-wheeler,12,Bloom-Carroll,18:49.1
+51,Jonas Brownell,10,Whetstone,18:50.2
+52,Quinn Schniter,11,Whetstone,18:55.3
+53,Josiah Baker,11,Hamilton Township,19:07.7
+54,Mason Green,10,Bexley,19:15.0
+55,Nathan Jose,10,Mount Vernon,19:15.5
+56,Jackson Hughes,9,Buckeye Valley,19:18.8
+57,Nils Sellman Skinner,11,Whetstone,19:24.3
+58,Jaelin Babbitt,11,Whitehall-Yearling,19:31.7
+59,Luke Whitney,10,Hamilton Township,19:34.3
+60,Ali Cisse,11,Walnut Ridge,19:36.5
+61,Keaton Zech,12,Bloom-Carroll,19:41.4
+62,Abdullahi Ahmed,11,Col. International,20:05.0
+63,Dominic Stringer,9,Hamilton Township,20:11.4
+64,Nehemiah Makanda,10,Col. Horizon Science Aca.,20:14.8
+65,James Mauck,9,Bloom-Carroll,20:47.9
+66,Joshua Beau Mcdowell,10,Bloom-Carroll,21:34.6
+67,Rogelio Cruz,11,Whitehall-Yearling,21:40.8
+68,Jayedon Mitchell,10,Col. Horizon Science Aca.,22:11.4
+69,Samuel Schneider,9,Whitehall-Yearling,23:40.2
+70,Larry Justice,11,Whitehall-Yearling,23:40.6
+71,Lowensky Felima,10,Col. Horizon Science Aca.,24:00.5
+72,Jonathon Hollis,12,Hamilton Township,26:02.8
+73,Rion Green Harper,9,Hamilton Township,26:12.2
+74,Mason Hollingshead,10,Whitehall-Yearling,29:12.2
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Girls Division IV Session 1
+TEAM_SCORES
+place,school,score,scorer_places
+1,Grandview Hts.,28,"1,3,7,8,9,12,26"
+2,Fairbanks,75,"2,4,14,27,28,35,42"
+3,Fisher Catholic,80,"5,6,13,20,36,41"
+4,Liberty Union,99,"11,17,19,21,31,32,45"
+5,Col. Academy,106,"16,18,23,24,25,46,54"
+6,Elgin,156,"10,22,33,43,48,51"
+7,Wellington School,191,"15,29,44,50,53,55,57"
+8,Wester. Genoa Christian,198,"30,34,38,40,56,58"
+9,Tree of Life Christian,224,"37,39,47,49,52"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Lucy Wonder,9,Gr. City Chr.,18:32.1
+2,Julia Albright,12,Grandview Hts.,18:39.6
+3,Sadie Miller,12,Fairbanks,18:46.0
+4,Adalyn Calvin,11,Grandview Hts.,19:27.9
+5,Ava Lahmers,12,Fairbanks,19:33.1
+6,Mary Grace Crabtree,12,Fisher Catholic,19:36.6
+7,Eve Ohwofahworaye,12,Fisher Catholic,19:44.1
+8,Sydney Hatta,12,Grandview Hts.,19:44.7
+9,Hadley Mickley,11,Grandview Hts.,19:49.2
+10,Halle McNamara,10,Grandview Hts.,19:51.0
+11,Isabelle Mathews,12,Elgin,20:08.0
+12,Ella Hostetler,12,West Jefferson,20:17.6
+13,Rachel Sponseller,12,Liberty Union,20:25.6
+14,Kate McIntosh,12,Grandview Hts.,20:36.2
+15,Allie Krile,12,Fisher Catholic,20:53.7
+16,Hadley Premuda,11,Fairbanks,20:54.8
+17,Emma Jane Lumbley,9,Wellington School,21:04.4
+18,Claire Chan,11,Col. Academy,21:18.9
+19,Emily Shultz,10,Liberty Union,21:23.5
+20,Livia Peppercorn,10,Col. Academy,21:34.8
+21,Norah Chaney,9,Liberty Union,21:35.2
+22,Stella Koehler,10,Fisher Catholic,21:36.0
+23,Addison Pennartz,9,Gr. City Chr.,21:39.6
+24,Eloise (Ellie) Spangler,9,Liberty Union,21:59.9
+25,Reece Lanier,11,Elgin,22:07.4
+26,Claire Hill,11,Col. Academy,22:13.2
+27,Maryam Christian,10,Col. Academy,22:20.5
+28,Cloe Tucker,12,East Knox,22:25.8
+29,Julia Maroo,11,Col. Academy,22:50.0
+30,Esther Maun,12,Grandview Hts.,22:50.1
+31,Lilly Smith,11,Fairbanks,22:50.4
+32,Prairie Bailey,11,Fairbanks,23:06.4
+33,Alexis Wilhelm,9,Wellington School,23:07.2
+34,Sienna Kinley,12,Wester. Genoa Christian,23:09.3
+35,Taylor Jones,12,Liberty Union,23:16.0
+36,Rylan Myers,10,Liberty Union,23:23.7
+37,Bailey Abbott,11,Elgin,23:37.2
+38,Sloane Thompson,10,West Jefferson,23:58.8
+39,Leah Herbruck,10,Wester. Genoa Christian,24:05.0
+40,Claire Albert,9,Gr. City Chr.,24:09.0
+41,Zoey Camboni,10,Fairbanks,24:15.9
+42,Gwen Opheim,10,East Knox,24:17.4
+43,Hannah Slaby,10,Fisher Catholic,24:20.8
+44,Hannah Boltz,12,Tree of Life Christian,24:31.1
+45,Khloe Hubbell,11,Wester. Genoa Christian,24:43.5
+46,Eliza Smith,9,Tree of Life Christian,24:46.2
+47,Emma Sexton,10,Wester. Genoa Christian,24:46.5
+48,Norina Meier,10,Fisher Catholic,24:46.6
+49,Lanay Sommers,11,Fairbanks,24:59.8
+50,Skyla Brammer,9,Elgin,25:01.7
+51,Lilly Pargeter,9,Wellington School,25:15.0
+52,Alaina Brate,10,Liberty Union,25:24.1
+53,Kate Wang,10,Col. Academy,25:30.2
+54,Jillian Boltz,10,Tree of Life Christian,25:44.2
+55,Reagan Schnipke,12,Elgin,25:53.0
+56,Ale' Aguiar,11,Berne Union,26:05.4
+57,Cristen Kusumo,10,Tree of Life Christian,26:10.1
+58,Delaney Miller,9,Wellington School,26:15.1
+59,Kaylee Greene,11,Elgin,26:28.4
+60,Sadie Spitznagle,11,Tree of Life Christian,26:44.7
+61,Clementine Smith,10,Wellington School,26:56.2
+62,Haley Hsiao Fang-Yen,10,Col. Academy,27:58.6
+63,Riley Williamson,12,Gr. City Chr.,28:15.7
+64,Zhinan Ni,10,Wellington School,28:51.0
+65,Bridget Kirwin,12,Wester. Genoa Christian,28:57.8
+66,Mae Austin,11,Wellington School,29:01.2
+67,Abigail Eyayaw,12,Madison Christian,29:20.8
+68,Kaylie Barlock,10,East Knox,29:28.0
+69,Ally Hackett,12,Berne Union,29:48.6
+70,Cora Blind,10,Wester. Genoa Christian,34:47.8
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Girls Division IV Session 2
+TEAM_SCORES
+place,school,score,scorer_places
+1,Mechanicsburg,37,"2,3,7,8,17,18,28"
+2,Mount Gilead,39,"1,5,6,13,14,16,29"
+3,Fredericktown,65,"4,9,11,20,21,26,38"
+4,Danville,117,"10,15,25,31,36,39,40"
+5,Centerburg,131,"22,23,24,27,35,42,43"
+6,Newark Cath.,139,"12,19,30,37,41,44"
+7,Lan. Fair Chr.,190,"32,33,34,45,46"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Mickenzie White,10,Cardington-Lincoln,19:21.7
+2,Gwen Hershner,11,Mount Gilead,19:30.2
+3,Reiner Schaadt,9,Mechanicsburg,19:34.6
+4,Elizabeth Shuryan,11,Mechanicsburg,20:00.3
+5,Gwen Lavin,10,Fredericktown,20:19.3
+6,Hayden Combs,9,Mount Gilead,20:19.9
+7,Sophie Mosher,12,Mount Gilead,20:22.4
+8,Blake Rausch,9,Mechanicsburg,20:25.0
+9,Evelyn Shultz,11,Mechanicsburg,20:32.8
+10,Madi Shade,12,Fredericktown,20:54.7
+11,Hazel Doup,9,Danville,21:54.8
+12,Ella Flynn,11,Fredericktown,21:57.7
+13,Ginny Ewing,12,Newark Cath.,22:00.3
+14,Leona Schwartz,10,Mount Gilead,22:03.5
+15,Paisley Douglas,9,Mount Gilead,22:12.7
+16,Claire Ashman,9,Danville,22:15.5
+17,Callie Ziemba,9,Mount Gilead,22:31.2
+18,Bailee Eyink,9,Mechanicsburg,22:32.8
+19,Ayla Picklesimon,12,Mechanicsburg,22:48.1
+20,Susie Caton,10,Newark Cath.,22:54.0
+21,Jenna Aurand,12,Fredericktown,22:56.9
+22,Alena Villavicencio,12,Ridgedale,23:02.5
+23,Olivia Overholt,12,Fredericktown,23:04.1
+24,Olivia Schaller,9,Centerburg,23:18.9
+25,Ella Jackson,11,Centerburg,23:30.5
+26,Molly Henry,10,Centerburg,23:42.5
+27,Raegan Malone,10,Danville,23:45.0
+28,Haley Thompson,10,Fredericktown,23:45.9
+29,Brianna Giehl,11,Centerburg,23:48.7
+30,Ally Dingey,11,Mechanicsburg,24:04.6
+31,Jazmyne Floyd,9,Mount Gilead,24:22.4
+32,Chloe Hindes,9,Newark Cath.,24:25.9
+33,Brooklyn Bruff,9,Danville,24:28.9
+34,McKenzie West,9,Cardington-Lincoln,24:30.0
+35,Cate Weisert,9,Lan. Fair Chr.,25:11.8
+36,Emma Sisco,9,Lan. Fair Chr.,25:22.5
+37,Ellie Powell,9,Lan. Fair Chr.,25:33.8
+38,Afton Ellis,11,Centerburg,25:51.6
+39,Nahtali Ramos-Rios,9,Danville,26:19.3
+40,Emma Esch,9,Newark Cath.,26:19.8
+41,Gabby Redmond,11,Fredericktown,26:41.8
+42,Hailey Colopy,10,Danville,26:47.4
+43,Brooklyn Ashman,11,Danville,27:32.2
+44,Maggie Ewing,10,Newark Cath.,27:38.3
+45,Gwennan Ellis,12,Centerburg,27:39.4
+46,Ryleigh Scarpitti,9,Centerburg,27:47.6
+47,Isla Ryen,11,Newark Cath.,27:55.7
+48,Sammy Wilkinson,12,Lan. Fair Chr.,28:46.2
+49,Abigail Dose,11,Gran. Chr. Acad.,29:04.1
+50,Adalyn Morgan,9,Ridgedale,29:21.0
+51,Campbell Cooper,10,Lan. Fair Chr.,30:36.5
+52,Zion Llewellyn,11,Pat. Liberty Christian,31:09.5
+53,Elyza Tucker,9,Ridgedale,32:30.2
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Girls Division III Session 1
+TEAM_SCORES
+place,school,score,scorer_places
+1,Northmor,63,"2,9,13,19,20,21,22"
+2,Wor. Christian,105,"3,5,30,31,36,37,62"
+3,Pleasant,117,"1,10,11,41,54"
+4,Buckeye Valley,119,"8,14,15,40,42,55,57"
+5,Mar. Highland,141,"12,18,26,39,46,47,63"
+6,North Union,145,"4,6,34,45,56,61,69"
+7,Utica,166,"17,27,35,43,44,48,59"
+8,Johnstown,179,"7,24,33,51,64"
+9,Col. S. Girls,192,"23,25,29,50,65,66,68"
+10,Heath,225,"28,32,52,53,60,70"
+11,Heb. Lakewood,228,"16,38,49,58,67"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Madisyn Ruhe,9,Pleasant,19:05.5
+2,Vada Walters,9,Northmor,19:32.8
+3,Siloam Bohler,9,Wor. Christian,19:42.4
+4,Kailin McElroy,12,North Union,19:48.2
+5,Olive Edgel,12,Wor. Christian,19:49.4
+6,Layney Wilds,9,North Union,19:56.0
+7,Ella Hiebel,10,Johnstown,20:04.4
+8,Annabelle Marburger,10,John. Northridge,20:05.7
+9,Alexa Diebler,9,Buckeye Valley,20:07.0
+10,Isabella (Bella) Smith,11,Northmor,20:14.1
+11,Valerie Shetler,12,Pleasant,20:17.7
+12,Sarah Jordan,12,Pleasant,20:24.4
+13,Veronica Ballard,10,Mar. Highland,20:35.3
+14,Avril Mason,10,Cal. River Valley,20:44.0
+15,Macie Witherell,12,Northmor,20:45.1
+16,Abigail Montgomery,10,Buckeye Valley,20:57.4
+17,Madison Lust,12,Cal. River Valley,21:04.1
+18,Emma Hough,11,Buckeye Valley,21:05.2
+19,Harper Schaller,10,Heb. Lakewood,21:09.0
+20,Lilianna Molden,11,Utica,21:11.9
+21,Braylin Romshak,11,Mar. Highland,21:21.9
+22,Janey Creswell,10,Northmor,21:39.9
+23,Delaney Landin,11,Northmor,21:45.4
+24,Veronica Kanagy,11,Northmor,21:48.8
+25,Kathryn Naylor,10,Northmor,21:57.5
+26,Simone Dean,10,Col. S. Girls,22:02.8
+27,Lauren Beverick,10,Johnstown,22:09.5
+28,Emmy Sloan,12,Col. S. Girls,22:15.6
+29,Emily Stevens,10,Mar. Highland,22:15.7
+30,Haddie Glover,10,Utica,22:24.9
+31,Katherine Beineke,10,Cal. River Valley,22:28.7
+32,Caedynce Nihiser,9,Heath,22:30.1
+33,Lillian Furniss,12,Col. S. Girls,22:33.8
+34,Evelyn Hughes,9,Wor. Christian,22:39.8
+35,Zoe Ryan,12,Wor. Christian,22:41.1
+36,Sydney Thompson,12,Heath,22:42.3
+37,Amelia Bonito,12,Johnstown,22:44.9
+38,Allana Smith,11,North Union,22:47.0
+39,Amanda Dunbar,9,Utica,22:49.8
+40,Malayna McMahon,10,Wor. Christian,22:51.4
+41,Beatrice Mollmann,11,Wor. Christian,22:53.6
+42,Kathryn Keller,9,Heb. Lakewood,23:02.6
+43,Cailey Chamberlain,9,Mar. Highland,23:07.1
+44,Bridget Bolton,12,Buckeye Valley,23:08.0
+45,Hayley Bentley,10,Pleasant,23:08.2
+46,Rylie Schildknecht,11,Buckeye Valley,23:09.5
+47,Brooklynn Macy,11,Utica,23:09.9
+48,Taleah Clark,10,Utica,23:12.7
+49,Adalee Hunt,10,North Union,23:23.0
+50,Makayla Rhea,9,Mar. Highland,23:43.1
+51,Italia Leadbeater,9,Mar. Highland,23:45.4
+52,Joslyn Snyder,10,Utica,23:50.4
+53,Kendra Wallar,10,Heb. Lakewood,23:52.0
+54,Samantha Kinsinger,9,Col. S. Girls,23:59.2
+55,Abigail Beyer,12,Johnstown,24:01.8
+56,Lynn Eveland,9,Heath,24:09.1
+57,Lybertei Nihiser,11,Heath,24:12.9
+58,Kylie Berry,12,Pleasant,24:13.3
+59,Katy Wells,9,Buckeye Valley,24:21.0
+60,Analeigh Kelson,10,North Union,24:36.5
+61,Lilly Farley,10,Buckeye Valley,24:49.6
+62,Lauren Abbott,10,Heb. Lakewood,25:01.2
+63,Shay Firman,10,Utica,25:06.0
+64,Laina Purington,10,Heath,25:09.4
+65,Josie Held,12,North Union,25:12.1
+66,Berkley McMahon,12,Wor. Christian,25:14.0
+67,Grace Ernsberger,12,Mar. Highland,25:46.2
+68,Avery Molenaar,10,Johnstown,26:10.9
+69,Emma Lahrmer,9,John. Northridge,26:32.8
+70,Ellen Hines,Sr,Col. S. Girls,27:58.9
+71,Anna Knutsen,So,Col. S. Girls,28:08.8
+72,Anna Turner,11,Ready,28:31.0
+73,Dana Dolby,9,Ready,28:52.8
+74,Gabriella McPeak,12,Heb. Lakewood,29:06.4
+75,Stella Sardone-Jones,9,Col. S. Girls,29:12.3
+76,Leah Conrad,9,North Union,29:20.4
+77,Tori Hartman,10,John. Northridge,29:38.0
+78,Morgan Ludholtz,9,Heath,29:49.8
+79,Kierra Donahue,10,Madison-Plains,31:29.0
+80,Larissa Johnson,11,John. Northridge,34:46.4
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Girls Division II Session 1
+TEAM_SCORES
+place,school,score,scorer_places
+1,Granville,27,"2,3,5,8,9,12,19"
+2,Canal Winchester,39,"1,4,6,10,18,20,22"
+3,Col. DeSales,75,"7,14,16,17,21,23,24"
+4,Hartley,92,"11,13,15,26,27,31,32"
+5,London,159,"25,29,30,33,42"
+6,Mount Vernon,181,"28,34,37,39,43,44"
+7,Hamilton Township,190,"35,36,38,40,41"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Peyton Hughey,12,Canal Winchester,17:46.3
+2,Elsa Tonnessen,11,Granville,18:10.2
+3,Blake Witter,12,Granville,18:41.0
+4,Quinn Klamorick,10,Canal Winchester,19:07.4
+5,Margaret Mcdonald,12,Granville,19:24.6
+6,Zoey Smith,12,Canal Winchester,19:24.8
+7,Dasha Vura,12,Col. DeSales,19:29.7
+8,Adele Bishop,9,Granville,19:33.5
+9,Rubi Lechuga,11,Granville,19:34.7
+10,Lillian Stepp,12,Canal Winchester,19:39.7
+11,Caroline Kitsmiller,12,Hartley,19:40.3
+12,Poppy Reed,9,Granville,19:41.9
+13,Gracelynne Bloom,10,Bloom-Carroll,19:50.2
+14,Hayleigh Ellison,11,Hartley,19:51.2
+15,Maria Haunn,12,Col. DeSales,19:54.0
+16,Sydney Vonderwell,12,Hartley,20:00.2
+17,Gabby Dages,12,Col. DeSales,20:11.7
+18,Lydia Purdy,10,Col. DeSales,20:28.7
+19,Elizabeth Rippl,11,Canal Winchester,20:40.7
+20,Carli Frankhauser,9,Bloom-Carroll,20:50.5
+21,Olive Dorman,12,Granville,20:57.0
+22,Caroline Schmeltzer,10,Canal Winchester,21:02.4
+23,Lucy Aaron,9,Col. DeSales,21:02.4
+24,Ruby Daron,9,Canal Winchester,21:06.0
+25,Ellie Flanagan,9,Col. DeSales,21:22.8
+26,Kathleen Heil,10,Col. DeSales,21:23.2
+27,Ashley Nolan,12,London,21:29.2
+28,Molly Cassidy,10,Hartley,21:47.4
+29,Sophia Held,12,Hartley,21:47.8
+30,Callie Peugh,11,Mount Vernon,21:49.8
+31,Ella Dunmon,11,London,21:53.5
+32,Vivian Mars,9,London,22:17.1
+33,Georgia Robson,12,Hartley,22:20.2
+34,Hannah Held,10,Hartley,22:27.4
+35,Rachel Jackman,12,London,22:44.3
+36,Allison Dimas Jimenez,12,Walnut Ridge,22:48.6
+37,Lillie Henderson,12,Bloom-Carroll,22:49.8
+38,Cora Stetler,11,Mount Vernon,22:53.2
+39,Alexandra Whitney,11,Hamilton Township,23:04.7
+40,Martha Rock,9,Hamilton Township,23:30.9
+41,Cora Bell,12,Bloom-Carroll,23:31.2
+42,Amanda Misarti,12,Mount Vernon,23:32.4
+43,Jamilla Rock,12,Hamilton Township,24:19.5
+44,Taryn Marx,9,Mount Vernon,25:07.7
+45,Thiany Suryani,12,Hamilton Township,26:06.3
+46,Ann Raiza Merisier,10,Hamilton Township,26:59.8
+47,Gracie Howe,12,London,27:26.1
+48,Irelynne Moffat,11,Mount Vernon,28:37.2
+49,Marcella Barrett,9,Mount Vernon,28:38.8
+
+MEET: Hilliard Darby District
+DATE: 2026-10-24
+RACE: Girls Division II Session 2
+TEAM_SCORES
+place,school,score,scorer_places
+1,Watterson,22,"1,3,4,6,8,16,19"
+2,Big Walnut,40,"2,5,10,11,12,13,23"
+3,Bexley,82,"9,15,17,20,21,29,31"
+4,Jonathan Alder,108,"7,14,18,32,37"
+5,Licking Valley,127,"22,24,25,26,30,36,38"
+6,Whetstone,157,"27,28,33,34,35,39,40"
+7,Whitehall-Yearling,215,"41,42,43,44,45"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Kaitlyn Van Zandt,11,Watterson,17:40.9
+2,Grace Buskirk,12,Big Walnut,18:14.7
+3,Campbell Retzke,11,Watterson,18:15.6
+4,Karine Bhowmick,10,Watterson,18:22.8
+5,Lindsey Cochran,10,Big Walnut,18:43.4
+6,Berkley LaCount,11,Watterson,18:48.8
+7,Finley Streit,10,Jonathan Alder,19:02.2
+8,Emma Drab,12,Watterson,19:06.8
+9,Amelia Lynch,11,Bexley,19:16.1
+10,Emma Shultz,10,Big Walnut,19:35.0
+11,Carlie McGann,9,Big Walnut,19:44.3
+12,Grace VanDeusen,12,Big Walnut,19:48.2
+13,Lanie White,10,Big Walnut,19:59.4
+14,Noel Stidham,10,Marion Harding,20:01.2
+15,Emmalyn Moyer,11,Jonathan Alder,20:07.5
+16,Natalie Tann,10,Bexley,20:14.7
+17,Elise Efkeman,12,Watterson,20:16.4
+18,Sophia Smith,11,Bexley,20:18.3
+19,Bree Gray,11,Jonathan Alder,20:29.1
+20,Hadley Schilling,12,Watterson,20:34.7
+21,Michelle Morado,11,Bexley,20:49.8
+22,Isabella Lestini,12,Bexley,20:52.7
+23,Eliana Layton,10,Licking Valley,20:53.6
+24,Leighton Coey,12,Big Walnut,21:09.8
+25,Brea Robinson,9,Licking Valley,21:36.6
+26,Hiedi Flegle,11,Licking Valley,21:42.9
+27,Zora Douglass,10,Licking Valley,21:43.6
+28,Lyla McFadden,12,Whetstone,21:45.3
+29,Mila Saas,10,Whetstone,22:23.0
+30,Athena Baith,11,Bexley,22:28.5
+31,Aubrie Banks,9,Licking Valley,22:40.6
+32,Penelope Hickman-Filipow,9,Bexley,22:57.3
+33,Michaela Thompson,11,Jonathan Alder,23:00.7
+34,Kaylee O'Neill,10,Whetstone,23:14.6
+35,Opal Feller,12,Whetstone,23:24.4
+36,Elise Droughton,10,Whetstone,23:24.4
+37,Gwen Bowman,9,Licking Valley,23:39.2
+38,Cailie Beachy,9,Jonathan Alder,23:46.2
+39,Arabella Kemp,10,Licking Valley,23:59.5
+40,Evelyn Yulish,9,Whetstone,24:56.5
+41,Layla Grime,9,Whetstone,25:04.0
+42,Savannah Miller,9,Col. West,25:29.4
+43,Arianna Williams,10,Marion Harding,25:59.6
+44,Kennley Cruz,10,Marion Harding,26:24.7
+45,Stephanie Ayala,9,Whitehall-Yearling,26:41.9
+46,Thidavong Sihavong,9,Whitehall-Yearling,28:44.1
+47,Jalani Smith,11,Whitehall-Yearling,29:20.8
+48,Addalynn Elsasser,9,Marion Harding,29:29.2
+49,Hemen Mersha,11,Whitehall-Yearling,30:29.7
+50,Eleanor Sies,9,Whitehall-Yearling,33:05.4

@@ -1,0 +1,640 @@
+MEET: Voice of America District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Loveland,43,"2,8,10,11,12,20,28"
+2,Turpin,67,"1,5,18,19,24,33,42"
+3,Western Brown,115,"4,16,29,32,34,35,45"
+4,Anderson,117,"3,14,21,39,40,47"
+5,Ross,138,"9,25,30,36,38,43,44"
+6,Batavia,162,"7,22,26,31,76,83"
+7,Harrison,171,"13,17,41,48,52,59,63"
+8,Indian Hill,179,"15,23,37,51,53,66,73"
+9,Monroe,271,"46,49,55,56,65,81,92"
+10,McNicholas,306,"27,62,69,70,78,96"
+11,La Salle,320,"54,57,60,67,82,84,97"
+12,Badin,338,"61,64,68,71,74,86,93"
+13,Goshen,355,"6,72,80,98,99"
+14,Talawanda,358,"50,58,75,87,88,89,91"
+15,Tre. Edgewood,425,"77,79,85,90,94,95,100"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Carson Spencer,11,Turpin,15:20.6
+2,Ian Trombley,12,Loveland,15:23.0
+3,Elijah Trickey,11,Anderson,15:25.4
+4,Landon Hall,11,Western Brown,15:28.9
+5,Caleb Anderson,12,Turpin,15:31.6
+6,Nathan Burke,12,Goshen,15:50.7
+7,Levi Sorg,11,Batavia,16:06.3
+8,Quinn Mentzer,10,Loveland,16:10.0
+9,Aiden Beckman,12,Ross,16:11.8
+10,Keene Wolfer,11,Loveland,16:16.1
+11,Benjamin Slater,10,Loveland,16:19.0
+12,Kyle Wise,10,Loveland,16:19.2
+13,Mason Barnes,12,Harrison,16:22.8
+14,Paul Mizukawa,10,Anderson,16:24.6
+15,Tyler Martin,11,Indian Hill,16:25.3
+16,Caden Losekamp,12,Western Brown,16:27.0
+17,Hayden Rogers,12,Harrison,16:27.6
+18,Vineel Medithi,11,Turpin,16:28.0
+19,Cyrus Adams,11,Turpin,16:28.2
+20,Lincoln Droessler,9,Loveland,16:28.6
+21,Aidan TAN,12,Anderson,16:32.1
+22,Xavier Diesel-Slone,10,Batavia,16:38.6
+23,Ethan Pereira,10,Indian Hill,16:42.3
+24,Owen Johnson,10,Turpin,16:45.7
+25,Johnny Moad,10,Ross,16:46.0
+26,Blake Hill,10,Batavia,16:47.1
+27,William Harris,9,McNicholas,16:49.6
+28,Trey Strole,9,Loveland,17:01.1
+29,Isaiah Timmers,11,Western Brown,17:06.7
+30,Ashton Withrow,12,Ross,17:08.9
+31,Thomas Richmond,12,Batavia,17:19.6
+32,Mathew Stroop,10,Western Brown,17:26.2
+33,Caleb Mack,12,Turpin,17:28.7
+34,Konnor Sentman,9,Western Brown,17:29.7
+35,Maddox Robinson,9,Western Brown,17:36.6
+36,Parker Hoock,10,Ross,17:37.2
+37,Tristan Hoalst,10,Indian Hill,17:38.6
+38,Caleb Sommers,10,Ross,17:40.9
+39,Weston Leopold,9,Anderson,17:41.8
+40,Larkin Taylor,11,Anderson,17:42.2
+41,Luke Cruz,10,Harrison,17:44.7
+42,Tyler Hasson,11,Turpin,17:52.0
+43,Luke Distler,9,Ross,18:13.8
+44,Wyatt Watson,10,Ross,18:26.3
+45,Quentin Justice,9,Western Brown,18:26.8
+46,Eli Race,12,Monroe,18:30.8
+47,Timothy Lacey,10,Anderson,18:38.0
+48,Owen Lanham,11,Harrison,18:40.6
+49,Aidan McMonigle,12,Monroe,18:40.6
+50,Akio Wiese,12,Talawanda,18:47.9
+51,Oliver Garrett,11,Indian Hill,18:52.5
+52,Bennett Ahr,12,Harrison,18:56.8
+53,Grant Gibson,12,Indian Hill,18:59.7
+54,AJ Greene,9,La Salle,19:06.2
+55,Carter Marcum,11,Monroe,19:07.1
+56,Eli Long,11,Monroe,19:07.6
+57,Benjamin Gerken,10,La Salle,19:09.6
+58,Noah Grantz,12,Talawanda,19:13.9
+59,Antonio Lorta,12,Harrison,19:21.2
+60,SirBranden Anderson,11,La Salle,19:21.7
+61,Levi Couch,10,Badin,19:26.0
+62,Ayden Sparks,10,McNicholas,19:29.2
+63,Jaden Turner,11,Hughes,19:34.3
+64,Ryan Shank,9,Harrison,19:37.9
+65,Eli Grammell,11,Badin,19:39.5
+66,Nick Fischer,11,Monroe,19:43.2
+67,Leo Gerber,12,Indian Hill,19:50.6
+68,Orion Baum,10,La Salle,19:54.1
+69,Ben Webb,9,Badin,19:54.9
+70,Scott Shimp,10,McNicholas,19:56.7
+71,Jake DeBrosse,12,McNicholas,19:59.1
+72,Lucas Gentile,9,Badin,20:06.6
+73,Michael Burke,9,Goshen,20:08.4
+74,Ichiro Narita,10,Indian Hill,20:10.5
+75,Grayson Pinnick,11,Badin,20:21.6
+76,Xavi Puzo,10,Talawanda,20:26.4
+77,Dylan Feck,9,Batavia,20:27.7
+78,Malachi Hall,12,Hughes,20:27.8
+79,Logan Penny,12,Tre. Edgewood,20:29.6
+80,Neal Hoyt,11,McNicholas,20:31.1
+81,Caleb Taylor,9,Tre. Edgewood,20:32.3
+82,Hayden Gilkison,9,Goshen,20:33.2
+83,James Feltner Jr,10,Monroe,20:34.9
+84,Alexander Dryer,10,La Salle,20:38.2
+85,Vincent Culver,10,Batavia,20:47.6
+86,Timothy Reckelhoff,11,La Salle,20:49.1
+87,Eli Hall,11,Tre. Edgewood,20:52.6
+88,Alex Hochenberger,11,Badin,20:54.2
+89,Roman Sheley,10,Talawanda,20:55.8
+90,Brayden Siebenaller,12,Talawanda,20:57.0
+91,Will Rasmussen,11,Talawanda,21:06.5
+92,Jaydon Waites,11,Cin. Northwest,21:06.6
+93,Caleb Snider,9,Tre. Edgewood,21:23.9
+94,William Richard,10,Aiken,21:25.6
+95,Deacon Beedon,11,Talawanda,21:25.7
+96,Harrison Cash,12,Monroe,21:37.0
+97,Aaron Gray,11,Aiken,21:50.7
+98,Michael Giblin,9,Badin,21:54.0
+99,Zack Krazl,9,Tre. Edgewood,22:03.4
+100,Flynn Chapin,9,Cin. Northwest,22:33.3
+101,Ben Truitt,11,Tre. Edgewood,22:43.1
+102,Edward Hornschemeier,10,McNicholas,22:44.3
+103,Benjamin Novotny,11,La Salle,23:33.7
+104,Hemant Pradhan,11,Aiken,23:40.7
+105,Myles Love,9,Goshen,23:47.9
+106,Jadez Brandon,9,Hughes,27:07.3
+107,Darius Jacobs,12,Hughes,27:07.4
+108,Connor Runyan,10,Goshen,28:36.2
+109,Leo Mann,9,Tre. Edgewood,29:44.9
+110,Jermaine Walton,11,Aiken,32:04.3
+
+MEET: Voice of America District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Wyoming,58,"7,9,13,14,15,21,30"
+2,Madeira,63,"4,6,16,17,20,43,47"
+3,Cin. CHCA,73,"1,2,11,28,31,38,55"
+4,Sum. Co. Day,89,"3,8,10,33,35,41,49"
+5,Clinton-Massie,188,"12,22,45,52,57,80"
+6,Mariemont,197,"24,34,42,46,51,54,81"
+7,Roger Bacon,212,"5,25,48,66,68,76,84"
+8,Taylor,215,"32,36,37,50,60,73,75"
+9,Fenwick,229,"18,39,44,59,69,90"
+10,Williamsburg,232,"26,27,56,61,62,63,74"
+11,East Clinton,245,"19,23,58,67,78,92,93"
+12,Bethel-Tate,334,"40,53,71,83,87,88"
+13,Clermont NE,335,"29,70,72,79,85"
+14,Clark Montessori,374,"64,65,77,82,86,89,91"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Nathaniel Gockerman,12,Cin. CHCA,15:20.8
+2,Wyatt Gockerman,12,Cin. CHCA,15:40.8
+3,William Fox,11,Sum. Co. Day,15:53.7
+4,Blaine Causey,12,Madeira,16:08.8
+5,Braden Hatfield,11,New Richmond,16:11.9
+6,Bryce Fletcher,12,Roger Bacon,16:15.8
+7,Patrick Larson,10,Madeira,16:18.7
+8,Henry Bernay,12,Wyoming,16:31.3
+9,Maguire Imperial,10,Sum. Co. Day,16:41.6
+10,Fletcher Barnes,12,Wyoming,16:45.1
+11,Paxton Imperial,9,Sum. Co. Day,16:45.2
+12,Elliot Gockerman,9,Cin. CHCA,16:47.1
+13,Caleb Werling,12,Clinton-Massie,16:49.5
+14,Luca Smith,10,Wyoming,16:51.4
+15,Cade Brichler,12,Wyoming,16:55.2
+16,William Lawson,10,Wyoming,16:57.9
+17,Troy Harding,12,Madeira,17:13.7
+18,Jude Cowden,9,Madeira,17:22.6
+19,Markus Boyd,12,Fenwick,17:23.7
+20,Luke Thompson,12,East Clinton,17:23.9
+21,Cooper Causey,11,Madeira,17:29.5
+22,Brandon Luebbe,11,Wyoming,17:30.4
+23,James Toller,11,Clinton-Massie,17:35.9
+24,Landen Kaun,12,East Clinton,17:39.1
+25,Landon Schmidt,11,Mariemont,17:44.0
+26,Frederick Russell,11,Roger Bacon,17:45.9
+27,Jeremiah Howard,12,Williamsburg,17:46.0
+28,Jarvis Zach,12,Williamsburg,17:46.1
+29,Cameron Lessek,10,Cin. CHCA,17:50.8
+30,Alex Neukam,11,Clermont NE,17:51.2
+31,Cal Schreiber,12,Wyoming,17:51.8
+32,Jacob Kuhlman,11,Cin. CHCA,17:52.6
+33,Christian Ilg,11,Taylor,18:03.0
+34,Kayden Smith,10,Sum. Co. Day,18:09.8
+35,Colton van Treeck,10,Mariemont,18:10.9
+36,Michael Boeing,12,Sum. Co. Day,18:11.6
+37,Crosby Harper,10,Taylor,18:12.2
+38,Erik Lewis,11,Taylor,18:14.5
+39,Landon Snyder,11,Cin. CHCA,18:18.8
+40,Will Sabin,12,Fenwick,18:19.1
+41,Aaron Liming,11,Bethel-Tate,18:20.4
+42,Liam Kenney,11,Sum. Co. Day,18:23.4
+43,Gino Fiorina,9,Mariemont,18:25.6
+44,Callum Singh,9,Madeira,18:38.8
+45,Lennon Remillard,12,Fenwick,18:45.2
+46,Joey Sweet,11,Clinton-Massie,18:46.7
+47,Beckham Graham,10,Mariemont,18:51.5
+48,Bryson Felicelli,9,Madeira,18:54.9
+49,Jesse Leo,11,Roger Bacon,18:55.7
+50,Griffin Nuss,10,Sum. Co. Day,18:56.7
+51,Jason McCollum,12,Taylor,18:56.8
+52,Connor S. Sullivan,11,Mariemont,18:58.6
+53,Ben McHale,12,Clinton-Massie,18:59.0
+54,Tristan Speigel,12,Bethel-Tate,19:04.7
+55,Graham Pschesang,11,Mariemont,19:11.6
+56,Max Wilmer,11,Cin. CHCA,19:12.7
+57,Drew Hager,9,Williamsburg,19:13.8
+58,Cayden Patton,11,Clinton-Massie,19:17.0
+59,Carter Kaun,9,East Clinton,19:18.7
+60,Elliott Lewis,10,Fenwick,19:23.7
+61,Drew Fox,12,Taylor,19:24.5
+62,Gianni Pardini,9,New Richmond,19:33.1
+63,Devon Gregory,10,Williamsburg,19:35.3
+64,Mason Gregory,10,Williamsburg,19:42.9
+65,Hosea Howard,11,Williamsburg,19:46.1
+66,Finnegan Ebert,10,Clark Montessori,19:51.6
+67,Cameron Kelsch,11,Norwood,20:00.5
+68,Charlie Engelbert,12,Clark Montessori,20:03.5
+69,William Zlatic,9,Roger Bacon,20:03.7
+70,Samuel Clay,9,Reading,20:03.8
+71,Ben Gates,11,East Clinton,20:04.5
+72,Joe Zlatic,12,Roger Bacon,20:12.3
+73,Max Borgemenke,11,Fenwick,20:13.3
+74,Blaise Urling,12,Clermont NE,20:14.4
+75,Aven Scheadler,10,Bethel-Tate,20:29.6
+76,Colton Brown,11,Clermont NE,20:40.5
+77,Theodore Johnson,12,Taylor,20:40.5
+78,Tripp Ziegler,9,Norwood,20:51.9
+79,Luke Boland,10,Williamsburg,20:53.2
+80,Luke Nash,11,Reading,20:55.4
+81,Brandon Gardner,12,Taylor,20:55.5
+82,Mason Adams,9,Roger Bacon,20:57.7
+83,Garrett Thornton,10,Clark Montessori,21:02.7
+84,Kaiden Roth,12,East Clinton,21:06.3
+85,Sawyer Woods,11,Clermont NE,21:11.9
+86,Brian Carey,10,Norwood,21:14.0
+87,Dylan Theis,11,Reading,21:15.2
+88,Arlando Griffin,12,Taft,21:24.1
+89,Nick Hanlon,12,Clinton-Massie,21:27.2
+90,Michael Parker,11,New Richmond,21:29.2
+91,Breck Blessing,11,Mariemont,21:32.0
+92,Jackson Conner,9,Clark Montessori,21:34.3
+93,Eli Selm,10,Bethel-Tate,21:37.1
+94,Kameron Griffin-Harris,11,Roger Bacon,21:47.8
+95,Leo Urling,9,Clermont NE,22:36.6
+96,Max Bourgeois,11,Clark Montessori,23:31.1
+97,Jonah Pelvit,12,Bethel-Tate,24:09.4
+98,Jack Colliver,10,Bethel-Tate,24:34.9
+99,Jackson Newman,11,Clark Montessori,25:12.0
+100,Jasper Pedigo,10,Fenwick,25:17.0
+101,Henry Gerker,10,Clark Montessori,26:20.0
+102,Ethan Theis,10,Reading,26:53.6
+103,Jackson Fryman,9,East Clinton,27:29.2
+104,Eoin Hackmann,12,East Clinton,28:09.7
+
+MEET: Voice of America District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,MVCA,36,"1,2,8,10,15,23,26"
+2,Day. Christian,83,"11,14,16,20,22,28,41"
+3,Seven Hills,95,"4,12,24,25,30,32,34"
+4,Georgetown,109,"9,17,19,29,35,40,42"
+5,St. Bernard,126,"6,7,31,38,44,45,47"
+6,Cin. Co. Day,132,"3,21,33,36,39,43"
+7,Miami Valley School,136,"5,13,18,48,52"
+8,Cin. Spencer Center,209,"27,37,46,49,50,51,53"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Jaxon League,11,MVCA,16:21.7
+2,Ezekiel Robinson,10,MVCA,17:19.1
+3,Max Sun,12,Cin. Co. Day,17:43.7
+4,Vincent Ross,12,Seven Hills,17:47.3
+5,Gavin Bohrer,12,Miami Valley School,18:00.3
+6,Miguel Damian,12,St. Bernard,18:03.3
+7,Rome McDonald,10,St. Bernard,18:10.0
+8,John Thompson,11,MVCA,18:11.1
+9,Gabriel Klump,10,Georgetown,18:13.4
+10,Sam Parker,11,MVCA,18:21.2
+11,Aiden Mullen,12,Day. Christian,18:25.4
+12,Tyler Wells,12,Seven Hills,18:25.6
+13,Owen Guy,12,Miami Valley School,18:37.7
+14,Jackson Rooney,9,Day. Christian,18:48.3
+15,Ethan McCasland,11,MVCA,19:04.5
+16,Josiah Smith,12,Day. Christian,19:10.6
+17,Mason Watson,12,Georgetown,19:22.3
+18,Fareed Odukoya,11,Miami Valley School,19:26.3
+19,Logan Becraft,11,Georgetown,19:31.4
+20,Porter Clemens,11,Day. Christian,19:31.6
+21,Dima Chernovol,11,Cin. Co. Day,19:36.9
+22,Nathan Smith,12,Day. Christian,19:51.0
+23,Parker Sintz,11,MVCA,19:54.6
+24,Jacob King,10,Finneytown,19:54.8
+25,Kody Becker,10,Cin. Christian,19:55.4
+26,Marion Mendez-Kiefer,10,DePaul Cristo Rey,20:02.8
+27,Jayden Brown,11,Cin. SCPA,20:05.6
+28,Marshall Mert,12,Seven Hills,20:12.9
+29,Jordan McKinney,11,Seven Hills,20:13.1
+30,Levi Smiley,12,MVCA,20:13.1
+31,John Grayson,10,Cin. Spencer Center,20:18.2
+32,Jayden Loewer,10,Day. Christian,20:20.8
+33,Xavier Wellerding,11,Georgetown,20:22.8
+34,David Bramlage,11,Seven Hills,20:35.3
+35,Khaleel Alabdullah,9,St. Bernard,20:35.8
+36,Bextan Chmiel,9,Deer Park,20:49.6
+37,Eli Kampel,11,Seven Hills,20:52.5
+38,Kuan Zhao,11,Cin. Co. Day,20:58.4
+39,Elon Katz,11,Seven Hills,21:06.6
+40,Avery MacQuarrie,11,Georgetown,21:07.1
+41,Josef Ullmann,10,Cin. Christian,21:14.9
+42,Parker Beaudoin,10,Cin. Co. Day,21:16.1
+43,Dominic Nobbe,10,Purcell Marian,21:19.2
+44,Levi Sayers,9,Deer Park,21:30.2
+45,Zane Fecher,12,Cin. SCPA,21:35.8
+46,Atticus Ntukogu,10,Cin. Spencer Center,21:37.0
+47,Landon Morris,10,St. Bernard,21:47.7
+48,Liam Joyce,11,Cin. Co. Day,22:06.7
+49,Jayden Whitfield,12,Cin. SCPA,22:51.6
+50,Zeb Planck,11,Georgetown,23:00.8
+51,Dante Price Jr.,11,DePaul Cristo Rey,23:03.8
+52,Alex Griffith,10,Day. Christian,23:09.6
+53,Marshawn Sally,12,Oyler,23:09.7
+54,Nolan Gifford,12,Georgetown,23:12.5
+55,Tony Suarez,10,Cin. Co. Day,23:35.9
+56,Caleb Lynch,10,St. Bernard,23:48.8
+57,Samir Kejo,10,St. Bernard,23:49.7
+58,Kaleb Elliott,9,Felicity-Franklin,23:58.6
+59,Henry Mitalski,10,Cin. Spencer Center,24:08.3
+60,Mikhale Allen,11,Oyler,24:31.3
+61,Bronx Sherland,9,Deer Park,24:33.6
+62,Nathan Williams,11,Finneytown,24:48.3
+63,Mycah Wood,10,Cin. Christian,25:04.0
+64,Elisha Seymoure,10,Oyler,25:24.2
+65,Shawn Stewart,9,St. Bernard,25:39.1
+66,Leo Phalan,11,Finneytown,25:53.4
+67,Cristoffer Sales,9,DePaul Cristo Rey,26:17.8
+68,Antwain Ricks Jr,10,Purcell Marian,26:26.0
+69,Simon Reece,12,Deer Park,26:56.6
+70,Caleb Meeker,12,Miami Valley School,27:42.4
+71,Oscar Schaljo,10,Cin. Spencer Center,28:23.2
+72,Riley Wadsworth,9,Cin. Spencer Center,29:32.5
+73,Tre'Vante Smith,12,Purcell Marian,30:26.8
+74,Michael Orr,11,Cin. Spencer Center,30:34.9
+75,Micah Byarlay,9,Miami Valley School,32:20.2
+76,Adam Ipp Lee,11,Oyler,35:37.3
+77,Liam O'Connell,9,Cin. Spencer Center,37:36.5
+
+MEET: Voice of America District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Turpin,64,"1,10,12,19,22,36,66"
+2,Cin. St. Ursula Acad.,73,"2,5,15,25,26,34,46"
+3,Indian Hill,87,"3,6,18,23,37,40,55"
+4,Loveland,111,"7,16,27,30,31,42,44"
+5,Ursuline Academy,155,"4,21,35,39,56,62,65"
+6,Talawanda,170,"8,17,28,57,60,73,77"
+7,Anderson,174,"13,14,32,52,63,64,76"
+8,Mercy McAuley,216,"9,24,33,68,82,86,92"
+9,Western Brown,230,"11,29,53,54,83,91,115"
+10,Mt. Notre Dame,286,"48,49,58,61,70,75,87"
+11,McNicholas,320,"20,69,72,78,81,84,93"
+12,Ross,332,"41,45,51,85,110"
+13,Roger Bacon,394,"38,74,89,95,98,99,101"
+14,Monroe,402,"59,67,80,96,100,103,109"
+15,New Richmond,405,"43,47,97,102,116"
+16,Tre. Edgewood,476,"71,88,94,111,112"
+17,Badin,484,"79,90,104,105,106,107,108"
+18,Batavia,512,"50,113,114,117,118"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Colby Lewis,10,Turpin,18:05.9
+2,Caroline Josshua,10,Cin. St. Ursula Acad.,18:27.8
+3,Emily Shea,10,Indian Hill,18:33.7
+4,Eva Casto,12,Ursuline Academy,18:55.9
+5,Emily Schlessman,12,Cin. St. Ursula Acad.,18:59.8
+6,Makayla Emuron,9,Indian Hill,19:03.0
+7,Anna Feeney,12,Loveland,19:07.1
+8,Shay Mills,10,Talawanda,19:14.0
+9,Gabriella Carraher,11,Mercy McAuley,19:15.8
+10,Alex Coughlin,9,Turpin,19:16.8
+11,Rian Helton,10,Western Brown,19:17.4
+12,Kaylee Stanford,11,Turpin,19:20.2
+13,Emma Sallee,12,Anderson,19:30.7
+14,Zoe Patterson,11,Anderson,19:33.8
+15,Lucy Staarmann,12,Cin. St. Ursula Acad.,19:35.2
+16,Lauren Saletta,9,Loveland,19:35.4
+17,Charley Robinson,11,Talawanda,19:35.7
+18,Ella Grant,12,Indian Hill,19:36.5
+19,Makenna Lundrigan,12,Turpin,19:36.5
+20,Ella McConnell,12,McNicholas,19:38.8
+21,Eleanor Schutte,11,Ursuline Academy,19:41.0
+22,Olivia Sentker,11,Turpin,19:41.0
+23,Megan Sichel,11,Indian Hill,19:46.4
+24,Kyla McSwane,9,Mercy McAuley,19:47.4
+25,Brianna Renn,11,Cin. St. Ursula Acad.,19:48.3
+26,Peyton Denton,12,Cin. St. Ursula Acad.,19:53.0
+27,Kali Rodriguez,11,Loveland,19:56.7
+28,Katie Sparks,11,Talawanda,20:02.8
+29,Jalyn Hahn,11,Western Brown,20:03.2
+30,Lillian Gutekunst,10,Loveland,20:03.7
+31,Isabela Fronk,12,Loveland,20:09.0
+32,Clare Bomkamp,11,Anderson,20:09.9
+33,Grace Saylor,12,Mercy McAuley,20:10.2
+34,Lenora Miles,9,Cin. St. Ursula Acad.,20:13.7
+35,Amelie Cobb,9,Ursuline Academy,20:17.3
+36,Pippa Ragase,12,Turpin,20:17.6
+37,Allie Spinnenweber,12,Indian Hill,20:21.3
+38,Karis Stoxen,12,Roger Bacon,20:24.1
+39,Addison Thieman,10,Ursuline Academy,20:26.7
+40,Ingrid VanOudenallen,9,Indian Hill,20:27.1
+41,Louise Schuler,11,Ross,20:33.3
+42,Abby Droessler,11,Loveland,20:35.0
+43,Elizabeth Cherry,10,New Richmond,20:36.4
+44,Emma Todd,11,Loveland,20:39.0
+45,Sarah Johnston,12,Ross,20:41.9
+46,Rebecca Smith,11,Cin. St. Ursula Acad.,20:47.8
+47,Piper Lucas,9,New Richmond,20:48.8
+48,Julia Ridgway,9,Mt. Notre Dame,20:48.9
+49,Grace Flege,11,Mt. Notre Dame,20:49.0
+50,Chloe Meyer,11,Batavia,20:51.3
+51,Emma O'Connor,11,Ross,20:53.7
+52,Addison Slaughter,10,Anderson,20:57.4
+53,Bella Woodyard,10,Western Brown,21:04.5
+54,Harper Jones,10,Western Brown,21:05.4
+55,Josephine Tindale,11,Indian Hill,21:11.0
+56,Leslie Sabbagh,10,Ursuline Academy,21:12.9
+57,Madison Sparks,11,Talawanda,21:15.2
+58,Emilia Sherwood,12,Mt. Notre Dame,21:20.4
+59,Amberly Matthews,9,Monroe,21:22.4
+60,Alice Reidy,9,Talawanda,21:25.4
+61,Nicole Westrich,11,Mt. Notre Dame,21:25.5
+62,Rachel Stites,10,Ursuline Academy,21:32.7
+63,Ellie Trapp,11,Anderson,21:34.8
+64,Annslee Shebesta,9,Anderson,21:47.4
+65,Hannah Schmid,9,Ursuline Academy,21:52.5
+66,Brinly Lund,12,Turpin,21:59.3
+67,Grace Stokes,9,Monroe,22:11.4
+68,Maddie McAlpin,10,Mercy McAuley,22:12.4
+69,Annabel Moeves,12,McNicholas,22:21.3
+70,Isla Baumgartner,11,Mt. Notre Dame,22:22.4
+71,Makayla Allen,12,Tre. Edgewood,22:24.6
+72,Jocelyn Selzer,9,McNicholas,22:24.6
+73,Lydia Sammons,9,Talawanda,22:26.1
+74,Helen Russell,12,Roger Bacon,22:31.2
+75,Malorie Menning,10,Mt. Notre Dame,22:38.1
+76,Gretchen Elder,10,Goshen,22:41.1
+77,Adriana Ruppersberg,9,Anderson,22:41.8
+78,Brynleigh Siebenaller,10,Talawanda,22:43.6
+79,Kaitlyn McConnell,12,McNicholas,22:46.3
+80,Noelle Knapp,9,Badin,22:49.9
+81,Q Wilcox,12,Monroe,22:57.3
+82,Allie Spiller,12,McNicholas,22:59.1
+83,Ava Ward,9,Mercy McAuley,23:03.6
+84,Kendall Hanlon,12,Western Brown,23:05.6
+85,Clara McConnell,10,McNicholas,23:19.9
+86,Abby Butz,9,Ross,23:21.1
+87,Loveday Dziadkowiec,10,Mercy McAuley,23:37.5
+88,Maddie Hutzel,11,Mt. Notre Dame,23:44.8
+89,Alexis Niehardt,11,Tre. Edgewood,23:47.2
+90,Ansleigh Uihlein,9,Roger Bacon,23:49.7
+91,Gabby Solis-Hernandez,10,Badin,23:52.8
+92,Jorden Fite,10,Western Brown,24:19.0
+93,Cate Heitz,9,Mercy McAuley,24:22.5
+94,Therese Bursa,11,McNicholas,24:25.4
+95,Ruby Robson,11,Tre. Edgewood,24:26.6
+96,Katie Cervantes,12,Roger Bacon,24:39.3
+97,Ava Jestice,12,Monroe,24:40.1
+98,Khloe Carney,10,Goshen,24:52.5
+99,Rebecca Younts,11,New Richmond,24:58.6
+100,Emily Hull,10,Roger Bacon,25:01.5
+101,Paisley Sanborn,10,Roger Bacon,25:03.9
+102,Arlynn Miller,9,Monroe,25:07.9
+103,Nola Schuman,11,Roger Bacon,25:33.8
+104,Chloe Spears,11,New Richmond,25:39.5
+105,Elizabeth Cripe,10,Monroe,25:41.0
+106,Tori Bickel,10,Badin,25:43.4
+107,Scarlet Brandabur,10,Badin,25:45.9
+108,Clare Giffen,12,Badin,25:46.6
+109,Addison (Addy) Yates,10,Badin,25:49.2
+110,Khloe Miller,9,Badin,26:00.6
+111,Vivienne Kratzer,9,Monroe,26:01.4
+112,Evie Korte,9,Ross,26:04.6
+113,Avery Vandergrift,9,Tre. Edgewood,27:23.5
+114,Hassania Murillo,11,Tre. Edgewood,27:27.9
+115,Megan Ranly,12,Batavia,27:44.6
+116,Katelynn Radachi,10,Batavia,27:56.5
+117,Maelynn Stroop,10,Western Brown,28:56.2
+118,CC Hamaker,9,New Richmond,29:02.7
+119,Qu'Niyah Estill,12,Hughes,29:37.6
+120,Braxton Moler,10,Goshen,29:37.9
+121,Lucy Farinacci,10,Batavia,30:17.3
+122,Rylee Wells,10,Batavia,31:05.3
+123,Elizabeth Vitales,11,Aiken,36:09.9
+
+MEET: Voice of America District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Madeira,31,"1,3,8,9,10,11,21"
+2,Fenwick,78,"2,4,17,18,37,39"
+3,Wyoming,81,"12,13,15,19,22,25,30"
+4,Mariemont,98,"5,7,23,31,32,34,38"
+5,Cin. CHCA,122,"14,16,24,33,35,36,40"
+6,Taylor,138,"6,20,26,42,44"
+7,Clinton-Massie,168,"27,28,29,41,43"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Lucy Folger,11,Madeira,18:35.1
+2,Macie Keener,10,Fenwick,18:45.3
+3,Hannah Gemmel,12,Madeira,19:06.2
+4,Sophia Tebbe,10,Fenwick,19:20.8
+5,Corinne Cline,10,Mariemont,19:29.6
+6,Abigail Hunt,12,Taylor,20:04.4
+7,Maria Mavridoglou,11,Mariemont,20:07.0
+8,Olivia Naegeli,11,Madeira,20:09.7
+9,Macy Mueller,12,Madeira,20:12.5
+10,Olivia Grisak,11,Madeira,20:13.7
+11,Anna LeRoy,11,Madeira,20:32.4
+12,Leah Zimmerly,11,Wyoming,20:33.4
+13,Cassie Hobbs,11,Wyoming,20:39.7
+14,Emma Elpers,9,Cin. CHCA,20:42.9
+15,Marina Pearman,11,Wyoming,20:59.0
+16,Hailey Myers,12,Cin. CHCA,21:14.5
+17,Norah Klimo,9,Fenwick,21:16.3
+18,Molly Tierney,12,Fenwick,21:17.9
+19,Scout Shull,9,Wyoming,21:26.2
+20,Taryn Mitchell,11,Taylor,21:31.3
+21,Katherine Smith,10,Madeira,21:35.6
+22,Grace Hull,9,Wyoming,21:35.8
+23,Mary McIntosh,12,Mariemont,21:47.0
+24,Addison Connor,10,Cin. CHCA,21:53.8
+25,Piper Shull,12,Wyoming,21:54.8
+26,Jenna Nieman,11,Taylor,21:56.1
+27,Jillian Arledge,12,Clinton-Massie,22:14.7
+28,Nina McHale,9,Clinton-Massie,22:14.8
+29,Mckenzie Chiaravalle,12,Clinton-Massie,22:25.8
+30,Maya Patel,12,Wyoming,22:32.8
+31,Margot Mace,12,Mariemont,22:52.5
+32,Lyla Larsen,12,Mariemont,23:17.4
+33,Presley Peschke,9,Cin. CHCA,23:25.1
+34,Katelyn Finke,11,Mariemont,23:42.4
+35,Makenzie Riddle,11,Bethel-Tate,23:47.2
+36,Abiageal Grogan,10,Cin. CHCA,23:54.0
+37,Lila Gregory,12,Cin. CHCA,24:10.8
+38,Annabel Reed,10,Bethel-Tate,24:25.2
+39,Allison Steeber,10,Fenwick,24:37.7
+40,Mallory Duchaine,10,Reading,24:44.9
+41,Makaylah Hatton,10,Reading,24:46.3
+42,Abigail Lindsley,11,Mariemont,25:19.0
+43,Stella Leidenheimer,9,Clark Montessori,25:28.5
+44,Megan Tierney,12,Fenwick,25:37.8
+45,Hannah Hopkins,10,Cin. CHCA,26:14.9
+46,Haley Zeller,11,Clinton-Massie,26:31.7
+47,Sarah Bolick,11,Bethel-Tate,26:47.1
+48,Lydia Davis,11,Clark Montessori,28:05.7
+49,Kate Johnson,9,Taylor,28:43.1
+50,Baylnn Tweed,10,Reading,29:39.2
+51,Teagan Hamilton,12,Clinton-Massie,29:57.1
+52,Angel Stephan,9,Clermont NE,30:14.4
+53,Emily Pare,11,Reading,31:11.9
+54,Ella Courtney,12,Purcell Marian,31:54.5
+55,Edith Lengoungou,9,DePaul Cristo Rey,32:32.7
+56,Ija'Rae Covington,10,DePaul Cristo Rey,32:48.7
+57,Soraya Deukam,9,DePaul Cristo Rey,32:51.2
+58,Laura McCormack,12,Taylor,35:02.8
+
+MEET: Voice of America District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Sum. Co. Day,43,"2,6,9,11,15,16,18"
+2,Day. Christian,51,"4,8,10,12,17,19,21"
+3,MVCA,93,"3,20,22,23,25,30,31"
+4,Georgetown,103,"7,13,26,28,29,34,35"
+5,Seven Hills,104,"1,14,24,32,33,38"
+6,Mid. Christian,144,"5,27,36,37,39"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Campbell Coyne,12,Seven Hills,18:15.8
+2,Anna Wiltshire,11,Sum. Co. Day,18:25.6
+3,Olivia Ohare,10,MVCA,19:04.1
+4,Emmalyn Umholtz,10,Cin. Christian,19:21.2
+5,Claire Moore,12,Williamsburg,19:36.4
+6,Grace Eckert,10,Day. Christian,19:52.0
+7,Emma Shroyer,9,Mid. Christian,19:58.7
+8,Mallory Kaeppner,11,Sum. Co. Day,20:02.1
+9,Allie Tolle,10,Georgetown,20:35.7
+10,Evelyn Garrett,11,Day. Christian,20:49.5
+11,Zezzie Imperial,12,Sum. Co. Day,21:17.5
+12,Ellie Ross,11,Day. Christian,21:24.7
+13,Nina Jackson,10,Sum. Co. Day,21:29.4
+14,Emily LaCasse,12,Day. Christian,21:31.4
+15,Jade Osman,11,Georgetown,21:44.7
+16,Isabella McCloy,12,Seven Hills,21:45.3
+17,Savannah Wahl,11,Williamsburg,21:47.4
+18,Brenna Neyer,9,Sum. Co. Day,21:48.5
+19,Madelyn Smith,12,Sum. Co. Day,21:55.5
+20,Victoria Honaker,10,Day. Christian,22:00.4
+21,Tessa Dennemann,12,Sum. Co. Day,22:26.1
+22,Lydia Dawson,11,Day. Christian,22:45.4
+23,Evelyn Stuk,10,MVCA,23:07.8
+24,Emmaleigh Barnes,10,Day. Christian,23:11.0
+25,Neve Dockery,9,MVCA,23:14.6
+26,Autumn Joseph,9,East Clinton,23:24.4
+27,Karis Haddox,11,MVCA,23:28.6
+28,Cecilia Pohl,11,Seven Hills,23:31.3
+29,Mackenzie Fuller,12,MVCA,23:36.7
+30,Gemma Burrows,12,Georgetown,23:37.3
+31,Elizabeth Gibson,10,Mid. Christian,23:50.9
+32,Natalie Leigh,11,Felicity-Franklin,24:15.3
+33,Anna MacQuarrie,9,Georgetown,24:20.3
+34,Amara Roberts,10,Georgetown,24:44.9
+35,Maddie Hillenmeyer,9,MVCA,25:02.0
+36,Caroline Kreyling,10,MVCA,25:04.4
+37,Anna Grindstaff,11,Cin. Christian,25:13.1
+38,Anjali Bhattacharya,10,Seven Hills,25:17.8
+39,Angella Zong,10,Seven Hills,25:27.8
+40,Evelynne Prater,9,East Clinton,25:35.9
+41,Camryn Scott,9,Georgetown,25:42.5
+42,Taylor Zeller,10,Georgetown,26:36.1
+43,Emmalynn Sanders,11,Williamsburg,28:20.6
+44,Zoe Boulton-Dang,11,Miami Valley School,28:42.4
+45,Maricela Miguel Roblero,9,St. Bernard,28:43.8
+46,Jane Alden,9,Mid. Christian,29:08.3
+47,Grace Hickham,9,Mid. Christian,29:31.7
+48,Elsa Cybulski,10,Seven Hills,29:37.9
+49,Katie Pagnard,10,Mid. Christian,30:03.0
+50,Xandy Espinal Martinez,11,Deer Park,33:04.9
+51,Tamia Napier,9,Oyler,34:30.2
+52,Tanisha Fields,11,Oyler,34:52.9
+,Penelope Hwang,12,Seven Hills,DNF

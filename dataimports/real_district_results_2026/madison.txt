@@ -1,0 +1,791 @@
+MEET: Madison District
+DATE: 2026-10-24
+RACE: Boys Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Kenston,61,"6,8,9,12,26,30,38"
+2,Nordonia,97,"1,4,13,39,40,55,57"
+3,Shaker Hts.,99,"11,16,19,24,29,32,37"
+4,University School,112,"3,10,17,22,60,63,90"
+5,West Geauga,156,"2,20,31,34,69,95,99"
+6,Howland,182,"5,18,36,59,64,75,77"
+7,Orange,191,"7,23,35,61,65,73,78"
+8,Aurora,213,"27,41,47,48,50,51,54"
+9,Twinsburg,226,"15,21,52,62,76,79,96"
+10,Geneva,260,"25,43,53,68,71,89,107"
+11,Chardon,286,"14,45,49,87,91,94,125"
+12,Mayfield,291,"28,44,67,72,80,86,106"
+13,Hawken,343,"42,66,70,81,84,97,108"
+14,Madison,406,"46,74,85,88,113,116"
+15,Will. South,420,"56,82,83,98,101,124,137"
+16,Paine. Riverside,428,"33,58,93,118,126,127,128"
+17,Eastlake North,533,"92,100,104,117,120,122,131"
+18,Rhodes,539,"102,103,109,110,115,133,135"
+19,Harvey,580,"105,112,114,119,130,138"
+20,Niles McKinley,616,"111,121,123,129,132,134,136"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Anderson Seredick,11,Nordonia,15:21.6
+2,Ian Res,12,West Geauga,15:23.8
+3,Brennan Coley,12,University School,15:38.8
+4,Aiden Flynn,12,Nordonia,15:53.2
+5,Ryan Barringer,11,Howland,15:55.3
+6,Tyler Cingcade,10,Kenston,15:57.7
+7,Griffin Berlin,11,Orange,16:02.8
+8,Huck Rundo,10,Kenston,16:03.1
+9,Ian McCallin,10,Kenston,16:03.2
+10,Thomas Lodowski,12,University School,16:10.4
+11,Luigi Cortese,12,Shaker Hts.,16:12.8
+12,Matthew Collins,12,Kenston,16:13.2
+13,Collin Melvin,9,Nordonia,16:13.9
+14,Matthew Ghobrial,11,Chardon,16:25.8
+15,Ryan Sweeney,10,Twinsburg,16:28.7
+16,Julian Vaquera-Little,11,Shaker Hts.,16:33.0
+17,Luke Chao,10,University School,16:33.1
+18,Riley Schellhorn,11,Howland,16:34.6
+19,Elliot Botnick,12,Shaker Hts.,16:37.3
+20,Joey Lubanovich,12,West Geauga,16:44.8
+21,Eli Rowbotham,11,Twinsburg,16:45.8
+22,Luke D'Cruz,11,University School,16:48.2
+23,Bennett Johnson,9,Orange,16:49.2
+24,Isaac Laytin,12,Shaker Hts.,16:50.0
+25,John D'Alessandro,10,Geneva,16:52.3
+26,Porter Fontana,12,Kenston,16:56.9
+27,Brayden Stenger,11,Aurora,16:57.0
+28,Owen Kerns,11,Mayfield,17:00.2
+29,Benny Kerr,11,Shaker Hts.,17:00.9
+30,Will Thomas,9,Kenston,17:03.0
+31,Charlie Allin,10,West Geauga,17:03.1
+32,Jonah Lorenzo,12,Shaker Hts.,17:05.4
+33,Caden Rossi,10,Paine. Riverside,17:06.6
+34,Mason Starr,12,West Geauga,17:08.1
+35,Calvin Schroer,11,Orange,17:08.7
+36,Michael McGarrity,11,Howland,17:09.5
+37,Gavin Hurley,12,Shaker Hts.,17:12.4
+38,Henry Myles,10,Kenston,17:14.7
+39,Jack Delong,11,Nordonia,17:17.5
+40,Zackary Tomak,12,Nordonia,17:19.9
+41,Carson Aardema,12,Aurora,17:20.3
+42,Quinn Shorten,10,Hawken,17:22.9
+43,Conor Shontz,9,Geneva,17:23.9
+44,Wyatt Jones,11,Mayfield,17:24.3
+45,Bryson Koehler,11,Chardon,17:27.5
+46,Ben Kollhoff,11,Madison,17:29.2
+47,Charles Lang,12,Aurora,17:29.3
+48,Blake Oden,12,Aurora,17:29.9
+49,Ashton Ryan,10,Chardon,17:30.0
+50,Austin Tong,12,Aurora,17:31.5
+51,Jack Trook,12,Aurora,17:32.1
+52,Marsean Randall,12,Twinsburg,17:33.2
+53,Ethan Schenk,12,Geneva,17:34.8
+54,Linus Phillips,11,Aurora,17:35.0
+55,Colin May,10,Nordonia,17:36.4
+56,Leland Dunham,10,Will. South,17:38.9
+57,Samuel Lang,12,Nordonia,17:41.7
+58,David Sullivan,11,Paine. Riverside,17:42.1
+59,Joseph Vadas-Saltzmann,10,Howland,17:42.5
+60,Emmett Coggin,12,University School,17:43.7
+61,Joe Chaisson,11,Orange,17:50.5
+62,Isaac Hopp,9,Twinsburg,17:50.8
+63,Miles Dow,10,University School,17:55.2
+64,Robert Clark,10,Howland,17:55.5
+65,Spencer Wolinetz,10,Orange,17:59.4
+66,Max Vriezen,9,Hawken,18:00.4
+67,Isaac Starkman,12,Mayfield,18:01.6
+68,John Cybulski,11,Geneva,18:02.1
+69,Scotty Renninger,9,West Geauga,18:03.2
+70,Maximilian Max Moore,12,Hawken,18:06.2
+71,Jasper Schenk,9,Geneva,18:07.0
+72,Luke Hammond,12,Mayfield,18:07.8
+73,Sam Melvey,10,Orange,18:11.0
+74,Billy Kovacs,10,Madison,18:11.9
+75,Joseph Sweitzer,10,Howland,18:12.8
+76,Arjun Tang,9,Twinsburg,18:13.3
+77,Jensen Taylor,9,Howland,18:16.1
+78,Landon Bell,11,Orange,18:16.2
+79,Joey Aspinall,11,Twinsburg,18:17.6
+80,Travis Kirby,11,Mayfield,18:18.4
+81,George Ma,12,Hawken,18:19.0
+82,Max Dunham,10,Will. South,18:21.4
+83,Quinn Smith,11,Will. South,18:24.4
+84,Daniel Taich,11,Hawken,18:31.1
+85,Demitrious Compton,12,Madison,18:36.4
+86,Elias Fu,9,Mayfield,18:37.1
+87,Richard Crombie,9,Chardon,18:37.5
+88,Kade Tarr,12,Madison,18:47.6
+89,Jackson Dodd,10,Geneva,18:48.0
+90,Julian Jacobs,9,University School,18:49.7
+91,Jackson Sutter,12,Chardon,18:50.2
+92,Carter Engle,10,Eastlake North,18:54.8
+93,Aiden Fuhrman,10,Paine. Riverside,18:56.6
+94,Jonathan Calzada,11,Chardon,18:57.4
+95,Elliot Harder,10,West Geauga,18:58.7
+96,Luke DeCaro,11,Twinsburg,18:59.8
+97,Noa Cleron,9,Hawken,19:04.6
+98,Kellan Sherman,9,Will. South,19:07.7
+99,Max Guttenberg,9,West Geauga,19:11.1
+100,Vincent Panzarella,12,Eastlake North,19:12.4
+101,Cameron Sterk,11,Will. South,19:15.3
+102,Breillyn McPherson,11,Rhodes,19:26.8
+103,Toby Johnson,11,Rhodes,19:28.8
+104,Nicholas Hogan,10,Eastlake North,19:31.5
+105,Gesus Bafford,12,Harvey,19:32.5
+106,Nicholas Young,12,Mayfield,19:46.6
+107,Richard Balog,11,Geneva,19:47.6
+108,Stephen Parrino,12,Hawken,19:50.8
+109,Wakiem Hunter,12,Lakeside,19:54.9
+110,JeAwn Dennis,12,Rhodes,19:55.3
+111,Mason Patterson,11,Rhodes,19:56.5
+112,Donovan Naylor,10,Niles McKinley,19:59.8
+113,Jaylen Williams,9,Harvey,20:05.3
+114,Robert Starkey,11,Madison,20:06.1
+115,Zaid Marrero-Pacheco,9,Harvey,20:08.5
+116,Amani Davis,12,Rhodes,20:18.2
+117,Oliver Daling,9,Madison,20:25.9
+118,Joey Gash,10,Eastlake North,20:29.4
+119,Jordan Santone,10,Paine. Riverside,20:33.4
+120,Aldolfo Razo,10,Harvey,20:36.5
+121,Jake Roberts,9,Eastlake North,20:39.4
+122,Liam McCullogh,10,Niles McKinley,20:48.2
+123,Hadrian Means,10,Brush,20:49.6
+124,Malin Keener,12,Lakeside,20:51.1
+125,John Andrykovitch,10,Eastlake North,20:56.5
+126,Gabriel Bundy,11,Niles McKinley,21:22.8
+127,Alan Koshel,11,Will. South,21:25.0
+128,Daniel Flamm,11,Chardon,21:26.2
+129,Conner Griffiths,10,Max Hayes,21:35.6
+130,Nathanael Marino,12,Brush,21:42.4
+131,Benjamin Holmes,10,Paine. Riverside,21:42.9
+132,Andrew Wetzel,9,Paine. Riverside,21:58.4
+133,Peyton Shaffer,9,Lakeside,21:58.8
+134,Ryan Rokosky,11,Paine. Riverside,22:02.4
+135,Nolan Nicastro,10,Niles McKinley,22:08.7
+136,Bryce Kinney,9,Brush,22:15.7
+137,Charles English,12,Harvey,22:19.3
+138,Michael Schreiber,12,Eastlake North,22:20.6
+139,Matthew Fletcher,12,Niles McKinley,22:38.1
+140,Drake Millsaps,12,Rhodes,22:44.6
+141,William Miller,11,Niles McKinley,22:47.7
+142,Carlos Irizarry Jr.,10,Lakeside,22:51.4
+143,Noah Robinson,12,Max Hayes,23:00.9
+144,Austin Chambers,12,Rhodes,23:46.3
+145,Decklyn Patterson,9,Niles McKinley,23:51.5
+146,Oliver Goldstein,12,Brush,24:11.9
+147,Chase Sigler,10,Will. South,24:31.2
+148,Yeshua Cortes Romero,9,Harvey,25:00.4
+149,Jacob Bailey,11,Max Hayes,25:48.9
+150,Aamar Brooks,12,Max Hayes,32:02.8
+
+MEET: Madison District
+DATE: 2026-10-24
+RACE: Boys Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Chagrin Falls,69,"3,6,7,24,29,40,62"
+2,Berkshire,95,"9,13,19,23,31,32,44"
+3,Ash. Edgewood,118,"12,15,16,33,42,43,63"
+4,Gar. Garfield,122,"1,2,35,36,48,52,61"
+5,Gilmour Academy,129,"5,14,22,41,47,49,56"
+6,Lake Cath.,184,"8,20,46,50,60,70,78"
+7,Jefferson Area,199,"10,25,45,51,68,73,92"
+8,Chardon NDCL,218,"11,17,21,84,85,100,108"
+9,Conneaut,232,"4,37,59,65,67,79,80"
+10,Lakeview,268,"28,38,57,58,87,94,99"
+11,Perry,282,"18,39,74,75,76,77,81"
+12,Ursuline,289,"27,55,66,69,72,89,95"
+13,Kirtland,302,"26,53,54,71,98"
+14,War. Champion,351,"34,64,82,83,88,91,96"
+15,Crestwood,396,"30,86,90,93,97"
+16,Cle. VASJ,515,"101,102,103,104,105,106,107"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Owen Thomas,11,Gar. Garfield,15:32.6
+2,Lucas Thomas,9,Gar. Garfield,15:36.9
+3,Kelan Byrne,12,Chagrin Falls,16:00.9
+4,Ethan Van Norman,11,Conneaut,16:17.4
+5,Evan Lindley,12,Gilmour Academy,16:18.2
+6,Thoral (TJ) Mitchell,11,Chagrin Falls,16:32.6
+7,Jameson Byrne,9,Chagrin Falls,16:37.2
+8,Mason Panhorst,11,Lake Cath.,16:41.2
+9,Danny Auth,12,Berkshire,16:41.9
+10,Cody Weber,11,Jefferson Area,16:45.0
+11,Kyle Nedved,12,Chardon NDCL,16:46.0
+12,Chase Cardona,12,Ash. Edgewood,16:47.7
+13,Aiden Hollingsworth,11,Berkshire,16:47.7
+14,Evan Sammut,11,Gilmour Academy,16:55.0
+15,Carter Cline,10,Ash. Edgewood,16:56.3
+16,Reece Kovach,12,Ash. Edgewood,16:57.8
+17,Tyler Milk,12,Chardon NDCL,16:58.3
+18,Hunter Kline,11,Perry,17:01.2
+19,Ben Townsend,9,Berkshire,17:01.9
+20,Calvin DiCello,12,Lake Cath.,17:07.3
+21,Nathan Zanko,11,Chardon NDCL,17:10.1
+22,Kevin Shank,11,Gilmour Academy,17:15.2
+23,Tripp Wadsworth,10,Berkshire,17:15.3
+24,Michael Hanley,11,Chagrin Falls,17:15.9
+25,Preston Hitchcock,12,Jefferson Area,17:19.8
+26,Caleb Wallace,11,Wickliffe,17:20.7
+27,Joey Ciavarelli,12,Kirtland,17:29.4
+28,Teo Ricchiuti,9,Ursuline,17:34.0
+29,Thomas Rawl,11,Lakeview,17:34.0
+30,Nathan Nelson,10,Chagrin Falls,17:34.1
+31,Evan Rhodes,11,Crestwood,17:35.3
+32,Evan Tromba,10,Berkshire,17:37.6
+33,Will Slattery,11,Berkshire,17:38.8
+34,Marcus Lebzelter,10,Ash. Edgewood,17:40.5
+35,Zaine Shrodek,10,War. Champion,17:40.6
+36,Abraham Wohlever,12,Gar. Garfield,17:46.7
+37,Aaron Evans,12,Gar. Garfield,17:47.1
+38,Gunnar Maenpaa,12,Conneaut,17:47.2
+39,Nicholas Raptis,9,Lakeview,17:52.5
+40,Cedric Haire,10,Perry,18:00.2
+41,Peter Mitchell,12,Chagrin Falls,18:00.6
+42,Carter Shininger,11,Gilmour Academy,18:02.0
+43,Christian Bliffin,9,Ash. Edgewood,18:07.1
+44,Ben Lebzelter,10,Ash. Edgewood,18:07.3
+45,Davin Harper,12,Berkshire,18:15.5
+46,Kooper Newhart,10,Jefferson Area,18:18.9
+47,Tyler Earley,10,Lake Cath.,18:21.9
+48,Ryan Moore,12,Gilmour Academy,18:23.2
+49,Ryan Stonestreet,12,Gar. Garfield,18:23.8
+50,Carson Moore,12,Gilmour Academy,18:24.8
+51,Charlie Hodgson,12,Lake Cath.,18:27.7
+52,Camden Dwyer,11,Jefferson Area,18:33.7
+53,Ryan Krupansky,9,Gar. Garfield,18:34.7
+54,Ben Cook,10,Kirtland,18:36.8
+55,Luke Loncar,9,Kirtland,18:39.9
+56,Ati Altan Lynd,12,Ursuline,18:42.8
+57,Wyatt Tomasek,12,Gilmour Academy,18:43.3
+58,Chase Hall,11,Lakeview,18:43.6
+59,Liam Jones,9,Lakeview,18:43.6
+60,Ashton Sanden,11,Conneaut,18:46.3
+61,Noah Schall,9,Lake Cath.,18:46.8
+62,Dayton Clark,9,Gar. Garfield,18:47.2
+63,Zane Zabell,11,Chagrin Falls,18:49.1
+64,Aiden Cleveland,9,Ash. Edgewood,18:50.5
+65,Chip Martin,11,War. Champion,18:51.0
+66,Roman Cellini,9,Conneaut,18:51.2
+67,Osiron Talbott,11,Ursuline,18:52.4
+68,Ryker Lentz,9,Conneaut,18:55.1
+69,Brody Dixon,9,Jefferson Area,18:56.5
+70,Alexander Binkney,10,Ursuline,19:00.2
+71,Anthony Sustarsic,10,Lake Cath.,19:00.4
+72,Ben Brandal,12,Kirtland,19:06.7
+73,Kellen Reed,10,Ursuline,19:09.3
+74,Blake Dickey,10,Jefferson Area,19:12.8
+75,Jack Desborough,12,Perry,19:14.0
+76,Chance Pike,10,Perry,19:16.6
+77,Jackson Hagerman,10,Perry,19:29.0
+78,Landon Rusnak,12,Perry,19:31.4
+79,Connor Lorenz,10,Lake Cath.,19:35.1
+80,Corey Taylor,11,Conneaut,19:39.0
+81,Ivan Boroski,9,Conneaut,19:39.2
+82,Noah Gromek,12,Perry,19:41.9
+83,Jackson Gross,10,War. Champion,19:42.4
+84,Clayton Jajcinovic,10,War. Champion,19:44.3
+85,Luis Enrique Heredia-Salinas,10,Chardon NDCL,19:45.3
+86,Blake Newman,10,Chardon NDCL,19:51.4
+87,Avery Sanwald,10,Crestwood,20:02.1
+88,Nick Seikel,12,Lakeview,20:05.7
+89,Jordan Dittmer,10,War. Champion,20:09.6
+90,Dan Reardon,9,Ursuline,20:13.5
+91,Michael McCulloch,10,Crestwood,20:19.1
+92,Harry Karam,11,War. Champion,20:19.1
+93,Gavin Furman,11,Jefferson Area,20:26.3
+94,River Kasper,9,Crestwood,20:33.4
+95,Brandt Cunningham,9,Lakeview,20:35.1
+96,Javonne Woodruff,9,John Adams,20:40.9
+97,Patrick Terracina,10,Ursuline,20:57.9
+98,Maguire Nolan,11,War. Champion,21:25.3
+99,Evan Bainey,10,Crestwood,21:32.8
+100,Owen Dahlhofer,10,Kirtland,21:55.5
+101,Jamar Taylor,10,John Adams,22:34.2
+102,Mason Wolford,10,Lakeview,22:34.7
+103,Noah Scheider,10,Chardon NDCL,22:45.2
+104,Noah Burdge,10,Brookfield,23:35.1
+105,Conner Mihalcin,12,Brookfield,23:35.3
+106,Conner Blake,9,Brookfield,23:44.6
+107,Joshua Clarke,11,Cle. VASJ,24:00.5
+108,Jeffery Owens,10,Cle. VASJ,24:28.3
+109,Jamir Butler,10,Cle. VASJ,24:42.1
+110,Carter Hodge,9,Pymatuning Valley,25:26.4
+111,Davier Lesure,10,Warrensville Hts.,26:13.9
+112,Ray'Carlo Perkins,9,John Adams,27:34.8
+113,Mikel Bailey,10,Cle. VASJ,27:38.4
+114,Kade Baker,9,Wickliffe,27:57.6
+115,Killian Callam,9,Cle. VASJ,28:09.0
+116,Noel Anderson,9,Cle. VASJ,28:14.6
+117,Charles Freeman,10,John Adams,28:52.7
+118,Connor O'Brien-Bobbie,12,Brookfield,29:13.4
+119,Malik Jackson,9,Cle. VASJ,31:55.4
+120,Joe Jagodnik,10,Chardon NDCL,34:17.8
+
+MEET: Madison District
+DATE: 2026-10-24
+RACE: Boys Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Maplewood,32,"2,5,6,7,12,15,17"
+2,McDonald,84,"1,8,16,28,31,34,48"
+3,Badger,97,"9,13,20,25,30,40"
+4,Mineral Ridge,102,"4,10,21,24,43,47,56"
+5,Ash. St. John,128,"19,22,23,27,37,49,51"
+6,Andrews Osborne Acad.,130,"11,18,29,33,39,46,54"
+7,Grand Valley,157,"3,32,35,42,45,50"
+8,Richmond Hts.,169,"14,26,36,41,52"
+9,Young. Valley Christian,247,"38,44,53,55,57"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Owen Cappuzello,10,McDonald,15:24.1
+2,Micah Sparks,11,Maplewood,16:01.1
+3,Sam Steimle,12,Grand Valley,16:03.3
+4,Bryce Garland,10,Mineral Ridge,16:41.8
+5,Tyler McPeak,11,Maplewood,16:56.7
+6,Nick Blair,10,Maplewood,16:58.5
+7,Ethan Nevinski,12,Maplewood,17:02.0
+8,Gage Wagamon,11,Cardinal,17:04.4
+9,Landen Scott,11,McDonald,17:04.9
+10,Austin Smith,12,Badger,17:08.6
+11,Mitchell Bitner,12,Mineral Ridge,17:20.8
+12,Jackson Sharpless,11,Andrews Osborne Acad.,17:24.7
+13,Josh Suba,11,Maplewood,17:25.5
+14,Michael Earls,11,Badger,17:29.9
+15,Nicholas McWilliams,10,Richmond Hts.,17:33.4
+16,Logan Pappas,10,Maplewood,17:40.6
+17,Jaxton Mooney-Lancaster,11,McDonald,17:43.1
+18,Brody Orr,12,Maplewood,17:56.2
+19,Winfield Clark,10,Andrews Osborne Acad.,18:04.3
+20,Nicolai Wolff,10,Ash. St. John,18:06.3
+21,Logan Earls,9,Badger,18:11.9
+22,Ryan Evans,9,Mineral Ridge,18:16.1
+23,Daniel Phillips,12,Ash. St. John,18:16.6
+24,Graham Nelson,11,Ash. St. John,18:18.1
+25,Liam Marteney,9,Mineral Ridge,18:21.5
+26,David Hartman,10,Badger,18:23.9
+27,Justin Rivera,12,Richmond Hts.,18:42.7
+28,Clark Chandler,10,Liberty,18:49.0
+29,Ayden Kelley,12,Ash. St. John,18:50.7
+30,Hudson Flere,10,McDonald,18:55.0
+31,Tavon Martin,12,Chalker,18:56.7
+32,Sacha McGarry,10,Andrews Osborne Acad.,19:03.3
+33,Payton Palette,9,Badger,19:04.5
+34,Evan Soltesz,10,McDonald,19:05.3
+35,Gabe Bonar,10,Mathews,19:16.6
+36,Samuel Mazzei,12,Grand Valley,19:19.3
+37,Wyatt Perry,10,Andrews Osborne Acad.,19:43.8
+38,Zachary Delka,10,McDonald,19:44.8
+39,Justin Powell,12,Grand Valley,19:49.9
+40,Drew McSears,12,Richmond Hts.,19:52.0
+41,Nathan Werner,10,Fairport Harding,19:58.2
+42,Landon Ticel,9,Fairport Harding,20:09.4
+43,Landon Linehan,11,Ash. St. John,20:15.6
+44,Dylan Licata,10,Mathews,20:22.9
+45,Andrew Totten,12,Warren JFK,20:25.8
+46,Trenton Jones,9,Young. Valley Christian,20:35.2
+47,Ryan Davis,12,Newton Falls,20:37.7
+48,Justin Ying,12,Andrews Osborne Acad.,20:40.1
+49,Payden Miller,9,Badger,20:40.4
+50,Steven Chim,12,Richmond Hts.,20:42.6
+51,Bradley Chitwood,10,Grand Valley,20:47.4
+52,Gavin Domino,9,Mineral Ridge,20:59.4
+53,Devon Norman,11,Young. Valley Christian,21:01.0
+54,Cal Richardson,9,Grand Valley,21:24.4
+55,Kayden Moser,9,Fairport Harding,21:26.9
+56,Reid Robinson,11,Warren JFK,21:31.9
+57,Daniel Brobst,12,Chalker,21:38.3
+58,Charlie Grimwade,10,Andrews Osborne Acad.,21:43.7
+59,Lexxton Vaughn,10,Mineral Ridge,21:49.9
+60,Christapher Pupin,11,McDonald,22:08.4
+61,London Hoch,10,Ash. St. John,22:27.2
+62,Nicolas Sweitzer,9,Newton Falls,22:27.2
+63,Markus Greb,10,Grand Valley,22:30.9
+64,Macsen Peskar,9,Ash. St. John,22:35.3
+65,Lukas Ecker,9,Mathews,22:43.5
+66,James Thellman,12,Fairport Harding,22:46.0
+67,Jaiden Smith-Nix,12,Richmond Hts.,22:55.7
+68,Elliot Vincek,10,Cardinal,23:17.9
+69,Cristhian Lopez Medina,12,Chalker,23:19.9
+70,Theodore Van Wig,9,Cardinal,23:22.6
+71,Ethan Zahed,12,Young. Valley Christian,23:31.3
+72,Daniel Peng,11,Andrews Osborne Acad.,23:47.3
+73,Marcus Dieck,11,Bristol,24:36.9
+74,Dominic Petrusko,10,Liberty,25:17.4
+75,Isaac Moon,12,Young. Valley Christian,25:38.4
+76,Cameron Klamer,10,Mineral Ridge,27:28.8
+77,Nathan DePizzo,10,Liberty,28:21.2
+78,Daniel Gaddy,12,Young. Valley Christian,36:22.6
+
+MEET: Madison District
+DATE: 2026-10-24
+RACE: Girls Division II
+TEAM_SCORES
+place,school,score,scorer_places
+1,Aurora,31,"1,2,3,8,17,19,20"
+2,Shaker Hts.,54,"6,10,11,12,15,23,43"
+3,Kenston,103,"14,18,21,24,26,27,42"
+4,Chardon,143,"4,30,32,37,40,56"
+5,Nordonia,163,"7,28,29,49,50,58,60"
+6,Howland,168,"16,22,31,36,63,76,87"
+7,Madison,198,"25,33,34,52,54,69,89"
+8,Twinsburg,204,"13,38,41,46,66,83,85"
+9,Paine. Riverside,224,"9,47,51,55,62,64,84"
+10,Chardon NDCL,252,"5,57,59,61,70,88"
+11,West Geauga,301,"35,39,68,79,80,82,90"
+12,Mayfield,308,"44,48,71,72,73,74,86"
+13,Brush,345,"45,67,75,77,81,91"
+14,Eastlake North,381,"53,65,78,92,93"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Audrey Miller,10,Aurora,17:17.6
+2,Claire Jenkins,10,Aurora,18:16.3
+3,Evelyn Jenkins,10,Aurora,18:16.5
+4,Mira Palombo,12,Chardon,18:45.7
+5,Zoey Myers,12,Chardon NDCL,18:55.8
+6,Tabitha Dina,12,Shaker Hts.,19:12.1
+7,Riley Lingo,11,Nordonia,19:17.8
+8,Makayla Cicero,9,Aurora,19:18.2
+9,Molly Fechko,11,Paine. Riverside,19:19.1
+10,Vivian Clement,11,Shaker Hts.,19:22.7
+11,Orly Bogard,9,Shaker Hts.,19:25.7
+12,Addie Haring,9,Shaker Hts.,19:25.8
+13,Gianna Rocco,11,Twinsburg,19:26.7
+14,Isabella Walters,9,Kenston,19:28.0
+15,Lucy Hinton,9,Shaker Hts.,19:48.7
+16,Lilly Belebczuk,10,Howland,19:50.0
+17,Audra Leigh,9,Aurora,19:50.3
+18,Giuliana Walters,12,Kenston,19:57.3
+19,Mia Paech,10,Aurora,19:58.5
+20,Haley Koch,10,Aurora,19:59.4
+21,Thea Ness,10,Kenston,19:59.5
+22,Emily Mohney,10,Howland,20:06.9
+23,Demi Burke,12,Shaker Hts.,20:13.1
+24,Finley Scharver,9,Kenston,20:14.5
+25,Emma Shearer,10,Will. South,20:27.5
+26,Molly Canfield,10,Madison,20:30.4
+27,Lila Fink,11,Kenston,20:35.0
+28,Demi Marshall,12,Kenston,20:39.3
+29,Olivia MAY,12,Nordonia,20:45.2
+30,Kaia Seredick,11,Nordonia,20:49.2
+31,Brooke Turner,9,Chardon,20:50.7
+32,Teagan Bell,12,Howland,20:56.7
+33,Reese O'Reilly,9,Chardon,21:05.1
+34,Johnnalynn (Lynn) Lekan,12,Madison,21:05.2
+35,Ellie Langtry,11,Madison,21:07.9
+36,Lia Alvord,12,West Geauga,21:09.2
+37,Maddie Thornhill,11,Howland,21:12.1
+38,Beatrice Snyder,10,Chardon,21:12.2
+39,Kara Honaker,12,Twinsburg,21:21.1
+40,Vanessa Winningham,9,West Geauga,21:28.0
+41,Maggie Wolcott,11,Chardon,21:32.5
+42,Cameron Banas,12,Twinsburg,21:32.6
+43,Eleana DeWitt,12,Kenston,21:32.8
+44,Amelie Becker,10,Shaker Hts.,21:34.2
+45,Lily Meek,10,Mayfield,21:35.4
+46,Mary Raynor,10,Brush,21:38.4
+47,Nora Maslo,10,Twinsburg,21:38.4
+48,Brooke Young,11,Paine. Riverside,21:39.8
+49,Madilyn Pentsa,10,Mayfield,21:46.2
+50,Kayla Washington,10,Nordonia,21:50.4
+51,Sofia Bonanno,12,Nordonia,21:58.2
+52,Avery Horvath,11,Paine. Riverside,21:58.2
+53,Brooke Rockwood,12,Madison,22:01.4
+54,Melanie Okerwall,11,Eastlake North,22:09.4
+55,Tessa Canfield,12,Madison,22:09.8
+56,Leah Bauer,11,Paine. Riverside,22:33.9
+57,Aubrey Gady,11,Chardon,22:34.6
+58,Avery Bender,10,Chardon NDCL,22:40.9
+59,AnnaMae Walter,12,Lakeside,22:43.9
+60,Emma Purcell,11,Nordonia,22:44.6
+61,Lucy Edger,11,Chardon NDCL,22:46.1
+62,Ella Bonanno,12,Nordonia,22:48.4
+63,Kennedy Smith,11,Chardon NDCL,22:49.0
+64,Catherine Toth,10,Paine. Riverside,22:59.1
+65,Olivia Chuba,9,Howland,23:03.9
+66,Claire Miller,10,Paine. Riverside,23:04.0
+67,Callie Roberts,11,Eastlake North,23:05.0
+68,Lucy Hopp,11,Twinsburg,23:11.0
+69,Holly Raynor,11,Brush,23:17.8
+70,Cassie Gaskill,10,West Geauga,23:19.2
+71,Abby Kovacs,12,Madison,23:27.6
+72,Kallie Wilson,9,Warren G Harding,23:33.2
+73,Caroline Weaver,9,Chardon NDCL,23:37.8
+74,Selah Webel,12,Mayfield,23:41.3
+75,Gianna Smith,10,Mayfield,23:45.6
+76,Olivia Mickshaw,10,Mayfield,23:47.2
+77,Sophia Caunter,11,Mayfield,23:48.7
+78,Aaliyah Bilbrey,10,Lakeside,23:54.0
+79,Laylah Mason,10,Brush,24:08.2
+80,Abigail (Abby) Henry,12,Howland,24:12.4
+81,Makayla Roberson,11,Brush,24:15.2
+82,Frances Clarke,10,Eastlake North,24:17.1
+83,Hannah Thirion,9,West Geauga,24:27.3
+84,Mila Rodin,10,West Geauga,24:37.2
+85,Ellie Marino,10,Brush,24:37.3
+86,Abbey Hoose,12,West Geauga,24:41.4
+87,Ava Dixon,12,Twinsburg,24:52.9
+88,Elyse Homolish,11,Paine. Riverside,25:04.8
+89,Vezal Sidhu,11,Twinsburg,25:16.7
+90,Mariana Ayala,10,John Marshall,25:23.9
+91,Josellen Obrien,12,Warren G Harding,25:42.6
+92,Norah Tournoux,12,Mayfield,25:43.2
+93,Brett Goble,11,Howland,25:50.8
+94,Katya Cobb,10,Chardon NDCL,26:03.9
+95,Annabella Velazquez,12,Lakeside,26:08.6
+96,Charlotte Cicero,12,Madison,26:09.6
+97,Emma Hoch,10,Will. South,26:21.9
+98,Abigail Seibert,10,West Geauga,26:40.8
+99,Annaliese Martone,12,Lakeside,26:54.6
+100,Natalia Perez Romero,9,Harvey,27:15.2
+101,Sava Gray,9,Brush,27:23.0
+102,Evelyn Jasinski,11,Will. South,27:39.5
+103,Carmen Reynoso-Ramirez,9,Harvey,27:51.8
+104,Allison Hayden,10,Eastlake North,28:38.2
+105,Claire Hayden,9,Eastlake North,31:21.8
+106,Mena Azre,9,Will. South,33:19.9
+
+MEET: Madison District
+DATE: 2026-10-24
+RACE: Girls Division III
+TEAM_SCORES
+place,school,score,scorer_places
+1,Crestwood,62,"2,7,8,16,29,41"
+2,Berkshire,72,"5,11,12,21,23,28,48"
+3,Hathaway Brown,114,"1,13,27,35,38,52,54"
+4,Chagrin Falls,177,"4,22,39,55,57,71,74"
+5,Orange,185,"3,44,45,46,47,50,56"
+6,Conneaut,211,"9,19,42,69,72,85"
+7,Ursuline,219,"10,30,36,63,80,104"
+8,Beaumont,225,"25,33,43,59,65,67,75"
+9,Geneva,231,"17,37,53,60,64,77,86"
+10,Gar. Garfield,236,"6,20,34,84,92"
+11,Perry,250,"14,32,58,68,78,83"
+12,Lakeview,270,"18,31,49,70,102,103"
+13,Gilmour Academy,321,"26,40,51,98,106"
+14,Hawken,344,"15,61,76,91,101"
+15,Jefferson Area,360,"24,73,82,87,94,99,100"
+16,Ash. Edgewood,400,"62,79,81,88,90,95,96"
+17,Lake Cath.,450,"66,89,93,97,105"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Caroline Valentino,11,Hathaway Brown,17:54.6
+2,Luci Maschek,9,Crestwood,18:21.6
+3,Marina Campbell,11,Orange,18:24.0
+4,Gabby Byrne,11,Chagrin Falls,18:25.5
+5,Claire Passow,9,Berkshire,18:38.3
+6,Lina Kaufman,10,Gar. Garfield,18:40.4
+7,Madie Grace Gonczy,12,Crestwood,18:46.1
+8,Piper Seibold,12,Crestwood,18:46.4
+9,Vivianna Cellini,11,Conneaut,18:46.7
+10,Addison Ring,11,Ursuline,19:16.2
+11,Addison Passow,11,Berkshire,19:25.7
+12,June Dunlap,9,Berkshire,19:29.4
+13,Olivia Kiefer,12,Hathaway Brown,19:34.9
+14,Hazel Kananen,11,Perry,20:05.3
+15,Annalisia Honda,10,Hawken,20:06.8
+16,Piper Freedline,12,Crestwood,20:15.5
+17,Adriana Belconis,9,Geneva,20:16.7
+18,Paige Schwartz,12,Lakeview,20:19.0
+19,Anna Ring,12,Conneaut,20:28.0
+20,Nora Yukich,11,Gar. Garfield,20:33.1
+21,Ashlyn Brzozowski,9,Berkshire,20:38.4
+22,Lindsay Fisher,10,Chagrin Falls,20:39.1
+23,Anani Lawrence,11,Liberty,20:43.8
+24,Ella Strmen,11,Berkshire,20:46.3
+25,Grace Dzura,10,Jefferson Area,20:53.3
+26,Ella Wheaton,12,Beaumont,20:53.8
+27,Kate Papczun,12,Gilmour Academy,21:01.6
+28,Victoria Chen,9,Hathaway Brown,21:06.8
+29,Hailey Mitchell,9,Berkshire,21:10.0
+30,Abby Pfost,10,Crestwood,21:10.3
+31,Remy Barnes,9,Ursuline,21:11.8
+32,Kendall DeLeon,11,Lakeview,21:18.2
+33,Kate Farrell,12,Perry,21:22.1
+34,Mae Holody,10,Beaumont,21:27.0
+35,Rebecca Evans,12,Gar. Garfield,21:27.8
+36,Madeleine Hurst,12,Hathaway Brown,21:28.0
+37,Victoria Root,10,Ursuline,21:42.3
+38,Paytton Lemponen,11,Geneva,21:43.9
+39,Adeline Comar,12,Hathaway Brown,21:44.9
+40,Chloe Ceska,9,Chagrin Falls,21:46.0
+41,Addyson Stanoch,10,Gilmour Academy,21:47.0
+42,Bella Stier,11,Crestwood,21:48.1
+43,Layla Beseda,9,Conneaut,21:51.8
+44,Eleanor Carter,9,Beaumont,21:53.1
+45,Zahra Navadeh,11,Orange,21:56.4
+46,Emily Moderick,11,Orange,21:56.7
+47,Lilah Bass,9,Orange,21:57.9
+48,Grace Breininger,12,Orange,22:02.6
+49,Ava Strmen,9,Berkshire,22:10.6
+50,Sienna Terry,11,Lakeview,22:21.8
+51,Noomi Levine,10,Orange,22:21.9
+52,Abigail Washburn,9,Gilmour Academy,22:24.5
+53,Anisha Khot,12,Hathaway Brown,22:25.4
+54,Charlotte Hart,10,Geneva,22:26.2
+55,Mackenzie Royal,12,War. Champion,22:28.0
+56,Jacqueline Comar,11,Hathaway Brown,22:30.1
+57,Amelia Ingold,9,Chagrin Falls,22:35.9
+58,Nina Bodas,9,Orange,22:40.0
+59,Julia McElyea,9,Chagrin Falls,22:48.5
+60,Charlotte Lombardo,9,Perry,22:49.0
+61,Rose Shakarian Kvidera,11,Beaumont,22:50.6
+62,Taylor Noce,12,Geneva,22:50.7
+63,Charlotte Lehr,12,Hawken,22:51.6
+64,Rylee Hall,9,Ash. Edgewood,22:57.2
+65,Xenia Garcia,11,Ursuline,22:59.6
+66,Sienna Gearhart-Johnston,12,Geneva,23:00.3
+67,Lauren Bermel,12,Beaumont,23:04.0
+68,Bridget Ward,10,Lake Cath.,23:04.9
+69,Kinidi McMichael,9,Cle. VASJ,23:12.8
+70,Rebekah Ondrejka,10,Beaumont,23:14.3
+71,Brooklyn Hagerman,11,Perry,23:14.4
+72,McKenzie Warner,10,Conneaut,23:20.8
+73,Aurora Sensabaugh,12,Lakeview,23:24.1
+74,Darcy Osborn,11,Chagrin Falls,23:31.1
+75,Meadow Wood,11,Conneaut,23:45.6
+76,Elena Fenton,9,Jefferson Area,23:48.6
+77,Clara Zabik,12,Chagrin Falls,23:51.2
+78,Gigi Grdina,11,Beaumont,23:54.2
+79,Emily Miranda,12,War. Champion,24:22.8
+80,Adelaide Hallett,10,Hawken,24:23.7
+81,Gillian Kapala,10,Geneva,24:26.1
+82,Cora Mann,9,Perry,24:27.2
+83,Dianne Ianni,10,Ash. Edgewood,24:45.2
+84,Alohra Clay,11,War. Champion,24:48.8
+85,Reagan Mitchell,9,Ursuline,24:49.2
+86,Audrey Fertig,11,Ash. Edgewood,24:52.5
+87,Olivia Conaway,10,Jefferson Area,25:04.2
+88,Abbigayle Cornwell,12,Perry,25:43.2
+89,Kylene Mcmayon,12,Gar. Garfield,25:49.1
+90,Allison Harmon,11,Conneaut,25:52.0
+91,Lissy Rosales,10,Geneva,26:06.6
+92,McKenna Taylor,9,Jefferson Area,26:21.9
+93,Katie Hanger,9,Ash. Edgewood,26:38.3
+94,Mia Borovic,9,Lake Cath.,27:02.3
+95,Azaria Diaz,12,Ash. Edgewood,27:06.1
+96,Ada Petroni,10,Hawken,27:40.5
+97,Carla Beckers,11,Gar. Garfield,27:43.3
+98,Mary Rose Herald,11,Lake Cath.,27:49.3
+99,Aurora Bellas,12,Jefferson Area,27:51.7
+100,Sophia Tobie,11,Ash. Edgewood,27:51.9
+101,Jenna Scarniench,11,Ash. Edgewood,27:58.8
+102,Sydney Hill,12,Lake Cath.,28:51.0
+103,Raylyn Todd,11,Gilmour Academy,29:16.7
+104,Audrey Bellas,12,Jefferson Area,29:23.5
+105,Chloe Dwyer,11,Jefferson Area,30:40.1
+106,Veronica Marvin,12,Niles McKinley,31:30.3
+107,Sofia Sideris,10,Hawken,31:32.5
+108,Hope Nolan,9,Lakeview,32:14.7
+109,Rebecca Cunningham,11,Lakeview,32:26.4
+110,Abigail Tuscano,10,Ursuline,33:29.6
+111,Emily Borovic,11,Lake Cath.,36:57.4
+112,Katie Stretar,10,Gilmour Academy,40:34.2
+113,Keyshliann Fonseca,12,Max Hayes,42:18.6
+114,Danni Presswood,12,Max Hayes,42:21.6
+
+MEET: Madison District
+DATE: 2026-10-24
+RACE: Girls Division IV
+TEAM_SCORES
+place,school,score,scorer_places
+1,Kirtland,57,"2,10,11,15,19,34,40"
+2,Maplewood,63,"8,9,12,14,20,21,24"
+3,McDonald,64,"1,6,7,23,27,42,45"
+4,Ash. St. John,74,"3,4,13,17,37,41,51"
+5,Cardinal,195,"16,32,44,49,54,63,69"
+6,Mineral Ridge,195,"18,29,43,46,59"
+7,Badger,197,"22,26,35,53,61,64,65"
+8,Andrews Osborne Acad.,197,"5,28,38,60,66"
+9,Lordstown,205,"25,30,47,48,55"
+10,Grand Valley,216,"31,33,39,56,57,58,62"
+11,Brookfield,273,"36,50,52,67,68"
+INDIVIDUAL_RESULTS
+place,name,grade,school,time
+1,Naomi Sheesley,11,McDonald,18:05.3
+2,Kylie Sayle,11,Kirtland,18:48.3
+3,Marlee Beacom,12,Ash. St. John,19:05.9
+4,Emma Phillips,12,Ash. St. John,19:19.3
+5,Muthoni Mutiso,12,Andrews Osborne Acad.,19:21.1
+6,Selah Sheesley,12,McDonald,19:48.0
+7,Addison Callow,10,McDonald,19:54.2
+8,Melody Richards,10,Maplewood,20:02.6
+9,Addison Calvert,9,Maplewood,20:04.4
+10,Danika Schaum,12,Kirtland,20:19.6
+11,Mila Delgado,9,Kirtland,20:20.1
+12,Mackenzie Edgar,12,Maplewood,20:32.2
+13,Lila Phillips,9,Ash. St. John,20:40.3
+14,Kenley Kitzmiller,9,Maplewood,20:41.4
+15,Abela Delgado,11,Kirtland,20:51.0
+16,Gracyn Kitzmiller,9,Cardinal,20:54.5
+17,Selena Park,11,Ash. St. John,20:56.5
+18,Kylee Molnar,11,Mineral Ridge,21:00.0
+19,Nadija Mrva,10,Kirtland,21:06.9
+20,Avery Davison,9,Maplewood,21:17.2
+20,Harper Brumit,9,Maplewood,21:17.2
+22,Jordan Ramsey,12,Badger,21:23.7
+23,Noelle Lytle,10,McDonald,21:27.4
+24,Rowynn Konerth,9,Mathews,21:39.2
+25,Ava Liptak,12,Maplewood,21:50.1
+26,Justina Limbeck,12,Lordstown,21:53.8
+27,Isabella Bailey,12,Badger,21:55.9
+28,Mary Jasso,10,McDonald,22:06.6
+29,Emma Lourenco,10,Andrews Osborne Acad.,22:11.1
+30,Olivia Tilley,10,Warren JFK,22:12.9
+31,Angel Coonce,12,Mineral Ridge,22:17.8
+32,Nadyne Jones,11,Lordstown,22:35.3
+33,Sophia Johnston,9,Grand Valley,22:44.8
+34,Mackenzie Davidson,9,Wickliffe,22:46.6
+35,Abigail Springer,11,Cardinal,22:57.9
+36,Rian Jenkins,12,Pymatuning Valley,23:18.8
+37,Lucia Skufka,9,Wickliffe,23:38.4
+38,Jocelyn Cozad,12,Grand Valley,23:40.1
+39,Grace Wank,11,Kirtland,23:40.3
+40,Grace Stout,12,Badger,23:41.8
+41,Delaney Williams,10,Brookfield,23:43.3
+42,Veronica Wagner,9,Ash. St. John,23:48.1
+43,Yuxi xie,11,Andrews Osborne Acad.,23:48.1
+44,Reese Nims,12,Grand Valley,24:14.6
+45,Elizabeth Warren,9,Kirtland,24:16.9
+46,Kaitlyn Ecker,12,Mathews,24:20.0
+47,Emma Call,12,Ash. St. John,24:23.3
+48,Brooke Perris,12,Bristol,24:37.1
+49,Samara Fabian,10,McDonald,25:02.0
+50,Jillian Hopkinson,11,Mineral Ridge,25:08.1
+51,Aliya Springer,9,Cardinal,25:35.1
+52,Temperance Cooper,9,Fairport Harding,25:40.5
+53,Sophia Marcin,12,Pymatuning Valley,25:42.2
+54,Baylee Bosheff,11,McDonald,25:43.6
+55,Caroline Bitner,10,Mineral Ridge,25:49.2
+56,Isabella Bencivengo,12,Lordstown,26:03.9
+57,Neeley Howard,10,Newton Falls,26:11.0
+58,Miranda Bills,10,Lordstown,26:28.0
+59,Caitlyn (Cait) Harklerode,12,Bristol,26:29.8
+60,Madison Hilger,12,Cardinal,26:34.1
+61,Alaina Payton,11,Brookfield,26:35.2
+62,Lillian Hobe,11,Ash. St. John,26:47.7
+63,Isabella Williams,11,Brookfield,27:08.2
+64,Sonya Sawtelle,12,Badger,27:18.0
+65,Haylee Matanin,11,Mathews,27:27.7
+66,Layla Marcum,11,Cardinal,27:29.5
+67,Serenity Davis,10,Newton Falls,27:39.1
+68,Mariana Gojevic,12,Wickliffe,27:39.9
+69,Rowan Higinbotham,10,Lordstown,28:31.2
+70,Adrianna Yanucci,11,Warren JFK,28:40.3
+71,Sophia Thirion,11,Grand Valley,28:46.2
+72,Lily Ross,11,Grand Valley,29:06.4
+73,Vivienne Tacket,9,Grand Valley,29:10.5
+74,Abby Colburn,12,Young. Valley Christian,29:19.4
+75,Elizabeth Hunt,10,Newton Falls,29:24.7
+76,Peyton Evans,11,Newton Falls,29:25.8
+77,CeCe Cerneka,11,Mineral Ridge,29:39.0
+78,Guste Bagdonaite,11,Andrews Osborne Acad.,30:29.3
+79,Katelyn Tunison,11,Badger,30:35.0
+80,Olivia Fiebig,12,Fairport Harding,30:55.6
+81,Chessa Hedenberg,11,Grand Valley,30:56.2
+82,Sophia Williams,9,Cardinal,31:15.0
+83,Arielle Tuchek,12,Badger,31:51.3
+84,Riley Thomas,12,Badger,31:57.6
+85,Lina Doane,12,Andrews Osborne Acad.,33:47.7
+86,Aina Malufau,10,Brookfield,35:43.3
+87,Kailyn Donaldson,12,Brookfield,35:54.9
+88,Aunna Arnoto,12,Young. Valley Christian,37:13.9
+89,Audrey Van Wig,11,Cardinal,38:07.0
