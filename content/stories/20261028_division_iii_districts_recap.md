@@ -10,31 +10,12 @@ draft: false
 updatedDate: "2026-10-28"
 type: "Results"
 divisions: "III"
-genders: "Boys & Girls"
 series: "district-weekend-2026"
 seriesOrder: 3
 heroImage: "/images/stories/header-3-division-iii.png"
 heroAlt: "Graphic: Cole Zang 14:52.9 and Gwen Huddle 17:05.5, the fastest boy and girl in Ohio at districts, both at Owens Community College"
 heroCaption: "Margaretta's Cole Zang and Napoleon's Gwen Huddle ran the fastest boys and girls times in Ohio, both at Owens Community College."
 heroCredit: "Podium Watch graphic"
-atAGlance:
-  - "Fastest boy in Ohio|14:52.9|Cole Zang|Margaretta · won by 1:55.1|boys"
-  - "Fastest girl in Ohio|17:05.5|Gwen Huddle|Napoleon · won by 1:51.5|girls"
-  - "Second sub-15|14:57.7|Jackson Spitzer|Versailles · Cedarville|boys"
-  - "Up next|Oct. 31|Regionals|State Nov. 7: girls 1:40 p.m., boys 2:20 p.m.|neutral"
-regions:
-  - "Central|Hilliard Darby|Pickerington"
-  - "East|Cambridge|Pickerington"
-  - "Northeast|Lorain County CC, Madison, GlenOak|Boardman"
-  - "Northwest|Galion, Columbus Grove, Owens CC|Tiffin"
-  - "Southeast|Rio Grande|Pickerington"
-  - "Southwest|Cedarville University, Voice of America|Troy"
-nextRegionals:
-  - "Central, East, Southeast|Pickerington"
-  - "Northeast|Boardman"
-  - "Northwest|Tiffin"
-  - "Southwest|Troy"
-nextStateLine: "State at Fortress Obetz, Saturday, Nov. 7. Division III girls race at 1:40 p.m., boys at 2:20 p.m."
 featuredImage: "/images/stories/header-3-division-iii.png"
 featuredImageAlt: "One course, two runaways: Cole Zang of Margaretta ran 14:52.9, the fastest boy in Ohio, and Gwen Huddle of Napoleon ran 17:05.5, the fastest girl in Ohio, both at Owens Community College."
 ---
@@ -51,9 +32,9 @@ They weren't the only Division III stories, either. Versailles senior Jackson Sp
 
 *At Cedarville University, Rio Grande and the Voice of America boys race, the top two teams share the district title.*
 
----
+## Central
 
-## CENTRAL -- Hilliard Darby (regional: Pickerington)
+Hilliard Darby district · Pickerington regional
 
 **Pleasant's great day.**
 - Senior Joey Dietsch won Boys Race 2 in 16:04.3.
@@ -67,7 +48,9 @@ Highland's boys season ends one point short, but Maddox Weiss and Ciaran Gilmore
 
 **Less than a second.** Lakewood (Hebron) senior Carson Pound won Boys Race 1 in 16:55.4. Fairbanks' Daniel Thomas finished 95-hundredths of a second behind him. Utica won the team title with 51.
 
-## EAST -- Cambridge (regional: Pickerington)
+## East
+
+Cambridge district · Pickerington regional
 
 **Fuller and Fairless.** In September at Piqua, Brice Fuller ran 14:54, eight-tenths faster than Jackson Spitzer's winning time there. At Cambridge, the Fairless junior won in **15:06.7**, 33.6 seconds ahead of Union Local's Connor Bendo. Behind him, Fairless put seven runners in the top 28 and won with 44, ahead of Minerva (86).
 
@@ -75,7 +58,9 @@ Highland's boys season ends one point short, but Maddox Weiss and Ciaran Gilmore
 
 Thirteen of the 15 scoring teams advance. Philo took the last spot by three points over River View.
 
-## NORTHEAST (regional: Boardman)
+## Northeast
+
+Lorain County CC, Madison and GlenOak districts · Boardman regional
 
 **Woodridge, twice.** Woodridge was Podium Watch's preseason No. 1 in Division III boys. At Lorain County Community College, it scored 25:
 - John Brock won in 16:01.7.
@@ -94,7 +79,9 @@ Then the girls won too, with 27. Lola Mullen and Lillian Singer went one-two, an
 
 **Marlington's senior.** Irelyn Johnson won the GlenOak girls race in 18:09.7, more than a minute ahead of the field. She led Marlington to the team title with 42.
 
-## NORTHWEST (regional: Tiffin)
+## Northwest
+
+Galion, Columbus Grove and Owens CC districts · Tiffin regional
 
 **Huron, 18.** Our preseason No. 1 in Division III girls swept the top three spots at Galion:
 - Sophomore Laney Schlessman won in 18:46.1.
@@ -117,7 +104,9 @@ Wauseon took the last boys spot by four points over Bluffton.
 
 **Owens CC's teams.** Behind Zang, Eastwood won the boys title with 59, ahead of Margaretta (79) and Clyde (80). Behind Huddle, Ottawa-Glandorf won the girls title with 43.
 
-## SOUTHEAST -- Rio Grande (regional: Pickerington)
+## Southeast
+
+Rio Grande district · Pickerington regional
 
 **Goodell by one second.** Wellston senior Elijah Goodell won the boys race in 15:20.4. Fairfield Union's Connor Runkle was second in 15:21.5.
 
@@ -127,7 +116,9 @@ Portsmouth didn't score as a team, but three of its runners finished in the top 
 
 **Fairfield Union, both ways.** Fairfield Union's girls are co-champions with Waverly. Sophomore Sadie Schultz won the girls race in 18:25.8, ahead of Ironton's Marlena McCown. That gives Fairfield Union a share of both Division III titles at Rio Grande.
 
-## SOUTHWEST (regional: Troy)
+## Southwest
+
+Cedarville University and Voice of America districts · Troy regional
 
 **Spitzer, again.** Versailles senior Jackson Spitzer ran **14:57.7** at Cedarville University, his second sub-15 of the fall, and won by 54.7 seconds.
 
@@ -141,8 +132,8 @@ Milton-Union had three runners named Hinkelman in the top eight: Colin (4th), Gr
 
 **Madeira's girls.** Madeira won the girls title outright with 31, led by junior Lucy Folger's 18:35.1. Madeira took a share of the boys title too.
 
----
+## Up next
 
-**Up next:** Regionals, Saturday, Oct. 31. The Division III state races at Fortress Obetz are Nov. 7: girls at 1:40 p.m., boys at 2:20 p.m.
+Regionals are Saturday, Oct. 31. The Division III state races at Fortress Obetz are Nov. 7: girls at 1:40 p.m., boys at 2:20 p.m.
 
 *Results are from official athletic.net postings for each OHSAA district site, pulled Oct. 24-25, 2026. Earlier marks and preseason rankings come from Podium Watch's published coverage. School names are written out in full. Podium Watch is not affiliated with the OHSAA.*

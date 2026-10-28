@@ -10,18 +10,12 @@ draft: false
 updatedDate: "2026-10-28"
 type: "Results"
 divisions: "All"
-genders: "Boys & Girls"
 series: "district-weekend-2026"
 seriesOrder: 1
 heroImage: "/images/stories/header-1-collision-course.png"
 heroAlt: "Graphic: Cole Zang 14:52.9, Jackson Spitzer 14:57.7 and Brice Fuller 15:06.7, the three fastest boys times at Ohio districts"
 heroCaption: "Cole Zang, Jackson Spitzer and Brice Fuller ran the three fastest times in Ohio at districts on Saturday, Oct. 24."
 heroCredit: "Podium Watch graphic"
-atAGlance:
-  - "Fastest boy in Ohio|14:52.9|Cole Zang|Margaretta · Owens CC|boys"
-  - "Fastest girl in Ohio|17:05.5|Gwen Huddle|Napoleon · Owens CC|girls"
-  - "Perfect score|15|Mount Gilead|Division IV boys · Hilliard Darby|boys"
-  - "Up next|Oct. 31|Regionals|State at Fortress Obetz, Nov. 7|neutral"
 featuredImage: "/images/stories/header-1-collision-course.png"
 featuredImageAlt: "Collision Course: Ohio's three fastest boys on Saturday all run Division III -- Cole Zang 14:52.9, Jackson Spitzer 14:57.7, Brice Fuller 15:06.7."
 ---

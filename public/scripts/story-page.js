@@ -1,7 +1,8 @@
-// Story page redesign (2026-10-28): reading progress bar in the sticky
-// header, sticky "On this page" scroll-spy, and the "How we reported
-// this" box's copy-email button. Copy link / share buttons are handled
-// globally by site.js (data-copy-link is already wired up sitewide).
+// Story page redesign v3 "simple" (2026-10-28): reading progress bar in
+// the sticky header, and the share row's copy-link button (its own
+// handler, not the sitewide data-copy-link one in site.js -- that one
+// swaps the button's own text, which would destroy this button's icon-
+// only markup). Share-on-X/Facebook are plain links, no JS needed.
 (() => {
   const shell = document.querySelector("[data-story-slug]");
   const story = document.querySelector(".sp-article");
@@ -18,32 +19,17 @@
     updateProgress();
   }
 
-  const tocLinks = Array.from(document.querySelectorAll("[data-sp-toc] a"));
-  if (tocLinks.length) {
-    const sections = tocLinks.map((link) => document.querySelector(link.getAttribute("href")));
-    const spy = () => {
-      let activeIndex = 0;
-      sections.forEach((section, index) => {
-        if (section && section.getBoundingClientRect().top < 160) activeIndex = index;
-      });
-      tocLinks.forEach((link, index) => link.classList.toggle("sp-on", index === activeIndex));
-    };
-    window.addEventListener("scroll", spy, { passive: true });
-    spy();
-  }
-
-  const copyMailButton = document.querySelector("[data-copy-mail]");
-  if (copyMailButton) {
-    copyMailButton.addEventListener("click", () => {
-      const mailCode = copyMailButton.previousElementSibling;
-      const address = mailCode ? mailCode.textContent.trim() : "media@podiumwatch.org";
-      const originalLabel = copyMailButton.textContent;
-      const showCopied = () => {
-        copyMailButton.textContent = "Copied";
-        setTimeout(() => { copyMailButton.textContent = originalLabel; }, 1600);
+  const copyLinkButton = document.querySelector("[data-sp-copy-link]");
+  const toast = document.querySelector("[data-sp-toast]");
+  if (copyLinkButton) {
+    copyLinkButton.addEventListener("click", () => {
+      const showToast = () => {
+        if (!toast) return;
+        toast.hidden = false;
+        setTimeout(() => { toast.hidden = true; }, 1600);
       };
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(address).then(showCopied).catch(() => {});
+        navigator.clipboard.writeText(window.location.href).then(showToast).catch(() => {});
       }
     });
   }

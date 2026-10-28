@@ -10,31 +10,12 @@ draft: false
 updatedDate: "2026-10-28"
 type: "Results"
 divisions: "IV"
-genders: "Boys & Girls"
 series: "district-weekend-2026"
 seriesOrder: 4
 heroImage: "/images/stories/header-4-division-iv.png"
 heroAlt: "Graphic: Mount Gilead's perfect score of 15, with Bartlett, Gabriel, McLain, Turner and Stalnaker finishing first through fifth"
 heroCaption: "Mount Gilead put its top five runners first through fifth for a perfect 15 at Hilliard Darby."
 heroCredit: "Podium Watch graphic"
-atAGlance:
-  - "Perfect score|15|Mount Gilead|Hilliard Darby|boys"
-  - "Fastest D-IV girl|17:15.4|Natalie Nixon|Ottawa Hills · Owens CC|girls"
-  - "Fastest D-IV boy|15:24.1|Owen Cappuzello|McDonald · Madison|boys"
-  - "Up next|Oct. 31|Regionals|State Nov. 7: girls 3:30 p.m., boys 4:10 p.m.|neutral"
-regions:
-  - "Central|Hilliard Darby|Pickerington"
-  - "East|Cambridge|Pickerington"
-  - "Northeast|Madison, GlenOak, Lorain County CC|Boardman"
-  - "Northwest|Owens CC, Leaders Farms, Columbus Grove, Galion|Tiffin"
-  - "Southeast|Rio Grande|Pickerington"
-  - "Southwest|Cedarville University, Voice of America|Troy"
-nextRegionals:
-  - "Central, East, Southeast|Pickerington"
-  - "Northeast|Boardman"
-  - "Northwest|Tiffin"
-  - "Southwest|Troy"
-nextStateLine: "State at Fortress Obetz, Saturday, Nov. 7. Division IV girls race at 3:30 p.m., boys at 4:10 p.m."
 featuredImage: "/images/stories/header-4-division-iv.png"
 featuredImageAlt: "Perfect score: Mount Gilead scored 15 in Division IV boys at the Hilliard Darby district, with Bartlett, Gabriel, McLain, Turner and Stalnaker finishing 1 through 5."
 ---
@@ -57,9 +38,9 @@ That was the biggest story in Division IV on Saturday, but there were others:
 
 *At Cedarville University and Rio Grande, the top two teams share the district title.*
 
----
+## Central
 
-## CENTRAL -- Hilliard Darby (regional: Pickerington)
+Hilliard Darby district · Pickerington regional
 
 **Grandview Heights, twice.** Grandview Heights won two titles:
 - **Boys Race 2:** 38 points, ahead of Northmor (44).
@@ -69,13 +50,17 @@ West Jefferson senior Ethan Roberts won the boys race in 16:24.2 and advances as
 
 **Two points.** In Girls Race 2, Mechanicsburg beat Mount Gilead for the title, 37 to 39. Both advance. Cardington-Lincoln sophomore Mickenzie White won the race in 19:21.6, with Mount Gilead's Gwen Hershner second.
 
-## EAST -- Cambridge (regional: Pickerington)
+## East
+
+Cambridge district · Pickerington regional
 
 **Shenandoah, 26.** Sophomore Joel Tewksbary won the boys race in 16:34.5, 1 minute, 9.1 seconds ahead of Caldwell's Zane Boyd. Shenandoah put seven runners in the top 18 and won with 26.
 
 **Bellaire's girls.** Bellaire won the girls title with 33, ahead of Shadyside (74). Shadyside senior Chloe Meholovitch won the race in 18:49.8.
 
-## NORTHEAST (regional: Boardman)
+## Northeast
+
+Madison, GlenOak and Lorain County CC districts · Boardman regional
 
 **The fastest small-school boy in Ohio.** At Madison, McDonald sophomore Owen Cappuzello won in **15:24.1**, 37 seconds ahead of Maplewood's Micah Sparks. Maplewood won the team title with 32 and put seven runners in the top 18.
 
@@ -97,7 +82,9 @@ In the girls race, Springfield (New Middletown) sophomore Alexandria Fiumara won
 
 On the boys side, Independence won with 44, and Smithville junior Nigel Wenger won the race in 16:41.2.
 
-## NORTHWEST (regional: Tiffin)
+## Northwest
+
+Owens CC, Leaders Farms, Columbus Grove and Galion districts · Tiffin regional
 
 **Nixon's 17:15.** Ottawa Hills, our preseason No. 1 in Division IV girls, won at Owens Community College with 42. Junior Natalie Nixon won the race in **17:15.4**, 1 minute, 21.9 seconds ahead of Seneca East's Aubrey Ritzler. Seneca East won the boys title with 52, and Mohawk junior Kolton Wood won the boys race in 16:08.3.
 
@@ -111,13 +98,17 @@ On the boys side, Independence won with 44, and Smithville junior Nigel Wenger w
 
 In the girls race, Crestline won with 36, and Edison (Milan) sophomore Claire Michaelis won in 19:43.0.
 
-## SOUTHEAST -- Rio Grande (regional: Pickerington)
+## Southeast
+
+Rio Grande district · Pickerington regional
 
 **One point between champions.** Southern (Racine) scored 54 and South Webster scored 55, and both are co-champions. South Webster freshman Luke Yarnell won the race in 16:29.5, 31.8 seconds ahead of Lynchburg-Clay's Tavion Huguely. Fairfield (Leesburg) and Belpre tied at 215, and both advance.
 
 **Templeton goes it alone.** Southern (Racine) senior Edie Templeton won the girls race by 51.5 seconds in 19:55.1. She advances as an individual. Fairland (38) and West Union (48) share the team title.
 
-## SOUTHWEST (regional: Troy)
+## Southwest
+
+Cedarville University and Voice of America districts · Troy regional
 
 **The biggest race of the day.** The Division IV boys race at Cedarville University had 174 finishers and 26 scoring teams. Ansonia senior Bennett Lehman won it in 15:33.0. Legacy Christian's Stephen Wojtowicz was 3.5 seconds back. Russia sophomore Paxson Bixler, who led every Division IV boy in Ohio early this season, was third in 15:36.9.
 
@@ -129,8 +120,8 @@ Russia (45) and Botkins (77) are co-champions. Ansonia took the 14th and final t
 
 In the girls race, Summit Country Day won with 43, and Seven Hills senior Campbell Coyne won in 18:15.8.
 
----
+## Up next
 
-**Up next:** Regionals, Saturday, Oct. 31. The Division IV state races at Fortress Obetz are Nov. 7: girls at 3:30 p.m., boys at 4:10 p.m.
+Regionals are Saturday, Oct. 31. The Division IV state races at Fortress Obetz are Nov. 7: girls at 3:30 p.m., boys at 4:10 p.m.
 
 *Results are from official athletic.net postings for each OHSAA district site, pulled Oct. 24-25, 2026. Earlier marks and preseason rankings come from Podium Watch's published coverage. School names are written out in full. Podium Watch is not affiliated with the OHSAA.*
