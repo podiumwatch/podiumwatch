@@ -151,6 +151,11 @@ export function recruitingPage(site) {
     description:
       "Search Podium Watch recruit ratings for Ohio high school cross country and track athletes by class, event group, verified performance, and commitment status.",
     pathname: "/recruiting/",
+    // Media-credibility audit (2026-10-28): 0 recruits are currently
+    // published here -- noindexed until there's real content, still
+    // reachable by direct URL, still follows any real outbound links.
+    // Unlinked from nav/footer/homepage separately (src/config/site.mjs).
+    robots: "noindex, follow",
     content
   });
 }

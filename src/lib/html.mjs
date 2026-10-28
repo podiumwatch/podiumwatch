@@ -332,6 +332,19 @@ export function storyFallbackImage(category) {
   return "/images/stories/story_fallback.svg";
 }
 
+// Media-credibility audit (2026-10-28), P1-1: every story card shows a
+// byline. A real named author (anyone but the generic "Podium Watch"
+// front-matter default) links to their own card on /staff/ -- see
+// staffCard()'s matching id slug in scripts/build.mjs. The generic
+// "Podium Watch" author (used when no specific person wrote the piece)
+// reads as "Podium Watch Staff," plain text, no link -- there is no
+// single staff card that name could point at.
+export function storyBylineHtml(author) {
+  const name = String(author || "").trim();
+  if (!name || name === "Podium Watch") return "Podium Watch Staff";
+  return `<a href="/staff/#${slugify(name)}">${escapeHtml(name)}</a>`;
+}
+
 export function storyCard(story, { featured = false } = {}) {
   const fallback = storyFallbackImage(story.category);
   const image = story.featuredImage || fallback;
@@ -349,6 +362,7 @@ export function storyCard(story, { featured = false } = {}) {
     </a>
     <div class="story-card-body">
       <div class="story-meta"><span class="category">${escapeHtml(story.category)}</span><span>${formatDate(story.date)}</span><span>${story.readingMinutes} min read</span></div>
+      <p class="story-byline">By ${storyBylineHtml(story.author)}</p>
       <h3><a href="/stories/${story.slug}/">${escapeHtml(story.title)}</a></h3>
       <p>${escapeHtml(story.description)}</p>
       <a class="read-link" href="/stories/${story.slug}/">Read story ${icon("arrow")}</a>
@@ -356,12 +370,19 @@ export function storyCard(story, { featured = false } = {}) {
   </article>`;
 }
 
-export function rankingCard(ranking) {
+// badge (optional): media-credibility audit (2026-10-28) -- the
+// homepage's 3 cards were showing a stale "Updated July 29, 2026" with
+// no other context, which reads as an abandoned/unmaintained page.
+// Homepage callers pass badge: "Preseason" to label these clearly
+// instead of implying they were just refreshed; every other caller
+// (the real /rankings/ index, where "Updated {date}" is accurate and
+// meaningful) is unaffected by leaving badge unset.
+export function rankingCard(ranking, { badge } = {}) {
   return `<article class="ranking-card">
     <p>${escapeHtml(ranking.sport)}</p>
     <h3>${escapeHtml(ranking.title)}</h3>
     <span>${escapeHtml(ranking.subtitle || `${ranking.gender} ${ranking.division}`)}</span>
-    <small>Updated ${formatDate(ranking.updatedDate)}</small>
+    <small>${badge ? escapeHtml(badge) : `Updated ${formatDate(ranking.updatedDate)}`}</small>
     <a href="${ranking.href}">View rankings ${icon("arrow")}</a>
   </article>`;
 }

@@ -35,9 +35,33 @@
           const location = locationText(meet);
           return `<a class="home-meet" href="/meetdetail/?slug=${encodeURIComponent(meet.slug)}"><b>${escapeHtml(chip.month)} ${escapeHtml(chip.day)}</b><span><strong>${escapeHtml(meet.name)}</strong><small>${escapeHtml(location || "Location TBD")}</small></span></a>`;
         }).join("")
-        : `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">No upcoming meets are published right now.</p>`;
+        : `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">No upcoming meets listed.</p>`;
     }).catch(() => {
       upcomingMeetsList.innerHTML = `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">Unable to load meets right now. <a href="/meets/">Open the Meet Center</a>.</p>`;
+    });
+  }
+
+  // ---- Latest Results panel -------------------------------------------
+  // Media-credibility audit (2026-10-28): reuses the exact same
+  // /api/meets/ data and PodiumOhioToday.computeOhioToday() computation
+  // as the Upcoming Meets panel above (and the ticker) -- no second
+  // "results" dataset, so this panel and /meets/?view=results can never
+  // disagree about what counts as recently completed.
+
+  const latestResultsList = document.querySelector("[data-latest-results-list]");
+
+  if (latestResultsList && window.PodiumOhioToday) {
+    window.PodiumOhioToday.computeOhioToday().then((today) => {
+      const completed = today.newestCompleted;
+      latestResultsList.innerHTML = completed.length
+        ? completed.map((meet) => {
+          const chip = formatMeetDate(meet.end_date || meet.meet_date);
+          const location = locationText(meet);
+          return `<a class="home-meet" href="/meetdetail/?slug=${encodeURIComponent(meet.slug)}"><b>${escapeHtml(chip.month)} ${escapeHtml(chip.day)}</b><span><strong>${escapeHtml(meet.name)}</strong><small>${escapeHtml(location || "Location TBD")}</small></span></a>`;
+        }).join("")
+        : `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">No results published yet.</p>`;
+    }).catch(() => {
+      latestResultsList.innerHTML = `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">Unable to load results right now. <a href="/meets/?view=results">Open the Meet Center</a>.</p>`;
     });
   }
 

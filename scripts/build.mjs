@@ -14,6 +14,8 @@ import { myPodiumPage } from "../src/pages/mypodium.mjs";
 import { myPodiumLoginPage } from "../src/pages/mypodiumlogin.mjs";
 import { teamInsightsPage } from "../src/pages/teaminsights.mjs";
 import { privacyPage } from "../src/pages/privacy.mjs";
+import { standardsPage } from "../src/pages/standards.mjs";
+import { termsPage } from "../src/pages/terms.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { site, NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, SITEMAP_EXACT_EXCLUDE } from "../src/config/site.mjs";
@@ -47,6 +49,7 @@ import {
   organizationJsonLd,
   pageHero,
   rankingCard,
+  storyBylineHtml,
   storyCard,
   storyFallbackImage,
   websiteJsonLd
@@ -363,7 +366,13 @@ function homePage(stories, rankings) {
   // case), it silently appeared twice on the homepage: once as the big
   // lead, again as the first card in the grid underneath.
   const latestStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 8);
-  const rankingCards = rankings.slice(0, 3).map((ranking) => rankingCard(ranking)).join("");
+  // Media-credibility audit (2026-10-28): these are preseason projections
+  // (every ranking CSV's updatedDate is 2026-07-29, before the season
+  // started) still being shown on the homepage after real district
+  // results exist -- label them "Preseason" rather than implying they
+  // are current, per rule 6 (verified facts vs. editorial projections
+  // must stay clearly separate). The CSVs themselves are unchanged.
+  const rankingCards = rankings.slice(0, 3).map((ranking) => rankingCard(ranking, { badge: "Preseason" })).join("");
   const rankingsContent = rankingCards || emptyState({
     title: "Rankings are being prepared",
     description: "The rankings pages are ready. Publish a ranking CSV file to make it appear here.",
@@ -425,71 +434,31 @@ function homePage(stories, rankings) {
   // hardcoded, so this stays accurate automatically as new weeks are
   // added to oatccc-coaches-poll.json with no further code change here.
   const currentPollLabel = oatcccPollData.weeks[oatcccPollData.weeks.length - 1].pollLabel;
+  // Media-credibility audit (2026-10-28), P0-3: the homepage panel used
+  // to show the bare word "Updated" with no actual date. Use the poll's
+  // own real pollDate field (already in oatccc-coaches-poll.json for
+  // every week) instead of inventing one.
+  const currentPollDate = formatDate(oatcccPollData.weeks[oatcccPollData.weeks.length - 1].pollDate);
   // Short summary only on the homepage lead card (Phase 5) -- the full
   // description still appears on the story's own page unchanged, this
   // just keeps the homepage card from running long before a visitor
   // ever reaches results/rankings below it.
   const leadSummary = leadDescription.length > 150 ? `${leadDescription.slice(0, 147).trimEnd()}...` : leadDescription;
-  // Most recently updated ranking file, whatever it is -- this is real,
-  // build-time-accurate data (a ranking only changes when a new CSV is
-  // committed and the site rebuilt, which IS the update event), unlike
-  // meet/result data below, which is genuinely live and can never be
-  // safely baked in at build time.
-  const content = `<section class="ohio-today-band"><div class="container">
-    <div class="home-actions">
-      <a class="home-action home-action-primary" href="/meets/?view=results">Latest Results</a>
-      <a class="home-action home-action-outline" href="/meets/?view=upcoming">Find a Meet</a>
-      <a class="home-action home-action-outline" href="/rankings/">State Rankings</a>
-    </div>
-    <!-- AdSense readiness (2026-09-16): this used to be a client-hydrated
-         Fan Poll teaser, hidden by default and only shown when that
-         week's Fan Poll voting happened to be open -- real request:
-         route the homepage's top, most prominent CTA to Athlete of the
-         Week instead, since that's where real traffic already goes.
-         Static and always visible now rather than JS-fetched and
-         sometimes hidden -- one less empty-panel state, one less network
-         dependency on the homepage's first screen. The real Fan Poll
-         still exists at /fan-poll/ and in the Voting nav group,
-         unchanged; this is only the homepage's top promotional slot. -->
-    <section class="vote-now-top">
-      <span class="vote-now-top-badge">Athlete of the Week</span>
-      <div class="vote-now-body">
-        <p class="vote-now-category">Ohio High School Cross Country</p>
-        <p class="vote-now-question">Vote for this week's Athlete of the Week.</p>
-        <a class="button button-primary" href="/athlete-of-the-week/">Vote Now</a>
-      </div>
-    </section>
-  </div></section>
-
-  <section class="home-spotlight"><div class="container home-spotlight-grid">
-    <section class="home-panel power-panel"><div class="home-panel-title"><h2>OATCCC Coaches Poll</h2><span data-power-updated>Updated</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><a class="home-panel-link" href="/rankings/oatccc/">See full rankings ${icon("arrow")}</a><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');const updated=panel.querySelector('[data-power-updated]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};if(updated)updated.textContent=${JSON.stringify(currentPollLabel)};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
-    <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
-      <div class="home-panel-title"><h2>My Podium</h2><a href="/my-podium/" style="font-size:.68rem;font-weight:900;color:var(--green-dark);">Open &rarr;</a></div>
-      <div class="follow-school-panel-body">
-        <div data-follow-school-search-view>
-          <div class="follow-school-promo" data-mp-promo-intro>
-            <p style="margin:0 0 4px;font-weight:800;">Make Podium Watch yours.</p>
-            <p style="margin:0;">Follow your school, athletes, division, and events to see what matters to you first.</p>
-            <button type="button" class="follow-school-dismiss" data-mp-promo-dismiss aria-label="Dismiss this introduction">Not now</button>
-          </div>
-          <input type="search" class="follow-school-search" placeholder="Search for your school" data-follow-school-input>
-          <div class="follow-school-results" data-follow-school-results></div>
-        </div>
-        <div data-follow-school-selected-view hidden></div>
-      </div>
-    </section>
-  </div></section>
-
-  <section class="sports-home"><div class="container sports-home-grid">
-    <aside class="home-quick"><h2>Quick Links</h2><a href="/rankings/"><span>01</span>State Rankings</a><a href="/meets/?view=upcoming"><span>02</span>Meet Calendar</a><a href="/meets/?view=results"><span>03</span>Latest Results</a><a href="/athletes/"><span>04</span>Athlete Profiles</a><a href="/recruiting/"><span>05</span>Recruiting Hub</a><a href="/photos/"><span>06</span>Meet Photos</a><div class="home-newsletter"><p class="eyebrow">Stay Connected</p><h3>Follow your team.</h3><p>Get your school's schedule, results, and rankings from one place.</p><a href="/teams/">Follow Your Team</a></div></aside>
-    <div class="home-main"><article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"${leadImagePosition ? ` style="object-position:${escapeHtml(leadImagePosition)}"` : ""}><span>2026 XC Preview</span></a><div><p class="eyebrow">Podium Watch Coverage</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article></div>
-    <aside class="home-right">
-      <section class="home-panel" data-upcoming-meets-panel>
-        <div class="home-panel-title"><h2>Upcoming Meets</h2></div>
-        <div data-upcoming-meets-list><a class="home-meet" href="/meets/?view=upcoming"><b>&hellip;</b><span><strong>Checking the calendar&hellip;</strong><small>&nbsp;</small></span></a></div>
-        <a class="home-panel-link" href="/meets/?view=upcoming">Full meet calendar ${icon("arrow")}</a>
-      </section>
-    </aside>
+  // Media-credibility audit (2026-10-28), P0-3: full homepage reorder so
+  // the first thing a reviewer (or any reader) sees is the newsroom, not
+  // a rankings widget or a vote CTA. New order top to bottom: hero (the
+  // latest story, with real category/byline/date -- no more hardcoded
+  // "2026 XC Preview" label on whatever happens to be featured), Latest
+  // Stories, Latest Results (+ Upcoming Meets alongside it -- same real
+  // /api/meets/ data, just repositioned), OATCCC Poll, Rankings, Voting,
+  // Follow (My Podium), About. Nothing here was deleted -- every panel,
+  // script, and data source is the same one that existed before, just
+  // moved and (for the OATCCC date and rankings badge) relabeled.
+  const heroCategory = featuredStory?.category || "Cross Country";
+  const heroByline = storyBylineHtml(featuredStory?.author);
+  const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
+  const content = `<section class="home-hero-news"><div class="container">
+    <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"${leadImagePosition ? ` style="object-position:${escapeHtml(leadImagePosition)}"` : ""}><span>${escapeHtml(heroCategory)}</span></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
   </div></section>
 
   <section class="section section-paper" aria-labelledby="latest-stories-title">
@@ -505,10 +474,44 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
+  <section class="section" aria-labelledby="latest-results-title">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">Latest results</p><h2 id="latest-results-title">What just happened in Ohio.</h2></div><a class="text-link" href="/meets/?view=results">All results ${icon("arrow")}</a></div>
+      <div class="home-results-grid">
+        <section class="home-panel" data-latest-results-panel>
+          <div class="home-panel-title"><h2>Recently completed</h2></div>
+          <div data-latest-results-list><a class="home-meet" href="/meets/?view=results"><b>&hellip;</b><span><strong>Checking results&hellip;</strong><small>&nbsp;</small></span></a></div>
+        </section>
+        <section class="home-panel" data-upcoming-meets-panel>
+          <div class="home-panel-title"><h2>Upcoming meets</h2></div>
+          <div data-upcoming-meets-list><a class="home-meet" href="/meets/?view=upcoming"><b>&hellip;</b><span><strong>Checking the calendar&hellip;</strong><small>&nbsp;</small></span></a></div>
+          <a class="home-panel-link" href="/meets/?view=upcoming">Full meet calendar ${icon("arrow")}</a>
+        </section>
+      </div>
+    </div>
+  </section>
+
   <section class="section" aria-labelledby="recent-photos-title" data-recent-photos-section hidden>
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Submitted by fans</p><h2 id="recent-photos-title">Recent meet photos.</h2></div><a class="text-link" href="/photos/">See all photos ${icon("arrow")}</a></div>
       <div class="photos-grid" data-recent-photos-grid data-photos-limit="8"></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="oatccc-poll-title">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">OATCCC Coaches Poll</p><h2 id="oatccc-poll-title">Who the coaches have rising.</h2></div><a class="text-link" href="/rankings/oatccc/">See full rankings ${icon("arrow")}</a></div>
+      <section class="home-panel power-panel"><div class="home-panel-title"><h2>OATCCC Coaches Poll</h2><span data-power-updated>${escapeHtml(currentPollLabel)} &middot; Updated ${escapeHtml(currentPollDate)}</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="latest-rankings-title">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">Rankings</p><h2 id="latest-rankings-title">Who is rising in Ohio?</h2></div>
+        <a class="text-link" href="/rankings/">View all rankings ${icon("arrow")}</a>
+      </div>
+      <div class="rankings-grid">${rankingsContent}</div>
     </div>
   </section>
 
@@ -521,45 +524,49 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
-  <section class="section">
+  <!-- Media-credibility audit (2026-10-28): the Photographer Network
+       promo (0 photographers published) and the State Meet Media
+       Correspondent promo (role filled -- see /apply/state-meet-
+       correspondent/) were both removed from the homepage per the
+       audit. Neither page/feature was deleted; both routes still work,
+       just not promoted here anymore. -->
+
+  <section class="section section-paper" aria-labelledby="voting-title">
     <div class="container">
-      <div class="intern-banner">
-        <div><p class="eyebrow">Photographer Network</p><h2>Are you a sports photographer?</h2><p>Get discovered by Ohio cross country and track families searching for race-day photos. First ${FREE_TRIAL_DAYS} days free -- if it doesn't bring you leads, cancel before you're charged.</p></div>
-        <div class="intern-banner-actions"><a class="button button-dark" href="/photographers/membership/">Join the network</a><a class="text-link" href="/photographers/">Browse photographers ${icon("arrow")}</a></div>
+      <div class="section-heading"><div><p class="eyebrow">Voting</p><h2 id="voting-title">Have your say.</h2></div></div>
+      <section class="vote-now-top">
+        <span class="vote-now-top-badge">Athlete of the Week</span>
+        <div class="vote-now-body">
+          <p class="vote-now-category">Ohio High School Cross Country</p>
+          <p class="vote-now-question">Vote for this week's Athlete of the Week.</p>
+          <a class="button button-primary" href="/athlete-of-the-week/">Vote Now</a>
+        </div>
+      </section>
+      <div class="sport-cards" style="margin-top:18px">
+        <article class="sport-card"><p class="eyebrow">Team of the Week</p><h3>Vote for the best team.</h3><a class="button button-primary" href="/team-of-the-week/">Vote Now</a></article>
+        <article class="sport-card"><p class="eyebrow">Fan Poll</p><h3>Build your own ranking ballot.</h3><a class="button button-primary" href="/fan-poll/">Vote Now</a></article>
       </div>
     </div>
   </section>
 
-  <!-- Temporary promotion: State Meet Media Correspondent application
-       (2026 OHSAA State Cross Country Championships). Reuses the existing
-       .intern-banner component above unchanged -- remove this one section
-       when the role is filled or the application window closes. -->
-  <section class="section">
+  <section class="section" aria-labelledby="follow-title">
     <div class="container">
-      <div class="intern-banner">
-        <div><p class="eyebrow">Paid Media Opportunity</p><h2>Cover the OHSAA State Cross Country Championships</h2><p>Podium Watch is looking for a college student interested in sports journalism, broadcasting, or sports media to serve as our State Meet Media Correspondent on November 7 at Fortress Obetz.</p></div>
-        <div class="intern-banner-actions"><a class="button button-dark" href="/apply/state-meet-correspondent/">Apply Now</a></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="latest-rankings-title">
-    <div class="container">
-      <div class="section-heading">
-        <div><p class="eyebrow">Latest rankings</p><h2 id="latest-rankings-title">Who is rising in Ohio?</h2></div>
-        <a class="text-link" href="/rankings/">View all rankings ${icon("arrow")}</a>
-      </div>
-      <div class="rankings-grid">${rankingsContent}</div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="sports-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Coverage</p><h2 id="sports-title">Choose your sport.</h2></div></div>
-      <div class="sport-cards">
-        <article class="sport-card"><p class="eyebrow">Cross country</p><h3>Every mile matters.</h3><p>Individual rankings, team rankings, season previews, meet stories, and the road to the state championship.</p><a class="button button-primary" href="/rankings/cross-country/">Explore cross country</a></article>
-        <article class="sport-card track"><p class="eyebrow">Track and field</p><h3>Every event. Every division.</h3><p>Sprints, distance, hurdles, relays, jumps, and throws across all five Ohio divisions.</p><a class="button button-primary" href="/rankings/track-and-field/">Explore track and field</a></article>
-      </div>
+      <div class="section-heading"><div><p class="eyebrow">Follow</p><h2 id="follow-title">Make Podium Watch yours.</h2></div><a class="text-link" href="/my-podium/">Open My Podium ${icon("arrow")}</a></div>
+      <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
+        <div class="home-panel-title"><h2>My Podium</h2><a href="/my-podium/" style="font-size:.68rem;font-weight:900;color:var(--green-dark);">Open &rarr;</a></div>
+        <div class="follow-school-panel-body">
+          <div data-follow-school-search-view>
+            <div class="follow-school-promo" data-mp-promo-intro>
+              <p style="margin:0 0 4px;font-weight:800;">Make Podium Watch yours.</p>
+              <p style="margin:0;">Follow your school, athletes, division, and events to see what matters to you first.</p>
+              <button type="button" class="follow-school-dismiss" data-mp-promo-dismiss aria-label="Dismiss this introduction">Not now</button>
+            </div>
+            <input type="search" class="follow-school-search" placeholder="Search for your school" data-follow-school-input>
+            <div class="follow-school-results" data-follow-school-results></div>
+          </div>
+          <div data-follow-school-selected-view hidden></div>
+        </div>
+      </section>
     </div>
   </section>
 
@@ -568,7 +575,7 @@ function homePage(stories, rankings) {
   <section class="section section-paper" aria-labelledby="about-preview-title">
     <div class="container content-grid">
       <div><p class="eyebrow">About Podium Watch</p><h2 id="about-preview-title">Built for Ohio runners.</h2><p>Rankings, results, and stories from across the state, with verified facts kept clearly separate from editorial projections and every correction welcome.</p><a class="button button-dark" href="/about/">Learn more</a></div>
-      <div><a class="text-link" href="/rankings/methodology/">Read the ranking methodology ${icon("arrow")}</a><a class="text-link" href="/sponsors/" style="margin-top:10px">Sponsor Podium Watch ${icon("arrow")}</a></div>
+      <div><a class="text-link" href="/staff/">Meet our staff ${icon("arrow")}</a><a class="text-link" href="/rankings/methodology/" style="margin-top:10px">Read the ranking methodology ${icon("arrow")}</a><a class="text-link" href="/sponsors/" style="margin-top:10px">Sponsor Podium Watch ${icon("arrow")}</a></div>
     </div>
   </section>
 
@@ -622,7 +629,7 @@ function storyPage(story, stories) {
   const pathname = `/stories/${story.slug}/`;
   const crumbs = [{ label: "Home", href: "/" }, { label: "Stories", href: "/stories/" }, { label: story.title, href: pathname }];
   const sponsor = story.sponsor ? sponsors.find((item) => item.id === story.sponsor) : null;
-  const sponsorBlock = sponsor ? `<aside class="info-card" aria-label="Story sponsor"><p class="eyebrow">Story sponsor</p><h3>${escapeHtml(sponsor.name)}</h3>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}<a class="button button-dark" href="${sponsor.url}" target="_blank" rel="noopener noreferrer">Visit sponsor</a></aside>` : "";
+  const sponsorBlock = sponsor ? `<aside class="info-card" aria-label="Story sponsor"><p class="eyebrow">Story sponsor</p><h3>${escapeHtml(sponsor.name)}</h3>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}${sponsor.url ? `<a class="button button-dark" href="${sponsor.url}" target="_blank" rel="noopener noreferrer">Visit sponsor</a>` : ""}</aside>` : "";
   const relatedBlock = related.length ? `<section class="related-section" aria-labelledby="related-title"><p class="eyebrow">Keep reading</p><h2 id="related-title">Related stories</h2><div class="stories-grid">${related.map((item) => storyCard(item)).join("")}</div></section>` : "";
   const navigation = newer || older ? `<nav class="story-nav" aria-label="Story navigation">${newer ? `<a href="/stories/${newer.slug}/"><span>Newer story</span><strong>${escapeHtml(newer.title)}</strong></a>` : "<span></span>"}${older ? `<a href="/stories/${older.slug}/"><span>Older story</span><strong>${escapeHtml(older.title)}</strong></a>` : ""}</nav>` : "";
   const shareText = encodeURIComponent(story.title);
@@ -666,7 +673,7 @@ function storyPage(story, stories) {
     <img class="article-feature-image" src="${story.featuredImage || storyFallbackImage(story.category)}" data-fallback="${storyFallbackImage(story.category)}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}>
     ${story.featuredImageCaption ? `<p class="article-feature-caption">${escapeHtml(story.featuredImageCaption)}</p>` : ""}
 
-    <div class="article-layout"><div class="article-content">${story.html}</div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div><p class="article-view-count" data-story-view-count hidden></p>${navigation}${relatedBlock}</div>
+    <div class="article-layout"><div class="article-content">${story.html}<p class="article-corrections-line">Spotted an error? Email <a href="mailto:${site.contactEmail}">${site.contactEmail}</a> and we'll correct it.</p></div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div><p class="article-view-count" data-story-view-count hidden></p>${navigation}${relatedBlock}</div>
     ${preseasonDataScript}
     <script src="/scripts/story-view.js" defer></script>
     <script src="/scripts/story-view-count.js" defer></script>
@@ -772,14 +779,37 @@ function interviewsPage() {
   return layout({ site, title: "Beyond the Podium Interviews", description: "Podium Watch interviews with Ohio high school runners and members of the running community.", pathname: "/interviews/", content });
 }
 
+// Media-credibility audit (2026-10-28), P1-6: replaced the developer
+// placeholder text ("Sponsor information is managed from one data
+// file..." / "No sponsors are displayed because no approved sponsor
+// data was provided.") with the real copy and the two real sponsors now
+// in src/data/sponsors.json. The "Visit sponsor" link is only shown
+// when a sponsor has a real url -- Raising Cane's wasn't given one in
+// the spec, so nothing is invented.
 function sponsorsPage() {
-  const sponsorMarkup = sponsors.length ? `<div class="stories-grid">${sponsors.map((sponsor) => `<article class="story-card"><div class="story-card-body"><p class="eyebrow">${escapeHtml(sponsor.type || "Sponsor")}</p><h3>${escapeHtml(sponsor.name)}</h3>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}<a class="button button-dark" href="${sponsor.url}" target="_blank" rel="noopener noreferrer">Visit sponsor</a></div></article>`).join("")}</div>` : emptyState({ title: "Sponsor opportunities are open", description: "No sponsors are displayed because no approved sponsor data was provided. Podium Watch can support presenting sponsors, ranking sponsors, story sponsors, interview sponsors, and homepage partners.", actionLabel: "Ask about sponsorship", actionHref: `mailto:${site.contactEmail}?subject=Podium%20Watch%20Sponsorship` });
-  const content = `${pageHero({ eyebrow: "Sponsors and advertising", title: "Reach Ohio's running community.", description: "Build awareness with athletes, families, coaches, teams, and fans who care about Ohio high school cross country and track." })}<section class="section section-paper"><div class="container"><div class="content-grid" style="margin-bottom:38px"><div><p class="eyebrow">Partner with Podium Watch</p><h2>Flexible sponsor placements.</h2></div><div><p>Podium Watch is built to support professional sponsor placements without crowding the athlete coverage. Sponsor information is managed from one data file so a future partner can appear in the right places across the site.</p><a class="button button-dark" href="mailto:${site.contactEmail}?subject=Podium%20Watch%20Sponsorship">Start a conversation</a></div></div>${sponsorMarkup}</div></section>`;
+  const sponsorMarkup = `<div class="stories-grid">${sponsors.map((sponsor) => `<article class="story-card"><div class="story-card-body"><h3>${escapeHtml(sponsor.name)}</h3>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}${sponsor.url ? `<a class="button button-dark" href="${sponsor.url}" target="_blank" rel="noopener noreferrer">Visit sponsor</a>` : ""}</div></article>`).join("")}</div>`;
+  const content = `${pageHero({ eyebrow: "Sponsors & Advertising", title: "Sponsors & Advertising", description: "Reach Ohio's high school running community: athletes, families, coaches, and fans." })}
+  <section class="section section-paper"><div class="container">
+    <p class="eyebrow">Our partners</p>
+    ${sponsorMarkup}
+    <div class="info-card" style="margin-top:30px">
+      <p class="eyebrow">Our policy</p>
+      <p>Sponsors support Podium Watch's coverage. They have no say in rankings, results, or editorial decisions. Sponsored content is always labeled. See our <a href="/standards/">Editorial Standards</a>.</p>
+    </div>
+    <div class="info-card" style="margin-top:18px">
+      <p class="eyebrow">Partner with Podium Watch</p>
+      <p>Reach Ohio's high school running community: athletes, families, coaches, and fans.</p>
+      <a class="button button-dark" href="mailto:${site.contactEmail}?subject=Podium%20Watch%20Sponsorship">Email ${escapeHtml(site.contactEmail)}</a>
+    </div>
+  </div></section>`;
   return layout({ site, title: "Sponsors and Advertising", description: "Podium Watch sponsorship and advertising opportunities for brands that want to reach Ohio's running community.", pathname: "/sponsors/", content });
 }
 
+// Media-credibility audit (2026-10-28), P1-7: added the "based in
+// Ohio" line and a clear list of contact purposes. media@podiumwatch.org
+// stays the only email.
 function contactPage() {
-  const content = `${pageHero({ eyebrow: "Contact", title: "Connect with Podium Watch.", description: "Send a correction, suggest an athlete or story, ask about an interview, or discuss a sponsorship." })}<section class="section section-paper"><div class="container"><div class="contact-cards"><article class="contact-card"><p class="eyebrow">Email</p><h2>Send a message</h2><p>Email is the main contact method for website questions, corrections, story ideas, and business inquiries.</p><a class="button button-dark" href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a></article><article class="contact-card"><p class="eyebrow">Social media</p><h2>Follow the coverage</h2><p>Use Instagram for daily posts and YouTube for interviews and longer video coverage.</p><div class="social-actions"><a class="button button-dark" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">YouTube</a></div></article></div></div></section>`;
+  const content = `${pageHero({ eyebrow: "Contact", title: "Connect with Podium Watch.", description: "Podium Watch is based in Ohio. Send a correction, suggest an athlete or story, ask about an interview, or discuss a sponsorship." })}<section class="section section-paper"><div class="container"><div class="contact-cards"><article class="contact-card"><p class="eyebrow">Email</p><h2>Send a message</h2><p>Podium Watch is based in Ohio. Email is the main contact method for:</p><ul style="margin:0 0 14px;padding-left:20px;line-height:1.6;"><li>News tips and story ideas</li><li>Corrections</li><li>Interview requests</li><li>Sponsorship and advertising</li></ul><a class="button button-dark" href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a></article><article class="contact-card"><p class="eyebrow">Social media</p><h2>Follow the coverage</h2><p>Use Instagram for daily posts and YouTube for interviews and longer video coverage.</p><div class="social-actions"><a class="button button-dark" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">YouTube</a></div></article></div></div></section>`;
   return layout({ site, title: "Contact", description: "Contact Podium Watch about stories, corrections, interviews, rankings, sponsorships, and Ohio running coverage.", pathname: "/contact/", content });
 }
 
@@ -800,7 +830,7 @@ function staffInitials(name) {
   return (words[0] || "?").slice(0, 2).toUpperCase();
 }
 function staffCard(person, { isEditor = false } = {}) {
-  return `<article class="staff-card${isEditor ? " staff-card-editor" : ""}">
+  return `<article class="staff-card${isEditor ? " staff-card-editor" : ""}" id="${slugify(person.name)}">
     <div class="staff-avatar">${escapeHtml(staffInitials(person.name))}</div>
     <div>
       <h3>${escapeHtml(person.name)}</h3>
@@ -809,19 +839,45 @@ function staffCard(person, { isEditor = false } = {}) {
     </div>
   </article>`;
 }
-function staffPage() {
+// Contributing Writers (P1-2, 2026-10-28): every distinct real author
+// name on a published story, EXCLUDING the generic "Podium Watch"
+// front-matter default (that's a brand byline, not a named person --
+// see storyBylineHtml() in src/lib/html.mjs) and excluding anyone
+// already a named STAFF entry above (so nobody gets two cards). Never
+// invented -- pulled directly from content/stories' own real author
+// front matter, nothing more.
+function contributingWriterNames(stories) {
+  const staffNames = new Set(STAFF.map((p) => p.name));
+  const seen = new Set();
+  const names = [];
+  for (const story of stories) {
+    const name = String(story.author || "").trim();
+    if (!name || name === "Podium Watch" || staffNames.has(name) || seen.has(name)) continue;
+    seen.add(name);
+    names.push(name);
+  }
+  return names.sort((a, b) => a.localeCompare(b));
+}
+function staffPage(stories) {
   const editor = STAFF[0];
   const rest = STAFF.slice(1);
+  const writers = contributingWriterNames(stories);
+  const writersSection = writers.length ? `<h2 class="staff-section-title">Contributing Writers</h2>
+    <div class="staff-grid">
+      ${writers.map((name) => staffCard({ name, title: "Contributing Writer" })).join("")}
+    </div>` : "";
   const content = `${pageHero({ eyebrow: "Staff", title: "Staff", description: "Podium Watch covers Ohio high school cross country and track and field: results, rankings, and stories from every division." })}
   <section class="section section-paper"><div class="container">
     <div class="staff-grid">
       ${staffCard(editor, { isEditor: true })}
       ${rest.map((person) => staffCard(person)).join("")}
     </div>
+    ${writersSection}
     <div class="contact-cards" style="margin-top:40px">
       <article class="contact-card"><p class="eyebrow">Email</p><h2>Contact Podium Watch</h2><a class="button button-dark" href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a></article>
       <article class="contact-card"><p class="eyebrow">Social media</p><h2>Follow the coverage</h2><a class="button button-outline" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} @podiumwatch</a></article>
     </div>
+    <p class="staff-tips-line">News tips and corrections: <a href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a></p>
   </div></section>`;
   return layout({ site, title: "Staff", description: "Meet the Podium Watch editorial staff covering Ohio high school cross country and track.", pathname: "/staff/", content });
 }
@@ -936,6 +992,8 @@ await writePage("/follow/", followPage(site));
 await writePage("/my-podium/", myPodiumPage(site, stories));
 await writePage("/my-podium-login/", myPodiumLoginPage(site));
 await writePage("/privacy/", privacyPage(site));
+await writePage("/standards/", standardsPage(site));
+await writePage("/terms/", termsPage(site));
 await writePage("/team-editor/", teamEditorPage(site));
 await writePage("/team/", teamProfilePage(site));
 await writePage("/teams/", teamsPage(site));
@@ -1015,7 +1073,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   await writePage("/athlete-spotlights/", athletePage());
   await writePage("/interviews/", interviewsPage());
   await writePage("/about/", await aboutPage());
-  await writePage("/staff/", staffPage());
+  await writePage("/staff/", staffPage(stories));
   await writePage("/sponsors/", sponsorsPage());
   await writePage("/contact/", contactPage());
   await writeFile("404.html", stampCacheBustedAssetUrls(notFoundPage()));

@@ -45,21 +45,15 @@ export const site = {
   // don't.
   navigation: [
     { label: "Home", href: "/" },
-    // My Podium (2026-08-28): the new personalized, accountless
-    // destination -- kept as a flat top-level link, right after Home,
-    // matching how prominently it needs to read as its own first-class
-    // section rather than one more item buried inside a dropdown. See
-    // docs/MY_PODIUM_MASTER_BUILD_PLAN.md.
-    { label: "My Podium", href: "/my-podium/" },
-    // Merch (2026-09-15): a free Spring (Amaze Commerce) storefront, not
-    // a page on this site -- no cart/checkout exists here, and building
-    // one just for this would be real engineering effort Spring already
-    // solves for free. Flat top-level link (matching My Podium's own
-    // prominence) rather than buried in a dropdown, since visibility is
-    // the whole point of a revenue feature. externalAttrs() in
-    // navGroup() (src/lib/html.mjs) opens it in a new tab automatically
-    // since the href is a full https:// URL.
-    { label: "Merch", href: "https://app.amazecommerce.com/shop/podiumwatch" },
+    // Media-credibility audit (2026-10-28): "lead with news, not
+    // rankings/recruiting/merch." My Podium and Merch (both real,
+    // working, unchanged -- see their own notes below, now moved inside
+    // "More") were the two flat top-level links taking the most
+    // prominent nav real estate right after Home; replaced with News
+    // and Results so a reviewer's first impression of the nav is a
+    // newsroom, not a shop/fan-tool.
+    { label: "News", href: "/stories/" },
+    { label: "Results", href: "/meets/?view=results" },
     { label: "Rankings", items: [
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" },
@@ -109,21 +103,27 @@ export const site = {
     //   { label: "Athletes", href: "/athletes/" },
     //   { label: "Recruiting", href: "/recruiting/" }
     // ] },
-    { label: "Voting", items: [
+    // Media-credibility audit (2026-10-28): the standalone "Voting"
+    // dropdown and the top-level "My Podium"/"Merch" links are all
+    // folded into "More" now, in the order requested: About, Staff,
+    // Contact, then Voting's old items, Pace Calculator, Merch. My
+    // Podium (2026-08-28, docs/MY_PODIUM_MASTER_BUILD_PLAN.md) and
+    // Merch (2026-09-15, the free Spring/Amaze Commerce storefront --
+    // no cart/checkout exists on this site, Spring already solves
+    // that) are both real, unchanged, still-working pages/links -- only
+    // their nav prominence moved, per the same reasoning as News/Results
+    // replacing them above. My Podium stays reachable from the mobile
+    // bottom dock (public/scripts/site.js) exactly as it did before.
+    { label: "More", items: [
+      { label: "About", href: "/about/" },
+      { label: "Staff", href: "/staff/" },
+      { label: "Contact", href: "/contact/" },
       { label: "Team of the Week", href: "/team-of-the-week/" },
       { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
       { label: "Fan Poll", href: "/fan-poll/" },
-      // Podium Play (2026-09-02): a standalone home for the mini games,
-      // always playable regardless of whether a vote is currently open
-      // -- see src/pages/podiumplay.mjs's own header for why this needed
-      // to exist separately from the weekly award pages.
-      { label: "Podium Play", href: "/podium-play/" }
-    ] },
-    { label: "More", items: [
-      { label: "Stories", href: "/stories/" },
-      { label: "Find a Photographer", href: "/photographers/" },
-      { label: "About", href: "/about/" },
-      { label: "Staff", href: "/staff/" }
+      { label: "Podium Play", href: "/podium-play/" },
+      { label: "Pace Calculator", href: "/pace-calculator/" },
+      { label: "Merch", href: "https://app.amazecommerce.com/shop/podiumwatch" }
     ] }
   ],
   footerLinks: {
@@ -133,14 +133,11 @@ export const site = {
       { label: "Teams", href: "/teams/" },
       { label: "Ohio Schools", href: "/ohio-schools/" },
       { label: "Fan Poll", href: "/fan-poll/" },
-      { label: "Find a Photographer", href: "/photographers/" },
       { label: "Pace Calculator", href: "/pace-calculator/" },
       { label: "Splits Calculator", href: "/splits-calculator/" },
       { label: "Meet Scoring Calculator", href: "/scoring-calculator/" },
       { label: "Claim Your Team", href: "/claim-your-team/" },
       { label: "Athletes", href: "/athletes/" },
-      { label: "Recruiting", href: "/recruiting/" },
-      { label: "Recruit Rating Methodology", href: "/recruiting/methodology/" },
       { label: "Tournament Hub", href: "/tournament-hub/" },
       { label: "Ranking Methodology", href: "/rankings/methodology/" },
       { label: "Cross Country", href: "/rankings/cross-country/" },
@@ -149,16 +146,20 @@ export const site = {
       { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ],
+    // Media-credibility audit (2026-10-28), P2-2: reordered to the exact
+    // list given -- News, About, Staff, Editorial Standards, Sponsors,
+    // Contact, Privacy, Terms. Athletes/Athlete of the Week/Team of the
+    // Week/Podium Play were real, unchanged links; they just moved out
+    // of this specific column (still reachable via Coverage/nav/More).
     "Podium Watch": [
-      { label: "Stories", href: "/stories/" },
-      { label: "Athletes", href: "/athletes/" },
-      { label: "Recruiting", href: "/recruiting/" },
-      { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
-      { label: "Team of the Week", href: "/team-of-the-week/" },
-      { label: "Podium Play", href: "/podium-play/" },
+      { label: "News", href: "/stories/" },
       { label: "About", href: "/about/" },
       { label: "Staff", href: "/staff/" },
-      { label: "Privacy", href: "/privacy/" }
+      { label: "Editorial Standards", href: "/standards/" },
+      { label: "Sponsors", href: "/sponsors/" },
+      { label: "Contact", href: "/contact/" },
+      { label: "Privacy", href: "/privacy/" },
+      { label: "Terms", href: "/terms/" }
     ],
     Connect: [
       { label: "Instagram", href: "https://www.instagram.com/podiumwatch/", external: true },
@@ -228,7 +229,23 @@ export const NOINDEX_NOFOLLOW_PREFIXES = [
 ];
 
 export const NOINDEX_FOLLOW_PREFIXES = [
-  "/search/"
+  "/search/",
+  // Media-credibility audit (2026-10-28): /photographers/ (0
+  // photographers published, including /photographers/membership/) is
+  // real, working, and reachable by direct URL -- just unlinked from
+  // nav/footer/homepage and out of search results until there's real
+  // content. Safe as a prefix here: there is no other real page under
+  // /photographers/ with 0 photographers in the directory (detail pages
+  // are per-photographer and simply don't exist yet).
+  //
+  // /recruiting/ is deliberately NOT a blanket prefix here -- unlike
+  // photographers, /recruiting/top-100/ and /recruiting/submit-activity/
+  // are real, populated, live pages the task did not ask to hide (only
+  // the empty /recruiting/ search database and /recruiting/methodology/
+  // were named). Those two get `robots` set directly on their own
+  // layout() call instead -- see src/pages or scripts/build.mjs's
+  // recruiting index/methodology page generators.
+  "/photographers/"
 ];
 
 // Exact paths (not prefixes) excluded from the sitemap only -- each of
@@ -243,6 +260,10 @@ export const SITEMAP_EXACT_EXCLUDE = [
   "/team/",
   "/meetdetail/",
   "/race/",
+  // Media-credibility audit (2026-10-28): carry their own robots:
+  // "noindex, follow" (src/pages/recruiting.mjs, recruitingmethodology.mjs).
+  "/recruiting/",
+  "/recruiting/methodology/",
   "/search-index.json"
 ];
 

@@ -3,19 +3,19 @@ title: "About Podium Watch"
 description: "Podium Watch gives Ohio high school cross country and track athletes more coverage through rankings, stories, interviews, and meet coverage."
 ---
 
-Podium Watch covers Ohio high school cross country and track and field through rankings, stories, athlete interviews, and meet coverage.
+Podium Watch is an independent media outlet covering Ohio high school cross country and track and field. We publish meet results, rankings, previews, recaps, feature stories, and athlete interviews from all four cross country divisions and every track division.
 
-The goal is simple: give athletes, teams, coaches, families, and fans one place to follow the sport and celebrate the people who make it special.
+Podium Watch was founded by **Zachary Bell**, who serves as Founder & Editor. Our editorial staff and contributing writers cover meets across the state, and our coverage reaches Ohio's running community daily on the web, Instagram ([@podiumwatch](https://instagram.com/podiumwatch)), and YouTube.
 
-Podium Watch started as a way to give Ohio athletes more recognition on social media. It is growing into a complete media home for the Ohio running community.
+## What we cover
 
-## What Podium Watch covers
+* Meet results and race recaps
+* Previews of major invitationals and the OHSAA postseason
+* Statewide rankings and the OATCCC coaches' poll
+* Feature stories and athlete interviews
+* District, regional, and state championship coverage
 
-* Individual and team rankings
-* Cross country and track and field stories
-* Athlete spotlights
-* Beyond the Podium interviews
-* Championship and postseason coverage
+[Meet our staff &rarr;](/staff/) &middot; [Editorial standards & corrections &rarr;](/standards/) &middot; [Contact &rarr;](/contact/)
 
 ## Rankings philosophy
 

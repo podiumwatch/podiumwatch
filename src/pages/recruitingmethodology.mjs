@@ -99,6 +99,10 @@ export function recruitingMethodologyPage(site) {
     description:
       "How Podium Watch creates transparent one through five star recruiting ratings for Ohio high school cross country and track athletes.",
     pathname: "/recruiting/methodology/",
+    // Media-credibility audit (2026-10-28): see src/pages/recruiting.mjs's
+    // same note -- the methodology for an empty database is noindexed
+    // alongside it, still reachable, still follows real outbound links.
+    robots: "noindex, follow",
     content
   });
 }

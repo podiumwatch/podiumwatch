@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": "spike-town-runners-plus",
+    "name": "Spike Town at Runners Plus",
+    "description": "Presents Podium Watch's weekly boys and girls rankings.",
+    "url": "https://runpl.us/PodiumWatch"
+  },
+  {
+    "id": "raising-canes",
+    "name": "Raising Cane's",
+    "description": "Sponsors Podium Watch's overall Top 10 by class.",
+    "url": null
+  }
+]

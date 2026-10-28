@@ -167,6 +167,8 @@ p { margin-top: 0; }
 .story-card-body { flex: 1; display: flex; flex-direction: column; padding: 24px; }
 .story-meta { display: flex; flex-wrap: wrap; gap: 7px 14px; margin-bottom: 12px; color: var(--muted); font-size: .76rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; }
 .story-meta .category { color: var(--green-dark); }
+.story-byline { margin: 0 0 6px; color: var(--muted); font-size: .78rem; font-weight: 600; }
+.story-byline a { color: var(--green-dark); font-weight: 700; }
 .story-card h3 { margin-bottom: 12px; }
 .story-card p { color: var(--muted); }
 .story-card .read-link { margin-top: auto; padding-top: 10px; }
@@ -250,6 +252,9 @@ p { margin-top: 0; }
 .article-content figure { margin: 34px 0; }
 .article-content figure img { width: 100%; }
 .article-content figcaption { margin-top: 8px; color: var(--muted); font-family: Arial, Helvetica, sans-serif; font-size: .86rem; text-align: center; }
+/* Media-credibility audit (2026-10-28), P1-4: corrections line at the
+   end of every story. */
+.article-corrections-line { margin-top: 2.4em; padding-top: 1.1em; border-top: 1px solid rgba(var(--black-rgb),.12); font-family: Arial, Helvetica, sans-serif; font-size: .82rem; color: var(--muted); }
 .article-content blockquote { margin: 36px 0; padding: 8px 0 8px 24px; border-left: 6px solid var(--green); color: #444; font-size: 1.25rem; font-style: italic; }
 .article-content blockquote p { margin-bottom: 0; }
 .article-content code { padding: 2px 5px; background: #eae7de; font-size: .92em; }
@@ -325,6 +330,9 @@ p { margin-top: 0; }
 .staff-avatar { flex: 0 0 auto; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 999px; background: var(--green); color: var(--black); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 1.1rem; }
 .staff-card h3 { margin: 0 0 4px; font-size: 1.05rem; }
 .staff-title { margin: 0 0 8px; color: var(--muted); font-size: .9rem; }
+.staff-section-title { margin: 40px 0 16px; font-size: 1.2rem; }
+.staff-tips-line { margin-top: 20px; color: var(--muted); font-size: .9rem; }
+.staff-tips-line a { color: var(--green-dark); font-weight: 700; }
 .empty-state { max-width: 760px; margin: 0 auto; padding: 56px 32px; border: 1px solid var(--line); background: var(--white); text-align: center; }
 .empty-state-mark { width: 74px; height: 74px; display: grid; place-items: center; margin: 0 auto 18px; color: var(--black); background: var(--green); font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 1.5rem; }
 .empty-state h2 { margin-bottom: 12px; }
@@ -553,6 +561,14 @@ p { margin-top: 0; }
 @media (max-width:700px) {
   .intern-banner { flex-direction:column; align-items:flex-start; }
 }
+/* Media-credibility audit (2026-10-28): the homepage hero is now its
+   own standalone band above the old sports-home-grid rather than living
+   inside it, so it reuses .home-lead's existing card chrome but at full
+   page width. .home-results-grid pairs the new Latest Results panel
+   with the (repositioned, otherwise unchanged) Upcoming Meets panel,
+   both reusing .home-panel's existing chrome. */
+.home-hero-news { padding:28px 0 6px; }
+.home-results-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
 .home-lead { overflow:hidden; }
 .home-lead-image { position:relative; display:block; min-height:360px; background:#17201b; }
 .home-lead-image img { width:100%; height:360px; object-fit:cover; }
@@ -687,6 +703,7 @@ p { margin-top: 0; }
 }
 @media (max-width:700px) {
   .sports-home-grid { grid-template-columns:1fr; }
+  .home-results-grid { grid-template-columns:1fr; }
   .home-spotlight-grid { grid-template-columns:1fr; }
   .home-spotlight { padding-top:18px; }
   .home-lead-image,.home-lead-image img { min-height:240px; height:240px; }
