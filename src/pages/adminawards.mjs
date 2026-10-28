@@ -87,7 +87,7 @@ export function adminAwardsPage(site) {
           <label>Result link (optional)<input type="text" name="result_url"></label>
           <label>Photo link (optional)<input type="text" name="photo_url"></label>
           <label>Your name<input type="text" name="nominator_name" value="Podium Watch Admin"></label>
-          <label>Your email<input type="email" name="nominator_email" value="podiumwatchohio@gmail.com" required></label>
+          <label>Your email<input type="email" name="nominator_email" value="media@podiumwatch.org" required></label>
           <label style="grid-column:1/-1;">Why this nomination<textarea name="reason" rows="3" required style="width:100%;padding:8px 10px;border:1px solid rgba(15,23,42,.22);border-radius:8px;font:inherit;"></textarea></label>
           <label style="align-self:end;"><button class="button button-primary" type="submit">Add nomination</button></label>
         </form>

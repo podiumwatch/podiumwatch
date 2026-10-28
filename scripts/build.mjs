@@ -785,16 +785,14 @@ function contactPage() {
 
 // Staff page (2026-10-28, OHSAA media-credentialing request): a named
 // editor + named staff, so a reviewer sees a real newsroom, not an
-// anonymous brand account. "Zachary [LAST NAME]" keeps the bracketed
-// placeholder VISIBLE on the live page deliberately, per the request --
-// it is a reminder to fill in, not a bug. No bios/hometowns/schools/
-// headshots/start dates are invented; initials-only avatars, exactly as
-// asked.
+// anonymous brand account. No bios/hometowns/schools/headshots/start
+// dates are invented; initials-only avatars, exactly as asked.
+// Lauren Palmer removed 2026-10-28 at the user's request (temporary --
+// not a data error, just left off the page for now).
 const STAFF = [
   { name: "Zachary Bell", title: "Founder & Editor" },
   { name: "Brayleigh Becken", title: "State Meet Media Correspondent" },
-  { name: "Logan Eggert", title: "State Meet Media Correspondent" },
-  { name: "Lauren Palmer", title: "Photographer", instagramHandle: "@laurenpmedia", instagramUrl: "https://instagram.com/laurenpmedia" }
+  { name: "Logan Eggert", title: "State Meet Media Correspondent" }
 ];
 function staffInitials(name) {
   const words = name.replace(/\[.*?\]/g, "").trim().split(/\s+/).filter(Boolean);

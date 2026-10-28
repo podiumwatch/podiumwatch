@@ -17,7 +17,7 @@ export const site = {
   description: "Ohio high school cross country and track and field rankings, stories, interviews, and athlete coverage.",
   siteUrl: "https://www.podiumwatch.org",
   defaultAuthor: "Podium Watch",
-  contactEmail: "podiumwatchohio@gmail.com",
+  contactEmail: "media@podiumwatch.org",
   instagramUrl: "https://www.instagram.com/podiumwatch/",
   youtubeUrl: "https://www.youtube.com/@podiumwatchohio",
   logo: "/images/branding/podium_watch_logo_dark.png",
