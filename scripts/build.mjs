@@ -783,6 +783,51 @@ function contactPage() {
   return layout({ site, title: "Contact", description: "Contact Podium Watch about stories, corrections, interviews, rankings, sponsorships, and Ohio running coverage.", pathname: "/contact/", content });
 }
 
+// Staff page (2026-10-28, OHSAA media-credentialing request): a named
+// editor + named staff, so a reviewer sees a real newsroom, not an
+// anonymous brand account. "Zachary [LAST NAME]" keeps the bracketed
+// placeholder VISIBLE on the live page deliberately, per the request --
+// it is a reminder to fill in, not a bug. No bios/hometowns/schools/
+// headshots/start dates are invented; initials-only avatars, exactly as
+// asked.
+const STAFF = [
+  { name: "Zachary [LAST NAME]", title: "Founder & Editor" },
+  { name: "Brayleigh Becken", title: "State Meet Media Correspondent" },
+  { name: "Logan Eggert", title: "State Meet Media Correspondent" },
+  { name: "Lauren Palmer", title: "Photographer", instagramHandle: "@laurenpmedia", instagramUrl: "https://instagram.com/laurenpmedia" }
+];
+function staffInitials(name) {
+  const words = name.replace(/\[.*?\]/g, "").trim().split(/\s+/).filter(Boolean);
+  if (words.length >= 2) return (words[0][0] + words[1][0]).toUpperCase();
+  return (words[0] || "?").slice(0, 2).toUpperCase();
+}
+function staffCard(person, { isEditor = false } = {}) {
+  return `<article class="staff-card${isEditor ? " staff-card-editor" : ""}">
+    <div class="staff-avatar">${escapeHtml(staffInitials(person.name))}</div>
+    <div>
+      <h3>${escapeHtml(person.name)}</h3>
+      <p class="staff-title">${escapeHtml(person.title)}</p>
+      ${person.instagramUrl ? `<a class="text-link" href="${person.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} ${escapeHtml(person.instagramHandle)}</a>` : ""}
+    </div>
+  </article>`;
+}
+function staffPage() {
+  const editor = STAFF[0];
+  const rest = STAFF.slice(1);
+  const content = `${pageHero({ eyebrow: "Staff", title: "Staff", description: "Podium Watch covers Ohio high school cross country and track and field: results, rankings, and stories from every division." })}
+  <section class="section section-paper"><div class="container">
+    <div class="staff-grid">
+      ${staffCard(editor, { isEditor: true })}
+      ${rest.map((person) => staffCard(person)).join("")}
+    </div>
+    <div class="contact-cards" style="margin-top:40px">
+      <article class="contact-card"><p class="eyebrow">Email</p><h2>Contact Podium Watch</h2><a class="button button-dark" href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a></article>
+      <article class="contact-card"><p class="eyebrow">Social media</p><h2>Follow the coverage</h2><a class="button button-outline" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} @podiumwatch</a></article>
+    </div>
+  </div></section>`;
+  return layout({ site, title: "Staff", description: "Meet the Podium Watch editorial staff covering Ohio high school cross country and track.", pathname: "/staff/", content });
+}
+
 function notFoundPage() {
   const content = `<section class="error-page"><div class="container"><strong>404</strong><h1>This page missed the turn.</h1><p>The page may have moved, the address may be incorrect, or the content may not be published yet.</p><div class="hero-actions" style="justify-content:center"><a class="button button-primary" href="/">Return home</a><a class="button button-outline" href="/stories/">Browse stories</a></div></div></section>`;
   // AdSense/indexing remediation (2026-09-15): this had no robots
@@ -972,6 +1017,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   await writePage("/athlete-spotlights/", athletePage());
   await writePage("/interviews/", interviewsPage());
   await writePage("/about/", await aboutPage());
+  await writePage("/staff/", staffPage());
   await writePage("/sponsors/", sponsorsPage());
   await writePage("/contact/", contactPage());
   await writeFile("404.html", stampCacheBustedAssetUrls(notFoundPage()));

@@ -1499,7 +1499,7 @@ export function adminOperationsPage(
               <div class="operations-actions">
                 <input
                   type="email"
-                  placeholder="you@podiumwatch.site"
+                  placeholder="you@podiumwatch.org"
                   data-intern-welcome-test-email
                   style="max-width:260px;"
                 >

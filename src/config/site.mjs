@@ -7,11 +7,15 @@
 // canonical tag, the sitemap, structured data, and robots.txt across the
 // whole site (see absoluteUrl() in src/lib/html.mjs) -- so fixing it here
 // fixes all of them at once, no per-page changes needed.
+//
+// Domain switch (2026-10-28): podiumwatch.org is now the primary domain
+// (podiumwatch.site redirects to it) -- same reasoning applies, same
+// single value to change.
 export const site = {
   name: "Podium Watch",
   shortName: "Podium Watch",
   description: "Ohio high school cross country and track and field rankings, stories, interviews, and athlete coverage.",
-  siteUrl: "https://www.podiumwatch.site",
+  siteUrl: "https://www.podiumwatch.org",
   defaultAuthor: "Podium Watch",
   contactEmail: "podiumwatchohio@gmail.com",
   instagramUrl: "https://www.instagram.com/podiumwatch/",
@@ -118,7 +122,8 @@ export const site = {
     { label: "More", items: [
       { label: "Stories", href: "/stories/" },
       { label: "Find a Photographer", href: "/photographers/" },
-      { label: "About", href: "/about/" }
+      { label: "About", href: "/about/" },
+      { label: "Staff", href: "/staff/" }
     ] }
   ],
   footerLinks: {
@@ -152,6 +157,7 @@ export const site = {
       { label: "Team of the Week", href: "/team-of-the-week/" },
       { label: "Podium Play", href: "/podium-play/" },
       { label: "About", href: "/about/" },
+      { label: "Staff", href: "/staff/" },
       { label: "Privacy", href: "/privacy/" }
     ],
     Connect: [
