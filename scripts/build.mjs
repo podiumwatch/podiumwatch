@@ -49,9 +49,11 @@ import {
   organizationJsonLd,
   pageHero,
   rankingCard,
+  STORY_TYPES,
   storyBylineHtml,
   storyCard,
   storyFallbackImage,
+  storyType,
   websiteJsonLd
 } from "../src/lib/html.mjs";
 import { meetsIndexPage } from "../src/pages/meets.mjs";
@@ -287,7 +289,25 @@ async function loadStories() {
       pinnedRank: Number.isFinite(Number(data.pinnedRank)) ? Number(data.pinnedRank) : null,
       draft: data.draft === true,
       readingMinutes: readingTime(body),
-      sourceFile: path.relative(root, filePath)
+      sourceFile: path.relative(root, filePath),
+      // Story page redesign (2026-10-28), B4: structured front matter
+      // for the at-a-glance strip and region "where" lines, both stored
+      // as pipe-delimited list entries since the project's own minimal
+      // front matter parser (src/lib/content.mjs) only supports flat
+      // scalars and lists of scalars, not nested objects.
+      seriesOrder: Number.isFinite(Number(data.seriesOrder)) ? Number(data.seriesOrder) : null,
+      atAGlance: (Array.isArray(data.atAGlance) ? data.atAGlance : []).map((row) => {
+        const [label, value, name, sub, tone] = String(row).split("|").map((part) => part.trim());
+        return { label, value, name, sub, tone: tone || "neutral" };
+      }),
+      regions: (Array.isArray(data.regions) ? data.regions : []).map((row) => {
+        const [name, sites, regional] = String(row).split("|").map((part) => part.trim());
+        return { name, sites, regional };
+      }),
+      nextRegionals: (Array.isArray(data.nextRegionals) ? data.nextRegionals : []).map((row) => {
+        const [name, sites] = String(row).split("|").map((part) => part.trim());
+        return { name, sites };
+      })
     };
     if (!story.draft) stories.push(story);
   }
@@ -297,7 +317,15 @@ async function loadStories() {
       if (b.pinnedRank === null) return -1;
       if (a.pinnedRank !== b.pinnedRank) return a.pinnedRank - b.pinnedRank;
     }
-    return new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`);
+    const dateDiff = new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`);
+    if (dateDiff !== 0) return dateDiff;
+    // Story page redesign (2026-10-28), A2: same-date tie-break, so a
+    // multi-part package (e.g. district weekend's overview + three
+    // division recaps, all dated the same day) reads in its intended
+    // order instead of alphabetical-by-filename. Stories without a
+    // seriesOrder are unaffected.
+    if (a.seriesOrder !== null && b.seriesOrder !== null) return a.seriesOrder - b.seriesOrder;
+    return 0;
   });
 }
 
@@ -375,19 +403,6 @@ function homePage(stories, rankings) {
   const latestStoriesWithImage = latestStoriesPool.filter((story) => story.featuredImage);
   const latestStoriesWithoutImage = latestStoriesPool.filter((story) => !story.featuredImage);
   const latestStories = [...latestStoriesWithImage, ...latestStoriesWithoutImage].slice(0, 8);
-  // Media-credibility audit (2026-10-28): these are preseason projections
-  // (every ranking CSV's updatedDate is 2026-07-29, before the season
-  // started) still being shown on the homepage after real district
-  // results exist -- label them "Preseason" rather than implying they
-  // are current, per rule 6 (verified facts vs. editorial projections
-  // must stay clearly separate). The CSVs themselves are unchanged.
-  const rankingCards = rankings.slice(0, 3).map((ranking) => rankingCard(ranking, { badge: "Preseason" })).join("");
-  const rankingsContent = rankingCards || emptyState({
-    title: "Rankings are being prepared",
-    description: "The rankings pages are ready. Publish a ranking CSV file to make it appear here.",
-    actionLabel: "Browse rankings",
-    actionHref: "/rankings/"
-  });
   // Homepage rebuild (2026-08-28): this used to render as "Latest
   // Stories" directly under the lead story, AND a second, separate
   // "Latest stories" section further down the page ("More than a finish
@@ -514,24 +529,33 @@ function homePage(stories, rankings) {
     </div>
   </section>
 
-  <section class="section" aria-labelledby="latest-rankings-title">
+  <!-- Story page redesign (2026-10-28), A6: the preseason "Who is
+       rising in Ohio?" Top 25 cards (dated 2026-07-29, before the
+       season started) are gone from the homepage -- the OATCCC poll
+       widget above already covers rankings here, and those preseason
+       pages are unchanged and still live under /rankings/. Linking the
+       real October district results instead, since /mock-postseason/
+       now has them (12 real district sites, built from official
+       results, separate from the site's own editorial Mock Meets
+       projections). -->
+  <section class="section" aria-labelledby="district-results-title">
     <div class="container">
       <div class="section-heading">
-        <div><p class="eyebrow">Rankings</p><h2 id="latest-rankings-title">Who is rising in Ohio?</h2></div>
-        <a class="text-link" href="/rankings/">View all rankings ${icon("arrow")}</a>
+        <div><p class="eyebrow">Postseason</p><h2 id="district-results-title">Districts are in the books.</h2></div>
+        <a class="text-link" href="/mock-postseason/real/">See every district ${icon("arrow")}</a>
       </div>
-      <div class="rankings-grid">${rankingsContent}</div>
+      <div class="sport-cards">
+        <article class="sport-card"><p class="eyebrow">Real results</p><h3>All 12 district sites, region by region.</h3><p>Qualifying teams and individuals from Saturday's real OHSAA district races, built from official results, not a projection.</p><a class="button button-primary" href="/mock-postseason/real/">View real districts</a></article>
+        <article class="sport-card"><p class="eyebrow">Editorial projection</p><h3>Podium Watch's own Mock Meets.</h3><p>Season-best projections for regionals and state, clearly labeled as Podium Watch's editorial model, not official results.</p><a class="button button-outline" href="/mock-postseason/">View Mock Meets</a></article>
+      </div>
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="intern-banner">
-        <div><p class="eyebrow">Podium Watch Is Hiring</p><h2>Write for Podium Watch.</h2><p>We're recruiting Ohio high school writers to cover cross country and track and field. Unpaid, no deadline, grades 9-12.</p></div>
-        <div class="intern-banner-actions"><a class="button button-dark" href="/apply/">Apply now</a><a class="text-link" href="/stories/write-for-podium-watch/">Read more ${icon("arrow")}</a></div>
-      </div>
-    </div>
-  </section>
+  <!-- Story page redesign (2026-10-28), A4: the "Write for Podium
+       Watch" hiring block moved off the homepage to a new "Join the
+       team" section at the bottom of /staff/ (same Apply link and
+       copy). The page itself and /apply/ are unchanged and still work;
+       this only removes the homepage promotion. -->
 
   <!-- Media-credibility audit (2026-10-28): the Photographer Network
        promo (0 photographers published) and the State Meet Media
@@ -605,16 +629,28 @@ function homePage(stories, rankings) {
   });
 }
 
+// Story page redesign (2026-10-28), A3: filter chips for every story
+// type. "All" plus one chip per STORY_TYPES value (labeled to match the
+// handoff's plural wording for the three that have one); the underlying
+// filter value stays the same lowercase singular storyType() value each
+// card already carries in data-type, so one bit of filtering logic in
+// site.js covers both the select-based category filter and these chips.
+const STORY_TYPE_CHIP_LABELS = { Results: "Results", Preview: "Previews", Feature: "Features", Rankings: "Rankings", Analysis: "Analysis", News: "News" };
 function storiesIndexPage(stories) {
   const featured = stories.find((story) => story.featured) || stories[0];
   const categories = [...new Set(stories.map((story) => story.category))].sort();
   const cards = stories.map((story) => storyCard(story, { featured: story.slug === featured?.slug })).join("");
+  const typeChips = `<div class="type-chips" data-type-filter role="group" aria-label="Filter by story type">
+    <button type="button" class="type-chip active" data-type-chip="all">All</button>
+    ${STORY_TYPES.map((type) => `<button type="button" class="type-chip" data-type-chip="${escapeHtml(type.toLowerCase())}">${escapeHtml(STORY_TYPE_CHIP_LABELS[type])}</button>`).join("")}
+  </div>`;
   const content = `${pageHero({ eyebrow: "Podium Watch stories", title: "Stories from Ohio running.", description: "Rankings, athlete features, interviews, meet coverage, and the stories behind the performances." })}
   <section class="section section-paper"><div class="container">
     <div class="story-toolbar">
       <label class="search-field"><span class="visually-hidden">Search stories</span>${icon("search")}<input type="search" placeholder="Search stories, athletes, schools, or tags" data-story-search></label>
       <label><span class="visually-hidden">Filter by category</span><select class="category-filter" data-category-filter><option value="all">All categories</option>${categories.map((category) => `<option value="${escapeHtml(category.toLowerCase())}">${escapeHtml(category)}</option>`).join("")}</select></label>
     </div>
+    ${typeChips}
     <div class="results-summary" aria-live="polite"><span data-results-count>${stories.length} ${stories.length === 1 ? "story" : "stories"}</span></div>
     <div class="stories-grid">${cards || emptyState({ title: "No published stories", description: "Add a valid Markdown file to content/stories, set draft to false, and rebuild the website." })}</div>
     <div class="empty-state no-results" data-no-results><div class="empty-state-mark">PW</div><h2>No stories match your search</h2><p>Try another name, category, school, or keyword.</p></div>
@@ -630,19 +666,130 @@ function categoryPage(category, stories) {
   return { pathname, html: layout({ site, title: `${category} Stories`, description: `The latest ${category.toLowerCase()} stories from Podium Watch.`, pathname, content }) };
 }
 
+// Story page redesign (2026-10-28), story-page-and-homepage-handoff.md
+// Part B. One template for every story -- ported from the prototype at
+// dataimports/podium-watch-story-page.html (not committed; its CSS was
+// lifted into src/styles/main.css's sp- prefixed rules). A story opts
+// into the richer pieces (series bar, at-a-glance strip, region
+// sections + sticky TOC, What's Next box) purely by having the matching
+// front matter; a story with none of that still renders the full
+// redesigned hero/body/related shell, just without those extras.
+function storyToneClass(tone) {
+  return tone === "boys" ? "sp-boys" : tone === "girls" ? "sp-girls" : "";
+}
+
+// Transforms the body HTML renderMarkdown() already produced:
+// - first paragraph gets the "lede" treatment (CSS bolds its first line)
+// - a paragraph that opens with a bold run-in phrase ("Watterson's
+//   wave.") becomes a styled run-in subhead instead of plain <strong>
+// - a trailing "*Results are from...*" disclaimer paragraph (this
+//   site's standing sourcing-note convention) is pulled out of the body
+//   entirely and returned separately, for the "How we reported this" box
+// - any remaining standalone italic paragraph (the "co-champion" note
+//   convention in the district recaps) becomes a ruled "note" line
+// - `## REGION — Site (regional: X)` headings become structured region
+//   sections with a real "District / Regional" line, using the story's
+//   own `regions` front matter (never inferred from the heading text,
+//   since a region can cover more than one real district site and the
+//   heading alone doesn't say which) -- stories without `regions` are
+//   untouched.
+function transformStoryBody(story) {
+  let html = story.html;
+  let sourcingNote = null;
+  const trailingNote = html.match(/<p><em>([^<]+)<\/em><\/p>\s*$/);
+  if (trailingNote) {
+    sourcingNote = trailingNote[1];
+    html = html.slice(0, trailingNote.index).trimEnd();
+  }
+  html = html.replace(/<p><strong>([^<]+\.)<\/strong>/g, '<p><span class="sp-runin">$1</span>');
+  html = html.replace(/<p><em>([^<]+)<\/em><\/p>/g, '<p class="sp-note">$1</p>');
+  html = html.replace("<p>", '<p class="sp-lede">');
+  if (story.regions.length) {
+    let regionIndex = 0;
+    // <section> siblings interspersed with the surrounding <p> tags --
+    // no wrapper div needed, exactly how the prototype itself nests
+    // region headers directly inside <article> alongside the prose.
+    html = html.replace(/<h2 id="[^"]*">[^<]+<\/h2>/g, () => {
+      const region = story.regions[regionIndex];
+      regionIndex += 1;
+      if (!region) return "";
+      const anchor = slugify(region.name);
+      return `<section class="sp-sec" id="${anchor}"><h2>${escapeHtml(region.name)}</h2><div class="sp-where"><span>District <b>${escapeHtml(region.sites)}</b></span><span>Regional <b>${escapeHtml(region.regional)}</b></span></div></section>`;
+    });
+  }
+  return { html, sourcingNote };
+}
+
 function storyPage(story, stories) {
   const storyIndex = stories.findIndex((item) => item.slug === story.slug);
   const newer = storyIndex > 0 ? stories[storyIndex - 1] : null;
   const older = storyIndex < stories.length - 1 ? stories[storyIndex + 1] : null;
-  const related = stories.filter((item) => item.slug !== story.slug && (item.category === story.category || item.tags.some((tag) => story.tags.includes(tag)))).slice(0, 3);
   const pathname = `/stories/${story.slug}/`;
-  const crumbs = [{ label: "Home", href: "/" }, { label: "Stories", href: "/stories/" }, { label: story.title, href: pathname }];
+  const crumbs = [{ label: "Home", href: "/" }, { label: "Stories", href: "/stories/" }, { label: story.title }];
   const sponsor = story.sponsor ? sponsors.find((item) => item.id === story.sponsor) : null;
-  const sponsorBlock = sponsor ? `<aside class="info-card" aria-label="Story sponsor"><p class="eyebrow">Story sponsor</p><h3>${escapeHtml(sponsor.name)}</h3>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}${sponsor.url ? `<a class="button button-dark" href="${sponsor.url}" target="_blank" rel="noopener noreferrer">Visit sponsor</a>` : ""}</aside>` : "";
-  const relatedBlock = related.length ? `<section class="related-section" aria-labelledby="related-title"><p class="eyebrow">Keep reading</p><h2 id="related-title">Related stories</h2><div class="stories-grid">${related.map((item) => storyCard(item)).join("")}</div></section>` : "";
-  const navigation = newer || older ? `<nav class="story-nav" aria-label="Story navigation">${newer ? `<a href="/stories/${newer.slug}/"><span>Newer story</span><strong>${escapeHtml(newer.title)}</strong></a>` : "<span></span>"}${older ? `<a href="/stories/${older.slug}/"><span>Older story</span><strong>${escapeHtml(older.title)}</strong></a>` : ""}</nav>` : "";
+  const sponsorBlock = sponsor ? `<aside class="sp-box" aria-label="Story sponsor"><h3>Story sponsor</h3><p><strong>${escapeHtml(sponsor.name)}</strong></p>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}${sponsor.url ? `<p><a class="sp-link" href="${sponsor.url}" target="_blank" rel="noopener noreferrer">Visit sponsor</a></p>` : ""}</aside>` : "";
   const shareText = encodeURIComponent(story.title);
   const shareUrl = encodeURIComponent(absoluteUrl(site, pathname));
+  const type = storyType(story);
+  const heroImage = story.heroImage || story.featuredImage || "";
+  const fallback = storyFallbackImage(story.category);
+
+  // Series bar (B3.1): only when this story and at least one sibling
+  // share a `series` value, ordered by seriesOrder.
+  const seriesMembers = story.series ? stories.filter((item) => item.series === story.series).sort((a, b) => (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0)) : [];
+  const seriesBar = seriesMembers.length > 1 ? `<div class="sp-series" aria-label="${escapeHtml(story.series)} series"><div class="container sp-series-inner">
+    <span class="sp-series-label">${escapeHtml(story.seriesLabel || story.series.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()))} &middot; ${seriesMembers.length} stories</span>
+    <ol>${seriesMembers.map((item) => `<li><a href="/stories/${item.slug}/"${item.slug === story.slug ? " aria-current=\"page\"" : ""}>${escapeHtml(item.seriesLabel || item.title.split(":")[0])}</a></li>`).join("")}</ol>
+  </div></div>` : "";
+
+  // Hero (B3.2): real hero image with a 16:9 crop, or a branded black
+  // title card instead of an empty box when a story has no hero image.
+  const heroArt = heroImage
+    ? `<figure class="sp-hero-art"><img src="${heroImage}" data-fallback="${fallback}" data-check-hero-width="true" alt="${escapeHtml(story.heroAlt || story.featuredImageAlt || "")}" width="1600" height="900" loading="eager"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}>${(story.heroCaption || story.heroCredit) ? `<figcaption>${story.heroCaption ? `<span>${escapeHtml(story.heroCaption)}</span>` : "<span></span>"}${story.heroCredit ? `<span class="sp-credit">${escapeHtml(story.heroCredit)}</span>` : ""}</figcaption>` : ""}</figure>`
+    : `<figure class="sp-hero-art"><div class="sp-hero-art-fallback"><img src="${site.logoLight || site.logo}" alt=""><span>${escapeHtml(story.title)}</span></div></figure>`;
+
+  const genuinelyUpdated = (story.updated || (story.updatedDate && story.updatedDate !== story.date)) ? (story.updated || story.updatedDate) : null;
+
+  // At-a-glance strip (B3.3): omitted entirely when a story has none.
+  const board = story.atAGlance.length ? `<section class="sp-board" aria-label="At a glance"><div class="container"><ul>
+    ${story.atAGlance.map((item) => `<li class="${storyToneClass(item.tone)}"><span class="sp-lab"><i></i>${escapeHtml(item.label)}</span><span class="sp-num">${escapeHtml(item.value)}</span><span class="sp-who">${escapeHtml(item.name)}</span><span class="sp-sub">${escapeHtml(item.sub)}</span></li>`).join("")}
+  </ul></div></section>` : "";
+
+  const { html: bodyHtml, sourcingNote } = transformStoryBody(story);
+
+  // Sticky "on this page" rail (B3.12): only when the story has region
+  // sections to link to.
+  const toc = story.regions.length ? `<aside class="sp-rail" aria-label="On this page"><div class="sp-rail-stick"><div><h4>On this page</h4><ol class="sp-toc" data-sp-toc>
+    <li><a href="#sp-story-top">Top</a></li>
+    ${story.regions.map((region) => `<li><a href="#${slugify(region.name)}">${escapeHtml(region.name)}</a></li>`).join("")}
+  </ol></div></div></aside>` : "";
+
+  // What's next box (B3.8): only when a story supplies it.
+  const nextBox = story.nextRegionals.length ? `<aside class="sp-box sp-next" aria-label="What's next"><h3>What's next</h3><p class="sp-big">Regionals &middot; Saturday, Oct. 31</p><dl>
+    ${story.nextRegionals.map((row) => `<dt>${escapeHtml(row.name)}</dt><dd>${escapeHtml(row.sites)}</dd>`).join("")}
+  </dl>${story.nextStateLine ? `<p class="sp-state">${escapeHtml(story.nextStateLine)}</p>` : ""}</aside>` : "";
+
+  // How we reported this (B3.10): only when a sourcing note was found.
+  const sourcingBox = sourcingNote ? `<aside class="sp-box" aria-label="How we reported this"><h3>How we reported this</h3><p>${sourcingNote}</p><p class="sp-mail">Spotted an error? <code>${site.contactEmail}</code><button type="button" data-copy-mail>Copy</button></p></aside>` : `<aside class="sp-box" aria-label="How we reported this"><h3>How we reported this</h3><p class="sp-mail">Spotted an error? <code>${site.contactEmail}</code><button type="button" data-copy-mail>Copy</button></p></aside>`;
+
+  // Author box (B3.11): the real author when it's a named person,
+  // otherwise the newsroom copy from the handoff spec.
+  const isNamedAuthor = story.author && story.author !== site.name;
+  const authorBox = `<aside class="sp-box sp-author" aria-label="About the author"><div class="sp-mono"><img src="${site.logoLight || site.logo}" alt=""></div><div><h3>${isNamedAuthor ? escapeHtml(story.author) : "Podium Watch Staff"}</h3><p>${isNamedAuthor ? `Reporting for Podium Watch, edited by Zachary Bell, founder and editor.` : "Reporting by the Podium Watch newsroom, edited by Zachary Bell, founder and editor."} News tips: ${site.contactEmail}.</p></div></aside>`;
+
+  // Related (B3.13): other stories in the same series when there is
+  // one, otherwise the 3 newest stories of the same type. The hiring
+  // page is never shown in any story list (A4).
+  const relatedPool = stories.filter((item) => item.slug !== story.slug && item.slug !== "write-for-podium-watch");
+  const related = story.series
+    ? relatedPool.filter((item) => item.series === story.series).sort((a, b) => (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0)).slice(0, 3)
+    : relatedPool.filter((item) => storyType(item) === type).slice(0, 3);
+  const relatedTitle = story.series ? `More from ${story.seriesLabel || story.series.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}` : "More from Podium Watch";
+  const relatedBlock = related.length ? `<section class="sp-related"><div class="container"><h2>${escapeHtml(relatedTitle)}</h2><div class="sp-cards">
+    ${related.map((item) => `<a class="sp-card" href="/stories/${item.slug}/"><img src="${item.heroImage || item.featuredImage || storyFallbackImage(item.category)}" alt="" width="640" height="360"><span class="sp-k">${escapeHtml(storyType(item))}</span><h3>${escapeHtml(item.title)}</h3><span class="sp-m">${formatDate(item.date)}</span></a>`).join("")}
+  </div></div></section>` : "";
+
+  const navigation = newer || older ? `<nav class="story-nav" aria-label="Story navigation">${newer ? `<a href="/stories/${newer.slug}/"><span>Newer story</span><strong>${escapeHtml(newer.title)}</strong></a>` : "<span></span>"}${older ? `<a href="/stories/${older.slug}/"><span>Older story</span><strong>${escapeHtml(older.title)}</strong></a>` : ""}</nav>` : "";
 
   // The 5 interactive components (Race Board, How the Race Was Won, Fifth
   // Runner Factor, Displacement Report, Reader Predictions), the sticky
@@ -655,50 +802,70 @@ function storyPage(story, stories) {
   const preseasonClassification = story.preseasonClassification
     ? preseasonInteractiveData.classifications[story.preseasonClassification]
     : null;
-  // data-story-slug is unconditional (every story, not just preseason
-  // ones) -- it's what public/scripts/story-view.js reads to record a
-  // real per-article view count, surfaced in Admin Engagement's "Top
-  // articles" panel.
-  const articleShellAttrs = preseasonClassification
-    ? ` class="article-shell pw-preseason-article" style="--pw-accent:${escapeHtml(preseasonClassification.accent)}" data-pw-article="${escapeHtml(story.slug)}" data-story-slug="${escapeHtml(story.slug)}"`
-    : ` class="article-shell" data-story-slug="${escapeHtml(story.slug)}"`;
-  const preseasonStickyNav = preseasonClassification
-    ? `<nav class="pw-stickynav" aria-label="Article sections"><div class="pw-stickynav-inner">
-        <a href="#race-board">Race Board</a>
-        <a href="#race-build">Race Build</a>
-        <a href="#fifth-runner">Fifth Runner</a>
-        <a href="#depth">Depth</a>
-        <a href="#honorable-mentions">Honorable Mentions</a>
-        <a href="#reader-picks">Reader Picks</a>
-      </div></nav>`
-    : "";
   const preseasonDataScript = preseasonClassification
     ? `<script type="application/json" id="pw-preseason-data">${JSON.stringify(preseasonClassification).replaceAll("<", "\\u003c")}</script><script src="/scripts/preseason-article.js" defer></script>`
     : "";
 
-  const content = `<article${articleShellAttrs}>
-    <header class="article-hero"><div class="container article-hero-inner">${breadcrumb(crumbs)}<div class="article-meta"><span class="category">${escapeHtml(story.category)}</span><span>By ${escapeHtml(story.author)}</span><span>${formatDate(story.date)}</span>${story.updatedDate ? `<span>Updated ${formatDate(story.updatedDate)}</span>` : ""}<span>${story.readingMinutes} min read</span></div><h1>${escapeHtml(story.title)}</h1><p class="article-deck">${escapeHtml(story.description)}</p></div></header>
-    ${preseasonStickyNav}
-    <img class="article-feature-image" src="${story.featuredImage || storyFallbackImage(story.category)}" data-fallback="${storyFallbackImage(story.category)}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="1600" height="900"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}>
-    ${story.featuredImageCaption ? `<p class="article-feature-caption">${escapeHtml(story.featuredImageCaption)}</p>` : ""}
+  const content = `<div class="sp-page"${preseasonClassification ? ` style="--pw-accent:${escapeHtml(preseasonClassification.accent)}" data-pw-article="${escapeHtml(story.slug)}"` : ""} data-story-slug="${escapeHtml(story.slug)}">
+  ${seriesBar}
+  <main id="sp-story-top">
+  <section class="sp-hero"><div class="container sp-hero-inner">
+    <div class="sp-hero-head">
+      <p class="sp-crumbs">${crumbs.map((item, index) => index === crumbs.length - 1 ? escapeHtml(item.label) : `<a href="${item.href}">${escapeHtml(item.label)}</a>`).join(" / ")}</p>
+      <div class="sp-kicker"><span class="sp-type">${escapeHtml(type)}</span><span class="sp-tags">${escapeHtml(story.category)}${story.divisions ? ` &middot; Division ${story.divisions}` : ""}${story.genders ? ` &middot; ${story.genders}` : ""}</span></div>
+      <h1>${escapeHtml(story.title)}</h1>
+    </div>
+    <div class="sp-hero-meta">
+      <p class="sp-dek">${escapeHtml(story.description)}</p>
+      <div class="sp-byline">
+        <span>By ${storyBylineHtml(story.author)}</span><span class="sp-dot"></span>
+        <time datetime="${story.date}">${formatDate(story.date)}</time>${genuinelyUpdated ? `<span class="sp-dot"></span><span>Updated ${formatDate(genuinelyUpdated)}</span>` : ""}<span class="sp-dot"></span>
+        <span>${story.readingMinutes} min read</span>
+      </div>
+      <div class="sp-share" aria-label="Share this story">
+        <button type="button" class="share-button" data-copy-link><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a3 3 0 1 1 4.2 4.2l-2 2a1 1 0 1 1-1.4-1.4l2-2a1 1 0 1 0-1.4-1.4l-3.5 3.5a1 1 0 0 1-1.4 0ZM13.4 10.6a1 1 0 0 1 0 1.4l-3.5 3.5a3 3 0 1 1-4.2-4.2l2-2a1 1 0 0 1 1.4 1.4l-2 2a1 1 0 1 0 1.4 1.4l3.5-3.5a1 1 0 0 1 1.4 0Z"/></svg><span class="sp-lbl">Copy link</span></button>
+        <a class="share-button" href="https://x.com/intent/post?url=${shareUrl}&text=${shareText}" target="_blank" rel="noopener noreferrer" aria-label="Post on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 3h3.1l-6.8 7.7 8 10.3h-6.2l-4.9-6.3L5.4 21H2.3l7.2-8.3L1.8 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z"/></svg><span class="sp-lbl">Post</span></a>
+        <a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21h3Z"/></svg><span class="sp-lbl">Share</span></a>
+      </div>
+    </div>
+    ${heroArt}
+  </div></section>
 
-    <div class="article-layout"><div class="article-content">${story.html}<p class="article-corrections-line">Spotted an error? Email <a href="mailto:${site.contactEmail}">${site.contactEmail}</a> and we'll correct it.</p></div>${sponsorBlock}<div class="article-actions" aria-label="Share this story"><button class="share-button" type="button" data-copy-link>Copy story link</button><a class="share-button" href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on Facebook</a><a class="share-button" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener noreferrer">Share on X</a></div><p class="article-view-count" data-story-view-count hidden></p>${navigation}${relatedBlock}</div>
-    ${preseasonDataScript}
-    <script src="/scripts/story-view.js" defer></script>
-    <script src="/scripts/story-view-count.js" defer></script>
-  </article>`;
+  ${board}
+
+  <div class="container sp-layout">
+  <article class="sp-article">${bodyHtml}
+    ${sponsorBlock}
+    ${nextBox}
+    ${sourcingBox}
+    ${authorBox}
+  </article>
+  ${toc}
+  </div>
+
+  ${navigation ? `<div class="container">${navigation}</div>` : ""}
+  ${relatedBlock}
+  </main>
+  ${preseasonDataScript}
+  <script src="/scripts/story-view.js" defer></script>
+  <script src="/scripts/story-page.js" defer></script>
+  </div>`;
+
   return layout({
     site,
     title: story.title,
     description: story.description,
     pathname,
-    image: story.featuredImage || site.defaultSocialImage,
+    image: heroImage || site.defaultSocialImage,
+    imageWidth: heroImage ? 1600 : undefined,
+    imageHeight: heroImage ? 900 : undefined,
     canonicalUrl: story.canonicalUrl,
     type: "article",
     publishedTime: story.date,
-    modifiedTime: story.updatedDate || story.date,
+    modifiedTime: genuinelyUpdated || story.date,
     content,
-    jsonLd: [articleJsonLd(site, story), breadcrumbsJsonLd(site, crumbs)]
+    jsonLd: [articleJsonLd(site, story), breadcrumbsJsonLd(site, crumbs.filter((item) => item.href))],
+    extraHead: '<link rel="preload" href="/fonts/big-shoulders-display-var.woff2" as="font" type="font/woff2" crossorigin>'
   });
 }
 
@@ -828,8 +995,11 @@ function contactPage() {
 // dates are invented; initials-only avatars, exactly as asked.
 // Lauren Palmer removed 2026-10-28 at the user's request (temporary --
 // not a data error, just left off the page for now).
+// A7 (story-page-and-homepage-handoff.md, 2026-10-28): exact copy from
+// the handoff, as a bio on the editor's own staff card. No photo, per
+// the handoff -- keeps the initials avatar every other card uses.
 const STAFF = [
-  { name: "Zachary Bell", title: "Founder & Editor" },
+  { name: "Zachary Bell", title: "Founder & Editor", bio: `Zachary Bell founded Podium Watch to give Ohio high school cross country and track and field athletes the recognition they earn. He coaches high school cross country in Ohio and leads the site's results coverage, rankings and stories. Contact: <a href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a>` },
   { name: "Brayleigh Becken", title: "State Meet Media Correspondent" },
   { name: "Logan Eggert", title: "State Meet Media Correspondent" }
 ];
@@ -844,6 +1014,7 @@ function staffCard(person, { isEditor = false } = {}) {
     <div>
       <h3>${escapeHtml(person.name)}</h3>
       <p class="staff-title">${escapeHtml(person.title)}</p>
+      ${person.bio ? `<p class="staff-bio">${person.bio}</p>` : ""}
       ${person.instagramUrl ? `<a class="text-link" href="${person.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} ${escapeHtml(person.instagramHandle)}</a>` : ""}
     </div>
   </article>`;
@@ -887,7 +1058,15 @@ function staffPage(stories) {
       <article class="contact-card"><p class="eyebrow">Social media</p><h2>Follow the coverage</h2><a class="button button-outline" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} @podiumwatch</a></article>
     </div>
     <p class="staff-tips-line">News tips and corrections: <a href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a></p>
-  </div></section>`;
+  </div></section>
+  <section class="section">
+    <div class="container">
+      <div class="intern-banner">
+        <div><p class="eyebrow">Podium Watch Is Hiring</p><h2>Join the team.</h2><p>We're recruiting Ohio high school writers to cover cross country and track and field. Unpaid, no deadline, grades 9-12.</p></div>
+        <div class="intern-banner-actions"><a class="button button-dark" href="/apply/">Apply now</a><a class="text-link" href="/stories/write-for-podium-watch/">Read more ${icon("arrow")}</a></div>
+      </div>
+    </div>
+  </section>`;
   return layout({ site, title: "Staff", description: "Meet the Podium Watch editorial staff covering Ohio high school cross country and track.", pathname: "/staff/", content });
 }
 
@@ -915,16 +1094,22 @@ async function build() {
 
   const stories = await loadStories();
   const rankings = await loadRankings();
+  // Story page redesign (2026-10-28), A4: the writer-recruitment page
+  // keeps working at its real URL (Instagram may link to it), but it
+  // is never a public story -- so it is kept out of every story LIST
+  // (homepage, /stories/, category pages, related stories, RSS) while
+  // still getting its own page below, from the full `stories` array.
+  const publicStories = stories.filter((story) => story.slug !== "write-for-podium-watch");
 
-  await writePage("/", homePage(stories, rankings));
-  await writePage("/stories/", storiesIndexPage(stories));
+  await writePage("/", homePage(publicStories, rankings));
+  await writePage("/stories/", storiesIndexPage(publicStories));
   for (const story of stories) {
     const storyPathname = `/stories/${story.slug}/`;
-    await writePage(storyPathname, storyPage(story, stories));
+    await writePage(storyPathname, storyPage(story, publicStories));
     pathLastmod.set(storyPathname, story.updatedDate || story.date);
   }
-  for (const category of [...new Set(stories.map((story) => story.category))]) {
-    const page = categoryPage(category, stories);
+  for (const category of [...new Set(publicStories.map((story) => story.category))]) {
+    const page = categoryPage(category, publicStories);
     await writePage(page.pathname, page.html);
   }
 
@@ -1157,7 +1342,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   }).join("\n")}\n</urlset>\n`;
   await writeFile("sitemap.xml", sitemap);
   await writeFile("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${site.siteUrl}/sitemap.xml\n`);
-  const rssItems = stories.slice(0, 30).map((story) => `<item><title>${xmlEscape(story.title)}</title><link>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</link><guid>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</guid><pubDate>${new Date(`${story.date}T12:00:00Z`).toUTCString()}</pubDate><description>${xmlEscape(story.description)}</description><category>${xmlEscape(story.category)}</category></item>`).join("");
+  const rssItems = publicStories.slice(0, 30).map((story) => `<item><title>${xmlEscape(story.title)}</title><link>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</link><guid>${xmlEscape(absoluteUrl(site, `/stories/${story.slug}/`))}</guid><pubDate>${new Date(`${story.date}T12:00:00Z`).toUTCString()}</pubDate><description>${xmlEscape(story.description)}</description><category>${xmlEscape(story.category)}</category></item>`).join("");
   await writeFile("rss.xml", `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${xmlEscape(site.name)}</title><link>${xmlEscape(site.siteUrl)}</link><description>${xmlEscape(site.description)}</description><language>en-us</language>${rssItems}</channel></rss>`);
   await writeFile("site-data.json", JSON.stringify({
     generatedAt: new Date().toISOString(),

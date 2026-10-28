@@ -4,6 +4,7 @@ date: "2026-08-24"
 description: "Mason opens at number one, but Springboro and Thomas Worthington have enough front end strength and lineup balance to keep every scoring position meaningful."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-preseason-boys-d1-top-20"
 tags:
   - "Division 1"

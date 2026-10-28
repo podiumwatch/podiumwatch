@@ -4,6 +4,7 @@ date: "2026-09-30"
 description: "A rundown of results from meets September 24-26 near Cincinnati and Dayton"
 category: "Cross Country"
 author: "Sydney Magee"
+type: "Results"
 slug: "weekend-recap-cincinnati-dayton-area"
 featured: false
 draft: false

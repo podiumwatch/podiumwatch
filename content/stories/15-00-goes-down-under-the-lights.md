@@ -4,6 +4,7 @@ date: "2026-09-16"
 description: "Piqua Invite Under the Lights Invitational Results and Storylines"
 category: "Cross Country"
 author: "Max McKibben"
+type: "Results"
 slug: "15-00-goes-down-under-the-lights"
 featuredImage: "https://wvocgkfhjcidrqyooevc.supabase.co/storage/v1/object/public/writer-portal-images/40b64c7a-2fd8-4482-b176-7f814d010847/a6814dfc-223c-4748-a630-6447b6fa3844.png"
 featuredImageAlt: "15:00 Goes Down Under the Lights"
@@ -19,11 +20,11 @@ draft: false
 updatedDate: "2026-09-16"
 ---
 
-### **overview**
+## **overview**
 
      This past weekend, on Saturday, September 12th, Piqua hosted the "Piqua Invite Under the Lights Invitational." The meet this year provided a competitive team race on both the boys' and girls' sides, which included a tiebreaker for the girls. There were also various standout performances, including Versailles senior Jackson Spitzer breaking the 15:00 barrier. 
 
-### **Top Individuals and Teams**
+## **Top Individuals and Teams**
 
 **     Boys**
 
@@ -37,7 +38,7 @@ For the girls' championship race, the top finishers were: 1. Peyton Hughey, Cana
 
 The girls' team race came down to a tiebreaker, where Oakwood and Canal Winchester both scored 90 points. However, Oakwood's sixth and seventh runners finished way ahead of Canal Winchester's, allowing them to come away with the win. Oakwood's sixth and seventh runners combined for 72 points, while Canal Winchester's went for 124. Bellbrook followed closely, only six points behind Oakwood and Canal Winchester with 96 points. Versailles and Butler rounded out the top five with 137 points and 188 points, respectively.
 
-### **Biggest TakeAways**
+## **Biggest TakeAways**
 
      **Boys**
 
@@ -47,7 +48,7 @@ The battle between Versailles and Russia did not disappoint, with the Tigers edg
 
 At the Bob Schul Invitational, Bellbrook ran away from Oakwood, beating them by 28 points. The Lumberjacks showed strong resilience at Piqua and did not let their early-season performance dictate their race against Bellbrook, beating them by six points. Unfortunately, these two teams will not meet again this season because they compete in separate divisions. However, this competition will benefit both teams during the tournament, when the competition is stiff.
 
-### **Athlete Spotlights**
+## **Athlete Spotlights**
 
 **     Boys - Jackson Spitzer**     
 

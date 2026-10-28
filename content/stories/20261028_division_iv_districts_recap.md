@@ -8,7 +8,34 @@ slug: "division-iv-districts-recap"
 featured: false
 draft: false
 updatedDate: "2026-10-28"
-featuredImage: "/images/stories/2026_division_iv_districts_recap.png"
+type: "Results"
+divisions: "IV"
+genders: "Boys & Girls"
+series: "district-weekend-2026"
+seriesOrder: 4
+heroImage: "/images/stories/header-4-division-iv.png"
+heroAlt: "Graphic: Mount Gilead's perfect score of 15, with Bartlett, Gabriel, McLain, Turner and Stalnaker finishing first through fifth"
+heroCaption: "Mount Gilead put its top five runners first through fifth for a perfect 15 at Hilliard Darby."
+heroCredit: "Podium Watch graphic"
+atAGlance:
+  - "Perfect score|15|Mount Gilead|Hilliard Darby|boys"
+  - "Fastest D-IV girl|17:15.4|Natalie Nixon|Ottawa Hills · Owens CC|girls"
+  - "Fastest D-IV boy|15:24.1|Owen Cappuzello|McDonald · Madison|boys"
+  - "Up next|Oct. 31|Regionals|State Nov. 7: girls 3:30 p.m., boys 4:10 p.m.|neutral"
+regions:
+  - "Central|Hilliard Darby|Pickerington"
+  - "East|Cambridge|Pickerington"
+  - "Northeast|Madison, GlenOak, Lorain County CC|Boardman"
+  - "Northwest|Owens CC, Leaders Farms, Columbus Grove, Galion|Tiffin"
+  - "Southeast|Rio Grande|Pickerington"
+  - "Southwest|Cedarville University, Voice of America|Troy"
+nextRegionals:
+  - "Central, East, Southeast|Pickerington"
+  - "Northeast|Boardman"
+  - "Northwest|Tiffin"
+  - "Southwest|Troy"
+nextStateLine: "State at Fortress Obetz, Saturday, Nov. 7. Division IV girls race at 3:30 p.m., boys at 4:10 p.m."
+featuredImage: "/images/stories/header-4-division-iv.png"
 featuredImageAlt: "Perfect score: Mount Gilead scored 15 in Division IV boys at the Hilliard Darby district, with Bartlett, Gabriel, McLain, Turner and Stalnaker finishing 1 through 5."
 ---
 

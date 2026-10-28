@@ -120,6 +120,7 @@ export function header(site, currentPath = "/") {
     <span class="ticker-mobile-only" data-ticker-mobile>Ohio running &middot; Meets, results, and rankings</span>
   </a></div>`;
   return `${ticker}<header class="site-header" data-header>
+  <div class="sp-progress" data-reading-progress></div>
   <div class="container nav-wrap">
     <a class="brand" href="/" aria-label="Podium Watch home">
       <img src="${site.logoMark}" width="48" height="48" alt="">
@@ -197,10 +198,16 @@ export function breadcrumb(items) {
   return `<nav class="breadcrumbs" aria-label="Breadcrumb"><ol>${items.map((item, index) => `<li>${item.href && index !== items.length - 1 ? `<a href="${item.href}">${escapeHtml(item.label)}</a>` : `<span aria-current="page">${escapeHtml(item.label)}</span>`}</li>`).join("")}</ol></nav>`;
 }
 
-export function metadata({ site, title, description, pathname, image, canonicalUrl, type = "website", publishedTime, modifiedTime, jsonLd = [], robots = "index, follow" }) {
+export function metadata({ site, title, description, pathname, image, imageWidth, imageHeight, canonicalUrl, type = "website", publishedTime, modifiedTime, jsonLd = [], robots = "index, follow" }) {
   const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
   const canonical = canonicalUrl || absoluteUrl(site, pathname);
   const socialImage = absoluteUrl(site, image || site.defaultSocialImage);
+  // Story page redesign (2026-10-28), B5: og:image:width/height, needed
+  // for a correct large social-card preview. Default is the site's own
+  // default social image's real dimensions (1200x630); a page passing a
+  // real hero (e.g. a story's 1600x900 heroImage) passes its own.
+  const socialImageWidth = imageWidth || 1200;
+  const socialImageHeight = imageHeight || 630;
   const articleMeta = type === "article" ? `${publishedTime ? `<meta property="article:published_time" content="${publishedTime}">` : ""}${modifiedTime ? `<meta property="article:modified_time" content="${modifiedTime}">` : ""}` : "";
   const scripts = (Array.isArray(jsonLd) ? jsonLd : [jsonLd]).filter(Boolean).map((data) => `<script type="application/ld+json">${JSON.stringify(data).replaceAll("<", "\\u003c")}</script>`).join("\n");
   return `<title>${escapeHtml(fullTitle)}</title>
@@ -213,6 +220,8 @@ export function metadata({ site, title, description, pathname, image, canonicalU
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="${socialImage}">
+<meta property="og:image:width" content="${socialImageWidth}">
+<meta property="og:image:height" content="${socialImageHeight}">
 <meta property="og:image:alt" content="${escapeHtml(`${title} from ${site.name}`)}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(fullTitle)}">
@@ -229,7 +238,7 @@ ${scripts}`;
 // during frantic live-timing taps risks navigating away from a live race
 // by accident. Every other page keeps the default (false) -- this is
 // deliberately opt-in, not a new default.
-export function layout({ site, title, description, pathname, content, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots, chromeless = false, extraHead = "" }) {
+export function layout({ site, title, description, pathname, content, image, imageWidth, imageHeight, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, bodyClass = "", robots, chromeless = false, extraHead = "" }) {
   // AdSense/indexing remediation (2026-09-15): both prefix lists now live
   // in src/config/site.mjs, shared with the sitemap generator
   // (scripts/build.mjs) -- see that file's own comment for the full
@@ -267,7 +276,7 @@ export function layout({ site, title, description, pathname, content, image, can
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#090909">
-${metadata({ site, title, description, pathname, image, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, robots: resolvedRobots })}
+${metadata({ site, title, description, pathname, image, imageWidth, imageHeight, canonicalUrl, type, publishedTime, modifiedTime, jsonLd, robots: resolvedRobots })}
 <link rel="icon" href="/images/branding/favicon.ico" sizes="any">
 <link rel="icon" href="/images/branding/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/images/branding/apple_touch_icon.png">
@@ -345,9 +354,21 @@ export function storyBylineHtml(author) {
   return `<a href="/staff/#${slugify(name)}">${escapeHtml(name)}</a>`;
 }
 
+// Story page redesign (2026-10-28), A3: a story's `type` (Results,
+// Preview, Feature, Rankings, Analysis, News) is the real editorial
+// classification -- Results/News are facts, Analysis is Podium Watch's
+// own judgment, etc. (see Part D of story-page-and-homepage-handoff.md
+// for the full mapping, applied to every story's front matter). This
+// runtime fallback only covers a story someone forgets to tag.
+export const STORY_TYPES = ["Results", "Preview", "Feature", "Rankings", "Analysis", "News"];
+export function storyType(story) {
+  return STORY_TYPES.includes(story.type) ? story.type : "News";
+}
+
 export function storyCard(story, { featured = false } = {}) {
   const fallback = storyFallbackImage(story.category);
-  const image = story.featuredImage || fallback;
+  const image = story.heroImage || story.featuredImage || fallback;
+  const type = storyType(story);
   // Optional per-story override for which part of a taller-than-wide
   // source photo stays visible once the site's fixed 16:9 card/hero
   // crop is applied -- e.g. "center 20%" keeps the top of a portrait
@@ -356,12 +377,12 @@ export function storyCard(story, { featured = false } = {}) {
   // today's center-crop behavior. Added 2026-09-30 after a portrait
   // photo's subject kept losing her face to a dead-center crop.
   const positionStyle = story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : "";
-  return `<article class="story-card${featured ? " story-card-featured" : ""}" data-story-card data-category="${escapeHtml(story.category.toLowerCase())}" data-search="${escapeHtml(`${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")}`.toLowerCase())}">
+  return `<article class="story-card${featured ? " story-card-featured" : ""}" data-story-card data-category="${escapeHtml(story.category.toLowerCase())}" data-type="${escapeHtml(type.toLowerCase())}" data-search="${escapeHtml(`${story.title} ${story.description} ${story.category} ${type} ${(story.tags || []).join(" ")}`.toLowerCase())}">
     <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}">
       <img src="${image}" data-fallback="${fallback}" alt="${escapeHtml(story.featuredImageAlt || "")}" loading="lazy" width="960" height="540"${positionStyle}>
     </a>
     <div class="story-card-body">
-      <div class="story-meta"><span class="category">${escapeHtml(story.category)}</span><span>${formatDate(story.date)}</span><span>${story.readingMinutes} min read</span></div>
+      <div class="story-meta"><span class="category">${escapeHtml(type)}</span><span>${escapeHtml(story.category)}</span><span>${formatDate(story.date)}</span><span>${story.readingMinutes} min read</span></div>
       <p class="story-byline">By ${storyBylineHtml(story.author)}</p>
       <h3><a href="/stories/${story.slug}/">${escapeHtml(story.title)}</a></h3>
       <p>${escapeHtml(story.description)}</p>
@@ -429,12 +450,16 @@ export function articleJsonLd(site, story) {
     headline: story.title,
     description: story.description,
     datePublished: story.date,
-    dateModified: story.updatedDate || story.date,
+    // Story page redesign (2026-10-28), B5: only a real update should
+    // claim dateModified -- omit it entirely rather than silently
+    // repeating datePublished for the vast majority of stories that
+    // have never been revised.
+    ...(story.updated || story.updatedDate ? { dateModified: story.updated || story.updatedDate } : {}),
     mainEntityOfPage: absoluteUrl(site, `/stories/${story.slug}/`),
-    image: absoluteUrl(site, story.featuredImage || site.defaultSocialImage),
+    image: absoluteUrl(site, story.heroImage || story.featuredImage || site.defaultSocialImage),
     author: { "@type": story.author === site.name ? "Organization" : "Person", name: story.author },
     publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: absoluteUrl(site, site.logo) } },
-    articleSection: story.category,
+    articleSection: story.type || story.category,
     keywords: (story.tags || []).join(", ")
   };
 }

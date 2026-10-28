@@ -4,6 +4,7 @@ date: "2026-08-24"
 description: "Mount Gilead moves into Division IV at number one, with Convoy Crestview close enough to make every scorer count."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-preseason-boys-d4-top-20"
 tags:
   - "Division 4"

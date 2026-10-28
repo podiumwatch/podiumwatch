@@ -4,6 +4,7 @@ date: "2026-09-04"
 description: "Podium Watch is recruiting high school intern writers to cover Ohio cross country and track and field. Here's why you should apply."
 category: "Podium Watch"
 author: "Podium Watch"
+type: "News"
 slug: "write-for-podium-watch"
 tags:
   - "Podium Watch"

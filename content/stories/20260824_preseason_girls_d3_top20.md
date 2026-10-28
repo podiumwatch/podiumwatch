@@ -4,6 +4,7 @@ date: "2026-08-24"
 description: "Huron leads Oakwood by 20 points, with Minerva and Woodridge close enough to turn one fifth runner improvement into a new championship picture."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-preseason-girls-d3-top-20"
 tags:
   - "Division 3"

@@ -4,6 +4,7 @@ date: "2026-08-24"
 description: "Ottawa Hills opens at number one, while Liberty Center, Rittman, and Grandview Heights begin only 11 points apart behind the favorite."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-preseason-girls-d4-top-20"
 tags:
   - "Division 4"

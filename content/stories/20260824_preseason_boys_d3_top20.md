@@ -4,6 +4,7 @@ date: "2026-08-24"
 description: "Woodridge leads Bryan by ten points, while Fairfield Union and Chagrin Falls keep a deep championship race within reach."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-preseason-boys-d3-top-20"
 tags:
   - "Division 3"

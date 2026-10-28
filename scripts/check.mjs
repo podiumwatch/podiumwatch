@@ -70,6 +70,30 @@ function hasMojibake(text) {
   return ["Ãƒ", "Ã‚", "â€™", "â€œ", "â€", "ï»¿", "�"].some((marker) => text.includes(marker));
 }
 
+// Story page redesign (2026-10-28), C3: a story hero under 1200px wide
+// looks blurry stretched to the template's full-width 16:9 box and
+// makes a soft social-share preview. Only PNG/JPEG headers are parsed
+// (every hero in this project is one of those two) -- an unreadable
+// width is skipped rather than guessed at.
+function imageWidthFromBuffer(buffer) {
+  if (buffer.length > 24 && buffer[0] === 0x89 && buffer[1] === 0x50 && buffer[2] === 0x4e && buffer[3] === 0x47) {
+    return buffer.readUInt32BE(16);
+  }
+  if (buffer.length > 4 && buffer[0] === 0xff && buffer[1] === 0xd8) {
+    let offset = 2;
+    while (offset < buffer.length - 9) {
+      if (buffer[offset] !== 0xff) { offset += 1; continue; }
+      const marker = buffer[offset + 1];
+      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+        return buffer.readUInt16BE(offset + 7);
+      }
+      const segmentLength = buffer.readUInt16BE(offset + 2);
+      offset += 2 + segmentLength;
+    }
+  }
+  return null;
+}
+
 const sourceScripts = await walk(root, (file) => [".js", ".mjs"].includes(path.extname(file)));
 for (const file of sourceScripts) {
   const result = spawnSync(process.execPath, ["--check", file], { cwd: root, encoding: "utf8" });
@@ -166,7 +190,21 @@ for (const file of htmlFiles) {
     if (!/alt="[^"]*"/.test(attrs)) errors.push(`${relative}: image missing alt text`);
     if (src && src.startsWith("/")) {
       checkedImages += 1;
-      try { await fs.access(path.join(dist, src.replace(/^\/+/, ""))); } catch { errors.push(`${relative}: missing image ${src}`); }
+      const target = path.join(dist, src.replace(/^\/+/, ""));
+      try {
+        await fs.access(target);
+      } catch {
+        errors.push(`${relative}: missing image ${src}`);
+        continue;
+      }
+      if (/data-check-hero-width="true"/.test(attrs)) {
+        try {
+          const width = imageWidthFromBuffer(await fs.readFile(target));
+          if (width && width < 1200) warnings.push(`${relative}: hero image ${src} is only ${width}px wide (under 1200px)`);
+        } catch {
+          // Unreadable header -- not worth failing the build over.
+        }
+      }
     }
   }
 }

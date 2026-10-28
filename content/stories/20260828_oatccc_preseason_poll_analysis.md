@@ -4,6 +4,7 @@ date: "2026-08-28"
 description: "The coaches released their 2026 preseason rankings this week. A look back at who actually won last November explains most of what's on the ballot, and exposes a few places where the voting hasn't caught up to reality."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-oatccc-preseason-poll-analysis"
 tags:
   - "Cross Country"

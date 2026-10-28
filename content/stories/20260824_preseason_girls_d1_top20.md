@@ -4,6 +4,7 @@ date: "2026-08-24"
 description: "Milford leads Mason and Massillon Jackson with a front runner, a connected scoring five, and room for an already strong lineup to become even tougher."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-preseason-girls-d1-top-20"
 tags:
   - "Division 1"

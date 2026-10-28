@@ -229,6 +229,10 @@
   const storyCards = [...document.querySelectorAll("[data-story-card]")];
   const noResults = document.querySelector("[data-no-results]");
   const resultsCount = document.querySelector("[data-results-count]");
+  // Story page redesign (2026-10-28), A3: type filter chips alongside
+  // the existing category select -- same card pool, one more condition.
+  const typeChipButtons = [...document.querySelectorAll("[data-type-chip]")];
+  let activeType = "all";
 
   const filterStories = () => {
     if (!storyCards.length) return;
@@ -238,7 +242,8 @@
     storyCards.forEach((card) => {
       const matchesQuery = !query || card.dataset.search.includes(query);
       const matchesCategory = category === "all" || card.dataset.category === category;
-      const show = matchesQuery && matchesCategory;
+      const matchesType = activeType === "all" || card.dataset.type === activeType;
+      const show = matchesQuery && matchesCategory && matchesType;
       card.hidden = !show;
       if (show) visible += 1;
     });
@@ -248,6 +253,13 @@
 
   searchInput?.addEventListener("input", filterStories);
   categorySelect?.addEventListener("change", filterStories);
+  typeChipButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeType = button.dataset.typeChip;
+      typeChipButtons.forEach((item) => item.classList.toggle("active", item === button));
+      filterStories();
+    });
+  });
   if (searchInput) {
     const query = new URLSearchParams(window.location.search).get("q");
     if (query) searchInput.value = query;

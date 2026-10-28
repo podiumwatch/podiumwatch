@@ -8,7 +8,34 @@ slug: "division-ii-districts-recap"
 featured: false
 draft: false
 updatedDate: "2026-10-28"
-featuredImage: "/images/stories/2026_division_ii_districts_recap.png"
+type: "Results"
+divisions: "II"
+genders: "Boys & Girls"
+series: "district-weekend-2026"
+seriesOrder: 2
+heroImage: "/images/stories/header-2-division-ii.png"
+heroAlt: "Graphic: Calvin Heithaus, 15:13.3, fastest Division II time in Ohio, with the seven Division II boys who broke 15:24 at districts"
+heroCaption: "Mount Vernon sophomore Calvin Heithaus ran 15:13.3 at Hilliard Darby, the fastest Division II time in Ohio on Saturday."
+heroCredit: "Podium Watch graphic"
+atAGlance:
+  - "Fastest D-II boy|15:13.3|Calvin Heithaus|Mount Vernon · Hilliard Darby|boys"
+  - "Fastest D-II girl|17:17.6|Audrey Miller|Aurora · Madison|girls"
+  - "Biggest margin|1:37.8|Julia Bocik|Sylvania Southview · Leaders Farms|girls"
+  - "Up next|Oct. 31|Regionals|State Nov. 7: girls 11:50 a.m., boys 12:30 p.m.|neutral"
+regions:
+  - "Central|Hilliard Darby|Pickerington"
+  - "East|Cambridge|Pickerington"
+  - "Northeast|GlenOak, Lorain County CC, Madison|Boardman"
+  - "Northwest|Leaders Farms, Owens CC|Tiffin"
+  - "Southeast|Rio Grande|Pickerington"
+  - "Southwest|Cedarville University, Voice of America|Troy"
+nextRegionals:
+  - "Central, East, Southeast|Pickerington"
+  - "Northeast|Boardman"
+  - "Northwest|Tiffin"
+  - "Southwest|Troy"
+nextStateLine: "State at Fortress Obetz, Saturday, Nov. 7. Division II girls race at 11:50 a.m., boys at 12:30 p.m."
+featuredImage: "/images/stories/header-2-division-ii.png"
 featuredImageAlt: "Fastest Division II time in Ohio: Calvin Heithaus of Mount Vernon ran 15:13.3 at the Hilliard Darby district, leading seven boys under 15:24."
 ---
 

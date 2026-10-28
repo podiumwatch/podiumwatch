@@ -8,7 +8,34 @@ slug: "division-iii-districts-recap"
 featured: false
 draft: false
 updatedDate: "2026-10-28"
-featuredImage: "/images/stories/2026_division_iii_districts_recap.png"
+type: "Results"
+divisions: "III"
+genders: "Boys & Girls"
+series: "district-weekend-2026"
+seriesOrder: 3
+heroImage: "/images/stories/header-3-division-iii.png"
+heroAlt: "Graphic: Cole Zang 14:52.9 and Gwen Huddle 17:05.5, the fastest boy and girl in Ohio at districts, both at Owens Community College"
+heroCaption: "Margaretta's Cole Zang and Napoleon's Gwen Huddle ran the fastest boys and girls times in Ohio, both at Owens Community College."
+heroCredit: "Podium Watch graphic"
+atAGlance:
+  - "Fastest boy in Ohio|14:52.9|Cole Zang|Margaretta · won by 1:55.1|boys"
+  - "Fastest girl in Ohio|17:05.5|Gwen Huddle|Napoleon · won by 1:51.5|girls"
+  - "Second sub-15|14:57.7|Jackson Spitzer|Versailles · Cedarville|boys"
+  - "Up next|Oct. 31|Regionals|State Nov. 7: girls 1:40 p.m., boys 2:20 p.m.|neutral"
+regions:
+  - "Central|Hilliard Darby|Pickerington"
+  - "East|Cambridge|Pickerington"
+  - "Northeast|Lorain County CC, Madison, GlenOak|Boardman"
+  - "Northwest|Galion, Columbus Grove, Owens CC|Tiffin"
+  - "Southeast|Rio Grande|Pickerington"
+  - "Southwest|Cedarville University, Voice of America|Troy"
+nextRegionals:
+  - "Central, East, Southeast|Pickerington"
+  - "Northeast|Boardman"
+  - "Northwest|Tiffin"
+  - "Southwest|Troy"
+nextStateLine: "State at Fortress Obetz, Saturday, Nov. 7. Division III girls race at 1:40 p.m., boys at 2:20 p.m."
+featuredImage: "/images/stories/header-3-division-iii.png"
 featuredImageAlt: "One course, two runaways: Cole Zang of Margaretta ran 14:52.9, the fastest boy in Ohio, and Gwen Huddle of Napoleon ran 17:05.5, the fastest girl in Ohio, both at Owens Community College."
 ---
 

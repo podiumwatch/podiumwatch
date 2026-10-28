@@ -4,6 +4,7 @@ date: "2026-08-24"
 description: "CVCA leads Lexington and Massillon Perry, with a title race that could turn on whether the challengers close their largest fifth runner gaps."
 category: "Cross Country"
 author: "Podium Watch"
+type: "Rankings"
 slug: "2026-preseason-boys-d2-top-20"
 tags:
   - "Division 2"
