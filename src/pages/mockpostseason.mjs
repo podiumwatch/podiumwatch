@@ -609,8 +609,13 @@ function combinedFinishOrder(scoredTeams, qualifyingTeamNames, individuals, real
 // whether it has a further "advances to" link -- state's own
 // individual list has no next level to advance to, but its rows are
 // still valid landing targets for an incoming regional-to-state link.
-function runnerRowsHtml(rows, limit, allOhioAfter, crossLinkFor, gender, divNum) {
+function runnerRowsHtml(rows, limit, dividers, crossLinkFor, gender, divNum) {
   const shown = limit ? rows.slice(0, limit) : rows;
+  // dividers: either a single number (legacy -- one "All-Ohio line · top
+  // N" divider, still used by the district/regional Top-32 combined
+  // lists) or an array of {after, label} for more than one labeled cut
+  // (State uses two: All-Ohio top 24, 2nd Team All-Ohio the next 24).
+  const dividerList = Array.isArray(dividers) ? dividers : (dividers ? [{ after: dividers, label: `All-Ohio line &middot; top ${dividers}` }] : []);
   const body = shown.map((r, i) => {
     const advancing = r.advancing != null ? r.advancing : Boolean(r.tag);
     const qualifyClass = advancing ? " mp-qualifies" : "";
@@ -645,8 +650,8 @@ function runnerRowsHtml(rows, limit, allOhioAfter, crossLinkFor, gender, divNum)
         ${r.tag === "TEAM" ? '<span class="mp-tag" style="background:var(--row-accent,var(--mp-green));color:#06230f;">Q</span>' : ""}
       </div>`;
     }
-    const divider = allOhioAfter && i === allOhioAfter - 1 ? `<div class="mp-allohioline">All-Ohio line &middot; top ${allOhioAfter}</div>` : "";
-    return row + divider;
+    const divider = dividerList.find((d) => d.after === i + 1);
+    return row + (divider ? `<div class="mp-allohioline">${divider.label}</div>` : "");
   }).join("");
   return `<div class="mp-rowlist">${body}</div>`;
 }
@@ -1018,26 +1023,38 @@ function stateSectionHtml(key, s) {
     return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}"><h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2><div class="mp-banner">Incomplete: ${escapeHtml(reason)}</div></div>`;
   }
   const complete = s.teams.filter((t) => t.complete);
-  // Every entry in s.individuals is a real state qualifier that an
-  // incoming "Advances to State" link from some regional can point at --
-  // found 2026-10-22 (same class of bug as the regional Top-32 cutoff
-  // fixed earlier): slicing this list to the top 40 for display dropped
-  // the data-anchor for anyone ranked 41+ statewide, so that link landed
-  // with nothing to highlight. Keep the visible "top 40" summary, but
-  // render everyone past it too (collapsed, same mp-showall pattern used
-  // at the regional level) so every real qualifier always has an anchor.
-  const individualAll = (s.individuals || []).map((q) => ({
-    name: q.name, grade: q.grade, school: q.originalTeam, seasonBest: q.seasonBest, placePoints: q.placePoints, tag: "IND",
-    qualifiedFrom: q.qualifiedFromRegional ? `${q.qualifiedFromRegional} regional, ${q.qualifiedFromRegionalOrdinal}` : null
-  }));
-  const visibleCount = Math.min(40, individualAll.length);
-  const overflowCount = individualAll.length - visibleCount;
+  // The full real State finish order: every qualifying team's own
+  // runners (from teamsForFullField -- computeStatePool's combined-field
+  // scoring pass, so these carry the SAME real overall placePoints as
+  // the pooled individuals, not each team's own separate team-only
+  // scoring place) PLUS every pooled individual qualifier, together,
+  // sorted by that one shared placePoints. All-Ohio (top 24) and 2nd
+  // Team All-Ohio (the next 24, 25-48) are real individual honors based
+  // on this real combined order -- NOT on "top 24 individual qualifiers"
+  // (a bug found 2026-10-28: the old section here built its All-Ohio
+  // line from s.individuals alone, which excludes every team scorer
+  // entirely, so the line was never placed against the real field).
+  // Every finisher is shown, not just a top-N slice, per the same report.
+  const fullFinishOrder = [
+    ...(s.teamsForFullField || []).flatMap((team) =>
+      team.runners.map((r) => ({ name: r.name, grade: r.grade, school: team.name, seasonBest: r.seasonBest, placePoints: r.placePoints, tag: "TEAM" }))
+    ),
+    ...(s.individuals || []).map((q) => ({
+      name: q.name, grade: q.grade, school: q.originalTeam, seasonBest: q.seasonBest, placePoints: q.placePoints, tag: "IND",
+      qualifiedFrom: q.qualifiedFromRegional ? `${q.qualifiedFromRegional} regional, ${q.qualifiedFromRegionalOrdinal}` : null
+    }))
+  ].sort((a, b) => a.placePoints - b.placePoints);
+  const ALL_OHIO_DIVIDERS = [
+    { after: 24, label: "All-Ohio &middot; top 24" },
+    { after: 48, label: "2nd Team All-Ohio &middot; 25-48" }
+  ];
   return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
     ${bicarbInfeedHtml(`state-${key}`)}
-    ${individualAll.length ? `<p class="mp-h3">Projected individual top ${visibleCount}</p>${runnerRowsHtml(individualAll.slice(0, visibleCount), null, Math.min(25, visibleCount), null, genderLower, divNum)}${overflowCount ? `<details class="mp-showall"><summary>Show all ${individualAll.length} individuals</summary>${runnerRowsHtml(individualAll.slice(visibleCount), null, null, null, genderLower, divNum)}</details>` : ""}` : ""}
+    <p class="mp-h3">Full state finish order (${fullFinishOrder.length} finishers -- All-Ohio top 24, 2nd Team All-Ohio 25-48)</p>
+    ${runnerRowsHtml(fullFinishOrder, null, ALL_OHIO_DIVIDERS, null, genderLower, divNum)}
   </div>`;
 }
 
