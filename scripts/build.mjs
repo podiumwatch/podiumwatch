@@ -791,7 +791,7 @@ function contactPage() {
 // headshots/start dates are invented; initials-only avatars, exactly as
 // asked.
 const STAFF = [
-  { name: "Zachary [LAST NAME]", title: "Founder & Editor" },
+  { name: "Zachary Bell", title: "Founder & Editor" },
   { name: "Brayleigh Becken", title: "State Meet Media Correspondent" },
   { name: "Logan Eggert", title: "State Meet Media Correspondent" },
   { name: "Lauren Palmer", title: "Photographer", instagramHandle: "@laurenpmedia", instagramUrl: "https://instagram.com/laurenpmedia" }
