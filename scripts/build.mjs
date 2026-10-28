@@ -311,12 +311,16 @@ async function loadStories() {
     };
     if (!story.draft) stories.push(story);
   }
+  // Story page redesign (2026-10-28), A2: pinnedRank (2026-08-21,
+  // docs/DECISIONS.md) used to let a story jump the whole feed ahead of
+  // every unpinned story regardless of date -- confirmed live, it was
+  // keeping a Sept. 30 and an Aug. 21 story ahead of the Oct. 28
+  // district package on the homepage. A2 asks for every story list to
+  // be strictly newest-first, so pinnedRank is no longer read here.
+  // The field itself is untouched on every story's front matter and
+  // still computed above -- re-enabling it later is a one-line change,
+  // not a rebuild.
   return stories.sort((a, b) => {
-    if (a.pinnedRank !== null || b.pinnedRank !== null) {
-      if (a.pinnedRank === null) return 1;
-      if (b.pinnedRank === null) return -1;
-      if (a.pinnedRank !== b.pinnedRank) return a.pinnedRank - b.pinnedRank;
-    }
     const dateDiff = new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`);
     if (dateDiff !== 0) return dateDiff;
     // Story page redesign (2026-10-28), A2: same-date tie-break, so a
@@ -393,16 +397,15 @@ function homePage(stories, rankings) {
   // whenever the featured story is also among the most recent (the normal
   // case), it silently appeared twice on the homepage: once as the big
   // lead, again as the first card in the grid underneath.
-  // Media-credibility audit (2026-10-28), P2-6: stories still using the
-  // generic fallback image (no real featuredImage) look unfinished on
-  // the homepage -- prefer real-image stories for the 8 slots, and only
-  // fall back to a generic-image story when there aren't enough
-  // real-image stories to fill the row. Story pages themselves are
-  // unchanged; this only affects which cards appear here.
-  const latestStoriesPool = stories.filter((story) => story.slug !== featuredStory?.slug);
-  const latestStoriesWithImage = latestStoriesPool.filter((story) => story.featuredImage);
-  const latestStoriesWithoutImage = latestStoriesPool.filter((story) => !story.featuredImage);
-  const latestStories = [...latestStoriesWithImage, ...latestStoriesWithoutImage].slice(0, 8);
+  // Story page redesign (2026-10-28), A2: strictly newest-first. An
+  // earlier pass (media-credibility audit, P2-6) reordered this row to
+  // prefer real-image stories over the generic fallback image, which
+  // put an August/September story ahead of an October one -- a real
+  // violation of "newest first everywhere" the handoff explicitly
+  // called out. `stories` is already sorted newest-first (with the
+  // seriesOrder tie-break, loadStories() in this same file), so a plain
+  // slice is the correct fix; no image-based reordering.
+  const latestStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 8);
   // Homepage rebuild (2026-08-28): this used to render as "Latest
   // Stories" directly under the lead story, AND a second, separate
   // "Latest stories" section further down the page ("More than a finish
