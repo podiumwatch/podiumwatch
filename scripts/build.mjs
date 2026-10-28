@@ -365,7 +365,16 @@ function homePage(stories, rankings) {
   // whenever the featured story is also among the most recent (the normal
   // case), it silently appeared twice on the homepage: once as the big
   // lead, again as the first card in the grid underneath.
-  const latestStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 8);
+  // Media-credibility audit (2026-10-28), P2-6: stories still using the
+  // generic fallback image (no real featuredImage) look unfinished on
+  // the homepage -- prefer real-image stories for the 8 slots, and only
+  // fall back to a generic-image story when there aren't enough
+  // real-image stories to fill the row. Story pages themselves are
+  // unchanged; this only affects which cards appear here.
+  const latestStoriesPool = stories.filter((story) => story.slug !== featuredStory?.slug);
+  const latestStoriesWithImage = latestStoriesPool.filter((story) => story.featuredImage);
+  const latestStoriesWithoutImage = latestStoriesPool.filter((story) => !story.featuredImage);
+  const latestStories = [...latestStoriesWithImage, ...latestStoriesWithoutImage].slice(0, 8);
   // Media-credibility audit (2026-10-28): these are preseason projections
   // (every ranking CSV's updatedDate is 2026-07-29, before the season
   // started) still being shown on the homepage after real district

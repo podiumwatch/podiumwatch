@@ -407,21 +407,25 @@ export function websiteJsonLd(site) {
   };
 }
 
+// Media-credibility audit (2026-10-28), P2-5: NewsMediaOrganization
+// (rather than plain Organization) with a real contact email, so
+// structured data itself signals "news outlet" to anything reading it.
 export function organizationJsonLd(site) {
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": "NewsMediaOrganization",
     name: site.name,
     url: site.siteUrl,
     logo: absoluteUrl(site, site.logo),
-    sameAs: [site.instagramUrl, site.youtubeUrl]
+    sameAs: [site.instagramUrl, site.youtubeUrl],
+    email: site.contactEmail
   };
 }
 
 export function articleJsonLd(site, story) {
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "NewsArticle",
     headline: story.title,
     description: story.description,
     datePublished: story.date,

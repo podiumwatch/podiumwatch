@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "snapshotDate": "2026-09-17",
   "title": "2026 Ohio XC Mock Meets: OATCCC Top 24, September 17",
-  "pollSource": "https://podiumwatch.vercel.app/rankings/oatccc/",
+  "pollSource": "https://www.podiumwatch.org/rankings/oatccc/",
   "performanceSource": "User supplied Athletic.net season best snapshots and subsequent corrections",
   "timingPrecision": "Use each supplied value as given; do not round before ordering",
   "scoringMethod": "First five score; sixth and seventh displace; identical listed marks share average occupied places; team ties use sixth as documented in report",
