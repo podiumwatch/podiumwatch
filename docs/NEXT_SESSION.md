@@ -1,6 +1,13 @@
 # Podium Watch next session
 
-## Most recent work (2026-10-28) -- read this first, supersedes everything below for media-credibility/homepage/nav/footer work
+## Most recent work (2026-10-29) -- read this first
+
+- **Pre-Regional OATCCC poll + recap story**: live (`2ce28cc`, pushed on request). Pattern for next week: push one more `weeks` entry onto `src/data/oatccc-coaches-poll.json` (sheet spelling for school names, `null` for zero first-place votes).
+- **Full site audit** (Playwright crawl of 58 pages at phone + desktop widths against production, every screenshot reviewed): 0 JS errors / broken images / missing alt / failed requests. Fixed a batch of real layout bugs, all local-commit only: story pages had no side gutter on phones and rendered a duplicate giant H1 (plus 15 H1s per preseason article); story tables were unreadable on phones; `&rarr;`/`&middot;` printed literally on /about/ and the district review; AOTW/TOTW pages were 409px wide on a 390px phone; the recruiting Top 250 intro wrapped letter-by-letter; /track-divisions/ broke every word; the fan poll advertised a 9/3 deadline. Full list in `docs/SESSION_LOG.md`, 2026-10-29.
+- **Needs Zachary**: (1) the homepage "Districts are in the books" buttons link to `/mock-postseason/` pages that are noindexed and say "LOCAL REVIEW BUILD -- NOT LIVE" and land on an empty Boys D1 Districts tab -- either promote those pages (drop the labels/noindex, default to D2 or Regionals) or point the homepage at `/mock-meets/`; (2) fan poll weeks have not rolled since 9/3; (3) mock-meet "Team score" column wording (handoff Item 8).
+- `npm run build`, `npm run check`, `npm run audit:seo`, and the full `npm test` suite pass as of this entry. Audit commit is local -- waiting on "push".
+
+## Most recent work (2026-10-28) -- supersedes everything below for media-credibility/homepage/nav/footer work
 
 Worked through `credibility-overhaul-handoff.md` (ahead of OHSAA's Nov 4 media-credential review) in priority order, committed after each section, nothing pushed or deployed. Two commits so far: `18cee69` (P0-2, P0-3, P1-1 through P1-7, P2 footer reorder) and `9ec4ecb` (P2 JSON-LD, homepage image preference, domain sweep).
 

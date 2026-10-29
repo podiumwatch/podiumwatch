@@ -12,8 +12,8 @@ const TRACK_CSS = `
 .td-block > h2 { margin:0 0 6px; font-size:1.5rem; }
 .td-block > p { margin:0 0 14px; color:var(--muted); font-size:.92rem; }
 .td-table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--white); }
-.td-table { width:100%; border-collapse:collapse; font-size:.92rem; }
-.td-table th, .td-table td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+.td-table { width:100%; min-width:620px; border-collapse:collapse; font-size:.92rem; }
+.td-table th, .td-table td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; white-space:nowrap; }
 .td-table th { background:var(--green); color:#fff; font-size:.8rem; letter-spacing:.04em; text-transform:uppercase; position:sticky; top:0; }
 .td-table td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
 .td-table tr:last-child td { border-bottom:0; }

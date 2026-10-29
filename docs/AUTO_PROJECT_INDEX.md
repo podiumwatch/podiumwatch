@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-13 09:33:30
+Generated: 2026-10-29 12:19:10
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,10 +9,10 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 1002 |
-| Page source files | 92 |
+| Included source files | 5233 |
+| Page source files | 96 |
 | API files | 128 |
-| Route references | 104 |
+| Route references | 107 |
 | Environment variable names | 22 |
 | Supabase table references | 136 |
 
@@ -20,16 +20,26 @@ This file is generated from the current project.
 
 Latest commit:
 
-369573c1bf2d47d5c81773f3a39308783c94055c | 2026-10-12 19:07:09 -0400 | Fix a deeper duplicate-runner bug: reversed-name-order MileSplit rows
+2ce28cc46f5e94304556b419635aff4e7a8752a9 | 2026-10-29 10:50:20 -0400 | Add Pre-Regional OATCCC coaches' poll and recap article
 
 Working tree:
 
  M .claude/settings.json
+ M docs/AUTO_PROJECT_INDEX.md
  M docs/DECISIONS.md
+ M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
- M lib/recruiting_service.mjs
- M package.json
- M scripts/test-vote-count-safety.mjs
+ M lib/athletic_net_rankings_service.mjs
+ M public/scripts/fan-poll.js
+ M scripts/build.mjs
+ M src/lib/markdown.mjs
+ M src/pages/athletes.mjs
+ M src/pages/fanpoll.mjs
+ M src/pages/mypodium.mjs
+ M src/pages/recruitingtop250xc.mjs
+ M src/pages/trackdivisions.mjs
+ M src/styles/main.css
+?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
 ?? dataimports/BTF2027D2.pdf
@@ -43,6 +53,15 @@ Working tree:
 ?? dataimports/GTF2027D5.pdf
 ?? dataimports/Ohio_Senior_Boys_Top_250.xlsx
 ?? dataimports/Podium_Watch_Weekend_Results.xlsx
+?? dataimports/backfill-athletic-net-matched-school-id.mjs
+?? dataimports/bicarb-billboard-970x250.png
+?? dataimports/bicarb-halfpage-300x600.png
+?? dataimports/bicarb-infeed-640x200.png
+?? dataimports/bicarb-leaderboard-728x90.png
+?? dataimports/bicarb-mobile-banner-320x100.png
+?? dataimports/bicarb-mobile-sticky-320x50.png
+?? dataimports/bicarb-rectangle-300x250.png
+?? dataimports/bicarb-rectangle-dark-300x250.png
 ?? dataimports/boys-d1-2026/
 ?? dataimports/boys-d2-2026/
 ?? dataimports/boys-d3-2026/
@@ -54,7 +73,7 @@ Working tree:
 ?? dataimports/girls-d4-2026/
 ?? dataimports/girls_week_9_26_clean_import.csv
 ?? dataimports/girls_week_9_26_clean_import_v2.csv
-?? dataimports/import-ohio-xc-2026-athletic-net-rankings.mjs
+?? dataimports/merge-athletic-net-duplicate-profiles.mjs
 ?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - Boys d4.csv"
 ?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - boys d3.csv"
 ?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d1.csv"
@@ -205,16 +224,49 @@ Working tree:
 ?? dataimports/mock-meet-export/verify-pages.mjs
 ?? dataimports/mock-meet-export/verify-rail.mjs
 ?? dataimports/mock-meet-export/verify-story.mjs
-?? dataimports/ohio_xc_2026_top_1000_all_divisions_week7.SOURCE_NOTE.md
-?? dataimports/ohio_xc_2026_top_1000_all_divisions_week7.csv
+?? dataimports/ohio_2026_xc_Claude_Code/mock-postseason-logo-manifest.json
+?? dataimports/ohio_2026_xc_Claude_Code/postseason_chain_output.BEFORE_R4.json
 ?? dataimports/ohio_xc_2026_top_1000_all_divisionsweek7.xlsx
 ?? dataimports/photographer-network-marketing-plan.html
+?? dataimports/podium-watch-story-page.html
 ?? dataimports/podium_watch_2026_ohio_xc_top_10_by_grade.xlsx
+?? dataimports/publish-athletic-net-rankings-batch.mjs
+?? dataimports/publish-athletic-net-rankings-profiles.mjs
+?? dataimports/pw_logos/
+?? dataimports/story-page-and-homepage-handoff.md
 ?? dataimports/track-alignments/
-?? install/71_ATHLETIC_NET_EXTERNAL_ID_UNIQUE.sql
-?? lib/athletic_net_rankings_service.mjs
-?? scripts/test-athletic-net-rankings.mjs
-?? tests/athletic-net-rankings-import.test.mjs
+?? dataimports/triple-threat-2026/
+?? dataimports/update-boys-d1-times.mjs
+?? dataimports/update-boys-d2-times.mjs
+?? dataimports/update-boys-d3-times.mjs
+?? dataimports/update-boys-d4-times.mjs
+?? dataimports/update-girls-d1-times.mjs
+?? dataimports/update-girls-d2-times.mjs
+?? dataimports/update-girls-d3-times.mjs
+?? dataimports/update-girls-d4-times.mjs
+?? install/73_MEET_CITY_NAME_CORRECTIONS.sql
+?? lib/xc_backtest_collection.mjs
+?? lib/xc_d4_coverage_audit.mjs
+?? lib/xc_d4_results_grid_workbook.mjs
+?? lib/xc_d4_rolling_backtest.mjs
+?? lib/xc_legends_history_collection.mjs
+?? private/
+?? scripts/audit-d4-boys-coverage.mjs
+?? scripts/evaluate-private-d4-rolling-backtest.mjs
+?? scripts/evaluate-private-d4-simulator.mjs
+?? scripts/prepare-d4-boys-backtest-collection.mjs
+?? scripts/process-legends-d4-results-grid-workbook.mjs
+?? scripts/process-legends-history-collection.mjs
+?? scripts/run-private-d4-mock-state-simulator.mjs
+?? scripts/run-private-d4-rolling-backtest.mjs
+?? scripts/run-private-d4-simulator.mjs
+?? scripts/test-xc-d4-coverage-audit.mjs
+?? tests/xc-backtest-collection.test.mjs
+?? tests/xc-backtest-package.test.mjs
+?? tests/xc-d4-coverage-audit.test.mjs
+?? tests/xc-d4-results-grid-workbook.test.mjs
+?? tests/xc-d4-rolling-backtest.test.mjs
+?? tests/xc-legends-history-collection.test.mjs
 
 ## Package commands
 
@@ -341,6 +393,8 @@ Working tree:
 1. /split-watch/races/
 1. /split-watch/review/
 1. /sponsors/
+1. /staff/
+1. /standards/
 1. /stories/
 1. /submit-photos/
 1. /submit-results/
@@ -357,6 +411,7 @@ Working tree:
 1. /team-roster/
 1. /teams/
 1. /team-schedule/
+1. /terms/
 1. /tournament-hub/
 1. /track-divisions/
 1. /writer-login/
@@ -702,7 +757,9 @@ Values are intentionally excluded.
 1. src\pages\guardianlogin.mjs
 1. src\pages\meetdetail.mjs
 1. src\pages\meets.mjs
+1. src\pages\mockdistricts.mjs
 1. src\pages\mockmeets.mjs
+1. src\pages\mockpostseason.mjs
 1. src\pages\mockregionals.mjs
 1. src\pages\mypodium.mjs
 1. src\pages\mypodiumlogin.mjs
@@ -733,6 +790,7 @@ Values are intentionally excluded.
 1. src\pages\splitwatchplan.mjs
 1. src\pages\splitwatchraces.mjs
 1. src\pages\splitwatchreview.mjs
+1. src\pages\standards.mjs
 1. src\pages\submitphotos.mjs
 1. src\pages\submitrecruitingactivity.mjs
 1. src\pages\submitresults.mjs
@@ -748,6 +806,7 @@ Values are intentionally excluded.
 1. src\pages\teamroster.mjs
 1. src\pages\teams.mjs
 1. src\pages\teamschedule.mjs
+1. src\pages\terms.mjs
 1. src\pages\tournamenthub.mjs
 1. src\pages\trackdivisions.mjs
 1. src\pages\weeklyawards.mjs
@@ -772,6 +831,7 @@ Values are intentionally excluded.
 1. docs
 1. install
 1. lib
+1. private
 1. public
 1. reference_data
 1. scripts

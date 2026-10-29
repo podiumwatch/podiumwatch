@@ -1,7 +1,9 @@
 import { escapeHtml, slugify } from "./content.mjs";
 
 function inlineMarkdown(input) {
-  let text = escapeHtml(input);
+  // Keep hand-written entities like &middot; or &rarr; intact: escapeHtml()
+  // would otherwise turn them into literal "&middot;" text on the page.
+  let text = escapeHtml(input).replace(/&amp;(#\d{1,7}|#x[0-9a-f]{1,6}|[a-z][a-z0-9]{1,31});/gi, "&$1;");
   const codeTokens = [];
   text = text.replace(/`([^`]+)`/g, (_, code) => {
     const token = `%%CODE${codeTokens.length}%%`;

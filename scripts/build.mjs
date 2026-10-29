@@ -473,7 +473,7 @@ function homePage(stories, rankings) {
   const heroByline = storyBylineHtml(featuredStory?.author);
   const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
   const content = `<section class="home-hero-news"><div class="container">
-    <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager"${leadImagePosition ? ` style="object-position:${escapeHtml(leadImagePosition)}"` : ""}><span>${escapeHtml(heroCategory)}</span></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
+    <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager" fetchpriority="high"${leadImagePosition ? ` style="object-position:${escapeHtml(leadImagePosition)}"` : ""}></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
   </div></section>
 
   <section class="section section-paper" aria-labelledby="latest-stories-title">
@@ -676,7 +676,12 @@ function categoryPage(category, stories) {
 // - any remaining standalone italic paragraph (the "co-champion" note
 //   convention in the district recaps) becomes a plain muted note line
 function transformStoryBody(story) {
-  let html = story.html;
+  // The template already renders the title in .sp-head; a body that
+  // opens by repeating it as "# Title" would show a second H1.
+  let html = story.html.replace(/^\s*<h1[^>]*>[\s\S]*?<\/h1>\s*/, "");
+  // Any further "# Heading" in a body is a section heading, not a page
+  // title: keep one H1 per page.
+  html = html.replace(/<h1(\s[^>]*)?>/g, "<h2$1>").replace(/<\/h1>/g, "</h2>");
   let sourcingNote = null;
   const trailingNote = html.match(/<p><em>([^<]+)<\/em><\/p>\s*$/);
   if (trailingNote) {
@@ -719,7 +724,7 @@ function storyPage(story, stories) {
   // Hero: real hero image with a 16:9 crop, or a branded black title
   // card instead of an empty box when a story has no hero image.
   const heroArt = heroImage
-    ? `<figure class="sp-hero-art"><div class="sp-wide"><img src="${heroImage}" data-fallback="${fallback}" data-check-hero-width="true" alt="${escapeHtml(story.heroAlt || story.featuredImageAlt || "")}" width="1600" height="900" loading="eager"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}></div>${(story.heroCaption || story.heroCredit) ? `<figcaption>${story.heroCaption ? escapeHtml(story.heroCaption) : ""}${story.heroCredit ? `<span class="sp-credit">${escapeHtml(story.heroCredit)}</span>` : ""}</figcaption>` : ""}</figure>`
+    ? `<figure class="sp-hero-art"><div class="sp-wide"><img src="${heroImage}" data-fallback="${fallback}" data-check-hero-width="true" alt="${escapeHtml(story.heroAlt || story.featuredImageAlt || "")}" width="1600" height="900" loading="eager" fetchpriority="high"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}></div>${(story.heroCaption || story.heroCredit) ? `<figcaption>${story.heroCaption ? escapeHtml(story.heroCaption) : ""}${story.heroCredit ? `<span class="sp-credit">${escapeHtml(story.heroCredit)}</span>` : ""}</figcaption>` : ""}</figure>`
     : `<figure class="sp-hero-art"><div class="sp-wide"><div class="sp-hero-art-fallback"><img src="${site.logoLight || site.logo}" alt=""><span>${escapeHtml(story.title)}</span></div></div></figure>`;
 
   const genuinelyUpdated = (story.updated || (story.updatedDate && story.updatedDate !== story.date)) ? (story.updated || story.updatedDate) : null;
@@ -767,7 +772,7 @@ function storyPage(story, stories) {
 
   const content = `<div class="sp-page"${preseasonClassification ? ` style="--pw-accent:${escapeHtml(preseasonClassification.accent)}" data-pw-article="${escapeHtml(story.slug)}"` : ""} data-story-slug="${escapeHtml(story.slug)}">
   ${seriesBar}
-  <main id="sp-story-top">
+  <div id="sp-story-top">
   <header class="sp-head"><div class="sp-col">
     <p class="sp-kicker">${escapeHtml(type)}${story.divisions ? ` &middot; Division ${story.divisions}` : ""}</p>
     <h1>${escapeHtml(story.title)}</h1>
@@ -791,7 +796,7 @@ function storyPage(story, stories) {
 
   ${navigation ? `<div class="container">${navigation}</div>` : ""}
   ${relatedBlock}
-  </main>
+  </div>
   ${preseasonDataScript}
   <script src="/scripts/story-view.js" defer></script>
   <script src="/scripts/story-page.js" defer></script>
@@ -892,12 +897,12 @@ async function aboutPage() {
 }
 
 function athletePage() {
-  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}<section class="section section-paper"><div class="container content-grid"><div><p class="eyebrow">Athlete profiles</p><h2>Start with the statewide directory.</h2><p>Find athletes by name, school, graduation year, division, event, and source status.</p><a class="button button-primary" href="/athletes/">Open athlete directory</a></div><div>${emptyState({ title: "Long form spotlights are being prepared", description: "Published athlete interviews and personal stories will appear here without inventing quotes, achievements, or background information.", actionLabel: "Read current stories", actionHref: "/stories/" })}</div></div></section>`;
+  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}<section class="section section-paper"><div class="container content-grid"><div><p class="eyebrow">Athlete profiles</p><h2>Start with the statewide directory.</h2><p>Find athletes by name, school, graduation year, division, event, and source status.</p><a class="button button-primary" href="/athletes/">Open athlete directory</a></div><div>${emptyState({ title: "Spotlights are coming soon", description: "Long-form athlete interviews and personal stories will be published here as they are reported. In the meantime, the newsroom is covering every division.", actionLabel: "Read current stories", actionHref: "/stories/" })}</div></div></section>`;
   return layout({ site, title: "Athlete Spotlights", description: "Podium Watch athlete spotlights and athlete profile directory for Ohio high school cross country and track and field.", pathname: "/athlete-spotlights/", content });
 }
 
 function interviewsPage() {
-  const content = `${pageHero({ eyebrow: "Beyond the Podium", title: "Conversations beyond the finish line.", description: "Interviews about racing, pressure, setbacks, faith, goals, and the person behind the athlete." })}<section class="section section-paper"><div class="container">${emptyState({ title: "Interview pages are being prepared", description: "The project includes an interviews content folder and template without publishing fake guests or episodes.", actionLabel: "Visit YouTube", actionHref: site.youtubeUrl })}</div></section>`;
+  const content = `${pageHero({ eyebrow: "Beyond the Podium", title: "Conversations beyond the finish line.", description: "Interviews about racing, pressure, setbacks, faith, goals, and the person behind the athlete." })}<section class="section section-paper"><div class="container">${emptyState({ title: "Interviews are coming soon", description: "Beyond the Podium conversations with Ohio athletes and coaches will be published here as episodes are recorded. Watch the latest on the Podium Watch YouTube channel.", actionLabel: "Visit YouTube", actionHref: site.youtubeUrl })}</div></section>`;
   return layout({ site, title: "Beyond the Podium Interviews", description: "Podium Watch interviews with Ohio high school runners and members of the running community.", pathname: "/interviews/", content });
 }
 

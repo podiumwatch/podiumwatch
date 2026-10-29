@@ -30,7 +30,8 @@ export function athletesPage(site) {
     .athlete-directory-heading h2, .athlete-directory-heading p { margin-bottom:0; }
     .athlete-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
     .athlete-card { display:grid; gap:15px; padding:21px; border:1px solid rgba(15,23,42,.12); border-radius:15px; background:#fff; box-shadow:0 12px 28px rgba(15,23,42,.05); }
-    .athlete-card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+    .athlete-card-header { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:12px; }
+    @media (max-width:520px) { .athlete-card-header .athlete-status-badge { flex-basis:100%; width:max-content; } }
     .athlete-card h3, .athlete-card p { margin:0; }
     .athlete-card h3 { font-size:1.35rem; }
     .athlete-card-school { color:#475569; font-weight:800; }

@@ -60,7 +60,7 @@ export function myPodiumPage(site, stories) {
 
     .mp-header { display:grid; gap:4px; }
     .mp-header .eyebrow { margin:0; }
-    .mp-header h1 { margin:0; font-size:1.7rem; }
+    .mp-header h2 { margin:0; font-size:1.7rem; }
     .mp-header-meta { display:flex; flex-wrap:wrap; gap:10px; align-items:center; color:var(--muted); font-size:.88rem; }
     .mp-header-meta a { color:var(--green-dark); font-weight:800; }
 
@@ -160,7 +160,7 @@ export function myPodiumPage(site, stories) {
       <div data-mp-dashboard hidden>
         <div class="mp-header">
           <p class="eyebrow">My Podium</p>
-          <h1>My Podium</h1>
+          <h2>My Podium</h2>
           <div class="mp-header-meta">
             <span data-mp-date></span>
             <span data-mp-summary></span>

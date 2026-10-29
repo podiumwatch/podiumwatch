@@ -193,6 +193,8 @@ p { margin-top: 0; }
 .sport-card h3 { max-width: 520px; margin-bottom: 10px; font-size: clamp(2.2rem, 5vw, 4.5rem); }
 .sport-card p { max-width: 520px; color: #d5d5d5; }
 .sport-card .button { align-self: flex-start; margin-top: 8px; }
+.sport-card .button-outline { color: var(--white); border-color: rgba(255,255,255,.6); }
+.sport-card .button-outline:hover { background: rgba(255,255,255,.1); }
 
 .social-band { padding: 62px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .social-grid, .sponsor-grid { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
@@ -452,7 +454,6 @@ p { margin-top: 0; }
   .home-spotlight-grid { gap:14px; }
   .ohio-today-band { padding:16px 0; }
   .home-lead-image { aspect-ratio: 16 / 9; }
-  .home-lead-image span { top:12px; left:12px; }
   .home-lead > div { padding:16px; }
   .home-lead h1 { font-size:clamp(1.72rem,8vw,2.35rem); line-height:1.07; }
   .home-section-title { margin-top:18px; }
@@ -589,7 +590,6 @@ p { margin-top: 0; }
    width instead of a fixed pixel height. */
 .home-lead-image { position:relative; display:block; aspect-ratio: 16 / 9; background:#17201b; }
 .home-lead-image img { width:100%; height:100%; object-fit:cover; }
-.home-lead-image span { position:absolute; top:18px; left:18px; padding:8px 11px; color:#fff; background:var(--green); font-size:.65rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
 .home-lead > div { padding:22px 24px; }
 .home-lead h1 { margin:0 0 12px; font-family:Arial Black,Arial,sans-serif; font-size:clamp(2rem,3.5vw,2.8rem); line-height:1.04; letter-spacing:-.035em; text-transform:none; }
 .home-lead > div > p:not(.eyebrow) { color:#58605c; }
@@ -811,6 +811,9 @@ p { margin-top: 0; }
 .ad-slot { padding: 18px; border: 1px solid var(--line); background: var(--paper); text-align: center; }
 .ad-slot-label { margin: 0 0 12px; font-size: .68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
 .award-shell { display: grid; gap: 54px; }
+/* Grid items default to min-width:auto, so one wide winner image could
+   push the whole column past the container on phones. */
+.award-shell > *, .award-winners > *, .award-finalists > * { min-width: 0; }
 .award-status { text-align: center; }
 /* Finalists use a compact, logo-forward card so every candidate fits on
    screen at once (the whole point of voting is comparing them side by
@@ -1670,8 +1673,8 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 .sp-progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: var(--sp-green); z-index: 1; }
 
 .sp-page { background: var(--sp-paper); color: var(--sp-ink); font-family: var(--sp-f-ui); }
-.sp-col { max-width: var(--sp-col); margin: 0 auto; }
-.sp-wide { max-width: var(--sp-wide); margin: 0 auto; }
+.sp-col { max-width: calc(var(--sp-col) + 36px); margin: 0 auto; padding-inline: 18px; }
+.sp-wide { max-width: calc(var(--sp-wide) + 36px); margin: 0 auto; padding-inline: 18px; }
 
 /* series line -- a single plain text row, not a dark band. */
 .sp-series { border-bottom: 1px solid var(--sp-rule); }
@@ -1698,7 +1701,7 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 /* image */
 .sp-hero-art { margin: 0; padding-block: 4px 8px; }
 .sp-hero-art img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; max-width: 100%; }
-.sp-hero-art figcaption { max-width: var(--sp-col); margin: 10px auto 0; font: 400 13px/1.5 var(--sp-f-ui); color: var(--sp-muted); }
+.sp-hero-art figcaption { max-width: calc(var(--sp-col) + 36px); margin: 10px auto 0; padding-inline: 18px; font: 400 13px/1.5 var(--sp-f-ui); color: var(--sp-muted); }
 .sp-credit { color: var(--sp-soft); text-transform: uppercase; letter-spacing: .06em; font-size: 11px; font-weight: 600; margin-left: 6px; }
 /* No-hero fallback: a branded black title card instead of an empty box. */
 .sp-hero-art-fallback { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 14px; width: 100%; aspect-ratio: 16 / 9; padding: 28px; border-radius: 6px; background: linear-gradient(135deg, #090909, #171717 70%, #075b3a); }
@@ -1723,7 +1726,7 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 .sp-article .table-scroll table { border-collapse: collapse; width: 100%; min-width: 440px; font: 400 15px var(--sp-f-ui); }
 .sp-article .table-scroll th { font: 600 11px var(--sp-f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--sp-soft); text-align: left; padding: 0 12px 8px 0; border-bottom: 1px solid var(--sp-ink); background: none; }
 .sp-article .table-scroll td { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--sp-rule); font-variant-numeric: tabular-nums; color: #1e1e1c; }
-.sp-article .table-scroll td:first-child { font-weight: 600; width: 84px; }
+.sp-article .table-scroll td:first-child { font-weight: 600; width: 1%; white-space: nowrap; }
 
 /* end of story */
 .sp-end { padding-block: 8px 40px; }
@@ -1744,8 +1747,18 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 @media (max-width: 760px) {
   .sp-head { padding-block: 28px 20px; }
   .sp-dek { font-size: 17px; }
+  .sp-hero-art .sp-wide { padding-inline: 0; }
   .sp-article { padding-block: 26px 4px; }
   .sp-article p, .sp-article li { font-size: 17.5px; }
+  /* The sitewide <=700px rule stacks every .table-scroll row into a
+     labeled card. Story tables are short two/three-column tables that
+     read better as real tables on a phone, so keep them tabular; only
+     the interactive preseason boards (inside .pw-component) still stack. */
+  .sp-article .table-scroll table { min-width: 0; }
+  .sp-article .sp-col > .table-scroll thead { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; }
+  .sp-article .sp-col > .table-scroll tbody tr { display: table-row; padding: 0; }
+  .sp-article .sp-col > .table-scroll td { display: table-cell; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--sp-rule); font-size: 15px; }
+  .sp-article .sp-col > .table-scroll td::before { content: none; }
   .sp-cards { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .sp-cards .sp-card { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 4px 14px; align-items: start; }
   .sp-cards .sp-card img { grid-row: span 2; }

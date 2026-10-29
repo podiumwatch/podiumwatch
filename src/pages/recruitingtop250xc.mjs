@@ -38,6 +38,7 @@ const styles = `
     .top250xc-commit span { color:var(--muted); font-size:.84rem; }
     .top250xc-commit[data-committed="false"] { color:var(--muted); }
     @media (max-width:760px) {
+      .top250xc-trust { grid-template-columns:1fr; align-items:start; }
       .top250xc-row { grid-template-columns:36px 1fr; gap:12px; }
       .top250xc-time, .top250xc-stats, .top250xc-commit { grid-column:2; text-align:left; }
       .top250xc-commit { flex-direction:row; gap:8px; }

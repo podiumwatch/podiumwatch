@@ -61,8 +61,11 @@
 
     const opens = new Date(data.week.voting_opens);
     const closes = new Date(data.week.voting_closes);
+    // A week can stay "voting_open" past its scheduled close; don't
+    // advertise a deadline that has already gone by.
+    const closeDatePassed = Number.isFinite(closes.getTime()) && closes.getTime() < Date.now();
     const statusText = data.week.status === "voting_open"
-      ? `Voting is open through ${closes.toLocaleString()}.`
+      ? (closeDatePassed ? "Voting is open." : `Voting is open through ${closes.toLocaleString()}.`)
       : data.week.status === "scheduled"
         ? `Voting opens ${opens.toLocaleString()}.`
         : `Voting closed ${closes.toLocaleString()}.`;
