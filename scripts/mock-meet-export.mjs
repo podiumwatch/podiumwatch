@@ -51,7 +51,7 @@ import {
   realPerformanceToCandidate,
   mergeDivision
 } from "../lib/mock_meet_export_service.mjs";
-import { validateDivisionRoster, scoreTeams } from "../src/lib/mock_scoring.mjs";
+import { validateDivisionRoster, scoreRegionalField } from "../src/lib/mock_scoring.mjs";
 import { LEADERS_SPORT, LEADERS_EVENT_KEY } from "../lib/athlete_leaders_service.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -237,7 +237,7 @@ function teamCurrentlyQualifiesForState(regionalsData, division, regionKey, team
   const div = regionalsData.divisions.find((d) => d.label === division);
   const region = div?.regions?.[regionKey];
   if (!region) return null;
-  const { teams: scored } = scoreTeams(region.teams, region.individuals || []);
+  const { teams: scored } = scoreRegionalField(region.teams, region.individuals || []);
   const found = scored.find((t) => t.name === teamName);
   if (!found) return null;
   return Boolean(found.complete && found.mockRank <= region.stateQualifiers);

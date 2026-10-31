@@ -21,7 +21,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const pkgDir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(pkgDir, "../..");
 
-const { scoreTeams, selectIndividualQualifiers, computeStatePool } = await import(pathToFileURL(path.join(root, "src/lib/mock_scoring.mjs")).href);
+const { scoreTeams, scoreRegionalField, selectIndividualQualifiers, computeStatePool } = await import(pathToFileURL(path.join(root, "src/lib/mock_scoring.mjs")).href);
 
 const parsed = JSON.parse(fs.readFileSync(path.join(pkgDir, "real_district_results_2026_parsed.json"), "utf8"));
 const district = JSON.parse(fs.readFileSync(path.join(root, "dataimports/district_meets_2026.json"), "utf8"));
@@ -147,7 +147,8 @@ for (const genderLower of ["boys", "girls"]) {
     }
     for (const [regionalKey, pool] of byRegionKey) {
       const key = `${genderLower}_${divNum}_${regionalKey}`;
-      const { teams: scored, individuals } = scoreTeams(pool.teams, pool.individuals);
+      // scoreRegionalField (2026-10-31): team-only standings, combined finish order -- same rule as every page.
+      const { teams: scored, individuals } = scoreRegionalField(pool.teams, pool.individuals);
       regionalResults[key] = { gender: genderLower, division: divNum, regionKey: regionalKey, teams: scored, individuals, source: "real_district_qualifiers" };
     }
   }
@@ -177,7 +178,7 @@ for (const divEntry of existingRegionals.divisions) {
   const regionalQualifyOrder = new Map();
   for (const [regionKeyLower, regionData] of Object.entries(newDivEntry.regions)) {
     if (!regionData.stateQualifiers) continue;
-    const regionScored = scoreTeams(regionData.teams, regionData.individuals || []);
+    const regionScored = scoreRegionalField(regionData.teams, regionData.individuals || []);
     const qualifying = selectIndividualQualifiers(regionScored.teams, regionScored.individuals, regionData.stateQualifiers, regionData.individualQualifiers || 0);
     qualifying.forEach((q, i) => regionalQualifyOrder.set(`${q.name}|${q.originalTeam}`, { ordinal: i + 1, siteName: regionData.siteName }));
     const built = regionalResults[`${divEntry.gender.toLowerCase()}_${divEntry.division}_${regionKeyLower}`];

@@ -128,6 +128,58 @@ export function scoreTeams(teams, individuals = []) {
   return { teams: [...ranked, ...incomplete], individuals: rankedIndividuals };
 }
 
+// scoreRegionalField -- the single rule every mock district, regional and
+// State view applies (decided 2026-10-31, user direction: "the correct
+// amount of teams advance, and then the correct individuals after those
+// teams"):
+//   1. TEAM standings come from a team-only pass: only complete teams'
+//      runners occupy team-scoring places (the real NFHS/OHSAA rule --
+//      unattached individuals and runners on teams with fewer than five
+//      finishers are excluded and the places compress). That pass gives
+//      each team its score, sixth/seventh place and mockRank, and each
+//      runner a teamPlacePoints value (the number their team's score is
+//      actually summed from).
+//   2. INDIVIDUAL finish order comes from the combined pass: every team
+//      runner and every supplemental individual in one real finish order
+//      (placePoints). selectIndividualQualifiers() reads placePoints off
+//      this field and removes the team-only top-N via mockRank, so the
+//      two views can never disagree about which teams are "already in".
+// Before this existed, the live regional/State pages ranked teams with
+// individuals displacing them (so a supplemental individual could push
+// a real team out of the cut) while the postseason chains used the
+// team-only pass -- the same roster gave different qualifiers depending
+// on which page you read.
+//
+// Returns { teams, individuals }: teams in team-only rank order (complete
+// first, incomplete after), each team keeping any extra fields its input
+// carried (provisional, qualifiedFrom...) since scoreTeams() drops them;
+// individuals exactly as scoreTeams()'s combined pass returns them.
+export function scoreRegionalField(teams, individuals = []) {
+  const combined = scoreTeams(teams, individuals);
+  const completeOnly = teams.filter((t) => (t.runners || []).length >= 5);
+  const teamOnly = completeOnly.length ? scoreTeams(completeOnly, []) : { teams: [] };
+  const teamOnlyByName = new Map(teamOnly.teams.map((t) => [t.name, t]));
+  const inputByName = new Map(teams.map((t) => [t.name, t]));
+  const merged = combined.teams.map((t) => {
+    const { runners: _inputRunners, ...inputExtras } = inputByName.get(t.name) || {};
+    const base = { ...inputExtras, ...t };
+    const only = teamOnlyByName.get(t.name);
+    if (!only) return { ...base, runners: t.runners.map((r) => ({ ...r, teamPlacePoints: null })) };
+    const onlyByName = new Map(only.runners.map((r) => [r.name, r]));
+    return {
+      ...base,
+      score: only.score,
+      sixthPlace: only.sixthPlace,
+      seventhPlace: only.seventhPlace,
+      mockRank: only.mockRank,
+      runners: t.runners.map((r) => ({ ...r, teamPlacePoints: onlyByName.get(r.name)?.placePoints ?? null }))
+    };
+  });
+  const completeSorted = merged.filter((t) => t.complete).sort((a, b) => a.mockRank - b.mockRank);
+  const incompleteTeams = merged.filter((t) => !t.complete);
+  return { teams: [...completeSorted, ...incompleteTeams], individuals: combined.individuals };
+}
+
 // selectIndividualQualifiers -- OHSAA's real rule: the fastest finishers
 // NOT on a team that already qualified, taken in real overall finish
 // order (not re-ranked among themselves), up to the official
@@ -344,7 +396,10 @@ export function computeStatePool(divisionEntry) {
 
   for (const key of regionKeys) {
     const region = divisionEntry.regions[key];
-    const { teams: regionScored, individuals: regionScoredIndividuals } = scoreTeams(region.teams, region.individuals || []);
+    // scoreRegionalField (2026-10-31): team-only standings decide the
+    // top-N; individuals are then taken by combined finish order from
+    // everyone not on those teams -- identical to every regional page.
+    const { teams: regionScored, individuals: regionScoredIndividuals } = scoreRegionalField(region.teams, region.individuals || []);
     const qualifyingTeams = regionScored.filter((t) => t.complete).slice(0, region.stateQualifiers);
     const qualifyingIndividuals = selectIndividualQualifiers(regionScored, regionScoredIndividuals, region.stateQualifiers, region.individualQualifiers || 0);
 
@@ -354,7 +409,7 @@ export function computeStatePool(divisionEntry) {
       pooledTeams.push({
         name: team.name,
         region: REGION_LABELS[key],
-        runners: team.runners.map(({ scoring, placePoints, teamPosition, ...rest }) => rest)
+        runners: team.runners.map(({ scoring, placePoints, teamPosition, teamPlacePoints, ...rest }) => rest)
       });
     }
     pooledIndividuals.push(...qualifyingIndividuals);
@@ -365,6 +420,11 @@ export function computeStatePool(divisionEntry) {
   // listed separately and never take a place or points from a team runner.
   const teamScored = scoreTeams(pooledTeams, []);
   const individualScored = scoreTeams(pooledTeams, pooledIndividuals);
+  // Give the combined-field team rows the same teamPlacePoints the
+  // regional pages carry, so a "Team score" column can show the number
+  // each State team's score was summed from, not the combined place.
+  const stateTeamPlace = new Map(teamScored.teams.flatMap((t) => t.runners.map((r) => [`${t.name}|${r.name}`, r.placePoints])));
+  individualScored.teams = individualScored.teams.map((t) => ({ ...t, runners: t.runners.map((r) => ({ ...r, teamPlacePoints: stateTeamPlace.get(`${t.name}|${r.name}`) ?? null })) }));
   // individualScored.teams carries each runner's placePoints from the
   // SAME combined field as individualScored.individuals (one shared
   // scoreTeams call) -- unlike teamScored.teams, whose placePoints come

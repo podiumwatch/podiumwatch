@@ -1,5 +1,5 @@
 import { breadcrumb, emptyState, icon, layout, pageHero } from "../lib/html.mjs";
-import { scoreTeams, selectIndividualQualifiers, validateDivisionRoster, computeStatePool } from "../lib/mock_scoring.mjs";
+import { scoreRegionalField, selectIndividualQualifiers, validateDivisionRoster, computeStatePool } from "../lib/mock_scoring.mjs";
 import regionalsData from "../data/mock-regionals-2026.json" with { type: "json" };
 
 // 2026 Mock Regionals & State -- team-only mock meets built on the real
@@ -279,7 +279,7 @@ function rosterTableHtml(team) {
       `<td data-label="Pos">${runner.teamPosition}</td>` +
       `<td data-label="Runner">${escapeHtml(runner.name)}</td>` +
       `<td data-label="Season best">${escapeHtml(runner.seasonBest)}</td>` +
-      `<td data-label="Points">${team.complete ? formatPoints(runner.placePoints) : "--"}</td>` +
+      `<td data-label="Points">${team.complete ? formatPoints(runner.teamPlacePoints ?? runner.placePoints) : "--"}</td>` +
       `<td data-label="Role">${role}</td>` +
       `</tr>`;
   }).join("");
@@ -319,7 +319,7 @@ function teamStandingsTable(teams, qualifierCount, { showRegion = false, highlig
     const sixth = team.sixthPlace != null ? formatPoints(team.sixthPlace) : "None";
     const seventh = team.seventhPlace != null ? formatPoints(team.seventhPlace) : "None";
     const firstFive = team.complete
-      ? team.runners.filter((r) => r.teamPosition <= 5).map((r) => formatPoints(r.placePoints)).join(", ")
+      ? team.runners.filter((r) => r.teamPosition <= 5).map((r) => formatPoints(r.teamPlacePoints ?? r.placePoints)).join(", ")
       : "--";
     const regionCell = showRegion ? `<td data-label="Region">${escapeHtml(team.region || "--")}</td>` : "";
     const summary = detailSummaryHtml({ region: showRegion ? (team.region || "--") : null, firstFive, sixth, seventh });
@@ -378,7 +378,7 @@ function individualsTableHtml(individuals, { showRegion = false, showTeamScore =
   const rows = individuals.map((runner) => {
     const regionCell = showRegion ? `<td data-label="Region">${escapeHtml(runner.originalRegion || "--")}</td>` : "";
     const teamScoreCell = showTeamScore
-      ? `<td class="mr-cell-num" data-label="Team score">${runner.scoring ? formatPoints(runner.placePoints) : "--"}</td>`
+      ? `<td class="mr-cell-num" data-label="Team score">${runner.scoring ? formatPoints(runner.teamPlacePoints ?? runner.placePoints) : "--"}</td>`
       : "";
     return (
       `<tr>` +
@@ -415,6 +415,7 @@ function fullFieldOrder(teams, individuals) {
       originalRegion: team.region,
       seasonBest: r.seasonBest,
       placePoints: r.placePoints,
+      teamPlacePoints: r.teamPlacePoints ?? null,
       // Only ever true for one of a complete team's own top five -- an
       // individual qualifier is never "scoring" (see individualsTableHtml).
       scoring: Boolean(r.scoring)
@@ -450,8 +451,11 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
   // in one shared field (real displacement for both), but a team's own
   // score still comes only from its seven listed runners -- scoreTeams()
   // never adds an individual to any team's roster or score.
+  // scoreRegionalField (2026-10-31): team standings from the team-only
+  // pass, individual finish order from the combined pass -- the same
+  // rule the State page and the postseason chains use.
   const { teams, individuals: scoredIndividuals } = hasTeams
-    ? scoreTeams(region.teams, supplementalIndividuals)
+    ? scoreRegionalField(region.teams, supplementalIndividuals)
     : { teams: [], individuals: [] };
   const individualQualifiers = hasTeams
     ? selectIndividualQualifiers(teams, scoredIndividuals, region.stateQualifiers, region.individualQualifiers || 0)

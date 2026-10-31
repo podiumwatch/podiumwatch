@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-31 09:10:33
+Generated: 2026-10-31 09:23:28
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -20,21 +20,24 @@ This file is generated from the current project.
 
 Latest commit:
 
-36eaf688122f489ec136e014df259b3477f04da7 | 2026-10-29 14:11:16 -0400 | Docs: record that the site audit and credibility commits are pushed and live
+17ab9cbf175ecfd9b826850e3c80313993bb76fb | 2026-10-31 09:10:48 -0400 | Mock postseason: select individual qualifiers against the team-only cut, fix IND badge, remove duplicate roster rows
 
 Working tree:
 
  M .claude/settings.json
- M dataimports/ohio_2026_xc_Claude_Code/build-postseason-chain.mjs
- M dataimports/ohio_2026_xc_Claude_Code/postseason_chain_output.json
+ M dataimports/real_district_results_2026/build-postseason-chain-real.mjs
+ M dataimports/real_district_results_2026/postseason_chain_output_real.json
  M docs/AUTO_PROJECT_INDEX.md
  M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
- M src/data/mock-postseason-2026.json
- M src/data/mock-regionals-2026.json
- M src/pages/mockpostseason.mjs
+ M lib/mock_meet_export_service.mjs
+ M scripts/mock-meet-export.mjs
+ M src/data/mock-postseason-2026-real.json
+ M src/lib/mock_scoring.mjs
+ M src/pages/mockdistricts.mjs
+ M src/pages/mockregionals.mjs
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf

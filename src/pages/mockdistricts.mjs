@@ -1,5 +1,5 @@
 import { breadcrumb, emptyState, icon, layout, pageHero } from "../lib/html.mjs";
-import { scoreTeams, selectIndividualQualifiers } from "../lib/mock_scoring.mjs";
+import { scoreRegionalField, selectIndividualQualifiers } from "../lib/mock_scoring.mjs";
 import districtsData from "../data/mock-districts-2026.json" with { type: "json" };
 
 // 2026 Mock Districts -- one projected race per real OHSAA 2026 district
@@ -195,7 +195,7 @@ function raceSectionHtml(race) {
     </div>`;
   }
 
-  const { teams: scoredTeams, individuals: scoredIndividuals } = scoreTeams(race.teams, []);
+  const { teams: scoredTeams, individuals: scoredIndividuals } = scoreRegionalField(race.teams, []);
   const individualQualifiers = pending ? [] : selectIndividualQualifiers(scoredTeams, scoredIndividuals, race.teams_advance, race.individuals_advance || 0);
   const qualifyingTeamNames = new Set(pending ? [] : scoredTeams.filter((t) => t.complete).slice(0, race.teams_advance).map((t) => t.name));
   const finishOrder = combinedFinishOrder(scoredTeams, qualifyingTeamNames, individualQualifiers);
