@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-29 12:19:10
+Generated: 2026-10-31 09:10:33
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 5233 |
+| Included source files | 5234 |
 | Page source files | 96 |
 | API files | 128 |
 | Route references | 107 |
@@ -20,25 +20,21 @@ This file is generated from the current project.
 
 Latest commit:
 
-2ce28cc46f5e94304556b419635aff4e7a8752a9 | 2026-10-29 10:50:20 -0400 | Add Pre-Regional OATCCC coaches' poll and recap article
+36eaf688122f489ec136e014df259b3477f04da7 | 2026-10-29 14:11:16 -0400 | Docs: record that the site audit and credibility commits are pushed and live
 
 Working tree:
 
  M .claude/settings.json
+ M dataimports/ohio_2026_xc_Claude_Code/build-postseason-chain.mjs
+ M dataimports/ohio_2026_xc_Claude_Code/postseason_chain_output.json
  M docs/AUTO_PROJECT_INDEX.md
  M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
- M public/scripts/fan-poll.js
- M scripts/build.mjs
- M src/lib/markdown.mjs
- M src/pages/athletes.mjs
- M src/pages/fanpoll.mjs
- M src/pages/mypodium.mjs
- M src/pages/recruitingtop250xc.mjs
- M src/pages/trackdivisions.mjs
- M src/styles/main.css
+ M src/data/mock-postseason-2026.json
+ M src/data/mock-regionals-2026.json
+ M src/pages/mockpostseason.mjs
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
@@ -251,6 +247,7 @@ Working tree:
 ?? lib/xc_d4_rolling_backtest.mjs
 ?? lib/xc_legends_history_collection.mjs
 ?? private/
+?? public/images/stories/header-regional-meet-hub.png
 ?? scripts/audit-d4-boys-coverage.mjs
 ?? scripts/evaluate-private-d4-rolling-backtest.mjs
 ?? scripts/evaluate-private-d4-simulator.mjs

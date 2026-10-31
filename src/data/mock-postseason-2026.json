@@ -168433,8 +168433,6 @@
       "individualQualifiers": 14,
       "siteName": "Boardman High School (Youngstown)",
       "stateQualifyingIndividualKeys": [
-        "Owen Thomas|Gar. Garfield",
-        "Lucas Thomas|Gar. Garfield",
         "Logan Howard|Canton South",
         "Jamie Yuronich|Keystone",
         "Luca Novakovic|CF Northwest",
@@ -168447,7 +168445,8 @@
         "Mason Panhorst|Lake Cath.",
         "Jacob Vonhof|Luth. West",
         "Kyle Ormiston|West Branch",
-        "Kyle Nedved|Chardon NDCL"
+        "Kyle Nedved|Chardon NDCL",
+        "Caleb Wallace|Wickliffe"
       ]
     },
     "boys_D3_northwest": {
@@ -177075,13 +177074,13 @@
         "Owen Cappuzello|McDonald",
         "Nigel Wenger|Smithville",
         "Sam Steimle|Grand Valley",
-        "Connor Rhein|Black River",
         "Holden Himes|Dalton",
         "Ryan Fieldhouse|South Range",
         "Bryce Garland|Mineral Ridge",
         "Trevor Taylor|Open Door Christian",
         "Jesse Coon|Lowellville",
-        "Josiah Erdman|Smithville"
+        "Josiah Erdman|Smithville",
+        "Daniel Anastasoaie|Lake Ridge Acad."
       ]
     },
     "boys_D4_northwest": {
@@ -216752,15 +216751,15 @@
         "Meredith Alvarez|Sher. Fairview",
         "Ady Reynolds|No. Baltimore",
         "Xandra Gatchel|Bluffton",
-        "Claire Michaelis|Mil. Edison",
-        "Addison McDonnell|Mil. Edison",
         "Maddie Stufft|No. Baltimore",
         "Hannah Brunk|Spencerville",
         "Rae Newman|Lima C.C.",
         "Jorja Flores|Gibsonburg",
         "Grace Tackett|Old Fort",
         "Hazel Baranowski|Woodmore",
-        "Scarlett Sizemore|Carey"
+        "Scarlett Sizemore|Carey",
+        "Emily Heth|Con. Crestview",
+        "Avary Stirm|Colonel Crawford"
       ]
     },
     "girls_D4_southwest": {
@@ -237408,7 +237407,7 @@
           "complete": true,
           "score": 217.5,
           "sixthPlace": 85,
-          "seventhPlace": 117,
+          "seventhPlace": 116,
           "runners": [
             {
               "name": "John Brock",
@@ -237477,7 +237476,7 @@
               "grade": "11",
               "teamPlacePoints": 39,
               "teamPosition": 7,
-              "placePoints": 117,
+              "placePoints": 116,
               "scoring": false
             }
           ],
@@ -237487,9 +237486,9 @@
           "name": "Chagrin Falls",
           "region": "Northeast",
           "complete": true,
-          "score": 320.5,
-          "sixthPlace": 155,
-          "seventhPlace": 182,
+          "score": 318.5,
+          "sixthPlace": 153,
+          "seventhPlace": 181,
           "runners": [
             {
               "name": "Kelan Byrne",
@@ -237538,7 +237537,7 @@
               "grade": "11",
               "teamPlacePoints": 47,
               "teamPosition": 5,
-              "placePoints": 125,
+              "placePoints": 123,
               "scoring": true
             },
             {
@@ -237548,7 +237547,7 @@
               "grade": "10",
               "teamPlacePoints": 67,
               "teamPosition": 6,
-              "placePoints": 155,
+              "placePoints": 153,
               "scoring": false
             },
             {
@@ -237558,7 +237557,7 @@
               "grade": "12",
               "teamPlacePoints": 94,
               "teamPosition": 7,
-              "placePoints": 182,
+              "placePoints": 181,
               "scoring": false
             }
           ],
@@ -237568,9 +237567,9 @@
           "name": "West Liberty-Salem",
           "region": "Southwest",
           "complete": true,
-          "score": 325,
-          "sixthPlace": 142.5,
-          "seventhPlace": 160,
+          "score": 323,
+          "sixthPlace": 140.5,
+          "seventhPlace": 158,
           "runners": [
             {
               "name": "Asher Cole",
@@ -237619,7 +237618,7 @@
               "grade": "11",
               "teamPlacePoints": 37,
               "teamPosition": 5,
-              "placePoints": 128,
+              "placePoints": 126,
               "scoring": true
             },
             {
@@ -237629,7 +237628,7 @@
               "grade": "11",
               "teamPlacePoints": 52,
               "teamPosition": 6,
-              "placePoints": 142.5,
+              "placePoints": 140.5,
               "scoring": false
             },
             {
@@ -237639,7 +237638,7 @@
               "grade": "9",
               "teamPlacePoints": 63,
               "teamPosition": 7,
-              "placePoints": 160,
+              "placePoints": 158,
               "scoring": false
             }
           ],
@@ -237649,9 +237648,9 @@
           "name": "Versailles",
           "region": "Southwest",
           "complete": true,
-          "score": 327.5,
-          "sixthPlace": 135,
-          "seventhPlace": 154,
+          "score": 325.5,
+          "sixthPlace": 133,
+          "seventhPlace": 152,
           "runners": [
             {
               "name": "Jackson Spitzer",
@@ -237700,7 +237699,7 @@
               "grade": "12",
               "teamPlacePoints": 43.5,
               "teamPosition": 5,
-              "placePoints": 134,
+              "placePoints": 132,
               "scoring": true
             },
             {
@@ -237710,7 +237709,7 @@
               "grade": "11",
               "teamPlacePoints": 45,
               "teamPosition": 6,
-              "placePoints": 135,
+              "placePoints": 133,
               "scoring": false
             },
             {
@@ -237720,7 +237719,7 @@
               "grade": "12",
               "teamPlacePoints": 58,
               "teamPosition": 7,
-              "placePoints": 154,
+              "placePoints": 152,
               "scoring": false
             }
           ],
@@ -237731,8 +237730,8 @@
           "region": "Northwest",
           "complete": true,
           "score": 367.5,
-          "sixthPlace": 122,
-          "seventhPlace": 159,
+          "sixthPlace": 120,
+          "seventhPlace": 157,
           "runners": [
             {
               "name": "Oliver Scott",
@@ -237791,7 +237790,7 @@
               "grade": "9",
               "teamPlacePoints": 29,
               "teamPosition": 6,
-              "placePoints": 122,
+              "placePoints": 120,
               "scoring": false
             },
             {
@@ -237801,7 +237800,7 @@
               "grade": "12",
               "teamPlacePoints": 56,
               "teamPosition": 7,
-              "placePoints": 159,
+              "placePoints": 157,
               "scoring": false
             }
           ],
@@ -237811,9 +237810,9 @@
           "name": "Bryan",
           "region": "Northwest",
           "complete": true,
-          "score": 374.5,
-          "sixthPlace": 180,
-          "seventhPlace": 192,
+          "score": 370.5,
+          "sixthPlace": 179,
+          "seventhPlace": 189,
           "runners": [
             {
               "name": "Colton Sheline",
@@ -237852,7 +237851,7 @@
               "grade": "12",
               "teamPlacePoints": 33,
               "teamPosition": 4,
-              "placePoints": 124,
+              "placePoints": 122,
               "scoring": true
             },
             {
@@ -237862,7 +237861,7 @@
               "grade": "12",
               "teamPlacePoints": 47.5,
               "teamPosition": 5,
-              "placePoints": 152.5,
+              "placePoints": 150.5,
               "scoring": true
             },
             {
@@ -237872,7 +237871,7 @@
               "grade": "11",
               "teamPlacePoints": 66,
               "teamPosition": 6,
-              "placePoints": 180,
+              "placePoints": 179,
               "scoring": false
             },
             {
@@ -237882,7 +237881,7 @@
               "grade": "10",
               "teamPlacePoints": 72,
               "teamPosition": 7,
-              "placePoints": 192,
+              "placePoints": 189,
               "scoring": false
             }
           ],
@@ -237892,9 +237891,9 @@
           "name": "Elmwood",
           "region": "Northwest",
           "complete": true,
-          "score": 418,
-          "sixthPlace": 188,
-          "seventhPlace": 208,
+          "score": 416,
+          "sixthPlace": 187,
+          "seventhPlace": 206,
           "runners": [
             {
               "name": "Henry Good",
@@ -237943,7 +237942,7 @@
               "grade": "12",
               "teamPlacePoints": 43,
               "teamPosition": 5,
-              "placePoints": 142.5,
+              "placePoints": 140.5,
               "scoring": true
             },
             {
@@ -237953,7 +237952,7 @@
               "grade": "12",
               "teamPlacePoints": 70,
               "teamPosition": 6,
-              "placePoints": 188,
+              "placePoints": 187,
               "scoring": false
             },
             {
@@ -237963,7 +237962,7 @@
               "grade": "9",
               "teamPlacePoints": 96,
               "teamPosition": 7,
-              "placePoints": 208,
+              "placePoints": 206,
               "scoring": false
             }
           ],
@@ -237973,9 +237972,9 @@
           "name": "Cin. CHCA",
           "region": "Southwest",
           "complete": true,
-          "score": 429,
-          "sixthPlace": 174,
-          "seventhPlace": 199,
+          "score": 427,
+          "sixthPlace": 173,
+          "seventhPlace": 196,
           "runners": [
             {
               "name": "Nathaniel Gockerman",
@@ -238004,7 +238003,7 @@
               "grade": "9",
               "teamPlacePoints": 27,
               "teamPosition": 3,
-              "placePoints": 98,
+              "placePoints": 99,
               "scoring": true
             },
             {
@@ -238014,7 +238013,7 @@
               "grade": "12",
               "teamPlacePoints": 38,
               "teamPosition": 4,
-              "placePoints": 130,
+              "placePoints": 128,
               "scoring": true
             },
             {
@@ -238024,7 +238023,7 @@
               "grade": "10",
               "teamPlacePoints": 70,
               "teamPosition": 5,
-              "placePoints": 173,
+              "placePoints": 172,
               "scoring": true
             },
             {
@@ -238034,7 +238033,7 @@
               "grade": "11",
               "teamPlacePoints": 71,
               "teamPosition": 6,
-              "placePoints": 174,
+              "placePoints": 173,
               "scoring": false
             },
             {
@@ -238044,7 +238043,7 @@
               "grade": "11",
               "teamPlacePoints": 84,
               "teamPosition": 7,
-              "placePoints": 199,
+              "placePoints": 196,
               "scoring": false
             }
           ],
@@ -238054,9 +238053,9 @@
           "name": "Fairless",
           "region": "Central",
           "complete": true,
-          "score": 430,
-          "sixthPlace": 148,
-          "seventhPlace": 151,
+          "score": 428,
+          "sixthPlace": 146,
+          "seventhPlace": 149,
           "runners": [
             {
               "name": "Brice Fuller",
@@ -238105,7 +238104,7 @@
               "grade": "11",
               "teamPlacePoints": 29,
               "teamPosition": 5,
-              "placePoints": 123,
+              "placePoints": 121,
               "scoring": true
             },
             {
@@ -238115,7 +238114,7 @@
               "grade": "11",
               "teamPlacePoints": 49,
               "teamPosition": 6,
-              "placePoints": 148,
+              "placePoints": 146,
               "scoring": false
             },
             {
@@ -238125,7 +238124,7 @@
               "grade": "9",
               "teamPlacePoints": 53,
               "teamPosition": 7,
-              "placePoints": 151,
+              "placePoints": 149,
               "scoring": false
             }
           ],
@@ -238135,9 +238134,9 @@
           "name": "Margaretta",
           "region": "Northwest",
           "complete": true,
-          "score": 461.5,
-          "sixthPlace": 211,
-          "seventhPlace": 215,
+          "score": 457.5,
+          "sixthPlace": 210,
+          "seventhPlace": 214,
           "runners": [
             {
               "name": "Cole Zang",
@@ -238176,7 +238175,7 @@
               "grade": "10",
               "teamPlacePoints": 38,
               "teamPosition": 4,
-              "placePoints": 133,
+              "placePoints": 131,
               "scoring": true
             },
             {
@@ -238186,7 +238185,7 @@
               "grade": "10",
               "teamPlacePoints": 47.5,
               "teamPosition": 5,
-              "placePoints": 152.5,
+              "placePoints": 150.5,
               "scoring": true
             },
             {
@@ -238196,7 +238195,7 @@
               "grade": "12",
               "teamPlacePoints": 106,
               "teamPosition": 6,
-              "placePoints": 211,
+              "placePoints": 210,
               "scoring": false
             },
             {
@@ -238206,7 +238205,7 @@
               "grade": "10",
               "teamPlacePoints": 110,
               "teamPosition": 7,
-              "placePoints": 215,
+              "placePoints": 214,
               "scoring": false
             }
           ],
@@ -238216,9 +238215,9 @@
           "name": "Fairfield Union",
           "region": "Central",
           "complete": true,
-          "score": 472,
-          "sixthPlace": 176,
-          "seventhPlace": 201,
+          "score": 468,
+          "sixthPlace": 175,
+          "seventhPlace": 199,
           "runners": [
             {
               "name": "Connor Runkle",
@@ -238257,7 +238256,7 @@
               "grade": "11",
               "teamPlacePoints": 45.5,
               "teamPosition": 4,
-              "placePoints": 144,
+              "placePoints": 142,
               "scoring": true
             },
             {
@@ -238267,7 +238266,7 @@
               "grade": "11",
               "teamPlacePoints": 60,
               "teamPosition": 5,
-              "placePoints": 161,
+              "placePoints": 159,
               "scoring": true
             },
             {
@@ -238277,7 +238276,7 @@
               "grade": "10",
               "teamPlacePoints": 76,
               "teamPosition": 6,
-              "placePoints": 176,
+              "placePoints": 175,
               "scoring": false
             },
             {
@@ -238287,7 +238286,7 @@
               "grade": "10",
               "teamPlacePoints": 105,
               "teamPosition": 7,
-              "placePoints": 201,
+              "placePoints": 199,
               "scoring": false
             }
           ],
@@ -238297,9 +238296,9 @@
           "name": "Wyoming",
           "region": "Southwest",
           "complete": true,
-          "score": 489,
-          "sixthPlace": 140,
-          "seventhPlace": 179,
+          "score": 487,
+          "sixthPlace": 138,
+          "seventhPlace": 178,
           "runners": [
             {
               "name": "Henry Bernay",
@@ -238348,7 +238347,7 @@
               "grade": "10",
               "teamPlacePoints": 35,
               "teamPosition": 5,
-              "placePoints": 120,
+              "placePoints": 118,
               "scoring": true
             },
             {
@@ -238358,7 +238357,7 @@
               "grade": "11",
               "teamPlacePoints": 50,
               "teamPosition": 6,
-              "placePoints": 140,
+              "placePoints": 138,
               "scoring": false
             },
             {
@@ -238368,7 +238367,7 @@
               "grade": "9",
               "teamPlacePoints": 74,
               "teamPosition": 7,
-              "placePoints": 179,
+              "placePoints": 178,
               "scoring": false
             }
           ],
@@ -238378,9 +238377,9 @@
           "name": "Madeira",
           "region": "Southwest",
           "complete": true,
-          "score": 503,
-          "sixthPlace": 150,
-          "seventhPlace": 175,
+          "score": 497,
+          "sixthPlace": 148,
+          "seventhPlace": 174,
           "runners": [
             {
               "name": "Blaine Causey",
@@ -238409,7 +238408,7 @@
               "grade": "10",
               "teamPlacePoints": 39,
               "teamPosition": 3,
-              "placePoints": 132,
+              "placePoints": 130,
               "scoring": true
             },
             {
@@ -238419,7 +238418,7 @@
               "grade": "12",
               "teamPlacePoints": 46,
               "teamPosition": 4,
-              "placePoints": 136,
+              "placePoints": 134,
               "scoring": true
             },
             {
@@ -238429,7 +238428,7 @@
               "grade": "9",
               "teamPlacePoints": 54,
               "teamPosition": 5,
-              "placePoints": 146,
+              "placePoints": 144,
               "scoring": true
             },
             {
@@ -238439,7 +238438,7 @@
               "grade": "11",
               "teamPlacePoints": 57,
               "teamPosition": 6,
-              "placePoints": 150,
+              "placePoints": 148,
               "scoring": false
             },
             {
@@ -238449,7 +238448,7 @@
               "grade": "10",
               "teamPlacePoints": 72,
               "teamPosition": 7,
-              "placePoints": 175,
+              "placePoints": 174,
               "scoring": false
             }
           ],
@@ -238459,9 +238458,9 @@
           "name": "Berkshire",
           "region": "Northeast",
           "complete": true,
-          "score": 540.5,
-          "sixthPlace": 158,
-          "seventhPlace": 195,
+          "score": 537,
+          "sixthPlace": 156,
+          "seventhPlace": 192,
           "runners": [
             {
               "name": "Danny Auth",
@@ -238480,7 +238479,7 @@
               "grade": "11",
               "teamPlacePoints": 29.5,
               "teamPosition": 2,
-              "placePoints": 99.5,
+              "placePoints": 100,
               "scoring": true
             },
             {
@@ -238500,7 +238499,7 @@
               "grade": "10",
               "teamPlacePoints": 42,
               "teamPosition": 4,
-              "placePoints": 121,
+              "placePoints": 119,
               "scoring": true
             },
             {
@@ -238510,7 +238509,7 @@
               "grade": "10",
               "teamPlacePoints": 48,
               "teamPosition": 5,
-              "placePoints": 127,
+              "placePoints": 125,
               "scoring": true
             },
             {
@@ -238520,7 +238519,7 @@
               "grade": "11",
               "teamPlacePoints": 71,
               "teamPosition": 6,
-              "placePoints": 158,
+              "placePoints": 156,
               "scoring": false
             },
             {
@@ -238530,19 +238529,100 @@
               "grade": "12",
               "teamPlacePoints": 108,
               "teamPosition": 7,
-              "placePoints": 195,
+              "placePoints": 192,
               "scoring": false
             }
           ],
           "mockRank": 14
         },
         {
+          "name": "Gar. Garfield",
+          "region": "Northeast",
+          "complete": true,
+          "score": 553,
+          "sixthPlace": 202,
+          "seventhPlace": 209,
+          "runners": [
+            {
+              "name": "Owen Thomas",
+              "seasonBest": "15:30.8",
+              "timeCentiseconds": 93080,
+              "grade": "11",
+              "teamPlacePoints": 1,
+              "teamPosition": 1,
+              "placePoints": 11,
+              "scoring": true
+            },
+            {
+              "name": "Lucas Thomas",
+              "seasonBest": "15:36.9",
+              "timeCentiseconds": 93690,
+              "grade": "9",
+              "teamPlacePoints": 4,
+              "teamPosition": 2,
+              "placePoints": 15,
+              "scoring": true
+            },
+            {
+              "name": "Abraham Wohlever",
+              "seasonBest": "17:46.7",
+              "timeCentiseconds": 106670,
+              "grade": "12",
+              "teamPlacePoints": 75,
+              "teamPosition": 3,
+              "placePoints": 164,
+              "scoring": true
+            },
+            {
+              "name": "Aaron Evans",
+              "seasonBest": "17:47.1",
+              "timeCentiseconds": 106710,
+              "grade": "12",
+              "teamPlacePoints": 76.5,
+              "teamPosition": 4,
+              "placePoints": 165,
+              "scoring": true
+            },
+            {
+              "name": "Ryan Stonestreet",
+              "seasonBest": "18:23.8",
+              "timeCentiseconds": 110380,
+              "grade": "12",
+              "teamPlacePoints": 121,
+              "teamPosition": 5,
+              "placePoints": 198,
+              "scoring": true
+            },
+            {
+              "name": "Ryan Krupansky",
+              "seasonBest": "18:34.7",
+              "timeCentiseconds": 111470,
+              "grade": "9",
+              "teamPlacePoints": 129,
+              "teamPosition": 6,
+              "placePoints": 202,
+              "scoring": false
+            },
+            {
+              "name": "Jayden Bartlett",
+              "seasonBest": "19:11.9",
+              "timeCentiseconds": 115190,
+              "grade": "11",
+              "teamPlacePoints": 156,
+              "teamPosition": 7,
+              "placePoints": 209,
+              "scoring": false
+            }
+          ],
+          "mockRank": 15
+        },
+        {
           "name": "Minerva",
           "region": "Central",
           "complete": true,
-          "score": 610,
-          "sixthPlace": 186,
-          "seventhPlace": 200,
+          "score": 606,
+          "sixthPlace": 185,
+          "seventhPlace": 197,
           "runners": [
             {
               "name": "Anderson Scott",
@@ -238571,7 +238651,7 @@
               "grade": "11",
               "teamPlacePoints": 27,
               "teamPosition": 3,
-              "placePoints": 118,
+              "placePoints": 117,
               "scoring": true
             },
             {
@@ -238581,7 +238661,7 @@
               "grade": "10",
               "teamPlacePoints": 47,
               "teamPosition": 4,
-              "placePoints": 145,
+              "placePoints": 143,
               "scoring": true
             },
             {
@@ -238591,7 +238671,7 @@
               "grade": "12",
               "teamPlacePoints": 87,
               "teamPosition": 5,
-              "placePoints": 185,
+              "placePoints": 184,
               "scoring": true
             },
             {
@@ -238601,7 +238681,7 @@
               "grade": "9",
               "teamPlacePoints": 90,
               "teamPosition": 6,
-              "placePoints": 186,
+              "placePoints": 185,
               "scoring": false
             },
             {
@@ -238611,19 +238691,19 @@
               "grade": "11",
               "teamPlacePoints": 103,
               "teamPosition": 7,
-              "placePoints": 200,
+              "placePoints": 197,
               "scoring": false
             }
           ],
-          "mockRank": 15
+          "mockRank": 16
         },
         {
           "name": "Marlington",
           "region": "Northeast",
           "complete": true,
-          "score": 616,
-          "sixthPlace": 171,
-          "seventhPlace": 193,
+          "score": 611,
+          "sixthPlace": 170,
+          "seventhPlace": 190,
           "runners": [
             {
               "name": "Brady Griggs",
@@ -238652,7 +238732,7 @@
               "grade": "9",
               "teamPlacePoints": 57,
               "teamPosition": 3,
-              "placePoints": 139,
+              "placePoints": 137,
               "scoring": true
             },
             {
@@ -238662,7 +238742,7 @@
               "grade": "11",
               "teamPlacePoints": 63,
               "teamPosition": 4,
-              "placePoints": 147,
+              "placePoints": 145,
               "scoring": true
             },
             {
@@ -238672,7 +238752,7 @@
               "grade": "9",
               "teamPlacePoints": 79,
               "teamPosition": 5,
-              "placePoints": 168,
+              "placePoints": 167,
               "scoring": true
             },
             {
@@ -238682,7 +238762,7 @@
               "grade": "9",
               "teamPlacePoints": 80,
               "teamPosition": 6,
-              "placePoints": 171,
+              "placePoints": 170,
               "scoring": false
             },
             {
@@ -238692,19 +238772,19 @@
               "grade": "10",
               "teamPlacePoints": 107,
               "teamPosition": 7,
-              "placePoints": 193,
+              "placePoints": 190,
               "scoring": false
             }
           ],
-          "mockRank": 16
+          "mockRank": 17
         },
         {
           "name": "Norwayne",
           "region": "Northeast",
           "complete": true,
-          "score": 638,
-          "sixthPlace": 209,
-          "seventhPlace": 216,
+          "score": 634,
+          "sixthPlace": 207,
+          "seventhPlace": 215,
           "runners": [
             {
               "name": "Romagn Wingate",
@@ -238733,7 +238813,7 @@
               "grade": "10",
               "teamPlacePoints": 51,
               "teamPosition": 3,
-              "placePoints": 131,
+              "placePoints": 129,
               "scoring": true
             },
             {
@@ -238743,7 +238823,7 @@
               "grade": "10",
               "teamPlacePoints": 81,
               "teamPosition": 4,
-              "placePoints": 172,
+              "placePoints": 171,
               "scoring": true
             },
             {
@@ -238753,7 +238833,7 @@
               "grade": "12",
               "teamPlacePoints": 98,
               "teamPosition": 5,
-              "placePoints": 184,
+              "placePoints": 183,
               "scoring": true
             },
             {
@@ -238763,7 +238843,7 @@
               "grade": "12",
               "teamPlacePoints": 154.5,
               "teamPosition": 6,
-              "placePoints": 209,
+              "placePoints": 207,
               "scoring": false
             },
             {
@@ -238773,19 +238853,19 @@
               "grade": "10",
               "teamPlacePoints": 178,
               "teamPosition": 7,
-              "placePoints": 216,
+              "placePoints": 215,
               "scoring": false
             }
           ],
-          "mockRank": 17
+          "mockRank": 18
         },
         {
           "name": "Gilmour Academy",
           "region": "Northeast",
           "complete": true,
-          "score": 653,
-          "sixthPlace": 198,
-          "seventhPlace": 207,
+          "score": 646,
+          "sixthPlace": 195,
+          "seventhPlace": 205,
           "runners": [
             {
               "name": "Evan Lindley",
@@ -238814,7 +238894,7 @@
               "grade": "11",
               "teamPlacePoints": 55,
               "teamPosition": 3,
-              "placePoints": 138,
+              "placePoints": 136,
               "scoring": true
             },
             {
@@ -238824,7 +238904,7 @@
               "grade": "11",
               "teamPlacePoints": 68,
               "teamPosition": 4,
-              "placePoints": 156,
+              "placePoints": 154,
               "scoring": true
             },
             {
@@ -238834,7 +238914,7 @@
               "grade": "12",
               "teamPlacePoints": 110,
               "teamPosition": 5,
-              "placePoints": 197,
+              "placePoints": 194,
               "scoring": true
             },
             {
@@ -238844,7 +238924,7 @@
               "grade": "12",
               "teamPlacePoints": 114,
               "teamPosition": 6,
-              "placePoints": 198,
+              "placePoints": 195,
               "scoring": false
             },
             {
@@ -238853,87 +238933,6 @@
               "timeCentiseconds": 112870,
               "grade": "11",
               "teamPlacePoints": 142,
-              "teamPosition": 7,
-              "placePoints": 207,
-              "scoring": false
-            }
-          ],
-          "mockRank": 18
-        },
-        {
-          "name": "Ash. Edgewood",
-          "region": "Northeast",
-          "complete": true,
-          "score": 684.5,
-          "sixthPlace": 190,
-          "seventhPlace": 205,
-          "runners": [
-            {
-              "name": "Chase Cardona",
-              "seasonBest": "16:47.7",
-              "timeCentiseconds": 100770,
-              "grade": "12",
-              "teamPlacePoints": 29.5,
-              "teamPosition": 1,
-              "placePoints": 99.5,
-              "scoring": true
-            },
-            {
-              "name": "Carter Cline",
-              "seasonBest": "16:56.3",
-              "timeCentiseconds": 101630,
-              "grade": "10",
-              "teamPlacePoints": 38,
-              "teamPosition": 2,
-              "placePoints": 115,
-              "scoring": true
-            },
-            {
-              "name": "Reece Kovach",
-              "seasonBest": "16:57.8",
-              "timeCentiseconds": 101780,
-              "grade": "12",
-              "teamPlacePoints": 40,
-              "teamPosition": 3,
-              "placePoints": 119,
-              "scoring": true
-            },
-            {
-              "name": "Marcus Lebzelter",
-              "seasonBest": "17:40.5",
-              "timeCentiseconds": 106050,
-              "grade": "10",
-              "teamPlacePoints": 73,
-              "teamPosition": 4,
-              "placePoints": 162,
-              "scoring": true
-            },
-            {
-              "name": "Christian Bliffin",
-              "seasonBest": "18:07.1",
-              "timeCentiseconds": 108710,
-              "grade": "9",
-              "teamPlacePoints": 102,
-              "teamPosition": 5,
-              "placePoints": 189,
-              "scoring": true
-            },
-            {
-              "name": "Ben Lebzelter",
-              "seasonBest": "18:07.3",
-              "timeCentiseconds": 108730,
-              "grade": "10",
-              "teamPlacePoints": 104,
-              "teamPosition": 6,
-              "placePoints": 190,
-              "scoring": false
-            },
-            {
-              "name": "Aiden Cleveland",
-              "seasonBest": "18:38.9",
-              "timeCentiseconds": 111890,
-              "grade": "9",
-              "teamPlacePoints": 134,
               "teamPosition": 7,
               "placePoints": 205,
               "scoring": false
@@ -238945,8 +238944,8 @@
           "name": "Fredericktown",
           "region": "Central",
           "complete": true,
-          "score": 726.5,
-          "sixthPlace": 202,
+          "score": 719.5,
+          "sixthPlace": 200,
           "seventhPlace": null,
           "runners": [
             {
@@ -238976,7 +238975,7 @@
               "grade": "11",
               "teamPlacePoints": 65,
               "teamPosition": 3,
-              "placePoints": 166,
+              "placePoints": 163,
               "scoring": true
             },
             {
@@ -238986,7 +238985,7 @@
               "grade": "11",
               "teamPlacePoints": 79,
               "teamPosition": 4,
-              "placePoints": 178,
+              "placePoints": 177,
               "scoring": true
             },
             {
@@ -238996,7 +238995,7 @@
               "grade": "11",
               "teamPlacePoints": 96,
               "teamPosition": 5,
-              "placePoints": 194,
+              "placePoints": 191,
               "scoring": true
             },
             {
@@ -239006,7 +239005,7 @@
               "grade": "11",
               "teamPlacePoints": 108,
               "teamPosition": 6,
-              "placePoints": 202,
+              "placePoints": 200,
               "scoring": false
             }
           ],
@@ -239016,9 +239015,9 @@
           "name": "Tuscar. Valley",
           "region": "Central",
           "complete": true,
-          "score": 741,
-          "sixthPlace": 212,
-          "seventhPlace": 213,
+          "score": 734,
+          "sixthPlace": 211,
+          "seventhPlace": 212,
           "runners": [
             {
               "name": "Cade Conrad",
@@ -239037,7 +239036,7 @@
               "grade": "12",
               "teamPlacePoints": 50,
               "teamPosition": 2,
-              "placePoints": 149,
+              "placePoints": 147,
               "scoring": true
             },
             {
@@ -239047,7 +239046,7 @@
               "grade": "12",
               "teamPlacePoints": 62,
               "teamPosition": 3,
-              "placePoints": 163,
+              "placePoints": 160,
               "scoring": true
             },
             {
@@ -239057,7 +239056,7 @@
               "grade": "12",
               "teamPlacePoints": 69.5,
               "teamPosition": 4,
-              "placePoints": 169,
+              "placePoints": 168,
               "scoring": true
             },
             {
@@ -239067,7 +239066,7 @@
               "grade": "12",
               "teamPlacePoints": 91,
               "teamPosition": 5,
-              "placePoints": 187,
+              "placePoints": 186,
               "scoring": true
             },
             {
@@ -239077,7 +239076,7 @@
               "grade": "12",
               "teamPlacePoints": 170,
               "teamPosition": 6,
-              "placePoints": 212,
+              "placePoints": 211,
               "scoring": false
             },
             {
@@ -239087,7 +239086,7 @@
               "grade": "9",
               "teamPlacePoints": 171,
               "teamPosition": 7,
-              "placePoints": 213,
+              "placePoints": 212,
               "scoring": false
             }
           ],
@@ -239097,9 +239096,9 @@
           "name": "Vinton County",
           "region": "Central",
           "complete": true,
-          "score": 748,
-          "sixthPlace": 191,
-          "seventhPlace": 210,
+          "score": 739,
+          "sixthPlace": 188,
+          "seventhPlace": 208,
           "runners": [
             {
               "name": "Wesley Newton",
@@ -239108,7 +239107,7 @@
               "grade": "11",
               "teamPlacePoints": 25.5,
               "teamPosition": 1,
-              "placePoints": 116,
+              "placePoints": 115,
               "scoring": true
             },
             {
@@ -239118,7 +239117,7 @@
               "grade": "11",
               "teamPlacePoints": 43,
               "teamPosition": 2,
-              "placePoints": 141,
+              "placePoints": 139,
               "scoring": true
             },
             {
@@ -239128,7 +239127,7 @@
               "grade": "12",
               "teamPlacePoints": 59,
               "teamPosition": 3,
-              "placePoints": 157,
+              "placePoints": 155,
               "scoring": true
             },
             {
@@ -239138,7 +239137,7 @@
               "grade": "9",
               "teamPlacePoints": 63,
               "teamPosition": 4,
-              "placePoints": 164,
+              "placePoints": 161,
               "scoring": true
             },
             {
@@ -239148,7 +239147,7 @@
               "grade": "10",
               "teamPlacePoints": 72,
               "teamPosition": 5,
-              "placePoints": 170,
+              "placePoints": 169,
               "scoring": true
             },
             {
@@ -239158,7 +239157,7 @@
               "grade": "11",
               "teamPlacePoints": 94,
               "teamPosition": 6,
-              "placePoints": 191,
+              "placePoints": 188,
               "scoring": false
             },
             {
@@ -239168,7 +239167,7 @@
               "grade": "11",
               "teamPlacePoints": 144,
               "teamPosition": 7,
-              "placePoints": 210,
+              "placePoints": 208,
               "scoring": false
             }
           ],
@@ -239178,9 +239177,9 @@
           "name": "Utica",
           "region": "Central",
           "complete": true,
-          "score": 778,
-          "sixthPlace": 206,
-          "seventhPlace": 214,
+          "score": 769,
+          "sixthPlace": 204,
+          "seventhPlace": 213,
           "runners": [
             {
               "name": "Andrew Bebout",
@@ -239199,7 +239198,7 @@
               "grade": "11",
               "teamPlacePoints": 31,
               "teamPosition": 2,
-              "placePoints": 126,
+              "placePoints": 124,
               "scoring": true
             },
             {
@@ -239209,7 +239208,7 @@
               "grade": "12",
               "teamPlacePoints": 64,
               "teamPosition": 3,
-              "placePoints": 165,
+              "placePoints": 162,
               "scoring": true
             },
             {
@@ -239219,7 +239218,7 @@
               "grade": "11",
               "teamPlacePoints": 78,
               "teamPosition": 4,
-              "placePoints": 177,
+              "placePoints": 176,
               "scoring": true
             },
             {
@@ -239229,7 +239228,7 @@
               "grade": "9",
               "teamPlacePoints": 99,
               "teamPosition": 5,
-              "placePoints": 196,
+              "placePoints": 193,
               "scoring": true
             },
             {
@@ -239239,7 +239238,7 @@
               "grade": "9",
               "teamPlacePoints": 119,
               "teamPosition": 6,
-              "placePoints": 206,
+              "placePoints": 204,
               "scoring": false
             },
             {
@@ -239249,7 +239248,7 @@
               "grade": "10",
               "teamPlacePoints": 189,
               "teamPosition": 7,
-              "placePoints": 214,
+              "placePoints": 213,
               "scoring": false
             }
           ],
@@ -239259,9 +239258,9 @@
           "name": "Centerburg",
           "region": "Central",
           "complete": true,
-          "score": 797,
-          "sixthPlace": 203,
-          "seventhPlace": 204,
+          "score": 790,
+          "sixthPlace": 201,
+          "seventhPlace": 203,
           "runners": [
             {
               "name": "Samuel Dickhof",
@@ -239270,7 +239269,7 @@
               "grade": "10",
               "teamPlacePoints": 35,
               "teamPosition": 1,
-              "placePoints": 129,
+              "placePoints": 127,
               "scoring": true
             },
             {
@@ -239280,7 +239279,7 @@
               "grade": "12",
               "teamPlacePoints": 39,
               "teamPosition": 2,
-              "placePoints": 137,
+              "placePoints": 135,
               "scoring": true
             },
             {
@@ -239290,7 +239289,7 @@
               "grade": "9",
               "teamPlacePoints": 66,
               "teamPosition": 3,
-              "placePoints": 167,
+              "placePoints": 166,
               "scoring": true
             },
             {
@@ -239300,7 +239299,7 @@
               "grade": "11",
               "teamPlacePoints": 81,
               "teamPosition": 4,
-              "placePoints": 181,
+              "placePoints": 180,
               "scoring": true
             },
             {
@@ -239310,7 +239309,7 @@
               "grade": "10",
               "teamPlacePoints": 84,
               "teamPosition": 5,
-              "placePoints": 183,
+              "placePoints": 182,
               "scoring": true
             },
             {
@@ -239320,7 +239319,7 @@
               "grade": "12",
               "teamPlacePoints": 113,
               "teamPosition": 6,
-              "placePoints": 203,
+              "placePoints": 201,
               "scoring": false
             },
             {
@@ -239330,7 +239329,7 @@
               "grade": "10",
               "teamPlacePoints": 116,
               "teamPosition": 7,
-              "placePoints": 204,
+              "placePoints": 203,
               "scoring": false
             }
           ],
@@ -239389,18 +239388,6 @@
           "qualifiedFromRegionalOrdinal": "3rd"
         },
         {
-          "name": "Owen Thomas",
-          "seasonBest": "15:30.8",
-          "timeCentiseconds": 93080,
-          "grade": "11",
-          "placePoints": 11,
-          "teamPlacePoints": 1,
-          "originalTeam": "Gar. Garfield",
-          "originalRegion": "Northeast",
-          "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "1st"
-        },
-        {
           "name": "Landen Perdue",
           "seasonBest": "15:32.8",
           "timeCentiseconds": 93280,
@@ -239411,18 +239398,6 @@
           "originalRegion": "Central",
           "qualifiedFromRegional": "Pickerington High School North",
           "qualifiedFromRegionalOrdinal": "4th"
-        },
-        {
-          "name": "Lucas Thomas",
-          "seasonBest": "15:36.9",
-          "timeCentiseconds": 93690,
-          "grade": "9",
-          "placePoints": 15,
-          "teamPlacePoints": 4,
-          "originalTeam": "Gar. Garfield",
-          "originalRegion": "Northeast",
-          "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "2nd"
         },
         {
           "name": "Wade Manns",
@@ -239471,7 +239446,7 @@
           "originalTeam": "Canton South",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "3rd"
+          "qualifiedFromRegionalOrdinal": "1st"
         },
         {
           "name": "Jamie Yuronich",
@@ -239483,7 +239458,7 @@
           "originalTeam": "Keystone",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "4th"
+          "qualifiedFromRegionalOrdinal": "2nd"
         },
         {
           "name": "JJ Purcell",
@@ -239544,7 +239519,7 @@
           "originalTeam": "CF Northwest",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "5th"
+          "qualifiedFromRegionalOrdinal": "3rd"
         },
         {
           "name": "Grant Hinkelman",
@@ -239618,7 +239593,7 @@
           "originalTeam": "Conneaut",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "6th"
+          "qualifiedFromRegionalOrdinal": "4th"
         },
         {
           "name": "Gleason Pfeffer",
@@ -239655,7 +239630,7 @@
           "originalTeam": "Waynedale",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "7th"
+          "qualifiedFromRegionalOrdinal": "5th"
         },
         {
           "name": "Jake Todd",
@@ -239740,7 +239715,7 @@
           "originalTeam": "Jefferson Area",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "8th"
+          "qualifiedFromRegionalOrdinal": "6th"
         },
         {
           "name": "Carter Pohlman",
@@ -239803,7 +239778,7 @@
           "qualifiedFromDistrictOrdinal": 1,
           "placePoints": 72,
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "9th"
+          "qualifiedFromRegionalOrdinal": "7th"
         },
         {
           "name": "Charlie Simpson",
@@ -239828,7 +239803,7 @@
           "originalTeam": "Holy Name",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "10th"
+          "qualifiedFromRegionalOrdinal": "8th"
         },
         {
           "name": "Landon Grinell",
@@ -239852,7 +239827,7 @@
           "originalTeam": "Akron SVSM",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "11th"
+          "qualifiedFromRegionalOrdinal": "9th"
         },
         {
           "name": "Garry Phipps",
@@ -239901,7 +239876,7 @@
           "originalTeam": "Lake Cath.",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "12th"
+          "qualifiedFromRegionalOrdinal": "10th"
         },
         {
           "name": "Jacob Vonhof",
@@ -239914,7 +239889,7 @@
           "qualifiedFromDistrictOrdinal": 1,
           "placePoints": 93,
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "13th"
+          "qualifiedFromRegionalOrdinal": "11th"
         },
         {
           "name": "Kyle Ormiston",
@@ -239926,7 +239901,7 @@
           "originalTeam": "West Branch",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "14th"
+          "qualifiedFromRegionalOrdinal": "12th"
         },
         {
           "name": "Kyle Nedved",
@@ -239938,7 +239913,20 @@
           "originalTeam": "Chardon NDCL",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "15th"
+          "qualifiedFromRegionalOrdinal": "13th"
+        },
+        {
+          "name": "Caleb Wallace",
+          "seasonBest": "16:46.9",
+          "timeCentiseconds": 100690,
+          "grade": "11",
+          "originalTeam": "Wickliffe",
+          "originalRegion": "Northeast",
+          "qualifiedFromDistrict": "Madison HS",
+          "qualifiedFromDistrictOrdinal": 1,
+          "placePoints": 98,
+          "qualifiedFromRegional": "Boardman High School (Youngstown)",
+          "qualifiedFromRegionalOrdinal": "14th"
         }
       ],
       "poolLog": [
@@ -239953,7 +239941,7 @@
           "region": "Northeast",
           "teamCount": 7,
           "teamQualifiers": 7,
-          "individualCount": 15,
+          "individualCount": 14,
           "individualQualifiers": 14
         },
         {
@@ -246604,9 +246592,9 @@
           "name": "Russia",
           "region": "Southwest",
           "complete": true,
-          "score": 221,
-          "sixthPlace": 115,
-          "seventhPlace": 143,
+          "score": 222,
+          "sixthPlace": 116,
+          "seventhPlace": 145,
           "runners": [
             {
               "name": "Paxson Bixler",
@@ -246655,7 +246643,7 @@
               "grade": "9",
               "teamPlacePoints": 22,
               "teamPosition": 5,
-              "placePoints": 102,
+              "placePoints": 103,
               "scoring": true
             },
             {
@@ -246665,7 +246653,7 @@
               "grade": "12",
               "teamPlacePoints": 28,
               "teamPosition": 6,
-              "placePoints": 115,
+              "placePoints": 116,
               "scoring": false
             },
             {
@@ -246675,7 +246663,7 @@
               "grade": "12",
               "teamPlacePoints": 46,
               "teamPosition": 7,
-              "placePoints": 143,
+              "placePoints": 145,
               "scoring": false
             }
           ],
@@ -246685,9 +246673,9 @@
           "name": "Con. Crestview",
           "region": "Northwest",
           "complete": true,
-          "score": 242.5,
-          "sixthPlace": 148,
-          "seventhPlace": 158,
+          "score": 243.5,
+          "sixthPlace": 150,
+          "seventhPlace": 159,
           "runners": [
             {
               "name": "Derek Young",
@@ -246736,7 +246724,7 @@
               "grade": "12",
               "teamPlacePoints": 41,
               "teamPosition": 5,
-              "placePoints": 112,
+              "placePoints": 113,
               "scoring": true
             },
             {
@@ -246746,7 +246734,7 @@
               "grade": "11",
               "teamPlacePoints": 76,
               "teamPosition": 6,
-              "placePoints": 148,
+              "placePoints": 150,
               "scoring": false
             },
             {
@@ -246756,7 +246744,7 @@
               "grade": "11",
               "teamPlacePoints": 90,
               "teamPosition": 7,
-              "placePoints": 158,
+              "placePoints": 159,
               "scoring": false
             }
           ],
@@ -246766,9 +246754,9 @@
           "name": "Tinora",
           "region": "Northwest",
           "complete": true,
-          "score": 288,
-          "sixthPlace": 125,
-          "seventhPlace": 154,
+          "score": 289,
+          "sixthPlace": 126,
+          "seventhPlace": 155,
           "runners": [
             {
               "name": "Noah Meyer",
@@ -246817,7 +246805,7 @@
               "grade": "11",
               "teamPlacePoints": 49,
               "teamPosition": 5,
-              "placePoints": 120,
+              "placePoints": 121,
               "scoring": true
             },
             {
@@ -246827,7 +246815,7 @@
               "grade": "12",
               "teamPlacePoints": 58,
               "teamPosition": 6,
-              "placePoints": 125,
+              "placePoints": 126,
               "scoring": false
             },
             {
@@ -246837,7 +246825,7 @@
               "grade": "11",
               "teamPlacePoints": 83,
               "teamPosition": 7,
-              "placePoints": 154,
+              "placePoints": 155,
               "scoring": false
             }
           ],
@@ -246847,9 +246835,9 @@
           "name": "Botkins",
           "region": "Southwest",
           "complete": true,
-          "score": 310,
-          "sixthPlace": 110,
-          "seventhPlace": 141,
+          "score": 311,
+          "sixthPlace": 111,
+          "seventhPlace": 143,
           "runners": [
             {
               "name": "Liam Schumann",
@@ -246898,7 +246886,7 @@
               "grade": "12",
               "teamPlacePoints": 21,
               "teamPosition": 5,
-              "placePoints": 95,
+              "placePoints": 96,
               "scoring": true
             },
             {
@@ -246908,7 +246896,7 @@
               "grade": "12",
               "teamPlacePoints": 26,
               "teamPosition": 6,
-              "placePoints": 110,
+              "placePoints": 111,
               "scoring": false
             },
             {
@@ -246918,7 +246906,7 @@
               "grade": "9",
               "teamPlacePoints": 44,
               "teamPosition": 7,
-              "placePoints": 141,
+              "placePoints": 143,
               "scoring": false
             }
           ],
@@ -246928,9 +246916,9 @@
           "name": "Legacy Christian",
           "region": "Southwest",
           "complete": true,
-          "score": 336.5,
-          "sixthPlace": 146,
-          "seventhPlace": 162,
+          "score": 337.5,
+          "sixthPlace": 147,
+          "seventhPlace": 163,
           "runners": [
             {
               "name": "Stephen Wojtowicz",
@@ -246979,7 +246967,7 @@
               "grade": "12",
               "teamPlacePoints": 38,
               "teamPosition": 5,
-              "placePoints": 129,
+              "placePoints": 130,
               "scoring": true
             },
             {
@@ -246989,7 +246977,7 @@
               "grade": "11",
               "teamPlacePoints": 49,
               "teamPosition": 6,
-              "placePoints": 146,
+              "placePoints": 147,
               "scoring": false
             },
             {
@@ -246999,7 +246987,7 @@
               "grade": "11",
               "teamPlacePoints": 59,
               "teamPosition": 7,
-              "placePoints": 162,
+              "placePoints": 163,
               "scoring": false
             }
           ],
@@ -247009,9 +246997,9 @@
           "name": "Maplewood",
           "region": "Northeast",
           "complete": true,
-          "score": 402,
-          "sixthPlace": 130,
-          "seventhPlace": 152,
+          "score": 405,
+          "sixthPlace": 131,
+          "seventhPlace": 153,
           "runners": [
             {
               "name": "Micah Sparks",
@@ -247040,7 +247028,7 @@
               "grade": "11",
               "teamPlacePoints": 17,
               "teamPosition": 3,
-              "placePoints": 99,
+              "placePoints": 100,
               "scoring": true
             },
             {
@@ -247050,7 +247038,7 @@
               "grade": "12",
               "teamPlacePoints": 18,
               "teamPosition": 4,
-              "placePoints": 104,
+              "placePoints": 105,
               "scoring": true
             },
             {
@@ -247060,7 +247048,7 @@
               "grade": "10",
               "teamPlacePoints": 26,
               "teamPosition": 5,
-              "placePoints": 122,
+              "placePoints": 123,
               "scoring": true
             },
             {
@@ -247070,7 +247058,7 @@
               "grade": "11",
               "teamPlacePoints": 33,
               "teamPosition": 6,
-              "placePoints": 130,
+              "placePoints": 131,
               "scoring": false
             },
             {
@@ -247080,7 +247068,7 @@
               "grade": "11",
               "teamPlacePoints": 47,
               "teamPosition": 7,
-              "placePoints": 152,
+              "placePoints": 153,
               "scoring": false
             }
           ],
@@ -247090,9 +247078,9 @@
           "name": "St. Henry",
           "region": "Northwest",
           "complete": true,
-          "score": 414,
-          "sixthPlace": 127,
-          "seventhPlace": 150,
+          "score": 417,
+          "sixthPlace": 128,
+          "seventhPlace": 151,
           "runners": [
             {
               "name": "Michael Rindler",
@@ -247121,7 +247109,7 @@
               "grade": "12",
               "teamPlacePoints": 36,
               "teamPosition": 3,
-              "placePoints": 98,
+              "placePoints": 99,
               "scoring": true
             },
             {
@@ -247131,7 +247119,7 @@
               "grade": "12",
               "teamPlacePoints": 44,
               "teamPosition": 4,
-              "placePoints": 117,
+              "placePoints": 118,
               "scoring": true
             },
             {
@@ -247141,7 +247129,7 @@
               "grade": "10",
               "teamPlacePoints": 53,
               "teamPosition": 5,
-              "placePoints": 121,
+              "placePoints": 122,
               "scoring": true
             },
             {
@@ -247151,7 +247139,7 @@
               "grade": "10",
               "teamPlacePoints": 60,
               "teamPosition": 6,
-              "placePoints": 127,
+              "placePoints": 128,
               "scoring": false
             },
             {
@@ -247161,7 +247149,7 @@
               "grade": "12",
               "teamPlacePoints": 77,
               "teamPosition": 7,
-              "placePoints": 150,
+              "placePoints": 151,
               "scoring": false
             }
           ],
@@ -247173,7 +247161,7 @@
           "complete": true,
           "score": 433,
           "sixthPlace": 174,
-          "seventhPlace": 204,
+          "seventhPlace": 201,
           "runners": [
             {
               "name": "Caiden Squillante",
@@ -247242,7 +247230,7 @@
               "grade": "9",
               "teamPlacePoints": 154,
               "teamPosition": 7,
-              "placePoints": 204,
+              "placePoints": 201,
               "scoring": false
             }
           ],
@@ -247252,7 +247240,7 @@
           "name": "Cedarville",
           "region": "Southwest",
           "complete": true,
-          "score": 493.5,
+          "score": 496.5,
           "sixthPlace": 169,
           "seventhPlace": 173,
           "runners": [
@@ -247283,7 +247271,7 @@
               "grade": "12",
               "teamPlacePoints": 25,
               "teamPosition": 3,
-              "placePoints": 107,
+              "placePoints": 108,
               "scoring": true
             },
             {
@@ -247293,7 +247281,7 @@
               "grade": "11",
               "teamPlacePoints": 35.5,
               "teamPosition": 4,
-              "placePoints": 123,
+              "placePoints": 124,
               "scoring": true
             },
             {
@@ -247303,7 +247291,7 @@
               "grade": "12",
               "teamPlacePoints": 37,
               "teamPosition": 5,
-              "placePoints": 124,
+              "placePoints": 125,
               "scoring": true
             },
             {
@@ -247333,9 +247321,9 @@
           "name": "Independence",
           "region": "Northeast",
           "complete": true,
-          "score": 509,
-          "sixthPlace": 178,
-          "seventhPlace": 182,
+          "score": 513,
+          "sixthPlace": 177,
+          "seventhPlace": 180,
           "runners": [
             {
               "name": "Mitchell Creel",
@@ -247354,7 +247342,7 @@
               "grade": "9",
               "teamPlacePoints": 16,
               "teamPosition": 2,
-              "placePoints": 97,
+              "placePoints": 98,
               "scoring": true
             },
             {
@@ -247364,7 +247352,7 @@
               "grade": "9",
               "teamPlacePoints": 20,
               "teamPosition": 3,
-              "placePoints": 108,
+              "placePoints": 109,
               "scoring": true
             },
             {
@@ -247374,7 +247362,7 @@
               "grade": "10",
               "teamPlacePoints": 34,
               "teamPosition": 4,
-              "placePoints": 131,
+              "placePoints": 132,
               "scoring": true
             },
             {
@@ -247384,7 +247372,7 @@
               "grade": "9",
               "teamPlacePoints": 48,
               "teamPosition": 5,
-              "placePoints": 155,
+              "placePoints": 156,
               "scoring": true
             },
             {
@@ -247394,7 +247382,7 @@
               "grade": "12",
               "teamPlacePoints": 55,
               "teamPosition": 6,
-              "placePoints": 178,
+              "placePoints": 177,
               "scoring": false
             },
             {
@@ -247404,7 +247392,7 @@
               "grade": "9",
               "teamPlacePoints": 60,
               "teamPosition": 7,
-              "placePoints": 182,
+              "placePoints": 180,
               "scoring": false
             }
           ],
@@ -247414,9 +247402,9 @@
           "name": "New Bremen",
           "region": "Northwest",
           "complete": true,
-          "score": 509,
-          "sixthPlace": 185,
-          "seventhPlace": 211,
+          "score": 513,
+          "sixthPlace": 183,
+          "seventhPlace": 208,
           "runners": [
             {
               "name": "Luke Long",
@@ -247435,7 +247423,7 @@
               "grade": "11",
               "teamPlacePoints": 37,
               "teamPosition": 2,
-              "placePoints": 100,
+              "placePoints": 101,
               "scoring": true
             },
             {
@@ -247445,7 +247433,7 @@
               "grade": "12",
               "teamPlacePoints": 38,
               "teamPosition": 3,
-              "placePoints": 101,
+              "placePoints": 102,
               "scoring": true
             },
             {
@@ -247455,7 +247443,7 @@
               "grade": "9",
               "teamPlacePoints": 59,
               "teamPosition": 4,
-              "placePoints": 126,
+              "placePoints": 127,
               "scoring": true
             },
             {
@@ -247465,7 +247453,7 @@
               "grade": "12",
               "teamPlacePoints": 81,
               "teamPosition": 5,
-              "placePoints": 153,
+              "placePoints": 154,
               "scoring": true
             },
             {
@@ -247475,7 +247463,7 @@
               "grade": "12",
               "teamPlacePoints": 120,
               "teamPosition": 6,
-              "placePoints": 185,
+              "placePoints": 183,
               "scoring": false
             },
             {
@@ -247485,7 +247473,7 @@
               "grade": "10",
               "teamPlacePoints": 173,
               "teamPosition": 7,
-              "placePoints": 211,
+              "placePoints": 208,
               "scoring": false
             }
           ],
@@ -247496,8 +247484,8 @@
           "region": "Northwest",
           "complete": true,
           "score": 518,
-          "sixthPlace": 198,
-          "seventhPlace": 209,
+          "sixthPlace": 195,
+          "seventhPlace": 206,
           "runners": [
             {
               "name": "Malaki Neilson",
@@ -247526,7 +247514,7 @@
               "grade": "11",
               "teamPlacePoints": 43,
               "teamPosition": 3,
-              "placePoints": 116,
+              "placePoints": 117,
               "scoring": true
             },
             {
@@ -247536,7 +247524,7 @@
               "grade": "12",
               "teamPlacePoints": 96,
               "teamPosition": 4,
-              "placePoints": 162,
+              "placePoints": 163,
               "scoring": true
             },
             {
@@ -247546,7 +247534,7 @@
               "grade": "12",
               "teamPlacePoints": 128,
               "teamPosition": 5,
-              "placePoints": 191,
+              "placePoints": 189,
               "scoring": true
             },
             {
@@ -247556,7 +247544,7 @@
               "grade": "9",
               "teamPlacePoints": 150,
               "teamPosition": 6,
-              "placePoints": 198,
+              "placePoints": 195,
               "scoring": false
             },
             {
@@ -247566,7 +247554,7 @@
               "grade": "10",
               "teamPlacePoints": 163.5,
               "teamPosition": 7,
-              "placePoints": 209,
+              "placePoints": 206,
               "scoring": false
             }
           ],
@@ -247576,9 +247564,9 @@
           "name": "Seneca East",
           "region": "Northwest",
           "complete": true,
-          "score": 571.5,
-          "sixthPlace": 195,
-          "seventhPlace": 208,
+          "score": 574.5,
+          "sixthPlace": 192,
+          "seventhPlace": 205,
           "runners": [
             {
               "name": "Owen Wise",
@@ -247607,7 +247595,7 @@
               "grade": "10",
               "teamPlacePoints": 34.5,
               "teamPosition": 3,
-              "placePoints": 96,
+              "placePoints": 97,
               "scoring": true
             },
             {
@@ -247617,7 +247605,7 @@
               "grade": "11",
               "teamPlacePoints": 67,
               "teamPosition": 4,
-              "placePoints": 137.5,
+              "placePoints": 138.5,
               "scoring": true
             },
             {
@@ -247627,7 +247615,7 @@
               "grade": "9",
               "teamPlacePoints": 93,
               "teamPosition": 5,
-              "placePoints": 159,
+              "placePoints": 160,
               "scoring": true
             },
             {
@@ -247637,7 +247625,7 @@
               "grade": "10",
               "teamPlacePoints": 136,
               "teamPosition": 6,
-              "placePoints": 195,
+              "placePoints": 192,
               "scoring": false
             },
             {
@@ -247647,7 +247635,7 @@
               "grade": "10",
               "teamPlacePoints": 161,
               "teamPosition": 7,
-              "placePoints": 208,
+              "placePoints": 205,
               "scoring": false
             }
           ],
@@ -247657,8 +247645,8 @@
           "name": "South Webster",
           "region": "Central",
           "complete": true,
-          "score": 605,
-          "sixthPlace": 189,
+          "score": 606,
+          "sixthPlace": 187,
           "seventhPlace": null,
           "runners": [
             {
@@ -247688,7 +247676,7 @@
               "grade": "11",
               "teamPlacePoints": 23,
               "teamPosition": 3,
-              "placePoints": 135,
+              "placePoints": 137,
               "scoring": true
             },
             {
@@ -247698,7 +247686,7 @@
               "grade": "10",
               "teamPlacePoints": 32,
               "teamPosition": 4,
-              "placePoints": 162,
+              "placePoints": 163,
               "scoring": true
             },
             {
@@ -247708,7 +247696,7 @@
               "grade": "10",
               "teamPlacePoints": 44,
               "teamPosition": 5,
-              "placePoints": 187,
+              "placePoints": 185,
               "scoring": true
             },
             {
@@ -247718,7 +247706,7 @@
               "grade": "12",
               "teamPlacePoints": 46,
               "teamPosition": 6,
-              "placePoints": 189,
+              "placePoints": 187,
               "scoring": false
             }
           ],
@@ -247728,9 +247716,9 @@
           "name": "Lehman Cath.",
           "region": "Southwest",
           "complete": true,
-          "score": 612,
+          "score": 617,
           "sixthPlace": 168,
-          "seventhPlace": 184,
+          "seventhPlace": 182,
           "runners": [
             {
               "name": "Luke Dexter",
@@ -247749,7 +247737,7 @@
               "grade": "10",
               "teamPlacePoints": 27,
               "teamPosition": 2,
-              "placePoints": 114,
+              "placePoints": 115,
               "scoring": true
             },
             {
@@ -247759,7 +247747,7 @@
               "grade": "10",
               "teamPlacePoints": 39,
               "teamPosition": 3,
-              "placePoints": 132,
+              "placePoints": 133,
               "scoring": true
             },
             {
@@ -247769,7 +247757,7 @@
               "grade": "11",
               "teamPlacePoints": 47,
               "teamPosition": 4,
-              "placePoints": 144,
+              "placePoints": 146,
               "scoring": true
             },
             {
@@ -247779,7 +247767,7 @@
               "grade": "9",
               "teamPlacePoints": 53,
               "teamPosition": 5,
-              "placePoints": 151,
+              "placePoints": 152,
               "scoring": true
             },
             {
@@ -247799,19 +247787,100 @@
               "grade": "12",
               "teamPlacePoints": 69,
               "teamPosition": 7,
-              "placePoints": 184,
+              "placePoints": 182,
               "scoring": false
             }
           ],
           "mockRank": 16
         },
         {
+          "name": "Black River",
+          "region": "Northeast",
+          "complete": true,
+          "score": 670,
+          "sixthPlace": 210,
+          "seventhPlace": 214,
+          "runners": [
+            {
+              "name": "Connor Rhein",
+              "seasonBest": "16:22.43",
+              "timeCentiseconds": 98243,
+              "grade": "12",
+              "teamPlacePoints": 6,
+              "teamPosition": 1,
+              "placePoints": 36,
+              "scoring": true
+            },
+            {
+              "name": "Ray Brakefield",
+              "seasonBest": "17:27.6",
+              "timeCentiseconds": 104760,
+              "grade": "10",
+              "teamPlacePoints": 36,
+              "teamPosition": 2,
+              "placePoints": 135,
+              "scoring": true
+            },
+            {
+              "name": "Archer Combs",
+              "seasonBest": "17:31.7",
+              "timeCentiseconds": 105170,
+              "grade": "10",
+              "teamPlacePoints": 41,
+              "teamPosition": 3,
+              "placePoints": 142,
+              "scoring": true
+            },
+            {
+              "name": "Jackson Quallich",
+              "seasonBest": "17:37.8",
+              "timeCentiseconds": 105780,
+              "grade": "9",
+              "teamPlacePoints": 44,
+              "teamPosition": 4,
+              "placePoints": 148,
+              "scoring": true
+            },
+            {
+              "name": "Brock Martin",
+              "seasonBest": "19:28.9",
+              "timeCentiseconds": 116890,
+              "grade": "12",
+              "teamPlacePoints": 103,
+              "teamPosition": 5,
+              "placePoints": 209,
+              "scoring": true
+            },
+            {
+              "name": "Leland Gallatin",
+              "seasonBest": "19:29.91",
+              "timeCentiseconds": 116991,
+              "grade": "9",
+              "teamPlacePoints": 104,
+              "teamPosition": 6,
+              "placePoints": 210,
+              "scoring": false
+            },
+            {
+              "name": "Logan Rhein",
+              "seasonBest": "21:49.8",
+              "timeCentiseconds": 130980,
+              "grade": "12",
+              "teamPlacePoints": 135,
+              "teamPosition": 7,
+              "placePoints": 214,
+              "scoring": false
+            }
+          ],
+          "mockRank": 17
+        },
+        {
           "name": "New Riegel",
           "region": "Northwest",
           "complete": true,
-          "score": 678,
-          "sixthPlace": 183,
-          "seventhPlace": 199,
+          "score": 684,
+          "sixthPlace": 181,
+          "seventhPlace": 196,
           "runners": [
             {
               "name": "Grady Faeth",
@@ -247820,7 +247889,7 @@
               "grade": "11",
               "teamPlacePoints": 42,
               "teamPosition": 1,
-              "placePoints": 113,
+              "placePoints": 114,
               "scoring": true
             },
             {
@@ -247830,7 +247899,7 @@
               "grade": "12",
               "teamPlacePoints": 45,
               "teamPosition": 2,
-              "placePoints": 118,
+              "placePoints": 119,
               "scoring": true
             },
             {
@@ -247840,7 +247909,7 @@
               "grade": "11",
               "teamPlacePoints": 63,
               "teamPosition": 3,
-              "placePoints": 134,
+              "placePoints": 136,
               "scoring": true
             },
             {
@@ -247850,7 +247919,7 @@
               "grade": "10",
               "teamPlacePoints": 74.5,
               "teamPosition": 4,
-              "placePoints": 147,
+              "placePoints": 149,
               "scoring": true
             },
             {
@@ -247870,7 +247939,7 @@
               "grade": "12",
               "teamPlacePoints": 118,
               "teamPosition": 6,
-              "placePoints": 183,
+              "placePoints": 181,
               "scoring": false
             },
             {
@@ -247880,19 +247949,19 @@
               "grade": "10",
               "teamPlacePoints": 152,
               "teamPosition": 7,
-              "placePoints": 199,
+              "placePoints": 196,
               "scoring": false
             }
           ],
-          "mockRank": 17
+          "mockRank": 18
         },
         {
           "name": "Kid. Cent. Christian",
           "region": "Northeast",
           "complete": true,
-          "score": 697,
-          "sixthPlace": 202.5,
-          "seventhPlace": 206,
+          "score": 693,
+          "sixthPlace": 199.5,
+          "seventhPlace": 203,
           "runners": [
             {
               "name": "Gannon Myers",
@@ -247911,7 +247980,7 @@
               "grade": "9",
               "teamPlacePoints": 19,
               "teamPosition": 2,
-              "placePoints": 105,
+              "placePoints": 106,
               "scoring": true
             },
             {
@@ -247921,7 +247990,7 @@
               "grade": "12",
               "teamPlacePoints": 21,
               "teamPosition": 3,
-              "placePoints": 109,
+              "placePoints": 110,
               "scoring": true
             },
             {
@@ -247931,7 +248000,7 @@
               "grade": "10",
               "teamPlacePoints": 77,
               "teamPosition": 4,
-              "placePoints": 197,
+              "placePoints": 194,
               "scoring": true
             },
             {
@@ -247941,7 +248010,7 @@
               "grade": "11",
               "teamPlacePoints": 80,
               "teamPosition": 5,
-              "placePoints": 200,
+              "placePoints": 197,
               "scoring": true
             },
             {
@@ -247951,7 +248020,7 @@
               "grade": "11",
               "teamPlacePoints": 82.5,
               "teamPosition": 6,
-              "placePoints": 202.5,
+              "placePoints": 199.5,
               "scoring": false
             },
             {
@@ -247961,19 +248030,19 @@
               "grade": "12",
               "teamPlacePoints": 85,
               "teamPosition": 7,
-              "placePoints": 206,
+              "placePoints": 203,
               "scoring": false
             }
           ],
-          "mockRank": 18
+          "mockRank": 19
         },
         {
           "name": "Shenandoah",
           "region": "Central",
           "complete": true,
-          "score": 718,
-          "sixthPlace": 190,
-          "seventhPlace": 194,
+          "score": 716,
+          "sixthPlace": 188,
+          "seventhPlace": 191,
           "runners": [
             {
               "name": "Joel Tewksbary",
@@ -247992,7 +248061,7 @@
               "grade": "10",
               "teamPlacePoints": 30.5,
               "teamPosition": 2,
-              "placePoints": 160,
+              "placePoints": 161,
               "scoring": true
             },
             {
@@ -248012,7 +248081,7 @@
               "grade": "12",
               "teamPlacePoints": 38,
               "teamPosition": 4,
-              "placePoints": 177,
+              "placePoints": 176,
               "scoring": true
             },
             {
@@ -248022,7 +248091,7 @@
               "grade": "9",
               "teamPlacePoints": 45,
               "teamPosition": 5,
-              "placePoints": 188,
+              "placePoints": 186,
               "scoring": true
             },
             {
@@ -248032,7 +248101,7 @@
               "grade": "12",
               "teamPlacePoints": 47,
               "teamPosition": 6,
-              "placePoints": 190,
+              "placePoints": 188,
               "scoring": false
             },
             {
@@ -248042,19 +248111,19 @@
               "grade": "9",
               "teamPlacePoints": 50,
               "teamPosition": 7,
-              "placePoints": 194,
+              "placePoints": 191,
               "scoring": false
             }
           ],
-          "mockRank": 19
+          "mockRank": 20
         },
         {
           "name": "Rac. Southern",
           "region": "Central",
           "complete": true,
           "score": 729.5,
-          "sixthPlace": 213,
-          "seventhPlace": 214,
+          "sixthPlace": 212,
+          "seventhPlace": 213,
           "runners": [
             {
               "name": "Cohen Roush",
@@ -248073,7 +248142,7 @@
               "grade": "12",
               "teamPlacePoints": 24,
               "teamPosition": 2,
-              "placePoints": 137.5,
+              "placePoints": 138.5,
               "scoring": true
             },
             {
@@ -248103,7 +248172,7 @@
               "grade": "12",
               "teamPlacePoints": 39,
               "teamPosition": 5,
-              "placePoints": 179,
+              "placePoints": 178,
               "scoring": true
             },
             {
@@ -248113,7 +248182,7 @@
               "grade": "9",
               "teamPlacePoints": 112,
               "teamPosition": 6,
-              "placePoints": 213,
+              "placePoints": 212,
               "scoring": false
             },
             {
@@ -248123,19 +248192,19 @@
               "grade": "12",
               "teamPlacePoints": 119,
               "teamPosition": 7,
-              "placePoints": 214,
+              "placePoints": 213,
               "scoring": false
             }
           ],
-          "mockRank": 20
+          "mockRank": 21
         },
         {
           "name": "Rittman",
           "region": "Northeast",
           "complete": true,
-          "score": 743,
-          "sixthPlace": 196,
-          "seventhPlace": 202.5,
+          "score": 745,
+          "sixthPlace": 193,
+          "seventhPlace": 199.5,
           "runners": [
             {
               "name": "Logan Chaplin",
@@ -248144,7 +248213,7 @@
               "grade": "12",
               "teamPlacePoints": 29,
               "teamPosition": 1,
-              "placePoints": 128,
+              "placePoints": 129,
               "scoring": true
             },
             {
@@ -248154,7 +248223,7 @@
               "grade": "12",
               "teamPlacePoints": 35,
               "teamPosition": 2,
-              "placePoints": 133,
+              "placePoints": 134,
               "scoring": true
             },
             {
@@ -248164,7 +248233,7 @@
               "grade": "12",
               "teamPlacePoints": 40,
               "teamPosition": 3,
-              "placePoints": 140,
+              "placePoints": 141,
               "scoring": true
             },
             {
@@ -248174,7 +248243,7 @@
               "grade": "9",
               "teamPlacePoints": 49,
               "teamPosition": 4,
-              "placePoints": 156,
+              "placePoints": 157,
               "scoring": true
             },
             {
@@ -248184,7 +248253,7 @@
               "grade": "9",
               "teamPlacePoints": 62,
               "teamPosition": 5,
-              "placePoints": 186,
+              "placePoints": 184,
               "scoring": true
             },
             {
@@ -248194,7 +248263,7 @@
               "grade": "10",
               "teamPlacePoints": 75,
               "teamPosition": 6,
-              "placePoints": 196,
+              "placePoints": 193,
               "scoring": false
             },
             {
@@ -248204,88 +248273,7 @@
               "grade": "10",
               "teamPlacePoints": 82.5,
               "teamPosition": 7,
-              "placePoints": 202.5,
-              "scoring": false
-            }
-          ],
-          "mockRank": 21
-        },
-        {
-          "name": "Lake Center Chr.",
-          "region": "Northeast",
-          "complete": true,
-          "score": 769,
-          "sixthPlace": 180,
-          "seventhPlace": 192,
-          "runners": [
-            {
-              "name": "Zach Varner",
-              "seasonBest": "17:30.2",
-              "timeCentiseconds": 105020,
-              "grade": "12",
-              "teamPlacePoints": 39,
-              "teamPosition": 1,
-              "placePoints": 136,
-              "scoring": true
-            },
-            {
-              "name": "Kristian Patrick",
-              "seasonBest": "17:36.7",
-              "timeCentiseconds": 105670,
-              "grade": "9",
-              "teamPlacePoints": 43,
-              "teamPosition": 2,
-              "placePoints": 145,
-              "scoring": true
-            },
-            {
-              "name": "Isaac Larson",
-              "seasonBest": "17:39.8",
-              "timeCentiseconds": 105980,
-              "grade": "12",
-              "teamPlacePoints": 45,
-              "teamPosition": 3,
-              "placePoints": 149,
-              "scoring": true
-            },
-            {
-              "name": "Keegan Lawrence",
-              "seasonBest": "17:53.2",
-              "timeCentiseconds": 107320,
-              "grade": "12",
-              "teamPlacePoints": 51,
-              "teamPosition": 4,
-              "placePoints": 164,
-              "scoring": true
-            },
-            {
-              "name": "Joey McAboy",
-              "seasonBest": "18:00.82",
-              "timeCentiseconds": 108082,
-              "grade": "12",
-              "teamPlacePoints": 54,
-              "teamPosition": 5,
-              "placePoints": 175,
-              "scoring": true
-            },
-            {
-              "name": "Landon Young",
-              "seasonBest": "18:04.2",
-              "timeCentiseconds": 108420,
-              "grade": "10",
-              "teamPlacePoints": 57,
-              "teamPosition": 6,
-              "placePoints": 180,
-              "scoring": false
-            },
-            {
-              "name": "Luke Gerber",
-              "seasonBest": "18:20.9",
-              "timeCentiseconds": 110090,
-              "grade": "12",
-              "teamPlacePoints": 71,
-              "teamPosition": 7,
-              "placePoints": 192,
+              "placePoints": 199.5,
               "scoring": false
             }
           ],
@@ -248296,8 +248284,8 @@
           "region": "Central",
           "complete": true,
           "score": 777,
-          "sixthPlace": 205,
-          "seventhPlace": 207,
+          "sixthPlace": 202,
+          "seventhPlace": 204,
           "runners": [
             {
               "name": "Owen Calvin",
@@ -248306,7 +248294,7 @@
               "grade": "12",
               "teamPlacePoints": 20,
               "teamPosition": 1,
-              "placePoints": 119,
+              "placePoints": 120,
               "scoring": true
             },
             {
@@ -248316,7 +248304,7 @@
               "grade": "9",
               "teamPlacePoints": 25,
               "teamPosition": 2,
-              "placePoints": 139,
+              "placePoints": 140,
               "scoring": true
             },
             {
@@ -248326,7 +248314,7 @@
               "grade": "9",
               "teamPlacePoints": 27,
               "teamPosition": 3,
-              "placePoints": 142,
+              "placePoints": 144,
               "scoring": true
             },
             {
@@ -248336,7 +248324,7 @@
               "grade": "11",
               "teamPlacePoints": 37,
               "teamPosition": 4,
-              "placePoints": 176,
+              "placePoints": 175,
               "scoring": true
             },
             {
@@ -248346,7 +248334,7 @@
               "grade": "12",
               "teamPlacePoints": 62,
               "teamPosition": 5,
-              "placePoints": 201,
+              "placePoints": 198,
               "scoring": true
             },
             {
@@ -248356,7 +248344,7 @@
               "grade": "12",
               "teamPlacePoints": 65,
               "teamPosition": 6,
-              "placePoints": 205,
+              "placePoints": 202,
               "scoring": false
             },
             {
@@ -248366,7 +248354,7 @@
               "grade": "Sr",
               "teamPlacePoints": 69,
               "teamPosition": 7,
-              "placePoints": 207,
+              "placePoints": 204,
               "scoring": false
             }
           ],
@@ -248376,8 +248364,8 @@
           "name": "Northmor",
           "region": "Central",
           "complete": true,
-          "score": 794,
-          "sixthPlace": 212,
+          "score": 787,
+          "sixthPlace": 211,
           "seventhPlace": null,
           "runners": [
             {
@@ -248397,7 +248385,7 @@
               "grade": "12",
               "teamPlacePoints": 29,
               "teamPosition": 2,
-              "placePoints": 157,
+              "placePoints": 158,
               "scoring": true
             },
             {
@@ -248407,7 +248395,7 @@
               "grade": "10",
               "teamPlacePoints": 41,
               "teamPosition": 3,
-              "placePoints": 181,
+              "placePoints": 179,
               "scoring": true
             },
             {
@@ -248417,7 +248405,7 @@
               "grade": "9",
               "teamPlacePoints": 49,
               "teamPosition": 4,
-              "placePoints": 193,
+              "placePoints": 190,
               "scoring": true
             },
             {
@@ -248427,7 +248415,7 @@
               "grade": "10",
               "teamPlacePoints": 73,
               "teamPosition": 5,
-              "placePoints": 210,
+              "placePoints": 207,
               "scoring": true
             },
             {
@@ -248437,7 +248425,7 @@
               "grade": "9",
               "teamPlacePoints": 89,
               "teamPosition": 6,
-              "placePoints": 212,
+              "placePoints": 211,
               "scoring": false
             }
           ],
@@ -248645,18 +248633,6 @@
           "qualifiedFromRegionalOrdinal": "6th"
         },
         {
-          "name": "Connor Rhein",
-          "seasonBest": "16:22.43",
-          "timeCentiseconds": 98243,
-          "grade": "12",
-          "placePoints": 36,
-          "teamPlacePoints": 6,
-          "originalTeam": "Black River",
-          "originalRegion": "Northeast",
-          "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "4th"
-        },
-        {
           "name": "Carter Hicks",
           "seasonBest": "16:22.5",
           "timeCentiseconds": 98250,
@@ -248741,7 +248717,7 @@
           "originalTeam": "Dalton",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "5th"
+          "qualifiedFromRegionalOrdinal": "4th"
         },
         {
           "name": "Calvin Miller",
@@ -248802,7 +248778,7 @@
           "originalTeam": "South Range",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "6th"
+          "qualifiedFromRegionalOrdinal": "5th"
         },
         {
           "name": "Bryce Garland",
@@ -248814,7 +248790,7 @@
           "originalTeam": "Mineral Ridge",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "7th"
+          "qualifiedFromRegionalOrdinal": "6th"
         },
         {
           "name": "Ryan Navarre",
@@ -248912,7 +248888,7 @@
           "originalTeam": "Open Door Christian",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "8th"
+          "qualifiedFromRegionalOrdinal": "7th"
         },
         {
           "name": "Carter Trantham",
@@ -248986,7 +248962,7 @@
           "originalTeam": "Lowellville",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
-          "qualifiedFromRegionalOrdinal": "9th"
+          "qualifiedFromRegionalOrdinal": "8th"
         },
         {
           "name": "Josiah Erdman",
@@ -248998,6 +248974,19 @@
           "originalTeam": "Smithville",
           "originalRegion": "Northeast",
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
+          "qualifiedFromRegionalOrdinal": "9th"
+        },
+        {
+          "name": "Daniel Anastasoaie",
+          "seasonBest": "16:56.0",
+          "timeCentiseconds": 101600,
+          "grade": "10",
+          "originalTeam": "Lake Ridge Acad.",
+          "originalRegion": "Northeast",
+          "qualifiedFromDistrict": "Lorain County CC",
+          "qualifiedFromDistrictOrdinal": 1,
+          "placePoints": 95,
+          "qualifiedFromRegional": "Boardman High School (Youngstown)",
           "qualifiedFromRegionalOrdinal": "10th"
         },
         {
@@ -249005,7 +248994,7 @@
           "seasonBest": "16:57.73",
           "timeCentiseconds": 101773,
           "grade": "11",
-          "placePoints": 103,
+          "placePoints": 104,
           "teamPlacePoints": 23,
           "originalTeam": "Minster",
           "originalRegion": "Southwest",
@@ -249017,7 +249006,7 @@
           "seasonBest": "17:03.3",
           "timeCentiseconds": 102330,
           "grade": "12",
-          "placePoints": 106,
+          "placePoints": 107,
           "teamPlacePoints": 18,
           "originalTeam": "Berne Union",
           "originalRegion": "Central",
@@ -249029,7 +249018,7 @@
           "seasonBest": "17:05.6",
           "timeCentiseconds": 102560,
           "grade": "12",
-          "placePoints": 111,
+          "placePoints": 112,
           "teamPlacePoints": 19,
           "originalTeam": "Liberty Union",
           "originalRegion": "Central",
@@ -251105,9 +251094,9 @@
           "name": "Ottawa Hills",
           "region": "Northwest",
           "complete": true,
-          "score": 248.5,
+          "score": 250.5,
           "sixthPlace": 132,
-          "seventhPlace": 165,
+          "seventhPlace": 164,
           "runners": [
             {
               "name": "Natalie Nixon",
@@ -251156,7 +251145,7 @@
               "grade": "11",
               "teamPlacePoints": 34,
               "teamPosition": 5,
-              "placePoints": 106,
+              "placePoints": 108,
               "scoring": true
             },
             {
@@ -251176,7 +251165,7 @@
               "grade": "11",
               "teamPlacePoints": 81,
               "teamPosition": 7,
-              "placePoints": 165,
+              "placePoints": 164,
               "scoring": false
             },
             {
@@ -251186,7 +251175,7 @@
               "grade": "12",
               "teamPlacePoints": 84.5,
               "teamPosition": 8,
-              "placePoints": 167,
+              "placePoints": 166,
               "scoring": false
             }
           ],
@@ -251198,7 +251187,7 @@
           "complete": true,
           "score": 258,
           "sixthPlace": 128,
-          "seventhPlace": 161,
+          "seventhPlace": 160,
           "runners": [
             {
               "name": "Colbie Strayer",
@@ -251267,7 +251256,7 @@
               "grade": "11",
               "teamPlacePoints": 77,
               "teamPosition": 7,
-              "placePoints": 161,
+              "placePoints": 160,
               "scoring": false
             }
           ],
@@ -251278,7 +251267,7 @@
           "region": "Central",
           "complete": true,
           "score": 279,
-          "sixthPlace": 118.5,
+          "sixthPlace": 120.5,
           "seventhPlace": 148,
           "runners": [
             {
@@ -251338,7 +251327,7 @@
               "grade": "12",
               "teamPlacePoints": 25,
               "teamPosition": 6,
-              "placePoints": 118.5,
+              "placePoints": 120.5,
               "scoring": false
             },
             {
@@ -251358,9 +251347,9 @@
           "name": "Minster",
           "region": "Southwest",
           "complete": true,
-          "score": 288,
-          "sixthPlace": 152,
-          "seventhPlace": 168,
+          "score": 289,
+          "sixthPlace": 153,
+          "seventhPlace": 167,
           "runners": [
             {
               "name": "Elizabeth Niekamp",
@@ -251399,7 +251388,7 @@
               "grade": "9",
               "teamPlacePoints": 32,
               "teamPosition": 4,
-              "placePoints": 125,
+              "placePoints": 126,
               "scoring": true
             },
             {
@@ -251419,7 +251408,7 @@
               "grade": "11",
               "teamPlacePoints": 46,
               "teamPosition": 6,
-              "placePoints": 152,
+              "placePoints": 153,
               "scoring": false
             },
             {
@@ -251429,7 +251418,7 @@
               "grade": "10",
               "teamPlacePoints": 55,
               "teamPosition": 7,
-              "placePoints": 168,
+              "placePoints": 167,
               "scoring": false
             }
           ],
@@ -251440,8 +251429,8 @@
           "region": "Northeast",
           "complete": true,
           "score": 392,
-          "sixthPlace": 110,
-          "seventhPlace": 188,
+          "sixthPlace": 112,
+          "seventhPlace": 187,
           "runners": [
             {
               "name": "Annabelle Snyder",
@@ -251500,7 +251489,7 @@
               "grade": "10",
               "teamPlacePoints": 25,
               "teamPosition": 6,
-              "placePoints": 110,
+              "placePoints": 112,
               "scoring": false
             },
             {
@@ -251510,7 +251499,7 @@
               "grade": "10",
               "teamPlacePoints": 59,
               "teamPosition": 7,
-              "placePoints": 188,
+              "placePoints": 187,
               "scoring": false
             }
           ],
@@ -251520,9 +251509,9 @@
           "name": "Kirtland",
           "region": "Northeast",
           "complete": true,
-          "score": 403,
-          "sixthPlace": 207,
-          "seventhPlace": 210,
+          "score": 406,
+          "sixthPlace": 209,
+          "seventhPlace": 212,
           "runners": [
             {
               "name": "Kylie Sayle",
@@ -251561,7 +251550,7 @@
               "grade": "12",
               "teamPlacePoints": 23,
               "teamPosition": 4,
-              "placePoints": 103,
+              "placePoints": 104,
               "scoring": true
             },
             {
@@ -251571,7 +251560,7 @@
               "grade": "10",
               "teamPlacePoints": 24,
               "teamPosition": 5,
-              "placePoints": 107,
+              "placePoints": 109,
               "scoring": true
             },
             {
@@ -251581,7 +251570,7 @@
               "grade": "11",
               "teamPlacePoints": 85,
               "teamPosition": 6,
-              "placePoints": 207,
+              "placePoints": 209,
               "scoring": false
             },
             {
@@ -251591,7 +251580,7 @@
               "grade": "9",
               "teamPlacePoints": 97,
               "teamPosition": 7,
-              "placePoints": 210,
+              "placePoints": 212,
               "scoring": false
             }
           ],
@@ -251601,9 +251590,9 @@
           "name": "Sum. Co. Day",
           "region": "Southwest",
           "complete": true,
-          "score": 417,
-          "sixthPlace": 176,
-          "seventhPlace": 192,
+          "score": 416,
+          "sixthPlace": 175,
+          "seventhPlace": 191,
           "runners": [
             {
               "name": "Anna Wiltshire",
@@ -251652,7 +251641,7 @@
               "grade": "10",
               "teamPlacePoints": 51,
               "teamPosition": 5,
-              "placePoints": 159,
+              "placePoints": 158,
               "scoring": true
             },
             {
@@ -251662,7 +251651,7 @@
               "grade": "12",
               "teamPlacePoints": 62,
               "teamPosition": 6,
-              "placePoints": 176,
+              "placePoints": 175,
               "scoring": false
             },
             {
@@ -251672,7 +251661,7 @@
               "grade": "12",
               "teamPlacePoints": 75,
               "teamPosition": 7,
-              "placePoints": 192,
+              "placePoints": 191,
               "scoring": false
             }
           ],
@@ -251683,8 +251672,8 @@
           "region": "Northeast",
           "complete": true,
           "score": 441,
-          "sixthPlace": 180,
-          "seventhPlace": 214,
+          "sixthPlace": 179,
+          "seventhPlace": 215,
           "runners": [
             {
               "name": "Naomi Sheesley",
@@ -251723,7 +251712,7 @@
               "grade": "10",
               "teamPlacePoints": 32,
               "teamPosition": 4,
-              "placePoints": 123,
+              "placePoints": 124,
               "scoring": true
             },
             {
@@ -251733,7 +251722,7 @@
               "grade": "9",
               "teamPlacePoints": 45,
               "teamPosition": 5,
-              "placePoints": 164,
+              "placePoints": 163,
               "scoring": true
             },
             {
@@ -251743,7 +251732,7 @@
               "grade": "10",
               "teamPlacePoints": 55,
               "teamPosition": 6,
-              "placePoints": 180,
+              "placePoints": 179,
               "scoring": false
             },
             {
@@ -251753,7 +251742,7 @@
               "grade": "10",
               "teamPlacePoints": 111,
               "teamPosition": 7,
-              "placePoints": 214,
+              "placePoints": 215,
               "scoring": false
             }
           ],
@@ -251763,9 +251752,9 @@
           "name": "Maplewood",
           "region": "Northeast",
           "complete": true,
-          "score": 449,
+          "score": 453,
           "sixthPlace": 155,
-          "seventhPlace": 170,
+          "seventhPlace": 169,
           "runners": [
             {
               "name": "Melody Richards",
@@ -251804,7 +251793,7 @@
               "grade": "9",
               "teamPlacePoints": 26,
               "teamPosition": 4,
-              "placePoints": 111,
+              "placePoints": 113,
               "scoring": true
             },
             {
@@ -251814,7 +251803,7 @@
               "grade": "9",
               "teamPlacePoints": 29,
               "teamPosition": 5,
-              "placePoints": 117,
+              "placePoints": 119,
               "scoring": true
             },
             {
@@ -251834,100 +251823,19 @@
               "grade": "12",
               "teamPlacePoints": 46,
               "teamPosition": 7,
-              "placePoints": 170,
+              "placePoints": 169,
               "scoring": false
             }
           ],
           "mockRank": 9
         },
         {
-          "name": "Archbold",
-          "region": "Northwest",
-          "complete": true,
-          "score": 491,
-          "sixthPlace": 153,
-          "seventhPlace": 184,
-          "runners": [
-            {
-              "name": "Hadley Hudson",
-              "seasonBest": "19:12.5",
-              "timeCentiseconds": 115250,
-              "grade": "11",
-              "teamPlacePoints": 9,
-              "teamPosition": 1,
-              "placePoints": 32,
-              "scoring": true
-            },
-            {
-              "name": "Jovie Hudson",
-              "seasonBest": "20:07.6",
-              "timeCentiseconds": 120760,
-              "grade": "10",
-              "teamPlacePoints": 27,
-              "teamPosition": 2,
-              "placePoints": 96,
-              "scoring": true
-            },
-            {
-              "name": "Janae Murillo",
-              "seasonBest": "20:12.8",
-              "timeCentiseconds": 121280,
-              "grade": "12",
-              "teamPlacePoints": 30,
-              "teamPosition": 3,
-              "placePoints": 102,
-              "scoring": true
-            },
-            {
-              "name": "Natalie Schmucker",
-              "seasonBest": "20:36.5",
-              "timeCentiseconds": 123650,
-              "grade": "12",
-              "teamPlacePoints": 42,
-              "teamPosition": 4,
-              "placePoints": 120,
-              "scoring": true
-            },
-            {
-              "name": "Claire Bowers",
-              "seasonBest": "20:57.6",
-              "timeCentiseconds": 125760,
-              "grade": "9",
-              "teamPlacePoints": 56,
-              "teamPosition": 5,
-              "placePoints": 141,
-              "scoring": true
-            },
-            {
-              "name": "Cagnee Grime",
-              "seasonBest": "21:16.3",
-              "timeCentiseconds": 127630,
-              "grade": "12",
-              "teamPlacePoints": 69,
-              "teamPosition": 6,
-              "placePoints": 153,
-              "scoring": false
-            },
-            {
-              "name": "Cecelia Seibert",
-              "seasonBest": "22:11.9",
-              "timeCentiseconds": 133190,
-              "grade": "9",
-              "teamPlacePoints": 116,
-              "teamPosition": 7,
-              "placePoints": 184,
-              "scoring": false
-            }
-          ],
-          "mockRank": 10
-        },
-        {
           "name": "Bellaire",
           "region": "Central",
           "complete": true,
           "score": 491.5,
-          "sixthPlace": 187,
-          "seventhPlace": 202,
+          "sixthPlace": 186,
+          "seventhPlace": 203,
           "runners": [
             {
               "name": "Paisley Farrier",
@@ -251956,7 +251864,7 @@
               "grade": "12",
               "teamPlacePoints": 24,
               "teamPosition": 3,
-              "placePoints": 116,
+              "placePoints": 118,
               "scoring": true
             },
             {
@@ -251966,7 +251874,7 @@
               "grade": "12",
               "teamPlacePoints": 46,
               "teamPosition": 4,
-              "placePoints": 162.5,
+              "placePoints": 161.5,
               "scoring": true
             },
             {
@@ -251976,7 +251884,7 @@
               "grade": "12",
               "teamPlacePoints": 60,
               "teamPosition": 5,
-              "placePoints": 183,
+              "placePoints": 182,
               "scoring": true
             },
             {
@@ -251986,7 +251894,7 @@
               "grade": "10",
               "teamPlacePoints": 65,
               "teamPosition": 6,
-              "placePoints": 187,
+              "placePoints": 186,
               "scoring": false
             },
             {
@@ -251996,7 +251904,88 @@
               "grade": "11",
               "teamPlacePoints": 77,
               "teamPosition": 7,
-              "placePoints": 202,
+              "placePoints": 203,
+              "scoring": false
+            }
+          ],
+          "mockRank": 10
+        },
+        {
+          "name": "Archbold",
+          "region": "Northwest",
+          "complete": true,
+          "score": 494,
+          "sixthPlace": 154,
+          "seventhPlace": 183,
+          "runners": [
+            {
+              "name": "Hadley Hudson",
+              "seasonBest": "19:12.5",
+              "timeCentiseconds": 115250,
+              "grade": "11",
+              "teamPlacePoints": 9,
+              "teamPosition": 1,
+              "placePoints": 32,
+              "scoring": true
+            },
+            {
+              "name": "Jovie Hudson",
+              "seasonBest": "20:07.6",
+              "timeCentiseconds": 120760,
+              "grade": "10",
+              "teamPlacePoints": 27,
+              "teamPosition": 2,
+              "placePoints": 96,
+              "scoring": true
+            },
+            {
+              "name": "Janae Murillo",
+              "seasonBest": "20:12.8",
+              "timeCentiseconds": 121280,
+              "grade": "12",
+              "teamPlacePoints": 30,
+              "teamPosition": 3,
+              "placePoints": 103,
+              "scoring": true
+            },
+            {
+              "name": "Natalie Schmucker",
+              "seasonBest": "20:36.5",
+              "timeCentiseconds": 123650,
+              "grade": "12",
+              "teamPlacePoints": 42,
+              "teamPosition": 4,
+              "placePoints": 122,
+              "scoring": true
+            },
+            {
+              "name": "Claire Bowers",
+              "seasonBest": "20:57.6",
+              "timeCentiseconds": 125760,
+              "grade": "9",
+              "teamPlacePoints": 56,
+              "teamPosition": 5,
+              "placePoints": 141,
+              "scoring": true
+            },
+            {
+              "name": "Cagnee Grime",
+              "seasonBest": "21:16.3",
+              "timeCentiseconds": 127630,
+              "grade": "12",
+              "teamPlacePoints": 69,
+              "teamPosition": 6,
+              "placePoints": 154,
+              "scoring": false
+            },
+            {
+              "name": "Cecelia Seibert",
+              "seasonBest": "22:11.9",
+              "timeCentiseconds": 133190,
+              "grade": "9",
+              "teamPlacePoints": 116,
+              "teamPosition": 7,
+              "placePoints": 183,
               "scoring": false
             }
           ],
@@ -252087,9 +252076,9 @@
           "name": "West Liberty-Salem",
           "region": "Southwest",
           "complete": true,
-          "score": 533,
-          "sixthPlace": 190,
-          "seventhPlace": 191,
+          "score": 532,
+          "sixthPlace": 189,
+          "seventhPlace": 190,
           "runners": [
             {
               "name": "Addi Wallen",
@@ -252138,7 +252127,7 @@
               "grade": "10",
               "teamPlacePoints": 58,
               "teamPosition": 5,
-              "placePoints": 175,
+              "placePoints": 174,
               "scoring": true
             },
             {
@@ -252148,7 +252137,7 @@
               "grade": "12",
               "teamPlacePoints": 73,
               "teamPosition": 6,
-              "placePoints": 190,
+              "placePoints": 189,
               "scoring": false
             },
             {
@@ -252158,7 +252147,7 @@
               "grade": "11",
               "teamPlacePoints": 74,
               "teamPosition": 7,
-              "placePoints": 191,
+              "placePoints": 190,
               "scoring": false
             }
           ],
@@ -252168,9 +252157,9 @@
           "name": "Mechanicsburg",
           "region": "Central",
           "complete": true,
-          "score": 535,
-          "sixthPlace": 198,
-          "seventhPlace": 209,
+          "score": 537,
+          "sixthPlace": 199,
+          "seventhPlace": 211,
           "runners": [
             {
               "name": "Reiner Schaadt",
@@ -252209,7 +252198,7 @@
               "grade": "9",
               "teamPlacePoints": 22,
               "teamPosition": 4,
-              "placePoints": 114,
+              "placePoints": 116,
               "scoring": true
             },
             {
@@ -252229,7 +252218,7 @@
               "grade": "12",
               "teamPlacePoints": 74,
               "teamPosition": 6,
-              "placePoints": 198,
+              "placePoints": 199,
               "scoring": false
             },
             {
@@ -252239,7 +252228,7 @@
               "grade": "11",
               "teamPlacePoints": 97,
               "teamPosition": 7,
-              "placePoints": 209,
+              "placePoints": 211,
               "scoring": false
             }
           ],
@@ -252249,8 +252238,8 @@
           "name": "Ash. St. John",
           "region": "Northeast",
           "complete": true,
-          "score": 536,
-          "sixthPlace": 212,
+          "score": 539,
+          "sixthPlace": 214,
           "seventhPlace": 217,
           "runners": [
             {
@@ -252280,7 +252269,7 @@
               "grade": "9",
               "teamPlacePoints": 31,
               "teamPosition": 3,
-              "placePoints": 122,
+              "placePoints": 123,
               "scoring": true
             },
             {
@@ -252300,7 +252289,7 @@
               "grade": "9",
               "teamPlacePoints": 91.5,
               "teamPosition": 5,
-              "placePoints": 208,
+              "placePoints": 210,
               "scoring": true
             },
             {
@@ -252310,7 +252299,7 @@
               "grade": "12",
               "teamPlacePoints": 99,
               "teamPosition": 6,
-              "placePoints": 212,
+              "placePoints": 214,
               "scoring": false
             },
             {
@@ -252331,7 +252320,7 @@
           "region": "Northwest",
           "complete": true,
           "score": 602,
-          "sixthPlace": 201,
+          "sixthPlace": 202,
           "seventhPlace": 216,
           "runners": [
             {
@@ -252351,7 +252340,7 @@
               "grade": "10",
               "teamPlacePoints": 32,
               "teamPosition": 2,
-              "placePoints": 105,
+              "placePoints": 106,
               "scoring": true
             },
             {
@@ -252361,7 +252350,7 @@
               "grade": "12",
               "teamPlacePoints": 45,
               "teamPosition": 3,
-              "placePoints": 124,
+              "placePoints": 125,
               "scoring": true
             },
             {
@@ -252371,7 +252360,7 @@
               "grade": "12",
               "teamPlacePoints": 107,
               "teamPosition": 4,
-              "placePoints": 179,
+              "placePoints": 178,
               "scoring": true
             },
             {
@@ -252381,7 +252370,7 @@
               "grade": "9",
               "teamPlacePoints": 113,
               "teamPosition": 5,
-              "placePoints": 181,
+              "placePoints": 180,
               "scoring": true
             },
             {
@@ -252391,7 +252380,7 @@
               "grade": "10",
               "teamPlacePoints": 145,
               "teamPosition": 6,
-              "placePoints": 201,
+              "placePoints": 202,
               "scoring": false
             },
             {
@@ -252411,8 +252400,8 @@
           "name": "St. Henry",
           "region": "Northwest",
           "complete": true,
-          "score": 602.5,
-          "sixthPlace": 174,
+          "score": 603.5,
+          "sixthPlace": 173,
           "seventhPlace": 196,
           "runners": [
             {
@@ -252432,7 +252421,7 @@
               "grade": "9",
               "teamPlacePoints": 41,
               "teamPosition": 2,
-              "placePoints": 118.5,
+              "placePoints": 120.5,
               "scoring": true
             },
             {
@@ -252462,7 +252451,7 @@
               "grade": "11",
               "teamPlacePoints": 92,
               "teamPosition": 5,
-              "placePoints": 173,
+              "placePoints": 172,
               "scoring": true
             },
             {
@@ -252472,7 +252461,7 @@
               "grade": "12",
               "teamPlacePoints": 93,
               "teamPosition": 6,
-              "placePoints": 174,
+              "placePoints": 173,
               "scoring": false
             },
             {
@@ -252492,7 +252481,7 @@
           "name": "Mount Gilead",
           "region": "Central",
           "complete": true,
-          "score": 606,
+          "score": 609,
           "sixthPlace": 194,
           "seventhPlace": null,
           "runners": [
@@ -252513,7 +252502,7 @@
               "grade": "9",
               "teamPlacePoints": 20,
               "teamPosition": 2,
-              "placePoints": 109,
+              "placePoints": 111,
               "scoring": true
             },
             {
@@ -252523,7 +252512,7 @@
               "grade": "12",
               "teamPlacePoints": 21,
               "teamPosition": 3,
-              "placePoints": 112,
+              "placePoints": 114,
               "scoring": true
             },
             {
@@ -252543,7 +252532,7 @@
               "grade": "9",
               "teamPlacePoints": 61,
               "teamPosition": 5,
-              "placePoints": 185,
+              "placePoints": 184,
               "scoring": true
             },
             {
@@ -252563,9 +252552,9 @@
           "name": "Marion Local",
           "region": "Northwest",
           "complete": true,
-          "score": 630.5,
-          "sixthPlace": 189,
-          "seventhPlace": 203,
+          "score": 629.5,
+          "sixthPlace": 188,
+          "seventhPlace": 204,
           "runners": [
             {
               "name": "Colleen Dirksen",
@@ -252614,7 +252603,7 @@
               "grade": "11",
               "teamPlacePoints": 114,
               "teamPosition": 5,
-              "placePoints": 182,
+              "placePoints": 181,
               "scoring": true
             },
             {
@@ -252624,7 +252613,7 @@
               "grade": "12",
               "teamPlacePoints": 120,
               "teamPosition": 6,
-              "placePoints": 189,
+              "placePoints": 188,
               "scoring": false
             },
             {
@@ -252634,7 +252623,7 @@
               "grade": "9",
               "teamPlacePoints": 154,
               "teamPosition": 7,
-              "placePoints": 203,
+              "placePoints": 204,
               "scoring": false
             },
             {
@@ -252644,7 +252633,7 @@
               "grade": "11",
               "teamPlacePoints": 155,
               "teamPosition": 8,
-              "placePoints": 204,
+              "placePoints": 205,
               "scoring": false
             }
           ],
@@ -252654,9 +252643,9 @@
           "name": "Lincolnview",
           "region": "Northwest",
           "complete": true,
-          "score": 639,
-          "sixthPlace": 200,
-          "seventhPlace": 211,
+          "score": 640,
+          "sixthPlace": 201,
+          "seventhPlace": 213,
           "runners": [
             {
               "name": "Maeleigh Evans",
@@ -252675,7 +252664,7 @@
               "grade": "12",
               "teamPlacePoints": 31,
               "teamPosition": 2,
-              "placePoints": 104,
+              "placePoints": 105,
               "scoring": true
             },
             {
@@ -252695,7 +252684,7 @@
               "grade": "9",
               "teamPlacePoints": 83,
               "teamPosition": 4,
-              "placePoints": 166,
+              "placePoints": 165,
               "scoring": true
             },
             {
@@ -252705,7 +252694,7 @@
               "grade": "12",
               "teamPlacePoints": 138,
               "teamPosition": 5,
-              "placePoints": 199,
+              "placePoints": 200,
               "scoring": true
             },
             {
@@ -252715,7 +252704,7 @@
               "grade": "12",
               "teamPlacePoints": 139.5,
               "teamPosition": 6,
-              "placePoints": 200,
+              "placePoints": 201,
               "scoring": false
             },
             {
@@ -252725,7 +252714,7 @@
               "grade": "10",
               "teamPlacePoints": 185,
               "teamPosition": 7,
-              "placePoints": 211,
+              "placePoints": 213,
               "scoring": false
             }
           ],
@@ -252735,9 +252724,9 @@
           "name": "Day. Christian",
           "region": "Southwest",
           "complete": true,
-          "score": 645.5,
-          "sixthPlace": 178,
-          "seventhPlace": 197,
+          "score": 643.5,
+          "sixthPlace": 177,
+          "seventhPlace": 198,
           "runners": [
             {
               "name": "Grace Eckert",
@@ -252776,7 +252765,7 @@
               "grade": "11",
               "teamPlacePoints": 50,
               "teamPosition": 4,
-              "placePoints": 158,
+              "placePoints": 157,
               "scoring": true
             },
             {
@@ -252786,7 +252775,7 @@
               "grade": "12",
               "teamPlacePoints": 52,
               "teamPosition": 5,
-              "placePoints": 162.5,
+              "placePoints": 161.5,
               "scoring": true
             },
             {
@@ -252796,7 +252785,7 @@
               "grade": "10",
               "teamPlacePoints": 65,
               "teamPosition": 6,
-              "placePoints": 178,
+              "placePoints": 177,
               "scoring": false
             },
             {
@@ -252806,19 +252795,100 @@
               "grade": "10",
               "teamPlacePoints": 85,
               "teamPosition": 7,
-              "placePoints": 197,
+              "placePoints": 198,
               "scoring": false
             }
           ],
           "mockRank": 21
         },
         {
+          "name": "Mil. Edison",
+          "region": "Northwest",
+          "complete": true,
+          "score": 658,
+          "sixthPlace": 197,
+          "seventhPlace": 208,
+          "runners": [
+            {
+              "name": "Claire Michaelis",
+              "seasonBest": "19:43.0",
+              "timeCentiseconds": 118300,
+              "grade": "10",
+              "teamPlacePoints": 19,
+              "teamPosition": 1,
+              "placePoints": 66,
+              "scoring": true
+            },
+            {
+              "name": "Addison McDonnell",
+              "seasonBest": "19:44.6",
+              "timeCentiseconds": 118460,
+              "grade": "9",
+              "teamPlacePoints": 20,
+              "teamPosition": 2,
+              "placePoints": 71,
+              "scoring": true
+            },
+            {
+              "name": "Penny Stoll",
+              "seasonBest": "21:10.1",
+              "timeCentiseconds": 127010,
+              "grade": "9",
+              "teamPlacePoints": 65.5,
+              "teamPosition": 3,
+              "placePoints": 152,
+              "scoring": true
+            },
+            {
+              "name": "Madison Moon",
+              "seasonBest": "21:56.9",
+              "timeCentiseconds": 131690,
+              "grade": "9",
+              "teamPlacePoints": 101,
+              "teamPosition": 4,
+              "placePoints": 176,
+              "scoring": true
+            },
+            {
+              "name": "Julianna Johnson",
+              "seasonBest": "22:29.0",
+              "timeCentiseconds": 134900,
+              "grade": "11",
+              "teamPlacePoints": 126,
+              "teamPosition": 5,
+              "placePoints": 193,
+              "scoring": true
+            },
+            {
+              "name": "Aili Corfman",
+              "seasonBest": "22:37.7",
+              "timeCentiseconds": 135770,
+              "grade": "12",
+              "teamPlacePoints": 133,
+              "teamPosition": 6,
+              "placePoints": 197,
+              "scoring": false
+            },
+            {
+              "name": "Lyla Palmer",
+              "seasonBest": "23:34.4",
+              "timeCentiseconds": 141440,
+              "grade": "10",
+              "teamPlacePoints": 170,
+              "teamPosition": 7,
+              "placePoints": 208,
+              "scoring": false
+            }
+          ],
+          "mockRank": 22
+        },
+        {
           "name": "Crestline",
           "region": "Northwest",
           "complete": true,
           "score": 658.5,
-          "sixthPlace": 193,
-          "seventhPlace": 206,
+          "sixthPlace": 192,
+          "seventhPlace": 207,
           "runners": [
             {
               "name": "Nevaeh Hill",
@@ -252837,7 +252907,7 @@
               "grade": "12",
               "teamPlacePoints": 35,
               "teamPosition": 2,
-              "placePoints": 108,
+              "placePoints": 110,
               "scoring": true
             },
             {
@@ -252857,7 +252927,7 @@
               "grade": "12",
               "teamPlacePoints": 76,
               "teamPosition": 4,
-              "placePoints": 160,
+              "placePoints": 159,
               "scoring": true
             },
             {
@@ -252867,7 +252937,7 @@
               "grade": "10",
               "teamPlacePoints": 87,
               "teamPosition": 5,
-              "placePoints": 169,
+              "placePoints": 168,
               "scoring": true
             },
             {
@@ -252877,7 +252947,7 @@
               "grade": "10",
               "teamPlacePoints": 125,
               "teamPosition": 6,
-              "placePoints": 193,
+              "placePoints": 192,
               "scoring": false
             },
             {
@@ -252887,88 +252957,7 @@
               "grade": "10",
               "teamPlacePoints": 162.5,
               "teamPosition": 7,
-              "placePoints": 206,
-              "scoring": false
-            }
-          ],
-          "mockRank": 22
-        },
-        {
-          "name": "Tinora",
-          "region": "Northwest",
-          "complete": true,
-          "score": 735,
-          "sixthPlace": 213,
-          "seventhPlace": 215,
-          "runners": [
-            {
-              "name": "Lauren Rittenhouse",
-              "seasonBest": "20:38.9",
-              "timeCentiseconds": 123890,
-              "grade": "9",
-              "teamPlacePoints": 44,
-              "teamPosition": 1,
-              "placePoints": 121,
-              "scoring": true
-            },
-            {
-              "name": "Cheyenne Myers",
-              "seasonBest": "20:45.2",
-              "timeCentiseconds": 124520,
-              "grade": "12",
-              "teamPlacePoints": 47,
-              "teamPosition": 2,
-              "placePoints": 126,
-              "scoring": true
-            },
-            {
-              "name": "Caroline Vance",
-              "seasonBest": "21:17.0",
-              "timeCentiseconds": 127700,
-              "grade": "10",
-              "teamPlacePoints": 72,
-              "teamPosition": 3,
-              "placePoints": 154,
-              "scoring": true
-            },
-            {
-              "name": "India Okuley",
-              "seasonBest": "21:23.1",
-              "timeCentiseconds": 128310,
-              "grade": "12",
-              "teamPlacePoints": 75,
-              "teamPosition": 4,
-              "placePoints": 157,
-              "scoring": true
-            },
-            {
-              "name": "Hartley Waltmire",
-              "seasonBest": "21:59.5",
-              "timeCentiseconds": 131950,
-              "grade": "9",
-              "teamPlacePoints": 104,
-              "teamPosition": 5,
-              "placePoints": 177,
-              "scoring": true
-            },
-            {
-              "name": "Harper Spieth",
-              "seasonBest": "24:47.4",
-              "timeCentiseconds": 148740,
-              "grade": "9",
-              "teamPlacePoints": 196,
-              "teamPosition": 6,
-              "placePoints": 213,
-              "scoring": false
-            },
-            {
-              "name": "Myah Dominique",
-              "seasonBest": "25:06.3",
-              "timeCentiseconds": 150630,
-              "grade": "9",
-              "teamPlacePoints": 203,
-              "teamPosition": 7,
-              "placePoints": 215,
+              "placePoints": 207,
               "scoring": false
             }
           ],
@@ -252978,9 +252967,9 @@
           "name": "Fairland",
           "region": "Central",
           "complete": true,
-          "score": 768,
-          "sixthPlace": 186,
-          "seventhPlace": 205,
+          "score": 766,
+          "sixthPlace": 185,
+          "seventhPlace": 206,
           "runners": [
             {
               "name": "Lauren Baker",
@@ -253019,7 +253008,7 @@
               "grade": "10",
               "teamPlacePoints": 49,
               "teamPosition": 4,
-              "placePoints": 171,
+              "placePoints": 170,
               "scoring": true
             },
             {
@@ -253029,7 +253018,7 @@
               "grade": "11",
               "teamPlacePoints": 50,
               "teamPosition": 5,
-              "placePoints": 172,
+              "placePoints": 171,
               "scoring": true
             },
             {
@@ -253039,7 +253028,7 @@
               "grade": "10",
               "teamPlacePoints": 63,
               "teamPosition": 6,
-              "placePoints": 186,
+              "placePoints": 185,
               "scoring": false
             },
             {
@@ -253049,7 +253038,7 @@
               "grade": "10",
               "teamPlacePoints": 82,
               "teamPosition": 7,
-              "placePoints": 205,
+              "placePoints": 206,
               "scoring": false
             }
           ],
@@ -253464,18 +253453,6 @@
           "qualifiedFromRegionalOrdinal": "9th"
         },
         {
-          "name": "Claire Michaelis",
-          "seasonBest": "19:43.0",
-          "timeCentiseconds": 118300,
-          "grade": "10",
-          "placePoints": 66,
-          "teamPlacePoints": 19,
-          "originalTeam": "Mil. Edison",
-          "originalRegion": "Northwest",
-          "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "10th"
-        },
-        {
           "name": "Kloe Smith",
           "seasonBest": "19:43.8",
           "timeCentiseconds": 118380,
@@ -253501,18 +253478,6 @@
           "qualifiedFromRegionalOrdinal": "9th"
         },
         {
-          "name": "Addison McDonnell",
-          "seasonBest": "19:44.6",
-          "timeCentiseconds": 118460,
-          "grade": "9",
-          "placePoints": 71,
-          "teamPlacePoints": 20,
-          "originalTeam": "Mil. Edison",
-          "originalRegion": "Northwest",
-          "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "11th"
-        },
-        {
           "name": "Maddie Stufft",
           "seasonBest": "19:45.3",
           "timeCentiseconds": 118530,
@@ -253522,7 +253487,7 @@
           "originalTeam": "No. Baltimore",
           "originalRegion": "Northwest",
           "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "12th"
+          "qualifiedFromRegionalOrdinal": "10th"
         },
         {
           "name": "Hannah Brunk",
@@ -253535,7 +253500,7 @@
           "qualifiedFromDistrictOrdinal": 1,
           "placePoints": 77,
           "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "13th"
+          "qualifiedFromRegionalOrdinal": "11th"
         },
         {
           "name": "Edie Templeton",
@@ -253561,7 +253526,7 @@
           "qualifiedFromDistrictOrdinal": 2,
           "placePoints": 81,
           "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "14th"
+          "qualifiedFromRegionalOrdinal": "12th"
         },
         {
           "name": "Alexandria Fiumara",
@@ -253585,7 +253550,7 @@
           "originalTeam": "Gibsonburg",
           "originalRegion": "Northwest",
           "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "15th"
+          "qualifiedFromRegionalOrdinal": "13th"
         },
         {
           "name": "Grace Tackett",
@@ -253597,7 +253562,7 @@
           "originalTeam": "Old Fort",
           "originalRegion": "Northwest",
           "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "16th"
+          "qualifiedFromRegionalOrdinal": "14th"
         },
         {
           "name": "Hazel Baranowski",
@@ -253609,7 +253574,7 @@
           "originalTeam": "Woodmore",
           "originalRegion": "Northwest",
           "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
-          "qualifiedFromRegionalOrdinal": "17th"
+          "qualifiedFromRegionalOrdinal": "15th"
         },
         {
           "name": "Scarlett Sizemore",
@@ -253619,6 +253584,31 @@
           "placePoints": 101,
           "teamPlacePoints": 29,
           "originalTeam": "Carey",
+          "originalRegion": "Northwest",
+          "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
+          "qualifiedFromRegionalOrdinal": "16th"
+        },
+        {
+          "name": "Emily Heth",
+          "seasonBest": "20:12.73",
+          "timeCentiseconds": 121273,
+          "grade": "10",
+          "originalTeam": "Con. Crestview",
+          "originalRegion": "Northwest",
+          "qualifiedFromDistrict": "Columbus Grove HS",
+          "qualifiedFromDistrictOrdinal": 3,
+          "placePoints": 102,
+          "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
+          "qualifiedFromRegionalOrdinal": "17th"
+        },
+        {
+          "name": "Avary Stirm",
+          "seasonBest": "20:16.9",
+          "timeCentiseconds": 121690,
+          "grade": "9",
+          "placePoints": 107,
+          "teamPlacePoints": 33,
+          "originalTeam": "Colonel Crawford",
           "originalRegion": "Northwest",
           "qualifiedFromRegional": "Hedges Boyer Park (Tiffin)",
           "qualifiedFromRegionalOrdinal": "18th"
@@ -253632,7 +253622,7 @@
           "originalRegion": "Northeast",
           "qualifiedFromDistrict": "GlenOak HS",
           "qualifiedFromDistrictOrdinal": 2,
-          "placePoints": 113,
+          "placePoints": 115,
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
           "qualifiedFromRegionalOrdinal": "9th"
         },
@@ -253645,7 +253635,7 @@
           "originalRegion": "Northeast",
           "qualifiedFromDistrict": "Lorain County CC",
           "qualifiedFromDistrictOrdinal": 2,
-          "placePoints": 115,
+          "placePoints": 117,
           "qualifiedFromRegional": "Boardman High School (Youngstown)",
           "qualifiedFromRegionalOrdinal": "10th"
         }

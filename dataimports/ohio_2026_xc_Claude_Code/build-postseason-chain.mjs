@@ -425,10 +425,25 @@ for (const divEntry of existingRegionals.divisions) {
   // same inputs per region (pure function, so this is deterministic and
   // matches internally) purely to recover that ordinal before pooling.
   const regionalQualifyOrder = new Map(); // `${name}|${originalTeam}` -> { ordinal, siteName }
+  const regionQualifying = {}; // regionKeyLower -> the real individual qualifiers (used to pool State below)
   for (const [regionKeyLower, regionData] of Object.entries(newDivEntry.regions)) {
     if (!regionData.stateQualifiers) continue;
     const regionScored = scoreTeams(regionData.teams, regionData.individuals || []);
-    const qualifying = selectIndividualQualifiers(regionScored.teams, regionScored.individuals, regionData.stateQualifiers, regionData.individualQualifiers || 0);
+    // Found 2026-10-31 (user report, Troy D3 boys): this combined
+    // re-score ranks teams WITH pooled individuals displacing them, but
+    // the cut line every regional page shows (and the State team pool
+    // below) comes from scoreField's team-only mockRank. When the two
+    // disagree near the cut (boys D3 NE: Gar. Garfield 6th team-only,
+    // 8th combined), a team that really qualifies was treated as
+    // non-qualifying here and its runners were ALSO selected as
+    // individual qualifiers -- double-entered at State and pushing the
+    // real next individuals out. Individual selection keeps using the
+    // combined field's real overall finish places, but the set of
+    // qualifying TEAMS it removes is the authoritative team-only top-N.
+    const authoritativeRank = new Map(regionData.teams.map((t) => [t.name, t.mockRank]));
+    const teamsForSelection = regionScored.teams.map((t) => ({ ...t, mockRank: authoritativeRank.get(t.name) ?? t.mockRank }));
+    const qualifying = selectIndividualQualifiers(teamsForSelection, regionScored.individuals, regionData.stateQualifiers, regionData.individualQualifiers || 0);
+    regionQualifying[regionKeyLower] = qualifying;
     qualifying.forEach((q, i) => {
       regionalQualifyOrder.set(`${q.name}|${q.originalTeam}`, { ordinal: i + 1, siteName: regionData.siteName });
     });
@@ -483,15 +498,34 @@ for (const divEntry of existingRegionals.divisions) {
   for (const list of Object.values(realRegionTeams)) for (const t of list) realNames.add(t.name);
   const poolNames = new Set(statePool.teams.map((t) => t.name));
   const teamSelectionMismatched = realNames.size !== poolNames.size || [...realNames].some((n) => !poolNames.has(n));
-  if (teamSelectionMismatched) {
+  // 2026-10-31: the same disagreement affects computeStatePool's
+  // INDIVIDUAL pool (it selects individuals against its own combined-
+  // field team ranking), so the State field is now always rebuilt from
+  // the two authoritative sets -- the team-only top-N per region and
+  // regionQualifying (selected above against that same cut) -- using
+  // the exact scoreTeams calls computeStatePool itself uses, so the
+  // State scoring math is unchanged; only the inputs are made
+  // consistent with every regional page's own cut line.
+  if (!statePool.missing || !statePool.missing.length) {
     const correctedPooledTeams = [];
+    const correctedPooledIndividuals = [];
     for (const [regionKeyLower, list] of Object.entries(realRegionTeams)) {
       for (const team of list) {
         correctedPooledTeams.push({ name: team.name, region: REGION_LABELS_STATE[regionKeyLower], runners: team.runners.map(({ scoring, placePoints, teamPosition, ...rest }) => rest) });
       }
+      correctedPooledIndividuals.push(...(regionQualifying[regionKeyLower] || []));
     }
-    statePool.teams = scoreTeams(correctedPooledTeams, []).teams;
-    console.log(`  [${divKey}] corrected state team selection (computeStatePool's own individuals-displaced re-score disagreed with the real team-only regional mockRank)`);
+    const previousIndividualKeys = new Set(statePool.individuals.map((q) => `${q.name}|${q.originalTeam}`));
+    const correctedIndividualKeys = new Set(correctedPooledIndividuals.map((q) => `${q.name}|${q.originalTeam}`));
+    const individualSelectionMismatched = previousIndividualKeys.size !== correctedIndividualKeys.size || [...correctedIndividualKeys].some((k) => !previousIndividualKeys.has(k));
+    const teamOnly = scoreTeams(correctedPooledTeams, []);
+    const withIndividuals = scoreTeams(correctedPooledTeams, correctedPooledIndividuals);
+    statePool.teams = teamOnly.teams;
+    statePool.teamsForFullField = withIndividuals.teams;
+    statePool.individuals = withIndividuals.individuals;
+    statePool.poolLog = (statePool.poolLog || []).map((p) => ({ ...p, individualCount: (regionQualifying[p.region.toLowerCase()] || []).length }));
+    if (teamSelectionMismatched) console.log(`  [${divKey}] corrected state team selection (computeStatePool's own individuals-displaced re-score disagreed with the real team-only regional mockRank)`);
+    if (individualSelectionMismatched) console.log(`  [${divKey}] corrected state individual selection -- in: ${[...correctedIndividualKeys].filter((k) => !previousIndividualKeys.has(k)).join(", ") || "(none)"}; out: ${[...previousIndividualKeys].filter((k) => !correctedIndividualKeys.has(k)).join(", ") || "(none)"}`);
   }
   // Bug found in Round 3 review: computeStatePool's returned team.runners
   // objects still carry whatever `teamPlacePoints` scoreField() attached

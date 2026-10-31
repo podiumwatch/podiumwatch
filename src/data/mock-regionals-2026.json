@@ -23777,22 +23777,7 @@
               ]
             }
           ],
-          "individuals": [
-            {
-              "name": "Daniel Lehner",
-              "school": "Cham. Julienne",
-              "grade": "12",
-              "graduationYear": 2027,
-              "seasonBest": "16:51.2",
-              "timeCentiseconds": 101120,
-              "athleticNetId": null,
-              "resultUrl": null,
-              "region": "Southwest",
-              "athleticDistrict": "Southwest",
-              "city": "Dayton",
-              "ohsaaSchoolId": 352
-            }
-          ]
+          "individuals": []
         }
       }
     },
@@ -30108,15 +30093,6 @@
                   "graduationYear": 2027,
                   "seasonBest": "17:16.98",
                   "timeCentiseconds": 103698,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Kai'Jon Cerritos",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "17:17.3",
-                  "timeCentiseconds": 103730,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -37253,20 +37229,6 @@
               "athleticDistrict": "Northeast",
               "city": "Doylestown",
               "ohsaaSchoolId": 366
-            },
-            {
-              "name": "Maximus Marino",
-              "school": "Mooney",
-              "grade": "11",
-              "graduationYear": 2028,
-              "seasonBest": "19:02.4",
-              "timeCentiseconds": 114240,
-              "athleticNetId": null,
-              "resultUrl": null,
-              "region": "Northeast",
-              "athleticDistrict": "Northeast",
-              "city": "Youngstown",
-              "ohsaaSchoolId": 310
             }
           ]
         },
@@ -38475,15 +38437,6 @@
                   "grade": "12",
                   "graduationYear": 2027,
                   "seasonBest": "18:58.70",
-                  "timeCentiseconds": 113870,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Carter St. John",
-                  "grade": null,
-                  "graduationYear": null,
-                  "seasonBest": "18:58.7",
                   "timeCentiseconds": 113870,
                   "athleticNetId": null,
                   "resultUrl": null
@@ -58112,20 +58065,6 @@
               "athleticDistrict": "Northwest",
               "city": "Pandora",
               "ohsaaSchoolId": 1228
-            },
-            {
-              "name": "Jacob Collins",
-              "school": "St. Paul",
-              "grade": "10",
-              "graduationYear": 2029,
-              "seasonBest": "18:38.6",
-              "timeCentiseconds": 111860,
-              "athleticNetId": null,
-              "resultUrl": null,
-              "region": "Northwest",
-              "athleticDistrict": "Northwest",
-              "city": "Norwalk",
-              "ohsaaSchoolId": 1374
             }
           ]
         },

@@ -521,11 +521,20 @@ function teamRosterRow(team, rank, state, individualKeys, accent, anchorValue, c
 // crossLinkFor(team) -> { url, label } | null -- only ever attached to a
 // QUALIFYING team's roster, since a non-qualifying team has nothing
 // waiting for it at the next level.
-function teamRowsHtml(scoredTeams, teamsAdvance, individuals, accent, gender, divNum, crossLinkFor) {
+// advancingKeys (Set of "name|school", optional): the roster IND flag
+// means "this runner personally advances as an individual". At the
+// district level `individuals` IS that final list, so the flag is
+// derived from it. At the regional level `individuals` is only the
+// pooled district-origin list (nobody on a team roster is in it), so
+// the region's real built.stateQualifyingIndividualKeys must be passed
+// here instead -- otherwise a non-qualifying team's runner who earns an
+// individual State berth never gets flagged on their own roster
+// (found 2026-10-31, user report: Troy D3 boys).
+function teamRowsHtml(scoredTeams, teamsAdvance, individuals, accent, gender, divNum, crossLinkFor, advancingKeys) {
   const complete = scoredTeams.filter((t) => t.complete);
   const incomplete = scoredTeams.filter((t) => !t.complete);
   if (!complete.length && !incomplete.length) return "<p class=\"mp-meta\">No field data yet.</p>";
-  const individualKeys = new Set((individuals || []).map((q) => `${q.name}|${q.originalTeam}`));
+  const individualKeys = advancingKeys || new Set((individuals || []).map((q) => `${q.name}|${q.originalTeam}`));
   const anchorFor = (team) => (gender && divNum ? teamAnchorKey(gender, divNum, team.name) : null);
 
   const shownCount = teamsAdvance != null ? Math.min(complete.length, teamsAdvance + 2) : complete.length;
@@ -633,7 +642,7 @@ function runnerRowsHtml(rows, limit, dividers, crossLinkFor, gender, divNum) {
             <div class="mp-rowsub">${schoolDisplay(r.school)}</div>
           </div>
           <span class="mp-rowtime">${escapeHtml(r.seasonBest)}</span>
-          <span class="mp-tag mp-tag-ind">IND</span>
+          ${advancing ? '<span class="mp-tag mp-tag-ind">IND</span>' : ""}
           <span class="mp-chevron">&#9660;</span>
         </summary>
         <div class="mp-indrow-body">${[r.grade ? `Gr ${escapeHtml(r.grade)}` : null, escapeHtml(r.seasonBest), r.qualifiedFrom ? `Qualified from: ${escapeHtml(r.qualifiedFrom)}` : null].filter(Boolean).join(" &middot; ")}${advancesLink}</div>
@@ -994,7 +1003,7 @@ function regionalSummaryCard(key, r, data, basePath) {
     </summary>
     <div class="mp-regionalcard-body">
       <p class="mp-h3">State qualifiers</p>
-      ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }))}
+      ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), realAdvancingKeys)}
       ${bicarbInfeedHtml(`regional-${key}`)}
       <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), genderLower, divNum)}</details>
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
