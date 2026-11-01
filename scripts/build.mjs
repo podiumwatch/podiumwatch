@@ -528,16 +528,18 @@ function homePage(stories, rankings) {
        real October district results instead, since /mock-postseason/
        now has them (12 real district sites, built from official
        results, separate from the site's own editorial Mock Meets
-       projections). -->
+       projections). Updated 2026-11-01 for the real Oct 31 regional
+       results (copy approved by Zachary; no "Saturday's" so it does
+       not go stale). -->
   <section class="section" aria-labelledby="district-results-title">
     <div class="container">
       <div class="section-heading">
-        <div><p class="eyebrow">Postseason</p><h2 id="district-results-title">Districts are in the books.</h2></div>
-        <a class="text-link" href="/mock-postseason/real/">See every district ${icon("arrow")}</a>
+        <div><p class="eyebrow">Postseason</p><h2 id="district-results-title">Regionals are in the books.</h2></div>
+        <a class="text-link" href="/mock-postseason/real/">See every regional ${icon("arrow")}</a>
       </div>
       <div class="sport-cards">
-        <article class="sport-card"><p class="eyebrow">Real results</p><h3>All 12 district sites, region by region.</h3><p>Qualifying teams and individuals from Saturday's real OHSAA district races, built from official results, not a projection.</p><a class="button button-primary" href="/mock-postseason/real/">View real districts</a></article>
-        <article class="sport-card"><p class="eyebrow">Editorial projection</p><h3>Podium Watch's own Mock Meets.</h3><p>Season-best projections for regionals and state, clearly labeled as Podium Watch's editorial model, not official results.</p><a class="button button-outline" href="/mock-postseason/">View Mock Meets</a></article>
+        <article class="sport-card"><p class="eyebrow">Real results</p><h3>All four regional sites, every division.</h3><p>Official team scores, places and State qualifiers from the Oct. 31 regionals and every Oct. 24 district site, straight from Athletic.net results. The State tab projects Nov. 7 from those real regional times.</p><a class="button button-primary" href="/mock-postseason/real/">View real results</a></article>
+        <article class="sport-card"><p class="eyebrow">Editorial projection</p><h3>Podium Watch's own Mock Meets.</h3><p>Season-best projections for the Nov. 7 State meet, clearly labeled as Podium Watch's editorial model, not official results.</p><a class="button button-outline" href="/mock-postseason/">View Mock Meets</a></article>
       </div>
     </div>
   </section>
