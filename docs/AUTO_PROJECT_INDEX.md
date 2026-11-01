@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-11-01 10:42:12
+Generated: 2026-11-01 11:07:22
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 5249 |
+| Included source files | 5282 |
 | Page source files | 96 |
 | API files | 128 |
 | Route references | 107 |
@@ -20,20 +20,15 @@ This file is generated from the current project.
 
 Latest commit:
 
-75866af6550d278a161f6be52f4ecd41b606744d | 2026-11-01 10:35:44 -0500 | Unpublish the Mock State story (draft: true) at Zachary's request
+ade874ccc05b352366b6db0bf87197d66c09ef46 | 2026-11-01 10:42:13 -0500 | Mock Meets nav opens the real results; drop the review-build labels
 
 Working tree:
 
  M .claude/settings.json
- M dataimports/ohio_2026_xc_Claude_Code/build-postseason-page-data.mjs
- M docs/AUTO_PROJECT_INDEX.md
- M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
- M src/config/site.mjs
- M src/data/mock-postseason-2026.json
- M src/pages/mockpostseason.mjs
+ M src/data/mock-postseason-logo-manifest-2026.json
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
@@ -48,6 +43,7 @@ Working tree:
 ?? dataimports/GTF2027D5.pdf
 ?? dataimports/Ohio_Senior_Boys_Top_250.xlsx
 ?? dataimports/Podium_Watch_Weekend_Results.xlsx
+?? dataimports/add-site-logos-2026-11-01.mjs
 ?? dataimports/backfill-athletic-net-matched-school-id.mjs
 ?? dataimports/bicarb-billboard-970x250.png
 ?? dataimports/bicarb-halfpage-300x600.png
@@ -228,6 +224,7 @@ Working tree:
 ?? dataimports/publish-athletic-net-rankings-batch.mjs
 ?? dataimports/publish-athletic-net-rankings-profiles.mjs
 ?? dataimports/pw_logos/
+?? dataimports/site_logos_2026-11-01/
 ?? dataimports/story-page-and-homepage-handoff.md
 ?? dataimports/track-alignments/
 ?? dataimports/triple-threat-2026/
@@ -246,6 +243,22 @@ Working tree:
 ?? lib/xc_d4_rolling_backtest.mjs
 ?? lib/xc_legends_history_collection.mjs
 ?? private/
+?? public/images/mock-postseason-logos/schools/buckeye-central.png
+?? public/images/mock-postseason-logos/schools/cle-st-joseph-acad.png
+?? public/images/mock-postseason-logos/schools/col-west.png
+?? public/images/mock-postseason-logos/schools/fairfield.png
+?? public/images/mock-postseason-logos/schools/groveport-madison.png
+?? public/images/mock-postseason-logos/schools/harrison.png
+?? public/images/mock-postseason-logos/schools/lake-center-chr.png
+?? public/images/mock-postseason-logos/schools/laurel.png
+?? public/images/mock-postseason-logos/schools/leipsic.png
+?? public/images/mock-postseason-logos/schools/madeira.png
+?? public/images/mock-postseason-logos/schools/magnificat.png
+?? public/images/mock-postseason-logos/schools/old-fort.png
+?? public/images/mock-postseason-logos/schools/paine-riverside.png
+?? public/images/mock-postseason-logos/schools/roosevelt.png
+?? public/images/mock-postseason-logos/schools/scott.png
+?? public/images/mock-postseason-logos/schools/springfield.png
 ?? public/images/stories/header-regional-meet-hub.png
 ?? scripts/audit-d4-boys-coverage.mjs
 ?? scripts/evaluate-private-d4-rolling-backtest.mjs

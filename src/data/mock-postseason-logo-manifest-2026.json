@@ -3030,5 +3030,69 @@
   "Western Hills": {
     "sourceFile": "10-15__western_hills.png",
     "slug": "western-hills"
+  },
+  "Buckeye Central": {
+    "sourceFile": "buckeye-central.png",
+    "slug": "buckeye-central"
+  },
+  "Cle. St. Joseph Acad.": {
+    "sourceFile": "cle-st-joseph-acad.png",
+    "slug": "cle-st-joseph-acad"
+  },
+  "Col. West": {
+    "sourceFile": "col-west.jpg",
+    "slug": "col-west"
+  },
+  "Fairfield": {
+    "sourceFile": "fairfield.png",
+    "slug": "fairfield"
+  },
+  "Groveport-Madison": {
+    "sourceFile": "groveport-madison.jpg",
+    "slug": "groveport-madison"
+  },
+  "Harrison": {
+    "sourceFile": "harrison.jpg",
+    "slug": "harrison"
+  },
+  "Lake Center Chr.": {
+    "sourceFile": "lake-center-chr.png",
+    "slug": "lake-center-chr"
+  },
+  "Laurel": {
+    "sourceFile": "laurel.webp",
+    "slug": "laurel"
+  },
+  "Leipsic": {
+    "sourceFile": "leipsic.webp",
+    "slug": "leipsic"
+  },
+  "Madeira": {
+    "sourceFile": "madeira.jpg",
+    "slug": "madeira"
+  },
+  "Magnificat": {
+    "sourceFile": "magnificat.jpg",
+    "slug": "magnificat"
+  },
+  "Old Fort": {
+    "sourceFile": "old-fort.png",
+    "slug": "old-fort"
+  },
+  "Paine. Riverside": {
+    "sourceFile": "paine-riverside.png",
+    "slug": "paine-riverside"
+  },
+  "Roosevelt": {
+    "sourceFile": "roosevelt.png",
+    "slug": "roosevelt"
+  },
+  "Scott": {
+    "sourceFile": "scott.png",
+    "slug": "scott"
+  },
+  "Springfield": {
+    "sourceFile": "springfield.png",
+    "slug": "springfield"
   }
 }

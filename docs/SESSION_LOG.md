@@ -2896,3 +2896,17 @@ Zachary reported the live Mock Meets menu still opened the season-best universe 
 ### Checks
 
 Build 454 pages; check no problems; tests pass; no Mock Postseason page contains "review build" or "not live"; 375px screenshots of the open mobile menu and real State Boys D4 reviewed, no horizontal overflow, 0 page errors.
+
+## 2026-11-01 (night): 16 school logos added to the Mock Postseason
+
+### What was done
+
+- Zachary pasted 16 logo images into the chat (not named by site key). `dataimports/add-site-logos-2026-11-01.mjs` maps each to its site key (school name or initials where printed, otherwise the school mark and colors, the last by elimination), contain-fits it into a 96x96 PNG the same way the Oct 21 batch was done (aspect kept, transparent letterbox, no trim, white JPG backgrounds kept), writes `public/images/mock-postseason-logos/schools/<slug>.png`, and adds a manifest entry. Rendering uses the installed Chrome through playwright-core because no image library is installed and two sources were WebP.
+- Added: Buckeye Central, Cle. St. Joseph Acad., Col. West, Fairfield, Groveport-Madison, Harrison, Lake Center Chr., Laurel, Leipsic, Madeira, Magnificat, Old Fort, Paine. Riverside, Roosevelt, Scott, Springfield. Manifest 758 -> 774.
+- Calvert, Grand Valley, Pandora-Gilboa and Van Buren stay on initials (Zachary's call); they are now the only regional schools without a logo.
+- Groveport-Madison's logo renders on no page yet: it was not a scored team and its regional finishers placed 182nd-217th, below the official cards' top 32.
+- Source copies saved in `dataimports/site_logos_2026-11-01/` (named by slug), not committed, same as `dataimports/pw_logos/`.
+
+### Checks
+
+Build 454 pages; check no problems (19,286 local images); tests pass; contact sheet of all 16 at 96px and in the 28px row circle reviewed.
