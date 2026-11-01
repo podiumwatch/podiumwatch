@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-11-01 07:17:48
+Generated: 2026-11-01 08:07:31
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 5246 |
+| Included source files | 5248 |
 | Page source files | 96 |
 | API files | 128 |
 | Route references | 107 |
@@ -20,16 +20,21 @@ This file is generated from the current project.
 
 Latest commit:
 
-b524ae77d631f0a7f6e45aa7857dfa357aa7580b | 2026-11-01 07:12:37 -0500 | Homepage: "Regionals are in the books" block for the real Oct 31 results
+b957c0edfb93f52696be69b944fba747912d9442 | 2026-11-01 07:18:00 -0500 | Springfield in the school map, near-miss split for review, session docs
 
 Working tree:
 
  M .claude/settings.json
+ M dataimports/ohio_2026_xc_Claude_Code/ohio_2026_xc_full_statewide_2026.json
+ M dataimports/ohio_2026_xc_Claude_Code/postseason_chain_output.json
  M docs/AUTO_PROJECT_INDEX.md
+ M docs/DATA_SOURCES.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
- M src/data/mock-postseason-school-expansions-2026.json
+ M src/data/mock-postseason-2026.json
+ M src/data/mock-postseason-name-overrides-2026.json
+ M src/data/mock-regionals-2026.json
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
@@ -224,8 +229,8 @@ Working tree:
 ?? dataimports/publish-athletic-net-rankings-batch.mjs
 ?? dataimports/publish-athletic-net-rankings-profiles.mjs
 ?? dataimports/pw_logos/
-?? dataimports/real_regional_results_2026/near_miss_split_regionals.json
-?? dataimports/real_regional_results_2026/split-near-misses.mjs
+?? dataimports/real_regional_results_2026/apply-near-miss-resolutions-regionals.mjs
+?? dataimports/real_regional_results_2026/near_miss_resolution_report_regionals.json
 ?? dataimports/story-page-and-homepage-handoff.md
 ?? dataimports/track-alignments/
 ?? dataimports/triple-threat-2026/

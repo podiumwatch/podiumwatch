@@ -87092,7 +87092,10 @@
               "meetDate": "2026-09-26",
               "verificationStatus": "2026 HS 5,000m race and school verified",
               "collectedAtEastern": "2026-10-19T11:04:37.515038-04:00",
-              "notes": "Race label verified: 5,000 Meters Blue."
+              "notes": "Race label verified: 5,000 Meters Blue. Merged 2026-11-01 with the duplicate roster row \"Isabel Ansberry\" (Athletic.net 30744175, 21:44.02); same runner, name kept as Athletic.net lists it. Regional time 20:42.8 (Troy, girls D1, 2026-10-31) is slower than this season best and was not applied.",
+              "mergedAthleticNetIds": [
+                "30744175"
+              ]
             },
             {
               "name": "Clara Packer",
@@ -87109,21 +87112,6 @@
               "collectedAtEastern": "2026-10-19T11:04:56.572033-04:00",
               "notes": "Race label verified: 5,000 Meters Race of Champions.",
               "seasonBestSource": "real regional result (Troy, girls D1, 2026-10-31) -- updated from a prior seasonBest of 21:43.0"
-            },
-            {
-              "name": "Isabel Ansberry",
-              "grade": "10",
-              "graduationYear": 2029,
-              "seasonBest": "21:44.02",
-              "timeCentiseconds": 130402,
-              "athleticNetId": "30744175",
-              "athleteUrl": "https://www.athletic.net/athlete/30744175/cross-country",
-              "resultUrl": "http://www.athletic.net/result/aPFJKwBFZZ2YY",
-              "meetName": "Seneca East's Stars, Stripes and Lights",
-              "meetDate": "2026-09-12",
-              "verificationStatus": "2026 HS 5,000m eligible performance -- corrected 2026-10-20 wide sweep after a prior audit pass regressed this athlete's season best",
-              "collectedAtEastern": "2026-10-19T11:04:56.572033-04:00",
-              "notes": "Restored 2026-10-20 (wide sweep): 21:44.1 (Seneca East's Stars, Stripes and Lights, 2026-09-12) was slower than the pre-regression mock-regionals-2026.json roster snapshot's 21:44.02 -- confirmed via raw-rankings-row capture of Seneca East's Stars, Stripes and Lights (2026-09-12)."
             }
           ],
           "duplicateConcerns": [],

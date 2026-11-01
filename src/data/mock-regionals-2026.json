@@ -2,7 +2,7 @@
   "schemaVersion": 3,
   "seasonLabel": "2026",
   "regionalDate": "2026-10-31",
-  "lastUpdated": "2026-10-31",
+  "lastUpdated": "2026-11-01",
   "sourceUrl": "https://ohsaaweb.blob.core.windows.net/files/Sports/Cross%20Country/2026/2026SitesRepresentationSchedule.pdf",
   "notes": [
     "Projected from the top 75 Athletic.net teams and the top 500 Athletic.net individuals per division/gender, each scored from their real season best 5K time -- not a real meet result.",
@@ -3779,11 +3779,11 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "isaiah Berrios",
+                  "name": "Isaiah Berrios",
                   "grade": null,
                   "graduationYear": null,
-                  "seasonBest": "23:20.37",
-                  "timeCentiseconds": 140037,
+                  "seasonBest": "21:37.5",
+                  "timeCentiseconds": 129750,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -4601,11 +4601,11 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Daniel Haders  III",
+                  "name": "Daniel Haders III",
                   "grade": "10",
                   "graduationYear": 2029,
-                  "seasonBest": "16:58.70",
-                  "timeCentiseconds": 101870,
+                  "seasonBest": "16:24.7",
+                  "timeCentiseconds": 98470,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -10602,15 +10602,6 @@
                   "graduationYear": 2027,
                   "seasonBest": "21:21.7",
                   "timeCentiseconds": 128170,
-                  "athleticNetId": null,
-                  "resultUrl": null
-                },
-                {
-                  "name": "Isabel Ansberry",
-                  "grade": "10",
-                  "graduationYear": 2029,
-                  "seasonBest": "21:44.02",
-                  "timeCentiseconds": 130402,
                   "athleticNetId": null,
                   "resultUrl": null
                 }
@@ -19823,11 +19814,11 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Johnathan (John Iman",
+                  "name": "Johnathan (John) Iman",
                   "grade": "12",
                   "graduationYear": 2027,
-                  "seasonBest": "17:04.38",
-                  "timeCentiseconds": 102438,
+                  "seasonBest": "16:36.3",
+                  "timeCentiseconds": 99630,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -30088,11 +30079,11 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Kai Jon Cerritos",
+                  "name": "Kai'Jon Cerritos",
                   "grade": "12",
                   "graduationYear": 2027,
-                  "seasonBest": "17:16.98",
-                  "timeCentiseconds": 103698,
+                  "seasonBest": "16:54.0",
+                  "timeCentiseconds": 101400,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -38433,11 +38424,11 @@
                   "resultUrl": null
                 },
                 {
-                  "name": "Carter St John",
+                  "name": "Carter St. John",
                   "grade": "12",
                   "graduationYear": 2027,
-                  "seasonBest": "18:58.70",
-                  "timeCentiseconds": 113870,
+                  "seasonBest": "18:47.0",
+                  "timeCentiseconds": 112700,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -39030,8 +39021,8 @@
                   "name": "Zay'Mere Tucker",
                   "grade": null,
                   "graduationYear": null,
-                  "seasonBest": "19:10.07",
-                  "timeCentiseconds": 115007,
+                  "seasonBest": "18:53.1",
+                  "timeCentiseconds": 113310,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -43164,8 +43155,8 @@
                   "name": "Alyssandra \"Grace\" Peirano",
                   "grade": "12",
                   "graduationYear": 2027,
-                  "seasonBest": "22:09.8",
-                  "timeCentiseconds": 132980,
+                  "seasonBest": "21:40.0",
+                  "timeCentiseconds": 130000,
                   "athleticNetId": null,
                   "resultUrl": null
                 },
@@ -43692,8 +43683,8 @@
                   "name": "Madie Grace Gonczy",
                   "grade": "12",
                   "graduationYear": 2027,
-                  "seasonBest": "19:28.7",
-                  "timeCentiseconds": 116870,
+                  "seasonBest": "19:16.2",
+                  "timeCentiseconds": 115620,
                   "athleticNetId": null,
                   "resultUrl": null
                 },

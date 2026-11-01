@@ -74,6 +74,14 @@ Corrections should preserve:
 4. The date corrected
 5. The person or system that made the correction
 
+### Spelling corrections to imported results
+
+Imported results are stored exactly as the source lists them; a Podium Watch spelling correction is a display-only override in `src/data/mock-postseason-name-overrides-2026.json` (keyed "name|school"), never an edit to the imported file.
+
+| Source claim | Corrected value | Source used | Date | By |
+|---|---|---|---|---|
+| "Samuel Philpot", Russia, Athletic.net athlete ID 30937049, Oct 31, 2026 D4 boys regional at Troy (7th, 16:06.2) | "Samuel Phlipot" | Zachary Bell, Podium Watch (family spelling; both Podium Watch rosters already carry "Phlipot", as does Athletic.net for Francis Phlipot, ID 29508389) | 2026-11-01 | Podium Watch (Zachary Bell), applied by Claude Code |
+
 ## 6. Athlete profile source handling
 
 The first athlete seed comes from the eight supplied 2026 Podium Watch cross country ranking CSV files.

@@ -2,6 +2,8 @@
 
 ## Most recent work (2026-11-01) -- read this first
 
+- **Latest (2026-11-01, later)**: near-miss resolutions applied per Zachary's review (`apply-near-miss-resolutions-regionals.mjs`): Ansberry duplicate merged on both rosters (Izzy keeps IDs 29496136 + 30744175; season best stays 20:39.5, not the 20:42.8 Zachary mentioned -- confirm with him), 8 legacy PRs applied, 163 (b) rows untouched. "Samuel Philpot|Russia" -> "Samuel Phlipot" display override added (DATA_SOURCES section 5). **Blocked**: the 16 logo files Zachary said are in `dataimports/site_logos_2026-11-01/` are not on disk; ask where they are, then resize to 96x96 PNG into `public/images/mock-postseason-logos/schools/` and add manifest entries (`src/data/mock-postseason-logo-manifest-2026.json`, name -> { sourceFile, slug }). Calvert, Pandora-Gilboa, Van Buren, Grand Valley stay initials.
+
 - Item 3 (State labels on the real universe) is committed (`2db1345`); the homepage block now says "Regionals are in the books." (`b524ae7`). **Not pushed.** Say "push" when ready.
 - Regional PR near-misses: `dataimports/real_regional_results_2026/split-near-misses.mjs` splits the 181 into (a) 14 nickname/one-letter-typo rows with matching grade and (b) 167 others (`near_miss_split_regionals.json`). Zachary approves (a) rows one by one before anything is applied; (b) stays unapplied. Watch for: Lebanon "Isabel Ansberry"/"Izzy Ansberry" are two hub-roster rows with two Athletic.net IDs (duplicate profile?); 40 (b) rows fail only because the legacy roster row has no grade.
 - Springfield (D1 SW) is now in the school map as itself, no logo. 20 schools still have no logo (list in SESSION_LOG 2026-11-01); Zachary is adding files.

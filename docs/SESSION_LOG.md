@@ -2853,3 +2853,24 @@ Bring the real Oct 31, 2026 OHSAA regional results onto the site the same way th
 
 - Nothing pushed. Local commits since the last push: `8621782`, `2db1345`, `b524ae7`, plus this one.
 - Near-miss rows (a) wait on Zachary's approval; (b) stays unapplied.
+
+## 2026-11-01 (later): Near-miss resolutions applied, Ansberry merge, Phlipot display override
+
+### What was done
+
+- **Near-miss resolutions** (`dataimports/real_regional_results_2026/apply-near-miss-resolutions-regionals.mjs` -> `near_miss_resolution_report_regionals.json`), per Zachary's row-by-row review of the 2026-11-01 (a) table:
+  - **Lebanon girls D1, Ansberry merge**: "Isabel Ansberry" (Athletic.net 30744175, 21:44.02) and "Izzy Ansberry" (29496136, 20:39.5) were two rows for one runner on both rosters. The Isabel row was removed from the hub roster and the legacy file; the Izzy row keeps both IDs (`mergedAthleticNetIds: ["30744175"]`) and a merge note. Zachary asked to keep 20:42.8 (her regional time); the row already carried a verified faster 20:39.5 (Fairmont Firebird, 2026-09-26), so under the faster-only rule the season best stays 20:39.5 and the 20:42.8 is noted in the row. Flagged to Zachary. Lebanon's roster is now 6 runners; the only chain change is Girls D1 Southwest, where Northmont, Hamilton, Colerain and West Clermont lose the displacement points the duplicate row had been adding.
+  - **Rows 3-8 (legacy file)**: regional times applied (all faster): Daniel Haders III (Milford) 16:24.7, Johnathan (John) Iman (Hol. Springfield) 16:36.3, Kai'Jon Cerritos (Bellaire) 16:54.0, Carter St. John (Wauseon) 18:47.0, Alyssandra "Grace" Peirano (Bethel) 21:40.0, Madie Grace Gonczy (Crestwood) 19:16.2. The first four legacy rows were respelled to match the hub roster's Athletic.net spelling (double space, missing parenthesis, missing apostrophe, missing period); Peirano and Gonczy keep the legacy spelling.
+  - **Rows 9-14**: skipped (slower, no change).
+  - **Group (b) case/punctuation-only rows**: Isaiah Berrios (Lorain, was "isaiah") 21:37.5 and Zay'Mere Tucker (Fostoria) 18:53.1 applied; DeMari Smith (Groveport-Madison) and Maxfield Max) Kuhns (Whetstone) were slower, untouched. The other 163 (b) rows stay unapplied.
+  - Legacy file `lastUpdated` -> 2026-11-01. Season-best chain and `src/data/mock-postseason-2026.json` rebuilt; the real-results universe does not read the hub roster and was not rebuilt.
+- **Phlipot display override**: `"Samuel Philpot|Russia": "Samuel Phlipot"` added to `mock-postseason-name-overrides-2026.json` so the official Troy D4 boys regional card and the projected State table print the family spelling. The imported workbook and parsed JSON still say "Philpot" (Athletic.net ID 30937049); both rosters already said "Phlipot" and were left alone. Recorded in `docs/DATA_SOURCES.md` section 5.
+- **Logos**: Zachary said 16 logo files were placed in `dataimports/site_logos_2026-11-01/`; that folder does not exist on this machine (searched the repo and the user profile to four levels). Not done. Calvert, Pandora-Gilboa, Van Buren and Grand Valley stay on initials by his choice. Note: the original resize step (96x96 PNG) was a one-off script that is not in the repo and no image library is installed; the next session needs to pick a resize route (PowerShell System.Drawing, or an npm package with Zachary's OK).
+
+### Checks
+
+Build 454 pages; check no problems (one pre-existing hero-width warning); tests pass; "Samuel Phlipot" appears 4 times on the real hub page and "Samuel Philpot" 0 times; Isabel Ansberry no longer appears on either universe.
+
+### Not done / flagged
+
+- Logo files (folder missing). Nothing pushed.

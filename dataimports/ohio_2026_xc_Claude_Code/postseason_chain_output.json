@@ -185709,9 +185709,9 @@
           "name": "Northmont",
           "region": "Southwest",
           "complete": true,
-          "score": 265.5,
-          "sixthPlace": 119,
-          "seventhPlace": 123,
+          "score": 264.5,
+          "sixthPlace": 118,
+          "seventhPlace": 122,
           "runners": [
             {
               "name": "Makenna Long",
@@ -185759,9 +185759,9 @@
               "timeCentiseconds": 130420,
               "grade": "10",
               "teamPosition": 5,
-              "placePoints": 112,
+              "placePoints": 111,
               "scoring": true,
-              "teamPlacePoints": 112
+              "teamPlacePoints": 111
             },
             {
               "name": "Kenzie Borger",
@@ -185769,9 +185769,9 @@
               "timeCentiseconds": 133620,
               "grade": "9",
               "teamPosition": 6,
-              "placePoints": 119,
+              "placePoints": 118,
               "scoring": false,
-              "teamPlacePoints": 119
+              "teamPlacePoints": 118
             },
             {
               "name": "Jade Norris",
@@ -185779,9 +185779,9 @@
               "timeCentiseconds": 135590,
               "grade": "10",
               "teamPosition": 7,
-              "placePoints": 123,
+              "placePoints": 122,
               "scoring": false,
-              "teamPlacePoints": 123
+              "teamPlacePoints": 122
             }
           ],
           "mockRank": 8,
@@ -185957,7 +185957,7 @@
           "complete": true,
           "score": 315.5,
           "sixthPlace": 105,
-          "seventhPlace": 126,
+          "seventhPlace": 125,
           "runners": [
             {
               "name": "Ellie Meade",
@@ -186025,9 +186025,9 @@
               "timeCentiseconds": 138440,
               "grade": "12",
               "teamPosition": 7,
-              "placePoints": 126,
+              "placePoints": 125,
               "scoring": false,
-              "teamPlacePoints": 126
+              "teamPlacePoints": 125
             }
           ],
           "mockRank": 11,
@@ -186038,8 +186038,8 @@
           "region": "Southwest",
           "complete": true,
           "score": 332.5,
-          "sixthPlace": 132,
-          "seventhPlace": 133,
+          "sixthPlace": 131,
+          "seventhPlace": 132,
           "runners": [
             {
               "name": "Alyssa Browne",
@@ -186097,9 +186097,9 @@
               "timeCentiseconds": 143680,
               "grade": "11",
               "teamPosition": 6,
-              "placePoints": 132,
+              "placePoints": 131,
               "scoring": false,
-              "teamPlacePoints": 132
+              "teamPlacePoints": 131
             },
             {
               "name": "Rachel Turner",
@@ -186107,9 +186107,9 @@
               "timeCentiseconds": 144030,
               "grade": "11",
               "teamPosition": 7,
-              "placePoints": 133,
+              "placePoints": 132,
               "scoring": false,
-              "teamPlacePoints": 133
+              "teamPlacePoints": 132
             }
           ],
           "mockRank": 12,
@@ -186121,7 +186121,7 @@
           "complete": true,
           "score": 333,
           "sixthPlace": 102,
-          "seventhPlace": 111,
+          "seventhPlace": null,
           "runners": [
             {
               "name": "Isabella Swift",
@@ -186182,16 +186182,6 @@
               "placePoints": 102,
               "scoring": false,
               "teamPlacePoints": 102
-            },
-            {
-              "name": "Isabel Ansberry",
-              "seasonBest": "21:44.02",
-              "timeCentiseconds": 130402,
-              "grade": "10",
-              "teamPosition": 7,
-              "placePoints": 111,
-              "scoring": false,
-              "teamPlacePoints": 111
             }
           ],
           "mockRank": 13,
@@ -186284,8 +186274,8 @@
           "region": "Southwest",
           "complete": true,
           "score": 371,
-          "sixthPlace": 120,
-          "seventhPlace": 122,
+          "sixthPlace": 119,
+          "seventhPlace": 121,
           "runners": [
             {
               "name": "Lucia Schafer",
@@ -186343,9 +186333,9 @@
               "timeCentiseconds": 134920,
               "grade": "10",
               "teamPosition": 6,
-              "placePoints": 120,
+              "placePoints": 119,
               "scoring": false,
-              "teamPlacePoints": 120
+              "teamPlacePoints": 119
             },
             {
               "name": "Paige Murray",
@@ -186353,9 +186343,9 @@
               "timeCentiseconds": 135400,
               "grade": "12",
               "teamPosition": 7,
-              "placePoints": 122,
+              "placePoints": 121,
               "scoring": false,
-              "teamPlacePoints": 122
+              "teamPlacePoints": 121
             }
           ],
           "mockRank": 15,
@@ -186366,8 +186356,8 @@
           "region": "Southwest",
           "complete": true,
           "score": 403,
-          "sixthPlace": 113,
-          "seventhPlace": 115,
+          "sixthPlace": 112,
+          "seventhPlace": 114,
           "runners": [
             {
               "name": "Addison Roehm",
@@ -186425,9 +186415,9 @@
               "timeCentiseconds": 130590,
               "grade": "10",
               "teamPosition": 6,
-              "placePoints": 113,
+              "placePoints": 112,
               "scoring": false,
-              "teamPlacePoints": 113
+              "teamPlacePoints": 112
             },
             {
               "name": "Isabella Johnson",
@@ -186435,9 +186425,9 @@
               "timeCentiseconds": 131360,
               "grade": "11",
               "teamPosition": 7,
-              "placePoints": 115,
+              "placePoints": 114,
               "scoring": false,
-              "teamPlacePoints": 115
+              "teamPlacePoints": 114
             }
           ],
           "mockRank": 16,
@@ -186448,8 +186438,8 @@
           "region": "Southwest",
           "complete": true,
           "score": 420,
-          "sixthPlace": 114,
-          "seventhPlace": 118,
+          "sixthPlace": 113,
+          "seventhPlace": 117,
           "runners": [
             {
               "name": "Emma Landen",
@@ -186507,9 +186497,9 @@
               "timeCentiseconds": 131340,
               "grade": "12",
               "teamPosition": 6,
-              "placePoints": 114,
+              "placePoints": 113,
               "scoring": false,
-              "teamPlacePoints": 114
+              "teamPlacePoints": 113
             },
             {
               "name": "Ellie Little",
@@ -186517,9 +186507,9 @@
               "timeCentiseconds": 133350,
               "grade": "10",
               "teamPosition": 7,
-              "placePoints": 118,
+              "placePoints": 117,
               "scoring": false,
-              "teamPlacePoints": 118
+              "teamPlacePoints": 117
             }
           ],
           "mockRank": 17,
@@ -186529,9 +186519,9 @@
           "name": "Hamilton",
           "region": "Southwest",
           "complete": true,
-          "score": 551,
-          "sixthPlace": 134,
-          "seventhPlace": 148,
+          "score": 547,
+          "sixthPlace": 133,
+          "seventhPlace": 147,
           "runners": [
             {
               "name": "Kinsley Scarth",
@@ -186549,9 +186539,9 @@
               "timeCentiseconds": 132600,
               "grade": "11",
               "teamPosition": 2,
-              "placePoints": 116,
+              "placePoints": 115,
               "scoring": true,
-              "teamPlacePoints": 116
+              "teamPlacePoints": 115
             },
             {
               "name": "Layla Grant",
@@ -186559,9 +186549,9 @@
               "timeCentiseconds": 133150,
               "grade": "9",
               "teamPosition": 3,
-              "placePoints": 117,
+              "placePoints": 116,
               "scoring": true,
-              "teamPlacePoints": 117
+              "teamPlacePoints": 116
             },
             {
               "name": "Abigail Gomez",
@@ -186569,9 +186559,9 @@
               "timeCentiseconds": 139630,
               "grade": "12",
               "teamPosition": 4,
-              "placePoints": 128,
+              "placePoints": 127,
               "scoring": true,
-              "teamPlacePoints": 128
+              "teamPlacePoints": 127
             },
             {
               "name": "Maria Ehuan",
@@ -186579,9 +186569,9 @@
               "timeCentiseconds": 141340,
               "grade": "9",
               "teamPosition": 5,
-              "placePoints": 131,
+              "placePoints": 130,
               "scoring": true,
-              "teamPlacePoints": 131
+              "teamPlacePoints": 130
             },
             {
               "name": "Zara Samples",
@@ -186589,9 +186579,9 @@
               "timeCentiseconds": 145100,
               "grade": "12",
               "teamPosition": 6,
-              "placePoints": 134,
+              "placePoints": 133,
               "scoring": false,
-              "teamPlacePoints": 134
+              "teamPlacePoints": 133
             },
             {
               "name": "Tatum Bryant",
@@ -186599,9 +186589,9 @@
               "timeCentiseconds": 153320,
               "grade": "10",
               "teamPosition": 7,
-              "placePoints": 148,
+              "placePoints": 147,
               "scoring": false,
-              "teamPlacePoints": 148
+              "teamPlacePoints": 147
             }
           ],
           "mockRank": 18,
@@ -186611,9 +186601,9 @@
           "name": "Colerain",
           "region": "Southwest",
           "complete": true,
-          "score": 638,
-          "sixthPlace": 153,
-          "seventhPlace": 154,
+          "score": 634,
+          "sixthPlace": 152,
+          "seventhPlace": 153,
           "runners": [
             {
               "name": "Kendall Stecher",
@@ -186631,9 +186621,9 @@
               "timeCentiseconds": 139290,
               "grade": "11",
               "teamPosition": 2,
-              "placePoints": 127,
+              "placePoints": 126,
               "scoring": true,
-              "teamPlacePoints": 127
+              "teamPlacePoints": 126
             },
             {
               "name": "Alexandria Cruz Elkins",
@@ -186641,9 +186631,9 @@
               "timeCentiseconds": 145870,
               "grade": "9",
               "teamPosition": 3,
-              "placePoints": 135,
+              "placePoints": 134,
               "scoring": true,
-              "teamPlacePoints": 135
+              "teamPlacePoints": 134
             },
             {
               "name": "Sophia Linz",
@@ -186651,9 +186641,9 @@
               "timeCentiseconds": 146370,
               "grade": "10",
               "teamPosition": 4,
-              "placePoints": 136,
+              "placePoints": 135,
               "scoring": true,
-              "teamPlacePoints": 136
+              "teamPlacePoints": 135
             },
             {
               "name": "Shiane Carraher",
@@ -186661,9 +186651,9 @@
               "timeCentiseconds": 157260,
               "grade": "10",
               "teamPosition": 5,
-              "placePoints": 151,
+              "placePoints": 150,
               "scoring": true,
-              "teamPlacePoints": 151
+              "teamPlacePoints": 150
             },
             {
               "name": "Saphire Higdon",
@@ -186671,9 +186661,9 @@
               "timeCentiseconds": 157560,
               "grade": "10",
               "teamPosition": 6,
-              "placePoints": 153,
+              "placePoints": 152,
               "scoring": false,
-              "teamPlacePoints": 153
+              "teamPlacePoints": 152
             },
             {
               "name": "Ariana Dunlevy",
@@ -186681,9 +186671,9 @@
               "timeCentiseconds": 158420,
               "grade": "11",
               "teamPosition": 7,
-              "placePoints": 154,
+              "placePoints": 153,
               "scoring": false,
-              "teamPlacePoints": 154
+              "teamPlacePoints": 153
             }
           ],
           "mockRank": 19,
@@ -186693,9 +186683,9 @@
           "name": "West Clermont",
           "region": "Southwest",
           "complete": true,
-          "score": 651,
-          "sixthPlace": 157,
-          "seventhPlace": 158,
+          "score": 647,
+          "sixthPlace": 156,
+          "seventhPlace": 157,
           "runners": [
             {
               "name": "Emma Buening",
@@ -186713,9 +186703,9 @@
               "timeCentiseconds": 136990,
               "grade": "9",
               "teamPosition": 2,
-              "placePoints": 124,
+              "placePoints": 123,
               "scoring": true,
-              "teamPlacePoints": 124
+              "teamPlacePoints": 123
             },
             {
               "name": "Indigo Larbes",
@@ -186723,9 +186713,9 @@
               "timeCentiseconds": 147710,
               "grade": "9",
               "teamPosition": 3,
-              "placePoints": 137,
+              "placePoints": 136,
               "scoring": true,
-              "teamPlacePoints": 137
+              "teamPlacePoints": 136
             },
             {
               "name": "Madelyn Mayborg",
@@ -186733,9 +186723,9 @@
               "timeCentiseconds": 151310,
               "grade": "11",
               "teamPosition": 4,
-              "placePoints": 140,
+              "placePoints": 139,
               "scoring": true,
-              "teamPlacePoints": 140
+              "teamPlacePoints": 139
             },
             {
               "name": "Olivia Blumfeldt",
@@ -186743,9 +186733,9 @@
               "timeCentiseconds": 157300,
               "grade": "9",
               "teamPosition": 5,
-              "placePoints": 152,
+              "placePoints": 151,
               "scoring": true,
-              "teamPlacePoints": 152
+              "teamPlacePoints": 151
             },
             {
               "name": "Sophia Taylor",
@@ -186753,9 +186743,9 @@
               "timeCentiseconds": 170040,
               "grade": "10",
               "teamPosition": 6,
-              "placePoints": 158,
+              "placePoints": 157,
               "scoring": false,
-              "teamPlacePoints": 157
+              "teamPlacePoints": 156
             },
             {
               "name": "Ella Maley",
@@ -186763,9 +186753,9 @@
               "timeCentiseconds": 178760,
               "grade": "12",
               "teamPosition": 7,
-              "placePoints": 159,
+              "placePoints": 158,
               "scoring": false,
-              "teamPlacePoints": 158
+              "teamPlacePoints": 157
             }
           ],
           "mockRank": 20,
@@ -186775,8 +186765,8 @@
           "name": "Wayne",
           "region": "Southwest",
           "complete": true,
-          "score": 672.5,
-          "sixthPlace": 159,
+          "score": 668.5,
+          "sixthPlace": 158,
           "seventhPlace": null,
           "runners": [
             {
@@ -186795,9 +186785,9 @@
               "timeCentiseconds": 149060,
               "grade": "11",
               "teamPosition": 2,
-              "placePoints": 138,
+              "placePoints": 137,
               "scoring": true,
-              "teamPlacePoints": 138
+              "teamPlacePoints": 137
             },
             {
               "name": "Grace Manley",
@@ -186805,9 +186795,9 @@
               "timeCentiseconds": 149770,
               "grade": "11",
               "teamPosition": 3,
-              "placePoints": 139,
+              "placePoints": 138,
               "scoring": true,
-              "teamPlacePoints": 139
+              "teamPlacePoints": 138
             },
             {
               "name": "Nadia Roopnarine",
@@ -186815,9 +186805,9 @@
               "timeCentiseconds": 152620,
               "grade": "10",
               "teamPosition": 4,
-              "placePoints": 145.5,
+              "placePoints": 144.5,
               "scoring": true,
-              "teamPlacePoints": 145.5
+              "teamPlacePoints": 144.5
             },
             {
               "name": "Arianna Jones",
@@ -186825,9 +186815,9 @@
               "timeCentiseconds": 165870,
               "grade": "9",
               "teamPosition": 5,
-              "placePoints": 157,
+              "placePoints": 156,
               "scoring": true,
-              "teamPlacePoints": 156
+              "teamPlacePoints": 155
             },
             {
               "name": "Brianna Krull",
@@ -186835,9 +186825,9 @@
               "timeCentiseconds": 181980,
               "grade": "11",
               "teamPosition": 6,
-              "placePoints": 160,
+              "placePoints": 159,
               "scoring": false,
-              "teamPlacePoints": 159
+              "teamPlacePoints": 158
             }
           ],
           "mockRank": 21,
@@ -186847,7 +186837,7 @@
           "name": "Princeton",
           "region": "Southwest",
           "complete": true,
-          "score": 680,
+          "score": 675,
           "sixthPlace": null,
           "seventhPlace": null,
           "runners": [
@@ -186857,9 +186847,9 @@
               "timeCentiseconds": 135300,
               "grade": "9",
               "teamPosition": 1,
-              "placePoints": 121,
+              "placePoints": 120,
               "scoring": true,
-              "teamPlacePoints": 121
+              "teamPlacePoints": 120
             },
             {
               "name": "Erin Schutte",
@@ -186867,9 +186857,9 @@
               "timeCentiseconds": 138310,
               "grade": "12",
               "teamPosition": 2,
-              "placePoints": 125,
+              "placePoints": 124,
               "scoring": true,
-              "teamPlacePoints": 125
+              "teamPlacePoints": 124
             },
             {
               "name": "Allison Rengering",
@@ -186877,9 +186867,9 @@
               "timeCentiseconds": 151360,
               "grade": "12",
               "teamPosition": 3,
-              "placePoints": 141,
+              "placePoints": 140,
               "scoring": true,
-              "teamPlacePoints": 141
+              "teamPlacePoints": 140
             },
             {
               "name": "Kalynn Stewart",
@@ -186887,9 +186877,9 @@
               "timeCentiseconds": 152390,
               "grade": "12",
               "teamPosition": 4,
-              "placePoints": 143,
+              "placePoints": 142,
               "scoring": true,
-              "teamPlacePoints": 143
+              "teamPlacePoints": 142
             },
             {
               "name": "Aileen Mendiola Cruz",
@@ -186897,9 +186887,9 @@
               "timeCentiseconds": 155620,
               "grade": "9",
               "teamPosition": 5,
-              "placePoints": 150,
+              "placePoints": 149,
               "scoring": true,
-              "teamPlacePoints": 150
+              "teamPlacePoints": 149
             }
           ],
           "mockRank": 22,
@@ -186909,8 +186899,8 @@
           "name": "Middletown",
           "region": "Southwest",
           "complete": true,
-          "score": 695.5,
-          "sixthPlace": 149,
+          "score": 690.5,
+          "sixthPlace": 148,
           "seventhPlace": null,
           "runners": [
             {
@@ -186919,9 +186909,9 @@
               "timeCentiseconds": 139920,
               "grade": "12",
               "teamPosition": 1,
-              "placePoints": 129,
+              "placePoints": 128,
               "scoring": true,
-              "teamPlacePoints": 129
+              "teamPlacePoints": 128
             },
             {
               "name": "Taitlyin Turner",
@@ -186929,9 +186919,9 @@
               "timeCentiseconds": 140300,
               "grade": "9",
               "teamPosition": 2,
-              "placePoints": 130,
+              "placePoints": 129,
               "scoring": true,
-              "teamPlacePoints": 130
+              "teamPlacePoints": 129
             },
             {
               "name": "Anyelith Zacharias-Reyes",
@@ -186939,9 +186929,9 @@
               "timeCentiseconds": 152540,
               "grade": "9",
               "teamPosition": 3,
-              "placePoints": 144,
+              "placePoints": 143,
               "scoring": true,
-              "teamPlacePoints": 144
+              "teamPlacePoints": 143
             },
             {
               "name": "Raquel Figueroa",
@@ -186949,9 +186939,9 @@
               "timeCentiseconds": 152620,
               "grade": "10",
               "teamPosition": 4,
-              "placePoints": 145.5,
+              "placePoints": 144.5,
               "scoring": true,
-              "teamPlacePoints": 145.5
+              "teamPlacePoints": 144.5
             },
             {
               "name": "Maci Schneider",
@@ -186959,9 +186949,9 @@
               "timeCentiseconds": 152670,
               "grade": "9",
               "teamPosition": 5,
-              "placePoints": 147,
+              "placePoints": 146,
               "scoring": true,
-              "teamPlacePoints": 147
+              "teamPlacePoints": 146
             },
             {
               "name": "Maddy Saunders",
@@ -186969,9 +186959,9 @@
               "timeCentiseconds": 155480,
               "grade": "11",
               "teamPosition": 6,
-              "placePoints": 149,
+              "placePoints": 148,
               "scoring": false,
-              "teamPlacePoints": 149
+              "teamPlacePoints": 148
             }
           ],
           "mockRank": 23,
@@ -186981,9 +186971,9 @@
           "name": "Winton Woods",
           "region": "Southwest",
           "complete": true,
-          "score": 780,
-          "sixthPlace": 163,
-          "seventhPlace": 164,
+          "score": 775,
+          "sixthPlace": 162,
+          "seventhPlace": 163,
           "runners": [
             {
               "name": "Allison Murray",
@@ -186991,9 +186981,9 @@
               "timeCentiseconds": 151580,
               "grade": "9",
               "teamPosition": 1,
-              "placePoints": 142,
+              "placePoints": 141,
               "scoring": true,
-              "teamPlacePoints": 142
+              "teamPlacePoints": 141
             },
             {
               "name": "Cloey French",
@@ -187001,9 +186991,9 @@
               "timeCentiseconds": 164500,
               "grade": "10",
               "teamPosition": 2,
-              "placePoints": 156,
+              "placePoints": 155,
               "scoring": true,
-              "teamPlacePoints": 155
+              "teamPlacePoints": 154
             },
             {
               "name": "Elizabeth Sotelo",
@@ -187011,9 +187001,9 @@
               "timeCentiseconds": 182060,
               "grade": "9",
               "teamPosition": 3,
-              "placePoints": 161,
+              "placePoints": 160,
               "scoring": true,
-              "teamPlacePoints": 160
+              "teamPlacePoints": 159
             },
             {
               "name": "Aaliyah Gadison",
@@ -187021,9 +187011,9 @@
               "timeCentiseconds": 183460,
               "grade": "10",
               "teamPosition": 4,
-              "placePoints": 162,
+              "placePoints": 161,
               "scoring": true,
-              "teamPlacePoints": 161
+              "teamPlacePoints": 160
             },
             {
               "name": "Nathalie Duenas Lopez",
@@ -187031,9 +187021,9 @@
               "timeCentiseconds": 184230,
               "grade": "12",
               "teamPosition": 5,
-              "placePoints": 163,
+              "placePoints": 162,
               "scoring": true,
-              "teamPlacePoints": 162
+              "teamPlacePoints": 161
             },
             {
               "name": "Mariem Diallo",
@@ -187041,9 +187031,9 @@
               "timeCentiseconds": 188510,
               "grade": "12",
               "teamPosition": 6,
-              "placePoints": 164,
+              "placePoints": 163,
               "scoring": false,
-              "teamPlacePoints": 163
+              "teamPlacePoints": 162
             },
             {
               "name": "Semajah Dockery",
@@ -187051,9 +187041,9 @@
               "timeCentiseconds": 191700,
               "grade": "10",
               "teamPosition": 7,
-              "placePoints": 165,
+              "placePoints": 164,
               "scoring": false,
-              "teamPlacePoints": 164
+              "teamPlacePoints": 163
             }
           ],
           "mockRank": 24,
@@ -187073,7 +187063,7 @@
               "timeCentiseconds": 161680,
               "grade": "12",
               "teamPosition": 1,
-              "placePoints": 155,
+              "placePoints": 154,
               "scoring": false
             }
           ],

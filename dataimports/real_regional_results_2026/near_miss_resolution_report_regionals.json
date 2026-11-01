@@ -1,0 +1,153 @@
+{
+  "generatedAt": "2026-11-01T13:01:11.800Z",
+  "ansberry": {
+    "hub": {
+      "kept": {
+        "name": "Izzy Ansberry",
+        "athleticNetId": "29496136",
+        "seasonBest": "20:39.5",
+        "mergedAthleticNetIds": [
+          "30744175"
+        ]
+      },
+      "removed": {
+        "name": "Isabel Ansberry",
+        "athleticNetId": "30744175",
+        "seasonBest": "21:44.02"
+      },
+      "regionalTime": "20:42.8",
+      "rosterSizeNow": 6
+    },
+    "legacy": {
+      "kept": {
+        "name": "Izzy Ansberry",
+        "seasonBest": "20:39.5"
+      },
+      "removed": {
+        "name": "Isabel Ansberry",
+        "seasonBest": "21:44.02"
+      },
+      "rosterSizeNow": 6
+    }
+  },
+  "legacy": [
+    {
+      "group": "a3",
+      "team": "Milford",
+      "region": "southwest",
+      "rosterName": "Daniel Haders  III",
+      "realName": "Daniel Haders III",
+      "oldSeasonBest": "16:58.70",
+      "regionalTime": "16:24.7",
+      "applied": true,
+      "renamedTo": "Daniel Haders III",
+      "source": "real regional result (Troy, boys D1, 2026-10-31)"
+    },
+    {
+      "group": "a4",
+      "team": "Hol. Springfield",
+      "region": "northwest",
+      "rosterName": "Johnathan (John Iman",
+      "realName": "Johnathan (John) Iman",
+      "oldSeasonBest": "17:04.38",
+      "regionalTime": "16:36.3",
+      "applied": true,
+      "renamedTo": "Johnathan (John) Iman",
+      "source": "real regional result (Tiffin, boys D2, 2026-10-31)"
+    },
+    {
+      "group": "a5",
+      "team": "Bellaire",
+      "region": "central",
+      "rosterName": "Kai Jon Cerritos",
+      "realName": "Kai'Jon Cerritos",
+      "oldSeasonBest": "17:16.98",
+      "regionalTime": "16:54.0",
+      "applied": true,
+      "renamedTo": "Kai'Jon Cerritos",
+      "source": "real regional result (Pickerington, boys D3, 2026-10-31)"
+    },
+    {
+      "group": "a6",
+      "team": "Wauseon",
+      "region": "northwest",
+      "rosterName": "Carter St John",
+      "realName": "Carter St. John",
+      "oldSeasonBest": "18:58.70",
+      "regionalTime": "18:47.0",
+      "applied": true,
+      "renamedTo": "Carter St. John",
+      "source": "real regional result (Tiffin, boys D3, 2026-10-31)"
+    },
+    {
+      "group": "a7",
+      "team": "Bethel",
+      "region": "central",
+      "rosterName": "Alyssandra \"Grace\" Peirano",
+      "realName": "Alyssandra Peirano",
+      "oldSeasonBest": "22:09.8",
+      "regionalTime": "21:40.0",
+      "applied": true,
+      "renamedTo": null,
+      "source": "real regional result (Troy, girls D3, 2026-10-31)"
+    },
+    {
+      "group": "a8",
+      "team": "Crestwood",
+      "region": "northeast",
+      "rosterName": "Madie Grace Gonczy",
+      "realName": "Madiegrace Gonczy",
+      "oldSeasonBest": "19:28.7",
+      "regionalTime": "19:16.2",
+      "applied": true,
+      "renamedTo": null,
+      "source": "real regional result (Boardman, girls D3, 2026-10-31)"
+    },
+    {
+      "group": "b-case",
+      "team": "Lorain",
+      "region": "northeast",
+      "rosterName": "isaiah Berrios",
+      "realName": "Isaiah Berrios",
+      "oldSeasonBest": "23:20.37",
+      "regionalTime": "21:37.5",
+      "applied": true,
+      "renamedTo": "Isaiah Berrios",
+      "source": "real regional result (Boardman, boys D1, 2026-10-31)"
+    },
+    {
+      "group": "b-case",
+      "team": "Fostoria",
+      "region": "northwest",
+      "rosterName": "Zay'Mere Tucker",
+      "realName": "Zaymere Tucker",
+      "oldSeasonBest": "19:10.07",
+      "regionalTime": "18:53.1",
+      "applied": true,
+      "renamedTo": null,
+      "source": "real regional result (Tiffin, boys D3, 2026-10-31)"
+    },
+    {
+      "group": "b-case",
+      "team": "Groveport-Madison",
+      "region": "central",
+      "rosterName": "DeMari Smith",
+      "realName": "Demari Smith",
+      "oldSeasonBest": "19:12.11",
+      "regionalTime": "22:53.1",
+      "applied": false,
+      "renamedTo": null
+    },
+    {
+      "group": "b-case",
+      "team": "Whetstone",
+      "region": "central",
+      "rosterName": "Maxfield Max) Kuhns",
+      "realName": "Maxfield (Max) Kuhns",
+      "oldSeasonBest": "18:45.52",
+      "regionalTime": "19:02.7",
+      "applied": false,
+      "renamedTo": null
+    }
+  ]
+}
