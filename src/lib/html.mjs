@@ -85,9 +85,15 @@ function navGroup(link, currentPath) {
     // was the one place that didn't, since nothing needed it before now.
     return `<a class="nav-top-link" href="${link.href}"${externalAttrs(link)}${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
   }
-  const active = link.items.some((item) => currentPath.startsWith(item.href));
+  const active = link.items.some((item) => currentPath.startsWith(item.href.split("?")[0]));
+  // Only the most specific matching item is marked current (2026-11-01):
+  // "/mock-postseason/" is a prefix of "/mock-postseason/real/", so a
+  // plain startsWith marked the season-best item current on every
+  // real-results page. Query strings are ignored for matching.
+  const itemPath = (item) => item.href.split("?")[0];
+  const bestMatchLength = Math.max(-1, ...link.items.filter((item) => currentPath.startsWith(itemPath(item))).map((item) => itemPath(item).length));
   const itemLinks = link.items.map((item) => {
-    const itemActive = currentPath.startsWith(item.href);
+    const itemActive = currentPath.startsWith(itemPath(item)) && itemPath(item).length === bestMatchLength;
     return `<a href="${item.href}"${itemActive ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`;
   }).join("");
   // data-nav-group-name is a plain lowercase slug of the group's own

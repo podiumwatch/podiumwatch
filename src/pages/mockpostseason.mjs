@@ -265,7 +265,13 @@ const SHARED_STYLE = `<style>
   .mp-compacthero h1 { margin: 0 0 4px; font-size: 1.7rem; line-height: 1.1; }
   .mp-compacthero p { margin: 0; color: var(--muted); font-size: .88rem; }
   .mp-statuspill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); font-size: .74rem; color: var(--muted); font-weight: 600; margin-top: 6px; }
-  .mp-universetoggle { display: inline-block; margin: 6px 0 0 8px; font-size: .78rem; font-weight: 700; color: var(--green); }
+  .mp-viewswitch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+  .mp-viewswitch-label { font-size: .78rem; font-weight: 800; color: var(--ink); margin-right: 2px; }
+  .mp-viewopt { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--ink); font-weight: 700; font-size: .82rem; text-decoration: none; }
+  .mp-viewopt:hover { border-color: var(--ink); }
+  .mp-viewopt.active { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .mp-herohint { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; min-height: 36px; padding: 0 14px; border: 2px solid var(--mp-green); border-radius: 999px; background: var(--white); color: var(--ink); font-weight: 800; font-size: .82rem; cursor: pointer; text-decoration: none; }
+  .mp-herohint:hover { background: var(--mp-green); color: #063b25; }
   .mp-sitetabbar { display: flex; gap: 2px; padding: 6px 6px 0; }
   .mp-sitetabbtn { flex: 0 0 auto; border: none; background: transparent; padding: 7px 12px; min-height: 36px; font-weight: 700; font-size: .8rem; color: var(--muted); border-radius: 7px; cursor: pointer; }
   .mp-sitetabbtn.active { background: var(--paper); color: var(--ink); }
@@ -332,7 +338,11 @@ const SHARED_STYLE = `<style>
   .mp-basisblock { margin: 4px 0 16px; }
   .mp-basisblock .mp-h3 { margin-top: 0; }
   .mp-basisbar { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  @media (min-width: 760px) { .mp-basisbar { grid-template-columns: repeat(4, 1fr); } }
+  .mp-basisbar > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+  @media (min-width: 760px) { .mp-basisbar { grid-template-columns: repeat(5, 1fr); } .mp-basisbar > :last-child:nth-child(odd) { grid-column: auto; } }
+  .mp-basisblock { padding: 12px; border: 2px solid var(--mp-green); border-radius: 12px; background: var(--white); }
+  .mp-basishelp { margin: 8px 0 0; font-size: .8rem; color: var(--muted); }
+  a.mp-basisbtn, span.mp-basisbtn { display: flex; align-items: center; justify-content: center; text-decoration: none; }
   .mp-basisbtn { min-height: 44px; padding: 6px 10px; border: 1px solid var(--line); background: var(--white); border-radius: 10px; font-weight: 700; font-size: .8rem; line-height: 1.2; color: var(--ink); cursor: pointer; text-align: center; }
   .mp-basisbtn.active { background: var(--ink); border-color: var(--ink); color: var(--white); }
   .mp-basisbtn:focus-visible { outline: 3px solid var(--mp-green); outline-offset: 2px; }
@@ -429,26 +439,38 @@ const SHARED_STYLE = `<style>
   }
 </style>`;
 
-function compactHero({ eyebrow, title, description, statusLabel, toggleHtml }) {
+function compactHero({ eyebrow, title, description, statusLabel, toggleHtml, hintHtml }) {
   return `<div class="mp-compacthero"><div class="container">
     <span class="mp-eyebrow">${escapeHtml(eyebrow)}</span>
     <h1>${escapeHtml(title)}</h1>
     <p>${escapeHtml(description)}</p>
     <div class="mp-statuspill">${statusLabel}</div>
     ${toggleHtml || ""}
+    ${hintHtml || ""}
   </div></div>`;
 }
 
-// The global toggle: one link, switches the current page for its
-// counterpart in the other universe (season-best <-> real-results), same
-// page/tab/filter state carried over via the query string + hash. A full
-// navigation, not an instant client-side swap -- this is a local review
-// build, not a public feature, and two parallel page trees (basePath
-// "/mock-postseason/" vs "/mock-postseason/real/") is far lower-risk than
-// duplicating every render path's DOM in one page for a JS toggle.
+// The view switch (2026-11-01, replacing a small "View ... instead"
+// link Zachary could not find): two always-visible options in the same
+// order on every page, the current one highlighted. The other one is a
+// full navigation to the counterpart page in the other universe; on the
+// hub pages the hub script keeps its href carrying the current tab,
+// gender and division (data-carry-base).
+const REAL_VIEW_LABEL = "Real results";
+const PROJECTION_VIEW_LABEL = "Podium Watch projection";
 function universeToggleHtml(isReal, otherPathname) {
-  const label = isReal ? "View season-best projection instead" : "View real results instead";
-  return `<a class="mp-universetoggle" href="${escapeHtml(otherPathname)}">${label} &rarr;</a>`;
+  const other = (label) => `<a class="mp-viewopt" href="${escapeHtml(otherPathname)}" data-carry-base="${escapeHtml(otherPathname)}">${label}</a>`;
+  const current = (label) => `<span class="mp-viewopt active" aria-current="page">${label}</span>`;
+  return `<div class="mp-viewswitch" role="group" aria-label="Choose real results or the Podium Watch projection">
+    <span class="mp-viewswitch-label">View:</span>
+    ${isReal ? current(REAL_VIEW_LABEL) : other(REAL_VIEW_LABEL)}
+    ${isReal ? other(PROJECTION_VIEW_LABEL) : current(PROJECTION_VIEW_LABEL)}
+  </div>`;
+}
+
+// Hero button on the hub pages: jumps to the State tab's time chooser.
+function stateHintHtml() {
+  return `<button type="button" class="mp-herohint" data-goto-state>Pick State projection times &rarr;</button>`;
 }
 
 function provisionalTag(provisional) {
@@ -774,7 +796,7 @@ const HUB_SCRIPT = `<script>
   }
   function applyBasis(){
     if (!basisBar) return;
-    basisBar.querySelectorAll('.mp-basisbtn').forEach(function(b){
+    basisBar.querySelectorAll('button.mp-basisbtn[data-basis]').forEach(function(b){
       var on = b.dataset.basis === basis;
       b.classList.toggle('active', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -804,20 +826,36 @@ const HUB_SCRIPT = `<script>
         if (status) status.textContent = 'Could not load that projection. Check your connection and try again.';
       });
   }
+  // Links to the other universe and the season-best page's chooser links
+  // carry the current tab, gender and division (and their own basis).
+  function updateCarriedLinks(){
+    document.querySelectorAll('a[data-carry-base]').forEach(function(a){
+      var q = new URLSearchParams();
+      q.set('tab', a.dataset.carryTab || tab); q.set('g', g); q.set('d', d);
+      if (a.dataset.carryBasis) q.set('basis', a.dataset.carryBasis);
+      a.setAttribute('href', a.dataset.carryBase + '?' + q.toString());
+    });
+  }
   function updateUrl(){
     var sp = new URLSearchParams(); sp.set('tab',tab); sp.set('g',g); sp.set('d',d);
     if (basisBar && basis && basis !== defaultBasis) sp.set('basis', basis);
     history.replaceState(null,'','?'+sp.toString()+location.hash);
+    updateCarriedLinks();
   }
+  document.querySelectorAll('[data-goto-state]').forEach(function(b){ b.addEventListener('click', function(){
+    tab = 'state'; applyTab(tab); applyBasis(); updateUrl();
+    var chooser = document.getElementById('state-times');
+    if (chooser) setTimeout(function(){ chooser.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 30);
+  }); });
   document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.addEventListener('click', function(){ tab=b.dataset.tab; applyTab(tab); updateUrl(); }); });
   document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); applyBasis(); updateUrl(); }); });
   document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); applyBasis(); updateUrl(); }); });
-  if (basisBar) basisBar.querySelectorAll('.mp-basisbtn').forEach(function(b){ b.addEventListener('click', function(){ basis=b.dataset.basis; applyBasis(); updateUrl(); }); });
+  if (basisBar) basisBar.querySelectorAll('button.mp-basisbtn[data-basis]').forEach(function(b){ b.addEventListener('click', function(){ basis=b.dataset.basis; applyBasis(); updateUrl(); }); });
   // toggle doesn't bubble in all browsers -- listen in the capture phase
   // at the document so opening/closing ANY regional card updates the
   // breadcrumb's site-name segment.
   document.addEventListener('toggle', renderBreadcrumb, true);
-  applyTab(tab); applyFilter(g,d); applyBasis();
+  applyTab(tab); applyFilter(g,d); applyBasis(); updateCarriedLinks();
 
   if (anchor) {
     // Scoped to the TARGET tab's panel, not a blind global match -- the
@@ -1253,15 +1291,34 @@ function stateSectionHtml(key, s, data = {}) {
 // basis is rendered inline; the hub script swaps the visible division's
 // section for /<base>/state-basis/<basis>/<gender>_D<n>.json on click.
 const STATE_BASIS_ORDER = ["district", "regional", "bestDistrictRegional", "season"];
+// Five options on both universes (2026-11-01): the four real-field time
+// bases plus Podium Watch's own season-best projection. On the real page
+// the four are in-page buttons and the fifth links to /mock-postseason/;
+// on the season-best page the four link to the real page with ?basis=
+// and the fifth is the current view.
+const REAL_BASE_PATH = "/mock-postseason/real/";
+const SEASON_BASE_PATH = "/mock-postseason/";
+const OWN_PROJECTION_LABEL = "Podium Watch's own projection";
+const BASIS_HELP = "The first four use the real State qualifiers from the Oct 31 regionals. Podium Watch's own projection uses the qualifiers our season-best model picked before the postseason.";
 function stateBasisBarHtml(data, basePath) {
-  if (!data.stateBases || !data.stateDefaultBasis) return "";
-  const buttons = STATE_BASIS_ORDER.filter((b) => data.stateBases[b]).map((b) =>
-    `<button type="button" class="mp-basisbtn${b === data.stateDefaultBasis ? " active" : ""}" data-basis="${b}" aria-pressed="${b === data.stateDefaultBasis ? "true" : "false"}">${escapeHtml(data.stateBases[b].label)}</button>`
-  ).join("");
-  return `<div class="mp-basisblock" data-basis-bar data-default-basis="${escapeHtml(data.stateDefaultBasis)}" data-basis-base="${escapeHtml(basePath)}state-basis/">
+  const bases = realData.stateBases;
+  const defaultBasis = realData.stateDefaultBasis;
+  if (!bases || !defaultBasis) return "";
+  const isReal = basePath === REAL_BASE_PATH;
+  const realOptions = STATE_BASIS_ORDER.filter((b) => bases[b]).map((b) => {
+    if (isReal) return `<button type="button" class="mp-basisbtn${b === defaultBasis ? " active" : ""}" data-basis="${b}" aria-pressed="${b === defaultBasis ? "true" : "false"}">${escapeHtml(bases[b].label)}</button>`;
+    const query = `?tab=state${b === defaultBasis ? "" : `&basis=${b}`}`;
+    return `<a class="mp-basisbtn" href="${REAL_BASE_PATH}${query}" data-carry-base="${REAL_BASE_PATH}" data-carry-tab="state"${b === defaultBasis ? "" : ` data-carry-basis="${b}"`}>${escapeHtml(bases[b].label)}</a>`;
+  }).join("");
+  const ownOption = isReal
+    ? `<a class="mp-basisbtn" href="${SEASON_BASE_PATH}?tab=state" data-carry-base="${SEASON_BASE_PATH}" data-carry-tab="state">${OWN_PROJECTION_LABEL}</a>`
+    : `<span class="mp-basisbtn active" aria-current="true">${OWN_PROJECTION_LABEL}</span>`;
+  const barAttrs = isReal ? ` data-basis-bar data-default-basis="${escapeHtml(defaultBasis)}" data-basis-base="${escapeHtml(basePath)}state-basis/"` : "";
+  return `<div class="mp-basisblock" id="state-times"${barAttrs}>
     <p class="mp-h3">Which times should the State projection use?</p>
-    <div class="mp-basisbar" role="group" aria-label="Times used for the State projection">${buttons}</div>
-    <p class="mp-meta mp-basisstatus" data-basis-status aria-live="polite"></p>
+    <div class="mp-basisbar" role="group" aria-label="Times used for the State projection">${realOptions}${ownOption}</div>
+    <p class="mp-basishelp">${escapeHtml(BASIS_HELP)}${isReal ? "" : " You are viewing Podium Watch's own projection."}</p>
+    ${isReal ? `<p class="mp-meta mp-basisstatus" data-basis-status aria-live="polite"></p>` : ""}
   </div>`;
 }
 
@@ -1299,7 +1356,8 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
         ? "Real OHSAA district (Oct 24) and regional (Oct 31, 2026) results, with State projected from the real qualifiers. The State meet is Saturday, Nov. 7 at Fortress Obetz."
         : "Districts, Regionals, and State, recomputed from the real Oct 24, 2026 district results (D2-D4 only; D1 has no districts, shown as season-best).")
       : "Districts, Regionals, and State in one place.",
-    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, otherBasePath)
+    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, otherBasePath),
+    hintHtml: realData.stateBases ? stateHintHtml() : ""
   })}
   ${SHARED_STYLE}
   <div class="mp-stickyblock">

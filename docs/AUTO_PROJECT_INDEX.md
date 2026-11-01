@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-11-01 12:04:47
+Generated: 2026-11-01 12:24:48
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 5283 |
+| Included source files | 5287 |
 | Page source files | 96 |
 | API files | 128 |
 | Route references | 107 |
@@ -20,21 +20,17 @@ This file is generated from the current project.
 
 Latest commit:
 
-bc4cf70552ca3f4d6f636950b2be95e9dd888920 | 2026-11-01 11:07:23 -0500 | Mock Postseason: add 16 school logos supplied by Zachary
+4baab5e5a4135583a6c3242d745e255569ef2646 | 2026-11-01 12:04:48 -0500 | Mock State: choose district, regional, best-of-both or season-best times
 
 Working tree:
 
  M .claude/settings.json
- M dataimports/real_district_results_2026/build-postseason-page-data-real.mjs
- M dataimports/real_regional_results_2026/apply-real-regionals.mjs
- M dataimports/real_regional_results_2026/postseason_chain_output_real_regionals.json
  M docs/AUTO_PROJECT_INDEX.md
- M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
- M scripts/build.mjs
- M src/data/mock-postseason-2026-real.json
+ M src/config/site.mjs
+ M src/lib/html.mjs
  M src/pages/mockpostseason.mjs
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
@@ -64,6 +60,7 @@ Working tree:
 ?? dataimports/boys-d3-2026/
 ?? dataimports/boys-d4-2026/
 ?? dataimports/boys_week_9_26_clean_import_v2.csv
+?? dataimports/exports/
 ?? dataimports/girls-d1-2026/
 ?? dataimports/girls-d2-2026/
 ?? dataimports/girls-d3-2026/
@@ -260,7 +257,6 @@ Working tree:
 ?? scripts/run-private-d4-rolling-backtest.mjs
 ?? scripts/run-private-d4-simulator.mjs
 ?? scripts/test-xc-d4-coverage-audit.mjs
-?? src/data/mock-postseason-2026-real-state-bases.json
 ?? tests/xc-backtest-collection.test.mjs
 ?? tests/xc-backtest-package.test.mjs
 ?? tests/xc-d4-coverage-audit.test.mjs

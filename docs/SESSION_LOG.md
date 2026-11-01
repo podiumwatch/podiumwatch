@@ -2929,3 +2929,22 @@ Zachary: buttons for "use only district results", "use only regional", "use best
 ### Checks
 
 Build 454 pages; check no problems; tests pass; Chrome at 375px: every button swaps the section and the URL, D1 + district shows the note, a deep link with `basis=season` loads directly, no duplicate ids, no horizontal overflow, 0 page errors.
+
+## 2026-11-01 (late): Make every Mock Postseason view easy to find
+
+### Why
+
+Zachary landed on the season-best page (`/mock-postseason/`, via the homepage "View Mock Meets" card) and could not find the new State time buttons, which lived only on `/mock-postseason/real/`'s State tab: "I make the site and couldn't find it. That means it was too hard."
+
+### What was done
+
+- **View switch** on every Mock Postseason page (both hubs and all district site pages): "View: Real results | Podium Watch projection", current one highlighted, replacing the small "View ... instead" link. On the hubs the other option carries the current tab, gender and division.
+- **"Pick State projection times" button** in the hub header on every tab and both universes: switches to the State tab and scrolls to the chooser.
+- **State chooser on both universes, five options**: the four real-field time bases plus "Podium Watch's own projection", with one line explaining the difference. On the real page the four are in-page buttons and the fifth links to the season-best State tab; on the season-best page the four link to the real page with `?basis=` (carrying gender/division) and the fifth is marked current. The chooser has a green outline so it reads as a control.
+- **Mock Meets menu**: new "Podium Watch projection" item (`/mock-postseason/`).
+- **Shared nav fix** (`src/lib/html.mjs`): a dropdown item is marked current only when it is the most specific match (query strings ignored). Without it, the new "/mock-postseason/" item would have been marked current on every real-results page. On the real hub, Districts/Regionals/State are now all marked current (same page).
+- Checked the reported left-edge clipping at desktop (1894px) on the live pages: no horizontal overflow, filter row starts at the edge by design; the clipped pill was the screenshot crop. No layout change made.
+
+### Checks
+
+Build 454 pages; check no problems; tests pass; Chrome at 375px and 1440px: hint button opens State and scrolls to the chooser, season-page chooser links land on the real page with the right basis and division, the real page's fifth option and view switch carry tab/gender/division back, no horizontal overflow, 0 page errors.

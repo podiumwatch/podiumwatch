@@ -84,6 +84,9 @@ export const site = {
       { label: "Districts", href: "/mock-postseason/real/?tab=districts" },
       { label: "Regionals", href: "/mock-postseason/real/?tab=regionals" },
       { label: "State", href: "/mock-postseason/real/?tab=state" },
+      // Podium Watch's own season-best projection, added 2026-11-01 so
+      // every view is reachable from the menu.
+      { label: "Podium Watch projection", href: "/mock-postseason/" },
       { label: "2026 Mock Meets (Regionals & State)", href: "/mock-meets/" }
     ] },
     // AdSense readiness (2026-09-16): Meets, Teams & Schools, and
