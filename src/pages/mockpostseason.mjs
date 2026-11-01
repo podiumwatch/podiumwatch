@@ -321,6 +321,8 @@ const SHARED_STYLE = `<style>
   .mp-footnote { margin: 10px 0 0; padding: 12px 16px; border: 1px solid var(--line); background: var(--paper); font-size: .83rem; color: var(--muted); }
   .mp-footnote summary { cursor: pointer; font-weight: 700; color: var(--ink); min-height: 44px; display: flex; align-items: center; }
   .mp-rc-official { font-weight: 700; color: var(--row-accent, var(--mp-green)); }
+  .mp-stateprojection { margin: 4px 0 12px; }
+  .mp-stateprojection .mp-meta { margin-top: 4px; }
   .mp-under-review { margin-top: 32px; padding: 16px; border: 2px dashed #b45309; background: #fff7ed; }
 
   /* A team row is itself a <details> -- summary is the flat row, body is
@@ -1092,7 +1094,22 @@ function regionalsTabHtml(data, basePath) {
   return `${bicarbLeaderboardHtml("regionals-top")}${sections}${underReview}${bicarbRectangleHtml("regionals-bottom", "light")}`;
 }
 
-function stateSectionHtml(key, s) {
+// Item 3 of the Oct 31, 2026 brief: every State section in the
+// real-results universe says what it is (a projection), what it is built
+// from (the real qualifiers), what the times are (regional times from
+// four courses, not course-adjusted) and when the real race is.
+function stateProjectionNoteHtml(s, data) {
+  if (!data.regionalsOfficial) return "";
+  const teams = (s.teams || []).length;
+  const individuals = (s.individuals || []).length;
+  return `<div class="mp-stateprojection">
+    <p class="mp-rc-line mp-rc-official">Projected &middot; not official &middot; as of ${escapeHtml(data.regionalsAsOfLabel || formatHumanDate(data.asOf))}</p>
+    <p class="mp-meta">Field: the real State qualifiers from the Oct 31 regionals (${teams} teams + ${individuals} individuals), scored on each runner's regional time. Times come from four different courses and are not course-adjusted.</p>
+    <p class="mp-meta">State meet: Saturday, Nov. 7, 2026, ${escapeHtml(data.stateVenue || "Fortress Obetz")}.</p>
+  </div>`;
+}
+
+function stateSectionHtml(key, s, data = {}) {
   const [genderLower, div] = key.split("_");
   const accent = genderAccentVar(genderLower);
   const divNum = divisionNum(div);
@@ -1128,6 +1145,7 @@ function stateSectionHtml(key, s) {
   ];
   return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
+    ${stateProjectionNoteHtml(s, data)}
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
     ${bicarbInfeedHtml(`state-${key}`)}
@@ -1137,7 +1155,7 @@ function stateSectionHtml(key, s) {
 }
 
 function stateTabHtml(data) {
-  const sections = Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s)).join("");
+  const sections = Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s, data)).join("");
   return `${bicarbLeaderboardHtml("state-top")}${sections}${bicarbRectangleHtml("state-bottom", "dark")}`;
 }
 
