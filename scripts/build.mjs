@@ -105,7 +105,7 @@ import { mockRegionalsAllPages } from "../src/pages/mockregionals.mjs";
 // nav. Do not remove this comment boundary when wiring the real feature
 // in later -- that migration replaces mockRegionalsAllPages's data
 // source, it does not add these routes alongside it.
-import { mockPostseasonAllPages } from "../src/pages/mockpostseason.mjs";
+import { mockPostseasonAllPages, mockPostseasonStateBasisFiles } from "../src/pages/mockpostseason.mjs";
 // mockDistrictsAllPages (src/pages/mockdistricts.mjs) is built and
 // committed but deliberately not called below yet -- the user wants Mock
 // Districts kept off the live site until more district data is sent and
@@ -1199,6 +1199,15 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // not generated yet -- see the import comment above.
   for (const page of mockPostseasonAllPages(site)) {
     await writePage(page.pathname, page.html);
+  }
+  // State time-basis files for /mock-postseason/real/ (2026-11-01): one
+  // small JSON per basis and division, loaded on demand by the State
+  // tab's buttons. Written straight to dist (not through writeFile) so
+  // they are not counted or listed as pages.
+  for (const file of mockPostseasonStateBasisFiles()) {
+    const target = path.join(dist, file.path);
+    await fs.mkdir(path.dirname(target), { recursive: true });
+    await fs.writeFile(target, file.content, "utf8");
   }
   await writePage("/rankings/leaders/", rankingLeadersPage(site));
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));

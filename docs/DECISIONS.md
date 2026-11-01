@@ -2024,3 +2024,9 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - The Mock Meets menu's Districts, Regionals and State items open `/mock-postseason/real/` (real district and regional results, State projected from the real qualifiers). The season-best universe stays reachable from its homepage card and the universe toggle.
 - The season-best `asOf` is the newest race date in the roster the page is built from, never the date the build script ran (Zachary: a rebuild with no new results must not move the date forward).
 - `/mock-postseason/` stays noindex and out of the sitemap until Zachary says otherwise.
+
+## 2026-11-01: State projection can be scored on four time bases; missing times are listed, never estimated
+
+- The real-results State projection offers district-only, regional-only (default), best of district and regional, and best from the season. The field is always the real State qualifiers.
+- District times match by exact name and school only. A qualifier with no match is listed as not in that projection and not scored; Podium Watch never estimates a time. Division I has no district basis.
+- "Best from the season" is the fastest real 2026 mark known for the runner: roster season best, district time or regional time.

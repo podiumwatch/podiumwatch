@@ -4,6 +4,12 @@ import realData from "../data/mock-postseason-2026-real.json" with { type: "json
 import schoolExpansions from "../data/mock-postseason-school-expansions-2026.json" with { type: "json" };
 import nameOverrides from "../data/mock-postseason-name-overrides-2026.json" with { type: "json" };
 import logoManifest from "../data/mock-postseason-logo-manifest-2026.json" with { type: "json" };
+// The real State field on the non-default time bases (district only,
+// best of district and regional, best from the season), written by
+// dataimports/real_district_results_2026/build-postseason-page-data-real.mjs.
+// Rendered into small per-division files the State tab's buttons load on
+// demand, never inline (four inline copies would quadruple the page).
+import realStateBases from "../data/mock-postseason-2026-real-state-bases.json" with { type: "json" };
 
 // 2026 Mock Postseason: Districts -> Regionals -> State, built from the
 // full statewide Ohio 2026 XC roster package (ohio_2026_xc_Claude_Code),
@@ -323,6 +329,17 @@ const SHARED_STYLE = `<style>
   .mp-footnote summary { cursor: pointer; font-weight: 700; color: var(--ink); min-height: 44px; display: flex; align-items: center; }
   .mp-rc-official { font-weight: 700; color: var(--row-accent, var(--mp-green)); }
   .mp-stateprojection { margin: 4px 0 12px; }
+  .mp-basisblock { margin: 4px 0 16px; }
+  .mp-basisblock .mp-h3 { margin-top: 0; }
+  .mp-basisbar { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  @media (min-width: 760px) { .mp-basisbar { grid-template-columns: repeat(4, 1fr); } }
+  .mp-basisbtn { min-height: 44px; padding: 6px 10px; border: 1px solid var(--line); background: var(--white); border-radius: 10px; font-weight: 700; font-size: .8rem; line-height: 1.2; color: var(--ink); cursor: pointer; text-align: center; }
+  .mp-basisbtn.active { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .mp-basisbtn:focus-visible { outline: 3px solid var(--mp-green); outline-offset: 2px; }
+  .mp-basisstatus:empty { display: none; }
+  .mp-notimed { margin: 8px 0 12px; font-size: .85rem; }
+  .mp-notimed summary { cursor: pointer; font-weight: 700; }
+  .mp-notimed ul { margin: 6px 0 0; padding-left: 18px; }
   .mp-stateprojection .mp-meta { margin-top: 4px; }
   .mp-under-review { margin-top: 32px; padding: 16px; border: 2px dashed #b45309; background: #fff7ed; }
 
@@ -737,18 +754,70 @@ const HUB_SCRIPT = `<script>
     if (districtsList) districtsList.hidden = dd === '1';
     renderBreadcrumb();
   }
+  // State time basis (real universe only): the default basis is inline;
+  // any other basis swaps the visible division's section for a small
+  // pre-built file. Only the division on screen is ever fetched.
+  var basisBar = document.querySelector('[data-basis-bar]');
+  var defaultBasis = basisBar ? basisBar.dataset.defaultBasis : null;
+  var basis = basisBar ? (params.get('basis') || defaultBasis) : null;
+  if (basisBar && !basisBar.querySelector('[data-basis="' + basis + '"]')) basis = defaultBasis;
+  var basisInline = {};
+  var basisCache = {};
+  var basisRequest = 0;
+  function swapSection(el, html){
+    var holder = document.createElement('div');
+    holder.innerHTML = html;
+    var next = holder.firstElementChild;
+    if (!next) return;
+    next.hidden = el.hidden;
+    el.replaceWith(next);
+  }
+  function applyBasis(){
+    if (!basisBar) return;
+    basisBar.querySelectorAll('.mp-basisbtn').forEach(function(b){
+      var on = b.dataset.basis === basis;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    var status = basisBar.querySelector('[data-basis-status]');
+    var key = g + '_D' + d;
+    var el = document.getElementById('state-' + key);
+    if (!el) return;
+    if (!(key in basisInline) && el.dataset.basis === defaultBasis) basisInline[key] = el.outerHTML;
+    if (el.dataset.basis === basis) { if (status) status.textContent = ''; return; }
+    if (basis === defaultBasis) { swapSection(el, basisInline[key]); if (status) status.textContent = ''; return; }
+    var cacheKey = basis + '/' + key;
+    if (basisCache[cacheKey]) { swapSection(el, basisCache[cacheKey]); if (status) status.textContent = ''; return; }
+    var requestId = ++basisRequest;
+    if (status) status.textContent = 'Loading…';
+    fetch(basisBar.dataset.basisBase + basis + '/' + key + '.json')
+      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(j){
+        basisCache[cacheKey] = j.html;
+        if (requestId !== basisRequest) return;
+        var current = document.getElementById('state-' + key);
+        if (current) swapSection(current, j.html);
+        if (status) status.textContent = '';
+      })
+      .catch(function(){
+        if (requestId !== basisRequest) return;
+        if (status) status.textContent = 'Could not load that projection. Check your connection and try again.';
+      });
+  }
   function updateUrl(){
     var sp = new URLSearchParams(); sp.set('tab',tab); sp.set('g',g); sp.set('d',d);
+    if (basisBar && basis && basis !== defaultBasis) sp.set('basis', basis);
     history.replaceState(null,'','?'+sp.toString()+location.hash);
   }
   document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.addEventListener('click', function(){ tab=b.dataset.tab; applyTab(tab); updateUrl(); }); });
-  document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); updateUrl(); }); });
-  document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); updateUrl(); }); });
+  document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); applyBasis(); updateUrl(); }); });
+  document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); applyBasis(); updateUrl(); }); });
+  if (basisBar) basisBar.querySelectorAll('.mp-basisbtn').forEach(function(b){ b.addEventListener('click', function(){ basis=b.dataset.basis; applyBasis(); updateUrl(); }); });
   // toggle doesn't bubble in all browsers -- listen in the capture phase
   // at the document so opening/closing ANY regional card updates the
   // breadcrumb's site-name segment.
   document.addEventListener('toggle', renderBreadcrumb, true);
-  applyTab(tab); applyFilter(g,d);
+  applyTab(tab); applyFilter(g,d); applyBasis();
 
   if (anchor) {
     // Scoped to the TARGET tab's panel, not a blind global match -- the
@@ -1101,19 +1170,43 @@ function regionalsTabHtml(data, basePath) {
 // four courses, not course-adjusted) and when the real race is.
 function stateProjectionNoteHtml(s, data) {
   if (!data.regionalsOfficial) return "";
-  const teams = (s.teams || []).length;
-  const individuals = (s.individuals || []).length;
+  // Field size from the pool log, so it reads the same on every time
+  // basis even when a basis leaves some runners without a time.
+  const teams = (s.poolLog || []).reduce((sum, p) => sum + p.teamCount, 0);
+  const individuals = (s.poolLog || []).reduce((sum, p) => sum + p.individualCount, 0);
+  const noteBasis = s.basis || data.stateDefaultBasis;
+  const basisLabel = data.stateBases && noteBasis ? data.stateBases[noteBasis]?.label : null;
   return `<div class="mp-stateprojection">
     <p class="mp-rc-line mp-rc-official">Projected &middot; not official &middot; as of ${escapeHtml(data.regionalsAsOfLabel || formatHumanDate(data.asOf))}</p>
-    <p class="mp-meta">Field: the real State qualifiers from the Oct 31 regionals (${teams} teams + ${individuals} individuals), scored on each runner's regional time. Times come from four different courses and are not course-adjusted.</p>
+    <p class="mp-meta">Field: the real State qualifiers from the Oct 31 regionals (${teams} teams + ${individuals} individuals).</p>
+    <p class="mp-meta">Times${basisLabel ? ` (${escapeHtml(basisLabel.replace(/^Use /, "").replace(/^./, (c) => c.toLowerCase()))})` : ""}: ${escapeHtml(s.timeBasis || "")}</p>
     <p class="mp-meta">State meet: Saturday, Nov. 7, 2026, ${escapeHtml(data.stateVenue || "Fortress Obetz")}.</p>
   </div>`;
+}
+
+// Runners left without a time on the selected basis (district only):
+// listed, never estimated. A team left with fewer than five timed
+// runners is called out by name (none on the 2026 data).
+function stateNoTimeHtml(s) {
+  const noTime = s.noTime || [];
+  const unscored = s.unscoredTeams || [];
+  if (!noTime.length && !unscored.length) return "";
+  const unscoredHtml = unscored.length
+    ? `<div class="mp-banner">Not scored as a team on this basis (fewer than five runners with a time): ${unscored.map((t) => `${schoolDisplay(t.name)} (${t.timedRunners})`).join(", ")}.</div>`
+    : "";
+  const rows = noTime.map((r) => `<li>${runnerDisplay(r.name, r.school)} (${schoolDisplay(r.school)}, ${r.kind === "team" ? "team runner" : "individual qualifier"}) &middot; regional time ${escapeHtml(r.regionalTime || "")}</li>`).join("");
+  return `${unscoredHtml}${noTime.length ? `<details class="mp-notimed"><summary>Not in this projection: ${noTime.length} qualifier${noTime.length === 1 ? "" : "s"} with ${escapeHtml(s.noTimeReason || "no time on this basis")}</summary><p class="mp-meta">Podium Watch does not estimate a time for them. Their teams are scored on the runners who have one.</p><ul>${rows}</ul></details>` : ""}`;
 }
 
 function stateSectionHtml(key, s, data = {}) {
   const [genderLower, div] = key.split("_");
   const accent = genderAccentVar(genderLower);
   const divNum = divisionNum(div);
+  const basis = s.basis || data.stateDefaultBasis || "";
+  const basisAttr = basis ? ` data-basis="${escapeHtml(basis)}"` : "";
+  if (s.unavailable) {
+    return `<div class="mp-section" id="state-${key}"${basisAttr} data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}"><h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2><div class="mp-banner">${escapeHtml(s.unavailableReason)} Choose another option above.</div></div>`;
+  }
   if (s.incomplete || (s.missing && s.missing.length)) {
     const reason = s.incomplete ? s.incompleteReason : `Waiting on region(s): ${s.missing.join(", ")}`;
     return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}"><h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2><div class="mp-banner">Incomplete: ${escapeHtml(reason)}</div></div>`;
@@ -1144,9 +1237,10 @@ function stateSectionHtml(key, s, data = {}) {
     { after: 24, label: "All-Ohio &middot; top 24" },
     { after: 48, label: "2nd Team All-Ohio &middot; 25-48" }
   ];
-  return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
+  return `<div class="mp-section" id="state-${key}"${basisAttr} data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
     ${stateProjectionNoteHtml(s, data)}
+    ${stateNoTimeHtml(s)}
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
     ${bicarbInfeedHtml(`state-${key}`)}
@@ -1155,9 +1249,39 @@ function stateSectionHtml(key, s, data = {}) {
   </div>`;
 }
 
-function stateTabHtml(data) {
+// The four State time-basis buttons (real universe only). The default
+// basis is rendered inline; the hub script swaps the visible division's
+// section for /<base>/state-basis/<basis>/<gender>_D<n>.json on click.
+const STATE_BASIS_ORDER = ["district", "regional", "bestDistrictRegional", "season"];
+function stateBasisBarHtml(data, basePath) {
+  if (!data.stateBases || !data.stateDefaultBasis) return "";
+  const buttons = STATE_BASIS_ORDER.filter((b) => data.stateBases[b]).map((b) =>
+    `<button type="button" class="mp-basisbtn${b === data.stateDefaultBasis ? " active" : ""}" data-basis="${b}" aria-pressed="${b === data.stateDefaultBasis ? "true" : "false"}">${escapeHtml(data.stateBases[b].label)}</button>`
+  ).join("");
+  return `<div class="mp-basisblock" data-basis-bar data-default-basis="${escapeHtml(data.stateDefaultBasis)}" data-basis-base="${escapeHtml(basePath)}state-basis/">
+    <p class="mp-h3">Which times should the State projection use?</p>
+    <div class="mp-basisbar" role="group" aria-label="Times used for the State projection">${buttons}</div>
+    <p class="mp-meta mp-basisstatus" data-basis-status aria-live="polite"></p>
+  </div>`;
+}
+
+function stateTabHtml(data, basePath) {
   const sections = Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s, data)).join("");
-  return `${bicarbLeaderboardHtml("state-top")}${sections}${bicarbRectangleHtml("state-bottom", "dark")}`;
+  return `${stateBasisBarHtml(data, basePath)}${bicarbLeaderboardHtml("state-top")}${sections}${bicarbRectangleHtml("state-bottom", "dark")}`;
+}
+
+// One small JSON file per (basis, division) for the non-default bases:
+// { html } holding that division's whole State section. Written by
+// scripts/build.mjs next to the real hub page.
+export function mockPostseasonStateBasisFiles() {
+  if (!realData.stateBases) return [];
+  const files = [];
+  for (const [basis, byKey] of Object.entries(realStateBases)) {
+    for (const [key, s] of Object.entries(byKey)) {
+      files.push({ path: `mock-postseason/real/state-basis/${basis}/${key}.json`, content: JSON.stringify({ basis, key, html: stateSectionHtml(key, s, realData) }) });
+    }
+  }
+  return files;
 }
 
 export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePath) {
@@ -1197,7 +1321,7 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
       <div data-districts-list>${districtsHubTabHtml(data, basePath)}</div>
     </div>
     <div class="mp-tabpanel" id="regionals-panel" data-tab="regionals" hidden>${regionalsTabHtml(data, basePath)}</div>
-    <div class="mp-tabpanel" id="state-panel" data-tab="state" hidden>${stateTabHtml(data)}</div>
+    <div class="mp-tabpanel" id="state-panel" data-tab="state" hidden>${stateTabHtml(data, basePath)}</div>
   </div></section>
   ${bicarbMobileStickyHtml()}
   <button type="button" class="mp-totop" aria-label="Back to top">&uarr;</button>

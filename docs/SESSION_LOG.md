@@ -2910,3 +2910,22 @@ Build 454 pages; check no problems; tests pass; no Mock Postseason page contains
 ### Checks
 
 Build 454 pages; check no problems (19,286 local images); tests pass; contact sheet of all 16 at 96px and in the 28px row circle reviewed.
+
+## 2026-11-01 (night): State projection time-basis buttons
+
+### Request
+
+Zachary: buttons for "use only district results", "use only regional", "use best from district and regional" and "use best from the season".
+
+### What was done
+
+- **State tab of `/mock-postseason/real/`** now opens with four buttons above the division sections: Use only district results, Use only regional results (default, the existing projection), Use best from district and regional, Use best from the season. The field is always the real State qualifiers from the Oct 31 regionals; only the time each runner carries changes. The chosen basis is kept in the URL (`&basis=district|bestDistrictRegional|season`) and survives gender/division changes.
+- **Time rules** (`dataimports/real_regional_results_2026/apply-real-regionals.mjs`, `stateResultsByBasis`): district = Oct 24 district time, exact name + school only; best of district and regional = the faster of the two (regional when no district match); season = fastest of the Podium Watch roster season best (matched by Athletic.net ID, merged IDs included, then name + school), the district time and the regional time. Only real marks; nothing estimated. Scoring is the same engine and two-pass rule as before.
+- **Missing times**: on district only, 43 qualifiers in D2-D4 have no district row under the same name and school (boys D2 7, girls D2 7, boys D3 13, girls D3 3, boys D4 6, girls D4 7). They are listed on the page under "Not in this projection" with their regional time and are not scored; every team still has at least five timed runners. Division I has no districts, so its district view shows that note instead of a table. The other three bases have a time for every qualifier (the script fails if not).
+- **Delivery**: the default basis stays inline; the other three are rendered by `mockPostseasonStateBasisFiles()` into 24 small files at `dist/mock-postseason/real/state-basis/<basis>/<gender>_D<n>.json` (about 200 KB each), loaded only for the division on screen. The real hub page stays 4.9 MB. Alternate-basis data lives in `src/data/mock-postseason-2026-real-state-bases.json` (compact, 2.5 MB) so the main page data file keeps its size.
+- The projection note on every State view now names the basis ("Times (only regional results): ...").
+- The regional-stage output and the existing regional/State results were verified unchanged by the refactor (byte-for-byte JSON comparison before the new keys were added).
+
+### Checks
+
+Build 454 pages; check no problems; tests pass; Chrome at 375px: every button swaps the section and the URL, D1 + district shows the note, a deep link with `basis=season` loads directly, no duplicate ids, no horizontal overflow, 0 page errors.

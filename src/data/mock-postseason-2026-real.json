@@ -266444,5 +266444,24 @@
     "Team ties were decided by Athletic.net's official team places (sixth-runner tiebreak): Pickerington D1 Girls, Hilliard Davidson and Gahanna Lincoln at 136; Boardman D2 Boys, Shaker Heights and Hoover at 265; Boardman D3 Girls, Marlington and Crestwood at 127.",
     "\"Cal. River Valley\" is River Valley (Caledonia); \"Bid. River Valley\" is River Valley (Bidwell).",
     "Perrysburg (Northwest) ran the D1 regional at Boardman; Tiffin had no D1 race."
-  ]
+  ],
+  "stateBases": {
+    "district": {
+      "label": "Use only district results",
+      "timeBasis": "Each runner's Oct 24, 2026 district time, matched by exact name and school. Different district courses, not course-adjusted."
+    },
+    "regional": {
+      "label": "Use only regional results",
+      "timeBasis": "Each runner's Oct 31, 2026 regional time. Four different courses, not course-adjusted."
+    },
+    "bestDistrictRegional": {
+      "label": "Use best from district and regional",
+      "timeBasis": "The faster of each runner's Oct 24 district time and Oct 31 regional time (regional time when no district time matches). Different courses, not course-adjusted."
+    },
+    "season": {
+      "label": "Use best from the season",
+      "timeBasis": "Each runner's fastest known 2026 time: the Podium Watch season-best roster, the Oct 24 district time or the Oct 31 regional time, whichever is fastest. Different courses, not course-adjusted."
+    }
+  },
+  "stateDefaultBasis": "regional"
 }

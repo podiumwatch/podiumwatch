@@ -33,6 +33,17 @@
 //                            point from a team runner. Time basis is each
 //                            runner's regional time, from four different
 //                            courses, not course-adjusted.
+//   stateResultsByBasis      The same real State field scored on four time
+//                            bases (Zachary, 2026-11-01): "district" (Oct
+//                            24 district time only, exact name + school;
+//                            D2-D4 only, D1 has no districts), "regional"
+//                            (identical to stateResults), "bestDistrict
+//                            Regional" (faster of the two) and "season"
+//                            (fastest of the Podium Watch roster season
+//                            best, the district time and the regional
+//                            time). Only real marks are used. A runner
+//                            with no time on a basis is listed in noTime
+//                            and not scored -- never estimated.
 //
 // Run order: build-postseason-chain-real.mjs (districts) -> this ->
 // build-postseason-page-data-real.mjs.
@@ -53,6 +64,10 @@ const districtChain = JSON.parse(fs.readFileSync(path.join(root, "dataimports/re
 // committed), frozen so projection-vs-actual is never measured against a
 // projection that was itself rebuilt after the regional PRs were applied.
 const preRegionalSnapshot = JSON.parse(fs.readFileSync(path.join(pkgDir, "pre_regional_projections_snapshot.json"), "utf8"));
+// For the alternate State time bases: the real Oct 24 district results
+// and the Podium Watch season-best roster.
+const districtParsed = JSON.parse(fs.readFileSync(path.join(root, "dataimports/real_district_results_2026/real_district_results_2026_parsed.json"), "utf8"));
+const seasonRoster = JSON.parse(fs.readFileSync(path.join(root, "dataimports/ohio_2026_xc_Claude_Code/ohio_2026_xc_full_statewide_2026.json"), "utf8"));
 
 const REGION_LABEL = { central: "Central", northeast: "Northeast", northwest: "Northwest", southwest: "Southwest" };
 const REGION_ORDER = ["central", "northeast", "northwest", "southwest"];
@@ -195,8 +210,104 @@ for (const division of [1, 2, 3, 4]) for (const gender of ["boys", "girls"]) for
   if (regionalResults[key]) orderedRegionalResults[key] = regionalResults[key];
 }
 
+// --- State time bases ---
+function timeToCentiseconds(value) {
+  const parts = String(value).trim().split(":");
+  let seconds = 0;
+  for (const part of parts) seconds = seconds * 60 + Number.parseFloat(part);
+  return Number.isFinite(seconds) ? Math.round(seconds * 100) : null;
+}
+const districtTimeByKey = new Map();
+for (const race of districtParsed.races) {
+  for (const row of race.individualResults) {
+    if (!row.time || /^(DNS|DNF|DQ)/i.test(row.time)) continue;
+    const cs = timeToCentiseconds(row.time);
+    if (cs == null) continue;
+    districtTimeByKey.set(`${race.gender.toLowerCase()}|${row.school}|${row.name}`, { display: row.time, cs, site: race.siteKey });
+  }
+}
+const seasonById = new Map();
+const seasonByKey = new Map();
+for (const [catKey, cat] of Object.entries(seasonRoster.categories)) {
+  const g = String(cat.gender || catKey.split("_")[0]).toLowerCase();
+  for (const team of cat.teams) {
+    for (const r of team.runners) {
+      if (!Number.isFinite(r.timeCentiseconds)) continue;
+      const entry = { display: r.seasonBest, cs: r.timeCentiseconds };
+      if (r.athleticNetId) seasonById.set(String(r.athleticNetId), entry);
+      for (const id of r.mergedAthleticNetIds || []) seasonById.set(String(id), entry);
+      seasonByKey.set(`${g}|${team.name}|${r.name}`, entry);
+    }
+  }
+}
+const STATE_BASES = {
+  district: {
+    label: "Use only district results",
+    timeBasis: "Each runner's Oct 24, 2026 district time, matched by exact name and school. Different district courses, not course-adjusted.",
+    noTimeReason: "no district time found under the same name and school"
+  },
+  regional: {
+    label: "Use only regional results",
+    timeBasis: "Each runner's Oct 31, 2026 regional time. Four different courses, not course-adjusted."
+  },
+  bestDistrictRegional: {
+    label: "Use best from district and regional",
+    timeBasis: "The faster of each runner's Oct 24 district time and Oct 31 regional time (regional time when no district time matches). Different courses, not course-adjusted."
+  },
+  season: {
+    label: "Use best from the season",
+    timeBasis: "Each runner's fastest known 2026 time: the Podium Watch season-best roster, the Oct 24 district time or the Oct 31 regional time, whichever is fastest. Different courses, not course-adjusted."
+  }
+};
+// Returns { display, cs, source } or null for one runner on one basis.
+function timeOnBasis(basis, gender, school, runner) {
+  const regional = { display: runner.seasonBest, cs: runner.timeCentiseconds, source: "regional" };
+  const dist = districtTimeByKey.get(`${gender}|${school}|${runner.name}`);
+  const district = dist ? { display: dist.display, cs: dist.cs, source: "district" } : null;
+  if (basis === "regional") return regional;
+  if (basis === "district") return district;
+  const candidates = [regional, district];
+  if (basis === "season") {
+    const sb = (runner.athleticNetId && seasonById.get(String(runner.athleticNetId))) || seasonByKey.get(`${gender}|${school}|${runner.name}`);
+    if (sb) candidates.push({ display: sb.display, cs: sb.cs, source: "season best" });
+  }
+  return candidates.filter(Boolean).sort((a, b) => a.cs - b.cs)[0];
+}
+
+// One State entry from a pooled field: same two passes as
+// computeStatePool() -- team scores from a team-only field, the shared
+// finish order from the combined field.
+function scoreStateField(pooledTeams, pooledIndividuals, poolLog, timeBasis) {
+  const teamScored = scoreTeams(pooledTeams, []);
+  const individualScored = scoreTeams(pooledTeams, pooledIndividuals);
+  const stateTeamPlace = new Map(teamScored.teams.flatMap((t) => t.runners.map((r) => [`${t.name}|${r.name}`, r.placePoints])));
+  const originByName = new Map(pooledTeams.map((t) => [t.name, { qualifiedFromRegional: t.qualifiedFromRegional, qualifiedFromRegionalOrdinal: t.qualifiedFromRegionalOrdinal, regionalScore: t.regionalScore }]));
+  const teams = teamScored.teams.map((t) => ({ ...t, ...originByName.get(t.name), runners: t.runners.map((r) => ({ ...r, teamPlacePoints: r.placePoints })) }));
+  const teamsForFullField = individualScored.teams.map((t) => ({ ...t, ...originByName.get(t.name), runners: t.runners.map((r) => ({ ...r, teamPlacePoints: stateTeamPlace.get(`${t.name}|${r.name}`) ?? null })) }));
+  return { projected: true, timeBasis, teams, teamsForFullField, individuals: individualScored.individuals, poolLog, missing: [] };
+}
+
+// Re-times a pooled field on one basis. Runners with no time on that
+// basis are removed and listed in noTime, never estimated; a team left
+// with fewer than five timed runners stays in the field but is not
+// scored (the engine marks it incomplete).
+function retimeField(basis, gender, pooledTeams, pooledIndividuals) {
+  const noTime = [];
+  const sourceCounts = {};
+  const retime = (runner, school, kind) => {
+    const t = timeOnBasis(basis, gender, school, runner);
+    if (!t) { noTime.push({ name: runner.name, school, kind, regionalTime: runner.seasonBest }); return null; }
+    sourceCounts[t.source] = (sourceCounts[t.source] || 0) + 1;
+    return { ...runner, seasonBest: t.display, timeCentiseconds: t.cs, timeSource: t.source, regionalTime: runner.seasonBest };
+  };
+  const teams = pooledTeams.map((team) => ({ ...team, runners: team.runners.map((r) => retime(r, team.name, "team")).filter(Boolean) }));
+  const individuals = pooledIndividuals.map((q) => retime(q, q.originalTeam, "individual")).filter(Boolean);
+  return { teams, individuals, noTime, sourceCounts };
+}
+
 // --- State: projected from the real qualifiers ---
 const stateResults = {};
+const stateResultsByBasis = { district: {}, regional: {}, bestDistrictRegional: {}, season: {} };
 for (const division of [1, 2, 3, 4]) for (const gender of ["boys", "girls"]) {
   const divKey = `${gender}_D${division}`;
   const pooledTeams = [];
@@ -230,27 +341,30 @@ for (const division of [1, 2, 3, 4]) for (const gender of ["boys", "girls"]) {
   }
   if (!pooledTeams.length) continue;
 
-  // Same two passes as computeStatePool(): team scores from a team-only
-  // field; the shared finish order from the combined field.
-  const teamScored = scoreTeams(pooledTeams, []);
-  const individualScored = scoreTeams(pooledTeams, pooledIndividuals);
-  const stateTeamPlace = new Map(teamScored.teams.flatMap((t) => t.runners.map((r) => [`${t.name}|${r.name}`, r.placePoints])));
-  const originByName = new Map(pooledTeams.map((t) => [t.name, { qualifiedFromRegional: t.qualifiedFromRegional, qualifiedFromRegionalOrdinal: t.qualifiedFromRegionalOrdinal, regionalScore: t.regionalScore }]));
-  const teams = teamScored.teams.map((t) => ({ ...t, ...originByName.get(t.name), runners: t.runners.map((r) => ({ ...r, teamPlacePoints: r.placePoints })) }));
-  const teamsForFullField = individualScored.teams.map((t) => ({ ...t, ...originByName.get(t.name), runners: t.runners.map((r) => ({ ...r, teamPlacePoints: stateTeamPlace.get(`${t.name}|${r.name}`) ?? null })) }));
-  stateResults[divKey] = {
-    projected: true,
-    timeBasis: "Each runner's Oct 31, 2026 regional time. Four different courses, not course-adjusted.",
-    teams,
-    teamsForFullField,
-    individuals: individualScored.individuals,
-    poolLog,
-    missing: []
-  };
+  stateResults[divKey] = scoreStateField(pooledTeams, pooledIndividuals, poolLog, STATE_BASES.regional.timeBasis);
+  const { teams } = stateResults[divKey];
   const expectedTeams = division === 1 ? 20 : 24;
   const expectedInd = division === 1 ? 40 : 48;
   if (teams.length !== expectedTeams) fail(`State ${divKey}: ${teams.length} teams pooled, expected ${expectedTeams}.`);
-  if (individualScored.individuals.length !== expectedInd) fail(`State ${divKey}: ${individualScored.individuals.length} individuals pooled, expected ${expectedInd}.`);
+  if (stateResults[divKey].individuals.length !== expectedInd) fail(`State ${divKey}: ${stateResults[divKey].individuals.length} individuals pooled, expected ${expectedInd}.`);
+
+  // The same field on every basis.
+  stateResultsByBasis.regional[divKey] = { ...stateResults[divKey], basis: "regional", noTime: [] };
+  for (const basis of ["district", "bestDistrictRegional", "season"]) {
+    if (basis === "district" && division === 1) {
+      stateResultsByBasis.district[divKey] = { basis, unavailable: true, unavailableReason: "Division I has no district meet; D1 teams and individuals enter at regionals." };
+      continue;
+    }
+    const field = retimeField(basis, gender, pooledTeams, pooledIndividuals);
+    const entry = scoreStateField(field.teams, field.individuals, poolLog, STATE_BASES[basis].timeBasis);
+    entry.basis = basis;
+    entry.noTime = field.noTime;
+    entry.noTimeReason = STATE_BASES[basis].noTimeReason || null;
+    entry.timeSourceCounts = field.sourceCounts;
+    entry.unscoredTeams = entry.teams.filter((t) => !t.complete).map((t) => ({ name: t.name, timedRunners: t.runners.length }));
+    if (basis !== "district" && field.noTime.length) fail(`State ${divKey} ${basis}: ${field.noTime.length} runner(s) without a time, expected none.`);
+    stateResultsByBasis[basis][divKey] = entry;
+  }
 }
 
 if (problems.length) {
@@ -271,7 +385,10 @@ const output = {
   regionalResults: orderedRegionalResults,
   projectedRegionalResults: preRegionalSnapshot.regionals,
   projectedRegionalResultsNote: preRegionalSnapshot.snapshotOf,
-  stateResults
+  stateResults,
+  stateBases: Object.fromEntries(Object.entries(STATE_BASES).map(([k, v]) => [k, { label: v.label, timeBasis: v.timeBasis }])),
+  stateDefaultBasis: "regional",
+  stateResultsByBasis
 };
 const outPath = path.join(pkgDir, "postseason_chain_output_real_regionals.json");
 fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
@@ -286,5 +403,14 @@ console.log("\n=== State (projected from real qualifiers) ===");
 for (const [key, s] of Object.entries(stateResults)) {
   const top = s.teams.slice(0, 3).map((t) => `${t.name} ${t.score}`).join(", ");
   console.log(`${key}: ${s.teams.length} teams + ${s.individuals.length} individuals -- ${top}`);
+}
+console.log("\n=== State on each time basis ===");
+for (const [basis, byDiv] of Object.entries(stateResultsByBasis)) {
+  for (const [key, s] of Object.entries(byDiv)) {
+    if (s.unavailable) { console.log(`[${basis}] ${key}: unavailable (${s.unavailableReason})`); continue; }
+    const top = s.teams.filter((t) => t.complete).slice(0, 3).map((t) => `${t.name} ${t.score}`).join(", ");
+    const extra = s.noTime.length ? ` -- ${s.noTime.length} without a time${s.unscoredTeams.length ? `, unscored: ${s.unscoredTeams.map((t) => `${t.name} (${t.timedRunners})`).join(", ")}` : ""}` : "";
+    console.log(`[${basis}] ${key}: ${top}${extra}${s.timeSourceCounts ? ` | sources ${JSON.stringify(s.timeSourceCounts)}` : ""}`);
+  }
 }
 console.log(`\nWrote ${outPath}`);

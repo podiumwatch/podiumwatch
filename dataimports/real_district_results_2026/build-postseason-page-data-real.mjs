@@ -68,6 +68,17 @@ if (regionalStage) {
   output.projectedRegionalResults = regionalStage.projectedRegionalResults;
   output.regionalSource = regionalStage.source;
   output.regionalWorkbookNotes = regionalStage.workbookNotes;
+  // The same real State field on four time bases (2026-11-01). The page
+  // renders the default basis (regional = stateResults above) inline and
+  // writes the others as small per-division files the State tab's
+  // buttons load on demand. The alternate bases live in their own
+  // compact file so this one stays the size it was.
+  output.stateBases = regionalStage.stateBases;
+  output.stateDefaultBasis = regionalStage.stateDefaultBasis;
+  const alternateBases = Object.fromEntries(Object.entries(regionalStage.stateResultsByBasis).filter(([basis]) => basis !== regionalStage.stateDefaultBasis));
+  const basesPath = path.join(root, "src/data/mock-postseason-2026-real-state-bases.json");
+  fs.writeFileSync(basesPath, JSON.stringify(alternateBases) + "\n");
+  console.log(`Wrote ${basesPath} (${Object.keys(alternateBases).join(", ")})`);
 }
 
 const outPath = path.join(root, "src/data/mock-postseason-2026-real.json");
