@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-10-31 09:23:28
+Generated: 2026-10-31 22:15:03
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 5234 |
+| Included source files | 5244 |
 | Page source files | 96 |
 | API files | 128 |
 | Route references | 107 |
@@ -20,24 +20,24 @@ This file is generated from the current project.
 
 Latest commit:
 
-17ab9cbf175ecfd9b826850e3c80313993bb76fb | 2026-10-31 09:10:48 -0400 | Mock postseason: select individual qualifiers against the team-only cut, fix IND badge, remove duplicate roster rows
+ff7b1da82896be31ab2871b1bae336949b2f1061 | 2026-10-31 09:23:40 -0400 | Mock meets: one advancement rule everywhere -- team-only cut, then individuals by overall finish
 
 Working tree:
 
  M .claude/settings.json
- M dataimports/real_district_results_2026/build-postseason-chain-real.mjs
- M dataimports/real_district_results_2026/postseason_chain_output_real.json
+ M dataimports/ohio_2026_xc_Claude_Code/ohio_2026_xc_full_statewide_2026.json
+ M dataimports/ohio_2026_xc_Claude_Code/postseason_chain_output.json
+ M dataimports/real_district_results_2026/build-postseason-page-data-real.mjs
  M docs/AUTO_PROJECT_INDEX.md
  M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
- M lib/mock_meet_export_service.mjs
- M scripts/mock-meet-export.mjs
  M src/data/mock-postseason-2026-real.json
- M src/lib/mock_scoring.mjs
- M src/pages/mockdistricts.mjs
- M src/pages/mockregionals.mjs
+ M src/data/mock-postseason-2026.json
+ M src/data/mock-postseason-school-expansions-2026.json
+ M src/data/mock-regionals-2026.json
+ M src/pages/mockpostseason.mjs
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
 ?? dataimports/BTF2027D1.pdf
@@ -51,6 +51,7 @@ Working tree:
 ?? dataimports/GTF2027D4.pdf
 ?? dataimports/GTF2027D5.pdf
 ?? dataimports/Ohio_Senior_Boys_Top_250.xlsx
+?? dataimports/Ohio_XC_Regionals_2026_All_Results.xlsx
 ?? dataimports/Podium_Watch_Weekend_Results.xlsx
 ?? dataimports/backfill-athletic-net-matched-school-id.mjs
 ?? dataimports/bicarb-billboard-970x250.png
@@ -232,6 +233,7 @@ Working tree:
 ?? dataimports/publish-athletic-net-rankings-batch.mjs
 ?? dataimports/publish-athletic-net-rankings-profiles.mjs
 ?? dataimports/pw_logos/
+?? dataimports/real_regional_results_2026/
 ?? dataimports/story-page-and-homepage-handoff.md
 ?? dataimports/track-alignments/
 ?? dataimports/triple-threat-2026/

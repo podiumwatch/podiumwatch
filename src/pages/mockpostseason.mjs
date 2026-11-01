@@ -49,6 +49,13 @@ function formatHumanDate(isoDate) {
 // WORDING between them; everything else (basePath threading below) is
 // structural, not textual.
 function asOfLabelHtml(data, isReal) {
+  // Regional stage (2026-10-31): once the real regional results are in
+  // (data.regionalsOfficial, set by build-postseason-page-data-real.mjs
+  // from dataimports/real_regional_results_2026/), districts AND
+  // regionals are real results; only State is still a projection.
+  if (isReal && data.regionalsOfficial) {
+    return `Real district and regional results &middot; ${escapeHtml(data.regionalsAsOfLabel || formatHumanDate(data.asOf))} &middot; State projected, not official`;
+  }
   return isReal
     ? `Real district results &middot; ${formatHumanDate(data.asOf)} &middot; Regionals/State recomputed, not official`
     : `Projected &middot; as of ${formatHumanDate(data.asOf)} &middot; not official`;
@@ -313,6 +320,7 @@ const SHARED_STYLE = `<style>
   .mp-showall summary { min-height: 44px; display: flex; align-items: center; padding: 8px 10px; font-weight: 700; font-size: .84rem; color: var(--ink); cursor: pointer; background: var(--paper); }
   .mp-footnote { margin: 10px 0 0; padding: 12px 16px; border: 1px solid var(--line); background: var(--paper); font-size: .83rem; color: var(--muted); }
   .mp-footnote summary { cursor: pointer; font-weight: 700; color: var(--ink); min-height: 44px; display: flex; align-items: center; }
+  .mp-rc-official { font-weight: 700; color: var(--row-accent, var(--mp-green)); }
   .mp-under-review { margin-top: 32px; padding: 16px; border: 2px dashed #b45309; background: #fff7ed; }
 
   /* A team row is itself a <details> -- summary is the flat row, body is
@@ -952,6 +960,45 @@ function districtsHubTabHtml(data, basePath) {
   }).join("");
 }
 
+// Projected vs. actual for an OFFICIAL regional card (2026-10-31): the
+// same hit/miss/surprise comparison the district site pages show, run
+// against what the site projected BEFORE the race. Both projections come
+// from data.projectedRegionalResults, a snapshot of the season-best and
+// district-fed universes as committed before the regionals
+// (dataimports/real_regional_results_2026/pre_regional_projections_snapshot.json)
+// -- never the live season-best universe, which is rebuilt after the
+// regional PRs are applied and would no longer be a true "before". Teams
+// only, the clean apples-to-apples number, same as the district tab.
+function regionalProjectionVsActualHtml(key, r, data) {
+  if (!r.official) return "";
+  const snapshot = (data.projectedRegionalResults || {})[key];
+  if (!snapshot) return "";
+  const actual = new Set(r.teams.filter((t) => t.advanced).map((t) => t.name));
+  const sources = [snapshot.seasonBest, snapshot.districtFed].filter((p) => p && p.qualifyingTeams);
+  if (!sources.length) return "";
+  const list = (names, cls) => names.length ? names.map((n) => `<span class="${cls}">${schoolDisplay(n)}</span>`).join(", ") : "--";
+  const rows = sources.map((p) => {
+    const projected = new Set(p.qualifyingTeams);
+    const hits = [...projected].filter((n) => actual.has(n));
+    const misses = [...projected].filter((n) => !actual.has(n));
+    const surprises = [...actual].filter((n) => !projected.has(n));
+    return `<tr>
+      <td>${escapeHtml(p.label)}</td>
+      <td>${hits.length}/${projected.size} correct<div class="mp-rowsub">${list(hits, "mp-pva-hit")}</div></td>
+      <td>${list(misses, "mp-pva-miss")}</td>
+      <td>${list(surprises, "mp-pva-surprise")}</td>
+    </tr>`;
+  }).join("");
+  return `<details class="mp-showall"><summary>Projected vs. actual (teams)</summary>
+    <table class="mp-pvatable">
+      <caption>What Podium Watch projected before the race vs. the ${r.stateQualifiers} teams that advanced</caption>
+      <thead><tr><th>Projection</th><th>Hit (projected &amp; qualified)</th><th>Miss (projected, didn't qualify)</th><th>Surprise (qualified, not projected)</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p class="mp-meta">Projections are Podium Watch's editorial models as published before Oct 31, 2026. The advancing teams are the official Athletic.net result.</p>
+  </details>`;
+}
+
 // Collapsed regional summary: just the site name as the title (gender +
 // division already narrowed by the filter, shown as a small label
 // instead of being baked into the heading text), winner+score, last
@@ -967,8 +1014,21 @@ function regionalSummaryCard(key, r, data, basePath) {
   const siteTitle = r.siteName ? r.siteName.replace(/\s*\([^)]*\)\s*$/, "").trim() || r.siteName : (r.regionKey.charAt(0).toUpperCase() + r.regionKey.slice(1));
   const smallLabel = `${GENDER_LABEL[genderLower]} ${divisionLabel(r.division)}`;
   const complete = r.teams.filter((t) => t.complete);
-  const qualifyingNames = new Set(complete.slice(0, r.stateQualifiers || 0).map((t) => t.name));
+  // An official entry (real Oct 31 results) carries each team's real
+  // "Advanced to State" flag straight from the results; a projection
+  // still takes the top N by mock rank.
+  const qualifyingNames = new Set(r.official ? complete.filter((t) => t.advanced).map((t) => t.name) : complete.slice(0, r.stateQualifiers || 0).map((t) => t.name));
   const realAdvancingKeys = new Set(r.stateQualifyingIndividualKeys || []);
+  const officialLine = r.official
+    ? `<p class="mp-rc-line mp-rc-official">Official result &middot; Athletic.net &middot; as of ${escapeHtml(r.asOfLabel || formatHumanDate(r.asOf))}</p>`
+    : "";
+  // Workbook notes the brief says to flag on the page, never "fix": team
+  // ties decided by the official places, and any DNF (listed, not scored).
+  const officialNotes = r.official ? [
+    ...(r.teamTies || []).map((tie) => `Tie at ${formatPoints(tie.points)}: ${tie.teams.map((t) => `${schoolDisplay(t.school)} ${ordinalWord(t.place)}`).join(", ")}. ${escapeHtml(tie.note)}`),
+    ...(r.dnf || []).map((d) => `DNF: ${runnerDisplay(d.name, d.school)} (${schoolDisplay(d.school)}), listed as did not finish, not scored and not ranked.`)
+  ] : [];
+  const officialNotesHtml = officialNotes.map((note) => `<p class="mp-meta">${note}</p>`).join("");
   const finishOrder = combinedFinishOrder(r.teams, qualifyingNames, r.individuals, realAdvancingKeys);
 
   const incompleteBanner = r.incomplete
@@ -989,7 +1049,13 @@ function regionalSummaryCard(key, r, data, basePath) {
   // qualifier placing 102nd combined had no anchor to land on). Extend
   // the limit just enough to cover the lowest-placed IND row, never
   // shrinking the normal top-32 view.
-  const lastIndPosition = finishOrder.reduce((max, row, i) => (row.tag === "IND" ? i : max), -1);
+  // Official entries (2026-10-31) list EVERY unattached finisher as an IND
+  // row (and nearly all of them are district individual qualifiers), so
+  // "last IND row" would be the whole field. For an official card only
+  // the individuals who actually advance extend the list; a district
+  // page's "Advances to" link for a runner who finished beyond that still
+  // opens the right card, just without a highlighted row.
+  const lastIndPosition = finishOrder.reduce((max, row, i) => (row.tag === "IND" && (!r.official || row.advancing !== false) ? i : max), -1);
   const showAllLimit = Math.max(32, lastIndPosition + 1);
 
   return `<details class="mp-regionalcard" id="${key}" data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
@@ -997,15 +1063,18 @@ function regionalSummaryCard(key, r, data, basePath) {
       <span class="mp-rc-label">${smallLabel} <span class="mp-chevron">&#9660;</span></span>
       <h3 style="color:${accent}">${escapeHtml(siteTitle)}</h3>
       ${incompleteBanner}
+      ${officialLine}
       ${winner ? `<p class="mp-rc-line"><strong>${schoolDisplay(winner.name)}</strong> wins, ${formatPoints(winner.score)} pts</p>` : "<p class=\"mp-rc-line\">No field data yet.</p>"}
       ${lastIn ? `<p class="mp-rc-line">Last in: <strong>${schoolDisplay(lastIn.name)}</strong> (${formatPoints(lastIn.score)} pts)${firstOut ? ` &middot; First out: <strong>${schoolDisplay(firstOut.name)}</strong> (+${gap} pt${gap === "1" ? "" : "s"})` : ""}</p>` : ""}
       ${r.stateQualifiers != null ? `<p class="mp-rc-line">${r.stateQualifiers} teams + ${r.individualQualifiers} individuals to State</p>` : ""}
     </summary>
     <div class="mp-regionalcard-body">
+      ${officialNotesHtml}
       <p class="mp-h3">State qualifiers</p>
       ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), realAdvancingKeys)}
       ${bicarbInfeedHtml(`regional-${key}`)}
-      <details class="mp-showall"><summary>Top 32 (combined, includes pooled district individuals)</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), genderLower, divNum)}</details>
+      <details class="mp-showall"><summary>${r.official ? "Top 32 (official finish order, includes individual qualifiers)" : "Top 32 (combined, includes pooled district individuals)"}</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), genderLower, divNum)}</details>
+      ${regionalProjectionVsActualHtml(key, r, data)}
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
     </div>
   </details>`;
@@ -1082,7 +1151,11 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
 
   const content = `${compactHero({
     eyebrow: "Local review build -- not live", title: "Mock Postseason",
-    description: isReal ? "Districts, Regionals, and State, recomputed from the real Oct 24, 2026 district results (D2-D4 only; D1 has no districts, shown as season-best)." : "Districts, Regionals, and State in one place.",
+    description: isReal
+      ? (data.regionalsOfficial
+        ? "Real OHSAA district (Oct 24) and regional (Oct 31, 2026) results, with State projected from the real qualifiers. The State meet is Saturday, Nov. 7 at Fortress Obetz."
+        : "Districts, Regionals, and State, recomputed from the real Oct 24, 2026 district results (D2-D4 only; D1 has no districts, shown as season-best).")
+      : "Districts, Regionals, and State in one place.",
     statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, otherBasePath)
   })}
   ${SHARED_STYLE}

@@ -4,6 +4,14 @@
 // Same shape (districtsBySite / regionalResults / stateResults) so
 // src/pages/mockpostseason.mjs's factory can render either universe with
 // the same code.
+//
+// Regional stage (2026-10-31): when dataimports/real_regional_results_2026/
+// postseason_chain_output_real_regionals.json exists (written by
+// apply-real-regionals.mjs from the real Oct 31 regional results), its
+// OFFICIAL regionalResults and PROJECTED stateResults replace the
+// district-fed projection here, and that projection is carried along as
+// projectedRegionalResults so each regional card can show projection vs.
+// actual. Without that file the output is exactly what it was before.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,6 +21,8 @@ const root = path.resolve(pkgDir, "../..");
 
 const chain = JSON.parse(fs.readFileSync(path.join(pkgDir, "postseason_chain_output_real.json"), "utf8"));
 const district = JSON.parse(fs.readFileSync(path.join(root, "dataimports/district_meets_2026.json"), "utf8"));
+const regionalStagePath = path.join(root, "dataimports/real_regional_results_2026/postseason_chain_output_real_regionals.json");
+const regionalStage = fs.existsSync(regionalStagePath) ? JSON.parse(fs.readFileSync(regionalStagePath, "utf8")) : null;
 
 function siteName(key) {
   const s = district.sites.find((x) => x.key === key);
@@ -41,16 +51,25 @@ for (const site of Object.values(districtsBySite)) {
 
 const output = {
   schemaVersion: 1,
-  asOf: district.meet_date,
+  asOf: regionalStage ? regionalStage.asOf : district.meet_date,
   meetDate: district.meet_date,
   regionalDate: district.regional_date,
   districtsBySite,
-  regionalResults: chain.regionalResults,
-  stateResults: chain.stateResults,
+  regionalResults: regionalStage ? regionalStage.regionalResults : chain.regionalResults,
+  stateResults: regionalStage ? regionalStage.stateResults : chain.stateResults,
   underReviewByCategory: {},
   districtStatewideCheck: {}
 };
+if (regionalStage) {
+  output.regionalsOfficial = true;
+  output.regionalsAsOfLabel = regionalStage.asOfLabel;
+  output.stateDate = regionalStage.stateDate;
+  output.stateVenue = regionalStage.stateVenue;
+  output.projectedRegionalResults = regionalStage.projectedRegionalResults;
+  output.regionalSource = regionalStage.source;
+  output.regionalWorkbookNotes = regionalStage.workbookNotes;
+}
 
 const outPath = path.join(root, "src/data/mock-postseason-2026-real.json");
 fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
-console.log(`Wrote ${outPath}`);
+console.log(`Wrote ${outPath}${regionalStage ? " (official regionals + projected State from the Oct 31 regional stage)" : ""}`);

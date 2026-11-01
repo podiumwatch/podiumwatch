@@ -2799,3 +2799,37 @@ User direction after the fix above: "Fix it so that the correct amount of teams 
 - Real-results hub (`/mock-postseason/real/`): Boys D2 Central -- Dublin Scioto in as a team, Hartley out (Brody Schaffer of Hartley becomes an individual qualifier, Jack Flanagan of Scioto no longer is); Boys D2 Northeast -- West Geauga in, Massillon Perry out (Parker Simonson and Noah Dostal of Perry in as individuals; Ian Res and Joey Lubanovich of West Geauga out). Girls D4 Northwest order only. The Boys D2 State field follows. Regenerated `src/data/mock-postseason-2026-real.json`.
 
 **Validation**: `npm run build` (454 pages); rebuilt Troy D3 boys page shows every team's "First five" summing exactly to its score; the consistency checker reports 0 problems in both hub datasets; full `npm test` suite passed (exit 0). Committed only, not pushed.
+
+## 2026-10-31: Real regional results imported, State projected from the real qualifiers, regional PRs applied
+
+### Date
+
+2026-10-31 (evening)
+
+### Goal
+
+Bring the real Oct 31, 2026 OHSAA regional results onto the site the same way the Oct 24 district results were brought in (Zachary's brief, "actual regional results"), re-run the mock State meet from the real qualifiers, and update season-best times wherever a runner set a regional PR.
+
+### Source
+
+`dataimports/Ohio_XC_Regionals_2026_All_Results.xlsx`, compiled by Zachary from Athletic.net's official results for the four regionals (Central at Pickerington 287237, Northeast at Boardman 287234, Northwest at Tiffin 287247, Southwest at Troy 287241), every race re-checked at 7:00 PM ET. 30 races, 5,998 rows (5,997 finishers plus one DNF), 719 team scores, 184 teams and 368 individuals to State. The workbook's State Qualifier column is used as given; nobody's advancement is recomputed.
+
+### What was done
+
+- **New folder `dataimports/real_regional_results_2026/`**, mirroring the district import: `read-xlsx.mjs` (dependency-free workbook reader, zip + SpreadsheetML, so no new npm package), `parse-regional-results.mjs` (workbook -> `real_regional_results_2026_parsed.json`, verbatim), `verify-regional-results.mjs` (exits non-zero on any miss: the brief's counts table, every race re-scored from the finish order against the posted team scores, qualifier flags against advancing teams, contiguous places, the site's published advancement counts, the three known team ties, the one DNF and the one missing Athletic.net ID), `apply-real-regionals.mjs` (official regionals + projected State -> `postseason_chain_output_real_regionals.json`), `update-season-bests-from-real-regionals.mjs` (PRs into both season-best datasets), and `pre_regional_projections_snapshot.json` (what both universes projected before the race, frozen from commit `ff7b1da`).
+- **Official regionals** on `/mock-postseason/real/`: team scores and places from the Team Scores tab, overall places from the finish order, advancing teams and individuals from the State Qualifier column. The only derived number is each scoring runner's team-scoring place (walk the finish order, count only runners from scored teams, up to 7 per team), which the verifier proves reproduces all 719 posted scores. Each card shows "Official result · Athletic.net · as of Oct 31, 2026, 7:00 PM ET", the real cut, the official top 32, tie notes (21 races had tied team scores, all broken by the official places), the Gabe Potts (Wayne) DNF line, and a "Projected vs. actual (teams)" block comparing the season-best projection and the district-fed projection against the real advancing teams. Division I regionals are now in this universe (it had no D1 content before).
+- **State** on `/mock-postseason/real/` is now pooled from the real qualifiers (D1: 20 teams + 40 individuals; D2-D4: 24 + 48) on each runner's regional time, scored by the existing rule (team-only pass for team scores, combined pass for the finish order; individuals never take a point from a team runner). Times come from four courses and are not course-adjusted. The Item 3 page labels (as-of date, "Projected · not official", the one-line time-basis note, Nov 7 at Fortress Obetz) are the next step and wait on Zachary's screenshot review before commit.
+- **Hub page (`src/pages/mockpostseason.mjs`)**: status line reads "Real district and regional results · Oct 31, 2026, 7:00 PM ET · State projected, not official"; official cards extend past the top 32 only for individuals who actually advance (the first cut rendered every unattached finisher and pushed the real hub page to 7.4 MB; it is 4.9 MB now, below the season-best hub).
+- **`build-postseason-page-data-real.mjs`** now prefers the regional-stage file when it exists and passes through `regionalsOfficial`, `regionalsAsOfLabel`, `stateDate`, `stateVenue`, and the projection snapshot. Pipeline order: district chain -> `apply-real-regionals.mjs` -> page data.
+- **School names**: the 13 Athletic.net abbreviations missing from `src/data/mock-postseason-school-expansions-2026.json` were added from the workbook's Abbreviations tab (appended, original order kept). The 14 names where the workbook's wording differs from the site's hand-confirmed map were left as the site had them. 20 schools have no logo and fall back to initials; "Springfield" (D1 Southwest) is the only school matched nowhere on the site.
+- **Season-best PRs** (Zachary: "we need to update the season best times if anyone ran a new pr"): 1,644 runners in the hub's season-best roster (`ohio_2026_xc_full_statewide_2026.json`, matched by Athletic.net ID first, 5,567 ID matches) and 1,959 in the legacy `src/data/mock-regionals-2026.json` (no IDs there, exact name + school) got a faster regional time. Five ID matches where the roster spelling differs from the result were applied by ID with the roster name untouched (Samuel Phlipot/Philpot at Russia, Luke Nofzinger/Nofziger at Kidron Central Christian, Payton Matheney/Matheny at Stebbins, Braylee Coffee/Coffey at Middletown Madison, Laurel/Laural McCoy at Leesburg Fairfield). 181 same-school, same-surname near-misses were not applied and are listed in `pr_update_report_regionals.json` for review. The season-best chain and page data were rebuilt; the legacy pages show "Last updated October 31, 2026".
+
+### Checks
+
+`verify-regional-results.mjs` ALL CLEAR; `apply-real-regionals.mjs` 0 problems; `npm run build` 454 pages; `npm run check` no problems (one pre-existing hero-width warning); `npm test` result recorded in the commit message.
+
+### Not done / flagged
+
+- Homepage "Districts are in the books" block (`scripts/build.mjs`) still describes districts only; replacement copy proposed to Zachary, not applied.
+- Item 3 State labels + 375px screenshots (one official regional card, D1 boys and D4 girls State) are the next step; commit only after approval.
+- No Supabase change: results live in JSON files, as the district results do.

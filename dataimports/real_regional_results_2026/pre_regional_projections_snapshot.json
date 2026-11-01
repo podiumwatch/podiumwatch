@@ -1,0 +1,3068 @@
+{
+  "snapshotOf": "src/data/mock-postseason-2026.json and src/data/mock-postseason-2026-real.json as committed at ff7b1da, the last commit before the Oct 31, 2026 regionals -- taken before any regional PR was applied to the season-best roster, so the comparison is against what the site actually projected beforehand. Keys normalized to gender_division_region.",
+  "takenAt": "2026-11-01T02:06:46.004Z",
+  "seasonAsOf": "2026-10-20",
+  "realAsOf": "2026-10-24",
+  "regionals": {
+    "boys_1_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 7,
+        "individualQualifiers": 14,
+        "qualifyingTeams": [
+          "Mason",
+          "Springboro",
+          "Beavercreek",
+          "St. Xavier",
+          "Milford",
+          "Sycamore",
+          "Little Miami"
+        ],
+        "teams": [
+          {
+            "name": "Mason",
+            "score": 58,
+            "mockRank": 1
+          },
+          {
+            "name": "Springboro",
+            "score": 69,
+            "mockRank": 2
+          },
+          {
+            "name": "Beavercreek",
+            "score": 145,
+            "mockRank": 3
+          },
+          {
+            "name": "St. Xavier",
+            "score": 146,
+            "mockRank": 4
+          },
+          {
+            "name": "Milford",
+            "score": 183.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Sycamore",
+            "score": 195.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Little Miami",
+            "score": 209,
+            "mockRank": 7
+          },
+          {
+            "name": "Lebanon",
+            "score": 226,
+            "mockRank": 8
+          },
+          {
+            "name": "Northmont",
+            "score": 233,
+            "mockRank": 9
+          }
+        ]
+      },
+      "districtFed": null
+    },
+    "boys_1_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 8,
+        "individualQualifiers": 16,
+        "qualifyingTeams": [
+          "Gah. Lincoln",
+          "Olen. Berlin",
+          "Wester. North",
+          "Dub. Jerome",
+          "Thom. Worthington",
+          "Mass. Jackson",
+          "Olen. Liberty",
+          "Olen. Orange"
+        ],
+        "teams": [
+          {
+            "name": "Gah. Lincoln",
+            "score": 109,
+            "mockRank": 1
+          },
+          {
+            "name": "Olen. Berlin",
+            "score": 138,
+            "mockRank": 2
+          },
+          {
+            "name": "Wester. North",
+            "score": 191.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Dub. Jerome",
+            "score": 200,
+            "mockRank": 4
+          },
+          {
+            "name": "Thom. Worthington",
+            "score": 201,
+            "mockRank": 5
+          },
+          {
+            "name": "Mass. Jackson",
+            "score": 207,
+            "mockRank": 6
+          },
+          {
+            "name": "Olen. Liberty",
+            "score": 230,
+            "mockRank": 7
+          },
+          {
+            "name": "Olen. Orange",
+            "score": 270,
+            "mockRank": 8
+          },
+          {
+            "name": "Dub. Coffman",
+            "score": 272.5,
+            "mockRank": 9
+          },
+          {
+            "name": "New Albany",
+            "score": 274,
+            "mockRank": 10
+          }
+        ]
+      },
+      "districtFed": null
+    },
+    "boys_1_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Mentor",
+          "Medina",
+          "Solon",
+          "St. Ignatius",
+          "St. Edward"
+        ],
+        "teams": [
+          {
+            "name": "Mentor",
+            "score": 20,
+            "mockRank": 1
+          },
+          {
+            "name": "Medina",
+            "score": 126,
+            "mockRank": 2
+          },
+          {
+            "name": "Solon",
+            "score": 131,
+            "mockRank": 3
+          },
+          {
+            "name": "St. Ignatius",
+            "score": 168,
+            "mockRank": 4
+          },
+          {
+            "name": "St. Edward",
+            "score": 168,
+            "mockRank": 5
+          },
+          {
+            "name": "Stow-Munroe Falls",
+            "score": 173.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Avon",
+            "score": 192,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": null
+    },
+    "boys_2_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Big Walnut",
+          "Watterson",
+          "Col. DeSales",
+          "Unioto",
+          "Granville"
+        ],
+        "teams": [
+          {
+            "name": "Big Walnut",
+            "score": 103,
+            "mockRank": 1
+          },
+          {
+            "name": "Watterson",
+            "score": 135,
+            "mockRank": 2
+          },
+          {
+            "name": "Col. DeSales",
+            "score": 147.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Unioto",
+            "score": 162,
+            "mockRank": 4
+          },
+          {
+            "name": "Granville",
+            "score": 167,
+            "mockRank": 5
+          },
+          {
+            "name": "Dub. Scioto",
+            "score": 203,
+            "mockRank": 6
+          },
+          {
+            "name": "Hartley",
+            "score": 205,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Big Walnut",
+          "Granville",
+          "Watterson",
+          "Col. DeSales",
+          "Dub. Scioto"
+        ],
+        "teams": [
+          {
+            "name": "Big Walnut",
+            "score": 91,
+            "mockRank": 1
+          },
+          {
+            "name": "Granville",
+            "score": 107,
+            "mockRank": 2
+          },
+          {
+            "name": "Watterson",
+            "score": 122,
+            "mockRank": 3
+          },
+          {
+            "name": "Col. DeSales",
+            "score": 134,
+            "mockRank": 4
+          },
+          {
+            "name": "Dub. Scioto",
+            "score": 188.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Hartley",
+            "score": 194,
+            "mockRank": 6
+          },
+          {
+            "name": "Unioto",
+            "score": 199,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "boys_2_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 10,
+        "individualQualifiers": 20,
+        "qualifyingTeams": [
+          "Uniont. Lake",
+          "Kenston",
+          "Hoover",
+          "CVCA",
+          "Shaker Hts.",
+          "Salem",
+          "Nordonia",
+          "Hudson",
+          "University School",
+          "Mass. Perry"
+        ],
+        "teams": [
+          {
+            "name": "Uniont. Lake",
+            "score": 185.5,
+            "mockRank": 1
+          },
+          {
+            "name": "Kenston",
+            "score": 186.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Hoover",
+            "score": 192,
+            "mockRank": 3
+          },
+          {
+            "name": "CVCA",
+            "score": 246,
+            "mockRank": 4
+          },
+          {
+            "name": "Shaker Hts.",
+            "score": 279,
+            "mockRank": 5
+          },
+          {
+            "name": "Salem",
+            "score": 318,
+            "mockRank": 6
+          },
+          {
+            "name": "Nordonia",
+            "score": 332,
+            "mockRank": 7
+          },
+          {
+            "name": "Hudson",
+            "score": 335,
+            "mockRank": 8
+          },
+          {
+            "name": "University School",
+            "score": 336.5,
+            "mockRank": 9
+          },
+          {
+            "name": "Mass. Perry",
+            "score": 347,
+            "mockRank": 10
+          },
+          {
+            "name": "Revere",
+            "score": 379,
+            "mockRank": 11
+          },
+          {
+            "name": "Westlake",
+            "score": 383.5,
+            "mockRank": 12
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 10,
+        "individualQualifiers": 20,
+        "qualifyingTeams": [
+          "Kenston",
+          "Shaker Hts.",
+          "Nordonia",
+          "University School",
+          "Hoover",
+          "Salem",
+          "Uniont. Lake",
+          "Hudson",
+          "CVCA",
+          "West Geauga"
+        ],
+        "teams": [
+          {
+            "name": "Kenston",
+            "score": 101,
+            "mockRank": 1
+          },
+          {
+            "name": "Shaker Hts.",
+            "score": 190.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Nordonia",
+            "score": 220,
+            "mockRank": 3
+          },
+          {
+            "name": "University School",
+            "score": 242,
+            "mockRank": 4
+          },
+          {
+            "name": "Hoover",
+            "score": 255,
+            "mockRank": 5
+          },
+          {
+            "name": "Salem",
+            "score": 296,
+            "mockRank": 6
+          },
+          {
+            "name": "Uniont. Lake",
+            "score": 319,
+            "mockRank": 7
+          },
+          {
+            "name": "Hudson",
+            "score": 347,
+            "mockRank": 8
+          },
+          {
+            "name": "CVCA",
+            "score": 348,
+            "mockRank": 9
+          },
+          {
+            "name": "West Geauga",
+            "score": 375,
+            "mockRank": 10
+          },
+          {
+            "name": "Mass. Perry",
+            "score": 378.5,
+            "mockRank": 11
+          },
+          {
+            "name": "Cloverleaf",
+            "score": 397,
+            "mockRank": 12
+          }
+        ]
+      }
+    },
+    "boys_2_northwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Bowling Green",
+          "Lexington",
+          "Tol. St. Francis",
+          "Syl. Northview"
+        ],
+        "teams": [
+          {
+            "name": "Bowling Green",
+            "score": 72,
+            "mockRank": 1
+          },
+          {
+            "name": "Lexington",
+            "score": 93,
+            "mockRank": 2
+          },
+          {
+            "name": "Tol. St. Francis",
+            "score": 114,
+            "mockRank": 3
+          },
+          {
+            "name": "Syl. Northview",
+            "score": 177,
+            "mockRank": 4
+          },
+          {
+            "name": "Lima Shawnee",
+            "score": 210,
+            "mockRank": 5
+          },
+          {
+            "name": "Fremont Ross",
+            "score": 212,
+            "mockRank": 6
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Tol. St. Francis",
+          "Bowling Green",
+          "Lexington",
+          "Syl. Northview"
+        ],
+        "teams": [
+          {
+            "name": "Tol. St. Francis",
+            "score": 68,
+            "mockRank": 1
+          },
+          {
+            "name": "Bowling Green",
+            "score": 72,
+            "mockRank": 2
+          },
+          {
+            "name": "Lexington",
+            "score": 84,
+            "mockRank": 3
+          },
+          {
+            "name": "Syl. Northview",
+            "score": 170,
+            "mockRank": 4
+          },
+          {
+            "name": "Syl. Southview",
+            "score": 199.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Lima Shawnee",
+            "score": 208,
+            "mockRank": 6
+          }
+        ]
+      }
+    },
+    "boys_2_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Loveland",
+          "Turpin",
+          "Bellbrook",
+          "Western Brown",
+          "Anderson"
+        ],
+        "teams": [
+          {
+            "name": "Loveland",
+            "score": 52,
+            "mockRank": 1
+          },
+          {
+            "name": "Turpin",
+            "score": 90,
+            "mockRank": 2
+          },
+          {
+            "name": "Bellbrook",
+            "score": 160.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Western Brown",
+            "score": 193,
+            "mockRank": 4
+          },
+          {
+            "name": "Anderson",
+            "score": 199,
+            "mockRank": 5
+          },
+          {
+            "name": "Troy",
+            "score": 216,
+            "mockRank": 6
+          },
+          {
+            "name": "Tippecanoe",
+            "score": 220,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Loveland",
+          "Turpin",
+          "Western Brown",
+          "Anderson",
+          "Bellbrook"
+        ],
+        "teams": [
+          {
+            "name": "Loveland",
+            "score": 46,
+            "mockRank": 1
+          },
+          {
+            "name": "Turpin",
+            "score": 76,
+            "mockRank": 2
+          },
+          {
+            "name": "Western Brown",
+            "score": 160,
+            "mockRank": 3
+          },
+          {
+            "name": "Anderson",
+            "score": 163,
+            "mockRank": 4
+          },
+          {
+            "name": "Bellbrook",
+            "score": 177,
+            "mockRank": 5
+          },
+          {
+            "name": "Ross",
+            "score": 192,
+            "mockRank": 6
+          },
+          {
+            "name": "Tippecanoe",
+            "score": 208,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "boys_3_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 8,
+        "individualQualifiers": 16,
+        "qualifyingTeams": [
+          "Fairless",
+          "Fairfield Union",
+          "Minerva",
+          "Vinton County",
+          "Fredericktown",
+          "Tuscar. Valley",
+          "Utica",
+          "Centerburg"
+        ],
+        "teams": [
+          {
+            "name": "Fairless",
+            "score": 88,
+            "mockRank": 1
+          },
+          {
+            "name": "Fairfield Union",
+            "score": 135.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Minerva",
+            "score": 186,
+            "mockRank": 3
+          },
+          {
+            "name": "Vinton County",
+            "score": 262.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Fredericktown",
+            "score": 274,
+            "mockRank": 5
+          },
+          {
+            "name": "Tuscar. Valley",
+            "score": 284.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Utica",
+            "score": 295,
+            "mockRank": 7
+          },
+          {
+            "name": "Centerburg",
+            "score": 305,
+            "mockRank": 8
+          },
+          {
+            "name": "St. Clairsville",
+            "score": 327,
+            "mockRank": 9
+          },
+          {
+            "name": "Bellaire",
+            "score": 392.5,
+            "mockRank": 10
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 8,
+        "individualQualifiers": 16,
+        "qualifyingTeams": [
+          "Fairless",
+          "Fairfield Union",
+          "Minerva",
+          "Fredericktown",
+          "Utica",
+          "Vinton County",
+          "Centerburg",
+          "London"
+        ],
+        "teams": [
+          {
+            "name": "Fairless",
+            "score": 106,
+            "mockRank": 1
+          },
+          {
+            "name": "Fairfield Union",
+            "score": 123.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Minerva",
+            "score": 215,
+            "mockRank": 3
+          },
+          {
+            "name": "Fredericktown",
+            "score": 217,
+            "mockRank": 4
+          },
+          {
+            "name": "Utica",
+            "score": 225,
+            "mockRank": 5
+          },
+          {
+            "name": "Vinton County",
+            "score": 251,
+            "mockRank": 6
+          },
+          {
+            "name": "Centerburg",
+            "score": 259,
+            "mockRank": 7
+          },
+          {
+            "name": "London",
+            "score": 303,
+            "mockRank": 8
+          },
+          {
+            "name": "Tuscar. Valley",
+            "score": 342,
+            "mockRank": 9
+          },
+          {
+            "name": "Fairbanks",
+            "score": 367,
+            "mockRank": 10
+          }
+        ]
+      }
+    },
+    "boys_3_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 7,
+        "individualQualifiers": 14,
+        "qualifyingTeams": [
+          "Woodridge",
+          "Chagrin Falls",
+          "Berkshire",
+          "Marlington",
+          "Norwayne",
+          "Gar. Garfield",
+          "Gilmour Academy"
+        ],
+        "teams": [
+          {
+            "name": "Woodridge",
+            "score": 56,
+            "mockRank": 1
+          },
+          {
+            "name": "Chagrin Falls",
+            "score": 96,
+            "mockRank": 2
+          },
+          {
+            "name": "Berkshire",
+            "score": 176.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Marlington",
+            "score": 242,
+            "mockRank": 4
+          },
+          {
+            "name": "Norwayne",
+            "score": 275,
+            "mockRank": 5
+          },
+          {
+            "name": "Gar. Garfield",
+            "score": 277.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Gilmour Academy",
+            "score": 282,
+            "mockRank": 7
+          },
+          {
+            "name": "Ash. Edgewood",
+            "score": 282.5,
+            "mockRank": 8
+          },
+          {
+            "name": "CF Northwest",
+            "score": 292,
+            "mockRank": 9
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 7,
+        "individualQualifiers": 14,
+        "qualifyingTeams": [
+          "Woodridge",
+          "Chagrin Falls",
+          "Berkshire",
+          "Ash. Edgewood",
+          "Gar. Garfield",
+          "Gilmour Academy",
+          "CF Northwest"
+        ],
+        "teams": [
+          {
+            "name": "Woodridge",
+            "score": 82,
+            "mockRank": 1
+          },
+          {
+            "name": "Chagrin Falls",
+            "score": 116,
+            "mockRank": 2
+          },
+          {
+            "name": "Berkshire",
+            "score": 154.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Ash. Edgewood",
+            "score": 196.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Gar. Garfield",
+            "score": 203,
+            "mockRank": 5
+          },
+          {
+            "name": "Gilmour Academy",
+            "score": 220,
+            "mockRank": 6
+          },
+          {
+            "name": "CF Northwest",
+            "score": 264,
+            "mockRank": 7
+          },
+          {
+            "name": "Marlington",
+            "score": 295,
+            "mockRank": 8
+          },
+          {
+            "name": "Norwayne",
+            "score": 321,
+            "mockRank": 9
+          }
+        ]
+      }
+    },
+    "boys_3_northwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Van Wert",
+          "Bryan",
+          "Elmwood",
+          "Margaretta"
+        ],
+        "teams": [
+          {
+            "name": "Van Wert",
+            "score": 72,
+            "mockRank": 1
+          },
+          {
+            "name": "Bryan",
+            "score": 99.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Elmwood",
+            "score": 104,
+            "mockRank": 3
+          },
+          {
+            "name": "Margaretta",
+            "score": 123.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Archbold",
+            "score": 154,
+            "mockRank": 5
+          },
+          {
+            "name": "Upper Sandusky",
+            "score": 185,
+            "mockRank": 6
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Van Wert",
+          "Elmwood",
+          "Bryan",
+          "Archbold"
+        ],
+        "teams": [
+          {
+            "name": "Van Wert",
+            "score": 57,
+            "mockRank": 1
+          },
+          {
+            "name": "Elmwood",
+            "score": 77,
+            "mockRank": 2
+          },
+          {
+            "name": "Bryan",
+            "score": 80,
+            "mockRank": 3
+          },
+          {
+            "name": "Archbold",
+            "score": 143,
+            "mockRank": 4
+          },
+          {
+            "name": "Paulding",
+            "score": 193,
+            "mockRank": 5
+          },
+          {
+            "name": "Eastwood",
+            "score": 197,
+            "mockRank": 6
+          }
+        ]
+      }
+    },
+    "boys_3_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "West Liberty-Salem",
+          "Versailles",
+          "Wyoming",
+          "Cin. CHCA",
+          "Madeira"
+        ],
+        "teams": [
+          {
+            "name": "West Liberty-Salem",
+            "score": 93,
+            "mockRank": 1
+          },
+          {
+            "name": "Versailles",
+            "score": 100.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Wyoming",
+            "score": 136,
+            "mockRank": 3
+          },
+          {
+            "name": "Cin. CHCA",
+            "score": 142,
+            "mockRank": 4
+          },
+          {
+            "name": "Madeira",
+            "score": 166,
+            "mockRank": 5
+          },
+          {
+            "name": "Oakwood",
+            "score": 172,
+            "mockRank": 6
+          },
+          {
+            "name": "Waynesville",
+            "score": 174.5,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Versailles",
+          "Wyoming",
+          "Madeira",
+          "Oakwood",
+          "West Liberty-Salem"
+        ],
+        "teams": [
+          {
+            "name": "Versailles",
+            "score": 107,
+            "mockRank": 1
+          },
+          {
+            "name": "Wyoming",
+            "score": 117,
+            "mockRank": 2
+          },
+          {
+            "name": "Madeira",
+            "score": 132,
+            "mockRank": 3
+          },
+          {
+            "name": "Oakwood",
+            "score": 140,
+            "mockRank": 4
+          },
+          {
+            "name": "West Liberty-Salem",
+            "score": 144,
+            "mockRank": 5
+          },
+          {
+            "name": "Cin. CHCA",
+            "score": 144,
+            "mockRank": 6
+          },
+          {
+            "name": "Sum. Co. Day",
+            "score": 184,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "boys_4_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 6,
+        "individualQualifiers": 12,
+        "qualifyingTeams": [
+          "Mount Gilead",
+          "South Webster",
+          "Rac. Southern",
+          "Shenandoah",
+          "Grandview Hts.",
+          "Northmor"
+        ],
+        "teams": [
+          {
+            "name": "Mount Gilead",
+            "score": 21,
+            "mockRank": 1
+          },
+          {
+            "name": "South Webster",
+            "score": 119,
+            "mockRank": 2
+          },
+          {
+            "name": "Rac. Southern",
+            "score": 145,
+            "mockRank": 3
+          },
+          {
+            "name": "Shenandoah",
+            "score": 153.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Grandview Hts.",
+            "score": 171,
+            "mockRank": 5
+          },
+          {
+            "name": "Northmor",
+            "score": 199,
+            "mockRank": 6
+          },
+          {
+            "name": "Lynchburg-Clay",
+            "score": 264,
+            "mockRank": 7
+          },
+          {
+            "name": "Winc. Eastern",
+            "score": 291,
+            "mockRank": 8
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 6,
+        "individualQualifiers": 12,
+        "qualifyingTeams": [
+          "Mount Gilead",
+          "South Webster",
+          "Rac. Southern",
+          "Grandview Hts.",
+          "Shenandoah",
+          "Northmor"
+        ],
+        "teams": [
+          {
+            "name": "Mount Gilead",
+            "score": 20,
+            "mockRank": 1
+          },
+          {
+            "name": "South Webster",
+            "score": 136,
+            "mockRank": 2
+          },
+          {
+            "name": "Rac. Southern",
+            "score": 148,
+            "mockRank": 3
+          },
+          {
+            "name": "Grandview Hts.",
+            "score": 157,
+            "mockRank": 4
+          },
+          {
+            "name": "Shenandoah",
+            "score": 176,
+            "mockRank": 5
+          },
+          {
+            "name": "Northmor",
+            "score": 177,
+            "mockRank": 6
+          },
+          {
+            "name": "Winc. Eastern",
+            "score": 256,
+            "mockRank": 7
+          },
+          {
+            "name": "Fisher Catholic",
+            "score": 285,
+            "mockRank": 8
+          }
+        ]
+      }
+    },
+    "boys_4_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Maplewood",
+          "Independence",
+          "Kid. Cent. Christian",
+          "Rittman",
+          "Black River"
+        ],
+        "teams": [
+          {
+            "name": "Maplewood",
+            "score": 72,
+            "mockRank": 1
+          },
+          {
+            "name": "Independence",
+            "score": 123,
+            "mockRank": 2
+          },
+          {
+            "name": "Kid. Cent. Christian",
+            "score": 209,
+            "mockRank": 3
+          },
+          {
+            "name": "Rittman",
+            "score": 215,
+            "mockRank": 4
+          },
+          {
+            "name": "Black River",
+            "score": 230,
+            "mockRank": 5
+          },
+          {
+            "name": "Lake Center Chr.",
+            "score": 232,
+            "mockRank": 6
+          },
+          {
+            "name": "Badger",
+            "score": 241,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Maplewood",
+          "Independence",
+          "McDonald",
+          "Badger",
+          "Rittman"
+        ],
+        "teams": [
+          {
+            "name": "Maplewood",
+            "score": 42,
+            "mockRank": 1
+          },
+          {
+            "name": "Independence",
+            "score": 133,
+            "mockRank": 2
+          },
+          {
+            "name": "McDonald",
+            "score": 180,
+            "mockRank": 3
+          },
+          {
+            "name": "Badger",
+            "score": 201,
+            "mockRank": 4
+          },
+          {
+            "name": "Rittman",
+            "score": 209,
+            "mockRank": 5
+          },
+          {
+            "name": "Mineral Ridge",
+            "score": 234.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Kid. Cent. Christian",
+            "score": 253,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "boys_4_northwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 8,
+        "individualQualifiers": 16,
+        "qualifyingTeams": [
+          "Con. Crestview",
+          "Tinora",
+          "St. Henry",
+          "New Bremen",
+          "Columbus Grove",
+          "Seneca East",
+          "Sher. Fairview",
+          "New Riegel"
+        ],
+        "teams": [
+          {
+            "name": "Con. Crestview",
+            "score": 81.5,
+            "mockRank": 1
+          },
+          {
+            "name": "Tinora",
+            "score": 109,
+            "mockRank": 2
+          },
+          {
+            "name": "St. Henry",
+            "score": 160,
+            "mockRank": 3
+          },
+          {
+            "name": "New Bremen",
+            "score": 221,
+            "mockRank": 4
+          },
+          {
+            "name": "Columbus Grove",
+            "score": 235,
+            "mockRank": 5
+          },
+          {
+            "name": "Seneca East",
+            "score": 257.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Sher. Fairview",
+            "score": 285,
+            "mockRank": 7
+          },
+          {
+            "name": "New Riegel",
+            "score": 325,
+            "mockRank": 8
+          },
+          {
+            "name": "Hicksville",
+            "score": 331.5,
+            "mockRank": 9
+          },
+          {
+            "name": "Pettisville",
+            "score": 340,
+            "mockRank": 10
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 8,
+        "individualQualifiers": 16,
+        "qualifyingTeams": [
+          "Con. Crestview",
+          "Tinora",
+          "St. Henry",
+          "New Bremen",
+          "Seneca East",
+          "Columbus Grove",
+          "Sher. Fairview",
+          "Pettisville"
+        ],
+        "teams": [
+          {
+            "name": "Con. Crestview",
+            "score": 83.5,
+            "mockRank": 1
+          },
+          {
+            "name": "Tinora",
+            "score": 126,
+            "mockRank": 2
+          },
+          {
+            "name": "St. Henry",
+            "score": 145,
+            "mockRank": 3
+          },
+          {
+            "name": "New Bremen",
+            "score": 207,
+            "mockRank": 4
+          },
+          {
+            "name": "Seneca East",
+            "score": 237.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Columbus Grove",
+            "score": 241,
+            "mockRank": 6
+          },
+          {
+            "name": "Sher. Fairview",
+            "score": 295.5,
+            "mockRank": 7
+          },
+          {
+            "name": "Pettisville",
+            "score": 328,
+            "mockRank": 8
+          },
+          {
+            "name": "Del. St. John's",
+            "score": 352,
+            "mockRank": 9
+          },
+          {
+            "name": "Lincolnview",
+            "score": 352,
+            "mockRank": 10
+          }
+        ]
+      }
+    },
+    "boys_4_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Russia",
+          "Botkins",
+          "Legacy Christian",
+          "Cedarville",
+          "Lehman Cath."
+        ],
+        "teams": [
+          {
+            "name": "Russia",
+            "score": 45,
+            "mockRank": 1
+          },
+          {
+            "name": "Botkins",
+            "score": 66,
+            "mockRank": 2
+          },
+          {
+            "name": "Legacy Christian",
+            "score": 82,
+            "mockRank": 3
+          },
+          {
+            "name": "Cedarville",
+            "score": 125.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Lehman Cath.",
+            "score": 181,
+            "mockRank": 5
+          },
+          {
+            "name": "Ft. Loramie",
+            "score": 228,
+            "mockRank": 6
+          },
+          {
+            "name": "Minster",
+            "score": 230.5,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Russia",
+          "Botkins",
+          "Legacy Christian",
+          "Cedarville",
+          "Lehman Cath."
+        ],
+        "teams": [
+          {
+            "name": "Russia",
+            "score": 45,
+            "mockRank": 1
+          },
+          {
+            "name": "Botkins",
+            "score": 76.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Legacy Christian",
+            "score": 80,
+            "mockRank": 3
+          },
+          {
+            "name": "Cedarville",
+            "score": 123.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Lehman Cath.",
+            "score": 181.5,
+            "mockRank": 5
+          },
+          {
+            "name": "MVCA",
+            "score": 231,
+            "mockRank": 6
+          },
+          {
+            "name": "Ft. Recovery",
+            "score": 246,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "girls_1_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 9,
+        "individualQualifiers": 18,
+        "qualifyingTeams": [
+          "Upper Arlington",
+          "Gah. Lincoln",
+          "Hil. Davidson",
+          "Dub. Jerome",
+          "Mass. Jackson",
+          "Lancaster",
+          "Olen. Berlin",
+          "Olen. Liberty",
+          "Wester. South"
+        ],
+        "teams": [
+          {
+            "name": "Upper Arlington",
+            "score": 74,
+            "mockRank": 1
+          },
+          {
+            "name": "Gah. Lincoln",
+            "score": 127,
+            "mockRank": 2
+          },
+          {
+            "name": "Hil. Davidson",
+            "score": 183,
+            "mockRank": 3
+          },
+          {
+            "name": "Dub. Jerome",
+            "score": 198,
+            "mockRank": 4
+          },
+          {
+            "name": "Mass. Jackson",
+            "score": 198.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Lancaster",
+            "score": 272,
+            "mockRank": 6
+          },
+          {
+            "name": "Olen. Berlin",
+            "score": 288,
+            "mockRank": 7
+          },
+          {
+            "name": "Olen. Liberty",
+            "score": 290,
+            "mockRank": 8
+          },
+          {
+            "name": "Wester. South",
+            "score": 294,
+            "mockRank": 9
+          },
+          {
+            "name": "Hil. Darby",
+            "score": 302.5,
+            "mockRank": 10
+          },
+          {
+            "name": "Marysville",
+            "score": 326,
+            "mockRank": 11
+          }
+        ]
+      },
+      "districtFed": null
+    },
+    "girls_1_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 6,
+        "individualQualifiers": 12,
+        "qualifyingTeams": [
+          "Milford",
+          "Mason",
+          "Sycamore",
+          "Oak Hills",
+          "Springboro",
+          "Centerville"
+        ],
+        "teams": [
+          {
+            "name": "Milford",
+            "score": 66,
+            "mockRank": 1
+          },
+          {
+            "name": "Mason",
+            "score": 91.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Sycamore",
+            "score": 119.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Oak Hills",
+            "score": 123,
+            "mockRank": 4
+          },
+          {
+            "name": "Springboro",
+            "score": 130,
+            "mockRank": 5
+          },
+          {
+            "name": "Centerville",
+            "score": 136.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Beavercreek",
+            "score": 233,
+            "mockRank": 7
+          },
+          {
+            "name": "Northmont",
+            "score": 276,
+            "mockRank": 8
+          }
+        ]
+      },
+      "districtFed": null
+    },
+    "girls_1_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Stow-Munroe Falls",
+          "GlenOak",
+          "Mentor",
+          "Solon",
+          "Medina"
+        ],
+        "teams": [
+          {
+            "name": "Stow-Munroe Falls",
+            "score": 62,
+            "mockRank": 1
+          },
+          {
+            "name": "GlenOak",
+            "score": 80,
+            "mockRank": 2
+          },
+          {
+            "name": "Mentor",
+            "score": 90,
+            "mockRank": 3
+          },
+          {
+            "name": "Solon",
+            "score": 114,
+            "mockRank": 4
+          },
+          {
+            "name": "Medina",
+            "score": 133,
+            "mockRank": 5
+          },
+          {
+            "name": "Strongsville",
+            "score": 153,
+            "mockRank": 6
+          },
+          {
+            "name": "Brunswick",
+            "score": 195,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": null
+    },
+    "girls_2_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Watterson",
+          "Granville",
+          "Big Walnut",
+          "Canal Winchester",
+          "Col. DeSales"
+        ],
+        "teams": [
+          {
+            "name": "Watterson",
+            "score": 34,
+            "mockRank": 1
+          },
+          {
+            "name": "Granville",
+            "score": 84,
+            "mockRank": 2
+          },
+          {
+            "name": "Big Walnut",
+            "score": 85,
+            "mockRank": 3
+          },
+          {
+            "name": "Canal Winchester",
+            "score": 89,
+            "mockRank": 4
+          },
+          {
+            "name": "Col. DeSales",
+            "score": 207,
+            "mockRank": 5
+          },
+          {
+            "name": "Bexley",
+            "score": 209,
+            "mockRank": 6
+          },
+          {
+            "name": "Hartley",
+            "score": 241,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Watterson",
+          "Granville",
+          "Big Walnut",
+          "Canal Winchester",
+          "Col. DeSales"
+        ],
+        "teams": [
+          {
+            "name": "Watterson",
+            "score": 33,
+            "mockRank": 1
+          },
+          {
+            "name": "Granville",
+            "score": 63,
+            "mockRank": 2
+          },
+          {
+            "name": "Big Walnut",
+            "score": 85,
+            "mockRank": 3
+          },
+          {
+            "name": "Canal Winchester",
+            "score": 99,
+            "mockRank": 4
+          },
+          {
+            "name": "Col. DeSales",
+            "score": 179.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Bexley",
+            "score": 188,
+            "mockRank": 6
+          },
+          {
+            "name": "Hartley",
+            "score": 230,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "girls_2_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 9,
+        "individualQualifiers": 18,
+        "qualifyingTeams": [
+          "Aurora",
+          "Avon",
+          "Shaker Hts.",
+          "Wadsworth",
+          "Bay",
+          "Westlake",
+          "Hudson",
+          "Cle. St. Joseph Acad.",
+          "CVCA"
+        ],
+        "teams": [
+          {
+            "name": "Aurora",
+            "score": 107,
+            "mockRank": 1
+          },
+          {
+            "name": "Avon",
+            "score": 135,
+            "mockRank": 2
+          },
+          {
+            "name": "Shaker Hts.",
+            "score": 179,
+            "mockRank": 3
+          },
+          {
+            "name": "Wadsworth",
+            "score": 238.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Bay",
+            "score": 283,
+            "mockRank": 5
+          },
+          {
+            "name": "Westlake",
+            "score": 287.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Hudson",
+            "score": 308,
+            "mockRank": 7
+          },
+          {
+            "name": "Cle. St. Joseph Acad.",
+            "score": 312,
+            "mockRank": 8
+          },
+          {
+            "name": "CVCA",
+            "score": 326.5,
+            "mockRank": 9
+          },
+          {
+            "name": "Med Highland",
+            "score": 347,
+            "mockRank": 10
+          },
+          {
+            "name": "Boardman",
+            "score": 369.5,
+            "mockRank": 11
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 9,
+        "individualQualifiers": 18,
+        "qualifyingTeams": [
+          "Aurora",
+          "Shaker Hts.",
+          "Kenston",
+          "CVCA",
+          "Avon",
+          "Wadsworth",
+          "Boardman",
+          "Hoover",
+          "Cle. St. Joseph Acad."
+        ],
+        "teams": [
+          {
+            "name": "Aurora",
+            "score": 54.5,
+            "mockRank": 1
+          },
+          {
+            "name": "Shaker Hts.",
+            "score": 101,
+            "mockRank": 2
+          },
+          {
+            "name": "Kenston",
+            "score": 238.5,
+            "mockRank": 3
+          },
+          {
+            "name": "CVCA",
+            "score": 258,
+            "mockRank": 4
+          },
+          {
+            "name": "Avon",
+            "score": 273,
+            "mockRank": 5
+          },
+          {
+            "name": "Wadsworth",
+            "score": 334,
+            "mockRank": 6
+          },
+          {
+            "name": "Boardman",
+            "score": 343,
+            "mockRank": 7
+          },
+          {
+            "name": "Hoover",
+            "score": 354,
+            "mockRank": 8
+          },
+          {
+            "name": "Cle. St. Joseph Acad.",
+            "score": 365.5,
+            "mockRank": 9
+          },
+          {
+            "name": "Bay",
+            "score": 377,
+            "mockRank": 10
+          },
+          {
+            "name": "Westlake",
+            "score": 392,
+            "mockRank": 11
+          }
+        ]
+      }
+    },
+    "girls_2_northwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Fremont Ross",
+          "Bowling Green",
+          "Anthony Wayne",
+          "Syl. Southview"
+        ],
+        "teams": [
+          {
+            "name": "Fremont Ross",
+            "score": 77,
+            "mockRank": 1
+          },
+          {
+            "name": "Bowling Green",
+            "score": 119,
+            "mockRank": 2
+          },
+          {
+            "name": "Anthony Wayne",
+            "score": 130,
+            "mockRank": 3
+          },
+          {
+            "name": "Syl. Southview",
+            "score": 131,
+            "mockRank": 4
+          },
+          {
+            "name": "Lexington",
+            "score": 144.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Celina",
+            "score": 158,
+            "mockRank": 6
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Fremont Ross",
+          "Bowling Green",
+          "Anthony Wayne",
+          "Lexington"
+        ],
+        "teams": [
+          {
+            "name": "Fremont Ross",
+            "score": 86,
+            "mockRank": 1
+          },
+          {
+            "name": "Bowling Green",
+            "score": 109,
+            "mockRank": 2
+          },
+          {
+            "name": "Anthony Wayne",
+            "score": 121,
+            "mockRank": 3
+          },
+          {
+            "name": "Lexington",
+            "score": 134,
+            "mockRank": 4
+          },
+          {
+            "name": "Celina",
+            "score": 161.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Syl. Southview",
+            "score": 172,
+            "mockRank": 6
+          }
+        ]
+      }
+    },
+    "girls_2_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 6,
+        "individualQualifiers": 12,
+        "qualifyingTeams": [
+          "Turpin",
+          "Cin. St. Ursula Acad.",
+          "Indian Hill",
+          "Loveland",
+          "Bellbrook",
+          "Ursuline Academy"
+        ],
+        "teams": [
+          {
+            "name": "Turpin",
+            "score": 78,
+            "mockRank": 1
+          },
+          {
+            "name": "Cin. St. Ursula Acad.",
+            "score": 96,
+            "mockRank": 2
+          },
+          {
+            "name": "Indian Hill",
+            "score": 112.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Loveland",
+            "score": 152,
+            "mockRank": 4
+          },
+          {
+            "name": "Bellbrook",
+            "score": 165,
+            "mockRank": 5
+          },
+          {
+            "name": "Ursuline Academy",
+            "score": 238.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Piqua",
+            "score": 239,
+            "mockRank": 7
+          },
+          {
+            "name": "Tippecanoe",
+            "score": 260,
+            "mockRank": 8
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 6,
+        "individualQualifiers": 12,
+        "qualifyingTeams": [
+          "Turpin",
+          "Cin. St. Ursula Acad.",
+          "Indian Hill",
+          "Loveland",
+          "Bellbrook",
+          "Ursuline Academy"
+        ],
+        "teams": [
+          {
+            "name": "Turpin",
+            "score": 70,
+            "mockRank": 1
+          },
+          {
+            "name": "Cin. St. Ursula Acad.",
+            "score": 83,
+            "mockRank": 2
+          },
+          {
+            "name": "Indian Hill",
+            "score": 103.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Loveland",
+            "score": 128,
+            "mockRank": 4
+          },
+          {
+            "name": "Bellbrook",
+            "score": 191,
+            "mockRank": 5
+          },
+          {
+            "name": "Ursuline Academy",
+            "score": 203.5,
+            "mockRank": 6
+          },
+          {
+            "name": "Talawanda",
+            "score": 234,
+            "mockRank": 7
+          },
+          {
+            "name": "Anderson",
+            "score": 237,
+            "mockRank": 8
+          }
+        ]
+      }
+    },
+    "girls_3_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 7,
+        "individualQualifiers": 14,
+        "qualifyingTeams": [
+          "Minerva",
+          "Tuscar. Valley",
+          "Northmor",
+          "Fairfield Union",
+          "Indian Valley",
+          "West Holmes",
+          "Claymont"
+        ],
+        "teams": [
+          {
+            "name": "Minerva",
+            "score": 91,
+            "mockRank": 1
+          },
+          {
+            "name": "Tuscar. Valley",
+            "score": 164.5,
+            "mockRank": 2
+          },
+          {
+            "name": "Northmor",
+            "score": 187,
+            "mockRank": 3
+          },
+          {
+            "name": "Fairfield Union",
+            "score": 196,
+            "mockRank": 4
+          },
+          {
+            "name": "Indian Valley",
+            "score": 197,
+            "mockRank": 5
+          },
+          {
+            "name": "West Holmes",
+            "score": 204,
+            "mockRank": 6
+          },
+          {
+            "name": "Claymont",
+            "score": 220.5,
+            "mockRank": 7
+          },
+          {
+            "name": "Wor. Christian",
+            "score": 284,
+            "mockRank": 8
+          },
+          {
+            "name": "Pleasant",
+            "score": 286,
+            "mockRank": 9
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 7,
+        "individualQualifiers": 14,
+        "qualifyingTeams": [
+          "Minerva",
+          "Northmor",
+          "Tuscar. Valley",
+          "Fairfield Union",
+          "Indian Valley",
+          "Pleasant",
+          "Claymont"
+        ],
+        "teams": [
+          {
+            "name": "Minerva",
+            "score": 152,
+            "mockRank": 1
+          },
+          {
+            "name": "Northmor",
+            "score": 169,
+            "mockRank": 2
+          },
+          {
+            "name": "Tuscar. Valley",
+            "score": 190,
+            "mockRank": 3
+          },
+          {
+            "name": "Fairfield Union",
+            "score": 214,
+            "mockRank": 4
+          },
+          {
+            "name": "Indian Valley",
+            "score": 220,
+            "mockRank": 5
+          },
+          {
+            "name": "Pleasant",
+            "score": 246,
+            "mockRank": 6
+          },
+          {
+            "name": "Claymont",
+            "score": 255,
+            "mockRank": 7
+          },
+          {
+            "name": "Wor. Christian",
+            "score": 265,
+            "mockRank": 8
+          },
+          {
+            "name": "West Holmes",
+            "score": 265,
+            "mockRank": 9
+          }
+        ]
+      }
+    },
+    "girls_3_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 8,
+        "individualQualifiers": 16,
+        "qualifyingTeams": [
+          "Crestwood",
+          "Marlington",
+          "Berkshire",
+          "Woodridge",
+          "Salem",
+          "Hathaway Brown",
+          "CF Northwest",
+          "Akron SVSM"
+        ],
+        "teams": [
+          {
+            "name": "Crestwood",
+            "score": 116,
+            "mockRank": 1
+          },
+          {
+            "name": "Marlington",
+            "score": 134,
+            "mockRank": 2
+          },
+          {
+            "name": "Berkshire",
+            "score": 138.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Woodridge",
+            "score": 161,
+            "mockRank": 4
+          },
+          {
+            "name": "Salem",
+            "score": 206,
+            "mockRank": 5
+          },
+          {
+            "name": "Hathaway Brown",
+            "score": 232.5,
+            "mockRank": 6
+          },
+          {
+            "name": "CF Northwest",
+            "score": 280,
+            "mockRank": 7
+          },
+          {
+            "name": "Akron SVSM",
+            "score": 287.5,
+            "mockRank": 8
+          },
+          {
+            "name": "Beachwood",
+            "score": 353.5,
+            "mockRank": 9
+          },
+          {
+            "name": "Chagrin Falls",
+            "score": 385,
+            "mockRank": 10
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 8,
+        "individualQualifiers": 16,
+        "qualifyingTeams": [
+          "Crestwood",
+          "Berkshire",
+          "Marlington",
+          "Woodridge",
+          "Hathaway Brown",
+          "Salem",
+          "CF Northwest",
+          "Akron SVSM"
+        ],
+        "teams": [
+          {
+            "name": "Crestwood",
+            "score": 91,
+            "mockRank": 1
+          },
+          {
+            "name": "Berkshire",
+            "score": 100,
+            "mockRank": 2
+          },
+          {
+            "name": "Marlington",
+            "score": 154.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Woodridge",
+            "score": 170.5,
+            "mockRank": 4
+          },
+          {
+            "name": "Hathaway Brown",
+            "score": 197,
+            "mockRank": 5
+          },
+          {
+            "name": "Salem",
+            "score": 212.5,
+            "mockRank": 6
+          },
+          {
+            "name": "CF Northwest",
+            "score": 253,
+            "mockRank": 7
+          },
+          {
+            "name": "Akron SVSM",
+            "score": 267,
+            "mockRank": 8
+          },
+          {
+            "name": "Chagrin Falls",
+            "score": 338,
+            "mockRank": 9
+          },
+          {
+            "name": "Orange",
+            "score": 341,
+            "mockRank": 10
+          }
+        ]
+      }
+    },
+    "girls_3_northwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Huron",
+          "Ottawa-Glandorf",
+          "Van Wert",
+          "Coldwater",
+          "Bellevue"
+        ],
+        "teams": [
+          {
+            "name": "Huron",
+            "score": 64,
+            "mockRank": 1
+          },
+          {
+            "name": "Ottawa-Glandorf",
+            "score": 90,
+            "mockRank": 2
+          },
+          {
+            "name": "Van Wert",
+            "score": 128,
+            "mockRank": 3
+          },
+          {
+            "name": "Coldwater",
+            "score": 183,
+            "mockRank": 4
+          },
+          {
+            "name": "Bellevue",
+            "score": 187,
+            "mockRank": 5
+          },
+          {
+            "name": "Napoleon",
+            "score": 215,
+            "mockRank": 6
+          },
+          {
+            "name": "Shelby",
+            "score": 217,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Huron",
+          "Ottawa-Glandorf",
+          "Van Wert",
+          "Coldwater",
+          "Bellevue"
+        ],
+        "teams": [
+          {
+            "name": "Huron",
+            "score": 81,
+            "mockRank": 1
+          },
+          {
+            "name": "Ottawa-Glandorf",
+            "score": 89,
+            "mockRank": 2
+          },
+          {
+            "name": "Van Wert",
+            "score": 118,
+            "mockRank": 3
+          },
+          {
+            "name": "Coldwater",
+            "score": 158,
+            "mockRank": 4
+          },
+          {
+            "name": "Bellevue",
+            "score": 166,
+            "mockRank": 5
+          },
+          {
+            "name": "Shelby",
+            "score": 188,
+            "mockRank": 6
+          },
+          {
+            "name": "Napoleon",
+            "score": 204,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "girls_3_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Oakwood",
+          "Madeira",
+          "Versailles",
+          "Fenwick"
+        ],
+        "teams": [
+          {
+            "name": "Oakwood",
+            "score": 55,
+            "mockRank": 1
+          },
+          {
+            "name": "Madeira",
+            "score": 84,
+            "mockRank": 2
+          },
+          {
+            "name": "Versailles",
+            "score": 104.5,
+            "mockRank": 3
+          },
+          {
+            "name": "Fenwick",
+            "score": 172,
+            "mockRank": 4
+          },
+          {
+            "name": "Wyoming",
+            "score": 195,
+            "mockRank": 5
+          },
+          {
+            "name": "Greenon",
+            "score": 239,
+            "mockRank": 6
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 4,
+        "individualQualifiers": 8,
+        "qualifyingTeams": [
+          "Oakwood",
+          "Madeira",
+          "Versailles",
+          "Wyoming"
+        ],
+        "teams": [
+          {
+            "name": "Oakwood",
+            "score": 53,
+            "mockRank": 1
+          },
+          {
+            "name": "Madeira",
+            "score": 62,
+            "mockRank": 2
+          },
+          {
+            "name": "Versailles",
+            "score": 138,
+            "mockRank": 3
+          },
+          {
+            "name": "Wyoming",
+            "score": 170,
+            "mockRank": 4
+          },
+          {
+            "name": "Fenwick",
+            "score": 187,
+            "mockRank": 5
+          },
+          {
+            "name": "Mariemont",
+            "score": 216,
+            "mockRank": 6
+          }
+        ]
+      }
+    },
+    "girls_4_central": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Grandview Hts.",
+          "Mechanicsburg",
+          "Bellaire",
+          "Mount Gilead",
+          "Fairland"
+        ],
+        "teams": [
+          {
+            "name": "Grandview Hts.",
+            "score": 50,
+            "mockRank": 1
+          },
+          {
+            "name": "Mechanicsburg",
+            "score": 134,
+            "mockRank": 2
+          },
+          {
+            "name": "Bellaire",
+            "score": 136,
+            "mockRank": 3
+          },
+          {
+            "name": "Mount Gilead",
+            "score": 149,
+            "mockRank": 4
+          },
+          {
+            "name": "Fairland",
+            "score": 200,
+            "mockRank": 5
+          },
+          {
+            "name": "West Union",
+            "score": 201,
+            "mockRank": 6
+          },
+          {
+            "name": "Fairbanks",
+            "score": 201,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Grandview Hts.",
+          "Mechanicsburg",
+          "Mount Gilead",
+          "Bellaire",
+          "Fairbanks"
+        ],
+        "teams": [
+          {
+            "name": "Grandview Hts.",
+            "score": 41,
+            "mockRank": 1
+          },
+          {
+            "name": "Mechanicsburg",
+            "score": 123,
+            "mockRank": 2
+          },
+          {
+            "name": "Mount Gilead",
+            "score": 143,
+            "mockRank": 3
+          },
+          {
+            "name": "Bellaire",
+            "score": 165,
+            "mockRank": 4
+          },
+          {
+            "name": "Fairbanks",
+            "score": 176,
+            "mockRank": 5
+          },
+          {
+            "name": "Fisher Catholic",
+            "score": 181,
+            "mockRank": 6
+          },
+          {
+            "name": "Fairland",
+            "score": 193,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "girls_4_northeast": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Rittman",
+          "Kirtland",
+          "Maplewood",
+          "McDonald",
+          "Ash. St. John"
+        ],
+        "teams": [
+          {
+            "name": "Rittman",
+            "score": 79,
+            "mockRank": 1
+          },
+          {
+            "name": "Kirtland",
+            "score": 86,
+            "mockRank": 2
+          },
+          {
+            "name": "Maplewood",
+            "score": 100,
+            "mockRank": 3
+          },
+          {
+            "name": "McDonald",
+            "score": 105,
+            "mockRank": 4
+          },
+          {
+            "name": "Ash. St. John",
+            "score": 170.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Kid. Cent. Christian",
+            "score": 243,
+            "mockRank": 6
+          },
+          {
+            "name": "Columbiana",
+            "score": 271,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Kirtland",
+          "Maplewood",
+          "McDonald",
+          "Rittman",
+          "Ash. St. John"
+        ],
+        "teams": [
+          {
+            "name": "Kirtland",
+            "score": 73,
+            "mockRank": 1
+          },
+          {
+            "name": "Maplewood",
+            "score": 80.5,
+            "mockRank": 2
+          },
+          {
+            "name": "McDonald",
+            "score": 91,
+            "mockRank": 3
+          },
+          {
+            "name": "Rittman",
+            "score": 114,
+            "mockRank": 4
+          },
+          {
+            "name": "Ash. St. John",
+            "score": 125.5,
+            "mockRank": 5
+          },
+          {
+            "name": "Kid. Cent. Christian",
+            "score": 263,
+            "mockRank": 6
+          },
+          {
+            "name": "Columbiana",
+            "score": 270,
+            "mockRank": 7
+          }
+        ]
+      }
+    },
+    "girls_4_northwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 9,
+        "individualQualifiers": 18,
+        "qualifyingTeams": [
+          "Liberty Center",
+          "Ottawa Hills",
+          "Archbold",
+          "St. Henry",
+          "Crestline",
+          "Marion Local",
+          "Seneca East",
+          "Lincolnview",
+          "Mil. Edison"
+        ],
+        "teams": [
+          {
+            "name": "Liberty Center",
+            "score": 71,
+            "mockRank": 1
+          },
+          {
+            "name": "Ottawa Hills",
+            "score": 72,
+            "mockRank": 2
+          },
+          {
+            "name": "Archbold",
+            "score": 164,
+            "mockRank": 3
+          },
+          {
+            "name": "St. Henry",
+            "score": 255,
+            "mockRank": 4
+          },
+          {
+            "name": "Crestline",
+            "score": 274,
+            "mockRank": 5
+          },
+          {
+            "name": "Marion Local",
+            "score": 290,
+            "mockRank": 6
+          },
+          {
+            "name": "Seneca East",
+            "score": 300,
+            "mockRank": 7
+          },
+          {
+            "name": "Lincolnview",
+            "score": 320,
+            "mockRank": 8
+          },
+          {
+            "name": "Mil. Edison",
+            "score": 331.5,
+            "mockRank": 9
+          },
+          {
+            "name": "Tinora",
+            "score": 342,
+            "mockRank": 10
+          },
+          {
+            "name": "Sher. Fairview",
+            "score": 343,
+            "mockRank": 11
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 9,
+        "individualQualifiers": 18,
+        "qualifyingTeams": [
+          "Liberty Center",
+          "Ottawa Hills",
+          "Archbold",
+          "St. Henry",
+          "Seneca East",
+          "Crestline",
+          "Lincolnview",
+          "Marion Local",
+          "Del. St. John's"
+        ],
+        "teams": [
+          {
+            "name": "Liberty Center",
+            "score": 64,
+            "mockRank": 1
+          },
+          {
+            "name": "Ottawa Hills",
+            "score": 98,
+            "mockRank": 2
+          },
+          {
+            "name": "Archbold",
+            "score": 150,
+            "mockRank": 3
+          },
+          {
+            "name": "St. Henry",
+            "score": 234,
+            "mockRank": 4
+          },
+          {
+            "name": "Seneca East",
+            "score": 263,
+            "mockRank": 5
+          },
+          {
+            "name": "Crestline",
+            "score": 289,
+            "mockRank": 6
+          },
+          {
+            "name": "Lincolnview",
+            "score": 303.5,
+            "mockRank": 7
+          },
+          {
+            "name": "Marion Local",
+            "score": 324,
+            "mockRank": 8
+          },
+          {
+            "name": "Del. St. John's",
+            "score": 328,
+            "mockRank": 9
+          },
+          {
+            "name": "Margaretta",
+            "score": 329,
+            "mockRank": 10
+          },
+          {
+            "name": "Carey",
+            "score": 350.5,
+            "mockRank": 11
+          }
+        ]
+      }
+    },
+    "girls_4_southwest": {
+      "seasonBest": {
+        "label": "Season-best projection (as of 2026-10-20)",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Minster",
+          "Sum. Co. Day",
+          "Ft. Loramie",
+          "West Liberty-Salem",
+          "Day. Christian"
+        ],
+        "teams": [
+          {
+            "name": "Minster",
+            "score": 85,
+            "mockRank": 1
+          },
+          {
+            "name": "Sum. Co. Day",
+            "score": 124,
+            "mockRank": 2
+          },
+          {
+            "name": "Ft. Loramie",
+            "score": 146,
+            "mockRank": 3
+          },
+          {
+            "name": "West Liberty-Salem",
+            "score": 154,
+            "mockRank": 4
+          },
+          {
+            "name": "Day. Christian",
+            "score": 189,
+            "mockRank": 5
+          },
+          {
+            "name": "Botkins",
+            "score": 231,
+            "mockRank": 6
+          },
+          {
+            "name": "Newton Local",
+            "score": 239,
+            "mockRank": 7
+          }
+        ]
+      },
+      "districtFed": {
+        "label": "Projection from the real Oct 24 district results",
+        "stateQualifiers": 5,
+        "individualQualifiers": 10,
+        "qualifyingTeams": [
+          "Minster",
+          "Ft. Loramie",
+          "Sum. Co. Day",
+          "West Liberty-Salem",
+          "Day. Christian"
+        ],
+        "teams": [
+          {
+            "name": "Minster",
+            "score": 87,
+            "mockRank": 1
+          },
+          {
+            "name": "Ft. Loramie",
+            "score": 118,
+            "mockRank": 2
+          },
+          {
+            "name": "Sum. Co. Day",
+            "score": 138.5,
+            "mockRank": 3
+          },
+          {
+            "name": "West Liberty-Salem",
+            "score": 154,
+            "mockRank": 4
+          },
+          {
+            "name": "Day. Christian",
+            "score": 170,
+            "mockRank": 5
+          },
+          {
+            "name": "Botkins",
+            "score": 232,
+            "mockRank": 6
+          },
+          {
+            "name": "Cedarville",
+            "score": 247,
+            "mockRank": 7
+          }
+        ]
+      }
+    }
+  }
+}
