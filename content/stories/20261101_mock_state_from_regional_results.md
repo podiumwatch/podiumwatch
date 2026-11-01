@@ -6,7 +6,7 @@ category: "Cross Country"
 author: "Podium Watch"
 slug: "mock-state-from-regional-results-2026"
 featured: false
-draft: false
+draft: true
 updatedDate: "2026-11-01"
 type: "Feature"
 divisions: "All"
