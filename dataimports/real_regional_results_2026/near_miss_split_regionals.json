@@ -1,0 +1,3481 @@
+{
+  "generatedAt": "2026-11-01T12:15:26.254Z",
+  "rule": "(a) same school, same surname, same grade, first name a nickname or one-letter typo; (b) everything else. Nothing applied.",
+  "a": [
+    {
+      "dataset": "candidate",
+      "category": "girls_d1",
+      "school": "Lebanon",
+      "rosterName": "Isabel Ansberry",
+      "realName": "Izzy Ansberry",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "21:44.02",
+      "oldCs": 130402,
+      "regionalTime": "20:42.8",
+      "regionalCs": 124280,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (30744175 vs 29496136)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Crestwood",
+      "rosterName": "Madie Grace Gonczy",
+      "realName": "Madiegrace Gonczy",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "18:46.1",
+      "oldCs": 112610,
+      "regionalTime": "19:16.2",
+      "regionalCs": 115620,
+      "faster": false,
+      "rule": "nickname (short form)",
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (23728794 vs 33518178)"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d1",
+      "school": "Milford",
+      "rosterName": "Daniel Haders  III",
+      "realName": "Daniel Haders III",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "16:58.70",
+      "oldCs": 101870,
+      "regionalTime": "16:24.7",
+      "regionalCs": 98470,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d1",
+      "school": "Lebanon",
+      "rosterName": "Isabel Ansberry",
+      "realName": "Izzy Ansberry",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "21:44.02",
+      "oldCs": 130402,
+      "regionalTime": "20:42.8",
+      "regionalCs": 124280,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Norton",
+      "rosterName": "Franklin Sisson",
+      "realName": "Frank Sisson",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "17:29.60",
+      "oldCs": 104960,
+      "regionalTime": "18:06.7",
+      "regionalCs": 108670,
+      "faster": false,
+      "rule": "nickname (short form)",
+      "sameGrade": true,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Hawken",
+      "rosterName": "Maximilian \"Max\" Moore",
+      "realName": "Maximilian Max Moore",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "17:05.60",
+      "oldCs": 102560,
+      "regionalTime": "17:55.6",
+      "regionalCs": 107560,
+      "faster": false,
+      "rule": "one-letter typo",
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Hol. Springfield",
+      "rosterName": "Johnathan (John Iman",
+      "realName": "Johnathan (John) Iman",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "17:04.38",
+      "oldCs": 102438,
+      "regionalTime": "16:36.3",
+      "regionalCs": 99630,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Bellbrook",
+      "rosterName": "Josh Johnson",
+      "realName": "Joshua Johnson",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "16:28.1",
+      "oldCs": 98810,
+      "regionalTime": "16:55.5",
+      "regionalCs": 101550,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": true,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Bellaire",
+      "rosterName": "Kai Jon Cerritos",
+      "realName": "Kai'Jon Cerritos",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "17:16.98",
+      "oldCs": 103698,
+      "regionalTime": "16:54.0",
+      "regionalCs": 101400,
+      "faster": true,
+      "rule": "nickname (short form)",
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Wauseon",
+      "rosterName": "Carter St John",
+      "realName": "Carter St. John",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "18:58.70",
+      "oldCs": 113870,
+      "regionalTime": "18:47.0",
+      "regionalCs": 112700,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Bethel",
+      "rosterName": "Alyssandra \"Grace\" Peirano",
+      "realName": "Alyssandra Peirano",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "22:09.8",
+      "oldCs": 132980,
+      "regionalTime": "21:40.0",
+      "regionalCs": 130000,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": true,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Crestwood",
+      "rosterName": "Madie Grace Gonczy",
+      "realName": "Madiegrace Gonczy",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "19:28.7",
+      "oldCs": 116870,
+      "regionalTime": "19:16.2",
+      "regionalCs": 115620,
+      "faster": true,
+      "rule": "nickname (short form)",
+      "sameGrade": true,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Akron SVSM",
+      "rosterName": "Madelyn Sellers",
+      "realName": "Maddie Sellers",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "21:32.7",
+      "oldCs": 129270,
+      "regionalTime": "21:57.4",
+      "regionalCs": 131740,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": true,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Hicksville",
+      "rosterName": "Alex Franklin",
+      "realName": "Alexander Franklin",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "16:46.50",
+      "oldCs": 100650,
+      "regionalTime": "17:24.6",
+      "regionalCs": 104460,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    }
+  ],
+  "b": [
+    {
+      "dataset": "candidate",
+      "category": "boys_d1",
+      "school": "Gah. Lincoln",
+      "rosterName": "Gavin Swain",
+      "realName": "Finn Swain",
+      "rosterGrade": "11",
+      "realGrade": "10",
+      "oldPR": "15:20.8",
+      "oldCs": 92080,
+      "regionalTime": "16:05.2",
+      "regionalCs": 96520,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (27300673 vs 29439417)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d1",
+      "school": "Middletown",
+      "rosterName": "Dylan Palmer",
+      "realName": "Nathan Palmer",
+      "rosterGrade": "11",
+      "realGrade": "12",
+      "oldPR": "17:04.5",
+      "oldCs": 102450,
+      "regionalTime": "17:22.1",
+      "regionalCs": 104210,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26433197 vs 23618183)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "Walsh Jesuit",
+      "rosterName": "Owen Cotter",
+      "realName": "Grant Cotter",
+      "rosterGrade": "12",
+      "realGrade": "11",
+      "oldPR": "17:51.5",
+      "oldCs": 107150,
+      "regionalTime": "18:53.0",
+      "regionalCs": 113300,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (23871850 vs 14017034)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "Gallia Academy",
+      "rosterName": "Levi Kuhn",
+      "realName": "Riley Kuhn",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "21:28.8",
+      "oldCs": 128880,
+      "regionalTime": "17:13.7",
+      "regionalCs": 103370,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26352221 vs 26289262)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "Hudson",
+      "rosterName": "Ethan Knuth",
+      "realName": "Liam Knuth",
+      "rosterGrade": "12",
+      "realGrade": "10",
+      "oldPR": "17:10.3",
+      "oldCs": 103030,
+      "regionalTime": "16:07.9",
+      "regionalCs": 96790,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (24241071 vs 29495351)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "Lakewood",
+      "rosterName": "Andrew Babson",
+      "realName": "James Babson",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "17:26.5",
+      "oldCs": 104650,
+      "regionalTime": "17:43.6",
+      "regionalCs": 106360,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29527413 vs 23618003)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "Marion Harding",
+      "rosterName": "Trenton Estrada",
+      "realName": "Luke Estrada",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "19:10.5",
+      "oldCs": 115050,
+      "regionalTime": "19:00.9",
+      "regionalCs": 114090,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (25027439 vs 26519426)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "Midview",
+      "rosterName": "Lucas Downey",
+      "realName": "Andrew Downey",
+      "rosterGrade": "9",
+      "realGrade": "10",
+      "oldPR": "20:19.7",
+      "oldCs": 121970,
+      "regionalTime": "17:39.7",
+      "regionalCs": 105970,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26392698 vs 29494220)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "No. Olmsted",
+      "rosterName": "Alexander Fratini",
+      "realName": "Anthony Fratini",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "18:13.9",
+      "oldCs": 109390,
+      "regionalTime": "18:34.1",
+      "regionalCs": 111410,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (23717290 vs 26662108)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d2",
+      "school": "Ottawa-Glandorf",
+      "rosterName": "Grady Recker",
+      "realName": "Gage Recker",
+      "rosterGrade": "11",
+      "realGrade": "12",
+      "oldPR": "19:41.72",
+      "oldCs": 118172,
+      "regionalTime": "18:26.9",
+      "regionalCs": 110690,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26432023 vs 23618136)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d3",
+      "school": "Logan Elm",
+      "rosterName": "Landen Russell",
+      "realName": "Owen Russell",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "23:02.4",
+      "oldCs": 138240,
+      "regionalTime": "15:56.6",
+      "regionalCs": 95660,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (23698848 vs 23698763)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d3",
+      "school": "Union Local",
+      "rosterName": "Kingston Bendo",
+      "realName": "Connor Bendo",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "21:37.0",
+      "oldCs": 129700,
+      "regionalTime": "15:27.1",
+      "regionalCs": 92710,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29929656 vs 23948339)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d3",
+      "school": "McD. Northwest",
+      "rosterName": "William Cantrell",
+      "realName": "Alex Cantrell",
+      "rosterGrade": "11",
+      "realGrade": "10",
+      "oldPR": "21:31.7",
+      "oldCs": 129170,
+      "regionalTime": "17:49.1",
+      "regionalCs": 106910,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (33152283 vs 29497033)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d3",
+      "school": "Bath",
+      "rosterName": "Eli Fultz",
+      "realName": "Enon Fultz",
+      "rosterGrade": "9",
+      "realGrade": "9",
+      "oldPR": "19:56.5",
+      "oldCs": 119650,
+      "regionalTime": "18:11.2",
+      "regionalCs": 109120,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (30802093 vs 30802094)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d3",
+      "school": "Greeneview",
+      "rosterName": "Jackson Wheatcraft",
+      "realName": "Carter Wheatcraft",
+      "rosterGrade": "9",
+      "realGrade": "12",
+      "oldPR": "24:33.6",
+      "oldCs": 147360,
+      "regionalTime": "19:00.1",
+      "regionalCs": 114010,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26743563 vs 26743554)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d3",
+      "school": "Williamsburg",
+      "rosterName": "Hosea Howard",
+      "realName": "Jeremiah Howard",
+      "rosterGrade": "11",
+      "realGrade": "12",
+      "oldPR": "19:46.1",
+      "oldCs": 118610,
+      "regionalTime": "18:26.2",
+      "regionalCs": 110620,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32988563 vs 33034679)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d3",
+      "school": "Clermont NE",
+      "rosterName": "Leo Urling",
+      "realName": "Blaise Urling",
+      "rosterGrade": "9",
+      "realGrade": "12",
+      "oldPR": "22:36.6",
+      "oldCs": 135660,
+      "regionalTime": "20:52.0",
+      "regionalCs": 125200,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32970851 vs 26408474)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Spring. ECA",
+      "rosterName": "Isaac Scales",
+      "realName": "Elijah Scales",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "20:29.7",
+      "oldCs": 122970,
+      "regionalTime": "15:52.8",
+      "regionalCs": 95280,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32976311 vs 26433655)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Spring. ECA",
+      "rosterName": "Isaac Scales",
+      "realName": "Zek Scales",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "20:29.7",
+      "oldCs": 122970,
+      "regionalTime": "17:31.5",
+      "regionalCs": 105150,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32976311 vs 29463876)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Mohawk",
+      "rosterName": "Timmy Horner",
+      "realName": "Timothy Horner",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "18:38.3",
+      "oldCs": 111830,
+      "regionalTime": "18:31.0",
+      "regionalCs": 111100,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (29496835 vs 30981035)"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Jackson Center",
+      "rosterName": "Alex Prenger",
+      "realName": "Eli Prenger",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "22:58.9",
+      "oldCs": 137890,
+      "regionalTime": "18:04.1",
+      "regionalCs": 108410,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29509224 vs 26376765)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Open Door Christian",
+      "rosterName": "Trevor Taylor",
+      "realName": "Tripp Taylor",
+      "rosterGrade": "12",
+      "realGrade": "11",
+      "oldPR": "16:48.7",
+      "oldCs": 100870,
+      "regionalTime": "17:53.7",
+      "regionalCs": 107370,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (23758427 vs 26392485)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "New Knoxville",
+      "rosterName": "Joel Holland",
+      "realName": "Jude Holland",
+      "rosterGrade": "11",
+      "realGrade": "12",
+      "oldPR": "18:14.1",
+      "oldCs": 109410,
+      "regionalTime": "22:57.1",
+      "regionalCs": 137710,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (28341383 vs 23942671)"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Garaway",
+      "rosterName": "Graeme Miller",
+      "realName": "Aaron Miller",
+      "rosterGrade": "9",
+      "realGrade": "9",
+      "oldPR": "22:04.0",
+      "oldCs": 132400,
+      "regionalTime": "19:59.9",
+      "regionalCs": 119990,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (31064083 vs 21366144)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Mapleton",
+      "rosterName": "Josiah Kucnick",
+      "realName": "Stanley Kucnick",
+      "rosterGrade": "12",
+      "realGrade": "10",
+      "oldPR": "20:01.2",
+      "oldCs": 120120,
+      "regionalTime": "19:48.2",
+      "regionalCs": 118820,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (23618055 vs 29527582)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Toledo Christian",
+      "rosterName": "Dakota Turnick",
+      "realName": "Trevor Turnick",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "21:17.9",
+      "oldCs": 127790,
+      "regionalTime": "18:44.1",
+      "regionalCs": 112410,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29513096 vs 29496426)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Day. Christian",
+      "rosterName": "Nathan Smith",
+      "realName": "Josiah Smith",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "18:40.2",
+      "oldCs": 112020,
+      "regionalTime": "19:32.8",
+      "regionalCs": 117280,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (29514446 vs 23792784)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "Mississinawa Valley",
+      "rosterName": "Zachariah McKeeth",
+      "realName": "Elijah McKeeth",
+      "rosterGrade": "12",
+      "realGrade": "10",
+      "oldPR": "22:23.5",
+      "oldCs": 134350,
+      "regionalTime": "18:04.1",
+      "regionalCs": 108410,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29140894 vs 29494615)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "boys_d4",
+      "school": "David Anderson",
+      "rosterName": "Russell Carlisle",
+      "realName": "Caiden Carlisle",
+      "rosterGrade": "9",
+      "realGrade": "12",
+      "oldPR": "19:43.6",
+      "oldCs": 118360,
+      "regionalTime": "19:31.3",
+      "regionalCs": 117130,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32864102 vs 23990799)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d1",
+      "school": "Mass. Jackson",
+      "rosterName": "Alyvia Sandor",
+      "realName": "Ava Sandor",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "20:20.7",
+      "oldCs": 122070,
+      "regionalTime": "20:20.8",
+      "regionalCs": 122080,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (26513466 vs 26513468)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d1",
+      "school": "Solon",
+      "rosterName": "Annalisa Wang",
+      "realName": "Caroline Wang",
+      "rosterGrade": "11",
+      "realGrade": "9",
+      "oldPR": "21:25.7",
+      "oldCs": 128570,
+      "regionalTime": "19:52.0",
+      "regionalCs": 119200,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26513454 vs 32475390)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d2",
+      "school": "Rocky River",
+      "rosterName": "Jane McCann",
+      "realName": "Kara McCann",
+      "rosterGrade": "11",
+      "realGrade": "10",
+      "oldPR": "20:05.5",
+      "oldCs": 120550,
+      "regionalTime": "19:40.7",
+      "regionalCs": 118070,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26376996 vs 29447297)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d2",
+      "school": "Hamilton Township",
+      "rosterName": "Jamilla Rock",
+      "realName": "Martha Rock",
+      "rosterGrade": "12",
+      "realGrade": "9",
+      "oldPR": "24:19.5",
+      "oldCs": 145950,
+      "regionalTime": "23:11.9",
+      "regionalCs": 139190,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (30897693 vs 27705242)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d2",
+      "school": "Steubenville",
+      "rosterName": "Aletheia Sirilla",
+      "realName": "Charity Sirilla",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "27:23.0",
+      "oldCs": 164300,
+      "regionalTime": "27:41.9",
+      "regionalCs": 166190,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29600674 vs 29600678)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d2",
+      "school": "Rogers",
+      "rosterName": "Ka'Mauri Green",
+      "realName": "Ka'miyah Green",
+      "rosterGrade": "9",
+      "realGrade": "9",
+      "oldPR": "24:14.7",
+      "oldCs": 145470,
+      "regionalTime": "22:35.5",
+      "regionalCs": 135550,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (33193803 vs 33193798)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Tuslaw",
+      "rosterName": "Rebecca Criswell",
+      "realName": "Delphia Criswell",
+      "rosterGrade": "12",
+      "realGrade": "11",
+      "oldPR": "26:14.8",
+      "oldCs": 157480,
+      "regionalTime": "25:54.8",
+      "regionalCs": 155480,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32907849 vs 26571908)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Delta",
+      "rosterName": "Grace Whitinger",
+      "realName": "Sydnie Whitinger",
+      "rosterGrade": "10",
+      "realGrade": "11",
+      "oldPR": "26:05.5",
+      "oldCs": 156550,
+      "regionalTime": "20:23.4",
+      "regionalCs": 122340,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29538432 vs 26376969)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Bethel",
+      "rosterName": "Asmahan Eljawad",
+      "realName": "Ibtisam Eljawad",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "23:41.6",
+      "oldCs": 142160,
+      "regionalTime": "25:32.0",
+      "regionalCs": 153200,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (28838295 vs 28838301)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Gallia Academy",
+      "rosterName": "Camryn Smith",
+      "realName": "Hadley Smith",
+      "rosterGrade": "9",
+      "realGrade": "9",
+      "oldPR": "20:51.2",
+      "oldCs": 125120,
+      "regionalTime": "25:00.1",
+      "regionalCs": 150010,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (26369588 vs 31119149)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Meadowbrook",
+      "rosterName": "Joslyn Marston",
+      "realName": "Kairi Marston",
+      "rosterGrade": "9",
+      "realGrade": "12",
+      "oldPR": "36:09.0",
+      "oldCs": 216900,
+      "regionalTime": "24:46.1",
+      "regionalCs": 148610,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (28318795 vs 23837127)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Spr. Northwestern",
+      "rosterName": "Annabelle Bussert",
+      "realName": "Rylie Bussert",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "24:40.7",
+      "oldCs": 148070,
+      "regionalTime": "23:50.9",
+      "regionalCs": 143090,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29513412 vs 21242133)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Spr. Northwestern",
+      "rosterName": "Ava Bussert",
+      "realName": "Rylie Bussert",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "25:01.3",
+      "oldCs": 150130,
+      "regionalTime": "23:50.9",
+      "regionalCs": 143090,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29513413 vs 21242133)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Rossford",
+      "rosterName": "Isabella Hall",
+      "realName": "Serenity Hall",
+      "rosterGrade": "9",
+      "realGrade": "9",
+      "oldPR": "28:29.8",
+      "oldCs": 170980,
+      "regionalTime": "24:28.9",
+      "regionalCs": 146890,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (5875255 vs 31766999)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Heath",
+      "rosterName": "Lybertei Nihiser",
+      "realName": "Caedynce Nihiser",
+      "rosterGrade": "11",
+      "realGrade": "9",
+      "oldPR": "24:02.2",
+      "oldCs": 144220,
+      "regionalTime": "21:37.2",
+      "regionalCs": 129720,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26361526 vs 32983172)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Norwayne",
+      "rosterName": "Carrie Graham",
+      "realName": "Ginny Graham",
+      "rosterGrade": "12",
+      "realGrade": "9",
+      "oldPR": "21:35.7",
+      "oldCs": 129570,
+      "regionalTime": "22:32.0",
+      "regionalCs": 135200,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (24356368 vs 26572082)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Cambridge",
+      "rosterName": "Isabell Brown",
+      "realName": "Joanna Brown",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "33:08.0",
+      "oldCs": 198800,
+      "regionalTime": "24:40.1",
+      "regionalCs": 148010,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (28882132 vs 26921335)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d3",
+      "school": "Westfall",
+      "rosterName": "Rachel Elder",
+      "realName": "Reina Elder",
+      "rosterGrade": "10",
+      "realGrade": "9",
+      "oldPR": "29:10.6",
+      "oldCs": 175060,
+      "regionalTime": "24:56.9",
+      "regionalCs": 149690,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (31487070 vs 31738446)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Ottawa Hills",
+      "rosterName": "Molly Mullan",
+      "realName": "Daisy Mullan",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "19:36.6",
+      "oldCs": 117660,
+      "regionalTime": "21:48.5",
+      "regionalCs": 130850,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29496865 vs 26701885)"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Ft. Loramie",
+      "rosterName": "Liza Poeppelman",
+      "realName": "Evelyn Poeppelman",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "21:00.3",
+      "oldCs": 126030,
+      "regionalTime": "20:51.2",
+      "regionalCs": 125120,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (26409944 vs 26409940)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Kid. Cent. Christian",
+      "rosterName": "Leanah Mast",
+      "realName": "Addy Mast",
+      "rosterGrade": "10",
+      "realGrade": "9",
+      "oldPR": "33:36.8",
+      "oldCs": 201680,
+      "regionalTime": "27:02.2",
+      "regionalCs": 162220,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Ft. Recovery",
+      "rosterName": "Addyson Heitkamp",
+      "realName": "Riley Heitkamp",
+      "rosterGrade": "10",
+      "realGrade": "11",
+      "oldPR": "26:35.6",
+      "oldCs": 159560,
+      "regionalTime": "22:01.2",
+      "regionalCs": 132120,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29494707 vs 26409591)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Marion Local",
+      "rosterName": "Colleen Dirksen",
+      "realName": "Maria Dirksen",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "19:12.9",
+      "oldCs": 115290,
+      "regionalTime": "22:31.4",
+      "regionalCs": 135140,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (26290714 vs 29496317)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Marion Local",
+      "rosterName": "Colleen Dirksen",
+      "realName": "Deanna Dirksen",
+      "rosterGrade": "10",
+      "realGrade": "11",
+      "oldPR": "19:12.9",
+      "oldCs": 115290,
+      "regionalTime": "23:15.9",
+      "regionalCs": 139590,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26290714 vs 29496314)"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Troy Christian",
+      "rosterName": "Eliana Erdahl",
+      "realName": "Aleah Erdahl",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "23:55.8",
+      "oldCs": 143580,
+      "regionalTime": "22:32.6",
+      "regionalCs": 135260,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (29452944 vs 29452940)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Troy Christian",
+      "rosterName": "Kaidie Williams",
+      "realName": "Maiya Williams",
+      "rosterGrade": "9",
+      "realGrade": "9",
+      "oldPR": "25:07.9",
+      "oldCs": 150790,
+      "regionalTime": "21:14.9",
+      "regionalCs": 127490,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (32934236 vs 32934238)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Spring. ECA",
+      "rosterName": "Grace Whetstone",
+      "realName": "Jessica Whetstone",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "28:27.0",
+      "oldCs": 170700,
+      "regionalTime": "23:48.4",
+      "regionalCs": 142840,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (21242117 vs 26433657)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Riverdale",
+      "rosterName": "Hannah Vent",
+      "realName": "Paige Vent",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "25:43.7",
+      "oldCs": 154370,
+      "regionalTime": "20:38.3",
+      "regionalCs": 123830,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (32939705 vs 28356812)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "United",
+      "rosterName": "Eva Marshall",
+      "realName": "Ruby Marshall",
+      "rosterGrade": "9",
+      "realGrade": "10",
+      "oldPR": "26:33.7",
+      "oldCs": 159370,
+      "regionalTime": "21:58.9",
+      "regionalCs": 131890,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (31539887 vs 27046570)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Legacy Christian",
+      "rosterName": "Emma Cole",
+      "realName": "Abby Cole",
+      "rosterGrade": "11",
+      "realGrade": "9",
+      "oldPR": "23:20.5",
+      "oldCs": 140050,
+      "regionalTime": "21:42.1",
+      "regionalCs": 130210,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32875212 vs 32926141)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Wynford",
+      "rosterName": "Allison Brewer",
+      "realName": "Aubrey Brewer",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "23:11.8",
+      "oldCs": 139180,
+      "regionalTime": "23:24.1",
+      "regionalCs": 140410,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (28957239 vs 28957241)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Monroeville",
+      "rosterName": "Abecka Ruggles",
+      "realName": "Annaka Ruggles",
+      "rosterGrade": "11",
+      "realGrade": "9",
+      "oldPR": "23:55.9",
+      "oldCs": 143590,
+      "regionalTime": "22:05.5",
+      "regionalCs": 132550,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26872490 vs 29471745)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Newark Cath.",
+      "rosterName": "Maggie Ewing",
+      "realName": "Ginny Ewing",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "27:30.7",
+      "oldCs": 165070,
+      "regionalTime": "22:44.2",
+      "regionalCs": 136420,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29494441 vs 18815211)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Col. Crestview",
+      "rosterName": "Katie MacKay",
+      "realName": "Abby MacKay",
+      "rosterGrade": "11",
+      "realGrade": "9",
+      "oldPR": "23:59.8",
+      "oldCs": 143980,
+      "regionalTime": "23:30.7",
+      "regionalCs": 141070,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29496730 vs 32844859)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Bucyrus",
+      "rosterName": "Makinsey Weiler",
+      "realName": "Madalyn Weiler",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "25:46.9",
+      "oldCs": 154690,
+      "regionalTime": "24:18.5",
+      "regionalCs": 145850,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29496949 vs 23729106)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Evergreen",
+      "rosterName": "Kenna Dilley",
+      "realName": "Charlotte Dilley",
+      "rosterGrade": "9",
+      "realGrade": "12",
+      "oldPR": "24:48.3",
+      "oldCs": 148830,
+      "regionalTime": "22:48.9",
+      "regionalCs": 136890,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (26577666 vs 23581250)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Oberlin",
+      "rosterName": "Lilly Boyer",
+      "realName": "Rose Marie Boyer",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "32:56.5",
+      "oldCs": 197650,
+      "regionalTime": "23:37.7",
+      "regionalCs": 141770,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (32851263 vs 29453130)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "North Adams",
+      "rosterName": "Ellie Bosko",
+      "realName": "Trinity Bosko",
+      "rosterGrade": "11",
+      "realGrade": "10",
+      "oldPR": "28:01.8",
+      "oldCs": 168180,
+      "regionalTime": "22:38.3",
+      "regionalCs": 135830,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (27134292 vs 27276492)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Wellston",
+      "rosterName": "Fallan Leach",
+      "realName": "Brynlee Leach",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "30:00.0",
+      "oldCs": 180000,
+      "regionalTime": "23:45.1",
+      "regionalCs": 142510,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (26434507 vs 26434504)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Winc. Eastern",
+      "rosterName": "Addison Hauke",
+      "realName": "Charlize Hauke",
+      "rosterGrade": "12",
+      "realGrade": "12",
+      "oldPR": "25:03.7",
+      "oldCs": 150370,
+      "regionalTime": "23:26.9",
+      "regionalCs": 140690,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "different Athletic.net IDs (32886336 vs 32886339)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "candidate",
+      "category": "girls_d4",
+      "school": "Brookfield",
+      "rosterName": "Isabella Williams",
+      "realName": "Delaney Williams",
+      "rosterGrade": "11",
+      "realGrade": "10",
+      "oldPR": "27:08.2",
+      "oldCs": 162820,
+      "regionalTime": "23:39.5",
+      "regionalCs": 141950,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "different Athletic.net IDs (29838708 vs 29838707)",
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d1",
+      "school": "Gah. Lincoln",
+      "rosterName": "Gavin Swain",
+      "realName": "Finn Swain",
+      "rosterGrade": "11",
+      "realGrade": "10",
+      "oldPR": "15:20.80",
+      "oldCs": 92080,
+      "regionalTime": "16:05.2",
+      "regionalCs": 96520,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d1",
+      "school": "Groveport-Madison",
+      "rosterName": "DeMari Smith",
+      "realName": "Demari Smith",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "19:12.11",
+      "oldCs": 115211,
+      "regionalTime": "22:53.1",
+      "regionalCs": 137310,
+      "faster": false,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d1",
+      "school": "Strongsville",
+      "rosterName": "Alex Crist",
+      "realName": "Alexander Crist",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "17:51.2",
+      "oldCs": 107120,
+      "regionalTime": "18:12.5",
+      "regionalCs": 109250,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d1",
+      "school": "Euclid",
+      "rosterName": "Zachary Mocadlo",
+      "realName": "Zach Mocadlo",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:01.00",
+      "oldCs": 126100,
+      "regionalTime": "22:23.6",
+      "regionalCs": 134360,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d1",
+      "school": "Lorain",
+      "rosterName": "isaiah Berrios",
+      "realName": "Isaiah Berrios",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "23:20.37",
+      "oldCs": 140037,
+      "regionalTime": "21:37.5",
+      "regionalCs": 129750,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d1",
+      "school": "Middletown",
+      "rosterName": "Dylan Palmer",
+      "realName": "Nathan Palmer",
+      "rosterGrade": "11",
+      "realGrade": "12",
+      "oldPR": "17:04.50",
+      "oldCs": 102450,
+      "regionalTime": "17:22.1",
+      "regionalCs": 104210,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d1",
+      "school": "Hil. Darby",
+      "rosterName": "Madelyn Pulsfort",
+      "realName": "Maddy Pulsfort",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:20.96",
+      "oldCs": 128096,
+      "regionalTime": "21:10.9",
+      "regionalCs": 127090,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d1",
+      "school": "Mass. Jackson",
+      "rosterName": "Alyvia Sandor",
+      "realName": "Ava Sandor",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "20:20.7",
+      "oldCs": 122070,
+      "regionalTime": "20:20.8",
+      "regionalCs": 122080,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d1",
+      "school": "Solon",
+      "rosterName": "Vivienne Wang",
+      "realName": "Caroline Wang",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "21:16.1",
+      "oldCs": 127610,
+      "regionalTime": "19:52.0",
+      "regionalCs": 119200,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Marion Harding",
+      "rosterName": "Trenton Estrada",
+      "realName": "Luke Estrada",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "19:10.50",
+      "oldCs": 115050,
+      "regionalTime": "19:00.9",
+      "regionalCs": 114090,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Gallia Academy",
+      "rosterName": "Levi Kuhn",
+      "realName": "Riley Kuhn",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:28.8",
+      "oldCs": 128880,
+      "regionalTime": "17:13.7",
+      "regionalCs": 103370,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Whetstone",
+      "rosterName": "Maxfield Max) Kuhns",
+      "realName": "Maxfield (Max) Kuhns",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "18:45.52",
+      "oldCs": 112552,
+      "regionalTime": "19:02.7",
+      "regionalCs": 114270,
+      "faster": false,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Buckeye Valley",
+      "rosterName": "Benjamin Helder",
+      "realName": "Ben Helder",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "18:25.60",
+      "oldCs": 110560,
+      "regionalTime": "18:43.9",
+      "regionalCs": 112390,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Buckeye Valley",
+      "rosterName": "Benjamin Graham",
+      "realName": "Ben Graham",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "18:59.80",
+      "oldCs": 113980,
+      "regionalTime": "18:53.1",
+      "regionalCs": 113310,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Licking Valley",
+      "rosterName": "Jonathon White",
+      "realName": "Johnathon White",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "17:31.90",
+      "oldCs": 105190,
+      "regionalTime": "17:11.3",
+      "regionalCs": 103130,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "John Glenn",
+      "rosterName": "Alex Applegarth",
+      "realName": "Alexander Applegarth",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "19:29.00",
+      "oldCs": 116900,
+      "regionalTime": "18:18.7",
+      "regionalCs": 109870,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Hudson",
+      "rosterName": "Ethan Knuth",
+      "realName": "Liam Knuth",
+      "rosterGrade": "12",
+      "realGrade": "10",
+      "oldPR": "17:10.30",
+      "oldCs": 103030,
+      "regionalTime": "16:07.9",
+      "regionalCs": 96790,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Salem",
+      "rosterName": "Aaron Rea",
+      "realName": "Alex Rea",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "18:40.40",
+      "oldCs": 112040,
+      "regionalTime": "17:13.7",
+      "regionalCs": 103370,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Lakewood",
+      "rosterName": "Andrew Babson",
+      "realName": "James Babson",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "17:26.50",
+      "oldCs": 104650,
+      "regionalTime": "17:43.6",
+      "regionalCs": 106360,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Walsh Jesuit",
+      "rosterName": "Owen Cotter",
+      "realName": "Grant Cotter",
+      "rosterGrade": "12",
+      "realGrade": "11",
+      "oldPR": "17:51.50",
+      "oldCs": 107150,
+      "regionalTime": "18:53.0",
+      "regionalCs": 113300,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Wooster",
+      "rosterName": "Trent Johnson",
+      "realName": "Trenton (Trent) Johnson",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "18:00.80",
+      "oldCs": 108080,
+      "regionalTime": "18:56.1",
+      "regionalCs": 113610,
+      "faster": false,
+      "rule": "nickname (short form)",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "No. Olmsted",
+      "rosterName": "Alexander Fratini",
+      "realName": "Anthony Fratini",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "18:40.80",
+      "oldCs": 112080,
+      "regionalTime": "18:34.1",
+      "regionalCs": 111410,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Louisville",
+      "rosterName": "Issac Beltz",
+      "realName": "Isaac Beltz",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "18:03.50",
+      "oldCs": 108350,
+      "regionalTime": "18:12.4",
+      "regionalCs": 109240,
+      "faster": false,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Midview",
+      "rosterName": "Lucas Downey",
+      "realName": "Andrew Downey",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "20:19.66",
+      "oldCs": 121966,
+      "regionalTime": "17:39.7",
+      "regionalCs": 105970,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Eastlake North",
+      "rosterName": "Nick Hogan",
+      "realName": "Nicholas Hogan",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "20:19.83",
+      "oldCs": 121983,
+      "regionalTime": "20:04.1",
+      "regionalCs": 120410,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Columbian",
+      "rosterName": "Connor Dukeshire",
+      "realName": "Conner Dukeshire",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "16:57.78",
+      "oldCs": 101778,
+      "regionalTime": "17:13.6",
+      "regionalCs": 103360,
+      "faster": false,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Hol. Springfield",
+      "rosterName": "Kameron Lyons",
+      "realName": "Kam Lyons",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "20:05.50",
+      "oldCs": 120550,
+      "regionalTime": "19:57.8",
+      "regionalCs": 119780,
+      "faster": true,
+      "rule": "nickname (short form)",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Ottawa-Glandorf",
+      "rosterName": "Grady Recker",
+      "realName": "Gage Recker",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "19:41.72",
+      "oldCs": 118172,
+      "regionalTime": "18:26.9",
+      "regionalCs": 110690,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Greenville",
+      "rosterName": "Caleb \"CT\" McRill",
+      "realName": "C T McRill",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "17:30.60",
+      "oldCs": 105060,
+      "regionalTime": "17:10.7",
+      "regionalCs": 103070,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Bethel",
+      "rosterName": "Dana Littlefield",
+      "realName": "Dane Littlefield",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "20:20.40",
+      "oldCs": 122040,
+      "regionalTime": "24:29.8",
+      "regionalCs": 146980,
+      "faster": false,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Franklin",
+      "rosterName": "Kellen Dunn",
+      "realName": "Kellan Dunn",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "19:36.70",
+      "oldCs": 117670,
+      "regionalTime": "19:09.3",
+      "regionalCs": 114930,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d2",
+      "school": "Monroe",
+      "rosterName": "Nicholas Fischer",
+      "realName": "Nick Fischer",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:00.65",
+      "oldCs": 126065,
+      "regionalTime": "20:12.2",
+      "regionalCs": 121220,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d2",
+      "school": "Hoover",
+      "rosterName": "Katherine Hayford",
+      "realName": "Kay Hayford",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "20:40.80",
+      "oldCs": 124080,
+      "regionalTime": "19:57.0",
+      "regionalCs": 119700,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d2",
+      "school": "Rocky River",
+      "rosterName": "Jane McCann",
+      "realName": "Kara McCann",
+      "rosterGrade": "11",
+      "realGrade": "10",
+      "oldPR": "20:05.5",
+      "oldCs": 120550,
+      "regionalTime": "19:40.7",
+      "regionalCs": 118070,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d2",
+      "school": "Steele",
+      "rosterName": "Madeleine Merthe",
+      "realName": "Maddy Merthe",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "20:47.31",
+      "oldCs": 124731,
+      "regionalTime": "21:54.5",
+      "regionalCs": 131450,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d2",
+      "school": "Tol. St. Ursula Acad.",
+      "rosterName": "Kyleee Diller",
+      "realName": "Kylee Diller",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "20:15.0",
+      "oldCs": 121500,
+      "regionalTime": "20:07.4",
+      "regionalCs": 120740,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Minerva",
+      "rosterName": "Zach Norris",
+      "realName": "Zachery Norris",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "16:57.61",
+      "oldCs": 101761,
+      "regionalTime": "17:38.2",
+      "regionalCs": 105820,
+      "faster": false,
+      "rule": "nickname (short form)",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Tuscar. Valley",
+      "rosterName": "Luke McCoy",
+      "realName": "Lucas McCoy",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "18:27.00",
+      "oldCs": 110700,
+      "regionalTime": "17:26.5",
+      "regionalCs": 104650,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Martins Ferry",
+      "rosterName": "William Liberatore",
+      "realName": "Liam Liberatore",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "18:43.07",
+      "oldCs": 112307,
+      "regionalTime": "18:06.0",
+      "regionalCs": 108600,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Beaver Local",
+      "rosterName": "Abram Rettos",
+      "realName": "Abe Rettos",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "20:30.07",
+      "oldCs": 123007,
+      "regionalTime": "19:15.0",
+      "regionalCs": 115500,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Logan Elm",
+      "rosterName": "Landen Russell",
+      "realName": "Owen Russell",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "23:02.40",
+      "oldCs": 138240,
+      "regionalTime": "15:56.6",
+      "regionalCs": 95660,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Fairbanks",
+      "rosterName": "Zach Niehaus",
+      "realName": "Zachary Niehaus",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "19:04.90",
+      "oldCs": 114490,
+      "regionalTime": "19:30.1",
+      "regionalCs": 117010,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Union Local",
+      "rosterName": "Kingston Bendo",
+      "realName": "Connor Bendo",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "21:37.00",
+      "oldCs": 129700,
+      "regionalTime": "15:27.1",
+      "regionalCs": 92710,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "McD. Northwest",
+      "rosterName": "Billy Cantrell",
+      "realName": "Alex Cantrell",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "21:31.70",
+      "oldCs": 129170,
+      "regionalTime": "17:49.1",
+      "regionalCs": 106910,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Indian Creek",
+      "rosterName": "Samuel Doerr",
+      "realName": "Sam Doerr",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "18:39.38",
+      "oldCs": 111938,
+      "regionalTime": "18:48.8",
+      "regionalCs": 112880,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Berkshire",
+      "rosterName": "Benjamin Townsend",
+      "realName": "Ben Townsend",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "17:14.6",
+      "oldCs": 103460,
+      "regionalTime": "17:42.6",
+      "regionalCs": 106260,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Ash. Edgewood",
+      "rosterName": "Benjamin Lebzelter",
+      "realName": "Marcus Lebzelter",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "18:35.28",
+      "oldCs": 111528,
+      "regionalTime": "18:20.0",
+      "regionalCs": 110000,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Ash. Edgewood",
+      "rosterName": "Benjamin Lebzelter",
+      "realName": "Ben Lebzelter",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "18:35.28",
+      "oldCs": 111528,
+      "regionalTime": "18:22.7",
+      "regionalCs": 110270,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Canton C.C.",
+      "rosterName": "Danny Vlacovsky",
+      "realName": "Daniel Vlacovsky",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "19:05.30",
+      "oldCs": 114530,
+      "regionalTime": "19:24.6",
+      "regionalCs": 116460,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Lakeview",
+      "rosterName": "Brant Cunningham",
+      "realName": "Brandt Cunningham",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "20:54.50",
+      "oldCs": 125450,
+      "regionalTime": "20:18.9",
+      "regionalCs": 121890,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Paulding",
+      "rosterName": "Leonel Reyes",
+      "realName": "Lionel Reyes",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "17:26.92",
+      "oldCs": 104692,
+      "regionalTime": "16:44.2",
+      "regionalCs": 100420,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Bath",
+      "rosterName": "Eli Fultz",
+      "realName": "Enon Fultz",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "19:56.50",
+      "oldCs": 119650,
+      "regionalTime": "18:11.2",
+      "regionalCs": 109120,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Fostoria",
+      "rosterName": "Zay'Mere Tucker",
+      "realName": "Zaymere Tucker",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "19:10.07",
+      "oldCs": 115007,
+      "regionalTime": "18:53.1",
+      "regionalCs": 113310,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Versailles",
+      "rosterName": "Anthony Spitzer",
+      "realName": "Jackson Spitzer",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "16:18.37",
+      "oldCs": 97837,
+      "regionalTime": "15:05.2",
+      "regionalCs": 90520,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Versailles",
+      "rosterName": "Anthony Spitzer",
+      "realName": "Tony Spitzer",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "16:18.37",
+      "oldCs": 97837,
+      "regionalTime": "16:23.5",
+      "regionalCs": 98350,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Williamsburg",
+      "rosterName": "Hosea Howard",
+      "realName": "Jeremiah Howard",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "20:40.70",
+      "oldCs": 124070,
+      "regionalTime": "18:26.2",
+      "regionalCs": 110620,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Roger Bacon",
+      "rosterName": "Joseph Zlatic",
+      "realName": "Joe Zlatic",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "20:52.10",
+      "oldCs": 125210,
+      "regionalTime": "20:21.3",
+      "regionalCs": 122130,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Roger Bacon",
+      "rosterName": "Joseph Zlatic",
+      "realName": "William Zlatic",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "20:52.10",
+      "oldCs": 125210,
+      "regionalTime": "20:36.5",
+      "regionalCs": 123650,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d3",
+      "school": "Clermont NE",
+      "rosterName": "Leo Urling",
+      "realName": "Blaise Urling",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "27:30.20",
+      "oldCs": 165020,
+      "regionalTime": "20:52.0",
+      "regionalCs": 125200,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Northmor",
+      "rosterName": "Bella Smith",
+      "realName": "Isabella (Bella) Smith",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "20:27.1",
+      "oldCs": 122710,
+      "regionalTime": "20:25.7",
+      "regionalCs": 122570,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Bethel",
+      "rosterName": "Asmahan Eljawad",
+      "realName": "Ibtisam Eljawad",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "23:41.6",
+      "oldCs": 142160,
+      "regionalTime": "25:32.0",
+      "regionalCs": 153200,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Buckeye",
+      "rosterName": "Lily Regiec",
+      "realName": "Lilyanna (Lily) Regiec",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:57.3",
+      "oldCs": 131730,
+      "regionalTime": "22:38.1",
+      "regionalCs": 135810,
+      "faster": false,
+      "rule": "nickname (short form)",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Tuslaw",
+      "rosterName": "Rebecca Criswell",
+      "realName": "Delphia Criswell",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "26:14.8",
+      "oldCs": 157480,
+      "regionalTime": "25:54.8",
+      "regionalCs": 155480,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Norwayne",
+      "rosterName": "Carrie Graham",
+      "realName": "Ginny Graham",
+      "rosterGrade": "12",
+      "realGrade": "9",
+      "oldPR": "22:56.6",
+      "oldCs": 137660,
+      "regionalTime": "22:32.0",
+      "regionalCs": 135200,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d3",
+      "school": "Delta",
+      "rosterName": "Grace Whitinger",
+      "realName": "Sydnie Whitinger",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "28:47.45",
+      "oldCs": 172745,
+      "regionalTime": "20:23.4",
+      "regionalCs": 122340,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Shenandoah",
+      "rosterName": "Caleb McElroy",
+      "realName": "Noah McElroy",
+      "rosterGrade": "9",
+      "realGrade": "12",
+      "oldPR": "18:15.00",
+      "oldCs": 109500,
+      "regionalTime": "17:29.3",
+      "regionalCs": 104930,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Garaway",
+      "rosterName": "Christopher Beachy",
+      "realName": "Chris Beachy",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "19:50.00",
+      "oldCs": 119000,
+      "regionalTime": "20:33.1",
+      "regionalCs": 123310,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Cristo Rey",
+      "rosterName": "Phillip Corrigan",
+      "realName": "Philip Corrigan",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "19:57.10",
+      "oldCs": 119710,
+      "regionalTime": "19:38.1",
+      "regionalCs": 117810,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Russia",
+      "rosterName": "Samuel Phlipot",
+      "realName": "Francis Phlipot",
+      "rosterGrade": "12",
+      "realGrade": "9",
+      "oldPR": "15:43.10",
+      "oldCs": 94310,
+      "regionalTime": "17:10.0",
+      "regionalCs": 103000,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Jackson Center",
+      "rosterName": "Alex Prenger",
+      "realName": "Eli Prenger",
+      "rosterGrade": "9",
+      "realGrade": "11",
+      "oldPR": "22:58.90",
+      "oldCs": 137890,
+      "regionalTime": "18:04.1",
+      "regionalCs": 108410,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Day. Christian",
+      "rosterName": "Nathan Smith",
+      "realName": "Josiah Smith",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "19:40.90",
+      "oldCs": 118090,
+      "regionalTime": "19:32.8",
+      "regionalCs": 117280,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Spring. ECA",
+      "rosterName": "Isaac Scales",
+      "realName": "Elijah Scales",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:18.40",
+      "oldCs": 127840,
+      "regionalTime": "15:52.8",
+      "regionalCs": 95280,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Spring. ECA",
+      "rosterName": "Isaac Scales",
+      "realName": "Zek Scales",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:18.40",
+      "oldCs": 127840,
+      "regionalTime": "17:31.5",
+      "regionalCs": 105150,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Mississinawa Valley",
+      "rosterName": "Zachariah McKeeth",
+      "realName": "Elijah McKeeth",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "22:57.49",
+      "oldCs": 137749,
+      "regionalTime": "18:04.1",
+      "regionalCs": 108410,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Con. Crestview",
+      "rosterName": "Andrew Heth",
+      "realName": "Andy Heth",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "17:19.57",
+      "oldCs": 103957,
+      "regionalTime": "17:36.7",
+      "regionalCs": 105670,
+      "faster": false,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Hicksville",
+      "rosterName": "Alex Franklin",
+      "realName": "Caleb Franklin",
+      "rosterGrade": "12",
+      "realGrade": "10",
+      "oldPR": "16:46.50",
+      "oldCs": 100650,
+      "regionalTime": "18:06.3",
+      "regionalCs": 108630,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "New Knoxville",
+      "rosterName": "Joel Holland",
+      "realName": "Jude Holland",
+      "rosterGrade": "11",
+      "realGrade": "12",
+      "oldPR": "18:14.1",
+      "oldCs": 109410,
+      "regionalTime": "22:57.1",
+      "regionalCs": 137710,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Lincolnview",
+      "rosterName": "Jadyn Hammons",
+      "realName": "Max Hammons",
+      "rosterGrade": "11",
+      "realGrade": "12",
+      "oldPR": "19:01.56",
+      "oldCs": 114156,
+      "regionalTime": "18:01.7",
+      "regionalCs": 108170,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Toledo Christian",
+      "rosterName": "Dakota Turnick",
+      "realName": "Trevor Turnick",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "21:17.90",
+      "oldCs": 127790,
+      "regionalTime": "18:44.1",
+      "regionalCs": 112410,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Coll Western Reserve",
+      "rosterName": "Jax Dalton",
+      "realName": "Jaxon Dalton",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "19:18.37",
+      "oldCs": 115837,
+      "regionalTime": "19:31.5",
+      "regionalCs": 117150,
+      "faster": false,
+      "rule": "nickname (short form)",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Open Door Christian",
+      "rosterName": "Trevor Taylor",
+      "realName": "Tripp Taylor",
+      "rosterGrade": "12",
+      "realGrade": "11",
+      "oldPR": "16:48.69",
+      "oldCs": 100869,
+      "regionalTime": "17:53.7",
+      "regionalCs": 107370,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Lake Center Chr.",
+      "rosterName": "Zachary Varner",
+      "realName": "Zach Varner",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "17:30.18",
+      "oldCs": 105018,
+      "regionalTime": "16:54.2",
+      "regionalCs": 101420,
+      "faster": true,
+      "rule": "nickname",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Dalton",
+      "rosterName": "Ezekiel Martinez",
+      "realName": "Zeke Martinez",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "19:16.19",
+      "oldCs": 115619,
+      "regionalTime": "19:12.3",
+      "regionalCs": 115230,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "Mapleton",
+      "rosterName": "Josiah Kucnick",
+      "realName": "Stanley Kucnick",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "20:01.18",
+      "oldCs": 120118,
+      "regionalTime": "19:48.2",
+      "regionalCs": 118820,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "David Anderson",
+      "rosterName": "Russel Carlisle",
+      "realName": "Caiden Carlisle",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "20:04.00",
+      "oldCs": 120400,
+      "regionalTime": "19:31.3",
+      "regionalCs": 117130,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "boys_d4",
+      "school": "N. Mid. Springfield",
+      "rosterName": "Matthew Robertson",
+      "realName": "Mathew Robertson",
+      "rosterGrade": null,
+      "realGrade": "10",
+      "oldPR": "25:23.41",
+      "oldCs": 152341,
+      "regionalTime": "20:54.9",
+      "regionalCs": 125490,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Liberty Union",
+      "rosterName": "Ellie Spangler",
+      "realName": "Eloise (Ellie) Spangler",
+      "rosterGrade": null,
+      "realGrade": "9",
+      "oldPR": "22:25.2",
+      "oldCs": 134520,
+      "regionalTime": "21:57.8",
+      "regionalCs": 131780,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Ottawa Hills",
+      "rosterName": "Molly Mullan",
+      "realName": "Daisy Mullan",
+      "rosterGrade": "10",
+      "realGrade": "12",
+      "oldPR": "19:36.6",
+      "oldCs": 117660,
+      "regionalTime": "21:48.5",
+      "regionalCs": 130850,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Mil. Edison",
+      "rosterName": "Juliana Johnson",
+      "realName": "Julianna Johnson",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "23:19.35",
+      "oldCs": 139935,
+      "regionalTime": "22:16.6",
+      "regionalCs": 133660,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Marion Local",
+      "rosterName": "Colleen Dirksen",
+      "realName": "Maria Dirksen",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "19:51.8",
+      "oldCs": 119180,
+      "regionalTime": "22:31.4",
+      "regionalCs": 135140,
+      "faster": false,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Marion Local",
+      "rosterName": "Colleen Dirksen",
+      "realName": "Deanna Dirksen",
+      "rosterGrade": "10",
+      "realGrade": "11",
+      "oldPR": "19:51.8",
+      "oldCs": 119180,
+      "regionalTime": "23:15.9",
+      "regionalCs": 139590,
+      "faster": false,
+      "rule": null,
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Riverdale",
+      "rosterName": "Addie Manns",
+      "realName": "Addi Manns",
+      "rosterGrade": null,
+      "realGrade": "12",
+      "oldPR": "24:39.6",
+      "oldCs": 147960,
+      "regionalTime": "24:09.9",
+      "regionalCs": 144990,
+      "faster": true,
+      "rule": "one-letter typo",
+      "sameGrade": false,
+      "notes": []
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Ft. Loramie",
+      "rosterName": "Liza Poeppelman",
+      "realName": "Evelyn Poeppelman",
+      "rosterGrade": "11",
+      "realGrade": "11",
+      "oldPR": "21:00.3",
+      "oldCs": 126030,
+      "regionalTime": "20:51.2",
+      "regionalCs": 125120,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Troy Christian",
+      "rosterName": "Eliana Erdahl",
+      "realName": "Aleah Erdahl",
+      "rosterGrade": "10",
+      "realGrade": "10",
+      "oldPR": "23:55.8",
+      "oldCs": 143580,
+      "regionalTime": "22:32.6",
+      "regionalCs": 135260,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Troy Christian",
+      "rosterName": "Kaidie Williams",
+      "realName": "Maiya Williams",
+      "rosterGrade": "9",
+      "realGrade": "9",
+      "oldPR": "25:07.9",
+      "oldCs": 150790,
+      "regionalTime": "21:14.9",
+      "regionalCs": 127490,
+      "faster": true,
+      "rule": null,
+      "sameGrade": true,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Ft. Recovery",
+      "rosterName": "Addyson Heitkamp",
+      "realName": "Riley Heitkamp",
+      "rosterGrade": null,
+      "realGrade": "11",
+      "oldPR": "26:35.6",
+      "oldCs": 159560,
+      "regionalTime": "22:01.2",
+      "regionalCs": 132120,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    },
+    {
+      "dataset": "legacy",
+      "category": "girls_d4",
+      "school": "Legacy Christian",
+      "rosterName": "Emma Cole",
+      "realName": "Abby Cole",
+      "rosterGrade": "11",
+      "realGrade": "9",
+      "oldPR": "23:20.5",
+      "oldCs": 140050,
+      "regionalTime": "21:42.1",
+      "regionalCs": 130210,
+      "faster": true,
+      "rule": null,
+      "sameGrade": false,
+      "notes": [
+        "regional ID already belongs to another roster runner"
+      ]
+    }
+  ]
+}

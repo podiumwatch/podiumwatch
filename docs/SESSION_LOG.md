@@ -2833,3 +2833,23 @@ Bring the real Oct 31, 2026 OHSAA regional results onto the site the same way th
 - Homepage "Districts are in the books" block (`scripts/build.mjs`) still describes districts only; replacement copy proposed to Zachary, not applied.
 - Item 3 State labels + 375px screenshots (one official regional card, D1 boys and D4 girls State) are the next step; commit only after approval.
 - No Supabase change: results live in JSON files, as the district results do.
+
+## 2026-11-01: Item 3 committed, homepage block updated, near-misses split for review
+
+### Date
+
+2026-11-01
+
+### What was done
+
+- **Item 3 committed** (`2db1345`): every State section on `/mock-postseason/real/` carries "Projected · not official · as of Oct 31, 2026, 7:00 PM ET", the field line (real qualifiers, regional times from four courses, not course-adjusted) and the Nov. 7 Fortress Obetz line. Approved from 375px screenshots.
+- **Homepage block** (`b524ae7`, `scripts/build.mjs`): "Regionals are in the books." with Zachary's approved copy (no day-of-week wording; the real-results card no longer says "not a projection" because the same hub carries the projected State tab). Link/button labels now "See every regional" / "View real results". Build 454 pages, check clean, tests pass, 375px screenshot reviewed.
+- **Near-miss review** (`dataimports/real_regional_results_2026/split-near-misses.mjs` -> `near_miss_split_regionals.json`): the 181 unapplied regional PR near-misses split into (a) same school, same surname, same grade, first name a nickname or a one-letter typo (14 rows) and (b) everything else (167). Nothing applied. Sent (a) to Zachary as a table; he approves rows before anything changes. Findings worth keeping: the hub roster has Lebanon's "Isabel Ansberry" and "Izzy Ansberry" as two rows with two Athletic.net IDs (likely a duplicate profile); 40 of the (b) rows fail only because the legacy `mock-regionals-2026.json` row has no grade, 4 of those are case/punctuation-only name differences.
+- **Springfield** (D1 Southwest, the one school matched nowhere) added to `mock-postseason-school-expansions-2026.json` as "Springfield" with no expansion and no logo, per Zachary.
+- **20 schools without a logo** listed for Zachary to supply files (computed from the regional results vs. the logo manifest): Buckeye Central, Calvert, Cle. St. Joseph Acad., Col. West, Fairfield, Grand Valley, Groveport-Madison, Harrison, Lake Center Chr., Laurel, Leipsic, Madeira, Magnificat, Old Fort, Paine. Riverside, Pandora-Gilboa, Roosevelt, Scott, Springfield, Van Buren.
+- **Russia spelling check** (nothing changed): both rosters (hub and legacy) spell both runners "Phlipot". Athletic.net lists Samuel Philpot (12, ID 30937049) and Francis Phlipot (9, ID 29508389). Samuel's regional PR was applied by ID; the roster name stays "Samuel Phlipot" until Zachary decides.
+
+### Not done / flagged
+
+- Nothing pushed. Local commits since the last push: `8621782`, `2db1345`, `b524ae7`, plus this one.
+- Near-miss rows (a) wait on Zachary's approval; (b) stays unapplied.
