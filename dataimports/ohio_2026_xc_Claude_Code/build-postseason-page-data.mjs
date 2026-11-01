@@ -44,14 +44,30 @@ for (const site of Object.values(districtsBySite)) {
 }
 
 // --- Regionals + State, already fully scored in chain.regionalResults / chain.stateResults ---
-// asOf: the roster collection itself finished 2026-10-19, but real data
-// (Northeast qualifier numbers, Hilliard Darby's race split) was
-// incorporated 2026-10-20 -- that's the date that actually describes how
-// fresh this projection is, not the earlier collection date. ISO string;
-// the page module formats it for display.
+// asOf: the newest race date in the data this page is built from, taken
+// from the roster's per-result dates (each runner's meetDate, plus the
+// date inside seasonBestSource when a real district/regional result
+// replaced the season best). Never the date the script ran -- a rebuild
+// with no new results must not move the chip forward (Zachary,
+// 2026-11-01). ISO string; the page module formats it for display.
+function newestRaceDate(roster) {
+  let newest = "";
+  for (const cat of Object.values(roster.categories)) {
+    for (const team of cat.teams) {
+      for (const r of team.runners) {
+        const dates = [r.meetDate, ...(String(r.seasonBestSource || "").match(/\d{4}-\d{2}-\d{2}/g) || [])];
+        for (const d of dates) if (d && /^\d{4}-\d{2}-\d{2}$/.test(d) && d > newest) newest = d;
+      }
+    }
+  }
+  if (!newest) throw new Error("No per-result dates found in the roster; cannot derive asOf");
+  return newest;
+}
+const asOf = newestRaceDate(candidate);
+console.log(`asOf (newest race date in the roster): ${asOf}`);
 const output = {
   schemaVersion: 1,
-  asOf: "2026-10-20",
+  asOf,
   meetDate: district.meet_date,
   regionalDate: district.regional_date,
   districtsBySite,

@@ -63,11 +63,14 @@ export const site = {
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },
     // Mock Meets (2026-09-21, dropdown added 2026-10-19, repointed to
-    // /mock-postseason/ 2026-10-20): the new Districts -> Regionals -> State
-    // chain at /mock-postseason/ is the real Districts/Regionals/State
-    // build and is the primary nav destination now (still noindex'd and
-    // out of the sitemap until the user says launch -- see
-    // NOINDEX_NOFOLLOW_PREFIXES below). The old /mock-meets/ hub
+    // /mock-postseason/ 2026-10-20, repointed again 2026-11-01): the three
+    // tab links open the real-results universe at /mock-postseason/real/
+    // (real Oct 24 district and Oct 31 regional results, State projected
+    // from the real qualifiers). The season-best universe at
+    // /mock-postseason/ stays reachable from the homepage card and the
+    // "View season-best projection instead" toggle. Both universes are
+    // still noindex'd and out of the sitemap -- see NOINDEX_NOFOLLOW_PREFIXES
+    // below. The old /mock-meets/ hub
     // (src/pages/mockregionals.mjs, "2026 Mock Regionals & State") has real
     // live features not yet in /mock-postseason/ (CSV export + live search
     // at /rankings/mock-meets/2026-09-17/, medal highlighting, a
@@ -78,9 +81,9 @@ export const site = {
     // src/data/mock-districts-2026.json) is a separate, still-unused old
     // build, deliberately left out of scripts/build.mjs's page list.
     { label: "Mock Meets", items: [
-      { label: "Districts", href: "/mock-postseason/?tab=districts" },
-      { label: "Regionals", href: "/mock-postseason/?tab=regionals" },
-      { label: "State", href: "/mock-postseason/?tab=state" },
+      { label: "Districts", href: "/mock-postseason/real/?tab=districts" },
+      { label: "Regionals", href: "/mock-postseason/real/?tab=regionals" },
+      { label: "State", href: "/mock-postseason/real/?tab=state" },
       { label: "2026 Mock Meets (Regionals & State)", href: "/mock-meets/" }
     ] },
     // AdSense readiness (2026-09-16): Meets, Teams & Schools, and
@@ -199,11 +202,10 @@ export const site = {
 // /race/) and internal site search (/search/, matching Google's own
 // long-standing guidance against indexing internal search results).
 export const NOINDEX_NOFOLLOW_PREFIXES = [
-  // Local-only review build of the districts-fed Mock Postseason chain
-  // (src/pages/mockpostseason.mjs) -- not linked from nav, not approved
-  // to go live. Excluded from the sitemap here deliberately, before any
-  // commit, so it can never ride along into a real deploy by accident.
-  // Remove this line only as part of actually launching the feature.
+  // Mock Postseason (src/pages/mockpostseason.mjs): linked from the Mock
+  // Meets nav since 2026-10-20 and live, but kept out of search engines
+  // and the sitemap by Zachary's choice (confirmed 2026-11-01). Remove
+  // this line only when he says to index it.
   "/mock-postseason/",
   "/admin/",
   "/writer-portal/",

@@ -8,10 +8,11 @@ import logoManifest from "../data/mock-postseason-logo-manifest-2026.json" with 
 // 2026 Mock Postseason: Districts -> Regionals -> State, built from the
 // full statewide Ohio 2026 XC roster package (ohio_2026_xc_Claude_Code),
 // chained through dataimports/ohio_2026_xc_Claude_Code/build-postseason-
-// chain.mjs. LOCAL-ONLY REVIEW BUILD: lives at /mock-postseason/... (not
-// /mock-meets/...), not linked from any nav, not referenced by
-// scripts/build.mjs's live page list. Nothing here replaces the live
-// Mock Regionals/State feature until explicitly approved.
+// chain.mjs. Live at /mock-postseason/ (season-best projection) and
+// /mock-postseason/real/ (real district + regional results, State
+// projected from the real qualifiers); the Mock Meets nav opens the real
+// universe. Both are noindex'd (src/config/site.mjs). The older
+// /mock-meets/ pages stay as the legacy feature.
 //
 // Round 3 (2026-10-20): every team row opens to a roster dropdown
 // (native <details>, no JS required to use it); individual-only rows
@@ -429,7 +430,7 @@ function compactHero({ eyebrow, title, description, statusLabel, toggleHtml }) {
 // "/mock-postseason/" vs "/mock-postseason/real/") is far lower-risk than
 // duplicating every render path's DOM in one page for a JS toggle.
 function universeToggleHtml(isReal, otherPathname) {
-  const label = isReal ? "View season-best projection instead" : "View real district results instead";
+  const label = isReal ? "View season-best projection instead" : "View real results instead";
   return `<a class="mp-universetoggle" href="${escapeHtml(otherPathname)}">${label} &rarr;</a>`;
 }
 
@@ -872,7 +873,7 @@ export function mockPostseasonDistrictSitePage(site, siteKey, data, basePath, is
   const siteIndex = Object.keys(data.districtsBySite).indexOf(siteKey);
   const rectangleVariant = siteIndex % 2 === 0 ? "light" : "dark";
   const pathname = `${basePath}districts/${siteKey.toLowerCase()}/`;
-  const title = `${siteData.name} (review build)`;
+  const title = `${siteData.name} -- 2026 Mock Postseason${isReal ? " (real results)" : ""}`;
   const chips = siteData.races.map((r, i) => {
     const chipLabel = `${(r.startTime || "").replace(/\s*(AM|PM)$/i, "")}${r.startTime ? " &middot; " : ""}${GENDER_LABEL[r.gender.toLowerCase()]} ${divisionLabel(r.division).replace("Division ", "D")}`;
     return `<button type="button" class="mp-racechip${i === 0 ? " active" : ""}" data-chip-idx="${i}" data-chip-gender="${r.gender.toLowerCase()}" data-chip-division="${divisionNum(r.division)}">${chipLabel}</button>`;
@@ -883,7 +884,7 @@ export function mockPostseasonDistrictSitePage(site, siteKey, data, basePath, is
   const realSiteData = realData.districtsBySite[siteKey];
   const pvaHtml = predictionsVsActualHtml(seasonSiteData, realSiteData);
   const content = `${compactHero({
-    eyebrow: "Local review build -- not live", title: siteData.name, description: `Feeds the ${siteData.regional} regional.`,
+    eyebrow: isReal ? "Real results \u00b7 Mock Postseason" : "Mock Postseason \u00b7 Podium Watch", title: siteData.name, description: `Feeds the ${siteData.regional} regional.`,
     statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, `${otherBasePath}districts/${siteKey.toLowerCase()}/`)
   })}
   ${SHARED_STYLE}
@@ -1168,7 +1169,7 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
   ].join("");
 
   const content = `${compactHero({
-    eyebrow: "Local review build -- not live", title: "Mock Postseason",
+    eyebrow: isReal ? "Real results \u00b7 Mock Postseason" : "Mock Postseason \u00b7 Podium Watch", title: "Mock Postseason",
     description: isReal
       ? (data.regionalsOfficial
         ? "Real OHSAA district (Oct 24) and regional (Oct 31, 2026) results, with State projected from the real qualifiers. The State meet is Saturday, Nov. 7 at Fortress Obetz."
@@ -1212,7 +1213,15 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
     });
   })();
   </script>`;
-  return layout({ site, title: `2026 Mock Postseason (review build${isReal ? " -- real results" : ""})`, description: "Local review build of the 2026 Mock Postseason (Districts, Regionals, State).", pathname, content });
+  return layout({
+    site,
+    title: `2026 Mock Postseason${isReal ? " -- real results" : ""}`,
+    description: isReal
+      ? "Real OHSAA district and regional results for the 2026 Ohio cross country postseason, with the State meet projected from the real qualifiers."
+      : "Podium Watch's season-best projection of the 2026 Ohio cross country postseason: Districts, Regionals and State.",
+    pathname,
+    content
+  });
 }
 
 function mockPostseasonPagesFor(site, data, basePath, isReal, otherBasePath) {

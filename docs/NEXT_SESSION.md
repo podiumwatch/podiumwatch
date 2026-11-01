@@ -2,6 +2,8 @@
 
 ## Most recent work (2026-11-01) -- read this first
 
+- **Latest (2026-11-01, evening)**: Mock Meets nav now opens `/mock-postseason/real/`; "Local review build -- not live" labels removed; season-best as-of derived from the newest race date (Oct 31, 2026). Committed, **not pushed**. The Mock State story is unpublished (`draft: true`, pushed) -- Zachary wants a different way to show the feature; ask what he has in mind.
+
 - **Latest (2026-11-01, later)**: near-miss resolutions applied per Zachary's review (`apply-near-miss-resolutions-regionals.mjs`): Ansberry duplicate merged on both rosters (Izzy keeps IDs 29496136 + 30744175; season best stays 20:39.5, not the 20:42.8 Zachary mentioned -- confirm with him), 8 legacy PRs applied, 163 (b) rows untouched. "Samuel Philpot|Russia" -> "Samuel Phlipot" display override added (DATA_SOURCES section 5). **Blocked**: the 16 logo files Zachary said are in `dataimports/site_logos_2026-11-01/` are not on disk; ask where they are, then resize to 96x96 PNG into `public/images/mock-postseason-logos/schools/` and add manifest entries (`src/data/mock-postseason-logo-manifest-2026.json`, name -> { sourceFile, slug }). Calvert, Pandora-Gilboa, Van Buren, Grand Valley stay initials.
 
 - Item 3 (State labels on the real universe) is committed (`2db1345`); the homepage block now says "Regionals are in the books." (`b524ae7`). **Not pushed.** Say "push" when ready.

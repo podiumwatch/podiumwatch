@@ -2018,3 +2018,9 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - **Athlete matching**: Athletic.net ID first where the roster carries one, then exact name + school; never fuzzy. IDs are now stored in the parsed regional data for later use. Near-misses are reported, not applied (Zachary's call: "name plus school, id later").
 - **Season-best PRs**: a regional time replaces a runner's season best in both season-best datasets (hub roster and legacy `src/data/mock-regionals-2026.json`) only when faster, same rule as after districts. The legacy `/mock-meets/` pages keep their season-best model and now carry the regional PRs (Zachary: "legacy page, we need to update the season best times if anyone ran a new pr").
 - **Still file-based.** Like the district results, nothing goes into Supabase; no SQL was written.
+
+## 2026-11-01: Mock Meets nav opens the real-results universe; season-best as-of is the newest race date
+
+- The Mock Meets menu's Districts, Regionals and State items open `/mock-postseason/real/` (real district and regional results, State projected from the real qualifiers). The season-best universe stays reachable from its homepage card and the universe toggle.
+- The season-best `asOf` is the newest race date in the roster the page is built from, never the date the build script ran (Zachary: a rebuild with no new results must not move the date forward).
+- `/mock-postseason/` stays noindex and out of the sitemap until Zachary says otherwise.

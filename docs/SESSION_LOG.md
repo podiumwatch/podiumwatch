@@ -2874,3 +2874,25 @@ Build 454 pages; check no problems (one pre-existing hero-width warning); tests 
 ### Not done / flagged
 
 - Logo files (folder missing). Nothing pushed.
+
+## 2026-11-01 (evening): Mock Meets nav opens the real results; review-build labels removed
+
+### Date
+
+2026-11-01
+
+### Why
+
+Zachary reported the live Mock Meets menu still opened the season-best universe with "LOCAL REVIEW BUILD -- NOT LIVE" and an "as of Oct 20, 2026" chip. Audit: nothing was unpushed; the menu in `src/config/site.mjs` still pointed at `/mock-postseason/?tab=...`; the eyebrow and "(review build)" titles were hardcoded strings in `src/pages/mockpostseason.mjs` with no environment check, left over from the Oct 20 local review; the season-best `asOf` was a hand-set constant in `build-postseason-page-data.mjs`.
+
+### What was done
+
+- **Mock Meets menu** (one list drives desktop and mobile): Districts, Regionals and State now open `/mock-postseason/real/?tab=districts|regionals|state`. "2026 Mock Meets (Regionals & State)" unchanged.
+- **Labels**: eyebrow is "Real results · Mock Postseason" on the real universe and "Mock Postseason · Podium Watch" on the season-best universe (hub and district site pages). Titles "2026 Mock Postseason" / "2026 Mock Postseason -- real results"; district site pages "<site> -- 2026 Mock Postseason". New meta descriptions. Season-best toggle reads "View real results instead".
+- **Season-best as-of chip**: `asOf` is now derived as the newest race date in the roster the page is built from (each runner's `meetDate`, plus the date inside `seasonBestSource` where a real district/regional result replaced the season best). Never the run date, so a rebuild with no new results does not move it (Zachary's rule). It reads Oct 31, 2026 now.
+- Stale comments updated (menu block, noindex list, module header). **Noindex stays** on `/mock-postseason/` by Zachary's choice.
+- Earlier the same evening: the Mock State story (`content/stories/20261101_mock_state_from_regional_results.md`) was set to `draft: true` and pushed (`75866af`) at Zachary's request; he plans a different way to show the feature.
+
+### Checks
+
+Build 454 pages; check no problems; tests pass; no Mock Postseason page contains "review build" or "not live"; 375px screenshots of the open mobile menu and real State Boys D4 reviewed, no horizontal overflow, 0 page errors.
