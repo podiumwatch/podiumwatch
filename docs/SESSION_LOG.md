@@ -2966,3 +2966,11 @@ Zachary: let each person "edit" times on the mock meets for what-if conversation
 ### Checks
 
 Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Russia's fifth runner at 15:44 moves Russia 98 -> 58 and to first; edit survives reload; a second browser sees none; projection unchanged; reset works; works on swapped-in bases and the season-best page; no horizontal overflow; 0 page errors.
+
+## 2026-11-02: State basis "Use average of district and regional"
+
+- Zachary asked for a State option that averages each runner's district and regional times.
+- `apply-real-regionals.mjs`: new basis `averageDistrictRegional` -- mean of the Oct 24 district time (exact name + school match) and the Oct 31 regional time, rounded to the hundredth. A runner with no matched district time has no average: listed under "Not in this projection", never estimated (same handling as the district-only basis). D1 is unavailable (no district meet).
+- `mockpostseason.mjs`: button added between "best from district and regional" and "best from the season"; help line now says "The first five".
+- Result: D2-D4 drop 3-13 qualifiers per section for missing district matches; no team falls below five timed runners. Boys D4 order: Mount Gilead 80, Russia 100, Convoy Crestview 156.
+- Checks: build 454 pages, check no problems, tests pass (what-if parity now covers 44 sections), Chrome at 375px: button swaps the section, URL carries `basis=averageDistrictRegional`, D1 shows the unavailable banner, what-if works on the new basis, no overflow, 0 page errors.

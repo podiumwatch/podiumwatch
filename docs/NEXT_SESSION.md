@@ -2,6 +2,8 @@
 
 ## Most recent work (2026-11-01) -- read this first
 
+- **Latest (2026-11-02)**: State basis "Use average of district and regional" added (`averageDistrictRegional`); runners without a matched district time are listed, not estimated; D1 unavailable. Also the browser-only What if? editor (afb432c, pushed).
+
 - **Latest (2026-11-02)**: Mock State "What if?" editor (browser-only, `public/scripts/mock-whatif.js`, parity-tested in `tests/mock-whatif.test.mjs`) and the legacy "2026 Mock Meets (Regionals & State)" item hidden from the menu. Committed, **not pushed**.
 
 - **Latest (2026-11-01, late)**: findability pass on Mock Postseason -- view switch on every page, "Pick State projection times" header button, five-option State chooser on both universes, "Podium Watch projection" menu item, nav current-item fix in `src/lib/html.mjs`. Committed, **not pushed**.

@@ -254,11 +254,25 @@ const STATE_BASES = {
     label: "Use best from district and regional",
     timeBasis: "The faster of each runner's Oct 24 district time and Oct 31 regional time (regional time when no district time matches). Different courses, not course-adjusted."
   },
+  averageDistrictRegional: {
+    label: "Use average of district and regional",
+    timeBasis: "The average of each runner's Oct 24 district time and Oct 31 regional time. District times matched by exact name and school. Different courses, not course-adjusted.",
+    noTimeReason: "no district time found under the same name and school, so no average"
+  },
   season: {
     label: "Use best from the season",
     timeBasis: "Each runner's fastest known 2026 time: the Podium Watch season-best roster, the Oct 24 district time or the Oct 31 regional time, whichever is fastest. Different courses, not course-adjusted."
   }
 };
+// Centiseconds to "m:ss.t" (or "m:ss.hh" when the hundredths digit is set).
+function formatCentiseconds(cs) {
+  const m = Math.floor(cs / 6000);
+  const rest = cs - m * 6000;
+  const sec = Math.floor(rest / 100);
+  const frac = rest % 100;
+  const fracText = frac % 10 === 0 ? String(frac / 10) : String(frac).padStart(2, "0");
+  return `${m}:${String(sec).padStart(2, "0")}.${fracText}`;
+}
 // Returns { display, cs, source } or null for one runner on one basis.
 function timeOnBasis(basis, gender, school, runner) {
   const regional = { display: runner.seasonBest, cs: runner.timeCentiseconds, source: "regional" };
@@ -266,6 +280,13 @@ function timeOnBasis(basis, gender, school, runner) {
   const district = dist ? { display: dist.display, cs: dist.cs, source: "district" } : null;
   if (basis === "regional") return regional;
   if (basis === "district") return district;
+  // The average needs both real times; a runner missing either is left
+  // without a time (listed, never estimated).
+  if (basis === "averageDistrictRegional") {
+    if (!district) return null;
+    const cs = Math.round((district.cs + regional.cs) / 2);
+    return { display: formatCentiseconds(cs), cs, source: "average" };
+  }
   const candidates = [regional, district];
   if (basis === "season") {
     const sb = (runner.athleticNetId && seasonById.get(String(runner.athleticNetId))) || seasonByKey.get(`${gender}|${school}|${runner.name}`);
@@ -307,7 +328,7 @@ function retimeField(basis, gender, pooledTeams, pooledIndividuals) {
 
 // --- State: projected from the real qualifiers ---
 const stateResults = {};
-const stateResultsByBasis = { district: {}, regional: {}, bestDistrictRegional: {}, season: {} };
+const stateResultsByBasis = { district: {}, regional: {}, bestDistrictRegional: {}, averageDistrictRegional: {}, season: {} };
 for (const division of [1, 2, 3, 4]) for (const gender of ["boys", "girls"]) {
   const divKey = `${gender}_D${division}`;
   const pooledTeams = [];
@@ -350,9 +371,9 @@ for (const division of [1, 2, 3, 4]) for (const gender of ["boys", "girls"]) {
 
   // The same field on every basis.
   stateResultsByBasis.regional[divKey] = { ...stateResults[divKey], basis: "regional", noTime: [] };
-  for (const basis of ["district", "bestDistrictRegional", "season"]) {
-    if (basis === "district" && division === 1) {
-      stateResultsByBasis.district[divKey] = { basis, unavailable: true, unavailableReason: "Division I has no district meet; D1 teams and individuals enter at regionals." };
+  for (const basis of ["district", "bestDistrictRegional", "averageDistrictRegional", "season"]) {
+    if ((basis === "district" || basis === "averageDistrictRegional") && division === 1) {
+      stateResultsByBasis[basis][divKey] = { basis, unavailable: true, unavailableReason: "Division I has no district meet; D1 teams and individuals enter at regionals." };
       continue;
     }
     const field = retimeField(basis, gender, pooledTeams, pooledIndividuals);
@@ -362,7 +383,7 @@ for (const division of [1, 2, 3, 4]) for (const gender of ["boys", "girls"]) {
     entry.noTimeReason = STATE_BASES[basis].noTimeReason || null;
     entry.timeSourceCounts = field.sourceCounts;
     entry.unscoredTeams = entry.teams.filter((t) => !t.complete).map((t) => ({ name: t.name, timedRunners: t.runners.length }));
-    if (basis !== "district" && field.noTime.length) fail(`State ${divKey} ${basis}: ${field.noTime.length} runner(s) without a time, expected none.`);
+    if (!STATE_BASES[basis].noTimeReason && field.noTime.length) fail(`State ${divKey} ${basis}: ${field.noTime.length} runner(s) without a time, expected none.`);
     stateResultsByBasis[basis][divKey] = entry;
   }
 }

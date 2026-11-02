@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-11-02 07:59:26
+Generated: 2026-11-02 09:48:22
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -20,17 +20,20 @@ This file is generated from the current project.
 
 Latest commit:
 
-64723e5b37803d273c955a325fbb7cdc524b0c79 | 2026-11-01 12:24:49 -0500 | Mock Postseason: make every view easy to find
+afb432c2f8bf4369946771531ca59cc72c55f410 | 2026-11-02 07:59:27 -0500 | Mock State: browser-only "What if?" time editor; hide legacy menu item
 
 Working tree:
 
  M .claude/settings.json
+ M dataimports/real_regional_results_2026/apply-real-regionals.mjs
+ M dataimports/real_regional_results_2026/postseason_chain_output_real_regionals.json
+ M docs/AUTO_PROJECT_INDEX.md
  M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
- M package.json
- M src/config/site.mjs
+ M src/data/mock-postseason-2026-real-state-bases.json
+ M src/data/mock-postseason-2026-real.json
  M src/pages/mockpostseason.mjs
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
@@ -247,7 +250,6 @@ Working tree:
 ?? lib/xc_legends_history_collection.mjs
 ?? private/
 ?? public/images/stories/header-regional-meet-hub.png
-?? public/scripts/mock-whatif.js
 ?? scripts/audit-d4-boys-coverage.mjs
 ?? scripts/evaluate-private-d4-rolling-backtest.mjs
 ?? scripts/evaluate-private-d4-simulator.mjs
@@ -257,9 +259,7 @@ Working tree:
 ?? scripts/run-private-d4-mock-state-simulator.mjs
 ?? scripts/run-private-d4-rolling-backtest.mjs
 ?? scripts/run-private-d4-simulator.mjs
-?? scripts/test-mock-whatif.mjs
 ?? scripts/test-xc-d4-coverage-audit.mjs
-?? tests/mock-whatif.test.mjs
 ?? tests/xc-backtest-collection.test.mjs
 ?? tests/xc-backtest-package.test.mjs
 ?? tests/xc-d4-coverage-audit.test.mjs

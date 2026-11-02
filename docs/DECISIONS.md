@@ -2035,3 +2035,7 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 
 - The Mock State "What if?" editor never writes to the site's data or any server. Edits are stored in the visitor's own localStorage and shown in a clearly labeled "Your what-if" panel; the published projection is always displayed unchanged.
 - The browser scorer must match the server engine; `tests/mock-whatif.test.mjs` enforces it against every published State section.
+
+## 2026-11-02: Average-of-district-and-regional State basis requires both times
+
+- The average basis uses a runner only when both a matched district time and a regional time exist. Runners missing a district match are listed and not timed, rather than falling back to the regional time alone, so every time on that basis really is an average of two real races.

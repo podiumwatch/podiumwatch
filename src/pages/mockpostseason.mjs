@@ -1346,7 +1346,7 @@ function stateSectionHtml(key, s, data = {}) {
 // The four State time-basis buttons (real universe only). The default
 // basis is rendered inline; the hub script swaps the visible division's
 // section for /<base>/state-basis/<basis>/<gender>_D<n>.json on click.
-const STATE_BASIS_ORDER = ["district", "regional", "bestDistrictRegional", "season"];
+const STATE_BASIS_ORDER = ["district", "regional", "bestDistrictRegional", "averageDistrictRegional", "season"];
 // Five options on both universes (2026-11-01): the four real-field time
 // bases plus Podium Watch's own season-best projection. On the real page
 // the four are in-page buttons and the fifth links to /mock-postseason/;
@@ -1355,7 +1355,7 @@ const STATE_BASIS_ORDER = ["district", "regional", "bestDistrictRegional", "seas
 const REAL_BASE_PATH = "/mock-postseason/real/";
 const SEASON_BASE_PATH = "/mock-postseason/";
 const OWN_PROJECTION_LABEL = "Podium Watch's own projection";
-const BASIS_HELP = "The first four use the real State qualifiers from the Oct 31 regionals. Podium Watch's own projection uses the qualifiers our season-best model picked before the postseason.";
+const BASIS_HELP = "The first five use the real State qualifiers from the Oct 31 regionals. Podium Watch's own projection uses the qualifiers our season-best model picked before the postseason.";
 function stateBasisBarHtml(data, basePath) {
   const bases = realData.stateBases;
   const defaultBasis = realData.stateDefaultBasis;

@@ -266458,6 +266458,10 @@
       "label": "Use best from district and regional",
       "timeBasis": "The faster of each runner's Oct 24 district time and Oct 31 regional time (regional time when no district time matches). Different courses, not course-adjusted."
     },
+    "averageDistrictRegional": {
+      "label": "Use average of district and regional",
+      "timeBasis": "The average of each runner's Oct 24 district time and Oct 31 regional time. District times matched by exact name and school. Different courses, not course-adjusted."
+    },
     "season": {
       "label": "Use best from the season",
       "timeBasis": "Each runner's fastest known 2026 time: the Podium Watch season-best roster, the Oct 24 district time or the Oct 31 regional time, whichever is fastest. Different courses, not course-adjusted."
