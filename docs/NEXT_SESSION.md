@@ -2,6 +2,8 @@
 
 ## Most recent work (2026-11-01) -- read this first
 
+- **Latest (2026-11-02)**: Mock State "What if?" editor (browser-only, `public/scripts/mock-whatif.js`, parity-tested in `tests/mock-whatif.test.mjs`) and the legacy "2026 Mock Meets (Regionals & State)" item hidden from the menu. Committed, **not pushed**.
+
 - **Latest (2026-11-01, late)**: findability pass on Mock Postseason -- view switch on every page, "Pick State projection times" header button, five-option State chooser on both universes, "Podium Watch projection" menu item, nav current-item fix in `src/lib/html.mjs`. Committed, **not pushed**.
 
 - **Latest (2026-11-01, night, after logos)**: State tab on `/mock-postseason/real/` has four time-basis buttons (district / regional / best of both / season). Pipeline unchanged in order; `apply-real-regionals.mjs` now also writes `stateResultsByBasis`, and the page-data script writes `src/data/mock-postseason-2026-real-state-bases.json`. 43 D2-D4 qualifiers have no exact district match and are listed, not scored, on the district view; some may be spelling differences worth a review like the regional near-misses. Committed, **not pushed**.

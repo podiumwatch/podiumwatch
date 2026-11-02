@@ -86,8 +86,11 @@ export const site = {
       { label: "State", href: "/mock-postseason/real/?tab=state" },
       // Podium Watch's own season-best projection, added 2026-11-01 so
       // every view is reachable from the menu.
-      { label: "Podium Watch projection", href: "/mock-postseason/" },
-      { label: "2026 Mock Meets (Regionals & State)", href: "/mock-meets/" }
+      { label: "Podium Watch projection", href: "/mock-postseason/" }
+      // "2026 Mock Meets (Regionals & State)" (/mock-meets/) removed from
+      // the menu 2026-11-02 at Zachary's request so the dropdown shows the
+      // main views only. The legacy pages stay live at their URLs:
+      // { label: "2026 Mock Meets (Regionals & State)", href: "/mock-meets/" }
     ] },
     // AdSense readiness (2026-09-16): Meets, Teams & Schools, and
     // Athletes hidden from the top nav for now, real request -- a

@@ -2948,3 +2948,21 @@ Zachary landed on the season-best page (`/mock-postseason/`, via the homepage "V
 ### Checks
 
 Build 454 pages; check no problems; tests pass; Chrome at 375px and 1440px: hint button opens State and scrolls to the chooser, season-page chooser links land on the real page with the right basis and division, the real page's fifth option and view switch carry tab/gender/division back, no horizontal overflow, 0 page errors.
+
+## 2026-11-02: Mock State "What if?" editor; legacy Mock Meets item hidden from the menu
+
+### Request
+
+Zachary: let each person "edit" times on the mock meets for what-if conversations (a coach asking what a 15:44 does to the team scores), without changing the site's data, only in that person's browser. Also hide "2026 Mock Meets (Regionals & State)" from the dropdown.
+
+### What was done
+
+- **What if? button on every State section** of both Mock Postseason pages and every time basis (also inside the on-demand basis files). It opens an editor: search by runner or school, type a new time (15:44, 15:44.2 or 15:44.25; 8:00-45:00) next to any team runner or individual qualifier, and see "Your changes" (old and new time, overall place) plus re-scored team standings (top 5 and every team that moved, full table one tap away) with rank arrows and point changes against the projection. Reset clears it.
+- **Browser only**: edits are kept in localStorage per page, division and basis, restored on reload in that browser, invisible to anyone else; the site's projection below is never changed. Storage blocked: the editor still works until the page closes.
+- **Scoring** in `public/scripts/mock-whatif.js` mirrors `src/lib/mock_scoring.mjs`: averaged ties, five to score, top five count, sixth breaks ties, team-only pass for team scores, combined pass for overall place. Each State section embeds its field as JSON (`stateWhatIfField` in `src/pages/mockpostseason.mjs`, about 0.2 MB on the real hub).
+- **Tests**: `tests/mock-whatif.test.mjs` (`npm run test:mock-whatif`, now in `npm test`) proves the browser scorer reproduces all 38 published State sections exactly (season-best, real regional, and the three alternate bases), matches the engine after an edit, rejects bad times, and leaves a team under five runners unscored.
+- **Menu**: "2026 Mock Meets (Regionals & State)" removed from the Mock Meets dropdown (commented out in `src/config/site.mjs`); the /mock-meets/ pages stay live.
+
+### Checks
+
+Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Russia's fifth runner at 15:44 moves Russia 98 -> 58 and to first; edit survives reload; a second browser sees none; projection unchanged; reset works; works on swapped-in bases and the season-best page; no horizontal overflow; 0 page errors.

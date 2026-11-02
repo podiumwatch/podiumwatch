@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-11-01 12:24:48
+Generated: 2026-11-02 07:59:26
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
 
 This file is generated from the current project.
@@ -9,7 +9,7 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 5287 |
+| Included source files | 5290 |
 | Page source files | 96 |
 | API files | 128 |
 | Route references | 107 |
@@ -20,17 +20,17 @@ This file is generated from the current project.
 
 Latest commit:
 
-4baab5e5a4135583a6c3242d745e255569ef2646 | 2026-11-01 12:04:48 -0500 | Mock State: choose district, regional, best-of-both or season-best times
+64723e5b37803d273c955a325fbb7cdc524b0c79 | 2026-11-01 12:24:49 -0500 | Mock Postseason: make every view easy to find
 
 Working tree:
 
  M .claude/settings.json
- M docs/AUTO_PROJECT_INDEX.md
+ M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
  M lib/athletic_net_rankings_service.mjs
+ M package.json
  M src/config/site.mjs
- M src/lib/html.mjs
  M src/pages/mockpostseason.mjs
 ?? AUDIT_2026-10-29.md
 ?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
@@ -247,6 +247,7 @@ Working tree:
 ?? lib/xc_legends_history_collection.mjs
 ?? private/
 ?? public/images/stories/header-regional-meet-hub.png
+?? public/scripts/mock-whatif.js
 ?? scripts/audit-d4-boys-coverage.mjs
 ?? scripts/evaluate-private-d4-rolling-backtest.mjs
 ?? scripts/evaluate-private-d4-simulator.mjs
@@ -256,7 +257,9 @@ Working tree:
 ?? scripts/run-private-d4-mock-state-simulator.mjs
 ?? scripts/run-private-d4-rolling-backtest.mjs
 ?? scripts/run-private-d4-simulator.mjs
+?? scripts/test-mock-whatif.mjs
 ?? scripts/test-xc-d4-coverage-audit.mjs
+?? tests/mock-whatif.test.mjs
 ?? tests/xc-backtest-collection.test.mjs
 ?? tests/xc-backtest-package.test.mjs
 ?? tests/xc-d4-coverage-audit.test.mjs
@@ -273,7 +276,7 @@ Working tree:
 | check | node scripts/check.mjs |
 | dev | node scripts/serve.mjs --watch |
 | preview | node scripts/serve.mjs |
-| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:photo-submissions && npm run test:athletic-net-rankings |
+| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:mock-whatif && npm run test:photo-submissions && npm run test:athletic-net-rankings |
 | test:archive-day-link | node scripts/test-archive-and-day-link.mjs |
 | test:article-polls | node scripts/test-article-polls.mjs |
 | test:athlete-goals | node scripts/test-athlete-goals.mjs |
@@ -289,6 +292,7 @@ Working tree:
 | test:helper-race-selection | node scripts/test-helper-race-selection.mjs |
 | test:live-capture-audit-fixes | node scripts/test-live-capture-audit-fixes.mjs |
 | test:mock-meet-export | node scripts/test-mock-meet-export.mjs |
+| test:mock-whatif | node scripts/test-mock-whatif.mjs |
 | test:outdoor-capture | node scripts/test-outdoor-capture.mjs |
 | test:pace-calculator | node scripts/test-pace-calculator.mjs |
 | test:path-to-state | node scripts/test-path-to-state.mjs |

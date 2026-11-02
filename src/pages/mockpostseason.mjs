@@ -350,6 +350,36 @@ const SHARED_STYLE = `<style>
   .mp-notimed { margin: 8px 0 12px; font-size: .85rem; }
   .mp-notimed summary { cursor: pointer; font-weight: 700; }
   .mp-notimed ul { margin: 6px 0 0; padding-left: 18px; }
+  .mp-whatif { margin: 10px 0 14px; }
+  .mp-whatif-open { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border: 2px solid var(--ink); border-radius: 999px; background: var(--white); color: var(--ink); font-weight: 800; font-size: .86rem; cursor: pointer; }
+  .mp-whatif-open[aria-expanded="true"] { background: var(--ink); color: var(--white); }
+  .mp-whatif-open { flex-wrap: wrap; justify-content: center; text-align: center; }
+  .mp-whatif-open [data-whatif-count] { padding: 2px 8px; border-radius: 999px; background: var(--mp-green); color: #063b25; font-size: .74rem; font-weight: 800; }
+  .mp-wi-sub { font-weight: 600; color: var(--muted); font-size: .78rem; }
+  .mp-wi-all { margin-top: 6px; }
+  .mp-wi-all summary { cursor: pointer; font-weight: 700; font-size: .84rem; padding: 6px 0; }
+  .mp-whatif-panel { margin-top: 10px; padding: 12px; border: 2px dashed var(--ink); border-radius: 12px; background: var(--white); }
+  .mp-wi-note { margin: 0 0 10px; font-size: .84rem; color: var(--ink); }
+  .mp-wi-help, .mp-wi-empty { margin: 6px 0 10px; font-size: .8rem; color: var(--muted); }
+  .mp-wi-label { margin: 10px 0 4px; font-weight: 800; font-size: .86rem; }
+  .mp-wi-changes { margin: 0 0 8px; padding-left: 18px; font-size: .84rem; }
+  .mp-wi-tablewrap { overflow-x: auto; }
+  .mp-wi-table { width: 100%; border-collapse: collapse; font-size: .84rem; font-variant-numeric: tabular-nums; }
+  .mp-wi-table th, .mp-wi-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+  .mp-wi-table td:nth-child(2) { white-space: normal; }
+  .mp-wi-table tr.is-changed td { background: var(--paper); font-weight: 700; }
+  .mp-wi-up { color: #047857; font-weight: 800; }
+  .mp-wi-down { color: #b91c1c; font-weight: 800; }
+  .mp-wi-searchlabel { display: grid; gap: 4px; font-weight: 700; font-size: .82rem; }
+  .mp-wi-search { min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; }
+  .mp-wi-team { border-top: 1px solid var(--line); }
+  .mp-wi-team summary { padding: 10px 2px; font-weight: 800; cursor: pointer; }
+  .mp-wi-runner { display: grid; grid-template-columns: 1fr auto 6.5rem; align-items: center; gap: 8px; padding: 4px 2px 6px; }
+  .mp-wi-runner.is-edited .mp-wi-name { font-weight: 800; }
+  .mp-wi-orig { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
+  .mp-wi-input { width: 100%; min-height: 38px; padding: 0 8px; border: 1px solid var(--line); border-radius: 8px; font-size: 1rem; font-variant-numeric: tabular-nums; }
+  .mp-wi-input.is-invalid { border-color: #b91c1c; outline: 2px solid #fecaca; }
+  .mp-wi-reset { margin-top: 12px; min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); font-weight: 700; cursor: pointer; }
   .mp-stateprojection .mp-meta { margin-top: 4px; }
   .mp-under-review { margin-top: 32px; padding: 16px; border: 2px dashed #b45309; background: #fff7ed; }
 
@@ -793,6 +823,7 @@ const HUB_SCRIPT = `<script>
     if (!next) return;
     next.hidden = el.hidden;
     el.replaceWith(next);
+    document.dispatchEvent(new CustomEvent('mp:section-swapped'));
   }
   function applyBasis(){
     if (!basisBar) return;
@@ -1222,6 +1253,30 @@ function stateProjectionNoteHtml(s, data) {
   </div>`;
 }
 
+// What-if editor data (2026-11-02): the section's whole State field --
+// every team (with its runners) and every individual qualifier -- with
+// plain display labels, read by public/scripts/mock-whatif.js, which
+// re-scores it in the visitor's browser. Runner key = "school|name".
+export function stateWhatIfField(s) {
+  const schoolLabel = (name) => schoolExpansions[name] || name;
+  const runnerLabel = (name, school) => nameOverrides[`${name}|${school}`] || name;
+  return {
+    teams: (s.teams || []).map((t) => ({
+      name: t.name,
+      label: schoolLabel(t.name),
+      runners: (t.runners || []).map((r) => ({ key: `${t.name}|${r.name}`, name: r.name, label: runnerLabel(r.name, t.name), cs: r.timeCentiseconds }))
+    })),
+    individuals: (s.individuals || []).map((q) => ({ key: `${q.originalTeam}|${q.name}`, name: q.name, label: runnerLabel(q.name, q.originalTeam), school: q.originalTeam, schoolLabel: schoolLabel(q.originalTeam), cs: q.timeCentiseconds }))
+  };
+}
+function stateWhatIfHtml(s) {
+  const json = JSON.stringify(stateWhatIfField(s)).replace(/</g, "\\u003c");
+  return `<div class="mp-whatif" data-whatif-root>
+    <button type="button" class="mp-whatif-open" data-whatif-open aria-expanded="false">What if? Change a runner's time<span data-whatif-count hidden></span></button>
+    <script type="application/json" data-whatif-field>${json}</script>
+  </div>`;
+}
+
 // Runners left without a time on the selected basis (district only):
 // listed, never estimated. A team left with fewer than five timed
 // runners is called out by name (none on the 2026 data).
@@ -1279,6 +1334,7 @@ function stateSectionHtml(key, s, data = {}) {
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
     ${stateProjectionNoteHtml(s, data)}
     ${stateNoTimeHtml(s)}
+    ${stateWhatIfHtml(s)}
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
     ${bicarbInfeedHtml(`state-${key}`)}
@@ -1384,6 +1440,7 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
   ${bicarbMobileStickyHtml()}
   <button type="button" class="mp-totop" aria-label="Back to top">&uarr;</button>
   ${HUB_SCRIPT}
+  <script src="/scripts/mock-whatif.js" defer></script>
   ${BICARB_SCRIPT}
   <script>
   (function(){

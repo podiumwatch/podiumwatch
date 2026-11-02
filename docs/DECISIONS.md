@@ -2030,3 +2030,8 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - The real-results State projection offers district-only, regional-only (default), best of district and regional, and best from the season. The field is always the real State qualifiers.
 - District times match by exact name and school only. A qualifier with no match is listed as not in that projection and not scored; Podium Watch never estimates a time. Division I has no district basis.
 - "Best from the season" is the fastest real 2026 mark known for the runner: roster season best, district time or regional time.
+
+## 2026-11-02: What-if edits live only in the visitor's browser
+
+- The Mock State "What if?" editor never writes to the site's data or any server. Edits are stored in the visitor's own localStorage and shown in a clearly labeled "Your what-if" panel; the published projection is always displayed unchanged.
+- The browser scorer must match the server engine; `tests/mock-whatif.test.mjs` enforces it against every published State section.
