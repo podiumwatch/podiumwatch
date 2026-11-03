@@ -948,13 +948,17 @@ function contactPage() {
 // dates are invented; initials-only avatars, exactly as asked.
 // Lauren Palmer removed 2026-10-28 at the user's request (temporary --
 // not a data error, just left off the page for now).
-// A7 (story-page-and-homepage-handoff.md, 2026-10-28): exact copy from
-// the handoff, as a bio on the editor's own staff card. No photo, per
-// the handoff -- keeps the initials avatar every other card uses.
+// Final staff list (2026-11-03, Zachary): exactly these people in this
+// order. No bios, photos, ages, schools or email addresses for anyone;
+// only Christian Lisle and Lauren Palmer have links.
 const STAFF = [
-  { name: "Zachary Bell", title: "Founder & Editor", bio: `Zachary Bell founded Podium Watch to give Ohio high school cross country and track and field athletes the recognition they earn. He coaches high school cross country in Ohio and leads the site's results coverage, rankings and stories. Contact: <a href="mailto:${site.contactEmail}">${escapeHtml(site.contactEmail)}</a>` },
-  { name: "Brayleigh Becken", title: "State Meet Media Correspondent" },
-  { name: "Logan Eggert", title: "State Meet Media Correspondent" }
+  { name: "Zachary Bell", title: "Founder & Editor" },
+  { name: "Logan Eggert", title: "Writer" },
+  { name: "Matthew Lee", title: "Writer" },
+  { name: "Matt McKenzie", title: "Contributing Photographer" },
+  { name: "Alexander Schulz", title: "Contributing Photographer" },
+  { name: "Christian Lisle", title: "Contributing Photographer", instagramUrl: "https://instagram.com/lislephotog", instagramHandle: "@lislephotog", websiteUrl: "https://lislephoto.com", websiteLabel: "lislephoto.com" },
+  { name: "Lauren Palmer", title: "Contributing Photographer", instagramUrl: "https://instagram.com/laurenpmedia", instagramHandle: "@laurenpmedia" }
 ];
 function staffInitials(name) {
   const words = name.replace(/\[.*?\]/g, "").trim().split(/\s+/).filter(Boolean);
@@ -969,36 +973,16 @@ function staffCard(person, { isEditor = false } = {}) {
       <p class="staff-title">${escapeHtml(person.title)}</p>
       ${person.bio ? `<p class="staff-bio">${person.bio}</p>` : ""}
       ${person.instagramUrl ? `<a class="text-link" href="${person.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} ${escapeHtml(person.instagramHandle)}</a>` : ""}
+      ${person.websiteUrl ? `<a class="text-link" href="${person.websiteUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(person.websiteLabel)}</a>` : ""}
     </div>
   </article>`;
-}
-// Contributing Writers (P1-2, 2026-10-28): every distinct real author
-// name on a published story, EXCLUDING the generic "Podium Watch"
-// front-matter default (that's a brand byline, not a named person --
-// see storyBylineHtml() in src/lib/html.mjs) and excluding anyone
-// already a named STAFF entry above (so nobody gets two cards). Never
-// invented -- pulled directly from content/stories' own real author
-// front matter, nothing more.
-function contributingWriterNames(stories) {
-  const staffNames = new Set(STAFF.map((p) => p.name));
-  const seen = new Set();
-  const names = [];
-  for (const story of stories) {
-    const name = String(story.author || "").trim();
-    if (!name || name === "Podium Watch" || staffNames.has(name) || seen.has(name)) continue;
-    seen.add(name);
-    names.push(name);
-  }
-  return names.sort((a, b) => a.localeCompare(b));
 }
 function staffPage(stories) {
   const editor = STAFF[0];
   const rest = STAFF.slice(1);
-  const writers = contributingWriterNames(stories);
-  const writersSection = writers.length ? `<h2 class="staff-section-title">Contributing Writers</h2>
-    <div class="staff-grid">
-      ${writers.map((name) => staffCard({ name, title: "Contributing Writer" })).join("")}
-    </div>` : "";
+  // The automatic "Contributing Writers" section (story authors not on
+  // STAFF) is off as of 2026-11-03: STAFF is the final list.
+  const writersSection = "";
   const content = `${pageHero({ eyebrow: "Staff", title: "Staff", description: "Podium Watch covers Ohio high school cross country and track and field: results, rankings, and stories from every division." })}
   <section class="section section-paper"><div class="container">
     <div class="staff-grid">

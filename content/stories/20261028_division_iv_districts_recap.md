@@ -3,7 +3,7 @@ title: "Division IV Districts: Mount Gilead's Perfect 15 Leads a Day of Big Marg
 date: "2026-10-28"
 description: "A perfect score, a co-championship decided by one point, and the two fastest Division IV times in Ohio. Every Division IV district race, region by region."
 category: "Cross Country"
-author: "Podium Watch"
+author: "Logan Eggert"
 slug: "division-iv-districts-recap"
 featured: false
 draft: false
