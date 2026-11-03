@@ -35,6 +35,7 @@ Girls go at 3:30 PM and boys close the day at 4:10 PM. Every time below is a rea
 - **Nixon against the clock.** Natalie Nixon's 17:28.7 at Tiffin was 47.8 seconds faster than any other Division IV girl ran on Oct. 31.
 - **Five girls teams in range.** Liberty Center projects 1st at 113. Grandview Heights, Ottawa Hills, Rittman and Minster all project between 151 and 206.
 - **The sophomore wave.** Three of the top five boys by regional time are 10th graders.
+- **Season bests break the tie.** On each runner's fastest 2026 time, Mount Gilead projects 98 and Russia 130.
 
 *Team projections are Projected · not official.*
 
@@ -193,6 +194,87 @@ Behind Rittman, the Boardman race for 2nd came down to one point: Maplewood 96, 
 | 8 | Kirtland | 3rd at Boardman (97) | 263 |
 
 Projected · not official. Scored on Oct. 31 regional times across four courses.
+
+## The Season-Best View
+
+Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
+
+**Boys.** Bennett Lehman is still the fastest boy in the field at 15:21.1. The Boardman and Tiffin winners move up behind him: Owen Cappuzello (15:24.1), Derek Young (15:26.2) and Nigel Wenger (15:29.7) all have faster season bests than the Troy pair of Paxson Bixler and Stephen Wojtowicz. Russia senior Samuel Phlipot climbs from 13th by regional time to 7th.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Bennett Lehman, SR | Ansonia | 15:21.1 | 15:28.0 |
+| 2 | Owen Cappuzello, SO | McDonald | 15:24.1 | 15:48.2 |
+| 3 | Derek Young, JR | Convoy Crestview | 15:26.2 | 15:49.2 |
+| 4 | Nigel Wenger, JR | Smithville | 15:29.7 | 15:52.6 |
+| 5 | Paxson Bixler, SO | Russia | 15:32.9 | 15:32.9 |
+| 6 | Stephen Wojtowicz, SR | Legacy Christian | 15:34.4 | 15:34.4 |
+| 7 | Samuel Phlipot, SR | Russia | 15:43.1 | 16:06.2 |
+| 8 | Malaki Neilson, SR | Sherwood Fairview | 15:44.8 | 15:51.7 |
+
+**Boys team.** Season bests break the tie. Mount Gilead projects 1st at 98 and Russia 2nd at 130, 32 points back. Defending champion Convoy Crestview climbs from 6th to 3rd at 150, and Legacy Christian slides from 3rd to 6th.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Mount Gilead | 1st, 98 | T-1st |
+| Russia | 2nd, 130 | T-1st |
+| Convoy Crestview | 3rd, 150 | 6th |
+| Tinora | 4th, 164 | 5th |
+| Botkins | 5th, 182 | 4th |
+| Legacy Christian | 6th, 191 | 3rd |
+
+**Girls.** Natalie Nixon's 17:15.4 season best is 36.9 seconds faster than anyone else in the field. Naomi Sheesley is 2nd at 17:52.3 and Colbie Strayer 3rd at 18:09.2. Seven Hills senior Campbell Coyne moves from 7th by regional time to 4th.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Natalie Nixon, JR | Ottawa Hills | 17:15.4 | 17:28.7 |
+| 2 | Naomi Sheesley, JR | McDonald | 17:52.3 | 18:20.6 |
+| 3 | Colbie Strayer, SR | Liberty Center | 18:09.2 | 18:17.1 |
+| 4 | Campbell Coyne, SR | Seven Hills | 18:15.8 | 18:37.7 |
+| 5 | Ida Estadt, SR | Shenandoah | 18:16.5 | 18:16.5 |
+| 6 | Paisley Farrier, FR | Bellaire | 18:23.7 | 19:31.3 |
+| 7 | Anna Wiltshire, JR | Summit Country Day | 18:25.6 | 18:45.7 |
+| 8 | Emma McCormick, FR | Summit Country Day | 18:30.4 | 18:48.8 |
+
+**Girls team.** Liberty Center is still 1st, but its lead shrinks to 11 points, 146 to Grandview Heights' 157. Ottawa Hills (189), Minster (193) and Rittman (195.5) are 6.5 points apart for 3rd.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Liberty Center | 1st, 146 | 1st |
+| Grandview Heights | 2nd, 157 | 2nd |
+| Ottawa Hills | 3rd, 189 | 3rd |
+| Minster | 4th, 193 | 5th |
+| Rittman | 5th, 195.5 | 4th |
+| Maplewood | T-6th, 264 | 7th |
+| Kirtland | T-6th, 264 | 8th |
+
+## Around the Regionals: Tiffin and Pickerington
+
+**Tiffin, boys.** Convoy Crestview junior Derek Young won in 15:49.2, 2.5 seconds ahead of Sherwood Fairview senior Malaki Neilson, with Tinora senior Noah Meyer 3rd in 15:59.3. Tinora won the team title with 122, five points ahead of Convoy Crestview. Tiffin sent eight teams to Obetz, more than any other Division IV boys regional, and Hicksville took the last spot with 307, eight points ahead of Pettisville.
+
+**Tiffin, girls.** Behind Natalie Nixon's 17:28.7, Liberty Center won with 61 and Ottawa Hills was 2nd with 93. Seneca East sophomore Aubrey Ritzler was 3rd in 18:51.4 and goes as an individual, because Seneca East missed the ninth and final team spot by 22 points. Tinora got that spot with 304.
+
+**Pickerington, boys.** Mount Gilead's 27 started with a 1-3 finish. Junior Henry Bartlett won in 16:04.0 and junior Brycen Gabriel was 3rd in 16:19.7. Shenandoah sophomore Joel Tewksbary split them in 16:06.3, and Shenandoah was 2nd as a team with 99. Southern (Racine), South Webster, Northmor and Grandview Heights also qualified, and Lynchburg-Clay missed by 32 points.
+
+**Pickerington, girls.** Shenandoah senior Ida Estadt won in 18:16.5, 18.7 seconds ahead of Shadyside senior Chloe Meholovitch, and both go to Obetz as individuals. Grandview Heights won with 44, Bellaire was 2nd with 85, and Mount Gilead, Mechanicsburg and Fairbanks filled out the field. Fairbanks held off West Union for the last spot by 16 points.
+
+## Every Team Headed to Obetz
+
+Regional team scores in parentheses.
+
+**Boys**
+
+- **Boardman:** Maplewood (86), Independence (104), Lake Center Christian (159), Kidron Central Christian (205), Black River (219)
+- **Pickerington:** Mount Gilead (27), Shenandoah (99), Southern (Racine) (151), South Webster (181), Northmor (208), Grandview Heights (234)
+- **Tiffin:** Tinora (122), Convoy Crestview (127), St. Henry (164), Columbus Grove (216), New Bremen (229), Seneca East (267), Sherwood Fairview (297), Hicksville (307)
+- **Troy:** Russia (57), Legacy Christian (86), Botkins (89), Cedarville (139), Lehman Catholic (153)
+
+**Girls**
+
+- **Boardman:** Rittman (64), Maplewood (96), Kirtland (97), McDonald (136), Ashtabula St. John (156)
+- **Pickerington:** Grandview Heights (44), Bellaire (85), Mount Gilead (160), Mechanicsburg (193), Fairbanks (195)
+- **Tiffin:** Liberty Center (61), Ottawa Hills (93), Archbold (168), Edison (Milan) (217), Crestline (226), St. Henry (266), Lincolnview (296), Margaretta (301), Tinora (304)
+- **Troy:** Minster (82), Fort Loramie (107), Summit Country Day (121), West Liberty-Salem (142), Dayton Christian (159)
 
 ## Photo Credits
 

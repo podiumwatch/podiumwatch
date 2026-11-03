@@ -1,5 +1,5 @@
 ---
-title: "Division III: Three Boys Under 15:00, and Woodridge Is Back for More"
+title: "Division III: Four Boys Under 15:00, and Woodridge Is Back for More"
 date: "2026-11-03"
 description: "Everything you need for Saturday's Division III races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
@@ -30,21 +30,22 @@ Every time below is a real 2026 result. When a team "projects" somewhere, that i
 
 **What to watch Saturday**
 
-- **Three sub-15:00 boys, one course.** Fairless' Brice Fuller (14:49.4), Perkins' Joel Smelcer (14:56.7) and Margaretta's Cole Zang (14:59.3) share a postseason course for the first time. Fuller's time was the fastest in any division on Oct. 31.
+- **Four boys under 15:00.** Fairless' Brice Fuller (14:49.4), Perkins' Joel Smelcer (14:56.7) and Margaretta's Cole Zang (14:59.3) broke 15:00 at regionals, and Versailles' Jackson Spitzer has a 14:54.9 season best. Fuller's time was the fastest in any division on Oct. 31.
 - **Woodridge defends.** The champs scored 37 at Boardman and project 1st at 70, 47 points clear of Fairless.
 - **Spitzer's last run.** Versailles' Jackson Spitzer was 7th at state as a sophomore and 13th last fall. He won Troy by 22.8 seconds.
 - **Huddle against the clock.** Napoleon's Gwen Huddle ran 17:23.0, 32.9 seconds faster than any other Division III girl on Oct. 31.
 - **Oakwood vs. Huron.** Oakwood projects 1st at 111 and Huron 2nd at 125.
+- **Season bests flip the girls title.** On each runner's fastest 2026 time, Huron projects 138.5 and Oakwood 143.
 
 *Team projections are Projected · not official.*
 
-## Boys Individual Race: Three Under 15:00
+## Boys Individual Race: Four Under 15:00
 
 **Fuller's statement.** Fairless junior Brice Fuller won Pickerington in 14:49.4, 27.4 seconds ahead of the runner-up. Nobody in any division ran faster on Oct. 31. Fairfield Union senior Connor Runkle and Meadowbrook sophomore Vincent Campbell both clocked 15:16.8 behind him, and Portsmouth senior Ian Putnam (15:25.6) and Union Local senior Connor Bendo (15:27.1) made Pickerington the deepest front of the four regionals.
 
 **The Tiffin duel.** Perkins senior Joel Smelcer and Margaretta junior Cole Zang had their own race up north. Smelcer won in 14:56.7, Zang was 2.6 seconds back in 14:59.3, and the next finisher was 49 seconds behind them. Saturday is the first time Fuller, Smelcer and Zang share a postseason course.
 
-**Spitzer's last run.** Versailles senior Jackson Spitzer has been here before. He [was 7th at the Division II state meet in 15:33.5](https://dailyadvocate.com/2024/11/02/lehman-spitzer-finish-top-ten-at-cross-country-state-championship) as a sophomore and was [13th last fall](https://www.hometownstations.com/news/crestview-boys-win-first-state-cross-country-title-col-grove-boys-minster-girls-finish-runner/video_43c23cef-8c50-54f9-a6ce-52beaf340fb8.html). He won Troy in 15:05.2, 22.8 seconds ahead of Cincinnati Hills Christian Academy senior Nathaniel Gockerman (15:28.0).
+**Spitzer's last run.** Versailles senior Jackson Spitzer has been here before. He [was 7th at the Division II state meet in 15:33.5](https://dailyadvocate.com/2024/11/02/lehman-spitzer-finish-top-ten-at-cross-country-state-championship) as a sophomore and was [13th last fall](https://www.hometownstations.com/news/crestview-boys-win-first-state-cross-country-title-col-grove-boys-minster-girls-finish-runner/video_43c23cef-8c50-54f9-a6ce-52beaf340fb8.html). He won Troy in 15:05.2, 22.8 seconds ahead of Cincinnati Hills Christian Academy senior Nathaniel Gockerman (15:28.0). His 14:54.9 season best makes him the fourth boy in the field under 15:00 this fall.
 
 **Boardman's pack up front.** Canton South junior Logan Howard won Boardman in 15:32.7. Woodridge senior John Brock was 2nd (15:37.9), Garfield (Garrettsville) junior Owen Thomas 3rd (15:38.7), Woodridge junior Remington Griffiths 4th (15:41.7) and Garfield freshman Lucas Thomas 5th (15:42.1). That is five runners inside 9.4 seconds, and Garfield's two run as individuals after their team was the first one out.
 
@@ -199,6 +200,86 @@ Minerva won Pickerington with 95 behind junior Tateum Richard (6th, 18:56.7) and
 | 8 | Berkshire | 3rd at Boardman (137) | 262 |
 
 Projected · not official. Scored on Oct. 31 regional times across four courses.
+
+## The Season-Best View
+
+Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
+
+**Boys.** On season bests four boys have broken 15:00. Brice Fuller's 14:49.4 at Pickerington is still the fastest, but Cole Zang has run 14:52.9 and Jackson Spitzer 14:54.9, both faster than Joel Smelcer's 14:56.7. Wellston senior Elijah Goodell makes the biggest jump, from 19th by regional time to 8th.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Brice Fuller, JR | Fairless | 14:49.4 | 14:49.4 |
+| 2 | Cole Zang, JR | Margaretta | 14:52.9 | 14:59.3 |
+| 3 | Jackson Spitzer, SR | Versailles | 14:54.9 | 15:05.2 |
+| 4 | Joel Smelcer, SR | Perkins | 14:56.7 | 14:56.7 |
+| T5 | Connor Runkle, SR | Fairfield Union | 15:16.8 | 15:16.8 |
+| T5 | Vincent Campbell, SO | Meadowbrook | 15:16.8 | 15:16.8 |
+| 7 | Ian Putnam, SR | Portsmouth | 15:18.3 | 15:25.6 |
+| 8 | Elijah Goodell, SR | Wellston | 15:20.5 | 15:54.0 |
+
+**Boys team.** Woodridge is 1st either way, 66 points clear on season bests. Van Wert jumps from 8th to 4th, and Chagrin Falls goes from 14th to 8th.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Woodridge | 1st, 88 | 1st |
+| Fairless | 2nd, 154 | 2nd |
+| Versailles | 3rd, 183.5 | 3rd |
+| Van Wert | 4th, 197 | 8th |
+| West Liberty-Salem | 5th, 199.5 | 4th |
+| Bryan | 6th, 222 | 5th |
+
+**Girls.** Gwen Huddle's 17:05.5 season best is 43.2 seconds faster than anyone else in the field. Irelyn Johnson (17:48.7), Caroline Valentino (17:54.6) and Ava Reiheld (17:59.9) are the only others under 18:00. Chagrin Falls junior Gabby Byrne climbs from 18th by regional time to 5th.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Gwen Huddle, JR | Napoleon | 17:05.5 | 17:23.0 |
+| 2 | Irelyn Johnson, SR | Marlington | 17:48.7 | 17:55.9 |
+| 3 | Caroline Valentino, JR | Hathaway Brown | 17:54.6 | 18:10.8 |
+| 4 | Ava Reiheld, FR | West Holmes | 17:59.9 | 18:02.9 |
+| 5 | Gabby Byrne, JR | Chagrin Falls | 18:16.7 | 19:00.6 |
+| 6 | Kali Wallace, SR | Claymont | 18:19.2 | 18:19.2 |
+| 7 | Luci Maschek, FR | Crestwood | 18:21.6 | 18:46.1 |
+| 8 | Marina Campbell, JR | Orange | 18:24.0 | 19:10.8 |
+
+**Girls team.** Season bests flip the top two. Huron projects 1st at 138.5, 4.5 points ahead of Oakwood, and Ottawa-Glandorf climbs from 7th to 3rd.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Huron | 1st, 138.5 | 2nd |
+| Oakwood | 2nd, 143 | 1st |
+| Ottawa-Glandorf | 3rd, 204.5 | 7th |
+| Crestwood | 4th, 210 | 4th |
+| Madeira | 5th, 214.5 | 6th |
+| Minerva | 6th, 218 | 3rd |
+
+## Around the Regionals: Tiffin and Pickerington
+
+**Tiffin, boys.** Perkins senior Joel Smelcer (14:56.7) and Margaretta junior Cole Zang (14:59.3) both broke 15:00, and Elmwood sophomore Henry Good was next in 15:48.4. Bryan won the team title with 106, ahead of Van Wert (117), Elmwood (121) and Upper Sandusky (167). The cut was tight. Archbold missed by four points and Edison (Milan) by five. Kenton junior Wade Manns was 4th in 15:55.2 and goes as an individual.
+
+**Tiffin, girls.** Napoleon junior Gwen Huddle won by 1:17.6, and Huron went 2-3-4 behind her on the way to 51 points. Ottawa-Glandorf (108), Van Wert (126), Bellevue (181) and Coldwater (201) also qualified. Shelby missed by two points and Napoleon by seven. Shelby senior Anna Will was 5th in 19:13.6 and goes as an individual.
+
+**Pickerington, boys.** Fairless junior Brice Fuller ran 14:49.4, 27.4 seconds clear of Fairfield Union senior Connor Runkle and Meadowbrook sophomore Vincent Campbell, who tied at 15:16.8. Fairless won with 55. Pickerington sent eight teams, the most of any Division III boys regional: Fairless, Fairfield Union, Minerva, Tuscarawas Valley, Bellaire, St. Clairsville, Utica and Centerburg. London missed by eight points.
+
+**Pickerington, girls.** West Holmes freshman Ava Reiheld won in 18:02.9, 16.3 seconds ahead of Claymont senior Kali Wallace. Minerva won the team race with 95 and Tuscarawas Valley was 2nd with 120. Fairless took the last of seven spots with 226, two points ahead of West Holmes, so Reiheld and junior teammate Iriel Mena go as individuals.
+
+## Every Team Headed to Obetz
+
+Regional team scores in parentheses.
+
+**Boys**
+
+- **Boardman:** Woodridge (37), Berkshire (224), Chagrin Falls (227), Gilmour Academy (233), Canal Fulton Northwest (235), Marlington (254), Norwayne (265)
+- **Pickerington:** Fairless (55), Fairfield Union (126), Minerva (163), Tuscarawas Valley (165), Bellaire (282), St. Clairsville (312), Utica (324), Centerburg (331)
+- **Tiffin:** Bryan (106), Van Wert (117), Elmwood (121), Upper Sandusky (167)
+- **Troy:** Versailles (79), West Liberty-Salem (97), Waynesville (133), Wyoming (140), Madeira (158)
+
+**Girls**
+
+- **Boardman:** Marlington (127), Crestwood (127), Berkshire (137), Woodridge (155), Canal Fulton Northwest (169), Salem (173), Akron SVSM (258), Hathaway Brown (287)
+- **Pickerington:** Minerva (95), Tuscarawas Valley (120), Indian Valley (182), Claymont (210), Fairfield Union (212), Northmor (215), Fairless (226)
+- **Tiffin:** Huron (51), Ottawa-Glandorf (108), Van Wert (126), Bellevue (181), Coldwater (201)
+- **Troy:** Oakwood (41), Madeira (82), Versailles (111), Wyoming (197)
 
 ## Photo Credits
 

@@ -39,6 +39,7 @@ Every time below is a real 2026 result. When a team "projects" somewhere, that i
 - **Mentor, the sleeper.** Mentor sits 11th on regional times but projects 3rd on season bests.
 - **Three-tenths of a second.** That was the gap between Milford's Elle Campbell and Mason's Atalia Hawkins at Troy. Hilliard Davidson's Mackenzie Kline ran the fastest girls time of the round, 17:55.8.
 - **Upper Arlington vs. Milford.** Upper Arlington projects 1st at 110 and Milford 2nd at 128. Milford's 2-5 runners finished within 8.4 seconds of each other.
+- **Schultz on the clock.** Perrysburg's Lexi Schultz has the fastest season best in the girls field, 17:36.1.
 
 *Team projections are Projected · not official.*
 
@@ -197,6 +198,80 @@ Watch Beavercreek's future too. Its top three at Troy were all freshmen: Madalen
 | 8 | Sycamore | 5th at Troy (155) | 254 |
 
 Projected · not official. Scored on Oct. 31 regional times across three courses.
+
+## The Season-Best View
+
+Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
+
+**Boys.** On season bests the top three are the only three boys in the field under 15:00: Ian Patrick (14:54.4), Ryne Reynolds (14:57.7) and Austin Benedict (14:59.8). Thomas Worthington sophomore Calvin Watson (15:06.3) and Hilliard Darby senior Logan Behm (15:09.1) are next. The biggest climber is Westerville North senior Holden Gray, 16th by regional time and 7th on season bests at 15:17.0.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Ian Patrick, JR | Little Miami | 14:54.4 | 15:12.4 |
+| 2 | Ryne Reynolds, SR | Little Miami | 14:57.7 | 15:02.3 |
+| 3 | Austin Benedict, JR | New Albany | 14:59.8 | 15:10.2 |
+| 4 | Calvin Watson, SO | Thomas Worthington | 15:06.3 | 15:15.7 |
+| 5 | Logan Behm, SR | Hilliard Darby | 15:09.1 | 15:14.7 |
+| 6 | Henry Newman, SR | Milford | 15:10.2 | 15:24.7 |
+| 7 | Holden Gray, SR | Westerville North | 15:17.0 | 15:43.7 |
+| 8 | Nicholas Beatty, SR | Springboro | 15:20.4 | 15:20.4 |
+
+**Boys team.** Season bests flip the top two. Mason projects 1st at 90 and Springboro 2nd at 107.5. Mentor climbs from 11th to 3rd at 146.5, and defending champion Beavercreek slides from 3rd to 4th.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Mason | 1st, 90 | 2nd |
+| Springboro | 2nd, 107.5 | 1st |
+| Mentor | 3rd, 146.5 | 11th |
+| Beavercreek | 4th, 203.5 | 3rd |
+| Gahanna Lincoln | 5th, 210 | 5th |
+| St. Xavier | 6th, 216 | 4th |
+
+**Girls.** Perrysburg junior Lexi Schultz owns the fastest season best in the field, 17:36.1, which is 31.6 seconds faster than her winning time at Boardman. Mackenzie Kline (17:46.7) and Elle Campbell (17:46.9) are two-tenths apart behind her. Gahanna Lincoln senior Abigail Young (12th by regional time to 5th) and Springboro sophomore Tessa Andrews (15th to 8th) each climb seven spots.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Lexi Schultz, JR | Perrysburg | 17:36.1 | 18:07.7 |
+| 2 | Mackenzie Kline, SR | Hilliard Davidson | 17:46.7 | 17:55.8 |
+| 3 | Elle Campbell, SR | Milford | 17:46.9 | 18:11.0 |
+| 4 | Beth Baker, SO | Upper Arlington | 17:55.1 | 18:01.8 |
+| 5 | Abigail Young, SR | Gahanna Lincoln | 17:58.1 | 18:27.8 |
+| 6 | Josie Cox, SR | Upper Arlington | 17:58.9 | 17:58.9 |
+| 7 | Reese Galinger, SR | Teays Valley | 18:00.8 | 18:00.8 |
+| 8 | Tessa Andrews, SO | Springboro | 18:01.7 | 18:36.6 |
+
+**Girls team.** Upper Arlington and Milford stay 1-2 either way, 99 to 118.5 on season bests. Mason is the mover, from 7th on regional times to 3rd at 145.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Upper Arlington | 1st, 99 | 1st |
+| Milford | 2nd, 118.5 | 2nd |
+| Mason | 3rd, 145 | 7th |
+| Springboro | 4th, 189.5 | 3rd |
+| Centerville | 5th, 190.5 | 4th |
+| Gahanna Lincoln | 6th, 207 | 5th |
+
+## Around the Regionals: Pickerington
+
+**Pickerington, boys.** New Albany junior Austin Benedict won in 15:10.2, 4.5 seconds ahead of Hilliard Darby senior Logan Behm. Pickerington had eight team spots, the most of the three Division I regionals, and Dublin Jerome took the title with 132, two points ahead of Gahanna Lincoln. Westerville North, Olentangy Berlin, Olentangy Liberty, Thomas Worthington, New Albany and Dublin Coffman also qualified. Hilliard Darby missed by 14 points, so Behm goes as an individual.
+
+**Pickerington, girls.** Hilliard Davidson senior Mackenzie Kline won in 17:55.8, 3.1 seconds ahead of Upper Arlington senior Josie Cox. Upper Arlington won with 86, and Hilliard Davidson took 2nd over Gahanna Lincoln on the sixth-runner tiebreak. Olentangy Berlin, Hilliard Darby, Marysville, Westerville South, Lancaster and Westerville North also qualified, and Dublin Jerome missed by four points. Teays Valley's Reese Galinger was 3rd in 18:00.8 and goes as an individual.
+
+## Every Team Headed to Obetz
+
+Regional team scores in parentheses. Division I ran three regionals.
+
+**Boys**
+
+- **Boardman:** Mentor (46), Medina (114), Massillon Jackson (130), Perrysburg (165), Solon (167)
+- **Pickerington:** Dublin Jerome (132), Gahanna Lincoln (134), Westerville North (174), Olentangy Berlin (177), Olentangy Liberty (196), Thomas Worthington (204), New Albany (228), Dublin Coffman (275)
+- **Troy:** Springboro (72), Mason (83), Beavercreek (114), St. Xavier (130), Little Miami (170), Milford (209), Kings (226)
+
+**Girls**
+
+- **Boardman:** Perrysburg (72), Massillon Jackson (74), Stow-Munroe Falls (90), Mentor (125), Solon (140)
+- **Pickerington:** Upper Arlington (86), Hilliard Davidson (136), Gahanna Lincoln (136), Olentangy Berlin (219), Hilliard Darby (253), Marysville (254), Westerville South (277), Lancaster (291), Westerville North (302)
+- **Troy:** Milford (75), Springboro (96), Centerville (101), Mason (111), Sycamore (155), Beavercreek (185)
 
 ## Photo Credits
 

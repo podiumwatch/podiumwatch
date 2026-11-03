@@ -34,12 +34,13 @@ Every time below is a real 2026 result. When a team "projects" somewhere, that i
 - **Lexington vs. Bowling Green, again.** Lexington won Tiffin 74-76. On regional times Bowling Green projects 1st at 133 and Lexington 2nd at 141.
 - **Sophomores own the girls race.** The five fastest Division II girls regional times all belong to sophomores, led by Celina's Elle Miesse (17:32.0) and Sylvania Southview's Julia Bocik (17:33.3).
 - **Watterson's to lose.** Watterson scored 35 at Pickerington and projects 81 points clear of 2nd.
+- **A different favorite on season bests.** Turpin's Carson Spencer has the fastest 2026 time in the boys field, 15:08.3. Stine is 4th by that measure.
 
 *Team projections are Projected · not official.*
 
 ## Boys Individual Race: Wide Open at the Top
 
-**Stine has the fastest time.** Findlay senior Russell Stine won Tiffin in 15:18.8, the best Division II time of the regional round. Sylvania Southview senior Steven Owen was 9.1 seconds back (15:27.9), and St. Francis de Sales (Toledo) junior Brennan Higgins was 3rd in 15:29.8. Stine and Owen both go as individuals.
+**Stine has the fastest regional time.** Findlay senior Russell Stine won Tiffin in 15:18.8, the best Division II time of the regional round. Sylvania Southview senior Steven Owen was 9.1 seconds back (15:27.9), and St. Francis de Sales (Toledo) junior Brennan Higgins was 3rd in 15:29.8. Stine and Owen both go as individuals.
 
 **Shultz and Heithaus, one apiece.** Big Walnut junior Ethan Shultz won Pickerington in 15:26.5, 2.2 seconds ahead of Mount Vernon sophomore Calvin Heithaus. A week earlier at districts, Heithaus won in 15:13.33 and Shultz was 2nd in 15:18.95. Saturday is the rubber match.
 
@@ -178,6 +179,86 @@ Pickerington's depth shows up next. Granville (87), Big Walnut (85) and Canal Wi
 | 8 | Bowling Green | 4th at Tiffin (114) | 275 |
 
 Projected · not official. Scored on Oct. 31 regional times across four courses.
+
+## The Season-Best View
+
+Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
+
+**Boys.** On season bests Turpin junior Carson Spencer is the fastest boy in the field at 15:08.3, and Russell Stine moves from 1st to 4th. Calvin Heithaus (15:13.4) and Steven Owen (15:16.9) are 2nd and 3rd, and the first seven are all under 15:22. Loveland senior Ian Trombley makes the biggest jump, from 16th by regional time to 8th.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Carson Spencer, JR | Turpin | 15:08.3 | 15:31.0 |
+| 2 | Calvin Heithaus, SO | Mount Vernon | 15:13.4 | 15:28.7 |
+| 3 | Steven Owen, SR | Sylvania Southview | 15:16.9 | 15:27.9 |
+| 4 | Russell Stine, SR | Findlay | 15:18.0 | 15:18.8 |
+| 5 | Ethan Shultz, JR | Big Walnut | 15:19.0 | 15:26.5 |
+| 6 | Ian Res, SR | West Geauga | 15:20.3 | 15:32.3 |
+| 7 | Anderson Seredick, JR | Nordonia | 15:21.6 | 15:33.8 |
+| 8 | Ian Trombley, SR | Loveland | 15:23.0 | 15:44.9 |
+
+**Boys team.** Bowling Green and Lexington stay 1-2 either way, 163.5 to 186.5 on season bests. Loveland climbs from 5th to 3rd and Turpin from 8th to 5th, while Big Walnut slides from 3rd to 4th.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Bowling Green | 1st, 163.5 | 1st |
+| Lexington | 2nd, 186.5 | 2nd |
+| Loveland | 3rd, 203.5 | 5th |
+| Big Walnut | 4th, 212.5 | 3rd |
+| Turpin | 5th, 226.5 | 8th |
+| Kenston | 6th, 233.5 | 6th |
+
+**Girls.** Aurora sophomore Audrey Miller has the fastest season best in the field, 17:17.6, with Julia Bocik (17:20.6) and Elle Miesse (17:27.6) next. The sophomore story holds up: five of the top eight on season bests are sophomores. Canal Winchester senior Peyton Hughey climbs from 11th by regional time to 5th.
+
+| # | Runner | School | Season best | Regional |
+| --- | --- | --- | --- | --- |
+| 1 | Audrey Miller, SO | Aurora | 17:17.6 | 17:46.3 |
+| 2 | Julia Bocik, SO | Sylvania Southview | 17:20.6 | 17:33.3 |
+| 3 | Elle Miesse, SO | Celina | 17:27.6 | 17:32.0 |
+| 4 | Kaitlyn Van Zandt, JR | Watterson | 17:40.9 | 17:57.0 |
+| 5 | Peyton Hughey, SR | Canal Winchester | 17:46.3 | 18:11.2 |
+| 6 | Annalise Costin, JR | Brecksville | 17:46.4 | 18:15.2 |
+| 7 | Maya Gonzalez, SO | Bay | 17:48.1 | 17:48.1 |
+| 8 | Kaylee Ingratta, SO | Copley | 17:49.4 | 18:02.1 |
+
+**Girls team.** Watterson is 1st either way, 83 points clear on season bests. Aurora moves up to 2nd at 164, Avon climbs from 10th to 5th, and Fremont Ross slides from 2nd to 6th.
+
+| Team | On season bests | Rank on regional times |
+| --- | --- | --- |
+| Watterson | 1st, 81 | 1st |
+| Aurora | 2nd, 164 | 3rd |
+| Granville | 3rd, 206.5 | 4th |
+| Big Walnut | 4th, 212 | 5th |
+| Avon | 5th, 214 | 10th |
+| Fremont Ross | 6th, 221 | 2nd |
+
+## Around the Regionals: Tiffin and Pickerington
+
+**Tiffin, boys.** Findlay senior Russell Stine won in 15:18.8, 9.1 seconds clear of Sylvania Southview senior Steven Owen. Lexington edged Bowling Green 74 to 76, and St. Francis de Sales (Toledo) and Sylvania Northview took the other two spots. Lima Shawnee missed by seven points. Stine has company from Findlay, because junior Camden Stechschulte also qualified as an individual (11th, 15:54.0).
+
+**Tiffin, girls.** Celina sophomore Elle Miesse beat Sylvania Southview sophomore Julia Bocik by 1.3 seconds, and Fremont Ross sophomore Lily Kiser was 3rd. Fremont Ross won with 66. Lexington (111), Anthony Wayne (113) and Bowling Green (114) took the last three spots, three points apart. Celina missed as a team, but Miesse and junior Sophie Gudorf (12th, 19:08.6) both qualified.
+
+**Pickerington, boys.** Big Walnut junior Ethan Shultz beat Mount Vernon sophomore Calvin Heithaus by 2.2 seconds, and Columbus DeSales senior Lucas Steele was 3rd in 15:36.3. Big Walnut won with 97. Watterson (147), Unioto (149), Granville (155) and Columbus DeSales (169) also qualified, so Watterson sends both its boys and girls to Obetz. Dublin Scioto missed by four points.
+
+**Pickerington, girls.** Watterson junior Kaitlyn Van Zandt won in 17:57.0, 13.4 seconds ahead of Granville junior Elsa Tonnessen, and Watterson put all five scorers in the top 17 for 35 points. Big Walnut (85), Granville (87), Canal Winchester (96) and Columbus DeSales (194) also qualified. Athens junior Zoe Wayner was 4th in 18:15.9 and goes as an individual.
+
+## Every Team Headed to Obetz
+
+Regional team scores in parentheses.
+
+**Boys**
+
+- **Boardman:** Kenston (173), Massillon Perry (212), CVCA (251), Uniontown Lake (256), Shaker Heights (265), Hoover (265), Nordonia (274), Salem (297), Cloverleaf (308), Hudson (314)
+- **Pickerington:** Big Walnut (97), Watterson (147), Unioto (149), Granville (155), Columbus DeSales (169)
+- **Tiffin:** Lexington (74), Bowling Green (76), St. Francis de Sales (Toledo) (111), Sylvania Northview (184)
+- **Troy:** Loveland (80), Turpin (91), Bellbrook (137), Carroll (164), Bellefontaine (187)
+
+**Girls**
+
+- **Boardman:** Aurora (111), Avon (183), Cleveland St. Joseph Academy (206), Westlake (211), CVCA (256), Shaker Heights (286), Wadsworth (322), Boardman (328), Hoover (332)
+- **Pickerington:** Watterson (35), Big Walnut (85), Granville (87), Canal Winchester (96), Columbus DeSales (194)
+- **Tiffin:** Fremont Ross (66), Lexington (111), Anthony Wayne (113), Bowling Green (114)
+- **Troy:** Bellbrook (94), Turpin (108), St. Ursula Academy (123), Indian Hill (143), Talawanda (183), Loveland (197)
 
 ## Photo Credits
 
