@@ -3,7 +3,7 @@ title: "Division IV: Lehman Hunts a Repeat, and the Boys Team Title Is a Dead He
 date: "2026-11-03"
 description: "Everything you need for Saturday's Division IV races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
-author: "Podium Watch"
+author: "Logan Eggert"
 slug: "division-iv-state-breakdown-2026"
 featured: false
 draft: false

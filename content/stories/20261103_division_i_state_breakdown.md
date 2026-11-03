@@ -3,7 +3,7 @@ title: "Division I: Springboro and Mason Meet Again, and Three Boys Have Broken 
 date: "2026-11-03"
 description: "Everything you need for Saturday's Division I races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
-author: "Podium Watch"
+author: "Logan Eggert"
 slug: "division-i-state-breakdown-2026"
 featured: false
 draft: false
@@ -12,14 +12,16 @@ type: "Preview"
 divisions: "I"
 series: "state-breakdowns"
 seriesOrder: 1
-heroImage: "/images/stories/state-breakdown-2026/t-d1b-littlemiami-247.jpg"
-heroAlt: "Little Miami runner at Troy"
-featuredImage: "/images/stories/state-breakdown-2026/t-d1b-littlemiami-247.jpg"
-featuredImageAlt: "Little Miami runner at Troy"
-featuredImagePosition: "center 22%"
-imageCredit: "Lauren Palmer (@laurenpmedia)"
+heroImage: "/images/stories/state-breakdown-2026/b-d1b-mentor-3071.jpg"
+heroAlt: "Mentor runner celebrating at the Boardman finish"
+featuredImage: "/images/stories/state-breakdown-2026/b-d1b-mentor-3071.jpg"
+featuredImageAlt: "Mentor runner celebrating at the Boardman finish"
+featuredImagePosition: "center 15%"
+imageCredit: "Christian Lisle (@lislephotog)"
 column: "The Podium Report"
 ---
+![Little Miami runner at Troy](/images/stories/state-breakdown-2026/t-d1b-littlemiami-247.jpg)
+
 ![Little Miami runner at Troy](/images/stories/state-breakdown-2026/t-d1b-littlemiami-248.jpg)
 
 *Little Miami's Ryne Reynolds and Ian Patrick went 1-2 at Troy. Photos: Lauren Palmer (@laurenpmedia)*

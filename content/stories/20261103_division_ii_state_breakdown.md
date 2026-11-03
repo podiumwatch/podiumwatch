@@ -3,7 +3,7 @@ title: "Division II: Watterson's 35, a Two-Point Thriller and the Sophomore Take
 date: "2026-11-03"
 description: "Everything you need for Saturday's Division II races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
-author: "Podium Watch"
+author: "Logan Eggert"
 slug: "division-ii-state-breakdown-2026"
 featured: false
 draft: false
