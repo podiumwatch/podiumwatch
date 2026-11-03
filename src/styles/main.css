@@ -581,6 +581,21 @@ p { margin-top: 0; }
    with the (repositioned, otherwise unchanged) Upcoming Meets panel,
    both reusing .home-panel's existing chrome. */
 .home-hero-news { padding:28px 0 6px; }
+/* State Breakdowns (2026-11-03): four story cards at the top of the
+   home page, four across on desktop, two on tablets, and a swipeable
+   row on phones so the section and its first card sit above the fold. */
+.home-breakdowns { padding:4px 0 6px; }
+.home-breakdowns .home-section-title { margin-top:18px; margin-bottom:14px; }
+.home-breakdowns-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+.home-breakdowns .story-card { grid-column:auto; }
+.home-breakdowns .story-card-body { padding:16px 18px 18px; }
+.home-breakdowns .story-card h3 { display:block; -webkit-line-clamp:unset; overflow:visible; font-size:1.05rem; }
+.home-breakdown-credit { margin:0; padding:6px 18px 0; color:var(--muted); font-size:.7rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+@media (max-width: 1000px) { .home-breakdowns-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width: 640px) {
+  .home-breakdowns-grid { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:12px; padding-bottom:6px; }
+  .home-breakdowns .story-card { flex:0 0 84%; scroll-snap-align:start; }
+}
 .home-results-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
 .home-lead { overflow:hidden; }
 /* Bug fix (2026-10-28, story-page-and-homepage-handoff.md, A1): a fixed

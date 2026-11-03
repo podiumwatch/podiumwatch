@@ -380,7 +380,14 @@ function homePage(stories, rankings) {
   // local copy (not touching the `stories` array itself, so every other
   // page keeps its pinnedRank ordering exactly as before) is the only
   // way to guarantee "always the newest" with truly no exceptions.
-  const featuredStory = [...stories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`))[0];
+  // State Breakdowns (2026-11-03, Zachary): the four Division I-IV
+  // state breakdown stories get their own section at the very top, in
+  // division order. They are left out of the lead and the Latest
+  // Stories rail below so nothing else on the page moves and no story
+  // shows twice.
+  const stateBreakdowns = stories.filter((story) => story.series === "state-breakdowns").sort((a, b) => a.seriesOrder - b.seriesOrder);
+  const otherStories = stories.filter((story) => story.series !== "state-breakdowns");
+  const featuredStory = [...otherStories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`))[0];
   // Exclude the hero story from "Latest Stories" below it -- without this,
   // whenever the featured story is also among the most recent (the normal
   // case), it silently appeared twice on the homepage: once as the big
@@ -393,7 +400,7 @@ function homePage(stories, rankings) {
   // called out. `stories` is already sorted newest-first (with the
   // seriesOrder tie-break, loadStories() in this same file), so a plain
   // slice is the correct fix; no image-based reordering.
-  const latestStories = stories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 8);
+  const latestStories = otherStories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 8);
   // Homepage rebuild (2026-08-28): this used to render as "Latest
   // Stories" directly under the lead story, AND a second, separate
   // "Latest stories" section further down the page ("More than a finish
@@ -472,7 +479,22 @@ function homePage(stories, rankings) {
   const heroCategory = featuredStory?.category || "Cross Country";
   const heroByline = storyBylineHtml(featuredStory?.author);
   const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
-  const content = `<section class="home-hero-news"><div class="container">
+  const stateBreakdownsSection = stateBreakdowns.length ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
+    <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
+    <div class="home-breakdowns-grid">
+      ${stateBreakdowns.map((story) => `<article class="story-card">
+        <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}></a>
+        ${story.imageCredit ? `<p class="home-breakdown-credit">Photo: ${escapeHtml(story.imageCredit)}</p>` : ""}
+        <div class="story-card-body">
+          <div class="story-meta"><span class="category">Division ${escapeHtml(story.divisions)}</span><span>${formatDate(story.date)}</span></div>
+          <h3><a href="/stories/${story.slug}/">${escapeHtml(story.title)}</a></h3>
+          <p>${escapeHtml(story.description)}</p>
+          <a class="read-link" href="/stories/${story.slug}/">Read the breakdown ${icon("arrow")}</a>
+        </div>
+      </article>`).join("")}
+    </div>
+  </div></section>` : "";
+  const content = `${stateBreakdownsSection}<section class="home-hero-news"><div class="container">
     <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager" fetchpriority="high"${leadImagePosition ? ` style="object-position:${escapeHtml(leadImagePosition)}"` : ""}></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
   </div></section>
 
