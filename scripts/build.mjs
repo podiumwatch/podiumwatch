@@ -831,9 +831,11 @@ function storyPage(story, stories) {
     title: story.title,
     description: story.description,
     pathname,
-    image: heroImage || site.defaultSocialImage,
-    imageWidth: heroImage ? 1600 : undefined,
-    imageHeight: heroImage ? 900 : undefined,
+    // socialImage (2026-11-03): a story may name its own 1200x630
+    // link-preview card; otherwise the hero is the preview.
+    image: story.socialImage || heroImage || site.defaultSocialImage,
+    imageWidth: story.socialImage ? 1200 : heroImage ? 1600 : undefined,
+    imageHeight: story.socialImage ? 630 : heroImage ? 900 : undefined,
     canonicalUrl: story.canonicalUrl,
     type: "article",
     publishedTime: story.date,

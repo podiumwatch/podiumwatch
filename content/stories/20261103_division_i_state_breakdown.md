@@ -1,5 +1,5 @@
 ---
-title: "Division I: Springboro and Mason Meet Again, and Three Boys Have Broken 15:00"
+title: "Division I: Springboro and Mason Meet Again, and Mentor Is the Sleeper"
 date: "2026-11-03"
 description: "Everything you need for Saturday's Division I races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
@@ -19,6 +19,7 @@ featuredImageAlt: "Mentor runner celebrating at the Boardman finish"
 featuredImagePosition: "center 15%"
 imageCredit: "Christian Lisle (@lislephotog)"
 column: "The Podium Report"
+socialImage: "/images/stories/state-breakdown-2026/D1_cover.png"
 ---
 ![Little Miami runner at Troy](/images/stories/state-breakdown-2026/t-d1b-littlemiami-247.jpg)
 
@@ -203,6 +204,8 @@ Projected · not official. Scored on Oct. 31 regional times across three courses
 
 Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
 
+![Division I boys season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D1_boys_season_best.png)
+
 **Boys.** On season bests the top three are the only three boys in the field under 15:00: Ian Patrick (14:54.4), Ryne Reynolds (14:57.7) and Austin Benedict (14:59.8). Thomas Worthington sophomore Calvin Watson (15:06.3) and Hilliard Darby senior Logan Behm (15:09.1) are next. The biggest climber is Westerville North senior Holden Gray, 16th by regional time and 7th on season bests at 15:17.0.
 
 | # | Runner | School | Season best | Regional |
@@ -226,6 +229,8 @@ Regionals were one race on one course. Season bests use each runner's fastest 20
 | Beavercreek | 4th, 203.5 | 3rd |
 | Gahanna Lincoln | 5th, 210 | 5th |
 | St. Xavier | 6th, 216 | 4th |
+
+![Division I girls season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D1_girls_season_best.png)
 
 **Girls.** Perrysburg junior Lexi Schultz owns the fastest season best in the field, 17:36.1, which is 31.6 seconds faster than her winning time at Boardman. Mackenzie Kline (17:46.7) and Elle Campbell (17:46.9) are two-tenths apart behind her. Gahanna Lincoln senior Abigail Young (12th by regional time to 5th) and Springboro sophomore Tessa Andrews (15th to 8th) each climb seven spots.
 

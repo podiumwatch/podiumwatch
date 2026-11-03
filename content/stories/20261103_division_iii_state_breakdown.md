@@ -19,6 +19,7 @@ featuredImageAlt: "Jackson Spitzer of Versailles at Troy"
 featuredImagePosition: "center 22%"
 imageCredit: "Lauren Palmer (@laurenpmedia)"
 column: "The Podium Report"
+socialImage: "/images/stories/state-breakdown-2026/D3_cover.png"
 ---
 *Versailles senior Jackson Spitzer won the Southwest Regional in 15:05.2. Photo: Lauren Palmer (@laurenpmedia)*
 
@@ -205,6 +206,8 @@ Projected · not official. Scored on Oct. 31 regional times across four courses.
 
 Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
 
+![Division III boys season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D3_boys_season_best.png)
+
 **Boys.** On season bests four boys have broken 15:00. Brice Fuller's 14:49.4 at Pickerington is still the fastest, but Cole Zang has run 14:52.9 and Jackson Spitzer 14:54.9, both faster than Joel Smelcer's 14:56.7. Wellston senior Elijah Goodell makes the biggest jump, from 19th by regional time to 8th.
 
 | # | Runner | School | Season best | Regional |
@@ -228,6 +231,8 @@ Regionals were one race on one course. Season bests use each runner's fastest 20
 | Van Wert | 4th, 197 | 8th |
 | West Liberty-Salem | 5th, 199.5 | 4th |
 | Bryan | 6th, 222 | 5th |
+
+![Division III girls season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D3_girls_season_best.png)
 
 **Girls.** Gwen Huddle's 17:05.5 season best is 43.2 seconds faster than anyone else in the field. Irelyn Johnson (17:48.7), Caroline Valentino (17:54.6) and Ava Reiheld (17:59.9) are the only others under 18:00. Chagrin Falls junior Gabby Byrne climbs from 18th by regional time to 5th.
 

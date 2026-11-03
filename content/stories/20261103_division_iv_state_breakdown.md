@@ -19,6 +19,7 @@ featuredImageAlt: "Bennett Lehman of Ansonia at the Southwest Regional at Troy"
 featuredImagePosition: "center 22%"
 imageCredit: "Lauren Palmer (@laurenpmedia)"
 column: "The Podium Report"
+socialImage: "/images/stories/state-breakdown-2026/D4_cover.png"
 ---
 *Ansonia senior Bennett Lehman won the Southwest Regional in 15:28.0. Saturday he goes for a second state title. Photo: Lauren Palmer (@laurenpmedia)*
 
@@ -199,6 +200,8 @@ Projected · not official. Scored on Oct. 31 regional times across four courses.
 
 Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
 
+![Division IV boys season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D4_boys_season_best.png)
+
 **Boys.** Bennett Lehman is still the fastest boy in the field at 15:21.1. The Boardman and Tiffin winners move up behind him: Owen Cappuzello (15:24.1), Derek Young (15:26.2) and Nigel Wenger (15:29.7) all have faster season bests than the Troy pair of Paxson Bixler and Stephen Wojtowicz. Russia senior Samuel Phlipot climbs from 13th by regional time to 7th.
 
 | # | Runner | School | Season best | Regional |
@@ -222,6 +225,8 @@ Regionals were one race on one course. Season bests use each runner's fastest 20
 | Tinora | 4th, 164 | 5th |
 | Botkins | 5th, 182 | 4th |
 | Legacy Christian | 6th, 191 | 3rd |
+
+![Division IV girls season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D4_girls_season_best.png)
 
 **Girls.** Natalie Nixon's 17:15.4 season best is 36.9 seconds faster than anyone else in the field. Naomi Sheesley is 2nd at 17:52.3 and Colbie Strayer 3rd at 18:09.2. Seven Hills senior Campbell Coyne moves from 7th by regional time to 4th.
 

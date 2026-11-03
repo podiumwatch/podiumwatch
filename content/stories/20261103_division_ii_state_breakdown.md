@@ -18,6 +18,7 @@ featuredImage: "/images/stories/state-breakdown-2026/b-d2b-westgeauga-3798-nordo
 featuredImageAlt: "Ian Res of West Geauga and Anderson Seredick of Nordonia in the final stretch at Boardman"
 imageCredit: "Christian Lisle (@lislephotog)"
 column: "The Podium Report"
+socialImage: "/images/stories/state-breakdown-2026/D2_cover.png"
 ---
 *West Geauga's Ian Res and Nordonia's Anderson Seredick in the final stretch at Boardman. Res won by 1.5 seconds. Photo: Christian Lisle (@lislephotog)*
 
@@ -184,6 +185,8 @@ Projected · not official. Scored on Oct. 31 regional times across four courses.
 
 Regionals were one race on one course. Season bests use each runner's fastest 2026 time from the Podium Watch season-best roster, the Oct. 24 district or the Oct. 31 regional, whichever is fastest, as of Oct. 31 at 7:00 PM ET. Different courses, not course-adjusted, so it is Projected · not official.
 
+![Division II boys season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D2_boys_season_best.png)
+
 **Boys.** On season bests Turpin junior Carson Spencer is the fastest boy in the field at 15:08.3, and Russell Stine moves from 1st to 4th. Calvin Heithaus (15:13.4) and Steven Owen (15:16.9) are 2nd and 3rd, and the first seven are all under 15:22. Loveland senior Ian Trombley makes the biggest jump, from 16th by regional time to 8th.
 
 | # | Runner | School | Season best | Regional |
@@ -207,6 +210,8 @@ Regionals were one race on one course. Season bests use each runner's fastest 20
 | Big Walnut | 4th, 212.5 | 3rd |
 | Turpin | 5th, 226.5 | 8th |
 | Kenston | 6th, 233.5 | 6th |
+
+![Division II girls season-best view: top 8 runners and team projection. Projected, not official.](/images/stories/state-breakdown-2026/D2_girls_season_best.png)
 
 **Girls.** Aurora sophomore Audrey Miller has the fastest season best in the field, 17:17.6, with Julia Bocik (17:20.6) and Elle Miesse (17:27.6) next. The sophomore story holds up: five of the top eight on season bests are sophomores. Canal Winchester senior Peyton Hughey climbs from 11th by regional time to 5th.
 
