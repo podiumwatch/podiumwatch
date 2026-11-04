@@ -572,13 +572,6 @@ function homePage(stories, rankings) {
        copy). The page itself and /apply/ are unchanged and still work;
        this only removes the homepage promotion. -->
 
-  <!-- Media-credibility audit (2026-10-28): the Photographer Network
-       promo (0 photographers published) and the State Meet Media
-       Correspondent promo (role filled -- see /apply/state-meet-
-       correspondent/) were both removed from the homepage per the
-       audit. Neither page/feature was deleted; both routes still work,
-       just not promoted here anymore. -->
-
   <section class="section section-paper" aria-labelledby="voting-title">
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Voting</p><h2 id="voting-title">Have your say.</h2></div></div>
@@ -980,6 +973,7 @@ const STAFF = [
   { name: "Logan Eggert", title: "Writer" },
   { name: "Matthew Lee", title: "Writer" },
   { name: "Matt McKenzie", title: "Contributing Photographer" },
+  { name: "Koby Peace", title: "Contributing Photographer" },
   { name: "Alexander Schulz", title: "Contributing Photographer" },
   { name: "Christian Lisle", title: "Contributing Photographer", instagramUrl: "https://instagram.com/lislephotog", instagramHandle: "@lislephotog", websiteUrl: "https://lislephoto.com", websiteLabel: "lislephoto.com" },
   { name: "Lauren Palmer", title: "Contributing Photographer", instagramUrl: "https://instagram.com/laurenpmedia", instagramHandle: "@laurenpmedia" }
