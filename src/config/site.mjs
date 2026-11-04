@@ -253,7 +253,11 @@ export const NOINDEX_FOLLOW_PREFIXES = [
   // were named). Those two get `robots` set directly on their own
   // layout() call instead -- see src/pages or scripts/build.mjs's
   // recruiting index/methodology page generators.
-  "/photographers/"
+  "/photographers/",
+  // State Meet Media Correspondent application (2026-11-04, Zachary):
+  // role filled. The form still works by direct URL but stays out of
+  // search engines, the sitemap and site search.
+  "/apply/state-meet-correspondent/"
 ];
 
 // Exact paths (not prefixes) excluded from the sitemap only -- each of
