@@ -3,7 +3,7 @@ title: "2026 Boys Division II Preseason Top 20: CVCA Has the Lead, Not the Luxur
 date: "2026-08-24"
 description: "CVCA leads Lexington and Massillon Perry, with a title race that could turn on whether the challengers close their largest fifth runner gaps."
 category: "Cross Country"
-author: "Podium Watch"
+author: "Matthew Lee"
 type: "Rankings"
 slug: "2026-preseason-boys-d2-top-20"
 tags:

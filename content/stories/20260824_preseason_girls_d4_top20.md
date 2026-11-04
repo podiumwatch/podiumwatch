@@ -3,7 +3,7 @@ title: "2026 Girls Division IV Preseason Top 20: Ottawa Hills Leads a Crowded Ch
 date: "2026-08-24"
 description: "Ottawa Hills opens at number one, while Liberty Center, Rittman, and Grandview Heights begin only 11 points apart behind the favorite."
 category: "Cross Country"
-author: "Podium Watch"
+author: "Matthew Lee"
 type: "Rankings"
 slug: "2026-preseason-girls-d4-top-20"
 tags:

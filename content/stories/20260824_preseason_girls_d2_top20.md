@@ -3,7 +3,7 @@ title: "2026 Girls Division II Preseason Top 20: Watterson Starts With Room to B
 date: "2026-08-24"
 description: "Watterson owns the largest opening advantage in any of the eight preseason races, while Wadsworth, Avon, Aurora, Granville, and Bay organize the chase."
 category: "Cross Country"
-author: "Podium Watch"
+author: "Matthew Lee"
 type: "Rankings"
 slug: "2026-preseason-girls-d2-top-20"
 tags:
