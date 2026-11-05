@@ -6,7 +6,7 @@ category: "Cross Country"
 author: "Podium Watch"
 slug: "pre-state-coaches-poll-2026"
 featured: false
-draft: false
+draft: true
 updatedDate: "2026-11-05"
 type: "Rankings"
 divisions: "All"
