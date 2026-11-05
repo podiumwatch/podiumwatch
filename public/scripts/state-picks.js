@@ -12,6 +12,32 @@
   const countLine = root.querySelector("[data-spk-count]");
   const storageKey = "pw-state-picks-2026";
 
+  const logos = field.logos || {};
+  // A small school logo in front of a team name, when the site has one.
+  function teamNode(team) {
+    const frag = document.createDocumentFragment();
+    if (logos[team]) {
+      const img = document.createElement("img");
+      img.className = "spk-logo-sm";
+      img.src = logos[team];
+      img.alt = "";
+      img.width = 22;
+      img.height = 22;
+      img.loading = "lazy";
+      frag.append(img);
+    }
+    frag.append(document.createTextNode(team));
+    return frag;
+  }
+
+  function syncLogo(select) {
+    const img = select.parentElement.querySelector("[data-spk-logo]");
+    if (!img) return;
+    const src = logos[select.value];
+    if (src) img.src = src;
+    img.hidden = !src;
+  }
+
   const read = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
   const write = (key, value) => { try { localStorage.setItem(key, value); } catch { /* private window */ } };
 
@@ -38,7 +64,7 @@
       const li = document.createElement("li");
       const label = document.createElement("span");
       label.textContent = `${race.label}: `;
-      li.append(label, document.createTextNode(saved.picks[race.key] || "--"));
+      li.append(label, saved.picks[race.key] ? teamNode(saved.picks[race.key]) : document.createTextNode("--"));
       return li;
     }));
     box.hidden = false;
@@ -50,6 +76,12 @@
     form.elements.name.value = saved.name || "";
     for (const race of field.races) if (saved.picks?.[race.key]) form.elements[race.key].value = saved.picks[race.key];
     showMine(saved);
+  }
+  for (const race of field.races) {
+    const select = form?.elements[race.key];
+    if (!select) continue;
+    syncLogo(select);
+    select.addEventListener("change", () => syncLogo(select));
   }
 
   function renderResults(data) {
@@ -67,7 +99,7 @@
         const li = document.createElement("li");
         const b = document.createElement("b");
         b.textContent = ` ${row.count} (${Math.round((row.count / Math.max(data.count, 1)) * 100)}%)`;
-        li.append(document.createTextNode(row.team), b);
+        li.append(teamNode(row.team), b);
         ol.append(li);
       }
       if (!race.teams.length) ol.append(Object.assign(document.createElement("li"), { textContent: "No picks" }));
@@ -81,9 +113,13 @@
       const needle = filter.trim().toLowerCase();
       rows.replaceChildren(...data.entries.filter((entry) => !needle || entry.name.toLowerCase().includes(needle)).map((entry) => {
         const tr = document.createElement("tr");
-        for (const value of [entry.name, ...field.races.map((race) => entry.picks?.[race.key] || "--")]) {
+        const nameCell = document.createElement("td");
+        nameCell.textContent = entry.name;
+        tr.append(nameCell);
+        for (const race of field.races) {
           const td = document.createElement("td");
-          td.textContent = value;
+          const team = entry.picks?.[race.key];
+          td.append(team ? teamNode(team) : document.createTextNode("--"));
           tr.append(td);
         }
         return tr;

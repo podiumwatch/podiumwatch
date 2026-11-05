@@ -1,12 +1,16 @@
 import { escapeHtml } from "../lib/content.mjs";
 import { layout, pageHero } from "../lib/html.mjs";
+import logoManifest from "../data/mock-postseason-logo-manifest-2026.json" with { type: "json" };
 
 // Public State Meet Picks page (2026-11-05): readers pick the team champion
 // of all eight 2026 state races and put a name on it. Picks lock at the
 // start of the first race; then every entry shows here. Race list and team
 // names come from public/data/state-picks-2026.json (the real state
 // qualifiers). Logic: public/scripts/state-picks.js and
-// lib/state_picks_service.mjs.
+// lib/state_picks_service.mjs. School logos (2026-11-05) are the same
+// hand-matched set the Mock Postseason pages use
+// (mock-postseason-logo-manifest-2026.json); a team without one just
+// shows its name.
 const styles = `
     .spk-shell { display:grid; gap:22px; }
     .spk-card { padding:20px; border:1px solid var(--line); background:var(--white); }
@@ -18,6 +22,11 @@ const styles = `
     .spk-form input, .spk-form select { width:100%; padding:10px 12px; border:1px solid rgba(var(--black-rgb),.22); border-radius:9px; background:var(--white); font:inherit; }
     .spk-form input:focus, .spk-form select:focus { outline:3px solid var(--green); outline-offset:1px; }
     .spk-races { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+    .spk-select { display:flex; align-items:center; gap:10px; }
+    .spk-select select { flex:1 1 auto; min-width:0; }
+    .spk-logo { flex:0 0 auto; width:32px; height:32px; object-fit:contain; }
+    .spk-logo-sm { display:inline-block; width:22px; height:22px; vertical-align:-6px; margin-right:6px; object-fit:contain; }
+    .spk-mine li .spk-logo-sm { margin-left:4px; }
     .spk-hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
     .spk-submit { justify-self:start; padding:12px 22px; border:0; border-radius:999px; background:var(--green); color:var(--black); font:inherit; font-weight:900; cursor:pointer; }
     .spk-submit[disabled] { opacity:.6; cursor:wait; }
@@ -42,11 +51,14 @@ const styles = `
 
 export function statePicksPage(site, field) {
   const lockLabel = "10:00 AM ET on Saturday, Nov. 7";
+  const logos = {};
+  for (const race of field.races) for (const team of race.teams) if (logoManifest[team]) logos[team] = `/images/mock-postseason-logos/schools/${logoManifest[team].slug}.png`;
   const raceFields = field.races.map((race) => `<label>${escapeHtml(race.label)}
+            <span class="spk-select"><img class="spk-logo" data-spk-logo alt="" width="32" height="32" hidden>
             <select name="${escapeHtml(race.key)}" required>
               <option value="">Pick a champion</option>
               ${race.teams.map((team) => `<option value="${escapeHtml(team)}">${escapeHtml(team)}</option>`).join("")}
-            </select>
+            </select></span>
           </label>`).join("\n          ");
 
   const content = `<style>${styles}</style>
@@ -91,7 +103,7 @@ export function statePicksPage(site, field) {
       <p class="spk-note">Fan picks, not Podium Watch predictions. Each race lists the teams that qualified for state at the Oct. 31 regionals.</p>
     </div>
   </section>
-  <script type="application/json" id="state-picks-field">${JSON.stringify({ lockAt: field.lockAt, races: field.races.map(({ key, label }) => ({ key, label })) }).replace(/</g, "\\u003c")}</script>
+  <script type="application/json" id="state-picks-field">${JSON.stringify({ lockAt: field.lockAt, races: field.races.map(({ key, label }) => ({ key, label })), logos }).replace(/</g, "\\u003c")}</script>
   <script src="/scripts/state-picks.js" defer></script>
   <script src="/scripts/page-view.js" defer></script>`;
 
