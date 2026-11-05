@@ -587,6 +587,9 @@ p { margin-top: 0; }
 .home-breakdowns { padding:4px 0 6px; }
 .home-breakdowns .home-section-title { margin-top:18px; margin-bottom:14px; }
 .home-breakdowns-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+/* Five cards (2026-11-05: "Is No. 1 Safe?" leads the four division
+   breakdowns) sit in one row on wide screens. */
+@media (min-width: 1001px) { .home-breakdowns-grid:has(> :nth-child(5)) { grid-template-columns:repeat(5,minmax(0,1fr)); } }
 .home-breakdowns .story-card { grid-column:auto; }
 .home-breakdowns .story-card-body { padding:16px 18px 18px; }
 .home-breakdowns .story-card h3 { display:block; -webkit-line-clamp:unset; overflow:visible; font-size:1.05rem; }

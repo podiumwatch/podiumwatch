@@ -371,6 +371,19 @@ export function storyType(story) {
   return STORY_TYPES.includes(story.type) ? story.type : "News";
 }
 
+// Inline style for a story's lead image wherever it is shown. Adds
+// featuredImagePosition (see storyCard below) and, new 2026-11-05, an
+// optional featuredImageFit: "contain" for a title graphic that must
+// never be cropped (text and photo credit printed on the image). The
+// story header then keeps the image's own shape; 16:9 cards letterbox
+// it on black instead of cropping. Omit both fields and nothing changes.
+export function storyImageStyle(story, { hero = false } = {}) {
+  const parts = [];
+  if (story?.featuredImageFit === "contain") parts.push(hero ? "aspect-ratio:auto;object-fit:contain" : "object-fit:contain;background:#090909");
+  else if (story?.featuredImagePosition) parts.push(`object-position:${escapeHtml(story.featuredImagePosition)}`);
+  return parts.length ? ` style="${parts.join(";")}"` : "";
+}
+
 export function storyCard(story, { featured = false } = {}) {
   const fallback = storyFallbackImage(story.category);
   const image = story.heroImage || story.featuredImage || fallback;
@@ -382,7 +395,7 @@ export function storyCard(story, { featured = false } = {}) {
   // object-position syntax; omit the field and nothing changes from
   // today's center-crop behavior. Added 2026-09-30 after a portrait
   // photo's subject kept losing her face to a dead-center crop.
-  const positionStyle = story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : "";
+  const positionStyle = storyImageStyle(story);
   return `<article class="story-card${featured ? " story-card-featured" : ""}" data-story-card data-category="${escapeHtml(story.category.toLowerCase())}" data-type="${escapeHtml(type.toLowerCase())}" data-search="${escapeHtml(`${story.title} ${story.description} ${story.category} ${type} ${(story.tags || []).join(" ")}`.toLowerCase())}">
     <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}">
       <img src="${image}" data-fallback="${fallback}" alt="${escapeHtml(story.featuredImageAlt || "")}" loading="lazy" width="960" height="540"${positionStyle}>

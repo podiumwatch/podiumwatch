@@ -53,6 +53,7 @@ import {
   storyBylineHtml,
   storyCard,
   storyFallbackImage,
+  storyImageStyle,
   storyType,
   websiteJsonLd
 } from "../src/lib/html.mjs";
@@ -429,7 +430,6 @@ function homePage(stories, rankings) {
   const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
   const leadHref = featuredStory ? `/stories/${featuredStory.slug}/` : "/rankings/";
   const leadImage = featuredStory?.featuredImage || storyFallbackImage(featuredStory?.category);
-  const leadImagePosition = featuredStory?.featuredImagePosition || "";
   // Real, official OATCCC coaches poll data (top 4 teams per
   // classification, from that poll's own most recent week) -- replaced
   // Podium Watch's own simulated preseason power rankings here
@@ -483,10 +483,10 @@ function homePage(stories, rankings) {
     <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
     <div class="home-breakdowns-grid">
       ${stateBreakdowns.map((story) => `<article class="story-card">
-        <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}></a>
+        <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${storyImageStyle(story)}></a>
         ${story.imageCredit ? `<p class="home-breakdown-credit">Photo: ${escapeHtml(story.imageCredit)}</p>` : ""}
         <div class="story-card-body">
-          <div class="story-meta"><span class="category">Division ${escapeHtml(story.divisions)}</span><span>${formatDate(story.date)}</span></div>
+          <div class="story-meta"><span class="category">${/^(I|II|III|IV)$/.test(story.divisions) ? `Division ${escapeHtml(story.divisions)}` : "All Divisions"}</span><span>${formatDate(story.date)}</span></div>
           <h3><a href="/stories/${story.slug}/">${escapeHtml(story.title)}</a></h3>
           <p>${escapeHtml(story.description)}</p>
           <a class="read-link" href="/stories/${story.slug}/">Read the breakdown ${icon("arrow")}</a>
@@ -495,7 +495,7 @@ function homePage(stories, rankings) {
     </div>
   </div></section>` : "";
   const content = `${stateBreakdownsSection}<section class="home-hero-news"><div class="container">
-    <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager" fetchpriority="high"${leadImagePosition ? ` style="object-position:${escapeHtml(leadImagePosition)}"` : ""}></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
+    <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager" fetchpriority="high"${storyImageStyle(featuredStory)}></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
   </div></section>
 
   <section class="section section-paper" aria-labelledby="latest-stories-title">
@@ -735,13 +735,13 @@ function storyPage(story, stories) {
   const seriesLabel = story.seriesLabel || story.series?.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   const seriesBar = seriesMembers.length > 1 ? `<nav class="sp-series" aria-label="${escapeHtml(seriesLabel)}"><div class="container sp-series-inner">
     <span class="sp-series-label">${escapeHtml(seriesLabel)}</span>
-    ${seriesMembers.map((item) => `<a href="/stories/${item.slug}/"${item.slug === story.slug ? " aria-current=\"page\"" : ""}>${escapeHtml(item.seriesLabel || item.title.split(":")[0])}</a>`).join("")}
+    ${seriesMembers.map((item) => `<a href="/stories/${item.slug}/"${item.slug === story.slug ? " aria-current=\"page\"" : ""}>${escapeHtml(item.seriesNavLabel || item.seriesLabel || item.title.split(":")[0])}</a>`).join("")}
   </div></nav>` : "";
 
   // Hero: real hero image with a 16:9 crop, or a branded black title
   // card instead of an empty box when a story has no hero image.
   const heroArt = heroImage
-    ? `<figure class="sp-hero-art"><div class="sp-wide"><img src="${heroImage}" data-fallback="${fallback}" data-check-hero-width="true" alt="${escapeHtml(story.heroAlt || story.featuredImageAlt || "")}" width="1600" height="900" loading="eager" fetchpriority="high"${story.featuredImagePosition ? ` style="object-position:${escapeHtml(story.featuredImagePosition)}"` : ""}></div>${(story.heroCaption || story.heroCredit) ? `<figcaption>${story.heroCaption ? escapeHtml(story.heroCaption) : ""}${story.heroCredit ? `<span class="sp-credit">${escapeHtml(story.heroCredit)}</span>` : ""}</figcaption>` : ""}</figure>`
+    ? `<figure class="sp-hero-art"><div class="sp-wide"><img src="${heroImage}" data-fallback="${fallback}" data-check-hero-width="true" alt="${escapeHtml(story.heroAlt || story.featuredImageAlt || "")}" width="1600" height="900" loading="eager" fetchpriority="high"${storyImageStyle(story, { hero: true })}></div>${(story.heroCaption || story.heroCredit) ? `<figcaption>${story.heroCaption ? escapeHtml(story.heroCaption) : ""}${story.heroCredit ? `<span class="sp-credit">${escapeHtml(story.heroCredit)}</span>` : ""}</figcaption>` : ""}</figure>`
     : `<figure class="sp-hero-art"><div class="sp-wide"><div class="sp-hero-art-fallback"><img src="${site.logoLight || site.logo}" alt=""><span>${escapeHtml(story.title)}</span></div></div></figure>`;
 
   const genuinelyUpdated = (story.updated || (story.updatedDate && story.updatedDate !== story.date)) ? (story.updated || story.updatedDate) : null;
@@ -767,7 +767,7 @@ function storyPage(story, stories) {
     : relatedPool.filter((item) => storyType(item) === type).slice(0, 3);
   const relatedTitle = story.series ? `More from ${seriesLabel}` : "More from Podium Watch";
   const relatedBlock = related.length ? `<section class="sp-related"><div class="sp-wide"><h2>${escapeHtml(relatedTitle)}</h2><div class="sp-cards">
-    ${related.map((item) => `<a class="sp-card" href="/stories/${item.slug}/"><img src="${item.heroImage || item.featuredImage || storyFallbackImage(item.category)}" alt="" width="640" height="360"><div><span class="sp-k">${escapeHtml(storyType(item))}</span><h3>${escapeHtml(item.title)}</h3></div></a>`).join("")}
+    ${related.map((item) => `<a class="sp-card" href="/stories/${item.slug}/"><img src="${item.heroImage || item.featuredImage || storyFallbackImage(item.category)}" alt="" width="640" height="360"${storyImageStyle(item)}><div><span class="sp-k">${escapeHtml(storyType(item))}</span><h3>${escapeHtml(item.title)}</h3></div></a>`).join("")}
   </div></div></section>` : "";
 
   const navigation = newer || older ? `<nav class="story-nav" aria-label="Story navigation">${newer ? `<a href="/stories/${newer.slug}/"><span>Newer story</span><strong>${escapeHtml(newer.title)}</strong></a>` : "<span></span>"}${older ? `<a href="/stories/${older.slug}/"><span>Older story</span><strong>${escapeHtml(older.title)}</strong></a>` : ""}</nav>` : "";
@@ -791,7 +791,7 @@ function storyPage(story, stories) {
   ${seriesBar}
   <div id="sp-story-top">
   <header class="sp-head"><div class="sp-col">
-    <p class="sp-kicker">${escapeHtml(type)}${story.divisions ? ` &middot; Division ${story.divisions}` : ""}</p>
+    <p class="sp-kicker">${escapeHtml(type)}${story.divisions ? ` &middot; ${story.divisions === "All" ? "All Divisions" : `Division ${story.divisions}`}` : ""}</p>
     <h1>${escapeHtml(story.title)}</h1>
     <p class="sp-dek">${escapeHtml(story.description)}</p>
     <div class="sp-byline">
