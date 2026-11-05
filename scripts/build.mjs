@@ -136,6 +136,8 @@ import { recruitingMethodologyPage } from "../src/pages/recruitingmethodology.mj
 import { submitRecruitingActivityPage } from "../src/pages/submitrecruitingactivity.mjs";
 import { applyPage } from "../src/pages/apply.mjs";
 import { applyStateMeetCorrespondentPage } from "../src/pages/applystatemeetcorrespondent.mjs";
+import { statePicksPage } from "../src/pages/statepicks.mjs";
+import statePicksField from "../public/data/state-picks-2026.json" with { type: "json" };
 import { writerLoginPage } from "../src/pages/writerlogin.mjs";
 import { writerPortalPage } from "../src/pages/writerportal.mjs";
 import { writerPortalProfilePage } from "../src/pages/writerportalprofile.mjs";
@@ -481,6 +483,7 @@ function homePage(stories, rankings) {
   const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
   const stateBreakdownsSection = stateBreakdowns.length ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
     <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
+    <a class="home-picks-callout" href="/state-picks/"><strong>Pick all 8 state champions</strong><span>Put your name on it. Picks lock when the first race starts Saturday at 10:00 AM. ${icon("arrow")}</span></a>
     <div class="home-breakdowns-grid">
       ${stateBreakdowns.map((story) => `<article class="story-card">
         <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${storyImageStyle(story)}></a>
@@ -1166,6 +1169,7 @@ await writePage("/recruiting/top-250/girls-cross-country/", recruitingTop250XcPa
 await writePage("/recruiting/submit-activity/", submitRecruitingActivityPage(site));
 await writePage("/apply/", applyPage(site));
 await writePage("/apply/state-meet-correspondent/", applyStateMeetCorrespondentPage(site));
+await writePage("/state-picks/", statePicksPage(site, statePicksField));
 await writePage("/writer-login/", writerLoginPage(site));
 await writePage("/writer-portal/", writerPortalPage(site));
 await writePage("/writer-portal/profile/", writerPortalProfilePage(site));
@@ -1239,6 +1243,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   const searchIndex = [
     { type: "Page", title: "Home", subtitle: site.description, href: "/", searchText: "Ohio cross country track running home" },
     { type: "Page", title: "Rankings", subtitle: "Ohio cross country and track rankings", href: "/rankings/", searchText: "rankings boys girls divisions cross country track field" },
+    { type: "Page", title: "State Meet Picks", subtitle: "Pick all 8 state cross country team champions", href: "/state-picks/", searchText: "state meet picks predict champions contest obetz" },
     { type: "Page", title: "Ranking Methodology", subtitle: "How Podium Watch rankings are created", href: "/rankings/methodology/", searchText: "ranking method sources corrections projections verified" },
     { type: "Page", title: "Meet Center", subtitle: "Meets, schedules, and results", href: "/meets/", searchText: "meets results schedule timing course" },
     { type: "Page", title: "Team Directory", subtitle: "Ohio team profiles", href: "/teams/", searchText: "teams schools coaches rosters schedules results" },
