@@ -23,8 +23,6 @@ featuredImageAlt: "Quintin Parrish (center, red Van Wert singlet) in the Divisio
 imageCredit: "Quintin Parrish (@q.parrish_09)"
 column: "The Podium Report"
 ---
-*The Van Wert senior went from a hospital bed to the Division III state meet, and his points helped Van Wert finish ninth in Division III.*
-
 Eighteen months ago, Quintin Parrish was in the hospital.
 
 "I was fighting for my health and well being in the hospital, open bypass heart surgery," the Van Wert senior wrote on Instagram after the race. "I had one goal to JUST RUN, and I have achieved that goal and so much more through the grace of God."
