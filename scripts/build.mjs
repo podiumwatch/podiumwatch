@@ -138,6 +138,9 @@ import { applyPage } from "../src/pages/apply.mjs";
 import { applyStateMeetCorrespondentPage } from "../src/pages/applystatemeetcorrespondent.mjs";
 import { statePicksPage } from "../src/pages/statepicks.mjs";
 import statePicksField from "../public/data/state-picks-2026.json" with { type: "json" };
+import { yearlyAwardsCategoryPage, yearlyAwardsHubPage } from "../src/pages/yearlyawards2026.mjs";
+import { adminAwards2026Page } from "../src/pages/adminawards2026.mjs";
+import yearlyAwardsPool from "../public/data/yearly-awards-2026-pool.json" with { type: "json" };
 import { writerLoginPage } from "../src/pages/writerlogin.mjs";
 import { writerPortalPage } from "../src/pages/writerportal.mjs";
 import { writerPortalProfilePage } from "../src/pages/writerportalprofile.mjs";
@@ -483,7 +486,7 @@ function homePage(stories, rankings) {
   const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
   const stateBreakdownsSection = stateBreakdowns.length ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
     <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
-    <a class="home-picks-callout" href="/state-picks/"><strong>Pick all 8 state champions</strong><span>Put your name on it. Picks lock when the first race starts Saturday at 10:00 AM. ${icon("arrow")}</span></a>
+    <a class="home-picks-callout" href="/awards/2026/"><strong>Nominate the 2026 Athletes and Teams of the Year</strong><span>16 categories, boys and girls, Divisions I to IV. Nominations close Monday at 9:00 PM ET. ${icon("arrow")}</span></a>
     <div class="home-breakdowns-grid">
       ${stateBreakdowns.map((story) => `<article class="story-card">
         <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${storyImageStyle(story)}></a>
@@ -1090,6 +1093,7 @@ await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
 await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
 await writePage("/admin/fan-poll/", adminFanPollPage(site));
 await writePage("/admin/awards/", adminAwardsPage(site));
+await writePage("/admin/awards/2026/", adminAwards2026Page(site));
 await writePage("/admin/path-to-state/", adminPathToStatePage(site));
 await writePage("/fan-poll/", fanPollIndexPage(site).html);
 // Only cross country is turned on for voters right now -- see
@@ -1170,6 +1174,8 @@ await writePage("/recruiting/submit-activity/", submitRecruitingActivityPage(sit
 await writePage("/apply/", applyPage(site));
 await writePage("/apply/state-meet-correspondent/", applyStateMeetCorrespondentPage(site));
 await writePage("/state-picks/", statePicksPage(site, statePicksField));
+await writePage("/awards/2026/", yearlyAwardsHubPage(site, yearlyAwardsPool));
+for (const category of yearlyAwardsPool.categories) await writePage(`/awards/2026/${category.slug}/`, yearlyAwardsCategoryPage(site, yearlyAwardsPool, category));
 await writePage("/writer-login/", writerLoginPage(site));
 await writePage("/writer-portal/", writerPortalPage(site));
 await writePage("/writer-portal/profile/", writerPortalProfilePage(site));
@@ -1243,6 +1249,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   const searchIndex = [
     { type: "Page", title: "Home", subtitle: site.description, href: "/", searchText: "Ohio cross country track running home" },
     { type: "Page", title: "Rankings", subtitle: "Ohio cross country and track rankings", href: "/rankings/", searchText: "rankings boys girls divisions cross country track field" },
+    { type: "Page", title: "2026 Athlete and Team of the Year", subtitle: "Nominate and vote for the 2026 Ohio cross country Athletes and Teams of the Year", href: "/awards/2026/", searchText: "athlete of the year team of the year awards nominate vote 2026" },
     { type: "Page", title: "State Meet Picks", subtitle: "Pick all 8 state cross country team champions", href: "/state-picks/", searchText: "state meet picks predict champions contest obetz" },
     { type: "Page", title: "Ranking Methodology", subtitle: "How Podium Watch rankings are created", href: "/rankings/methodology/", searchText: "ranking method sources corrections projections verified" },
     { type: "Page", title: "Meet Center", subtitle: "Meets, schedules, and results", href: "/meets/", searchText: "meets results schedule timing course" },
