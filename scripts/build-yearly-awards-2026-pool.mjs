@@ -1,4 +1,4 @@
-// One-off generator for the 2026 Athlete/Team of the Year nominee pool
+// One-off generator for the 2026 Athlete/Team/Coach of the Year nominee pool
 // (public/data/yearly-awards-2026-pool.json). Not part of the build.
 //
 //   node scripts/build-yearly-awards-2026-pool.mjs <ohio-schools.json>
@@ -145,10 +145,42 @@ for (const [key, race] of Object.entries(field.stateResults)) {
   }).sort((a, b) => a.name.localeCompare(b.name));
 }
 
+// Coach of the Year: open to every Ohio school, not just state teams.
+// Schools are filed by their ohio_schools division, which is the boys
+// cross country division. A girls program whose 2026 state meet division
+// is known (a matched state team above) is filed in that division instead.
+// Zachary chose this split (2026-11-08); the coach's name is typed by the
+// nominator, since Podium Watch doesn't have every coach.
+const coaches = {};
+const girlsStateDivision = new Map();
+for (const [slug, list] of Object.entries(teams)) {
+  if (!slug.startsWith("team-girls-")) continue;
+  for (const team of list) if (team.schoolId) girlsStateDivision.set(team.schoolId, Number(slug.slice(-1)));
+}
+const nameCounts = new Map();
+for (const school of schools) nameCounts.set(norm(school.school_name), (nameCounts.get(norm(school.school_name)) || 0) + 1);
+for (const gender of ["boys", "girls"]) {
+  for (const division of [1, 2, 3, 4]) {
+    const slug = `coach-${gender}-d${division}`;
+    categories.push({ slug, award: "coach", gender, division, label: `${gender === "boys" ? "Boys" : "Girls"} Division ${ROMAN[division]} Coach of the Year` });
+    coaches[slug] = [];
+  }
+}
+for (const school of schools) {
+  const boysDivision = romanDivision(school.division);
+  if (!boysDivision) { flags.notes.push(`No division for ${school.school_name} (${school.city}); left out of Coach of the Year`); continue; }
+  const girlsDivision = girlsStateDivision.get(school.id) || boysDivision;
+  const entry = { id: school.id, schoolId: school.id, name: nameCounts.get(norm(school.school_name)) > 1 ? `${school.school_name} (${school.city})` : school.school_name, city: school.city || null };
+  coaches[`coach-boys-d${boysDivision}`].push(entry);
+  coaches[`coach-girls-d${girlsDivision}`].push(entry);
+  if (girlsDivision !== boysDivision) flags.notes.push(`Girls coach: ${school.school_name} filed in Division ${ROMAN[girlsDivision]} (2026 state meet), boys in Division ${ROMAN[boysDivision]}`);
+}
+for (const list of Object.values(coaches)) list.sort((a, b) => a.name.localeCompare(b.name));
+
 for (const id of Object.keys(NAME_OVERRIDES)) if (!seen.has(id)) flags.notes.push(`Name override ${id} matched no qualifier`);
 flags.notes.push("Spitzer (Versailles): only Tony Spitzer (23658795) is in the 2026 state field; no Anthony Spitzer entry exists to merge.");
 
-const out = { generatedAt: new Date().toISOString(), source: "2026 state field (mock-postseason-2026-real.json) with official Oct. 31 regional results", categories, athletes, teams, flags };
+const out = { generatedAt: new Date().toISOString(), source: "2026 state field (mock-postseason-2026-real.json) with official Oct. 31 regional results", categories, athletes, teams, coaches, flags };
 fs.writeFileSync(path.join(root, "public/data/yearly-awards-2026-pool.json"), JSON.stringify(out, null, 1) + "\n");
-console.log("athletes", Object.values(athletes).reduce((n, list) => n + list.length, 0), "teams", Object.values(teams).reduce((n, list) => n + list.length, 0));
+console.log("athletes", Object.values(athletes).reduce((n, list) => n + list.length, 0), "teams", Object.values(teams).reduce((n, list) => n + list.length, 0), "coach programs", Object.values(coaches).reduce((n, list) => n + list.length, 0));
 console.log(JSON.stringify(flags, null, 2));

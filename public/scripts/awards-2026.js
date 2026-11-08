@@ -1,4 +1,4 @@
-// 2026 Athlete/Team of the Year pages (src/pages/yearlyawards2026.mjs).
+// 2026 Athlete/Team/Coach of the Year pages (src/pages/yearlyawards2026.mjs).
 // Works out each category's status from the clock (same rules as
 // categoryStatus in lib/yearly_awards_2026.mjs), refreshes the schedule
 // from /api/awards-2026/status/, and runs the nomination search and form.
@@ -147,12 +147,13 @@
 
   // Search and nominate.
   const isAthlete = data.award === "athlete";
-  const pool = data.pool.map((row) => (isAthlete
+  const isCoach = data.award === "coach";
+  const pool = data.pool.map((row) => (isCoach ? { id: row[0], name: row[1], city: row[2] } : isAthlete
     ? { id: row[0], name: row[1], school: row[2], grade: row[3], seasonBest: row[4], place: row[5], regional: row[6] }
     : { id: row[0], name: row[1], place: row[2], score: row[3], regional: row[4] }));
   const normalize = (value) => String(value || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9 ]/g, "");
   const ordinal = (n) => { const v = Number(n); if (!Number.isFinite(v)) return ""; const t = v % 100; return v + (t >= 11 && t <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" })[v % 10] || "th"); };
-  const detail = (item) => (isAthlete
+  const detail = (item) => (isCoach ? (item.city && !normalize(item.name).startsWith(normalize(item.city)) ? item.city : "") : isAthlete
     ? [item.school, item.grade ? `Grade ${item.grade}` : "", item.seasonBest ? `SB ${item.seasonBest}` : "", item.place ? `${ordinal(item.place)} at ${item.regional} regional` : ""].filter(Boolean).join(" · ")
     : [item.place ? `${ordinal(item.place)} at ${item.regional} regional` : "", item.score != null ? `${item.score} points` : ""].filter(Boolean).join(" · "));
 
@@ -177,11 +178,11 @@
     results.replaceChildren();
     if (!q) return;
     const words = q.split(/\s+/);
-    const matches = pool.filter((item) => { const hay = normalize(`${item.name} ${item.school || ""}`); return words.every((word) => hay.includes(word)); }).slice(0, 25);
+    const matches = pool.filter((item) => { const hay = normalize(`${item.name} ${item.school || ""} ${item.city || ""}`); return words.every((word) => hay.includes(word)); }).slice(0, 25);
     if (!matches.length) {
       const li = document.createElement("li");
       li.className = "yoy-hint";
-      li.textContent = `No ${isAthlete ? "state qualifier" : "state-qualifying team"} in this division matches "${search.value.trim()}".`;
+      li.textContent = isCoach ? `No school in this division matches "${search.value.trim()}". It may be listed in another division.` : `No ${isAthlete ? "state qualifier" : "state-qualifying team"} in this division matches "${search.value.trim()}".`;
       results.append(li);
       return;
     }
@@ -233,7 +234,9 @@
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (statusOf(category) !== "nominations_open") { setMessage("Nominations for this category are closed.", true); return; }
-    if (!choice) { setMessage(`Search and pick ${isAthlete ? "an athlete" : "a team"} first.`, true); search.focus(); return; }
+    if (!choice) { setMessage(`Search and pick ${isAthlete ? "an athlete" : isCoach ? "a school" : "a team"} first.`, true); search.focus(); return; }
+    const coachInput = form.elements.coach_name;
+    if (isCoach && coachInput.value.trim().length < 2) { setMessage("Enter the coach's name.", true); coachInput.focus(); return; }
     const button = form.querySelector(".yoy-submit");
     button.disabled = true;
     setMessage("Sending your nomination...");
@@ -246,6 +249,7 @@
           nominee_id: choice.id,
           reason: form.elements.reason.value,
           first_name: form.elements.first_name.value,
+          coach_name: isCoach ? form.elements.coach_name.value : undefined,
           browser_token: browserToken(),
           website: form.elements.website.value
         })
@@ -253,7 +257,8 @@
       const body = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(body.error || "Your nomination could not be saved right now. Please try again.");
       if (!done.includes(choice.id)) { done.push(choice.id); write(doneKey, JSON.stringify(done)); }
-      setMessage(`Thanks! ${choice.name} is nominated. You can nominate someone else too.`);
+      setMessage(isCoach ? `Thanks! ${form.elements.coach_name.value.trim()} (${choice.name}) is nominated. You can nominate another coach too.` : `Thanks! ${choice.name} is nominated. You can nominate someone else too.`);
+      if (isCoach) form.elements.coach_name.value = "";
       choice = null;
       picked.hidden = true;
       form.elements.reason.value = "";

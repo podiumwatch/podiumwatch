@@ -10,8 +10,8 @@ const pool = await loadYearlyAwardsPool();
 const category = (slug) => ({ id: `id-${slug}`, slug, award: slug.split("-")[0], ...YEARLY_AWARDS_SCHEDULE, voting_closed_early_at: null, results_published_at: null });
 const during = new Date("2026-11-09T20:00:00Z");
 
-test("pool has 16 categories, 1,647 athletes and 184 teams", () => {
-  assert.equal(pool.categories.length, 16);
+test("pool has 24 categories, 1,647 athletes and 184 teams", () => {
+  assert.equal(pool.categories.length, 24);
   assert.equal(Object.values(pool.athletes).reduce((n, list) => n + list.length, 0), 1647);
   assert.equal(Object.values(pool.teams).reduce((n, list) => n + list.length, 0), 184);
 });
@@ -63,4 +63,29 @@ test("times display in ET", () => {
   assert.equal(formatEt(YEARLY_AWARDS_SCHEDULE.nominations_close_at), "Mon, Nov 9 at 9:00 PM ET");
   assert.equal(formatEt(YEARLY_AWARDS_SCHEDULE.voting_open_at), "Tue, Nov 10 at 12:00 AM ET");
   assert.equal(formatEt(YEARLY_AWARDS_SCHEDULE.voting_close_at), "Fri, Nov 13 at 9:00 PM ET");
+});
+
+test("Coach of the Year lists every Ohio school once per gender", () => {
+  const boys = Object.entries(pool.coaches).filter(([slug]) => slug.startsWith("coach-boys-")).flatMap(([, list]) => list.map((item) => item.id));
+  const girls = Object.entries(pool.coaches).filter(([slug]) => slug.startsWith("coach-girls-")).flatMap(([, list]) => list.map((item) => item.id));
+  assert.equal(new Set(boys).size, boys.length);
+  assert.equal(new Set(girls).size, girls.length);
+  assert.equal(boys.length, girls.length);
+  assert.ok(boys.length > 500);
+});
+
+test("girls coach programs use the 2026 state meet division when known", () => {
+  const archbold = pool.teams["team-girls-d4"].find((item) => item.name === "Archbold");
+  assert.ok(findNominee(pool, "coach-girls-d4", archbold.schoolId));
+  assert.ok(!findNominee(pool, "coach-girls-d3", archbold.schoolId));
+});
+
+test("a coach nomination needs a school in the division and a coach name", () => {
+  const school = pool.coaches["coach-boys-d3"][0];
+  const { row } = validateNomination(pool, category("coach-boys-d3"), { nomineeId: school.id, coachName: "  Pat   Smith ", reason: "Built the program" }, { now: during });
+  assert.equal(row.coach_name, "Pat Smith");
+  assert.equal(row.school_id, school.id);
+  assert.equal(row.athletic_net_id, null);
+  assert.throws(() => validateNomination(pool, category("coach-boys-d3"), { nomineeId: school.id }, { now: during }), /coach's name/);
+  assert.throws(() => validateNomination(pool, category("coach-boys-d1"), { nomineeId: school.id, coachName: "Pat Smith" }, { now: during }), /this division's list/);
 });

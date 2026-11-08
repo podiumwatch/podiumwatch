@@ -41,6 +41,7 @@ export default async function handler(request, response) {
       nomineeId: body.nominee_id,
       reason: body.reason,
       firstName: body.first_name,
+      coachName: body.coach_name,
       browserToken: body.browser_token,
       address: clientAddress(request)
     });

@@ -486,7 +486,7 @@ function homePage(stories, rankings) {
   const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
   const stateBreakdownsSection = stateBreakdowns.length ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
     <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
-    <a class="home-picks-callout" href="/awards/2026/"><strong>Nominate the 2026 Athletes and Teams of the Year</strong><span>16 categories, boys and girls, Divisions I to IV. Nominations close Monday at 9:00 PM ET. ${icon("arrow")}</span></a>
+    <a class="home-picks-callout" href="/awards/2026/"><strong>Nominate the 2026 Athletes, Teams and Coaches of the Year</strong><span>24 categories, boys and girls, Divisions I to IV. Nominations close Monday at 9:00 PM ET. ${icon("arrow")}</span></a>
     <div class="home-breakdowns-grid">
       ${stateBreakdowns.map((story) => `<article class="story-card">
         <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${storyImageStyle(story)}></a>
@@ -1249,7 +1249,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   const searchIndex = [
     { type: "Page", title: "Home", subtitle: site.description, href: "/", searchText: "Ohio cross country track running home" },
     { type: "Page", title: "Rankings", subtitle: "Ohio cross country and track rankings", href: "/rankings/", searchText: "rankings boys girls divisions cross country track field" },
-    { type: "Page", title: "2026 Athlete and Team of the Year", subtitle: "Nominate and vote for the 2026 Ohio cross country Athletes and Teams of the Year", href: "/awards/2026/", searchText: "athlete of the year team of the year awards nominate vote 2026" },
+    { type: "Page", title: "2026 Athlete, Team and Coach of the Year", subtitle: "Nominate and vote for the 2026 Ohio cross country Athletes, Teams and Coaches of the Year", href: "/awards/2026/", searchText: "athlete of the year team of the year coach of the year awards nominate vote 2026" },
     { type: "Page", title: "State Meet Picks", subtitle: "Pick all 8 state cross country team champions", href: "/state-picks/", searchText: "state meet picks predict champions contest obetz" },
     { type: "Page", title: "Ranking Methodology", subtitle: "How Podium Watch rankings are created", href: "/rankings/methodology/", searchText: "ranking method sources corrections projections verified" },
     { type: "Page", title: "Meet Center", subtitle: "Meets, schedules, and results", href: "/meets/", searchText: "meets results schedule timing course" },

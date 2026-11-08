@@ -25,7 +25,7 @@ export function adminAwards2026Page(site) {
     <section class="info-card" data-yoya-loading><h2>Checking admin access</h2><p>Please wait.</p></section>
     <div class="yoya-shell" data-yoya-dashboard hidden>
       <div class="yoya-bar">
-        <select data-yoya-filter><option value="">All 16 categories</option></select>
+        <select data-yoya-filter><option value="">All categories</option></select>
         <button class="button button-secondary" type="button" data-yoya-refresh>Refresh</button>
         <button class="button button-primary" type="button" data-yoya-csv>Download CSV</button>
         <a class="button button-secondary" href="/awards/2026/" target="_blank" rel="noopener">Public hub</a>
@@ -38,10 +38,10 @@ export function adminAwards2026Page(site) {
   return adminShell({
     site,
     pathname: "/admin/awards/2026/",
-    title: "2026 Athlete and Team of the Year Admin",
-    description: "Review 2026 Athlete of the Year and Team of the Year nominations.",
-    heading: "2026 Athlete and Team of the Year",
-    intro: "Nominees for each category, ranked by how many times they were nominated, with every reason. Delete test entries here. Finalists and voting come next.",
+    title: "2026 Athlete, Team and Coach of the Year Admin",
+    description: "Review 2026 Athlete, Team and Coach of the Year nominations.",
+    heading: "2026 Athlete, Team and Coach of the Year",
+    intro: "Nominees for each category, ranked by how many times they were nominated, with every reason. Coach nominees are grouped by school, with every coach name nominators typed. Delete test entries here. Finalists and voting come next.",
     styles,
     content,
     scripts: ["/scripts/admin-awards-2026.js"]

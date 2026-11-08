@@ -2,7 +2,7 @@ import { escapeHtml } from "../lib/content.mjs";
 import { layout, pageHero } from "../lib/html.mjs";
 import { YEARLY_AWARDS_SCHEDULE, categoryPool, formatEt } from "../../lib/yearly_awards_2026.mjs";
 
-// 2026 Athlete of the Year / Team of the Year public pages: the hub at
+// 2026 Athlete, Team and Coach of the Year public pages: the hub at
 // /awards/2026/ and one share page per category at /awards/2026/<slug>/
 // (one link per Instagram Story sticker). Mobile first, since most visits
 // come from the Instagram in-app browser. Status is worked out from the
@@ -60,13 +60,15 @@ const styles = `
 `;
 
 const ROMAN = { 1: "I", 2: "II", 3: "III", 4: "IV" };
-const awardName = (award) => (award === "athlete" ? "Athlete of the Year" : "Team of the Year");
+const awardName = (award) => ({ athlete: "Athlete of the Year", team: "Team of the Year", coach: "Coach of the Year" })[award];
 const divisionLabel = (category) => `${category.gender === "boys" ? "Boys" : "Girls"} Division ${ROMAN[category.division]}`;
 
 // Compact rows the page script searches: athletes are
 // [id, name, school, grade, seasonBest, regionalPlace, regional];
-// teams are [id, name, regionalPlace, regionalScore, regional].
+// teams are [id, name, regionalPlace, regionalScore, regional];
+// coach programs are [id, school, city].
 function compactPool(category, list) {
+  if (category.award === "coach") return list.map((item) => [item.id, item.name, item.city]);
   return category.award === "athlete"
     ? list.map((item) => [item.id, item.name, item.school, item.grade, item.seasonBest, item.regionalPlace, item.regional])
     : list.map((item) => [item.id, item.name, item.regionalPlace, item.regionalScore, item.regional]);
@@ -80,12 +82,19 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
   const list = categoryPool(pool, category.slug) || [];
   const pathname = `/awards/2026/${category.slug}/`;
   const closes = formatEt(YEARLY_AWARDS_SCHEDULE.nominations_close_at);
-  const noun = category.award === "athlete" ? "athlete" : "team";
+  const noun = category.award;
+  const isCoach = noun === "coach";
+  const intro = isCoach
+    ? `Nominate the ${divisionLabel(category)} coach of the year. Any Ohio cross country program in this division can be nominated: pick the school and type the coach's name. Podium Watch picks the finalists, then you vote.`
+    : `Nominate the ${divisionLabel(category)} ${awardName(category.award).toLowerCase()} from the ${list.length} ${noun === "athlete" ? "state qualifiers" : "state-qualifying teams"} in this division. Podium Watch picks the finalists, then you vote.`;
+  const hint = isCoach
+    ? `Every Ohio school in ${escapeHtml(divisionLabel(category))} is listed, filed by the school's OHSAA cross country division. Can't find a school? It may be listed in another division; use the links at the bottom.`
+    : `Only ${noun === "athlete" ? "athletes" : "teams"} who qualified for the 2026 ${escapeHtml(divisionLabel(category))} state meet are listed.`;
   const content = `<style>${styles}</style>
   ${pageHero({
     eyebrow: "2026 Podium Watch Awards",
     title: category.label,
-    description: `Nominate the ${divisionLabel(category)} ${awardName(category.award).toLowerCase()} from the ${list.length} ${noun === "athlete" ? "state qualifiers" : "state-qualifying teams"} in this division. Podium Watch picks the finalists, then you vote.`
+    description: intro
   })}
   <section class="section section-paper">
     <div class="container yoy-shell" data-yoy-category="${escapeHtml(category.slug)}" data-gender="${escapeHtml(category.gender)}">
@@ -102,16 +111,19 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
       </section>
 
       <section class="yoy-card" data-yoy-nominate>
-        <h2>Nominate ${noun === "athlete" ? "an athlete" : "a team"}</h2>
+        <h2>Nominate ${noun === "athlete" ? "an athlete" : isCoach ? "a coach" : "a team"}</h2>
         <form class="yoy-form" data-yoy-form novalidate>
           <label>Search ${noun === "athlete" ? "athletes or schools" : "schools"}
             <input type="search" data-yoy-search placeholder="${noun === "athlete" ? "Type a name or school" : "Type a school"}" autocomplete="off" enterkeyhint="search">
           </label>
-          <p class="yoy-hint">Only ${noun === "athlete" ? "athletes" : "teams"} who qualified for the 2026 ${escapeHtml(divisionLabel(category))} state meet are listed.</p>
+          <p class="yoy-hint">${hint}</p>
           <ul class="yoy-results" data-yoy-results></ul>
           <div data-yoy-picked hidden></div>
+          ${isCoach ? `<label>Coach's name <small class="yoy-count">Required</small>
+            <input type="text" name="coach_name" maxlength="60" autocomplete="off" placeholder="First and last name">
+          </label>` : ""}
           <label>Why? <small class="yoy-count" data-yoy-reason-count>Optional, 300 characters max</small>
-            <textarea name="reason" maxlength="300" placeholder="What made their season stand out?"></textarea>
+            <textarea name="reason" maxlength="300" placeholder="${isCoach ? "What did this coach do for the program this season?" : "What made their season stand out?"}"></textarea>
           </label>
           <label>Your first name <small class="yoy-count">Optional</small>
             <input type="text" name="first_name" maxlength="40" autocomplete="given-name">
@@ -133,7 +145,7 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
         <div class="yoy-share-row"><code data-yoy-share-url>${escapeHtml(`${site.siteUrl}${pathname}`)}</code><button type="button" data-yoy-copy>Copy link</button></div>
       </section>
 
-      <p class="yoy-foot"><a href="/awards/2026/">See all 16 award categories</a> &middot; podiumwatch.org</p>
+      <p class="yoy-foot"><a href="/awards/2026/">See all 24 award categories</a> &middot; podiumwatch.org</p>
     </div>
   </section>
   ${jsonScript("yoy-data", { slug: category.slug, award: category.award, schedule: YEARLY_AWARDS_SCHEDULE, pool: compactPool(category, list) })}
@@ -163,14 +175,15 @@ export function yearlyAwardsHubPage(site, pool) {
   const content = `<style>${styles}</style>
   ${pageHero({
     eyebrow: "2026 Podium Watch Awards",
-    title: "Athlete and Team of the Year",
-    description: `Nominate the best of the 2026 Ohio cross country season in all 16 categories. Nominations close ${formatEt(YEARLY_AWARDS_SCHEDULE.nominations_close_at)}. Voting runs Nov. 10 to 13, and winners are announced Saturday morning, Nov. 14.`
+    title: "Athlete, Team and Coach of the Year",
+    description: `Nominate the best of the 2026 Ohio cross country season in all 24 categories. Nominations close ${formatEt(YEARLY_AWARDS_SCHEDULE.nominations_close_at)}. Voting runs Nov. 10 to 13, and winners are announced Saturday morning, Nov. 14.`
   })}
   <section class="section section-paper">
     <div class="container yoy-hub" data-yoy-hub>
-      <p class="yoy-intro">Pick a category to nominate. Every nominee is a real 2026 state qualifier.</p>
+      <p class="yoy-intro">Pick a category to nominate. Athlete and Team of the Year nominees are real 2026 state qualifiers. Coach of the Year is open to every Ohio program.</p>
       ${section("athlete")}
       ${section("team")}
+      ${section("coach")}
       <p class="yoy-foot">podiumwatch.org</p>
     </div>
   </section>
@@ -180,8 +193,8 @@ export function yearlyAwardsHubPage(site, pool) {
 
   return layout({
     site,
-    title: "2026 Athlete and Team of the Year",
-    description: "Nominate the 2026 Ohio cross country Athletes and Teams of the Year, boys and girls, Divisions I to IV. Nominations close Mon, Nov 9 at 9:00 PM ET.",
+    title: "2026 Athlete, Team and Coach of the Year",
+    description: "Nominate the 2026 Ohio cross country Athletes, Teams and Coaches of the Year, boys and girls, Divisions I to IV. Nominations close Mon, Nov 9 at 9:00 PM ET.",
     pathname: "/awards/2026/",
     content
   });
