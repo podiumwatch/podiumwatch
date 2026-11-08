@@ -6,7 +6,7 @@ category: "Cross Country"
 author: "Podium Watch"
 slug: "quintin-parrish-heart-surgery-state-meet"
 featured: false
-draft: true
+draft: false
 updatedDate: "2026-11-08"
 type: "Feature"
 divisions: "III"
