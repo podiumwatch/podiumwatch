@@ -37,7 +37,7 @@ export function podiumPlayPage(site) {
         <h2>Podium Points never touch a vote</h2>
       </div>
       <div class="prose">
-        <p>Playing here never adds a vote, unlocks extra votes, or changes anyone's standing -- Podium Points are only for your own game profile and progress. If you're also here to vote, head to <a href="/athlete-of-the-week/">Athlete of the Week</a> or <a href="/team-of-the-week/">Team of the Week</a> to see this week's finalists.</p>
+        <p>Playing here never adds a vote, unlocks extra votes, or changes anyone's standing -- Podium Points are only for your own game profile and progress. If you're also here to vote, head to the <a href="/awards/2026/">2026 Athlete, Team and Coach of the Year</a>.</p>
       </div>
     </div>
   </section>

@@ -127,8 +127,9 @@ export const site = {
       { label: "About", href: "/about/" },
       { label: "Staff", href: "/staff/" },
       { label: "Contact", href: "/contact/" },
-      { label: "Team of the Week", href: "/team-of-the-week/" },
-      { label: "Athlete of the Week", href: "/athlete-of-the-week/" },
+      // Weekly awards paused for the season (2026-11-09); the 2026
+      // Athlete/Team/Coach of the Year takes their place.
+      { label: "2026 Year Awards", href: "/awards/2026/" },
       { label: "Fan Poll", href: "/fan-poll/" },
       { label: "Podium Play", href: "/podium-play/" },
       { label: "Pace Calculator", href: "/pace-calculator/" },
@@ -208,6 +209,10 @@ export const site = {
 // /race/) and internal site search (/search/, matching Google's own
 // long-standing guidance against indexing internal search results).
 export const NOINDEX_NOFOLLOW_PREFIXES = [
+  // Weekly awards paused for the season (2026-11-09): the pages only say
+  // so and point to /awards/2026/. Remove when the weekly awards return.
+  "/athlete-of-the-week/",
+  "/team-of-the-week/",
   // Mock Postseason (src/pages/mockpostseason.mjs): linked from the Mock
   // Meets nav since 2026-10-20 and live, but kept out of search engines
   // and the sitemap by Zachary's choice (confirmed 2026-11-01). Remove

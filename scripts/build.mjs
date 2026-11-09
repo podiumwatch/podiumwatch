@@ -86,7 +86,7 @@ import { splitWatchRacesPage } from "../src/pages/splitwatchraces.mjs";
 import { teamProfilePage } from "../src/pages/teamprofile.mjs";
 import { teamsPage } from "../src/pages/teams.mjs";
 import { searchPage } from "../src/pages/search.mjs";
-import { athleteOfTheWeekPage, teamOfTheWeekPage } from "../src/pages/weeklyawards.mjs";
+import { athleteOfTheWeekPage, teamOfTheWeekPage, weeklyAwardsPausedPage } from "../src/pages/weeklyawards.mjs";
 import { podiumPlayPage } from "../src/pages/podiumplay.mjs";
 import { tournamentHubPage } from "../src/pages/tournamenthub.mjs";
 import { ohioSchoolsPage } from "../src/pages/ohioschools.mjs";
@@ -582,15 +582,15 @@ function homePage(stories, rankings) {
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Voting</p><h2 id="voting-title">Have your say.</h2></div></div>
       <section class="vote-now-top">
-        <span class="vote-now-top-badge">Athlete of the Week</span>
+        <span class="vote-now-top-badge">2026 Year Awards</span>
         <div class="vote-now-body">
           <p class="vote-now-category">Ohio High School Cross Country</p>
-          <p class="vote-now-question">Vote for this week's Athlete of the Week.</p>
-          <a class="button button-primary" href="/athlete-of-the-week/">Vote Now</a>
+          <p class="vote-now-question">Nominate the 2026 Athletes, Teams and Coaches of the Year.</p>
+          <a class="button button-primary" href="/awards/2026/">Nominate Now</a>
         </div>
       </section>
       <div class="sport-cards" style="margin-top:18px">
-        <article class="sport-card"><p class="eyebrow">Team of the Week</p><h3>Vote for the best team.</h3><a class="button button-primary" href="/team-of-the-week/">Vote Now</a></article>
+        <article class="sport-card"><p class="eyebrow">Podium Play</p><h3>Play the Podium Watch games.</h3><a class="button button-primary" href="/podium-play/">Play Now</a></article>
         <article class="sport-card"><p class="eyebrow">Fan Poll</p><h3>Build your own ranking ballot.</h3><a class="button button-primary" href="/fan-poll/">Vote Now</a></article>
       </div>
     </div>
@@ -1196,8 +1196,11 @@ for (const athlete of athleteSeedRows) {
   );
 }
 await writePage("/search/", searchPage(site));
-await writePage("/athlete-of-the-week/", athleteOfTheWeekPage(site));
-await writePage("/team-of-the-week/", teamOfTheWeekPage(site));
+// Weekly awards paused for the season (2026-11-09); set to false to bring
+// the full Athlete/Team of the Week pages back.
+const WEEKLY_AWARDS_PAUSED = true;
+await writePage("/athlete-of-the-week/", WEEKLY_AWARDS_PAUSED ? weeklyAwardsPausedPage(site, "athlete") : athleteOfTheWeekPage(site));
+await writePage("/team-of-the-week/", WEEKLY_AWARDS_PAUSED ? weeklyAwardsPausedPage(site, "team") : teamOfTheWeekPage(site));
 await writePage("/podium-play/", podiumPlayPage(site));
   await writePage("/tournament-hub/", tournamentHubPage(site));
   await writePage("/rankings/", rankingsIndexPage());
@@ -1264,8 +1267,6 @@ await writePage("/podium-play/", podiumPlayPage(site));
     { type: "Page", title: "Write for Podium Watch", subtitle: "High school intern writer applications, no account required", href: "/apply/", searchText: "apply intern writer application high school student parent consent" },
     { type: "Page", title: "Writer Portal", subtitle: "Intern writer accounts: sign in, dashboard, profile, and staff writer management", href: "/writer-portal/", searchText: "writer portal login intern account article draft submitted review editor" },
     { type: "Page", title: "Ohio Tournament Hub", subtitle: "Boys cross country divisions and track regional sites", href: "/tournament-hub/", searchText: "OHSAA divisions regional sites representation tournament boys cross country track" },
-    { type: "Page", title: "Athlete of the Week", subtitle: "Nominate, vote, and view winners", href: "/athlete-of-the-week/", searchText: "athlete week nominations finalists voting winner" },
-    { type: "Page", title: "Team of the Week", subtitle: "Nominate, vote, and view winners", href: "/team-of-the-week/", searchText: "team week nominations finalists voting winner boys girls" },
     { type: "Page", title: "Athlete Spotlights", subtitle: "The story behind the result", href: "/athlete-spotlights/", searchText: "athletes profiles interviews stories" },
     { type: "Page", title: "Stories", subtitle: "Podium Watch articles and coverage", href: "/stories/", searchText: "articles news stories coverage" },
     ...stories.map((story) => ({ type: "Story", title: story.title, subtitle: `${story.category} | ${story.description}`, href: `/stories/${story.slug}/`, searchText: `${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")} ${story.author}` })),

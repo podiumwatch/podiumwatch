@@ -112,3 +112,25 @@ export function teamOfTheWeekPage(site) {
 
   return layout({ site, title: "Team of the Week", description: "Nominate, vote for, and celebrate Podium Watch Team of the Week finalists and winners.", pathname: "/team-of-the-week/", content });
 }
+
+// Weekly awards are paused for the season (Zachary, 2026-11-09) while the
+// 2026 Athlete, Team and Coach of the Year run. The URLs stay so old
+// Instagram links land somewhere useful; the full pages above are kept for
+// next season (set WEEKLY_AWARDS_PAUSED to false in scripts/build.mjs).
+// The aotw_/totw_ tables and their APIs are untouched.
+export function weeklyAwardsPausedPage(site, kind) {
+  const name = kind === "team" ? "Team of the Week" : "Athlete of the Week";
+  const pathname = kind === "team" ? "/team-of-the-week/" : "/athlete-of-the-week/";
+  const content = `${pageHero({ eyebrow: "Podium Watch Awards", title: name, description: `${name} is done for the 2026 season. Thanks to everyone who nominated and voted.` })}
+  <section class="section section-paper">
+    <div class="container" style="max-width:760px">
+      <article class="info-card">
+        <p class="eyebrow">Now open</p>
+        <h2>2026 Athlete, Team and Coach of the Year</h2>
+        <p>Nominate the best of the 2026 Ohio cross country season in 24 categories, boys and girls, Divisions I to IV. Then vote for the finalists.</p>
+        <a class="button button-primary" href="/awards/2026/">Nominate now</a>
+      </article>
+    </div>
+  </section>`;
+  return layout({ site, title: name, description: `${name} is done for the 2026 season. Nominate and vote for the 2026 Athlete, Team and Coach of the Year.`, pathname, content });
+}
