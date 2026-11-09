@@ -3000,3 +3000,9 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - Removed the 2 team scores stored without a school (Perry girls D3). Postseason team scores: 1,784.
 - nathaniel-seib-manchester-2028 was already merged into nathaniel-seib-2028 on 2026-10-14. Repointed the -2 duplicate from earlier today straight to nathaniel-seib-2028 (it was two hops).
 - Athlete page: Path to State and honor chips (Brice Fuller: 2026 State champion, 2026 All-Ohio First Team; district 1st, regional 1st, state champion; team 1st 44, 1st 55, finished 2nd 115).
+
+## 2026-11-09: Postseason follow-ups, second list
+
+- 375px Playwright check of Brice Fuller and Madiegrace Gonczy (local server rendering the real athlete page with live data): no horizontal overflow, no page errors (only Vercel analytics and /api/ 404s locally). Pushed cf9771b and 7d18914.
+- `scripts/postseason-2026-followups.mjs`: Middletown Christian merge, Garfield aliases, Green added, Perry girls D3 row, 20 of 23 pairs attached. Sent back: Joshua/Josh Johnson, Kaylee O'Neill/O'Neil, Alexander/Alex Franklin (different Athletic.net ids).
+- Import rerun: 11 profiles created (Perry girls, Aaron Miller, Cooper Moore, Garfield, Green), postseason results 14,250, team scores 1,786 (all with a school), Path to State 1,712. Held: the 4 pairs above plus Mendiola Cruz, and 4 district rows with no time.

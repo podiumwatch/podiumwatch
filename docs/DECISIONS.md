@@ -2072,3 +2072,11 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Team scores are written only with a school. Rows without one are removed until resolved.
 - Path to State notes use ordinals. The state stage reads "Finished 2nd as a team, 115 points". The athlete page shows the athlete's own official place at each stage next to the team result, says "Complete" for earlier stages once later ones are recorded, and shows the athlete's tournament places even when the team has no path (no team page or no division).
 - Athlete honors at the top of the profile come only from official state results: "State champion" for an official 1st, and "All-Ohio First/Second Team" from the import's honor_label. Never from a reviewed (performance-marks-only) result.
+
+## 2026-11-09: Postseason follow-ups, second list
+
+- Similar-name pairs Zachary approved as the same runner are attached after two safety checks: not when both names are in the same race (or the profile already has a result in that race), and not when the official row's Athletic.net id differs from the profile's. Failures go back to Zachary. Display name: his name overrides win; otherwise the official postseason spelling, with the old spelling kept as a name alias. Parenthetical nicknames leave the display name and stay as an alias ("Elisa Quernemoen", alias "Ellie Quernemoen"). Slugs are not changed.
+- Aaron Miller (Garaway) and Cooper Moore (Boardman) are different runners from Damon Miller and Chase Moore. Aileen and Allison Mendiola Cruz are held (could be twins).
+- Perry girls Division III at the Madison district and Boardman regional = Perry (Perry), Lake County. Confirmed by Zachary; it is a named exception in the import script, not a location guess.
+- Middletown Christian: the official record (OHSAA 1027, Franklin, team page) is kept. The duplicate (placeholder id 900016) is marked merged, with every reference moved (7 profiles, 17 results, 2 team scores).
+- Garfield (Akron) is the existing Garfield Community Learning Center. Green (Franklin Furnace) was added with girls Division IV, the division it ran in.

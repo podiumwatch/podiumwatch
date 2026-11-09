@@ -193,8 +193,15 @@ function computeMeetDistricts() {
 const resolvedByLocation = new Map();
 const resolvedIds = new Map();
 const stillShared = new Map();
+// Schools Zachary named for a shared name in a specific race.
+const CONFIRMED_SCHOOL = [
+  // "Perry" girls Division III at the Madison district and Boardman regional = Perry (Perry), Lake County (2026-11-09).
+  { slugs: ["2026-ohsaa-district-madison", "2026-ohsaa-regional-boardman"], gender: "girls", division: 3, name: "Perry", school: ["Perry", "Perry"] }
+];
 function locationIds(race, raw) {
   const ids = schoolIdsFor(raw);
+  const confirmed = CONFIRMED_SCHOOL.find((c) => c.name === raw && c.gender === race.gender && c.division === race.division && c.slugs.includes(race.meet.slug));
+  if (confirmed) { const sc = schools.find((x) => normalizeLookup(x.school_name) === normalizeLookup(confirmed.school[0]) && normalizeLookup(x.city) === normalizeLookup(confirmed.school[1])); if (sc) return new Set([sc.id]); }
   if (ids.size <= 1) return ids;
   const districts = meetDistricts.get(race.meet.slug) || new Set();
   const want = ROMAN[race.division];
@@ -328,7 +335,9 @@ for (const race of races) for (const row of race.rows) {
   const key = `${race.gender}|${normalizeLookup(row.name)}|${schoolId}|${grade ?? "?"}`;
   if (newProfiles.has(key)) { const np = newProfiles.get(key); if (row.athleticNetId && !np.athleticNetId) np.athleticNetId = String(row.athleticNetId); continue; }
   if (!grade) { creationReview.push(`${row.name} (${row.school}): no grade`); newProfiles.set(key, { review: true }); continue; }
-  const similar = similarAt(row.name, schoolId, race.gender);
+  // Zachary confirmed these are different runners from the similar profile (2026-11-09).
+  const DIFFERENT_RUNNERS = ["aaron miller|garaway", "cooper moore|boardman"];
+  const similar = DIFFERENT_RUNNERS.includes(`${normalizeLookup(row.name)}|${normalizeLookup(row.school)}`) ? null : similarAt(row.name, schoolId, race.gender);
   if (similar) { creationReview.push(`${row.name} (${row.school}, grade ${grade}): similar profile ${similar}`); newProfiles.set(key, { review: true }); continue; }
   const parts = String(row.name).trim().split(/\s+/);
   const school = schools.find((s) => s.id === schoolId);
