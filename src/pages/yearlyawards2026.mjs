@@ -56,6 +56,17 @@ const styles = `
     .yoy-tile strong { font-size:1.05rem; }
     .yoy-chip { justify-self:start; padding:3px 8px; border-radius:999px; background:var(--yoy-ink); color:#fff; font-size:.72rem; font-weight:850; letter-spacing:.03em; }
     .yoy-intro { margin:0; font-weight:600; }
+    .yoy-finalists { display:grid; gap:8px; margin:0; padding:0; list-style:none; }
+    .yoy-finalist { display:grid; gap:3px; width:100%; padding:12px 14px; border:2px solid var(--line); border-radius:10px; background:var(--white); color:inherit; font:inherit; text-align:left; }
+    button.yoy-finalist { cursor:pointer; }
+    button.yoy-finalist:hover, button.yoy-finalist:focus { border-color:var(--yoy-accent); outline:none; }
+    .yoy-finalist[aria-pressed="true"] { border-color:var(--yoy-accent); background:rgba(var(--black-rgb),.03); box-shadow:inset 6px 0 0 var(--yoy-accent); }
+    .yoy-finalist b { font-size:1.05rem; }
+    .yoy-finalist small { color:var(--muted); font-weight:650; }
+    .yoy-finalist em { font-style:normal; font-size:.9rem; }
+    .yoy-finalist.is-winner { border-color:var(--yoy-accent); box-shadow:inset 6px 0 0 var(--yoy-accent); }
+    .yoy-winner-tag { justify-self:start; padding:3px 9px; border-radius:999px; background:var(--yoy-accent); color:#fff; font-size:.72rem; font-weight:900; letter-spacing:.06em; text-transform:uppercase; }
+    .yoy-voted { margin:0; padding:10px 12px; background:rgba(var(--black-rgb),.05); font-weight:850; }
     @media (max-width: 760px) { .yoy-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 `;
 
@@ -132,6 +143,17 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
           <button class="yoy-submit" type="submit">Submit nomination</button>
           <p class="yoy-message" data-yoy-message role="status" aria-live="polite"></p>
         </form>
+      </section>
+
+      <section class="yoy-card" data-yoy-vote hidden>
+        <h2 data-yoy-vote-title>Vote</h2>
+        <p class="yoy-hint" data-yoy-vote-hint></p>
+        <ol class="yoy-finalists" data-yoy-finalists></ol>
+        <div data-yoy-turnstile></div>
+        <label class="yoy-hp" aria-hidden="true">Website <input type="text" data-yoy-vote-trap tabindex="-1" autocomplete="off"></label>
+        <button class="yoy-submit" type="button" data-yoy-cast hidden>Cast my vote</button>
+        <p class="yoy-voted" data-yoy-voted hidden></p>
+        <p class="yoy-message" data-yoy-vote-message role="status" aria-live="polite"></p>
       </section>
 
       <section class="yoy-card" data-yoy-closed hidden>

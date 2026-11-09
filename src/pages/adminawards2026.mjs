@@ -1,22 +1,49 @@
 import { adminShell } from "../lib/adminshell.mjs";
 
-// Admin for the 2026 Athlete/Team of the Year: every category's nominees
-// ranked by nomination count, with their reasons, a delete button for test
-// entries, and a CSV export. Data: api/admin/awards-2026.js.
+// Admin for the 2026 Athlete, Team and Coach of the Year: nominees ranked
+// by nomination count with every reason, finalists (promote, reorder,
+// edit the note, remove), announcing finalists, live vote counts with
+// flagged networks and voiding, closing early, publishing winners, and
+// CSV exports. Data: api/admin/awards-2026.js.
 const styles = `
     .yoya-shell { display:grid; gap:16px; }
     .yoya-bar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
-    .yoya-bar select { padding:9px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
-    .yoya-cat { padding:16px; border:1px solid var(--line); background:var(--white); }
+    .yoya-bar select { padding:9px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; max-width:100%; }
+    .yoya-cat { display:grid; gap:10px; padding:16px; border:1px solid var(--line); background:var(--white); }
     .yoya-cat h2 { margin:0; font-size:1.1rem; }
-    .yoya-meta { margin:4px 0 10px; color:var(--muted); font-weight:700; font-size:.88rem; }
+    .yoya-cat h3 { margin:6px 0 0; font-size:.9rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+    .yoya-meta { margin:0; color:var(--muted); font-weight:700; font-size:.88rem; }
+    .yoya-warn { margin:0; padding:8px 10px; background:#fff4e5; color:#8a4b00; font-weight:800; }
+    .yoya-actions { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+    .yoya-cat button { padding:6px 12px; border:1px solid var(--line); border-radius:999px; background:var(--white); color:inherit; font:inherit; font-size:.82rem; font-weight:800; cursor:pointer; }
+    .yoya-cat button[disabled] { opacity:.45; cursor:not-allowed; }
+    .yoya-cat button.is-primary { border-color:#0faf68; background:#0faf68; color:#fff; }
+    .yoya-cat button.is-danger { border-color:#b42318; color:#b42318; }
+    .yoya-cat input { min-width:0; padding:7px 9px; border:1px solid var(--line); border-radius:7px; font:inherit; font-size:.9rem; }
+    .yoya-finalists { display:grid; gap:8px; margin:0; padding:0; list-style:none; }
+    .yoya-finalist { display:grid; gap:6px; padding:10px; background:rgba(var(--black-rgb),.04); }
+    .yoya-finalist.is-winner { outline:2px solid #0faf68; }
+    .yoya-finalist-head { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+    .yoya-finalist-head input { flex:1 1 160px; }
+    .yoya-votes { font-weight:900; font-variant-numeric:tabular-nums; }
+    .yoya-winner, .yoya-tag { padding:2px 8px; border-radius:999px; background:#063d28; color:#fff; font-size:.72rem; font-weight:850; }
+    .yoya-add input { width:100%; }
+    .yoya-pool { display:grid; gap:4px; margin:6px 0 0; padding:0; list-style:none; font-size:.9rem; }
+    .yoya-pool li { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .yoya-votebox { display:grid; gap:6px; padding:10px; border:1px dashed var(--line); }
+    .yoya-votebox p { margin:0; }
+    .yoya-networks { display:grid; gap:4px; margin:0; padding:0; list-style:none; font-size:.88rem; }
+    .yoya-networks li.is-flagged { color:#b42318; font-weight:800; }
+    .yoya-void { display:flex; flex-wrap:wrap; gap:6px; }
+    .yoya-void input { flex:1 1 220px; }
+    .is-error { color:#b42318; }
     .yoya-nominee { padding:10px 0; border-top:1px solid var(--line); }
     .yoya-nominee summary { display:flex; flex-wrap:wrap; gap:6px 12px; align-items:baseline; cursor:pointer; }
     .yoya-nominee summary b { font-variant-numeric:tabular-nums; }
     .yoya-nominee small { color:var(--muted); font-weight:600; }
     .yoya-reasons { display:grid; gap:6px; margin:8px 0 0; padding:0; list-style:none; }
     .yoya-reasons li { display:flex; justify-content:space-between; gap:10px; padding:8px; background:rgba(var(--black-rgb),.04); font-size:.9rem; }
-    .yoya-reasons button { flex:0 0 auto; padding:4px 10px; border:1px solid #b42318; border-radius:999px; background:var(--white); color:#b42318; font:inherit; font-size:.8rem; font-weight:800; cursor:pointer; }
+    .yoya-reasons button { flex:0 0 auto; }
     .yoya-empty { margin:0; color:var(--muted); font-weight:600; }
 `;
 
@@ -27,7 +54,10 @@ export function adminAwards2026Page(site) {
       <div class="yoya-bar">
         <select data-yoya-filter><option value="">All categories</option></select>
         <button class="button button-secondary" type="button" data-yoya-refresh>Refresh</button>
-        <button class="button button-primary" type="button" data-yoya-csv>Download CSV</button>
+        <button class="button button-secondary" type="button" data-yoya-announce-all data-confirm-text="Tap again to announce every category with 2+ finalists">Announce all ready</button>
+        <button class="button button-secondary" type="button" data-yoya-publish-all data-confirm-text="Tap again to publish every closed category">Publish all</button>
+        <button class="button button-primary" type="button" data-yoya-csv>Nominations CSV</button>
+        <button class="button button-primary" type="button" data-yoya-finalists-csv>Finalists + votes CSV</button>
         <a class="button button-secondary" href="/awards/2026/" target="_blank" rel="noopener">Public hub</a>
       </div>
       <p class="awards-message" data-yoya-message role="status"></p>
@@ -39,9 +69,9 @@ export function adminAwards2026Page(site) {
     site,
     pathname: "/admin/awards/2026/",
     title: "2026 Athlete, Team and Coach of the Year Admin",
-    description: "Review 2026 Athlete, Team and Coach of the Year nominations.",
+    description: "Review nominations, pick finalists, watch votes and publish winners for the 2026 Athlete, Team and Coach of the Year.",
     heading: "2026 Athlete, Team and Coach of the Year",
-    intro: "Nominees for each category, ranked by how many times they were nominated, with every reason. Coach nominees are grouped by school, with every coach name nominators typed. Delete test entries here. Finalists and voting come next.",
+    intro: "Pick finalists from the nominees (or the full list), then announce them. Voting in a category opens only after its finalists are announced and the voting window has started. Live vote counts are visible here only; the public never sees counts. After voting closes, publish each winner.",
     styles,
     content,
     scripts: ["/scripts/admin-awards-2026.js"]

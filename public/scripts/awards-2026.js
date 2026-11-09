@@ -62,11 +62,13 @@
     return d > 0 ? `${d}d ${h}h ${m}m` : `${h}h ${String(m).padStart(2, "0")}m ${String(sec).padStart(2, "0")}s`;
   }
 
+  let turnstileKey = null;
   async function fetchStatus() {
     try {
       const response = await fetch("/api/awards-2026/status/", { headers: { accept: "application/json" } });
       if (!response.ok) return null;
       const body = await response.json();
+      turnstileKey = body.turnstile_site_key || null;
       return Array.isArray(body.categories) ? body.categories : null;
     } catch {
       return null;
@@ -99,6 +101,139 @@
   const closedTitle = root.querySelector("[data-yoy-closed-title]");
   const closedText = root.querySelector("[data-yoy-closed-text]");
 
+  // Voting: finalists, one vote per category per browser, no counts.
+  const voteCard = root.querySelector("[data-yoy-vote]");
+  const voteTitle = root.querySelector("[data-yoy-vote-title]");
+  const voteHint = root.querySelector("[data-yoy-vote-hint]");
+  const finalistList = root.querySelector("[data-yoy-finalists]");
+  const castButton = root.querySelector("[data-yoy-cast]");
+  const votedNote = root.querySelector("[data-yoy-voted]");
+  const voteMessage = root.querySelector("[data-yoy-vote-message]");
+  const turnstileBox = root.querySelector("[data-yoy-turnstile]");
+  const voteKey = `pw-yoty-2026-voted-${data.slug}`;
+  let votedFor = read(voteKey);
+  let pickedFinalist = null;
+  let paintedVote = "";
+  let checkedMine = false;
+  let turnstileToken = "";
+  let turnstileLoaded = false;
+
+  function setVoteMessage(text, isError = false) {
+    voteMessage.textContent = text;
+    voteMessage.classList.toggle("is-error", isError);
+  }
+
+  function finalistName(id) {
+    const match = (category.finalists || []).find((item) => item.id === id);
+    return match ? match.name : "";
+  }
+
+  function loadTurnstile() {
+    if (!turnstileKey || turnstileLoaded || votedFor) return;
+    turnstileLoaded = true;
+    window.pwYotyTurnstile = () => {
+      try {
+        window.turnstile.render(turnstileBox, { sitekey: turnstileKey, callback: (token) => { turnstileToken = token; }, "expired-callback": () => { turnstileToken = ""; } });
+      } catch { /* widget failed; the server will say so */ }
+    };
+    const script = document.createElement("script");
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=pwYotyTurnstile&render=explicit";
+    script.async = true;
+    document.head.append(script);
+  }
+
+  async function checkMine() {
+    if (checkedMine || votedFor) return;
+    checkedMine = true;
+    try {
+      const response = await fetch("/api/awards-2026/vote/", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "mine", categories: [data.slug], browser_token: browserToken() }) });
+      const body = await response.json().catch(() => ({}));
+      const mine = body.votes && body.votes[data.slug];
+      if (mine) { votedFor = mine; write(voteKey, mine); paintedVote = ""; paintVote(statusOf(category)); }
+    } catch { /* offline: the vote endpoint still enforces one vote */ }
+  }
+
+  function paintVote(status) {
+    const finalists = category.finalists || [];
+    const show = finalists.length > 0 && ["selecting_finalists", "voting_open", "voting_closed", "published"].includes(status);
+    voteCard.hidden = !show;
+    if (!show) return;
+    const signature = [status, votedFor, pickedFinalist, finalists.map((item) => `${item.id}:${item.name}:${item.note}:${item.winner}`).join("|")].join("#");
+    if (signature === paintedVote) return;
+    paintedVote = signature;
+    const canVote = status === "voting_open" && !votedFor;
+    voteTitle.textContent = status === "published" ? "Winner" : status === "voting_open" ? (votedFor ? "Thanks for voting" : "Vote for one finalist") : "Finalists";
+    voteHint.textContent = {
+      selecting_finalists: `Voting opens ${formatEt(category.voting_open_at)}.`,
+      voting_open: votedFor ? "One vote per category. Vote counts stay private until the winner is announced." : "Tap a finalist, then cast your vote. One vote per category, and votes can't be changed.",
+      voting_closed: "Voting is closed. Winners are announced Saturday morning, Nov. 14.",
+      published: "Congratulations to the winner and every finalist."
+    }[status] || "";
+    const ordered = status === "published" ? [...finalists].sort((a, b) => Number(Boolean(b.winner)) - Number(Boolean(a.winner))) : finalists;
+    finalistList.replaceChildren();
+    for (const item of ordered) {
+      const li = document.createElement("li");
+      const box = document.createElement(canVote ? "button" : "div");
+      box.className = "yoy-finalist" + (status === "published" && item.winner ? " is-winner" : "");
+      if (canVote) {
+        box.type = "button";
+        box.setAttribute("aria-pressed", String(pickedFinalist === item.id));
+        box.addEventListener("click", () => { pickedFinalist = item.id; setVoteMessage(""); paintedVote = ""; paintVote(statusOf(category)); });
+      } else if (votedFor === item.id && status !== "published") {
+        box.setAttribute("aria-pressed", "true");
+      }
+      if (status === "published" && item.winner) {
+        const tag = document.createElement("span");
+        tag.className = "yoy-winner-tag";
+        tag.textContent = "Winner";
+        box.append(tag);
+      }
+      const name = document.createElement("b");
+      name.textContent = item.name;
+      box.append(name);
+      if (item.school && item.school !== item.name) { const small = document.createElement("small"); small.textContent = item.school; box.append(small); }
+      if (item.note) { const note = document.createElement("em"); note.textContent = item.note; box.append(note); }
+      li.append(box);
+      finalistList.append(li);
+    }
+    castButton.hidden = !canVote;
+    castButton.disabled = !pickedFinalist;
+    castButton.textContent = pickedFinalist ? `Vote for ${finalistName(pickedFinalist)}` : "Pick a finalist";
+    votedNote.hidden = !votedFor || status === "published";
+    if (votedFor) votedNote.textContent = finalistName(votedFor) ? `You voted for ${finalistName(votedFor)}.` : "You already voted in this category.";
+    turnstileBox.hidden = !canVote;
+    if (status === "voting_open") { loadTurnstile(); checkMine(); }
+  }
+
+  castButton.addEventListener("click", async () => {
+    if (!pickedFinalist || votedFor) return;
+    castButton.disabled = true;
+    setVoteMessage("Sending your vote...");
+    try {
+      const response = await fetch("/api/awards-2026/vote/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ category: data.slug, finalist: pickedFinalist, browser_token: browserToken(), website: root.querySelector("[data-yoy-vote-trap]").value, turnstile_token: turnstileToken })
+      });
+      const body = await response.json().catch(() => ({}));
+      if (response.ok) {
+        votedFor = pickedFinalist;
+      } else if (body.voted_for) {
+        votedFor = body.voted_for;
+      } else {
+        if (window.turnstile && turnstileToken) { try { window.turnstile.reset(turnstileBox); } catch { /* ignore */ } turnstileToken = ""; }
+        throw new Error(body.error || "Your vote could not be saved right now. Please try again.");
+      }
+      write(voteKey, votedFor);
+      setVoteMessage(response.ok ? "Vote counted. Share this page so others can vote too." : body.error, !response.ok);
+      paintedVote = "";
+      paintVote(statusOf(category));
+    } catch (error) {
+      setVoteMessage(error.message, true);
+      castButton.disabled = false;
+    }
+  });
+
   function paintStatus() {
     const status = statusOf(category);
     statusEl.textContent = STATUS_LABELS[status];
@@ -123,8 +258,10 @@
     });
 
     const open = status === "nominations_open";
+    const hasFinalists = (category.finalists || []).length > 0;
     nominateCard.hidden = !open;
-    closedCard.hidden = open;
+    closedCard.hidden = open || status === "voting_open" || status === "published" || (hasFinalists && status === "selecting_finalists");
+    paintVote(status);
     if (!open) {
       closedTitle.textContent = status === "upcoming" ? "Nominations open soon" : status === "selecting_finalists" ? "Nominations are closed" : STATUS_LABELS[status];
       closedText.textContent = {
@@ -140,10 +277,12 @@
 
   paintStatus();
   setInterval(paintStatus, 1000);
-  fetchStatus().then((categories) => {
+  const refresh = () => fetchStatus().then((categories) => {
     const live = (categories || []).find((item) => item.slug === data.slug);
     if (live) { category = live; paintStatus(); }
   });
+  refresh();
+  setInterval(refresh, 60000);
 
   // Search and nominate.
   const isAthlete = data.award === "athlete";
