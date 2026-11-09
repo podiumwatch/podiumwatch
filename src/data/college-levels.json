@@ -1,5 +1,5 @@
 {
-  "_note": "College athletic levels for the commitment tracker (lib/commitments_service.mjs). Used only when a commitment has no division recorded. Keys are lowercase college names; add aliases as separate keys. A college not listed here shows \"Level not listed\". Checked 2026-11-09; confirm with Zachary when adding.",
+  "_note": "College athletic levels for the commitment tracker (lib/commitments_service.mjs). Used only when a commitment has no division recorded. Keys are lowercase college names; add aliases as separate keys. A college not listed here shows \"Level not listed\". Checked 2026-11-09 by Zachary (Defiance moved to NAIA: it left NCAA Division III in July 2024); confirm with Zachary when adding.",
   "levels": {
     "youngstown state": "NCAA I",
     "youngstown state university": "NCAA I",
@@ -108,7 +108,7 @@
     "case western reserve university": "NCAA III",
     "hiram college": "NCAA III",
     "hiram": "NCAA III",
-    "defiance college": "NCAA III",
+    "defiance college": "NAIA",
     "bluffton university": "NCAA III",
     "bluffton": "NCAA III",
     "shawnee state": "NAIA",
@@ -118,6 +118,20 @@
     "mount vernon nazarene": "NAIA",
     "mount vernon nazarene university": "NAIA",
     "indiana wesleyan": "NAIA",
-    "indiana wesleyan university": "NAIA"
+    "indiana wesleyan university": "NAIA",
+    "defiance": "NAIA",
+    "mount st joseph": "NCAA III",
+    "mount st joseph university": "NCAA III",
+    "mount saint joseph": "NCAA III",
+    "mount saint joseph university": "NCAA III",
+    "franciscan": "NCAA III",
+    "franciscan university": "NCAA III",
+    "franciscan university of steubenville": "NCAA III",
+    "lourdes": "NAIA",
+    "lourdes university": "NAIA",
+    "butler": "NCAA I",
+    "butler university": "NCAA I",
+    "ball state": "NCAA I",
+    "ball state university": "NCAA I"
   }
 }
