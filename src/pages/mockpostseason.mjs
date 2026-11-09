@@ -1326,9 +1326,14 @@ function stateSectionHtml(key, s, data = {}) {
       qualifiedFrom: q.qualifiedFromRegional ? `${q.qualifiedFromRegional} regional, ${q.qualifiedFromRegionalOrdinal}` : null
     }))
   ].sort((a, b) => a.placePoints - b.placePoints);
+  // OATCCC All-Ohio cut lines (OHSAA state packet): Division I first team
+  // is places 1-20 and second team 21-40; Divisions II-IV are 1-24 and
+  // 25-48 (WO-08: every division used 24/48 before).
+  const allOhioFirst = Number(divNum) === 1 ? 20 : 24;
+  const allOhioSecond = allOhioFirst * 2;
   const ALL_OHIO_DIVIDERS = [
-    { after: 24, label: "All-Ohio &middot; top 24" },
-    { after: 48, label: "2nd Team All-Ohio &middot; 25-48" }
+    { after: allOhioFirst, label: `All-Ohio &middot; top ${allOhioFirst}` },
+    { after: allOhioSecond, label: `2nd Team All-Ohio &middot; ${allOhioFirst + 1}-${allOhioSecond}` }
   ];
   return `<div class="mp-section" id="state-${key}"${basisAttr} data-filter-gender="${genderLower}" data-filter-division="${divNum}" style="--row-accent:${accent}">
     <h2 style="color:${accent}">${GENDER_LABEL[genderLower]} ${divisionLabel(divNum)}</h2>
@@ -1338,7 +1343,7 @@ function stateSectionHtml(key, s, data = {}) {
     <p class="mp-meta">Pooled from: ${(s.poolLog || []).map((p) => `${p.region} (${p.teamCount}/${p.teamQualifiers} teams, ${p.individualCount}/${p.individualQualifiers} individuals)`).join(" &middot; ")}</p>
     ${teamRowsHtml(complete, null, s.individuals, accent, genderLower, divNum)}
     ${bicarbInfeedHtml(`state-${key}`)}
-    <p class="mp-h3">Full state finish order (${fullFinishOrder.length} finishers -- All-Ohio top 24, 2nd Team All-Ohio 25-48)</p>
+    <p class="mp-h3">Full state finish order (${fullFinishOrder.length} finishers -- All-Ohio top ${allOhioFirst}, 2nd Team All-Ohio ${allOhioFirst + 1}-${allOhioSecond})</p>
     ${runnerRowsHtml(fullFinishOrder, null, ALL_OHIO_DIVIDERS, null, genderLower, divNum)}
   </div>`;
 }
