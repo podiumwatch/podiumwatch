@@ -3017,3 +3017,9 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 
 - Pushed ad66b59, fc1e9a6, 1823eef. Live check: /state/ 301 to /state/2026/; all three hubs 200; homepage champions block present.
 - Created joshua-johnson-bellbrook-2027 (23618878), kaylee-o-neill-whetstone-2029 (33483008), alexander-franklin-hicksville-2027 (33056639) from the official rows; flagged each with its similar profile. Postseason results now 14,258; held: Mendiola Cruz and 4 rows without a time.
+
+## 2026-11-09: WO-43 front page lead story (built, not pushed)
+
+- install/88_FRONT_PAGE_LEADS.sql written, not yet run.
+- Checked locally with the front page API mocked in Playwright: at 375x667 and 375x812 the photo, headline and "Read the story" button sit above the bottom nav for the built lead, a swapped photo lead and a type-only lead; no horizontal scroll; no page errors. Story page date line and both download links render at 375 px. Both share card sizes rendered and reviewed (with and without a photo). Full test suite, link check and SEO audit pass.
+- Still to do after install/88 runs: set the first real lead, then confirm homepage, story date line, /front-page/, a featured athlete badge and both card downloads end to end.

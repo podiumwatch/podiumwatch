@@ -1,5 +1,6 @@
 import { athletePageHtml } from "../../lib/render/athlete_page.mjs";
 import { cleanSlug, loadDatabaseProfile } from "../../lib/athlete_profile_service.mjs";
+import { featuredRunsFor } from "../../lib/front_page_service.mjs";
 import { site } from "../../src/config/site.mjs";
 
 // /athletes/{slug}/ rendered on the server (WO-09; vercel.json rewrite).
@@ -37,6 +38,13 @@ export default async function handler(request, response) {
     return response.status(301).end();
   }
   if (!data || data.private || !data.profile) return notFound(request, response);
+  // Lead stories that featured this athlete (WO-43); never blocks the page.
+  try {
+    data.front_page = data.profile.id ? await featuredRunsFor({ profileId: data.profile.id }) : [];
+  } catch (error) {
+    console.error("Athlete front page badge error:", error);
+    data.front_page = [];
+  }
   response.setHeader("Content-Type", "text/html; charset=utf-8");
   response.setHeader("Cache-Control", "public, s-maxage=900, stale-while-revalidate=86400");
   return response.status(200).send(athletePageHtml(site, data));

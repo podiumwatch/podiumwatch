@@ -92,6 +92,18 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/front-page/",
+      "destination": "/api/pages/front-page"
+    },
+    {
+      "source": "/front",
+      "destination": "/api/pages/front-page?go=1"
+    },
+    {
+      "source": "/front/",
+      "destination": "/api/pages/front-page?go=1"
+    },
+    {
       "source": "/:stage(state|regionals|districts)/:year([0-9]{4})/",
       "destination": "/api/pages/season-hub?stage=:stage&year=:year"
     },
@@ -109,6 +121,9 @@
     }
   ],
   "functions": {
+    "api/og/front-page.js": {
+      "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
+    },
     "api/cron/finish-timing-scan.js": {
       "maxDuration": 300
     }

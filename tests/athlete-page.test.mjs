@@ -39,7 +39,7 @@ test("the page carries its content, title, canonical and JSON-LD, never the home
   assert.match(html, /<title>Pat Runner \| Somewhere Cross Country &amp; Track \| Podium Watch<\/title>/);
   assert.match(html, /rel="canonical" href="https:\/\/www\.podiumwatch\.org\/athletes\/pat-runner-somewhere-2028\/"/);
   assert.match(html, /"@type":"ProfilePage"/);
-  assert.match(html, /name="robots" content="index, follow"/);
+  assert.match(html, /name="robots" content="index, follow, max-image-preview:large"/);
   assert.doesNotMatch(html, /Secret Town/);
   assert.doesNotMatch(html, /Path to State/, "a Path to State with only default 'Not started' stages is left out");
   assert.doesNotMatch(html, /Loading/);

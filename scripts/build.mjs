@@ -123,11 +123,13 @@ import { adminRecruitingPage } from "../src/pages/adminrecruiting.mjs";
 import { adminResultsSourcesPage } from "../src/pages/adminresultssources.mjs";
 import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { adminShortLinksPage } from "../src/pages/adminshortlinks.mjs";
+import { adminFrontPagePage } from "../src/pages/adminfrontpage.mjs";
 import { adminSponsorReportPage } from "../src/pages/adminsponsorreport.mjs";
 import { adminPartnerPage } from "../src/pages/adminpartnerpage.mjs";
 import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
 import { COMMITMENT_CLASSES } from "../src/lib/commitment_rows.mjs";
 import { allHubPaths } from "../src/config/season_hubs.mjs";
+import { frontAlsoHtml, frontLeadHtml } from "../public/scripts/front-lead.mjs";
 import stateChampions2026 from "../src/data/state-champions-2026.json" with { type: "json" };
 import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
@@ -382,6 +384,26 @@ async function loadRankings() {
   return rankings.sort((a, b) => new Date(`${b.updatedDate}T12:00:00`) - new Date(`${a.updatedDate}T12:00:00`));
 }
 
+// A story in the front page lead shape (public/scripts/front-lead.mjs).
+// Generic fallback art is not a photo: those stories get the type-only lead.
+function frontStoryShape(story) {
+  const image = story.heroImage || story.featuredImage || "";
+  const realPhoto = image && !/story_fallback/.test(image);
+  const summary = String(story.description || "");
+  return {
+    slug: story.slug,
+    href: `/stories/${story.slug}/`,
+    title: story.title,
+    summary: summary.length > 150 ? `${summary.slice(0, 147).trimEnd()}...` : summary,
+    kicker: String(story.kicker || story.category || "").toUpperCase() || null,
+    image_url: realPhoto ? image : null,
+    image_alt: realPhoto ? story.heroAlt || story.featuredImageAlt || "" : "",
+    image_credit: realPhoto ? story.imageCredit || null : null,
+    byline: !story.author || story.author === "Podium Watch" ? "Podium Watch Staff" : story.author,
+    story_date: story.date
+  };
+}
+
 function homePage(stories, rankings) {
   // Real request, 2026-09-16: the homepage lead must always be the most
   // recent story, full stop -- no exceptions. This used to prefer a
@@ -414,7 +436,15 @@ function homePage(stories, rankings) {
   // called out. `stories` is already sorted newest-first (with the
   // seriesOrder tie-break, loadStories() in this same file), so a plain
   // slice is the correct fix; no image-based reordering.
-  const latestStories = otherStories.filter((story) => story.slug !== featuredStory?.slug).slice(0, 8);
+  // Front page (WO-43): the newest story is the built-in lead; an admin
+  // lead from /api/front-page/current replaces it in the browser. The
+  // next three stories are "Also on the front page", and the Latest
+  // Stories rail starts after them so nothing repeats.
+  // Newest first by date only, like the lead (pinned stories don't jump ahead here).
+  const byDate = [...otherStories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`));
+  const alsoStories = byDate.filter((story) => story.slug !== featuredStory?.slug).slice(0, 3);
+  const frontCandidates = byDate.slice(0, 6).map(frontStoryShape);
+  const latestStories = otherStories.filter((story) => story.slug !== featuredStory?.slug && !alsoStories.some((also) => also.slug === story.slug)).slice(0, 8);
   // Homepage rebuild (2026-08-28): this used to render as "Latest
   // Stories" directly under the lead story, AND a second, separate
   // "Latest stories" section further down the page ("More than a finish
@@ -529,9 +559,15 @@ function homePage(stories, rankings) {
       </article>`).join("")}
     </div>
   </div></section>` : "";
-  const content = `${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}<section class="home-hero-news"><div class="container">
-    <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager" fetchpriority="high"${storyImageStyle(featuredStory)}></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
+  // Front page lead first (WO-43), then "Also on the front page", then
+  // the season modules (WO-07).
+  const frontPageSection = featuredStory ? `<section class="front-page" data-front-page aria-label="Front page"><div class="container">
+    <div data-front-lead>${frontLeadHtml(frontStoryShape(featuredStory))}</div>
+    <div class="fl-also" data-front-also>${frontAlsoHtml(alsoStories.map(frontStoryShape))}</div>
+    <script type="application/json" data-front-candidates>${JSON.stringify(frontCandidates).replaceAll("<", "\\u003c")}</script>
   </div></section>
+  <script type="module" src="/scripts/front-lead-client.mjs"></script>` : "";
+  const content = `${frontPageSection}${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}
 
   <section class="section section-paper" aria-labelledby="latest-stories-title">
     <div class="container">
@@ -843,6 +879,7 @@ function storyPage(story, stories) {
         <a href="https://www.facebook.com/sharer/sharer.php?u=${shareUrl}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H7.9v3h2.6V21h3Z"/></svg></a>
       </div>
     </div>
+    <div class="sp-front-page" data-front-page-runs data-slug="${escapeHtml(story.slug)}" hidden></div>
   </div></header>
 
   ${heroArt}
@@ -857,6 +894,7 @@ function storyPage(story, stories) {
   ${preseasonDataScript}
   <script src="/scripts/story-view.js" defer></script>
   <script src="/scripts/story-page.js" defer></script>
+  <script src="/scripts/story-front-page.js" defer></script>
   </div>`;
 
   return layout({
@@ -1110,6 +1148,8 @@ await writePage("/admin/recruiting/", adminRecruitingPage(site));
 await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
 await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
 await writePage("/admin/short-links/", adminShortLinksPage(site));
+// Front page lead (WO-43): published stories, newest first, in the lead shape.
+await writePage("/admin/front-page/", adminFrontPagePage(site, [...stories].filter((story) => !story.draft).sort((a, b) => String(b.date).localeCompare(String(a.date))).map(frontStoryShape)));
 await writePage("/admin/sponsor-report/", adminSponsorReportPage(site));
 await writePage("/admin/partner-page/", adminPartnerPage(site));
 // College commitment pages are server-rendered (api/pages/commitments.js).
@@ -1320,7 +1360,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // not yet meaningful enough to index at volume (201 pages). This is
   // the task's own documented safe fallback, not a guess.
   const isRealAthletePage = (pathname) => pathname.startsWith("/athletes/") && pathname !== "/athletes/";
-  const SERVER_RENDERED_PATHS = ["/sponsors/", ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths()];
+  const SERVER_RENDERED_PATHS = ["/sponsors/", ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
   const paths = [...generatedPaths, ...SERVER_RENDERED_PATHS]
     .filter((pathname) => !pathname.endsWith("404.html"))
     .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))

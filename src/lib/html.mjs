@@ -251,7 +251,9 @@ export function layout({ site, title, description, pathname, content, image, ima
   // reasoning and the noindex,follow vs. noindex,nofollow distinction.
   const isPrivatePage = NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix));
   const isNoindexFollowPage = NOINDEX_FOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix));
-  const resolvedRobots = robots || (isPrivatePage ? "noindex, nofollow" : isNoindexFollowPage ? "noindex, follow" : "index, follow");
+  const baseRobots = robots || (isPrivatePage ? "noindex, nofollow" : isNoindexFollowPage ? "noindex, follow" : "index, follow");
+  // Indexable pages allow large image previews (Google Discover, WO-40).
+  const resolvedRobots = /^index\b/.test(baseRobots) && !/max-image-preview/.test(baseRobots) ? `${baseRobots}, max-image-preview:large` : baseRobots;
   // A submission form can be genuinely worth indexing (real explanatory
   // content, confirmed per-page before this list was written) while still
   // being the wrong place to run an ad next to someone mid-submission --

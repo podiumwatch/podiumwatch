@@ -741,6 +741,7 @@ export function teamProfilePage(site) {
             <img class="team-profile-logo" data-team-profile-logo alt="" hidden>
             <div>
               <div class="team-profile-badges" data-team-profile-badges></div>
+              <div class="team-profile-badges" data-team-front-page hidden></div>
               <h1 data-team-profile-name></h1>
               <p class="team-profile-location" data-team-profile-location></p>
             </div>
@@ -976,6 +977,7 @@ export function teamProfilePage(site) {
   <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/path-to-state.js" defer></script>
   <script src="/scripts/team-profile.js" defer></script>
+  <script src="/scripts/team-front-page.js" defer></script>
   <script src="/scripts/team-content-public.js" defer></script>
   <script src="/scripts/engagement.js" defer></script>`;
 
