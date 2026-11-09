@@ -58,6 +58,7 @@ const PROJECTION_NOTE = "Projected from the top 75 Athletic.net teams and the to
 import districtQualifiers from "../data/district-qualifiers-2026.json" with { type: "json" };
 import top10Data from "../data/top10-by-grade-2026.json" with { type: "json" };
 import top10OverallData from "../data/top10-overall-by-grade-2026.json" with { type: "json" };
+import top10SchoolExpansions from "../data/mock-postseason-school-expansions-2026.json" with { type: "json" };
 
 function districtFeedHtml(regionKey, divisionEntry) {
   const regionData = districtQualifiers.regions[regionKey];
@@ -673,11 +674,17 @@ const TOP10_CSS = `
 @media (max-width: 600px) { .t10-grid { grid-template-columns:1fr; } }
 `;
 
+// WO-08: full school names instead of Athletic.net's short ones
+// ("Gar. Garfield" -> "Garfield (Akron)"), and every name links to the
+// athlete directory search for that name (these list rows carry no
+// profile id; WO-05/WO-13 switch them to direct profile links).
+const top10SchoolName = (school) => top10SchoolExpansions[school] || school;
+
 function top10Card(gradeLabel, rows, girls) {
   const items = rows.length
     ? rows.map((r, i) => {
         const tier = i === 0 ? " gold" : i === 1 ? " silver" : i === 2 ? " bronze" : "";
-        return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong>${escapeHtml(r.name)}</strong><small>${escapeHtml(r.school)}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
+        return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong><a href="/athletes/?q=${encodeURIComponent(r.name)}">${escapeHtml(r.name)}</a></strong><small>${escapeHtml(top10SchoolName(r.school))}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
       }).join("")
     : `<li class="t10-empty">No times listed yet.</li>`;
   return `<div class="t10-card${girls ? " t10-girls" : ""}"><h3>${gradeLabel}</h3><ol class="t10-list">${items}</ol></div>`;
