@@ -899,33 +899,23 @@
 
     factContainer.innerHTML = "";
 
+    // A past meet hides facts nobody filled in instead of saying "Not
+    // announced" (WO-08); an upcoming meet still shows the placeholder.
+    const meetIsPast = Boolean(meet.meet_date) &&
+      String(meet.end_date || meet.meet_date) < new Date().toISOString().slice(0, 10);
+    const facts = [
+      ["Date", formatDateRange(meet), true],
+      ["Start time", meet.start_time ? formatTime(meet.start_time) : "", false],
+      ["Location", meetLocation(meet), true],
+      ["Host", meet.host_school, false],
+      ["Division", meet.division, false],
+      ["Meet type", meet.meet_type, false]
+    ];
+
     factContainer.append(
-      createFact(
-        "Date",
-        formatDateRange(meet)
-      ),
-      createFact(
-        "Start time",
-        formatTime(
-          meet.start_time
-        )
-      ),
-      createFact(
-        "Location",
-        meetLocation(meet)
-      ),
-      createFact(
-        "Host",
-        meet.host_school
-      ),
-      createFact(
-        "Division",
-        meet.division
-      ),
-      createFact(
-        "Meet type",
-        meet.meet_type
-      )
+      ...facts
+        .filter(([, value, always]) => always || value || !meetIsPast)
+        .map(([label, value]) => createFact(label, value))
     );
 
     primaryActions.innerHTML = "";

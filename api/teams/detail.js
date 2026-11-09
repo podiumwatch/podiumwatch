@@ -280,7 +280,9 @@ export default async function handler(request, response) {
     }
 
     const socialLinks = socialResult.data || [];
-    const claimed = Number(memberResult.count) > 0;
+    // A team with claimed_at set is claimed even with no active member row
+    // right now (WO-08: Russia showed "This team has not been claimed").
+    const claimed = Boolean(requestedTeam.claimed_at) || Number(memberResult.count) > 0;
 
     return response.status(200).json({
       team: {
