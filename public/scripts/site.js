@@ -353,6 +353,9 @@
       } else if (today.newestCompleted.length > 0) {
         headline = "RESULTS ARE IN";
         detail = today.newestCompleted[0].name;
+        // Point at that meet's page, not the calendar (WO-07).
+        const tickerLink = document.querySelector("[data-ticker]");
+        if (tickerLink && today.newestCompleted[0].slug) tickerLink.href = "/meetdetail/?slug=" + encodeURIComponent(today.newestCompleted[0].slug);
       } else if (today.upcomingNext7d.length > 0) {
         headline = "MEETS THIS WEEKEND";
         detail = today.upcomingNext7d.length === 1 ? "1 meet coming up" : `${today.upcomingNext7d.length} meets coming up`;
@@ -368,6 +371,20 @@
     }).catch(() => {
       // Ticker failure must never be visible -- the static evergreen
       // fallback markup is already accurate, just less specific.
+    });
+  }
+
+  // Dated calls to action (WO-07, src/config/season.mjs): anything with
+  // data-starts/data-expires shows only inside its window, so it hides on
+  // time even when the page was built before the deadline.
+  const dated = document.querySelectorAll("[data-expires], [data-starts]");
+  if (dated.length) {
+    const now = Date.now();
+    dated.forEach((node) => {
+      const starts = node.dataset.starts ? Date.parse(node.dataset.starts) : NaN;
+      const expires = node.dataset.expires ? Date.parse(node.dataset.expires) : NaN;
+      const live = (Number.isNaN(starts) || now >= starts) && (Number.isNaN(expires) || now < expires);
+      node.hidden = !live;
     });
   }
 })();

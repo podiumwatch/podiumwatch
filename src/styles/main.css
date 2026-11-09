@@ -1788,3 +1788,8 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
   .sp-cards .sp-card h3 { font-size: 15.5px; }
 }
 @media print { .sp-series, .sp-share, .sp-related { display: none !important; } }
+/* Homepage on phones: tighter section spacing so it stays under six screens (WO-07). */
+@media (max-width: 600px) {
+  .home-page .section { padding: 24px 0; }
+  .home-page .section-heading { margin-bottom: 18px; padding-bottom: 12px; }
+}

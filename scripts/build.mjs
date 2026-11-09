@@ -123,6 +123,7 @@ import { adminRecruitingPage } from "../src/pages/adminrecruiting.mjs";
 import { adminResultsSourcesPage } from "../src/pages/adminresultssources.mjs";
 import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { adminShortLinksPage } from "../src/pages/adminshortlinks.mjs";
+import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
 import { adminAwardsPage } from "../src/pages/adminawards.mjs";
 import { adminPathToStatePage } from "../src/pages/adminpathtostate.mjs";
@@ -485,9 +486,24 @@ function homePage(stories, rankings) {
   const heroCategory = featuredStory?.category || "Cross Country";
   const heroByline = storyBylineHtml(featuredStory?.author);
   const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
-  const stateBreakdownsSection = stateBreakdowns.length ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
+  // WO-07: the homepage follows the season (src/config/season.mjs). The
+  // build picks the phase from its own date; a nightly rebuild keeps it
+  // current. Dated callouts also hide themselves in the browser once they
+  // expire (data-expires, public/scripts/site.js).
+  const buildNow = new Date();
+  const phase = seasonPhase(buildNow);
+  const datedCallouts = Object.values(DATED_CTAS).map((cta) => `<a class="home-picks-callout" href="${escapeHtml(cta.href)}" data-starts="${escapeHtml(cta.startsAt || "")}" data-expires="${escapeHtml(cta.expiresAt || "")}"${isLive(cta, buildNow) ? "" : " hidden"}><strong>${escapeHtml(cta.title)}</strong><span>${escapeHtml(cta.detail)} ${icon("arrow")}</span></a>`).join("");
+  const datedCalloutSection = `<section class="home-dated-ctas"><div class="container">${datedCallouts}</div></section>`;
+  // Cross country wrap-up leads with the state meet. Champions and full
+  // results join this block once the official files are imported (WO-05,
+  // WO-37); until then it links to the meet page and the official results.
+  const stateMeetSection = phase.key === "xc-wrapup" ? `<section class="section section-paper home-state-meet" aria-labelledby="state-meet-title" style="padding-block:28px"><div class="container">
+    <div class="section-heading"><div><!-- Date and venue from the meets record (slug 2026-ohsaa-state-championships). --><p class="eyebrow">Nov. 7, 2026 &middot; Fortress Obetz</p><h2 id="state-meet-title">2026 OHSAA State Cross Country Championships</h2></div></div>
+    <p>Official results for all eight races, boys and girls, Divisions I to IV.</p>
+    <div class="home-state-meet-actions" style="display:flex;flex-wrap:wrap;gap:10px"><a class="button button-primary" href="/meetdetail/?slug=2026-ohsaa-state-championships">State meet page</a> <a class="button button-outline" href="https://www.athletic.net/CrossCountry/meet/275513/results" target="_blank" rel="noopener noreferrer">Official results on Athletic.net</a></div>
+  </div></section>` : "";
+  const stateBreakdownsSection = stateBreakdowns.length && phase.key === "xc-postseason" ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
     <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
-    <a class="home-picks-callout" href="/awards/2026/"><strong>Nominate the 2026 Athletes, Teams and Coaches of the Year</strong><span>24 categories, boys and girls, Divisions I to IV. Nominations close Monday at 9:00 PM ET. ${icon("arrow")}</span></a>
     <div class="home-breakdowns-grid">
       ${stateBreakdowns.map((story) => `<article class="story-card">
         <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${storyImageStyle(story)}></a>
@@ -501,7 +517,7 @@ function homePage(stories, rankings) {
       </article>`).join("")}
     </div>
   </div></section>` : "";
-  const content = `${stateBreakdownsSection}<section class="home-hero-news"><div class="container">
+  const content = `${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}<section class="home-hero-news"><div class="container">
     <article class="home-lead"><a class="home-lead-image" href="${leadHref}"><img src="${leadImage}" alt="" width="1000" height="560" loading="eager" fetchpriority="high"${storyImageStyle(featuredStory)}></a><div><p class="eyebrow">${escapeHtml(heroCategory)}</p><h1><a href="${leadHref}">${escapeHtml(leadTitle)}</a></h1><p>${escapeHtml(leadSummary)}</p><p class="story-byline">By ${heroByline}${heroDate ? ` &middot; ${heroDate}` : ""}</p><a class="text-link" href="${leadHref}">Read the full story ${icon("arrow")}</a></div></article>
   </div></section>
 
@@ -560,7 +576,7 @@ function homePage(stories, rankings) {
        projections). Updated 2026-11-01 for the real Oct 31 regional
        results (copy approved by Zachary; no "Saturday's" so it does
        not go stale). -->
-  <section class="section" aria-labelledby="district-results-title">
+  ${phase.key === "xc-postseason" ? `  <section class="section" aria-labelledby="district-results-title">
     <div class="container">
       <div class="section-heading">
         <div><p class="eyebrow">Postseason</p><h2 id="district-results-title">Regionals are in the books.</h2></div>
@@ -572,6 +588,7 @@ function homePage(stories, rankings) {
       </div>
     </div>
   </section>
+` : ""}
 
   <!-- Story page redesign (2026-10-28), A4: the "Write for Podium
        Watch" hiring block moved off the homepage to a new "Join the
@@ -579,25 +596,26 @@ function homePage(stories, rankings) {
        copy). The page itself and /apply/ are unchanged and still work;
        this only removes the homepage promotion. -->
 
-  <section class="section section-paper" aria-labelledby="voting-title">
+  ${["xc-regular", "track-regular"].includes(phase.key) ? `  <section class="section section-paper" aria-labelledby="voting-title">
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Voting</p><h2 id="voting-title">Have your say.</h2></div></div>
-      <section class="vote-now-top">
+      ${[["awardsNominations", "Nominate the 2026 Athletes, Teams and Coaches of the Year.", "Nominate Now"], ["awardsVoting", "Vote for the 2026 Athletes, Teams and Coaches of the Year.", "Vote Now"], ["awardsWinners", "See the 2026 Athletes, Teams and Coaches of the Year.", "See the Winners"]].map(([key, question, button]) => `<section class="vote-now-top" data-starts="${escapeHtml(DATED_CTAS[key].startsAt)}" data-expires="${escapeHtml(DATED_CTAS[key].expiresAt)}"${isLive(DATED_CTAS[key], buildNow) ? "" : " hidden"}>
         <span class="vote-now-top-badge">2026 Year Awards</span>
         <div class="vote-now-body">
           <p class="vote-now-category">Ohio High School Cross Country</p>
-          <p class="vote-now-question">Nominate the 2026 Athletes, Teams and Coaches of the Year.</p>
-          <a class="button button-primary" href="/awards/2026/">Nominate Now</a>
+          <p class="vote-now-question">${question}</p>
+          <a class="button button-primary" href="/awards/2026/">${button}</a>
         </div>
-      </section>
+      </section>`).join("")}
       <div class="sport-cards" style="margin-top:18px">
         <article class="sport-card"><p class="eyebrow">Podium Play</p><h3>Play the Podium Watch games.</h3><a class="button button-primary" href="/podium-play/">Play Now</a></article>
-        <article class="sport-card"><p class="eyebrow">Fan Poll</p><h3>Build your own ranking ballot.</h3><a class="button button-primary" href="/fan-poll/">Vote Now</a></article>
+        <article class="sport-card"><p class="eyebrow">Fan Poll</p><h3>Build your own ranking ballot.</h3><a class="button button-primary" href="/fan-poll/">Open the Fan Poll</a></article>
       </div>
     </div>
   </section>
+` : ""}
 
-  <section class="section" aria-labelledby="follow-title">
+  ${phase.key !== "xc-wrapup" ? `  <section class="section" aria-labelledby="follow-title">
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Follow</p><h2 id="follow-title">Make Podium Watch yours.</h2></div><a class="text-link" href="/my-podium/">Open My Podium ${icon("arrow")}</a></div>
       <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
@@ -616,16 +634,18 @@ function homePage(stories, rankings) {
         </div>
       </section>
     </div>
-  </section>
+  </section>` : ""}
 
-  <section class="social-band"><div class="container social-grid"><div><p class="eyebrow">Follow the coverage</p><h2>@podiumwatch</h2><p>Daily Ohio cross country and track coverage, rankings, interviews, and athlete stories.</p></div><div class="social-actions"><a class="button button-dark" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} Follow on Instagram</a><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">${icon("youtube")} Subscribe on YouTube</a></div></div></section>
+  ${false ? `  <section class="social-band"><div class="container social-grid"><div><p class="eyebrow">Follow the coverage</p><h2>@podiumwatch</h2><p>Daily Ohio cross country and track coverage, rankings, interviews, and athlete stories.</p></div><div class="social-actions"><a class="button button-dark" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} Follow on Instagram</a><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">${icon("youtube")} Subscribe on YouTube</a></div></div></section>
+` : ""}
 
-  <section class="section section-paper" aria-labelledby="about-preview-title">
+  ${false ? `  <section class="section section-paper" aria-labelledby="about-preview-title">
     <div class="container content-grid">
       <div><p class="eyebrow">About Podium Watch</p><h2 id="about-preview-title">Built for Ohio runners.</h2><p>Rankings, results, and stories from across the state, with verified facts kept clearly separate from editorial projections and every correction welcome.</p><a class="button button-dark" href="/about/">Learn more</a></div>
       <div><a class="text-link" href="/staff/">Meet our staff ${icon("arrow")}</a><a class="text-link" href="/rankings/methodology/" style="margin-top:10px">Read the ranking methodology ${icon("arrow")}</a><a class="text-link" href="/sponsors/" style="margin-top:10px">Sponsor Podium Watch ${icon("arrow")}</a></div>
     </div>
   </section>
+` : ""}
 
   <script src="/scripts/my-podium-store.js" defer></script>
   <script src="/scripts/my-podium-data.js" defer></script>
@@ -635,7 +655,8 @@ function homePage(stories, rankings) {
 
   return layout({
     site,
-    title: site.name,
+    title: `${site.name} | Ohio High School Cross Country and Track & Field`,
+    bodyClass: "home-page",
     description: site.description,
     pathname: "/",
     image: featuredStory?.featuredImage || site.defaultSocialImage,

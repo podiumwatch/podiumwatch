@@ -205,7 +205,7 @@ export function breadcrumb(items) {
 }
 
 export function metadata({ site, title, description, pathname, image, imageWidth, imageHeight, canonicalUrl, type = "website", publishedTime, modifiedTime, jsonLd = [], robots = "index, follow" }) {
-  const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+  const fullTitle = title === site.name || String(title).startsWith(`${site.name} |`) ? title : `${title} | ${site.name}`;
   const canonical = canonicalUrl || absoluteUrl(site, pathname);
   const socialImage = absoluteUrl(site, image || site.defaultSocialImage);
   // Story page redesign (2026-10-28), B5: og:image:width/height, needed
