@@ -59,6 +59,11 @@
       "source": "/stories/2026-division-4-girls-cross-country-top-25/",
       "destination": "/rankings/cross-country/girls/division-4/2026-division-4-girls-cross-country-top-25/",
       "permanent": true
+    },
+    {
+      "source": "/commitments/",
+      "destination": "/commitments/2027/",
+      "permanent": false
     }
   ],
   "rewrites": [

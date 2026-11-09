@@ -125,6 +125,7 @@ import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { adminShortLinksPage } from "../src/pages/adminshortlinks.mjs";
 import { adminSponsorReportPage } from "../src/pages/adminsponsorreport.mjs";
 import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
+import { commitmentsPage } from "../src/pages/commitments.mjs";
 import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
 import { adminAwardsPage } from "../src/pages/adminawards.mjs";
@@ -1124,6 +1125,9 @@ await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
 await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
 await writePage("/admin/short-links/", adminShortLinksPage(site));
 await writePage("/admin/sponsor-report/", adminSponsorReportPage(site));
+// College commitment tracker (WO-38): the current senior class and the two after it.
+const COMMITMENT_CLASSES = [2027, 2028, 2029];
+for (const classYear of COMMITMENT_CLASSES) await writePage(`/commitments/${classYear}/`, commitmentsPage(site, classYear, COMMITMENT_CLASSES));
 await writePage("/admin/fan-poll/", adminFanPollPage(site));
 await writePage("/admin/awards/", adminAwardsPage(site));
 await writePage("/admin/awards/2026/", adminAwards2026Page(site));
@@ -1301,6 +1305,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
     { type: "Page", title: "Writer Portal", subtitle: "Intern writer accounts: sign in, dashboard, profile, and staff writer management", href: "/writer-portal/", searchText: "writer portal login intern account article draft submitted review editor" },
     { type: "Page", title: "Ohio Tournament Hub", subtitle: "Boys cross country divisions and track regional sites", href: "/tournament-hub/", searchText: "OHSAA divisions regional sites representation tournament boys cross country track" },
     { type: "Page", title: "Athlete Spotlights", subtitle: "The story behind the result", href: "/athlete-spotlights/", searchText: "athletes profiles interviews stories" },
+    { type: "Page", title: "College Commitments", subtitle: "Ohio cross country and track athletes committed to run in college", href: "/commitments/2027/", searchText: "commitments committed college signing recruiting class of 2027 2028" },
     { type: "Page", title: "Stories", subtitle: "Podium Watch articles and coverage", href: "/stories/", searchText: "articles news stories coverage" },
     ...stories.filter((story) => !isRankingDuplicate(story)).map((story) => ({ type: "Story", title: story.title, subtitle: `${story.category} | ${story.description}`, href: `/stories/${story.slug}/`, searchText: `${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")} ${story.author}` })),
     ...rankings.map((ranking) => ({ type: "Ranking", title: ranking.title, subtitle: `${ranking.sport} | ${ranking.gender} | ${ranking.division} | Updated ${ranking.updatedDate}`, href: ranking.href, searchText: `${ranking.title} ${ranking.sport} ${ranking.gender} ${ranking.division} ${ranking.season} ${ranking.event} ${ranking.rows.map((row) => `${row.athlete} ${row.school}`).join(" ")}` })),
