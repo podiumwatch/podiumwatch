@@ -19,6 +19,46 @@
       "source": "/race-command-center/:path(.*)",
       "destination": "/split-watch/:path",
       "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-1-boys-cross-country-top-25/",
+      "destination": "/rankings/cross-country/boys/division-1/2026-division-1-boys-cross-country-top-25/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-2-boys-cross-country-top-25/",
+      "destination": "/rankings/cross-country/boys/division-2/2026-division-2-boys-cross-country-top-25/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-3-boys-cross-country-top-25/",
+      "destination": "/rankings/cross-country/boys/division-3/2026-division-3-boys-cross-country-top-25/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-4-boys-cross-country-top-25/",
+      "destination": "/rankings/cross-country/boys/division-4/2026-division-4-boys-cross-country-top-25/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-1-girls-cross-country-top-25/",
+      "destination": "/rankings/cross-country/girls/division-1/2026-division-1-girls-cross-country-top-25/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-2-girls-cross-country-top-25/",
+      "destination": "/rankings/cross-country/girls/division-2/2026-division-2-girls-cross-country-top-25/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-3-girls-cross-country-top-25/",
+      "destination": "/rankings/cross-country/girls/division-3/2026-division-3-girls-cross-country-top-25/",
+      "permanent": true
+    },
+    {
+      "source": "/stories/2026-division-4-girls-cross-country-top-25/",
+      "destination": "/rankings/cross-country/girls/division-4/2026-division-4-girls-cross-country-top-25/",
+      "permanent": true
     }
   ],
   "functions": {

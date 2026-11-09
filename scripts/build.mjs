@@ -1060,11 +1060,18 @@ async function build() {
   // is never a public story -- so it is kept out of every story LIST
   // (homepage, /stories/, category pages, related stories, RSS) while
   // still getting its own page below, from the full `stories` array.
-  const publicStories = stories.filter((story) => story.slug !== "write-for-podium-watch");
+  // WO-08: the eight "2026 Division X ... Top 25" stories duplicate their
+  // ranking pages (same title, same list). The /rankings/... version is
+  // the one kept; the story URLs 301 there (vercel.json), so they are
+  // left out of every list, the search index and the sitemap.
+  const rankingDuplicateSlugs = new Set(rankings.map((ranking) => String(ranking.href || "").split("/").filter(Boolean).pop()));
+  const isRankingDuplicate = (story) => rankingDuplicateSlugs.has(story.slug);
+  const publicStories = stories.filter((story) => story.slug !== "write-for-podium-watch" && !isRankingDuplicate(story));
 
   await writePage("/", homePage(publicStories, rankings));
   await writePage("/stories/", storiesIndexPage(publicStories));
   for (const story of stories) {
+    if (isRankingDuplicate(story)) continue;
     const storyPathname = `/stories/${story.slug}/`;
     await writePage(storyPathname, storyPage(story, publicStories));
     pathLastmod.set(storyPathname, story.updatedDate || story.date);
@@ -1237,7 +1244,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
     }
   }
   for (const ranking of rankings) {
-    await writePage(ranking.href, rankingDetailPage(ranking, stories));
+    await writePage(ranking.href, rankingDetailPage(ranking, publicStories));
     if (ranking.updatedDate) pathLastmod.set(ranking.href, ranking.updatedDate);
   }
 
@@ -1269,7 +1276,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
     { type: "Page", title: "Ohio Tournament Hub", subtitle: "Boys cross country divisions and track regional sites", href: "/tournament-hub/", searchText: "OHSAA divisions regional sites representation tournament boys cross country track" },
     { type: "Page", title: "Athlete Spotlights", subtitle: "The story behind the result", href: "/athlete-spotlights/", searchText: "athletes profiles interviews stories" },
     { type: "Page", title: "Stories", subtitle: "Podium Watch articles and coverage", href: "/stories/", searchText: "articles news stories coverage" },
-    ...stories.map((story) => ({ type: "Story", title: story.title, subtitle: `${story.category} | ${story.description}`, href: `/stories/${story.slug}/`, searchText: `${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")} ${story.author}` })),
+    ...stories.filter((story) => !isRankingDuplicate(story)).map((story) => ({ type: "Story", title: story.title, subtitle: `${story.category} | ${story.description}`, href: `/stories/${story.slug}/`, searchText: `${story.title} ${story.description} ${story.category} ${(story.tags || []).join(" ")} ${story.author}` })),
     ...rankings.map((ranking) => ({ type: "Ranking", title: ranking.title, subtitle: `${ranking.sport} | ${ranking.gender} | ${ranking.division} | Updated ${ranking.updatedDate}`, href: ranking.href, searchText: `${ranking.title} ${ranking.sport} ${ranking.gender} ${ranking.division} ${ranking.season} ${ranking.event} ${ranking.rows.map((row) => `${row.athlete} ${row.school}`).join(" ")}` })),
     ...athleteSeedRows.map((athlete) => ({
       type: "Athlete",
