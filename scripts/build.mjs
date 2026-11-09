@@ -422,7 +422,11 @@ function homePage(stories, rankings) {
   // Stories rail below so nothing else on the page moves and no story
   // shows twice.
   const stateBreakdowns = stories.filter((story) => story.series === "state-breakdowns").sort((a, b) => a.seriesOrder - b.seriesOrder);
-  const otherStories = stories.filter((story) => story.series !== "state-breakdowns");
+  // The series is kept out of the general lists only while its own
+  // section shows (postseason). Otherwise (Zachary, 2026-11-09) the
+  // previews are listed like any story: front page and Latest Stories.
+  const breakdownsHaveOwnSection = stateBreakdowns.length > 0 && seasonPhase(new Date()).key === "xc-postseason";
+  const otherStories = breakdownsHaveOwnSection ? stories.filter((story) => story.series !== "state-breakdowns") : stories;
   const featuredStory = [...otherStories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`))[0];
   // Exclude the hero story from "Latest Stories" below it -- without this,
   // whenever the featured story is also among the most recent (the normal
