@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-09)
+
+- Master handoff: step 1 is done except **WO-05** (postseason import), which needs the eight state result files in `dataimports/real_state_results_2026/` (handoff section 9, item 5). Then step 2: WO-25 sponsors, WO-28 ads cleanup.
+- Run `install/82`, `83`, `84` (athlete search, leaders, short links) if not done; the code falls back until then.
+- Nightly rebuild for the season homepage needs the Vercel deploy hook (section 9, item 7).
+- After WO-05: rebuild Top 10 by grade, confirm Fuller leads with his postseason time, fill the homepage state block with champions.
+
 ## Most recent work (2026-11-01) -- read this first
 
 - **Latest (2026-11-02)**: State basis "Use average of district and regional" added (`averageDistrictRegional`); runners without a matched district time are listed, not estimated; D1 unavailable. Also the browser-only What if? editor (afb432c, pushed).

@@ -2974,3 +2974,11 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - `mockpostseason.mjs`: button added between "best from district and regional" and "best from the season"; help line now says "The first five".
 - Result: D2-D4 drop 3-13 qualifiers per section for missing district matches; no team falls below five timed runners. Boys D4 order: Mount Gilead 80, Russia 100, Convoy Crestview 156.
 - Checks: build 454 pages, check no problems, tests pass (what-if parity now covers 44 sections), Chrome at 375px: button swaps the section, URL carries `basis=averageDistrictRegional`, D1 shows the unavailable banner, what-if works on the new basis, no overflow, 0 page errors.
+
+## 2026-11-09: Year awards Part 2, admin handoff P0/P1, master handoff step 1
+
+- Shipped and pushed: 2026 Athlete/Team/Coach of the Year voting (8abbf6f); admin handoff P0 and P1 (WO-01, through bd7fe0e).
+- Committed, not yet pushed at time of writing: WO-02 row cap (476c6e3, fix 752cdd4), WO-03 directory search (322562e), WO-04 leaders (f00f634, 964ded0), WO-06 Instagram finish (60d8792), WO-08 accuracy fixes (6cd6f71, c873d17, 033dfac, e5e394d), WO-34 short links (78534cc), WO-31 health check (989f05e), WO-07 season homepage (8308a8d).
+- SQL written, not run: `install/82_ATHLETE_SEARCH.sql`, `83_LEADERS_FUNCTION.sql`, `84_SHORT_LINKS.sql`. Code falls back safely until each is run.
+- Checked on real data: directory total 8,884 (was 1,000); State Leaders boys starts with Brice Fuller 14:54.1; Operations dashboard loads; health check dry run red for Finish Timing, 7 failed emails, 4 failed imports.
+- Blocked: WO-05 needs the eight state result files in `dataimports/real_state_results_2026/`.

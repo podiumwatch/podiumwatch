@@ -2039,3 +2039,17 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 ## 2026-11-02: Average-of-district-and-regional State basis requires both times
 
 - The average basis uses a runner only when both a matched district time and a regional time exist. Runners missing a district match are listed and not timed, rather than falling back to the regional time alone, so every time on that basis really is an average of two real races.
+
+## 2026-11-09: Admin fixes and master handoff step 1 (decisions made along the way)
+
+- Finish Timing now requires a login (HTTP 401). A 401 or 403 pauses the provider automatically with the error as the reason; it is never worked around. The daily health check flags it until an admin decides.
+- Ingestion jobs that make no progress for 30 minutes become `failed` with `error_summary.timed_out` (the jobs table has no `timed_out` status).
+- College meets: rows not classified high school whose meet, event or school names a college are dismissed before any athlete matching. The 692-row queue was mostly high school (Shelby County Preview, Moeller); only the Kenyon meet was college.
+- Team Instagram: the live "is this a real account" check is gone (Instagram walls Vercel). Submissions wait for admin approval in `team_instagram_requests`; approval sets `team_pages.instagram_handle` and the team's Instagram social link.
+- Athlete profile totals everywhere mean active profiles (not merged, not archived). Merged duplicates are shown separately.
+- Team completion: every caller passes the same three signals (social link, schedule, roster).
+- Nav badges count only queue items (claims, reports, corrections, submissions, failures), not backlog.
+- Supabase row cap: never `.limit()` over 1,000; use `selectAll()` from `lib/supabase_paging.mjs`. `npm run check` enforces it.
+- New SQL numbering: the master handoff reserved 79 to 84, but 79 to 81 were used by the admin fixes, so athlete search is 82, leaders 83, short links 84.
+- The eight 2026 Top 25 rankings live only under `/rankings/...`; the matching story URLs 301 there.
+- Homepage follows `src/config/season.mjs`; dated calls to action carry start and expiry times and hide in the browser at expiry.
