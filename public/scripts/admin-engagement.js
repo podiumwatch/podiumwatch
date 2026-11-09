@@ -267,7 +267,8 @@
       <td>${escapeHtml(delivery.delivery_type)}</td>
       <td>${statusBadge(delivery.status)}${delivery.error_message ? `<br><small>${escapeHtml(delivery.error_message)}</small>` : ""}</td>
       <td>${escapeHtml(formatDate(delivery.sent_at || delivery.created_at))}</td>
-    </tr>`).join("") || `<tr><td colspan="4">No delivery attempts have been recorded.</td></tr>`;
+      <td>${delivery.status === "failed" ? `${delivery.delivery_type === "verification" ? `<button class="button button-outline" type="button" data-delivery-action="resend_verification" data-delivery-id="${escapeHtml(delivery.id)}">Resend</button> ` : ""}<button class="button button-outline" type="button" data-delivery-action="dismiss_delivery" data-delivery-id="${escapeHtml(delivery.id)}">Dismiss</button>` : ""}</td>
+    </tr>`).join("") || `<tr><td colspan="5">No delivery attempts have been recorded.</td></tr>`;
 
     renderSelects();
   }
@@ -508,6 +509,26 @@
     }
   }
 
+  // Failed delivery rows: Resend (verification only) or Dismiss, two taps.
+  deliveryRows.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-delivery-action]");
+    if (!button) return;
+    if (button.dataset.armed !== "yes") {
+      button.dataset.armed = "yes";
+      button.textContent = button.dataset.deliveryAction === "resend_verification" ? "Tap again to send" : "Tap again to dismiss";
+      return;
+    }
+    setBusy(true);
+    try {
+      await api({ action: button.dataset.deliveryAction, delivery_id: button.dataset.deliveryId });
+      showMessage(button.dataset.deliveryAction === "resend_verification" ? "Verification email sent again." : "Failed delivery dismissed.");
+      await load();
+    } catch (error) {
+      showMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+  });
   sendTestButton.addEventListener("click", () => runAction("send_test", "Test email sent."));
   processButton.addEventListener("click", () => runAction("process_queue", "Immediate queue processed."));
   processWeeklyButton.addEventListener("click", () => runAction("process_weekly", "Weekly recap processed."));

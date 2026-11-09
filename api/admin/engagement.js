@@ -7,9 +7,71 @@ import {
   getSiteUrl,
   processImmediateNotifications,
   processWeeklyDigests,
+  requestTeamFollow,
   safeUrl,
   sendResendEmail
 } from "../../lib/engagement_service.mjs";
+
+// Failed delivery actions (2026-11-09 audit, P0.6b). The 7 failures on
+// record are follower verification emails from Aug 31 to Sep 4, before
+// Resend was configured. "Resend" runs the same follow request again for
+// that email and team, keeping the follower's saved preferences, which
+// sends a fresh verification email; "Dismiss" deletes the failed attempt
+// record only (the follower and follow rows are untouched). Both happen
+// only when an admin presses the button.
+async function loadFailedDelivery(deliveryId) {
+  const id = cleanText(deliveryId, 80);
+  if (!/^[0-9a-f-]{36}$/i.test(id)) {
+    const error = new Error("Choose a delivery.");
+    error.status = 400;
+    throw error;
+  }
+  const { data, error } = await supabaseAdmin
+    .from("team_notification_deliveries")
+    .select("id, team_id, subscriber_id, delivery_type, recipient_email, status")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data || data.status !== "failed") {
+    const missing = new Error("That failed delivery could not be found.");
+    missing.status = 404;
+    throw missing;
+  }
+  return data;
+}
+
+async function resendVerification(body) {
+  const delivery = await loadFailedDelivery(body.delivery_id);
+  if (delivery.delivery_type !== "verification" || !delivery.recipient_email || !delivery.team_id) {
+    const error = new Error("Only failed verification emails can be resent from here.");
+    error.status = 400;
+    throw error;
+  }
+  const { data: follow } = await supabaseAdmin
+    .from("team_follows")
+    .select("frequency, alert_schedule, alert_roster, alert_results, alert_announcements, alert_achievements, alert_coverage, alert_media, alert_recruiting")
+    .eq("subscriber_id", delivery.subscriber_id)
+    .eq("team_id", delivery.team_id)
+    .maybeSingle();
+  await requestTeamFollow({
+    teamId: delivery.team_id,
+    email: delivery.recipient_email,
+    frequency: follow?.frequency,
+    preferences: follow
+      ? { schedule: follow.alert_schedule, roster: follow.alert_roster, results: follow.alert_results, announcements: follow.alert_announcements, achievements: follow.alert_achievements, coverage: follow.alert_coverage, media: follow.alert_media, recruiting: follow.alert_recruiting }
+      : {},
+    source: "admin_resend"
+  });
+  await supabaseAdmin.from("team_notification_deliveries").delete().eq("id", delivery.id).eq("status", "failed");
+  return { resent: delivery.id };
+}
+
+async function dismissDelivery(body) {
+  const delivery = await loadFailedDelivery(body.delivery_id);
+  const { error } = await supabaseAdmin.from("team_notification_deliveries").delete().eq("id", delivery.id).eq("status", "failed");
+  if (error) throw error;
+  return { dismissed: delivery.id };
+}
 
 function parseBody(request) {
   if (typeof request.body === "string") {
@@ -394,6 +456,10 @@ export default async function handler(request, response) {
       result = await deleteRecord("team_sponsor_placements", body.placement_id, "Placement");
     } else if (action === "send_test") {
       result = await sendTestEmail(body);
+    } else if (action === "resend_verification") {
+      result = await resendVerification(body);
+    } else if (action === "dismiss_delivery") {
+      result = await dismissDelivery(body);
     } else if (action === "process_queue") {
       result = await processImmediateNotifications({ maxEvents: 50 });
     } else if (action === "process_weekly") {

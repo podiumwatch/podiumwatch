@@ -232,8 +232,8 @@ export function adminEngagementPage(site) {
             <div class="engagement-table-wrap"><table class="engagement-table"><thead><tr><th>Team</th><th>Alert</th><th>Status</th><th>Created</th></tr></thead><tbody data-notification-event-rows></tbody></table></div>
           </section>
           <section class="info-card">
-            <p class="eyebrow">Email delivery</p><h2>Recent delivery attempts</h2>
-            <div class="engagement-table-wrap"><table class="engagement-table"><thead><tr><th>Recipient</th><th>Type</th><th>Status</th><th>Sent</th></tr></thead><tbody data-delivery-rows></tbody></table></div>
+            <p class="eyebrow" id="deliveries">Email delivery</p><h2>Recent delivery attempts</h2>
+            <div class="engagement-table-wrap"><table class="engagement-table"><thead><tr><th>Recipient</th><th>Type</th><th>Status</th><th>Sent</th><th>Action</th></tr></thead><tbody data-delivery-rows></tbody></table></div>
           </section>
         </section>
       </div>
