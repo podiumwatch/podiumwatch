@@ -171,8 +171,7 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
     </div>
   </section>
   ${jsonScript("yoy-data", { slug: category.slug, award: category.award, schedule: YEARLY_AWARDS_SCHEDULE, pool: compactPool(category, list) })}
-  <script src="/scripts/awards-2026.js" defer></script>
-  <script src="/scripts/page-view.js" defer></script>`;
+  <script src="/scripts/awards-2026.js" defer></script>`;
 
   return layout({
     site,
@@ -210,8 +209,7 @@ export function yearlyAwardsHubPage(site, pool) {
     </div>
   </section>
   ${jsonScript("yoy-data", { hub: true, schedule: YEARLY_AWARDS_SCHEDULE })}
-  <script src="/scripts/awards-2026.js" defer></script>
-  <script src="/scripts/page-view.js" defer></script>`;
+  <script src="/scripts/awards-2026.js" defer></script>`;
 
   return layout({
     site,

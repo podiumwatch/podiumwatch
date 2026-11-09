@@ -244,8 +244,7 @@ export function mockDistrictsSitePage(site, siteKey) {
       <nav class="md-race-nav" aria-label="Jump to a race">${nav}</nav>
       ${siteRaces.map(raceSectionHtml).join("")}
     </div>
-  </section>
-  <script src="/scripts/page-view.js" defer></script>`;
+  </section>`;
 
   return layout({
     site,
@@ -292,8 +291,7 @@ export function mockDistrictsHubPage(site) {
       <p class="md-note">${PROJECTION_NOTE}</p>
       ${regionBlocks}
     </div>
-  </section>
-  <script src="/scripts/page-view.js" defer></script>`;
+  </section>`;
 
   return layout({
     site,

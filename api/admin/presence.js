@@ -22,7 +22,7 @@ export default async function handler(request, response) {
   }
 
   try {
-    const result = await getLivePresence({ windowSeconds: 90 });
+    const result = await getLivePresence({ windowSeconds: 150 });
     return response.status(200).json(result);
   } catch (error) {
     console.error("Admin presence error:", error);

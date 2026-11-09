@@ -104,8 +104,7 @@ export function statePicksPage(site, field) {
     </div>
   </section>
   <script type="application/json" id="state-picks-field">${JSON.stringify({ lockAt: field.lockAt, races: field.races.map(({ key, label }) => ({ key, label })), logos }).replace(/</g, "\\u003c")}</script>
-  <script src="/scripts/state-picks.js" defer></script>
-  <script src="/scripts/page-view.js" defer></script>`;
+  <script src="/scripts/state-picks.js" defer></script>`;
 
   return layout({
     site,

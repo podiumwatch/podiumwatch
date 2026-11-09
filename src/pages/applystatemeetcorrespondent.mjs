@@ -122,8 +122,7 @@ export function applyStateMeetCorrespondentPage(site) {
       </section>
     </div>
   </section>
-
-  <script src="/scripts/page-view.js" defer></script>`;
+`;
 
   return layout({
     site,

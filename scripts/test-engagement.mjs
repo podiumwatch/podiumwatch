@@ -214,12 +214,12 @@ includesAll(
   "Admin Engagement must show a friendly label for page_view, a Top pages panel, and a Page views stat"
 );
 
-const oatcccPageSource = await read("src/pages/oatcccpoll.mjs");
+const layoutSource = await read("src/lib/html.mjs");
 
 includesAll(
-  oatcccPageSource,
+  layoutSource,
   ['<script src="/scripts/page-view.js" defer></script>'],
-  "The OATCCC Coaches Poll page must load page-view.js, or its view count would never appear in the admin Engagement Center"
+  "The shared layout must load page-view.js so every public page counts toward the Engagement Center (2026-11-09: it used to be on only 8 pages)"
 );
 
 console.log("Engagement analytics validation passed.");

@@ -197,8 +197,7 @@ export function rankingLeadersPage(site) {
     </div>
   </section>
 
-  <script src="/scripts/ranking-leaders.js" defer></script>
-  <script src="/scripts/page-view.js" defer></script>`;
+  <script src="/scripts/ranking-leaders.js" defer></script>`;
 
   return layout({
     site,

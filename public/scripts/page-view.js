@@ -25,6 +25,11 @@
 
     const path = window.location.pathname;
 
+    // Loaded on every page through layout() since 2026-11-09 (audit P1.5:
+    // the homepage and most pages sent no page view). Admin and account
+    // pages aren't audience traffic.
+    if (/^\/(admin|writer-portal|writer-login|team-login|team-dashboard|team-editor|my-podium)\//.test(path)) return;
+
     // Once per browser tab session per page -- reloading or revisiting
     // the same page repeatedly in one sitting counts as one view, not
     // many, matching story_view's own dedupe rule.

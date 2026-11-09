@@ -374,8 +374,7 @@ export function oatcccCoachesPollPage(site) {
     weekSelect.addEventListener('change', () => { weekIndex = Number(weekSelect.value); draw(); });
     draw();
   })();</script>
-
-  <script src="/scripts/page-view.js" defer></script>`;
+`;
 
   return layout({
     site,

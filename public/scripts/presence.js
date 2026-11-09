@@ -10,7 +10,10 @@
 (function () {
   "use strict";
 
-  const PING_INTERVAL_MS = 20000;
+  // 60 seconds (was 20; 2026-11-09 audit P1.6): each ping is a serverless
+  // call plus a database write, from every open tab. The admin live
+  // window (api/admin/presence.js) is 150 seconds to match.
+  const PING_INTERVAL_MS = 60000;
 
   try {
     let visitorId = localStorage.getItem("podium_visitor_id");

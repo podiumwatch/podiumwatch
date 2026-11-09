@@ -207,8 +207,7 @@ export function mockMeetsPage(site) {
   </section>
 
   <script type="application/json" data-mm-config>${JSON.stringify({ dataUrl: DATA_URL, snapshotDate: SNAPSHOT_DATE, articleHref: ARTICLE_HREF }).replaceAll("<", "\\u003c")}</script>
-  <script src="/scripts/mock-meets.js" defer></script>
-  <script src="/scripts/page-view.js" defer></script>`;
+  <script src="/scripts/mock-meets.js" defer></script>`;
 
   return layout({
     site,

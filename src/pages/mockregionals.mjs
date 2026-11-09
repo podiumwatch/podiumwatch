@@ -510,8 +510,7 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
         ${individualsTableHtml(fullFieldOrder(teams, scoredIndividuals), { showTeamScore: true })}
       </div>` : ""}
     </div>
-  </section>
-  <script src="/scripts/page-view.js" defer></script>`;
+  </section>`;
 
   return layout({
     site,
@@ -572,8 +571,7 @@ export function mockStatePage(site, divisionEntry) {
           </div>`
       }
     </div>
-  </section>
-  <script src="/scripts/page-view.js" defer></script>`;
+  </section>`;
 
   return layout({
     site,
@@ -627,8 +625,7 @@ export function mockRegionalsHubPage(site) {
 
       ${divisionBlocks}
     </div>
-  </section>
-  <script src="/scripts/page-view.js" defer></script>`;
+  </section>`;
 
   return layout({
     site,
