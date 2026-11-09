@@ -2053,3 +2053,14 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - New SQL numbering: the master handoff reserved 79 to 84, but 79 to 81 were used by the admin fixes, so athlete search is 82, leaders 83, short links 84.
 - The eight 2026 Top 25 rankings live only under `/rankings/...`; the matching story URLs 301 there.
 - Homepage follows `src/config/season.mjs`; dated calls to action carry start and expiry times and hide in the browser at expiry.
+
+## 2026-11-09: WO-05 postseason import
+
+- The 2026 OHSAA postseason (districts Oct 24, regionals Oct 31, state Nov 7) is in the real results tables, following Zachary's approved `merge_list_APPROVED.md` and `school_mapping_APPROVED.md`. Script: `scripts/postseason-2026-import.mjs` (plan by default, `--write` to apply; safe to rerun).
+- Profiles created from these official results are public (WO-05: "every row public_visible: true"). This is a second, approved exception to "auto-created profiles stay hidden". They are marked `source_identity_key` `official-results-2026|...` and `graduation_year_source` "Derived from grade in the 2026 OHSAA postseason official results".
+- No profile is created when the source school name matches more than one school (Madison, Perry, Jackson, Lakewood, Springfield, Fairfield, Manchester), when a similar name is already at the school, when there is no grade, or when the Athletic.net id is already on another profile. Those rows are held and listed in `dataimports/postseason_2026_to_results/held_after_import.md`.
+- A shared school name is resolved within a race only when every matched runner under that name in that race belongs to one school. Never by meet location.
+- Times: the posted tenths as `mark_text`/`mark_value`; the state sheet's hundredths only in `metadata.postseason_2026.raw`.
+- All-Ohio is `honor_label` on the state performance (D1 1-20 / 21-40, D2-D4 1-24 / 25-48). State source label credits "Results by SEO Timing."
+- Team scores use provider `ohsaa`. Path to State rows are set by "2026 postseason import".
+- Manchester (Akron) in the approved mapping is the existing Manchester (New Franklin). A duplicate school was added in error and has been marked `status = 'merged'` with `metadata.duplicate_of`; its 2 profiles were merged into the existing ones. The school search now ignores merged schools and the script maps that row to New Franklin.

@@ -317,3 +317,11 @@ Built and tested against a real, complete dataset (the actual 2025 OHSAA Divisio
 - Track Divisions page and directory track column are built and verified locally but not committed or pushed. Push only when the user says "push".
 - Open: confirm the directory column in a deployed browser check after the push. The directory needs `/api/`, so it can only be checked on a deployed site or with `vercel dev`.
 - Open: the Track Divisions page highlights moves using 2025-26 data from the CSV. If OHSAA publishes a corrected alignment, update `src/data/track-divisions-2027-28.json` and rebuild.
+
+## After WO-05 (2026-11-09)
+
+- Zachary to review `dataimports/postseason_2026_to_results/held_after_import.md`: 138 held runner rows (88 shared school names, 28 similar-name profiles, 4 without a time) and 9 team scores without one school.
+- Academy for Urban Scholars (Youngstown) was added as written (marked CONFIRM in the mapping).
+- Pre-existing duplicate noticed, not touched: `nathaniel-seib-2028` and `nathaniel-seib-manchester-2028`.
+- Run `scripts/postseason-2026-state-athletic-net-ids.mjs` when the eight state JSON files arrive.
+- Rebuild the Top 10 so it reflects postseason times.

@@ -2982,3 +2982,12 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - SQL written, not run: `install/82_ATHLETE_SEARCH.sql`, `83_LEADERS_FUNCTION.sql`, `84_SHORT_LINKS.sql`. Code falls back safely until each is run.
 - Checked on real data: directory total 8,884 (was 1,000); State Leaders boys starts with Brice Fuller 14:54.1; Operations dashboard loads; health check dry run red for Finish Timing, 7 failed emails, 4 failed imports.
 - Blocked: WO-05 needs the eight state result files in `dataimports/real_state_results_2026/`.
+
+## 2026-11-09: WO-05 postseason import run
+
+- install/87 run by Zachary and verified (9,339 existing performances got a meet_id).
+- Import run with the approved lists. Before: 691 schools, 12,740 active profiles, 20,716 performances, 0 postseason performances, 0 postseason team scores, 0 Path to State rows for 2026. After: 743 schools (52 added, 1 later marked merged), 14,057 active profiles, 34,841 performances (14,125 postseason), 1,786 team scores, 1,701 Path to State rows.
+- 28 merge groups done (31 profiles merged in total, including the 2 Manchester fixes). Section B safety checks passed for all three pairs.
+- 1,348 profiles created from official results (1,346 active).
+- Checks: Brice Fuller 15:06.7 / 14:49.4 / 14:50.7 (state 1st, All-Ohio first team); Russia boys 1st 45, 1st 57, 2nd 99; all 8 state champions; All-Ohio first team 182 of 184 (2 held: Gonczy, Ohare), second team 184.
+- Problems hit and fixed during the run: district meet matching (now an explicit site map), "Mansfield Senior" loose-matching Mansfield Christian (blocked), shared school names picking an arbitrary school (now resolved per race), alias and slug collisions, duplicate Manchester school.
