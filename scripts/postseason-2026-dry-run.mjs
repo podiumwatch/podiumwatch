@@ -172,6 +172,7 @@ for (const race of meets) {
 // school names the matcher doesn't recognize.
 const newRunners = new Map();
 const unknownSchools = new Map();
+const unknownSchoolDivisions = new Map();
 for (const race of meets) {
   for (const row of race.rows) {
     if (row.match.how === "unresolved") {
@@ -179,7 +180,11 @@ for (const race of meets) {
       if (!newRunners.has(key)) newRunners.set(key, { name: row.name, school: row.school, gender: race.gender, grade: row.grade, levels: new Set() });
       newRunners.get(key).levels.add(race.level);
     }
-    if (row.match.how === "unresolved_school_unknown") unknownSchools.set(row.school, (unknownSchools.get(row.school) || 0) + 1);
+    if (row.match.how === "unresolved_school_unknown") {
+      unknownSchools.set(row.school, (unknownSchools.get(row.school) || 0) + 1);
+      if (!unknownSchoolDivisions.has(row.school)) unknownSchoolDivisions.set(row.school, new Set());
+      unknownSchoolDivisions.get(row.school).add(`D${race.division} ${race.gender} ${race.level}${race.meet ? ` (${race.meet})` : ""}`);
+    }
   }
 }
 report.newRunners = { count: newRunners.size, reachedState: [...newRunners.values()].filter((r) => r.levels.has("state")).length, sample: [...newRunners.values()].slice(0, 20).map((r) => `${r.name} (${r.school}, ${r.gender}, grade ${r.grade ?? "?"}) ${[...r.levels].join("/")}`) };
@@ -277,8 +282,14 @@ report.mergeList = [...ambiguousGroups.values()].map((group) => {
   // an Athletic.net id, else more results, else the one whose slug names
   // the school. A suggestion only; Zachary approves every merge.
   const official = group.sourceClassYears.size === 1 ? [...group.sourceClassYears][0] : null;
-  const ranked = [...evidence].sort((a, b) => Number(/phlipot/i.test(b.name)) - Number(/phlipot/i.test(a.name)) || Number(b.class_year === official) - Number(a.class_year === official) || Number(Boolean(b.athletic_net_id)) - Number(Boolean(a.athletic_net_id)) || b.performances - a.performances || b.slug.length - a.slug.length);
-  return { keep: ranked[0].slug, merge: ranked.slice(1).map((e) => e.slug), official_class_year: official, evidence, held_rows: group.rows };
+  // Zachary's rule: the class year from the official results wins; then the
+  // Phlipot spelling, an Athletic.net id, more results.
+  const ranked = [...evidence].sort((a, b) => Number(b.class_year === official) - Number(a.class_year === official) || Number(/phlipot/i.test(b.name)) - Number(/phlipot/i.test(a.name)) || Number(Boolean(b.athletic_net_id)) - Number(Boolean(a.athletic_net_id)) || b.performances - a.performances || b.slug.length - a.slug.length);
+  // Two or more class years apart could be two different runners: those go
+  // on a separate list for Zachary instead of the merge list.
+  const years = evidence.map((e) => e.class_year).filter((y) => Number.isInteger(y));
+  const classYearGap = years.length > 1 ? Math.max(...years) - Math.min(...years) : 0;
+  return { keep: ranked[0].slug, merge: ranked.slice(1).map((e) => e.slug), official_class_year: official, class_year_gap: classYearGap, possibly_different_runners: classYearGap >= 2, evidence, held_rows: group.rows };
 });
 
 // School mapping draft: candidates only, never picked automatically.
@@ -290,7 +301,7 @@ report.schoolMappingDraft = [...unknownSchools.entries()].sort((a, b) => b[1] - 
     const hay = new Set(schoolWords(`${s.school_name} ${s.city}`));
     return words.length && words.every((w) => hay.has(w) || [...hay].some((h) => h.startsWith(w) && w.length >= 3));
   }).slice(0, 4).map((s) => `${s.school_name} (${s.city})`);
-  return { source_name: raw, rows, expansion: expanded, candidates };
+  return { source_name: raw, rows, expansion: expanded, candidates, seen_in: [...(unknownSchoolDivisions.get(raw) || [])].sort() };
 });
 
 // Spot checks Zachary asked about.
