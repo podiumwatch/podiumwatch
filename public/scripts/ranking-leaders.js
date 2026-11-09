@@ -16,7 +16,7 @@
   }
 
   function formatDate(isoDate) {
-    if (!isoDate) return "Date unknown";
+    if (!isoDate) return "";
     const date = new Date(`${isoDate}T12:00:00`);
     if (Number.isNaN(date.getTime())) return isoDate;
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
@@ -48,10 +48,10 @@
         <td class="leaders-cell-rank">${entry.rank}</td>
         <td class="leaders-cell-athlete">
           ${entry.athlete_slug ? `<a href="/athletes/${escapeHtml(entry.athlete_slug)}/">${escapeHtml(entry.athlete_name)}</a>` : escapeHtml(entry.athlete_name)}
-          <div class="leaders-cell-school">${escapeHtml(entry.school_name)}${entry.division ? ` &middot; ${escapeHtml(entry.division)}` : ""}</div>
+          <div class="leaders-cell-school">${escapeHtml(entry.school_name || "")}${entry.school_name && entry.division ? " &middot; " : ""}${entry.division ? escapeHtml(entry.division) : ""}</div>
         </td>
         <td data-label="Grade">${escapeHtml(gradeLabel(entry.grade))}</td>
-        <td data-label="Meet">${escapeHtml(entry.meet_name || "Meet unknown")}<div class="leaders-cell-school">${escapeHtml(formatDate(entry.meet_date))}</div></td>
+        <td data-label="Meet">${escapeHtml(entry.meet_name || "")}<div class="leaders-cell-school">${escapeHtml(formatDate(entry.meet_date))}</div></td>
         <td class="leaders-cell-time" data-label="Time">${escapeHtml(entry.mark_text)}</td>
       </tr>
     `).join("");

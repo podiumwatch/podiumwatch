@@ -54,3 +54,9 @@ test("findDivisionForSeason returns null for an empty or missing list", () => {
   assert.equal(findDivisionForSeason([], 2026), null);
   assert.equal(findDivisionForSeason(undefined, 2026), null);
 });
+
+test("leaders show Zachary's confirmed spelling corrections (docs/DATA_SOURCES.md section 5)", async () => {
+  const { displayAthleteName } = await import("../lib/athlete_leaders_service.mjs");
+  assert.equal(displayAthleteName("Samuel Philpot"), "Samuel Phlipot");
+  assert.equal(displayAthleteName("Brice Fuller"), "Brice Fuller");
+});
