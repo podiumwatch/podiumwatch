@@ -68,6 +68,14 @@
   ],
   "rewrites": [
     {
+      "source": "/commitments/:class([0-9]{4})/",
+      "destination": "/api/pages/commitments?class=:class"
+    },
+    {
+      "source": "/sponsors/",
+      "destination": "/api/pages/sponsors"
+    },
+    {
       "source": "/go/:sponsor/:placement/",
       "destination": "/api/go/:sponsor/:placement"
     },

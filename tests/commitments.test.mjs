@@ -37,3 +37,11 @@ test("share card: brand colors by gender, escaped text, site address, no em dash
   assert.match(girls, /A &amp; B &lt;C&gt;/);
   assert.ok(!/—/.test(boys + girls));
 });
+
+test("college lookup fills a missing level; unknown colleges stay not listed", async () => {
+  const { levelForCollege } = await import("../lib/commitments_service.mjs");
+  assert.equal(levelForCollege("Youngstown State", null), "NCAA I");
+  assert.equal(levelForCollege("Kenyon College", ""), "NCAA III");
+  assert.equal(levelForCollege("Some Unknown College", null), "Level not listed");
+  assert.equal(levelForCollege("Youngstown State", "NCAA Division II"), "NCAA II", "a recorded division always wins");
+});

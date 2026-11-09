@@ -1,52 +1,41 @@
-// College commitment tracker (src/pages/commitments.mjs, WO-38).
+// College commitment tracker (WO-38). The rows are rendered on the server
+// (src/pages/commitments.mjs); this only filters them and, for a signed-in
+// admin, adds each row's share card link.
 (() => {
   const root = document.querySelector("[data-commitments]");
   if (!root) return;
   const classYear = root.dataset.classYear;
-  const list = root.querySelector("[data-cm-list]");
+  const rows = [...root.querySelectorAll(".cm-row")];
   const levelSelect = root.querySelector("[data-cm-level]");
   const eventSelect = root.querySelector("[data-cm-event]");
   const count = root.querySelector("[data-cm-count]");
-  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const eventLabel = (value) => ({ cross_country: "Cross country", track_and_field: "Track and field", distance: "Distance", sprints: "Sprints", jumps: "Jumps", throws: "Throws" }[value] || String(value || "").replace(/_/g, " "));
-  const formatDate = (iso) => {
-    if (!iso) return "";
-    const date = new Date(`${iso}T12:00:00`);
-    return Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-  };
-  let rows = [];
-  // A signed-in admin also gets each row's 1080x1350 share card (WO-38).
-  let isAdmin = false;
-  fetch("/api/admin/auth/", { credentials: "same-origin" }).then((r) => r.json()).then((d) => { isAdmin = Boolean(d.authenticated); if (isAdmin && rows.length) render(); }).catch(() => {});
 
-  function render() {
+  function apply() {
     const level = levelSelect.value;
     const event = eventSelect.value;
-    const shown = rows.filter((row) => (!level || row.level === level) && (!event || row.event_group === event));
-    count.textContent = `${shown.length} commitment${shown.length === 1 ? "" : "s"}`;
-    list.innerHTML = shown.length ? shown.map((row) => `<li class="cm-row${row.gender === "girls" ? " is-girls" : ""}">
-      <div><b><a href="/athlete/?slug=${encodeURIComponent(row.athlete_slug)}">${escapeHtml(row.athlete_name)}</a></b><br><small>${escapeHtml(row.school_name || "")}</small></div>
-      <div class="cm-college">${row.type === "signing" ? "Signed with" : "Committed to"} ${escapeHtml(row.college)}</div>
-      <div class="cm-meta"><span>${escapeHtml(row.level)}</span>${row.event_group ? `<span>${escapeHtml(eventLabel(row.event_group))}</span>` : ""}${row.announced_on ? `<span>${escapeHtml(formatDate(row.announced_on))}</span>` : ""}<a href="${escapeHtml(row.source_url)}" target="_blank" rel="noopener noreferrer">Source: ${escapeHtml(row.source_label || "announcement")}</a>${isAdmin ? `<a href="/api/admin/commitment-card/?class=${encodeURIComponent(classYear)}&id=${encodeURIComponent(row.id)}">Download share card</a>` : ""}</div>
-    </li>`).join("") : `<li class="cm-empty">No ${level || event ? "matching " : ""}commitments listed for the class of ${escapeHtml(classYear)} yet.</li>`;
+    let shown = 0;
+    for (const row of rows) {
+      const visible = (!level || row.dataset.level === level) && (!event || row.dataset.event === event);
+      row.hidden = !visible;
+      if (visible) shown += 1;
+    }
+    count.textContent = `${shown} commitment${shown === 1 ? "" : "s"}`;
   }
 
-  function fillSelect(select, values, label) {
-    select.innerHTML = `<option value="">${select === levelSelect ? "All levels" : "All"}</option>` + values.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(label(value))}</option>`).join("");
-  }
+  levelSelect.addEventListener("change", apply);
+  eventSelect.addEventListener("change", apply);
 
-  fetch(`/api/commitments/?class=${encodeURIComponent(classYear)}`, { headers: { Accept: "application/json" } })
-    .then((response) => response.json().then((data) => ({ ok: response.ok, data })))
-    .then(({ ok, data }) => {
-      if (!ok) throw new Error(data.error || "Commitments could not be loaded right now.");
-      rows = data.commitments || [];
-      const order = ["NCAA I", "NCAA II", "NCAA III", "NAIA", "NJCAA", "Other", "Level not listed"];
-      fillSelect(levelSelect, order.filter((level) => rows.some((row) => row.level === level)), (value) => value);
-      fillSelect(eventSelect, [...new Set(rows.map((row) => row.event_group).filter(Boolean))], eventLabel);
-      render();
+  fetch("/api/admin/auth/", { credentials: "same-origin" })
+    .then((response) => response.json())
+    .then((data) => {
+      if (!data.authenticated) return;
+      for (const row of rows) {
+        const slot = row.querySelector("[data-cm-admin]");
+        const id = row.dataset.id;
+        if (!slot || !id) continue;
+        slot.innerHTML = `<a href="/api/admin/commitment-card/?class=${encodeURIComponent(classYear)}&id=${encodeURIComponent(id)}">Download share card</a>`;
+        slot.hidden = false;
+      }
     })
-    .catch((error) => { list.innerHTML = `<li class="cm-empty">${escapeHtml(error.message)}</li>`; });
-
-  levelSelect.addEventListener("change", render);
-  eventSelect.addEventListener("change", render);
+    .catch(() => {});
 })();

@@ -1,4 +1,5 @@
 import { layout, pageHero } from "../lib/html.mjs";
+import { commitmentRowHtml, filterOptionsHtml } from "../lib/commitment_rows.mjs";
 
 // College commitment tracker, one page per class (WO-38). Rows come from
 // /api/commitments/?class=YYYY (public, sourced commitments only) and are
@@ -24,8 +25,11 @@ const styles = `
   @media (max-width:560px) { .cm-row { grid-template-columns:1fr; } }
 `;
 
-export function commitmentsPage(site, classYear, allYears) {
+// Rendered on the server by api/pages/commitments.js with the class's
+// rows in the HTML; the browser only filters them.
+export function commitmentsPage(site, classYear, allYears, rows = []) {
   const pathname = `/commitments/${classYear}/`;
+  const options = filterOptionsHtml(rows);
   const content = `<style>${styles}</style>
   ${pageHero({
     eyebrow: "College commitments",
@@ -35,11 +39,11 @@ export function commitmentsPage(site, classYear, allYears) {
   <section class="section section-paper"><div class="container cm-shell" data-commitments data-class-year="${classYear}">
     <nav class="cm-tabs" aria-label="Class year">${allYears.map((year) => `<a href="/commitments/${year}/"${year === classYear ? ' aria-current="page"' : ""}>Class of ${year}</a>`).join("")}</nav>
     <div class="cm-filters">
-      <label>Level <select data-cm-level><option value="">All levels</option></select></label>
-      <label>Event group <select data-cm-event><option value="">All</option></select></label>
-      <p class="cm-count" data-cm-count role="status"></p>
+      <label>Level <select data-cm-level>${options.levels}</select></label>
+      <label>Event group <select data-cm-event>${options.events}</select></label>
+      <p class="cm-count" data-cm-count role="status">${rows.length} commitment${rows.length === 1 ? "" : "s"}</p>
     </div>
-    <ul class="cm-list" data-cm-list><li class="cm-empty">Loading commitments&hellip;</li></ul>
+    <ul class="cm-list" data-cm-list>${rows.length ? rows.map(commitmentRowHtml).join("") : `<li class="cm-empty">No commitments listed for the class of ${classYear} yet.</li>`}</ul>
     <div class="info-card">
       <h2>Missing a commitment?</h2>
       <p>Athletes, parents and coaches can report one. Podium Watch lists it once it's confirmed by a public source, like the college's announcement, a coach's post or the athlete's own post. No source, no listing.</p>

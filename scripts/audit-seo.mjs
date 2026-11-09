@@ -78,6 +78,10 @@ for (const loc of locs) {
   // /meetdetail/, /race/) in the sitemap.
   if (SITEMAP_EXACT_EXCLUDE.includes(pathname)) errors.push(`sitemap.xml: "${pathname}" is a generic shell route with no record selected and must not be in the sitemap.`);
 
+  // Pages rendered on the server by api/pages/ (vercel.json rewrites)
+  // have no file in dist/; their HTML is checked by their own tests.
+  if (/^\/(sponsors|commitments\/\d{4})\/$/.test(pathname)) continue;
+
   const html = await readHtml(pathname);
   if (!html) {
     errors.push(`sitemap.xml: "${pathname}" has no corresponding generated file in dist/.`);

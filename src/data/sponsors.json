@@ -2,26 +2,30 @@
   {
     "id": "spike-town-runners-plus",
     "name": "Spike Town at Runners Plus",
-    "description": "Presents Podium Watch's weekly boys and girls rankings.",
+    "description": "Presents Podium Watch's weekly rankings and the state championship results.",
     "url": "https://runpl.us/PodiumWatch",
     "placements": [
       {
         "id": "rankings",
         "label": "Cross country rankings",
-        "paths": ["/rankings/cross-country/"]
+        "paths": [
+          "/rankings/cross-country/"
+        ]
       }
     ]
   },
   {
     "id": "raising-canes",
     "name": "Raising Cane's",
-    "description": "Sponsors Podium Watch's overall Top 10 by class.",
+    "description": "Sponsors Podium Watch's Top 10 by class and the mock meets.",
     "url": null,
     "placements": [
       {
         "id": "top-10",
         "label": "Top 10 by class",
-        "paths": ["/rankings/top-10/"]
+        "paths": [
+          "/rankings/top-10/"
+        ]
       }
     ]
   }
