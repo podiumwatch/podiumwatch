@@ -5,6 +5,13 @@ import { recordShortLinkHit, resolveShortLink } from "../../lib/short_links_serv
 // answers with a temporary 302 (so it can be repointed next season) and
 // logs one hit; anything else gets the site's normal 404 page.
 
+export function tagDestination(destination, path) {
+  if (!destination.startsWith("/")) return destination;
+  const [base, hash = ""] = destination.split("#");
+  const joiner = base.includes("?") ? "&" : "?";
+  return `${base}${joiner}utm_medium=short_link&utm_campaign=${encodeURIComponent(path)}${hash ? `#${hash}` : ""}`;
+}
+
 async function notFound(request, response) {
   response.setHeader("Cache-Control", "public, s-maxage=60");
   try {
@@ -41,6 +48,8 @@ export default async function handler(request, response) {
   }
   response.setHeader("Cache-Control", "no-store");
   response.setHeader("X-Podium-Short-Link", link.path);
-  response.setHeader("Location", link.destination);
+  // Tag site pages with the short link so the visit is credited to it
+  // (WO-42). Outside links are sent as they are.
+  response.setHeader("Location", tagDestination(link.destination, link.path));
   return response.status(302).end();
 }

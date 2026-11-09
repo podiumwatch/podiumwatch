@@ -25,6 +25,17 @@
 
     const path = window.location.pathname;
 
+    function sourceTags() {
+      const params = new URLSearchParams(window.location.search);
+      const tags = {};
+      for (const key of ["utm_source", "utm_medium", "utm_campaign"]) {
+        const value = (params.get(key) || "").replace(/[^A-Za-z0-9._-]/g, "").slice(0, 80);
+        if (value) tags[key] = value;
+      }
+      if (tags.utm_medium === "short_link" && tags.utm_campaign) tags.short_link = tags.utm_campaign;
+      return tags;
+    }
+
     // Loaded on every page through layout() since 2026-11-09 (audit P1.5:
     // the homepage and most pages sent no page view). Admin and account
     // pages aren't audience traffic.
@@ -48,7 +59,12 @@
         section: "pages",
         content_type: "page",
         content_id: path,
-        path
+        path,
+        // WO-42: where the visit came from. The server keeps only the
+        // referrer's host name; UTM tags and the short link that brought
+        // the visit (utm_medium=short_link) go in metadata. No personal data.
+        referrer: document.referrer || "",
+        metadata: sourceTags()
       })
     }).catch(() => {});
   } catch {
