@@ -27,18 +27,40 @@
     return clientPromise;
   }
 
+  // A signed-in site admin with no writer session can still open the
+  // portal's staff pages (lib/portal_auth.mjs accepts the admin cookie).
+  // Checked once per page: the "admin-session" placeholder token tells
+  // the server to look for that cookie.
+  let adminSessionPromise = null;
+  function adminSession() {
+    if (!adminSessionPromise) {
+      adminSessionPromise = fetch("/api/portal/me/", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer admin-session" },
+        body: JSON.stringify({ action: "get_profile" })
+      })
+        .then((response) => (response.ok ? response.json() : null))
+        .then((data) => (data && data.profile ? data.profile : null))
+        .catch(() => null);
+    }
+    return adminSessionPromise;
+  }
+
   async function getAccessToken() {
     const client = await getClient();
     const { data, error } = await client.auth.getSession();
     if (error) throw error;
-    return data.session?.access_token || "";
+    if (data.session?.access_token) return data.session.access_token;
+    return (await adminSession()) ? "admin-session" : "";
   }
 
   async function getUser() {
     const client = await getClient();
     const { data, error } = await client.auth.getUser();
-    if (error) return null;
-    return data.user || null;
+    if (!error && data.user) return data.user;
+    const profile = await adminSession();
+    return profile ? { id: profile.id, email: null, admin_session: true } : null;
   }
 
   window.PodiumWriterAuth = { getClient, getAccessToken, getUser };
