@@ -1,6 +1,7 @@
 ---
 title: "Division I: Springboro and Mason Meet Again, and Mentor Is the Sleeper"
 date: "2026-11-03"
+eventDate: "2026-11-07"
 description: "Everything you need for Saturday's Division I races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
 author: "Logan Eggert"

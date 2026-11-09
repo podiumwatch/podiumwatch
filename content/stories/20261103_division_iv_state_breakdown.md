@@ -1,6 +1,7 @@
 ---
 title: "Division IV: Lehman Hunts a Repeat, and Mount Gilead and Russia Battle for a State Title"
 date: "2026-11-03"
+eventDate: "2026-11-07"
 description: "Everything you need for Saturday's Division IV races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
 author: "Logan Eggert"

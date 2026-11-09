@@ -1,6 +1,7 @@
 ---
 title: "Division III: Four Boys Under 15:00, and Woodridge Is Back for More"
 date: "2026-11-03"
+eventDate: "2026-11-07"
 description: "Everything you need for Saturday's Division III races at Fortress Obetz: the favorites, the chasers and the team math."
 category: "Cross Country"
 author: "Logan Eggert"

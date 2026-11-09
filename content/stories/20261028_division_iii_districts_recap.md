@@ -1,6 +1,7 @@
 ---
 title: "Division III Districts: Zang and Huddle Win by a Combined 3:46 at Owens, Spitzer Breaks 15 Again"
 date: "2026-10-28"
+eventDate: "2026-10-24"
 description: "The fastest boy and the fastest girl in Ohio raced at the same district on the same morning. Every Division III district race, region by region."
 category: "Cross Country"
 author: "Logan Eggert"

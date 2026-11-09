@@ -20,9 +20,12 @@ if (root && candidatesNode) {
       // kicker and credit can differ from the built-in version.
       root.querySelector("[data-front-lead]").innerHTML = frontLeadHtml(story);
       if (lead.story_slug === builtSlug) return;
-      const also = candidates.filter((s) => s.slug !== story.slug).slice(0, 3);
+      // Same rule as the build: only stories published after the event they
+      // cover. When the build filled the slot with the state champions, it
+      // stays that way.
+      const also = candidates.filter((s) => s.also_ok && s.slug !== story.slug).slice(0, 3);
       const alsoNode = root.querySelector("[data-front-also]");
-      if (alsoNode) alsoNode.innerHTML = frontAlsoHtml(also);
+      if (alsoNode && !alsoNode.hasAttribute("data-front-also-champions") && also.length) alsoNode.innerHTML = frontAlsoHtml(also);
       const shown = new Set([story.slug, ...also.map((s) => s.slug)]);
       document.querySelectorAll("[data-story-rail] a[href^='/stories/']").forEach((link) => {
         const slug = link.getAttribute("href").split("/")[2];

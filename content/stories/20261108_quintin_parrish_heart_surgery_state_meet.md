@@ -1,6 +1,7 @@
 ---
 title: "18 Months After Heart Surgery, Quintin Parrish Scored at State"
 date: "2026-11-08"
+eventDate: "2026-11-07"
 description: "The Van Wert senior went from a hospital bed to the Division III state meet, and his points helped Van Wert finish ninth in Division III."
 category: "Cross Country"
 author: "Podium Watch"

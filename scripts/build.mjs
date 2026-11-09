@@ -446,9 +446,16 @@ function homePage(stories, rankings) {
   // Stories rail starts after them so nothing repeats.
   // Newest first by date only, like the lead (pinned stories don't jump ahead here).
   const byDate = [...otherStories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`));
-  const alsoStories = byDate.filter((story) => story.slug !== featuredStory?.slug).slice(0, 3);
-  const frontCandidates = byDate.slice(0, 6).map(frontStoryShape);
-  const latestStories = otherStories.filter((story) => story.slug !== featuredStory?.slug && !alsoStories.some((also) => also.slug === story.slug)).slice(0, 8);
+  // "Also on the front page" (Zachary, 2026-11-09): only stories published
+  // after the event they cover. Previews never qualify; a story with an
+  // eventDate qualifies only on or after it. Previews whose meet is over
+  // stay in the Latest Stories rail with their Preview label. With fewer
+  // than 2 qualifying stories, the 8 state champions fill the slot.
+  const alsoQualifies = (story) => storyType(story) !== "Preview" && (!story.eventDate || String(story.date) >= String(story.eventDate));
+  const alsoStories = byDate.filter((story) => story.slug !== featuredStory?.slug && alsoQualifies(story)).slice(0, 3);
+  const alsoUsesChampions = alsoStories.length < 2;
+  const frontCandidates = byDate.slice(0, 8).map((story) => ({ ...frontStoryShape(story), also_ok: alsoQualifies(story) }));
+  const latestStories = otherStories.filter((story) => story.slug !== featuredStory?.slug && (alsoUsesChampions || !alsoStories.some((also) => also.slug === story.slug))).slice(0, 8);
   // Homepage rebuild (2026-08-28): this used to render as "Latest
   // Stories" directly under the lead story, AND a second, separate
   // "Latest stories" section further down the page ("More than a finish
@@ -543,7 +550,9 @@ function homePage(stories, rankings) {
     const team = race.team ? `<small>Team: ${escapeHtml(race.team.school)}, ${escapeHtml(String(race.team.score))} points</small>` : "";
     return `<a class="home-state-champ${race.gender === "girls" ? " is-girls" : ""}" href="/state/2026/#${escapeHtml(race.anchor)}"><span>${race.gender === "girls" ? "Girls" : "Boys"} Division ${romanDivision(race.division)}</span>${ind}${team}</a>`;
   }).join("");
-  const stateMeetSection = phase.key === "xc-wrapup" ? `<section class="section section-paper home-state-meet" aria-labelledby="state-meet-title" style="padding-block:28px"><div class="container">
+  // When the champions fill "Also on the front page", this block would
+  // repeat them, so it is left out.
+  const stateMeetSection = phase.key === "xc-wrapup" && !alsoUsesChampions ? `<section class="section section-paper home-state-meet" aria-labelledby="state-meet-title" style="padding-block:28px"><div class="container">
     <div class="section-heading"><div><!-- Date and venue from the meets record (slug 2026-ohsaa-state-championships). --><p class="eyebrow">Nov. 7, 2026 &middot; Fortress Obetz</p><h2 id="state-meet-title">2026 Ohio Cross Country State Champions</h2></div><a class="text-link" href="/state/2026/">Full results ${icon("arrow")}</a></div>
     <div class="home-state-champs">${stateChampCards}</div>
     <div class="home-state-meet-actions" style="display:flex;flex-wrap:wrap;gap:10px"><a class="button button-primary" href="/state/2026/">Full state results</a> <a class="button button-outline" href="/regionals/2026/">Regionals</a> <a class="button button-outline" href="/districts/2026/">Districts</a></div>
@@ -567,7 +576,9 @@ function homePage(stories, rankings) {
   // the season modules (WO-07).
   const frontPageSection = featuredStory ? `<section class="front-page" data-front-page aria-label="Front page"><div class="container">
     <div data-front-lead>${frontLeadHtml(frontStoryShape(featuredStory))}</div>
-    <div class="fl-also" data-front-also>${frontAlsoHtml(alsoStories.map(frontStoryShape))}</div>
+    <div class="fl-also" data-front-also${alsoUsesChampions ? " data-front-also-champions" : ""}>${alsoUsesChampions
+      ? `<h2 class="fl-also-title">2026 Ohio Cross Country State Champions</h2><div class="home-state-champs">${stateChampCards}</div><div class="home-state-meet-actions" style="display:flex;flex-wrap:wrap;gap:10px"><a class="button button-primary" href="/state/2026/">Full state results</a> <a class="button button-outline" href="/regionals/2026/">Regionals</a> <a class="button button-outline" href="/districts/2026/">Districts</a></div>`
+      : frontAlsoHtml(alsoStories.map(frontStoryShape))}</div>
     <script type="application/json" data-front-candidates>${JSON.stringify(frontCandidates).replaceAll("<", "\\u003c")}</script>
   </div></section>
   <script type="module" src="/scripts/front-lead-client.mjs"></script>` : "";

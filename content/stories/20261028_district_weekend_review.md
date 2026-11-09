@@ -1,6 +1,7 @@
 ---
 title: "Collision Course: Ohio's Three Fastest Boys All Run Division III, and They're Headed for Obetz"
 date: "2026-10-28"
+eventDate: "2026-10-24"
 description: "Cole Zang, Jackson Spitzer and Brice Fuller ran the three fastest times in the state at districts. Plus: every Podium Watch preseason No. 1 held serve, and three teams survived by a single point."
 category: "Cross Country"
 author: "Podium Watch"

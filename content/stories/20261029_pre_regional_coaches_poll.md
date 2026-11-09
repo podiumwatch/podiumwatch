@@ -1,6 +1,7 @@
 ---
 title: "Pre-Regional Coaches' Poll: Eight No. 1 Teams Head Into Regionals"
 date: "2026-10-29"
+eventDate: "2026-10-31"
 description: "Three teams are unanimous No. 1s, and Division II boys is separated by three points. Here is the OATCCC Pre-Regional coaches' poll for every division."
 category: "Cross Country"
 author: "Podium Watch"

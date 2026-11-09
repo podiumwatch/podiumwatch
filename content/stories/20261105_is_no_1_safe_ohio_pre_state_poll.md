@@ -1,6 +1,7 @@
 ---
 title: "Is No. 1 Safe? A Decade of Ohio's Pre-State Coaches Poll vs. the State Meet"
 date: "2026-11-05"
+eventDate: "2026-11-07"
 description: "Since 2016, the coaches' final No. 1 has won the Ohio state title 41 times in 56 tries. When it loses, the team to fear usually isn't No. 2. It's No. 3."
 category: "Cross Country"
 author: "Podium Watch"

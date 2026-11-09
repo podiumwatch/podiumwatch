@@ -1,6 +1,7 @@
 ---
 title: "Division II Districts: Heithaus Sets the Pace, and the Preseason Picks Deliver"
 date: "2026-10-28"
+eventDate: "2026-10-24"
 description: "A sophomore ran the fastest Division II time in Ohio, and the teams we picked in August held up. Every Division II district, region by region."
 category: "Cross Country"
 author: "Logan Eggert"
