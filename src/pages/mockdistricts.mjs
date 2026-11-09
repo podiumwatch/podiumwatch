@@ -1,3 +1,4 @@
+import { sponsorSlotHtml } from "../../lib/site_sponsors.mjs";
 import { breadcrumb, emptyState, icon, layout, pageHero } from "../lib/html.mjs";
 import { scoreRegionalField, selectIndividualQualifiers } from "../lib/mock_scoring.mjs";
 import districtsData from "../data/mock-districts-2026.json" with { type: "json" };
@@ -238,7 +239,7 @@ export function mockDistrictsSitePage(site, siteKey) {
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="md-title">
     <div class="container">
-      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: "Districts", href: "/mock-meets/districts/" }, { label: siteEntry.name }])}
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: "Districts", href: "/mock-meets/districts/" }, { label: siteEntry.name }])}${sponsorSlotHtml(pathname)}
       <h2 id="md-title" class="visually-hidden">${title}</h2>
       <p class="md-note">${PROJECTION_NOTE}</p>
       <nav class="md-race-nav" aria-label="Jump to a race">${nav}</nav>
@@ -286,7 +287,7 @@ export function mockDistrictsHubPage(site) {
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="md-hub-title">
     <div class="container">
-      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: "Districts" }])}
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: "Districts" }])}${sponsorSlotHtml(pathname)}
       <h2 id="md-hub-title" class="visually-hidden">Pick a district site</h2>
       <p class="md-note">${PROJECTION_NOTE}</p>
       ${regionBlocks}

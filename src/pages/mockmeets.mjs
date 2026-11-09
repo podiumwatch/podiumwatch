@@ -1,3 +1,4 @@
+import { sponsorSlotHtml } from "../../lib/site_sponsors.mjs";
 import { breadcrumb, icon, layout, pageHero } from "../lib/html.mjs";
 
 // 2026 Ohio XC Mock Meets (September 17 snapshot) -- a one-off companion
@@ -121,7 +122,7 @@ export function mockMeetsPage(site) {
 
   <section class="section section-paper" aria-labelledby="mm-title">
     <div class="container">
-      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: "Mock Meets" }])}
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: "Mock Meets" }])}${sponsorSlotHtml(pathname)}
 
       <div class="mm-explainer">
         <p>Podium Watch scored a hypothetical race for each division using every OATCCC top-24 team's supplied season-best 5K times. It is a modeling exercise, not a real meet result -- full context in the article.</p>

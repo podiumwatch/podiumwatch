@@ -1,3 +1,4 @@
+import { sponsorSlotHtml } from "../../lib/site_sponsors.mjs";
 import { layout } from "../lib/html.mjs";
 import seasonData from "../data/mock-postseason-2026.json" with { type: "json" };
 import realData from "../data/mock-postseason-2026-real.json" with { type: "json" };
@@ -1038,7 +1039,7 @@ export function mockPostseasonDistrictSitePage(site, siteKey, data, basePath, is
     </div>
     <div class="mp-filterrow" data-sitetabpanel="results">${chips}</div>
   </div>
-  <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">${initialBreadcrumb}</nav>
+  <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">${initialBreadcrumb}</nav><div class="mp-sponsor-slot" style="padding:10px 16px 0">${sponsorSlotHtml(pathname)}</div>
   <section class="section section-paper mp-pagesection"><div class="container">
     <div data-sitetabpanel="results">
       ${bicarbLeaderboardHtml("district-top")}
@@ -1430,7 +1431,7 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
     <div class="mp-filterrow">${filterChips}</div>
   </div>
   ${bicarbBillboardHtml()}
-  <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">Districts</nav>
+  <nav class="mp-breadcrumb" id="mp-breadcrumb" aria-label="Breadcrumb">Districts</nav><div class="mp-sponsor-slot" style="padding:10px 16px 0">${sponsorSlotHtml(pathname)}</div>
   <section class="section section-paper mp-pagesection"><div class="container">
     <div class="mp-tabpanel" id="districts-panel" data-tab="districts">
       <div data-districts-d1-note hidden>

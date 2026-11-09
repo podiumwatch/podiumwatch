@@ -471,7 +471,7 @@ export function mockRegionalPage(site, divisionEntry, regionKey) {
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="mr-title">
     <div class="container">
-      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}${sponsorSlotHtml(pathname)}
 
       <div class="mr-explainer">
         <p>This is a modeled regional meet, not a real result -- every runner's real supplied season-best 5K decides the score. The top ${region.stateQualifiers} teams here are highlighted as the real number that would advance to the State mock meet.</p>
@@ -537,7 +537,7 @@ export function mockStatePage(site, divisionEntry) {
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="mr-title">
     <div class="container">
-      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets", href: "/mock-meets/" }, { label: title }])}${sponsorSlotHtml(pathname)}
 
       <div class="mr-explainer">
         <p>This State field is not entered by hand -- it's the real number of qualifying teams and qualifying individuals pooled automatically from each region's mock regional, once every region has real rosters. Only the qualifying teams score: their runners are ranked in finish order and team points are assigned from that order. Individual qualifiers advance on their own and do not count toward any team score.</p>
@@ -612,7 +612,7 @@ export function mockRegionalsHubPage(site) {
   ${sharedStyles()}
   <section class="section section-paper" aria-labelledby="mr-hub-title">
     <div class="container">
-      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets" }])}
+      ${breadcrumb([{ label: "Home", href: "/" }, { label: "Mock Meets" }])}${sponsorSlotHtml(pathname)}
 
       <div class="mr-explainer">
         <p>These are modeled meets, not real results. The regional groupings and the real team and individual qualifier counts are OHSAA's own real 2026 structure; every score comes from real supplied runner times.</p>

@@ -26,6 +26,15 @@
         "paths": [
           "/rankings/top-10/"
         ]
+      },
+      {
+        "id": "mock-meets",
+        "label": "Mock meets",
+        "paths": [
+          "/mock-meets/",
+          "/rankings/mock-meets/",
+          "/mock-postseason/"
+        ]
       }
     ]
   }
