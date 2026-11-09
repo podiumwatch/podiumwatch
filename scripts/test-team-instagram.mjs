@@ -142,27 +142,30 @@ includesAll(
   [
     "isValidHandleFormat(handle)",
     "isBlockedHandle(handle)",
-    "countRecentSubmissions(teamId, actorIdHash)",
-    "checkInstagramAccountExists(handle)",
+    "countRecentRequests(teamId, actorIdHash)",
+    ".from(\"team_instagram_requests\")",
     "writeTeamChange({"
   ],
-  "submitTeamInstagramHandle must validate format, blocklist, rate limit, and confirm the account exists, in that order, before ever writing a change"
+  "submitTeamInstagramHandle must validate format, blocklist and rate limit, then queue the handle for review; approval writes the change log"
 );
 
-assert.ok(
-  serviceSource.indexOf("countRecentSubmissions(teamId, actorIdHash)") < serviceSource.indexOf("checkInstagramAccountExists(handle)"),
-  "Rate limiting must be checked before the network existence check, so a rate-limited submitter never triggers an outbound request."
-);
+// 2026-11-09: the live account check rejected every real account from
+// Vercel (Instagram login wall), so submissions now wait for admin review
+// and the public path must never go live on its own.
+const submitBody = serviceSource.slice(serviceSource.indexOf("export async function submitTeamInstagramHandle"), serviceSource.indexOf("async function countRecentRequests"));
+assert.ok(!submitBody.includes("checkInstagramAccountExists("), "The public submission path must not call the Instagram existence check.");
+assert.ok(!submitBody.includes(".from(\"team_pages\")"), "The public submission path must never update team_pages directly; only admin approval does.");
+assert.ok(submitBody.indexOf("isValidHandleFormat(handle)") < submitBody.indexOf("countRecentRequests(teamId, actorIdHash)"), "Format is checked before the rate-limit query.");
 
 includesAll(
   publicApiSource,
-  ["String(body.website || \"\").trim()", "addressHash(request)", "createHmac"],
+  ["String(body.pw_trap || \"\").trim()", "addressHash(request)", "createHmac"],
   "The public submission endpoint must check a honeypot field and hash (not store raw) the submitter's address"
 );
 
 includesAll(
   adminApiSource,
-  ["isAdminRequest(request)", "revertTeamInstagramChange"],
+  ["isAdminRequest(request)", "revertTeamInstagramChange", "reviewInstagramRequest"],
   "The admin endpoint must require admin sign-in and expose the revert action"
 );
 

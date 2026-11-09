@@ -7,6 +7,7 @@
   const message = root.querySelector("[data-team-ig-message]");
   const filterForm = root.querySelector("[data-team-ig-filter-form]");
   const rows = root.querySelector("[data-team-ig-rows]");
+  const pending = root.querySelector("[data-team-ig-pending]");
   let busy = false;
 
   const escapeHtml = (value) => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
@@ -54,6 +55,43 @@
       : '<tr><td colspan="5">No Instagram changes in this window.</td></tr>';
   }
 
+  async function loadPending() {
+    try {
+      const data = await api({ action: "pending" });
+      const list = data.requests || [];
+      pending.innerHTML = list.length
+        ? list.map((item) => {
+            const team = item.team_pages || {};
+            const teamLink = team.slug ? `<a href="/team/?slug=${encodeURIComponent(team.slug)}" target="_blank" rel="noopener">${escapeHtml(team.school_name || "Team")}</a>` : escapeHtml(team.school_name || "Team");
+            return `<tr><td>${teamLink}</td><td><a href="https://www.instagram.com/${encodeURIComponent(item.handle)}/" target="_blank" rel="noopener noreferrer">@${escapeHtml(item.handle)}</a></td><td>${team.instagram_handle ? "@" + escapeHtml(team.instagram_handle) : "None"}</td><td>${escapeHtml(formatDate(item.created_at))}</td><td class="team-ig-actions"><button class="button button-dark" type="button" data-review="approve" data-request="${escapeHtml(item.id)}">Approve</button><button class="button button-outline" type="button" data-review="reject" data-request="${escapeHtml(item.id)}">Reject</button></td></tr>`;
+          }).join("")
+        : '<tr><td colspan="5">Nothing waiting for review.</td></tr>';
+    } catch (error) {
+      pending.innerHTML = `<tr><td colspan="5">${escapeHtml(error.message)}</td></tr>`;
+    }
+  }
+
+  pending.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-review]");
+    if (!button || busy) return;
+    if (button.dataset.armed !== "yes") {
+      button.dataset.armed = "yes";
+      button.textContent = button.dataset.review === "approve" ? "Tap again to approve" : "Tap again to reject";
+      return;
+    }
+    setBusy(true);
+    try {
+      const result = await api({ action: "review", request_id: button.dataset.request, decision: button.dataset.review });
+      setMessage(result.status === "approved" ? `Approved. @${result.handle} is live on the team page.` : "Rejected.");
+    } catch (error) {
+      setMessage(error.message, "error");
+    } finally {
+      setBusy(false);
+    }
+    await loadPending();
+    await loadChanges();
+  });
+
   async function loadChanges() {
     if (busy) return;
     setBusy(true);
@@ -73,7 +111,11 @@
   rows.addEventListener("click", async (event) => {
     const button = event.target.closest("[data-revert-change]");
     if (!button) return;
-    if (!window.confirm("Revert this team's Instagram handle to its previous value? This will take effect immediately.")) return;
+    if (button.dataset.armed !== "yes") {
+      button.dataset.armed = "yes";
+      button.textContent = "Tap again to revert";
+      return;
+    }
 
     setBusy(true);
     setMessage("Reverting.");
@@ -99,6 +141,7 @@
       await api({ action: "list", since_days: 1 });
       loading.hidden = true;
       dashboard.hidden = false;
+      await loadPending();
       await loadChanges();
     } catch (error) {
       loading.innerHTML =

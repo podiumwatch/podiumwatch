@@ -756,10 +756,10 @@ export function teamProfilePage(site) {
           <p data-team-instagram-empty class="team-instagram-help">No Instagram handle has been submitted for this team yet.</p>
           <details class="team-instagram-details">
             <summary>Submit or update this team's Instagram</summary>
-            <p class="team-instagram-help">No account needed. Submissions are checked automatically (a valid handle format, and that the account is real) and take effect right away. One submission is accepted per team every few hours.</p>
+            <p class="team-instagram-help">No account needed. Podium Watch checks each submission before it shows here. One submission is accepted per team every few hours.</p>
             <form class="team-instagram-form" data-team-instagram-form>
               <label>Instagram handle<input type="text" name="handle" required maxlength="60" placeholder="@teamhandle"></label>
-              <label class="team-instagram-honeypot" aria-hidden="true">Leave this blank<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+              <label class="team-instagram-honeypot" aria-hidden="true">Leave this blank<input type="text" name="pw_trap" tabindex="-1" autocomplete="off"></label>
               <p class="team-instagram-message" data-team-instagram-message role="status" hidden></p>
               <button class="button button-dark" type="submit" data-team-instagram-button>Submit</button>
             </form>

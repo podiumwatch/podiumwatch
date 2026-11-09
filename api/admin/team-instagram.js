@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
-import { listRecentInstagramChanges, revertTeamInstagramChange } from "../../lib/team_instagram_service.mjs";
+import { listPendingInstagramRequests, listRecentInstagramChanges, reviewInstagramRequest, revertTeamInstagramChange } from "../../lib/team_instagram_service.mjs";
 
 function bodyOf(request) {
   if (typeof request.body === "string") {
@@ -23,6 +23,10 @@ export default async function handler(request, response) {
       const sinceDays = Number(body.since_days) || 90;
       const since = new Date(Date.now() - sinceDays * 24 * 60 * 60 * 1000).toISOString();
       data = { changes: await listRecentInstagramChanges({ since, limit: Number(body.limit) || 200 }) };
+    } else if (action === "pending") {
+      data = { requests: await listPendingInstagramRequests() };
+    } else if (action === "review") {
+      data = await reviewInstagramRequest({ requestId: body.request_id, decision: body.decision, note: body.note, adminName: "Podium Watch Admin" });
     } else if (action === "revert") {
       if (!body.change_id) { const error = new Error("Choose a change to revert."); error.status = 400; throw error; }
       data = await revertTeamInstagramChange({ changeLogId: body.change_id, adminName: "Podium Watch Admin" });

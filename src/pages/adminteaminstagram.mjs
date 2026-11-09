@@ -23,6 +23,10 @@ export function adminTeamInstagramPage(site) {
     <div data-team-ig-dashboard hidden class="team-ig-shell">
       <p class="team-ig-message" data-team-ig-message role="status">Loading team Instagram changes.</p>
       <section class="info-card">
+        <div><p class="eyebrow">Waiting for review</p><h2>Pending Instagram submissions</h2><p>Open each handle to make sure it's really the team's account before approving. Approving makes it live on the team page right away.</p></div>
+        <div class="team-ig-table-wrap"><table class="team-ig-table"><thead><tr><th>Team</th><th>Submitted handle</th><th>Current</th><th>Submitted</th><th>Action</th></tr></thead><tbody data-team-ig-pending><tr><td colspan="5">Loading.</td></tr></tbody></table></div>
+      </section>
+      <section class="info-card">
         <div><p class="eyebrow">Change history</p><h2>Every Instagram submission and revert</h2></div>
         <form class="team-ig-filters" data-team-ig-filter-form>
           <label>Show<select name="since_days"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Last year</option></select></label>
@@ -37,9 +41,9 @@ export function adminTeamInstagramPage(site) {
     site,
     pathname: "/admin/team-instagram/",
     title: "Team Instagram Changes",
-    description: "Change history and one-click revert for the public team Instagram submission feature.",
+    description: "Review queue, change history and revert for public team Instagram submissions.",
     heading: "Team Instagram Changes",
-    intro: "Every public Instagram submission takes effect immediately, with no approval step. This page is the full change history for that feature, with a one-click revert to any previous value.",
+    intro: "Public Instagram submissions wait here for your approval before they show on a team page. Below the queue is the full change history, with a revert to any previous value.",
     styles,
     content,
     scripts: ["/scripts/admin-team-instagram.js"]

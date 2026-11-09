@@ -729,8 +729,17 @@
     );
   }
 
-  function renderInstagram(team) {
-    const handle = String(team.instagram_handle || "").trim();
+  // One display: the approved instagram_handle, or else the Instagram
+  // link from the team's social accounts (the team editor sets those), so
+  // the box never says "nothing submitted" when the team has one.
+  function instagramFromSocialLinks(links) {
+    const link = (Array.isArray(links) ? links : []).find((item) => /instagram/i.test(String(item?.platform || "")) || /instagram\.com\//i.test(String(item?.url || "")));
+    const match = link && String(link.url || "").match(/instagram\.com\/([A-Za-z0-9._]{1,30})/i);
+    return match ? match[1] : "";
+  }
+
+  function renderInstagram(team, socialLinks = []) {
+    const handle = String(team.instagram_handle || "").trim() || instagramFromSocialLinks(socialLinks);
     if (instagramForm) instagramForm.dataset.teamId = team.id || "";
 
     if (handle) {
@@ -1524,7 +1533,7 @@
     }
 
     renderSocialLinks(team, socialLinks);
-    renderInstagram(team);
+    renderInstagram(team, socialLinks);
 
     const score = Math.max(
       0,
@@ -1819,13 +1828,13 @@
 
     const values = Object.fromEntries(new FormData(instagramForm).entries());
     instagramButton.disabled = true;
-    showInstagramMessage("Checking the handle.");
+    showInstagramMessage("Sending.");
 
     try {
       const response = await fetch("/api/team-instagram/", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ team_id: teamId, handle: values.handle, website: values.website })
+        body: JSON.stringify({ team_id: teamId, handle: values.handle, pw_trap: values.pw_trap })
       });
       const payload = await response.json().catch(() => ({}));
 
@@ -1834,8 +1843,7 @@
       }
 
       instagramForm.reset();
-      showInstagramMessage(payload.message || "Instagram updated.");
-      if (payload.handle) renderInstagram({ ...currentTeam, instagram_handle: payload.handle, id: teamId });
+      showInstagramMessage(payload.message || "Thanks! Your submission was sent for review.");
     } catch (error) {
       showInstagramMessage(error.message, "error");
     } finally {

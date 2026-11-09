@@ -2,12 +2,9 @@ import { createHmac } from "node:crypto";
 import { submitTeamInstagramHandle } from "../../lib/team_instagram_service.mjs";
 
 // Public, unauthenticated endpoint: anyone on a team's page can submit or
-// update that team's Instagram handle, no account required. Unlike almost
-// every other submission path in this project, an accepted change here
-// takes effect immediately rather than waiting for admin review -- see
-// lib/team_instagram_service.mjs and docs/DECISIONS.md (2026-08-06) for the
-// full safety story (automated validation, rate limiting, and a fully
-// logged, instantly reversible change).
+// update that team's Instagram handle, no account required. Since
+// 2026-11-09 a submission waits for admin approval on
+// /admin/team-instagram/ (see lib/team_instagram_service.mjs).
 
 function parseBody(request) {
   if (typeof request.body === "string") {
@@ -52,8 +49,10 @@ export default async function handler(request, response) {
   try {
     const body = parseBody(request);
 
-    // Honeypot: a field real submitters never see or fill in.
-    if (String(body.website || "").trim()) {
+    // Honeypot: a field real submitters never see or fill in. Renamed from
+    // "website" (2026-11-09), which browser autofill could fill for real
+    // people.
+    if (String(body.pw_trap || "").trim()) {
       return response.status(201).json({ submitted: true });
     }
 
@@ -70,8 +69,11 @@ export default async function handler(request, response) {
 
     return response.status(200).json({
       submitted: true,
+      status: result.status,
       handle: result.handle,
-      message: `Instagram updated to @${result.handle}.`
+      message: result.status === "already_listed"
+        ? `@${result.handle} is already listed for this team.`
+        : `Thanks! @${result.handle} was sent to Podium Watch for a quick check. It will show here once approved.`
     });
   } catch (error) {
     const status = Number(error?.status) || 500;
