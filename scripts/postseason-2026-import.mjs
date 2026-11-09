@@ -65,7 +65,7 @@ const meetRows = must(await db.from("meets").select("id, name, slug, meet_date, 
 
 const races = [];
 const districts = read("dataimports/real_district_results_2026/real_district_results_2026_parsed.json");
-for (const race of districts.races) races.push({ level: "district", siteKey: race.siteKey, meetName: race.meetName, date: race.date, gender: race.gender, division: race.division, rows: race.individualResults.map((r) => ({ place: r.place, name: r.name, grade: r.grade, school: r.school, seconds: parseClock(r.time), raw: r })), teams: race.teamScores.map((t) => ({ place: t.place, school: t.school, score: t.score, raw: t })) });
+for (const race of districts.races) races.push({ level: "district", siteKey: race.siteKey, session: race.session ?? 1, meetName: race.meetName, date: race.date, gender: race.gender, division: race.division, rows: race.individualResults.map((r) => ({ place: r.place, name: r.name, grade: r.grade, school: r.school, seconds: parseClock(r.time), raw: r })), teams: race.teamScores.map((t) => ({ place: t.place, school: t.school, score: t.score, raw: t })) });
 const regionals = read("dataimports/real_regional_results_2026/real_regional_results_2026_parsed.json");
 for (const race of regionals.races) races.push({ level: "regional", meetName: race.siteName || race.site, site: race.site, date: "2026-10-31", gender: race.gender, division: race.division, athleticNetMeetId: race.meetId, rows: race.results.filter((r) => !r.dnf).map((r) => ({ place: r.place, name: r.name, grade: r.grade, school: r.schoolFull || r.school, seconds: r.seconds ?? parseClock(r.time), athleticNetId: r.athleticNetId, stateQualifier: r.stateQualifier, raw: r })), teams: race.teamScores.map((t) => ({ place: t.place, school: t.schoolFull || t.school, score: t.points, advanced: t.advanced, raw: t })) });
 for (const { sheet, data } of await readXlsx(path.join(root, "dataimports/2026_Ohio_XC_State_Meet_Results_and_Bibs.xlsx"))) {
@@ -83,6 +83,11 @@ for (const r of teamSheet.slice(1)) { const m = String(r[0] || "").match(/^D([1-
 
 // Explicit source site -> meet page slug (no fuzzy matching).
 const DISTRICT_SLUG = { CAM: "cambridge", CED: "cedarville", CG: "columbus-grove", GAL: "galion", GO: "glenoak", HD: "hilliard-darby", LCCC: "lorain-county-cc", LF: "napoleon", MAD: "madison", OW: "findlay-owens-cc", RG: "rio-grande", VOA: "voice-of-america-park" };
+// A site can run two separate races for one gender and division (Hilliard
+// Darby ran sessions 1 and 2). Those stay separate races everywhere.
+const sessionsAt = new Map();
+for (const r of districts.races) { const k = `${r.siteKey}|${r.gender}|${r.division}`; sessionsAt.set(k, (sessionsAt.get(k) || 0) + 1); }
+for (const race of races) race.multiSession = race.level === "district" && sessionsAt.get(`${race.siteKey}|${race.gender}|${race.division}`) > 1;
 function meetFor(race) {
   if (race.level === "state") return meetRows.find((m) => m.slug === "2026-ohsaa-state-championships");
   if (race.level === "regional") return meetRows.find((m) => m.slug === `2026-ohsaa-regional-${String(race.site).toLowerCase()}`);
@@ -410,7 +415,7 @@ for (const race of races) {
       source_key: sourceKey, source_label: sourceLabel(race), source_url: sourceUrl(race), source_type: "official",
       verification_status: "verified", public_visible: true, result_status: "official_result",
       honor_label: race.level === "state" ? allOhio(race.division, row.place) : null,
-      metadata: { postseason_2026: { level: race.level, division: race.division, gender: race.gender, raw: { ...row.raw, ...(row.hundredths ? { time_hundredths_seconds: row.hundredths } : {}) } } }
+      metadata: { postseason_2026: { level: race.level, division: race.division, gender: race.gender, ...(race.multiSession ? { session: race.session } : {}), raw: { ...row.raw, ...(row.hundredths ? { time_hundredths_seconds: row.hundredths } : {}) } } }
     });
   }
 }
@@ -425,7 +430,7 @@ for (const race of races) for (const t of race.teams) {
   const schoolId = raceSchool(race, t.school);
   if (!schoolId) { teamUnmatched.push(`${race.level} D${race.division} ${race.gender}: ${t.school}`); continue; }
   teamRows.push({
-    provider_key: "ohsaa", provider_meet_id: race.meet.slug, provider_event_id: `${race.level}-${race.gender}-d${race.division}-${slugify(race.meetName)}`,
+    provider_key: "ohsaa", provider_meet_id: race.meet.slug, provider_event_id: `${race.level}-${race.gender}-d${race.division}-${slugify(race.meetName)}${race.multiSession ? `-session-${race.session}` : ""}`,
     meet_name: race.meet.name, meet_date: race.date, meet_id: race.meet.id, sport: "cross_country", season_year: 2026, competition_level: "high_school",
     gender: race.gender, division: ROMAN[race.division], event_name: "Cross Country 5K", team_name: t.school, normalized_team_name: normalizeLookup(t.school),
     matched_school_id: schoolId, matched_team_id: schoolId ? teamBySchool.get(schoolId) || null : null,
