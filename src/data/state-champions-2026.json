@@ -1,0 +1,140 @@
+{
+  "year": 2026,
+  "meet": {
+    "name": "2026 Ohio Cross Country State Championships",
+    "date": "2026-11-07",
+    "venue": "Fortress Obetz",
+    "results_url": "https://www.athletic.net/CrossCountry/meet/275513/results"
+  },
+  "exported_at": "2026-11-09T19:02:20.645Z",
+  "races": [
+    {
+      "gender": "girls",
+      "division": 1,
+      "anchor": "girls-d1",
+      "individual": {
+        "name": "Reese Galinger",
+        "href": "/athletes/reese-galinger-teays-valley-2027/",
+        "school": "Teays Valley",
+        "time": "17:51.0"
+      },
+      "team": {
+        "school": "Milford",
+        "href": "/team/?slug=milford-milford-1034",
+        "score": 111
+      }
+    },
+    {
+      "gender": "girls",
+      "division": 2,
+      "anchor": "girls-d2",
+      "individual": {
+        "name": "Julia Bocik",
+        "href": "/athletes/julia-bocik-sylvania-southview-2029/",
+        "school": "Sylvania Southview",
+        "time": "17:37.7"
+      },
+      "team": {
+        "school": "Aurora",
+        "href": "/team/?slug=aurora-aurora-146",
+        "score": 80
+      }
+    },
+    {
+      "gender": "girls",
+      "division": 3,
+      "anchor": "girls-d3",
+      "individual": {
+        "name": "Gwen Huddle",
+        "href": "/athletes/gwen-huddle-2028/",
+        "school": "Napoleon",
+        "time": "17:35.7"
+      },
+      "team": {
+        "school": "Oakwood",
+        "href": "/team/?slug=oakwood-dayton-1190",
+        "score": 119
+      }
+    },
+    {
+      "gender": "girls",
+      "division": 4,
+      "anchor": "girls-d4",
+      "individual": {
+        "name": "Natalie Nixon",
+        "href": "/athletes/natalie-nixon-ottawa-hills-2028/",
+        "school": "Ottawa Hills",
+        "time": "17:34.0"
+      },
+      "team": {
+        "school": "Liberty Center",
+        "href": "/team/?slug=liberty-center-liberty-center-864",
+        "score": 112
+      }
+    },
+    {
+      "gender": "boys",
+      "division": 1,
+      "anchor": "boys-d1",
+      "individual": {
+        "name": "Ryne Reynolds",
+        "href": "/athletes/ryne-reynolds-little-miami-2027/",
+        "school": "Little Miami",
+        "time": "15:01.4"
+      },
+      "team": {
+        "school": "Springboro",
+        "href": "/team/?slug=springboro-springboro-1470",
+        "score": 107
+      }
+    },
+    {
+      "gender": "boys",
+      "division": 2,
+      "anchor": "boys-d2",
+      "individual": {
+        "name": "Ian Res",
+        "href": "/athletes/ian-res-west-geauga-2027/",
+        "school": "West Geauga",
+        "time": "15:22.8"
+      },
+      "team": {
+        "school": "Bowling Green",
+        "href": "/team/?slug=bowling-green-bowling-green-242",
+        "score": 181
+      }
+    },
+    {
+      "gender": "boys",
+      "division": 3,
+      "anchor": "boys-d3",
+      "individual": {
+        "name": "Brice Fuller",
+        "href": "/athletes/brice-fuller-fairless-2028/",
+        "school": "Fairless",
+        "time": "14:50.7"
+      },
+      "team": {
+        "school": "Woodridge",
+        "href": "/team/?slug=woodridge-peninsula-1724",
+        "score": 65
+      }
+    },
+    {
+      "gender": "boys",
+      "division": 4,
+      "anchor": "boys-d4",
+      "individual": {
+        "name": "Bennett Lehman",
+        "href": "/athletes/bennett-lehman-ansonia-2027/",
+        "school": "Ansonia",
+        "time": "15:30.7"
+      },
+      "team": {
+        "school": "Mount Gilead",
+        "href": "/team/?slug=mount-gilead-mount-gilead-1072",
+        "score": 84
+      }
+    }
+  ]
+}

@@ -2080,3 +2080,13 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Perry girls Division III at the Madison district and Boardman regional = Perry (Perry), Lake County. Confirmed by Zachary; it is a named exception in the import script, not a location guess.
 - Middletown Christian: the official record (OHSAA 1027, Franklin, team page) is kept. The duplicate (placeholder id 900016) is marked merged, with every reference moved (7 profiles, 17 results, 2 team scores).
 - Garfield (Akron) is the existing Garfield Community Learning Center. Green (Franklin Furnace) was added with girls Division IV, the division it ran in.
+
+## 2026-11-09: WO-37 season results hubs
+
+- `/state/{year}/`, `/regionals/{year}/`, `/districts/{year}/` are server-rendered (api/pages/season-hub.js, vercel.json rewrites placed before the short-link catch-all) from the imported official results, cached 30 minutes at the edge. `/state/`, `/regionals/`, `/districts/` 301 to the newest year. Years and linked stories live in `src/config/season_hubs.mjs`; a new year is one line once its results are imported. `state`, `regionals` and `districts` are reserved short-link paths.
+- State hub: all 8 champions, team podiums with scores, top 10 plus full results per race, all team scores, All-Ohio by division, fastest times of the day (both genders, all divisions, same course and day), linked stories (recap, plus previews labeled as written before the meet), credited fan photos once any are selected, the official Athletic.net link and "Results by SEO Timing."
+- Regional and district hubs: each site's races with the top 10 and all team scores, plus each site's official full-results link. Full results there stay on the official page (6,600 district rows would make the page too heavy on a phone).
+- Titles say "Ohio High School Cross Country"; OHSAA is not in titles or headings, only in data (meet names) as a factual reference.
+- A site that ran two races for one gender and division (Hilliard Darby) shows them as "race 1" and "race 2", from the session in the official file. A tie is shown as posted (Madison girls D4: two runners 20th).
+- Homepage wrap-up block shows the 8 state champions from `src/data/state-champions-2026.json`, exported from the imported results by `scripts/export-state-champions.mjs` (the static build has no database access). Rerun it after any state correction.
+- Results menu: 2026 State Results, 2026 Regionals, 2026 Districts. The ticker's "RESULTS ARE IN" links a postseason meet to its hub.

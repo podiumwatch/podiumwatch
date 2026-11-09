@@ -55,7 +55,9 @@ export const site = {
     { label: "News", href: "/stories/" },
     { label: "Results", items: [
       { label: "Latest Results", href: "/meets/?view=results" },
-      { label: "2026 State Meet", href: "/meetdetail/?slug=2026-ohsaa-state-championships" }
+      { label: "2026 State Results", href: "/state/2026/" },
+      { label: "2026 Regionals", href: "/regionals/2026/" },
+      { label: "2026 Districts", href: "/districts/2026/" }
     ] },
     { label: "Rankings", items: [
       { label: "Cross Country", href: "/rankings/cross-country/" },

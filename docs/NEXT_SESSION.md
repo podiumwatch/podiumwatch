@@ -325,3 +325,9 @@ Built and tested against a real, complete dataset (the actual 2025 OHSAA Divisio
 - Pre-existing duplicate noticed, not touched: `nathaniel-seib-2028` and `nathaniel-seib-manchester-2028`.
 - Run `scripts/postseason-2026-state-athletic-net-ids.mjs` when the eight state JSON files arrive.
 - Rebuild the Top 10 so it reflects postseason times.
+
+## After WO-37 (2026-11-09)
+
+- After pushing, confirm on the live site that `/state/2026/` loads (Vercel function + rewrite) and that the homepage champions block shows.
+- Rerun `scripts/export-state-champions.mjs 2026` and rebuild after any state results correction.
+- Next: WO-35 Banquet Pack, then WO-10.

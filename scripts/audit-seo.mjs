@@ -80,7 +80,7 @@ for (const loc of locs) {
 
   // Pages rendered on the server by api/pages/ (vercel.json rewrites)
   // have no file in dist/; their HTML is checked by their own tests.
-  if (/^\/(sponsors|commitments\/\d{4})\/$/.test(pathname)) continue;
+  if (/^\/(sponsors|commitments\/\d{4}|(state|regionals|districts)\/\d{4})\/$/.test(pathname)) continue;
 
   const html = await readHtml(pathname);
   if (!html) {

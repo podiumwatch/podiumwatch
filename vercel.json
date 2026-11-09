@@ -92,6 +92,14 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/:stage(state|regionals|districts)/:year([0-9]{4})/",
+      "destination": "/api/pages/season-hub?stage=:stage&year=:year"
+    },
+    {
+      "source": "/:stage(state|regionals|districts)/",
+      "destination": "/api/pages/season-hub?stage=:stage"
+    },
+    {
       "source": "/go/:sponsor/:placement/",
       "destination": "/api/go/:sponsor/:placement"
     },

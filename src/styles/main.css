@@ -1797,3 +1797,14 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 .sponsor-slot { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px; margin:0 0 18px; padding:10px 14px; border:1px solid var(--line); border-left:4px solid var(--green); background:var(--white); font-size:.92rem; }
 .sponsor-slot-label { color:var(--muted); font-size:.74rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
 .sponsor-slot a { font-weight:850; }
+
+/* State champions on the homepage (WO-37), from the imported official results. */
+.home-state-champs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:6px 0 16px; }
+.home-state-champ { display:grid; gap:3px; align-content:start; padding:12px 14px; border:1px solid var(--line); border-top:4px solid var(--green); background:var(--white); color:inherit; text-decoration:none; }
+.home-state-champ.is-girls { border-top-color:#EC4899; }
+.home-state-champ span { font-size:.72rem; font-weight:850; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); }
+.home-state-champ strong { font-size:1.02rem; }
+.home-state-champ small { color:var(--muted); font-weight:650; font-size:.84rem; }
+.home-state-champ:hover strong { text-decoration:underline; }
+@media (max-width: 1000px) { .home-state-champs { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width: 420px) { .home-state-champs { grid-template-columns:1fr; } }

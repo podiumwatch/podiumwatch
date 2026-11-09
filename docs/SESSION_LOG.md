@@ -3006,3 +3006,9 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - 375px Playwright check of Brice Fuller and Madiegrace Gonczy (local server rendering the real athlete page with live data): no horizontal overflow, no page errors (only Vercel analytics and /api/ 404s locally). Pushed cf9771b and 7d18914.
 - `scripts/postseason-2026-followups.mjs`: Middletown Christian merge, Garfield aliases, Green added, Perry girls D3 row, 20 of 23 pairs attached. Sent back: Joshua/Josh Johnson, Kaylee O'Neill/O'Neil, Alexander/Alex Franklin (different Athletic.net ids).
 - Import rerun: 11 profiles created (Perry girls, Aaron Miller, Cooper Moore, Garfield, Green), postseason results 14,250, team scores 1,786 (all with a school), Path to State 1,712. Held: the 4 pairs above plus Mendiola Cruz, and 4 district rows with no time.
+
+## 2026-11-09: WO-37 season results hubs
+
+- Built `/state/2026/`, `/regionals/2026/`, `/districts/2026/` (server-rendered), homepage champions block, Results menu links, ticker link, sitemap entries.
+- Found while building: Hilliard Darby's two district sessions had been grouped as one race; fixed in the data and the import (separate commit).
+- Checked: all 8 state champions and team podiums match the official files (Russia 2nd 99, Fairless 2nd 115, Woodridge 65); 1,640 state runners (2 held); 30 regional and 71 district races. Local Playwright at 375 and 1280 px: no horizontal scroll, no page errors; /state/ 301 to /state/2026/. Full test suite and SEO audit pass.

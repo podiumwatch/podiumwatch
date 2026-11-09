@@ -127,6 +127,8 @@ import { adminSponsorReportPage } from "../src/pages/adminsponsorreport.mjs";
 import { adminPartnerPage } from "../src/pages/adminpartnerpage.mjs";
 import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
 import { COMMITMENT_CLASSES } from "../src/lib/commitment_rows.mjs";
+import { allHubPaths } from "../src/config/season_hubs.mjs";
+import stateChampions2026 from "../src/data/state-champions-2026.json" with { type: "json" };
 import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
 import { adminAwardsPage } from "../src/pages/adminawards.mjs";
@@ -498,13 +500,19 @@ function homePage(stories, rankings) {
   const phase = seasonPhase(buildNow);
   const datedCallouts = Object.values(DATED_CTAS).map((cta) => `<a class="home-picks-callout" href="${escapeHtml(cta.href)}" data-starts="${escapeHtml(cta.startsAt || "")}" data-expires="${escapeHtml(cta.expiresAt || "")}"${isLive(cta, buildNow) ? "" : " hidden"}><strong>${escapeHtml(cta.title)}</strong><span>${escapeHtml(cta.detail)} ${icon("arrow")}</span></a>`).join("");
   const datedCalloutSection = `<section class="home-dated-ctas"><div class="container">${datedCallouts}</div></section>`;
-  // Cross country wrap-up leads with the state meet. Champions and full
-  // results join this block once the official files are imported (WO-05,
-  // WO-37); until then it links to the meet page and the official results.
+  // Cross country wrap-up leads with the state meet: the 8 champions from
+  // the imported official results (src/data/state-champions-2026.json,
+  // written by scripts/export-state-champions.mjs) and the State hub.
+  const romanDivision = (n) => ["", "I", "II", "III", "IV"][n] || String(n);
+  const stateChampCards = stateChampions2026.races.map((race) => {
+    const ind = race.individual ? `<strong>${escapeHtml(race.individual.name)}</strong><small>${escapeHtml(race.individual.school)} &middot; ${escapeHtml(race.individual.time)}</small>` : "";
+    const team = race.team ? `<small>Team: ${escapeHtml(race.team.school)}, ${escapeHtml(String(race.team.score))} points</small>` : "";
+    return `<a class="home-state-champ${race.gender === "girls" ? " is-girls" : ""}" href="/state/2026/#${escapeHtml(race.anchor)}"><span>${race.gender === "girls" ? "Girls" : "Boys"} Division ${romanDivision(race.division)}</span>${ind}${team}</a>`;
+  }).join("");
   const stateMeetSection = phase.key === "xc-wrapup" ? `<section class="section section-paper home-state-meet" aria-labelledby="state-meet-title" style="padding-block:28px"><div class="container">
-    <div class="section-heading"><div><!-- Date and venue from the meets record (slug 2026-ohsaa-state-championships). --><p class="eyebrow">Nov. 7, 2026 &middot; Fortress Obetz</p><h2 id="state-meet-title">2026 OHSAA State Cross Country Championships</h2></div></div>
-    <p>Official results for all eight races, boys and girls, Divisions I to IV.</p>
-    <div class="home-state-meet-actions" style="display:flex;flex-wrap:wrap;gap:10px"><a class="button button-primary" href="/meetdetail/?slug=2026-ohsaa-state-championships">State meet page</a> <a class="button button-outline" href="https://www.athletic.net/CrossCountry/meet/275513/results" target="_blank" rel="noopener noreferrer">Official results on Athletic.net</a></div>
+    <div class="section-heading"><div><!-- Date and venue from the meets record (slug 2026-ohsaa-state-championships). --><p class="eyebrow">Nov. 7, 2026 &middot; Fortress Obetz</p><h2 id="state-meet-title">2026 Ohio Cross Country State Champions</h2></div><a class="text-link" href="/state/2026/">Full results ${icon("arrow")}</a></div>
+    <div class="home-state-champs">${stateChampCards}</div>
+    <div class="home-state-meet-actions" style="display:flex;flex-wrap:wrap;gap:10px"><a class="button button-primary" href="/state/2026/">Full state results</a> <a class="button button-outline" href="/regionals/2026/">Regionals</a> <a class="button button-outline" href="/districts/2026/">Districts</a></div>
   </div></section>` : "";
   const stateBreakdownsSection = stateBreakdowns.length && phase.key === "xc-postseason" ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
     <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
@@ -1312,7 +1320,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // not yet meaningful enough to index at volume (201 pages). This is
   // the task's own documented safe fallback, not a guess.
   const isRealAthletePage = (pathname) => pathname.startsWith("/athletes/") && pathname !== "/athletes/";
-  const SERVER_RENDERED_PATHS = ["/sponsors/", ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`)];
+  const SERVER_RENDERED_PATHS = ["/sponsors/", ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths()];
   const paths = [...generatedPaths, ...SERVER_RENDERED_PATHS]
     .filter((pathname) => !pathname.endsWith("404.html"))
     .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))

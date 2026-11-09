@@ -355,7 +355,11 @@
         detail = today.newestCompleted[0].name;
         // Point at that meet's page, not the calendar (WO-07).
         const tickerLink = document.querySelector("[data-ticker]");
-        if (tickerLink && today.newestCompleted[0].slug) tickerLink.href = "/meetdetail/?slug=" + encodeURIComponent(today.newestCompleted[0].slug);
+        // State, regional and district meets link to their results hub (WO-37).
+        const newestSlug = today.newestCompleted[0].slug || "";
+        const hub = newestSlug.match(/^(\d{4})-ohsaa-(state-championships|regional-|district-)/);
+        if (tickerLink && hub) tickerLink.href = "/" + (hub[2] === "state-championships" ? "state" : hub[2] === "regional-" ? "regionals" : "districts") + "/" + hub[1] + "/";
+        else if (tickerLink && newestSlug) tickerLink.href = "/meetdetail/?slug=" + encodeURIComponent(newestSlug);
       } else if (today.upcomingNext7d.length > 0) {
         headline = "MEETS THIS WEEKEND";
         detail = today.upcomingNext7d.length === 1 ? "1 meet coming up" : `${today.upcomingNext7d.length} meets coming up`;
