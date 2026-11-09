@@ -86,6 +86,85 @@ async function selectInBatches(table, select, column, ids, extra) {
   return rows;
 }
 
+function withIds(query, ids) {
+  return ids ? query.in("id", ids) : query;
+}
+
+// WO-03: search, filter and page in Postgres (search_athletes in
+// install/82_ATHLETE_SEARCH.sql) and load details only for the profiles on
+// this page. Returns null when that function doesn't exist yet, so the
+// caller falls back to loading every profile.
+function isMissingFunctionError(error) {
+  return ["PGRST202", "42883", "42P01"].includes(String(error?.code || "")) || /search_athletes|athlete_search_index/.test(String(error?.message || ""));
+}
+
+async function searchDirectoryPage(input, page, pageSize) {
+  const params = {
+    p_q: safeSearch(input.search || input.q) || null,
+    p_gender: (() => { const gender = normalizeAthleteGender(input.gender); return gender === "unspecified" ? null : gender; })(),
+    p_grad_year: numberValue(input.graduation_year, 0, 2000, 2200) || null,
+    p_division: divisionNumber(input.division),
+    p_school: safeSearch(input.school) || null,
+    p_event: safeSearch(input.event) || null,
+    p_verification: cleanAthleteText(input.verification, 50).toLowerCase() || null,
+    p_recruiting_only: ["1", "true", "yes", "on"].includes(cleanAthleteText(input.recruiting_only, 20).toLowerCase()),
+    p_page_size: pageSize
+  };
+
+  const run = async (pageNumber) => {
+    const { data, error } = await supabaseAdmin.rpc("search_athletes", { ...params, p_page: pageNumber });
+    if (error) throw error;
+    return data || [];
+  };
+
+  let rows;
+  try {
+    rows = await run(page);
+  } catch (error) {
+    if (isMissingFunctionError(error)) return null;
+    throw error;
+  }
+
+  let safePage = page;
+  let total = rows.length ? Number(rows[0].total) : 0;
+  if (!rows.length && page > 1) {
+    const first = await run(1);
+    total = first.length ? Number(first[0].total) : 0;
+    safePage = Math.max(1, Math.ceil(total / pageSize));
+    rows = safePage === 1 ? first : await run(safePage);
+  }
+
+  const ids = rows.map((row) => row.profile_id);
+  const loaded = ids.length ? await loadDatabaseProfiles({ ids }) : { profiles: [], total_profile_count: 0 };
+  const byId = new Map(loaded.profiles.map((profile) => [profile.id, profile]));
+  return { total, page: safePage, athletes: ids.map((id) => byId.get(id)).filter(Boolean) };
+}
+
+// Directory-wide numbers for the stat tiles, as exact counts.
+async function directorySummary() {
+  const base = () => supabaseAdmin
+    .from("athlete_profiles")
+    .select("id", { count: "exact", head: true })
+    .eq("public_visible", true)
+    .eq("suspended", false)
+    .is("archived_at", null)
+    .is("merged_into_profile_id", null);
+  const [all, boys, girls, verified, recruiting] = await Promise.all([
+    base(),
+    base().eq("gender", "boys"),
+    base().eq("gender", "girls"),
+    base().eq("verified", true),
+    base().eq("recruiting_enabled", true)
+  ]);
+  for (const result of [all, boys, girls, verified, recruiting]) if (result.error) throw result.error;
+  return {
+    total: all.count || 0,
+    verified: verified.count || 0,
+    recruiting: recruiting.count || 0,
+    genders: { boys: boys.count || 0, girls: girls.count || 0 }
+  };
+}
+
 function safeSearch(value) {
   return normalizeAthleteName(
     cleanAthleteText(value, 200)
@@ -138,14 +217,16 @@ function buildFallbackProfiles(dataset) {
   }));
 }
 
-async function loadDatabaseProfiles() {
+// ids: load only these profiles (one directory page, WO-03); null loads
+// every public profile (the fallback used before install/82 is run).
+async function loadDatabaseProfiles({ ids = null } = {}) {
   const [countResult, profileResult] = await Promise.all([
     supabaseAdmin
       .from("athlete_profiles")
       .select("id", { count: "exact", head: true })
       .is("merged_into_profile_id", null)
       .is("archived_at", null),
-    selectAll(() => supabaseAdmin
+    selectAll(() => withIds(supabaseAdmin
       .from("athlete_profiles")
       .select(`
       id,
@@ -168,7 +249,7 @@ async function loadDatabaseProfiles() {
       .eq("public_visible", true)
       .eq("suspended", false)
       .is("archived_at", null)
-      .is("merged_into_profile_id", null), { maxRows: 50000 })
+      .is("merged_into_profile_id", null), ids), { maxRows: 50000 })
   ]);
 
   if (countResult.error) {
@@ -427,6 +508,36 @@ export default async function handler(request, response) {
     const input = parseInput(request);
     const page = numberValue(input.page, 1, 1, 10000);
     const pageSize = numberValue(input.page_size, 24, 1, 100);
+    const filtersEcho = {
+      search: cleanAthleteText(input.search || input.q, 200),
+      gender: normalizeAthleteGender(input.gender),
+      graduation_year: input.graduation_year || "",
+      division: input.division || "",
+      event: cleanAthleteText(input.event, 100),
+      school: cleanAthleteText(input.school, 200),
+      verification: cleanAthleteText(input.verification, 50),
+      recruiting_only: input.recruiting_only || false
+    };
+
+    const searched = await searchDirectoryPage(input, page, pageSize).catch((error) => {
+      if (isMissingAthleteFoundationError(error)) return null;
+      throw error;
+    });
+    if (searched) {
+      const summary = await directorySummary();
+      return response.status(200).json({
+        source_mode: "database",
+        source_note: "Profiles are loaded from the Podium Watch athlete foundation.",
+        page: searched.page,
+        page_size: pageSize,
+        total: searched.total,
+        total_pages: Math.max(1, Math.ceil(searched.total / pageSize)),
+        summary,
+        filters: filtersEcho,
+        athletes: searched.athletes
+      });
+    }
+
     let profiles;
     let sourceMode;
 

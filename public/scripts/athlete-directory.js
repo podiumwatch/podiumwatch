@@ -125,7 +125,10 @@
   function restoreFiltersFromUrl() {
     const params = new URLSearchParams(window.location.search);
 
-    for (const [key, value] of params.entries()) {
+    for (const [rawKey, value] of params.entries()) {
+      // /athletes/?q=Name (site search, shared links) fills the search box;
+      // the form field itself is named "search" (WO-03).
+      const key = rawKey === "q" ? "search" : rawKey;
       const field = form.elements.namedItem(key);
 
       if (!field) {
