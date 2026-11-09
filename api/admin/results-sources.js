@@ -1,7 +1,7 @@
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
 import { discoverMeetBatch, discoveryStatus, listMeetCatalog, updateMeetStatuses } from "../../lib/meet_discovery_service.mjs";
 import { cancelJob, createContentIngestionJob, createIngestionJob, getIngestionJob, importApprovedRows, listIngestionJobs, pauseJob, resolveJobIdentities, retryFailedPages, reviewRows, reverseImportedJob, runIngestionJob } from "../../lib/result_ingestion_engine.mjs";
-import { getFinishTimingHealth, setFinishTimingSettings, runFinishTimingScan, rescanFinishTimingMeet, requestFinishTimingBackfill } from "../../lib/finish_timing_ingestion_service.mjs";
+import { dismissFinishTimingMeetExceptions, getFinishTimingHealth, setFinishTimingSettings, runFinishTimingScan, rescanFinishTimingMeet, requestFinishTimingBackfill } from "../../lib/finish_timing_ingestion_service.mjs";
 import crypto from "node:crypto";
 
 function bodyOf(request) {
@@ -44,6 +44,7 @@ export default async function handler(request, response) {
     else if (action === "import_ingestion_job") data = await importApprovedRows(body.job_id);
     else if (action === "reverse_ingestion_job") data = await reverseImportedJob(body.job_id);
     else if (action === "finish_timing_health") data = await getFinishTimingHealth();
+    else if (action === "dismiss_finish_timing_meet_exceptions") data = await dismissFinishTimingMeetExceptions({ providerMeetId: body.provider_meet_id, meetName: body.meet_name, actor: "Podium Watch Admin" });
     else if (action === "set_finish_timing_settings") data = await setFinishTimingSettings({ active: typeof body.active === "boolean" ? body.active : undefined, auto_publish_enabled: typeof body.auto_publish_enabled === "boolean" ? body.auto_publish_enabled : undefined, lookback_days: Number.isFinite(Number(body.lookback_days)) ? Number(body.lookback_days) : undefined, pause_reason: body.pause_reason, actor: "Podium Watch Admin" });
     else if (action === "run_finish_timing_scan_now") data = await runFinishTimingScan({ trigger: "admin_manual", actor: "Podium Watch Admin" });
     else if (action === "rescan_finish_timing_meet") data = await rescanFinishTimingMeet(body.meet_id, { actor: "Podium Watch Admin" });

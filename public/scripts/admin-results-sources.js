@@ -78,7 +78,32 @@
     ftExceptionRows.innerHTML = exceptions.length
       ? exceptions.map((row) => `<tr><td>${escapeHtml(row.athlete_name || "Missing")}</td><td>${escapeHtml(row.school_name || "Missing")}</td><td>${escapeHtml(row.meet_name || (row.raw_row?.providerMeetId ? `Meet ${row.raw_row.providerMeetId}` : "Unknown meet"))}</td><td>${escapeHtml((row.review_note || "").replace("Held automatically: ", "") || "Needs review")}</td></tr>`).join("")
       : '<tr><td colspan="4">No open exceptions.</td></tr>';
+
+    const meetRows = root.querySelector("[data-ft-exception-meets]");
+    if (meetRows) {
+      const meets = data.open_exceptions_by_meet || [];
+      meetRows.innerHTML = meets.length
+        ? meets.map((meet) => `<tr><td>${escapeHtml(meet.meet_name || (meet.provider_meet_id ? `Meet ${meet.provider_meet_id}` : "Unknown meet"))}${meet.college ? ' <span class="source-badge" data-status="failed">College meet</span>' : ""}</td><td>${escapeHtml(meet.count)}</td><td><button class="button button-outline" type="button" data-dismiss-meet="${escapeHtml(meet.provider_meet_id || "")}" data-dismiss-meet-name="${escapeHtml(meet.meet_name || "")}" data-count="${escapeHtml(meet.count)}">Dismiss all ${escapeHtml(meet.count)}</button></td></tr>`).join("")
+        : '<tr><td colspan="3">No open exceptions.</td></tr>';
+    }
   }
+
+  // Dismiss every open exception for one meet. Needs a second tap.
+  root.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-dismiss-meet]");
+    if (!button || busy) return;
+    if (button.dataset.armed !== "yes") {
+      button.dataset.armed = "yes";
+      button.textContent = `Tap again to dismiss ${button.dataset.count}`;
+      return;
+    }
+    setBusy(true);
+    try {
+      const result = await api({ action: "dismiss_finish_timing_meet_exceptions", provider_meet_id: button.dataset.dismissMeet || undefined, meet_name: button.dataset.dismissMeetName || undefined });
+      setMessage(`Dismissed ${result.dismissed} exception${result.dismissed === 1 ? "" : "s"}.`);
+      await loadFinishTimingHealth();
+    } catch (error) { setMessage(error.message, "error"); } finally { setBusy(false); }
+  });
   async function loadFinishTimingHealth() {
     const data = await api({ action: "finish_timing_health" });
     renderFinishTimingHealth(data);

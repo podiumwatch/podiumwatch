@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { evaluateFinishTimingEligibility, isAccessDeniedError } from "../lib/finish_timing_ingestion_service.mjs";
+import { evaluateFinishTimingEligibility, isAccessDeniedError, isCollegeRow } from "../lib/finish_timing_ingestion_service.mjs";
 
 function safeRow(overrides = {}) {
   return {
@@ -139,4 +139,12 @@ test("a 401 or 403 from Finish Timing counts as access denied (auto-pause); othe
   assert.equal(isAccessDeniedError({ code: "HTTP_500", message: "HTTP 500 from x" }), false);
   assert.equal(isAccessDeniedError({ message: "Meet 4012 failed" }), false);
   assert.equal(isAccessDeniedError(null), false);
+});
+
+test("college meet rows are recognized; high school rows never are", () => {
+  assert.equal(isCollegeRow({ competition_level: null, meet_name: "Kenyon College Owls Opener", school_name: "Ohio Wesleyan" }), true);
+  assert.equal(isCollegeRow({ competition_level: null, meet_name: "Fall Classic", school_name: "Kenyon College" }), true);
+  assert.equal(isCollegeRow({ competition_level: null, meet_name: "Fall Classic", event_name: "NCAA DIII Men 8K" }), true);
+  assert.equal(isCollegeRow({ competition_level: "high_school", meet_name: "University School Invitational", school_name: "University School" }), false);
+  assert.equal(isCollegeRow({ competition_level: null, meet_name: "Tiffin Carnival", school_name: "Columbian" }), false);
 });

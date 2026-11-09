@@ -43,6 +43,7 @@ export function adminResultsSourcesPage(site) {
           <button class="button button-outline" type="button" data-ft-backfill>Request historical backfill</button>
         </div>
         <div class="source-table-wrap"><table class="source-table source-small-table"><thead><tr><th>Athlete</th><th>School</th><th>Meet</th><th>Held because</th></tr></thead><tbody data-ft-exception-rows><tr><td colspan="4">No open exceptions.</td></tr></tbody></table></div>
+        <div class="source-table-wrap"><table class="source-table source-small-table"><thead><tr><th>Meet</th><th>Open exceptions</th><th></th></tr></thead><tbody data-ft-exception-meets><tr><td colspan="3">No open exceptions.</td></tr></tbody></table></div>
       </section>
       <section class="info-card source-panel">
         <div><p class="eyebrow">Phase One</p><h2>Discover Ohio meets</h2><p class="source-help">This starts the same robust, resumable crawler used in Phase Two. It discovers sources and stages results privately. Nothing is published automatically.</p></div>
