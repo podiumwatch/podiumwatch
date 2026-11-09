@@ -267,7 +267,7 @@
           "<tr>" +
             "<td><strong>" + escapeHtml(team.school_name) + "</strong>" +
               (team.mascot ? "<div>" + escapeHtml(team.mascot) + "</div>" : "") +
-              "<div class=\"team-manager-muted\">/" + escapeHtml(team.slug) + "/</div>" +
+              "<div class=\"team-manager-muted\">/team/?slug=" + escapeHtml(team.slug) + "</div>" +
             "</td>" +
             "<td>" + escapeHtml(location) +
               (locationDetails ? "<div>" + escapeHtml(locationDetails) + "</div>" : "") +

@@ -270,9 +270,13 @@
     const byHref = new Map();
     data.tasks.forEach((task) => {
       if (!task || !task.href) return;
-      const bucket = byHref.get(task.href) || [];
+      // Only queue items light up a badge (task.badge, set server side);
+      // a task link with a #section still counts for its page.
+      if (task.badge === false) return;
+      const href = String(task.href).split("#")[0];
+      const bucket = byHref.get(href) || [];
       bucket.push(task);
-      byHref.set(task.href, bucket);
+      byHref.set(href, bucket);
     });
 
     ITEMS.forEach((item) => {
