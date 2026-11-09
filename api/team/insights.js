@@ -7,6 +7,7 @@ import {
   aggregateAnalytics,
   cleanText
 } from "../../lib/engagement_service.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 function parseBody(request) {
   if (typeof request.body === "string") {
@@ -70,12 +71,11 @@ export default async function handler(request, response) {
         .select("id, school_name, slug, mascot, city, state, published")
         .eq("id", teamId)
         .single(),
-      supabaseAdmin
+      selectAll(() => supabaseAdmin
         .from("team_analytics_events")
         .select("event_type, section, visitor_id, sponsor_id, created_at")
         .eq("team_id", teamId)
-        .gte("created_at", since)
-        .limit(20000),
+        .gte("created_at", since), { maxRows: 20000 }),
       supabaseAdmin
         .from("team_follows")
         .select("id", { count: "exact", head: true })
@@ -87,12 +87,11 @@ export default async function handler(request, response) {
         .eq("team_id", teamId)
         .order("created_at", { ascending: false })
         .limit(25),
-      supabaseAdmin
+      selectAll(() => supabaseAdmin
         .from("team_notification_deliveries")
         .select("status, delivery_type, created_at")
         .eq("team_id", teamId)
-        .gte("created_at", since)
-        .limit(10000)
+        .gte("created_at", since), { maxRows: 10000 })
     ]);
 
     for (const result of [teamResult, analyticsResult, followerResult, eventResult, deliveryResult]) {

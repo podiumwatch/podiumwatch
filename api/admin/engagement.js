@@ -11,6 +11,7 @@ import {
   safeUrl,
   sendResendEmail
 } from "../../lib/engagement_service.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 // Failed delivery actions (2026-11-09 audit, P0.6b). The 7 failures on
 // record are follower verification emails from Aug 31 to Sep 4, before
@@ -157,11 +158,10 @@ async function getDashboard(days = 30) {
       .select("id, team_id, delivery_type, recipient_email, status, sent_at, created_at, error_message")
       .order("created_at", { ascending: false })
       .limit(50),
-    supabaseAdmin
+    selectAll(() => supabaseAdmin
       .from("team_analytics_events")
       .select("team_id, event_type, section, visitor_id, sponsor_id, content_type, content_id, created_at")
-      .gte("created_at", since)
-      .limit(30000),
+      .gte("created_at", since), { maxRows: 30000 }),
     supabaseAdmin
       .from("team_sponsors")
       .select("*")
@@ -170,12 +170,11 @@ async function getDashboard(days = 30) {
       .from("team_sponsor_placements")
       .select("*, sponsor:team_sponsors(id, name, status), team:team_pages(id, school_name, slug)")
       .order("priority", { ascending: true }),
-    supabaseAdmin
+    selectAll(() => supabaseAdmin
       .from("team_pages")
       .select("id, school_name, slug, mascot, city, state, published")
       .is("merged_into_team_id", null)
-      .order("school_name", { ascending: true })
-      .limit(3000)
+      .order("school_name", { ascending: true }), { maxRows: 3000 })
   ]);
 
   for (const result of [

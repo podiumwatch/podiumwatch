@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 function cleanText(value, maxLength = 300) {
   return String(value ?? "")
@@ -320,12 +321,11 @@ async function loadSeasonRoster(team, requestedSeasonId) {
   const performanceSport = seasonSportToPerformanceSport(selectedSeason.sport);
 
   if (publicProfileIds.length > 0 && performanceSport) {
-    const { data: bestRows, error: bestError } = await supabaseAdmin
+    const { data: bestRows, error: bestError } = await selectAll(() => supabaseAdmin
       .from("athlete_best_performances")
       .select("profile_id, event_key, event_name, measurement_type, mark_text, mark_sort_value, meet_name, meet_date")
       .in("profile_id", publicProfileIds)
-      .eq("sport", performanceSport)
-      .limit(2000);
+      .eq("sport", performanceSport), { maxRows: 2000 });
 
     if (!bestError) {
       const genderByProfileId = new Map(

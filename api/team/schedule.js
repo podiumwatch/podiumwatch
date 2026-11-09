@@ -5,6 +5,7 @@ import {
 } from "../../lib/team_auth.mjs";
 import { writeTeamChange } from "../../lib/team_audit.mjs";
 import { queueTeamNotification } from "../../lib/engagement_service.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 const MAX_SEARCH_RESULTS = 100;
 const MAX_IMPORT_ROWS = 200;
@@ -932,14 +933,13 @@ async function buildImportPlan(rows) {
   let meets = [];
 
   if (validDates.length > 0) {
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await selectAll(() => supabaseAdmin
       .from("meets")
       .select(MEET_FIELDS)
       .eq("published", true)
       .gte("meet_date", validDates[0])
       .lte("meet_date", validDates[validDates.length - 1])
-      .order("meet_date", { ascending: true })
-      .limit(2500);
+      .order("meet_date", { ascending: true }), { maxRows: 2500 });
 
     if (error) {
       throw error;

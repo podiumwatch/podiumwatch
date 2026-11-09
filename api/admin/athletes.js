@@ -9,6 +9,7 @@ import {
   normalizeAthleteName,
   slugifyAthlete
 } from "../../lib/athlete_foundation_service.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 const ALIAS_TYPES = new Set(["name", "external_id"]);
 
@@ -299,7 +300,7 @@ async function loadStatus() {
     batchesResult,
     mergesResult
   ] = await Promise.all([
-    supabaseAdmin
+    selectAll(() => supabaseAdmin
       .from("athlete_profiles")
       .select(`
         id,
@@ -316,8 +317,7 @@ async function loadStatus() {
         archived_at,
         merged_into_profile_id,
         updated_at
-      `)
-      .limit(10000),
+      `), { maxRows: 50000 }),
     supabaseAdmin
       .from("athlete_profiles")
       .select("id", { count: "exact", head: true })

@@ -11,6 +11,7 @@ import {
   loadLatestRankSnapshots,
   starLabel
 } from "../../lib/recruiting_service.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 function parseInput(request) {
   if (request.method === "GET") {
@@ -59,11 +60,10 @@ function activityStatusLabel(status) {
 }
 
 async function loadRecruitingRows() {
-  const { data: ratings, error: ratingError } = await supabaseAdmin
+  const { data: ratings, error: ratingError } = await selectAll(() => supabaseAdmin
     .from("athlete_published_recruit_ratings")
     .select("*")
-    .order("rating_score", { ascending: false })
-    .limit(5000);
+    .order("rating_score", { ascending: false }), { maxRows: 5000 });
 
   if (ratingError) throw ratingError;
 
@@ -134,8 +134,7 @@ async function loadRecruitingRows() {
         verification_status
       `,
       "profile_id",
-      profileIds,
-      (query) => query.limit(10000)
+      profileIds
     ),
     fetchInChunks(
       "athlete_recruiting_activity",
@@ -157,7 +156,6 @@ async function loadRecruitingRows() {
         .eq("public_visible", true)
         .is("archived_at", null)
         .order("activity_date", { ascending: false })
-        .limit(10000)
     )
   ]);
 

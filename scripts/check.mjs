@@ -140,6 +140,12 @@ for (const file of sourceTextFiles) {
   if (hasMojibake(text)) errors.push(`${path.relative(root, file)}: possible text encoding corruption`);
 }
 
+// Supabase row cap (WO-02): no .limit() over 1,000 in api/ or lib/.
+{
+  const { checkRowCaps } = await import("./check-row-caps.mjs");
+  for (const failure of checkRowCaps()) errors.push(`${failure}: asks Supabase for more than 1,000 rows; use selectAll() from lib/supabase_paging.mjs`);
+}
+
 if (!errors.length) run(process.execPath, ["scripts/build.mjs"], "Website build");
 if (errors.length) {
   console.error(`\nPrebuild checks failed with ${errors.length} problem${errors.length === 1 ? "" : "s"}:`);

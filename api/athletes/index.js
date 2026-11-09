@@ -7,6 +7,7 @@ import {
   athleteVerificationStatus,
   isMissingAthleteFoundationError
 } from "../../lib/athlete_foundation_service.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 function parseInput(request) {
   if (request.method === "GET") {
@@ -63,14 +64,16 @@ async function selectInBatches(table, select, column, ids, extra) {
     return [];
   }
 
+  // Each batch is paged (WO-02): a batch of ids can still match more than
+  // the 1,000 rows PostgREST returns per request.
   const batches = await Promise.all(
-    chunk(ids, ID_BATCH_SIZE).map((batchIds) => {
+    chunk(ids, ID_BATCH_SIZE).map((batchIds) => selectAll(() => {
       let query = supabaseAdmin.from(table).select(select).in(column, batchIds);
       if (extra) {
         query = extra(query);
       }
       return query;
-    })
+    }))
   );
 
   const rows = [];
@@ -142,7 +145,7 @@ async function loadDatabaseProfiles() {
       .select("id", { count: "exact", head: true })
       .is("merged_into_profile_id", null)
       .is("archived_at", null),
-    supabaseAdmin
+    selectAll(() => supabaseAdmin
       .from("athlete_profiles")
       .select(`
       id,
@@ -165,8 +168,7 @@ async function loadDatabaseProfiles() {
       .eq("public_visible", true)
       .eq("suspended", false)
       .is("archived_at", null)
-      .is("merged_into_profile_id", null)
-      .limit(5000)
+      .is("merged_into_profile_id", null), { maxRows: 50000 })
   ]);
 
   if (countResult.error) {
@@ -211,7 +213,7 @@ async function loadDatabaseProfiles() {
       "profile_id, event_name, mark_text, meet_name, meet_date, verification_status, source_url",
       "profile_id",
       profileIds,
-      (query) => query.eq("public_visible", true).is("archived_at", null).limit(10000)
+      (query) => query.eq("public_visible", true).is("archived_at", null)
     ),
     // Only alias_type "name" rows ever feed the directory's search text --
     // an external provider id is never a name a visitor would type. Missing
