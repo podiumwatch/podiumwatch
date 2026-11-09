@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { evaluateFinishTimingEligibility } from "../lib/finish_timing_ingestion_service.mjs";
+import { evaluateFinishTimingEligibility, isAccessDeniedError } from "../lib/finish_timing_ingestion_service.mjs";
 
 function safeRow(overrides = {}) {
   return {
@@ -130,4 +130,13 @@ test("reasons never contain duplicates even when multiple rules overlap", () => 
     warning_codes: ["AMBIGUOUS_IDENTITY", "NON_OHIO_ATHLETE"]
   }));
   assert.equal(result.reasons.length, new Set(result.reasons).size);
+});
+
+test("a 401 or 403 from Finish Timing counts as access denied (auto-pause); other errors don't", () => {
+  assert.equal(isAccessDeniedError({ code: "HTTP_401", message: "HTTP 401 from https://track-scoreboard-default-rtdb.firebaseio.com/x" }), true);
+  assert.equal(isAccessDeniedError({ code: "HTTP_403" }), true);
+  assert.equal(isAccessDeniedError({ message: "HTTP 401 from somewhere" }), true);
+  assert.equal(isAccessDeniedError({ code: "HTTP_500", message: "HTTP 500 from x" }), false);
+  assert.equal(isAccessDeniedError({ message: "Meet 4012 failed" }), false);
+  assert.equal(isAccessDeniedError(null), false);
 });

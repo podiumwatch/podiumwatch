@@ -11,6 +11,7 @@ export function adminResultsSourcesPage(site) {
   const content = `<div class="source-shell" data-source-manager>
     <section class="info-card" data-source-loading><h2>Checking Phase One</h2><p>Please wait while the meet catalog loads.</p></section>
     <div data-source-dashboard hidden class="source-shell">
+      <p class="source-message" data-tone="error" data-ft-alert role="alert" hidden></p>
       <p class="source-message" data-source-message role="status">Loading the Results Source Manager.</p>
       <div class="source-stats">
         <article class="source-stat"><strong data-stat-total>0</strong><span>Meets found</span></article><article class="source-stat"><strong data-stat-sources>0</strong><span>Source links</span></article><article class="source-stat"><strong data-stat-ready>0</strong><span>Ready</span></article><article class="source-stat"><strong data-stat-review>0</strong><span>Need review</span></article><article class="source-stat"><strong data-stat-approved>0</strong><span>Approved</span></article>

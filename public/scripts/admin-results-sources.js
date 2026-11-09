@@ -46,6 +46,19 @@
     const provider = data.provider || {};
     const statusEl = root.querySelector("[data-ft-status]");
     statusEl.textContent = provider.active ? "Active" : "Paused";
+    // Plain alert at the top when the provider is paused or the last scan
+    // failed (2026-11-09: Finish Timing started returning HTTP 401).
+    const alertEl = root.querySelector("[data-ft-alert]");
+    if (alertEl) {
+      const lastErrors = (provider.last_scan_summary && provider.last_scan_summary.errors) || [];
+      const text = !provider.active && provider.pause_reason
+        ? `Finish Timing automation is paused. ${provider.pause_reason}`
+        : provider.last_scan_status === "failed"
+          ? `The last Finish Timing scan failed: ${lastErrors[lastErrors.length - 1] || "unknown error"}`
+          : "";
+      alertEl.textContent = text;
+      alertEl.hidden = !text;
+    }
     statusEl.dataset.tone = provider.active ? "active" : "paused";
     stat("[data-ft-autopublish]", provider.auto_publish_enabled ? "On" : "Off");
     root.querySelector("[data-ft-last-scan]").textContent = provider.last_scan_completed_at
@@ -109,9 +122,11 @@
       await loadFinishTimingHealth();
     } catch (error) { setMessage(error.message, "error"); } finally { setBusy(false); }
   });
+  // Latest 10 jobs shown; the rest are folded under one toggle.
+  const VISIBLE_JOBS = 10;
   function renderIngestionJobs(jobs = []) {
     if (!ingestionJobs) return;
-    ingestionJobs.innerHTML = jobs.length ? jobs.map((job) => {
+    const rows = jobs.map((job) => {
       const progress = job.progress || {};
       const resumable = ["queued", "paused", "partial"].includes(job.status);
       const isPublic = job.provider_key === "public_submission" || Boolean(job.options?.is_public_submission);
@@ -119,7 +134,10 @@
         ? `<strong>${escapeHtml(job.seeds?.[0]?.meet_name || "Public submission")}</strong><br><small>Submitted by ${escapeHtml(job.options?.submitter_name || "unknown")}${job.options?.submitter_organization ? ` (${escapeHtml(job.options.submitter_organization)})` : ""}</small><br><small>${escapeHtml(job.id)}</small>`
         : `<strong>${escapeHtml(titleCase(job.provider_key || job.job_type))}</strong><br><small>${escapeHtml(job.id)}</small>`;
       return `<article class="source-run"><div>${jobLabel}</div><div><span class="source-badge" data-status="${escapeHtml(job.status)}">${escapeHtml(titleCase(job.status))}</span></div><div>${escapeHtml(progress.visited || 0)} pages<br>${escapeHtml(progress.documents || 0)} documents<br>${escapeHtml(progress.rows || 0)} rows<br>${escapeHtml(progress.errors || 0)} errors</div><div class="source-actions"><button class="button button-outline" type="button" data-view-job="${escapeHtml(job.id)}">Review</button>${resumable ? `<button class="button button-primary" type="button" data-run-job="${escapeHtml(job.id)}">Resume</button>` : ""}${job.status === "running" ? `<button class="button button-outline" type="button" data-pause-job="${escapeHtml(job.id)}">Pause</button>` : ""}${progress.errors ? `<button class="button button-outline" type="button" data-retry-job="${escapeHtml(job.id)}">Retry failures</button>` : ""}${job.status === "imported" ? `<button class="button button-outline" type="button" data-reverse-job="${escapeHtml(job.id)}">Reverse batch</button>` : ""}${!["completed","cancelled","imported","reversed"].includes(job.status) ? `<button class="button button-outline" type="button" data-cancel-job="${escapeHtml(job.id)}">Cancel</button>` : ""}</div></article>`;
-    }).join("") : "<p>No Phase Two ingestion jobs yet.</p>";
+    });
+    ingestionJobs.innerHTML = rows.length
+      ? rows.slice(0, VISIBLE_JOBS).join("") + (rows.length > VISIBLE_JOBS ? `<details class="source-older-jobs"><summary>Show ${rows.length - VISIBLE_JOBS} older job${rows.length - VISIBLE_JOBS === 1 ? "" : "s"}</summary>${rows.slice(VISIBLE_JOBS).join("")}</details>` : "")
+      : "<p>No ingestion jobs yet.</p>";
   }
   function sourceLinks(meet) {
     const sources = meet.discovered_meet_sources || [];

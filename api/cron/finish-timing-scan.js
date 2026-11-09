@@ -1,4 +1,4 @@
-import { runFinishTimingScan } from "../../lib/finish_timing_ingestion_service.mjs";
+import { reapStuckFinishTimingJobs, runFinishTimingScan } from "../../lib/finish_timing_ingestion_service.mjs";
 
 function authorized(request) {
   const secret = process.env.CRON_SECRET;
@@ -19,8 +19,11 @@ export default async function handler(request, response) {
   }
 
   try {
+    // Close out jobs stuck in "running" first, even while the provider is
+    // paused, so the job list never fills up again.
+    const reaped = await reapStuckFinishTimingJobs();
     const result = await runFinishTimingScan({ trigger: "cron" });
-    return response.status(200).json({ success: true, ...result });
+    return response.status(200).json({ success: true, ...reaped, ...result });
   } catch (error) {
     console.error("Finish Timing scan cron error:", error);
     return response.status(500).json({
