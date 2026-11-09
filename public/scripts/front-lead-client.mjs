@@ -14,9 +14,12 @@ if (root && candidatesNode) {
     .then((r) => (r.ok ? r.json() : null))
     .then((data) => {
       const lead = data?.lead;
-      if (!lead || lead.story_slug === builtSlug) return;
+      if (!lead) return;
       const story = { ...lead, slug: lead.story_slug };
+      // Always draw the admin lead: even for the same story, its photo,
+      // kicker and credit can differ from the built-in version.
       root.querySelector("[data-front-lead]").innerHTML = frontLeadHtml(story);
+      if (lead.story_slug === builtSlug) return;
       const also = candidates.filter((s) => s.slug !== story.slug).slice(0, 3);
       const alsoNode = root.querySelector("[data-front-also]");
       if (alsoNode) alsoNode.innerHTML = frontAlsoHtml(also);

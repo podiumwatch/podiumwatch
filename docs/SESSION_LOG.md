@@ -3023,3 +3023,9 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - install/88_FRONT_PAGE_LEADS.sql written, not yet run.
 - Checked locally with the front page API mocked in Playwright: at 375x667 and 375x812 the photo, headline and "Read the story" button sit above the bottom nav for the built lead, a swapped photo lead and a type-only lead; no horizontal scroll; no page errors. Story page date line and both download links render at 375 px. Both share card sizes rendered and reviewed (with and without a photo). Full test suite, link check and SEO audit pass.
 - Still to do after install/88 runs: set the first real lead, then confirm homepage, story date line, /front-page/, a featured athlete badge and both card downloads end to end.
+
+## 2026-11-09: First front page lead (live)
+
+- Set the Quintin Parrish story as the lead (hospital photo crop, kicker STATE MEET, featuring his profile and Van Wert), starting 2026-11-09 19:51 UTC, no end.
+- Live checks passed: /front goes to the story; both card downloads (1080x1350, 1080x1920) return PNGs; story page shows "On the Podium Watch front page, Nov 9, 2026 to today" with both downloads; /front-page/ lists it as current; his profile and the Van Wert team page show the badge.
+- Bug found live and fixed (commit after this entry): the homepage skipped the admin lead when it was the same story as the built-in one, so its chosen photo and kicker didn't show. Verified locally against the live lead at 375x667 and 375x812.
