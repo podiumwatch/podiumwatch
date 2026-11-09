@@ -184,6 +184,9 @@ for (const file of htmlFiles) {
   for (const match of html.matchAll(/href="([^"]+)"/g)) {
     const href = match[1];
     if (/^(https?:|mailto:|tel:|#|javascript:)/.test(href)) continue;
+    // Sponsor click links are served by a vercel.json rewrite to
+    // api/go/[sponsor]/[placement].js (WO-25); there is no file to find.
+    if (/^\/go\/[a-z0-9-]+\/[a-z0-9-]+\/(\?|$)/.test(href)) continue;
     const target = resolvePublicPath(href);
     if (!target) continue;
     checkedLinks += 1;

@@ -1793,3 +1793,7 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
   .home-page .section { padding: 24px 0; }
   .home-page .section-heading { margin-bottom: 18px; padding-bottom: 12px; }
 }
+/* Site sponsor slot (WO-25): one quiet labeled line, never inside the editorial list. */
+.sponsor-slot { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px; margin:0 0 18px; padding:10px 14px; border:1px solid var(--line); border-left:4px solid var(--green); background:var(--white); font-size:.92rem; }
+.sponsor-slot-label { color:var(--muted); font-size:.74rem; font-weight:900; letter-spacing:.08em; text-transform:uppercase; }
+.sponsor-slot a { font-weight:850; }

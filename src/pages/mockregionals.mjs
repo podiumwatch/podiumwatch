@@ -59,6 +59,7 @@ import districtQualifiers from "../data/district-qualifiers-2026.json" with { ty
 import top10Data from "../data/top10-by-grade-2026.json" with { type: "json" };
 import top10OverallData from "../data/top10-overall-by-grade-2026.json" with { type: "json" };
 import top10SchoolExpansions from "../data/mock-postseason-school-expansions-2026.json" with { type: "json" };
+import { sponsorSlotHtml } from "../../lib/site_sponsors.mjs";
 
 function districtFeedHtml(regionKey, divisionEntry) {
   const regionData = districtQualifiers.regions[regionKey];
@@ -719,6 +720,7 @@ export function top10ByGradePage(site) {
   <section class="section section-paper" aria-labelledby="mr-top10-title">
     <div class="container">
       ${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: title }])}
+      ${sponsorSlotHtml(pathname)}
       <p class="mr-projection-note">Season-best times from Athletic.net and MileSplit, combined by runner so each athlete appears once. These are season bests, not results from a single meet.</p>
       <h2 id="mr-top10-title" class="visually-hidden">Top 10 by grade, overall and by division</h2>
 

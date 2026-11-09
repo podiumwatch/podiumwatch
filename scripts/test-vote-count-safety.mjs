@@ -142,6 +142,7 @@ const COUNT_EXACT_PATTERN = /count:\s*["']exact["']/;
 const KNOWN_SAFE_EXCEPTIONS = new Set([
   path.join("api", "recruiting", "index.js"), // summary() is fed by queries paged with selectAll() (lib/supabase_paging.mjs, WO-02), so every row is counted.
   path.join("lib", "engagement_service.mjs"), // aggregateAnalytics() is fed by time-windowed queries paged with selectAll() (WO-02).
+  path.join("lib", "sponsor_report_service.mjs"), // summarizePlacement() tallies page views per path from month-windowed reads done with selectAll() (paged to the end, WO-25).
   path.join("lib", "short_links_service.mjs"), // listShortLinks() tallies hits per day from a 14-day window read with selectAll() (paged to the end, WO-02/WO-34), not a single capped select.
   path.join("lib", "athletic_net_rankings_service.mjs") // validateRankingDataset()'s tally loop counts duplicate athlete_urls within the in-memory parsed CSV rows array -- it never touches a Supabase result at all. The file's real Supabase selects (loadExternalIdProfileMap, loadNameMatchProfiles, loadExistingSourceKeys) are either .limit()-bounded or used only to build a Set/Map for membership checks, not an unbounded per-key tally.
 ]);

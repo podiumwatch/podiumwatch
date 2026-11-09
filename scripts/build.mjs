@@ -123,6 +123,8 @@ import { adminRecruitingPage } from "../src/pages/adminrecruiting.mjs";
 import { adminResultsSourcesPage } from "../src/pages/adminresultssources.mjs";
 import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { adminShortLinksPage } from "../src/pages/adminshortlinks.mjs";
+import { adminSponsorReportPage } from "../src/pages/adminsponsorreport.mjs";
+import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
 import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
 import { adminAwardsPage } from "../src/pages/adminawards.mjs";
@@ -897,7 +899,7 @@ function divisionPage({ sportName, sportPath, division, divisionCount, gender, r
     ? `<div class="info-card pw-rankings-callout" style="border-left:6px solid ${escapeHtml(preseasonMatch.accent)}"><p class="eyebrow">2026 preseason team power rankings</p><h3>${escapeHtml(preseasonMatch.headline)}</h3><p>${escapeHtml(preseasonMatch.subtitle)}</p><a class="button button-dark" href="${preseasonArticleHref(preseasonMatch)}">Read the full preseason preview</a></div>`
     : "";
   const content = `${pageHero({ eyebrow: `${sportName} rankings`, title: `Division ${division} ${gender}`, description: `Published Podium Watch ${sportName.toLowerCase()} rankings for Division ${division} ${gender.toLowerCase()}.`, compact: true })}
-  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName, href: `/rankings/${sportPath}/` }, { label: `Division ${division} ${gender}` }])}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-${division}/"${gender === "Boys" ? ' aria-current="page"' : ""}>Boys</a><a href="/rankings/${sportPath}/girls/division-${division}/"${gender === "Girls" ? ' aria-current="page"' : ""}>Girls</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${Array.from({ length: divisionCount }, (_, index) => index + 1).map((number) => `<a class="division-card" href="/rankings/${sportPath}/${gender.toLowerCase()}/division-${number}/"><strong>Division ${number}</strong><span>${number === division ? "Current division" : `View Division ${number}`}</span></a>`).join("")}</div>${preseasonCallout}<div style="margin-top:34px">${matching.length ? `<div class="rankings-grid">${matching.map((ranking) => rankingCard(ranking)).join("")}</div>` : emptyState({ title: "No rankings published here yet", description: `The Division ${division} ${gender.toLowerCase()} page is ready. Add a matching CSV file to content/rankings and rebuild the site.`, actionLabel: `View ${otherGender.toLowerCase()} rankings`, actionHref: `/rankings/${sportPath}/${otherGender.toLowerCase()}/division-${division}/` })}</div></div></section>`;
+  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName, href: `/rankings/${sportPath}/` }, { label: `Division ${division} ${gender}` }])}${sponsorSlotHtml(pathname)}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-${division}/"${gender === "Boys" ? ' aria-current="page"' : ""}>Boys</a><a href="/rankings/${sportPath}/girls/division-${division}/"${gender === "Girls" ? ' aria-current="page"' : ""}>Girls</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${Array.from({ length: divisionCount }, (_, index) => index + 1).map((number) => `<a class="division-card" href="/rankings/${sportPath}/${gender.toLowerCase()}/division-${number}/"><strong>Division ${number}</strong><span>${number === division ? "Current division" : `View Division ${number}`}</span></a>`).join("")}</div>${preseasonCallout}<div style="margin-top:34px">${matching.length ? `<div class="rankings-grid">${matching.map((ranking) => rankingCard(ranking)).join("")}</div>` : emptyState({ title: "No rankings published here yet", description: `The Division ${division} ${gender.toLowerCase()} page is ready. Add a matching CSV file to content/rankings and rebuild the site.`, actionLabel: `View ${otherGender.toLowerCase()} rankings`, actionHref: `/rankings/${sportPath}/${otherGender.toLowerCase()}/division-${division}/` })}</div></div></section>`;
   return { pathname, html: layout({ site, title: `Division ${division} ${gender} ${sportName} Rankings`, description: `Podium Watch Division ${division} ${gender.toLowerCase()} ${sportName.toLowerCase()} rankings.`, pathname, content }) };
 }
 
@@ -924,7 +926,7 @@ function rankingDetailPage(ranking, stories) {
   const sourceActions = `${sourceUrl ? `<a class="button button-outline" href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">Open source</a>` : ""}<a class="button button-outline" href="/rankings/methodology/">Full methodology</a><a class="button button-outline" href="mailto:${site.contactEmail}?subject=${encodeURIComponent(`Ranking correction: ${ranking.title}`)}">Report a correction</a>`;
   const storyAction = relatedStory ? `<a class="share-button" href="/stories/${relatedStory.slug}/">Read the full ranking story</a>` : "";
   const content = `${pageHero({ eyebrow: `${ranking.sport} rankings`, title: ranking.title, description: ranking.subtitle || `${ranking.gender} ${ranking.division} rankings for the ${ranking.season} season.`, compact: true })}
-  <section class="section section-paper"><div class="container">${breadcrumb(crumbs)}
+  <section class="section section-paper"><div class="container">${breadcrumb(crumbs)}${sponsorSlotHtml(pathname)}
     <div class="ranking-detail-header"><div><p class="eyebrow">${escapeHtml(ranking.gender)} ${escapeHtml(ranking.division)}</p><h2>${escapeHtml(ranking.event)}</h2></div><p class="ranking-updated">Last updated ${formatDate(ranking.updatedDate)}</p></div>
     <div class="info-card ranking-source-panel"><div><p><span class="ranking-trust-badge ${isVerifiedList ? "verified" : "editorial"}">${escapeHtml(rankingType)}</span></p><h3>Source and status</h3><p><strong>${escapeHtml(ranking.sourceLabel)}</strong></p><p>${escapeHtml(trustCopy)}</p></div><div class="ranking-source-actions">${sourceActions}</div></div>
     <div class="info-card" style="margin-bottom:22px"><h3>How this ranking works</h3><p>${escapeHtml(methodCopy)}</p></div>
@@ -1121,6 +1123,7 @@ await writePage("/admin/recruiting/", adminRecruitingPage(site));
 await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
 await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
 await writePage("/admin/short-links/", adminShortLinksPage(site));
+await writePage("/admin/sponsor-report/", adminSponsorReportPage(site));
 await writePage("/admin/fan-poll/", adminFanPollPage(site));
 await writePage("/admin/awards/", adminAwardsPage(site));
 await writePage("/admin/awards/2026/", adminAwards2026Page(site));
