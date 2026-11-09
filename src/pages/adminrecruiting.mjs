@@ -66,6 +66,12 @@ export function adminRecruitingPage(site) {
           <article class="recruit-admin-stat"><strong data-recruit-stat-pending-tips>0</strong><span>Pending tips</span></article>
         </div>
 
+        <section class="info-card recruit-admin-panel" id="failed-imports" data-recruit-failed-panel hidden>
+          <div><p class="eyebrow">Needs attention</p><h2>Failed performance imports</h2></div>
+          <p class="recruit-admin-help">A failed batch saved nothing from that paste and keeps only its counts and error, so it can't be re-run from here. Paste the same results again in Performance Import below (rows already saved are skipped), then dismiss the failed batch.</p>
+          <div data-recruit-failed-list></div>
+        </section>
+
         <section class="info-card recruit-admin-panel">
           <div><p class="eyebrow">Public submissions</p><h2>Pending recruiting tips</h2></div>
           <p class="recruit-admin-help">Athletes, coaches, and fans can report interest, offers, visits, commitments, and signings at /recruiting/submit-activity/ with no account. Nothing here is public until you match it to the right athlete and save it below.</p>

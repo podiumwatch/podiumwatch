@@ -256,7 +256,8 @@ async function loadStatus() {
     supabaseAdmin
       .from("athlete_performance_import_batches")
       .select("id", { count: "exact", head: true })
-      .eq("status", "failed"),
+      .eq("status", "failed")
+      .is("options->>dismissed_at", null),
     supabaseAdmin
       .from("athlete_performance_import_batches")
       .select("*")
@@ -1137,6 +1138,59 @@ async function loadResultsLink(body) {
   return loadOfficialResultsLink(sourceUrl);
 }
 
+// Failed performance imports (2026-11-09 audit, P0.6a): the dashboard
+// counted them but nothing listed them. A failed batch keeps only its
+// counts and error, not the pasted rows, so it can't be re-run from
+// here; the fix is to paste the results again in Performance Import.
+// Dismissing marks options.dismissed_at (no schema change).
+function explainImportError(message) {
+  const text = String(message || "");
+  if (/athlete_performances_source_key_key/.test(text)) return "Some of these results were already imported, so the whole batch stopped. Paste the results again; rows already saved are skipped as duplicates.";
+  if (/athlete_profiles_slug_key/.test(text)) return "Two new athletes would have gotten the same profile link, so the batch stopped. Paste the results again; if it repeats, the athlete may already have a profile under a slightly different name.";
+  return text || "Unknown error.";
+}
+
+async function listFailedImports() {
+  const { data, error } = await supabaseAdmin
+    .from("athlete_performance_import_batches")
+    .select("id, created_at, source_label, source_url, requested_by, summary, error_message, options")
+    .eq("status", "failed")
+    .is("options->>dismissed_at", null)
+    .order("created_at", { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return {
+    imports: (data || []).map((row) => ({
+      id: row.id,
+      created_at: row.created_at,
+      source_label: row.source_label,
+      source_url: row.source_url,
+      requested_by: row.requested_by,
+      total_rows: row.summary?.total ?? row.options?.submitted_rows ?? null,
+      error_message: row.error_message,
+      explanation: explainImportError(row.error_message)
+    }))
+  };
+}
+
+async function dismissFailedImport(body) {
+  const id = cleanAthleteText(body.import_id, 80);
+  if (!/^[0-9a-f-]{36}$/i.test(id)) fail("Choose an import to dismiss.");
+  const { data: row, error: readError } = await supabaseAdmin
+    .from("athlete_performance_import_batches")
+    .select("id, status, options")
+    .eq("id", id)
+    .maybeSingle();
+  if (readError) throw readError;
+  if (!row || row.status !== "failed") fail("That failed import could not be found.", 404);
+  const { error: updateError } = await supabaseAdmin
+    .from("athlete_performance_import_batches")
+    .update({ options: { ...(row.options || {}), dismissed_at: new Date().toISOString(), dismissed_by: "Podium Watch Admin" } })
+    .eq("id", id);
+  if (updateError) throw updateError;
+  return { dismissed: id };
+}
+
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
 
@@ -1184,6 +1238,10 @@ export default async function handler(request, response) {
       data = await commitImport(body);
     } else if (action === "load_results_link") {
       data = await loadResultsLink(body);
+    } else if (action === "list_failed_imports") {
+      data = await listFailedImports();
+    } else if (action === "dismiss_failed_import") {
+      data = await dismissFailedImport(body);
     } else if (action === "list_activity_tips") {
       data = await listActivityTips(body);
     } else if (action === "reject_activity_tip") {

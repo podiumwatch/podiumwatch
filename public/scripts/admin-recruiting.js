@@ -515,6 +515,53 @@
     importCommit.disabled = !summary.ready && !summary.creatable;
   }
 
+  // Failed performance imports (2026-11-09 audit): list with the error
+  // explained, and a two-tap Dismiss.
+  const failedPanel = document.querySelector("[data-recruit-failed-panel]");
+  const failedList = document.querySelector("[data-recruit-failed-list]");
+
+  async function loadFailedImports() {
+    if (!failedPanel || !failedList) return;
+    try {
+      const data = await api({ action: "list_failed_imports" });
+      const items = data.imports || [];
+      failedPanel.hidden = items.length === 0;
+      failedList.innerHTML = items.map((item) =>
+        '<article class="recruit-admin-failed" style="display:grid;gap:6px;padding:12px;border-top:1px solid rgba(15,23,42,.1)">' +
+          "<strong>" + escapeHtml(item.source_label || "Performance import") + " &middot; " +
+          escapeHtml(new Date(item.created_at).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })) +
+          (item.total_rows ? " &middot; " + escapeHtml(item.total_rows) + " rows submitted" : "") + "</strong>" +
+          "<span>" + escapeHtml(item.explanation) + "</span>" +
+          '<small style="color:#64748b">Error: ' + escapeHtml(item.error_message || "none recorded") + "</small>" +
+          '<div><button class="button button-outline" type="button" data-dismiss-failed-import="' + escapeHtml(item.id) + '">Dismiss</button></div>' +
+        "</article>"
+      ).join("");
+    } catch (error) {
+      failedPanel.hidden = false;
+      failedList.textContent = error.message;
+    }
+  }
+
+  failedList?.addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-dismiss-failed-import]");
+    if (!button) return;
+    if (button.dataset.armed !== "yes") {
+      button.dataset.armed = "yes";
+      button.textContent = "Tap again to dismiss";
+      return;
+    }
+    button.disabled = true;
+    try {
+      await api({ action: "dismiss_failed_import", import_id: button.dataset.dismissFailedImport });
+      await loadFailedImports();
+      const stat = document.querySelector("[data-recruit-stat-failed]");
+      if (stat) stat.textContent = String(Math.max(0, Number(stat.textContent || 0) - 1));
+    } catch (error) {
+      button.disabled = false;
+      button.textContent = error.message;
+    }
+  });
+
   async function loadStatus(force = false) {
     if (busy && !force) return;
     const managedBusyState = !busy;
@@ -528,6 +575,7 @@
       loading.hidden = true;
       dashboard.hidden = false;
       renderStatus();
+      loadFailedImports();
 
       if (!statusData.installed) {
         showMessage(
