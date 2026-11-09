@@ -21,7 +21,8 @@ const {
   isValidSport,
   maxDivisionForSport,
   normalizeEmail,
-  sportLabel
+  sportLabel,
+  effectiveWeekStatus
 } = await import("../lib/fan_poll_service.mjs");
 
 async function read(relativePath) {
@@ -274,6 +275,15 @@ assert.ok(
   "Points must be computed from rank_position inside the database function itself, never trusted from the caller -- the same principle as never trusting client-supplied scoring anywhere else in this project."
 );
 
+// A week stored as voting_open reads as closed once its window ends (2026-11-09 audit).
+{
+  const week = { status: "voting_open", voting_opens: "2026-08-30T12:00:00Z", voting_closes: "2026-09-03T12:00:00Z" };
+  assert.equal(effectiveWeekStatus(week, new Date("2026-09-01T00:00:00Z")), "voting_open");
+  assert.equal(effectiveWeekStatus(week, new Date("2026-09-03T12:00:00Z")), "voting_closed");
+  assert.equal(effectiveWeekStatus(week, new Date("2026-11-09T00:00:00Z")), "voting_closed");
+  assert.equal(effectiveWeekStatus({ ...week, status: "scheduled" }, new Date("2026-11-09T00:00:00Z")), "scheduled");
+  assert.equal(effectiveWeekStatus({ ...week, status: "voting_closed" }, new Date("2026-09-01T00:00:00Z")), "voting_closed");
+}
 console.log("Fan Poll feature validation passed.");
 console.log("Division/sport/gender labeling, division-to-column mapping, and division bounds (cross country 4, track 5) checked.");
 console.log("Email normalization and HMAC voter-hash determinism/case-insensitivity checked.");
