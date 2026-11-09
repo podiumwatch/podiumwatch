@@ -48,7 +48,7 @@
   }
 
   function profileHref(athlete) {
-    return "/athlete/?slug=" + encodeURIComponent(athlete.slug || "");
+    return "/athletes/" + encodeURIComponent(athlete.slug || "") + "/";
   }
 
   function statusTone(athlete) {

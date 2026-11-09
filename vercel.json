@@ -64,9 +64,25 @@
       "source": "/commitments/",
       "destination": "/commitments/2027/",
       "permanent": false
+    },
+    {
+      "source": "/athlete/",
+      "has": [
+        {
+          "type": "query",
+          "key": "slug",
+          "value": "(?<slug>[a-z0-9-]+)"
+        }
+      ],
+      "destination": "/athletes/:slug/",
+      "permanent": true
     }
   ],
   "rewrites": [
+    {
+      "source": "/athletes/:slug([a-z0-9-]+)/",
+      "destination": "/api/pages/athlete?slug=:slug"
+    },
     {
       "source": "/commitments/:class([0-9]{4})/",
       "destination": "/api/pages/commitments?class=:class"

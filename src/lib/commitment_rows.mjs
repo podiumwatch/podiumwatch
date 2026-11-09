@@ -19,7 +19,7 @@ function shortDate(iso) {
 
 export function commitmentRowHtml(row) {
   return `<li class="cm-row${row.gender === "girls" ? " is-girls" : ""}" data-id="${escapeHtml(row.id)}" data-level="${escapeHtml(row.level)}" data-event="${escapeHtml(row.event_group || "")}">
-      <div><b><a href="/athlete/?slug=${encodeURIComponent(row.athlete_slug)}">${escapeHtml(row.athlete_name)}</a></b><br><small>${escapeHtml(row.school_name || "")}</small></div>
+      <div><b><a href="/athletes/${encodeURIComponent(row.athlete_slug)}/">${escapeHtml(row.athlete_name)}</a></b><br><small>${escapeHtml(row.school_name || "")}</small></div>
       <div class="cm-college">${row.type === "signing" ? "Signed with" : "Committed to"} ${escapeHtml(row.college)}</div>
       <div class="cm-meta"><span>${escapeHtml(row.level)}</span>${row.event_group ? `<span>${escapeHtml(eventLabel(row.event_group))}</span>` : ""}${row.announced_on ? `<span>${escapeHtml(shortDate(row.announced_on))}</span>` : ""}<a href="${escapeHtml(row.source_url)}" target="_blank" rel="noopener noreferrer">Source: ${escapeHtml(row.source_label || "announcement")}</a><span data-cm-admin hidden></span></div>
     </li>`;

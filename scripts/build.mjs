@@ -1202,13 +1202,9 @@ await writePage("/writer-portal/calendar/", writerPortalCalendarPage(site));
 await writePage("/writer-portal/board/", writerPortalBoardPage(site));
 await writePage("/writer-portal/style-guide/", writerPortalStyleGuidePage(site));
 await writePage("/athlete/", athleteDetailPage(site));
-for (const athlete of athleteSeedRows) {
-  const athletePath = `/athletes/${athlete.profile_slug}/`;
-  await writePage(
-    athletePath,
-    athleteDetailPage(site, { seed: athlete, pathname: athletePath })
-  );
-}
+// /athletes/{slug}/ is server-rendered now (api/pages/athlete.js, WO-09);
+// the 200 static seed pages are no longer written, since a static file
+// would win over the rewrite on Vercel.
 await writePage("/search/", searchPage(site));
 // Weekly awards paused for the season (2026-11-09); set to false to bring
 // the full Athlete/Team of the Week pages back.

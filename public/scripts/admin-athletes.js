@@ -257,7 +257,7 @@
     fillForm(profileForm, profile);
     performanceForm.elements.profile_id.value = profile.id || "";
     aliasForm.elements.profile_id.value = profile.id || "";
-    publicLink.href = "/athlete/?slug=" + encodeURIComponent(profile.slug || "");
+    publicLink.href = "/athletes/" + encodeURIComponent(profile.slug || "") + "/";
     renderAliases(data.aliases);
 
     rankingRows.innerHTML = (data.rankings || []).length

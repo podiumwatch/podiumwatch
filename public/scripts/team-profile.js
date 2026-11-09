@@ -1120,7 +1120,7 @@
 
     if (profileSlug) {
       const profileLink = document.createElement("a");
-      profileLink.href = "/athlete/?slug=" + encodeURIComponent(profileSlug);
+      profileLink.href = "/athletes/" + encodeURIComponent(profileSlug) + "/";
       profileLink.textContent = athleteDisplayName(athlete) || "Athlete";
       heading.appendChild(profileLink);
     } else {
@@ -1221,7 +1221,7 @@
               '<span class="ranking-number">' + (index + 1) + "</span>" +
               '<div class="ranking-athlete"><strong>' +
                 (leader.profile_slug
-                  ? '<a href="/athlete/?slug=' + encodeURIComponent(leader.profile_slug) + '">' + escapeHtml(leader.display_name || "Athlete") + "</a>"
+                  ? '<a href="/athletes/' + encodeURIComponent(leader.profile_slug) + '/">' + escapeHtml(leader.display_name || "Athlete") + "</a>"
                   : escapeHtml(leader.display_name || "Athlete")) +
               "</strong></div>" +
               '<div class="ranking-mark"><strong>' + escapeHtml(leader.mark_text) + "</strong></div>" +
