@@ -159,7 +159,7 @@ assert.ok(submitBody.indexOf("isValidHandleFormat(handle)") < submitBody.indexOf
 
 includesAll(
   publicApiSource,
-  ["String(body.pw_trap || \"\").trim()", "addressHash(request)", "createHmac"],
+  ["String(body.pw_hp_field || \"\").trim()", "addressHash(request)", "createHmac"],
   "The public submission endpoint must check a honeypot field and hash (not store raw) the submitter's address"
 );
 

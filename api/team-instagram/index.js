@@ -52,7 +52,7 @@ export default async function handler(request, response) {
     // Honeypot: a field real submitters never see or fill in. Renamed from
     // "website" (2026-11-09), which browser autofill could fill for real
     // people.
-    if (String(body.pw_trap || "").trim()) {
+    if (String(body.pw_hp_field || "").trim()) {
       return response.status(201).json({ submitted: true });
     }
 
@@ -73,7 +73,7 @@ export default async function handler(request, response) {
       handle: result.handle,
       message: result.status === "already_listed"
         ? `@${result.handle} is already listed for this team.`
-        : `Thanks! @${result.handle} was sent to Podium Watch for a quick check. It will show here once approved.`
+        : `Thanks, we'll add @${result.handle} after a quick check.`
     });
   } catch (error) {
     const status = Number(error?.status) || 500;

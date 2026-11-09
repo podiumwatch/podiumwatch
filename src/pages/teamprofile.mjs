@@ -759,7 +759,7 @@ export function teamProfilePage(site) {
             <p class="team-instagram-help">No account needed. Podium Watch checks each submission before it shows here. One submission is accepted per team every few hours.</p>
             <form class="team-instagram-form" data-team-instagram-form>
               <label>Instagram handle<input type="text" name="handle" required maxlength="60" placeholder="@teamhandle"></label>
-              <label class="team-instagram-honeypot" aria-hidden="true">Leave this blank<input type="text" name="pw_trap" tabindex="-1" autocomplete="off"></label>
+              <label class="team-instagram-honeypot" aria-hidden="true">Leave this blank<input type="text" name="pw_hp_field" tabindex="-1" autocomplete="off"></label>
               <p class="team-instagram-message" data-team-instagram-message role="status" hidden></p>
               <button class="button button-dark" type="submit" data-team-instagram-button>Submit</button>
             </form>

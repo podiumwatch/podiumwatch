@@ -1834,7 +1834,7 @@
       const response = await fetch("/api/team-instagram/", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ team_id: teamId, handle: values.handle, pw_trap: values.pw_trap })
+        body: JSON.stringify({ team_id: teamId, handle: values.handle, pw_hp_field: values.pw_hp_field })
       });
       const payload = await response.json().catch(() => ({}));
 
