@@ -50,3 +50,16 @@ test("a profile with no results is noindex and says so plainly", () => {
   assert.match(html, /name="robots" content="noindex, follow"/);
   assert.match(html, /No results for Pat Runner are on Podium Watch yet/);
 });
+
+test("honors come only from official state results and the import's labels", async () => {
+  const { athleteHonors, postseasonByStage } = await import("../lib/render/athlete_page.mjs");
+  const state = { season_year: 2026, sport: "cross_country", meet_name: "OHSAA Cross Country State Championships", place: 1, mark_text: "14:50.7", result_status: "official_result", honor_label: "All-Ohio first team" };
+  const district = { season_year: 2026, sport: "cross_country", meet_name: "OHSAA Cross Country District - Cambridge", place: 1, mark_text: "15:06.7", result_status: "official_result" };
+  assert.deepEqual(athleteHonors([state, district]).map((h) => h.label), ["2026 State champion", "2026 All-Ohio First Team"]);
+  assert.deepEqual(athleteHonors([{ ...state, place: 30, honor_label: "All-Ohio second team" }]).map((h) => h.label), ["2026 All-Ohio Second Team"]);
+  assert.deepEqual(athleteHonors([{ ...state, result_status: "reviewed_result" }]), []);
+  assert.deepEqual(athleteHonors([{ ...district, place: 1 }]), []);
+  const stages = postseasonByStage([state, district, { ...district, meet_name: "Billy Goat Challenge" }], 2026);
+  assert.deepEqual(Object.keys(stages).sort(), ["district", "state"]);
+  assert.equal(postseasonByStage([{ ...district, place: null }], 2026).district, undefined);
+});
