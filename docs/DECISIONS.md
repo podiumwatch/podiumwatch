@@ -2064,3 +2064,11 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - All-Ohio is `honor_label` on the state performance (D1 1-20 / 21-40, D2-D4 1-24 / 25-48). State source label credits "Results by SEO Timing."
 - Team scores use provider `ohsaa`. Path to State rows are set by "2026 postseason import".
 - Manchester (Akron) in the approved mapping is the existing Manchester (New Franklin). A duplicate school was added in error and has been marked `status = 'merged'` with `metadata.duplicate_of`; its 2 profiles were merged into the existing ones. The school search now ignores merged schools and the script maps that row to New Franklin.
+
+## 2026-11-09: Postseason follow-ups (Zachary's fixes list)
+
+- Names that differ only by punctuation, capitals or spacing are the same runner (Olivia Ohare = Olivia O'Hare). The result attaches to the existing profile and the official spelling is kept as a name alias. Nickname pairs (Andy/Andrew) are never merged automatically.
+- A school name shared by several schools is picked by the meet's location: candidates in the OHSAA athletic districts the meet serves (from schools that resolve on their own at that meet) whose division for that gender is the race's division. A matched profile beats location. At regional and state, a name already resolved in an earlier round for the same gender and division carries forward. Anything still shared is held.
+- Team scores are written only with a school. Rows without one are removed until resolved.
+- Path to State notes use ordinals. The state stage reads "Finished 2nd as a team, 115 points". The athlete page shows the athlete's own official place at each stage next to the team result, says "Complete" for earlier stages once later ones are recorded, and shows the athlete's tournament places even when the team has no path (no team page or no division).
+- Athlete honors at the top of the profile come only from official state results: "State champion" for an official 1st, and "All-Ohio First/Second Team" from the import's honor_label. Never from a reviewed (performance-marks-only) result.

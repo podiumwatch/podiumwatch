@@ -99,7 +99,8 @@ const mapping = fs.readFileSync(path.join(dir, "school_mapping_APPROVED.md"), "u
   .map((line) => { const c = line.split("|").map((x) => x.trim()); return { n: Number(c[1]), source: c[2], name: c[3], city: c[4], status: c[5] }; });
 say(`School mapping rows: ${mapping.length}`);
 // Schools marked merged (a duplicate record) are never matched.
-let schools = (await all(() => db.from("ohio_schools").select("id, school_name, normalized_name, city, normalized_city, status, metadata"))).filter((s) => s.status !== "merged");
+let schools = (await all(() => db.from("ohio_schools").select("id, school_name, normalized_name, city, normalized_city, athletic_district, status, metadata"))).filter((s) => s.status !== "merged");
+const xcDivision = new Map((await all(() => db.from("ohio_school_divisions").select("school_id, gender, division").eq("sport", "cross_country").eq("current", true))).map((d) => [`${d.school_id}|${d.gender}`, d.division]));
 // The approved mapping lists a mailing city where our table uses the
 // school's own town: Manchester (Akron) is Manchester (New Franklin).
 const CITY_IN_TABLE = { "manchester|akron": "New Franklin" };
@@ -174,6 +175,45 @@ function schoolIdsFor(raw) {
   if (expanded) { const c = schoolKeys.get(normalizeLookup(expanded.replace(/\s*\(([^)]*)\)\s*$/, " $1"))); if (c) return c; }
   return schoolKeys.get(normalizeLookup(raw)) || new Set();
 }
+// A name shared by several schools (Madison, Perry, Jackson...) is picked
+// by the meet's location: keep the candidates in the OHSAA athletic
+// districts this meet serves (from the schools that resolve on their own
+// at this meet) whose division for this gender is the race's division.
+// Used only when exactly one candidate is left.
+const meetDistricts = new Map();
+function computeMeetDistricts() {
+  const bySlug = new Map();
+  for (const race of races) for (const name of [...race.rows.map((r) => r.school), ...race.teams.map((t) => t.school)]) {
+    const ids = schoolIdsFor(name); if (ids.size !== 1) continue;
+    const d = schools.find((x) => x.id === [...ids][0])?.athletic_district; if (!d) continue;
+    const m = bySlug.get(race.meet.slug) || new Map(); m.set(d, (m.get(d) || 0) + 1); bySlug.set(race.meet.slug, m);
+  }
+  for (const [slug, m] of bySlug) { const total = [...m.values()].reduce((a, b) => a + b, 0); meetDistricts.set(slug, new Set([...m].filter(([, n]) => n / total >= 0.05).map(([d]) => d))); }
+}
+const resolvedByLocation = new Map();
+const resolvedIds = new Map();
+const stillShared = new Map();
+function locationIds(race, raw) {
+  const ids = schoolIdsFor(raw);
+  if (ids.size <= 1) return ids;
+  const districts = meetDistricts.get(race.meet.slug) || new Set();
+  const want = ROMAN[race.division];
+  const left = [...ids].filter((id) => { const sc = schools.find((x) => x.id === id); const div = xcDivision.get(`${id}|${race.gender}`); return sc && districts.has(sc.athletic_district) && (!div || div === want); });
+  const key = `${race.level} ${race.meet.name} ${race.gender} D${race.division}: ${raw}`;
+  // Regional and state: the school this name already resolved to for the
+  // same gender and division in an earlier round.
+  if (left.length !== 1 && race.level !== "district") {
+    const earlier = new Set([...resolvedIds].filter(([k]) => k.endsWith(`|${race.gender}|${race.division}|${raw}`) && !k.startsWith(race.level)).map(([, id]) => id).filter((id) => ids.has(id)));
+    if (earlier.size === 1) left.splice(0, left.length, ...earlier);
+  }
+  if (left.length === 1) resolvedIds.set(`${race.level}|${race.gender}|${race.division}|${raw}`, left[0]);
+  if (left.length === 1) { const sc = schools.find((x) => x.id === left[0]); resolvedByLocation.set(key, `${sc.school_name} (${sc.city}, ${sc.athletic_district})`); return new Set(left); }
+  stillShared.set(key, [...ids].map((id) => { const sc = schools.find((x) => x.id === id); return `${sc.school_name} (${sc.city}, ${sc.athletic_district || "no district"}, ${race.gender} ${xcDivision.get(`${id}|${race.gender}`) || "no division"})`; }));
+  return ids;
+}
+// Names that differ only by punctuation, capitals or spacing are the same runner.
+const squash = (n) => normalizeLookup(n).replace(/[^a-z]/g, "");
+let bySquash;
 async function loadPeople() {
   profiles = await all(() => db.from("athlete_profiles").select("id, slug, display_name, gender, graduation_year, current_school_id, current_team_id").is("merged_into_profile_id", null).is("archived_at", null));
   aliases = await all(() => db.from("athlete_profile_aliases").select("id, profile_id, alias, normalized_alias, alias_type"));
@@ -185,6 +225,10 @@ async function loadPeople() {
   byName = new Map();
   const addName = (n, id) => { if (!byName.has(n)) byName.set(n, new Set()); byName.get(n).add(id); };
   for (const p of profileById.values()) addName(normalizeLookup(p.display_name), p.id);
+  bySquash = new Map();
+  const addSquash = (n, id) => { const k = squash(n); if (!k) return; if (!bySquash.has(k)) bySquash.set(k, new Set()); bySquash.get(k).add(id); };
+  for (const p of profileById.values()) addSquash(p.display_name, p.id);
+  for (const a of aliases) if (a.alias_type === "name" && profileById.has(a.profile_id)) addSquash(a.alias, a.profile_id);
   for (const a of aliases) {
     if (!profileById.has(a.profile_id)) continue;
     const m = String(a.alias || "").match(/athletic\.net\/athlete\/(\d+)/i);
@@ -192,18 +236,25 @@ async function loadPeople() {
     else if (a.alias_type === "name") addName(normalizeLookup(a.alias), a.profile_id);
   }
 }
-function matchRow(row, gender) {
+function matchRow(row, race) {
+  const gender = race.gender;
   if (row.athleticNetId && byAthleticNetId.has(String(row.athleticNetId))) return { how: "athletic_net_id", profileId: byAthleticNetId.get(String(row.athleticNetId)) };
   const raw = normalizeLookup(row.name);
   const names = [raw, overrideByName.get(raw)].filter(Boolean);
-  const schoolIds = schoolIdsFor(row.school);
+  const allIds = schoolIdsFor(row.school);
+  const schoolIds = allIds;
   const found = new Set();
-  for (const n of names) for (const id of byName.get(n) || []) { const p = profileById.get(id); if (p.gender && p.gender !== gender) continue; if (p.school && schoolIds.has(p.school)) found.add(id); }
+  const ok = (id) => { const p = profileById.get(id); return !(p.gender && p.gender !== gender) && p.school && schoolIds.has(p.school); };
+  for (const n of names) for (const id of byName.get(n) || []) if (ok(id)) found.add(id);
   if (found.size === 1) return { how: "name_and_school", profileId: [...found][0] };
   if (found.size > 1) return { how: "ambiguous", candidates: [...found] };
+  const squashed = new Set([...(bySquash.get(squash(row.name)) || []), ...(overrideByName.has(raw) ? bySquash.get(squash(overrideByName.get(raw))) || [] : [])].filter(ok));
+  if (squashed.size === 1) return { how: "name_squashed", profileId: [...squashed][0] };
+  if (allIds.size > 1) { const located = locationIds(race, row.school); if (located.size === 1) return { how: "unresolved", schoolIds: located, byLocation: true }; }
   return { how: schoolIds.size === 1 ? "unresolved" : "unresolved_school_unknown", schoolIds };
 }
 rebuildSchoolKeys();
+computeMeetDistricts();
 await loadPeople();
 
 // ---------- 2. Merges ----------
@@ -270,7 +321,7 @@ const uniqueSlug = (base) => { let s = base; let i = 2; while (slugs.has(s)) s =
 const newProfiles = new Map();
 const creationReview = [];
 for (const race of races) for (const row of race.rows) {
-  row.match = matchRow(row, race.gender);
+  row.match = matchRow(row, race);
   if (row.match.how !== "unresolved") continue;
   const grade = gradeNumber(row.grade);
   const schoolId = [...row.match.schoolIds][0];
@@ -320,15 +371,18 @@ const sourceUrl = (race) => race.meet.results_url || race.meet.athleticnet_url |
 // One school per source name within a race: the single match, or, when
 // several schools share the name (Lakewood, Madison, Perry...), the one
 // school every matched runner under that name in this race belongs to.
-for (const race of races) for (const row of race.rows) row.final = matchRow(row, race.gender);
+for (const race of races) for (const row of race.rows) row.final = matchRow(row, race);
 function raceSchool(race, name) {
   const ids = schoolIdsFor(name);
   if (ids.size === 1) return [...ids][0];
   if (!ids.size) return null;
   const seen = new Set(race.rows.filter((r) => r.school === name && r.final.profileId).map((r) => profileById.get(r.final.profileId).school).filter((id) => ids.has(id)));
-  return seen.size === 1 ? [...seen][0] : null;
+  if (seen.size === 1) return [...seen][0];
+  const located = locationIds(race, name);
+  return located.size === 1 ? [...located][0] : null;
 }
 const perfRows = [];
+const squashedAliases = new Map();
 const held = { ambiguous: [], unresolved: [], school_unknown_by_name: {} };
 for (const race of races) for (const row of race.rows) if (row.final.how === "unresolved_school_unknown") { const k = `${row.school} (${row.final.schoolIds.size} schools share it)`; held.school_unknown_by_name[k] = (held.school_unknown_by_name[k] || 0) + 1; }
 for (const race of races) {
@@ -337,6 +391,7 @@ for (const race of races) {
     if (!match.profileId) { held[match.how === "ambiguous" ? "ambiguous" : "unresolved"].push(`${race.level} D${race.division} ${race.gender} ${row.place} ${row.name} (${row.school})`); continue; }
     if (row.seconds == null) { held.unresolved.push(`${race.level} ${row.name}: no time`); continue; }
     const p = profileById.get(match.profileId);
+    if (match.how === "name_squashed") squashedAliases.set(`${p.id}|${normalizeLookup(row.name)}`, { profile_id: p.id, alias: String(row.name).trim(), normalized_alias: normalizeLookup(row.name), alias_type: "name", notes: "Official 2026 postseason spelling (differs only by punctuation, capitals or spacing)" });
     const sourceKey = `postseason-2026|${race.level}|${race.meet.slug}|${race.gender}|d${race.division}|${row.place}|${normalizeLookup(row.name)}`;
     perfRows.push({
       profile_id: p.id, school_id: raceSchool(race, row.school), team_id: teamBySchool.get(raceSchool(race, row.school)) || null,
@@ -351,13 +406,15 @@ for (const race of races) {
   }
 }
 say(`Results: ${perfRows.length} to import; held ${held.ambiguous.length} ambiguous, ${held.unresolved.length} unresolved`);
+say(`Matched by spelling only (punctuation, capitals, spacing): ${squashedAliases.size} runners`);
+if (WRITE) for (const a of squashedAliases.values()) { const r = await db.from("athlete_profile_aliases").upsert(a, { onConflict: "profile_id,normalized_alias", ignoreDuplicates: true }); if (r.error) throw new Error(`alias: ${r.error.message}`); }
 if (WRITE) for (let i = 0; i < perfRows.length; i += 500) must(await db.from("athlete_performances").upsert(perfRows.slice(i, i + 500), { onConflict: "source_key", ignoreDuplicates: true }), "performances");
 
 const teamRows = [];
 const teamUnmatched = [];
 for (const race of races) for (const t of race.teams) {
   const schoolId = raceSchool(race, t.school);
-  if (!schoolId) teamUnmatched.push(`${race.level} D${race.division} ${race.gender}: ${t.school}`);
+  if (!schoolId) { teamUnmatched.push(`${race.level} D${race.division} ${race.gender}: ${t.school}`); continue; }
   teamRows.push({
     provider_key: "ohsaa", provider_meet_id: race.meet.slug, provider_event_id: `${race.level}-${race.gender}-d${race.division}-${slugify(race.meetName)}`,
     meet_name: race.meet.name, meet_date: race.date, meet_id: race.meet.id, sport: "cross_country", season_year: 2026, competition_level: "high_school",
@@ -367,12 +424,14 @@ for (const race of races) for (const t of race.teams) {
     scoring_breakdown: t.raw, source_url: sourceUrl(race), public_visible: true, verification_status: "verified"
   });
 }
-say(`Team scores: ${teamRows.length} (${teamUnmatched.length} without one exact school)`);
+say(`Team scores: ${teamRows.length} written, ${teamUnmatched.length} held without one school`);
 if (WRITE) for (let i = 0; i < teamRows.length; i += 300) must(await db.from("result_team_scores").upsert(teamRows.slice(i, i + 300), { onConflict: "provider_key,provider_meet_id,provider_event_id,normalized_team_name" }), "team scores");
 
 // Path to State, per team page: district (did the team or its runners
 // reach the regional?), regional (official advanced flag), state place.
 const advancement = new Map();
+const ordinal = (n) => `${n}${[11, 12, 13].includes(n % 100) ? "th" : ({ 1: "st", 2: "nd", 3: "rd" })[n % 10] || "th"}`;
+const finish = (t, meetLabel) => ({ note: `${ordinal(Number(t.place))}${meetLabel ? ` at ${meetLabel}` : ""}, ${t.score} points`, metadata: { team_place: Number(t.place), team_score: t.score } });
 const setStage = (teamId, gender, stage, values) => advancement.set(`${teamId}|${gender}|${stage}`, { team_id: teamId, sport: "cross_country", gender, season_year: 2026, stage, set_by: "2026 postseason import", ...values });
 const regionalSchoolsAll = new Map();
 for (const race of races.filter((r) => r.level === "regional")) for (const row of race.rows) { const s = raceSchool(race, row.school); if (!s) continue; const k = `${race.gender}|${race.division}|${s}`; regionalSchoolsAll.set(k, (regionalSchoolsAll.get(k) || 0) + 1); }
@@ -381,23 +440,25 @@ for (const race of races.filter((r) => r.level === "district")) for (const t of 
   const s = raceSchool(race, t.school); const teamId = s && teamBySchool.get(s); if (!teamId) continue;
   const key = `${race.gender}|${race.division}|${s}`;
   const runnersAtRegional = regionalSchoolsAll.get(key) || 0;
+  const at = `the ${race.meet.name.replace(/^OHSAA Cross Country District - /, "")} district`;
   setStage(teamId, race.gender, "district", regionalTeams.has(key)
-    ? { status: "qualified_team", note: `${t.place} at the ${race.meet.name.replace(/^OHSAA Cross Country District - /, "")} district, ${t.score} points` }
-    : runnersAtRegional ? { status: "qualified_individuals", individual_qualifier_count: runnersAtRegional, note: `${t.place} at district, ${t.score} points` } : { status: "eliminated", note: `${t.place} at district, ${t.score} points` });
+    ? { status: "qualified_team", ...finish(t, at) }
+    : runnersAtRegional ? { status: "qualified_individuals", individual_qualifier_count: runnersAtRegional, ...finish(t, at) } : { status: "eliminated", ...finish(t, at) });
 }
 const stateSchools = new Map();
 for (const race of races.filter((r) => r.level === "state")) for (const row of race.rows) { const s = raceSchool(race, row.school); if (s) stateSchools.set(`${race.gender}|${s}`, (stateSchools.get(`${race.gender}|${s}`) || 0) + 1); }
 for (const race of races.filter((r) => r.level === "regional")) for (const t of race.teams) {
   const s = raceSchool(race, t.school); const teamId = s && teamBySchool.get(s); if (!teamId) continue;
   const atState = stateSchools.get(`${race.gender}|${s}`) || 0;
+  const at = `the ${race.meet.name.replace(/^OHSAA Cross Country Regional - /, "")} regional`;
   setStage(teamId, race.gender, "regional", t.advanced
-    ? { status: "qualified_team", note: `${t.place} at the ${race.meet.name.replace(/^OHSAA Cross Country Regional - /, "")} regional, ${t.score} points` }
-    : atState ? { status: "qualified_individuals", individual_qualifier_count: atState, note: `${t.place} at regional, ${t.score} points` } : { status: "eliminated", note: `${t.place} at regional, ${t.score} points` });
+    ? { status: "qualified_team", ...finish(t, at) }
+    : atState ? { status: "qualified_individuals", individual_qualifier_count: atState, ...finish(t, at) } : { status: "eliminated", ...finish(t, at) });
 }
 for (const race of races.filter((r) => r.level === "state")) for (const t of race.teams) {
   const s = raceSchool(race, t.school); const teamId = s && teamBySchool.get(s); if (!teamId) continue;
-  const ordinal = (n) => `${n}${[11, 12, 13].includes(n % 100) ? "th" : ({ 1: "st", 2: "nd", 3: "rd" })[n % 10] || "th"}`;
-  setStage(teamId, race.gender, "state", { status: "qualified_team", note: `${ordinal(Number(t.place))} at the state meet, ${t.score} points (${ROMAN[race.division]})` });
+  // The state stage is a finish, not a qualification.
+  setStage(teamId, race.gender, "state", { status: "qualified_team", note: `Finished ${ordinal(Number(t.place))} as a team, ${t.score} points`, metadata: { team_place: Number(t.place), team_score: t.score, state_finish: true } });
 }
 const advRows = [...advancement.values()];
 say(`Path to State rows: ${advRows.length}`);
@@ -406,4 +467,4 @@ if (WRITE) for (let i = 0; i < advRows.length; i += 300) must(await db.from("tea
 // ---------- Counts after ----------
 const after = WRITE ? await counts() : null;
 if (after) say(`AFTER ${JSON.stringify(after)}`);
-fs.writeFileSync(path.join(dir, WRITE ? "import_result.json" : "import_plan.json"), JSON.stringify({ wrote: WRITE, before, after, schools: { ...schoolReport, added: schoolReport.added.map((a) => a.label) }, merges: mergeReport, newProfiles: { count: toCreate.length, review: creationReview }, results: { imported: perfRows.length, held }, teamScores: { count: teamRows.length, unmatched: teamUnmatched }, pathToState: advRows.length, log }, null, 2));
+fs.writeFileSync(path.join(dir, WRITE ? "import_result.json" : "import_plan.json"), JSON.stringify({ wrote: WRITE, before, after, schools: { ...schoolReport, added: schoolReport.added.map((a) => a.label) }, merges: mergeReport, newProfiles: { count: toCreate.length, review: creationReview }, results: { imported: perfRows.length, held, squashed: [...squashedAliases.values()].map((a) => a.alias) }, schoolByLocation: Object.fromEntries(resolvedByLocation), stillShared: Object.fromEntries(stillShared), teamScores: { count: teamRows.length, unmatched: teamUnmatched }, pathToState: advRows.length, log }, null, 2));

@@ -2991,3 +2991,12 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - 1,348 profiles created from official results (1,346 active).
 - Checks: Brice Fuller 15:06.7 / 14:49.4 / 14:50.7 (state 1st, All-Ohio first team); Russia boys 1st 45, 1st 57, 2nd 99; all 8 state champions; All-Ohio first team 182 of 184 (2 held: Gonczy, Ohare), second team 184.
 - Problems hit and fixed during the run: district meet matching (now an explicit site map), "Mansfield Senior" loose-matching Mansfield Christian (blocked), shared school names picking an arbitrary school (now resolved per race), alias and slug collisions, duplicate Manchester school.
+
+## 2026-11-09: Postseason follow-ups
+
+- Pushed 068cfaf, 63b0747, 6f213c0.
+- Spelling matches attached Madiegrace Gonczy and Olivia Ohare: All-Ohio first team 184 of 184, second team 184.
+- Location resolved Madison, Jackson, Lakewood, Springfield, Fairfield, Manchester, St. Ursula, Middletown Christian and River Valley: 43 more profiles, 14,204 postseason results. Still held: Perry girls D3 at Madison district and Boardman regional (11 runners, 2 team scores), Ak. Garfield (2) and F.F. Green (1), which are not in the schools table.
+- Removed the 2 team scores stored without a school (Perry girls D3). Postseason team scores: 1,784.
+- nathaniel-seib-manchester-2028 was already merged into nathaniel-seib-2028 on 2026-10-14. Repointed the -2 duplicate from earlier today straight to nathaniel-seib-2028 (it was two hops).
+- Athlete page: Path to State and honor chips (Brice Fuller: 2026 State champion, 2026 All-Ohio First Team; district 1st, regional 1st, state champion; team 1st 44, 1st 55, finished 2nd 115).
