@@ -534,7 +534,8 @@ assert.equal(roadmapMarkup(null), "");
 const migrationSource = await read("install/10_PATH_TO_STATE.sql");
 const serviceSource = await read("lib/path_to_state_service.mjs");
 const teamsApiSource = await read("api/teams/detail.js");
-const athletesApiSource = await read("api/athletes/detail.js");
+// Moved from api/athletes/detail.js to the shared loader in WO-09.
+const athletesApiSource = await read("lib/athlete_profile_service.mjs");
 const adminApiSource = await read("api/admin/path-to-state.js");
 const teamPageSource = await read("src/pages/teamprofile.mjs");
 const athletePageSource = await read("src/pages/athletedetail.mjs");
@@ -609,7 +610,7 @@ includesAll(
 includesAll(
   athletesApiSource,
   ["loadAthletePathToState", "isMissingPathToStateError", "path_to_state: pathToState"],
-  "api/athletes/detail.js must load the athlete's path guarded the same way and return it in the response"
+  "lib/athlete_profile_service.mjs (the athlete profile loader) must load the athlete's path guarded the same way and return it in the response"
 );
 
 includesAll(
