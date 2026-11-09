@@ -48,7 +48,8 @@ export function adminAthletesPage(site) {
         <p class="athlete-admin-message" data-athlete-admin-message role="status">Loading athlete data.</p>
 
         <div class="athlete-admin-stats" style="margin-top:20px">
-          <article class="athlete-admin-stat"><strong data-athlete-count-profiles>0</strong><span>Profiles</span></article>
+          <article class="athlete-admin-stat"><strong data-athlete-count-profiles>0</strong><span>Active profiles</span></article>
+          <article class="athlete-admin-stat"><strong data-athlete-count-merged>0</strong><span>Merged duplicates</span></article>
           <article class="athlete-admin-stat"><strong data-athlete-count-public>0</strong><span>Public profiles</span></article>
           <article class="athlete-admin-stat"><strong data-athlete-count-verified>0</strong><span>Verified profiles</span></article>
           <article class="athlete-admin-stat"><strong data-athlete-count-performance>0</strong><span>Performances</span></article>

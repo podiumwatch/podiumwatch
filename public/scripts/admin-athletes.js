@@ -111,6 +111,7 @@
   function renderStatus() {
     const counts = state.counts || {};
     setText("[data-athlete-count-profiles]", counts.profiles || 0);
+    setText("[data-athlete-count-merged]", counts.merged_profiles || 0);
     setText("[data-athlete-count-public]", counts.public_profiles || 0);
     setText("[data-athlete-count-verified]", counts.verified_profiles || 0);
     setText("[data-athlete-count-performance]", counts.performances || 0);

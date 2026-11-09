@@ -278,6 +278,16 @@ async function loadStatus() {
     };
   }
 
+  // Active profiles (not merged, not archived): the same definition the
+  // Operations Center uses (2026-11-09 audit, P1.1: one page said 12,740,
+  // the other 17,645, which also counted 4,905 merged duplicates).
+  const [activeResult, mergedResult] = await Promise.all([
+    supabaseAdmin.from("athlete_profiles").select("id", { count: "exact", head: true }).is("merged_into_profile_id", null).is("archived_at", null),
+    supabaseAdmin.from("athlete_profiles").select("id", { count: "exact", head: true }).not("merged_into_profile_id", "is", null)
+  ]);
+  if (activeResult.error) throw activeResult.error;
+  if (mergedResult.error) throw mergedResult.error;
+
   const [
     profilesResult,
     publicResult,
@@ -410,7 +420,9 @@ async function loadStatus() {
     seed: preview.dataset,
     preview_summary: preview.summary,
     counts: {
-      profiles: profileCount,
+      profiles: Number(activeResult.count || 0),
+      all_profile_rows: profileCount,
+      merged_profiles: Number(mergedResult.count || 0),
       public_profiles: Number(publicResult.count || 0),
       verified_profiles: Number(verifiedResult.count || 0),
       performances: Number(performancesResult.count || 0),

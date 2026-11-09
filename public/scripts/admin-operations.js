@@ -922,7 +922,7 @@
     );
 
     const stats = [
-      ["Permanent profiles", athletes.profiles || 0],
+      ["Active profiles", athletes.profiles || 0],
       ["Public profiles", athletes.public_profiles || 0],
       ["Sourced performances", athletes.sourced_performances || 0],
       ["Published recruit ratings", athletes.published_recruit_ratings || 0],
@@ -951,7 +951,9 @@
       },
       {
         title: "Bundled ranking seed",
-        detail: `${formatNumber(athletes.profiles || 0)} of 200 starting profiles are loaded.`,
+        detail: Number(athletes.profiles || 0) >= 200
+          ? `Loaded. ${formatNumber(athletes.profiles || 0)} active profiles (the 200-profile starting seed is long done).`
+          : `${formatNumber(athletes.profiles || 0)} of the 200 starting profiles are loaded.`,
         ready: Number(athletes.profiles || 0) >= 200
       },
       {
