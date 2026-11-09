@@ -1,7 +1,7 @@
 import { escapeHtml, formatDate, slugify } from "./content.mjs";
 import { gtagScript } from "./analytics.mjs";
-import { adSenseLoaderScript, infolinksLoaderScript } from "./ads.mjs";
-import { NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, NO_ADS_PATHS } from "../config/site.mjs";
+import { adSenseLoaderScript } from "./ads.mjs";
+import { ADSENSE_ALLOWED_PREFIXES, NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, NO_ADS_PATHS } from "../config/site.mjs";
 
 export function absoluteUrl(site, pathname = "/") {
   return new URL(pathname, site.siteUrl).toString();
@@ -257,7 +257,11 @@ export function layout({ site, title, description, pathname, content, image, ima
   // being the wrong place to run an ad next to someone mid-submission --
   // see NO_ADS_PATHS's own comment in site.mjs.
   const isNoAdsPage = NO_ADS_PATHS.some((prefix) => pathname.startsWith(prefix));
-  const showAds = !resolvedRobots.startsWith("noindex") && !isNoAdsPage;
+  // WO-28: AdSense only on the allowed page types (stories, rankings
+  // lists, meet results); never on athlete or team pages, forms,
+  // accounts, admin or tools.
+  const isAdPageType = ADSENSE_ALLOWED_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  const showAds = !resolvedRobots.startsWith("noindex") && !isNoAdsPage && isAdPageType;
   // Admin pages get their own stylesheet + shell script injected here,
   // in <head> (render-blocking), so the persistent sidebar is fully
   // styled on first paint -- no flash of unstyled chrome. Landing this
@@ -289,7 +293,6 @@ ${metadata({ site, title, description, pathname, image, imageWidth, imageHeight,
 <link rel="stylesheet" href="/styles/main.css">${adminHead}
 ${gtagScript()}
 ${showAds ? adSenseLoaderScript() : ""}
-${showAds ? infolinksLoaderScript() : ""}
 <style>
 /* [hidden] must always win the cascade, sitewide. main.css has no rule
    for this at all, and several page-specific style blocks set their own

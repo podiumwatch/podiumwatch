@@ -296,6 +296,16 @@ export const SITEMAP_EXACT_EXCLUDE = [
 // noindex lists above because the two decisions are genuinely different:
 // these pages ARE worth indexing, they're just not worth putting an ad
 // next to while someone is mid-submission.
+// WO-28 (2026-11-09): AdSense loads only on these page types. Athlete
+// profiles, team pages, forms, account pages, admin and tools never carry
+// programmatic ads (team and ranking pages carry sponsor slots instead).
+export const ADSENSE_ALLOWED_PREFIXES = [
+  "/stories/",
+  "/rankings/",
+  "/meets/",
+  "/meetdetail/"
+];
+
 export const NO_ADS_PATHS = [
   "/submit-results/",
   "/submit-timing-results/",

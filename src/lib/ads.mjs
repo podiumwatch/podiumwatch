@@ -39,8 +39,13 @@ export const AD_SLOTS = {
 // have been free to actually place a real ad on those pages purely
 // because the loader was present -- this exclusion closes that off at
 // the source rather than relying on Auto ads placement settings alone.
+// WO-28 (2026-11-09): loaded only after the page has finished loading,
+// so ads never compete with the page itself, and only on the page types
+// in ADSENSE_ALLOWED_PREFIXES (src/config/site.mjs). Infolinks (in-text
+// ads) was removed from the site entirely the same day.
 export function adSenseLoaderScript() {
-  return `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}" crossorigin="anonymous"></script>`;
+  const src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`;
+  return `<script>window.addEventListener("load",function(){var s=document.createElement("script");s.async=true;s.src="${src}";s.crossOrigin="anonymous";document.head.appendChild(s);});</script>`;
 }
 
 // A single responsive display ad, wrapped in a small labeled container
@@ -54,24 +59,4 @@ export function adSlot(slot, { label = "Advertisement" } = {}) {
     <ins class="adsbygoogle" style="display:block" data-ad-client="${ADSENSE_CLIENT_ID}" data-ad-slot="${slot}" data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>`;
-}
-
-// Infolinks (2026-09-29) -- an in-text contextual ad network: unlike
-// AdSense's adSlot() above, there is no per-page placement to call --
-// once this loader is present, Infolinks scans the page's own text and
-// turns some existing words into ad links automatically. That makes
-// where this script is allowed to load MORE important than AdSense's
-// loader, not less: the exact "ads on screens without real
-// publisher-content" problem that got the AdSense loader rejected from
-// login/dashboard pages (see adSenseLoaderScript() above) would be
-// worse here, since Infolinks would auto-insert ad links into dashboard
-// labels/button text rather than just sitting present-but-inert. Gated
-// through the same showAds check in layout() as AdSense, for that
-// reason -- never added to a page on its own.
-export const INFOLINKS_PID = 3448221;
-export const INFOLINKS_WSID = 0;
-
-export function infolinksLoaderScript() {
-  return `<script>var infolinks_pid = ${INFOLINKS_PID}; var infolinks_wsid = ${INFOLINKS_WSID};</script>
-<script src="https://resources.infolinks.com/js/infolinks_main.js"></script>`;
 }
