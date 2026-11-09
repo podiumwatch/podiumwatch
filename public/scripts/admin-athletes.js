@@ -27,6 +27,7 @@
   const performanceRows = root.querySelector("[data-athlete-performance-rows]");
   const correctionRows = root.querySelector("[data-athlete-correction-rows]");
   const duplicateGroups = root.querySelector("[data-athlete-duplicate-groups]");
+  const flaggedDuplicates = root.querySelector("[data-athlete-flagged-duplicates]");
   const mergeForm = root.querySelector("[data-athlete-merge-form]");
   const mergeRows = root.querySelector("[data-athlete-merge-rows]");
   const aliasRows = root.querySelector("[data-athlete-alias-rows]");
@@ -128,6 +129,7 @@
 
     renderCorrections(state.corrections || []);
     renderDuplicates(state.duplicates || []);
+    renderFlaggedDuplicates(state.flagged_duplicates || []);
     renderRecentMerges(state.recent_merges || []);
   }
 
@@ -180,6 +182,28 @@
           "</article>"
         )).join("")
       : "<p>No duplicate profile groups were detected.</p>";
+  }
+
+  function renderFlaggedDuplicates(pairs) {
+    if (!flaggedDuplicates) return;
+    const card = (profile) => (
+      '<div style="border:1px solid var(--line);padding:10px;min-width:0">' +
+        '<strong><a href="/athletes/' + encodeURIComponent(profile.slug) + '/" target="_blank" rel="noopener">' + escapeHtml(profile.display_name) + "</a></strong>" +
+        "<br><small>" + escapeHtml(profile.school || "No school") + " &middot; Class of " + escapeHtml(profile.graduation_year || "unknown") + "</small>" +
+        "<br><small>" + escapeHtml(String(profile.results)) + " results &middot; Athletic.net " + escapeHtml(profile.athletic_net_ids.join(", ") || "none") + "</small>" +
+        "<br><small><code>" + escapeHtml(profile.slug) + "</code></small>" +
+        '<br><button class="button button-outline" type="button" data-merge-role="source" data-merge-profile-id="' + escapeHtml(profile.id) + '">Set as source</button> ' +
+        '<button class="button button-outline" type="button" data-merge-role="target" data-merge-profile-id="' + escapeHtml(profile.id) + '">Set as target</button>' +
+      "</div>"
+    );
+    flaggedDuplicates.innerHTML = pairs.length
+      ? pairs.map((pair) => (
+          '<article class="athlete-profile-entry" style="margin-bottom:10px">' +
+            (pair.reason ? "<p><small>" + escapeHtml(pair.reason) + "</small></p>" : "") +
+            '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">' + pair.profiles.map(card).join("") + "</div>" +
+          "</article>"
+        )).join("")
+      : "<p>No flagged pairs.</p>";
   }
 
   function renderRecentMerges(merges) {
@@ -434,13 +458,15 @@
     }
   });
 
-  duplicateGroups.addEventListener("click", (event) => {
+  const fillMerge = (event) => {
     const button = event.target.closest("[data-merge-role]");
     if (!button) return;
     const field = button.dataset.mergeRole === "source" ? "source_profile_id" : "target_profile_id";
     mergeForm.elements[field].value = button.dataset.mergeProfileId;
     mergeForm.scrollIntoView({ behavior: "smooth", block: "center" });
-  });
+  };
+  duplicateGroups.addEventListener("click", fillMerge);
+  if (flaggedDuplicates) flaggedDuplicates.addEventListener("click", fillMerge);
 
   mergeForm.addEventListener("submit", async (event) => {
     event.preventDefault();

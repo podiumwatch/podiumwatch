@@ -3012,3 +3012,8 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - Built `/state/2026/`, `/regionals/2026/`, `/districts/2026/` (server-rendered), homepage champions block, Results menu links, ticker link, sitemap entries.
 - Found while building: Hilliard Darby's two district sessions had been grouped as one race; fixed in the data and the import (separate commit).
 - Checked: all 8 state champions and team podiums match the official files (Russia 2nd 99, Fairless 2nd 115, Woodridge 65); 1,640 state runners (2 held); 30 regional and 71 district races. Local Playwright at 375 and 1280 px: no horizontal scroll, no page errors; /state/ 301 to /state/2026/. Full test suite and SEO audit pass.
+
+## 2026-11-09: ID-mismatch pairs
+
+- Pushed ad66b59, fc1e9a6, 1823eef. Live check: /state/ 301 to /state/2026/; all three hubs 200; homepage champions block present.
+- Created joshua-johnson-bellbrook-2027 (23618878), kaylee-o-neill-whetstone-2029 (33483008), alexander-franklin-hicksville-2027 (33056639) from the official rows; flagged each with its similar profile. Postseason results now 14,258; held: Mendiola Cruz and 4 rows without a time.

@@ -205,6 +205,50 @@ async function requireInstalled() {
   return Number(count || 0);
 }
 
+// Pairs flagged by hand or by an import as possible duplicates (stored on
+// both profiles' metadata.possible_duplicates), shown side by side so an
+// admin can merge them later once they're confirmed as one runner.
+export async function flaggedDuplicatePairs() {
+  const { data: flagged, error } = await supabaseAdmin
+    .from("athlete_profiles")
+    .select("id")
+    .not("metadata->possible_duplicates", "is", null)
+    .is("merged_into_profile_id", null)
+    .is("archived_at", null);
+  if (error) throw error;
+  if (!flagged?.length) return [];
+  const ids = flagged.map((row) => row.id);
+  const { data: rows, error: rowsError } = await supabaseAdmin
+    .from("athlete_profiles")
+    .select("id, slug, display_name, graduation_year, gender, public_visible, metadata, ohio_schools:current_school_id(school_name, city)")
+    .in("id", ids);
+  if (rowsError) throw rowsError;
+  const details = new Map();
+  for (const row of rows) {
+    const [{ count }, { data: idRows }] = await Promise.all([
+      supabaseAdmin.from("athlete_performances").select("id", { count: "exact", head: true }).eq("profile_id", row.id),
+      supabaseAdmin.from("athlete_profile_aliases").select("alias").eq("profile_id", row.id).eq("alias_type", "external_id")
+    ]);
+    details.set(row.id, {
+      id: row.id, slug: row.slug, display_name: row.display_name, graduation_year: row.graduation_year, gender: row.gender,
+      school: row.ohio_schools ? `${row.ohio_schools.school_name} (${row.ohio_schools.city})` : null,
+      results: count || 0,
+      athletic_net_ids: (idRows || []).map((a) => (String(a.alias).match(/athlete\/(\d+)/) || [])[1]).filter(Boolean)
+    });
+  }
+  const seen = new Set();
+  const pairs = [];
+  for (const row of rows) {
+    for (const flag of row.metadata?.possible_duplicates || []) {
+      const key = [row.id, flag.profile_id].sort().join("|");
+      if (seen.has(key) || !details.has(flag.profile_id)) continue;
+      seen.add(key);
+      pairs.push({ reason: flag.reason || null, flagged_at: flag.flagged_at || null, profiles: [details.get(row.id), details.get(flag.profile_id)] });
+    }
+  }
+  return pairs.sort((a, b) => String(a.profiles[0].display_name).localeCompare(String(b.profiles[0].display_name)));
+}
+
 function duplicateGroups(profiles) {
   const groups = new Map();
 
@@ -433,6 +477,7 @@ async function loadStatus() {
     },
     corrections: correctionsResult.data || [],
     duplicates: duplicates.slice(0, 50),
+    flagged_duplicates: await flaggedDuplicatePairs(),
     recent_batches: batchesResult.data || [],
     recent_merges: recentMerges
   };

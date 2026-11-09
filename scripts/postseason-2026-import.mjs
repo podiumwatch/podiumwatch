@@ -317,6 +317,13 @@ say(`Merges: ${mergeReport.merged.length} merged, ${mergeReport.ids_moved} Athle
 if (WRITE) await loadPeople();
 
 // ---------- 3. New profiles ----------
+// Similar names whose Athletic.net ids differ: separate profiles, flagged
+// as possible duplicates (Zachary, 2026-11-09).
+const POSSIBLE_DUPLICATES = [
+  { source: "joshua johnson|bellbrook", athleticNetId: "23618878", existing: "josh-johnson-bellbrook-2027", reason: "Similar name at the same school; official 2026 regional row has Athletic.net id 23618878, the existing profile has 24239679." },
+  { source: "kaylee o neill|whetstone", athleticNetId: "33483008", existing: "kaylee-o-neil-whetstone-2029", reason: "Similar name at the same school; official 2026 regional row has Athletic.net id 33483008, the existing profile has 29388230." },
+  { source: "alexander franklin|hicksville", athleticNetId: "33056639", existing: "alex-franklin-hicksville-2027", reason: "Similar name at the same school; official 2026 regional row has Athletic.net id 33056639, the existing profile has 23659500." }
+];
 function editDistance(a, b) { const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]); for (let j = 1; j <= b.length; j++) d[0][j] = j; for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length]; }
 function similarAt(name, schoolId, gender) {
   const n = normalizeLookup(name); const [f = "", ...r] = n.split(" "); const l = r[r.length - 1] || "";
@@ -341,7 +348,7 @@ for (const race of races) for (const row of race.rows) {
   if (newProfiles.has(key)) { const np = newProfiles.get(key); if (row.athleticNetId && !np.athleticNetId) np.athleticNetId = String(row.athleticNetId); continue; }
   if (!grade) { creationReview.push(`${row.name} (${row.school}): no grade`); newProfiles.set(key, { review: true }); continue; }
   // Zachary confirmed these are different runners from the similar profile (2026-11-09).
-  const DIFFERENT_RUNNERS = ["aaron miller|garaway", "cooper moore|boardman"];
+  const DIFFERENT_RUNNERS = ["aaron miller|garaway", "cooper moore|boardman", ...POSSIBLE_DUPLICATES.map((d) => d.source)];
   const similar = DIFFERENT_RUNNERS.includes(`${normalizeLookup(row.name)}|${normalizeLookup(row.school)}`) ? null : similarAt(row.name, schoolId, race.gender);
   if (similar) { creationReview.push(`${row.name} (${row.school}, grade ${grade}): similar profile ${similar}`); newProfiles.set(key, { review: true }); continue; }
   const parts = String(row.name).trim().split(/\s+/);
@@ -374,6 +381,23 @@ for (const p of toCreate) {
     }
     created += 1;
   }
+}
+// Created separately but flagged as a possible duplicate of the similar
+// profile (their Athletic.net ids differ), for a later merge if they turn
+// out to be one runner. Stored on both profiles' metadata.possible_duplicates.
+if (WRITE) for (const pair of POSSIBLE_DUPLICATES) {
+  const url = `https://www.athletic.net/athlete/${pair.athleticNetId}/cross-country`;
+  const owner = must(await db.from("athlete_profile_aliases").select("profile_id").eq("alias_type", "external_id").eq("normalized_alias", url), "dup owner");
+  const other = must(await db.from("athlete_profiles").select("id, metadata").eq("slug", pair.existing), "dup other");
+  if (owner.length !== 1 || other.length !== 1) { say(`  possible duplicate not flagged (profile missing): ${pair.source}`); continue; }
+  const created = must(await db.from("athlete_profiles").select("id, metadata").eq("id", owner[0].profile_id).single(), "dup created");
+  const flag = async (row, otherId) => {
+    const list = Array.isArray(row.metadata?.possible_duplicates) ? row.metadata.possible_duplicates : [];
+    if (list.some((x) => x.profile_id === otherId)) return;
+    must(await db.from("athlete_profiles").update({ metadata: { ...(row.metadata || {}), possible_duplicates: [...list, { profile_id: otherId, reason: pair.reason, flagged_at: new Date().toISOString(), flagged_by: "Podium Watch (approved by Zachary, 2026-11-09)" }] } }).eq("id", row.id), "flag");
+  };
+  await flag(created, other[0].id);
+  await flag(other[0], created.id);
 }
 say(`New profiles: ${toCreate.length} ${WRITE ? "created" : "to create"} (${toCreate.filter((p) => p.athleticNetId).length} with Athletic.net id), ${creationReview.length} sent to review`);
 if (WRITE) await loadPeople();

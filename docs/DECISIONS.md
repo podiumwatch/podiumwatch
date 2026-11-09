@@ -2090,3 +2090,8 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - A site that ran two races for one gender and division (Hilliard Darby) shows them as "race 1" and "race 2", from the session in the official file. A tie is shown as posted (Madison girls D4: two runners 20th).
 - Homepage wrap-up block shows the 8 state champions from `src/data/state-champions-2026.json`, exported from the imported results by `scripts/export-state-champions.mjs` (the static build has no database access). Rerun it after any state correction.
 - Results menu: 2026 State Results, 2026 Regionals, 2026 Districts. The ticker's "RESULTS ARE IN" links a postseason meet to its hub.
+
+## 2026-11-09: Possible duplicates kept separate
+
+- When a similar-name pair's Athletic.net ids differ, the official row gets its own profile with its id, and both profiles carry `metadata.possible_duplicates` ({profile_id, reason, flagged_at, flagged_by}). Admin > Athletes > "Flagged pairs" shows them side by side (school, class, results, Athletic.net ids) with the existing merge buttons. Nothing merges automatically.
+- First three (2026-11-09): Joshua/Josh Johnson (Bellbrook), Kaylee O'Neill/O'Neil (Whetstone), Alexander/Alex Franklin (Hicksville).
