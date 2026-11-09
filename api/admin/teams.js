@@ -2,6 +2,7 @@ import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
 import {
   calculateTeamCompletion,
+  getBulkCompletionSignals,
   getPublishedContentSignals,
   getChangedFields,
   pickTeamFields,
@@ -438,6 +439,7 @@ async function listTeams(body) {
     (team) => team.id
   );
   const counts = await loadActiveCounts(ids);
+  const completion = await getBulkCompletionSignals(ids);
 
   return {
     teams: teams.map((team) => ({
@@ -459,10 +461,7 @@ async function listTeams(body) {
           team.id
         ) || 0,
       completion_score:
-        calculateTeamCompletion(team, [], {
-          hasPublishedSchedule: counts.scheduledTeamIds.has(team.id),
-          hasPublishedRoster: counts.rosteredTeamIds.has(team.id)
-        })
+        calculateTeamCompletion(team, completion.socialFor(team.id), completion.signalsFor(team.id))
     })),
     count: totalCount ?? teams.length,
     limited:
