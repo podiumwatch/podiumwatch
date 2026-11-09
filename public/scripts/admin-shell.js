@@ -305,6 +305,14 @@
       if (cached) return cached;
     }
 
+    // Wait for the session check first (2026-11-09 audit, P0.8): firing
+    // the summary before it logged a 401 on every admin page load when
+    // signed out.
+    if (!(await session())) {
+      setSessionState("anonymous");
+      return null;
+    }
+
     let response;
     try {
       response = await fetch(DASHBOARD_ENDPOINT, {

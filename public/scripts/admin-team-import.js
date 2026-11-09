@@ -405,18 +405,23 @@
 
   async function checkAdminAccess() {
     try {
-      const response = await fetch("/api/admin/teams-import", {
+      // Real session check (2026-11-09 audit, P0.8): this used to send a
+      // GET to the POST-only import endpoint and treat its 405 as "signed
+      // in", which logged a 405 on every load.
+      const response = await fetch("/api/admin/auth/", {
         method: "GET",
+        credentials: "same-origin",
         headers: { Accept: "application/json" }
       });
+      const session = await response.json().catch(() => ({}));
 
-      if (response.status === 405) {
+      if (response.ok && session.authenticated) {
         authLoading.hidden = true;
         adminContent.hidden = false;
         return;
       }
 
-      if (response.status === 401) {
+      if (response.ok && !session.authenticated) {
         authLoading.innerHTML =
           "<h2>Admin sign in required</h2>" +
           "<p>Sign in through the Podium Watch admin page before using the bulk importer.</p>" +
