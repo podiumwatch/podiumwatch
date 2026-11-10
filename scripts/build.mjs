@@ -125,6 +125,7 @@ import { adminTeamInstagramPage } from "../src/pages/adminteaminstagram.mjs";
 import { adminShortLinksPage } from "../src/pages/adminshortlinks.mjs";
 import { adminFrontPagePage } from "../src/pages/adminfrontpage.mjs";
 import { teamInstagramPage } from "../src/pages/teaminstagram.mjs";
+import { adminTeamLogosPage } from "../src/pages/adminteamlogos.mjs";
 import { adminSponsorReportPage } from "../src/pages/adminsponsorreport.mjs";
 import { adminPartnerPage } from "../src/pages/adminpartnerpage.mjs";
 import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
@@ -1164,6 +1165,7 @@ await writePage("/admin/recruiting/", adminRecruitingPage(site));
 await writePage("/admin/results-sources/", adminResultsSourcesPage(site));
 await writePage("/admin/team-instagram/", adminTeamInstagramPage(site));
 await writePage("/admin/short-links/", adminShortLinksPage(site));
+await writePage("/admin/team-logos/", adminTeamLogosPage(site));
 // Front page lead (WO-43): published stories, newest first, in the lead shape.
 await writePage("/admin/front-page/", adminFrontPagePage(site, [...stories].filter((story) => !story.draft).sort((a, b) => String(b.date).localeCompare(String(a.date))).map(frontStoryShape)));
 await writePage("/admin/sponsor-report/", adminSponsorReportPage(site));

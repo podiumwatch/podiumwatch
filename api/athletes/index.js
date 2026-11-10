@@ -1,5 +1,6 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 import { labelSchool } from "../../src/lib/school_labels.mjs";
+import { logoBaseFromUrl, schoolLogoBaseFor } from "../../src/lib/team_logo_html.mjs";
 import {
   cleanAthleteText,
   loadAthleteSeed,
@@ -282,7 +283,7 @@ async function loadDatabaseProfiles({ ids = null } = {}) {
   // per profile regardless of which batch a row came back in.
   const [schoolRows, teamRows, rankingRows, performanceRows, aliasRows] = await Promise.all([
     selectInBatches("ohio_schools", "id, ohsaa_school_id, school_name, city, athletic_district", "id", schoolIds),
-    selectInBatches("team_pages", "id, school_name, slug, city, published", "id", teamIds),
+    selectInBatches("team_pages", "id, school_name, slug, city, published, logo_url", "id", teamIds),
     selectInBatches(
       "athlete_ranking_entries",
       "profile_id, rank, ranking_title, ranking_href, ranking_type, division, division_number, event_name, mark_snapshot, updated_date, current",
@@ -326,8 +327,8 @@ async function loadDatabaseProfiles({ ids = null } = {}) {
 
   // Names as shown on the site (one style, city when the name is shared);
   // the official name stays available as official_school_name.
-  const schoolMap = new Map(schoolRows.map((school) => [school.id, { ...school, official_school_name: school.school_name, school_name: labelSchool(school.school_name, school.city) }]));
-  const teamMap = new Map(teamRows.map((team) => [team.id, { ...team, school_name: labelSchool(team.school_name, team.city) }]));
+  const schoolMap = new Map(schoolRows.map((school) => [school.id, { ...school, official_school_name: school.school_name, school_name: labelSchool(school.school_name, school.city), logo: schoolLogoBaseFor(school.id) }]));
+  const teamMap = new Map(teamRows.map((team) => [team.id, { ...team, school_name: labelSchool(team.school_name, team.city), logo: logoBaseFromUrl(team.logo_url) }]));
   const rankingByProfile = new Map();
   const performanceByProfile = new Map();
   const aliasesByProfile = new Map();

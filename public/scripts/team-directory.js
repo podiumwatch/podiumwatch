@@ -291,9 +291,9 @@
           "</div>" +
           renderSocials(team) +
           '<div class="team-directory-card-actions">' +
-            '<a class="button button-primary" href="/team/?slug=' +
+            '<a class="button button-primary" href="/teams/' +
               encodeURIComponent(team.slug) +
-            '">View team profile</a>' +
+            '/">View team profile</a>' +
           "</div>" +
         "</div>" +
       "</article>"

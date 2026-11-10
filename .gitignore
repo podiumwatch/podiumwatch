@@ -17,3 +17,8 @@ design-backup-*/
 .team-manager-backup-*/
 
 performance-import-ready.csv
+
+# Original school logo files (processed copies live in public/images/teams/)
+dataimports/pw_logos/
+dataimports/site_logos_2026-11-01/
+dataimports/team_logos_match.json

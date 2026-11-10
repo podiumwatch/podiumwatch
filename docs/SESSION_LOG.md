@@ -3029,3 +3029,9 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - Set the Quintin Parrish story as the lead (hospital photo crop, kicker STATE MEET, featuring his profile and Van Wert), starting 2026-11-09 19:51 UTC, no end.
 - Live checks passed: /front goes to the story; both card downloads (1080x1350, 1080x1920) return PNGs; story page shows "On the Podium Watch front page, Nov 9, 2026 to today" with both downloads; /front-page/ lists it as current; his profile and the Van Wert team page show the badge.
 - Bug found live and fixed (commit after this entry): the homepage skipped the admin lead when it was the same story as the built-in one, so its chosen photo and kicker didn't show. Verified locally against the live lead at 375x667 and 375x812.
+
+## 2026-11-10: WO-44 pushed, St. Vincent-St. Mary merged, WO-11 built
+
+- Pushed 8762167 (WO-44). Merged the duplicate St. Vincent-St. Mary (placeholder id 900010) into OHSAA 1384 with the new `scripts/merge-duplicate-school.mjs` (51 profiles, 120 results, 5 team scores moved; 35 profiles linked to the team page).
+- WO-11: logos processed and assigned (560 logo_url filled), Logo Review admin, server-rendered team pages, share card, small logos in hubs, athlete pages and directories.
+- Checks: Russia renders logo, coach-set blue header, "State Runner-up, Division IV Boys, 99 pts", 7 state qualifiers, 3 All-Ohio, Instagram button, claimed badge, boys and girls sections (path 1st 45 / 1st 57 / 2nd 99). Local Playwright at 375x667 and 1280x900 for Russia and Fairfield Union: logo, name and strip above the fold, no horizontal scroll, no errors. State hub: 2,190 small logos, all team links to /teams/. Full suite passes.

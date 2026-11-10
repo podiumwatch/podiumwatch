@@ -19,6 +19,12 @@
   let totalPages = 1;
   let busy = false;
 
+  // Small school logo (WO-11); only our processed logo paths are used.
+  function logoImg(base) {
+    if (!base || !/^\/images\/teams\/(pool\/)?[a-z0-9-]+$/.test(base)) return "";
+    return '<img class="pw-team-logo" src="' + base + '-96.webp" alt="" aria-hidden="true" width="20" height="20" loading="lazy">';
+  }
+
   function escapeHtml(value) {
     return String(value ?? "")
       .replaceAll("&", "&amp;")
@@ -83,7 +89,7 @@
         '<div class="athlete-card-header">' +
           "<div>" +
             '<h3><a href="' + escapeHtml(profileHref(athlete)) + '">' + escapeHtml(athlete.display_name) + "</a></h3>" +
-            '<p class="athlete-card-school">' + escapeHtml(school + (city ? " | " + city : "")) + "</p>" +
+            '<p class="athlete-card-school">' + logoImg(athlete.team?.logo || athlete.school?.logo) + escapeHtml(school + (city ? " | " + city : "")) + "</p>" +
           "</div>" +
           '<span class="athlete-status-badge" data-status="' + escapeHtml(statusTone(athlete)) + '">' + escapeHtml(athlete.verification_label || titleCase(athlete.verification_status)) + "</span>" +
         "</div>" +

@@ -1,6 +1,7 @@
 import { escapeHtml } from "../lib/content.mjs";
 import { breadcrumb, layout, pageHero } from "../lib/html.mjs";
 import { HUB_STAGES, HUB_YEARS, hubPath } from "../config/season_hubs.mjs";
+import { smallLogoHtml } from "../lib/team_logo_html.mjs";
 
 // Season results hubs (WO-37): /state/{year}/, /regionals/{year}/,
 // /districts/{year}/, rendered on the server by api/pages/season-hub.js
@@ -60,14 +61,16 @@ const raceId = (race) => `${race.gender}-d${race.division}${race.session ? `-s${
 const stateRaceId = (race) => `${race.gender}-d${race.division}`;
 const siteName = (meet) => String(meet?.name || "").replace(/^OHSAA Cross Country (District|Regional) - /, "");
 const shortDate = (iso) => { const d = new Date(`${String(iso).slice(0, 10)}T12:00:00Z`); return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }); };
+// School name with its small logo (WO-11).
+const school = (href, text, logo) => `${smallLogoHtml(logo)}${link(href, text)}`;
 const link = (href, text) => (href ? `<a href="${escapeHtml(href)}">${escapeHtml(text)}</a>` : escapeHtml(text));
 const raceTitle = (race, sessionsInRace = false) => `${genderLabel(race.gender)} ${race.divisionLabel}${sessionsInRace && race.session ? `, race ${race.session}` : ""}`;
 
 function runnerTable(runners, { caption } = {}) {
-  return `<div class="sh-table-wrap"><table class="sh-table">${caption ? `<caption class="visually-hidden">${escapeHtml(caption)}</caption>` : ""}<thead><tr><th>Place</th><th>Athlete</th><th>Gr.</th><th>Time</th></tr></thead><tbody>${runners.map((r) => `<tr><td class="sh-num">${escapeHtml(ordinal(r.place))}</td><td>${link(r.href, r.name)}<small class="sh-sub">${link(r.team_href, r.school)}${r.honor_label ? ` &middot; ${escapeHtml(r.honor_label.replace(/^All-Ohio /, "All-Ohio "))}` : ""}</small></td><td>${r.grade ? escapeHtml(r.grade) : ""}</td><td class="sh-num">${escapeHtml(r.mark_text || "")}</td></tr>`).join("")}</tbody></table></div>`;
+  return `<div class="sh-table-wrap"><table class="sh-table">${caption ? `<caption class="visually-hidden">${escapeHtml(caption)}</caption>` : ""}<thead><tr><th>Place</th><th>Athlete</th><th>Gr.</th><th>Time</th></tr></thead><tbody>${runners.map((r) => `<tr><td class="sh-num">${escapeHtml(ordinal(r.place))}</td><td>${link(r.href, r.name)}<small class="sh-sub">${school(r.team_href, r.school, r.logo)}${r.honor_label ? ` &middot; ${escapeHtml(r.honor_label.replace(/^All-Ohio /, "All-Ohio "))}` : ""}</small></td><td>${r.grade ? escapeHtml(r.grade) : ""}</td><td class="sh-num">${escapeHtml(r.mark_text || "")}</td></tr>`).join("")}</tbody></table></div>`;
 }
 function teamList(teams) {
-  return `<ol class="sh-list">${teams.map((t) => `<li><span class="sh-num">${escapeHtml(ordinal(t.place_numeric) || t.place_text || "")}</span><span>${link(t.href, t.school)}</span><span class="sh-num">${t.score ?? ""}</span></li>`).join("")}</ol>`;
+  return `<ol class="sh-list">${teams.map((t) => `<li><span class="sh-num">${escapeHtml(ordinal(t.place_numeric) || t.place_text || "")}</span><span>${school(t.href, t.school, t.logo)}</span><span class="sh-num">${t.score ?? ""}</span></li>`).join("")}</ol>`;
 }
 function sourceLine(stage, meets) {
   const links = meets.filter((m) => m.results_url || m.athleticnet_url);
@@ -84,7 +87,7 @@ function stateBody(hub) {
     const ind = race.runners[0];
     const team = race.teams[0];
     return `<article class="sh-champ${race.gender === "girls" ? " is-girls" : ""}"><h3><a href="#${stateRaceId(race)}">${escapeHtml(raceTitle(race))}</a></h3>
-      ${ind ? `<p><span class="sh-label">Individual champion</span>${link(ind.href, ind.name)}, ${escapeHtml(ind.school)} <span class="sh-num">${escapeHtml(ind.mark_text)}</span></p>` : ""}
+      ${ind ? `<p><span class="sh-label">Individual champion</span>${link(ind.href, ind.name)}, ${school(ind.team_href, ind.school, ind.logo)} <span class="sh-num">${escapeHtml(ind.mark_text)}</span></p>` : ""}
       ${team ? `<p><span class="sh-label">Team champion</span>${link(team.href, team.school)} <span class="sh-num">${team.score} points</span></p>` : ""}
     </article>`;
   }).join("");
@@ -93,7 +96,7 @@ function stateBody(hub) {
     const secondTeam = race.runners.filter((r) => /second team/i.test(r.honor_label || ""));
     return `<section class="sh-race" id="${stateRaceId(race)}" aria-labelledby="${stateRaceId(race)}-title">
       <div class="sh-race-head"><h2 id="${stateRaceId(race)}-title">${escapeHtml(raceTitle(race))}</h2><span class="sh-note">${race.runners.length} finishers &middot; ${race.teams.length} teams</span></div>
-      ${race.teams.length ? `<div><h3 class="sh-label">Team podium</h3><ol class="sh-podium">${race.teams.slice(0, 3).map((t) => `<li><span class="sh-label">${escapeHtml(ordinal(t.place_numeric))}</span><b>${link(t.href, t.school)}</b><span class="sh-num">${t.score} points</span></li>`).join("")}</ol></div>` : ""}
+      ${race.teams.length ? `<div><h3 class="sh-label">Team podium</h3><ol class="sh-podium">${race.teams.slice(0, 3).map((t) => `<li><span class="sh-label">${escapeHtml(ordinal(t.place_numeric))}</span><b>${school(t.href, t.school, t.logo)}</b><span class="sh-num">${t.score} points</span></li>`).join("")}</ol></div>` : ""}
       <div><h3 class="sh-label">Top 10</h3>${runnerTable(race.runners.slice(0, 10), { caption: `${raceTitle(race)} top 10` })}</div>
       <details class="sh-more"><summary>Full results: all ${race.runners.length} finishers</summary>${runnerTable(race.runners, { caption: `${raceTitle(race)} full results` })}</details>
       ${race.teams.length > 3 ? `<details class="sh-more"><summary>All ${race.teams.length} team scores</summary>${teamList(race.teams)}</details>` : ""}
@@ -104,10 +107,10 @@ function stateBody(hub) {
     const list = (label) => race.runners.filter((r) => new RegExp(label, "i").test(r.honor_label || ""));
     const first = list("first team"), second = list("second team");
     if (!first.length && !second.length) return "";
-    const ol = (rows) => `<ol class="sh-list">${rows.map((r) => `<li><span class="sh-num">${escapeHtml(ordinal(r.place))}</span><span>${link(r.href, r.name)}</span><span></span><small>${escapeHtml(r.school)}</small></li>`).join("")}</ol>`;
+    const ol = (rows) => `<ol class="sh-list">${rows.map((r) => `<li><span class="sh-num">${escapeHtml(ordinal(r.place))}</span><span>${link(r.href, r.name)}</span><span></span><small>${school(r.team_href, r.school, r.logo)}</small></li>`).join("")}</ol>`;
     return `<details class="sh-more"><summary>${escapeHtml(raceTitle(race))}</summary><div class="sh-cols"><div><h3 class="sh-label">First team (${first.length})</h3>${ol(first)}</div><div><h3 class="sh-label">Second team (${second.length})</h3>${ol(second)}</div></div></details>`;
   }).join("");
-  const fastestList = (rows) => `<ol class="sh-list">${rows.map((r, i) => `<li><span class="sh-num">${i + 1}</span><span>${link(r.href, r.name)}</span><span class="sh-num">${escapeHtml(r.mark_text)}</span><small>${escapeHtml(r.school)} &middot; ${escapeHtml(r.race.divisionLabel)}, ${escapeHtml(ordinal(r.place))}</small></li>`).join("")}</ol>`;
+  const fastestList = (rows) => `<ol class="sh-list">${rows.map((r, i) => `<li><span class="sh-num">${i + 1}</span><span>${link(r.href, r.name)}</span><span class="sh-num">${escapeHtml(r.mark_text)}</span><small>${school(r.team_href, r.school, r.logo)} &middot; ${escapeHtml(r.race.divisionLabel)}, ${escapeHtml(ordinal(r.place))}</small></li>`).join("")}</ol>`;
   const recaps = stories.filter((s) => s.kind === "recap");
   const previews = stories.filter((s) => s.kind === "preview");
   const storyList = (list) => `<ul class="sh-list">${list.map((s) => `<li style="grid-template-columns:1fr"><a href="/stories/${escapeHtml(s.slug)}/">${escapeHtml(s.title)}</a></li>`).join("")}</ul>`;

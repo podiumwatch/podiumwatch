@@ -1862,3 +1862,6 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 .sp-front-page-line { margin: 0; }
 .sp-front-page-line a { display: inline-block; padding: 6px 12px; background: var(--green); color: var(--green-ink); font-weight: 850; font-size: .86rem; text-decoration: none; }
 .sp-front-page-cards { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .84rem; font-weight: 750; }
+
+/* Small school logos next to school names (WO-11). */
+.pw-team-logo { width: 20px; height: 20px; object-fit: contain; vertical-align: -5px; margin-right: 6px; flex: none; }

@@ -102,6 +102,10 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/teams/:slug([a-z0-9-]+)/",
+      "destination": "/api/pages/team?slug=:slug"
+    },
+    {
       "source": "/front-page/",
       "destination": "/api/pages/front-page"
     },
@@ -136,6 +140,9 @@
     },
     "api/cron/finish-timing-scan.js": {
       "maxDuration": 300
+    },
+    "api/og/team.js": {
+      "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
     }
   },
   "crons": [
