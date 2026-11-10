@@ -9,10 +9,14 @@
 // lead started first and outlasted it) has no run.
 
 const time = (value) => (value ? new Date(value).getTime() : null);
+// slot: "lead" (default; rows from before install/92 have none) or "also"
+// (a story an admin placed under "Also on the front page").
+export const ALSO_MAX = 4;
+const slotOf = (row) => (row?.slot === "also" ? "also" : "lead");
 
 export function leadRuns(leads, now = new Date()) {
   const nowMs = time(now);
-  const active = (leads || []).filter((lead) => lead.status !== "cancelled").sort((a, b) => time(a.starts_at) - time(b.starts_at));
+  const active = (leads || []).filter((lead) => lead.status !== "cancelled" && slotOf(lead) === "lead").sort((a, b) => time(a.starts_at) - time(b.starts_at));
   const runs = [];
   // Walk forward through time: at each change point, find who leads.
   const points = [...new Set(active.flatMap((lead) => [time(lead.starts_at), time(lead.ends_at)]).filter((t) => t !== null && t <= nowMs))].sort((a, b) => a - b);
@@ -36,7 +40,34 @@ export function currentLead(leads, now = new Date()) {
 // Scheduled leads that have not started yet, soonest first.
 export function queuedLeads(leads, now = new Date()) {
   const nowMs = time(now);
-  return (leads || []).filter((lead) => lead.status !== "cancelled" && time(lead.starts_at) > nowMs).sort((a, b) => time(a.starts_at) - time(b.starts_at));
+  return (leads || []).filter((lead) => lead.status !== "cancelled" && slotOf(lead) === "lead" && time(lead.starts_at) > nowMs).sort((a, b) => time(a.starts_at) - time(b.starts_at));
+}
+
+// "Also on the front page" picks run side by side (no takeover): each runs
+// from its start to its end, or to now while it is still up.
+export function alsoRuns(leads, now = new Date()) {
+  const nowMs = time(now);
+  return (leads || [])
+    .filter((row) => row.status !== "cancelled" && slotOf(row) === "also" && time(row.starts_at) <= nowMs)
+    .map((row) => {
+      const ended = row.ends_at && time(row.ends_at) <= nowMs;
+      return { lead: row, startsAt: new Date(time(row.starts_at)).toISOString(), endsAt: ended ? new Date(time(row.ends_at)).toISOString() : null, current: !ended };
+    })
+    .sort((a, b) => time(a.startsAt) - time(b.startsAt));
+}
+
+// The picks up now, in their set order (at most ALSO_MAX). Empty means the
+// homepage uses its automatic rule.
+export function currentAlso(leads, now = new Date()) {
+  return alsoRuns(leads, now).filter((run) => run.current).map((run) => run.lead)
+    .sort((a, b) => (a.position ?? 99) - (b.position ?? 99) || time(a.starts_at) - time(b.starts_at))
+    .slice(0, ALSO_MAX);
+}
+
+// Every time any story was on the front page (lead or "also"), oldest first.
+export function allFrontPageRuns(leads, now = new Date()) {
+  return [...leadRuns(leads, now).map((run) => ({ ...run, slot: "lead" })), ...alsoRuns(leads, now).map((run) => ({ ...run, slot: "also" }))]
+    .sort((a, b) => time(a.startsAt) - time(b.startsAt));
 }
 
 // "Nov 9 to Nov 11, 2026", "Nov 9, 2026" (one day), "Nov 9, 2026 to now".

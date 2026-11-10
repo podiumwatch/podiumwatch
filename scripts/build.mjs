@@ -132,7 +132,7 @@ import { adminPartnerPage } from "../src/pages/adminpartnerpage.mjs";
 import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
 import { COMMITMENT_CLASSES } from "../src/lib/commitment_rows.mjs";
 import { allHubPaths } from "../src/config/season_hubs.mjs";
-import { frontAlsoHtml, frontLeadHtml } from "../public/scripts/front-lead.mjs";
+import { frontRotatorHtml, ROTATION_MAX } from "../public/scripts/front-lead.mjs";
 import stateChampions2026 from "../src/data/state-champions-2026.json" with { type: "json" };
 import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
@@ -454,11 +454,15 @@ function homePage(stories, rankings) {
   // eventDate qualifies only on or after it. Previews whose meet is over
   // stay in the Latest Stories rail with their Preview label. With fewer
   // than 2 qualifying stories, the 8 state champions fill the slot.
-  const alsoQualifies = (story) => storyType(story) !== "Preview" && (!story.eventDate || String(story.date) >= String(story.eventDate));
-  const alsoStories = byDate.filter((story) => story.slug !== featuredStory?.slug && alsoQualifies(story)).slice(0, 3);
-  const alsoUsesChampions = alsoStories.length < 2;
-  const frontCandidates = byDate.slice(0, 8).map((story) => ({ ...frontStoryShape(story), also_ok: alsoQualifies(story) }));
-  const latestStories = otherStories.filter((story) => story.slug !== featuredStory?.slug && (alsoUsesChampions || !alsoStories.some((also) => also.slug === story.slug))).slice(0, 8);
+  // Rotating lead (Zachary, 2026-11-10): replaces "Also on the front page".
+  // The lead moves every 6 seconds through the 8 newest stories. In the
+  // browser, an admin-set lead goes first and stories an admin placed in
+  // the rotation by hand come right after it; the newest fill the rest.
+  // The Latest Stories rail starts after the rotation so nothing repeats.
+  const rotation = byDate.slice(0, ROTATION_MAX);
+  const alsoUsesChampions = false;
+  const frontCandidates = byDate.slice(0, ROTATION_MAX + 4).map(frontStoryShape);
+  const latestStories = otherStories.filter((story) => !rotation.some((item) => item.slug === story.slug)).slice(0, 8);
   // Homepage rebuild (2026-08-28): this used to render as "Latest
   // Stories" directly under the lead story, AND a second, separate
   // "Latest stories" section further down the page ("More than a finish
@@ -575,13 +579,9 @@ function homePage(stories, rankings) {
       </article>`).join("")}
     </div>
   </div></section>` : "";
-  // Front page lead first (WO-43), then "Also on the front page", then
-  // the season modules (WO-07).
+  // Front page rotation first (WO-43), then the season modules (WO-07).
   const frontPageSection = featuredStory ? `<section class="front-page" data-front-page aria-label="Front page"><div class="container">
-    <div data-front-lead>${frontLeadHtml(frontStoryShape(featuredStory))}</div>
-    <div class="fl-also" data-front-also${alsoUsesChampions ? " data-front-also-champions" : ""}>${alsoUsesChampions
-      ? `<h2 class="fl-also-title">2026 Ohio Cross Country State Champions</h2><div class="home-state-champs">${stateChampCards}</div><div class="home-state-meet-actions" style="display:flex;flex-wrap:wrap;gap:10px"><a class="button button-primary" href="/state/2026/">Full state results</a> <a class="button button-outline" href="/regionals/2026/">Regionals</a> <a class="button button-outline" href="/districts/2026/">Districts</a></div>`
-      : frontAlsoHtml(alsoStories.map(frontStoryShape))}</div>
+    <div data-front-lead>${frontRotatorHtml(rotation.map(frontStoryShape))}</div>
     <script type="application/json" data-front-candidates>${JSON.stringify(frontCandidates).replaceAll("<", "\\u003c")}</script>
   </div></section>
   <script type="module" src="/scripts/front-lead-client.mjs"></script>` : "";

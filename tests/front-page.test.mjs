@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { currentLead, leadRuns, queuedLeads, runLabel } from "../src/lib/front_page_timeline.mjs";
+import { allFrontPageRuns, alsoRuns, currentAlso, currentLead, leadRuns, queuedLeads, runLabel } from "../src/lib/front_page_timeline.mjs";
 import { frontAlsoHtml, frontLeadHtml } from "../public/scripts/front-lead.mjs";
 import { frontPageArchivePage } from "../src/pages/frontpagearchive.mjs";
 import { site } from "../src/config/site.mjs";
@@ -59,4 +59,32 @@ test("archive lists every run with its dates and links /front", () => {
   assert.match(html, /Nov 9 to Nov 11, 2026/);
   assert.match(html, /href="\/front"/);
   assert.match(html, /max-image-preview:large/);
+});
+
+test("hand-picked also stories: never the lead, run side by side, in set order, up to 4", () => {
+  const rows = [
+    lead("parrish", "2026-11-09T14:00:00Z"),
+    lead("d4", "2026-11-10T18:00:00Z", null, { slot: "also", position: 1 }),
+    lead("d3", "2026-11-10T18:00:00Z", null, { slot: "also", position: 2 }),
+    lead("d2", "2026-11-10T18:00:00Z", null, { slot: "also", position: 3 }),
+    lead("d1", "2026-11-10T18:00:00Z", null, { slot: "also", position: 4 }),
+    lead("old", "2026-11-09T14:00:00Z", "2026-11-10T18:00:00Z", { slot: "also", position: 1 }),
+    lead("later", "2026-11-20T14:00:00Z", null, { slot: "also", position: 1 })
+  ];
+  assert.equal(currentLead(rows, now).id, "parrish", "an also pick never takes over the lead");
+  assert.deepEqual(leadRuns(rows, now).map((r) => r.lead.id), ["parrish"]);
+  assert.deepEqual(queuedLeads(rows, now).map((r) => r.id), [], "future also picks are not in the lead queue");
+  assert.deepEqual(currentAlso(rows, now).map((r) => r.id), ["d4", "d3", "d2", "d1"]);
+  const old = alsoRuns(rows, now).find((r) => r.lead.id === "old");
+  assert.equal(old.current, false);
+  assert.equal(old.endsAt, "2026-11-10T18:00:00.000Z");
+  // Every run counts as being on the front page (date line, archive, badges).
+  assert.deepEqual(allFrontPageRuns(rows, now).filter((r) => r.lead.story_slug === "story-d4").map((r) => [r.slot, r.current]), [["also", true]]);
+  assert.deepEqual(currentAlso([lead("x", "2026-11-09T14:00:00Z")], now), [], "no picks: the automatic rule");
+});
+
+test("also list: four stories get the four-across layout", () => {
+  const story = (n) => ({ slug: `s${n}`, href: `/stories/s${n}/`, title: `S${n}`, kicker: "RESULTS", image_url: null });
+  assert.match(frontAlsoHtml([1, 2, 3, 4].map(story)), /fl-also-list is-four/);
+  assert.doesNotMatch(frontAlsoHtml([1, 2, 3].map(story)), /is-four/);
 });

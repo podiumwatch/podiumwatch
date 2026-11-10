@@ -14,7 +14,7 @@ divisions: "I"
 series: "state-recaps-2026"
 seriesLabel: "2026 State Recaps"
 seriesNavLabel: "Division I"
-seriesOrder: 1
+seriesOrder: 4
 tags:
   - "Cross Country"
   - "State Meet 2026"

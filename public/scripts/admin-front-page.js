@@ -9,7 +9,11 @@
   const form = root.querySelector("[data-fpa-form]");
   const message = root.querySelector("[data-fpa-message]");
   const note = root.querySelector("[data-fpa-story-note]");
-  const picked = { athlete: new Map(), team: new Map() };
+  // Picker keys: "athlete"/"team" for the lead form, "athlete-2"/"team-2"
+  // for "Also" row 2, and so on.
+  const pickedMaps = new Map();
+  const picked = new Proxy({}, { get: (_, key) => { if (!pickedMaps.has(key)) pickedMaps.set(key, new Map()); return pickedMaps.get(key); } });
+  const alsoForm = root.querySelector("[data-fpa-also-form]");
 
   const esc = (value) => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
   const when = (iso) => (iso ? new Date(iso).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" }) : "");
@@ -49,9 +53,21 @@
       : '<tr><td colspan="4">No changes yet.</td></tr>';
   }
 
+  function renderAlso(state) {
+    const box = root.querySelector("[data-fpa-also-current]");
+    if (!box) return;
+    if (state.slots_installed === false) { box.innerHTML = '<p class="fpa-warn">Run install/92_FRONT_PAGE_ALSO_PICKS.sql to pick these by hand.</p>'; return; }
+    const now = state.also_current || [];
+    box.innerHTML = now.length
+      ? `<p class="fpa-meta">Picked by hand now, in order:</p><div class="fpa-list">${now.map((row) => card(row, { current: true, line: `#${row.position || "?"} since ${when(row.starts_at)}${row.ends_at ? `, until ${when(row.ends_at)}` : ", no end time"}`, actions: `<button type="button" data-fpa-end="${esc(row.id)}">Take off</button>` })).join("")}</div>`
+      : "<p>No stories picked by hand. The newest stories fill the rotation.</p>";
+  }
+
   async function refresh() {
     try {
-      render(await api({ action: "state" }));
+      const state = await api({ action: "state" });
+      render(state);
+      renderAlso(state);
       loading.hidden = true;
       dashboard.hidden = false;
     } catch (error) {
@@ -77,14 +93,15 @@
   };
   let searchTimer = null;
   root.querySelectorAll("[data-fpa-search]").forEach((input) => input.addEventListener("input", () => {
-    const kind = input.dataset.fpaSearch;
+    const key = input.dataset.fpaSearch;
+    const kind = key.split("-")[0];
     clearTimeout(searchTimer);
     searchTimer = setTimeout(async () => {
-      const box = root.querySelector(`[data-fpa-results="${kind}"]`);
+      const box = root.querySelector(`[data-fpa-results="${key}"]`);
       if (input.value.trim().length < 2) { box.innerHTML = ""; return; }
       try {
         const results = await api({ action: "search", kind, query: input.value });
-        box.innerHTML = results.map((r) => `<button type="button" data-fpa-pick="${kind}" data-id="${esc(r.id)}" data-label="${esc(r.label)}">${esc(r.label)}</button>`).join("") || "<small>No matches.</small>";
+        box.innerHTML = results.map((r) => `<button type="button" data-fpa-pick="${key}" data-id="${esc(r.id)}" data-label="${esc(r.label)}">${esc(r.label)}</button>`).join("") || "<small>No matches.</small>";
       } catch (error) { box.textContent = error.message; }
     }, 250);
   }));
@@ -129,6 +146,37 @@
     } catch (error) { say(error.message, true); }
     finally { button.disabled = false; }
   });
+
+  // "Also on the front page" picks.
+  if (alsoForm) {
+    alsoForm.elements.starts_at.value = localInput(new Date());
+    alsoForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const items = [...alsoForm.querySelectorAll("[data-fpa-also-row]")].map((row) => {
+        const n = row.dataset.fpaAlsoRow;
+        const story = storyBySlug.get(row.querySelector("[data-fpa-also-slug]").value);
+        return story ? { story, linked_profile_ids: [...picked[`athlete-${n}`].keys()], linked_team_ids: [...picked[`team-${n}`].keys()] } : null;
+      }).filter(Boolean);
+      if (!items.length) { say("Pick at least one story.", true); return; }
+      const button = alsoForm.querySelector("button[type=submit]");
+      button.disabled = true;
+      try {
+        await api({ action: "set_also", items, starts_at: new Date(alsoForm.elements.starts_at.value).toISOString(), ends_at: alsoForm.elements.ends_at.value ? new Date(alsoForm.elements.ends_at.value).toISOString() : null });
+        say(`Saved. ${items.length} ${items.length === 1 ? "story joins" : "stories join"} the rotation within a minute.`);
+        await refresh();
+      } catch (error) { say(error.message, true); }
+      finally { button.disabled = false; }
+    });
+    alsoForm.querySelector("[data-fpa-also-clear]").addEventListener("click", async (event) => {
+      event.target.disabled = true;
+      try {
+        const result = await api({ action: "clear_also" });
+        say(result.ended ? "Picks cleared. The newest stories fill the rotation." : "Nothing was picked.");
+        await refresh();
+      } catch (error) { say(error.message, true); }
+      finally { event.target.disabled = false; }
+    });
+  }
 
   form.elements.starts_at.value = localInput(new Date());
   refresh();

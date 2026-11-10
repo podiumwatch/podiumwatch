@@ -1,9 +1,10 @@
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
-import { adminFrontPageState, editLead, endOrCancelLead, isMissingFrontPageTable, scheduleLead, searchFeatured } from "../../lib/front_page_service.mjs";
+import { adminFrontPageState, clearAlsoStories, editLead, endOrCancelLead, isMissingFrontPageTable, scheduleLead, searchFeatured, setAlsoStories } from "../../lib/front_page_service.mjs";
 
 // Admin only: front page lead story (WO-43). POST actions: state,
 // schedule, edit, end (ends a running lead now or cancels a future one),
-// search (athlete or team picker). Every change is logged.
+// search (athlete or team picker), set_also (hand-pick "Also on the front
+// page"), clear_also (back to the automatic rule). Every change is logged.
 
 const ACTOR = "Podium Watch Admin";
 
@@ -29,6 +30,8 @@ export default async function handler(request, response) {
     else if (action === "schedule") data = await scheduleLead({ story: body.story, startsAt: body.starts_at, endsAt: body.ends_at, kicker: body.kicker, linkedProfileIds: body.linked_profile_ids, linkedTeamIds: body.linked_team_ids, actor: ACTOR });
     else if (action === "edit") data = await editLead({ leadId: body.lead_id, startsAt: body.starts_at, endsAt: body.ends_at, kicker: body.kicker, linkedProfileIds: body.linked_profile_ids, linkedTeamIds: body.linked_team_ids, actor: ACTOR });
     else if (action === "end") data = await endOrCancelLead({ leadId: body.lead_id, actor: ACTOR });
+    else if (action === "set_also") data = await setAlsoStories({ items: body.items, startsAt: body.starts_at, endsAt: body.ends_at, actor: ACTOR });
+    else if (action === "clear_also") data = await clearAlsoStories({ actor: ACTOR });
     else if (action === "search") data = await searchFeatured({ kind: body.kind, query: body.query });
     else return response.status(400).json({ error: "Unsupported action." });
     return response.status(200).json(data ?? {});

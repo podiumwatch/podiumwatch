@@ -1,37 +1,118 @@
-import { frontAlsoHtml, frontLeadHtml } from "./front-lead.mjs";
+import { frontRotatorHtml, ROTATION_MAX, ROTATION_MS } from "./front-lead.mjs";
 
-// Homepage (WO-43): the page is built with the newest story as the lead.
-// If an admin set a different lead, swap it in and keep "Also on the
-// front page" and the Latest Stories rail free of repeats. Failure is
-// silent: the built lead is a real story either way.
+// Homepage (WO-43): the lead rotates every 6 seconds through up to 8
+// stories. The build draws the 8 newest; here an admin-set lead goes first
+// and stories an admin placed in the rotation by hand come right after it,
+// then the newest fill the rest. Stories in the rotation are hidden from
+// the Latest Stories rail. Failure is silent: the built rotation is real.
+//
+// The timer pauses while the pointer or keyboard focus is on the block,
+// while it is off-screen or the tab is hidden, and when the reader presses
+// Pause. With reduced motion it never advances on its own; the strip
+// still switches stories.
 
 const root = document.querySelector("[data-front-page]");
 const candidatesNode = document.querySelector("[data-front-candidates]");
-if (root && candidatesNode) {
+const holder = root?.querySelector("[data-front-lead]");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let stop = () => {};
+
+function start() {
+  stop();
+  const slides = [...holder.querySelectorAll(".fl-lead")];
+  const picks = [...holder.querySelectorAll("[data-front-pick]")];
+  const toggle = holder.querySelector("[data-front-toggle]");
+  if (slides.length < 2) return;
+  const controller = new AbortController();
+  const opts = { signal: controller.signal };
+  let index = 0;
+  let timer = null;
+  let userPaused = false;
+  let hover = false;
+  let visible = true;
+
+  const show = (next) => {
+    index = (next + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      const on = i === index;
+      slide.classList.toggle("is-active", on);
+      slide.toggleAttribute("inert", !on);
+      if (on) slide.removeAttribute("aria-hidden"); else slide.setAttribute("aria-hidden", "true");
+      const img = slide.querySelector("img[loading=lazy]");
+      if (img && (on || i === (index + 1) % slides.length)) img.loading = "eager"; // preload the next one
+    });
+    picks.forEach((pick, i) => {
+      pick.classList.toggle("is-active", i === index);
+      if (i === index) pick.setAttribute("aria-current", "true"); else pick.removeAttribute("aria-current");
+    });
+    restartBar();
+  };
+  const running = () => !reduceMotion && !userPaused && !hover && visible && !document.hidden;
+  // The thin bar on the active strip item fills over the 6 seconds.
+  const restartBar = () => {
+    holder.style.setProperty("--fl-ms", `${ROTATION_MS}ms`);
+    holder.classList.toggle("is-running", running());
+    const bar = picks[index]?.querySelector(".fl-pick-bar span");
+    if (bar) { bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = ""; }
+  };
+  const schedule = () => {
+    clearTimeout(timer);
+    holder.classList.toggle("is-running", running());
+    if (running()) timer = setTimeout(() => { show(index + 1); schedule(); }, ROTATION_MS);
+  };
+
+  picks.forEach((pick, i) => pick.addEventListener("click", () => { show(i); schedule(); }, opts));
+  const onToggle = () => {
+    userPaused = !userPaused;
+    toggle.textContent = userPaused ? "Play" : "Pause";
+    toggle.setAttribute("aria-pressed", String(userPaused));
+    restartBar();
+    schedule();
+  };
+  toggle?.addEventListener("click", onToggle, opts);
+  if (reduceMotion && toggle) toggle.hidden = true;
+  const enter = () => { hover = true; schedule(); };
+  const leave = () => { hover = false; restartBar(); schedule(); };
+  holder.addEventListener("pointerenter", enter, opts);
+  holder.addEventListener("pointerleave", leave, opts);
+  holder.addEventListener("focusin", enter, opts);
+  holder.addEventListener("focusout", (event) => { if (!holder.contains(event.relatedTarget)) leave(); }, opts);
+  document.addEventListener("visibilitychange", () => { restartBar(); schedule(); }, opts);
+  const observer = "IntersectionObserver" in window ? new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; restartBar(); schedule(); }, { threshold: 0.25 }) : null;
+  observer?.observe(holder);
+  restartBar();
+  schedule();
+  stop = () => { clearTimeout(timer); observer?.disconnect(); controller.abort(); };
+}
+
+function hideRepeats(slugs) {
+  const shown = new Set(slugs);
+  document.querySelectorAll("[data-story-rail] a[href^='/stories/']").forEach((link) => {
+    const slug = link.getAttribute("href").split("/")[2];
+    const card = link.closest(".story-card");
+    if (card) card.hidden = shown.has(slug);
+  });
+}
+
+if (root && candidatesNode && holder) {
   const candidates = JSON.parse(candidatesNode.textContent || "[]");
-  const builtSlug = root.querySelector("[data-front-lead-slug]")?.getAttribute("data-front-lead-slug");
+  const builtSlugs = [...holder.querySelectorAll("[data-front-lead-slug]")].map((n) => n.getAttribute("data-front-lead-slug"));
+  start();
   fetch("/api/front-page/current/", { headers: { Accept: "application/json" } })
     .then((r) => (r.ok ? r.json() : null))
     .then((data) => {
-      const lead = data?.lead;
-      if (!lead) return;
-      const story = { ...lead, slug: lead.story_slug };
-      // Always draw the admin lead: even for the same story, its photo,
-      // kicker and credit can differ from the built-in version.
-      root.querySelector("[data-front-lead]").innerHTML = frontLeadHtml(story);
-      if (lead.story_slug === builtSlug) return;
-      // Same rule as the build: only stories published after the event they
-      // cover. When the build filled the slot with the state champions, it
-      // stays that way.
-      const also = candidates.filter((s) => s.also_ok && s.slug !== story.slug).slice(0, 3);
-      const alsoNode = root.querySelector("[data-front-also]");
-      if (alsoNode && !alsoNode.hasAttribute("data-front-also-champions") && also.length) alsoNode.innerHTML = frontAlsoHtml(also);
-      const shown = new Set([story.slug, ...also.map((s) => s.slug)]);
-      document.querySelectorAll("[data-story-rail] a[href^='/stories/']").forEach((link) => {
-        const slug = link.getAttribute("href").split("/")[2];
-        const card = link.closest(".story-card");
-        if (card && shown.has(slug)) card.hidden = true;
-      });
+      if (!data || (!data.lead && !(data.also || []).length)) return;
+      const seen = new Set();
+      const order = [];
+      const add = (story) => { if (story?.slug && !seen.has(story.slug) && order.length < ROTATION_MAX) { seen.add(story.slug); order.push(story); } };
+      // An admin lead keeps its own photo, kicker and credit.
+      if (data.lead) add({ ...data.lead, slug: data.lead.story_slug });
+      for (const pick of data.also || []) add({ ...pick, slug: pick.story_slug });
+      for (const story of candidates) add(story);
+      if (order.map((s) => s.slug).join("|") === builtSlugs.join("|") && !data.lead) return;
+      holder.innerHTML = frontRotatorHtml(order);
+      start();
+      hideRepeats(order.map((s) => s.slug));
     })
     .catch(() => {});
 }
