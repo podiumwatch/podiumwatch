@@ -113,7 +113,7 @@ The fifth scorer is where a strong front group becomes a complete team score. Th
 | Wadsworth     | Hadley Dietz       | 21:21.60     | 41st          | 140th         | 99            |
 | Avon          | Lauren Kershaw     | 19:55.18     | 50th          | 74th          | 24            |
 | Aurora        | Haley Koch         | 20:44.01     | 96th          | 111th         | 15            |
-| Granville     | Margaret Mcdonald  | 20:27.47     | 92nd          | 97th          | 5             |
+| Granville     | Margaret McDonald  | 20:27.47     | 92nd          | 97th          | 5             |
 
 Granville has the smallest fourth to fifth place gap among the first five teams at 5. Wadsworth has the largest at 99, which identifies the clearest place where one advancing runner could reshape the top of the standings.
 

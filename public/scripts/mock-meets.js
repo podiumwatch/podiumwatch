@@ -45,6 +45,14 @@
   let searchIndex = [];
   let highlightRequest = null;
 
+  // Athlete names as shown (same rule as src/lib/display_names.mjs):
+  // no parenthetical nickname, Mc surnames and O' names capitalized, no ALL CAPS.
+  function displayName(value) {
+    let t = String(value == null ? "" : value).replace(/\s*\([^)]*\)\s*/g, " ").replace(/\s+/g, " ").trim();
+    if (/[A-Z]{2}/.test(t) && t === t.toUpperCase()) t = t.toLowerCase().replace(/(^|[\s'-])([a-z])/g, (m, s, c) => s + c.toUpperCase());
+    return t.split(" ").map((w, i) => { w = w.replace(/^(O['’])([a-z])/, (m, p, c) => p + c.toUpperCase()); return i > 0 ? w.replace(/^Mc([a-z])/, (m, c) => "Mc" + c.toUpperCase()) : w; }).join(" ");
+  }
+
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
@@ -88,7 +96,7 @@
         return (
           "<tr>" +
           "<td>" + runner.teamPosition + "</td>" +
-          "<td>" + escapeHtml(runner.name) + link + "</td>" +
+          "<td>" + escapeHtml(displayName(runner.name)) + link + "</td>" +
           "<td>" + escapeHtml(runner.seasonBest) + "</td>" +
           "<td>" + runner.placePoints + "</td>" +
           "<td>" + role + "</td>" +
@@ -152,7 +160,7 @@
         return (
           "<tr>" +
           '<td class="mm-cell-num" data-label="Place">' + (index + 1) + "</td>" +
-          '<td data-label="Athlete">' + escapeHtml(runner.name) + "</td>" +
+          '<td data-label="Athlete">' + escapeHtml(displayName(runner.name)) + "</td>" +
           '<td data-label="School">' + escapeHtml(runner.team) + "</td>" +
           '<td class="mm-cell-num" data-label="Season best">' + escapeHtml(runner.seasonBest) + "</td>" +
           '<td class="mm-cell-num" data-label="Modeled points">' + runner.placePoints + (tied ? '<span class="mm-tied-tag">Tied &middot; shared</span>' : "") + "</td>" +
@@ -250,7 +258,7 @@
       entry.teams.forEach((team) => {
         searchIndex.push({ kind: "team", name: team.name, team: team.name, gender: entry.gender, division: entry.division });
         team.runners.forEach((runner) => {
-          searchIndex.push({ kind: "athlete", name: runner.name, team: team.name, gender: entry.gender, division: entry.division });
+          searchIndex.push({ kind: "athlete", name: displayName(runner.name), team: team.name, gender: entry.gender, division: entry.division });
         });
       });
     });

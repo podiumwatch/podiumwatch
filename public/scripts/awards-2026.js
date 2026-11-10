@@ -21,6 +21,13 @@
   const read = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
   const write = (key, value) => { try { localStorage.setItem(key, value); } catch { /* private window */ } };
 
+  // Athlete names as shown (same rule as src/lib/display_names.mjs):
+  // no parenthetical nickname, Mc surnames and O' names capitalized, no ALL CAPS.
+  function displayName(value) {
+    let t = String(value == null ? "" : value).replace(/\s*\([^)]*\)\s*/g, " ").replace(/\s+/g, " ").trim();
+    if (/[A-Z]{2}/.test(t) && t === t.toUpperCase()) t = t.toLowerCase().replace(/(^|[\s'-])([a-z])/g, (m, s, c) => s + c.toUpperCase());
+    return t.split(" ").map((w, i) => { w = w.replace(/^(O['’])([a-z])/, (m, p, c) => p + c.toUpperCase()); return i > 0 ? w.replace(/^Mc([a-z])/, (m, c) => "Mc" + c.toUpperCase()) : w; }).join(" ");
+  }
   function browserToken() {
     let token = read("pw-yoty-2026-token");
     if (!token) {
@@ -189,7 +196,7 @@
         box.append(tag);
       }
       const name = document.createElement("b");
-      name.textContent = item.name;
+      name.textContent = displayName(item.name);
       box.append(name);
       if (item.school && item.school !== item.name) { const small = document.createElement("small"); small.textContent = item.school; box.append(small); }
       if (item.note) { const note = document.createElement("em"); note.textContent = item.note; box.append(note); }
@@ -330,7 +337,7 @@
       const button = document.createElement("button");
       button.type = "button";
       const name = document.createElement("b");
-      name.textContent = item.name + (done.includes(item.id) ? "  (you nominated)" : "");
+      name.textContent = displayName(item.name) + (done.includes(item.id) ? "  (you nominated)" : "");
       const small = document.createElement("small");
       small.textContent = detail(item);
       button.append(name, small);
@@ -350,7 +357,7 @@
     const row = document.createElement("div");
     row.className = "yoy-pick-row";
     const name = document.createElement("b");
-    name.textContent = item.name;
+    name.textContent = displayName(item.name);
     const change = document.createElement("button");
     change.type = "button";
     change.className = "yoy-link-button";

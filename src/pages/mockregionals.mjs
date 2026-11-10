@@ -1,4 +1,5 @@
 import { breadcrumb, emptyState, icon, layout, pageHero } from "../lib/html.mjs";
+import { personDisplayName } from "../lib/display_names.mjs";
 import { scoreRegionalField, selectIndividualQualifiers, validateDivisionRoster, computeStatePool } from "../lib/mock_scoring.mjs";
 import regionalsData from "../data/mock-regionals-2026.json" with { type: "json" };
 
@@ -279,7 +280,7 @@ function rosterTableHtml(team) {
       : '<span class="mr-incomplete">Incomplete team</span>';
     return `<tr>` +
       `<td data-label="Pos">${runner.teamPosition}</td>` +
-      `<td data-label="Runner">${escapeHtml(runner.name)}</td>` +
+      `<td data-label="Runner">${escapeHtml(personDisplayName(runner.name))}</td>` +
       `<td data-label="Season best">${escapeHtml(runner.seasonBest)}</td>` +
       `<td data-label="Points">${team.complete ? formatPoints(runner.teamPlacePoints ?? runner.placePoints) : "--"}</td>` +
       `<td data-label="Role">${role}</td>` +
@@ -386,7 +387,7 @@ function individualsTableHtml(individuals, { showRegion = false, showTeamScore =
       `<tr>` +
       `<td class="mr-cell-num" data-label="Place">${formatPoints(runner.placePoints)}</td>` +
       teamScoreCell +
-      `<td class="mr-cell-school" data-label="Runner">${escapeHtml(runner.name)}</td>` +
+      `<td class="mr-cell-school" data-label="Runner">${escapeHtml(personDisplayName(runner.name))}</td>` +
       `<td data-label="School">${escapeHtml(runner.originalTeam)}</td>` +
       regionCell +
       `<td data-label="Season best">${escapeHtml(runner.seasonBest)}</td>` +
@@ -685,7 +686,7 @@ function top10Card(gradeLabel, rows, girls) {
   const items = rows.length
     ? rows.map((r, i) => {
         const tier = i === 0 ? " gold" : i === 1 ? " silver" : i === 2 ? " bronze" : "";
-        return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong><a href="/athletes/?q=${encodeURIComponent(r.name)}">${escapeHtml(r.name)}</a></strong><small>${escapeHtml(top10SchoolName(r.school))}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
+        return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong><a href="/athletes/?q=${encodeURIComponent(personDisplayName(r.name))}">${escapeHtml(personDisplayName(r.name))}</a></strong><small>${escapeHtml(top10SchoolName(r.school))}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
       }).join("")
     : `<li class="t10-empty">No times listed yet.</li>`;
   return `<div class="t10-card${girls ? " t10-girls" : ""}"><h3>${gradeLabel}</h3><ol class="t10-list">${items}</ol></div>`;

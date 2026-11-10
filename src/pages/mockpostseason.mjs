@@ -1,5 +1,6 @@
 import { sponsorSlotHtml } from "../../lib/site_sponsors.mjs";
 import { layout } from "../lib/html.mjs";
+import { personDisplayName, schoolBaseName } from "../lib/display_names.mjs";
 import seasonData from "../data/mock-postseason-2026.json" with { type: "json" };
 import realData from "../data/mock-postseason-2026-real.json" with { type: "json" };
 import schoolExpansions from "../data/mock-postseason-school-expansions-2026.json" with { type: "json" };
@@ -102,7 +103,7 @@ function formatTimeFromCentiseconds(cs) {
 // user supplied directly. A name not in the map has no confirmed
 // expansion anywhere and is shown exactly as collected.
 function schoolDisplay(name) {
-  return escapeHtml(schoolExpansions[name] || name);
+  return escapeHtml(schoolExpansions[name] || schoolBaseName(name));
 }
 
 // Display-only athlete name fixes (Section E, 2026-10-20) -- the source
@@ -113,7 +114,7 @@ function schoolDisplay(name) {
 // (mock-postseason-name-overrides-2026.json) so more can be added later
 // without touching this module.
 function runnerDisplay(name, school) {
-  return escapeHtml(nameOverrides[`${name}|${school}`] || name);
+  return escapeHtml(nameOverrides[`${name}|${school}`] || personDisplayName(name));
 }
 
 // Neutral initials circle -- first letters of the first two words, or

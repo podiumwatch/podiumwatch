@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
+import { labelSchool } from "../../src/lib/school_labels.mjs";
 import {
   cleanAthleteText,
   loadAthleteSeed,
@@ -323,8 +324,10 @@ async function loadDatabaseProfiles({ ids = null } = {}) {
     String(second.meet_date || "").localeCompare(String(first.meet_date || ""))
   );
 
-  const schoolMap = new Map(schoolRows.map((school) => [school.id, school]));
-  const teamMap = new Map(teamRows.map((team) => [team.id, team]));
+  // Names as shown on the site (one style, city when the name is shared);
+  // the official name stays available as official_school_name.
+  const schoolMap = new Map(schoolRows.map((school) => [school.id, { ...school, official_school_name: school.school_name, school_name: labelSchool(school.school_name, school.city) }]));
+  const teamMap = new Map(teamRows.map((team) => [team.id, { ...team, school_name: labelSchool(team.school_name, team.city) }]));
   const rankingByProfile = new Map();
   const performanceByProfile = new Map();
   const aliasesByProfile = new Map();

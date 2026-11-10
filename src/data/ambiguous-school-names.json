@@ -1,0 +1,33 @@
+{
+  "note": "School names shared by more than one Ohio school; pages add the city. Written by scripts/fix-name-display.mjs.",
+  "generated_at": "2026-11-10T13:01:49.884Z",
+  "names": [
+    "clay",
+    "crestview",
+    "eastern",
+    "edgewood",
+    "edison",
+    "fairfield",
+    "fairview",
+    "green",
+    "highland",
+    "horizon science academy",
+    "jackson",
+    "lake",
+    "lakewood",
+    "manchester",
+    "north",
+    "northridge",
+    "northwest",
+    "northwestern",
+    "perry",
+    "river valley",
+    "riverside",
+    "shawnee",
+    "springfield",
+    "st ursula academy",
+    "washington",
+    "wellington",
+    "western reserve"
+  ]
+}

@@ -142,12 +142,12 @@ Miller has serious company. Julia Bocik's 17:53.0 and Maya Gonzalez's 17:53.4 ma
 | 2 | Julia Bocik | Syl. Southview | 17:53.0 |
 | 3 | Maya Gonzalez | Bay | 17:53.4 |
 | 4 | Kaylee Ingratta | Copley | 18:08.8 |
-| 5 | Lillian (Lily) Kiser | Fremont Ross | 18:20.2 |
+| 5 | Lillian Kiser | Fremont Ross | 18:20.2 |
 | 6 | Elle Miesse | Celina | 18:36.4 |
 | 7 | Claire Jenkins | Aurora | 18:41.2 |
 | 8 | Gabi Twedt | Lexington | 18:48.7 |
 | 9 | Maddie Koons | Cle. St. Joseph Acad. | 18:54.1 |
-| 10 | Avelyn (Avee) Lengel | Anthony Wayne | 18:56.2 |
+| 10 | Avelyn Lengel | Anthony Wayne | 18:56.2 |
 
 ### Division 3: Evelyn Reinoehl leads a tightly packed first five
 
@@ -321,7 +321,7 @@ Clear Fork's Katrina Neal follows Johnson at 18:16.9, with Claymont's Kali Walla
 | 6 | Ruby Clark | Greenon | 18:59.7 |
 | 7 | Lola Mullen | Woodridge | 19:10.3 |
 | 8 | Hannah Gemmel | Madeira | 19:17.1 |
-| 9 | Brincyn (Brin) Boyce | Marlington | 19:17.3 |
+| 9 | Brincyn Boyce | Marlington | 19:17.3 |
 | 10 | Piper Seibold | Crestwood | 19:21.3 |
 
 ### Division 4: Colbie Strayer leads Liberty Center's senior charge

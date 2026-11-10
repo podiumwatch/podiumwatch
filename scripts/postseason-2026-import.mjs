@@ -26,6 +26,7 @@ const read = (relative) => JSON.parse(fs.readFileSync(path.join(root, relative),
 const { supabaseAdmin: db } = await import("../lib/supabase-admin.mjs");
 const { selectAll } = await import("../lib/supabase_paging.mjs");
 const { normalizeLookup } = await import("../lib/ohio_foundation_service.mjs");
+const { personDisplayName } = await import("../src/lib/display_names.mjs");
 const { default: readXlsx } = await import("read-excel-file/node");
 
 const log = [];
@@ -360,7 +361,7 @@ let created = 0;
 for (const p of toCreate) {
   const record = {
     slug: uniqueSlug(slugify(`${p.name} ${p.schoolName || ""} ${p.classYear}`)),
-    first_name: p.first, last_name: p.last, display_name: p.name, normalized_name: normalizeLookup(p.name),
+    first_name: p.first, last_name: p.last, display_name: personDisplayName(p.name), normalized_name: normalizeLookup(personDisplayName(p.name)),
     gender: p.gender, graduation_year: p.classYear, graduation_year_source: "Derived from grade in the 2026 OHSAA postseason official results",
     current_school_id: p.schoolId, current_team_id: teamBySchool.get(p.schoolId) || null,
     public_visible: true, verification_status: "source_verified",
