@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-10, late)
+
+- Run `install/91_TEAM_BANQUET_SETTINGS.sql` so coaches can hide athletes and add a note on their Banquet Pack (the pack works without it).
+- Next in order: WO-36 Wrapped and posters (by Dec. 1), WO-10 meet pages (switch hub "Full results" links), WO-12, WO-13, WO-14, WO-40, WO-42.
+- Coach of the Year: Mike Hoehn now in Girls D1 (7 finalists). Rerun `scripts/audit-yearly-award-divisions.mjs` if categories change.
+- Crestline and Stryker colors (#F4F4F2) wait for team pages.
+
 ## Start here (2026-11-09)
 
 - Master handoff: step 1 is done except **WO-05** (postseason import), which needs the eight state result files in `dataimports/real_state_results_2026/` (handoff section 9, item 5). Then step 2: WO-25 sponsors, WO-28 ads cleanup.

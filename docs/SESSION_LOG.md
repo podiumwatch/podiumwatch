@@ -3035,3 +3035,9 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - Pushed 8762167 (WO-44). Merged the duplicate St. Vincent-St. Mary (placeholder id 900010) into OHSAA 1384 with the new `scripts/merge-duplicate-school.mjs` (51 profiles, 120 results, 5 team scores moved; 35 profiles linked to the team page).
 - WO-11: logos processed and assigned (560 logo_url filled), Logo Review admin, server-rendered team pages, share card, small logos in hubs, athlete pages and directories.
 - Checks: Russia renders logo, coach-set blue header, "State Runner-up, Division IV Boys, 99 pts", 7 state qualifiers, 3 All-Ohio, Instagram button, claimed badge, boys and girls sections (path 1st 45 / 1st 57 / 2nd 99). Local Playwright at 375x667 and 1280x900 for Russia and Fairfield Union: logo, name and strip above the fold, no horizontal scroll, no errors. State hub: 2,190 small logos, all team links to /teams/. Full suite passes.
+
+## 2026-11-10 (later): logos trimmed, WO-35, award divisions
+
+- Logos re-encoded to 29.8 MB (WebP 512/256/96 + PNG 256), WO-11 commit rebuilt without the dropped PNGs, 15 more logos matched by hand (14 logo_url filled), 8 color overrides. Pushed b47f80e6 and 402e8463.
+- WO-35 Banquet Pack built and pushed (e41ba32e): Russia renders the page, print view, 23 slides and the share image from real data; Edon (2 meets) shows only the upload button. install/91 (coach settings) not yet run.
+- Award division audit: 221 nominees, 1 mismatch (Dublin Scioto girls coach). Pool builder fixed (d1a6c42f, pushed). Hoehn moved to Girls D1 with votes on Zachary's OK; counts verified equal to ballot tallies in both categories; audit now 0 mismatches.
