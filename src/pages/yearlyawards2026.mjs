@@ -151,7 +151,7 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
 
       <section class="yoy-card" data-yoy-vote hidden>
         <h2 data-yoy-vote-title>Vote</h2>
-        <p class="yoy-rules">One vote per person in each category every hour. Votes that look automated are removed.</p>
+        <p class="yoy-rules">You can vote once an hour in each category. Votes that look automated are removed.</p>
         <p class="yoy-hint" data-yoy-vote-hint></p>
         <ol class="yoy-finalists" data-yoy-finalists></ol>
         <div data-yoy-turnstile></div>

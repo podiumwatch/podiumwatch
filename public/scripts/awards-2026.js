@@ -188,7 +188,7 @@
     voteTitle.textContent = status === "published" ? "Winner" : status === "voting_open" ? (votedFor ? "Thanks for voting" : "Vote for one finalist") : "Finalists";
     voteHint.textContent = {
       selecting_finalists: `Voting opens ${formatEt(category.voting_open_at)}.`,
-      voting_open: votedFor ? "One vote per category every hour. Vote counts update about every 30 seconds." : "Tap a finalist, then cast your vote. You can vote again in this category an hour after each vote.",
+      voting_open: votedFor ? "You can vote once an hour in each category. Vote counts update about every 30 seconds." : "Tap a finalist, then cast your vote. You can vote once an hour in each category.",
       voting_closed: "Voting is closed. Winners are announced Saturday morning, Nov. 14.",
       published: "Congratulations to the winner and every finalist."
     }[status] || "";
