@@ -67,6 +67,8 @@ const styles = `
     .yoy-finalist.is-winner { border-color:var(--yoy-accent); box-shadow:inset 6px 0 0 var(--yoy-accent); }
     .yoy-winner-tag { justify-self:start; padding:3px 9px; border-radius:999px; background:var(--yoy-accent); color:#fff; font-size:.72rem; font-weight:900; letter-spacing:.06em; text-transform:uppercase; }
     .yoy-rules { margin:0 0 6px; font-weight:800; font-size:.9rem; }
+    .yoy-votes { display:block; margin-top:4px; font-weight:900; font-variant-numeric:tabular-nums; }
+    .yoy-total { list-style:none; margin-top:6px; color:var(--muted); font-weight:800; font-variant-numeric:tabular-nums; }
     .yoy-voted { margin:0; padding:10px 12px; background:rgba(var(--black-rgb),.05); font-weight:850; }
     @media (max-width: 760px) { .yoy-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 `;

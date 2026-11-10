@@ -83,7 +83,7 @@ export function adminAwards2026Page(site) {
     title: "2026 Athlete, Team and Coach of the Year Admin",
     description: "Review nominations, pick finalists, watch votes and publish winners for the 2026 Athlete, Team and Coach of the Year.",
     heading: "2026 Athlete, Team and Coach of the Year",
-    intro: "Pick finalists from the nominees (or the full list), then announce them. Voting in a category opens only after its finalists are announced and the voting window has started. Live vote counts are visible here only; the public never sees counts. After voting closes, publish each winner.",
+    intro: "Pick finalists from the nominees (or the full list), then announce them. Voting in a category opens only after its finalists are announced and the voting window has started. Live vote counts also show on the public voting pages (about every 30 seconds). After voting closes, publish each winner.",
     styles,
     content,
     scripts: ["/scripts/admin-awards-2026.js"]

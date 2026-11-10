@@ -2,7 +2,7 @@ import { castVote, myVotes } from "../../lib/yearly_awards_2026_service.mjs";
 
 // Public, no login: one vote per category per browser every hour for the 2026
 // Athlete, Team and Coach of the Year. Votes are Redis entries (see
-// lib/yearly_awards_2026_votes.mjs); no counts are ever returned here.
+// lib/yearly_awards_2026_votes.mjs). Live counts are public through the status API, not this endpoint.
 // Same hidden trap field as nominations. Cloudflare Turnstile is checked
 // once its keys are set.
 //

@@ -155,7 +155,7 @@ function fakeRedis() {
 }
 
 test("Redis votes: one per browser per category every hour; voiding removes votes and blocks the browser", async () => {
-  const { castYearlyVote, existingYearlyVote, useRedisClientForTests, voidYearlyVotes, yearlyVoteTally } = await import("../lib/yearly_awards_2026_votes.mjs");
+  const { castYearlyVote, existingYearlyVote, publicVoteCounts, useRedisClientForTests, voidYearlyVotes, yearlyVoteTally } = await import("../lib/yearly_awards_2026_votes.mjs");
   const fake = fakeRedis();
   useRedisClientForTests(fake);
   const slug = "athlete-boys-d1";
@@ -182,11 +182,14 @@ test("Redis votes: one per browser per category every hour; voiding removes vote
   let tally = await yearlyVoteTally(slug);
   assert.deepEqual(tally.counts, { a: 1, b: 3 });
   assert.equal(tally.total, 4);
+  // The public live counter matches the ballots.
+  assert.deepEqual(await publicVoteCounts(slug), { counts: { a: 1, b: 3 }, total: 4 });
   assert.deepEqual(tally.addresses[0], { ip: school, count: 3 });
   await assert.rejects(() => voidYearlyVotes({ slug, ipPrefix: "aaaa" }), /8 characters/);
   assert.deepEqual(await voidYearlyVotes({ slug, ipPrefix: "aaaaaaaa", reason: "test" }), { voided: 3 });
   tally = await yearlyVoteTally(slug);
   assert.deepEqual(tally.counts, { b: 1 });
+  assert.deepEqual(await publicVoteCounts(slug), { counts: { a: 0, b: 1 }, total: 1 });
   assert.equal(tally.voided, 3);
   assert.equal(tally.addresses.find((item) => item.ip === school).count, 0);
   // A voided browser can't vote again in that category, even after the hour.

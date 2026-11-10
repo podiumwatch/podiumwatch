@@ -181,14 +181,14 @@
     voteCard.hidden = !show;
     if (!show) return;
     coolingDown();
-    const signature = [status, votedFor, pickedFinalist, finalists.map((item) => `${item.id}:${item.name}:${item.note}:${item.winner}`).join("|")].join("#");
+    const signature = [status, votedFor, pickedFinalist, finalists.map((item) => `${item.id}:${item.name}:${item.note}:${item.winner}:${item.votes}`).join("|"), category.vote_total].join("#");
     if (signature === paintedVote) return;
     paintedVote = signature;
     const canVote = status === "voting_open" && !votedFor;
     voteTitle.textContent = status === "published" ? "Winner" : status === "voting_open" ? (votedFor ? "Thanks for voting" : "Vote for one finalist") : "Finalists";
     voteHint.textContent = {
       selecting_finalists: `Voting opens ${formatEt(category.voting_open_at)}.`,
-      voting_open: votedFor ? "One vote per category every hour. Vote counts stay private until the winner is announced." : "Tap a finalist, then cast your vote. You can vote again in this category an hour after each vote.",
+      voting_open: votedFor ? "One vote per category every hour. Vote counts update about every 30 seconds." : "Tap a finalist, then cast your vote. You can vote again in this category an hour after each vote.",
       voting_closed: "Voting is closed. Winners are announced Saturday morning, Nov. 14.",
       published: "Congratulations to the winner and every finalist."
     }[status] || "";
@@ -216,7 +216,15 @@
       box.append(name);
       if (item.school && item.school !== item.name) { const small = document.createElement("small"); small.textContent = item.school; box.append(small); }
       if (item.note) { const note = document.createElement("em"); note.textContent = item.note; box.append(note); }
+      // Live vote count (about every 30 seconds).
+      if (typeof item.votes === "number") { const count = document.createElement("span"); count.className = "yoy-votes"; count.textContent = `${item.votes.toLocaleString("en-US")} vote${item.votes === 1 ? "" : "s"}`; box.append(count); }
       li.append(box);
+      finalistList.append(li);
+    }
+    if (typeof category.vote_total === "number") {
+      const li = document.createElement("li");
+      li.className = "yoy-total";
+      li.textContent = `${category.vote_total.toLocaleString("en-US")} vote${category.vote_total === 1 ? "" : "s"} cast in this category`;
       finalistList.append(li);
     }
     castButton.hidden = !canVote;
@@ -304,7 +312,7 @@
     if (live) { category = live; paintStatus(); }
   });
   refresh();
-  setInterval(refresh, 60000);
+  setInterval(refresh, 30000);
 
   // Search and nominate.
   const isAthlete = data.award === "athlete";
