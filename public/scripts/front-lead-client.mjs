@@ -1,6 +1,6 @@
 import { frontRotatorHtml, ROTATION_MAX, ROTATION_MS } from "./front-lead.mjs";
 
-// Homepage (WO-43): the lead rotates every 6 seconds through up to 8
+// Homepage (WO-43): the lead rotates every 8 seconds through up to 8
 // stories. The build draws the 8 newest; here an admin-set lead goes first
 // and stories an admin placed in the rotation by hand come right after it,
 // then the newest fill the rest. Stories in the rotation are hidden from
@@ -48,7 +48,7 @@ function start() {
     restartBar();
   };
   const running = () => !reduceMotion && !userPaused && !hover && visible && !document.hidden;
-  // The thin bar on the active strip item fills over the 6 seconds.
+  // The thin bar on the active strip item fills over the 8 seconds.
   const restartBar = () => {
     holder.style.setProperty("--fl-ms", `${ROTATION_MS}ms`);
     holder.classList.toggle("is-running", running());
@@ -97,11 +97,24 @@ function hideRepeats(slugs) {
 if (root && candidatesNode && holder) {
   const candidates = JSON.parse(candidatesNode.textContent || "[]");
   const builtSlugs = [...holder.querySelectorAll("[data-front-lead-slug]")].map((n) => n.getAttribute("data-front-lead-slug"));
-  start();
+  // Always start on the lead (Zachary, 2026-11-10): the built page doesn't
+  // know the admin-set lead, so the block keeps its space but stays
+  // invisible until the lead is known (or 1.2 s pass), then starts at the
+  // first story.
+  let shown = false;
+  const reveal = (order) => {
+    if (shown) return;
+    shown = true;
+    if (order) { holder.innerHTML = frontRotatorHtml(order); hideRepeats(order.map((s) => s.slug)); }
+    holder.classList.remove("is-pending");
+    start();
+  };
+  holder.classList.add("is-pending");
+  setTimeout(() => reveal(null), 1200);
   fetch("/api/front-page/current/", { headers: { Accept: "application/json" } })
     .then((r) => (r.ok ? r.json() : null))
     .then((data) => {
-      if (!data || (!data.lead && !(data.also || []).length)) return;
+      if (!data || (!data.lead && !(data.also || []).length)) return reveal(null);
       const seen = new Set();
       const order = [];
       const add = (story) => { if (story?.slug && !seen.has(story.slug) && order.length < ROTATION_MAX) { seen.add(story.slug); order.push(story); } };
@@ -109,10 +122,15 @@ if (root && candidatesNode && holder) {
       if (data.lead) add({ ...data.lead, slug: data.lead.story_slug });
       for (const pick of data.also || []) add({ ...pick, slug: pick.story_slug });
       for (const story of candidates) add(story);
-      if (order.map((s) => s.slug).join("|") === builtSlugs.join("|") && !data.lead) return;
-      holder.innerHTML = frontRotatorHtml(order);
-      start();
-      hideRepeats(order.map((s) => s.slug));
+      const same = order.map((s) => s.slug).join("|") === builtSlugs.join("|") && !data.lead;
+      if (shown && !same) {
+        // Arrived after the fallback: redraw, still starting on the lead.
+        holder.innerHTML = frontRotatorHtml(order);
+        hideRepeats(order.map((s) => s.slug));
+        start();
+        return;
+      }
+      reveal(same ? null : order);
     })
-    .catch(() => {});
+    .catch(() => reveal(null));
 }

@@ -455,7 +455,7 @@ function homePage(stories, rankings) {
   // stay in the Latest Stories rail with their Preview label. With fewer
   // than 2 qualifying stories, the 8 state champions fill the slot.
   // Rotating lead (Zachary, 2026-11-10): replaces "Also on the front page".
-  // The lead moves every 6 seconds through the 8 newest stories. In the
+  // The lead moves every 8 seconds through the 8 newest stories. In the
   // browser, an admin-set lead goes first and stories an admin placed in
   // the rotation by hand come right after it; the newest fill the rest.
   // The Latest Stories rail starts after the rotation so nothing repeats.

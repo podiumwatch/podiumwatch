@@ -54,7 +54,7 @@ export function adminFrontPagePage(site, stories) {
       </section>
       <section class="info-card">
         <h2>Also in the front page rotation</h2>
-        <p>The homepage lead changes every 6 seconds through 8 stories: the lead above first, then up to 4 stories you pick here (in this order), then the newest stories. Picked stories count as being on the front page: the story gets the date line and a spot in /front-page/, and the athletes and teams you mark as featured get the "Featured on the Podium Watch front page" badge. With no picks, the newest stories fill the rotation.</p>
+        <p>The homepage lead changes every 8 seconds through 8 stories: the lead above first, then up to 4 stories you pick here (in this order), then the newest stories. Picked stories count as being on the front page: the story gets the date line and a spot in /front-page/, and the athletes and teams you mark as featured get the "Featured on the Podium Watch front page" badge. With no picks, the newest stories fill the rotation.</p>
         <div data-fpa-also-current></div>
         <form class="fpa-form" data-fpa-also-form>
           <div class="fpa-also-rows fpa-wide">${[1, 2, 3, 4].map((n) => `<div class="fpa-also-row" data-fpa-also-row="${n}">

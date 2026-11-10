@@ -7,11 +7,11 @@
 // No real photo means a type-only headline, never a stock image.
 //
 // Rotation (Zachary, 2026-11-10): the lead moves to the next story every
-// 6 seconds, through up to 8 stories. All slides sit in one grid cell so
+// 8 seconds, through up to 8 stories. All slides sit in one grid cell so
 // the block keeps the height of the tallest one and nothing below jumps.
 
 export const ROTATION_MAX = 8;
-export const ROTATION_MS = 6000;
+export const ROTATION_MS = 8000;
 
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
