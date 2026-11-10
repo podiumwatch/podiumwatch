@@ -49,7 +49,8 @@ export function frontRotatorHtml(stories) {
   const slides = list.map((story, index) => frontLeadHtml(story, { first: index === 0, index, total: list.length })).join("");
   if (list.length === 1) return `<div class="fl-rotator" data-front-rotator>${slides}</div>`;
   const strip = list.map((story, index) => `<li><button type="button" class="fl-pick${index === 0 ? " is-active" : ""}" data-front-pick="${index}" aria-label="Show story ${index + 1}: ${esc(story.title)}"${index === 0 ? ' aria-current="true"' : ""}><span class="fl-pick-bar"><span></span></span><span class="fl-pick-kicker">${esc(story.kicker || "Podium Watch")}</span><span class="fl-pick-title">${esc(story.title)}</span></button></li>`).join("");
-  return `<div class="fl-rotator" data-front-rotator aria-roledescription="carousel" aria-label="Front page stories">${slides}</div>
+  const arrow = (dir) => `<button type="button" class="fl-arrow fl-arrow-${dir}" data-front-${dir} aria-label="${dir === "next" ? "Next" : "Previous"} story"><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="${dir === "next" ? "M9 5l7 7-7 7" : "M15 5l-7 7 7 7"}" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="square"/></svg></button>`;
+  return `<div class="fl-rotator" data-front-rotator aria-roledescription="carousel" aria-label="Front page stories">${slides}${arrow("prev")}${arrow("next")}</div>
   <div class="fl-strip"><button type="button" class="fl-toggle" data-front-toggle aria-pressed="false">Pause</button><ol class="fl-picks">${strip}</ol></div>`;
 }
 

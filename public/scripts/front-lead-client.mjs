@@ -62,6 +62,9 @@ function start() {
   };
 
   picks.forEach((pick, i) => pick.addEventListener("click", () => { show(i); schedule(); }, opts));
+  // Arrows on the lead: step through the stories; the timer starts over.
+  holder.querySelector("[data-front-next]")?.addEventListener("click", () => { show(index + 1); schedule(); }, opts);
+  holder.querySelector("[data-front-prev]")?.addEventListener("click", () => { show(index - 1); schedule(); }, opts);
   const onToggle = () => {
     userPaused = !userPaused;
     toggle.textContent = userPaused ? "Play" : "Pause";

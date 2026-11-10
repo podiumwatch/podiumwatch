@@ -1833,7 +1833,13 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 .fl-lead.is-type .fl-summary, .fl-lead.is-type .fl-meta { color: #c9cbc6; }
 /* Rotating lead (2026-11-10): every slide in one grid cell, so the block
    keeps the tallest slide's height and nothing below jumps; crossfade. */
-.fl-rotator { display: grid; }
+.fl-rotator { display: grid; position: relative; }
+.fl-arrow { position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; margin-top: -22px; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(9, 9, 9, .72); color: #fff; cursor: pointer; box-shadow: 0 4px 14px rgba(0, 0, 0, .25); transition: background .2s ease, transform .2s ease; }
+.fl-arrow:hover { background: var(--green-dark); transform: scale(1.06); }
+.fl-arrow:focus-visible { outline: 3px solid var(--green); outline-offset: 2px; }
+.fl-arrow-prev { left: 10px; }
+.fl-arrow-next { right: 10px; }
+@media (max-width: 900px) { .fl-arrow { top: 28%; } }
 [data-front-lead] { transition: opacity .25s ease; }
 [data-front-lead].is-pending { opacity: 0; }
 .fl-rotator > .fl-lead { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s linear .6s; }
