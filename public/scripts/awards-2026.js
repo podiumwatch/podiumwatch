@@ -179,6 +179,9 @@
     const finalists = category.finalists || [];
     const show = finalists.length > 0 && ["selecting_finalists", "voting_open", "voting_closed", "published"].includes(status);
     voteCard.hidden = !show;
+    // "Vote below" under the store card: only while voting is open.
+    const voteBelow = root.querySelector("[data-yoy-vote-below]");
+    if (voteBelow) voteBelow.hidden = !(show && status === "voting_open");
     if (!show) return;
     coolingDown();
     const signature = [status, votedFor, pickedFinalist, finalists.map((item) => `${item.id}:${item.name}:${item.note}:${item.winner}:${item.votes}`).join("|"), category.vote_total].join("#");

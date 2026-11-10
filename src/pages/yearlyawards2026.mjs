@@ -75,6 +75,12 @@ const styles = `
     .yoy-finalist.is-winner { border-color:var(--yoy-accent); box-shadow:inset 6px 0 0 var(--yoy-accent); }
     .yoy-winner-tag { justify-self:start; padding:3px 9px; border-radius:999px; background:var(--yoy-accent); color:#fff; font-size:.72rem; font-weight:900; letter-spacing:.06em; text-transform:uppercase; }
     .yoy-rules { margin:0 0 6px; font-weight:800; font-size:.9rem; }
+    /* Store card sits above the vote card (Zachary, 2026-11-10); this line
+       sends voters straight down to the finalists. */
+    .yoy-vote-below { display:flex; justify-content:center; align-items:center; gap:10px; min-height:48px; margin:-4px 0 0; padding:10px 16px; border-radius:12px; background:var(--ink); color:#fff; font-weight:900; font-size:1.05rem; letter-spacing:.5px; text-decoration:none; }
+    .yoy-vote-below:hover, .yoy-vote-below:focus-visible { background:var(--green-dark); }
+    [data-yoy-vote] { scroll-margin-top:84px; }
+    @media (prefers-reduced-motion: no-preference) { html:has(.yoy-vote-below) { scroll-behavior:smooth; } }
     .yoy-votes { display:block; margin-top:4px; font-weight:900; font-variant-numeric:tabular-nums; }
     .yoy-total { list-style:none; margin-top:6px; color:var(--muted); font-weight:800; font-variant-numeric:tabular-nums; }
     .yoy-voted { margin:0; padding:10px 12px; background:rgba(var(--black-rgb),.05); font-weight:850; }
@@ -156,7 +162,10 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
         </form>
       </section>
 
-      <section class="yoy-card" data-yoy-vote hidden>
+      ${merchCardHtml({ placement: "vote-page", from: pathname })}
+      <a class="yoy-vote-below" href="#vote" data-yoy-vote-below hidden>Vote below <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M12 4v15M5 12l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="square"/></svg></a>
+
+      <section class="yoy-card" id="vote" data-yoy-vote hidden>
         <h2 data-yoy-vote-title>Vote</h2>
         <p class="yoy-rules">You can vote once an hour in each category. Votes that look automated are removed.</p>
         <p class="yoy-hint" data-yoy-vote-hint></p>
@@ -168,7 +177,6 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
         <p class="yoy-message" data-yoy-vote-message role="status" aria-live="polite"></p>
         ${merchEnabled() ? `<div data-pwm-after hidden>${merchCardHtml({ placement: "after-vote", from: pathname, large: true })}</div>` : ""}
       </section>
-      ${merchCardHtml({ placement: "vote-page", from: pathname })}
 
       <section class="yoy-card" data-yoy-closed hidden>
         <h2 data-yoy-closed-title>Nominations are closed</h2>
