@@ -120,7 +120,10 @@ if (root && candidatesNode && holder) {
       if (!data || (!data.lead && !(data.also || []).length)) return reveal(null);
       const seen = new Set();
       const order = [];
-      const add = (story) => { if (story?.slug && !seen.has(story.slug) && order.length < ROTATION_MAX) { seen.add(story.slug); order.push(story); } };
+      // Admin rows don't store the story's crop point; take it from the
+      // built story list so faces stay in frame.
+      const bySlug = new Map(candidates.map((s) => [s.slug, s]));
+      const add = (story) => { if (story?.slug && !seen.has(story.slug) && order.length < ROTATION_MAX) { seen.add(story.slug); order.push({ ...story, image_position: story.image_position || bySlug.get(story.slug)?.image_position || null }); } };
       // An admin lead keeps its own photo, kicker and credit.
       if (data.lead) add({ ...data.lead, slug: data.lead.story_slug });
       for (const pick of data.also || []) add({ ...pick, slug: pick.story_slug });

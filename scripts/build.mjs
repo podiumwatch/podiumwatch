@@ -404,6 +404,9 @@ function frontStoryShape(story) {
     image_url: realPhoto ? image : null,
     image_alt: realPhoto ? story.heroAlt || story.featuredImageAlt || "" : "",
     image_credit: realPhoto ? story.imageCredit || null : null,
+    // The story's own crop point (featuredImagePosition), so faces stay in
+    // the wide front page frame.
+    image_position: realPhoto && /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : null,
     byline: !story.author || story.author === "Podium Watch" ? "Podium Watch Staff" : story.author,
     story_date: story.date
   };

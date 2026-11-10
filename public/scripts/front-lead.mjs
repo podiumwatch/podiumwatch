@@ -26,7 +26,7 @@ export function frontLeadHtml(story, { first = true, index = 0, total = 1 } = {}
   const date = storyDateLabel(story.story_date);
   const meta = [story.byline ? `By ${esc(story.byline)}` : "", date ? esc(date) : ""].filter(Boolean).join(" &middot; ");
   const media = story.image_url
-    ? `<figure class="fl-media"><a href="${esc(story.href)}" tabindex="-1" aria-hidden="true"><img src="${esc(story.image_url)}" alt="${esc(story.image_alt || "")}" width="1200" height="675" ${first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} decoding="async"></a>${story.image_credit ? `<figcaption>Photo: ${esc(story.image_credit)}</figcaption>` : ""}</figure>`
+    ? `<figure class="fl-media"><a href="${esc(story.href)}" tabindex="-1" aria-hidden="true"><img src="${esc(story.image_url)}" alt="${esc(story.image_alt || "")}" width="1200" height="675"${/^[a-z0-9%. ]{1,40}$/i.test(String(story.image_position || "")) ? ` style="object-position:${esc(story.image_position)}"` : ""} ${first ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'} decoding="async"></a>${story.image_credit ? `<figcaption>Photo: ${esc(story.image_credit)}</figcaption>` : ""}</figure>`
     : "";
   const heading = first ? "h1" : "h2";
   return `<article class="fl-lead${story.image_url ? "" : " is-type"}${first ? " is-active" : ""}" data-front-lead-slug="${esc(story.slug)}"${total > 1 ? ` role="group" aria-roledescription="slide" aria-label="${index + 1} of ${total}"` : ""}${first ? "" : ' aria-hidden="true" inert'}>
