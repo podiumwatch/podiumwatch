@@ -71,7 +71,7 @@ For most of the race, Russia was the team in front. By Podium Watch's count from
 
 The coaches had Russia pegged. It sat at No. 2 in eight of the season's 11 polls, spent one week at No. 1 in September and entered the meet at No. 2 with five of the 12 first-place votes. It finished exactly there.
 
-![Russia runners, including seniors Samuel Phlipot (8671) and Eli Schmitmeyer (8674), celebrate with the state runner-up trophy.](/images/stories/division-iv-state-recap-2026/04-russia-trophy.jpg "Russia runners, including seniors Samuel Phlipot (8671) and Eli Schmitmeyer (8674), celebrate with the state runner-up trophy. Photo: Wyatt Richardson (@richardsonphotography_rp)")
+![Russia runners celebrate with the Division IV boys state runner-up trophy. From left: Francis Phlipot, Keagan Baldridge, Owen Sargent, Evan Smith, Eli Schmitmeyer, Samuel Phlipot and Paxson Bixler.](/images/stories/division-iv-state-recap-2026/04-russia-trophy.jpg "Russia runners celebrate with the Division IV boys state runner-up trophy. From left: Francis Phlipot, Keagan Baldridge, Owen Sargent, Evan Smith, Eli Schmitmeyer, Samuel Phlipot and Paxson Bixler. Photo: Wyatt Richardson (@richardsonphotography_rp)")
 
 ## Botkins edges Legacy Christian by three
 
