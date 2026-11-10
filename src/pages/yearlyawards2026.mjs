@@ -1,6 +1,13 @@
 import { escapeHtml } from "../lib/content.mjs";
 import { layout, pageHero } from "../lib/html.mjs";
 import { bicarbStyles, bicarbVotingAdHtml } from "../lib/bicarb_ads.mjs";
+import { merchCardHtml, merchClientData, merchEnabled, merchStyles } from "../lib/merch_card.mjs";
+
+// Podium Watch Store card: below the vote card (never above the finalists
+// or the vote button), a larger one in the vote confirmation, and at the
+// bottom of the hub. Data and script once per page.
+const merchScripts = () => (merchEnabled() ? `<script type="application/json" data-pwm-data>${JSON.stringify(merchClientData()).replaceAll("<", "\\u003c")}</script>
+  <script src="/scripts/merch-card.js" defer></script>` : "");
 import { YEARLY_AWARDS_SCHEDULE, categoryPool, formatEt } from "../../lib/yearly_awards_2026.mjs";
 
 // 2026 Athlete, Team and Coach of the Year public pages: the hub at
@@ -105,7 +112,7 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
   const hint = isCoach
     ? `Every Ohio school in ${escapeHtml(divisionLabel(category))} is listed, filed by the school's OHSAA cross country division. Can't find a school? It may be listed in another division; use the links at the bottom.`
     : `Only ${noun === "athlete" ? "athletes" : "teams"} who qualified for the 2026 ${escapeHtml(divisionLabel(category))} state meet are listed.`;
-  const content = `<style>${styles}${bicarbStyles}</style>
+  const content = `<style>${styles}${bicarbStyles}${merchStyles}</style>
   ${pageHero({
     eyebrow: "2026 Podium Watch Awards",
     title: category.label,
@@ -159,7 +166,9 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
         <button class="yoy-submit" type="button" data-yoy-cast hidden>Cast my vote</button>
         <p class="yoy-voted" data-yoy-voted hidden></p>
         <p class="yoy-message" data-yoy-vote-message role="status" aria-live="polite"></p>
+        ${merchEnabled() ? `<div data-pwm-after hidden>${merchCardHtml({ placement: "after-vote", from: pathname, large: true })}</div>` : ""}
       </section>
+      ${merchCardHtml({ placement: "vote-page", from: pathname })}
 
       <section class="yoy-card" data-yoy-closed hidden>
         <h2 data-yoy-closed-title>Nominations are closed</h2>
@@ -178,7 +187,8 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
     </div>
   </section>
   ${jsonScript("yoy-data", { slug: category.slug, award: category.award, schedule: YEARLY_AWARDS_SCHEDULE, pool: compactPool(category, list) })}
-  <script src="/scripts/awards-2026.js" defer></script>`;
+  <script src="/scripts/awards-2026.js" defer></script>
+  ${merchScripts()}`;
 
   return layout({
     site,
@@ -200,7 +210,7 @@ export function yearlyAwardsHubPage(site, pool) {
       </div>`).join("")}
     </section>`;
 
-  const content = `<style>${styles}${bicarbStyles}</style>
+  const content = `<style>${styles}${bicarbStyles}${merchStyles}</style>
   ${pageHero({
     eyebrow: "2026 Podium Watch Awards",
     title: "Athlete, Team and Coach of the Year",
@@ -213,11 +223,13 @@ export function yearlyAwardsHubPage(site, pool) {
       ${section("athlete")}
       ${section("team")}
       ${section("coach")}
+      ${merchCardHtml({ placement: "vote-page", from: "/awards/2026/" })}
       <p class="yoy-foot">podiumwatch.org</p>
     </div>
   </section>
   ${jsonScript("yoy-data", { hub: true, schedule: YEARLY_AWARDS_SCHEDULE })}
-  <script src="/scripts/awards-2026.js" defer></script>`;
+  <script src="/scripts/awards-2026.js" defer></script>
+  ${merchScripts()}`;
 
   return layout({
     site,

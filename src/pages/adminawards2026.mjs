@@ -61,6 +61,11 @@ export function adminAwards2026Page(site) {
         <a class="button button-secondary" href="/awards/2026/" target="_blank" rel="noopener">Public hub</a>
       </div>
       <p class="awards-message" data-yoya-message role="status"></p>
+      <section class="info-card" data-yoya-merch-panel>
+        <h2>Podium Watch Store card</h2>
+        <p>The store card on every voting page and the hub (below the finalists and vote button), plus the larger card after a vote. Clicks show in the sponsor report as Podium Watch Store. Text, products and colors: src/data/merch.json.</p>
+        <p><strong data-yoya-merch-state>Checking...</strong> <button class="button button-secondary" type="button" data-yoya-merch-toggle hidden>Turn off</button></p>
+      </section>
       <section class="info-card" data-yoya-activity-panel>
         <h2>Vote activity</h2>
         <p>Votes per hour for each finalist (Eastern time), and bursts: one network casting 10 or more votes in an hour, or at least half of that hour's votes. Use it to check for vote stuffing before announcing winners; void votes by network ID in the category below.</p>

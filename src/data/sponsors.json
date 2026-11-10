@@ -37,5 +37,23 @@
         ]
       }
     ]
+  },
+  {
+    "id": "merch",
+    "name": "Podium Watch Store",
+    "description": "Podium Watch's own store, on the 2026 awards voting pages (src/data/merch.json). Not a page sponsor: no paths.",
+    "url": "https://app.amazecommerce.com/shop/podiumwatch",
+    "placements": [
+      {
+        "id": "vote-page",
+        "label": "Awards voting pages",
+        "paths": []
+      },
+      {
+        "id": "after-vote",
+        "label": "After a vote is cast",
+        "paths": []
+      }
+    ]
   }
 ]

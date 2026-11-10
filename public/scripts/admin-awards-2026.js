@@ -336,4 +336,29 @@
       activityButton.disabled = false;
     }
   });
+
+  // Podium Watch Store card switch.
+  const merchState = document.querySelector("[data-yoya-merch-state]");
+  const merchToggle = document.querySelector("[data-yoya-merch-toggle]");
+  async function merchApi(body) {
+    const response = await fetch("/api/admin/merch/", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, credentials: "same-origin", body: JSON.stringify(body) });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "That request failed.");
+    return data;
+  }
+  function paintMerch(status) {
+    merchState.textContent = !status.file_enabled ? "Off in src/data/merch.json." : status.enabled ? "On." : "Off (switched off here).";
+    merchToggle.hidden = !status.file_enabled;
+    merchToggle.textContent = status.enabled ? "Turn off" : "Turn on";
+    merchToggle.dataset.next = status.enabled ? "0" : "1";
+  }
+  if (merchState && merchToggle) {
+    merchApi({ action: "state" }).then(paintMerch).catch((error) => { merchState.textContent = error.message; });
+    merchToggle.addEventListener("click", async () => {
+      merchToggle.disabled = true;
+      try { paintMerch(await merchApi({ action: "set", enabled: merchToggle.dataset.next === "1" })); }
+      catch (error) { merchState.textContent = error.message; }
+      finally { merchToggle.disabled = false; }
+    });
+  }
 })();

@@ -256,6 +256,8 @@
         throw new Error(body.error || "Your vote could not be saved right now. Please try again.");
       }
       setVoteMessage(response.ok ? "Vote counted. Share this page so others can vote too." : body.error, !response.ok);
+      // Podium Watch Store card in the confirmation (merch-card.js).
+      if (response.ok) document.dispatchEvent(new CustomEvent("pw:voted", { detail: { category: data.slug } }));
       paintedVote = "";
       paintVote(statusOf(category));
     } catch (error) {

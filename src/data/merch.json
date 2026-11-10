@@ -1,0 +1,1221 @@
+{
+  "_note": "Podium Watch Store card on the 2026 awards voting pages. Card text, link and on/off live here; products and colors come from scripts/merch-sync.mjs. The admin switch (Admin > Awards 2026) can also turn the card off.",
+  "enabled": true,
+  "label": "Podium Watch Store",
+  "headline": "Rep the sport.",
+  "subline": "Podium Watch hoodies, tees and caps.",
+  "button": "Shop the store",
+  "after_vote_headline": "Thanks for voting! Rep Podium Watch.",
+  "store_url": "https://app.amazecommerce.com/shop/podiumwatch",
+  "utm": {
+    "utm_source": "podiumwatch",
+    "utm_medium": "awards",
+    "utm_campaign": "awards2026"
+  },
+  "cycle_ms": 4000,
+  "synced_at": "2026-11-10T17:38:10.972Z",
+  "products": [
+    {
+      "id": "white-logo-hoodie",
+      "name": "White Logo Hoodie",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/white-logo-hoodie",
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#e7d3b3",
+          "image": "/images/merch/white-logo-hoodie/sand.webp",
+          "bg": "#645f52",
+          "bg2": "#524e43",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Orange",
+          "hex": "#FF5723",
+          "image": "/images/merch/white-logo-hoodie/orange.webp",
+          "bg": "#ff8d69",
+          "bg2": "#ffa184",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Royal",
+          "hex": "#1D50A4",
+          "image": "/images/merch/white-logo-hoodie/royal.webp",
+          "bg": "#8ea8d2",
+          "bg2": "#a2b7da",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Sport Grey",
+          "hex": "#9b969c",
+          "image": "/images/merch/white-logo-hoodie/sport-grey.webp",
+          "bg": "#bbb8bc",
+          "bg2": "#c7c4c8",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Maroon",
+          "hex": "#47171c",
+          "image": "/images/merch/white-logo-hoodie/maroon.webp",
+          "bg": "#a38b8e",
+          "bg2": "#b4a0a2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Carolina Blue",
+          "hex": "#8DB7F6",
+          "image": "/images/merch/white-logo-hoodie/carolina-blue.webp",
+          "bg": "#42546b",
+          "bg2": "#364558",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Light Blue",
+          "hex": "#a1c5e1",
+          "image": "/images/merch/white-logo-hoodie/light-blue.webp",
+          "bg": "#4a5a63",
+          "bg2": "#3c4a51",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Gold",
+          "hex": "#FFAF24",
+          "image": "/images/merch/white-logo-hoodie/gold.webp",
+          "bg": "#6d511b",
+          "bg2": "#5a4316",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Navy",
+          "hex": "#131928",
+          "image": "/images/merch/white-logo-hoodie/navy.webp",
+          "bg": "#898c94",
+          "bg2": "#9ea1a7",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Dark Heather",
+          "hex": "#47484d",
+          "image": "/images/merch/white-logo-hoodie/dark-heather.webp",
+          "bg": "#a3a4a6",
+          "bg2": "#b4b4b6",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heliconia",
+          "hex": "#F63880",
+          "image": "/images/merch/white-logo-hoodie/heliconia.webp",
+          "bg": "#f978a9",
+          "bg2": "#fa90b8",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Indigo Blue",
+          "hex": "#395d82",
+          "image": "/images/merch/white-logo-hoodie/indigo-blue.webp",
+          "bg": "#9caec1",
+          "bg2": "#aebdcc",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Forest Green",
+          "hex": "#222E1F",
+          "image": "/images/merch/white-logo-hoodie/forest-green.webp",
+          "bg": "#91978f",
+          "bg2": "#a4a9a3",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Purple",
+          "hex": "#4A1C7D",
+          "image": "/images/merch/white-logo-hoodie/purple.webp",
+          "bg": "#a58ebe",
+          "bg2": "#b5a2ca",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Dark Chocolate",
+          "hex": "#35241b",
+          "image": "/images/merch/white-logo-hoodie/dark-chocolate.webp",
+          "bg": "#9a928d",
+          "bg2": "#aca5a2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Azalea",
+          "hex": "#ff9faf",
+          "image": "/images/merch/white-logo-hoodie/azalea.webp",
+          "bg": "#6d4b50",
+          "bg2": "#5a3e42",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Sport Dark Navy",
+          "hex": "#515A6E",
+          "image": "/images/merch/white-logo-hoodie/heather-sport-dark-navy.webp",
+          "bg": "#a8adb7",
+          "bg2": "#b8bbc4",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Graphite Heather",
+          "hex": "#686868",
+          "image": "/images/merch/white-logo-hoodie/graphite-heather.webp",
+          "bg": "#989898",
+          "bg2": "#ababab",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Light Pink",
+          "hex": "#f3d4e3",
+          "image": "/images/merch/white-logo-hoodie/light-pink.webp",
+          "bg": "#695f64",
+          "bg2": "#564e52",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Red",
+          "hex": "#da0a1a",
+          "image": "/images/merch/white-logo-hoodie/red.webp",
+          "bg": "#e65863",
+          "bg2": "#ea767f",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#534E4A",
+          "image": "/images/merch/white-logo-hoodie/charcoal.webp",
+          "bg": "#a9a7a5",
+          "bg2": "#b8b6b5",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Military Green",
+          "hex": "#7e8560",
+          "image": "/images/merch/white-logo-hoodie/military-green.webp",
+          "bg": "#a7ac93",
+          "bg2": "#b7bba6",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Irish Green",
+          "hex": "#1d9345",
+          "image": "/images/merch/white-logo-hoodie/irish-green.webp",
+          "bg": "#65b681",
+          "bg2": "#81c397",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Black",
+          "hex": "#0b0b0b",
+          "image": "/images/merch/white-logo-hoodie/black.webp",
+          "bg": "#858585",
+          "bg2": "#9b9b9b",
+          "fg": "#0b0b0b"
+        }
+      ]
+    },
+    {
+      "id": "black-logo-hoodie",
+      "name": "Black Logo Hoodie",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-watch-hoodie-black-logo",
+      "colors": [
+        {
+          "name": "Orange",
+          "hex": "#FF5723",
+          "image": "/images/merch/black-logo-hoodie/orange.webp",
+          "bg": "#ff8d69",
+          "bg2": "#ffa184",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Royal",
+          "hex": "#1D50A4",
+          "image": "/images/merch/black-logo-hoodie/royal.webp",
+          "bg": "#8ea8d2",
+          "bg2": "#a2b7da",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Carolina Blue",
+          "hex": "#8DB7F6",
+          "image": "/images/merch/black-logo-hoodie/carolina-blue.webp",
+          "bg": "#42546b",
+          "bg2": "#364558",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Light Blue",
+          "hex": "#a1c5e1",
+          "image": "/images/merch/black-logo-hoodie/light-blue.webp",
+          "bg": "#4a5a63",
+          "bg2": "#3c4a51",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heliconia",
+          "hex": "#F63880",
+          "image": "/images/merch/black-logo-hoodie/heliconia.webp",
+          "bg": "#f978a9",
+          "bg2": "#fa90b8",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Indigo Blue",
+          "hex": "#395d82",
+          "image": "/images/merch/black-logo-hoodie/indigo-blue.webp",
+          "bg": "#9caec1",
+          "bg2": "#aebdcc",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "image": "/images/merch/black-logo-hoodie/white.webp",
+          "bg": "#6d706f",
+          "bg2": "#5a5c5b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Light Pink",
+          "hex": "#f3d4e3",
+          "image": "/images/merch/black-logo-hoodie/light-pink.webp",
+          "bg": "#695f64",
+          "bg2": "#564e52",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Red",
+          "hex": "#da0a1a",
+          "image": "/images/merch/black-logo-hoodie/red.webp",
+          "bg": "#e65863",
+          "bg2": "#ea767f",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Military Green",
+          "hex": "#7e8560",
+          "image": "/images/merch/black-logo-hoodie/military-green.webp",
+          "bg": "#a7ac93",
+          "bg2": "#b7bba6",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Irish Green",
+          "hex": "#1d9345",
+          "image": "/images/merch/black-logo-hoodie/irish-green.webp",
+          "bg": "#65b681",
+          "bg2": "#81c397",
+          "fg": "#0b0b0b"
+        }
+      ]
+    },
+    {
+      "id": "white-logo-shirt",
+      "name": "White Logo Shirt",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/white-logo-podium-watch-shirt",
+      "colors": [
+        {
+          "name": "Mauve",
+          "hex": "#bf6e6e",
+          "image": "/images/merch/white-logo-shirt/mauve.webp",
+          "bg": "#d39c9c",
+          "bg2": "#dbaeae",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Steel Blue",
+          "hex": "#668ea7",
+          "image": "/images/merch/white-logo-shirt/steel-blue.webp",
+          "bg": "#97b2c3",
+          "bg2": "#aac0ce",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Raspberry",
+          "hex": "#d23d62",
+          "image": "/images/merch/white-logo-shirt/heather-raspberry.webp",
+          "bg": "#e07b94",
+          "bg2": "#e693a7",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Olive",
+          "hex": "#5b642f",
+          "image": "/images/merch/white-logo-shirt/olive.webp",
+          "bg": "#adb297",
+          "bg2": "#bcbfaa",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Forest",
+          "hex": "#425040",
+          "image": "/images/merch/white-logo-shirt/heather-forest.webp",
+          "bg": "#a1a8a0",
+          "bg2": "#b2b7b1",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Autumn",
+          "hex": "#D5743F",
+          "image": "/images/merch/white-logo-shirt/heather-autumn.webp",
+          "bg": "#e2a07c",
+          "bg2": "#e8b194",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Team Purple",
+          "hex": "#B680C1",
+          "image": "/images/merch/white-logo-shirt/heather-team-purple.webp",
+          "bg": "#cda9d5",
+          "bg2": "#d6b8dc",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Brown",
+          "hex": "#6A513A",
+          "image": "/images/merch/white-logo-shirt/heather-brown.webp",
+          "bg": "#b5a89d",
+          "bg2": "#c2b8ae",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Military Green",
+          "hex": "#4d4c36",
+          "image": "/images/merch/white-logo-shirt/military-green.webp",
+          "bg": "#a6a69b",
+          "bg2": "#b6b6ad",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Grass Green",
+          "hex": "#477749",
+          "image": "/images/merch/white-logo-shirt/heather-grass-green.webp",
+          "bg": "#82a383",
+          "bg2": "#98b39a",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Forest",
+          "hex": "#223e25",
+          "image": "/images/merch/white-logo-shirt/forest.webp",
+          "bg": "#919f92",
+          "bg2": "#a4b0a6",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather True Royal",
+          "hex": "#536ba7",
+          "image": "/images/merch/white-logo-shirt/heather-true-royal.webp",
+          "bg": "#8a9ac3",
+          "bg2": "#9facce",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Red",
+          "hex": "#ed5359",
+          "image": "/images/merch/white-logo-shirt/heather-red.webp",
+          "bg": "#f38a8e",
+          "bg2": "#f59fa2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Aqua",
+          "hex": "#008db5",
+          "image": "/images/merch/white-logo-shirt/aqua.webp",
+          "bg": "#52b1cd",
+          "bg2": "#71bfd6",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Kelly",
+          "hex": "#1a9462",
+          "image": "/images/merch/white-logo-shirt/kelly.webp",
+          "bg": "#63b694",
+          "bg2": "#7fc3a7",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Columbia Blue",
+          "hex": "#7D95E8",
+          "image": "/images/merch/white-logo-shirt/heather-columbia-blue.webp",
+          "bg": "#a7b7ef",
+          "bg2": "#b7c4f2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Prism Lilac",
+          "hex": "#deafcd",
+          "image": "/images/merch/white-logo-shirt/heather-prism-lilac.webp",
+          "bg": "#61515c",
+          "bg2": "#4f434b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Dark Grey",
+          "hex": "#2A2929",
+          "image": "/images/merch/white-logo-shirt/dark-grey.webp",
+          "bg": "#959494",
+          "bg2": "#a8a7a7",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Berry",
+          "hex": "#c02773",
+          "image": "/images/merch/white-logo-shirt/berry.webp",
+          "bg": "#d46ca0",
+          "bg2": "#dc87b1",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Red",
+          "hex": "#d0071e",
+          "image": "/images/merch/white-logo-shirt/red.webp",
+          "bg": "#df5666",
+          "bg2": "#e57582",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Oxblood Black",
+          "hex": "#2c1013",
+          "image": "/images/merch/white-logo-shirt/oxblood-black.webp",
+          "bg": "#968889",
+          "bg2": "#a89d9e",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Olive",
+          "hex": "#5c5531",
+          "image": "/images/merch/white-logo-shirt/heather-olive.webp",
+          "bg": "#aeaa98",
+          "bg2": "#bcb9ab",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Deep Teal",
+          "hex": "#447085",
+          "image": "/images/merch/white-logo-shirt/heather-deep-teal.webp",
+          "bg": "#809eac",
+          "bg2": "#97afbb",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Maroon",
+          "hex": "#721d37",
+          "image": "/images/merch/white-logo-shirt/maroon.webp",
+          "bg": "#b98e9b",
+          "bg2": "#c5a2ad",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Orange",
+          "hex": "#ff6f32",
+          "image": "/images/merch/white-logo-shirt/orange.webp",
+          "bg": "#ff9d74",
+          "bg2": "#ffaf8d",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Burnt Orange",
+          "hex": "#ed8043",
+          "image": "/images/merch/white-logo-shirt/burnt-orange.webp",
+          "bg": "#f3a97f",
+          "bg2": "#f5b896",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Black",
+          "hex": "#0c0c0c",
+          "image": "/images/merch/white-logo-shirt/black.webp",
+          "bg": "#868686",
+          "bg2": "#9b9b9b",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Team Purple",
+          "hex": "#230f46",
+          "image": "/images/merch/white-logo-shirt/team-purple.webp",
+          "bg": "#9187a3",
+          "bg2": "#a59db3",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Orchid",
+          "hex": "#c2878e",
+          "image": "/images/merch/white-logo-shirt/heather-orchid.webp",
+          "bg": "#d6adb2",
+          "bg2": "#ddbcc0",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Toast",
+          "hex": "#cf8d4c",
+          "image": "/images/merch/white-logo-shirt/toast.webp",
+          "bg": "#deb185",
+          "bg2": "#e4bf9b",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Leaf",
+          "hex": "#5c9346",
+          "image": "/images/merch/white-logo-shirt/leaf.webp",
+          "bg": "#90b681",
+          "bg2": "#a4c398",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Emerald",
+          "hex": "#1E2C1C",
+          "image": "/images/merch/white-logo-shirt/heather-emerald.webp",
+          "bg": "#8f968e",
+          "bg2": "#a3a8a2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Mauve",
+          "hex": "#B2736F",
+          "image": "/images/merch/white-logo-shirt/heather-mauve.webp",
+          "bg": "#cba09d",
+          "bg2": "#d4b1af",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Army",
+          "hex": "#5f5849",
+          "image": "/images/merch/white-logo-shirt/army.webp",
+          "bg": "#afaca4",
+          "bg2": "#bdbbb4",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Asphalt",
+          "hex": "#52514f",
+          "image": "/images/merch/white-logo-shirt/asphalt.webp",
+          "bg": "#a9a8a7",
+          "bg2": "#b8b8b7",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Charity Pink",
+          "hex": "#FF6284",
+          "image": "/images/merch/white-logo-shirt/charity-pink.webp",
+          "bg": "#ff94ab",
+          "bg2": "#ffa7ba",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Pebble",
+          "hex": "#9a8479",
+          "image": "/images/merch/white-logo-shirt/pebble.webp",
+          "bg": "#baaba4",
+          "bg2": "#c7bab4",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Navy",
+          "hex": "#303643",
+          "image": "/images/merch/white-logo-shirt/heather-navy.webp",
+          "bg": "#989ba1",
+          "bg2": "#aaadb2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Black Heather",
+          "hex": "#0b0b0b",
+          "image": "/images/merch/white-logo-shirt/black-heather.webp",
+          "bg": "#858585",
+          "bg2": "#9b9b9b",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Slate",
+          "hex": "#4C626E",
+          "image": "/images/merch/white-logo-shirt/heather-slate.webp",
+          "bg": "#a6b1b7",
+          "bg2": "#b6bfc4",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Navy",
+          "hex": "#212642",
+          "image": "/images/merch/white-logo-shirt/navy.webp",
+          "bg": "#9093a1",
+          "bg2": "#a4a6b2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Orange",
+          "hex": "#ff6f4e",
+          "image": "/images/merch/white-logo-shirt/heather-orange.webp",
+          "bg": "#ff9d87",
+          "bg2": "#ffaf9c",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Autumn",
+          "hex": "#c85313",
+          "image": "/images/merch/white-logo-shirt/autumn.webp",
+          "bg": "#da8a5f",
+          "bg2": "#e09f7b",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Cardinal",
+          "hex": "#890c1e",
+          "image": "/images/merch/white-logo-shirt/cardinal.webp",
+          "bg": "#c4868f",
+          "bg2": "#cf9ba3",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Teal",
+          "hex": "#00e3cf",
+          "image": "/images/merch/white-logo-shirt/teal.webp",
+          "bg": "#0c655c",
+          "bg2": "#0a534c",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "True Royal",
+          "hex": "#01408d",
+          "image": "/images/merch/white-logo-shirt/true-royal.webp",
+          "bg": "#80a0c6",
+          "bg2": "#97b1d0",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Clay",
+          "hex": "#994836",
+          "image": "/images/merch/white-logo-shirt/heather-clay.webp",
+          "bg": "#cca49b",
+          "bg2": "#d5b4ad",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Mustard",
+          "hex": "#eda027",
+          "image": "/images/merch/white-logo-shirt/mustard.webp",
+          "bg": "#f3be6c",
+          "bg2": "#f5ca87",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Midnight Navy",
+          "hex": "#302d4b",
+          "image": "/images/merch/white-logo-shirt/heather-midnight-navy.webp",
+          "bg": "#9896a5",
+          "bg2": "#aaa9b5",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Dark Grey Heather",
+          "hex": "#3E3C3D",
+          "image": "/images/merch/white-logo-shirt/dark-grey-heather.webp",
+          "bg": "#9f9e9e",
+          "bg2": "#b0afaf",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Sage",
+          "hex": "#9eab96",
+          "image": "/images/merch/white-logo-shirt/sage.webp",
+          "bg": "#bdc6b8",
+          "bg2": "#c9d0c4",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Gold",
+          "hex": "#ff9e00",
+          "image": "/images/merch/white-logo-shirt/gold.webp",
+          "bg": "#6d4b0e",
+          "bg2": "#5a3d0b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Kelly",
+          "hex": "#00a263",
+          "image": "/images/merch/white-logo-shirt/heather-kelly.webp",
+          "bg": "#52c095",
+          "bg2": "#71cba8",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Aqua",
+          "hex": "#27a8c8",
+          "image": "/images/merch/white-logo-shirt/heather-aqua.webp",
+          "bg": "#6cc4da",
+          "bg2": "#87cee0",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Vintage Black",
+          "hex": "#151515",
+          "image": "/images/merch/white-logo-shirt/vintage-black.webp",
+          "bg": "#8a8a8a",
+          "bg2": "#9f9f9f",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Brown",
+          "hex": "#322622",
+          "image": "/images/merch/white-logo-shirt/brown.webp",
+          "bg": "#999391",
+          "bg2": "#aba6a4",
+          "fg": "#0b0b0b"
+        }
+      ]
+    },
+    {
+      "id": "black-logo-t-shirt",
+      "name": "Black Logo T-Shirt",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/pw-black-logo-t-shirt",
+      "colors": [
+        {
+          "name": "Mauve",
+          "hex": "#bf6e6e",
+          "image": "/images/merch/black-logo-t-shirt/mauve.webp",
+          "bg": "#d39c9c",
+          "bg2": "#dbaeae",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Athletic Heather",
+          "hex": "#cececc",
+          "image": "/images/merch/black-logo-t-shirt/athletic-heather.webp",
+          "bg": "#5b5d5b",
+          "bg2": "#4a4c4b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Steel Blue",
+          "hex": "#668ea7",
+          "image": "/images/merch/black-logo-t-shirt/steel-blue.webp",
+          "bg": "#97b2c3",
+          "bg2": "#aac0ce",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Prism Mint",
+          "hex": "#aad5b9",
+          "image": "/images/merch/black-logo-t-shirt/heather-prism-mint.webp",
+          "bg": "#4d6054",
+          "bg2": "#3f4f45",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "White",
+          "hex": "#ffffff",
+          "image": "/images/merch/black-logo-t-shirt/white.webp",
+          "bg": "#6d706f",
+          "bg2": "#5a5c5b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Autumn",
+          "hex": "#D5743F",
+          "image": "/images/merch/black-logo-t-shirt/heather-autumn.webp",
+          "bg": "#e2a07c",
+          "bg2": "#e8b194",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Team Purple",
+          "hex": "#B680C1",
+          "image": "/images/merch/black-logo-t-shirt/heather-team-purple.webp",
+          "bg": "#cda9d5",
+          "bg2": "#d6b8dc",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Ice Blue",
+          "hex": "#e8fdff",
+          "image": "/images/merch/black-logo-t-shirt/heather-ice-blue.webp",
+          "bg": "#656f6f",
+          "bg2": "#525b5b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Mint",
+          "hex": "#a5f4bd",
+          "image": "/images/merch/black-logo-t-shirt/mint.webp",
+          "bg": "#4b6c55",
+          "bg2": "#3e5846",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Pink",
+          "hex": "#fdbfc7",
+          "image": "/images/merch/black-logo-t-shirt/pink.webp",
+          "bg": "#6d5759",
+          "bg2": "#594849",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Kelly",
+          "hex": "#1a9462",
+          "image": "/images/merch/black-logo-t-shirt/kelly.webp",
+          "bg": "#63b694",
+          "bg2": "#7fc3a7",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Columbia Blue",
+          "hex": "#7D95E8",
+          "image": "/images/merch/black-logo-t-shirt/heather-columbia-blue.webp",
+          "bg": "#a7b7ef",
+          "bg2": "#b7c4f2",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Carolina Blue",
+          "hex": "#ABC3EF",
+          "image": "/images/merch/black-logo-t-shirt/heather-carolina-blue.webp",
+          "bg": "#4d5968",
+          "bg2": "#3f4956",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Light Blue",
+          "hex": "#cfd5e1",
+          "image": "/images/merch/black-logo-t-shirt/light-blue.webp",
+          "bg": "#5b6063",
+          "bg2": "#4b4f51",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Baby Blue",
+          "hex": "#c7d7ef",
+          "image": "/images/merch/black-logo-t-shirt/baby-blue.webp",
+          "bg": "#586168",
+          "bg2": "#484f56",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Yellow",
+          "hex": "#ffd667",
+          "image": "/images/merch/black-logo-t-shirt/yellow.webp",
+          "bg": "#6d6035",
+          "bg2": "#5a4f2b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Vintage White",
+          "hex": "#fcf4e8",
+          "image": "/images/merch/black-logo-t-shirt/vintage-white.webp",
+          "bg": "#6c6c66",
+          "bg2": "#595853",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Red",
+          "hex": "#d0071e",
+          "image": "/images/merch/black-logo-t-shirt/red.webp",
+          "bg": "#df5666",
+          "bg2": "#e57582",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Prism Ice Blue",
+          "hex": "#c3e2e3",
+          "image": "/images/merch/black-logo-t-shirt/heather-prism-ice-blue.webp",
+          "bg": "#576564",
+          "bg2": "#475352",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Ash",
+          "hex": "#f0f1ea",
+          "image": "/images/merch/black-logo-t-shirt/ash.webp",
+          "bg": "#686a67",
+          "bg2": "#555754",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Turquoise",
+          "hex": "#54d9eb",
+          "image": "/images/merch/black-logo-t-shirt/turquoise.webp",
+          "bg": "#2c6167",
+          "bg2": "#245054",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Orange",
+          "hex": "#ff6f32",
+          "image": "/images/merch/black-logo-t-shirt/orange.webp",
+          "bg": "#ff9d74",
+          "bg2": "#ffaf8d",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Prism Dusty Blue",
+          "hex": "#a5c8bc",
+          "image": "/images/merch/black-logo-t-shirt/heather-prism-dusty-blue.webp",
+          "bg": "#4b5b55",
+          "bg2": "#3e4b46",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Burnt Orange",
+          "hex": "#ed8043",
+          "image": "/images/merch/black-logo-t-shirt/burnt-orange.webp",
+          "bg": "#f3a97f",
+          "bg2": "#f5b896",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Orchid",
+          "hex": "#c2878e",
+          "image": "/images/merch/black-logo-t-shirt/heather-orchid.webp",
+          "bg": "#d6adb2",
+          "bg2": "#ddbcc0",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Solid White Blend",
+          "hex": "#FCFCFC",
+          "image": "/images/merch/black-logo-t-shirt/solid-white-blend.webp",
+          "bg": "#6c6f6d",
+          "bg2": "#595b5a",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Silver",
+          "hex": "#e3e3dd",
+          "image": "/images/merch/black-logo-t-shirt/silver.webp",
+          "bg": "#636562",
+          "bg2": "#515350",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Toast",
+          "hex": "#cf8d4c",
+          "image": "/images/merch/black-logo-t-shirt/toast.webp",
+          "bg": "#deb185",
+          "bg2": "#e4bf9b",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Leaf",
+          "hex": "#5c9346",
+          "image": "/images/merch/black-logo-t-shirt/leaf.webp",
+          "bg": "#90b681",
+          "bg2": "#a4c398",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Yellow Gold",
+          "hex": "#FFB834",
+          "image": "/images/merch/black-logo-t-shirt/heather-yellow-gold.webp",
+          "bg": "#6d5521",
+          "bg2": "#5a461b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Tan",
+          "hex": "#ddb792",
+          "image": "/images/merch/black-logo-t-shirt/tan.webp",
+          "bg": "#605445",
+          "bg2": "#4f4539",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Mauve",
+          "hex": "#B2736F",
+          "image": "/images/merch/black-logo-t-shirt/heather-mauve.webp",
+          "bg": "#cba09d",
+          "bg2": "#d4b1af",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Ocean Blue",
+          "hex": "#a9dff6",
+          "image": "/images/merch/black-logo-t-shirt/ocean-blue.webp",
+          "bg": "#4d646b",
+          "bg2": "#3f5258",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Natural",
+          "hex": "#fef1d1",
+          "image": "/images/merch/black-logo-t-shirt/natural.webp",
+          "bg": "#6d6a5d",
+          "bg2": "#59574c",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Soft Cream",
+          "hex": "#e7d4c0",
+          "image": "/images/merch/black-logo-t-shirt/soft-cream.webp",
+          "bg": "#645f57",
+          "bg2": "#524e47",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Charity Pink",
+          "hex": "#FF6284",
+          "image": "/images/merch/black-logo-t-shirt/charity-pink.webp",
+          "bg": "#ff94ab",
+          "bg2": "#ffa7ba",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Mint",
+          "hex": "#b2ebcf",
+          "image": "/images/merch/black-logo-t-shirt/heather-mint.webp",
+          "bg": "#50685c",
+          "bg2": "#42554c",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Pebble",
+          "hex": "#9a8479",
+          "image": "/images/merch/black-logo-t-shirt/pebble.webp",
+          "bg": "#baaba4",
+          "bg2": "#c7bab4",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Soft Pink",
+          "hex": "#ffd8e1",
+          "image": "/images/merch/black-logo-t-shirt/soft-pink.webp",
+          "bg": "#6d6163",
+          "bg2": "#5a5051",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Natural",
+          "hex": "#F9E9CF",
+          "image": "/images/merch/black-logo-t-shirt/heather-natural.webp",
+          "bg": "#6b675c",
+          "bg2": "#58554c",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Orange",
+          "hex": "#ff6f4e",
+          "image": "/images/merch/black-logo-t-shirt/heather-orange.webp",
+          "bg": "#ff9d87",
+          "bg2": "#ffaf9c",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Lilac",
+          "hex": "#efbbe3",
+          "image": "/images/merch/black-logo-t-shirt/lilac.webp",
+          "bg": "#675664",
+          "bg2": "#554652",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Teal",
+          "hex": "#00e3cf",
+          "image": "/images/merch/black-logo-t-shirt/teal.webp",
+          "bg": "#0c655c",
+          "bg2": "#0a534c",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Dust",
+          "hex": "#e5d9c9",
+          "image": "/images/merch/black-logo-t-shirt/heather-dust.webp",
+          "bg": "#63615a",
+          "bg2": "#52504a",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Mustard",
+          "hex": "#eda027",
+          "image": "/images/merch/black-logo-t-shirt/mustard.webp",
+          "bg": "#f3be6c",
+          "bg2": "#f5ca87",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Sage",
+          "hex": "#9eab96",
+          "image": "/images/merch/black-logo-t-shirt/sage.webp",
+          "bg": "#bdc6b8",
+          "bg2": "#c9d0c4",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Gold",
+          "hex": "#ff9e00",
+          "image": "/images/merch/black-logo-t-shirt/gold.webp",
+          "bg": "#6d4b0e",
+          "bg2": "#5a3d0b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Kelly",
+          "hex": "#00a263",
+          "image": "/images/merch/black-logo-t-shirt/heather-kelly.webp",
+          "bg": "#52c095",
+          "bg2": "#71cba8",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Aqua",
+          "hex": "#27a8c8",
+          "image": "/images/merch/black-logo-t-shirt/heather-aqua.webp",
+          "bg": "#6cc4da",
+          "bg2": "#87cee0",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Heather Prism Peach",
+          "hex": "#f3c2b2",
+          "image": "/images/merch/black-logo-t-shirt/heather-prism-peach.webp",
+          "bg": "#695951",
+          "bg2": "#564943",
+          "fg": "#ffffff"
+        }
+      ]
+    },
+    {
+      "id": "ball-cap",
+      "name": "Ball Cap",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-watch-ball-cap",
+      "colors": [
+        {
+          "name": "White",
+          "hex": "#FFFFFF",
+          "image": "/images/merch/ball-cap/white.webp",
+          "bg": "#6d706f",
+          "bg2": "#5a5c5b",
+          "fg": "#ffffff"
+        },
+        {
+          "name": "Heather Grey/White",
+          "hex": "#a4a3a3",
+          "image": "/images/merch/ball-cap/heather-grey-white.webp",
+          "bg": "#c1c0c0",
+          "bg2": "#cccccc",
+          "fg": "#0b0b0b"
+        },
+        {
+          "name": "Evergreen",
+          "hex": "#385e3d",
+          "image": "/images/merch/ball-cap/evergreen.webp",
+          "bg": "#9caf9e",
+          "bg2": "#adbdaf",
+          "fg": "#0b0b0b"
+        }
+      ]
+    },
+    {
+      "id": "white-mug",
+      "name": "White Mug",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/untitled-product",
+      "colors": [
+        {
+          "name": "White",
+          "hex": "#cccccc",
+          "image": "/images/merch/white-mug/white.webp",
+          "bg": "#aeaeae",
+          "bg2": "#bdbdbd",
+          "fg": "#0b0b0b"
+        }
+      ]
+    }
+  ]
+}
