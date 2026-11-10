@@ -14,7 +14,8 @@ import {
   removeFinalist,
   unpublishResults,
   updateFinalist,
-  voidVotes
+  voidVotes,
+  voteActivity
 } from "../../lib/yearly_awards_2026_service.mjs";
 
 // Admin only: 2026 Athlete, Team and Coach of the Year. POST actions:
@@ -72,7 +73,8 @@ export default async function handler(request, response) {
       void_votes: () => voidVotes({ slug, tokenPrefix: body.token_prefix, ipPrefix: body.ip_prefix, reason: body.reason }),
       publish: () => publishResults({ slug, winnerKey: body.winner_key || null }),
       publish_all: () => publishAll(),
-      unpublish: () => unpublishResults({ slug })
+      unpublish: () => unpublishResults({ slug }),
+      vote_activity: async () => ({ categories: await voteActivity() })
     };
     if (!actions[action]) return response.status(400).json({ error: "Unsupported action." });
     return response.status(200).json(await actions[action]());

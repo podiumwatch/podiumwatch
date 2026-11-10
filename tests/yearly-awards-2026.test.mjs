@@ -141,7 +141,9 @@ function fakeRedis() {
     async hgetall(key) { return Object.fromEntries(hash(key)); },
     async hlen(key) { return hash(key).size; },
     async expire() { return 1; },
-    pipeline() { const queue = []; const p = new Proxy({}, { get: (_, name) => (name === "exec" ? async () => { for (const [cmd, args] of queue) await client[cmd](...args); } : (...args) => { queue.push([name, args]); return p; }) }); return p; }
+    async incr(key) { const next = Number(store.get(key) || 0) + 1; store.set(key, next); return next; },
+    // Like Upstash: exec() resolves to each command's result, in order.
+    pipeline() { const queue = []; const p = new Proxy({}, { get: (_, name) => (name === "exec" ? async () => { const out = []; for (const [cmd, args] of queue) out.push(await client[cmd](...args)); return out; } : (...args) => { queue.push([name, args]); return p; }) }); return p; }
   };
   return client;
 }
@@ -169,4 +171,21 @@ test("Redis votes: one per browser, voiding removes it and blocks a re-vote", as
   assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "t1" + "0".repeat(14), ipHash: school })).accepted, false);
   assert.equal((await yearlyVoteTally("team-boys-d1")).total, 0);
   useRedisClientForTests(null);
+});
+
+test("votes are rate limited per network and logged per hour for the admin", async () => {
+  const { castYearlyVote, useRedisClientForTests, yearlyVoteActivity, RATE_LIMIT_PER_CATEGORY_PER_MINUTE } = await import("../lib/yearly_awards_2026_votes.mjs");
+  useRedisClientForTests(fakeRedis());
+  const slug = "athlete-girls-d3";
+  const now = new Date("2026-11-11T15:20:00Z");
+  const results = [];
+  for (let i = 0; i < RATE_LIMIT_PER_CATEGORY_PER_MINUTE + 3; i += 1) results.push(await castYearlyVote({ slug, finalistKey: "a", tokenHash: `tok${String(i).padStart(13, "0")}`, ipHash: "bot0000000000000", now }));
+  assert.equal(results.filter((r) => r.accepted).length, RATE_LIMIT_PER_CATEGORY_PER_MINUTE);
+  assert.equal(results.filter((r) => r.rateLimited).length, 3);
+  // A minute later the same network can vote again.
+  assert.equal((await castYearlyVote({ slug, finalistKey: "b", tokenHash: "later00000000000", ipHash: "bot0000000000000", now: new Date("2026-11-11T15:21:05Z") })).accepted, true);
+  const activity = await yearlyVoteActivity(slug);
+  assert.deepEqual(activity.hours.map((h) => [h.hour, h.total, h.by_finalist]), [["2026-11-11T15", RATE_LIMIT_PER_CATEGORY_PER_MINUTE + 1, { a: RATE_LIMIT_PER_CATEGORY_PER_MINUTE, b: 1 }]]);
+  assert.equal(activity.bursts.length, 1);
+  assert.equal(activity.bursts[0].share, 100);
 });

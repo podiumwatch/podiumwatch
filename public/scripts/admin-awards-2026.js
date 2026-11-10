@@ -285,4 +285,29 @@
       loading.innerHTML = `<h2>Admin access required</h2><p>${escapeHtml(error.message)}</p><a class="button button-primary" href="/admin/">Open admin sign in</a>`;
     }
   })();
+
+  // Vote activity: votes per hour per finalist and network bursts.
+  const activityButton = root.querySelector("[data-yoya-activity]");
+  const activityOut = root.querySelector("[data-yoya-activity-out]");
+  const hourEt = (hour) => new Date(`${hour}:00:00Z`).toLocaleString("en-US", { timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric", hour: "numeric" });
+  if (activityButton && activityOut) activityButton.addEventListener("click", async () => {
+    activityButton.disabled = true;
+    activityOut.textContent = "Loading...";
+    try {
+      const data = await api({ action: "vote_activity" });
+      const list = data.categories || [];
+      activityOut.innerHTML = list.length ? list.map((category) => {
+        const header = category.finalists.map((f) => `<th>${escapeHtml(f.name)}</th>`).join("");
+        const rows = category.hours.map((h) => `<tr><td>${escapeHtml(hourEt(h.hour))}</td>${category.finalists.map((f) => `<td>${h.by_finalist[f.key] || 0}</td>`).join("")}<td><b>${h.total}</b></td></tr>`).join("");
+        const bursts = category.bursts.length
+          ? `<p style="color:#b42318;font-weight:800">Bursts: ${category.bursts.map((b) => `${escapeHtml(hourEt(b.hour))}: network ${escapeHtml(b.ip)} cast ${b.count} (${b.share}% of that hour)`).join("; ")}</p>`
+          : "<p>No bursts.</p>";
+        return `<div><h3 style="margin:0 0 6px">${escapeHtml(category.label)}</h3>${bursts}${rows ? `<div style="overflow-x:auto"><table class="yoya-table" style="border-collapse:collapse;font-size:.85rem"><thead><tr><th>Hour (ET)</th>${header}<th>Total</th></tr></thead><tbody>${rows}</tbody></table></div>` : "<p>No votes yet.</p>"}</div>`;
+      }).join("") : "<p>No category has finalists yet.</p>";
+    } catch (error) {
+      activityOut.textContent = error.message;
+    } finally {
+      activityButton.disabled = false;
+    }
+  });
 })();
