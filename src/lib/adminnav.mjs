@@ -45,7 +45,7 @@ export const ADMIN_NAV_GROUPS = [
       { id: "team-rosters", label: "Team Rosters", href: "/admin/team-rosters/", mark: "TR", description: "Season archives, athlete links, roster imports.", keywords: "roster season archive import athlete link" },
       { id: "team-schedules", label: "Team Schedules", href: "/admin/team-schedules/", mark: "TS", description: "Meet-to-team schedule connections and requests.", keywords: "schedule connect meet request" },
       { id: "team-content", label: "Team Content", href: "/admin/team-content/", mark: "TC", description: "Team page draft content review.", keywords: "content draft review publish team page" },
-      { id: "team-instagram", label: "Team Instagram Changes", href: "/admin/team-instagram/", mark: "IG", description: "Submitted Instagram handle changes.", keywords: "instagram handle social submission" },
+      { id: "team-instagram", label: "Instagram Directory", href: "/admin/team-instagram/", mark: "IG", description: "Team Instagram accounts: review queue, directory, coverage, bulk add, export.", keywords: "instagram handle social submission directory coverage export" },
       { id: "teams-import", label: "Bulk Team Import", href: "/admin/teams/", mark: "BI", description: "Bulk-create or update team pages.", keywords: "bulk import teams csv create" }
     ]
   },

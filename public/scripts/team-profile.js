@@ -738,17 +738,30 @@
     return match ? match[1] : "";
   }
 
+  // WO-44: every approved Instagram account, each with its label (Boys XC,
+  // Girls XC, XC & Track, Boys Track, Girls Track, Athletics), plus the
+  // "Add your team's Instagram" button with this school filled in.
+  const INSTAGRAM_LABEL_ORDER = ["Boys XC", "Girls XC", "XC & Track", "Boys Track", "Girls Track", "Athletics"];
   function renderInstagram(team, socialLinks = []) {
-    const handle = String(team.instagram_handle || "").trim() || instagramFromSocialLinks(socialLinks);
-    if (instagramForm) instagramForm.dataset.teamId = team.id || "";
+    const addLink = document.querySelector("[data-team-instagram-add]");
+    if (addLink && team.slug) addLink.href = "/teams/instagram/?team=" + encodeURIComponent(team.slug);
+    const accounts = [];
+    for (const link of Array.isArray(socialLinks) ? socialLinks : []) {
+      if (!(/instagram/i.test(String(link?.platform || "")) || /instagram\.com\//i.test(String(link?.url || "")))) continue;
+      const match = String(link.url || "").match(/instagram\.com\/([A-Za-z0-9._]{1,30})/i);
+      if (!match || accounts.some((item) => item.handle.toLowerCase() === match[1].toLowerCase())) continue;
+      accounts.push({ handle: match[1], label: INSTAGRAM_LABEL_ORDER.includes(link.label) ? link.label : "" });
+    }
+    // An older approved handle that isn't a social link yet still shows.
+    const primary = String(team.instagram_handle || "").trim();
+    if (primary && !accounts.some((item) => item.handle.toLowerCase() === primary.toLowerCase())) accounts.unshift({ handle: primary, label: "" });
+    accounts.sort((a, b) => (INSTAGRAM_LABEL_ORDER.indexOf(a.label) + 100) % 100 - (INSTAGRAM_LABEL_ORDER.indexOf(b.label) + 100) % 100);
 
-    if (handle) {
-      instagramCurrent.innerHTML =
-        "Instagram: <a href=\"https://www.instagram.com/" +
-        encodeURIComponent(handle) +
-        "/\" target=\"_blank\" rel=\"noopener noreferrer\">@" +
-        escapeHtml(handle) +
-        "</a>";
+    if (accounts.length) {
+      instagramCurrent.innerHTML = accounts.map((item) =>
+        "<li><a href=\"https://www.instagram.com/" + encodeURIComponent(item.handle) + "/\" target=\"_blank\" rel=\"noopener noreferrer\">@" + escapeHtml(item.handle) + "</a>" +
+        (item.label ? "<small>" + escapeHtml(item.label) + "</small>" : "") + "</li>"
+      ).join("");
       instagramCurrent.hidden = false;
       instagramEmpty.hidden = true;
     } else {

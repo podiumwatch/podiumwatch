@@ -142,7 +142,7 @@ includesAll(
   [
     "isValidHandleFormat(handle)",
     "isBlockedHandle(handle)",
-    "countRecentRequests(teamId, actorIdHash)",
+    "countRecentRequests(teamId, actorIdHash, label)",
     ".from(\"team_instagram_requests\")",
     "writeTeamChange({"
   ],
@@ -155,7 +155,7 @@ includesAll(
 const submitBody = serviceSource.slice(serviceSource.indexOf("export async function submitTeamInstagramHandle"), serviceSource.indexOf("async function countRecentRequests"));
 assert.ok(!submitBody.includes("checkInstagramAccountExists("), "The public submission path must not call the Instagram existence check.");
 assert.ok(!submitBody.includes(".from(\"team_pages\")"), "The public submission path must never update team_pages directly; only admin approval does.");
-assert.ok(submitBody.indexOf("isValidHandleFormat(handle)") < submitBody.indexOf("countRecentRequests(teamId, actorIdHash)"), "Format is checked before the rate-limit query.");
+assert.ok(submitBody.indexOf("isValidHandleFormat(handle)") < submitBody.indexOf("countRecentRequests(teamId, actorIdHash, label)"), "Format is checked before the rate-limit query.");
 
 includesAll(
   publicApiSource,

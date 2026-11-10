@@ -76,6 +76,16 @@
       ],
       "destination": "/athletes/:slug/",
       "permanent": true
+    },
+    {
+      "source": "/ig",
+      "destination": "/teams/instagram/",
+      "permanent": false
+    },
+    {
+      "source": "/ig/",
+      "destination": "/teams/instagram/",
+      "permanent": false
     }
   ],
   "rewrites": [

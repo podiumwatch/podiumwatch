@@ -249,6 +249,10 @@ export function teamProfilePage(site) {
     }
 
     .team-instagram-current { font-weight: 800; font-size: 1.05rem; }
+    .team-instagram-list { display: grid; gap: 6px; margin: 0 0 6px; padding: 0; list-style: none; }
+    .team-instagram-list li { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font-weight: 800; font-size: 1.05rem; }
+    .team-instagram-list a { color: inherit; }
+    .team-instagram-list small { color: rgba(15, 23, 42, .62); font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; }
     .team-instagram-current a { color: inherit; }
     .team-instagram-help { color: rgba(15, 23, 42, .68); font-weight: 500; margin: 8px 0; }
     .team-instagram-details summary { cursor: pointer; font-weight: 800; margin-top: 10px; }
@@ -753,18 +757,10 @@ export function teamProfilePage(site) {
 
         <section class="team-profile-section team-instagram-section">
           <div><p class="eyebrow">Community submitted</p><h2>Team Instagram</h2></div>
-          <p data-team-instagram-current class="team-instagram-current" hidden></p>
-          <p data-team-instagram-empty class="team-instagram-help">No Instagram handle has been submitted for this team yet.</p>
-          <details class="team-instagram-details">
-            <summary>Submit or update this team's Instagram</summary>
-            <p class="team-instagram-help">No account needed. Podium Watch checks each submission before it shows here. One submission is accepted per team every few hours.</p>
-            <form class="team-instagram-form" data-team-instagram-form>
-              <label>Instagram handle<input type="text" name="handle" required maxlength="60" placeholder="@teamhandle"></label>
-              <label class="team-instagram-honeypot" aria-hidden="true">Leave this blank<input type="text" name="pw_hp_field" tabindex="-1" autocomplete="off"></label>
-              <p class="team-instagram-message" data-team-instagram-message role="status" hidden></p>
-              <button class="button button-dark" type="submit" data-team-instagram-button>Submit</button>
-            </form>
-          </details>
+          <ul data-team-instagram-current class="team-instagram-list" hidden></ul>
+          <p data-team-instagram-empty class="team-instagram-help">No Instagram account has been added for this team yet.</p>
+          <p class="team-instagram-help">Boys or girls cross country, track, or the whole athletic department: add each account your school runs. Podium Watch checks every one before it shows here.</p>
+          <a class="button button-dark" href="/teams/instagram/" data-team-instagram-add>Add your team's Instagram</a>
         </section>
 
         <section class="team-profile-meta">

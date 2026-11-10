@@ -64,6 +64,8 @@ export default async function handler(request, response) {
     const result = await submitTeamInstagramHandle({
       teamId,
       handleInput: body.handle,
+      label: body.label,
+      email: body.email,
       actorIdHash: addressHash(request)
     });
 

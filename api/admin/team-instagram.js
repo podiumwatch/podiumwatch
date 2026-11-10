@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
 import { listPendingInstagramRequests, listRecentInstagramChanges, reviewInstagramRequest, revertTeamInstagramChange } from "../../lib/team_instagram_service.mjs";
+import { bulkAddInstagram, businessDiscovery, instagramDirectory, instagramExportCsv, instagramExportRows } from "../../lib/instagram_directory_service.mjs";
 
 function bodyOf(request) {
   if (typeof request.body === "string") {
@@ -12,7 +13,26 @@ function bodyOf(request) {
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
   if (!isAdminRequest(request)) return response.status(401).json({ error: "Podium Watch admin sign in required." });
-  if (request.method !== "POST") { response.setHeader("Allow", "POST"); return response.status(405).json({ error: "Method not allowed." }); }
+  // Export (WO-44): GET ?format=csv|json, approved accounts only (school,
+  // label, handle). Never includes a submitter's email.
+  if (request.method === "GET" && ["csv", "json"].includes(String(request.query?.format || ""))) {
+    try {
+      const rows = await instagramExportRows();
+      const stamp = new Date().toISOString().slice(0, 10);
+      if (request.query.format === "json") {
+        response.setHeader("Content-Type", "application/json; charset=utf-8");
+        response.setHeader("Content-Disposition", `attachment; filename="podium-watch-team-instagram-${stamp}.json"`);
+        return response.status(200).send(JSON.stringify(rows, null, 2));
+      }
+      response.setHeader("Content-Type", "text/csv; charset=utf-8");
+      response.setHeader("Content-Disposition", `attachment; filename="podium-watch-team-instagram-${stamp}.csv"`);
+      return response.status(200).send(instagramExportCsv(rows));
+    } catch (error) {
+      console.error("Team Instagram export error", error);
+      return response.status(500).json({ error: "The export could not be made." });
+    }
+  }
+  if (request.method !== "POST") { response.setHeader("Allow", "GET, POST"); return response.status(405).json({ error: "Method not allowed." }); }
 
   try {
     const body = bodyOf(request);
@@ -26,7 +46,13 @@ export default async function handler(request, response) {
     } else if (action === "pending") {
       data = { requests: await listPendingInstagramRequests() };
     } else if (action === "review") {
-      data = await reviewInstagramRequest({ requestId: body.request_id, decision: body.decision, note: body.note, adminName: "Podium Watch Admin" });
+      data = await reviewInstagramRequest({ requestId: body.request_id, decision: body.decision, note: body.note, label: body.label || null, adminName: "Podium Watch Admin" });
+    } else if (action === "directory") {
+      data = await instagramDirectory();
+    } else if (action === "bulk_add") {
+      data = await bulkAddInstagram(body.text);
+    } else if (action === "discovery") {
+      data = await businessDiscovery(body.handle);
     } else if (action === "revert") {
       if (!body.change_id) { const error = new Error("Choose a change to revert."); error.status = 400; throw error; }
       data = await revertTeamInstagramChange({ changeLogId: body.change_id, adminName: "Podium Watch Admin" });

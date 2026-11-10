@@ -55,6 +55,11 @@
       : '<tr><td colspan="5">No Instagram changes in this window.</td></tr>';
   }
 
+  const LABELS = ["Boys XC", "Girls XC", "XC & Track", "Boys Track", "Girls Track", "Athletics"];
+  let graphConnected = false;
+  window.pwInstagramGraphConnected = (value) => { graphConnected = Boolean(value); };
+
+  window.pwInstagramPendingReload = () => loadPending();
   async function loadPending() {
     try {
       const data = await api({ action: "pending" });
@@ -63,7 +68,10 @@
         ? list.map((item) => {
             const team = item.team_pages || {};
             const teamLink = team.slug ? `<a href="/team/?slug=${encodeURIComponent(team.slug)}" target="_blank" rel="noopener">${escapeHtml(team.school_name || "Team")}</a>` : escapeHtml(team.school_name || "Team");
-            return `<tr><td>${teamLink}</td><td><a href="https://www.instagram.com/${encodeURIComponent(item.handle)}/" target="_blank" rel="noopener noreferrer">@${escapeHtml(item.handle)}</a></td><td>${team.instagram_handle ? "@" + escapeHtml(team.instagram_handle) : "None"}</td><td>${escapeHtml(formatDate(item.created_at))}</td><td class="team-ig-actions"><button class="button button-dark" type="button" data-review="approve" data-request="${escapeHtml(item.id)}">Approve</button><button class="button button-outline" type="button" data-review="reject" data-request="${escapeHtml(item.id)}">Reject</button></td></tr>`;
+            // Label can be corrected before approving (WO-44).
+            const labelSelect = `<select data-label-for="${escapeHtml(item.id)}">${LABELS.map((label) => `<option${label === (item.label || "XC & Track") ? " selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select>`;
+            const lookup = graphConnected ? ` <button class="button button-outline" type="button" data-lookup="${escapeHtml(item.handle)}">Look up</button><span data-lookup-out="${escapeHtml(item.handle)}"></span>` : "";
+            return `<tr><td>${teamLink}</td><td><a href="https://www.instagram.com/${encodeURIComponent(item.handle)}/" target="_blank" rel="noopener noreferrer">@${escapeHtml(item.handle)}</a>${lookup}<br><small>${escapeHtml(item.source === "bulk" ? "Bulk add" : "Public form")}</small></td><td>${labelSelect}</td><td>${escapeHtml(formatDate(item.created_at))}</td><td class="team-ig-actions"><button class="button button-dark" type="button" data-review="approve" data-request="${escapeHtml(item.id)}">Approve</button><button class="button button-outline" type="button" data-review="reject" data-request="${escapeHtml(item.id)}">Reject</button></td></tr>`;
           }).join("")
         : '<tr><td colspan="5">Nothing waiting for review.</td></tr>';
     } catch (error) {
@@ -72,6 +80,16 @@
   }
 
   pending.addEventListener("click", async (event) => {
+    const lookupButton = event.target.closest("[data-lookup]");
+    if (lookupButton) {
+      const out = pending.querySelector(`[data-lookup-out="${lookupButton.dataset.lookup}"]`);
+      out.textContent = " Looking up...";
+      try {
+        const result = await api({ action: "discovery", handle: lookupButton.dataset.lookup });
+        out.textContent = !result.connected ? " Graph API not connected." : result.found ? ` ${result.name || result.username}, ${Number(result.followers || 0).toLocaleString("en-US")} followers` : " Not found by the API (personal account or typo). Check it by eye.";
+      } catch (error) { out.textContent = ` ${error.message}`; }
+      return;
+    }
     const button = event.target.closest("[data-review]");
     if (!button || busy) return;
     if (button.dataset.armed !== "yes") {
@@ -81,8 +99,10 @@
     }
     setBusy(true);
     try {
-      const result = await api({ action: "review", request_id: button.dataset.request, decision: button.dataset.review });
-      setMessage(result.status === "approved" ? `Approved. @${result.handle} is live on the team page.` : "Rejected.");
+      const labelSelect = pending.querySelector(`[data-label-for="${button.dataset.request}"]`);
+      const result = await api({ action: "review", request_id: button.dataset.request, decision: button.dataset.review, label: labelSelect ? labelSelect.value : null });
+      setMessage(result.status === "approved" ? `Approved. @${result.handle} (${result.label}) is live on the team page.` : "Rejected.");
+      if (window.pwInstagramDirectoryReload) window.pwInstagramDirectoryReload();
     } catch (error) {
       setMessage(error.message, "error");
     } finally {

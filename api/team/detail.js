@@ -1,3 +1,4 @@
+import { INSTAGRAM_LABELS, normalizeInstagramLabel } from "../../lib/team_instagram_service.mjs";
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 import {
   requireTeamUser,
@@ -571,11 +572,22 @@ function buildSocialRecord(
     sortOrder = 0;
   }
 
+  // WO-44: Instagram accounts carry one of six labels so team pages and the
+  // directory can show which account is which.
+  let label = cleanNullableText(body.label);
+  if (platform === "Instagram") {
+    label = normalizeInstagramLabel(label);
+    if (!label) {
+      const error = new Error(`For Instagram, choose a label: ${INSTAGRAM_LABELS.join(", ")}.`);
+      error.status = 400;
+      throw error;
+    }
+  }
+
   return {
     team_id: teamId,
     platform,
-    label:
-      cleanNullableText(body.label),
+    label,
     url,
     sport_scope:
       sportScopes.has(

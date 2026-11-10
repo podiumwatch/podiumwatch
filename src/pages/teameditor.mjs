@@ -338,12 +338,15 @@ export function teamEditorPage(site) {
 
               <label>
                 <strong>Button label</strong>
+                <small>For Instagram, use one of: Boys XC, Girls XC, XC &amp; Track, Boys Track, Girls Track, Athletics.</small>
 
                 <input
                   type="text"
                   name="label"
-                  placeholder="Example: Boys Cross Country Instagram"
+                  list="team-instagram-labels"
+                  placeholder="Example: Boys XC"
                 >
+                <datalist id="team-instagram-labels"><option value="Boys XC"><option value="Girls XC"><option value="XC &amp; Track"><option value="Boys Track"><option value="Girls Track"><option value="Athletics"></datalist>
               </label>
 
               <label>
