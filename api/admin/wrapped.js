@@ -13,7 +13,7 @@ export default async function handler(request, response) {
   try {
     const body = typeof request.body === "string" ? JSON.parse(request.body || "{}") : request.body || {};
     if (body.action === "set") await setWrappedLaunch(body.launch_at || null);
-    const [launchAt, live] = await Promise.all([wrappedLaunch(), wrappedIsLive()]);
+    const launchAt = await wrappedLaunch({ fresh: true }); const live = Boolean(launchAt) && new Date(launchAt).getTime() <= Date.now();
     return response.status(200).json({ launch_at: launchAt, live });
   } catch (error) {
     const status = Number(error?.status) || 500;

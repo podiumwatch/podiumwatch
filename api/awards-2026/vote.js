@@ -1,4 +1,4 @@
-import { castVote, myVotes } from "../../lib/yearly_awards_2026_service.mjs";
+import { castVote, myVotes, VOTING_BUSY_MESSAGE } from "../../lib/yearly_awards_2026_service.mjs";
 
 // Public, no login: one vote per category per browser every hour for the 2026
 // Athlete, Team and Coach of the Year. Votes are Redis entries (see
@@ -55,9 +55,12 @@ export default async function handler(request, response) {
     return response.status(201).json({ voted: true, ...result });
   } catch (error) {
     const status = Number(error?.status) || 500;
-    if (status >= 500) console.error("Yearly awards vote error:", error);
+    if (status >= 500 && error?.code !== "VOTING_BUSY") console.error("Yearly awards vote error:", error);
+    // 503 VOTING_BUSY: Redis failed and nothing was counted (logged in
+    // castVote). Any other server error gets the same safe message.
+    if (status === 503) response.setHeader("Retry-After", "60");
     return response.status(status).json({
-      error: status < 500 ? error.message : "Your vote could not be saved right now. Please try again.",
+      error: status < 500 ? error.message : VOTING_BUSY_MESSAGE,
       ...(error?.votedFor ? { voted_for: error.votedFor } : {}),
       ...(error?.nextVoteAt ? { next_vote_at: error.nextVoteAt } : {})
     });

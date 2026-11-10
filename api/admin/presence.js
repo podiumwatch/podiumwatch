@@ -1,12 +1,9 @@
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
-import { getLivePresence } from "../../lib/engagement_service.mjs";
 
-// A dedicated, deliberately small endpoint rather than another action on
-// api/admin/engagement.js -- the Engagement Center's dashboard fires 8
-// parallel Supabase queries per load (see getDashboard() there), which is
-// fine for a page that loads once, but this one is meant to be polled
-// every few seconds while the "Live now" tab is open, so it stays a
-// single indexed query.
+// Admin "Live now" (Engagement Center). Presence is turned off
+// (2026-11-10): a heartbeat from every open tab cost Redis commands, and
+// Redis holds the award votes. Nothing is recorded any more, so this
+// answers without touching Redis and the admin tab says it is off.
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
 
@@ -21,13 +18,5 @@ export default async function handler(request, response) {
     return response.status(405).json({ error: "Method not allowed." });
   }
 
-  try {
-    const result = await getLivePresence({ windowSeconds: 150 });
-    return response.status(200).json(result);
-  } catch (error) {
-    console.error("Admin presence error:", error);
-    return response.status(500).json({
-      error: "The live activity request could not be completed."
-    });
-  }
+  return response.status(200).json({ disabled: true, generated_at: new Date().toISOString(), total_active: 0, unique_visitors: 0, pages: [] });
 }

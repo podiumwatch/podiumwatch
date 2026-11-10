@@ -256,7 +256,7 @@
         rememberVote(body.voted_for, body.next_vote_at);
       } else {
         if (window.turnstile && turnstileToken) { try { window.turnstile.reset(turnstileBox); } catch { /* ignore */ } turnstileToken = ""; }
-        throw new Error(body.error || "Your vote could not be saved right now. Please try again.");
+        throw new Error(body.error || "Voting is busy, try again in a minute.");
       }
       setVoteMessage(response.ok ? "Vote counted. Share this page so others can vote too." : body.error, !response.ok);
       // Podium Watch Store card in the confirmation (merch-card.js).

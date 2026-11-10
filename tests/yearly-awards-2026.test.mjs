@@ -147,6 +147,30 @@ function fakeRedis() {
     setClock(ms) { clock = ms; },
     async set(key, value, options = {}) { const live = plain.get(key); if (options.nx && live && live.expires > clock) return null; plain.set(key, { value, expires: options.ex ? clock + options.ex * 1000 : Infinity }); return "OK"; },
     async get(key) { const live = plain.get(key); return live && live.expires > clock ? live.value : null; },
+    async mget(...list) { return Promise.all(list.map((key) => client.get(key))); },
+    async del(key) { plain.delete(key); store.delete(key); return 1; },
+    // The vote script (VOTE_SCRIPT, Lua) mirrored step for step. The Lua
+    // itself is checked against real Redis by scripts/test-yearly-vote-script.mjs.
+    async eval(script, k, a) {
+      if (await client.hexists(k[0], a[0])) return ["voided"];
+      const value = `${a[1]}|${a[7]}|${a[2]}`;
+      if (!(await client.set(k[3], value, { nx: true, ex: Number(a[6]) }))) {
+        const current = await client.get(k[3]);
+        if (current === value) return ["ok"];
+        if (current && String(current).includes("|")) return ["cool", current, -1];
+        return ["cool", current ?? "", await client.ttl(k[3])];
+      }
+      const all = await client.incr(k[1]);
+      const cat = await client.incr(k[2]);
+      if (all > Number(a[8]) || cat > Number(a[9])) { await client.del(k[3]); return ["rate"]; }
+      await client.hset(k[4], { [a[2]]: a[1] });
+      await client.hset(k[5], { [a[2]]: a[3] });
+      await client.hincrby(k[6], a[3], 1);
+      await client.hincrby(k[8], a[5], 1);
+      await client.hincrby(k[9], a[1], 1);
+      await client.hincrby(k[7], a[4], 1);
+      return ["ok"];
+    },
     async ttl(key) { const live = plain.get(key); if (!live || live.expires <= clock) return -2; return live.expires === Infinity ? -1 : Math.ceil((live.expires - clock) / 1000); },
     // Like Upstash: exec() resolves to each command's result, in order.
     pipeline() { const queue = []; const p = new Proxy({}, { get: (_, name) => (name === "exec" ? async () => { const out = []; for (const [cmd, args] of queue) out.push(await client[cmd](...args)); return out; } : (...args) => { queue.push([name, args]); return p; }) }); return p; }
@@ -214,4 +238,53 @@ test("votes are rate limited per network and logged per hour for the admin", asy
   assert.deepEqual(activity.hours.map((h) => [h.hour, h.total, h.by_finalist]), [["2026-11-11T15", RATE_LIMIT_PER_CATEGORY_PER_MINUTE + 1, { a: RATE_LIMIT_PER_CATEGORY_PER_MINUTE, b: 1 }]]);
   assert.equal(activity.bursts.length, 1);
   assert.equal(activity.bursts[0].share, 100);
+});
+
+test("vote script: a retried request counts once; Redis failing counts nothing and says busy", async () => {
+  const votesModule = await import("../lib/yearly_awards_2026_votes.mjs");
+  const fake = fakeRedis();
+  votesModule.useRedisClientForTests(fake);
+  const slug = "coach-boys-d4";
+  const now = new Date("2026-11-11T18:00:00Z");
+  fake.setClock(now.getTime());
+  const args = { slug, finalistKey: "a", tokenHash: "retry00000000000", ipHash: "cccccccc55556666", now };
+  assert.equal((await votesModule.castYearlyVote(args)).accepted, true);
+  // Same request again (the client retrying after a lost response).
+  assert.equal((await votesModule.castYearlyVote(args)).accepted, true);
+  assert.equal((await votesModule.yearlyVoteTally(slug)).total, 1, "counted once");
+  // One MGET answers every category for the page.
+  const mine = await votesModule.existingYearlyVotes({ slugs: [slug, "coach-girls-d4"], tokenHash: "retry00000000000", now });
+  assert.deepEqual(mine, { [slug]: { votedFor: "a", nextVoteAt: "2026-11-11T19:00:00.000Z" } });
+  // A cooldown written before the change (finalist only) still works.
+  await fake.set(`yoty2026:cool:${slug}:old0000000000000`, "b", { ex: 600 });
+  assert.equal((await votesModule.existingYearlyVote({ slug, tokenHash: "old0000000000000", now })).votedFor, "b");
+  const refused = await votesModule.castYearlyVote({ ...args, tokenHash: "old0000000000000" });
+  assert.equal(refused.votedFor, "b");
+  assert.equal(refused.nextVoteAt, "2026-11-11T18:10:00.000Z");
+  // A rate-limited vote leaves no cooldown behind.
+  // Redis down: the service says busy (503) and nothing is counted.
+  votesModule.useRedisClientForTests({ ...fake, eval: async () => { throw new Error("ERR max requests limit exceeded"); } });
+  const service = await import("../lib/yearly_awards_2026_service.mjs");
+  assert.equal(service.VOTING_BUSY_MESSAGE, "Voting is busy, try again in a minute.");
+  await assert.rejects(() => votesModule.castYearlyVote({ ...args, tokenHash: "down000000000000" }), /limit exceeded/);
+  votesModule.useRedisClientForTests(fake);
+  assert.equal((await votesModule.yearlyVoteTally(slug)).total, 1);
+  votesModule.useRedisClientForTests(null);
+});
+
+test("public counts: one shared snapshot instead of a read per category", async () => {
+  const votesModule = await import("../lib/yearly_awards_2026_votes.mjs");
+  const fake = fakeRedis();
+  votesModule.useRedisClientForTests(fake);
+  await fake.hincrby("yoty2026:count:team-boys-d1", "x", 3);
+  const first = await votesModule.publicVoteCountsMany(["team-boys-d1", "team-girls-d1"], { now: 1000 });
+  assert.deepEqual(first["team-boys-d1"], { counts: { x: 3 }, total: 3 });
+  await fake.hincrby("yoty2026:count:team-boys-d1", "x", 1);
+  let reads = 0;
+  const hgetall = fake.hgetall;
+  fake.hgetall = async (...a) => { reads += 1; return hgetall(...a); };
+  assert.equal((await votesModule.publicVoteCountsMany(["team-boys-d1"], { now: 20_000 }))["team-boys-d1"].total, 3, "shared snapshot, no re-read");
+  assert.equal(reads, 0);
+  assert.equal((await votesModule.publicVoteCountsMany(["team-boys-d1"], { now: 40_000 }))["team-boys-d1"].total, 4, "refreshed after 30 seconds");
+  votesModule.useRedisClientForTests(null);
 });

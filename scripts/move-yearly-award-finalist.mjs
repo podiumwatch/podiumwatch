@@ -53,7 +53,7 @@ let cursor = "0";
 do {
   const [next, found] = await redis.scan(cursor, { match: `yoty2026:cool:${fromSlug}:*`, count: 500 });
   cursor = String(next);
-  for (const key of found) if (String(await redis.get(key)) === nomineeKey) cool.push(key);
+  for (const key of found) if (String(await redis.get(key)).split("|")[0] === nomineeKey) cool.push(key); // "<finalist>|<end>|<ballot>" since 2026-11-10
 } while (cursor !== "0");
 
 console.log(`${finalist ? `Finalist: ${finalist.display_name} (${finalist.school})` : "No finalist row"} | ${from.label} -> ${to.label}`);

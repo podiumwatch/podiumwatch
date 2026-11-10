@@ -13,7 +13,7 @@ export default async function handler(request, response) {
   try {
     const body = typeof request.body === "string" ? JSON.parse(request.body || "{}") : request.body || {};
     if (body.action === "set") return response.status(200).json(await setMerchEnabled(Boolean(body.enabled)));
-    return response.status(200).json(await merchStatus());
+    return response.status(200).json(await merchStatus({ fresh: true }));
   } catch (error) {
     console.error("Merch admin error:", error);
     return response.status(500).json({ error: "The store card setting could not be changed." });

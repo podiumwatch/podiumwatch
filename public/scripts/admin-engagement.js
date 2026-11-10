@@ -305,6 +305,15 @@
       const response = await fetch("/api/admin/presence", { headers: { Accept: "application/json" } });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Live activity could not be loaded.");
+      if (data.disabled) {
+        // Turned off 2026-11-10 to save Redis commands for the votes.
+        stopLivePolling();
+        liveActive.textContent = "Off";
+        liveVisitors.textContent = "Off";
+        livePages.innerHTML = "<p>Live now is turned off. It sent a Redis command from every open tab each minute, and Redis holds the award votes. Page views on the other tabs still count.</p>";
+        liveUpdated.textContent = "Turned off";
+        return;
+      }
 
       liveActive.textContent = data.total_active || 0;
       liveVisitors.textContent = data.unique_visitors || 0;
