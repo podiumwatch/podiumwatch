@@ -1,7 +1,7 @@
 // One-off generator for the 2026 Athlete/Team/Coach of the Year nominee pool
 // (public/data/yearly-awards-2026-pool.json). Not part of the build.
 //
-//   node scripts/build-yearly-awards-2026-pool.mjs <ohio-schools.json>
+//   node --env-file=.env.local scripts/build-yearly-awards-2026-pool.mjs <ohio-schools.json>
 //
 // <ohio-schools.json> is a saved response from /api/ohio-schools/?limit=600
 // (read-only), used to match each state-qualifying team to its ohio_schools
@@ -17,6 +17,7 @@
 // "<official name> (<city>)".
 import fs from "node:fs";
 import path from "node:path";
+import { loadSeasonDivisions } from "../lib/season_divisions.mjs";
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
 const schoolsFile = process.argv[2];
@@ -146,12 +147,15 @@ for (const [key, race] of Object.entries(field.stateResults)) {
 }
 
 // Coach of the Year: open to every Ohio school, not just state teams.
-// Schools are filed by their ohio_schools division, which is the boys
-// cross country division. A girls program whose 2026 state meet division
-// is known (a matched state team above) is filed in that division instead.
-// Zachary chose this split (2026-11-08); the coach's name is typed by the
-// nominator, since Podium Watch doesn't have every coach.
+// Each program (boys and girls separately) is filed in the division that
+// team actually ran in 2026: its district, regional or state race
+// (lib/season_divisions.mjs). Last year's division only when the team has
+// no 2026 postseason result; the school's listed division last of all.
+// Zachary's rule (2026-11-10), after Dublin Scioto girls (Division I in
+// 2026) had been filed by the boys division. The coach's name is typed by
+// the nominator, since Podium Watch doesn't have every coach.
 const coaches = {};
+const seasonDivisions = await loadSeasonDivisions(2026);
 const girlsStateDivision = new Map();
 for (const [slug, list] of Object.entries(teams)) {
   if (!slug.startsWith("team-girls-")) continue;
@@ -167,9 +171,13 @@ for (const gender of ["boys", "girls"]) {
   }
 }
 for (const school of schools) {
-  const boysDivision = romanDivision(school.division);
+  const listed = romanDivision(school.division);
+  const boysRan = seasonDivisions.get(school.id, "boys");
+  const girlsRan = seasonDivisions.get(school.id, "girls");
+  const boysDivision = boysRan?.division || listed;
   if (!boysDivision) { flags.notes.push(`No division for ${school.school_name} (${school.city}); left out of Coach of the Year`); continue; }
-  const girlsDivision = girlsStateDivision.get(school.id) || boysDivision;
+  const girlsDivision = girlsStateDivision.get(school.id) || girlsRan?.division || boysDivision;
+  for (const [side, ran] of [["boys", boysRan], ["girls", girlsRan]]) if (ran && ran.basis !== "2026") flags.notes.push(`${side} coach: ${school.school_name} (${school.city}) has no 2026 postseason result; filed by ${ran.basis === "last_year" ? "last year's" : "its listed"} division`);
   const entry = { id: school.id, schoolId: school.id, name: nameCounts.get(norm(school.school_name)) > 1 ? `${school.school_name} (${school.city})` : school.school_name, city: school.city || null };
   coaches[`coach-boys-d${boysDivision}`].push(entry);
   coaches[`coach-girls-d${girlsDivision}`].push(entry);
