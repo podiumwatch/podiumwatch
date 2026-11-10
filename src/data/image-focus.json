@@ -1,0 +1,247 @@
+{
+  "note": "Written by scripts/image-focus.mjs: automatic crop points (sharp attention) for story photos in a 16:9 frame. A story's own featuredImagePosition wins.",
+  "images": {
+    "/images/stories/top_returning_sophomores.png": {
+      "hash": "65483f92281cb2e7",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/top_returning_juniors.png": {
+      "hash": "380bef0206b18083",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/top_returning_seniors.png": {
+      "hash": "c1d92d024061e3d4",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/8_things_coach_wants_you_to_know.png": {
+      "hash": "b6c1bd7185c924e5",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/ohsaa_public_private_state_champions.png": {
+      "hash": "164fbc96780e160d",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/ohio_xc_top24_mock_meets.jpg": {
+      "hash": "a8cdd9639dd56f53",
+      "width": 1290,
+      "height": 921,
+      "position": "50% 0%"
+    },
+    "/images/stories/header-1-collision-course.png": {
+      "hash": "e4da96cd5609820b",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/header-2-division-ii.png": {
+      "hash": "53a4b0e9124fb785",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/header-3-division-iii.png": {
+      "hash": "8fa5e9f73ac0137f",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/header-4-division-iv.png": {
+      "hash": "c247bc189b35f8d8",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
+    },
+    "/images/stories/header-pre-regional-poll-no1-teams.png": {
+      "hash": "902bfcdd69c470ae",
+      "width": 1920,
+      "height": 1080,
+      "position": "50% 50%"
+    },
+    "/images/stories/state-breakdown-2026/b-d2b-westgeauga-3798-nordonia-3689.jpg": {
+      "hash": "2e720136fb91cbee",
+      "width": 1600,
+      "height": 1066,
+      "position": "50% 0%"
+    },
+    "/images/stories/quintin-parrish-2026/01-lead-state-race-wide.jpg": {
+      "hash": "da30fde6699b5439",
+      "width": 1080,
+      "height": 608,
+      "position": "50% 50%"
+    },
+    "/images/stories/ohio-boys-xc-stars-by-grade-and-division.jpg": {
+      "hash": "59d321a704871803",
+      "width": 1179,
+      "height": 786,
+      "position": "50% 70%"
+    },
+    "/images/stories/state-breakdown-2026/b-d1b-mentor-3071.jpg": {
+      "hash": "fc3c304d56ffb4fb",
+      "width": 1280,
+      "height": 1600
+    },
+    "/images/stories/state-breakdown-2026/t-d3b-versailles-1048.jpg": {
+      "hash": "c06a09f7d5a0efb6",
+      "width": 1065,
+      "height": 1600
+    },
+    "/images/stories/state-breakdown-2026/t-d4b-ansonia-1250.jpg": {
+      "hash": "4853648c907bbe65",
+      "width": 1065,
+      "height": 1600
+    },
+    "/images/stories/division-i-state-recap-2026/01-springboro-trophy.jpg": {
+      "hash": "6217fdf349287eb3",
+      "width": 1600,
+      "height": 1226
+    },
+    "/images/stories/division-ii-state-recap-2026/01-girls-lead-pack.jpg": {
+      "hash": "6d54333ca8ca5303",
+      "width": 1600,
+      "height": 1448
+    },
+    "/images/stories/division-iii-state-recap-2026/01-huddle-gold.jpg": {
+      "hash": "04a5bf5bbd33d422",
+      "width": 1280,
+      "height": 1600
+    },
+    "/images/stories/division-iv-state-recap-2026/01-lehman-finish.jpg": {
+      "hash": "556cbfa683a9c5a9",
+      "width": 1600,
+      "height": 1280
+    },
+    "/images/stories/ohio-girls-xc-stars-by-grade-and-division.jpg": {
+      "hash": "049b8465bc4d795d",
+      "width": 1333,
+      "height": 2000
+    }
+  },
+  "final": {
+    "/images/stories/top_returning_sophomores.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/top_returning_juniors.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/top_returning_seniors.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/8_things_coach_wants_you_to_know.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/ohsaa_public_private_state_champions.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/ohio_xc_top24_mock_meets.jpg": {
+      "position": "50% 0%",
+      "width": 1290,
+      "height": 921
+    },
+    "/images/stories/header-1-collision-course.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/header-2-division-ii.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/header-3-division-iii.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/header-4-division-iv.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
+    },
+    "/images/stories/header-pre-regional-poll-no1-teams.png": {
+      "position": "50% 50%",
+      "width": 1920,
+      "height": 1080
+    },
+    "/images/stories/state-breakdown-2026/b-d1b-mentor-3071.jpg": {
+      "position": "center 15%",
+      "width": 1280,
+      "height": 1600
+    },
+    "/images/stories/state-breakdown-2026/b-d2b-westgeauga-3798-nordonia-3689.jpg": {
+      "position": "50% 0%",
+      "width": 1600,
+      "height": 1066
+    },
+    "/images/stories/state-breakdown-2026/t-d3b-versailles-1048.jpg": {
+      "position": "center 22%",
+      "width": 1065,
+      "height": 1600
+    },
+    "/images/stories/state-breakdown-2026/t-d4b-ansonia-1250.jpg": {
+      "position": "center 22%",
+      "width": 1065,
+      "height": 1600
+    },
+    "/images/stories/is-no-1-safe-2026/is-no-1-safe-cover.png": {
+      "fit": "contain"
+    },
+    "/images/stories/quintin-parrish-2026/01-lead-state-race-wide.jpg": {
+      "position": "50% 50%",
+      "width": 1080,
+      "height": 608
+    },
+    "/images/stories/division-i-state-recap-2026/01-springboro-trophy.jpg": {
+      "position": "center 35%",
+      "width": 1600,
+      "height": 1226
+    },
+    "/images/stories/division-ii-state-recap-2026/01-girls-lead-pack.jpg": {
+      "position": "center 30%",
+      "width": 1600,
+      "height": 1448
+    },
+    "/images/stories/division-iii-state-recap-2026/01-huddle-gold.jpg": {
+      "position": "center 25%",
+      "width": 1280,
+      "height": 1600
+    },
+    "/images/stories/division-iv-state-recap-2026/01-lehman-finish.jpg": {
+      "position": "center 30%",
+      "width": 1600,
+      "height": 1280
+    },
+    "/images/stories/oatccc-mideast-meet-of-champions.png": {
+      "fit": "contain"
+    },
+    "/images/stories/ohio-boys-xc-stars-by-grade-and-division.jpg": {
+      "position": "50% 70%",
+      "width": 1179,
+      "height": 786
+    },
+    "/images/stories/ohio-girls-xc-stars-by-grade-and-division.jpg": {
+      "position": "center 25%",
+      "width": 1333,
+      "height": 2000
+    }
+  }
+}

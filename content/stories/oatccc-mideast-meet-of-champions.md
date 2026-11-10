@@ -8,6 +8,7 @@ type: "News"
 slug: "oatccc-mideast-meet-of-champions"
 featuredImage: "/images/stories/oatccc-mideast-meet-of-champions.png"
 featuredImageAlt: "The OATCCC logo, a blue Ohio-shaped badge with a red runner icon"
+featuredImageFit: "contain"
 tags:
   - "Boys Cross Country"
   - "Ohio"

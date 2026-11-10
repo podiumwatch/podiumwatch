@@ -135,6 +135,7 @@ import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
 import { COMMITMENT_CLASSES } from "../src/lib/commitment_rows.mjs";
 import { allHubPaths } from "../src/config/season_hubs.mjs";
 import { frontRotatorHtml, ROTATION_MAX } from "../public/scripts/front-lead.mjs";
+import { applyImageFocus } from "./image-focus.mjs";
 import stateChampions2026 from "../src/data/state-champions-2026.json" with { type: "json" };
 import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
@@ -320,6 +321,11 @@ async function loadStories() {
     };
     if (!story.draft) stories.push(story);
   }
+  // Every story photo gets a crop point so faces stay in the wide frames
+  // (front page, cards, headers); a story's own featuredImagePosition wins.
+  const focus = await applyImageFocus(stories);
+  if (focus.computed) console.log(`Photo crop points: ${focus.computed} new, ${focus.cached} cached.`);
+  if (focus.missing.length) console.warn(`Photo crop points not computed (center crop used): ${focus.missing.join(", ")}`);
   // Story page redesign (2026-10-28), A2: pinnedRank (2026-08-21,
   // docs/DECISIONS.md) used to let a story jump the whole feed ahead of
   // every unpinned story regardless of date -- confirmed live, it was
@@ -407,6 +413,7 @@ function frontStoryShape(story) {
     // The story's own crop point (featuredImagePosition), so faces stay in
     // the wide front page frame.
     image_position: realPhoto && /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : null,
+    image_fit: realPhoto && story.featuredImageFit === "contain" ? "contain" : null,
     byline: !story.author || story.author === "Podium Watch" ? "Podium Watch Staff" : story.author,
     story_date: story.date
   };

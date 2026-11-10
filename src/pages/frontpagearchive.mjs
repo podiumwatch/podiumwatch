@@ -24,7 +24,7 @@ export function frontPageArchivePage(site, entries) {
   const pathname = "/front-page/";
   const items = entries.length
     ? entries.map((entry) => `<li class="fp-item${entry.current ? " is-current" : ""}">
-        <a href="${escapeHtml(entry.href)}" aria-hidden="true" tabindex="-1">${entry.image_url ? `<img src="${escapeHtml(entry.image_url)}" alt="" loading="lazy" width="400" height="250">` : `<span class="fp-type">${escapeHtml(entry.title)}</span>`}</a>
+        <a href="${escapeHtml(entry.href)}" aria-hidden="true" tabindex="-1">${entry.image_url ? `<img src="${escapeHtml(entry.image_url)}" alt="" loading="lazy" width="400" height="250"${entry.image_fit === "contain" ? ' style="object-fit:contain;background:#090909"' : entry.image_position ? ` style="object-position:${escapeHtml(entry.image_position)}"` : ""}>` : `<span class="fp-type">${escapeHtml(entry.title)}</span>`}</a>
         <div>
           <p class="fp-dates">${entry.current ? "On the front page now &middot; since " : ""}${escapeHtml(entry.current ? entry.label.replace(/ to now$/, "") : entry.label)}</p>
           <h2><a href="${escapeHtml(entry.href)}">${escapeHtml(entry.title)}</a></h2>

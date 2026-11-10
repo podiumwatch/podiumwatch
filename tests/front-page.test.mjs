@@ -88,3 +88,20 @@ test("also list: four stories get the four-across layout", () => {
   assert.match(frontAlsoHtml([1, 2, 3, 4].map(story)), /fl-also-list is-four/);
   assert.doesNotMatch(frontAlsoHtml([1, 2, 3].map(story)), /is-four/);
 });
+
+test("every published story photo has a crop for wide frames (scripts/image-focus.mjs)", async () => {
+  const fs = await import("node:fs");
+  const { parseFrontMatter } = await import("../src/lib/content.mjs");
+  const { storyImageFocus, coverBox } = await import("../lib/story_image_focus.mjs");
+  const missing = [];
+  for (const file of fs.readdirSync("content/stories").filter((f) => f.endsWith(".md"))) {
+    const { data } = parseFrontMatter(fs.readFileSync(`content/stories/${file}`, "utf8"), file);
+    const src = data.featuredImage || data.heroImage;
+    if (data.draft || !/^\/images\/.+\.(jpe?g|png|webp)$/i.test(String(src || "")) || /story_fallback/.test(src) || !fs.existsSync(`public${src}`)) continue;
+    const focus = storyImageFocus(src);
+    if (!(focus.fit === "contain" || (focus.position && focus.width && focus.height))) missing.push(src);
+  }
+  assert.deepEqual(missing, [], "run the build (npm.cmd run build) so src/data/image-focus.json covers every story photo");
+  // Hand crop: a tall photo at 25% shows the upper part of the frame.
+  assert.deepEqual(coverBox({ width: 1280, height: 1600, position: "center 25%" }, 1080, 600), { width: 1080, height: 1350, left: 0, top: -188 });
+});
