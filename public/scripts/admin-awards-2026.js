@@ -286,6 +286,32 @@
     }
   })();
 
+  const finalCsv = root.querySelector("[data-yoya-final-csv]");
+  if (finalCsv) finalCsv.addEventListener("click", () => { window.location.href = "/api/admin/awards-2026/?format=final"; });
+
+  // Saved tallies: frozen finals and the latest hourly backup.
+  const snapButton = root.querySelector("[data-yoya-snapshots]");
+  const snapOut = root.querySelector("[data-yoya-snapshots-out]");
+  const snapTable = (snap) => `<table class="yoya-table" style="border-collapse:collapse;font-size:.85rem"><tbody>${snap.finalists.map((f) => `<tr><td>${escapeHtml(f.name || f.key)}</td><td><b>${f.votes}</b></td></tr>`).join("")}<tr><td>Total counted</td><td><b>${snap.total}</b>${snap.voided ? ` (${snap.voided} voided)` : ""}</td></tr></tbody></table>`;
+  if (snapButton && snapOut) snapButton.addEventListener("click", async () => {
+    snapButton.disabled = true;
+    snapOut.textContent = "Loading...";
+    try {
+      const data = await api({ action: "vote_snapshots" });
+      const list = data.categories || [];
+      snapOut.innerHTML = list.length ? list.map((entry) => {
+        const label = (categories.find((c) => c.slug === entry.slug) || {}).label || entry.slug;
+        const final = entry.final ? `<p style="margin:0;color:#063d28;font-weight:850">Final, frozen ${escapeHtml(et(entry.final.snapshot_at))}</p>${snapTable(entry.final)}` : "<p style=\"margin:0\">Not frozen yet.</p>";
+        const hourly = entry.latest_hourly ? `<details><summary>Latest hourly backup, ${escapeHtml(et(entry.latest_hourly.snapshot_at))}</summary>${snapTable(entry.latest_hourly)}</details>` : "";
+        return `<div><h3 style="margin:0 0 6px">${escapeHtml(label)}</h3>${final}${hourly}</div>`;
+      }).join("") : "<p>No saved tallies yet. The first hourly backup is written once a category with finalists is open for voting.</p>";
+    } catch (error) {
+      snapOut.textContent = /yearly_award_vote_snapshots/.test(error.message) ? "Run install/89_YEARLY_AWARDS_2026_VOTE_SNAPSHOTS.sql first." : error.message;
+    } finally {
+      snapButton.disabled = false;
+    }
+  });
+
   // Vote activity: votes per hour per finalist and network bursts.
   const activityButton = root.querySelector("[data-yoya-activity]");
   const activityOut = root.querySelector("[data-yoya-activity-out]");

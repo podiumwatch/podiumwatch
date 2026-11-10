@@ -15,7 +15,9 @@ import {
   unpublishResults,
   updateFinalist,
   voidVotes,
-  voteActivity
+  voteActivity,
+  voteSnapshots,
+  finalTalliesCsv
 } from "../../lib/yearly_awards_2026_service.mjs";
 
 // Admin only: 2026 Athlete, Team and Coach of the Year. POST actions:
@@ -44,6 +46,12 @@ export default async function handler(request, response) {
 
   try {
     const format = String(request.query?.format || "");
+    if (request.method === "GET" && format === "final") {
+      const csv = await finalTalliesCsv();
+      response.setHeader("Content-Type", "text/csv; charset=utf-8");
+      response.setHeader("Content-Disposition", `attachment; filename="podium-watch-2026-yearly-award-final-tallies-${new Date().toISOString().slice(0, 16).replace(":", "")}.csv"`);
+      return response.status(200).send(csv);
+    }
     if (request.method === "GET" && (format === "csv" || format === "finalists")) {
       const csv = format === "csv" ? await nominationsCsv() : await finalistsCsv();
       response.setHeader("Content-Type", "text/csv; charset=utf-8");
@@ -74,7 +82,8 @@ export default async function handler(request, response) {
       publish: () => publishResults({ slug, winnerKey: body.winner_key || null }),
       publish_all: () => publishAll(),
       unpublish: () => unpublishResults({ slug }),
-      vote_activity: async () => ({ categories: await voteActivity() })
+      vote_activity: async () => ({ categories: await voteActivity() }),
+      vote_snapshots: async () => ({ categories: await voteSnapshots() })
     };
     if (!actions[action]) return response.status(400).json({ error: "Unsupported action." });
     return response.status(200).json(await actions[action]());

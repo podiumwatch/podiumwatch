@@ -67,6 +67,12 @@ export function adminAwards2026Page(site) {
         <button class="button button-primary" type="button" data-yoya-activity>Load vote activity</button>
         <div data-yoya-activity-out style="margin-top:12px;display:grid;gap:16px"></div>
       </section>
+      <section class="info-card" data-yoya-snapshots-panel>
+        <h2>Saved tallies</h2>
+        <p>Votes are backed up from Redis to the database every hour while voting is open. When a category closes (Fri Nov 13, 9:00 PM ET), its final tallies are frozen with a timestamp within 5 minutes and never change after that.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px"><button class="button button-primary" type="button" data-yoya-snapshots>Load saved tallies</button><button class="button button-secondary" type="button" data-yoya-final-csv>Download final tallies (CSV)</button></div>
+        <div data-yoya-snapshots-out style="margin-top:12px;display:grid;gap:14px"></div>
+      </section>
       <div class="yoya-shell" data-yoya-list></div>
     </div>
   </div>`;
