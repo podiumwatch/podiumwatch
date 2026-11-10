@@ -1,5 +1,6 @@
 import { escapeHtml } from "../lib/content.mjs";
 import { layout, pageHero } from "../lib/html.mjs";
+import { bicarbStyles, bicarbVotingAdHtml } from "../lib/bicarb_ads.mjs";
 import { YEARLY_AWARDS_SCHEDULE, categoryPool, formatEt } from "../../lib/yearly_awards_2026.mjs";
 
 // 2026 Athlete, Team and Coach of the Year public pages: the hub at
@@ -104,7 +105,7 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
   const hint = isCoach
     ? `Every Ohio school in ${escapeHtml(divisionLabel(category))} is listed, filed by the school's OHSAA cross country division. Can't find a school? It may be listed in another division; use the links at the bottom.`
     : `Only ${noun === "athlete" ? "athletes" : "teams"} who qualified for the 2026 ${escapeHtml(divisionLabel(category))} state meet are listed.`;
-  const content = `<style>${styles}</style>
+  const content = `<style>${styles}${bicarbStyles}</style>
   ${pageHero({
     eyebrow: "2026 Podium Watch Awards",
     title: category.label,
@@ -165,6 +166,8 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
         <p class="yoy-hint" data-yoy-closed-text></p>
       </section>
 
+      ${bicarbVotingAdHtml(`awards-${category.slug}`)}
+
       <section class="yoy-card">
         <h2>Share this category</h2>
         <p class="yoy-hint">Know someone who should be nominated? Send them this link.</p>
@@ -197,7 +200,7 @@ export function yearlyAwardsHubPage(site, pool) {
       </div>`).join("")}
     </section>`;
 
-  const content = `<style>${styles}</style>
+  const content = `<style>${styles}${bicarbStyles}</style>
   ${pageHero({
     eyebrow: "2026 Podium Watch Awards",
     title: "Athlete, Team and Coach of the Year",
@@ -206,6 +209,7 @@ export function yearlyAwardsHubPage(site, pool) {
   <section class="section section-paper">
     <div class="container yoy-hub" data-yoy-hub>
       <p class="yoy-intro">Pick a category to nominate. Athlete and Team of the Year nominees are real 2026 state qualifiers. Coach of the Year is open to every Ohio program.</p>
+      ${bicarbVotingAdHtml("awards-hub")}
       ${section("athlete")}
       ${section("team")}
       ${section("coach")}
