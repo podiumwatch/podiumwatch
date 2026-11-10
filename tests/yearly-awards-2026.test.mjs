@@ -288,3 +288,44 @@ test("public counts: one shared snapshot instead of a read per category", async 
   assert.equal((await votesModule.publicVoteCountsMany(["team-boys-d1"], { now: 40_000 }))["team-boys-d1"].total, 4, "refreshed after 30 seconds");
   votesModule.useRedisClientForTests(null);
 });
+
+test("share previews: vote, then closed, then winner; finalist links; 1200x630 absolute image", async () => {
+  const { shareState, shareMeta, shareImageUrl, finalistSlugs, findFinalist, closesLabel } = await import("../lib/awards_share.mjs");
+  const { awardsCategoryCard, awardsFinalistCard } = await import("../lib/og/awards_card.mjs");
+  const category = { slug: "athlete-boys-d4", award: "athlete", gender: "boys", division: 4, nominations_open_at: "2026-11-01T00:00:00Z", nominations_close_at: "2026-11-10T02:00:00Z", voting_open_at: "2026-11-10T14:00:00Z", voting_close_at: "2026-11-14T02:00:00Z", voting_closed_early_at: null, finalists_published_at: "2026-11-10T13:47:05Z", results_published_at: null };
+  const finalists = [
+    { nominee_key: "1", display_name: "PAXSON BIXLER", school: "Russia", winner: false },
+    { nominee_key: "2", display_name: "Aidan Vogt", school: "Columbus Grove", winner: true },
+    { nominee_key: "3", display_name: "Sam Lee", school: "A", winner: false },
+    { nominee_key: "4", display_name: "Sam Lee", school: "B", winner: false }
+  ];
+  assert.equal(closesLabel(category), "Fri Nov 13, 9 PM");
+  const slugs = finalistSlugs(finalists);
+  assert.equal(slugs.get("1"), "paxson-bixler");
+  assert.equal(slugs.get("3"), "3", "two finalists with one name use their keys");
+  assert.equal(findFinalist(finalists, "paxson-bixler").nominee_key, "1");
+  const vote = shareState(category, finalists, { now: new Date("2026-11-11T12:00:00Z") });
+  assert.equal(vote.state, "vote");
+  assert.equal(vote.winners.length, 0, "no winner shown before results are published");
+  assert.equal(shareMeta(category, vote).title, "Vote: 2026 Boys Division IV Athlete of the Year");
+  assert.equal(shareMeta(category, vote, vote.finalists[0]).title, "Vote for Paxson Bixler, 2026 Boys D4 Athlete of the Year finalist");
+  const url = shareImageUrl("https://www.podiumwatch.org", category, vote);
+  assert.match(url, /^https:\/\/www\.podiumwatch\.org\/api\/og\/awards-2026\/\?category=athlete-boys-d4&v=vote/);
+  assert.equal(shareState(category, finalists, { now: new Date("2026-11-14T03:00:00Z") }).state, "closed");
+  const published = { ...category, results_published_at: "2026-11-14T13:00:00Z" };
+  const winner = shareState(published, finalists, { now: new Date("2026-11-14T14:00:00Z") });
+  assert.equal(winner.state, "winner");
+  assert.deepEqual(winner.winners.map((item) => item.name), ["Aidan Vogt"]);
+  assert.equal(shareMeta(published, winner).title, "Winner: 2026 Boys Division IV Athlete of the Year");
+  assert.notEqual(shareImageUrl("https://www.podiumwatch.org", published, winner), url, "a new image URL once there is a winner");
+  // Before finalists are announced, nothing is shown.
+  assert.equal(shareState({ ...category, finalists_published_at: null }, finalists).finalists.length, 0);
+  const card = awardsCategoryCard(category, vote);
+  assert.deepEqual([card.width, card.height], [1200, 630]);
+  assert.match(JSON.stringify(card.element), /VOTE NOW/);
+  assert.match(JSON.stringify(card.element), /podiumwatch\.org/);
+  assert.match(JSON.stringify(card.element), /#0FAF68/);
+  assert.match(JSON.stringify(awardsCategoryCard(published, winner).element), /WINNER/);
+  assert.match(JSON.stringify(awardsCategoryCard({ ...category, gender: "girls" }, vote).element), /#EC4899/);
+  assert.match(JSON.stringify(awardsFinalistCard(category, vote, vote.finalists[0]).element), /VOTE FOR/);
+});

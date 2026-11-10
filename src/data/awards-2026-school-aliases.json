@@ -1,0 +1,11 @@
+{
+  "note": "Finalist school names (yearly_award_finalists.school, or the team name) that don't match a school in the awards pool by name, mapped to the school's ID for its logo on the share cards. Each was checked: the evidence is in 'why'.",
+  "aliases": {
+    "Convoy Crestview": { "school_id": "8036f9cb-531c-4eae-bbb8-bb7b70a13b17", "why": "Crestview (Convoy) in the awards pool" },
+    "Watterson": { "school_id": "34d84145-3699-493e-a858-62aa1d63c2fc", "why": "Bishop Watterson (Columbus) in the awards pool" },
+    "CVCA": { "school_id": "ac4eb645-4f2d-4241-8d57-c806cd8d5e9b", "why": "Cuyahoga Valley Christian Academy in the awards pool" },
+    "St. Ursula Academy": { "school_id": "8bec4079-f736-4e1b-8138-900e737a3e54", "why": "Ran the Troy (Southwest) regional, so the Cincinnati school, not Toledo" },
+    "Portsmouth": { "school_id": "1da3c715-81e1-42d3-aed8-6f0e3734e176", "why": "The only school logged as Portsmouth (not Portsmouth West or Clay); ran the Pickerington regional" },
+    "Indian Valley": { "school_id": "83c768e2-62f2-4e8b-a725-221867197beb", "why": "The only Indian Valley (Gnadenhutten); ran the Pickerington regional" }
+  }
+}

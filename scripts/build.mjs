@@ -1272,7 +1272,8 @@ await writePage("/apply/", applyPage(site));
 await writePage("/apply/state-meet-correspondent/", applyStateMeetCorrespondentPage(site));
 await writePage("/state-picks/", statePicksPage(site, statePicksField));
 await writePage("/awards/2026/", yearlyAwardsHubPage(site, yearlyAwardsPool));
-for (const category of yearlyAwardsPool.categories) await writePage(`/awards/2026/${category.slug}/`, yearlyAwardsCategoryPage(site, yearlyAwardsPool, category));
+// Category pages are rendered by api/pages/awards-2026.js (live share
+// tags per finalist and the winner; 2026-11-10), so they are not written here.
 await writePage("/writer-login/", writerLoginPage(site));
 await writePage("/writer-portal/", writerPortalPage(site));
 await writePage("/writer-portal/profile/", writerPortalProfilePage(site));
@@ -1395,7 +1396,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // not yet meaningful enough to index at volume (201 pages). This is
   // the task's own documented safe fallback, not a guess.
   const isRealAthletePage = (pathname) => pathname.startsWith("/athletes/") && pathname !== "/athletes/";
-  const SERVER_RENDERED_PATHS = ["/sponsors/", ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
+  const SERVER_RENDERED_PATHS = ["/sponsors/", ...yearlyAwardsPool.categories.map((category) => `/awards/2026/${category.slug}/`), ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
   const paths = [...generatedPaths, ...SERVER_RENDERED_PATHS]
     .filter((pathname) => !pathname.endsWith("404.html"))
     .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))

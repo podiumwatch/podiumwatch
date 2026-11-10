@@ -2,6 +2,14 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 10 Redis usage cut for award voting; awards share previews
+
+### Decision
+
+Upstash hit 90% of its free monthly commands during 2026 awards voting. Presence ("Live now") is turned off: public pages no longer ping, /api/presence/ping answers without Redis. Each yearly-award vote is one Lua script (lib/yearly_awards_2026_votes.mjs VOTE_SCRIPT): cooldown, ballot and counters are written all or nothing, and a retried request finds its own ballot in the cooldown value and counts once. Upstash bills each command inside a script, so the saving comes from dropping per-vote EXPIREs (21 commands to about 11), not from the script. A Redis failure answers 503 "Voting is busy, try again in a minute." and nothing is counted. "My votes" is one MGET; public live counts are one shared snapshot key; merch and Wrapped switches are read once a minute per instance.
+
+The 24 category pages (/awards/2026/{category}/) are now rendered by api/pages/awards-2026.js instead of the static build, so their share tags follow the real finalists and switch to WINNER once results are published. Each finalist has a link /awards/2026/{category}/{name}/ with their own 1200x630 card (api/og/awards-2026.js). Finalist schools without a school_id are matched by name; the few that needed a hand match are in src/data/awards-2026-school-aliases.json with the reason.
+
 ## 2026 09 21 Athlete of the Week vote tallying moved to Redis, same as Team of the Week
 
 ### Decision

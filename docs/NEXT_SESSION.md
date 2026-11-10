@@ -1,5 +1,11 @@
 # Podium Watch next session
 
+## Start here (2026-11-10, night)
+
+- Redis: presence is off and each vote is one script (b63f689c, pushed). Watch Upstash usage; a vote that hits a Redis error shows "Voting is busy".
+- Awards share previews: category and finalist cards, Share buttons. After deploy, run 3 pages through the Facebook Sharing Debugger. Saturday: publishing results switches previews to WINNER on their own (Facebook keeps its old copy until "Scrape Again").
+- Summit Country Day has no logo file, so its finalists show initials on the cards.
+
 ## Start here (2026-11-10, evening)
 
 - WO-36 Wrapped is built (share cards only); set the launch date in Admin > Wrapped. Girls division ranks need girls divisions in ohio_school_divisions (data import, needs Zachary).

@@ -145,6 +145,31 @@
     voteMessage.classList.toggle("is-error", isError);
   }
 
+  // Each finalist's share link (2026-11-10): /awards/2026/<category>/<name>/,
+  // or their nominee key when two finalists share a name (same rule as
+  // lib/awards_share.mjs finalistSlugs). The link's preview is their own
+  // card; it opens this page scrolled to them.
+  const slugifyName = (value) => displayName(value).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/['’]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 80);
+  function finalistSlugs(finalists) {
+    const counts = new Map();
+    for (const item of finalists) { const s = slugifyName(item.name); counts.set(s, (counts.get(s) || 0) + 1); }
+    return new Map(finalists.map((item) => { const s = slugifyName(item.name); return [item.id, s && counts.get(s) === 1 ? s : String(item.id).toLowerCase().replace(/[^a-z0-9-]/g, "")]; }));
+  }
+  const focusSlug = root.dataset.yoyFocus || "";
+  let focused = false;
+  async function copyFinalistLink(item, slug, button) {
+    const url = `${window.location.origin}/awards/2026/${data.slug}/${slug}/`;
+    try {
+      await navigator.clipboard.writeText(url);
+      button.textContent = "Copied";
+      setVoteMessage(`Link copied. Send it so others can vote for ${displayName(item.name)}.`);
+    } catch {
+      button.textContent = "Share";
+      setVoteMessage(`Copy this link: ${url}`);
+    }
+    window.setTimeout(() => { button.textContent = "Share"; }, 2500);
+  }
+
   function finalistName(id) {
     const match = (category.finalists || []).find((item) => item.id === id);
     return match ? match.name : "";
@@ -196,9 +221,14 @@
       published: "Congratulations to the winner and every finalist."
     }[status] || "";
     const ordered = status === "published" ? [...finalists].sort((a, b) => Number(Boolean(b.winner)) - Number(Boolean(a.winner))) : finalists;
+    const slugs = finalistSlugs(finalists);
     finalistList.replaceChildren();
+    let focusItem = null;
     for (const item of ordered) {
       const li = document.createElement("li");
+      li.className = "yoy-finalist-row";
+      li.dataset.finalist = slugs.get(item.id);
+      if (focusSlug && slugs.get(item.id) === focusSlug) { li.classList.add("is-focus"); focusItem = li; }
       const box = document.createElement(canVote ? "button" : "div");
       box.className = "yoy-finalist" + (status === "published" && item.winner ? " is-winner" : "");
       if (canVote) {
@@ -222,7 +252,19 @@
       // Live vote count (about every 30 seconds).
       if (typeof item.votes === "number") { const count = document.createElement("span"); count.className = "yoy-votes"; count.textContent = `${item.votes.toLocaleString("en-US")} vote${item.votes === 1 ? "" : "s"}`; box.append(count); }
       li.append(box);
+      const share = document.createElement("button");
+      share.type = "button";
+      share.className = "yoy-share-finalist";
+      share.textContent = "Share";
+      share.setAttribute("aria-label", `Copy ${displayName(item.name)}'s share link`);
+      share.addEventListener("click", () => copyFinalistLink(item, slugs.get(item.id), share));
+      li.append(share);
       finalistList.append(li);
+    }
+    // Opened from a finalist's share link: scroll to them once.
+    if (focusItem && !focused) {
+      focused = true;
+      window.requestAnimationFrame(() => focusItem.scrollIntoView({ block: "center", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }));
     }
     if (typeof category.vote_total === "number") {
       const li = document.createElement("li");

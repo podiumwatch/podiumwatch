@@ -112,6 +112,14 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/awards/2026/:category((?:athlete|team|coach)-(?:boys|girls)-d[1-4])/",
+      "destination": "/api/pages/awards-2026?category=:category"
+    },
+    {
+      "source": "/awards/2026/:category((?:athlete|team|coach)-(?:boys|girls)-d[1-4])/:finalist([a-z0-9-]+)/",
+      "destination": "/api/pages/awards-2026?category=:category&finalist=:finalist"
+    },
+    {
       "source": "/wrapped/2026/:slug([a-z0-9-]+)/",
       "destination": "/api/pages/wrapped?slug=:slug"
     },
@@ -164,6 +172,9 @@
       "maxDuration": 300
     },
     "api/og/team.js": {
+      "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
+    },
+    "api/og/awards-2026.js": {
       "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
     },
     "api/og/wrapped.js": {

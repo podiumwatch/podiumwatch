@@ -2,6 +2,11 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 10 Redis usage cut; awards share previews
+
+- Presence off; one-script votes (about 11 commands instead of 21); busy message on Redis errors; one-call "my votes"; shared public counts snapshot; settings read once a minute. Checked the real Lua on throwaway Redis keys (scripts/test-yearly-vote-script.mjs). Hourly Supabase backups confirmed for all 24 categories.
+- Awards category pages server-rendered with live share tags; 1200x630 category and finalist cards; Share button per finalist; voting copy replaces nominate copy. 375 px check passed.
+
 ## 2026 08 10 Path to State: OHSAA cross country tournament advancement roadmap
 
 ### Date

@@ -65,6 +65,12 @@ const styles = `
     .yoy-chip { justify-self:start; padding:3px 8px; border-radius:999px; background:var(--yoy-ink); color:#fff; font-size:.72rem; font-weight:850; letter-spacing:.03em; }
     .yoy-intro { margin:0; font-weight:600; }
     .yoy-finalists { display:grid; gap:8px; margin:0; padding:0; list-style:none; }
+    .yoy-finalist-row { display:flex; gap:8px; align-items:stretch; }
+    .yoy-finalist-row > .yoy-finalist { flex:1 1 auto; min-width:0; }
+    .yoy-share-finalist { flex:0 0 auto; min-width:76px; padding:0 12px; border:2px solid var(--line); border-radius:10px; background:var(--white); color:inherit; font:inherit; font-size:.88rem; font-weight:850; cursor:pointer; }
+    .yoy-share-finalist:hover, .yoy-share-finalist:focus-visible { border-color:var(--yoy-accent); outline:none; }
+    .yoy-finalist-row.is-focus > .yoy-finalist { border-color:var(--yoy-accent); }
+    .yoy-finalist-row.is-focus > .yoy-finalist:not([aria-pressed="true"]) { box-shadow:0 0 0 3px var(--yoy-accent); }
     .yoy-finalist { display:grid; gap:3px; width:100%; padding:12px 14px; border:2px solid var(--line); border-radius:10px; background:var(--white); color:inherit; font:inherit; text-align:left; }
     button.yoy-finalist { cursor:pointer; }
     button.yoy-finalist:hover, button.yoy-finalist:focus { border-color:var(--yoy-accent); outline:none; }
@@ -106,15 +112,21 @@ function jsonScript(id, value) {
   return `<script type="application/json" id="${id}">${JSON.stringify(value).replace(/</g, "\\u003c")}</script>`;
 }
 
-export function yearlyAwardsCategoryPage(site, pool, category) {
+// Rendered on the server by api/pages/awards-2026.js (2026-11-10), so the
+// share tags can follow the real finalists and switch to the winner on
+// their own: share = { title, description, image, url, robots, focus }
+// from lib/awards_share.mjs. focus is a finalist's link name; the page
+// scrolls to that finalist.
+export function yearlyAwardsCategoryPage(site, pool, category, { share = null, assetVersion = "" } = {}) {
   const list = categoryPool(pool, category.slug) || [];
   const pathname = `/awards/2026/${category.slug}/`;
   const closes = formatEt(YEARLY_AWARDS_SCHEDULE.nominations_close_at);
   const noun = category.award;
   const isCoach = noun === "coach";
-  const intro = isCoach
-    ? `Nominate the ${divisionLabel(category)} coach of the year. Any Ohio cross country program in this division can be nominated: pick the school and type the coach's name. Podium Watch picks the finalists, then you vote.`
-    : `Nominate the ${divisionLabel(category)} ${awardName(category.award).toLowerCase()} from the ${list.length} ${noun === "athlete" ? "state qualifiers" : "state-qualifying teams"} in this division. Podium Watch picks the finalists, then you vote.`;
+  const votingCloses = formatEt(YEARLY_AWARDS_SCHEDULE.voting_close_at);
+  // Voting is open (2026-11-10): the copy is about voting; the nominate
+  // form stays in the page, hidden, for the page script.
+  const intro = `Vote for the 2026 ${divisionLabel(category)} ${awardName(category.award)}. You can vote once an hour. Voting closes ${votingCloses}, and the winner is announced Saturday morning, Nov. 14.`;
   const hint = isCoach
     ? `Every Ohio school in ${escapeHtml(divisionLabel(category))} is listed, filed by the school's OHSAA cross country division. Can't find a school? It may be listed in another division; use the links at the bottom.`
     : `Only ${noun === "athlete" ? "athletes" : "teams"} who qualified for the 2026 ${escapeHtml(divisionLabel(category))} state meet are listed.`;
@@ -125,20 +137,19 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
     description: intro
   })}
   <section class="section section-paper">
-    <div class="container yoy-shell" data-yoy-category="${escapeHtml(category.slug)}" data-gender="${escapeHtml(category.gender)}">
+    <div class="container yoy-shell" data-yoy-category="${escapeHtml(category.slug)}" data-gender="${escapeHtml(category.gender)}"${share?.focus ? ` data-yoy-focus="${escapeHtml(share.focus)}"` : ""}>
       <section class="yoy-card">
         <p class="yoy-kicker">${escapeHtml(divisionLabel(category))} &middot; ${escapeHtml(awardName(category.award))}</p>
-        <p class="yoy-status" data-yoy-status>Nominations open</p>
+        <p class="yoy-status" data-yoy-status>Voting open</p>
         <p class="yoy-countdown" data-yoy-countdown></p>
-        <p class="yoy-when" data-yoy-when>Nominations close ${escapeHtml(closes)}.</p>
+        <p class="yoy-when" data-yoy-when>Voting closes ${escapeHtml(votingCloses)}.</p>
         <ol class="yoy-steps">
-          <li data-step="nominations"><b>Nominations</b> <span>Close ${escapeHtml(closes)}</span></li>
           <li data-step="voting"><b>Voting</b> <span>${escapeHtml(formatEt(YEARLY_AWARDS_SCHEDULE.voting_open_at))} to ${escapeHtml(formatEt(YEARLY_AWARDS_SCHEDULE.voting_close_at))}</span></li>
           <li data-step="winners"><b>Winners</b> <span>Saturday morning, Nov. 14</span></li>
         </ol>
       </section>
 
-      <section class="yoy-card" data-yoy-nominate>
+      <section class="yoy-card" data-yoy-nominate hidden>
         <h2>Nominate ${noun === "athlete" ? "an athlete" : isCoach ? "a coach" : "a team"}</h2>
         <form class="yoy-form" data-yoy-form novalidate>
           <label>Search ${noun === "athlete" ? "athletes or schools" : "schools"}
@@ -187,7 +198,7 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
 
       <section class="yoy-card">
         <h2>Share this category</h2>
-        <p class="yoy-hint">Know someone who should be nominated? Send them this link.</p>
+        <p class="yoy-hint">Send this link so others can vote too. Each finalist also has a Share button with their own link.</p>
         <div class="yoy-share-row"><code data-yoy-share-url>${escapeHtml(`${site.siteUrl}${pathname}`)}</code><button type="button" data-yoy-copy>Copy link</button></div>
       </section>
 
@@ -198,13 +209,18 @@ export function yearlyAwardsCategoryPage(site, pool, category) {
   <script src="/scripts/awards-2026.js" defer></script>
   ${merchScripts()}`;
 
-  return layout({
+  const html = layout({
     site,
-    title: `Nominate the 2026 ${category.label}`,
-    description: `Nominate the 2026 ${divisionLabel(category)} ${awardName(category.award)} in Ohio cross country. Nominations close ${closes}. Vote for the finalists Nov. 10-13 at podiumwatch.org.`,
+    title: share?.title || `Vote: 2026 ${category.label}`,
+    description: share?.description || `Vote for the 2026 ${divisionLabel(category)} ${awardName(category.award)} in Ohio cross country. Voting closes ${votingCloses}.`,
     pathname,
-    content
+    content,
+    ...(share?.image ? { image: share.image, imageWidth: 1200, imageHeight: 630 } : {}),
+    ...(share?.url ? { canonicalUrl: share.url } : {}),
+    ...(share?.robots ? { robots: share.robots } : {})
   });
+  // Same cache-busting the static build does (scripts/build.mjs).
+  return assetVersion ? html.replace(/(src="\/scripts\/[^"?]+\.js)(")/g, `$1?v=${assetVersion}$2`).replace(/(href="\/styles\/[^"?]+\.css)(")/g, `$1?v=${assetVersion}$2`) : html;
 }
 
 export function yearlyAwardsHubPage(site, pool) {
@@ -213,7 +229,7 @@ export function yearlyAwardsHubPage(site, pool) {
       ${["boys", "girls"].map((gender) => `<div class="yoy-group yoy-${gender}">
         <h3>${gender === "boys" ? "Boys" : "Girls"}</h3>
         <div class="yoy-grid">
-          ${pool.categories.filter((item) => item.award === award && item.gender === gender).sort((a, b) => a.division - b.division).map((item) => `<a class="yoy-tile" href="/awards/2026/${escapeHtml(item.slug)}/"><strong>Division ${ROMAN[item.division]}</strong><span class="yoy-chip" data-yoy-chip="${escapeHtml(item.slug)}">Nominations open</span></a>`).join("")}
+          ${pool.categories.filter((item) => item.award === award && item.gender === gender).sort((a, b) => a.division - b.division).map((item) => `<a class="yoy-tile" href="/awards/2026/${escapeHtml(item.slug)}/"><strong>Division ${ROMAN[item.division]}</strong><span class="yoy-chip" data-yoy-chip="${escapeHtml(item.slug)}">Voting open</span></a>`).join("")}
         </div>
       </div>`).join("")}
     </section>`;
@@ -222,11 +238,11 @@ export function yearlyAwardsHubPage(site, pool) {
   ${pageHero({
     eyebrow: "2026 Podium Watch Awards",
     title: "Athlete, Team and Coach of the Year",
-    description: `Nominate the best of the 2026 Ohio cross country season in all 24 categories. Nominations close ${formatEt(YEARLY_AWARDS_SCHEDULE.nominations_close_at)}. Voting runs Nov. 10 to 13, and winners are announced Saturday morning, Nov. 14.`
+    description: `Vote for the best of the 2026 Ohio cross country season in all 24 categories. Voting closes ${formatEt(YEARLY_AWARDS_SCHEDULE.voting_close_at)}, and winners are announced Saturday morning, Nov. 14.`
   })}
   <section class="section section-paper">
     <div class="container yoy-hub" data-yoy-hub>
-      <p class="yoy-intro">Pick a category to nominate. Athlete and Team of the Year nominees are real 2026 state qualifiers. Coach of the Year is open to every Ohio program.</p>
+      <p class="yoy-intro">Pick a category to vote. You can vote once an hour in each category. Athlete and Team of the Year finalists are 2026 state qualifiers.</p>
       ${bicarbVotingAdHtml("awards-hub")}
       ${section("athlete")}
       ${section("team")}
@@ -241,8 +257,8 @@ export function yearlyAwardsHubPage(site, pool) {
 
   return layout({
     site,
-    title: "2026 Athlete, Team and Coach of the Year",
-    description: "Nominate the 2026 Ohio cross country Athletes, Teams and Coaches of the Year, boys and girls, Divisions I to IV. Nominations close Mon, Nov 9 at 9:00 PM ET.",
+    title: "Vote: 2026 Athlete, Team and Coach of the Year",
+    description: `Vote for the 2026 Ohio cross country Athletes, Teams and Coaches of the Year, boys and girls, Divisions I to IV. Voting closes ${formatEt(YEARLY_AWARDS_SCHEDULE.voting_close_at)}.`,
     pathname: "/awards/2026/",
     content
   });
