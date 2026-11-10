@@ -3,6 +3,19 @@
 
   if (!form) return;
 
+  // Prefill from a link (?team=&sport=&season=), e.g. the Banquet Pack's
+  // "Missing a meet?" line. The team goes in Organization and the note.
+  const params = new URLSearchParams(window.location.search);
+  const team = String(params.get("team") || "").slice(0, 200);
+  if (team) {
+    if (form.elements.submitter_organization && !form.elements.submitter_organization.value) form.elements.submitter_organization.value = team;
+    if (form.elements.note && !form.elements.note.value) form.elements.note.value = `Missing meet for ${team}.`;
+  }
+  const sport = params.get("sport");
+  if (sport && form.elements.sport && [...form.elements.sport.options].some((o) => o.value === sport)) form.elements.sport.value = sport;
+  const season = Number(params.get("season"));
+  if (Number.isInteger(season) && season >= 2000 && season <= 2200 && form.elements.season_year) form.elements.season_year.value = String(season);
+
   const message = document.querySelector("[data-submit-results-message]");
   const button = document.querySelector("[data-submit-results-button]");
 

@@ -86,6 +86,16 @@
       "source": "/ig/",
       "destination": "/teams/instagram/",
       "permanent": false
+    },
+    {
+      "source": "/banquet",
+      "destination": "/teams/banquet/",
+      "permanent": false
+    },
+    {
+      "source": "/banquet/",
+      "destination": "/teams/banquet/",
+      "permanent": false
     }
   ],
   "rewrites": [
@@ -100,6 +110,14 @@
     {
       "source": "/sponsors/",
       "destination": "/api/pages/sponsors"
+    },
+    {
+      "source": "/teams/:slug([a-z0-9-]+)/season/:year([0-9]{4})/banquet/",
+      "destination": "/api/pages/banquet?slug=:slug&year=:year"
+    },
+    {
+      "source": "/teams/:slug([a-z0-9-]+)/season/:year([0-9]{4})/banquet/slides/",
+      "destination": "/api/pages/banquet?slug=:slug&year=:year&view=slides"
     },
     {
       "source": "/teams/:slug([a-z0-9-]+)/",
@@ -142,6 +160,9 @@
       "maxDuration": 300
     },
     "api/og/team.js": {
+      "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
+    },
+    "api/og/banquet.js": {
       "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
     }
   },
