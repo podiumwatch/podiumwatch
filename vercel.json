@@ -112,6 +112,10 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/wrapped/2026/:slug([a-z0-9-]+)/",
+      "destination": "/api/pages/wrapped?slug=:slug"
+    },
+    {
       "source": "/teams/:slug([a-z0-9-]+)/season/:year([0-9]{4})/banquet/",
       "destination": "/api/pages/banquet?slug=:slug&year=:year"
     },
@@ -160,6 +164,9 @@
       "maxDuration": 300
     },
     "api/og/team.js": {
+      "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
+    },
+    "api/og/wrapped.js": {
       "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
     },
     "api/og/banquet.js": {

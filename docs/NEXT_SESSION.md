@@ -1,6 +1,12 @@
 # Podium Watch next session
 
-## Start here (2026-11-10, late)
+## Start here (2026-11-10, evening)
+
+- WO-36 Wrapped is built (share cards only); set the launch date in Admin > Wrapped. Girls division ranks need girls divisions in ohio_school_divisions (data import, needs Zachary).
+- Front page rotation: 8 seconds, starts on the lead; the four state recaps are hand-picked into it (Admin > Front Page).
+- Next: WO-10 meet pages (switch hub "Full results" links), WO-12, WO-13, WO-14, WO-40, WO-42.
+
+## Earlier (2026-11-10, late)
 
 - Run `install/91_TEAM_BANQUET_SETTINGS.sql` so coaches can hide athletes and add a note on their Banquet Pack (the pack works without it).
 - Next in order: WO-36 Wrapped and posters (by Dec. 1), WO-10 meet pages (switch hub "Full results" links), WO-12, WO-13, WO-14, WO-40, WO-42.
