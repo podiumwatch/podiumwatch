@@ -1,6 +1,6 @@
 import { castVote, myVotes } from "../../lib/yearly_awards_2026_service.mjs";
 
-// Public, no login: one vote per category per browser for the 2026
+// Public, no login: one vote per category per browser every hour for the 2026
 // Athlete, Team and Coach of the Year. Votes are Redis entries (see
 // lib/yearly_awards_2026_votes.mjs); no counts are ever returned here.
 // Same hidden trap field as nominations. Cloudflare Turnstile is checked
@@ -58,7 +58,8 @@ export default async function handler(request, response) {
     if (status >= 500) console.error("Yearly awards vote error:", error);
     return response.status(status).json({
       error: status < 500 ? error.message : "Your vote could not be saved right now. Please try again.",
-      ...(error?.votedFor ? { voted_for: error.votedFor } : {})
+      ...(error?.votedFor ? { voted_for: error.votedFor } : {}),
+      ...(error?.nextVoteAt ? { next_vote_at: error.nextVoteAt } : {})
     });
   }
 }

@@ -117,8 +117,23 @@
   const votedNote = root.querySelector("[data-yoy-voted]");
   const voteMessage = root.querySelector("[data-yoy-vote-message]");
   const turnstileBox = root.querySelector("[data-yoy-turnstile]");
-  const voteKey = `pw-yoty-2026-voted-${data.slug}`;
-  let votedFor = read(voteKey);
+  // One vote per category every hour: remember the last vote and when the
+  // next one is allowed; the page re-enables voting once that time passes.
+  const voteKey = `pw-yoty-2026-vote-${data.slug}`;
+  let votedFor = null;
+  let nextVoteAt = 0;
+  try { const saved = JSON.parse(read(voteKey) || "null"); if (saved && saved.n > Date.now()) { votedFor = saved.f; nextVoteAt = saved.n; } } catch { /* ignore */ }
+  const rememberVote = (finalist, nextIso) => {
+    votedFor = finalist;
+    nextVoteAt = nextIso ? Date.parse(nextIso) : Date.now() + 60 * 60 * 1000;
+    write(voteKey, JSON.stringify({ f: votedFor, n: nextVoteAt }));
+  };
+  // Clears the vote once its hour is up, so the finalists become buttons again.
+  const coolingDown = () => {
+    if (votedFor && Date.now() >= nextVoteAt) { votedFor = null; nextVoteAt = 0; checkedMine = false; write(voteKey, ""); }
+    return Boolean(votedFor);
+  };
+  const nextVoteTime = () => new Date(nextVoteAt).toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
   let pickedFinalist = null;
   let paintedVote = "";
   let checkedMine = false;
@@ -156,7 +171,7 @@
       const response = await fetch("/api/awards-2026/vote/", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "mine", categories: [data.slug], browser_token: browserToken() }) });
       const body = await response.json().catch(() => ({}));
       const mine = body.votes && body.votes[data.slug];
-      if (mine) { votedFor = mine; write(voteKey, mine); paintedVote = ""; paintVote(statusOf(category)); }
+      if (mine && mine.voted_for) { rememberVote(mine.voted_for, mine.next_vote_at); paintedVote = ""; paintVote(statusOf(category)); }
     } catch { /* offline: the vote endpoint still enforces one vote */ }
   }
 
@@ -165,6 +180,7 @@
     const show = finalists.length > 0 && ["selecting_finalists", "voting_open", "voting_closed", "published"].includes(status);
     voteCard.hidden = !show;
     if (!show) return;
+    coolingDown();
     const signature = [status, votedFor, pickedFinalist, finalists.map((item) => `${item.id}:${item.name}:${item.note}:${item.winner}`).join("|")].join("#");
     if (signature === paintedVote) return;
     paintedVote = signature;
@@ -172,7 +188,7 @@
     voteTitle.textContent = status === "published" ? "Winner" : status === "voting_open" ? (votedFor ? "Thanks for voting" : "Vote for one finalist") : "Finalists";
     voteHint.textContent = {
       selecting_finalists: `Voting opens ${formatEt(category.voting_open_at)}.`,
-      voting_open: votedFor ? "One vote per category. Vote counts stay private until the winner is announced." : "Tap a finalist, then cast your vote. One vote per category, and votes can't be changed.",
+      voting_open: votedFor ? "One vote per category every hour. Vote counts stay private until the winner is announced." : "Tap a finalist, then cast your vote. You can vote again in this category an hour after each vote.",
       voting_closed: "Voting is closed. Winners are announced Saturday morning, Nov. 14.",
       published: "Congratulations to the winner and every finalist."
     }[status] || "";
@@ -207,7 +223,7 @@
     castButton.disabled = !pickedFinalist;
     castButton.textContent = pickedFinalist ? `Vote for ${finalistName(pickedFinalist)}` : "Pick a finalist";
     votedNote.hidden = !votedFor || status === "published";
-    if (votedFor) votedNote.textContent = finalistName(votedFor) ? `You voted for ${finalistName(votedFor)}.` : "You already voted in this category.";
+    if (votedFor) votedNote.textContent = `${finalistName(votedFor) ? `You voted for ${finalistName(votedFor)}.` : "You voted in this category."} You can vote again at ${nextVoteTime()} ET.`;
     turnstileBox.hidden = !canVote;
     if (status === "voting_open") { loadTurnstile(); checkMine(); }
   }
@@ -224,14 +240,13 @@
       });
       const body = await response.json().catch(() => ({}));
       if (response.ok) {
-        votedFor = pickedFinalist;
+        rememberVote(pickedFinalist, body.next_vote_at);
       } else if (body.voted_for) {
-        votedFor = body.voted_for;
+        rememberVote(body.voted_for, body.next_vote_at);
       } else {
         if (window.turnstile && turnstileToken) { try { window.turnstile.reset(turnstileBox); } catch { /* ignore */ } turnstileToken = ""; }
         throw new Error(body.error || "Your vote could not be saved right now. Please try again.");
       }
-      write(voteKey, votedFor);
       setVoteMessage(response.ok ? "Vote counted. Share this page so others can vote too." : body.error, !response.ok);
       paintedVote = "";
       paintVote(statusOf(category));
