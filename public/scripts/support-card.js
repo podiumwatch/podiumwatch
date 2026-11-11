@@ -54,9 +54,20 @@
     }
   }
 
+  // Merch after every vote until voting closes (Zachary, 2026-11-11):
+  // Fri, Nov. 13, 2026 at 9:00 PM ET. After that, the rule below applies
+  // again on its own (support panel on the first vote, then turns).
+  const MERCH_EVERY_VOTE_UNTIL = Date.parse("2026-11-14T02:00:00Z");
+
   document.addEventListener("pw:voted", () => {
     const shopAfter = document.querySelector("[data-pwm-after]");
     const supportAfter = document.querySelector("[data-pws-after]");
+    if (Date.now() < MERCH_EVERY_VOTE_UNTIL && shopAfter && shopAfter.querySelector("[data-pwm]")) {
+      if (panel) panel.hidden = true;
+      if (supportAfter) supportAfter.hidden = true;
+      shopAfter.removeAttribute("data-pw-alt-off");
+      return;
+    }
     if (panelTurn()) {
       panel.hidden = false;
       if (supportAfter) supportAfter.hidden = true;

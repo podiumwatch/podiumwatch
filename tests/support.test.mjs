@@ -92,3 +92,12 @@ test("after-vote panel: exact copy, black logo, /go/support/after-vote-panel/, o
   assert.ok(page.indexOf("data-yoy-vote-message") < page.indexOf("supportPanelHtml({ from: pathname })"), "under the vote message");
   assert.ok(page.indexOf("supportPanelHtml({ from: pathname })") < page.indexOf("data-pwm-after hidden"), "above the after-vote cards");
 });
+
+test("after a vote: the merch card every time until voting closes, then the support rule again (2026-11-11)", async () => {
+  const { YEARLY_AWARDS_SCHEDULE } = await import("../lib/yearly_awards_2026.mjs");
+  const script = fs.readFileSync("public/scripts/support-card.js", "utf8");
+  const until = script.match(/MERCH_EVERY_VOTE_UNTIL = Date\.parse\("([^"]+)"\)/)?.[1];
+  assert.equal(Date.parse(until), Date.parse(YEARLY_AWARDS_SCHEDULE.voting_close_at), "switches back exactly when voting closes");
+  assert.equal(new Date(until).toLocaleString("en-US", { timeZone: "America/New_York" }), "11/13/2026, 9:00:00 PM");
+  assert.ok(script.indexOf("MERCH_EVERY_VOTE_UNTIL &&") < script.indexOf("if (panelTurn())"), "checked before the first-vote panel");
+});
