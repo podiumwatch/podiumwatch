@@ -1127,19 +1127,17 @@
   // install/40_PODIUM_PLAY_ANALYTICS.sql is actually run.
   function track(eventType, extra = {}) {
     try {
-      fetch("/api/engagement/track", {
-        method: "POST",
-        keepalive: true,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          event_type: eventType,
-          visitor_id: getVisitorId(),
-          session_id: getSessionId(),
-          section: "podium_play",
-          path: window.location.pathname,
-          ...extra
-        })
-      }).catch(() => {});
+      // sendBeacon: queued by the browser, never awaited, never slows play.
+      const body = JSON.stringify({
+        event_type: eventType,
+        visitor_id: getVisitorId(),
+        session_id: getSessionId(),
+        section: "podium_play",
+        path: window.location.pathname,
+        ...extra
+      });
+      const sent = navigator.sendBeacon && navigator.sendBeacon("/api/engagement/track", new Blob([body], { type: "application/json" }));
+      if (!sent) fetch("/api/engagement/track", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json" }, body }).catch(() => {});
     } catch {
       // Never let analytics break the arcade.
     }

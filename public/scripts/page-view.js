@@ -48,11 +48,8 @@
     if (sessionStorage.getItem(viewKey)) return;
     sessionStorage.setItem(viewKey, "1");
 
-    fetch("/api/engagement/track", {
-      method: "POST",
-      keepalive: true,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    // sendBeacon: queued by the browser, never awaited, never slows the page.
+    const body = JSON.stringify({
         event_type: "page_view",
         visitor_id: visitorId,
         session_id: sessionId,
@@ -65,8 +62,9 @@
         // the visit (utm_medium=short_link) go in metadata. No personal data.
         referrer: document.referrer || "",
         metadata: sourceTags()
-      })
-    }).catch(() => {});
+    });
+    const sent = navigator.sendBeacon && navigator.sendBeacon("/api/engagement/track", new Blob([body], { type: "application/json" }));
+    if (!sent) fetch("/api/engagement/track", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json" }, body }).catch(() => {});
   } catch {
     // Analytics must never interrupt the page.
   }

@@ -221,18 +221,16 @@
       if (sessionStorage.getItem(viewKey)) return;
       sessionStorage.setItem(viewKey, "1");
 
-      fetch("/api/engagement/track", {
-        method: "POST",
-        keepalive: true,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          event_type: "pace_calculator_use",
-          visitor_id: visitorId,
-          session_id: sessionId,
-          section: "tools",
-          path: window.location.pathname
-        })
-      }).catch(() => {});
+      // sendBeacon: queued by the browser, never awaited, never slows the page.
+      const body = JSON.stringify({
+        event_type: "pace_calculator_use",
+        visitor_id: visitorId,
+        session_id: sessionId,
+        section: "tools",
+        path: window.location.pathname
+      });
+      const sent = navigator.sendBeacon && navigator.sendBeacon("/api/engagement/track", new Blob([body], { type: "application/json" }));
+      if (!sent) fetch("/api/engagement/track", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json" }, body }).catch(() => {});
     } catch {
       // Analytics must never interrupt the calculator.
     }

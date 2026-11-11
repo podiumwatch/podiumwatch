@@ -44,20 +44,18 @@
     }
 
     try {
-      await fetch("/api/engagement/track", {
-        method: "POST",
-        keepalive: true,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          event_type: eventType,
-          team_id: publicData.team?.id || null,
-          visitor_id: visitorId,
-          session_id: sessionId,
-          path: window.location.pathname + window.location.search,
-          referrer: document.referrer,
-          ...details
-        })
+      // sendBeacon: queued by the browser, never awaited, never slows the page.
+      const body = JSON.stringify({
+        event_type: eventType,
+        team_id: publicData.team?.id || null,
+        visitor_id: visitorId,
+        session_id: sessionId,
+        path: window.location.pathname + window.location.search,
+        referrer: document.referrer,
+        ...details
       });
+      const sent = navigator.sendBeacon && navigator.sendBeacon("/api/engagement/track", new Blob([body], { type: "application/json" }));
+      if (!sent) fetch("/api/engagement/track", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json" }, body }).catch(() => {});
     } catch {
       // Analytics must never interrupt the page.
     }
