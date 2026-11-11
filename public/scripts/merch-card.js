@@ -2,8 +2,10 @@
 // swatches swap the photo (150 ms fade), title, price line, color line and
 // the card's tint without a reload. The photo, the button and a tap on the
 // already-selected swatch open that color in the store (new tab) through
-// /go/merch/{placement}/. The XC Crewneck tab shows first through
-// Dec. 31, 2026 (Eastern), then the Track Crewneck.
+// /go/merch/{placement}/. Each card shows one set of three products
+// (data-pwm-aud: girls = Mom items, boys = Dad items, mix = one of three
+// sets in turn per page view); the XC lines show through Dec. 31, 2026
+// (Eastern), then the Track lines (src/lib/merch_card.mjs merchSets).
 // Analytics: merch_view (card half in view, once per page and placement),
 // merch_swatch and merch_click {product, color, placement}; also sent to
 // Google Analytics when it is on the page. The admin switch can turn
@@ -39,18 +41,46 @@
     } catch { /* analytics never breaks the card */ }
   }
 
-  // XC Crewneck through Dec. 31 (Eastern), then the Track Crewneck.
-  function defaultIndex() {
+  // XC lines through Dec. 31 (Eastern), then Track.
+  function season() {
     const d = data.d || {};
     let today = "";
     try { today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(new Date()); } catch { today = new Date().toISOString().slice(0, 10); }
-    const id = today <= d.until ? d.before : d.after;
-    return Math.max(0, products.findIndex((p) => p.id === id));
+    return today <= d.until ? "xc" : "tf";
+  }
+  // One turn per page view for the rotating mix (stored per browser).
+  const turn = (() => {
+    try { const n = (Number(localStorage.getItem("podium_merch_turn")) || 0) + 1; localStorage.setItem("podium_merch_turn", String(n)); return n; }
+    catch { return Math.floor(Math.random() * 3); }
+  })();
+  function setFor(aud) {
+    const sets = (data.s && data.s[season()]) || {};
+    const list = (sets[aud] && sets[aud].length ? sets[aud] : sets.mix) || [];
+    const ids = list.length ? list[turn % list.length] : products.map((p) => p.id).slice(0, 3);
+    return ids.map((id) => products.find((p) => p.id === id)).filter(Boolean);
   }
 
   function setup(card) {
     if (card.dataset.pwmReady) return;
     card.dataset.pwmReady = "1";
+    const items = setFor(card.dataset.pwmAud || "mix");
+    if (!items.length) return;
+    // The server drew today's first set; switch the tabs if this view's set differs.
+    const tabList = card.querySelector(".pwm-tabs");
+    if (tabList && [...tabList.querySelectorAll("[data-pwm-tab]")].map((t) => t.dataset.pwmTab).join() !== items.map((i) => i.id).join()) {
+      tabList.textContent = "";
+      items.forEach((item, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "pwm-tab";
+        b.setAttribute("role", "tab");
+        b.dataset.pwmTab = item.id;
+        b.setAttribute("aria-selected", String(i === 0));
+        b.tabIndex = i === 0 ? 0 : -1;
+        b.textContent = item.tab;
+        tabList.append(b);
+      });
+    }
     const placement = card.dataset.pwmPlacement || "vote-page";
     const from = card.dataset.pwmFrom || location.pathname;
     const large = card.classList.contains("pwm-large");
@@ -65,23 +95,23 @@
     const button = card.querySelector("[data-pwm-button]");
     const links = [...card.querySelectorAll("[data-pwm-link]")];
     const tabs = [...card.querySelectorAll("[data-pwm-tab]")];
-    const chosen = products.map(() => 0);
-    let p = defaultIndex();
+    const chosen = items.map(() => 0);
+    let p = 0;
     let front = 0;
     let preloaded = new Set();
     let inView = false;
 
-    const color = () => products[p].c[chosen[p]];
-    const goHref = () => `/go/merch/${encodeURIComponent(placement)}/?p=${encodeURIComponent(products[p].id)}&c=${encodeURIComponent(color()[6])}&from=${encodeURIComponent(from)}`;
+    const color = () => items[p].c[chosen[p]];
+    const goHref = () => `/go/merch/${encodeURIComponent(placement)}/?p=${encodeURIComponent(items[p].id)}&c=${encodeURIComponent(color()[6])}&from=${encodeURIComponent(from)}`;
     const preload = () => {
       if (!inView || preloaded.has(p)) return;
       preloaded.add(p);
-      products[p].c.forEach((c) => { const img = new Image(); img.decoding = "async"; img.src = c[1]; });
+      items[p].c.forEach((c) => { const img = new Image(); img.decoding = "async"; img.src = c[1]; });
     };
 
     function drawSwatches() {
       swatchRow.innerHTML = "";
-      products[p].c.forEach((c, i) => {
+      items[p].c.forEach((c, i) => {
         const b = document.createElement("button");
         b.type = "button";
         b.className = "pwm-swatch";
@@ -96,7 +126,7 @@
     }
 
     function paint({ fade = true } = {}) {
-      const product = products[p];
+      const product = items[p];
       const [name, image, bg, bg2, fg, , , unavailable] = color();
       const back = imgs[1 - front];
       const swap = () => {
@@ -127,7 +157,7 @@
     }
 
     tabs.forEach((tab) => tab.addEventListener("click", () => {
-      const next = products.findIndex((item) => item.id === tab.dataset.pwmTab);
+      const next = items.findIndex((item) => item.id === tab.dataset.pwmTab);
       if (next < 0 || next === p) return;
       p = next;
       drawSwatches();
@@ -148,24 +178,24 @@
       const i = Number(b.dataset.pwmSwatch);
       if (i === chosen[p]) {
         // The selected swatch opens that color in the store.
-        track("merch_click", placement, products[p].id, color()[6]);
+        track("merch_click", placement, items[p].id, color()[6]);
         window.open(goHref(), "_blank", "noopener");
         return;
       }
       chosen[p] = i;
       paint();
-      track("merch_swatch", placement, products[p].id, color()[6]);
+      track("merch_swatch", placement, items[p].id, color()[6]);
     });
     swatchRow.addEventListener("keydown", (event) => {
       if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
       event.preventDefault();
-      const n = products[p].c.length;
+      const n = items[p].c.length;
       chosen[p] = (chosen[p] + (event.key === "ArrowRight" ? 1 : n - 1)) % n;
       paint();
       swatchRow.querySelector(`[data-pwm-swatch="${chosen[p]}"]`)?.focus();
-      track("merch_swatch", placement, products[p].id, color()[6]);
+      track("merch_swatch", placement, items[p].id, color()[6]);
     });
-    links.forEach((a) => a.addEventListener("click", () => track("merch_click", placement, products[p].id, color()[6])));
+    links.forEach((a) => a.addEventListener("click", () => track("merch_click", placement, items[p].id, color()[6])));
 
     // The server picked the tab by its build date; follow today's date.
     drawSwatches();
@@ -177,7 +207,7 @@
         inView = entry.isIntersecting;
         card.classList.toggle("is-paused", !inView);
         if (inView) preload();
-        if (entry.intersectionRatio >= 0.5 && !viewed) { viewed = true; track("merch_view", placement, products[p].id, color()[6]); }
+        if (entry.intersectionRatio >= 0.5 && !viewed) { viewed = true; track("merch_view", placement, items[p].id, color()[6]); }
       }, { threshold: [0, 0.5] }).observe(card);
     } else { inView = true; preload(); }
   }

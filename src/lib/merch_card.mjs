@@ -1,7 +1,9 @@
 import merch from "../data/merch.json" with { type: "json" };
 
-// Podium Watch Shop card (2026-11-11, from the merch handoff). Product
-// tabs (XC Crewneck, Track Crewneck, Track Tee), 4 color swatches each,
+// Podium Watch Shop card (2026-11-11, from the merch handoff). Three
+// product tabs per card (see merchSets: the arch crewneck plus Mom items on
+// girls award pages, Dad items on boys award pages, a rotating mix
+// elsewhere), the colors of each product as swatches,
 // a light tint of the garment color behind it, and the real price, sizes
 // and store link for each color from src/data/merch.json. No cycling:
 // the visitor picks. public/scripts/merch-card.js runs it in the browser.
@@ -53,8 +55,49 @@ export function defaultProductId(now = new Date()) {
   return today <= d.until ? d.before : d.after;
 }
 
-const sizeRange = (sizes) => (sizes.length ? `${sizes[0]}–${sizes.at(-1)}` : "");
-export const merchLine = (product) => `${product.price["S-XL"]} · ${merch.line.replace("{sizes}", sizeRange(product.sizes))}`;
+// XC lines through Dec. 31 (Eastern), Track lines after, same date as the
+// default tab.
+export function merchSeason(now = new Date()) {
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(now);
+  return today <= merch.default_product.until ? "xc" : "tf";
+}
+
+// "From $34.63": the S-XL price's dollar amount exactly as the store lists
+// it (the sticker's "$9.43 (5″×5″ only)" reads "From $9.43").
+export function fromPrice(product) {
+  const match = String(product.price?.["S-XL"] || "").match(/^\$\d+(?:\.\d{2})?/);
+  return match ? `From ${match[0]}` : "";
+}
+const sizeRange = (sizes) => (sizes.length > 1 ? `Sizes ${sizes[0]}–${sizes.at(-1)}` : sizes.length ? `Size ${sizes[0]}` : "");
+export const merchLine = (product) => [fromPrice(product), merch.line.replace("Sizes {sizes}", sizeRange(product.sizes))].filter(Boolean).join(" · ");
+
+// Which three products a card shows (2026-11-11, parent lines added):
+//   girls  award pages for girls: arch crewneck, Mom crewneck, Mom tee
+//   boys   award pages for boys: arch crewneck, Dad crewneck, Dad tee
+//   mix    everywhere else, one set per page view in turn: crewnecks
+//          (arch, Mom, Dad), tees (Track Arch Tee, Mom, Dad), and the arch
+//          crewneck with the sticker and mug.
+// Mom and Dad items follow the season (XC through Dec. 31, then Track).
+export const MERCH_AUDIENCES = ["girls", "boys", "mix"];
+export function merchSets(season) {
+  const live = (id) => merch.products.some((p) => p.id === id && p.colors.length);
+  const find = (line, kind) => merch.products.find((p) => p.line === line && p.season === season && p.id.endsWith(`-${kind}`))?.id;
+  const clean = (ids) => [...new Set(ids.filter((id) => id && live(id)))];
+  const arch = season === "xc" ? merch.default_product.before : merch.default_product.after;
+  const extras = merch.products.filter((p) => p.line === "extra").map((p) => p.id);
+  const sets = {
+    girls: [clean([arch, find("mom", "crewneck"), find("mom", "tee")])],
+    boys: [clean([arch, find("dad", "crewneck"), find("dad", "tee")])],
+    mix: [clean([arch, find("mom", "crewneck"), find("dad", "crewneck")]), clean(["ohio-tf-arch-tee", find("mom", "tee"), find("dad", "tee")]), clean([arch, ...extras])]
+  };
+  for (const key of Object.keys(sets)) sets[key] = sets[key].filter((ids) => ids.length);
+  return sets;
+}
+export function merchSetFor(audience = "mix", { now = new Date(), turn = 0 } = {}) {
+  const sets = merchSets(merchSeason(now));
+  const list = sets[audience]?.length ? sets[audience] : sets.mix;
+  return list[turn % list.length];
+}
 // "3XL not available in Maroon" for each size the store doesn't sell in a color.
 export function unavailableNote(product, colorName) {
   const sizes = (product.unavailable || []).map((entry) => String(entry)).filter((entry) => entry.startsWith(`${colorName} `)).map((entry) => entry.slice(colorName.length + 1));
@@ -71,6 +114,7 @@ export function merchGoHref(placement, productId, color, from) {
 export function merchClientData() {
   return {
     d: merch.default_product,
+    s: { xc: merchSets("xc"), tf: merchSets("tf") },
     av: merch.after_vote_headline,
     p: merch.products.filter((p) => p.colors.length).map((p) => ({
       id: p.id, tab: p.tab, t: p.title, line: merchLine(p), b: p.button,
@@ -79,10 +123,11 @@ export function merchClientData() {
   };
 }
 
-export function merchCardHtml({ placement = "vote-page", from = "", large = false, now = new Date() } = {}) {
+export function merchCardHtml({ placement = "vote-page", from = "", large = false, now = new Date(), audience = "mix" } = {}) {
   if (!merchEnabled()) return "";
-  const products = merch.products.filter((p) => p.colors.length);
-  const product = products.find((p) => p.id === defaultProductId(now)) || products[0];
+  const aud = MERCH_AUDIENCES.includes(audience) ? audience : "mix";
+  const products = merchSetFor(aud, { now }).map((id) => merch.products.find((p) => p.id === id));
+  const product = products[0];
   const color = product.colors[0];
   const tint = merchTint(color.hex);
   const href = merchGoHref(placement, product.id, color.name, from);
@@ -90,7 +135,7 @@ export function merchCardHtml({ placement = "vote-page", from = "", large = fals
   const tabs = products.map((p) => `<button type="button" role="tab" class="pwm-tab" data-pwm-tab="${esc(p.id)}" aria-selected="${p.id === product.id}"${p.id === product.id ? "" : ' tabindex="-1"'}>${esc(p.tab)}</button>`).join("");
   const swatches = product.colors.map((c, i) => `<button type="button" role="radio" class="pwm-swatch" style="--sw:${esc(c.hex)}" data-pwm-swatch="${i}" aria-label="${esc(c.name)}" aria-checked="${i === 0}"${i === 0 ? "" : ' tabindex="-1"'}></button>`).join("");
   const headline = large ? merch.after_vote_headline : product.title;
-  return `<aside class="pwm${large ? " pwm-large" : ""}" data-pwm data-pwm-placement="${esc(placement)}" data-pwm-from="${esc(from)}" data-pwm-product="${esc(product.id)}" aria-label="${esc(merch.label)}" style="--pwm-bg:${tint.bg};--pwm-bg2:${tint.bg2};--pwm-fg:${tint.fg}">
+  return `<aside class="pwm${large ? " pwm-large" : ""}" data-pwm data-pwm-placement="${esc(placement)}" data-pwm-aud="${aud}" data-pwm-from="${esc(from)}" data-pwm-product="${esc(product.id)}" aria-label="${esc(merch.label)}" style="--pwm-bg:${tint.bg};--pwm-bg2:${tint.bg2};--pwm-fg:${tint.fg}">
   <div class="pwm-card">
     <div class="pwm-tabs" role="tablist" aria-label="Products">${tabs}</div>
     <div class="pwm-body">
