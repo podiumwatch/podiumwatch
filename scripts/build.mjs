@@ -1,3 +1,4 @@
+import { merchSection } from "../src/lib/merch_card.mjs";
 import { adminTeamsPage } from "../src/pages/adminteams.mjs";
 import { adminTeamManagerPage } from "../src/pages/adminteammanager.mjs";
 import { adminTeamSchedulesPage } from "../src/pages/adminteamschedules.mjs";
@@ -275,6 +276,10 @@ async function writeFile(relativePath, content) {
 }
 
 async function writePage(route, html) {
+  // Rankings pages: the Podium Watch Shop card at the very bottom, below
+  // everything (never above the presenting sponsors or inside a list).
+  // Not on the OATCCC Coaches Poll (no sponsors there).
+  if (/^\/rankings\//.test(route) && !/^\/rankings\/oatccc\//.test(route)) html = html.replace("</main>", `${merchSection({ placement: "rankings-end", from: route })}</main>`);
   const cleanRoute = route === "/" ? "" : route.replace(/^\/+|\/+$/g, "");
   await writeFile(path.join(cleanRoute, "index.html"), stampCacheBustedAssetUrls(html));
 }
@@ -915,6 +920,7 @@ function storyPage(story, stories) {
   ${heroArt}
 
   <article class="sp-article"><div class="sp-col">${bodyHtml}${sponsorBlock}</div></article>
+  ${/oatccc.*poll|write-for-podium-watch/.test(story.slug) ? "" : merchSection({ placement: "story-end", from: pathname })}
 
   ${endBlock}
 

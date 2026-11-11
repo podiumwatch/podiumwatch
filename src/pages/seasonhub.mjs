@@ -1,4 +1,5 @@
 import { escapeHtml } from "../lib/content.mjs";
+import { merchSection } from "../lib/merch_card.mjs";
 import { breadcrumb, layout, pageHero } from "../lib/html.mjs";
 import { HUB_STAGES, HUB_YEARS, hubPath } from "../config/season_hubs.mjs";
 import { smallLogoHtml } from "../lib/team_logo_html.mjs";
@@ -180,5 +181,6 @@ export function seasonHubPage(site, hub) {
     url: `${site.siteUrl}${pathname}`
   }] : [];
 
-  return layout({ site, title: stage.title(year), description, pathname, content, jsonLd });
+  // Podium Watch Shop card at the end of the content (src/lib/merch_card.mjs).
+  return layout({ site, title: stage.title(year), description, pathname, content: `${content}${merchSection({ placement: "results-end", from: pathname })}`, jsonLd });
 }

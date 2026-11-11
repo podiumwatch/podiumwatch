@@ -1,6 +1,7 @@
 import { supabaseAdmin } from "../../lib/supabase-admin.mjs";
 import { isAdminRequest } from "../../lib/admin_auth.mjs";
 import {
+  getMerchReport,
   aggregateAnalytics,
   cleanText,
   getEngagementSettings,
@@ -443,6 +444,8 @@ export default async function handler(request, response) {
     if (action === "get_dashboard") {
       const days = [7, 30, 90].includes(Number(body.days)) ? Number(body.days) : 30;
       result = await getDashboard(days);
+    } else if (action === "get_merch") {
+      result = await getMerchReport({ days: 7 });
     } else if (action === "save_settings") {
       result = await saveSettings(body);
     } else if (action === "save_sponsor") {

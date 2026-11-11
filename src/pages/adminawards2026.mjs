@@ -63,7 +63,7 @@ export function adminAwards2026Page(site) {
       <p class="awards-message" data-yoya-message role="status"></p>
       <section class="info-card" data-yoya-merch-panel>
         <h2>Podium Watch Store card</h2>
-        <p>The store card on every voting page and the hub (below the finalists and vote button), plus the larger card after a vote. Clicks show in the sponsor report as Podium Watch Store. Text, products and colors: src/data/merch.json.</p>
+        <p>The Podium Watch Shop card: awards hub, top of each ballot and after the finalists, the larger card after a vote, end of stories and results, bottom of rankings, and Wrapped. This switch turns every card off. Clicks show in the sponsor report as Podium Watch Shop; views and clicks by placement are in Engagement <p>The store card on every voting page and the hub (below the finalists and vote button), plus the larger card after a vote. Clicks show in the sponsor report as Podium Watch Store. Text, products and colors: src/data/merch.json.</p>gt; Merch. Products, colors and prices: src/data/merch.json.</p>
         <p><strong data-yoya-merch-state>Checking...</strong> <button class="button button-secondary" type="button" data-yoya-merch-toggle hidden>Turn off</button></p>
       </section>
       <section class="info-card" data-yoya-activity-panel>

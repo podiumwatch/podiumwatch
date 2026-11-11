@@ -332,6 +332,27 @@
     livePollTimer = setInterval(loadLivePresence, LIVE_POLL_MS);
   }
 
+  // Merch: the Podium Watch Shop card, last 7 days (install/93 events).
+  const merchLabels = { "vote-page": "Awards hub and top of ballots", ballot: "Ballot, after the finalists", "after-vote": "After a vote", "story-end": "End of stories", "results-end": "End of results", "rankings-end": "Bottom of rankings", wrapped: "Wrapped", "ohio-xc-arch-crewneck": "XC Crewneck", "ohio-tf-arch-crewneck": "Track Crewneck", "ohio-tf-arch-tee": "Track Tee" };
+  const merchEsc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const merchTable = (rows) => rows.length
+    ? `<div style="overflow-x:auto"><table class="engagement-merch"><thead><tr><th scope="col"></th><th scope="col">Views</th><th scope="col">Color picks</th><th scope="col">Clicks</th><th scope="col">Click rate</th></tr></thead><tbody>${rows.map((row) => `<tr><th scope="row">${merchEsc(merchLabels[row.id] || row.id)}</th><td>${row.views.toLocaleString()}</td><td>${row.swatches.toLocaleString()}</td><td>${row.clicks.toLocaleString()}</td><td>${row.click_rate == null ? "-" : `${row.click_rate}%`}</td></tr>`).join("")}</tbody></table></div>`
+    : "<p>No shop card activity yet.</p>";
+  async function loadMerch() {
+    const note = document.querySelector("[data-merch-note]");
+    try {
+      const data = await api({ action: "get_merch" });
+      document.querySelector("[data-merch-views]").textContent = data.total.views.toLocaleString();
+      document.querySelector("[data-merch-clicks]").textContent = data.total.clicks.toLocaleString();
+      document.querySelector("[data-merch-rate]").textContent = data.total.click_rate == null ? "-" : `${data.total.click_rate}%`;
+      document.querySelector("[data-merch-placements]").innerHTML = merchTable(data.placements);
+      document.querySelector("[data-merch-products]").innerHTML = merchTable(data.products);
+      note.textContent = `Since ${new Date(data.since).toLocaleDateString()}. A view counts once per page when the card is half on screen. Store clicks also show in the sponsor report.`;
+    } catch (error) {
+      note.textContent = error.message;
+    }
+  }
+
   function stopLivePolling() {
     if (livePollTimer) clearInterval(livePollTimer);
     livePollTimer = null;
@@ -344,6 +365,7 @@
         panel.hidden = panel.dataset.engagementPanel !== button.dataset.engagementTab;
       });
 
+      if (button.dataset.engagementTab === "merch") loadMerch();
       if (button.dataset.engagementTab === "live") {
         startLivePolling();
       } else {

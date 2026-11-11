@@ -6,6 +6,9 @@ const styles = `
     .engagement-tabs { display:flex; flex-wrap:wrap; gap:9px; }
     .engagement-tab[aria-selected="true"] { background:#111827; color:#fff; }
     .engagement-panel { display:grid; gap:22px; }
+    .engagement-merch { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; margin:8px 0 18px; }
+    .engagement-merch th, .engagement-merch td { padding:8px 10px; border-bottom:1px solid #e5e7eb; text-align:right; white-space:nowrap; }
+    .engagement-merch th[scope="row"], .engagement-merch thead th:first-child { text-align:left; }
     .engagement-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
     .engagement-stat { padding:20px; border-radius:14px; background:#fff; box-shadow:0 10px 28px rgba(15,23,42,.07); }
     .engagement-stat strong { display:block; font-size:2rem; line-height:1; }
@@ -63,6 +66,7 @@ export function adminEngagementPage(site) {
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="live">Live now</button>
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="notifications">Notifications</button>
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="sponsors">Sponsors</button>
+          <button class="button button-outline engagement-tab" type="button" data-engagement-tab="merch">Merch</button>
           <button class="button button-outline engagement-tab" type="button" data-engagement-tab="activity">Activity</button>
         </div>
 
@@ -110,6 +114,22 @@ export function adminEngagementPage(site) {
               <div class="engagement-list" data-engagement-configuration></div>
             </section>
           </div>
+        </section>
+
+        <section class="engagement-panel" data-engagement-panel="merch" hidden>
+          <div class="engagement-stats">
+            <div class="engagement-stat"><strong data-merch-views>0</strong><span>Card views</span></div>
+            <div class="engagement-stat"><strong data-merch-clicks>0</strong><span>Clicks to the store</span></div>
+            <div class="engagement-stat"><strong data-merch-rate>-</strong><span>Click rate</span></div>
+          </div>
+          <section class="info-card">
+            <p class="eyebrow">Podium Watch Shop &middot; last 7 days</p>
+            <h2>By placement</h2>
+            <p class="engagement-live-note" data-merch-note>Loading&hellip;</p>
+            <div class="engagement-merch-table" data-merch-placements></div>
+            <h2>By product</h2>
+            <div class="engagement-merch-table" data-merch-products></div>
+          </section>
         </section>
 
         <section class="engagement-panel" data-engagement-panel="live" hidden>

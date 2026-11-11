@@ -1,13 +1,12 @@
 import { escapeHtml } from "../lib/content.mjs";
 import { layout, pageHero } from "../lib/html.mjs";
 import { bicarbStyles, bicarbVotingAdHtml } from "../lib/bicarb_ads.mjs";
-import { merchCardHtml, merchClientData, merchEnabled, merchStyles } from "../lib/merch_card.mjs";
+import { merchCardHtml, merchEnabled, merchScripts, merchStyles } from "../lib/merch_card.mjs";
 
-// Podium Watch Store card: below the vote card (never above the finalists
-// or the vote button), a larger one in the vote confirmation, and at the
-// bottom of the hub. Data and script once per page.
-const merchScripts = () => (merchEnabled() ? `<script type="application/json" data-pwm-data>${JSON.stringify(merchClientData()).replaceAll("<", "\\u003c")}</script>
-  <script src="/scripts/merch-card.js" defer></script>` : "");
+// Podium Watch Shop card (src/lib/merch_card.mjs): on each ballot page
+// above the finalists (with "Vote below") and again after the finalists,
+// before the vote button (Zachary, 2026-11-11); the larger card in the vote
+// confirmation; at the bottom of the hub. Data and script once per page.
 import { YEARLY_AWARDS_SCHEDULE, categoryPool, formatEt } from "../../lib/yearly_awards_2026.mjs";
 
 // 2026 Athlete, Team and Coach of the Year public pages: the hub at
@@ -64,6 +63,7 @@ const styles = `
     .yoy-tile strong { font-size:1.05rem; }
     .yoy-chip { justify-self:start; padding:3px 8px; border-radius:999px; background:var(--yoy-ink); color:#fff; font-size:.72rem; font-weight:850; letter-spacing:.03em; }
     .yoy-intro { margin:0; font-weight:600; }
+    .yoy-ballot-shop { margin:14px 0 4px; }
     .yoy-finalists { display:grid; gap:8px; margin:0; padding:0; list-style:none; }
     .yoy-finalist-row { display:flex; gap:8px; align-items:stretch; }
     .yoy-finalist-row > .yoy-finalist { flex:1 1 auto; min-width:0; }
@@ -181,6 +181,7 @@ export function yearlyAwardsCategoryPage(site, pool, category, { share = null, a
         <p class="yoy-rules">You can vote once an hour in each category. Votes that look automated are removed.</p>
         <p class="yoy-hint" data-yoy-vote-hint></p>
         <ol class="yoy-finalists" data-yoy-finalists></ol>
+        <div class="yoy-ballot-shop" data-yoy-ballot-shop hidden>${merchCardHtml({ placement: "ballot", from: pathname })}</div>
         <div data-yoy-turnstile></div>
         <label class="yoy-hp" aria-hidden="true">Website <input type="text" data-yoy-vote-trap tabindex="-1" autocomplete="off"></label>
         <button class="yoy-submit" type="button" data-yoy-cast hidden>Cast my vote</button>

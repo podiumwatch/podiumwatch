@@ -1,5 +1,10 @@
 # Podium Watch next session
 
+## Start here (2026-11-11)
+
+- Podium Watch Shop card is committed, not pushed. Run install/93_ANALYTICS_MERCH_EVENTS.sql before or right after pushing (until then the server drops merch events quietly; store clicks still count in the sponsor report).
+- When products or colors change: update src/data/merch.json, then node scripts/merch-images.mjs.
+
 ## Start here (2026-11-10, night)
 
 - Redis: presence is off and each vote is one script (b63f689c, pushed). Watch Upstash usage; a vote that hits a Redis error shows "Voting is busy".

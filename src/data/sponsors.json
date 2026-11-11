@@ -40,13 +40,18 @@
   },
   {
     "id": "merch",
-    "name": "Podium Watch Store",
-    "description": "Podium Watch's own store, on the 2026 awards voting pages and Wrapped pages (src/data/merch.json). Not a page sponsor: no paths.",
+    "name": "Podium Watch Shop",
+    "description": "Podium Watch's own shop card (src/data/merch.json, src/lib/merch_card.mjs): awards pages, story and results pages, rankings pages, Wrapped, and the Shop menu link. Not a page sponsor: no paths.",
     "url": "https://app.amazecommerce.com/shop/podiumwatch",
     "placements": [
       {
         "id": "vote-page",
-        "label": "Awards voting pages",
+        "label": "Awards hub and top of ballot pages",
+        "paths": []
+      },
+      {
+        "id": "ballot",
+        "label": "Ballot pages, after the finalists",
         "paths": []
       },
       {
@@ -55,8 +60,28 @@
         "paths": []
       },
       {
+        "id": "story-end",
+        "label": "End of story pages",
+        "paths": []
+      },
+      {
+        "id": "results-end",
+        "label": "End of state, regional and district results",
+        "paths": []
+      },
+      {
+        "id": "rankings-end",
+        "label": "Bottom of rankings pages",
+        "paths": []
+      },
+      {
         "id": "wrapped",
         "label": "Podium Watch Wrapped pages",
+        "paths": []
+      },
+      {
+        "id": "nav",
+        "label": "Shop link in the menu and footer",
         "paths": []
       }
     ]

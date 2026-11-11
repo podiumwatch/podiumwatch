@@ -7,8 +7,8 @@ import { merchDestination } from "../../../lib/merch_service.mjs";
 // visitor to the sponsor's own link from src/data/sponsors.json. A click
 // that can't be recorded still redirects; an unknown sponsor or one with
 // no link goes home.
-// The Podium Watch Store card (/go/merch/vote-page/ and /go/merch/after-vote/)
-// goes to the product's own store page (?p=) with the awards UTM tags.
+// The Podium Watch Shop card (/go/merch/{placement}/?p=&c=) goes to that
+// color's own store link with UTM tags (lib/merch_service.mjs).
 
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
@@ -32,6 +32,6 @@ export default async function handler(request, response) {
     console.error("Sponsor click not recorded:", error);
   }
 
-  response.setHeader("Location", match.sponsor.id === "merch" ? merchDestination(String(request.query?.p || "")) : match.sponsor.url);
+  response.setHeader("Location", match.sponsor.id === "merch" ? merchDestination(String(request.query?.p || ""), String(request.query?.c || ""), match.placement.id) : match.sponsor.url);
   return response.status(302).end();
 }

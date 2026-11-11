@@ -172,6 +172,8 @@ export const site = {
       { label: "Staff", href: "/staff/" },
       { label: "Editorial Standards", href: "/standards/" },
       { label: "Sponsors", href: "/sponsors/" },
+      // Podium Watch Shop (store home, counted at /go/merch/nav/).
+      { label: "Shop", href: "/go/merch/nav/", external: true },
       { label: "Contact", href: "/contact/" },
       { label: "Privacy", href: "/privacy/" },
       { label: "Terms", href: "/terms/" }

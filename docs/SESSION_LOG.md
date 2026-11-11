@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 11 Podium Watch Shop card
+
+- merch.json from the handoff, 12 photos saved locally, tabs and swatches, tinted background with a contrast test, new placements (ballot x2, stories, results hubs, rankings, Shop links), color-level store links with UTM tags, merch events and Admin > Engagement > Merch, install/93. Checked at 390 and 1280 px, including a stubbed test vote.
+
 ## 2026 11 10 Redis usage cut; awards share previews
 
 - Presence off; one-script votes (about 11 commands instead of 21); busy message on Redis errors; one-call "my votes"; shared public counts snapshot; settings read once a minute. Checked the real Lua on throwaway Redis keys (scripts/test-yearly-vote-script.mjs). Hourly Supabase backups confirmed for all 24 categories.

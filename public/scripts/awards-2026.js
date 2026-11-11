@@ -273,6 +273,10 @@
       finalistList.append(li);
     }
     castButton.hidden = !canVote;
+    // Shop card between the finalists and the vote button (merch-card.js
+    // sets it up once it shows).
+    const ballotShop = root.querySelector("[data-yoy-ballot-shop]");
+    if (ballotShop && ballotShop.hidden === canVote) { ballotShop.hidden = !canVote; if (canVote) document.dispatchEvent(new CustomEvent("pw:shop-shown")); }
     castButton.disabled = !pickedFinalist;
     castButton.textContent = pickedFinalist ? `Vote for ${finalistName(pickedFinalist)}` : "Pick a finalist";
     votedNote.hidden = !votedFor || status === "published";

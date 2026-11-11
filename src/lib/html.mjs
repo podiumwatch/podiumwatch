@@ -143,6 +143,7 @@ export function header(site, currentPath = "/") {
       <div class="nav-utility">
         <button class="nav-icon-button nav-utility-search" type="button" aria-haspopup="dialog" aria-label="Search" data-search-open>${icon("search")}<span>Search</span></button>
         <a class="nav-utility-calc" href="/pace-calculator/">${icon("calculator")}<span>Pace Calculator</span></a>
+        <a class="nav-utility-calc nav-utility-shop" href="/go/merch/nav/" target="_blank" rel="sponsored noopener">Shop</a>
         <span data-nav-dropdown-sw-anchor hidden></span>
         ${splitWatchNavDropdown(splitWatchActive)}
         <div class="nav-utility-social-row">

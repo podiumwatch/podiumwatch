@@ -2,6 +2,14 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 11 Podium Watch Shop card (merch handoff)
+
+### Decision
+
+The awards store card became the Podium Watch Shop card, driven by src/data/merch.json (3 products x 4 colors from the live Amaze store; photos saved locally by scripts/merch-images.mjs, never hotlinked; scripts/merch-sync.mjs and the old 6-product photos removed). Tabs and swatches replace the 4-second cycling. The background is a light tint of the garment color (78%/64% white); a test holds every tint to 4.5:1 text contrast. XC Crewneck is the default tab through Dec. 31, 2026 (Eastern), then Track Crewneck, decided in the browser so built pages switch on their own.
+
+Placements: awards hub; each ballot page both above the finalists (with "Vote below") and after the finalists before the vote button (Zachary, 2026-11-11, overriding the handoff's below-only rule); the after-vote card ("Vote counted. Now rep Ohio XC."); end of stories except OATCCC poll stories; end of state, regional and district results hubs; bottom of /rankings/ pages except the OATCCC poll; Wrapped; "Shop" in the menu and footer. Clicks go through /go/merch/{placement}/?p=&c= to the color's own store link with utm_content={placement}-{product}-{color}; awards placements keep utm_medium=awards, utm_campaign=awards2026, others use site/merch. Events merch_view, merch_swatch (capped at 12 per page) and merch_click go to team_analytics_events (install/93) and Google Analytics; Admin > Engagement > Merch shows the last 7 days.
+
 ## 2026 11 10 Redis usage cut for award voting; awards share previews
 
 ### Decision
