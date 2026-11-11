@@ -96,3 +96,46 @@ test("header: a Teams menu with Teams and Athletes; Teams in the mobile bar; hom
   assert.match(build, /<form class="home-find-team-form" action="\/teams\/" method="get" role="search">/);
   assert.match(fs.readFileSync("public/scripts/team-directory.js", "utf8"), /get\("search"\)/);
 });
+
+test("aliases from Zachary map to exactly the school named (2026-11-11)", async () => {
+  const file = JSON.parse(fs.readFileSync("src/data/school-name-aliases.json", "utf8"));
+  assert.deepEqual(Object.keys(file.aliases).sort(), ["Cincinnati CHCA", "Dub. Jerome", "Fenwick", "Hartley", "MVCA", "Olen. Liberty"]);
+  const ids = Object.values(file.aliases).map((v) => v.school_id);
+  assert.equal(new Set(ids).size, ids.length, "each alias is a different school");
+  for (const id of ids) assert.match(id, /^[0-9a-f-]{36}$/);
+});
+
+test("division rules: Green and Lakewood link only in Division I, to the school given", async () => {
+  const { buildLinkIndex, teamHrefForName, athleteHrefFor, parseDivision, resolveLinks } = await import("../lib/name_links.mjs");
+  const file = JSON.parse(fs.readFileSync("src/data/school-name-aliases.json", "utf8"));
+  const idx = buildLinkIndex({
+    teams: [
+      { slug: "green-uniontown-670", ohio_school_id: "dd03a2bd-bbd9-4268-9d49-c386a6948867" },
+      { slug: "lakewood-lakewood-832", ohio_school_id: "96173f9b-8b5d-4974-ba3e-a659dabd24d0" },
+      { slug: "lakewood-hebron-830", ohio_school_id: "dac2542e-f628-4e26-b565-e120a3f97a7d" }
+    ],
+    schools: [
+      { id: "dd03a2bd-bbd9-4268-9d49-c386a6948867", school_name: "Green", city: "Uniontown" },
+      { id: "392ac88f-95e6-47f3-9c47-866ead48c79f", school_name: "Green", city: "Franklin Furnace" },
+      { id: "96173f9b-8b5d-4974-ba3e-a659dabd24d0", school_name: "Lakewood", city: "Lakewood" },
+      { id: "dac2542e-f628-4e26-b565-e120a3f97a7d", school_name: "Lakewood", city: "Hebron" },
+      { id: "solo", school_name: "Mason", city: "Mason" }
+    ],
+    athletes: [{ slug: "dane-whittaker-green-2027", display_name: "Dane Whittaker", current_school_id: "dd03a2bd-bbd9-4268-9d49-c386a6948867" }],
+    divisionAliases: [...file.division_aliases, { label: "Mason", division: 1, school_id: "elsewhere" }]
+  });
+  assert.equal(teamHrefForName(idx, "Green"), null);
+  assert.equal(teamHrefForName(idx, "Green", "Division I"), "/teams/green-uniontown-670/");
+  assert.equal(teamHrefForName(idx, "Green", 2), null, "no rule for Division II");
+  assert.equal(teamHrefForName(idx, "Lakewood", "1"), "/teams/lakewood-lakewood-832/");
+  assert.equal(teamHrefForName(idx, "Lakewood", "D3"), null);
+  assert.equal(athleteHrefFor(idx, "Dane Whittaker", "Green", 1), "/athletes/dane-whittaker-green-2027/");
+  assert.equal(athleteHrefFor(idx, "Dane Whittaker", "Green", 2), null);
+  assert.deepEqual(resolveLinks(idx, { s: ["Green@1", "Green@2", "Green"], a: [["Dane Whittaker", "Green", "1"]] }).schools, { "Green@1": "/teams/green-uniontown-670/" });
+  assert.deepEqual(Object.keys(resolveLinks(idx, { a: [["Dane Whittaker", "Green", "1"]] }).athletes), ["Dane Whittaker~Green~1"]);
+  assert.equal(parseDivision("Girls Division II"), 2);
+  assert.equal(parseDivision("Division 12"), null);
+  const linker = fs.readFileSync("public/scripts/name-links.js", "utf8");
+  assert.match(linker, /headingDivision/, "recap tables take their division from the heading above");
+  for (const [file, pattern] of [["scripts/build.mjs", /class="ranking-row" data-pw-division=/], ["public/scripts/ranking-leaders.js", /data-pw-division="\$\{escapeHtml\(entry\.division/], ["src/pages/mockregionals.mjs", /data-pw-division="\$\{division\}"/], ["src/pages/oatcccpoll.mjs", /rowsEl\.dataset\.pwDivision = division/]]) assert.match(fs.readFileSync(file, "utf8"), pattern, file);
+});

@@ -44,7 +44,7 @@
     }
 
     rowsEl.innerHTML = entries.map((entry) => `
-      <tr data-leaders-rank="${entry.rank}">
+      <tr data-leaders-rank="${entry.rank}" data-pw-division="${escapeHtml(entry.division || "")}">
         <td class="leaders-cell-rank">${entry.rank}</td>
         <td class="leaders-cell-athlete">
           ${entry.athlete_slug ? `<a href="/athletes/${escapeHtml(entry.athlete_slug)}/">${escapeHtml(entry.athlete_name)}</a>` : entry.school_name ? `<span data-pw-athlete="${escapeHtml(entry.athlete_name)}" data-pw-athlete-school="${escapeHtml(entry.school_name)}">${escapeHtml(entry.athlete_name)}</span>` : escapeHtml(entry.athlete_name)}

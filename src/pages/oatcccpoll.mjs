@@ -363,6 +363,7 @@ export function oatcccCoachesPollPage(site) {
           '<td class="oatccc-cell-move">' + moveCellHtml(row.rank, previousRows, row.school) + '</td>' +
         '</tr>'
       )).join('');
+      rowsEl.dataset.pwDivision = division;
       if (typeof window.pwNameLinks === 'function') window.pwNameLinks(rowsEl);
     }
 

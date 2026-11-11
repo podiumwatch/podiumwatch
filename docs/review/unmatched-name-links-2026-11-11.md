@@ -85,3 +85,67 @@ Page: /rankings/oatccc/
 | School | Mass. Jackson |  | No school in the Ohio schools list has this exact name |  |
 | School | Dub. Coffman |  | No school in the Ohio schools list has this exact name |  |
 | School | Perrysburg |  | No school in the Ohio schools list has this exact name |  |
+
+## Re-run after aliases and division rules (2026-11-11)
+
+| Page | Before | After this commit | After migration 94 (8 team pages published) |
+|---|---|---|---|
+| Recap | 14 | 10 | 10 |
+| Top 10 | 52 | 42 | 31 |
+| OATCCC (opening view) | 5 | 3 | 3 |
+
+Counts are names on the page, repeats included. "After migration 94" assumes install/94_PUBLISH_RESULTS_TEAM_PAGES.sql has been run.
+
+### Still not linked after both
+
+| Page | Type | Name | School shown | Division | Why |
+|---|---|---|---|---|---|
+| Recap | Athlete | Luca Novakovic | CF Northwest | D3 | School not matched (no school with this exact name) |
+| Recap | School | CF Northwest |  | D3 | No school in the Ohio schools list has this exact name |
+| Recap | Athlete | Brionna Wright | Gahanna Lincoln | D1 | No public profile with this exact name |
+| Recap | Athlete | Lucia Sveda | Green | D2 | Division II row; the rule given covers Division I only |
+| Recap | School | Green |  | D2 | Division II row; the rule given covers Division I only |
+| Recap | Athlete | Katrina Neal | Clear Fork | D3 | No profile with this name at Clear Fork (Bellville) |
+| Recap | Athlete | Marlee Beacom | Ashtabula St. John | D4 | School not matched (no school with this exact name) |
+| Recap | School | Ashtabula St. John |  | D4 | No school in the Ohio schools list has this exact name |
+| Recap | Athlete | Emma Phillips | Ashtabula St. John | D4 | School not matched (no school with this exact name) |
+| Top 10 | Athlete | Brennan Higgins | Toledo St. Francis |  | School not matched (no school with this exact name) |
+| Top 10 | School | Toledo St. Francis |  |  | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Annalise Costin | Brecksville |  | School not matched (no school with this exact name) |
+| Top 10 | School | Brecksville |  |  | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Caroline Valentino | Hathaway Brown |  | School not matched (no school with this exact name) |
+| Top 10 | School | Hathaway Brown |  |  | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Dane Whittaker | Green | D2 | Division II row; the rule given covers Division I only |
+| Top 10 | School | Green |  | D2 | Division II row; the rule given covers Division I only |
+| Top 10 | Athlete | Will Schuldt | Lakewood | D2 | Division II row; the rule given covers Division I only |
+| Top 10 | School | Lakewood |  | D2 | Division II row; the rule given covers Division I only |
+| Top 10 | Athlete | Brennan Higgins | Toledo St. Francis | D2 | School not matched (no school with this exact name) |
+| Top 10 | School | Toledo St. Francis |  | D2 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Lucas Steele | DeSales (Columbus) | D2 | School not matched (no school with this exact name) |
+| Top 10 | School | DeSales (Columbus) |  | D2 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Stephen Wojtowicz | Legacy Christian | D4 | School not matched (no school with this exact name) |
+| Top 10 | School | Legacy Christian |  | D4 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Samuel Philpot | Russia | D4 | No public profile with this exact name |
+| Top 10 | Athlete | Madison Hobbs | Pickerington North | D1 | School not matched (no school with this exact name) |
+| Top 10 | School | Pickerington North |  | D1 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Lucia Schafer | Fairmont | D1 | School not matched (no school with this exact name) |
+| Top 10 | School | Fairmont |  | D1 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Annalise Costin | Brecksville | D2 | School not matched (no school with this exact name) |
+| Top 10 | School | Brecksville |  | D2 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Lucia Sveda | Green | D2 | Division II row; the rule given covers Division I only |
+| Top 10 | Athlete | Caroline Valentino | Hathaway Brown | D3 | School not matched (no school with this exact name) |
+| Top 10 | School | Hathaway Brown |  | D3 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Marlee Beacom | St. John (Ashtabula) | D4 | School not matched (no school with this exact name) |
+| Top 10 | School | St. John (Ashtabula) |  | D4 | No school in the Ohio schools list has this exact name |
+| Top 10 | Athlete | Emma Phillips | St. John (Ashtabula) | D4 | School not matched (no school with this exact name) |
+| OATCCC (opening view) | School | Mass. Jackson |  | D1 | No school in the Ohio schools list has this exact name |
+| OATCCC (opening view) | School | Dub. Coffman |  | D1 | No school in the Ohio schools list has this exact name |
+| OATCCC (opening view) | School | Perrysburg |  | D1 | No school in the Ohio schools list has this exact name |
+
+### Perrysburg (not fixed, needs your OK)
+
+Perrysburg is in the Ohio schools list once, as **"Perrysburg High School"** (Perrysburg, OHSAA 1248, id d965a8ba-e044-4a63-be6c-2130e0b98f68). Its team page exists and is published (perrysburg-high-school-perrysburg-1248) with the name "Perrysburg". The link index matches on the Ohio schools list name, so the label "Perrysburg" finds nothing: it's a spelling difference, not a missing row or a duplicate. Almost every other row in that list leaves off "High School". Two possible fixes: rename the Ohio schools row to "Perrysburg" (a data change), or add a "Perrysburg" alias. Not done.
+
+### Green and Lakewood
+
+The database puts Green (Uniontown) and Lakewood (Lakewood) in boys Division II, Lakewood (Hebron) in Division III and Green (Franklin Furnace) in girls Division IV. Every Green and Lakewood row on these pages is Division II, so the Division I rules match none of them yet.

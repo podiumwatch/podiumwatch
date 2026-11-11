@@ -1,0 +1,15 @@
+{
+  "note": "School labels used on the site that don't match the Ohio schools list exactly, mapped to the one school they mean (lib/name_links.mjs). Each was checked on 2026-11-11 to match exactly one school in ohio_schools; Zachary supplied the names. division_aliases apply only when the label matches more than one school and the row's division is the one given.",
+  "aliases": {
+    "Dub. Jerome": { "school_id": "0d7ee068-c928-4156-b860-1a9c43f6c644", "why": "Dublin Jerome (Dublin), the only school in ohio_schools matching 'Jerome'" },
+    "Olen. Liberty": { "school_id": "07c2f5ad-40bb-45b1-8291-b4ffb9388f13", "why": "Olentangy Liberty (Powell), the only school matching 'Olentangy Liberty'" },
+    "Cincinnati CHCA": { "school_id": "fa98bb39-6191-40b1-8f43-1610e62c6ffc", "why": "Cincinnati Hills Christian Academy (Cincinnati), the only school matching 'Hills Christian'" },
+    "Fenwick": { "school_id": "5fed2763-465b-4b22-af17-67e3667481fd", "why": "Bishop Fenwick (Franklin), the only school matching 'Fenwick'" },
+    "MVCA": { "school_id": "42f92edd-332f-4893-92ac-1a710d88bbcf", "why": "Miami Valley Christian Academy (Cincinnati), the only school matching 'Miami Valley Christian'" },
+    "Hartley": { "school_id": "6b9c40dd-06e1-4175-ac2c-47c800c2a52b", "why": "Bishop Hartley (Columbus), the only school matching 'Hartley'" }
+  },
+  "division_aliases": [
+    { "label": "Green", "division": 1, "school_id": "dd03a2bd-bbd9-4268-9d49-c386a6948867", "why": "Green D1 = Green (Uniontown), Summit County (Zachary, 2026-11-11)" },
+    { "label": "Lakewood", "division": 1, "school_id": "96173f9b-8b5d-4974-ba3e-a659dabd24d0", "why": "Lakewood D1 = Lakewood (Lakewood), Cuyahoga County (Zachary, 2026-11-11)" }
+  ]
+}

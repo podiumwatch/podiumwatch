@@ -3,7 +3,8 @@
 ## Start here (2026-11-11, later)
 
 - Pushed and live: Support Podium Watch, voting fallback, page caching, connection cap. Zachary added a Vercel Firewall rate limit (/teams/ and /athletes/, 60 requests per 60 s per IP); don't change it.
-- Committed, not pushed (ask first): parent-line merch (0035c54a); team and athlete links, Teams menu, Find your team.
+- Committed, not pushed (ask first): school name aliases and division rules; install/94_PUBLISH_RESULTS_TEAM_PAGES.sql (Zachary runs it).
+- Waiting on Zachary: Green/Lakewood rows are all Division II (the rules given are D1); Perrysburg is "Perrysburg High School" in ohio_schools; Mass. Jackson and Dub. Coffman have no alias.
 - Read-only pg_stat_statements query given to Zachary (stats reset when compute is upgraded).
 
 ## Start here (2026-11-11)

@@ -1,7 +1,9 @@
 import { resolveNames } from "../../lib/name_links_service.mjs";
 import { LINK_LIMITS } from "../../lib/name_links.mjs";
 
-// GET /api/links/?s=School|School&a=Name~School|Name~School&i=schoolId|schoolId
+// GET /api/links/?s=School|School@2&a=Name~School|Name~School~2&i=schoolId|schoolId
+// (@2 / ~2: the row's division, used only for a label that matches more
+// than one school; see src/data/school-name-aliases.json division_aliases).
 // Returns the team and athlete page for each name that matches exactly one
 // page (lib/name_links.mjs), for public/scripts/name-links.js. The browser
 // sends the names sorted, so every visitor to the same page asks the same
@@ -17,7 +19,7 @@ export default async function handler(request, response) {
   }
   const query = {
     s: split(request.query?.s, LINK_LIMITS.schools),
-    a: split(request.query?.a, LINK_LIMITS.athletes).map((pair) => pair.split("~")).filter((pair) => pair.length === 2),
+    a: split(request.query?.a, LINK_LIMITS.athletes).map((pair) => pair.split("~")).filter((pair) => pair.length === 2 || (pair.length === 3 && /^[1-4]$/.test(pair[2]))),
     i: split(request.query?.i, LINK_LIMITS.ids).filter((id) => /^[0-9a-f-]{36}$/.test(id))
   };
   try {
