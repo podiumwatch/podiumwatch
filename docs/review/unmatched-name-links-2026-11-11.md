@@ -184,3 +184,17 @@ Pickerington North: the Ohio schools list names it "Pickerington High School Nor
 | Top 10 | Athlete | Lucia Sveda | Green | 2:girls | School not linked (see Green) |
 | Top 10 | School | Green |  | 2:girls | Girls Division II: neither Green has a girls Division II row in ohio_school_divisions (Green (Uniontown) has boys D2 only) |
 | Top 10 | Athlete | Caroline Valentino | Hathaway Brown | 3:girls | School links; no public profile with this exact name at that school |
+
+## Live re-run after migration 94 (2026-11-11)
+
+Migration 94 is live (all 8 team pages published). Counts against the live database, through the real /api/links/ handler:
+
+| Page | First run | After aliases + division rule | Live, after migration 94 |
+|---|---|---|---|
+| Recap | 14 | 6 | 6 |
+| Top 10 | 52 | 23 | 12 |
+| OATCCC | 5 | 0 | 0 |
+
+This re-run caught two bugs in the division commit, both fixed before pushing: the API rejected athlete lookups that carry a gender ("1:boys"), and the browser could send more than 300 school names in one request (the API reads 300), which dropped names late in the alphabet such as Woodridge on Top 10.
+
+Still not linked: CF Northwest, DeSales (Columbus), Legacy Christian and Fairmont (no exact school, no alias); Green in girls Division II (no girls division row for either Green); and athletes with no public profile at the listed school (Brionna Wright, Katrina Neal, Will Schuldt, Samuel Philpot, Caroline Valentino).

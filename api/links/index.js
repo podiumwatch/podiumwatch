@@ -19,7 +19,7 @@ export default async function handler(request, response) {
   }
   const query = {
     s: split(request.query?.s, LINK_LIMITS.schools),
-    a: split(request.query?.a, LINK_LIMITS.athletes).map((pair) => pair.split("~")).filter((pair) => pair.length === 2 || (pair.length === 3 && /^[1-4]$/.test(pair[2]))),
+    a: split(request.query?.a, LINK_LIMITS.athletes).map((pair) => pair.split("~")).filter((pair) => pair.length === 2 || (pair.length === 3 && /^[1-4](:(boys|girls))?$/.test(pair[2]))),
     i: split(request.query?.i, LINK_LIMITS.ids).filter((id) => /^[0-9a-f-]{36}$/.test(id))
   };
   try {

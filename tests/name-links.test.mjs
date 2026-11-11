@@ -144,3 +144,20 @@ test("ambiguous names: link only when the row's division (and gender) fits exact
   for (const [path, pattern] of [["scripts/build.mjs", /row\.sport === "Cross Country" \? ` data-pw-division=/], ["public/scripts/ranking-leaders.js", /data-pw-gender="\$\{escapeHtml\(gender\)\}"/], ["src/pages/mockregionals.mjs", /data-pw-gender="\$\{gender\}"/], ["src/pages/oatcccpoll.mjs", /rowsEl\.dataset\.pwGender = gender/]]) assert.match(fs.readFileSync(path, "utf8"), pattern, path);
   assert.match(fs.readFileSync("lib/name_links_service.mjs", "utf8"), /ohio_school_divisions/);
 });
+
+test("the links endpoint accepts an athlete's division with gender (\"2:girls\")", async () => {
+  const source = fs.readFileSync("api/links/index.js", "utf8");
+  const pattern = source.match(/pair\.length === 3 && (\/[^/]+\/)\.test/)[1];
+  const re = new Function(`return ${pattern}`)();
+  for (const ok of ["1", "4", "2:girls", "3:boys"]) assert.ok(re.test(ok), ok);
+  for (const bad of ["5", "2:men", "x", "2:"]) assert.ok(!re.test(bad), bad);
+});
+
+test("the browser splits link requests at the API's per-request limits", async () => {
+  const { LINK_LIMITS } = await import("../lib/name_links.mjs");
+  const linker = fs.readFileSync("public/scripts/name-links.js", "utf8");
+  const m = linker.match(/MAX_COUNT = \{ s: (\d+), a: (\d+), i: (\d+) \}/);
+  assert.ok(m, "MAX_COUNT present");
+  assert.deepEqual(m.slice(1).map(Number), [LINK_LIMITS.schools, LINK_LIMITS.athletes, LINK_LIMITS.ids]);
+  assert.match(linker, /cur\[key\]\.length >= MAX_COUNT\[key\]/);
+});

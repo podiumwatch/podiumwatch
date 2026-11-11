@@ -15,6 +15,8 @@
   const ATHLETE_HEADS = /^(athlete|name|runner)$/i;
   const SCHOOL_HEADS = /^(school|team)$/i;
   const MAX_URL = 6000;
+  // Per request, the most the API reads of each list (lib/name_links.mjs LINK_LIMITS).
+  const MAX_COUNT = { s: 300, a: 400, i: 100 };
 
   function divisionNumber(text) {
     const m = String(text || "").trim().match(/^(?:division\s*|div\.?\s*|d)?(iv|i{1,3}|[1-4])$/i) || String(text || "").match(/\bdivision\s+(iv|i{1,3}|[1-4])\b/i);
@@ -109,7 +111,7 @@
       let cur = { s: [], a: [], i: [] };
       const size = (b) => b.s.join("|").length + b.a.join("|").length + b.i.join("|").length;
       for (const [key, list] of [["i", i], ["s", s], ["a", a]]) for (const value of list) {
-        if (size(cur) + value.length > MAX_URL) { batches.push(cur); cur = { s: [], a: [], i: [] }; }
+        if (size(cur) + value.length > MAX_URL || cur[key].length >= MAX_COUNT[key]) { batches.push(cur); cur = { s: [], a: [], i: [] }; }
         cur[key].push(value);
       }
       batches.push(cur);
