@@ -2,6 +2,18 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 11 Analytics intake never waits on the database
+
+### Decision
+
+After the Nov 10 voting surge (9:39 to 9:42 PM ET, Supabase 504/503, /api/engagement/track at 22% 5xx), the track endpoint answers 204 immediately and does no database work in the request. Rows are queued in memory (lib/analytics_buffer.mjs) and inserted in batches every 3 seconds or 200 rows, after the response via Vercel's waitUntil (Fluid compute is on, so concurrent requests share a batch). Each query has a 2.5 second timeout; a slow or failing database drops the batch. Losing a few analytics rows is acceptable. Every browser sender uses navigator.sendBeacon. Pushed 513d830f.
+
+## 2026 11 11 Support Podium Watch
+
+### Decision
+
+"Support Podium Watch", never "donate": Podium Watch is a business and support is not tax-deductible; the page and every card say "Podium Watch is a small Ohio business. Support is not tax-deductible." /support/ (and /support via the trailing-slash redirect) plus a footer link on every page. Stripe links live in src/data/support.json (only buy.stripe.com or donate.stripe.com links are accepted); with none set, buttons are hidden on the page and /go/support/ lands on /support/. Card (src/lib/support_card.mjs, same family as the shop card) on the awards hub and after a vote, where it takes turns with the shop card per browser (public/scripts/support-card.js, never both at once), plus Banquet Pack, Wrapped and athlete pages. Clicks counted at /go/support/{placement}/ in site_sponsor_clicks (sponsor "support" in src/data/sponsors.json).
+
 ## 2026 11 11 Podium Watch Shop card (merch handoff)
 
 ### Decision

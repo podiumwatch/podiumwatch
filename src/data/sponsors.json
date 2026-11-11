@@ -85,5 +85,43 @@
         "paths": []
       }
     ]
+  },
+  {
+    "id": "support",
+    "name": "Support Podium Watch",
+    "description": "Podium Watch's own Support card and /support/ page buttons (src/data/support.json, src/lib/support_card.mjs). Clicks go on to the Stripe payment link. Not a page sponsor: no paths.",
+    "url": "https://www.podiumwatch.org/support/",
+    "placements": [
+      {
+        "id": "awards-hub",
+        "label": "Awards hub (takes turns with the shop card)",
+        "paths": []
+      },
+      {
+        "id": "after-vote",
+        "label": "After a vote is cast (takes turns with the shop card)",
+        "paths": []
+      },
+      {
+        "id": "banquet",
+        "label": "Banquet Pack pages",
+        "paths": []
+      },
+      {
+        "id": "wrapped",
+        "label": "Wrapped pages",
+        "paths": []
+      },
+      {
+        "id": "athlete",
+        "label": "Athlete pages",
+        "paths": []
+      },
+      {
+        "id": "support-page",
+        "label": "Buttons on /support/",
+        "paths": []
+      }
+    ]
   }
 ]

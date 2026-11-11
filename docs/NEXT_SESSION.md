@@ -1,5 +1,10 @@
 # Podium Watch next session
 
+## Start here (2026-11-11, later)
+
+- Support Podium Watch is committed, not pushed. Needs Zachary's Stripe payment links in src/data/support.json (one_time_url, monthly_url optional) before pushing.
+- Spike follow-ups (not done): vote endpoint and awards status still read category/finalists from Supabase per instance every 10 s; serving the last good copy when Supabase fails would keep voting up during a database outage. Athlete and team pages returned 503 during the spike. Read-only pg_stat_statements query given to Zachary (stats reset when compute is upgraded).
+
 ## Start here (2026-11-11)
 
 - Podium Watch Shop card is committed, not pushed. Run install/93_ANALYTICS_MERCH_EVENTS.sql before or right after pushing (until then the server drops merch events quietly; store clicks still count in the sponsor report).

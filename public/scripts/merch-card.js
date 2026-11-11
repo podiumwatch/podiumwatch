@@ -189,7 +189,8 @@
     .catch(() => {});
 
   document.addEventListener("pw:voted", () => {
-    document.querySelectorAll("[data-pwm-after]").forEach((box) => { box.hidden = false; box.querySelectorAll("[data-pwm]").forEach(setup); });
+    // data-pw-alt-off: the support card has this turn (support-card.js).
+    document.querySelectorAll("[data-pwm-after]").forEach((box) => { if (box.hasAttribute("data-pw-alt-off")) return; box.hidden = false; box.querySelectorAll("[data-pwm]").forEach(setup); });
   });
   // A card revealed later (the ballot card when the vote button shows).
   document.addEventListener("pw:shop-shown", () => document.querySelectorAll("[data-pwm]").forEach((card) => { if (!card.closest("[hidden]")) setup(card); }));

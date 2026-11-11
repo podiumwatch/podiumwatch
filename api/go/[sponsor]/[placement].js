@@ -1,6 +1,7 @@
 import { findPlacement } from "../../../lib/site_sponsors.mjs";
 import { deviceClass } from "../../../lib/short_links_service.mjs";
 import { merchDestination } from "../../../lib/merch_service.mjs";
+import { supportDestination } from "../../../src/lib/support_card.mjs";
 
 // Sponsor click redirect (WO-25): /go/{sponsor}/{placement}/?from=/page/
 // records one click in site_sponsor_clicks (install/85) and sends the
@@ -9,6 +10,8 @@ import { merchDestination } from "../../../lib/merch_service.mjs";
 // no link goes home.
 // The Podium Watch Shop card (/go/merch/{placement}/?p=&c=) goes to that
 // color's own store link with UTM tags (lib/merch_service.mjs).
+// Support Podium Watch (/go/support/{placement}/, ?m=monthly) goes to the
+// Stripe link in src/data/support.json, or /support/ when none is set.
 
 export default async function handler(request, response) {
   response.setHeader("Cache-Control", "no-store");
@@ -32,6 +35,11 @@ export default async function handler(request, response) {
     console.error("Sponsor click not recorded:", error);
   }
 
-  response.setHeader("Location", match.sponsor.id === "merch" ? merchDestination(String(request.query?.p || ""), String(request.query?.c || ""), match.placement.id) : match.sponsor.url);
+  const destination = match.sponsor.id === "merch"
+    ? merchDestination(String(request.query?.p || ""), String(request.query?.c || ""), match.placement.id)
+    : match.sponsor.id === "support"
+      ? supportDestination(String(request.query?.m || ""))
+      : match.sponsor.url;
+  response.setHeader("Location", destination);
   return response.status(302).end();
 }

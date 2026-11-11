@@ -1,0 +1,58 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import { SUPPORT_PLACEMENTS, supportCardHtml, supportConfig, supportDestination, supportGoHref, supportSection } from "../src/lib/support_card.mjs";
+import { supportPage } from "../src/pages/support.mjs";
+import { site } from "../src/config/site.mjs";
+import sponsors from "../src/data/sponsors.json" with { type: "json" };
+
+const STRIPE = { one_time_url: "https://buy.stripe.com/test_abc123", monthly_url: "https://buy.stripe.com/test_month9" };
+
+test("support: never called a donation, and says it is not tax-deductible", () => {
+  const html = supportPage(site) + supportCardHtml({ placement: "athlete" }) + supportCardHtml({ placement: "after-vote", large: true });
+  assert.doesNotMatch(html, /donat/i);
+  assert.match(html, /Podium Watch is a small Ohio business\. Support is not tax-deductible\./);
+  assert.equal(supportConfig.note, "Podium Watch is a small Ohio business. Support is not tax-deductible.");
+});
+
+test("support page: no made-up numbers in the copy", () => {
+  const text = supportPage(site).replace(/<style>[\s\S]*?<\/style>/g, "").replace(/<script[\s\S]*?<\/script>/g, "").replace(/<[^>]+>/g, " ");
+  const main = text.slice(text.indexOf("Keep Ohio running coverage free."), text.indexOf("Other ways to help"));
+  assert.doesNotMatch(main, /\d/, "the support copy carries no figures");
+});
+
+test("support links: every button is counted at /go/support/{placement}/", () => {
+  assert.equal(supportGoHref("athlete", { from: "/athletes/x/" }), "/go/support/athlete/?from=%2Fathletes%2Fx%2F");
+  assert.equal(supportGoHref("support-page", { kind: "monthly" }), "/go/support/support-page/?m=monthly");
+  assert.match(supportCardHtml({ placement: "banquet", from: "/teams/x/banquet/2026/" }), /href="\/go\/support\/banquet\/\?from=/);
+  const entry = sponsors.find((s) => s.id === "support");
+  assert.ok(entry, "support is in src/data/sponsors.json");
+  assert.deepEqual(entry.placements.map((p) => p.id).sort(), [...SUPPORT_PLACEMENTS].sort());
+  for (const id of SUPPORT_PLACEMENTS) assert.match(id, /^[a-z0-9-]{1,80}$/, "fits site_sponsor_clicks.placement_id");
+});
+
+test("support destination: the Stripe link, monthly when asked, /support/ when no link is set", () => {
+  assert.equal(supportDestination("", STRIPE), STRIPE.one_time_url);
+  assert.equal(supportDestination("monthly", STRIPE), STRIPE.monthly_url);
+  assert.equal(supportDestination("monthly", { one_time_url: STRIPE.one_time_url, monthly_url: "" }), STRIPE.one_time_url);
+  assert.equal(supportDestination("", { one_time_url: "", monthly_url: "" }), "https://www.podiumwatch.org/support/");
+  assert.equal(supportDestination("", { one_time_url: "https://evil.example/pay", monthly_url: "" }), "https://www.podiumwatch.org/support/", "only Stripe links");
+});
+
+test("support card: placed on the awards hub and after a vote (taking turns with the shop), Banquet Pack, Wrapped, athlete pages", () => {
+  const awards = fs.readFileSync("src/pages/yearlyawards2026.mjs", "utf8");
+  assert.match(awards, /data-pw-alt="merch"/);
+  assert.match(awards, /data-pw-alt="support" hidden/);
+  assert.match(awards, /data-pws-after hidden/);
+  assert.ok(awards.indexOf("supportScripts()") < awards.indexOf("merchScripts()", awards.indexOf("supportScripts()") - 200), "support-card.js loads before merch-card.js");
+  assert.match(fs.readFileSync("lib/render/athlete_page.mjs", "utf8"), /supportSection\(\{ placement: "athlete"/);
+  assert.match(fs.readFileSync("lib/render/banquet_page.mjs", "utf8"), /supportSection\(\{ placement: "banquet"/);
+  assert.match(fs.readFileSync("lib/render/wrapped_page.mjs", "utf8"), /supportCardHtml\(\{ placement: "wrapped"/);
+  const merch = fs.readFileSync("public/scripts/merch-card.js", "utf8");
+  assert.match(merch, /data-pw-alt-off/, "the shop card stays hidden when it's support's turn");
+  assert.match(supportSection({ placement: "athlete" }), /@media print \{ \.pws, \.pws-section \{ display: none/);
+});
+
+test("footer: a Support Podium Watch link on every page", () => {
+  assert.match(fs.readFileSync("src/lib/html.mjs", "utf8"), /<a class="footer-support" href="\/support\/">Support Podium Watch<\/a>/);
+});

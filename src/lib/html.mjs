@@ -180,6 +180,7 @@ export function footer(site) {
   <div class="container footer-bottom">
     <span>© <span data-year></span> ${escapeHtml(site.copyrightText)}</span>
     <span>Independent Ohio high school running coverage.</span>
+    <a class="footer-support" href="/support/">Support Podium Watch</a>
   </div>
 </footer>`;
 }

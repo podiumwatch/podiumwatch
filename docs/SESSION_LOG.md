@@ -2,6 +2,11 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 11 Analytics intake fix; Support Podium Watch
+
+- Track endpoint: 204 at once, sendBeacon, batched inserts with a 2.5 s timeout (pushed 513d830f, live, 204 in about 120 ms). Spike review from Vercel request logs: 1,154 5xx, all 9:39 to 9:42 PM ET; team pages 429, athlete pages 308, track 157, meets API 110, awards status 102, vote 38 (failed before Redis, nothing counted or lost); awards pages 0. Causes: Supabase "upstream request timeout" and "JWT issued at future" (PGRST303), plus EMFILE/EBUSY socket exhaustion on team pages.
+- Support Podium Watch page, footer link, card and /go/support/ tracking; checked at 375 px.
+
 ## 2026 11 11 Podium Watch Shop card
 
 - merch.json from the handoff, 12 photos saved locally, tabs and swatches, tinted background with a contrast test, new placements (ballot x2, stories, results hubs, rankings, Shop links), color-level store links with UTM tags, merch events and Admin > Engagement > Merch, install/93. Checked at 390 and 1280 px, including a stubbed test vote.
