@@ -357,12 +357,13 @@ export function oatcccCoachesPollPage(site) {
       rowsEl.innerHTML = rows.map((row) => (
         '<tr>' +
           '<td class="oatccc-cell-rank">' + (row.rank != null ? escapeHtml(row.rank) : '--') + '</td>' +
-          '<td class="oatccc-cell-school">' + escapeHtml(row.school) + '</td>' +
+          '<td class="oatccc-cell-school"><span data-pw-school="' + escapeHtml(row.school) + '">' + escapeHtml(row.school) + '</span></td>' +
           '<td class="oatccc-cell-num oatccc-cell-points"><span class="oatccc-cell-label">Points</span><span class="oatccc-cell-value">' + (row.points != null ? escapeHtml(row.points) : '--') + '</span></td>' +
           '<td class="oatccc-cell-num oatccc-cell-votes"><span class="oatccc-cell-label">1st place votes</span><span class="oatccc-cell-value">' + (row.first_place_votes != null ? escapeHtml(row.first_place_votes) : '--') + '</span></td>' +
           '<td class="oatccc-cell-move">' + moveCellHtml(row.rank, previousRows, row.school) + '</td>' +
         '</tr>'
       )).join('');
+      if (typeof window.pwNameLinks === 'function') window.pwNameLinks(rowsEl);
     }
 
     genderButtons.forEach((button) => button.addEventListener('click', () => {

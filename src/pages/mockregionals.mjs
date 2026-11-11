@@ -686,7 +686,7 @@ function top10Card(gradeLabel, rows, girls) {
   const items = rows.length
     ? rows.map((r, i) => {
         const tier = i === 0 ? " gold" : i === 1 ? " silver" : i === 2 ? " bronze" : "";
-        return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong><a href="/athletes/?q=${encodeURIComponent(personDisplayName(r.name))}">${escapeHtml(personDisplayName(r.name))}</a></strong><small>${escapeHtml(top10SchoolName(r.school))}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
+        return `<li class="t10-row${tier}"><span class="t10-rank">${i + 1}</span><span class="t10-name"><strong data-pw-athlete="${escapeHtml(personDisplayName(r.name))}" data-pw-athlete-school="${escapeHtml(top10SchoolName(r.school))}"><a data-pw-fallback href="/athletes/?q=${encodeURIComponent(personDisplayName(r.name))}">${escapeHtml(personDisplayName(r.name))}</a></strong><small data-pw-school="${escapeHtml(top10SchoolName(r.school))}">${escapeHtml(top10SchoolName(r.school))}</small></span><span class="t10-time">${escapeHtml(r.time)}</span></li>`;
       }).join("")
     : `<li class="t10-empty">No times listed yet.</li>`;
   return `<div class="t10-card${girls ? " t10-girls" : ""}"><h3>${gradeLabel}</h3><ol class="t10-list">${items}</ol></div>`;

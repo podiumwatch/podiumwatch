@@ -67,6 +67,12 @@ export const site = {
       { label: "State Leaders", href: "/rankings/leaders/" },
       { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
     ] },
+    // Teams and athlete pages, back in the header (Zachary, 2026-11-11:
+    // "make them easy to reach"). Also "Teams" in the mobile dock.
+    { label: "Teams", items: [
+      { label: "Teams", href: "/teams/" },
+      { label: "Athletes", href: "/athletes/" }
+    ] },
     // Mock Meets (2026-09-21, dropdown added 2026-10-19, repointed to
     // /mock-postseason/ 2026-10-20, repointed again 2026-11-01): the three
     // tab links open the real-results universe at /mock-postseason/real/

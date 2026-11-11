@@ -436,5 +436,14 @@
     }
   );
 
+  // /teams/?search=Mason (the homepage "Find your team" box) starts searched.
+  try {
+    const searched = new URLSearchParams(window.location.search).get("search");
+    const field = form.elements.namedItem("search");
+    if (searched && field) field.value = searched.slice(0, 100);
+  } catch {
+    // Plain directory.
+  }
+
   loadTeams();
 })();

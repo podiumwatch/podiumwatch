@@ -2,6 +2,11 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 11 Pushed outage hardening; parent-line merch; team and athlete links
+
+- Pushed 587c7eb9..39df9b6d; verified a team page cache HIT on the second load, one test vote counted (Aarush Talekar, Boys D1 Athlete, 108 to 109), /support/ button to Stripe.
+- Merch: 10 parent-line products, per-card sets. Links: /api/links/ exact unique matches; Teams menu, dock, homepage search. Checked at 375 px.
+
 ## 2026 11 11 Voting fallback, page caching, connection cap, Support link and logos
 
 - Four commits: voting catalog fallback (93ba8dff), CDN caching plus last-good copies (946879c2), team page connection cap (46faccea), Stripe one-time link and Support arch logos (4fd10df4). Full suite passes; 30 concurrent live team pages all 200 through the cap. Found the Nov 10 team and athlete page errors were a proxy scraper burst.

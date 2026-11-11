@@ -603,7 +603,15 @@ function homePage(stories, rankings) {
     <script type="application/json" data-front-candidates>${JSON.stringify(frontCandidates).replaceAll("<", "\\u003c")}</script>
   </div></section>
   <script type="module" src="/scripts/front-lead-client.mjs"></script>` : "";
-  const content = `${frontPageSection}${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}
+  // "Find your team" (2026-11-11): straight to the team directory, searched.
+  const findTeamSection = `<section class="home-find-team" aria-labelledby="find-team-title"><div class="container">
+    <form class="home-find-team-form" action="/teams/" method="get" role="search">
+      <label for="find-team-input"><span class="eyebrow" id="find-team-title">Find your team</span></label>
+      <div class="home-find-team-row"><input id="find-team-input" type="search" name="search" placeholder="School name or city" autocomplete="off" maxlength="100" required><button class="button button-primary" type="submit">Search</button></div>
+      <a class="home-find-team-athletes" href="/athletes/">Looking for an athlete? Search athletes</a>
+    </form>
+  </div></section>`;
+  const content = `${frontPageSection}${findTeamSection}${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}
 
   <section class="section section-paper" aria-labelledby="latest-stories-title">
     <div class="container">
@@ -996,9 +1004,11 @@ function rankingDetailPage(ranking, stories) {
     const athleteSeed = athleteSeedForRankingRow(ranking, row);
     const athleteName = athleteSeed
       ? `<a href="/athletes/${athleteSeed.profile_slug}/">${escapeHtml(row.athlete)}</a>`
-      : escapeHtml(row.athlete);
+      // No seeded profile: linked in the browser if the name and school
+      // match exactly one profile (public/scripts/name-links.js). Schools too.
+      : `<span data-pw-athlete="${escapeHtml(row.athlete)}" data-pw-athlete-school="${escapeHtml(row.school)}">${escapeHtml(row.athlete)}</span>`;
 
-    return `<article class="ranking-row"><div class="ranking-number">${escapeHtml(row.rank)}</div><div class="ranking-athlete"><strong>${athleteName}</strong><span>${escapeHtml(row.school)}</span></div><div class="ranking-grade">${escapeHtml(row.grade || "")}</div><div class="ranking-mark"><strong>${escapeHtml(row.timeOrMark)}</strong><small>${escapeHtml(row.event)}</small></div>${row.rankingExplanation ? `<p class="ranking-explanation">${escapeHtml(row.rankingExplanation)}</p>` : ""}</article>`;
+    return `<article class="ranking-row"><div class="ranking-number">${escapeHtml(row.rank)}</div><div class="ranking-athlete"><strong>${athleteName}</strong><span data-pw-school="${escapeHtml(row.school)}">${escapeHtml(row.school)}</span></div><div class="ranking-grade">${escapeHtml(row.grade || "")}</div><div class="ranking-mark"><strong>${escapeHtml(row.timeOrMark)}</strong><small>${escapeHtml(row.event)}</small></div>${row.rankingExplanation ? `<p class="ranking-explanation">${escapeHtml(row.rankingExplanation)}</p>` : ""}</article>`;
   }).join("");
   const rankingType = String(ranking.rankingType || "Editorial ranking");
   const isVerifiedList = /verified|performance list|official/i.test(rankingType);

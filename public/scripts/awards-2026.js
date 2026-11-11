@@ -259,8 +259,20 @@
       share.setAttribute("aria-label", `Copy ${displayName(item.name)}'s share link`);
       share.addEventListener("click", () => copyFinalistLink(item, slugs.get(item.id), share));
       li.append(share);
+      // Their athlete or team page, shown only when it matches exactly one
+      // page (public/scripts/name-links.js); hidden otherwise.
+      const page = document.createElement("span");
+      page.className = "yoy-page-link";
+      if (data.award === "athlete") {
+        if (item.school) { page.textContent = "Athlete page"; page.dataset.pwAthlete = item.name; page.dataset.pwAthleteSchool = item.school; li.append(page); }
+      } else if (/^[0-9a-f-]{36}$/.test(String(item.id))) {
+        page.textContent = "Team page";
+        page.dataset.pwSchoolId = item.id;
+        li.append(page);
+      }
       finalistList.append(li);
     }
+    if (typeof window.pwNameLinks === "function") window.pwNameLinks(finalistList);
     // Opened from a finalist's share link: scroll to them once.
     if (focusItem && !focused) {
       focused = true;

@@ -66,8 +66,11 @@ const styles = `
     .yoy-intro { margin:0; font-weight:600; }
     .yoy-ballot-shop { margin:14px 0 4px; }
     .yoy-finalists { display:grid; gap:8px; margin:0; padding:0; list-style:none; }
-    .yoy-finalist-row { display:flex; gap:8px; align-items:stretch; }
-    .yoy-finalist-row > .yoy-finalist { flex:1 1 auto; min-width:0; }
+    .yoy-finalist-row { display:flex; flex-wrap:wrap; gap:8px; align-items:stretch; }
+    .yoy-page-link { flex:1 0 100%; margin-top:-2px; padding-left:4px; font-size:.86rem; font-weight:800; }
+    .yoy-page-link:not([data-pw-linked]) { display:none; }
+    .yoy-page-link a { color:inherit; text-decoration:underline; text-underline-offset:3px; }
+    .yoy-finalist-row > .yoy-finalist { flex:1 1 0; min-width:0; }
     .yoy-share-finalist { flex:0 0 auto; min-width:76px; padding:0 12px; border:2px solid var(--line); border-radius:10px; background:var(--white); color:inherit; font:inherit; font-size:.88rem; font-weight:850; cursor:pointer; }
     .yoy-share-finalist:hover, .yoy-share-finalist:focus-visible { border-color:var(--yoy-accent); outline:none; }
     .yoy-finalist-row.is-focus > .yoy-finalist { border-color:var(--yoy-accent); }

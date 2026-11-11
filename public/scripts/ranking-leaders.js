@@ -47,14 +47,16 @@
       <tr data-leaders-rank="${entry.rank}">
         <td class="leaders-cell-rank">${entry.rank}</td>
         <td class="leaders-cell-athlete">
-          ${entry.athlete_slug ? `<a href="/athletes/${escapeHtml(entry.athlete_slug)}/">${escapeHtml(entry.athlete_name)}</a>` : escapeHtml(entry.athlete_name)}
-          <div class="leaders-cell-school">${escapeHtml(entry.school_name || "")}${entry.school_name && entry.division ? " &middot; " : ""}${entry.division ? escapeHtml(entry.division) : ""}</div>
+          ${entry.athlete_slug ? `<a href="/athletes/${escapeHtml(entry.athlete_slug)}/">${escapeHtml(entry.athlete_name)}</a>` : entry.school_name ? `<span data-pw-athlete="${escapeHtml(entry.athlete_name)}" data-pw-athlete-school="${escapeHtml(entry.school_name)}">${escapeHtml(entry.athlete_name)}</span>` : escapeHtml(entry.athlete_name)}
+          <div class="leaders-cell-school">${entry.school_name ? `<span data-pw-school="${escapeHtml(entry.school_name)}">${escapeHtml(entry.school_name)}</span>` : ""}${entry.school_name && entry.division ? " &middot; " : ""}${entry.division ? escapeHtml(entry.division) : ""}</div>
         </td>
         <td data-label="Grade">${escapeHtml(gradeLabel(entry.grade))}</td>
         <td data-label="Meet">${escapeHtml(entry.meet_name || "")}<div class="leaders-cell-school">${escapeHtml(formatDate(entry.meet_date))}</div></td>
         <td class="leaders-cell-time" data-label="Time">${escapeHtml(entry.mark_text)}</td>
       </tr>
     `).join("");
+    // Team and athlete pages for exact matches (public/scripts/name-links.js).
+    if (typeof window.pwNameLinks === "function") window.pwNameLinks(rowsEl);
   }
 
   function populateYears(years, selectedYear) {

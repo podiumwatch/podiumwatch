@@ -2,8 +2,8 @@
 
 ## Start here (2026-11-11, later)
 
-- Committed, not pushed (ask first): Support Podium Watch with the one-time Stripe link and Support arch logos; voting fallback; page caching; team page connection cap.
-- Suggested: a Vercel Firewall rate limit on /teams/* and /athletes/* (Nov 10 scraper burst).
+- Pushed and live: Support Podium Watch, voting fallback, page caching, connection cap. Zachary added a Vercel Firewall rate limit (/teams/ and /athletes/, 60 requests per 60 s per IP); don't change it.
+- Committed, not pushed (ask first): parent-line merch (0035c54a); team and athlete links, Teams menu, Find your team.
 - Read-only pg_stat_statements query given to Zachary (stats reset when compute is upgraded).
 
 ## Start here (2026-11-11)

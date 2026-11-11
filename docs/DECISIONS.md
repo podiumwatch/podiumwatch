@@ -2,6 +2,14 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 11 Team and athlete pages easy to reach; parent-line merch
+
+### Decision
+
+- Names link to pages only on an exact, unique match (lib/name_links.mjs): a school label (name, "City Name", "Name (City)", or a checked alias) that matches one school with a published team page; an athlete whose exact name plus that school matches one public profile. No fuzzy matching, no name-only athlete links. Results hubs already linked by ID. Ranking pages, State Leaders, Top 10 (directory search stays as the fallback), the OATCCC poll, recap story tables (Athlete and School columns) and award finalists ("Athlete page" / "Team page" under each) mark names; public/scripts/name-links.js asks GET /api/links/ once per page with sorted names, CDN cached 15 minutes. Prose in stories is not linked.
+- Header: a "Teams" menu (Teams, Athletes). Mobile dock: six items, Teams added. Homepage: "Find your team" box, which opens /teams/?search=.
+- Shop card: the 10 parent-line products from the store export (exact titles, prices, sizes, colors, links; photos saved locally). Each card shows three products: arch crewneck plus Mom items on girls award pages, Dad items on boys award pages, a rotating mix elsewhere; XC lines through Dec. 31, Track after; prices "From" the S-XL price.
+
 ## 2026 11 11 Survive a Supabase outage: voting fallback, page caching, connection cap
 
 ### Decision
