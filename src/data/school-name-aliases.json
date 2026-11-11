@@ -60,6 +60,22 @@
     "Pickerington North": {
       "school_id": "5308a4d4-8822-4e77-98a3-0ef5d30fcb28",
       "why": "Pickerington High School North (Pickerington) in ohio_schools; team page pickerington-high-school-north-pickerington-1255"
+    },
+    "CF Northwest": {
+      "school_id": "542428e6-3a50-4ffc-b567-6c439458a045",
+      "why": "Northwest (Canal Fulton), the only Northwest in Canal Fulton; team page northwest-canal-fulton-1162"
+    },
+    "DeSales (Columbus)": {
+      "school_id": "9a784da8-aa0d-42a6-80f1-5b8dc3212b7e",
+      "why": "St. Francis DeSALES (Columbus), the only school matching 'DeSales'; team page st-francis-desales-columbus-1348"
+    },
+    "Legacy Christian": {
+      "school_id": "5ef52903-84b7-4ea2-9914-71bac9bf2812",
+      "why": "Legacy Christian Academy (Xenia), the only school matching 'Legacy Christian'; team page legacy-christian-academy-xenia-1747"
+    },
+    "Fairmont": {
+      "school_id": "67530b26-11b3-409e-955f-f5c30ea3e9de",
+      "why": "Kettering Fairmont (Kettering), the only school matching 'Fairmont'; team page kettering-fairmont-kettering-807"
     }
   }
 }

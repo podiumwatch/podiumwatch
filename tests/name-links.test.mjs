@@ -99,7 +99,7 @@ test("header: a Teams menu with Teams and Athletes; Teams in the mobile bar; hom
 
 test("aliases from Zachary map to exactly the school named (2026-11-11)", async () => {
   const file = JSON.parse(fs.readFileSync("src/data/school-name-aliases.json", "utf8"));
-  assert.deepEqual(Object.keys(file.aliases).sort(), ["Ashtabula St. John", "Brecksville", "Cincinnati CHCA", "Dub. Coffman", "Dub. Jerome", "Fenwick", "Hartley", "Hathaway Brown", "MVCA", "Mass. Jackson", "Olen. Liberty", "Perrysburg", "Pickerington North", "St. John (Ashtabula)", "Toledo St. Francis"]);
+  assert.deepEqual(Object.keys(file.aliases).sort(), ["Ashtabula St. John", "Brecksville", "CF Northwest", "Cincinnati CHCA", "DeSales (Columbus)", "Dub. Coffman", "Dub. Jerome", "Fairmont", "Fenwick", "Hartley", "Hathaway Brown", "Legacy Christian", "MVCA", "Mass. Jackson", "Olen. Liberty", "Perrysburg", "Pickerington North", "St. John (Ashtabula)", "Toledo St. Francis"]);
   const ids = Object.values(file.aliases).map((v) => v.school_id);
   assert.equal(new Set(ids).size, ids.length - 1, "one school per alias; only the two Ashtabula St. John spellings share one");
   for (const id of ids) assert.match(id, /^[0-9a-f-]{36}$/);

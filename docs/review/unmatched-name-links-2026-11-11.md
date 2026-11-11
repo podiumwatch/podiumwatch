@@ -198,3 +198,18 @@ Migration 94 is live (all 8 team pages published). Counts against the live datab
 This re-run caught two bugs in the division commit, both fixed before pushing: the API rejected athlete lookups that carry a gender ("1:boys"), and the browser could send more than 300 school names in one request (the API reads 300), which dropped names late in the alphabet such as Woodridge on Top 10.
 
 Still not linked: CF Northwest, DeSales (Columbus), Legacy Christian and Fairmont (no exact school, no alias); Green in girls Division II (no girls division row for either Green); and athletes with no public profile at the listed school (Brionna Wright, Katrina Neal, Will Schuldt, Samuel Philpot, Caroline Valentino).
+
+## Four more aliases (2026-11-11)
+
+Each maps to exactly one school with a published team page; checked against the live link index.
+
+| Label | School | Team page |
+|---|---|---|
+| CF Northwest | Northwest (Canal Fulton) | northwest-canal-fulton-1162 |
+| DeSales (Columbus) | St. Francis DeSALES (Columbus) | st-francis-desales-columbus-1348 |
+| Legacy Christian | Legacy Christian Academy (Xenia) | legacy-christian-academy-xenia-1747 |
+| Fairmont | Kettering Fairmont (Kettering) | kettering-fairmont-kettering-807 |
+
+The athletes under them now link too: Luca Novakovic, Lucas Steele, Stephen Wojtowicz, Lucia Schafer.
+
+Green in girls Division II (Lucia Sveda) is still left unlinked, pending your confirmation. Her profile and all 5 of her performances are on Green (Uniontown), school id dd03a2bd-bbd9-4268-9d49-c386a6948867 (district at GlenOak, regional at Boardman). ohio_school_divisions has Green (Uniontown) as boys Division II only, with no girls row, which is why the division rule finds no match.
