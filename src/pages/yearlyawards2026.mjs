@@ -2,7 +2,7 @@ import { escapeHtml } from "../lib/content.mjs";
 import { layout, pageHero } from "../lib/html.mjs";
 import { bicarbStyles, bicarbVotingAdHtml } from "../lib/bicarb_ads.mjs";
 import { merchCardHtml, merchEnabled, merchScripts, merchStyles } from "../lib/merch_card.mjs";
-import { supportCardHtml, supportEnabled, supportScripts, supportStyles } from "../lib/support_card.mjs";
+import { supportCardHtml, supportEnabled, supportPanelHtml, supportScripts, supportStyles } from "../lib/support_card.mjs";
 
 // Podium Watch Shop card (src/lib/merch_card.mjs): on each ballot page
 // above the finalists (with "Vote below") and again after the finalists,
@@ -191,6 +191,7 @@ export function yearlyAwardsCategoryPage(site, pool, category, { share = null, a
         <button class="yoy-submit" type="button" data-yoy-cast hidden>Cast my vote</button>
         <p class="yoy-voted" data-yoy-voted hidden></p>
         <p class="yoy-message" data-yoy-vote-message role="status" aria-live="polite"></p>
+        ${supportPanelHtml({ from: pathname })}
         ${merchEnabled() ? `<div data-pwm-after hidden>${merchCardHtml({ placement: "after-vote", from: pathname, large: true, audience: category.gender })}</div>` : ""}
         ${supportEnabled() ? `<div data-pws-after hidden>${supportCardHtml({ placement: "after-vote", from: pathname, large: true })}</div>` : ""}
       </section>

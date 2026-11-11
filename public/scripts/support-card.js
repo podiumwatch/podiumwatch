@@ -33,9 +33,37 @@
 
   // After a vote. Runs before merch-card.js's own pw:voted listener, and
   // marks the shop box so that listener leaves it hidden.
+  // After-vote support panel (2026-11-11): the first vote in this browser
+  // shows the panel under "Vote counted" instead of a card; it has a close
+  // button and never shows again. Later votes take turns as below.
+  const PANEL_KEY = "podium_support_panel_seen";
+  const panel = document.querySelector("[data-pws-panel]");
+  panel?.querySelector("[data-pws-panel-close]")?.addEventListener("click", () => {
+    panel.hidden = true;
+    const message = document.querySelector("[data-yoy-vote-message]");
+    if (message) { message.tabIndex = -1; message.focus({ preventScroll: true }); }
+  });
+  function panelTurn() {
+    if (!panel) return false;
+    try {
+      if (localStorage.getItem(PANEL_KEY)) return false;
+      localStorage.setItem(PANEL_KEY, "1");
+      return true;
+    } catch {
+      return false; // no storage: no way to keep it to once, so skip it
+    }
+  }
+
   document.addEventListener("pw:voted", () => {
     const shopAfter = document.querySelector("[data-pwm-after]");
     const supportAfter = document.querySelector("[data-pws-after]");
+    if (panelTurn()) {
+      panel.hidden = false;
+      if (supportAfter) supportAfter.hidden = true;
+      if (shopAfter) { shopAfter.setAttribute("data-pw-alt-off", ""); shopAfter.hidden = true; }
+      return;
+    }
+    if (panel) panel.hidden = true;
     if (!supportAfter) return;
     const support = !(shopAfter && shopAfter.querySelector("[data-pwm]")) || nextIsSupport();
     supportAfter.hidden = !support;

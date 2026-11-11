@@ -21,7 +21,17 @@ export const SUPPORT_PAGE = "/support/";
 // white on the dark /support/ hero.
 export const SUPPORT_LOGO_BLACK = "/images/branding/support-pw-arch-black.webp";
 export const SUPPORT_LOGO_WHITE = "/images/branding/support-pw-arch-white.webp";
-export const SUPPORT_PLACEMENTS = ["awards-hub", "after-vote", "banquet", "wrapped", "athlete", "support-page"];
+export const SUPPORT_PLACEMENTS = ["awards-hub", "after-vote", "after-vote-panel", "banquet", "wrapped", "athlete", "support-page"];
+
+// After-vote support panel (Zachary, 2026-11-11): slides in under "Vote
+// counted" the first time a browser votes, inside the vote section (not a
+// modal), with a close button. Copy exactly as given.
+export const SUPPORT_PANEL_COPY = {
+  title: "Support Podium Watch",
+  body: "If you've enjoyed our coverage of Ohio cross country and track runners, consider a one-time contribution. We truly appreciate your support and want to keep Podium Watch the best Ohio XC and track coverage in the state.",
+  button: "Support Podium Watch",
+  small: "Not tax-deductible."
+};
 
 const isStripe = (url) => /^https:\/\/(buy|donate)\.stripe\.com\/[A-Za-z0-9_/-]+$/.test(String(url || ""));
 export const hasOneTime = () => isStripe(support.one_time_url);
@@ -61,6 +71,22 @@ export function supportCardHtml({ placement, from = "", large = false } = {}) {
 </aside>`;
 }
 
+// Shown once per browser by public/scripts/support-card.js on the first vote.
+export function supportPanelHtml({ from = "" } = {}) {
+  if (!supportEnabled()) return "";
+  const external = hasOneTime() ? ' target="_blank" rel="noopener"' : "";
+  return `<div class="pws-panel" data-pws-panel role="region" aria-labelledby="pws-panel-title" hidden>
+  <button type="button" class="pws-panel-close" data-pws-panel-close aria-label="Close">✕</button>
+  <img class="pws-panel-logo" src="${SUPPORT_LOGO_BLACK}" width="600" height="643" alt="" loading="lazy" decoding="async">
+  <div class="pws-panel-body">
+    <h3 class="pws-panel-title" id="pws-panel-title">${esc(SUPPORT_PANEL_COPY.title)}</h3>
+    <p class="pws-panel-text">${esc(SUPPORT_PANEL_COPY.body)}</p>
+    <a class="pws-button" href="${esc(supportGoHref("after-vote-panel", { from }))}"${external}>${esc(SUPPORT_PANEL_COPY.button)}</a>
+    <p class="pws-note">${esc(SUPPORT_PANEL_COPY.small)}</p>
+  </div>
+</div>`;
+}
+
 // For pages that don't load the styles yet: card + styles in one call.
 export function supportSection({ placement, from = "" } = {}) {
   if (!supportEnabled()) return "";
@@ -88,6 +114,24 @@ export const supportStyles = `
   .pws-large { margin-top: 12px; }
   .pws-section { padding-block: 8px 32px; }
   .pws-section-inner { max-width: 760px; }
+  .pws-panel { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: start; margin: 12px 0 4px; padding: 16px 44px 14px 16px; border: 2px solid #0faf68; border-radius: 16px; background: linear-gradient(135deg, #f6f4ee, #e6f5ec); color: #0d2a1d; animation: pws-slide .35s ease-out both; }
+  .pws-panel[hidden] { display: none; }
+  @keyframes pws-slide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+  .pws-panel-logo { width: 100%; height: auto; }
+  .pws-panel-body { display: grid; gap: 8px; justify-items: start; min-width: 0; }
+  .pws-panel-title { margin: 0; font-size: 1.2rem; line-height: 1.15; color: inherit; }
+  .pws-panel-text { margin: 0; font-size: .92rem; font-weight: 600; line-height: 1.45; max-width: 62ch; }
+  .pws-panel-close { position: absolute; top: 6px; right: 6px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: transparent; color: #0d2a1d; font: inherit; font-size: 1.1rem; font-weight: 900; cursor: pointer; }
+  .pws-panel-close:hover { background: rgba(8,120,74,.12); }
+  .pws-panel-close:focus-visible { outline: 3px solid #08784a; outline-offset: 1px; }
+  @media (max-width: 699px) {
+    .pws-panel { grid-template-columns: 56px minmax(0, 1fr); align-items: center; row-gap: 10px; }
+    .pws-panel-body { display: contents; }
+    .pws-panel-text, .pws-panel .pws-button, .pws-panel .pws-note { grid-column: 1 / -1; }
+    .pws-panel .pws-button { justify-self: start; white-space: nowrap; }
+  }
+  @media (min-width: 700px) { .pws-panel { grid-template-columns: 96px minmax(0, 1fr); gap: 20px; padding: 18px 52px 16px 20px; } }
+  @media (prefers-reduced-motion: reduce) { .pws-panel { animation: none; } }
   @media (min-width: 700px) { .pws-card { grid-template-columns: 120px minmax(0, 1fr); gap: 22px; align-items: center; padding: 18px 22px; } }
   @media (prefers-reduced-motion: reduce) { .pws { transition: none; } .pws:hover, .pws:focus-within { transform: none; } }
   @media print { .pws, .pws-section { display: none !important; } }

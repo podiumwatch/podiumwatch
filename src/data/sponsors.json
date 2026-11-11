@@ -103,6 +103,11 @@
         "paths": []
       },
       {
+        "id": "after-vote-panel",
+        "label": "After-vote support panel (first vote per browser)",
+        "paths": []
+      },
+      {
         "id": "banquet",
         "label": "Banquet Pack pages",
         "paths": []

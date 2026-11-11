@@ -72,3 +72,23 @@ test("logos: white arch on the /support/ hero, black arch on the card, files sav
   assert.ok(supportCardHtml({ placement: "athlete" }).includes('<img class="pws-logo" src="/images/branding/support-pw-arch-black.webp"'));
   for (const name of ["black", "white"]) assert.ok(fs.existsSync(`public/images/branding/support-pw-arch-${name}.webp`), name);
 });
+
+test("after-vote panel: exact copy, black logo, /go/support/after-vote-panel/, once per browser, not a modal", async () => {
+  const { supportPanelHtml, SUPPORT_PANEL_COPY } = await import("../src/lib/support_card.mjs");
+  const html = supportPanelHtml({ from: "/awards/2026/athlete-boys-d1/" });
+  assert.equal(SUPPORT_PANEL_COPY.title, "Support Podium Watch");
+  assert.equal(SUPPORT_PANEL_COPY.body, "If you've enjoyed our coverage of Ohio cross country and track runners, consider a one-time contribution. We truly appreciate your support and want to keep Podium Watch the best Ohio XC and track coverage in the state.");
+  assert.equal(SUPPORT_PANEL_COPY.small, "Not tax-deductible.");
+  assert.ok(html.includes("If you&#39;ve enjoyed our coverage of Ohio cross country and track runners"));
+  assert.ok(html.includes('href="/go/support/after-vote-panel/?from=%2Fawards%2F2026%2Fathlete-boys-d1%2F" target="_blank" rel="noopener">Support Podium Watch</a>'));
+  assert.ok(html.includes('src="/images/branding/support-pw-arch-black.webp"'));
+  assert.ok(html.includes('aria-label="Close">✕</button>'));
+  assert.ok(html.includes(" hidden>"), "hidden until the first vote");
+  assert.doesNotMatch(html, /role="dialog"|aria-modal/);
+  const js = fs.readFileSync("public/scripts/support-card.js", "utf8");
+  assert.ok(js.includes('"podium_support_panel_seen"'));
+  assert.ok(js.includes("localStorage.setItem(PANEL_KEY"));
+  const page = fs.readFileSync("src/pages/yearlyawards2026.mjs", "utf8");
+  assert.ok(page.indexOf("data-yoy-vote-message") < page.indexOf("supportPanelHtml({ from: pathname })"), "under the vote message");
+  assert.ok(page.indexOf("supportPanelHtml({ from: pathname })") < page.indexOf("data-pwm-after hidden"), "above the after-vote cards");
+});
