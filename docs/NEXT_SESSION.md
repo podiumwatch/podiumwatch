@@ -4,7 +4,7 @@
 
 - Redis: presence is off and each vote is one script (b63f689c, pushed). Watch Upstash usage; a vote that hits a Redis error shows "Voting is busy".
 - Awards share previews: category and finalist cards, Share buttons. After deploy, run 3 pages through the Facebook Sharing Debugger. Saturday: publishing results switches previews to WINNER on their own (Facebook keeps its old copy until "Scrape Again").
-- Summit Country Day has no logo file, so its finalists show initials on the cards.
+- Summit Country Day logo (summitcoday.jpg, map name "Sum. Co. Day") is now linked to the school and its team page; scripts/team-logos-match.mjs keeps it on a rerun.
 
 ## Start here (2026-11-10, evening)
 

@@ -10025,6 +10025,12 @@
       "color": "#e3201b",
       "source": "Adding_10.6__norwood.png",
       "map_name": "Norwood"
+    },
+    "21eed034-e2e9-474a-8d0b-08dfcce5a84a": {
+      "base": "/images/teams/pool/adding106summitcoday",
+      "color": "#0233a3",
+      "source": "Adding_10.6__summitcoday.jpg",
+      "map_name": "Sum. Co. Day"
     }
   },
   "pool": {
@@ -11750,10 +11756,6 @@
     {
       "name": "Madeira",
       "map_file": "maderia.jpg"
-    },
-    {
-      "name": "Sum. Co. Day",
-      "map_file": "summitcoday.jpg"
     }
   ],
   "unconvertible": [
@@ -11790,7 +11792,6 @@
     "adding106harvestprep",
     "adding106maderia",
     "adding106stvincentstmary",
-    "adding106summitcoday",
     "adding106warren",
     "mentor",
     "shenandoah",

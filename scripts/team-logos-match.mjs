@@ -64,7 +64,13 @@ const MANUAL = {
   "Harrison Central": "Adding 10.6/harrisoncentral.jpg",
   "Union Local": "Adding 10.6/union local.jpg",
   "Buckeye Local": "Adding 10.6/buckeye local.jpg",
-  "Edison (Richmond)": "Adding 10.6/edison richmond.jpg"
+  "Edison (Richmond)": "Adding 10.6/edison richmond.jpg",
+  "Sum. Co. Day": "Adding 10.6/summitcoday.jpg"
+};
+// Map names no alias or expansion resolves, checked by hand (school ID).
+// "Sum. Co. Day" is Summit Country Day, Cincinnati (Zachary, 2026-11-10).
+const MANUAL_SCHOOL = {
+  "Sum. Co. Day": "21eed034-e2e9-474a-8d0b-08dfcce5a84a"
 };
 // Folder paths were flattened with "__" ("10-15/x.jpg" -> "10-15__x.jpg").
 const manualKey = (file) => fileKey(file.replace(/\//g, "__"));
@@ -83,6 +89,7 @@ for (const [name, mapFile] of Object.entries(map)) {
   // exact school counts.
   let ids = [...(keyToSchools.get(normalizeLookup(name)) || [])];
   if (!ids.length && expansions[name]) ids = [...(keyToSchools.get(normalizeLookup(expansions[name].replace(/s*(([^)]*))s*$/, " $1"))) || [])];
+  if (!ids.length && MANUAL_SCHOOL[name]) ids = [MANUAL_SCHOOL[name]];
   if (ids.length !== 1) { report.review.push({ name, file, reason: ids.length ? `${ids.length} schools match this name` : "no school matches this name", candidates: ids.map((id) => { const s = schoolById.get(id); const t = (teamBySchool.get(id) || [])[0]; return { school_id: id, school: `${s.school_name} (${s.city})`, team_slug: t?.slug || null }; }) }); continue; }
   const school = schoolById.get(ids[0]);
   const team = (teamBySchool.get(ids[0]) || [])[0];
