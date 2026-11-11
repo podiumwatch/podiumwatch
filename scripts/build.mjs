@@ -1008,7 +1008,7 @@ function rankingDetailPage(ranking, stories) {
       // match exactly one profile (public/scripts/name-links.js). Schools too.
       : `<span data-pw-athlete="${escapeHtml(row.athlete)}" data-pw-athlete-school="${escapeHtml(row.school)}">${escapeHtml(row.athlete)}</span>`;
 
-    return `<article class="ranking-row" data-pw-division="${escapeHtml(row.division || "")}"><div class="ranking-number">${escapeHtml(row.rank)}</div><div class="ranking-athlete"><strong>${athleteName}</strong><span data-pw-school="${escapeHtml(row.school)}">${escapeHtml(row.school)}</span></div><div class="ranking-grade">${escapeHtml(row.grade || "")}</div><div class="ranking-mark"><strong>${escapeHtml(row.timeOrMark)}</strong><small>${escapeHtml(row.event)}</small></div>${row.rankingExplanation ? `<p class="ranking-explanation">${escapeHtml(row.rankingExplanation)}</p>` : ""}</article>`;
+    return `<article class="ranking-row"${row.sport === "Cross Country" ? ` data-pw-division="${escapeHtml(row.division || "")}" data-pw-gender="${escapeHtml(row.gender || "")}"` : ""}><div class="ranking-number">${escapeHtml(row.rank)}</div><div class="ranking-athlete"><strong>${athleteName}</strong><span data-pw-school="${escapeHtml(row.school)}">${escapeHtml(row.school)}</span></div><div class="ranking-grade">${escapeHtml(row.grade || "")}</div><div class="ranking-mark"><strong>${escapeHtml(row.timeOrMark)}</strong><small>${escapeHtml(row.event)}</small></div>${row.rankingExplanation ? `<p class="ranking-explanation">${escapeHtml(row.rankingExplanation)}</p>` : ""}</article>`;
   }).join("");
   const rankingType = String(ranking.rankingType || "Editorial ranking");
   const isVerifiedList = /verified|performance list|official/i.test(rankingType);

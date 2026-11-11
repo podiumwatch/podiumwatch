@@ -6,7 +6,7 @@ Record major technical, editorial, design, and business decisions here.
 
 ### Decision
 
-src/data/school-name-aliases.json holds hand-checked labels (Dub. Jerome, Olen. Liberty, Cincinnati CHCA, Fenwick, MVCA, Hartley), each matching exactly one school in ohio_schools. division_aliases apply only to a label that matches more than one school, and only when the row's division (data-pw-division on the row or its section; the heading above a story table) is the one given: Green D1 = Green (Uniontown), Lakewood D1 = Lakewood (Lakewood), as Zachary set them. install/94 publishes or adds team pages for 8 schools with real results (divisions left empty where the Ohio schools list has none).
+src/data/school-name-aliases.json holds hand-checked labels (Dub. Jerome, Olen. Liberty, Cincinnati CHCA, Fenwick, MVCA, Hartley), each matching exactly one school in ohio_schools. A label that matches more than one school links only when the row's cross country division (and gender, when known) fits exactly one candidate in ohio_school_divisions (replaces the earlier Green/Lakewood D1 rules; Zachary, 2026-11-11). Rows send data-pw-division and data-pw-gender (ranking rows for cross country only, State Leaders, Top 10 sections, OATCCC; story tables from the heading above). install/94 publishes or adds team pages for 8 schools with real results (divisions left empty where the Ohio schools list has none).
 
 ## 2026 11 11 Team and athlete pages easy to reach; parent-line merch
 

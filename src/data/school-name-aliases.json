@@ -1,15 +1,65 @@
 {
-  "note": "School labels used on the site that don't match the Ohio schools list exactly, mapped to the one school they mean (lib/name_links.mjs). Each was checked on 2026-11-11 to match exactly one school in ohio_schools; Zachary supplied the names. division_aliases apply only when the label matches more than one school and the row's division is the one given.",
+  "note": "School labels used on the site that don't match the Ohio schools list exactly, mapped to the one school they mean (lib/name_links.mjs). Each was checked to match exactly one school in ohio_schools that has a published team page; Zachary supplied the names. Labels that match more than one school (Green, Lakewood) are handled by the row's division and gender, not here.",
   "aliases": {
-    "Dub. Jerome": { "school_id": "0d7ee068-c928-4156-b860-1a9c43f6c644", "why": "Dublin Jerome (Dublin), the only school in ohio_schools matching 'Jerome'" },
-    "Olen. Liberty": { "school_id": "07c2f5ad-40bb-45b1-8291-b4ffb9388f13", "why": "Olentangy Liberty (Powell), the only school matching 'Olentangy Liberty'" },
-    "Cincinnati CHCA": { "school_id": "fa98bb39-6191-40b1-8f43-1610e62c6ffc", "why": "Cincinnati Hills Christian Academy (Cincinnati), the only school matching 'Hills Christian'" },
-    "Fenwick": { "school_id": "5fed2763-465b-4b22-af17-67e3667481fd", "why": "Bishop Fenwick (Franklin), the only school matching 'Fenwick'" },
-    "MVCA": { "school_id": "42f92edd-332f-4893-92ac-1a710d88bbcf", "why": "Miami Valley Christian Academy (Cincinnati), the only school matching 'Miami Valley Christian'" },
-    "Hartley": { "school_id": "6b9c40dd-06e1-4175-ac2c-47c800c2a52b", "why": "Bishop Hartley (Columbus), the only school matching 'Hartley'" }
-  },
-  "division_aliases": [
-    { "label": "Green", "division": 1, "school_id": "dd03a2bd-bbd9-4268-9d49-c386a6948867", "why": "Green D1 = Green (Uniontown), Summit County (Zachary, 2026-11-11)" },
-    { "label": "Lakewood", "division": 1, "school_id": "96173f9b-8b5d-4974-ba3e-a659dabd24d0", "why": "Lakewood D1 = Lakewood (Lakewood), Cuyahoga County (Zachary, 2026-11-11)" }
-  ]
+    "Dub. Jerome": {
+      "school_id": "0d7ee068-c928-4156-b860-1a9c43f6c644",
+      "why": "Dublin Jerome (Dublin), the only school in ohio_schools matching 'Jerome'"
+    },
+    "Olen. Liberty": {
+      "school_id": "07c2f5ad-40bb-45b1-8291-b4ffb9388f13",
+      "why": "Olentangy Liberty (Powell), the only school matching 'Olentangy Liberty'"
+    },
+    "Cincinnati CHCA": {
+      "school_id": "fa98bb39-6191-40b1-8f43-1610e62c6ffc",
+      "why": "Cincinnati Hills Christian Academy (Cincinnati), the only school matching 'Hills Christian'"
+    },
+    "Fenwick": {
+      "school_id": "5fed2763-465b-4b22-af17-67e3667481fd",
+      "why": "Bishop Fenwick (Franklin), the only school matching 'Fenwick'"
+    },
+    "MVCA": {
+      "school_id": "42f92edd-332f-4893-92ac-1a710d88bbcf",
+      "why": "Miami Valley Christian Academy (Cincinnati), the only school matching 'Miami Valley Christian'"
+    },
+    "Hartley": {
+      "school_id": "6b9c40dd-06e1-4175-ac2c-47c800c2a52b",
+      "why": "Bishop Hartley (Columbus), the only school matching 'Hartley'"
+    },
+    "Perrysburg": {
+      "school_id": "d965a8ba-e044-4a63-be6c-2130e0b98f68",
+      "why": "Perrysburg High School (Perrysburg) in ohio_schools; team page perrysburg-high-school-perrysburg-1248"
+    },
+    "Mass. Jackson": {
+      "school_id": "23b450b7-d5d0-47cc-adc7-97c5becf0c8d",
+      "why": "Jackson (Massillon); team page jackson-massillon-764"
+    },
+    "Dub. Coffman": {
+      "school_id": "803f6dff-1419-491b-af10-9a1273c9b676",
+      "why": "Dublin Coffman (Dublin); team page dublin-coffman-dublin-474"
+    },
+    "Brecksville": {
+      "school_id": "2d3f517a-d2ae-4f9f-949e-7c7d8d2edbbe",
+      "why": "Brecksville-Broadview Hts (Brecksville); team page brecksville-broadview-hts-brecksville-248"
+    },
+    "Hathaway Brown": {
+      "school_id": "8376d35b-4b05-49e7-ac8c-69ece5e9492c",
+      "why": "Hathaway Brown School (Shaker Heights); team page hathaway-brown-school-shaker-heights-700"
+    },
+    "Toledo St. Francis": {
+      "school_id": "4fede304-e46d-4ec0-95d1-3e1fad3a539d",
+      "why": "St. Francis de Sales (Toledo); team page st-francis-de-sales-toledo-1350"
+    },
+    "St. John (Ashtabula)": {
+      "school_id": "5197dc7c-0a48-4e02-aa3d-bc8b6747b412",
+      "why": "St. John School (Ashtabula); team page st-john-school-ashtabula-1359"
+    },
+    "Ashtabula St. John": {
+      "school_id": "5197dc7c-0a48-4e02-aa3d-bc8b6747b412",
+      "why": "Same school, as the recap writes it"
+    },
+    "Pickerington North": {
+      "school_id": "5308a4d4-8822-4e77-98a3-0ef5d30fcb28",
+      "why": "Pickerington High School North (Pickerington) in ohio_schools; team page pickerington-high-school-north-pickerington-1255"
+    }
+  }
 }

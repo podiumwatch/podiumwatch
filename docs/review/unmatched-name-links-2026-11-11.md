@@ -149,3 +149,38 @@ Perrysburg is in the Ohio schools list once, as **"Perrysburg High School"** (Pe
 ### Green and Lakewood
 
 The database puts Green (Uniontown) and Lakewood (Lakewood) in boys Division II, Lakewood (Hebron) in Division III and Green (Franklin Furnace) in girls Division IV. Every Green and Lakewood row on these pages is Division II, so the Division I rules match none of them yet.
+
+## Re-run with the general division rule and the new aliases (2026-11-11)
+
+Ambiguous names (Green, Lakewood) now link only when the row's cross country division, and gender when the row has one, fits exactly one candidate school (ohio_school_divisions). New aliases: Perrysburg, Mass. Jackson, Dub. Coffman, Brecksville, Hathaway Brown, Toledo St. Francis, St. John (Ashtabula), Ashtabula St. John, Pickerington North.
+
+| Page | First run | Previous commit | Now | After migration 94 |
+|---|---|---|---|---|
+| Recap | 14 | 10 | 6 | 6 |
+| Top 10 | 52 | 42 | 23 | 12 |
+| OATCCC | 5 | 3 | 0 | 0 |
+
+Pickerington North: the Ohio schools list names it "Pickerington High School North" (the same "High School" naming as Perrysburg), so the short name had no exact match.
+
+### Still not linked after migration 94
+
+| Page | Type | Name | School shown | Division | Why |
+|---|---|---|---|---|---|
+| Recap | Athlete | Luca Novakovic | CF Northwest | 3:boys | School not matched |
+| Recap | School | CF Northwest |  | 3:boys | No school in the Ohio schools list has this exact name; no alias |
+| Recap | Athlete | Brionna Wright | Gahanna Lincoln | 1:girls | School links; no public profile with this exact name at that school |
+| Recap | Athlete | Lucia Sveda | Green | 2:girls | School not linked (see Green) |
+| Recap | School | Green |  | 2:girls | Girls Division II: neither Green has a girls Division II row in ohio_school_divisions (Green (Uniontown) has boys D2 only) |
+| Recap | Athlete | Katrina Neal | Clear Fork | 3:girls | School links; no public profile with this exact name at that school |
+| Top 10 | Athlete | Caroline Valentino | Hathaway Brown |  | School links; no public profile with this exact name at that school |
+| Top 10 | Athlete | Will Schuldt | Lakewood | 2:boys | School links; no public profile with this exact name at that school |
+| Top 10 | Athlete | Lucas Steele | DeSales (Columbus) | 2:boys | School not matched |
+| Top 10 | School | DeSales (Columbus) |  | 2:boys | No school in the Ohio schools list has this exact name; no alias |
+| Top 10 | Athlete | Stephen Wojtowicz | Legacy Christian | 4:boys | School not matched |
+| Top 10 | School | Legacy Christian |  | 4:boys | No school in the Ohio schools list has this exact name; no alias |
+| Top 10 | Athlete | Samuel Philpot | Russia | 4:boys | School links; no public profile with this exact name at that school |
+| Top 10 | Athlete | Lucia Schafer | Fairmont | 1:girls | School not matched |
+| Top 10 | School | Fairmont |  | 1:girls | No school in the Ohio schools list has this exact name; no alias |
+| Top 10 | Athlete | Lucia Sveda | Green | 2:girls | School not linked (see Green) |
+| Top 10 | School | Green |  | 2:girls | Girls Division II: neither Green has a girls Division II row in ohio_school_divisions (Green (Uniontown) has boys D2 only) |
+| Top 10 | Athlete | Caroline Valentino | Hathaway Brown | 3:girls | School links; no public profile with this exact name at that school |

@@ -364,6 +364,7 @@ export function oatcccCoachesPollPage(site) {
         '</tr>'
       )).join('');
       rowsEl.dataset.pwDivision = division;
+      rowsEl.dataset.pwGender = gender;
       if (typeof window.pwNameLinks === 'function') window.pwNameLinks(rowsEl);
     }
 

@@ -3,8 +3,9 @@
 //   <span data-pw-school="Mason">Mason</span>
 //   <span data-pw-athlete="Ryne Reynolds" data-pw-athlete-school="Little Miami">Ryne Reynolds</span>
 //   <span data-pw-school-id="{ohio school id}">Beavercreek</span>
-// A division on the element or an ancestor (data-pw-division="2") is sent
-// too; it only matters for a name that matches more than one school.
+// A division (data-pw-division="2") and gender (data-pw-gender="girls") on
+// the element or an ancestor are sent too; they only matter for a name that
+// matches more than one school (cross country divisions).
 // Story tables (recaps) are marked here: an "Athlete"/"Name" column with a
 // "School"/"Team" column in the same table.
 // /api/links/ answers only exact, unique matches (lib/name_links.mjs); any
@@ -21,14 +22,21 @@
     const t = m[1].toLowerCase();
     return String({ i: 1, ii: 2, iii: 3, iv: 4 }[t] || t);
   }
-  const divisionOf = (el) => divisionNumber(el.closest("[data-pw-division]")?.dataset.pwDivision);
+  const genderWord = (text) => (/\bgirls?\b/i.test(String(text || "")) ? "girls" : /\bboys?\b/i.test(String(text || "")) ? "boys" : "");
+  // "2" or "2:girls" (division needed; gender when known).
+  const divisionOf = (el) => {
+    const d = divisionNumber(el.closest("[data-pw-division]")?.dataset.pwDivision);
+    if (!d) return "";
+    const g = genderWord(el.closest("[data-pw-gender]")?.dataset.pwGender);
+    return g ? `${d}:${g}` : d;
+  };
 
   // A story table's division: the nearest heading above it ("Girls Division II").
   function headingDivision(table) {
     let node = table;
     for (let steps = 0; node && steps < 40; steps++) {
       node = node.previousElementSibling || node.parentElement;
-      if (node && /^H[1-4]$/.test(node.tagName)) return divisionNumber(node.textContent);
+      if (node && /^H[1-4]$/.test(node.tagName)) return node.textContent;
     }
     return "";
   }
@@ -41,8 +49,13 @@
       const a = heads.findIndex((h) => ATHLETE_HEADS.test(h));
       const s = heads.findIndex((h) => SCHOOL_HEADS.test(h));
       if (s < 0) return;
-      const division = headingDivision(table);
-      if (division) table.dataset.pwDivision = division;
+      const heading = headingDivision(table);
+      const division = divisionNumber(heading);
+      if (division) {
+        table.dataset.pwDivision = division;
+        const gender = genderWord(heading);
+        if (gender) table.dataset.pwGender = gender;
+      }
       table.querySelectorAll("tbody tr").forEach((tr) => {
         const cells = tr.children;
         const school = cells[s]?.textContent.trim();

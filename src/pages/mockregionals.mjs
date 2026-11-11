@@ -708,7 +708,7 @@ export function top10ByGradePage(site) {
   const jump = TOP10_DIVISIONS.map(({ key, gender, division }) => `<a href="#${key}">${gender} Div ${division}</a>`).join("");
   const sections = TOP10_DIVISIONS.map(({ key, gender, division }) => {
     const cards = TOP10_GRADES.map(([grade, gradeLabel]) => top10Card(gradeLabel, lists[key]?.[grade] || [], gender === "Girls")).join("");
-    return `<section class="t10-block" id="${key}" data-pw-division="${division}" aria-labelledby="${key}-title"><h2 id="${key}-title">${gender} Division ${division}</h2><div class="t10-grid">${cards}</div></section>`;
+    return `<section class="t10-block" id="${key}" data-pw-division="${division}" data-pw-gender="${gender}" aria-labelledby="${key}-title"><h2 id="${key}-title">${gender} Division ${division}</h2><div class="t10-grid">${cards}</div></section>`;
   }).join("");
 
   const content = `${pageHero({
