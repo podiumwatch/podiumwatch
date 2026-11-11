@@ -1,5 +1,5 @@
-import { layout, pageHero } from "../lib/html.mjs";
-import { hasMonthly, hasOneTime, supportConfig, supportGoHref } from "../lib/support_card.mjs";
+import { layout } from "../lib/html.mjs";
+import { SUPPORT_LOGO_WHITE, hasMonthly, hasOneTime, supportConfig, supportGoHref } from "../lib/support_card.mjs";
 
 // /support/ (2026-11-11): "Support Podium Watch", never "donate". Podium
 // Watch is a business; support is not tax-deductible, and the page says so.
@@ -10,6 +10,9 @@ import { hasMonthly, hasOneTime, supportConfig, supportGoHref } from "../lib/sup
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 const styles = `
+  .sp-hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 28px; align-items: center; }
+  .sp-logo { width: clamp(110px, 20vw, 190px); height: auto; }
+  @media (max-width: 560px) { .sp-hero { grid-template-columns: 1fr; gap: 16px; } .sp-logo { width: 120px; } }
   .sp-wrap { display: grid; gap: 22px; max-width: 760px; }
   .sp-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
   .sp-list li { display: grid; gap: 4px; padding: 16px 18px; border-radius: 14px; background: #fff; border: 1px solid rgba(9,9,9,.08); }
@@ -25,18 +28,17 @@ const styles = `
 export function supportPage(site) {
   const external = ' target="_blank" rel="noopener"';
   const buttons = [
-    hasOneTime() ? `<a class="button button-primary" href="${esc(supportGoHref("support-page"))}"${external}>Support once</a>` : "",
+    hasOneTime() ? `<a class="button button-primary" href="${esc(supportGoHref("support-page"))}"${external}>${hasMonthly() ? "Support once" : "Support Podium Watch"}</a>` : "",
     hasMonthly() ? `<a class="button button-dark" href="${esc(supportGoHref("support-page", { kind: "monthly" }))}"${external}>Support monthly</a>` : ""
   ].filter(Boolean).join("");
 
   const content = `<style>${styles}</style>
-  ${pageHero({
-    eyebrow: "Support Podium Watch",
-    title: "Keep Ohio running coverage free.",
-    description: "Podium Watch covers Ohio high school cross country and track and field. Support from readers helps keep it free for every runner, family and coach."
-  })}
+  <section class="page-hero"><div class="container sp-hero">
+    <img class="sp-logo" src="${SUPPORT_LOGO_WHITE}" width="600" height="643" alt="Support Podium Watch">
+    <div><p class="eyebrow">Support Podium Watch</p><h1>Keep Ohio running coverage free.</h1><p>Podium Watch covers Ohio high school cross country and track and field. Support from readers helps keep it free for every runner, family and coach.</p></div>
+  </div></section>
   <section class="section section-paper">
-    <div class="container sp-wrap">
+    <div class="container"><div class="sp-wrap">
       <h2>Why it matters</h2>
       <ul class="sp-list">
         <li><strong>Free for every Ohio runner</strong><span>Results, rankings and athlete profiles on Podium Watch are free for every runner in the state.</span></li>
@@ -47,7 +49,7 @@ export function supportPage(site) {
       <p class="sp-note">${esc(supportConfig.note)}</p>
       ${buttons ? `<p class="sp-small">Payments are handled by Stripe. Podium Watch never sees your card number.</p>` : ""}
       <p class="sp-small">Other ways to help: share a results page or story with your team, follow <a href="${esc(site.instagramUrl)}" target="_blank" rel="noopener noreferrer">@podiumwatch on Instagram</a>, or pick something from the <a href="/go/merch/nav/" target="_blank" rel="noopener">Podium Watch Shop</a>.</p>
-    </div>
+    </div></div>
   </section>`;
 
   return layout({

@@ -56,3 +56,19 @@ test("support card: placed on the awards hub and after a vote (taking turns with
 test("footer: a Support Podium Watch link on every page", () => {
   assert.match(fs.readFileSync("src/lib/html.mjs", "utf8"), /<a class="footer-support" href="\/support\/">Support Podium Watch<\/a>/);
 });
+
+test("Stripe: the one-time link is set, no monthly link, and the page button goes through /go/support/", () => {
+  assert.equal(supportConfig.one_time_url, "https://buy.stripe.com/6oU8wP5xf9c75uJaKG28801");
+  assert.equal(supportConfig.monthly_url, "");
+  assert.equal(supportDestination(""), "https://buy.stripe.com/6oU8wP5xf9c75uJaKG28801");
+  assert.equal(supportDestination("monthly"), "https://buy.stripe.com/6oU8wP5xf9c75uJaKG28801");
+  const page = supportPage(site);
+  assert.ok(page.includes('href="/go/support/support-page/" target="_blank" rel="noopener">Support Podium Watch</a>'), "one button, straight to Stripe through /go/support/");
+  assert.doesNotMatch(page, /Support monthly|coming soon/);
+});
+
+test("logos: white arch on the /support/ hero, black arch on the card, files saved locally", () => {
+  assert.ok(supportPage(site).includes('<img class="sp-logo" src="/images/branding/support-pw-arch-white.webp"'));
+  assert.ok(supportCardHtml({ placement: "athlete" }).includes('<img class="pws-logo" src="/images/branding/support-pw-arch-black.webp"'));
+  for (const name of ["black", "white"]) assert.ok(fs.existsSync(`public/images/branding/support-pw-arch-${name}.webp`), name);
+});

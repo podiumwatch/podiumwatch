@@ -16,6 +16,11 @@ const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&
 export const supportConfig = support;
 export const supportEnabled = () => Boolean(support.enabled);
 export const SUPPORT_PAGE = "/support/";
+// Zachary's Support arch logos (2026-11-11), trimmed and resized from
+// support-pw-arch-BLACK/WHITE-transparent.png: black on the light card,
+// white on the dark /support/ hero.
+export const SUPPORT_LOGO_BLACK = "/images/branding/support-pw-arch-black.webp";
+export const SUPPORT_LOGO_WHITE = "/images/branding/support-pw-arch-white.webp";
 export const SUPPORT_PLACEMENTS = ["awards-hub", "after-vote", "banquet", "wrapped", "athlete", "support-page"];
 
 const isStripe = (url) => /^https:\/\/(buy|donate)\.stripe\.com\/[A-Za-z0-9_/-]+$/.test(String(url || ""));
@@ -41,6 +46,8 @@ export function supportCardHtml({ placement, from = "", large = false } = {}) {
   const external = hasOneTime() ? ' target="_blank" rel="noopener"' : "";
   return `<aside class="pws${large ? " pws-large" : ""}" data-pws data-pws-placement="${esc(placement)}" aria-label="Support Podium Watch">
   <div class="pws-card">
+    <img class="pws-logo" src="${SUPPORT_LOGO_BLACK}" width="600" height="643" alt="" loading="lazy" decoding="async">
+    <div class="pws-body">
     <span class="pws-label">Support Podium Watch</span>
     <h3 class="pws-head">${large ? "Vote counted. Help keep it free." : "Keep Ohio running coverage free."}</h3>
     <p class="pws-text">Results, rankings and profiles for every Ohio runner stay free. Support helps pay for photographers and servers.</p>
@@ -49,6 +56,7 @@ export function supportCardHtml({ placement, from = "", large = false } = {}) {
       <a class="pws-more" href="${SUPPORT_PAGE}">Why it matters</a>
     </div>
     <p class="pws-note">${esc(support.note)}</p>
+    </div>
   </div>
 </aside>`;
 }
@@ -65,7 +73,9 @@ export const supportScripts = () => (supportEnabled() ? `<script src="/scripts/s
 export const supportStyles = `
   .pws { margin: 0 auto; max-width: 820px; border-radius: 18px; padding: 3px; background: linear-gradient(135deg, #0faf68, #08784a 55%, #0faf68); transition: transform .25s ease, box-shadow .25s ease; }
   .pws:hover, .pws:focus-within { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(0,0,0,.18); }
-  .pws-card { display: grid; gap: 8px; padding: 16px 16px 14px; border-radius: 15px; background: linear-gradient(135deg, #f6f4ee, #e6f5ec); color: #0d2a1d; }
+  .pws-card { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: start; padding: 16px 16px 14px; border-radius: 15px; background: linear-gradient(135deg, #f6f4ee, #e6f5ec); color: #0d2a1d; }
+  .pws-logo { width: 100%; height: auto; }
+  .pws-body { display: grid; gap: 8px; min-width: 0; }
   .pws-label { font-size: .7rem; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: #08784a; }
   .pws-head { margin: 0; font-size: clamp(1.15rem, 4.6vw, 1.45rem); line-height: 1.1; color: inherit; text-wrap: balance; }
   .pws-text { margin: 0; font-size: .92rem; font-weight: 600; line-height: 1.4; max-width: 60ch; }
@@ -78,7 +88,7 @@ export const supportStyles = `
   .pws-large { margin-top: 12px; }
   .pws-section { padding-block: 8px 32px; }
   .pws-section-inner { max-width: 760px; }
-  @media (min-width: 700px) { .pws-card { padding: 18px 22px; } }
+  @media (min-width: 700px) { .pws-card { grid-template-columns: 120px minmax(0, 1fr); gap: 22px; align-items: center; padding: 18px 22px; } }
   @media (prefers-reduced-motion: reduce) { .pws { transition: none; } .pws:hover, .pws:focus-within { transform: none; } }
   @media print { .pws, .pws-section { display: none !important; } }
 `;
