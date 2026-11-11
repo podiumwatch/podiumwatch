@@ -20,6 +20,8 @@ async function notFound(request, response) {
   return response.status(404).send('<!doctype html><meta charset="utf-8"><title>Athlete Not Found | Podium Watch</title><p>Athlete not found. <a href="/athletes/">Search athletes</a></p>');
 }
 
+import { CACHE_PAGE, CACHE_API_60, rememberGood, sendLastGood } from "../../lib/page_cache.mjs";
+
 export default async function handler(request, response) {
   const slug = cleanSlug(request.query?.slug);
   if (!slug) return notFound(request, response);
@@ -28,6 +30,7 @@ export default async function handler(request, response) {
     data = await loadDatabaseProfile(slug);
   } catch (error) {
     console.error("Athlete page error:", error);
+    if (sendLastGood(response, `athlete:${slug}`)) return;
     response.setHeader("Cache-Control", "no-store");
     return response.status(503).send("This athlete page could not be loaded right now. Please try again shortly.");
   }
@@ -46,6 +49,8 @@ export default async function handler(request, response) {
     data.front_page = [];
   }
   response.setHeader("Content-Type", "text/html; charset=utf-8");
-  response.setHeader("Cache-Control", "public, s-maxage=900, stale-while-revalidate=86400");
-  return response.status(200).send(athletePageHtml(site, data));
+  const html = athletePageHtml(site, data);
+  rememberGood(`athlete:${slug}`, "text/html; charset=utf-8", html);
+  response.setHeader("Cache-Control", CACHE_PAGE);
+  return response.status(200).send(html);
 }

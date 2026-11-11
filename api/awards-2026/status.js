@@ -1,3 +1,4 @@
+import { CACHE_PAGE, CACHE_API_60, rememberGood, sendLastGood } from "../../lib/page_cache.mjs";
 import { listPublicCategories, turnstileSiteKey } from "../../lib/yearly_awards_2026_service.mjs";
 
 // Public, read-only: every 2026 Athlete, Team and Coach of the Year
@@ -13,10 +14,14 @@ export default async function handler(request, response) {
 
   try {
     const categories = await listPublicCategories();
-    response.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=60");
-    return response.status(200).json({ now: new Date().toISOString(), turnstile_site_key: turnstileSiteKey(), categories });
+    const body = JSON.stringify({ now: new Date().toISOString(), turnstile_site_key: turnstileSiteKey(), categories });
+    rememberGood("awards-status", "application/json; charset=utf-8", body);
+    response.setHeader("Content-Type", "application/json; charset=utf-8");
+    response.setHeader("Cache-Control", CACHE_API_60);
+    return response.status(200).send(body);
   } catch (error) {
     console.error("Yearly awards status error:", error);
+    if (sendLastGood(response, "awards-status")) return;
     response.setHeader("Cache-Control", "no-store");
     return response.status(500).json({ error: "Award status could not be loaded right now." });
   }

@@ -1,3 +1,4 @@
+import { CACHE_PAGE, CACHE_API_60, rememberGood, sendLastGood } from "../../lib/page_cache.mjs";
 import { teamPageHtml } from "../../lib/render/team_page.mjs";
 import { loadTeamPage } from "../../lib/team_page_service.mjs";
 import { site } from "../../src/config/site.mjs";
@@ -27,6 +28,7 @@ export default async function handler(request, response) {
     data = await loadTeamPage(slug);
   } catch (error) {
     console.error("Team page error:", error);
+    if (sendLastGood(response, `team:${slug}`)) return;
     response.setHeader("Cache-Control", "no-store");
     return response.status(503).send("This team page could not be loaded right now. Please try again shortly.");
   }
@@ -38,6 +40,8 @@ export default async function handler(request, response) {
   }
   if (!data || data.private) return notFound(request, response);
   response.setHeader("Content-Type", "text/html; charset=utf-8");
-  response.setHeader("Cache-Control", "public, s-maxage=900, stale-while-revalidate=86400");
-  return response.status(200).send(teamPageHtml(site, data));
+  const html = teamPageHtml(site, data);
+  rememberGood(`team:${slug}`, "text/html; charset=utf-8", html);
+  response.setHeader("Cache-Control", CACHE_PAGE);
+  return response.status(200).send(html);
 }
