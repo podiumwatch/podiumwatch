@@ -2,6 +2,15 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 11 Survive a Supabase outage: voting fallback, page caching, connection cap
+
+### Decision
+
+- Voting never blocks on Supabase once a good copy exists: lib/yearly_awards_2026_catalog.mjs serves every category and finalist to the vote and status endpoints (fresh 10 s, 2.5 s timeout, last good copy in memory and in Redis key yoty2026:catalog, 5 s back-off after a failure).
+- Read-only pages are CDN cached with stale-while-revalidate (team, athlete, results hubs 15 min; meets API and awards status 60 s; the meets API used to be no-store and runs on every visit through the header ticker). Each instance keeps the last good response per page and serves it on a Supabase error (lib/page_cache.mjs). Votes, admin and tracking stay live.
+- Team pages read through a client capped at 16 open Supabase requests per instance (lib/fetch_limiter.mjs); past 400 waiting or 5 s they fail fast.
+- The Nov 10 team and athlete page errors (737 on 510 different pages in about 3 minutes) came from residential connections worldwide with one desktop Chrome user agent, almost certainly a scraper through proxies, not Ohio visitors (analytics show 1 team and 5 athlete page views that hour). Caching can't help first visits to 500 different pages; a Vercel Firewall rate limit on /teams/* and /athletes/* is the fix for that, set by Zachary in the Vercel dashboard.
+
 ## 2026 11 11 Analytics intake never waits on the database
 
 ### Decision

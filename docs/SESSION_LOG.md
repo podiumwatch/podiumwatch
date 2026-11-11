@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 11 Voting fallback, page caching, connection cap, Support link and logos
+
+- Four commits: voting catalog fallback (93ba8dff), CDN caching plus last-good copies (946879c2), team page connection cap (46faccea), Stripe one-time link and Support arch logos (4fd10df4). Full suite passes; 30 concurrent live team pages all 200 through the cap. Found the Nov 10 team and athlete page errors were a proxy scraper burst.
+
 ## 2026 11 11 Analytics intake fix; Support Podium Watch
 
 - Track endpoint: 204 at once, sendBeacon, batched inserts with a 2.5 s timeout (pushed 513d830f, live, 204 in about 120 ms). Spike review from Vercel request logs: 1,154 5xx, all 9:39 to 9:42 PM ET; team pages 429, athlete pages 308, track 157, meets API 110, awards status 102, vote 38 (failed before Redis, nothing counted or lost); awards pages 0. Causes: Supabase "upstream request timeout" and "JWT issued at future" (PGRST303), plus EMFILE/EBUSY socket exhaustion on team pages.

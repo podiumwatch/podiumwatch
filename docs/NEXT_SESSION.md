@@ -2,8 +2,9 @@
 
 ## Start here (2026-11-11, later)
 
-- Support Podium Watch is committed, not pushed. Needs Zachary's Stripe payment links in src/data/support.json (one_time_url, monthly_url optional) before pushing.
-- Spike follow-ups (not done): vote endpoint and awards status still read category/finalists from Supabase per instance every 10 s; serving the last good copy when Supabase fails would keep voting up during a database outage. Athlete and team pages returned 503 during the spike. Read-only pg_stat_statements query given to Zachary (stats reset when compute is upgraded).
+- Committed, not pushed (ask first): Support Podium Watch with the one-time Stripe link and Support arch logos; voting fallback; page caching; team page connection cap.
+- Suggested: a Vercel Firewall rate limit on /teams/* and /athletes/* (Nov 10 scraper burst).
+- Read-only pg_stat_statements query given to Zachary (stats reset when compute is upgraded).
 
 ## Start here (2026-11-11)
 
