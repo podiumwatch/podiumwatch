@@ -2,7 +2,7 @@
 // into the site (never hotlinked; the store's image links can change).
 // Each color's image_src (the store's 1000x1000 mockup) is downloaded,
 // checked to be a real image, re-encoded and written to its "image" path
-// under public/ (for example /images/merch/ohio-xc-arch-crewneck-black.webp).
+// under public/ (for example /images/merch/podium-varsity-crewneck-black.webp).
 //
 //   node scripts/merch-images.mjs            only photos not saved yet
 //   node scripts/merch-images.mjs --force    download every photo again
