@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-11, merch v2)
+
+- Merch card v2 (The Podium Collection) committed, not pushed (ask first). Voting closes Fri Nov 13, 9 PM ET, so the awards placements matter most.
+- Pushed: name links (c31f96d5, 3a9b9572). Committed, not pushed: 4 more aliases (5224ce17). WO-R0F step 1 is on branch wo-r0f, off main; don't push it with main.
+- Athletic.net track pull stopped by Zachary; don't restart it unless asked.
+- When products or colors change: replace src/data/merch.json, then node scripts/merch-images.mjs (card products only; --all for every product).
+
 ## Start here (2026-11-11, later)
 
 - Pushed and live: Support Podium Watch, voting fallback, page caching, connection cap. Zachary added a Vercel Firewall rate limit (/teams/ and /athletes/, 60 requests per 60 s per IP); don't change it.

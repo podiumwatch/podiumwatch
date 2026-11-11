@@ -285,7 +285,7 @@
       finalistList.append(li);
     }
     castButton.hidden = !canVote;
-    // Shop card between the finalists and the vote button (merch-card.js
+    // Shop card below the finalists and the vote button (merch-card.js
     // sets it up once it shows).
     const ballotShop = root.querySelector("[data-yoy-ballot-shop]");
     if (ballotShop && ballotShop.hidden === canVote) { ballotShop.hidden = !canVote; if (canVote) document.dispatchEvent(new CustomEvent("pw:shop-shown")); }

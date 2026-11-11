@@ -3064,3 +3064,10 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - Logos re-encoded to 29.8 MB (WebP 512/256/96 + PNG 256), WO-11 commit rebuilt without the dropped PNGs, 15 more logos matched by hand (14 logo_url filled), 8 color overrides. Pushed b47f80e6 and 402e8463.
 - WO-35 Banquet Pack built and pushed (e41ba32e): Russia renders the page, print view, 23 slides and the share image from real data; Edon (2 meets) shows only the upload button. install/91 (coach settings) not yet run.
 - Award division audit: 221 nominees, 1 mismatch (Dublin Scioto girls coach). Pool builder fixed (d1a6c42f, pushed). Hoehn moved to Girls D1 with votes on Zachary's OK; counts verified equal to ballot tallies in both categories; audit now 0 mismatches.
+
+## 2026-11-11 (afternoon): Athletic.net pull stopped, name links, exports, merch v2
+
+- Athletic.net track pull stopped at Zachary's request before any meet was saved; receiver shut down, nothing scheduled.
+- Pushed c31f96d5 and 3a9b9572 (name links). WO-R0F step 1 (b61fecac) moved to branch wo-r0f. Committed 5224ce17: aliases for CF Northwest, DeSales (Columbus), Legacy Christian, Fairmont. Lucia Sveda's results are all Green (Uniontown); left unlinked pending Zachary.
+- Read-only export to dataimports/postseason_track_pull_2026-11/db_export/ (10,275 athletes, 34,974 XC performances); folder git-ignored.
+- Merch card v2 built from MERCH_CARD_HANDOFF: new products, 4 tabs, new copy and UTM campaign, ballot card moved below the vote button, homepage card. Checked at 390 and 1280 px with a mocked vote.

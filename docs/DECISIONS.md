@@ -2225,3 +2225,11 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Images (api/og/wrapped.js): 1080x1920 Story with every fact at least 250 px from the top and bottom, and a 1080x1350 post; boys green, girls pink, podiumwatch.org/wrapped on both.
 - Launch: Admin > Wrapped sets a launch date (Redis pw:wrapped:launch_at). Before it, visitors see "coming soon" and the images 404; admins can preview. Short link: /wrapped is the static page itself.
 - Store card on every Wrapped page; clicks at /go/merch/wrapped/.
+
+## 2026-11-11: Merch card v2, The Podium Collection
+
+- src/data/merch.json is the store export exactly as supplied (7 products; card_products, default_product, default_color). Card copy, UTM tags and the on/off flag moved to src/data/merch-card.json so the export can be dropped in unchanged.
+- One set of 4 tabs everywhere (PODIUM Varsity, PODIUM Outline, RUN OHIO Tee, XC Mom); the Mom/Dad audience sets and the XC/Track season switch are gone. Each tab opens on its default color. Eyebrow THE PODIUM COLLECTION (XC Mom: PODIUM WATCH SHOP), headline NEW MERCH. JUST DROPPED., after a vote "Vote counted. New merch just dropped.", button Shop the collection, price line "$34.63 · Sizes S–3XL".
+- Light garments (luminance 0.55 or more: Ivory, White, Ash, Sand) get an outlined photo; text stays dark, at least 4.5:1 on every tint.
+- Ballot pages: no card above the ballot; the ballot card sits below the vote button. Homepage: new "home" placement below the lead story. Every placement uses utm_medium=site, utm_campaign=podium-collection.
+- After a vote, the support panel (first vote) and the support/merch turn-taking still apply, as before.

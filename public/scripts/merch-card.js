@@ -1,24 +1,25 @@
-// Podium Watch Shop card (src/lib/merch_card.mjs). Product tabs and color
-// swatches swap the photo (150 ms fade), title, price line, color line and
-// the card's tint without a reload. The photo, the button and a tap on the
-// already-selected swatch open that color in the store (new tab) through
-// /go/merch/{placement}/. Each card shows one set of three products
-// (data-pwm-aud: girls = Mom items, boys = Dad items, mix = one of three
-// sets in turn per page view); the XC lines show through Dec. 31, 2026
-// (Eastern), then the Track lines (src/lib/merch_card.mjs merchSets).
-// Analytics: merch_view (card half in view, once per page and placement),
-// merch_swatch and merch_click {product, color, placement}; also sent to
-// Google Analytics when it is on the page. The admin switch can turn
-// every card off. A vote fires "pw:voted", which reveals the after-vote card.
+// Merch card v2, "The Podium Collection" (src/lib/merch_card.mjs). Four
+// product tabs and each product's color swatches swap the photo (150 ms
+// fade), eyebrow, title, price line, color line and the card's tint
+// without a reload. The photo, the button and a tap on the already
+// selected swatch open that color in the store (new tab) through
+// /go/merch/{placement}/. The active tab's photos preload once the card
+// is in view. Analytics: merch_view (card half in view, once per page and
+// placement), merch_swatch and merch_click {product, color, placement};
+// also sent to Google Analytics when it is on the page. The admin switch
+// can turn every card off. A vote fires "pw:voted", which reveals the
+// after-vote card.
 (() => {
   const dataNode = document.querySelector("[data-pwm-data]");
   if (!dataNode) return;
   let data;
   try { data = JSON.parse(dataNode.textContent || "{}"); } catch { return; }
-  const products = data.p || []; // { id, tab, t, line, b, c: [[name, image, bg, bg2, fg, hex, slug, note]] }
-  if (!products.length) return;
+  // { id, tab, t, line, e, dc, c: [[name, image, bg, bg2, fg, hex, slug, note, light]] }
+  const items = data.p || [];
+  if (!items.length) return;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const MAX_SWATCH_EVENTS = 12; // per page, to keep analytics writes small
+  const label = data.l || "Podium Watch Shop";
 
   // --- Analytics ----------------------------------------------------------
   const ids = (() => {
@@ -41,64 +42,26 @@
     } catch { /* analytics never breaks the card */ }
   }
 
-  // XC lines through Dec. 31 (Eastern), then Track.
-  function season() {
-    const d = data.d || {};
-    let today = "";
-    try { today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(new Date()); } catch { today = new Date().toISOString().slice(0, 10); }
-    return today <= d.until ? "xc" : "tf";
-  }
-  // One turn per page view for the rotating mix (stored per browser).
-  const turn = (() => {
-    try { const n = (Number(localStorage.getItem("podium_merch_turn")) || 0) + 1; localStorage.setItem("podium_merch_turn", String(n)); return n; }
-    catch { return Math.floor(Math.random() * 3); }
-  })();
-  function setFor(aud) {
-    const sets = (data.s && data.s[season()]) || {};
-    const list = (sets[aud] && sets[aud].length ? sets[aud] : sets.mix) || [];
-    const ids = list.length ? list[turn % list.length] : products.map((p) => p.id).slice(0, 3);
-    return ids.map((id) => products.find((p) => p.id === id)).filter(Boolean);
-  }
-
   function setup(card) {
     if (card.dataset.pwmReady) return;
     card.dataset.pwmReady = "1";
-    const items = setFor(card.dataset.pwmAud || "mix");
-    if (!items.length) return;
-    // The server drew today's first set; switch the tabs if this view's set differs.
-    const tabList = card.querySelector(".pwm-tabs");
-    if (tabList && [...tabList.querySelectorAll("[data-pwm-tab]")].map((t) => t.dataset.pwmTab).join() !== items.map((i) => i.id).join()) {
-      tabList.textContent = "";
-      items.forEach((item, i) => {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "pwm-tab";
-        b.setAttribute("role", "tab");
-        b.dataset.pwmTab = item.id;
-        b.setAttribute("aria-selected", String(i === 0));
-        b.tabIndex = i === 0 ? 0 : -1;
-        b.textContent = item.tab;
-        tabList.append(b);
-      });
-    }
     const placement = card.dataset.pwmPlacement || "vote-page";
     const from = card.dataset.pwmFrom || location.pathname;
-    const large = card.classList.contains("pwm-large");
     const imgs = [...card.querySelectorAll("[data-pwm-img]")];
     const photo = card.querySelector(".pwm-photo");
-    const head = card.querySelector("[data-pwm-head]");
+    const eyebrow = card.querySelector("[data-pwm-eyebrow]");
     const title = card.querySelector("[data-pwm-title]");
     const line = card.querySelector("[data-pwm-line]");
     const colorLine = card.querySelector("[data-pwm-color]");
     const swatchRow = card.querySelector("[data-pwm-swatches]");
     const note = card.querySelector("[data-pwm-note]");
-    const button = card.querySelector("[data-pwm-button]");
     const links = [...card.querySelectorAll("[data-pwm-link]")];
     const tabs = [...card.querySelectorAll("[data-pwm-tab]")];
-    const chosen = items.map(() => 0);
-    let p = 0;
+    const chosen = items.map((item) => (Number.isInteger(item.dc) && item.c[item.dc] ? item.dc : 0));
+    let p = Math.max(0, items.findIndex((item) => item.id === card.dataset.pwmProduct));
+    if (!items[p]) p = Number(data.dp) || 0;
     let front = 0;
-    let preloaded = new Set();
+    const preloaded = new Set();
     let inView = false;
 
     const color = () => items[p].c[chosen[p]];
@@ -127,7 +90,7 @@
 
     function paint({ fade = true } = {}) {
       const product = items[p];
-      const [name, image, bg, bg2, fg, , , unavailable] = color();
+      const [name, image, bg, bg2, fg, , , unavailable, light] = color();
       const back = imgs[1 - front];
       const swap = () => {
         back.alt = `${product.t} in ${name}`;
@@ -144,14 +107,16 @@
       card.style.setProperty("--pwm-bg", bg);
       card.style.setProperty("--pwm-bg2", bg2);
       card.style.setProperty("--pwm-fg", fg);
-      if (large) { if (title) title.textContent = product.t; } else head.textContent = product.t;
+      photo.classList.toggle("is-light", Boolean(light));
+      if (eyebrow) eyebrow.textContent = product.e;
+      if (title) title.textContent = product.t;
       line.textContent = product.line;
       colorLine.textContent = `Color: ${name}`;
       note.textContent = unavailable || "";
       note.hidden = !unavailable;
-      button.textContent = product.b;
+      card.dataset.pwmProduct = product.id;
       links.forEach((a) => { a.href = goHref(); });
-      photo.setAttribute("aria-label", `${product.t}, ${name}, at the Podium Watch Shop`);
+      photo.setAttribute("aria-label", `${product.t}, ${name}, at the ${label}`);
       tabs.forEach((tab) => { const on = tab.dataset.pwmTab === product.id; tab.setAttribute("aria-selected", String(on)); tab.tabIndex = on ? 0 : -1; });
       swatchRow.querySelectorAll("[data-pwm-swatch]").forEach((b, i) => { b.setAttribute("aria-checked", String(i === chosen[p])); b.tabIndex = i === chosen[p] ? 0 : -1; });
     }
@@ -165,7 +130,7 @@
       preload();
     }));
     // Arrow keys move between tabs, and between swatches (radio group).
-    card.querySelector("[data-pwm-tabs], .pwm-tabs")?.addEventListener("keydown", (event) => {
+    card.querySelector(".pwm-tabs")?.addEventListener("keydown", (event) => {
       if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
       const i = tabs.findIndex((tab) => tab.getAttribute("aria-selected") === "true");
       const next = tabs[(i + (event.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
@@ -197,7 +162,6 @@
     });
     links.forEach((a) => a.addEventListener("click", () => track("merch_click", placement, items[p].id, color()[6])));
 
-    // The server picked the tab by its build date; follow today's date.
     drawSwatches();
     paint({ fade: false });
 

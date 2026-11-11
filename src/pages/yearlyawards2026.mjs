@@ -177,7 +177,6 @@ export function yearlyAwardsCategoryPage(site, pool, category, { share = null, a
         </form>
       </section>
 
-      ${merchCardHtml({ placement: "vote-page", from: pathname, audience: category.gender })}
       <a class="yoy-vote-below" href="#vote" data-yoy-vote-below hidden>Vote below <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path d="M12 4v15M5 12l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="square"/></svg></a>
 
       <section class="yoy-card" id="vote" data-yoy-vote hidden>
@@ -185,14 +184,14 @@ export function yearlyAwardsCategoryPage(site, pool, category, { share = null, a
         <p class="yoy-rules">You can vote once an hour in each category. Votes that look automated are removed.</p>
         <p class="yoy-hint" data-yoy-vote-hint></p>
         <ol class="yoy-finalists" data-yoy-finalists></ol>
-        <div class="yoy-ballot-shop" data-yoy-ballot-shop hidden>${merchCardHtml({ placement: "ballot", from: pathname, audience: category.gender })}</div>
         <div data-yoy-turnstile></div>
         <label class="yoy-hp" aria-hidden="true">Website <input type="text" data-yoy-vote-trap tabindex="-1" autocomplete="off"></label>
         <button class="yoy-submit" type="button" data-yoy-cast hidden>Cast my vote</button>
         <p class="yoy-voted" data-yoy-voted hidden></p>
         <p class="yoy-message" data-yoy-vote-message role="status" aria-live="polite"></p>
+        <div class="yoy-ballot-shop" data-yoy-ballot-shop hidden>${merchCardHtml({ placement: "ballot", from: pathname })}</div>
         ${supportPanelHtml({ from: pathname })}
-        ${merchEnabled() ? `<div data-pwm-after hidden>${merchCardHtml({ placement: "after-vote", from: pathname, large: true, audience: category.gender })}</div>` : ""}
+        ${merchEnabled() ? `<div data-pwm-after hidden>${merchCardHtml({ placement: "after-vote", from: pathname, large: true })}</div>` : ""}
         ${supportEnabled() ? `<div data-pws-after hidden>${supportCardHtml({ placement: "after-vote", from: pathname, large: true })}</div>` : ""}
       </section>
 

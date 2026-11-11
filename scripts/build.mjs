@@ -611,7 +611,8 @@ function homePage(stories, rankings) {
       <a class="home-find-team-athletes" href="/athletes/">Looking for an athlete? Search athletes</a>
     </form>
   </div></section>`;
-  const content = `${frontPageSection}${findTeamSection}${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}
+  // Merch card below the lead story (MERCH_CARD_HANDOFF, 2026-11-11).
+  const content = `${frontPageSection}${merchSection({ placement: "home", from: "/" })}${findTeamSection}${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}
 
   <section class="section section-paper" aria-labelledby="latest-stories-title">
     <div class="container">

@@ -1,96 +1,41 @@
 {
-  "_note": "Podium Watch Shop card (src/lib/merch_card.mjs): products, colors, prices and store links collected from the live Amaze store (as_of). Photos are saved locally by scripts/merch-images.mjs. The admin switch (Admin > Awards 2026) can turn every card off.",
-  "enabled": true,
-  "as_of": "2026-11-11T00:19:29Z",
-  "label": "Podium Watch Shop",
-  "eyebrow": "PODIUM WATCH SHOP",
-  "line": "Sizes {sizes} · Printed when you order and shipped to you",
-  "after_vote_headline": "Vote counted. Now rep Ohio XC.",
-  "nav_label": "Shop",
-  "store_url": "https://app.amazecommerce.com/shop/podiumwatch",
-  "utm": {
-    "site": {
-      "utm_source": "podiumwatch",
-      "utm_medium": "site",
-      "utm_campaign": "merch"
-    },
-    "awards": {
-      "utm_source": "podiumwatch",
-      "utm_medium": "awards",
-      "utm_campaign": "awards2026"
-    }
-  },
-  "awards_placements": [
-    "vote-page",
-    "ballot",
-    "after-vote"
-  ],
-  "default_product": {
-    "until": "2026-12-31",
-    "before": "ohio-xc-arch-crewneck",
-    "after": "ohio-tf-arch-crewneck"
-  },
+  "as_of": "2026-11-11T19:10Z (read from the live Amaze product pages)",
   "products": [
     {
-      "id": "ohio-xc-arch-crewneck",
-      "tab": "XC Crewneck",
-      "title": "Ohio Cross Country Arch Crewneck",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck",
-      "price": {
-        "S-XL": "$34.63",
-        "2XL": "$37.13",
-        "3XL": "$39.64"
-      },
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [
-        "Maroon 3XL"
-      ],
+      "id": "podium-varsity-crewneck",
+      "tab": "PODIUM Varsity",
+      "title": "PODIUM Varsity Crewneck",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-crewneck",
       "colors": [
         {
-          "name": "Black",
-          "hex": "#0b0b0b",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/656764d99dcedb831cde77ad7863d624d1bdf17d05889e5f5393fa6148308542.webp",
-          "image": "/images/merch/ohio-xc-arch-crewneck-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=f6046029-1117-4714-ad69-8a0952ba0387"
-        },
-        {
-          "name": "Navy",
-          "hex": "#050c1d",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/a571f421ccaaf5cfc005433e4c04601e464f7b895c41568530bae439d3fc98d7.webp",
-          "image": "/images/merch/ohio-xc-arch-crewneck-navy.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=768dc11c-00fa-490b-9fd2-e6a2ccf2ba45"
-        },
-        {
           "name": "Forest Green",
-          "hex": "#1a3626",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/04799123eea59d59af96927b54c92c9175f546d446d8754ba92d2f8f187038d8.webp",
-          "image": "/images/merch/ohio-xc-arch-crewneck-forest-green.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=c847d502-2468-4a57-9ded-ae4f8078d0d4"
+          "hex": "#21372b",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/a92b22a6-35cb-4f27-977f-544369fe4795/fc48e1522bac7fb7cd2d648408e11962a031a64d68a5cfedc0878a7a6c4fa278.webp",
+          "image": "/images/merch/podium-varsity-crewneck-forest-green.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-crewneck?variant=8997415d-1acf-4aed-9d21-630745e84036"
         },
         {
           "name": "Maroon",
-          "hex": "#651d32",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/1851fcb4546e807b0a267596215ed156d392ce1a01d7e6b990f327b35a679ead.webp",
-          "image": "/images/merch/ohio-xc-arch-crewneck-maroon.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=5f35ce61-9b26-430f-a413-0b535ba3388c"
+          "hex": "#5b2334",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/a92b22a6-35cb-4f27-977f-544369fe4795/4ca182e923a56019de0f1f11e280beecca639bf75078620909914eea59614f52.webp",
+          "image": "/images/merch/podium-varsity-crewneck-maroon.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-crewneck?variant=78094ce6-cfc9-43ee-a4db-cac731cda1f2"
+        },
+        {
+          "name": "Navy",
+          "hex": "#111723",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/a92b22a6-35cb-4f27-977f-544369fe4795/931eb62ebdfcfd15f01bf6c79fc76c0117d34a5352b7f08d2c71fb79045a2353.webp",
+          "image": "/images/merch/podium-varsity-crewneck-navy.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-crewneck?variant=a85564cc-37ce-4455-9caf-467daf133fcd"
+        },
+        {
+          "name": "Black",
+          "hex": "#161616",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/a92b22a6-35cb-4f27-977f-544369fe4795/2ed155e72d16e1af836b91f60c16aa8ad536c592373d1d63ac5d13d29ee7785b.webp",
+          "image": "/images/merch/podium-varsity-crewneck-black.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-crewneck?variant=fd79df60-1985-4a40-95e8-8d0aa031a77a"
         }
       ],
-      "button": "Shop the crewneck",
-      "line": "arch",
-      "season": "xc"
-    },
-    {
-      "id": "ohio-tf-arch-crewneck",
-      "tab": "Track Crewneck",
-      "title": "Ohio Track & Field Arch Crewneck",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-crewneck",
       "price": {
         "S-XL": "$34.63",
         "2XL": "$37.13",
@@ -98,206 +43,228 @@
       },
       "sizes": [
         "S",
-        "M",
-        "L",
         "XL",
-        "2XL",
-        "3XL"
+        "M",
+        "3XL",
+        "L",
+        "2XL"
       ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Black",
-          "hex": "#0b0b0b",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/1176a0f2-8fb5-44a4-b624-aa9c9afac8e1/a07b2b477a0d694021b6da41232d4f74f832bdec6f36a18b96fc56657c8bb79b.webp",
-          "image": "/images/merch/ohio-tf-arch-crewneck-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-crewneck?variant=df0c866d-5d76-4004-9f3b-40a09fffe06a"
-        },
-        {
-          "name": "Navy",
-          "hex": "#050c1d",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/1176a0f2-8fb5-44a4-b624-aa9c9afac8e1/0ab7027ec51055616b40eac95d66618a68d199728fc65fbbe47e256fed82df98.webp",
-          "image": "/images/merch/ohio-tf-arch-crewneck-navy.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-crewneck?variant=8212e3e7-55bb-45f1-84bb-ec452c3ecc96"
-        },
-        {
-          "name": "Royal",
-          "hex": "#1d50a4",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/1176a0f2-8fb5-44a4-b624-aa9c9afac8e1/e585c7df7e2cb4f7e79e05f3e3e92f12e77d29b005c86e1bb6867281b333645c.webp",
-          "image": "/images/merch/ohio-tf-arch-crewneck-royal.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-crewneck?variant=18fe4000-a1f9-45ad-9af2-f1f67881c261"
-        },
-        {
-          "name": "Red",
-          "hex": "#da0a1a",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/1176a0f2-8fb5-44a4-b624-aa9c9afac8e1/ed5d26a65ecb1cdb4fff5dcae8d49679353c491ad2ad95aebad55a4eb351344e.webp",
-          "image": "/images/merch/ohio-tf-arch-crewneck-red.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-crewneck?variant=14bc170e-206b-4dbd-8825-4c953fab2e4c"
-        }
-      ],
-      "button": "Shop the crewneck",
-      "line": "arch",
-      "season": "tf"
+      "unavailable": []
     },
     {
-      "id": "ohio-tf-arch-tee",
-      "tab": "Track Tee",
-      "title": "Ohio Track & Field Arch Tee",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-tee",
-      "price": {
-        "S-XL": "$27.27",
-        "2XL": "$29.77",
-        "3XL": "$32.28"
-      },
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Black",
-          "hex": "#0c0c0c",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/757ddeb1-4aa8-4665-b12a-ff4204b2d1e6/ef3103e0dfb526dfb207dec5f858d42adee966eaac54dd00752ed465cfd55d25.webp",
-          "image": "/images/merch/ohio-tf-arch-tee-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-tee?variant=5ad8c6fe-6951-4f33-ab2b-5a8afc08ef40"
-        },
-        {
-          "name": "Navy",
-          "hex": "#212642",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/757ddeb1-4aa8-4665-b12a-ff4204b2d1e6/86a5666b16a36b8f46a27931b29585387260020f1437dfb5cd6c9322452e15b3.webp",
-          "image": "/images/merch/ohio-tf-arch-tee-navy.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-tee?variant=7f4f029d-a195-4947-925f-4e1e826373ba"
-        },
-        {
-          "name": "True Royal",
-          "hex": "#01408d",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/757ddeb1-4aa8-4665-b12a-ff4204b2d1e6/0a26ea2b6b5cb8fa2d1b7e8c840c14ba6a9a0c66489f4dc99649f9719c51839f.webp",
-          "image": "/images/merch/ohio-tf-arch-tee-true-royal.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-tee?variant=92b51354-b447-4667-bad1-daa2efcb3561"
-        },
-        {
-          "name": "Red",
-          "hex": "#d0071e",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/757ddeb1-4aa8-4665-b12a-ff4204b2d1e6/0b450c26ab2e0919d052b04ebb4d34bb46e53d18a4c8377dd58e440679508499.webp",
-          "image": "/images/merch/ohio-tf-arch-tee-red.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-field-arch-tee?variant=a7bdc439-0344-4bde-a7bf-452e7d687387"
-        }
-      ],
-      "button": "Shop the tee",
-      "line": "arch",
-      "season": "tf"
-    },
-    {
-      "id": "ohio-xc-mom-crewneck",
-      "tab": "Mom Crewneck",
-      "title": "Ohio XC Mom Crewneck",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck",
-      "line": "mom",
-      "season": "xc",
-      "price": {
-        "S-XL": "$34.63",
-        "2XL": "$37.13",
-        "3XL": "$39.64"
-      },
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [],
+      "id": "podium-varsity-outline-crewneck",
+      "tab": "PODIUM Outline",
+      "title": "PODIUM Varsity Outline Crewneck",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-outline-crewneck",
       "colors": [
         {
           "name": "Sand",
-          "hex": "#e7d3b3",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/23ed19f7-70ba-45e7-916d-b0f8423ea863/a14ff32815a932bc3ba5cb8825d85e72d2da87fbef1365f1a01be80d6a8674a3.webp",
-          "image": "/images/merch/ohio-xc-mom-crewneck-sand.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck?variant=aa59a0e3-246f-46cd-a024-0f5bff26e56e"
-        },
-        {
-          "name": "Light Pink",
-          "hex": "#f3d4e3",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/23ed19f7-70ba-45e7-916d-b0f8423ea863/c68737bee3eeb6a3bab237cea41ef1ee8df584acfba373aa482accb0a2edcd16.webp",
-          "image": "/images/merch/ohio-xc-mom-crewneck-light-pink.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck?variant=aa3de4ca-c6bd-4b46-bc83-42cc7dfd0727"
+          "hex": "#d8c6aa",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/f62b94e2-9684-479a-8fd5-9db1c2f492fc/6a4dc8b6c10232810cddc02037557b86d5f04db54077aa61751139b0d598e818.webp",
+          "image": "/images/merch/podium-varsity-outline-crewneck-sand.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-outline-crewneck?variant=55c007ad-1c34-4e4e-898a-def15aa6b82a"
         },
         {
           "name": "Ash",
-          "hex": "#ededed",
+          "hex": "#cecece",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/f62b94e2-9684-479a-8fd5-9db1c2f492fc/3d3e5361216fd3a5d9a802d864dff0953b17040dc47565edf91f036ef59ab777.webp",
+          "image": "/images/merch/podium-varsity-outline-crewneck-ash.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-outline-crewneck?variant=2d5daf40-b6b8-4ef4-888f-33e77bf3f9a4"
+        },
+        {
+          "name": "Sport Grey",
+          "hex": "#adafb1",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/f62b94e2-9684-479a-8fd5-9db1c2f492fc/95c6bc2faa996cbace65efa49da35ff9589487fb0d0dc07c08763f2297912ead.webp",
+          "image": "/images/merch/podium-varsity-outline-crewneck-sport-grey.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-outline-crewneck?variant=94f3af4e-75a4-4ad2-becc-25da411cc50f"
+        }
+      ],
+      "price": {
+        "S-XL": "$34.63",
+        "2XL": "$37.13",
+        "3XL": "$39.64"
+      },
+      "sizes": [
+        "S",
+        "3XL",
+        "M",
+        "XL",
+        "2XL",
+        "L"
+      ],
+      "unavailable": []
+    },
+    {
+      "id": "podium-varsity-tee",
+      "tab": "PODIUM Tee",
+      "title": "PODIUM Varsity Tee",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-tee",
+      "colors": [
+        {
+          "name": "Pepper",
+          "hex": "#595753",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b0594b8c-8c3a-4066-b798-5274ce8c1586/33d8360de28e748bc21faee4f8b5858db1bbd62608a93ea6088737ddc7f3b8ed.webp",
+          "image": "/images/merch/podium-varsity-tee-pepper.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-tee?variant=10a47057-1c5d-45f2-891c-901f88ab1ffb"
+        },
+        {
+          "name": "Blue Spruce",
+          "hex": "#546659",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b0594b8c-8c3a-4066-b798-5274ce8c1586/29761c69c6c5d5f321d3177c8b16114ae35b63facd94073401be8fa0d7da2129.webp",
+          "image": "/images/merch/podium-varsity-tee-blue-spruce.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-tee?variant=d483c957-8446-4f05-95d9-10bbf8d18dac"
+        },
+        {
+          "name": "Black",
+          "hex": "#252525",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b0594b8c-8c3a-4066-b798-5274ce8c1586/7f47359bf079555803ec4a43d3d7881aeb1f64d2087cc801f070fe28199665ef.webp",
+          "image": "/images/merch/podium-varsity-tee-black.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-tee?variant=da0028c2-98c3-4d90-ba5c-85ca6c3165b3"
+        },
+        {
+          "name": "True Navy",
+          "hex": "#28334e",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b0594b8c-8c3a-4066-b798-5274ce8c1586/2903582364c8e4824461a375df0cad71a63b402c09e90717163e6325d8470014.webp",
+          "image": "/images/merch/podium-varsity-tee-true-navy.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/podium-varsity-tee?variant=a05fb7fd-c9b5-4b39-a423-3cc5d86818d6"
+        }
+      ],
+      "price": {
+        "S-XL": "$29.35",
+        "2XL": "$31.84",
+        "3XL": "$34.35"
+      },
+      "sizes": [
+        "L",
+        "2XL",
+        "XL",
+        "3XL",
+        "S",
+        "M"
+      ],
+      "unavailable": []
+    },
+    {
+      "id": "run-ohio-tee",
+      "tab": "RUN OHIO Tee",
+      "title": "RUN OHIO Tee",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-tee",
+      "colors": [
+        {
+          "name": "Ivory",
+          "hex": "#f0e6ce",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/700fae93-8827-42ff-979c-d6f1dce50d79/8180e47c53a5efe64ca072ae88a0cc0ca354766c3d41fa404a1f93624b969d39.webp",
+          "image": "/images/merch/run-ohio-tee-ivory.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-tee?variant=87b614c9-45e2-42f0-8d74-e4bebf2763fb"
+        },
+        {
+          "name": "Grey",
+          "hex": "#8d8d8b",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/700fae93-8827-42ff-979c-d6f1dce50d79/894f2400317feb3af531411f8e97d365c2a2af3d10f1c3bd2273049cdd484d1f.webp",
+          "image": "/images/merch/run-ohio-tee-grey.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-tee?variant=9c9e932d-5433-45a1-8ae9-5bd096c2661c"
+        },
+        {
+          "name": "Butter",
+          "hex": "#efd49b",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/700fae93-8827-42ff-979c-d6f1dce50d79/bdb139a785fef754065e8b20ec2e67428b5c3e3fdc4b6032cd5f7af21a41898b.webp",
+          "image": "/images/merch/run-ohio-tee-butter.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-tee?variant=b54caf0d-5ddd-47aa-8758-111a9a91305d"
+        }
+      ],
+      "price": {
+        "S-XL": "$29.35",
+        "2XL": "$31.84",
+        "3XL": "$34.35"
+      },
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "2XL",
+        "3XL",
+        "S"
+      ],
+      "unavailable": []
+    },
+    {
+      "id": "run-ohio-crewneck",
+      "tab": "RUN OHIO Crew",
+      "title": "RUN OHIO Crewneck",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-crewneck",
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#d7c5a9",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/26b84b68-3c16-494d-ba02-a99f2c29b3a8/92d8978aaf3c79e9ab10988cf80c87e8bf0ecc21369e7838feaaa41928b1ed0a.webp",
+          "image": "/images/merch/run-ohio-crewneck-sand.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-crewneck?variant=02872782-6b29-4d36-b9ca-0d843b68b341"
+        },
+        {
+          "name": "Ash",
+          "hex": "#cecece",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/26b84b68-3c16-494d-ba02-a99f2c29b3a8/b9ff4c8e82e122e118fb58d6ded305c3e3c675b71ba58b527f61573e01787756.webp",
+          "image": "/images/merch/run-ohio-crewneck-ash.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-crewneck?variant=52650f6a-6f27-4c78-9d65-abdd832d9192"
+        },
+        {
+          "name": "Light Blue",
+          "hex": "#9ab9d2",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/26b84b68-3c16-494d-ba02-a99f2c29b3a8/c4975cd9236722a5fb6e2f7f11b68db0eb10619f04d341ff41a46b4f2252a431.webp",
+          "image": "/images/merch/run-ohio-crewneck-light-blue.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/run-ohio-crewneck?variant=45db8b99-8cda-4b7b-bf1c-06924e29edde"
+        }
+      ],
+      "price": {
+        "S-XL": "$34.63",
+        "2XL": "$37.13",
+        "3XL": "$39.64"
+      },
+      "sizes": [
+        "S",
+        "3XL",
+        "M",
+        "XL",
+        "2XL",
+        "L"
+      ],
+      "unavailable": []
+    },
+    {
+      "id": "ohio-xc-mom-crewneck",
+      "tab": "XC Mom",
+      "title": "Ohio XC Mom Crewneck",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck",
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#d8c6aa",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/23ed19f7-70ba-45e7-916d-b0f8423ea863/a14ff32815a932bc3ba5cb8825d85e72d2da87fbef1365f1a01be80d6a8674a3.webp",
+          "image": "/images/merch/ohio-xc-mom-crewneck-sand.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck?variant=95149fc7-1fd7-4701-9ba3-486952f3bac0"
+        },
+        {
+          "name": "Light Pink",
+          "hex": "#deb3c3",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/23ed19f7-70ba-45e7-916d-b0f8423ea863/c68737bee3eeb6a3bab237cea41ef1ee8df584acfba373aa482accb0a2edcd16.webp",
+          "image": "/images/merch/ohio-xc-mom-crewneck-light-pink.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck?variant=a6738a00-8ed4-43ba-85d4-0937eebfb41d"
+        },
+        {
+          "name": "Ash",
+          "hex": "#cdcdcd",
           "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/23ed19f7-70ba-45e7-916d-b0f8423ea863/5581ce91544d788e4ce80d39ab3576c1b0208b78d1ad3ccb8e77553d2d72e599.webp",
           "image": "/images/merch/ohio-xc-mom-crewneck-ash.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck?variant=35b92870-d689-436d-92ee-ead1b3cd7b8d"
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck?variant=71d45de7-76c4-4268-bee8-590f79b73721"
         },
         {
           "name": "White",
-          "hex": "#ffffff",
+          "hex": "#ececec",
           "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/23ed19f7-70ba-45e7-916d-b0f8423ea863/c21041cfd04c15f06738fbc3bcaaf4d3cc1af91024d4515f0041710ddb018db9.webp",
           "image": "/images/merch/ohio-xc-mom-crewneck-white.webp",
           "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-crewneck?variant=e9360d34-5f33-4e0a-b4d9-22716a618eda"
         }
       ],
-      "button": "Shop the crewneck"
-    },
-    {
-      "id": "ohio-xc-mom-tee",
-      "tab": "Mom Tee",
-      "title": "Ohio XC Mom Tee",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-tee",
-      "line": "mom",
-      "season": "xc",
-      "price": {
-        "S-XL": "$29.35",
-        "2XL": "$31.84",
-        "3XL": "$34.35"
-      },
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Ivory",
-          "hex": "#fff4d9",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/af61aa14-b796-4283-b5c3-e9f3b239b2e7/af28e1c0822499702a6371a2839e9adc0361291b64dcf3125d906afae7f7aa22.webp",
-          "image": "/images/merch/ohio-xc-mom-tee-ivory.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-tee?variant=5fd531cd-c7f4-44ba-ad1e-de9f9de1a9b3"
-        },
-        {
-          "name": "Grey",
-          "hex": "#92928f",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/af61aa14-b796-4283-b5c3-e9f3b239b2e7/f3b7495eb09389b7167c39108cd919c0b8be81efae4ea4a28f1ce3a964ba0fbf.webp",
-          "image": "/images/merch/ohio-xc-mom-tee-grey.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-tee?variant=2661ad2a-3736-4f7b-b393-2ac29cbc69e5"
-        },
-        {
-          "name": "Blossom",
-          "hex": "#ffd6e1",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/af61aa14-b796-4283-b5c3-e9f3b239b2e7/6c53b9d18df8b644dfb25702224f0588c04fb22853ffa5734e9b5bb2266f8a32.webp",
-          "image": "/images/merch/ohio-xc-mom-tee-blossom.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-mom-tee?variant=64b05993-58d6-4945-b0b5-ce47d483e910"
-        }
-      ],
-      "button": "Shop the tee"
-    },
-    {
-      "id": "ohio-xc-dad-crewneck",
-      "tab": "Dad Crewneck",
-      "title": "Ohio XC Dad Crewneck",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-crewneck",
-      "line": "dad",
-      "season": "xc",
       "price": {
         "S-XL": "$34.63",
         "2XL": "$37.13",
@@ -305,98 +272,49 @@
       },
       "sizes": [
         "S",
+        "3XL",
         "M",
-        "L",
         "XL",
         "2XL",
-        "3XL"
+        "L"
       ],
-      "unavailable": [],
+      "unavailable": []
+    },
+    {
+      "id": "ohio-cross-country-arch-crewneck",
+      "tab": "XC Arch",
+      "title": "Ohio Cross Country Arch Crewneck",
+      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck",
       "colors": [
         {
           "name": "Forest Green",
-          "hex": "#1A3626",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/7b00c202-9e91-4786-909a-762bcca10afd/20dba38f28266bc627bd3068dcb61522222d70f77569ca0a65875f0577495a73.webp",
-          "image": "/images/merch/ohio-xc-dad-crewneck-forest-green.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-crewneck?variant=c9200018-341c-4915-9a27-869f0cd83b20"
+          "hex": "#21372b",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/04799123eea59d59af96927b54c92c9175f546d446d8754ba92d2f8f187038d8.webp",
+          "image": "/images/merch/ohio-cross-country-arch-crewneck-forest-green.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=1592ff8d-e97e-4db6-b71a-d4e06d6d7e59"
         },
         {
-          "name": "Charcoal",
-          "hex": "#534E4A",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/7b00c202-9e91-4786-909a-762bcca10afd/4137449f11ff85bcd1de67f26a7cbe6a2523c868386f04e80df8afaf020efe3b.webp",
-          "image": "/images/merch/ohio-xc-dad-crewneck-charcoal.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-crewneck?variant=7d4dace7-35a6-4115-9a21-a474d7f69fa3"
+          "name": "Maroon",
+          "hex": "#5b2434",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/1851fcb4546e807b0a267596215ed156d392ce1a01d7e6b990f327b35a679ead.webp",
+          "image": "/images/merch/ohio-cross-country-arch-crewneck-maroon.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=8f9eb8df-0f92-4535-8ad3-5d5bd1baea01"
         },
         {
           "name": "Navy",
-          "hex": "#050c1d",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/7b00c202-9e91-4786-909a-762bcca10afd/bf134a9e3844cf67d006601c281394e6ac03e7397c33c1ab561c7fa9b47cb356.webp",
-          "image": "/images/merch/ohio-xc-dad-crewneck-navy.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-crewneck?variant=f6a666f1-fede-4e3e-914d-2f4c4fceb262"
+          "hex": "#111723",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/a571f421ccaaf5cfc005433e4c04601e464f7b895c41568530bae439d3fc98d7.webp",
+          "image": "/images/merch/ohio-cross-country-arch-crewneck-navy.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=79423873-9e72-4402-8331-698484a9132a"
         },
         {
           "name": "Black",
-          "hex": "#0b0b0b",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/7b00c202-9e91-4786-909a-762bcca10afd/9674951cbb5aa3b2d5e038e40ee6b79f6f67c20ba5c44514017a973582df6dbb.webp",
-          "image": "/images/merch/ohio-xc-dad-crewneck-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-crewneck?variant=f36d4d31-6777-4a35-a1eb-b9f3924e9296"
+          "hex": "#161616",
+          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ee2800ea-d167-4a46-927d-adc2321260ba/656764d99dcedb831cde77ad7863d624d1bdf17d05889e5f5393fa6148308542.webp",
+          "image": "/images/merch/ohio-cross-country-arch-crewneck-black.webp",
+          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-cross-country-arch-crewneck?variant=1d87193d-f6a2-4c2d-b5fb-bad58d26111a"
         }
       ],
-      "button": "Shop the crewneck"
-    },
-    {
-      "id": "ohio-xc-dad-tee",
-      "tab": "Dad Tee",
-      "title": "Ohio XC Dad Tee",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-tee",
-      "line": "dad",
-      "season": "xc",
-      "price": {
-        "S-XL": "$29.35",
-        "2XL": "$31.84",
-        "3XL": "$34.35"
-      },
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Pepper",
-          "hex": "#514f4c",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b9bff7c9-98cd-43b3-9c6a-9b9735f6c9ed/4d1545f7d7b5e3226ae4d5b643e16c1481a91b6e2ceb2efa31a42c75a45adb0c.webp",
-          "image": "/images/merch/ohio-xc-dad-tee-pepper.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-tee?variant=792a2ba8-53e4-4a85-8e22-3f15b5de07b3"
-        },
-        {
-          "name": "Black",
-          "hex": "#1b1b1c",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b9bff7c9-98cd-43b3-9c6a-9b9735f6c9ed/66c0bec73b2912ae959dcbab3b2f65472642bde52ae6ceb41e7c6a7f64188585.webp",
-          "image": "/images/merch/ohio-xc-dad-tee-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-tee?variant=c511ae33-56af-4bf5-a752-ca6994ab4f38"
-        },
-        {
-          "name": "True Navy",
-          "hex": "#1e2c4a",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b9bff7c9-98cd-43b3-9c6a-9b9735f6c9ed/38e9da549e3a529581d68db7fe7e617b26f45690f2c7248660042f01a2298dfa.webp",
-          "image": "/images/merch/ohio-xc-dad-tee-true-navy.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-dad-tee?variant=f8178c3f-8cb1-4726-9438-db532971b5a8"
-        }
-      ],
-      "button": "Shop the tee"
-    },
-    {
-      "id": "ohio-tf-mom-crewneck",
-      "tab": "Mom Crewneck",
-      "title": "Ohio Track Mom Crewneck",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-crewneck",
-      "line": "mom",
-      "season": "tf",
       "price": {
         "S-XL": "$34.63",
         "2XL": "$37.13",
@@ -404,244 +322,29 @@
       },
       "sizes": [
         "S",
-        "M",
-        "L",
         "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Sand",
-          "hex": "#e7d3b3",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/9ae35f6d-00df-4102-85c3-eb51e411c250/04df8ed50604e367931318f78b0b3306f4e69463813d285b80959ff2a1e91f66.webp",
-          "image": "/images/merch/ohio-tf-mom-crewneck-sand.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-crewneck?variant=20ee13c8-9239-4bb5-8e61-6f6ab882ba34"
-        },
-        {
-          "name": "Light Pink",
-          "hex": "#f3d4e3",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/9ae35f6d-00df-4102-85c3-eb51e411c250/0434082b17fefd67ea3f99581cd754ee8e976aa5b3c9455beb38b33f6463ce16.webp",
-          "image": "/images/merch/ohio-tf-mom-crewneck-light-pink.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-crewneck?variant=ae8d440f-2377-4c10-8235-1245272bae44"
-        },
-        {
-          "name": "Ash",
-          "hex": "#ededed",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/9ae35f6d-00df-4102-85c3-eb51e411c250/e657d2d432f15a30bbe79b2cb1a5fa26b8ac12dce245d5241c5b795c1099a800.webp",
-          "image": "/images/merch/ohio-tf-mom-crewneck-ash.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-crewneck?variant=64695cb4-b1e5-4545-b04e-6cb1e5e7ddf5"
-        },
-        {
-          "name": "White",
-          "hex": "#ffffff",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/9ae35f6d-00df-4102-85c3-eb51e411c250/c5c15b90196bd7cd8b203c97cf7fbe5b37a850b144e7af0ab80f8f1c0ee4693e.webp",
-          "image": "/images/merch/ohio-tf-mom-crewneck-white.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-crewneck?variant=ebc014cf-9838-42bf-9cfd-e14338679c88"
-        }
-      ],
-      "button": "Shop the crewneck"
-    },
-    {
-      "id": "ohio-tf-mom-tee",
-      "tab": "Mom Tee",
-      "title": "Ohio Track Mom Tee",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-tee",
-      "line": "mom",
-      "season": "tf",
-      "price": {
-        "S-XL": "$29.35",
-        "2XL": "$31.84",
-        "3XL": "$34.35"
-      },
-      "sizes": [
-        "S",
         "M",
+        "3XL",
         "L",
-        "XL",
-        "2XL",
-        "3XL"
+        "2XL"
       ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Ivory",
-          "hex": "#fff4d9",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/0bafc900-4766-4fe5-aa65-92566dd806a0/75e369a982cdeef718f2d06ca7c17f9ce5b00c38fec2ec695119f3b838734d3d.webp",
-          "image": "/images/merch/ohio-tf-mom-tee-ivory.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-tee?variant=ebbce1fe-eb2b-4230-b118-e2daa5bcefad"
-        },
-        {
-          "name": "Grey",
-          "hex": "#92928f",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/0bafc900-4766-4fe5-aa65-92566dd806a0/ca0b43a18523e55e50ff7c9f31a180a9075626c5d7322c05bfa95dd2775afc93.webp",
-          "image": "/images/merch/ohio-tf-mom-tee-grey.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-tee?variant=de0b8d87-0f1f-43df-b9d4-9086a35dbb4d"
-        },
-        {
-          "name": "Blossom",
-          "hex": "#ffd6e1",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/0bafc900-4766-4fe5-aa65-92566dd806a0/d7e87cdd00d48ab17d03cceee405dff0db97c7010f3020914ebcccb6bd37da7e.webp",
-          "image": "/images/merch/ohio-tf-mom-tee-blossom.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-mom-tee?variant=746a3074-e080-4b71-87ec-3883baa1b16d"
-        }
-      ],
-      "button": "Shop the tee"
-    },
-    {
-      "id": "ohio-tf-dad-crewneck",
-      "tab": "Dad Crewneck",
-      "title": "Ohio Track Dad Crewneck",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-crewneck",
-      "line": "dad",
-      "season": "tf",
-      "price": {
-        "S-XL": "$34.63",
-        "2XL": "$37.13",
-        "3XL": "$39.64"
-      },
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Royal",
-          "hex": "#1D50A4",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ae0d1f11-582b-49d1-aa71-5a056c8ef0ec/e51b1c702803d03e5f4c7e6ebb19cccdfdc00ec3c7b346f14e489f6a44b5c12e.webp",
-          "image": "/images/merch/ohio-tf-dad-crewneck-royal.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-crewneck?variant=cf0f3bb9-ac35-4fb1-a006-791517a7eb91"
-        },
-        {
-          "name": "Charcoal",
-          "hex": "#534E4A",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ae0d1f11-582b-49d1-aa71-5a056c8ef0ec/82c23146d66a311844732068aeb2f224c827b5f637f4e38a53a4ee9b06de57e0.webp",
-          "image": "/images/merch/ohio-tf-dad-crewneck-charcoal.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-crewneck?variant=9b5a35ad-176b-4773-a93e-ba98a04a1fe6"
-        },
-        {
-          "name": "Navy",
-          "hex": "#050c1d",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ae0d1f11-582b-49d1-aa71-5a056c8ef0ec/c3e8702f2a54a2e1592189e10263cde6e0de6363c0fdbf2ecd76edd7631be4b6.webp",
-          "image": "/images/merch/ohio-tf-dad-crewneck-navy.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-crewneck?variant=18d8f98f-52db-49d4-91cd-a92cb63329ea"
-        },
-        {
-          "name": "Black",
-          "hex": "#0b0b0b",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/ae0d1f11-582b-49d1-aa71-5a056c8ef0ec/3bde282e196959e3c646badb7b775f4f534e00b92399970d60c1d860560b2ab9.webp",
-          "image": "/images/merch/ohio-tf-dad-crewneck-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-crewneck?variant=280e68cd-fe4a-4ae9-8255-93dde49dd2ca"
-        }
-      ],
-      "button": "Shop the crewneck"
-    },
-    {
-      "id": "ohio-tf-dad-tee",
-      "tab": "Dad Tee",
-      "title": "Ohio Track Dad Tee",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-tee",
-      "line": "dad",
-      "season": "tf",
-      "price": {
-        "S-XL": "$29.35",
-        "2XL": "$31.84",
-        "3XL": "$34.35"
-      },
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Pepper",
-          "hex": "#514f4c",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b54b72d9-299a-4b7d-8954-9ac63c9236eb/9c0c2c66025bc636d72678e0e810bf22b4cb14c47d32a467905875ec806ecd0e.webp",
-          "image": "/images/merch/ohio-tf-dad-tee-pepper.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-tee?variant=ba1aea6d-1c6a-491f-a3f7-ed4f1edfbaf1"
-        },
-        {
-          "name": "Black",
-          "hex": "#1b1b1c",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b54b72d9-299a-4b7d-8954-9ac63c9236eb/5e2af75b3f5f9d4469888be59f95e882bdeb8a58c6ad55432f7a0937c3ae0285.webp",
-          "image": "/images/merch/ohio-tf-dad-tee-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-tee?variant=74922e4c-6901-4385-a3c8-2d5f324e2ebc"
-        },
-        {
-          "name": "True Navy",
-          "hex": "#1e2c4a",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/b54b72d9-299a-4b7d-8954-9ac63c9236eb/36cbafa2b34ca4a54494f6d7f06e4b4f351e8563e2c4dd5a1063efc6dba5dff6.webp",
-          "image": "/images/merch/ohio-tf-dad-tee-true-navy.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-track-dad-tee?variant=71ed75e7-e897-4c15-ab81-36ca9b0a2101"
-        }
-      ],
-      "button": "Shop the tee"
-    },
-    {
-      "id": "ohio-xc-arch-sticker",
-      "tab": "Sticker",
-      "title": "Ohio XC Arch Sticker",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-arch-sticker",
-      "line": "extra",
-      "season": "all",
-      "price": {
-        "S-XL": "$9.43 (5″×5″ only)",
-        "2XL": "not offered",
-        "3XL": "not offered"
-      },
-      "sizes": [
-        "5″×5″"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Satin",
-          "hex": "#d4d4d8",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/d1e780d2-c4d4-4728-b852-3f29e57f7dd0/6a2dd04a67c9a85b413b0c9eadada077818e170535c8a88364813db6d3cbde61.webp",
-          "image": "/images/merch/ohio-xc-arch-sticker-satin.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-arch-sticker?variant=fa67d5fb-efbb-4331-bef6-f5cf99f1d33b"
-        }
-      ],
-      "button": "Shop the sticker"
-    },
-    {
-      "id": "ohio-xc-arch-mug",
-      "tab": "Mug",
-      "title": "Ohio XC Arch Mug",
-      "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-arch-mug",
-      "line": "extra",
-      "season": "all",
-      "price": {
-        "S-XL": "$18.57 (11 oz only)",
-        "2XL": "not offered",
-        "3XL": "not offered"
-      },
-      "sizes": [
-        "11 oz"
-      ],
-      "unavailable": [],
-      "colors": [
-        {
-          "name": "Black",
-          "hex": "#000000",
-          "image_src": "https://scknahadzvkxdxilgapm.supabase.co/storage/v1/object/public/alpha-public/optimized/d54b4419-bdc3-46a8-a6e2-25e126b2a0f3/listing-mockups/e8c6e00a-18c9-4b64-8ecb-10c33020cbc0/397d4b7ce39aa4c513689f7fda1faa353a331ddca79df30d78d59a84d4e64755.webp",
-          "image": "/images/merch/ohio-xc-arch-mug-black.webp",
-          "url": "https://app.amazecommerce.com/shop/podiumwatch/ohio-xc-arch-mug?variant=a431b5e4-19cd-41f7-bfb2-264023f19533"
-        }
-      ],
-      "button": "Shop the mug"
+      "unavailable": []
     }
   ],
-  "as_of_parent_lines": "2026-11-11T13:40:21.240Z"
+  "card_products": [
+    "podium-varsity-crewneck",
+    "podium-varsity-outline-crewneck",
+    "run-ohio-tee",
+    "ohio-xc-mom-crewneck"
+  ],
+  "default_product": "podium-varsity-crewneck",
+  "default_color": {
+    "podium-varsity-crewneck": "Forest Green",
+    "podium-varsity-outline-crewneck": "Sport Grey",
+    "run-ohio-tee": "Ivory",
+    "ohio-xc-mom-crewneck": "Light Pink",
+    "podium-varsity-tee": "Blue Spruce",
+    "run-ohio-crewneck": "Sand",
+    "ohio-cross-country-arch-crewneck": "Forest Green"
+  }
 }

@@ -1,0 +1,18 @@
+{
+  "_note": "Settings for the merch card (src/lib/merch_card.mjs). Products, colors, prices and store links are in src/data/merch.json, saved exactly as collected from the live Amaze store; replace that file to update them. The admin switch (Admin > Awards 2026) can turn every card off.",
+  "enabled": true,
+  "label": "Podium Watch Shop",
+  "eyebrow": "THE PODIUM COLLECTION",
+  "eyebrow_by_product": {
+    "ohio-xc-mom-crewneck": "PODIUM WATCH SHOP"
+  },
+  "headline": "NEW MERCH. JUST DROPPED.",
+  "after_vote_headline": "Vote counted. New merch just dropped.",
+  "button": "Shop the collection",
+  "store_url": "https://app.amazecommerce.com/shop/podiumwatch",
+  "utm": {
+    "utm_source": "podiumwatch",
+    "utm_medium": "site",
+    "utm_campaign": "podium-collection"
+  }
+}

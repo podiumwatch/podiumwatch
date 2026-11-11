@@ -6,6 +6,7 @@
 //
 //   node scripts/merch-images.mjs            only photos not saved yet
 //   node scripts/merch-images.mjs --force    download every photo again
+//   node scripts/merch-images.mjs --all      every product, not only the card's four
 //
 // Replaces scripts/merch-sync.mjs (2026-11-11): products, colors and links
 // now come from merch.json itself, collected from the live store.
@@ -19,7 +20,10 @@ const merch = JSON.parse(fs.readFileSync(path.join(root, "src/data/merch.json"),
 
 let saved = 0;
 let kept = 0;
-for (const product of merch.products) {
+// Only the products the card shows (merch.card_products); --all for every product.
+const ALL = process.argv.includes("--all");
+const shown = new Set(merch.card_products || merch.products.map((p) => p.id));
+for (const product of merch.products.filter((p) => ALL || shown.has(p.id))) {
   for (const color of product.colors) {
     if (!/^\/images\/merch\/[a-z0-9-]+\.webp$/.test(color.image)) throw new Error(`Bad image path for ${product.id} ${color.name}: ${color.image}`);
     const target = path.join(root, "public", color.image);
