@@ -122,6 +122,26 @@ export function splitWatchLivePage(site) {
       font-size: 0.85rem;
     }
 
+    /* Working offline (track build Phase 1, 2026-11-12): shown when this
+       race was opened from the copy saved on the phone because the server
+       couldn't be reached. Words carry the meaning, not color. */
+    .sw-offline-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 14px;
+      padding: 8px 4px;
+      background: #3b1d1d;
+      color: #ffe9e9;
+      border-bottom: 2px solid #ff6b6b;
+      font-size: 0.85rem;
+    }
+
+    .sw-offline-banner strong {
+      letter-spacing: 0.04em;
+      font-size: 0.92rem;
+    }
+
     .sw-rehearsal-banner strong {
       letter-spacing: 0.04em;
       font-size: 0.92rem;
@@ -860,6 +880,10 @@ export function splitWatchLivePage(site) {
         </div>
       </div>
       <div class="sw-live-sticky-header">
+        <div class="sw-offline-banner" data-sw-offline-banner role="status" hidden>
+          <strong>WORKING OFFLINE</strong>
+          <span>Taps are saved on this phone and will send when the connection is back. Keep this page open.</span>
+        </div>
         <div class="sw-rehearsal-banner" data-sw-rehearsal-banner hidden>
           <strong>REHEARSAL MODE</strong>
           <span>Practice taps do not affect the official race.</span>
@@ -1036,13 +1060,14 @@ export function splitWatchLivePage(site) {
     </div>
   </dialog>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" async></script>
   <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/pace-splits.js" defer></script>
   <script src="/scripts/race-math.js" defer></script>
   <script src="/scripts/race-timer.js" defer></script>
   <script src="/scripts/race-local-store.js" defer></script>
   <script src="/scripts/device-readiness.js" defer></script>
+  <script src="/scripts/split-watch-request.js" defer></script>
   <script src="/scripts/split-watch-live.js" defer></script>`;
 
   return layout({

@@ -93,26 +93,41 @@
   };
   const GOAL_STATUS_LABELS = { ahead: "Ahead of target", on_pace: "On target", at_risk: "Behind target", missed: "Missed target" };
 
-  function parseResponse(response, fallback) {
-    return response.json().catch(() => ({})).then((data) => {
-      if (!response.ok) throw new Error(data.error || fallback);
-      return data;
-    });
-  }
+  // Track build Phase 1 (2026-11-12): bounded by the shared helper
+  // (public/scripts/split-watch-request.js). No sign-in still goes to the
+  // login page; a sign-in that couldn't be loaded (stalled wifi) is a
+  // retryable connection problem instead.
+  const Request = window.PodiumSwRequest;
 
   async function apiFetch(endpoint, payload) {
-    const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    if (!accessToken) {
+    const { token, failed } = await Request.accessToken();
+    if (!token) {
+      if (failed) throw new Request.SwRequestError("auth_unavailable", "Couldn't confirm your account -- check your connection and try again.");
       window.location.replace("/guardian-login/");
       throw new Error("Sign in required.");
     }
-    const response = await fetch(endpoint, {
+    const { response, data } = await Request.request(endpoint, {
       method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/json", Authorization: "Bearer " + accessToken },
+      headers: { Accept: "application/json", "Content-Type": "application/json", Authorization: "Bearer " + token },
       body: JSON.stringify(payload || {})
     });
     if (response.status === 401) window.location.replace("/guardian-login/");
-    return parseResponse(response, "The request could not be completed.");
+    if (!response.ok) throw new Request.SwRequestError("http", data.error || "The request could not be completed.", response.status, data);
+    return data;
+  }
+
+  function showLoadRetry(error) {
+    loadingBox.hidden = false;
+    Request.showRetry(loadingBox, {
+      title: "Your athlete's races could not be loaded",
+      message: error.message || "Please try again.",
+      backHref: "/guardian-login/",
+      backLabel: "Back to sign in",
+      onRetry: () => {
+        loadingBox.innerHTML = "<h2>Loading your athlete's races...</h2>";
+        initialize();
+      }
+    });
   }
 
   function goalText(goals, slot) {
@@ -311,9 +326,11 @@
   // this dashboard keeps gaining new races over time and should never
   // truly stop polling.
   let hasLoadedRacesOnce = false;
+  let racePoller = null;
 
   function startRacePolling() {
-    window.PodiumRacePoll.watch({
+    if (racePoller) racePoller.stop();
+    racePoller = window.PodiumRacePoll.watch({
       fetchOnce: () => apiFetch("/api/guardian/races/", {}),
       onData: (racesData) => {
         renderRaces(racesData.races || []);
@@ -329,10 +346,7 @@
         // retries next tick (race-poll.js's own backoff), never yanks
         // away an already-rendered page.
         if (hasLoadedRacesOnce) return;
-        loadingBox.innerHTML =
-          "<h2>Your athlete's races could not be loaded</h2>" +
-          "<p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-          '<p><a class="button button-primary" href="/guardian-login/">Back to sign in</a></p>';
+        showLoadRetry(error);
       },
       getStatus: (data) => ((data.races || []).some((r) => r.session.status === "live") ? "live" : "idle")
     });
@@ -340,7 +354,7 @@
 
   async function initialize() {
     try {
-      const user = await window.PodiumTeamAuth.getUser();
+      const user = await Request.withTimeout(window.PodiumTeamAuth.getUser(), Request.REQUEST_TIMEOUT_MS);
       if (!user) { window.location.replace("/guardian-login/"); return; }
 
       accountEl.textContent = user.email || "Guardian account";
@@ -359,10 +373,7 @@
 
       startRacePolling();
     } catch (error) {
-      loadingBox.innerHTML =
-        "<h2>Your athlete's races could not be loaded</h2>" +
-        "<p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="button button-primary" href="/guardian-login/">Back to sign in</a></p>';
+      showLoadRetry(error);
     }
   }
 

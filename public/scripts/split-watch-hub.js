@@ -74,22 +74,12 @@
     messageBox.style.background = isError ? "rgba(220, 38, 38, 0.12)" : "rgba(0, 191, 99, 0.1)";
   }
 
-  function parseResponse(response, fallback) {
-    return response.json()
-      .catch(() => ({}))
-      .then((data) => {
-        if (!response.ok) {
-          throw new Error(data.error || fallback);
-        }
-        return data;
-      });
-  }
-
   // Real incident (2026-08-25): a helper's "Checking access" screen hung
   // forever on a stalled request (bad stadium wifi, a cold serverless
   // start) with no timeout anywhere to fall back to a visible, retryable
   // error -- see split-watch-live.js's matching fix for the fuller story.
-  const REQUEST_TIMEOUT_MS = 15000;
+  const Request = window.PodiumSwRequest;
+  const REQUEST_TIMEOUT_MS = Request.REQUEST_TIMEOUT_MS;
 
   async function apiFetch(endpoint, payload) {
     // Don't gate on a Supabase access token here -- a race-day access code
@@ -97,37 +87,12 @@
     // cookie the server will accept. Send the bearer token when we have one
     // (a real coach account) and let the browser send the cookie either way;
     // only redirect if the server actually says the request isn't allowed.
-    const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    };
-    if (accessToken) headers.Authorization = "Bearer " + accessToken;
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-    let response;
-    try {
-      response = await fetch(endpoint, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ team_id: teamId, ...payload }),
-        signal: controller.signal
-      });
-    } catch (error) {
-      if (error.name === "AbortError") {
-        throw new Error("This is taking longer than expected -- check your connection and try again.");
-      }
-      throw error;
-    } finally {
-      clearTimeout(timeoutId);
-    }
-
-    if (response.status === 401) {
-      window.location.replace("/split-watch/join/");
-    }
-
-    return parseResponse(response, "The request could not be completed.");
+    // Track build Phase 1 (2026-11-12): the shared helper does the token,
+    // the 15 s timeout and the error shape (public/scripts/split-watch-request.js).
+    return Request.api(endpoint, { team_id: teamId, ...payload }, {
+      timeoutMs: REQUEST_TIMEOUT_MS,
+      onUnauthorized: () => window.location.replace("/split-watch/join/")
+    });
   }
 
   function unitToMeters(unit) {
@@ -679,7 +644,9 @@
       // real coach session -- so redirecting here, rather than just
       // hiding pieces of this page, is what actually keeps a volunteer
       // from ever seeing those controls at all. See splitwatchraces.mjs.
-      const user = await window.PodiumTeamAuth.getUser();
+      // Bounded (track build Phase 1): the sign-in check calls the account
+      // server and could stall forever under "Checking access" on bad wifi.
+      const user = await Request.withTimeout(window.PodiumTeamAuth.getUser(), REQUEST_TIMEOUT_MS);
       if (!user) {
         window.location.replace("/split-watch/races/" + window.location.search);
         return;
@@ -719,18 +686,16 @@
       // this catch block could never be reached at all -- a stalled
       // request just left "Checking access" on screen forever. Retry
       // re-runs the exact same initialize() a page reload would.
-      loadingBox.innerHTML =
-        "<h2>Couldn't verify -- retry</h2>" +
-        "<p>" + escapeHtml(error.message || "Races could not be loaded.") + "</p>" +
-        '<p><button class="button button-primary" type="button" data-sw-retry-load>Try again</button> ' +
-        '<a class="button button-outline" href="/team-dashboard/">Return to dashboard</a></p>';
-      const retryButton = loadingBox.querySelector("[data-sw-retry-load]");
-      if (retryButton) {
-        retryButton.addEventListener("click", () => {
+      Request.showRetry(loadingBox, {
+        title: "Couldn't verify -- retry",
+        message: error.message || "Races could not be loaded.",
+        backHref: "/team-dashboard/",
+        backLabel: "Return to dashboard",
+        onRetry: () => {
           loadingBox.innerHTML = "<h2>Checking access</h2><p>Please wait while Podium Watch securely loads your races.</p>";
           initialize();
-        });
-      }
+        }
+      });
     }
   }
 

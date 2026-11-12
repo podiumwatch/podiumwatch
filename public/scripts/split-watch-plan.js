@@ -157,16 +157,10 @@
     return m + ":" + String(s).padStart(2, "0");
   }
 
-  function parseResponse(response, fallback) {
-    return response.json()
-      .catch(() => ({}))
-      .then((data) => {
-        if (!response.ok) {
-          throw new Error(data.error || fallback);
-        }
-        return data;
-      });
-  }
+  // Track build Phase 1 (2026-11-12): requests go through the shared
+  // helper (public/scripts/split-watch-request.js) -- token, 15 s timeout,
+  // one error shape. This page had no timeout at all before.
+  const Request = window.PodiumSwRequest;
 
   async function apiFetch(endpoint, payload) {
     // Don't gate on a Supabase access token here -- a race-day access code
@@ -174,24 +168,9 @@
     // cookie the server will accept. Send the bearer token when we have one
     // (a real coach account) and let the browser send the cookie either way;
     // only redirect if the server actually says the request isn't allowed.
-    const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    const headers = {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    };
-    if (accessToken) headers.Authorization = "Bearer " + accessToken;
-
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
+    return Request.api(endpoint, { team_id: teamId, session_id: sessionId, ...payload }, {
+      onUnauthorized: () => window.location.replace("/split-watch/join/")
     });
-
-    if (response.status === 401) {
-      window.location.replace("/split-watch/join/");
-    }
-
-    return parseResponse(response, "The request could not be completed.");
   }
 
   const STATUS_LABELS = {
@@ -1231,13 +1210,16 @@
     // on the Live timing screen for this same race instead, never here.
     // See splitwatchraces.mjs's header comment for the same reasoning
     // first applied to the Hub.
-    const user = await window.PodiumTeamAuth.getUser();
-    if (!user) {
-      window.location.replace("/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId));
-      return;
-    }
-
     try {
+      // Bounded (track build Phase 1): checking the sign-in calls the
+      // account server, which could stall forever on bad wifi before any
+      // request below even started. A stall now lands on the retry panel.
+      const user = await Request.withTimeout(window.PodiumTeamAuth.getUser(), Request.REQUEST_TIMEOUT_MS);
+      if (!user) {
+        window.location.replace("/split-watch/live/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId));
+        return;
+      }
+
       detail = await apiFetch(SESSIONS_ENDPOINT, { action: "detail" });
       const rosterData = await apiFetch(PLAN_ENDPOINT, { action: "list_roster", sport: detail.session.sport });
       rosterAthletes = rosterData.athletes;
@@ -1259,10 +1241,15 @@
       root.hidden = false;
       populateRaceSwitcher();
     } catch (error) {
-      loadingBox.innerHTML =
-        "<h2>This race could not be loaded</h2>" +
-        "<p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="button button-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
+      Request.showRetry(loadingBox, {
+        title: "This race could not be loaded",
+        message: error.message || "Please try again.",
+        backHref: "/split-watch/?id=" + encodeURIComponent(teamId),
+        onRetry: () => {
+          loadingBox.innerHTML = "<h2>Loading race plan...</h2><p>Please wait while Podium Watch loads this race.</p>";
+          initialize();
+        }
+      });
     }
   }
 

@@ -54,16 +54,15 @@
     }
 
     submitButton.disabled = true;
+    const submitLabel = submitButton.textContent;
+    submitButton.textContent = "Checking...";
     showMessage("");
 
     try {
-      const response = await fetch("/api/split-watch/join/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ code })
-      });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(data.error || "That code could not be verified.");
+      // Track build Phase 1 (2026-11-12): this request had no timeout, so on
+      // stalled wifi the Join button stayed greyed out with no message.
+      // Bounded now by the shared helper; a failure always brings it back.
+      const data = await window.PodiumSwRequest.api("/api/split-watch/join/", { code }, { useToken: false, fallback: "That code could not be verified." });
 
       showMessage("Code accepted. Taking you to " + data.team.school_name + "...");
       const next = safeNextPath();
@@ -73,7 +72,9 @@
       // splitwatchraces.mjs's header comment.
       window.location.href = next || "/split-watch/races/?id=" + encodeURIComponent(data.team.id);
     } catch (error) {
-      showMessage(error.message || "That code could not be verified.", true);
+      const retryHint = window.PodiumSwRequest.isConnectionError(error) ? " Tap Join to try again." : "";
+      showMessage((error.message || "That code could not be verified.") + retryHint, true);
+      submitButton.textContent = submitLabel;
       submitButton.disabled = false;
     }
   });

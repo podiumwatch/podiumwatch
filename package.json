@@ -71,7 +71,8 @@
     "test:awards-catalog": "node --test tests/awards-catalog.test.mjs",
     "test:page-cache": "node --test tests/page-cache.test.mjs",
     "test:fetch-limiter": "node --test tests/fetch-limiter.test.mjs",
-    "test:name-links": "node --test tests/name-links.test.mjs"
+    "test:name-links": "node --test tests/name-links.test.mjs",
+    "test:split-watch-browser": "node scripts/test-split-watch-browser.mjs"
   },
   "engines": {
     "node": "24.x"

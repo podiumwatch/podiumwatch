@@ -62,6 +62,14 @@
     targets,
     currentCheckpointIndex = 0,
     raceStartedAtWallClockMs = null,
+    // Track build Phase 1 (2026-11-12): what the live page needs to open
+    // this race from the phone alone when the server can't be reached --
+    // the last server copy of every device's splits, who this phone is
+    // (coach or race day helper, and its position), and its clock
+    // correction. All optional; older saved records simply lack them.
+    splits = null,
+    viewer = null,
+    clockOffsetMs = null,
     savedAtMs = Date.now()
   }) {
     return {
@@ -73,6 +81,9 @@
       targets: targets || [],
       current_checkpoint_index: currentCheckpointIndex,
       race_started_at_wall_clock_ms: raceStartedAtWallClockMs,
+      splits: Array.isArray(splits) ? splits : [],
+      viewer: viewer || null,
+      clock_offset_ms: Number.isFinite(clockOffsetMs) ? clockOffsetMs : null,
       saved_at_ms: savedAtMs
     };
   }

@@ -226,11 +226,17 @@ function readSource(path) {
     "../public/scripts/split-watch-live.js",
     "../public/scripts/split-watch-review.js"
   ];
+  // Track build Phase 1 (2026-11-12): the 401 check itself moved into the
+  // shared helper (public/scripts/split-watch-request.js), which calls
+  // each page's onUnauthorized -- so the helper must check the real 401,
+  // and each page must hand it a redirect to the join page.
+  const helperSource = readSource("../public/scripts/split-watch-request.js");
+  assert.match(helperSource, /response\.status === 401[\s\S]{0,200}onUnauthorized\(data\)/, "split-watch-request.js still runs the page's redirect on an actual 401 response");
+  assert.ok(!/if \(!token\)/.test(helperSource), "split-watch-request.js never hard-blocks a request on a missing access token");
   for (const scriptPath of clientScripts) {
     const source = readSource(scriptPath);
     assert.ok(!/if \(!accessToken\)/.test(source), `${scriptPath} no longer hard-blocks apiFetch on a missing access token`);
-    assert.match(source, /response\.status === 401/, `${scriptPath} still redirects on an actual 401 response`);
-    assert.match(source, /split-watch\/join/, `${scriptPath} redirects to the join page, not the coach login, on 401`);
+    assert.match(source, /onUnauthorized: \(\) => window\.location\.replace\("\/split-watch\/join\//, `${scriptPath} redirects to the join page, not the coach login, on an actual 401`);
   }
   console.log("All four split-watch-*.js client scripts checked: no pre-emptive redirect on a missing Supabase token, still redirect (to the join page) on a real 401.");
 }

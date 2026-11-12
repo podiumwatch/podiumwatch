@@ -52,7 +52,11 @@ const pageSource = readSource("../src/pages/splitwatchlive.mjs");
   const populateBody = liveSource.slice(liveSource.indexOf("async function populateRaceSwitcher"), liveSource.indexOf("function goToSwitchedRace"));
   assert.match(populateBody, /startSwitcher\.innerHTML = optionsHtml/, "The start-screen switcher must be populated from the exact same option list as the top-row switcher -- never a second, independently-built list that could drift out of sync.");
 
-  const startNameBody = liveSource.slice(liveSource.indexOf("raceNameEl.textContent = detail.session.name"), liveSource.indexOf("loadingBox.hidden = true"));
+  // Search for the end marker AFTER the start (track build Phase 1 added
+  // an offline-open function earlier in the file with its own
+  // loadingBox.hidden line).
+  const startNameAt = liveSource.indexOf("raceNameEl.textContent = detail.session.name");
+  const startNameBody = liveSource.slice(startNameAt, liveSource.indexOf("loadingBox.hidden = true", startNameAt));
   assert.match(startNameBody, /startRaceNameEl\.textContent = detail\.session\.name/);
 
   console.log("The pre-start screen checked: it shows the race name directly (not just the small sticky header) and a switcher populated from the exact same list as the existing top-row one.");

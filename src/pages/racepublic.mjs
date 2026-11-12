@@ -437,6 +437,7 @@ export function racePublicPage(site) {
   </section>
 
   <script src="/scripts/race-poll.js" defer></script>
+  <script src="/scripts/split-watch-request.js" defer></script>
   <script src="/scripts/race-public.js" defer></script>`;
 
   return layout({

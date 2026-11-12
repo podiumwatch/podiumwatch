@@ -64,26 +64,27 @@
     return { href: "/split-watch/plan/" + idPart, label: "Open plan" };
   }
 
-  function parseResponse(response, fallback) {
-    return response.json().catch(() => ({})).then((data) => {
-      if (!response.ok) throw new Error(data.error || fallback);
-      return data;
-    });
-  }
+  // Track build Phase 1 (2026-11-12): bounded by the shared helper
+  // (public/scripts/split-watch-request.js). Coach-only page: no sign-in
+  // still goes to the login page, but a sign-in that couldn't be loaded
+  // (stalled wifi) is a retryable connection problem, not "signed out".
+  const Request = window.PodiumSwRequest;
 
   async function apiFetch(endpoint, payload) {
-    const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    if (!accessToken) {
+    const { token, failed } = await Request.accessToken();
+    if (!token) {
+      if (failed) throw new Request.SwRequestError("auth_unavailable", "Couldn't confirm your account -- check your connection and try again.");
       window.location.replace("/team-login/");
       throw new Error("Team account sign in required.");
     }
-    const response = await fetch(endpoint, {
+    const { response, data } = await Request.request(endpoint, {
       method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/json", Authorization: "Bearer " + accessToken },
+      headers: { Accept: "application/json", "Content-Type": "application/json", Authorization: "Bearer " + token },
       body: JSON.stringify({ team_id: teamId, ...payload })
     });
     if (response.status === 401) window.location.replace("/team-login/");
-    return parseResponse(response, "The meet center request could not be completed.");
+    if (!response.ok) throw new Request.SwRequestError("http", data.error || "The meet center request could not be completed.", response.status, data);
+    return data;
   }
 
   function renderRaces(raceSessions) {
@@ -164,7 +165,7 @@
     }
 
     try {
-      const user = await window.PodiumTeamAuth.getUser();
+      const user = await Request.withTimeout(window.PodiumTeamAuth.getUser(), Request.REQUEST_TIMEOUT_MS);
       if (!user) { window.location.replace("/team-login/"); return; }
 
       const data = await apiFetch(MEET_CENTER_ENDPOINT, { meet_id: meetId });
@@ -183,10 +184,18 @@
       loadingBox.hidden = true;
       root.hidden = false;
     } catch (error) {
-      loadingBox.innerHTML =
-        "<h2>This meet center could not be loaded</h2>" +
-        "<p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><a class="button button-primary" href="/team-home/?id=' + encodeURIComponent(teamId) + '">Back to team home</a></p>';
+      loadingBox.hidden = false;
+      root.hidden = true;
+      Request.showRetry(loadingBox, {
+        title: "This meet center could not be loaded",
+        message: error.message || "Please try again.",
+        backHref: "/team-home/?id=" + encodeURIComponent(teamId),
+        backLabel: "Back to team home",
+        onRetry: () => {
+          loadingBox.innerHTML = "<h2>Loading meet center...</h2>";
+          initialize();
+        }
+      });
     }
   }
 

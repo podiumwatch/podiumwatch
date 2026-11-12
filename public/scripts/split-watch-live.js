@@ -7,6 +7,8 @@
   const clockEl = document.querySelector("[data-sw-clock]");
   const clockNoteEl = document.querySelector("[data-sw-clock-note]");
   const messageBox = document.querySelector("[data-sw-message]");
+  // Optional (not in requiredElements): an older cached page without it still works.
+  const offlineBanner = document.querySelector("[data-sw-offline-banner]");
   const startScreen = document.querySelector("[data-sw-start-screen]");
   const startButton = document.querySelector("[data-sw-start-button]");
   const liveScreen = document.querySelector("[data-sw-live-screen]");
@@ -97,7 +99,8 @@
   // catch block's error screen. 15s is generous for a normal request but
   // short enough that a genuinely stuck device recovers well within a
   // volunteer's patience at the start line.
-  const REQUEST_TIMEOUT_MS = 15000;
+  const Request = window.PodiumSwRequest;
+  const REQUEST_TIMEOUT_MS = Request.REQUEST_TIMEOUT_MS;
 
   const Store = window.PodiumRaceStore;
   const Timer = window.PodiumRaceTimer.createRaceTimer();
@@ -186,6 +189,9 @@
   // underlying monotonic/recovered timer never has to be touched or
   // reset -- only what's shown and what's sent to the server shifts.
   let raceClockAdjustmentSeconds = 0;
+  // True while this race was opened from the copy saved on the phone
+  // because the server couldn't be reached (track build Phase 1).
+  let offlineMode = false;
 
   const RACE_SWITCHER_STATUS_LABELS = {
     draft: "Draft", scheduled: "Scheduled", live: "Live",
@@ -225,13 +231,6 @@
     return m + ":" + String(s).padStart(2, "0");
   }
 
-  function parseResponse(response, fallback) {
-    return response.json().catch(() => ({})).then((data) => {
-      if (!response.ok) throw new Error(data.error || fallback);
-      return data;
-    });
-  }
-
   // Best-effort correction for this device's own wall clock being off
   // from true server time (race day spec, Section 3 -- "different phones
   // can have different wall clocks"). requestSentMs/responseReceivedMs
@@ -269,46 +268,110 @@
     // cookie the server will accept. Send the bearer token when we have one
     // (a real coach account) and let the browser send the cookie either way;
     // only redirect if the server actually says the request isn't allowed.
-    const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    const headers = { Accept: "application/json", "Content-Type": "application/json" };
-    if (accessToken) headers.Authorization = "Bearer " + accessToken;
-    const requestSentMs = Date.now();
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-    let response;
-    try {
-      response = await fetch(endpoint, {
-        method: "POST",
-        headers,
-        // client_clock_offset_ms lets the server surface a genuinely bad
-        // device clock on the coach's OWN readiness checklist (see
-        // lib/race_readiness_service.mjs), not just silently affect this
-        // one device's own recovered-time precision.
-        body: JSON.stringify({ team_id: teamId, session_id: sessionId, client_clock_offset_ms: lastKnownClockOffsetMs, ...payload }),
-        signal: controller.signal
-      });
-    } catch (error) {
-      if (error.name === "AbortError") {
-        throw new Error("This is taking longer than expected -- check your connection and try again.");
-      }
-      throw error;
-    } finally {
-      clearTimeout(timeoutId);
-    }
-    // A helper who opened THIS exact race's link cold (no code entered
-    // on this device yet) -- most importantly a coach's own "share this
-    // rehearsal" link, since a rehearsal never appears in the smart-
-    // routing every other helper entry point uses -- must land back
-    // HERE after entering the code, not on the generic race list (see
-    // split-watch-join.js's safeNextPath()).
-    if (response.status === 401) {
-      window.location.replace("/split-watch/join/?next=" + encodeURIComponent(window.location.pathname + window.location.search));
-    }
-    const data = await parseResponse(response, "The request could not be completed.");
-    updateClockOffset(data.server_now, requestSentMs, Date.now());
+    // Track build Phase 1 (2026-11-12): the request, the sign-in token
+    // and the 15 s timeout all go through the shared helper
+    // (public/scripts/split-watch-request.js).
+    const timing = {};
+    const data = await Request.api(endpoint, {
+      team_id: teamId,
+      session_id: sessionId,
+      // client_clock_offset_ms lets the server surface a genuinely bad
+      // device clock on the coach's OWN readiness checklist (see
+      // lib/race_readiness_service.mjs), not just silently affect this
+      // one device's own recovered-time precision.
+      client_clock_offset_ms: lastKnownClockOffsetMs,
+      ...payload
+    }, {
+      timeoutMs: REQUEST_TIMEOUT_MS,
+      timing,
+      // A helper who opened THIS exact race's link cold (no code entered
+      // on this device yet) -- most importantly a coach's own "share this
+      // rehearsal" link, since a rehearsal never appears in the smart-
+      // routing every other helper entry point uses -- must land back
+      // HERE after entering the code, not on the generic race list (see
+      // split-watch-join.js's safeNextPath()).
+      onUnauthorized: () => window.location.replace("/split-watch/join/?next=" + encodeURIComponent(window.location.pathname + window.location.search))
+    });
+    if (offlineMode) leaveOfflineMode();
+    updateClockOffset(data.server_now, timing.sentMs, timing.receivedMs);
     if (data.viewer?.type) viewerType = data.viewer.type;
     if (data.viewer && "position" in data.viewer) viewerPosition = data.viewer.position;
     return data;
+  }
+
+  // ---- working offline (track build Phase 1, 2026-11-12) --------------------
+  // The page used to need the server to open at all, even though the race
+  // was saved on this phone. Now, when the first load fails on the
+  // connection and this phone has a saved copy of a race that is already
+  // running, the page opens from that copy: same clock (the saved start
+  // and clock correction), same runners, this phone's own taps plus the
+  // last server copy of everyone else's. Taps keep saving locally and the
+  // usual sync sends them when the connection returns; the first request
+  // that succeeds clears the banner.
+  function enterOfflineMode() {
+    offlineMode = true;
+    if (offlineBanner) offlineBanner.hidden = false;
+  }
+
+  function leaveOfflineMode() {
+    offlineMode = false;
+    if (offlineBanner) offlineBanner.hidden = true;
+  }
+
+  async function openFromSavedCopy() {
+    let saved = null;
+    try {
+      saved = await Store.getRaceState(sessionId);
+    } catch {
+      return false;
+    }
+    const anchorMs = saved ? Number(saved.race_started_at_wall_clock_ms) : NaN;
+    if (!saved || !saved.session || saved.session.status !== "live" || !Number.isFinite(anchorMs)) return false;
+    detail = {
+      session: saved.session,
+      checkpoints: saved.checkpoints || [],
+      participants: saved.participants || [],
+      goals: saved.goals || [],
+      targets: saved.targets || [],
+      splits: saved.splits || []
+    };
+    if (saved.viewer?.type) viewerType = saved.viewer.type;
+    if (saved.viewer && "position" in saved.viewer) viewerPosition = saved.viewer.position;
+    if (Number.isFinite(saved.clock_offset_ms)) {
+      lastKnownClockOffsetMs = saved.clock_offset_ms;
+      Timer.setClockOffsetMs(saved.clock_offset_ms);
+    }
+    raceClockAdjustmentSeconds = Number(saved.session.race_start_adjustment_seconds) || 0;
+    currentCheckpointIndex = Math.min(saved.current_checkpoint_index || 0, Math.max(0, detail.checkpoints.length - 1));
+    raceNameEl.textContent = saved.session.name;
+    startRaceNameEl.textContent = saved.session.name;
+    loadingBox.hidden = true;
+    root.hidden = false;
+    Timer.recoverFromWallClock(anchorMs);
+    enterOfflineMode();
+    await beginLiveScreen("Working offline -- timing based on device clock");
+    return true;
+  }
+
+  // Warn before closing or leaving while taps are still waiting to send.
+  // Browsers show their own wording; the prompt is what matters.
+  window.addEventListener("beforeunload", (event) => {
+    if (pendingSplitCount > 0) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  });
+
+  // Track build Phase 1 (2026-11-12): extra fields saved with the race on
+  // this phone, so the page can reopen it with no signal (see
+  // openFromSavedCopy). detail.splits is the last server copy of every
+  // device's splits; this phone's own taps live in the splits store.
+  function offlineExtras() {
+    return {
+      splits: (detail && detail.splits) || [],
+      viewer: { type: viewerType, position: viewerPosition },
+      clockOffsetMs: lastKnownClockOffsetMs
+    };
   }
 
   // ---- sync status display ---------------------------------------------------
@@ -483,6 +546,9 @@
   }
 
   window.addEventListener("online", triggerSync);
+  // Back online: pull the latest race state too (it also clears the
+  // Working offline banner), not only push this phone's taps.
+  window.addEventListener("online", () => { pullRemoteUpdates(); });
   window.addEventListener("offline", () => setSyncStatus("offline"));
   setInterval(triggerSync, 8000);
 
@@ -536,6 +602,13 @@
         lastMergedFingerprint = fingerprint;
         renderRunnerList();
       }
+      // Keep the copy saved on this phone current (other devices' splits
+      // included), so a reload with no signal reopens the latest state.
+      Store.saveRaceState(Store.buildRaceStateRecord({
+        raceSessionId: sessionId, session: detail.session, checkpoints: detail.checkpoints,
+        participants: detail.participants, goals: detail.goals, targets: detail.targets,
+        currentCheckpointIndex, raceStartedAtWallClockMs: Timer.getRaceStartWallClockMs(), ...offlineExtras()
+      })).catch(() => {});
     } catch {
       // A failed background pull must never interrupt live timing --
       // the next interval tick tries again, and this device's own
@@ -580,7 +653,7 @@
       await Store.saveRaceState(Store.buildRaceStateRecord({
         raceSessionId: sessionId, session: fresh.session, checkpoints: fresh.checkpoints,
         participants: fresh.participants, goals: fresh.goals, targets: fresh.targets,
-        currentCheckpointIndex, raceStartedAtWallClockMs: anchorMs
+        currentCheckpointIndex, raceStartedAtWallClockMs: anchorMs, ...offlineExtras()
       }));
       await beginLiveScreen("Recovered -- timing based on device clock");
     } catch {
@@ -955,7 +1028,7 @@
     Store.saveRaceState(Store.buildRaceStateRecord({
       raceSessionId: sessionId, session: detail.session, checkpoints: detail.checkpoints,
       participants: detail.participants, goals: detail.goals, targets: detail.targets,
-      currentCheckpointIndex, raceStartedAtWallClockMs: Timer.getRaceStartWallClockMs()
+      currentCheckpointIndex, raceStartedAtWallClockMs: Timer.getRaceStartWallClockMs(), ...offlineExtras()
     }));
     renderRunnerList();
   }
@@ -1563,7 +1636,7 @@
         await Store.saveRaceState(Store.buildRaceStateRecord({
           raceSessionId: sessionId, session: result.session, checkpoints: detail.checkpoints,
           participants: detail.participants, goals: detail.goals, targets: detail.targets,
-          currentCheckpointIndex: 0, raceStartedAtWallClockMs: raceStartWallClockMs
+          currentCheckpointIndex: 0, raceStartedAtWallClockMs: raceStartWallClockMs, ...offlineExtras()
         }));
       } else {
         // Race day feedback (2026-08-25) / the confirmed root cause of a
@@ -1581,7 +1654,7 @@
         await Store.saveRaceState(Store.buildRaceStateRecord({
           raceSessionId: sessionId, session: result.session, checkpoints: detail.checkpoints,
           participants: detail.participants, goals: detail.goals, targets: detail.targets,
-          currentCheckpointIndex: 0, raceStartedAtWallClockMs: anchorMs
+          currentCheckpointIndex: 0, raceStartedAtWallClockMs: anchorMs, ...offlineExtras()
         }));
       }
 
@@ -1690,8 +1763,12 @@
       // (api/team/race-day-code.js), never the race-day cookie a
       // volunteer may have landed here with -- only show the button at
       // all for a signed-in coach.
-      const user = await window.PodiumTeamAuth.getUser();
-      if (user) raceDayOpenButton.hidden = false;
+      // In the background (track build Phase 1): this only decides whether
+      // to show the coach's code button, so a stalled sign-in check must
+      // never hold up the start or live screen below.
+      Request.withTimeout(window.PodiumTeamAuth.getUser(), REQUEST_TIMEOUT_MS)
+        .then((user) => { if (user) raceDayOpenButton.hidden = false; })
+        .catch(() => {});
 
       raceClockAdjustmentSeconds = Number(detail.session.race_start_adjustment_seconds) || 0;
 
@@ -1706,7 +1783,7 @@
         await Store.saveRaceState(Store.buildRaceStateRecord({
           raceSessionId: sessionId, session: detail.session, checkpoints: detail.checkpoints,
           participants: detail.participants, goals: detail.goals, targets: detail.targets,
-          currentCheckpointIndex, raceStartedAtWallClockMs: anchorMs
+          currentCheckpointIndex, raceStartedAtWallClockMs: anchorMs, ...offlineExtras()
         }));
         await beginLiveScreen("Recovered -- timing based on device clock");
       } else {
@@ -1723,17 +1800,20 @@
       // reload. Retry re-runs the exact same initialize() a page reload
       // would, but without losing this race's URL/context the way
       // "Back to Split Watch" does.
-      loadingBox.innerHTML =
-        "<h2>Couldn't verify -- retry</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-        '<p><button class="sw-live-btn sw-live-btn-primary" type="button" data-sw-retry-load>Try again</button> ' +
-        '<a class="sw-live-btn sw-live-btn-outline" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
-      const retryButton = loadingBox.querySelector("[data-sw-retry-load]");
-      if (retryButton) {
-        retryButton.addEventListener("click", () => {
+      // Track build Phase 1: a connection failure on a race this phone
+      // already has running opens it from the saved copy instead.
+      if (Request.isConnectionError(error) && await openFromSavedCopy()) return;
+      Request.showRetry(loadingBox, {
+        title: "Couldn't verify -- retry",
+        message: error.message || "Please try again.",
+        buttonClass: "sw-live-btn sw-live-btn-primary",
+        backClass: "sw-live-btn sw-live-btn-outline",
+        backHref: "/split-watch/?id=" + encodeURIComponent(teamId),
+        onRetry: () => {
           loadingBox.innerHTML = "<h2>Loading live race...</h2><p>Please wait while Podium Watch securely loads this race.</p>";
           initialize();
-        });
-      }
+        }
+      });
     }
   }
 

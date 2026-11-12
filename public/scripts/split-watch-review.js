@@ -65,12 +65,10 @@
     ahead: "Ahead of target", on_pace: "On target", at_risk: "Behind target", missed: "Missed target"
   };
 
-  function parseResponse(response, fallback) {
-    return response.json().catch(() => ({})).then((data) => {
-      if (!response.ok) throw new Error(data.error || fallback);
-      return data;
-    });
-  }
+  // Track build Phase 1 (2026-11-12): requests go through the shared
+  // helper (public/scripts/split-watch-request.js) -- token, 15 s timeout,
+  // one error shape. This page had no timeout before.
+  const Request = window.PodiumSwRequest;
 
   async function apiFetch(payload) {
     // Don't gate on a Supabase access token here -- a race-day access code
@@ -78,16 +76,10 @@
     // cookie the server will accept. Send the bearer token when we have one
     // (a real coach account) and let the browser send the cookie either way;
     // only redirect if the server actually says the request isn't allowed.
-    const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    const headers = { Accept: "application/json", "Content-Type": "application/json" };
-    if (accessToken) headers.Authorization = "Bearer " + accessToken;
-    const response = await fetch(REVIEW_ENDPOINT, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({ team_id: teamId, session_id: sessionId, ...payload })
+    return Request.api(REVIEW_ENDPOINT, { team_id: teamId, session_id: sessionId, ...payload }, {
+      fallback: "The review request could not be completed.",
+      onUnauthorized: () => window.location.replace("/split-watch/join/")
     });
-    if (response.status === 401) window.location.replace("/split-watch/join/");
-    return parseResponse(response, "The review request could not be completed.");
   }
 
   function participantName(participant) {
@@ -109,16 +101,9 @@
   // sessions endpoint instead of routing through it.
   async function populateRaceSwitcher(raceDate, raceName) {
     try {
-      const accessToken = await window.PodiumTeamAuth.getAccessToken();
-      const headers = { Accept: "application/json", "Content-Type": "application/json" };
-      if (accessToken) headers.Authorization = "Bearer " + accessToken;
-      const response = await fetch("/api/split-watch/sessions/", {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ team_id: teamId, action: "list" })
-      });
-      if (!response.ok) return;
-      const data = await response.json().catch(() => ({}));
+      // Optional extra: any failure (including the shared 15 s timeout)
+      // just leaves the switcher hidden.
+      const data = await Request.api("/api/split-watch/sessions/", { team_id: teamId, action: "list" });
 
       raceSwitcherSessions = (data.sessions || [])
         .filter((s) => s.id !== sessionId && s.race_date === raceDate && s.status !== "cancelled")
@@ -329,9 +314,11 @@
   // forever at the idle interval instead, same reasoning as Guardian
   // Home's own dashboard-never-really-stops choice.
   let hasLoadedOnce = false;
+  let poller = null;
 
   function startPolling() {
-    window.PodiumRacePoll.watch({
+    if (poller) poller.stop();
+    poller = window.PodiumRacePoll.watch({
       fetchOnce: () => apiFetch({ action: "get_team" }),
       onData: (data) => {
         raceMetaEl.textContent = data.session ? data.session.race_date : "";
@@ -350,9 +337,17 @@
         // retries next tick (race-poll.js's own backoff), never yanks
         // away an already-rendered review.
         if (hasLoadedOnce) return;
-        loadingBox.innerHTML =
-          "<h2>This review could not be loaded</h2><p>" + escapeHtml(error.message || "Please try again.") + "</p>" +
-          '<p><a class="button button-primary" href="/split-watch/?id=' + encodeURIComponent(teamId) + '">Back to Split Watch</a></p>';
+        // The poller keeps retrying on its own (backoff); Try again restarts
+        // it right away. A later success replaces this panel either way.
+        Request.showRetry(loadingBox, {
+          title: "This review could not be loaded",
+          message: error.message || "Please try again.",
+          backHref: "/split-watch/?id=" + encodeURIComponent(teamId),
+          onRetry: () => {
+            loadingBox.innerHTML = "<h2>Loading review...</h2><p>Please wait while Podium Watch loads this race.</p>";
+            startPolling();
+          }
+        });
       },
       getStatus: () => "idle"
     });

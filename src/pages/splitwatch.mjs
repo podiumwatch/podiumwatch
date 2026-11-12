@@ -480,8 +480,9 @@ export function splitWatchHubPage(site) {
     </div>
   </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" async></script>
   <script src="/scripts/team-auth-client.js" defer></script>
+  <script src="/scripts/split-watch-request.js" defer></script>
   <script src="/scripts/split-watch-hub.js" defer></script>`;
 
   return layout({

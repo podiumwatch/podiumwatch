@@ -50,6 +50,7 @@ export function splitWatchJoinPage(site) {
     </div>
   </section>
 
+  <script src="/scripts/split-watch-request.js" defer></script>
   <script src="/scripts/split-watch-join.js" defer></script>`;
 
   return layout({

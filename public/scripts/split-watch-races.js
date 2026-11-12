@@ -36,46 +36,23 @@
     messageBox.style.background = isError ? "rgba(220, 38, 38, 0.12)" : "rgba(0, 191, 99, 0.1)";
   }
 
-  function parseResponse(response, fallback) {
-    return response.json().catch(() => ({})).then((data) => {
-      if (!response.ok) throw new Error(data.error || fallback);
-      return data;
-    });
-  }
-
   // Real incident (2026-08-25): a helper's "Checking access" screen hung
   // forever on a stalled request (bad stadium wifi, a cold serverless
   // start) with no timeout anywhere to fall back to a visible, retryable
   // error -- see split-watch-live.js's matching fix for the fuller story.
-  const REQUEST_TIMEOUT_MS = 15000;
+  const Request = window.PodiumSwRequest;
+  const REQUEST_TIMEOUT_MS = Request.REQUEST_TIMEOUT_MS;
 
   async function apiFetch(endpoint, payload) {
     // Same dual-credential pattern as every other Split Watch page --
     // a race-day code visitor has no Supabase session, only the
     // HttpOnly cookie the server checks. See split-watch-hub.js.
-    const accessToken = await window.PodiumTeamAuth.getAccessToken();
-    const headers = { Accept: "application/json", "Content-Type": "application/json" };
-    if (accessToken) headers.Authorization = "Bearer " + accessToken;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-    let response;
-    try {
-      response = await fetch(endpoint, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ team_id: teamId, ...payload }),
-        signal: controller.signal
-      });
-    } catch (error) {
-      if (error.name === "AbortError") {
-        throw new Error("This is taking longer than expected -- check your connection and try again.");
-      }
-      throw error;
-    } finally {
-      clearTimeout(timeoutId);
-    }
-    if (response.status === 401) window.location.replace("/split-watch/join/");
-    return parseResponse(response, "The request could not be completed.");
+    // Track build Phase 1 (2026-11-12): the shared helper does the token,
+    // the 15 s timeout and the error shape (public/scripts/split-watch-request.js).
+    return Request.api(endpoint, { team_id: teamId, ...payload }, {
+      timeoutMs: REQUEST_TIMEOUT_MS,
+      onUnauthorized: () => window.location.replace("/split-watch/join/")
+    });
   }
 
   const STATUS_LABELS = { live: "Live", scheduled: "Scheduled", draft: "Not started", finished: "Finished", reviewed: "Reviewed" };
@@ -175,25 +152,26 @@
     }
 
     joinConfirmButton.disabled = true;
+    const confirmLabel = joinConfirmButton.textContent;
+    joinConfirmButton.textContent = "Saving...";
+    joinMessage.hidden = true;
     try {
-      await fetch("/api/split-watch/join/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "confirm_position",
-          team_id: teamId,
-          session_id: pendingRace.id,
-          position_id: joinPositionSelect.value || null,
-          display_name: name
-        })
-      }).then((response) => response.json().then((data) => {
-        if (!response.ok) throw new Error(data.error || "That could not be saved.");
-      }));
+      // Track build Phase 1 (2026-11-12): this request had no timeout, so
+      // on stalled wifi the button stayed greyed out forever. Now bounded
+      // by the shared helper; a failure always brings the button back.
+      await Request.api("/api/split-watch/join/", {
+        action: "confirm_position",
+        team_id: teamId,
+        session_id: pendingRace.id,
+        position_id: joinPositionSelect.value || null,
+        display_name: name
+      }, { useToken: false, fallback: "That could not be saved." });
       window.location.replace(destinationFor(pendingRace));
     } catch (error) {
-      joinMessage.textContent = error.message || "That could not be saved.";
+      joinMessage.textContent = (error.message || "That could not be saved.") + (Request.isConnectionError(error) ? " Tap the button to try again." : "");
       joinMessage.hidden = false;
       joinMessage.style.background = "rgba(220, 38, 38, 0.12)";
+      joinConfirmButton.textContent = confirmLabel;
       joinConfirmButton.disabled = false;
     }
   });
@@ -252,17 +230,14 @@
       // this catch block could never be reached at all -- a stalled
       // request just left "Checking access" on screen forever. Retry
       // re-runs the exact same initialize() a page reload would.
-      loadingBox.innerHTML =
-        "<h2>Couldn't verify -- retry</h2>" +
-        "<p>" + escapeHtml(error.message || "Races could not be loaded.") + "</p>" +
-        '<p><button class="button button-primary" type="button" data-swr-retry-load>Try again</button></p>';
-      const retryButton = loadingBox.querySelector("[data-swr-retry-load]");
-      if (retryButton) {
-        retryButton.addEventListener("click", () => {
+      Request.showRetry(loadingBox, {
+        title: "Couldn't verify -- retry",
+        message: error.message || "Races could not be loaded.",
+        onRetry: () => {
           loadingBox.innerHTML = "<h2>Checking access</h2><p>Please wait while Podium Watch securely loads this team's races.</p>";
           initialize();
-        });
-      }
+        }
+      });
     }
   }
 

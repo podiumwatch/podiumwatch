@@ -283,7 +283,13 @@
         loadingBox.hidden = false;
         root.hidden = true;
         messageBox.hidden = true;
-        fetchOnce().then(render).catch((error) => showMessage(error.message || "This race could not be loaded."));
+        fetchOnce().then(renderData).catch((error) => {
+          if (Request.isConnectionError(error)) {
+            // Switching races: show the retry panel for the new race.
+            hasRendered = false;
+          }
+          handleLoadError(error);
+        });
       });
     });
   }
@@ -328,17 +334,43 @@
     return;
   }
 
+  // Track build Phase 1 (2026-11-12): through the shared helper
+  // (public/scripts/split-watch-request.js) -- 15 s timeout, one error
+  // shape. Public page: no sign-in token.
+  const Request = window.PodiumSwRequest;
+  let hasRendered = false;
+
   function fetchOnce() {
-    return fetch(ENDPOINT, {
-      method: "POST",
-      headers: { Accept: "application/json", "Content-Type": "application/json" },
-      body: JSON.stringify({ session_id: currentSessionId || undefined, team_id: teamId || undefined })
-    }).then((response) =>
-      response.json().catch(() => ({})).then((data) => {
-        if (!response.ok) throw new Error(data.error || "This race could not be loaded.");
-        return data;
-      })
-    );
+    return Request.api(ENDPOINT, { session_id: currentSessionId || undefined, team_id: teamId || undefined }, {
+      useToken: false,
+      fallback: "This race could not be loaded."
+    });
+  }
+
+  // A connection problem is not "race not found": once the race is on
+  // screen, a wifi blip keeps it there (the poller retries with backoff;
+  // "updated" shows when it last refreshed). Before the first load it
+  // gets the retry panel. Only a real answer from the server (no such
+  // race) shows the not-found message.
+  function handleLoadError(error) {
+    if (Request.isConnectionError(error)) {
+      if (hasRendered) return;
+      Request.showRetry(loadingBox, {
+        title: "Can't reach this race right now",
+        message: error.message,
+        onRetry: () => {
+          loadingBox.innerHTML = "<p>Loading race...</p>";
+          startWatching();
+        }
+      });
+      return;
+    }
+    showMessage(error.message || "This race could not be loaded.");
+  }
+
+  function renderData(data) {
+    hasRendered = true;
+    render(data);
   }
 
   // "live" if ANY race sharing this day is currently live (poll fast),
@@ -353,10 +385,15 @@
     return "idle";
   }
 
-  window.PodiumRacePoll.watch({
-    fetchOnce,
-    onData: render,
-    getStatus: groupStatus,
-    onError: (error) => showMessage(error.message || "This race could not be loaded.")
-  });
+  let poller = null;
+  function startWatching() {
+    if (poller) poller.stop();
+    poller = window.PodiumRacePoll.watch({
+      fetchOnce,
+      onData: renderData,
+      getStatus: groupStatus,
+      onError: handleLoadError
+    });
+  }
+  startWatching();
 })();

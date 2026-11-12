@@ -2239,3 +2239,11 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Nov. 10 morning gaps fixed with Zachary's approval: 14 ballots cast before the public counter existed (8:56 to 9:06 AM ET) were added to it (+9 Wiemels, +2 Talekar, +2 Olentangy Liberty, +1 Zachary Bell), and Derek Young's one vote left in the older one-vote list (yoty2026:votes:athlete-boys-d4) became a ballot dated 2026-11-10T13:00Z, the hour the hourly log recorded it (the minute wasn't stored), with +1 public. Zachary Bell's earlier older-list vote was not added: the same browser voted again within that hour.
 - Winners and frozen final tallies come from the counted ballots. scripts/check-yearly-vote-counts.mjs (read-only) checks that every category's public counter equals its ballots; all 24 matched after the fix.
 - Network 887ebc14fd voided in the four Division IV categories (5,973 votes, automated). Turnstile on from Nov. 12 (about 10:48 AM ET); hourly backstop of 150 votes per network per category live 11:24 AM.
+
+## 2026-11-12: Split Watch track build, Phase 1 (hang paths and offline reload)
+
+- Plan: docs/SPLIT_WATCH_TRACK_HANDOFF.md; status: docs/SPLIT_WATCH_TRACK_PROGRESS.md.
+- Every Split Watch request goes through public/scripts/split-watch-request.js (15 s for the whole round trip, one error shape, one Try again panel). A token load that fails is not "signed out": the request goes on with the race day cookie, and a 401 after it is a retryable connection problem.
+- team-auth-client.js: the config request is bounded (10 s), a failed load isn't cached, and it waits up to 8 s for the account library, which Split Watch pages now load async so a stalled CDN download can't block the page script.
+- The live page opens a race that has already started from the copy saved on the phone when the server can't be reached, with a Working offline banner; it warns before leaving with taps unsent. Airplane-mode reloads need the service worker (Phase 5).
+- The public race page keeps a race on screen through connection blips; only a real not-found answer replaces it.

@@ -1,5 +1,11 @@
 # Podium Watch next session
 
+## Start here (2026-11-12, Split Watch track Phase 1)
+
+- Split Watch track build: Phase 1 done and committed locally, not pushed. Read docs/SPLIT_WATCH_TRACK_HANDOFF.md and docs/SPLIT_WATCH_TRACK_PROGRESS.md first. Phase 2 (lap mode) waits for Zachary.
+- main also carries 74aaa77b (vote-count check), not pushed.
+- Browser check: npm.cmd run build, then npm.cmd run test:split-watch-browser (needs Chrome).
+
 ## Start here (2026-11-11, merch v2)
 
 - Merch card v2 (The Podium Collection) committed, not pushed (ask first). Voting closes Fri Nov 13, 9 PM ET, so the awards placements matter most.

@@ -3071,3 +3071,8 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - Pushed c31f96d5 and 3a9b9572 (name links). WO-R0F step 1 (b61fecac) moved to branch wo-r0f. Committed 5224ce17: aliases for CF Northwest, DeSales (Columbus), Legacy Christian, Fairmont. Lucia Sveda's results are all Green (Uniontown); left unlinked pending Zachary.
 - Read-only export to dataimports/postseason_track_pull_2026-11/db_export/ (10,275 athletes, 34,974 XC performances); folder git-ignored.
 - Merch card v2 built from MERCH_CARD_HANDOFF: new products, 4 tabs, new copy and UTM campaign, ballot card moved below the vote button, homepage card. Checked at 390 and 1280 px with a mocked vote.
+
+## 2026-11-12: Votes and Split Watch track Phase 1
+
+- Awards: network 887ebc14fd voided (5,973 automated votes, four Division IV categories); Turnstile on; 150 per network per category per hour backstop pushed (ced7c737); Nov 10 counter gaps reconciled (approved) and a counter check committed (74aaa77b, not pushed). Vote watch every 2 hours and a final audit at 9:08 PM Fri run in this session.
+- Split Watch read-only audit, then track build Phase 1: shared request helper on all nine pages, remaining hang paths closed (code entry, position confirm, plan, review, public, meet center, guardian, token config load, sign-in checks, stalled CDN), live page offline reopen with banner, leave warning. Committed locally, not pushed.
