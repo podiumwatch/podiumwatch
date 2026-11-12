@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { YEARLY_AWARDS_SCHEDULE, categoryStatus, findNominee, formatEt, loadYearlyAwardsPool } from "../lib/yearly_awards_2026.mjs";
@@ -160,6 +161,7 @@ function fakeRedis() {
         if (current && String(current).includes("|")) return ["cool", current, -1];
         return ["cool", current ?? "", await client.ttl(k[3])];
       }
+      if (Number((await client.hget(k[8], a[5])) || 0) >= Number(a[11])) { await client.del(k[3]); return ["hourcap"]; }
       const all = await client.incr(k[1]);
       const cat = await client.incr(k[2]);
       if (all > Number(a[8]) || cat > Number(a[9])) { await client.del(k[3]); return ["rate"]; }
@@ -328,4 +330,33 @@ test("share previews: vote, then closed, then winner; finalist links; 1200x630 a
   assert.match(JSON.stringify(awardsCategoryCard(published, winner).element), /WINNER/);
   assert.match(JSON.stringify(awardsCategoryCard({ ...category, gender: "girls" }, vote).element), /#EC4899/);
   assert.match(JSON.stringify(awardsFinalistCard(category, vote, vote.finalists[0]).element), /VOTE FOR/);
+});
+
+test("hourly backstop: 150 counted votes per network per category per hour, then refused until the next hour (2026-11-12)", async () => {
+  const { castYearlyVote, useRedisClientForTests, NETWORK_LIMIT_PER_CATEGORY_PER_HOUR, yearlyVoteTally } = await import("../lib/yearly_awards_2026_votes.mjs");
+  assert.equal(NETWORK_LIMIT_PER_CATEGORY_PER_HOUR, 150);
+  useRedisClientForTests(fakeRedis());
+  const slug = "coach-girls-d4";
+  const start = Date.parse("2026-11-12T07:00:00Z");
+  let accepted = 0;
+  let capped = 0;
+  // 8 a minute (the per-minute limit) for 20 minutes = 160 tries from one network.
+  for (let i = 0; i < 160; i += 1) {
+    const r = await castYearlyVote({ slug, finalistKey: "a", tokenHash: `cap${String(i).padStart(13, "0")}`, ipHash: "net0000000000000", now: new Date(start + Math.floor(i / 8) * 60000 + (i % 8) * 1000) });
+    if (r.accepted) accepted += 1;
+    if (r.hourCapped) capped += 1;
+  }
+  assert.equal(accepted, 150);
+  assert.equal(capped, 10);
+  // Another network in the same hour, and the same network in the same hour in another category, are not affected.
+  assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "other00000000000", ipHash: "net1111111111111", now: new Date(start + 30 * 60000) })).accepted, true);
+  assert.equal((await castYearlyVote({ slug: "coach-boys-d4", finalistKey: "a", tokenHash: "cap0000000000000", ipHash: "net0000000000000", now: new Date(start + 30 * 60000) })).accepted, true);
+  // Next clock hour: open again.
+  assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "next00000000000a", ipHash: "net0000000000000", now: new Date(start + 61 * 60000) })).accepted, true);
+  assert.equal((await yearlyVoteTally(slug)).counts.a, 152);
+});
+
+test("hourly backstop: a refused vote gets its own message", () => {
+  const service = fs.readFileSync("lib/yearly_awards_2026_service.mjs", "utf8");
+  assert.match(service, /if \(result\.hourCapped\) throw error\("Your network has reached this category's vote limit for this hour\. Try again next hour\.", 429, "NETWORK_HOUR_LIMIT"\);/);
 });

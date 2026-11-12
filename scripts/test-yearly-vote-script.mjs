@@ -48,6 +48,19 @@ try {
   const last = voteScriptCall({ slug: "coach-boys-d4", finalistKey: "a", tokenHash: "rate000000000008", ipHash: "ratelimitip00000", now }).keys.map(toTest);
   assert.equal(await redis.get(last[3]), null, "a rate-limited vote leaves no cooldown");
   assert.equal(Number(await redis.hget(k[9], "a")), 9, "1 vote + 8 from the other network before its limit");
+  // Hourly backstop (2026-11-12): a network already at the hour's limit in a category is refused.
+  const capped = { finalistKey: "a", tokenHash: "cap0000000000000", ipHash: "hourcapip0000000", now };
+  track(capped);
+  const capCall = voteScriptCall({ slug: "coach-boys-d4", ...capped });
+  const capKeys = capCall.keys.map(toTest);
+  await redis.hset(capKeys[8], { [capCall.args[5]]: Number(capCall.args[11]) - 1 });
+  assert.deepEqual(await cast(capped), ["ok"], "the limit's last vote counts");
+  const over = { finalistKey: "a", tokenHash: "cap1000000000000", ipHash: "hourcapip0000000", now };
+  track(over);
+  assert.deepEqual(await cast(over), ["hourcap"], "the next one in that hour is refused");
+  const overKeys = voteScriptCall({ slug: "coach-boys-d4", ...over }).keys.map(toTest);
+  assert.equal(await redis.get(overKeys[3]), null, "a refused vote leaves no cooldown");
+  assert.equal(Number(await redis.hget(capKeys[8], capCall.args[5])), Number(capCall.args[11]), "refused vote not counted");
   console.log("Vote script OK against real Redis.");
 } finally {
   if (used.size) await redis.del(...used);
