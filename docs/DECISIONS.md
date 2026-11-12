@@ -2233,3 +2233,9 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Light garments (luminance 0.55 or more: Ivory, White, Ash, Sand) get an outlined photo; text stays dark, at least 4.5:1 on every tint.
 - Ballot pages: no card above the ballot; the ballot card sits below the vote button. Homepage: new "home" placement below the lead story. Every placement uses utm_medium=site, utm_campaign=podium-collection.
 - After a vote, the support panel (first vote) and the support/merch turn-taking still apply, as before.
+
+## 2026-11-12: Award vote counts reconciled; counter check
+
+- Nov. 10 morning gaps fixed with Zachary's approval: 14 ballots cast before the public counter existed (8:56 to 9:06 AM ET) were added to it (+9 Wiemels, +2 Talekar, +2 Olentangy Liberty, +1 Zachary Bell), and Derek Young's one vote left in the older one-vote list (yoty2026:votes:athlete-boys-d4) became a ballot dated 2026-11-10T13:00Z, the hour the hourly log recorded it (the minute wasn't stored), with +1 public. Zachary Bell's earlier older-list vote was not added: the same browser voted again within that hour.
+- Winners and frozen final tallies come from the counted ballots. scripts/check-yearly-vote-counts.mjs (read-only) checks that every category's public counter equals its ballots; all 24 matched after the fix.
+- Network 887ebc14fd voided in the four Division IV categories (5,973 votes, automated). Turnstile on from Nov. 12 (about 10:48 AM ET); hourly backstop of 150 votes per network per category live 11:24 AM.

@@ -360,3 +360,21 @@ test("hourly backstop: a refused vote gets its own message", () => {
   const service = fs.readFileSync("lib/yearly_awards_2026_service.mjs", "utf8");
   assert.match(service, /if \(result\.hourCapped\) throw error\("Your network has reached this category's vote limit for this hour\. Try again next hour\.", 429, "NETWORK_HOUR_LIMIT"\);/);
 });
+
+test("public counter always equals the counted ballots: votes, cooldowns, rate and hourly limits, voids (2026-11-12)", async () => {
+  const { castYearlyVote, voidYearlyVotes, useRedisClientForTests, yearlyVoteTally, publicVoteCounts } = await import("../lib/yearly_awards_2026_votes.mjs");
+  useRedisClientForTests(fakeRedis());
+  const slug = "coach-boys-d1";
+  const start = Date.parse("2026-11-12T12:00:00Z");
+  const same = async () => { const [t, p] = await Promise.all([yearlyVoteTally(slug), publicVoteCounts(slug)]); assert.deepEqual(p.counts, t.counts); assert.equal(p.total, t.total); return t.total; };
+  // Ordinary votes from several networks and finalists, some refused by the hour's cooldown.
+  for (let i = 0; i < 30; i += 1) await castYearlyVote({ slug, finalistKey: ["a", "b", "c"][i % 3], tokenHash: `tok${String(i % 20).padStart(13, "0")}`, ipHash: `net${String(i % 4).padStart(13, "0")}`, now: new Date(start + i * 7000) });
+  assert.equal(await same(), 20, "10 repeat browsers inside the hour were refused");
+  // A burst past the per-minute limit, and a network past the hourly limit.
+  for (let i = 0; i < 12; i += 1) await castYearlyVote({ slug, finalistKey: "b", tokenHash: `rate${String(i).padStart(12, "0")}`, ipHash: "b0b0b0b0b0b0b0b0", now: new Date(start + 600000) });
+  for (let i = 0; i < 160; i += 1) await castYearlyVote({ slug, finalistKey: "c", tokenHash: `hour${String(i).padStart(12, "0")}`, ipHash: "hourcap000000000", now: new Date(start + 900000 + Math.floor(i / 8) * 60000 + (i % 8) * 500) });
+  assert.equal(await same(), 20 + 8 + 150);
+  // Voiding a network takes the same votes out of both.
+  assert.equal((await voidYearlyVotes({ slug, ipPrefix: "b0b0b0b0", reason: "test" })).voided, 8);
+  assert.equal(await same(), 20 + 150);
+});
