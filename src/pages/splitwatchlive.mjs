@@ -142,6 +142,23 @@ export function splitWatchLivePage(site) {
       font-size: 0.92rem;
     }
 
+    /* Lap mode (track build Phase 2): one big button per entry. */
+    .sw-lap-entry { display: grid; gap: 6px; margin-bottom: 12px; }
+    .sw-lap-btn {
+      display: grid; gap: 2px; width: 100%; min-height: 84px; padding: 12px 16px;
+      text-align: left; border: 0; border-radius: 14px; cursor: pointer;
+      background: var(--sw-green, #0faf68); color: #06140d; font: inherit;
+      touch-action: manipulation;
+    }
+    .sw-lap-btn:disabled { background: #2b2f2d; color: #c9cec9; cursor: default; }
+    .sw-lap-btn-flash { outline: 4px solid #fff; outline-offset: -4px; }
+    .sw-lap-name { font-size: 1.25rem; font-weight: 900; line-height: 1.1; }
+    .sw-lap-progress { font-size: 1rem; font-weight: 800; }
+    .sw-lap-times { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .sw-lap-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sw-lap-entry-out { opacity: 0.75; }
+    .sw-lap-location { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 0.95rem; }
+
     .sw-rehearsal-banner strong {
       letter-spacing: 0.04em;
       font-size: 0.92rem;
@@ -1066,6 +1083,7 @@ export function splitWatchLivePage(site) {
   <script src="/scripts/race-math.js" defer></script>
   <script src="/scripts/race-timer.js" defer></script>
   <script src="/scripts/race-clock-sync.js" defer></script>
+  <script src="/scripts/race-laps.js" defer></script>
   <script src="/scripts/race-local-store.js" defer></script>
   <script src="/scripts/device-readiness.js" defer></script>
   <script src="/scripts/split-watch-request.js" defer></script>

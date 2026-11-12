@@ -12,6 +12,7 @@ import {
   pushSplits,
   pullState,
   setParticipantStatus,
+  setParticipantDisqualified,
   adjustRaceClock,
   recordSyncActivity
 } from "../../lib/split_watch_service.mjs";
@@ -94,6 +95,15 @@ export default async function handler(request, response) {
       case "pull_state":
         data = await pullState({ teamId, sessionId });
         await recordSyncActivity({ sessionId, clockOffsetMs: Number(body.client_clock_offset_ms) });
+        break;
+      // Track build Phase 2: a DQ mark (lap mode drops the entry from the order).
+      case "set_disqualified":
+        data = await setParticipantDisqualified({
+          teamId,
+          sessionId,
+          participantId: cleanText(body.participant_id),
+          disqualified: body.disqualified
+        });
         break;
       case "set_participant_status":
         data = await setParticipantStatus({

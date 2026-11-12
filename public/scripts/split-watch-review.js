@@ -70,13 +70,15 @@
   // one error shape. This page had no timeout before.
   const Request = window.PodiumSwRequest;
 
-  async function apiFetch(payload) {
+  let firstLoadDeadline = Request.loadDeadline();
+  async function apiFetch(payload, { deadlineAtMs = null } = {}) {
     // Don't gate on a Supabase access token here -- a race-day access code
     // visitor has no Supabase session at all, but does have an HttpOnly
     // cookie the server will accept. Send the bearer token when we have one
     // (a real coach account) and let the browser send the cookie either way;
     // only redirect if the server actually says the request isn't allowed.
     return Request.api(REVIEW_ENDPOINT, { team_id: teamId, session_id: sessionId, ...payload }, {
+      deadlineAtMs,
       fallback: "The review request could not be completed.",
       onUnauthorized: () => window.location.replace("/split-watch/join/")
     });
@@ -272,21 +274,52 @@
     individualPanel.hidden = true;
   });
 
+  // Track build Phase 2: lap mode times to the tenth of a second.
+  function formatTenths(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return "--";
+    const tenths = Math.round(seconds * 10);
+    const m = Math.floor(tenths / 600);
+    const rest = ((tenths % 600) / 10).toFixed(1);
+    return m > 0 ? m + ":" + rest.padStart(4, "0") : rest;
+  }
+
+  // Adds (or removes) the Lap column header, so cross country is unchanged.
+  function setLapHeader(on) {
+    const headRow = individualRows.closest("table")?.querySelector("thead tr");
+    if (!headRow) return;
+    let th = headRow.querySelector("[data-sw-lap-col]");
+    if (on && !th) {
+      th = document.createElement("th");
+      th.setAttribute("data-sw-lap-col", "");
+      th.textContent = "Lap";
+      headRow.insertBefore(th, headRow.children[3] || null);
+    } else if (!on && th) {
+      th.remove();
+    }
+  }
+
   async function openIndividual(participantId) {
     try {
       const data = await apiFetch({ action: "get_individual", participant_id: participantId });
       individualName.textContent = participantName(data.participant);
+      const lapMode = Boolean(data.lap_mode);
+      const fmt = lapMode ? formatTenths : formatSecondsToClock;
+      setLapHeader(lapMode);
 
       individualRows.innerHTML = data.checkpoints.map((row) => {
         const target = row.targets.A;
         const actual = row.split ? row.split.elapsed_seconds : null;
         const diff = (target != null && actual != null) ? RaceMath.computeDiffFromTarget(actual, target) : null;
+        const lapCell = lapMode
+          ? '<td data-label="Lap">' + escapeHtml(row.lap_seconds != null ? formatTenths(row.lap_seconds) + (row.lap_meters && row.lap_meters !== 400 && row.lap_meters !== 200 ? " (" + row.lap_meters + " m)" : "") : "--") + '</td>'
+          : "";
 
         return (
           '<tr>' +
-            '<td data-label="Checkpoint">' + escapeHtml(row.checkpoint.label) + (row.checkpoint.is_finish ? " (Finish)" : "") + '</td>' +
+            '<td data-label="Checkpoint">' + escapeHtml(row.checkpoint.label) + (row.checkpoint.is_finish && !/^Finish/.test(row.checkpoint.label) ? " (Finish)" : "") + '</td>' +
             '<td data-label="Target (Goal A)">' + escapeHtml(target != null ? formatSecondsToClock(target) : "--") + '</td>' +
-            '<td data-label="Actual">' + escapeHtml(actual != null ? formatSecondsToClock(actual) : "--") + '</td>' +
+            '<td data-label="Actual">' + escapeHtml(actual != null ? fmt(actual) : "--") + '</td>' +
+            lapCell +
             '<td data-label="Diff">' + escapeHtml(diff != null ? formatDiff(diff) : "--") + '</td>' +
           '</tr>'
         );
@@ -319,7 +352,11 @@
   function startPolling() {
     if (poller) poller.stop();
     poller = window.PodiumRacePoll.watch({
-      fetchOnce: () => apiFetch({ action: "get_team" }),
+      fetchOnce: () => {
+        const deadlineAtMs = firstLoadDeadline;
+        firstLoadDeadline = null;
+        return apiFetch({ action: "get_team" }, { deadlineAtMs });
+      },
       onData: (data) => {
         raceMetaEl.textContent = data.session ? data.session.race_date : "";
         renderTeamReview(data);

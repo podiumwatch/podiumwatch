@@ -43,13 +43,15 @@
   const Request = window.PodiumSwRequest;
   const REQUEST_TIMEOUT_MS = Request.REQUEST_TIMEOUT_MS;
 
-  async function apiFetch(endpoint, payload) {
+  let firstLoadDeadline = Request.loadDeadline();
+  async function apiFetch(endpoint, payload, { deadlineAtMs = null } = {}) {
     // Same dual-credential pattern as every other Split Watch page --
     // a race-day code visitor has no Supabase session, only the
     // HttpOnly cookie the server checks. See split-watch-hub.js.
     // Track build Phase 1 (2026-11-12): the shared helper does the token,
     // the 15 s timeout and the error shape (public/scripts/split-watch-request.js).
     return Request.api(endpoint, { team_id: teamId, ...payload }, {
+      deadlineAtMs,
       timeoutMs: REQUEST_TIMEOUT_MS,
       onUnauthorized: () => window.location.replace("/split-watch/join/")
     });
@@ -199,7 +201,9 @@
     }
 
     try {
-      const data = await apiFetch("/api/split-watch/sessions/", { action: "today" });
+      const deadlineAtMs = firstLoadDeadline;
+      firstLoadDeadline = null;
+      const data = await apiFetch("/api/split-watch/sessions/", { action: "today" }, { deadlineAtMs });
       teamNameEl.textContent = data.team.school_name;
 
       // Never silently auto-pick when more than one race is genuinely

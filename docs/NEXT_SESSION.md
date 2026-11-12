@@ -1,5 +1,10 @@
 # Podium Watch next session
 
+## Start here (2026-11-12, Split Watch track Phase 2)
+
+- Phase 2 (lap mode) done and committed locally, not pushed. Zachary runs install/96_SPLIT_WATCH_LAP_MODE.sql, then pushes. Phase 1 commits were also still local at the start of Phase 2 (origin/main was ced7c737).
+- Phase 3 (relays) waits for Zachary. Read docs/SPLIT_WATCH_TRACK_HANDOFF.md and _PROGRESS.md first.
+
 ## Start here (2026-11-12, Split Watch track Phase 1)
 
 - Split Watch track build: Phase 1 done and committed locally, not pushed. Read docs/SPLIT_WATCH_TRACK_HANDOFF.md and docs/SPLIT_WATCH_TRACK_PROGRESS.md first. Phase 2 (lap mode) waits for Zachary.

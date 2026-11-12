@@ -4,8 +4,8 @@ The plan is `docs/SPLIT_WATCH_TRACK_HANDOFF.md`. One phase per session; Zachary 
 
 | Phase | Status | Date | Commit |
 |---|---|---|---|
-| 1. Close the hang paths and the offline reload gap | Done, committed locally, not pushed | 2026-11-12 | f2afd1fa, 9d43cdf9 (clock) |
-| 2. Lap mode (3200, 1600, 800) | Not started | | |
+| 1. Close the hang paths and the offline reload gap | Done and approved; committed locally (not on GitHub as of the Phase 2 session) | 2026-11-12 | f2afd1fa, 9d43cdf9 (clock) |
+| 2. Lap mode (3200, 1600, 800) | Done, committed locally, not pushed; needs install/96 | 2026-11-12 | see Phase 2 below |
 | 3. Relays | Not started | | |
 | 4. Meet wide crews and stronger codes | Not started | | |
 | 5. Full offline (service worker, offline start) | Not started | | |
@@ -66,3 +66,25 @@ The plan is `docs/SPLIT_WATCH_TRACK_HANDOFF.md`. One phase per session; Zachary 
 - `scripts/test-split-watch-clock.mjs` (in `npm test`): a simulated 17 minute race with fake clocks (phone A 15 s behind and drifting 40 ppm, phone B 8 s ahead and drifting -35 ppm) over an uneven network (each leg up to 1.2 s, server work up to 2 s, a few legs up to 4 s): the start is within 0.22 s of the tap with the start request delayed 8 s; at 17:00, after a 4 minute screen lock, a background stretch, a 2 s phone clock change and a reload, the starting phone is 0.20 s off and a phone that joined at minute 8 is 0.22 s off. The old design on the same race: 10.8 s off.
 - `scripts/test-split-watch-browser.mjs` (real Chrome): server clock 15 s ahead, confirm answered after 2 s, start request held 8 s: start off by 0.03 s; starting phone, second phone and the starting phone after a reload all within 0.01 s.
 - `scripts/test-split-watch.mjs`: the timer assertions were rewritten for the new design (two old ones are deliberately reversed: the live path now DOES apply the correction, and reset() keeps the correction, since it belongs to the phone's clock, not the race).
+
+## Phase 2: lap mode (2026-11-12)
+
+**Database:** `install/96_SPLIT_WATCH_LAP_MODE.sql` (run it in Supabase before pushing; additive only). Adds `race_sessions.tap_mode` (default `checkpoint`), `event_key`, `lap_length_meters`; `race_checkpoints.location` and `is_exchange`; `race_participants.disqualified`; `race_splits.clock_offset_ms` and `clock_uncertainty_ms` (each tap's clock correction, proposed in Phase 1). Number 96, not 95: 95 is used on the parked `wo-r0f` branch.
+
+**What it does**
+
+- Hub: Sport "Track" shows an event (3200, 1600, 800, or Custom) and the track's lap (400 or 200). An event builds its checkpoints (every lap at the finish line; for an 800 on a 400 m track, optional 200 m mark splits at 200 and 600) and creates a lap mode race. Custom keeps the usual checkpoint rows, without cross country's "Mile 1" placeholder.
+- Live page, lap mode: one big button per entry with name, laps done of total, last lap and running total (to the tenth). A tap records that entry's next lap at the place the phone is timing (a "I'm timing at" picker appears only when the race has 200 m mark splits). A second tap inside the double tap window (15 s for 400 m laps, 8 s for 200 m; constants in `lib/race_laps.mjs`) is ignored; a tap past the finish is refused. Undo last lap goes through the revision history. DNS, DNF and DQ drop an entry out of the order. Buttons are ordered by expected next pass (last pass + last lap) and re-sorted only after a tap settles (1.5 s). No checkpoint tabs or pack capture in lap mode.
+- Server: a new lap tap is placed by TIME, not by the lap the phone guessed (`resolveLapTap`): within the window of a recorded pass = the same pass (first saved wins); later than every recorded pass = the next open lap (the phone is told which); earlier = it fills the missed lap, moving later passes up one lap (`planLapWrites`; when the free lap holds an undone row, the times shift through the rows as revisions instead, so nothing collides or is lost).
+- Review: a Lap column (lap split and its distance when it isn't a full lap) and tenths, for lap mode races only.
+- Each tap's clock correction is saved on the server once install/96 has run (the code checks for the columns first, so cross country keeps working before the SQL runs).
+
+**Checked**
+
+- `scripts/test-split-watch-laps.mjs` (in `npm test`): checkpoints for every event and track; a simulated 3200 with 24 fake entries (6 lapped once, 17 twice): all 192 laps on the right lap, 36 double taps ignored, no tap past the finish, the next runner to cross always in the top 3 of the order (first 117 of 144 times); the two phone stale lap sequence lands on lap 3 and the same pass from the other phone is a duplicate; a late tap fills a missed lap (and the undone-row case shifts times with revisions); undo, double tap, finish; browser copy identical to the server copy; cross country stays on its old path.
+- `scripts/test-split-watch-browser.mjs`: lap mode on the live page (buttons, lap 1, double tap ignored, undo, one lap tap sent); every earlier check still passes. The first load of the live page, race list, review and public page now gives up 15 s after the page STARTED loading (a cold load pushed the live page to 16.1 s); retries keep the full 15 s.
+
+**Not done (as planned)**
+
+- Pack capture is select-then-capture today, not "tap now, assign after", so it stays a checkpoint-mode feature; lap mode hides it.
+- Helpers with a single-checkpoint position can only tap that checkpoint; until Phase 4 (meet-wide, location-based positions), give lap mode helpers a "backup" position.

@@ -417,12 +417,12 @@ export function splitWatchHubPage(site) {
                 </select>
               </label>
 
-              <label>
+              <label data-sw-distance-field>
                 <strong>Distance</strong>
                 <input type="number" name="distance_value" step="0.01" min="0.01" placeholder="5" required>
               </label>
 
-              <label>
+              <label data-sw-distance-field>
                 <strong>Distance unit</strong>
                 <select name="distance_unit_display">
                   <option value="miles">Miles</option>
@@ -432,7 +432,35 @@ export function splitWatchHubPage(site) {
               </label>
             </div>
 
-            <div>
+            <!-- Track build Phase 2: a track event builds its lap checkpoints. -->
+            <div class="sw-track-setup" data-sw-track-setup hidden>
+              <div class="sw-fields">
+                <label>
+                  <strong>Event</strong>
+                  <select name="event_key" data-sw-track-event>
+                    <option value="3200">3200</option>
+                    <option value="1600">1600</option>
+                    <option value="800">800</option>
+                    <option value="">Custom (set checkpoints yourself)</option>
+                  </select>
+                </label>
+                <label>
+                  <strong>Track lap</strong>
+                  <select name="lap_length_meters" data-sw-track-lap>
+                    <option value="400">400 m (most outdoor tracks)</option>
+                    <option value="200">200 m (most indoor tracks)</option>
+                  </select>
+                </label>
+              </div>
+              <label class="sw-track-marks" data-sw-track-marks-wrap hidden>
+                <input type="checkbox" name="include_200_marks" value="true" data-sw-track-marks>
+                Also take splits at the 200 m mark (200 and 600) -- needs a second phone there
+              </label>
+              <p class="sw-track-preview" data-sw-track-preview></p>
+              <p style="margin:6px 0 0;font-size:0.9rem;">Lap mode: each tap records that runner's next lap, so lapped runners land on the right lap by themselves.</p>
+            </div>
+
+            <div data-sw-checkpoint-section>
               <strong>Checkpoints</strong>
               <p style="margin:6px 0 12px;font-size:0.9rem;">
                 Add split points along the course. Each checkpoint has its own distance unit, so a 5K race can
@@ -483,6 +511,7 @@ export function splitWatchHubPage(site) {
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0" async></script>
   <script src="/scripts/team-auth-client.js" defer></script>
   <script src="/scripts/split-watch-request.js" defer></script>
+  <script src="/scripts/race-laps.js" defer></script>
   <script src="/scripts/split-watch-hub.js" defer></script>`;
 
   return layout({

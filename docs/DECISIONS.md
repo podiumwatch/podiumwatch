@@ -2253,3 +2253,10 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Every phone times the race as (its clock + correction to server time) minus the official start in server time. performance.now() is no longer used (it can stop while an Android phone sleeps).
 - The start is the tap moment (before the confirm box) in server time. The correction is the shortest-round-trip of several NTP-style samples (api/split-watch/clock.js; sync and sessions replies carry server receive/send times), slow samples thrown away, refreshed every minute and on visibility/reconnect.
 - Each tap keeps the correction it used on the phone; storing it on the server needs a race_splits column (Phase 2 migration). Details: docs/SPLIT_WATCH_TRACK_PROGRESS.md.
+
+## 2026-11-12: Split Watch lap mode (track Phase 2)
+
+- Track events (3200, 1600, 800) are lap mode races (race_sessions.tap_mode 'lap'); checkpoints are built from the event and lap length. A tap belongs to the entry: its next lap at the phone's place on the track.
+- The server places a new lap tap by time (lib/race_laps.mjs resolveLapTap): same pass within the double tap window (15 s at 400 m, 8 s at 200 m) keeps the first saved; later = next open lap; earlier = fills the missed lap, later passes move up (moves, or time shifts with revisions when an undone row is in the way).
+- DQ is race_participants.disqualified (install/96), leaving the status check constraint untouched. Each tap's clock correction is stored in race_splits once install/96 runs.
+- First page loads count their 15 s from navigation start (Request.loadDeadline), so Try again shows within ~16 s even on a slow load.

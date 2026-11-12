@@ -302,7 +302,10 @@
   });
   measureClock(5);
 
-  async function apiFetch(endpoint, payload) {
+  // First load only (see Request.loadDeadline): a deadline counted from the
+  // page starting to load. Retries get the full timeout.
+  let firstLoadDeadline = Request.loadDeadline();
+  async function apiFetch(endpoint, payload, { deadlineAtMs = null } = {}) {
     // Don't gate on a Supabase access token here -- a race-day access code
     // visitor has no Supabase session at all, but does have an HttpOnly
     // cookie the server will accept. Send the bearer token when we have one
@@ -323,6 +326,7 @@
       ...payload
     }, {
       timeoutMs: REQUEST_TIMEOUT_MS,
+      deadlineAtMs,
       timing,
       // A helper who opened THIS exact race's link cold (no code entered
       // on this device yet) -- most importantly a coach's own "share this
@@ -508,6 +512,7 @@
           pack_capture_id: s.pack_capture_id,
           device_id: s.device_id,
           clock_offset_ms: s.clock_offset_ms,
+          lap_tap: s.lap_tap ? true : undefined,
           clock_uncertainty_ms: s.clock_uncertainty_ms,
           is_dns: s.is_dns,
           is_dnf: s.is_dnf,
@@ -532,7 +537,39 @@
         // pushSplits() in lib/split_watch_service.mjs for the server
         // half of this fix (found during the overnight audit).
         const conflictedNames = [];
+        let lapResequenced = false;
+        const lapRefused = [];
         return Promise.all(result.results.map((r) => {
+          // Track build Phase 2: the server placed a lap tap by time.
+          // "duplicate" (same pass, another phone saved it first) and a
+          // tap that landed in a different row: drop this phone's copy and
+          // keep the server's row. "finished": the tap was past the finish.
+          if (r.lap) {
+            const serverRow = r.split;
+            if (r.lap.resequenced) lapResequenced = true;
+            if (r.rejected || !serverRow) {
+              const name = (() => { const local = splitsByClientId.get(r.client_split_id); const p = local && detail.participants.find((x) => x.id === local.race_participant_id); return p ? participantName(p) : "A runner"; })();
+              lapRefused.push(name);
+              splitsByClientId.delete(r.client_split_id);
+              return Store.deleteSplitLocal(r.client_split_id);
+            }
+            const adopted = {
+              client_split_id: serverRow.client_split_id, race_session_id: sessionId,
+              race_participant_id: serverRow.race_participant_id, race_checkpoint_id: serverRow.race_checkpoint_id,
+              elapsed_seconds: serverRow.elapsed_seconds, wall_clock_captured_at_ms: Date.parse(serverRow.wall_clock_captured_at),
+              capture_method: serverRow.capture_method, pack_capture_id: serverRow.pack_capture_id, device_id: serverRow.device_id,
+              is_dns: serverRow.is_dns, is_dnf: serverRow.is_dnf, synced: true,
+              clock_offset_ms: serverRow.clock_offset_ms ?? null, clock_uncertainty_ms: serverRow.clock_uncertainty_ms ?? null
+            };
+            const steps = [];
+            if (serverRow.client_split_id !== r.client_split_id) {
+              splitsByClientId.delete(r.client_split_id);
+              steps.push(Store.deleteSplitLocal(r.client_split_id));
+            }
+            splitsByClientId.set(adopted.client_split_id, adopted);
+            steps.push(Store.saveSplitLocal(adopted));
+            return Promise.all(steps);
+          }
           if (r.conflicted) {
             return Store.getSplitLocal(r.client_split_id).then((current) => {
               if (!current) return;
@@ -575,6 +612,16 @@
             // interval) will push the newer value for real.
           });
         })).then(() => {
+          if (lapRefused.length > 0) {
+            renderRunnerList();
+            showMessage("Tap past the finish ignored for " + lapRefused.join(", ") + ".", true);
+          }
+          if (lapResequenced) {
+            // Other laps moved on the server (a late tap from another phone
+            // filled a missed lap): pull fresh state right away.
+            setTimeout(() => { pullRemoteUpdates(); }, 50);
+          }
+          if (isLapMode()) renderRunnerList();
           if (conflictedNames.length > 0) {
             renderRunnerList();
             const list = conflictedNames.join(", ");
@@ -802,9 +849,208 @@
     });
   }
 
+  // ---- lap mode (track build Phase 2, 2026-11-12) ------------------------------
+  // A 3200, 1600 or 800 created as a track event is a lap mode race
+  // (session.tap_mode "lap"). One big button per entry; a tap records THAT
+  // entry's next lap at the place this phone stands (finish line, or the
+  // 200 m mark for an 800 with 200 m splits), decided by time with
+  // public/scripts/race-laps.js -- the same rules the server uses. A second
+  // tap on the same entry inside the double tap window is ignored; a tap
+  // past the finish is refused. Buttons are ordered by who should pass
+  // next (last pass + last lap), re-sorted only after a tap settles so they
+  // don't jump under a thumb. Cross country never enters this path.
+  const Laps = window.PodiumRaceLaps;
+  const LAP_REORDER_SETTLE_MS = 1500;
+  let lapOrderIds = [];
+  let lastLapTapAtMs = 0;
+
+  function isLapMode() {
+    return Boolean(detail && detail.session && detail.session.tap_mode === "lap" && Laps);
+  }
+  function lapLocationKey() {
+    return "podium_sw_lap_location_" + sessionId;
+  }
+  function raceHasLocation(location) {
+    return detail.checkpoints.some((c) => (c.location || "finish_line") === location);
+  }
+  function lapLocation() {
+    let saved = "finish_line";
+    try { saved = localStorage.getItem(lapLocationKey()) || "finish_line"; } catch { /* storage blocked */ }
+    return raceHasLocation(saved) ? saved : "finish_line";
+  }
+  function entrySplits(participantId) {
+    return [...splitsByClientId.values()].filter((split) => split.race_participant_id === participantId);
+  }
+  function lapStateFor(participantId) {
+    return Laps.lapState({ checkpoints: detail.checkpoints, splits: entrySplits(participantId), location: lapLocation() });
+  }
+  function isOut(participant) {
+    return participant.status === "dns" || participant.status === "dnf" || Boolean(participant.disqualified);
+  }
+  function lapWindowSeconds() {
+    return Laps.doubleTapWindowSeconds(detail.session.lap_length_meters);
+  }
+  // Displayed to the tenth of a second (stored at full precision).
+  function formatTenths(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return "--";
+    const tenths = Math.round(seconds * 10);
+    const m = Math.floor(tenths / 600);
+    const rest = (tenths % 600) / 10;
+    const sText = rest.toFixed(1).padStart(4, "0");
+    return m > 0 ? m + ":" + sText : rest.toFixed(1);
+  }
+
+  function handleLapTap(participant) {
+    const elapsedResult = Timer.elapsedOrRecovered();
+    if (!elapsedResult) {
+      showMessage("The race clock is not running yet.", true);
+      return;
+    }
+    if (isOut(participant)) return;
+    const tapSeconds = correctedElapsedSeconds(elapsedResult.elapsedSeconds);
+    const location = lapLocation();
+    const splits = entrySplits(participant.id);
+    const resolution = Laps.resolveLapTap({ checkpoints: detail.checkpoints, splits, location, tapElapsedSeconds: tapSeconds, windowSeconds: lapWindowSeconds() });
+    if (resolution.action === "duplicate") {
+      announceCapture("Second tap on " + participantName(participant) + " ignored (same lap, within " + lapWindowSeconds() + " s).");
+      showMessage("Second tap on " + participantName(participant) + " ignored -- same lap.");
+      return;
+    }
+    if (resolution.action === "finished") {
+      showMessage(participantName(participant) + " has already finished -- tap ignored.", true);
+      return;
+    }
+    // This phone's tap is "now", so it is normally the latest pass; if a
+    // lap right after the previous pass is empty it fills it, otherwise it
+    // goes to the next open lap. The server re-checks by time anyway.
+    const state = Laps.lapState({ checkpoints: detail.checkpoints, splits, location });
+    const target = resolution.action === "fill" || resolution.action === "append" ? resolution.checkpoint : state.next;
+    if (!target) {
+      showMessage(participantName(participant) + " has already finished -- tap ignored.", true);
+      return;
+    }
+    // An undone row at that lap is reused (one row per entry per lap).
+    const undone = rawSplitFor(participant.id, target.id);
+    lastLapTapAtMs = Date.now();
+    recentlyRecordedIds.add(participant.id);
+    setTimeout(() => {
+      recentlyRecordedIds.delete(participant.id);
+      renderRunnerList();
+    }, LAP_REORDER_SETTLE_MS);
+    recordSplit({
+      participantId: participant.id, checkpointId: target.id, elapsedSeconds: tapSeconds, captureMethod: "single_tap",
+      clientSplitId: undone ? undone.client_split_id : null,
+      changeReason: undone ? "manual_correction" : "recorded",
+      lapTap: !undone
+    });
+    const after = lapStateFor(participant.id);
+    announceCapture(participantName(participant) + (target.is_finish ? " finished: " : " " + target.label + ": ") + formatTenths(tapSeconds) + (after.lastLapSeconds != null ? ", last lap " + formatTenths(after.lastLapSeconds) : "") + ".");
+  }
+
+  function handleLapUndo(participant) {
+    const state = lapStateFor(participant.id);
+    if (!state.lastCheckpointId) return;
+    const split = splitFor(participant.id, state.lastCheckpointId);
+    if (!split) return;
+    const checkpoint = detail.checkpoints.find((c) => c.id === state.lastCheckpointId);
+    // Written through the revision history (change reason "undo"), so the
+    // undone time is never silently lost.
+    recordSplit({
+      participantId: participant.id, checkpointId: state.lastCheckpointId, elapsedSeconds: null,
+      captureMethod: "edited", clientSplitId: split.client_split_id, changeReason: "undo"
+    });
+    announceCapture(participantName(participant) + "'s " + (checkpoint ? checkpoint.label : "last lap") + " was undone.");
+  }
+
+  async function handleDisqualify(participant) {
+    const next = !participant.disqualified;
+    if (!window.confirm((next ? "Mark " : "Clear the DQ for ") + participantName(participant) + (next ? " as disqualified?" : "?"))) return;
+    try {
+      await apiFetch(SYNC_ENDPOINT, { action: "set_disqualified", participant_id: participant.id, disqualified: next });
+      participant.disqualified = next;
+      renderRunnerList();
+    } catch (error) {
+      showMessage(error.message || "The DQ mark could not be saved.", true);
+    }
+  }
+
+  function ensureLapLocationPicker() {
+    let picker = document.querySelector("[data-sw-lap-location]");
+    const needed = raceHasLocation("mark_200");
+    if (!needed) { if (picker) picker.hidden = true; return; }
+    if (!picker) {
+      picker = document.createElement("label");
+      picker.className = "sw-lap-location";
+      picker.setAttribute("data-sw-lap-location", "");
+      picker.innerHTML = "<strong>I'm timing at</strong> <select data-sw-lap-location-select><option value=\"finish_line\">Finish line</option><option value=\"mark_200\">200 m mark</option></select>";
+      runnerList.parentNode.insertBefore(picker, runnerList);
+      picker.querySelector("select").addEventListener("change", (event) => {
+        try { localStorage.setItem(lapLocationKey(), event.target.value); } catch { /* storage blocked */ }
+        lapOrderIds = [];
+        renderRunnerList();
+      });
+    }
+    picker.hidden = false;
+    picker.querySelector("select").value = lapLocation();
+  }
+
+  function renderLapList() {
+    checkpointTabs.innerHTML = "";
+    checkpointIndicator.hidden = true;
+    if (packToggle) packToggle.hidden = true;
+    ensureLapLocationPicker();
+
+    const location = lapLocation();
+    const rosterIndex = new Map(detail.participants.map((p, i) => [p.id, i]));
+    const states = new Map(detail.participants.map((p) => [p.id, lapStateFor(p.id)]));
+    const settling = Date.now() - lastLapTapAtMs < LAP_REORDER_SETTLE_MS;
+    if (!settling || lapOrderIds.length !== detail.participants.length) {
+      lapOrderIds = Laps.orderByNextPass(detail.participants.map((p) => {
+        const state = states.get(p.id);
+        const firstLap = state.next ? targetAtCheckpoint(p.id, state.next.id) : null;
+        return { id: p.id, expected: Laps.expectedNextPassSeconds(state, firstLap), rosterIndex: rosterIndex.get(p.id), out: isOut(p) || state.finished };
+      }));
+    }
+    const byId = new Map(detail.participants.map((p) => [p.id, p]));
+
+    stillCountEl.textContent = detail.participants.filter((p) => !isOut(p) && !states.get(p.id).finished).length + " running";
+    stillEmptyNote.hidden = true;
+    recordedHeading.hidden = true;
+    recordedList.innerHTML = "";
+
+    runnerList.innerHTML = lapOrderIds.map((id) => {
+      const participant = byId.get(id);
+      if (!participant) return "";
+      const state = states.get(id);
+      const out = isOut(participant);
+      const outLabel = participant.disqualified ? "DQ" : participant.status === "dns" ? "DNS" : participant.status === "dnf" ? "DNF" : "";
+      const progress = state.finished
+        ? "Finished " + formatTenths(state.finishElapsed)
+        : (location === "mark_200" ? "Pass " : "Lap ") + state.done + " of " + state.total;
+      const lastLap = state.lastLapSeconds != null ? "Last " + (state.lastLapMeters && state.lastLapMeters !== Number(detail.session.lap_length_meters) ? state.lastLapMeters + " m " : "lap ") + formatTenths(state.lastLapSeconds) : "No laps yet";
+      const total = state.lastElapsed != null ? "Total " + formatTenths(state.lastElapsed) : "";
+      const flash = recentlyRecordedIds.has(id) ? " sw-lap-btn-flash" : "";
+      return (
+        '<div class="sw-lap-entry' + (out || state.finished ? " sw-lap-entry-out" : "") + '" data-runner-card="' + escapeHtml(id) + '">' +
+          '<button class="sw-lap-btn' + flash + '" type="button" data-lap-tap="' + escapeHtml(id) + '"' + (out || state.finished ? " disabled" : "") + '>' +
+            '<span class="sw-lap-name">' + escapeHtml(participantName(participant)) + (outLabel ? " (" + outLabel + ")" : "") + '</span>' +
+            '<span class="sw-lap-progress">' + escapeHtml(progress) + '</span>' +
+            '<span class="sw-lap-times">' + escapeHtml(lastLap) + (total ? " &middot; " + escapeHtml(total) : "") + '</span>' +
+          '</button>' +
+          '<div class="sw-lap-actions">' +
+            '<button class="sw-runner-small-btn" type="button" data-lap-undo="' + escapeHtml(id) + '"' + (state.lastCheckpointId ? "" : " disabled") + '>Undo last</button>' +
+            '<button class="sw-runner-small-btn" type="button" data-dns="' + escapeHtml(id) + '">DNS</button>' +
+            '<button class="sw-runner-small-btn" type="button" data-dnf="' + escapeHtml(id) + '">DNF</button>' +
+            '<button class="sw-runner-small-btn" type="button" data-lap-dq="' + escapeHtml(id) + '">' + (participant.disqualified ? "Clear DQ" : "DQ") + '</button>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join("");
+  }
+
   // ---- capture actions ---------------------------------------------------------
 
-  function recordSplit({ participantId, checkpointId, elapsedSeconds, captureMethod, packCaptureId = null, wallClockCapturedAtMs = Timer.serverNowMs(), clientSplitId = null, changeReason = "recorded" }) {
+  function recordSplit({ participantId, checkpointId, elapsedSeconds, captureMethod, packCaptureId = null, wallClockCapturedAtMs = Timer.serverNowMs(), clientSplitId = null, changeReason = "recorded", lapTap = false }) {
     const finalClientSplitId = clientSplitId || Store.generateClientSplitId();
     const clockStatus = clockSync.status();
     const record = Store.buildSplitRecord({
@@ -814,6 +1060,8 @@
       clockOffsetMs: Timer.getClockOffsetMs(), clockUncertaintyMs: clockStatus.synced ? clockStatus.uncertaintyMs : null
     });
     record.change_reason = changeReason;
+    // Track build Phase 2: a new lap mode tap -- the server places it by time.
+    if (lapTap) record.lap_tap = true;
 
     // Update in-memory state and re-render IMMEDIATELY -- the tap is
     // acknowledged before anything touches IndexedDB or the network.
@@ -1025,7 +1273,7 @@
       showMessage("The race clock is not running yet.", true);
       return;
     }
-    const capturedAtMs = Date.now();
+    const capturedAtMs = Timer.serverNowMs();
     const checkpoint = currentCheckpoint();
     const selectedIds = [...packSelected];
     if (selectedIds.length === 0) return;
@@ -1222,6 +1470,10 @@
   }
 
   function renderRunnerList() {
+    if (isLapMode()) {
+      renderLapList();
+      return;
+    }
     const checkpoint = currentCheckpoint();
     renderCheckpointTabs();
 
@@ -1366,6 +1618,24 @@
   }
 
   runnerList.addEventListener("click", (event) => {
+    const lapTap = event.target.closest("[data-lap-tap]");
+    if (lapTap) {
+      const participant = detail.participants.find((p) => p.id === lapTap.dataset.lapTap);
+      if (participant) handleLapTap(participant);
+      return;
+    }
+    const lapUndo = event.target.closest("[data-lap-undo]");
+    if (lapUndo) {
+      const participant = detail.participants.find((p) => p.id === lapUndo.dataset.lapUndo);
+      if (participant) handleLapUndo(participant);
+      return;
+    }
+    const lapDq = event.target.closest("[data-lap-dq]");
+    if (lapDq) {
+      const participant = detail.participants.find((p) => p.id === lapDq.dataset.lapDq);
+      if (participant) handleDisqualify(participant);
+      return;
+    }
     const tap = event.target.closest("[data-tap]");
     if (tap) {
       const participant = detail.participants.find((p) => p.id === tap.dataset.tap);
@@ -1804,7 +2074,9 @@
       // Don't hard-gate on a Supabase user here -- a race-day access code
       // visitor never has one. Let the actual API call (authorized via
       // bearer token OR the race-day cookie, server-side) decide.
-      detail = await apiFetch(SYNC_ENDPOINT, { action: "pull_state" });
+      const deadlineAtMs = firstLoadDeadline;
+      firstLoadDeadline = null;
+      detail = await apiFetch(SYNC_ENDPOINT, { action: "pull_state" }, { deadlineAtMs });
 
       if (detail.session.status === "finished" || detail.session.status === "reviewed") {
         window.location.replace("/split-watch/review/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(sessionId));

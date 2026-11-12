@@ -307,6 +307,56 @@ const clock = {};
   await two.context.close();
 }
 
+// ---- 4. Lap mode on the live page (track build Phase 2) ------------------------
+// A fake 1600 already running: one big button per entry; a tap records
+// that entry's lap 1; an immediate second tap is ignored (same lap); Undo
+// clears it again.
+const lap = {};
+{
+  const startedAt = new Date(Date.now() - 75_000).toISOString();
+  const lapRace = {
+    team: { id: TEAM, school_name: "Test School" },
+    session: { id: RACE, team_id: TEAM, name: "Test 1600 (fake)", status: "live", sport: "track", tap_mode: "lap", event_key: "1600", lap_length_meters: 400, distance_meters: 1600, distance_unit_display: "meters", race_date: "2026-11-12", race_started_at: startedAt, race_start_adjustment_seconds: 0, is_rehearsal: false },
+    checkpoints: [1, 2, 3, 4].map((n) => ({ id: "test-lap-" + n, label: n === 4 ? "Finish (1600)" : "Lap " + n + " (" + n * 400 + ")", distance_meters: n * 400, sort_order: n, is_finish: n === 4, location: "finish_line", is_exchange: false })),
+    participants: [{ id: "test-p-1", manual_name: "Test Runner A", display_name: "Test Runner A", status: "started", sort_order: 1, disqualified: false }, { id: "test-p-2", manual_name: "Test Runner B", display_name: "Test Runner B", status: "started", sort_order: 2, disqualified: false }],
+    goals: [], targets: [], splits: []
+  };
+  const pushed = [];
+  const { context, page } = await newPage();
+  await context.route("**/api/**", async (route) => {
+    const url = route.request().url();
+    const body = JSON.parse(route.request().postData() || "{}");
+    const now = Date.now();
+    const stamp = (extra) => ({ ...extra, server_received_ms: now, server_sent_ms: Date.now(), viewer: { type: "team_user", position: null } });
+    if (url.includes("/api/split-watch/clock/")) return route.fulfill({ json: { server_received_ms: now, server_sent_ms: Date.now() } });
+    if (url.includes("/api/split-watch/sync/") && body.action === "push_splits") {
+      pushed.push(...(body.splits || []));
+      return route.fulfill({ json: stamp({ results: (body.splits || []).map((x) => ({ client_split_id: x.client_split_id, split: { ...x, wall_clock_captured_at: x.wall_clock_captured_at }, revision_written: true })) }) });
+    }
+    if (url.includes("/api/split-watch/sync/")) return route.fulfill({ json: stamp(lapRace) });
+    return route.fulfill({ json: stamp({ sessions: [] }) });
+  });
+  await page.goto(base + "/split-watch/live/?id=" + TEAM + "&race=" + RACE, { waitUntil: "load" });
+  await page.locator('[data-lap-tap="test-p-1"]').waitFor({ state: "visible", timeout: 20000 });
+  lap.buttons = await page.locator("[data-lap-tap]").count();
+  lap.tabsHidden = await page.locator("[data-sw-checkpoint-indicator]").isHidden();
+  await page.locator('[data-lap-tap="test-p-1"]').click();
+  await page.waitForTimeout(300);
+  lap.afterTap = (await page.locator('[data-lap-tap="test-p-1"]').innerText()).replace(/\s+/g, " ");
+  await page.locator('[data-lap-tap="test-p-1"]').click(); // a nervous second tap
+  await page.waitForTimeout(300);
+  lap.message = await page.locator("[data-sw-message]").textContent();
+  lap.afterDouble = (await page.locator('[data-lap-tap="test-p-1"]').innerText()).replace(/\s+/g, " ");
+  await page.locator('[data-lap-undo="test-p-1"]').click();
+  await page.waitForTimeout(300);
+  lap.afterUndo = (await page.locator('[data-lap-tap="test-p-1"]').innerText()).replace(/\s+/g, " ");
+  await page.waitForTimeout(9000); // let the 8 s sync push
+  lap.pushedLapTaps = pushed.filter((x) => x.lap_tap === true).length;
+  lap.pushedCheckpoint = (pushed.find((x) => x.lap_tap === true) || {}).race_checkpoint_id;
+  lap.errors = page.errors.join("; ");
+  await context.close();
+}
+
 await browser.close();
 server.close();
 
@@ -333,4 +383,14 @@ assert.ok(Math.abs(clock.afterReloadOffBy) <= 0.3, "after a reload, within 0.3 s
 assert.ok(Math.abs(clock.starterTapStoresCorrection - 15000) < 300, "each tap stores the correction it used");
 assert.match(clock.statusLine, /^Clock synced/, "the clock status line shows the clock is synced");
 assert.equal(clock.errors, "", "no page errors");
+console.log("Lap mode:", JSON.stringify(lap));
+assert.equal(lap.buttons, 2, "one big button per entry");
+assert.equal(lap.tabsHidden, true, "no checkpoint tabs in lap mode");
+assert.match(lap.afterTap, /Lap 1 of 4/, "a tap records that entry's lap 1");
+assert.match(lap.message, /ignored/i, "an immediate second tap is ignored");
+assert.match(lap.afterDouble, /Lap 1 of 4/, "still lap 1 after the double tap");
+assert.match(lap.afterUndo, /Lap 0 of 4/, "Undo clears the lap");
+assert.equal(lap.pushedLapTaps, 1, "one lap tap sent to the server, flagged for placement by time");
+assert.equal(lap.pushedCheckpoint, "test-lap-1");
+assert.equal(lap.errors, "", "no page errors in lap mode");
 console.log("Split Watch browser checks passed.");

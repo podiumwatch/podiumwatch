@@ -458,11 +458,85 @@
     }
   });
 
+  // ---- track events (track build Phase 2) -----------------------------------
+  // Sport "Track" shows an event picker. A 3200, 1600 or 800 is a lap mode
+  // race: its checkpoints are built from the event and the track's lap,
+  // and the distance and checkpoint fields hide. "Custom" keeps the usual
+  // checkpoint rows (without cross country's "Mile 1" placeholder).
+  const sportSelect = createForm.querySelector('select[name="sport"]');
+  const trackSetup = createForm.querySelector("[data-sw-track-setup]");
+  const trackEvent = createForm.querySelector("[data-sw-track-event]");
+  const trackLap = createForm.querySelector("[data-sw-track-lap]");
+  const trackMarksWrap = createForm.querySelector("[data-sw-track-marks-wrap]");
+  const trackMarks = createForm.querySelector("[data-sw-track-marks]");
+  const trackPreview = createForm.querySelector("[data-sw-track-preview]");
+  const checkpointSection = createForm.querySelector("[data-sw-checkpoint-section]");
+  const distanceFields = [...createForm.querySelectorAll("[data-sw-distance-field]")];
+  const distanceInput = createForm.querySelector('input[name="distance_value"]');
+
+  function isLapEvent() {
+    return sportSelect && sportSelect.value === "track" && trackEvent && trackEvent.value !== "";
+  }
+
+  function refreshTrackSetup() {
+    if (!sportSelect || !trackSetup) return;
+    const track = sportSelect.value === "track";
+    trackSetup.hidden = !track;
+    const lap = isLapEvent();
+    distanceFields.forEach((field) => { field.hidden = lap; });
+    if (distanceInput) distanceInput.required = !lap;
+    if (checkpointSection) checkpointSection.hidden = lap;
+    checkpointRows.querySelectorAll(".sw-cp-label").forEach((input) => { input.placeholder = track ? "e.g. 400 m" : "Mile 1"; });
+    if (trackMarksWrap) trackMarksWrap.hidden = !(lap && trackEvent.value === "800" && trackLap.value === "400");
+    if (trackPreview) {
+      trackPreview.textContent = "";
+      if (lap && window.PodiumRaceLaps) {
+        try {
+          const list = window.PodiumRaceLaps.generateLapCheckpoints({ eventKey: trackEvent.value, lapLengthMeters: Number(trackLap.value), include200Marks: Boolean(trackMarks && trackMarks.checked && !trackMarksWrap.hidden) });
+          trackPreview.textContent = "Splits: " + list.map((c) => c.label).join(", ");
+        } catch (error) {
+          trackPreview.textContent = error.message;
+        }
+      }
+    }
+  }
+  [sportSelect, trackEvent, trackLap, trackMarks].forEach((el) => el && el.addEventListener("change", () => {
+    // Switching to track clears cross country's starter "Mile" rows.
+    if (el === sportSelect && sportSelect.value === "track") {
+      checkpointRows.querySelectorAll(".sw-cp-label").forEach((input) => {
+        if (/^Mile \d+$/.test(input.value)) input.closest(".sw-checkpoint-row")?.remove();
+      });
+    }
+    refreshTrackSetup();
+  }));
+  refreshTrackSetup();
+
   createForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     showMessage("");
 
     const formData = new FormData(createForm);
+    if (isLapEvent()) {
+      // Lap mode race: the server builds the checkpoints from the event.
+      try {
+        const data = await apiFetch("/api/split-watch/sessions/", {
+          action: "create",
+          name: formData.get("name"),
+          race_date: formData.get("race_date"),
+          sport: "track",
+          event_key: trackEvent.value,
+          lap_length_meters: Number(trackLap.value),
+          include_200_marks: Boolean(trackMarks && trackMarks.checked && !trackMarksWrap.hidden),
+          distance_meters: Number(trackEvent.value),
+          distance_unit_display: "meters",
+          checkpoints: []
+        });
+        window.location.href = "/split-watch/plan/?id=" + encodeURIComponent(teamId) + "&race=" + encodeURIComponent(data.session.id);
+      } catch (error) {
+        showMessage(error.message || "The race could not be created.", true);
+      }
+      return;
+    }
     const distanceValue = Number(formData.get("distance_value"));
     const unit = String(formData.get("distance_unit_display") || "miles");
     const distanceMeters = distanceValue * unitToMeters(unit);

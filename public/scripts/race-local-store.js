@@ -277,6 +277,13 @@
     return runTransaction(SPLITS_STORE, "readonly", (store) => requestToPromise(store.get(clientSplitId)));
   }
 
+  // Track build Phase 2: lap mode removes this phone's own copy of a tap
+  // the server placed elsewhere (or refused as a tap past the finish),
+  // keeping the server's row instead.
+  function deleteSplitLocal(clientSplitId) {
+    return runTransaction(SPLITS_STORE, "readwrite", (store) => requestToPromise(store.delete(clientSplitId)));
+  }
+
   function markSplitSynced(clientSplitId) {
     return runTransaction(SPLITS_STORE, "readwrite", (store) => {
       const getReq = store.get(clientSplitId);
@@ -340,6 +347,7 @@
     getSplitsForSession,
     getUnsyncedSplits,
     getSplitLocal,
+    deleteSplitLocal,
     markSplitSynced,
     deleteSplitsForSession,
     saveRevisionLocal,

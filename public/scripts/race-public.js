@@ -340,8 +340,12 @@
   const Request = window.PodiumSwRequest;
   let hasRendered = false;
 
+  let firstLoadDeadline = Request.loadDeadline();
   function fetchOnce() {
+    const deadlineAtMs = firstLoadDeadline;
+    firstLoadDeadline = null;
     return Request.api(ENDPOINT, { session_id: currentSessionId || undefined, team_id: teamId || undefined }, {
+      deadlineAtMs,
       useToken: false,
       fallback: "This race could not be loaded."
     });

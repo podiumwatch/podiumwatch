@@ -91,7 +91,17 @@ window.PodiumSwRequest = (() => {
   // throws SwRequestError. onUnauthorized runs on a real 401 (the
   // existing "go enter the code" redirect); a 401 that followed a failed
   // token load is a connection problem, so it is retryable instead.
-  async function api(endpoint, payload, { fallback = "The request could not be completed.", onUnauthorized = null, timeoutMs = REQUEST_TIMEOUT_MS, useToken = true, timing = null } = {}) {
+  // A page's FIRST load: give up 15 s after the page started loading (not
+  // after its script got going), so a slow page load can't push the Try
+  // again past ~16 s. Pass the result as deadlineAtMs on the first load
+  // only; retries and later requests keep the full timeout.
+  function loadDeadline(ms = REQUEST_TIMEOUT_MS) {
+    const origin = typeof performance !== "undefined" && performance.timeOrigin ? performance.timeOrigin : Date.now();
+    return origin + ms;
+  }
+
+  async function api(endpoint, payload, { fallback = "The request could not be completed.", onUnauthorized = null, timeoutMs: requestedTimeoutMs = REQUEST_TIMEOUT_MS, useToken = true, timing = null, deadlineAtMs = null } = {}) {
+    const timeoutMs = deadlineAtMs ? Math.max(1000, Math.min(requestedTimeoutMs, deadlineAtMs - Date.now())) : requestedTimeoutMs;
     // One budget for the whole call: the token wait counts against
     // timeoutMs, so a fully stalled network gives up in about 15 s, not
     // token wait + 15 s.
@@ -156,5 +166,5 @@ window.PodiumSwRequest = (() => {
     return retry;
   }
 
-  return { REQUEST_TIMEOUT_MS, TOKEN_TIMEOUT_MS, TIMEOUT_MESSAGE, SwRequestError, request, api, accessToken, withTimeout, isConnectionError, showRetry };
+  return { REQUEST_TIMEOUT_MS, TOKEN_TIMEOUT_MS, TIMEOUT_MESSAGE, SwRequestError, request, api, accessToken, withTimeout, isConnectionError, showRetry, loadDeadline };
 })();
