@@ -23,3 +23,8 @@ dataimports/pw_logos/
 dataimports/site_logos_2026-11-01/
 dataimports/team_logos_match.json
 dataimports/awards_2026/
+
+# Athletic.net pull (2026-11-11): browser profile and pulled data stay out of the public repo
+.playwright-an-profile/
+dataimports/athletic_net_pull_2026-11/
+dataimports/postseason_track_pull_2026-11/
