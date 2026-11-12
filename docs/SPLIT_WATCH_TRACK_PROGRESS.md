@@ -5,7 +5,7 @@ The plan is `docs/SPLIT_WATCH_TRACK_HANDOFF.md`. One phase per session; Zachary 
 | Phase | Status | Date | Commit |
 |---|---|---|---|
 | 1. Close the hang paths and the offline reload gap | Done and approved; committed locally (not on GitHub as of the Phase 2 session) | 2026-11-12 | f2afd1fa, 9d43cdf9 (clock) |
-| 2. Lap mode (3200, 1600, 800) | Done, committed locally, not pushed; needs install/96 | 2026-11-12 | see Phase 2 below |
+| 2. Lap mode (3200, 1600, 800) | Done, committed locally, not pushed; needs install/96 | 2026-11-12 | cc5b2879 |
 | 3. Relays | Not started | | |
 | 4. Meet wide crews and stronger codes | Not started | | |
 | 5. Full offline (service worker, offline start) | Not started | | |
