@@ -214,78 +214,76 @@ const {
 }
 
 // --- Timer engine (public/scripts/race-timer.js) ----------------------------
-// Every test here injects fake nowMs/perfNowMs sources instead of touching
-// the real clock, so elapsed-at-tap behavior is a deterministic pure
-// function of the injected values, matching the plan's requirement.
+// Race clock accuracy (track build Phase 1, 2026-11-12): ONE time source
+// for every phone -- (this phone's clock + its correction to server time)
+// minus the official start (server time). The old design (performance.now()
+// on the starting phone, uncorrected start time) left the clock about 15 s
+// off the official clock in live testing. Fake clocks injected throughout.
 
 {
-  // A fake monotonic clock that only ever moves forward when advanced --
-  // this is what proves elapsedNow() is driven by perfNowMs, not nowMs.
-  let fakePerfMs = 0;
   let fakeWallMs = 1_000_000;
-  const timer = createRaceTimer({
-    nowMs: () => fakeWallMs,
-    perfNowMs: () => fakePerfMs
-  });
+  const timer = createRaceTimer({ nowMs: () => fakeWallMs });
 
   assert.equal(timer.isLive(), false, "A timer must not be live before startRace() is called.");
   assert.equal(timer.elapsedNow(), null, "elapsedNow() must be null before the race starts, never 0 (0 would be indistinguishable from 'just started').");
 
-  const { raceStartWallClockMs } = timer.startRace();
-  assert.equal(raceStartWallClockMs, 1_000_000, "startRace() must anchor the wall clock at the injected nowMs value.");
+  // This phone's clock is 15 s behind the server's.
+  timer.setClockOffsetMs(15_000);
+  const tapLocalMs = fakeWallMs;
+  fakeWallMs += 2_500; // the coach took 2.5 s to answer the confirm box
+  const { raceStartWallClockMs } = timer.startRace(tapLocalMs);
+  assert.equal(raceStartWallClockMs, 1_015_000, "startRace(tap) must return the TAP moment in server time (tap + correction), not the phone's own clock and not when the confirm box was answered.");
   assert.equal(timer.isLive(), true);
-  assert.equal(timer.elapsedNow(), 0, "Elapsed time must be exactly 0 at the instant of start.");
+  assert.equal(timer.elapsedNow(), 2.5, "Elapsed time counts from the tap.");
 
-  // Advance only the monotonic clock -- elapsedNow() must track it exactly.
-  fakePerfMs = 12_340;
-  assert.equal(timer.elapsedNow(), 12.34, "elapsedNow() must equal (perfNowMs - startPerfMs) / 1000.");
+  fakeWallMs += 9_840;
+  assert.equal(timer.elapsedNow(), 12.34, "elapsedNow() must equal (phone clock + correction - official start) / 1000.");
   assert.equal(timer.captureElapsedAtTap(), 12.34, "captureElapsedAtTap() must return the same value as elapsedNow() at that instant.");
+  assert.deepEqual(timer.elapsedOrRecovered(), { elapsedSeconds: 12.34, precision: "synced", clockOffsetMs: 15_000 }, "elapsedOrRecovered() reports the correction in use.");
 
-  // Simulate a system clock jump (e.g. NTP correction, timezone change)
-  // that moves the wall clock without moving the monotonic clock at all --
-  // elapsedNow() must be completely unaffected, proving it is monotonic-
-  // clock-driven, not wall-clock-driven, during a live session.
-  fakeWallMs += 5_000_000;
-  assert.equal(timer.elapsedNow(), 12.34, "A wall-clock jump during a live session must never affect the monotonic elapsed reading.");
-
-  const live = timer.elapsedOrRecovered();
-  assert.deepEqual(live, { elapsedSeconds: 12.34, precision: "monotonic" }, "elapsedOrRecovered() must prefer the live monotonic path and tag it 'monotonic' while the session is live.");
+  // The phone's own clock jumps (it synced its time): the clock sync
+  // measures a new correction, and elapsed time stays right.
+  fakeWallMs += 15_000;
+  timer.setClockOffsetMs(0);
+  assert.equal(timer.elapsedNow(), 12.34, "After a phone clock change and a fresh correction, elapsed time is unchanged.");
 }
 
 {
-  // Simulate a page reload: a fresh timer instance (performance.now()
-  // truly does reset to 0 on every real page load) recovers only from a
-  // persisted wall-clock value.
-  let fakeWallMs = 1_000_000;
-  const timer = createRaceTimer({ nowMs: () => fakeWallMs, perfNowMs: () => 0 });
-
+  // A reload, or any other phone: take the official start (server time).
+  let fakeWallMs = 2_000_000;
+  const timer = createRaceTimer({ nowMs: () => fakeWallMs });
   assert.equal(timer.recoverElapsed(), null, "recoverElapsed() must be null with no anchor set at all.");
   assert.equal(timer.elapsedOrRecovered(), null, "elapsedOrRecovered() must be null with no anchor set at all.");
-
-  timer.recoverFromWallClock(1_000_000);
-  assert.equal(timer.isLive(), false, "Recovering from the wall clock must never claim the session is live -- a monotonic anchor cannot be reconstructed after a reload.");
-
-  fakeWallMs = 1_009_500; // 9.5 real seconds later
-  assert.equal(timer.recoverElapsed(), 9.5, "recoverElapsed() must derive elapsed time from the wall-clock anchor after a reload.");
-
-  const recovered = timer.elapsedOrRecovered();
-  assert.deepEqual(recovered, { elapsedSeconds: 9.5, precision: "recovered" }, "elapsedOrRecovered() must fall back to the wall-clock path and tag it 'recovered' (lower precision) after a reload, never claim 'monotonic' precision it doesn't have.");
+  timer.recoverFromWallClock(2_000_000 - 9_500 + 3_000); // official start; this phone is 3 s behind the server
+  timer.setClockOffsetMs(3_000);
+  assert.equal(timer.recoverElapsed(), 9.5, "A reload or another phone gets the same elapsed time from the official start.");
+  assert.equal(timer.elapsedOrRecovered().precision, "synced");
 }
 
 {
-  // reset() must fully clear a timer back to its pre-start state.
-  const timer = createRaceTimer({ nowMs: () => 1, perfNowMs: () => 1 });
+  // Before any correction is measured, the phone's time is used as-is and
+  // labelled so.
+  const timer = createRaceTimer({ nowMs: () => 50_000 });
+  timer.recoverFromWallClock(40_000);
+  assert.deepEqual(timer.elapsedOrRecovered(), { elapsedSeconds: 10, precision: "device_clock", clockOffsetMs: null });
+}
+
+{
+  // reset() clears the race; the correction (a property of this phone's
+  // clock) stays until the clock sync refreshes it.
+  const timer = createRaceTimer({ nowMs: () => 1 });
+  timer.setClockOffsetMs(500);
   timer.startRace();
   assert.equal(timer.isLive(), true);
   timer.reset();
-  assert.equal(timer.isLive(), false, "reset() must clear the live monotonic anchor.");
-  assert.equal(timer.getRaceStartWallClockMs(), null, "reset() must clear the wall-clock anchor too.");
+  assert.equal(timer.isLive(), false, "reset() must clear the official start.");
+  assert.equal(timer.getRaceStartWallClockMs(), null);
   assert.equal(timer.elapsedOrRecovered(), null, "A reset timer must report no elapsed time at all.");
+  assert.equal(timer.getClockOffsetMs(), 500);
 }
 
 console.log("Timer engine (public/scripts/race-timer.js) validated with injected fake time sources:");
-console.log("Confirmed elapsedNow()/captureElapsedAtTap() are driven purely by the monotonic clock and are completely unaffected by a simulated wall-clock jump during a live session.");
-console.log("Confirmed the post-reload recovery path derives elapsed time only from the persisted wall-clock anchor, is correctly tagged 'recovered' (lower precision) rather than 'monotonic', and that isLive() never lies about having a live monotonic session after a reload.");
+console.log("Confirmed one time source for every phone (corrected clock minus the official start), the start taken at the tap in server time, a phone clock change absorbed by a fresh correction, reload/other-phone agreement, and reset().");
 console.log("Confirmed reset() fully clears both anchors.");
 
 // --- Local-first persistence record shapes (public/scripts/race-local-store.js) ---
@@ -538,40 +536,30 @@ console.log("Server-side calculation port (lib/race_math.mjs) validated as byte-
   const { createRaceTimer } = global.window.PodiumRaceTimer;
 
   // -- race-timer.js: clock offset correction (Section 3) --------------------
-  // Two devices with DIFFERENT wall clocks must still agree on elapsed
-  // time once a server-derived offset is applied -- this is the fix for
-  // "different phones can have different wall clocks."
+  // Two devices with DIFFERENT wall clocks must agree on elapsed time once
+  // each applies its own correction -- now for EVERY phone, including the
+  // one that pressed Start (race clock accuracy, 2026-11-12).
   {
     let fakeNow = 1_000_000;
-    const timer = createRaceTimer({ nowMs: () => fakeNow, perfNowMs: () => 0 });
-    timer.recoverFromWallClock(1_000_000 - 10_000); // race "started" 10s ago per THIS device's clock
+    const timer = createRaceTimer({ nowMs: () => fakeNow });
+    timer.recoverFromWallClock(1_000_000 - 10_000);
     const withoutOffset = timer.recoverElapsed();
-    assert.ok(Math.abs(withoutOffset - 10) < 0.001, "With no offset applied, recovered elapsed must be the raw wall-clock difference.");
-
-    // This device's clock is actually running 4 seconds fast (server
-    // time is 4s BEHIND what this device thinks "now" is) -- a real,
-    // confirmed-possible scenario at a real meet with no reliable signal.
+    assert.ok(Math.abs(withoutOffset - 10) < 0.001, "With no offset applied, elapsed is the raw clock difference.");
     timer.setClockOffsetMs(-4000);
     const withOffset = timer.recoverElapsed();
-    assert.ok(Math.abs(withOffset - 6) < 0.001, "A -4000ms clock offset must shave 4 seconds off the recovered elapsed time.");
-
-    timer.reset();
-    assert.equal(timer.recoverElapsed(), null, "reset() must clear the clock offset along with every anchor -- a stale offset must never survive into a new race.");
+    assert.ok(Math.abs(withOffset - 6) < 0.001, "A -4000ms clock offset must shave 4 seconds off elapsed time.");
   }
-
-  // The monotonic (live-session) path must NEVER be affected by the
-  // clock offset -- it never needed wall-clock agreement in the first
-  // place, and a bug that accidentally applied the offset there would
-  // reintroduce exactly the kind of divergence this whole fix removes.
   {
-    let fakePerf = 5000;
-    const timer = createRaceTimer({ nowMs: () => 0, perfNowMs: () => fakePerf });
-    timer.startRace();
-    timer.setClockOffsetMs(99999);
-    fakePerf = 5000 + 3000;
-    const result = timer.elapsedOrRecovered();
-    assert.equal(result.precision, "monotonic");
-    assert.ok(Math.abs(result.elapsedSeconds - 3) < 0.001, "The monotonic path must ignore any clock offset entirely.");
+    // The starting phone uses the same correction as everyone else.
+    let fakeNow = 0;
+    const starter = createRaceTimer({ nowMs: () => fakeNow });
+    starter.setClockOffsetMs(7000); // starter's clock 7 s behind the server
+    const { raceStartWallClockMs } = starter.startRace();
+    const other = createRaceTimer({ nowMs: () => fakeNow - 2000 }); // another phone 2 s further behind
+    other.setClockOffsetMs(9000);
+    other.recoverFromWallClock(raceStartWallClockMs);
+    fakeNow = 600_000;
+    assert.ok(Math.abs(starter.elapsedNow() - other.elapsedNow()) < 0.001, "The starting phone and another phone agree.");
   }
 }
 

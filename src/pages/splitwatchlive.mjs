@@ -1065,6 +1065,7 @@ export function splitWatchLivePage(site) {
   <script src="/scripts/pace-splits.js" defer></script>
   <script src="/scripts/race-math.js" defer></script>
   <script src="/scripts/race-timer.js" defer></script>
+  <script src="/scripts/race-clock-sync.js" defer></script>
   <script src="/scripts/race-local-store.js" defer></script>
   <script src="/scripts/device-readiness.js" defer></script>
   <script src="/scripts/split-watch-request.js" defer></script>

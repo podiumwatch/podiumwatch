@@ -32,6 +32,10 @@ function cleanText(value) {
 }
 
 export default async function handler(request, response) {
+  // Race clock accuracy (track build Phase 1, 2026-11-12): when the request
+  // arrived, so the phone can take the server's own processing time out of
+  // its clock measurement (public/scripts/race-clock-sync.js).
+  const serverReceivedMs = Date.now();
   response.setHeader("Cache-Control", "no-store");
 
   if (request.method !== "POST") {
@@ -162,7 +166,7 @@ export default async function handler(request, response) {
     const position = actor.type === "race_day_code"
       ? { capability: actor.capability, checkpointId: actor.checkpointId, raceSessionId: actor.raceSessionId }
       : null;
-    return response.status(200).json({ ...data, viewer: { type: actor.type, label: actor.label, position } });
+    return response.status(200).json({ ...data, server_received_ms: serverReceivedMs, server_sent_ms: Date.now(), viewer: { type: actor.type, label: actor.label, position } });
   } catch (error) {
     return teamApiError(
       response,

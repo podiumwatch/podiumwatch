@@ -2247,3 +2247,9 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - team-auth-client.js: the config request is bounded (10 s), a failed load isn't cached, and it waits up to 8 s for the account library, which Split Watch pages now load async so a stalled CDN download can't block the page script.
 - The live page opens a race that has already started from the copy saved on the phone when the server can't be reached, with a Working offline banner; it warns before leaving with taps unsent. Airplane-mode reloads need the service worker (Phase 5).
 - The public race page keeps a race on screen through connection blips; only a real not-found answer replaces it.
+
+## 2026-11-12: Split Watch race clock accuracy (track Phase 1 addition)
+
+- Every phone times the race as (its clock + correction to server time) minus the official start in server time. performance.now() is no longer used (it can stop while an Android phone sleeps).
+- The start is the tap moment (before the confirm box) in server time. The correction is the shortest-round-trip of several NTP-style samples (api/split-watch/clock.js; sync and sessions replies carry server receive/send times), slow samples thrown away, refreshed every minute and on visibility/reconnect.
+- Each tap keeps the correction it used on the phone; storing it on the server needs a race_splits column (Phase 2 migration). Details: docs/SPLIT_WATCH_TRACK_PROGRESS.md.

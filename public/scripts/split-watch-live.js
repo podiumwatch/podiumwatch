@@ -252,15 +252,55 @@
   // itself.
   let lastKnownClockOffsetMs = 0;
 
-  function updateClockOffset(serverNowIso, requestSentMs, responseReceivedMs) {
-    if (!serverNowIso) return;
-    const serverNowMs = Date.parse(serverNowIso);
-    if (Number.isNaN(serverNowMs)) return;
-    const roundTripMidpointMs = (requestSentMs + responseReceivedMs) / 2;
-    const offsetMs = serverNowMs - roundTripMidpointMs;
+  // Race clock accuracy (track build Phase 1, 2026-11-12): the single
+  // midpoint sample above is replaced by public/scripts/race-clock-sync.js
+  // -- NTP-style samples from the dedicated /api/split-watch/clock/
+  // endpoint (and from every sync reply, which now carries the server's
+  // receive and send times), the shortest round trip wins, slow samples
+  // are thrown away. Measured on load, every minute, when the page comes
+  // back into view, and on reconnect.
+  const CLOCK_ENDPOINT = "/api/split-watch/clock/";
+  const CLOCK_REFRESH_MS = 60000;
+  const clockSync = window.PodiumRaceClockSync.createClockSync();
+  let measuringClock = null;
+
+  function applyClockSync() {
+    const offsetMs = clockSync.offsetMs();
+    if (offsetMs === null) return;
     Timer.setClockOffsetMs(offsetMs);
     lastKnownClockOffsetMs = offsetMs;
   }
+
+  function addClockSample(sample) {
+    const result = clockSync.addSample(sample);
+    if (result && result.accepted) applyClockSync();
+  }
+
+  // A few quick samples in a row; stops early on a failure. Never throws.
+  function measureClock(count = 4) {
+    if (measuringClock) return measuringClock;
+    measuringClock = (async () => {
+      for (let i = 0; i < count; i += 1) {
+        const sentMs = Date.now();
+        try {
+          const { response, data } = await Request.request(CLOCK_ENDPOINT, { method: "GET", headers: { Accept: "application/json" }, timeoutMs: 4000 });
+          const receivedMs = Date.now();
+          if (response.ok) addClockSample({ sentMs, serverReceivedMs: data.server_received_ms, serverSentMs: data.server_sent_ms, receivedMs });
+        } catch {
+          break;
+        }
+        if (i < count - 1) await new Promise((resolve) => setTimeout(resolve, 150));
+      }
+    })().finally(() => { measuringClock = null; });
+    return measuringClock;
+  }
+
+  setInterval(() => { if (!document.hidden) measureClock(3); }, CLOCK_REFRESH_MS);
+  window.addEventListener("online", () => { measureClock(3); });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") measureClock(3);
+  });
+  measureClock(5);
 
   async function apiFetch(endpoint, payload) {
     // Don't gate on a Supabase access token here -- a race-day access code
@@ -293,7 +333,10 @@
       onUnauthorized: () => window.location.replace("/split-watch/join/?next=" + encodeURIComponent(window.location.pathname + window.location.search))
     });
     if (offlineMode) leaveOfflineMode();
-    updateClockOffset(data.server_now, timing.sentMs, timing.receivedMs);
+    // Every sync reply is a free clock sample (server receive/send times).
+    if (data.server_received_ms && data.server_sent_ms) {
+      addClockSample({ sentMs: timing.sentMs, serverReceivedMs: data.server_received_ms, serverSentMs: data.server_sent_ms, receivedMs: timing.receivedMs });
+    }
     if (data.viewer?.type) viewerType = data.viewer.type;
     if (data.viewer && "position" in data.viewer) viewerPosition = data.viewer.position;
     return data;
@@ -337,10 +380,12 @@
     };
     if (saved.viewer?.type) viewerType = saved.viewer.type;
     if (saved.viewer && "position" in saved.viewer) viewerPosition = saved.viewer.position;
-    if (Number.isFinite(saved.clock_offset_ms)) {
-      lastKnownClockOffsetMs = saved.clock_offset_ms;
-      Timer.setClockOffsetMs(saved.clock_offset_ms);
+    // Same clock correction as before the reload (the best saved sample),
+    // unless a fresh one was already measured on this load.
+    if (!clockSync.status().synced && !clockSync.restore(saved.clock_sample) && Number.isFinite(saved.clock_offset_ms)) {
+      clockSync.restore({ offsetMs: saved.clock_offset_ms, rttMs: 1000, atMs: saved.saved_at_ms || Date.now() });
     }
+    applyClockSync();
     raceClockAdjustmentSeconds = Number(saved.session.race_start_adjustment_seconds) || 0;
     currentCheckpointIndex = Math.min(saved.current_checkpoint_index || 0, Math.max(0, detail.checkpoints.length - 1));
     raceNameEl.textContent = saved.session.name;
@@ -370,7 +415,8 @@
     return {
       splits: (detail && detail.splits) || [],
       viewer: { type: viewerType, position: viewerPosition },
-      clockOffsetMs: lastKnownClockOffsetMs
+      clockOffsetMs: lastKnownClockOffsetMs,
+      clockSample: clockSync.snapshot()
     };
   }
 
@@ -461,6 +507,8 @@
           capture_method: s.capture_method,
           pack_capture_id: s.pack_capture_id,
           device_id: s.device_id,
+          clock_offset_ms: s.clock_offset_ms,
+          clock_uncertainty_ms: s.clock_uncertainty_ms,
           is_dns: s.is_dns,
           is_dnf: s.is_dnf,
           change_reason: s.change_reason || undefined
@@ -693,7 +741,7 @@
     const result = Timer.elapsedOrRecovered();
     if (!result) return;
     clockEl.textContent = formatSecondsToClock(correctedElapsedSeconds(result.elapsedSeconds));
-    clockNoteEl.textContent = result.precision === "recovered" ? "Recovered -- timing based on device clock" : "";
+    clockNoteEl.textContent = window.PodiumRaceClockSync.describeStatus(clockSync.status(), { offline: offlineMode });
   }
   setInterval(tickClock, 200);
 
@@ -756,12 +804,14 @@
 
   // ---- capture actions ---------------------------------------------------------
 
-  function recordSplit({ participantId, checkpointId, elapsedSeconds, captureMethod, packCaptureId = null, wallClockCapturedAtMs = Date.now(), clientSplitId = null, changeReason = "recorded" }) {
+  function recordSplit({ participantId, checkpointId, elapsedSeconds, captureMethod, packCaptureId = null, wallClockCapturedAtMs = Timer.serverNowMs(), clientSplitId = null, changeReason = "recorded" }) {
     const finalClientSplitId = clientSplitId || Store.generateClientSplitId();
+    const clockStatus = clockSync.status();
     const record = Store.buildSplitRecord({
       clientSplitId: finalClientSplitId, raceSessionId: sessionId, raceParticipantId: participantId,
       raceCheckpointId: checkpointId, elapsedSeconds, wallClockCapturedAtMs, captureMethod,
-      packCaptureId, deviceId: deviceId, synced: false
+      packCaptureId, deviceId: deviceId, synced: false,
+      clockOffsetMs: Timer.getClockOffsetMs(), clockUncertaintyMs: clockStatus.synced ? clockStatus.uncertaintyMs : null
     });
     record.change_reason = changeReason;
 
@@ -1611,6 +1661,10 @@
   });
 
   startButton.addEventListener("click", async () => {
+    // Race clock accuracy: the start is the moment Start was TAPPED --
+    // taken here, before the confirm box below (answering it used to add
+    // a second or more), and converted to server time by Timer.startRace().
+    const tapLocalMs = Date.now();
     // A last, explicit check naming the exact race -- see
     // sw-start-race-banner's own comment above for the real incident
     // this (and the banner, and the switcher right next to it) exist
@@ -1626,7 +1680,11 @@
       // immediately, before any network call -- if this device really is
       // the one starting the race, that anchor is exactly right and
       // costs nothing to have captured early.
-      const { raceStartWallClockMs } = Timer.startRace();
+      // No correction yet (first samples still in flight): wait briefly
+      // for one. The tap moment is already captured, so this wait never
+      // moves the start.
+      if (!clockSync.status().synced) await Request.withTimeout(measureClock(3), 5000).catch(() => {});
+      const { raceStartWallClockMs } = Timer.startRace(tapLocalMs);
       const result = await apiFetch(SESSIONS_ENDPOINT, { action: "start_race", race_started_at: new Date(raceStartWallClockMs).toISOString() });
 
       if (result.started_by_this_request) {

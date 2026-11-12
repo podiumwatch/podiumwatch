@@ -61,6 +61,19 @@ async function newPage({ stallAll = false } = {}) {
   return { context, page };
 }
 
+// Button screens: time it inside the page, from the click to the moment
+// the button is usable again (Playwright's own click and polling overhead
+// is not the app's).
+const timeButton = (page, selector) => page.evaluate((sel) => new Promise((resolve) => {
+  const button = document.querySelector(sel);
+  let clickedAt = null;
+  button.addEventListener("click", () => { clickedAt = performance.now(); }, { capture: true, once: true });
+  new MutationObserver((list, observer) => {
+    if (clickedAt !== null && !button.disabled) { observer.disconnect(); resolve(performance.now() - clickedAt); }
+  }).observe(button, { attributes: true, attributeFilter: ["disabled"] });
+  setTimeout(() => resolve(null), 20000);
+}), selector);
+
 // ---- 1. Stalled network ----------------------------------------------------
 const results = [];
 const stallScreens = [
@@ -93,10 +106,10 @@ for (const screen of stallScreens) {
   await context.route("**/api/**", () => {});
   await page.goto(`${base}/split-watch/join/`, { waitUntil: "commit" });
   await page.locator("[data-swj-code-input]").fill("1234");
-  const started = Date.now();
+  const timing = timeButton(page, "[data-swj-submit]");
   await page.locator("[data-swj-submit]").click();
-  await page.waitForFunction(() => { const b = document.querySelector("[data-swj-submit]"); return b && !b.disabled; }, null, { timeout: LIMIT_MS + 2000 }).catch(() => {});
-  const ms = Date.now() - started;
+  const measured = await timing;
+  const ms = measured === null ? Infinity : Math.round(measured);
   const state = await page.evaluate(() => ({ enabled: !document.querySelector("[data-swj-submit]").disabled, label: document.querySelector("[data-swj-submit]").textContent, message: document.querySelector("[data-swj-message]").textContent }));
   results.push({ screen: "Code entry (Join button)", ms, ok: state.enabled && state.label === "Join" && /try again/i.test(state.message) && ms <= LIMIT_MS, errors: page.errors.join("; ") });
   await context.close();
@@ -110,10 +123,10 @@ for (const screen of stallScreens) {
   await page.goto(`${base}/split-watch/races/?id=${TEAM}`, { waitUntil: "commit" });
   await page.locator("[data-swr-join-name]").waitFor({ state: "visible", timeout: 30000 });
   await page.locator("[data-swr-join-name]").fill("Test Helper");
-  const started = Date.now();
+  const timing = timeButton(page, "[data-swr-join-confirm]");
   await page.locator("[data-swr-join-confirm]").click();
-  await page.waitForFunction(() => { const b = document.querySelector("[data-swr-join-confirm]"); return b && !b.disabled; }, null, { timeout: LIMIT_MS + 2000 }).catch(() => {});
-  const ms = Date.now() - started;
+  const measured = await timing;
+  const ms = measured === null ? Infinity : Math.round(measured);
   const state = await page.evaluate(() => ({ enabled: !document.querySelector("[data-swr-join-confirm]").disabled, message: document.querySelector("[data-swr-join-message]").textContent }));
   results.push({ screen: "Position confirmation", ms, ok: state.enabled && /try again/i.test(state.message) && ms <= LIMIT_MS, errors: page.errors.join("; ") });
   await context.close();
@@ -207,6 +220,93 @@ const offline = {};
   await context.close();
 }
 
+// ---- 3. Race clock accuracy (added to Phase 1, 2026-11-12) -------------------
+// The fake server's clock runs 15 s AHEAD of this computer's. The coach
+// taps Start, takes 2 s to answer the confirm box, and the start request
+// then takes 8 s to reach the server. The recorded start must be the tap,
+// in server time, within 0.3 s. Then two phones (the starter and a second
+// one) tap runners, the starter reloads and taps again: every tap's
+// elapsed time must be within 0.3 s of true elapsed time.
+const clock = {};
+{
+  const SERVER_AHEAD_MS = 15_000;
+  const serverNow = () => Date.now() + SERVER_AHEAD_MS;
+  let session = { id: RACE, team_id: TEAM, name: "Test race (fake)", status: "scheduled", sport: "cross_country", distance_meters: 5000, distance_unit_display: "km", race_date: "2026-11-12", race_started_at: null, race_start_adjustment_seconds: 0, is_rehearsal: false };
+  const race = {
+    team: { id: TEAM, school_name: "Test School" },
+    checkpoints: [{ id: "test-cp-1", label: "Test 1K", distance_meters: 1000, sort_order: 1, is_finish: false }, { id: "test-cp-2", label: "Test finish", distance_meters: 5000, sort_order: 2, is_finish: true }],
+    participants: [{ id: "test-p-1", manual_name: "Test Runner A", display_name: "Test Runner A", status: "started", sort_order: 1 }, { id: "test-p-2", manual_name: "Test Runner B", display_name: "Test Runner B", status: "started", sort_order: 2 }],
+    goals: [], targets: [], splits: []
+  };
+  let startRequestBody = null;
+  async function wire(context) {
+    await context.route("**/api/**", async (route) => {
+      const received = serverNow();
+      const url = route.request().url();
+      const body = JSON.parse(route.request().postData() || "{}");
+      const stamp = (extra) => ({ ...extra, server_now: new Date(serverNow()).toISOString(), server_received_ms: received, server_sent_ms: serverNow(), viewer: { type: "team_user", position: null } });
+      if (url.includes("/api/split-watch/clock/")) return route.fulfill({ json: { server_received_ms: received, server_sent_ms: serverNow() } });
+      if (url.includes("/api/split-watch/sessions/") && body.action === "start_race") {
+        startRequestBody = body;
+        await new Promise((resolve) => setTimeout(resolve, 8000)); // the delayed start request
+        session = { ...session, status: "live", race_started_at: body.race_started_at };
+        return route.fulfill({ json: stamp({ session, started_by_this_request: true }) });
+      }
+      if (url.includes("/api/split-watch/sessions/")) return route.fulfill({ json: stamp({ sessions: [] }) });
+      if (url.includes("/api/split-watch/sync/") && body.action === "push_splits") return route.fulfill({ json: stamp({ results: (body.splits || []).map((x) => ({ client_split_id: x.client_split_id, split: x, revision_written: true })) }) });
+      if (url.includes("/api/split-watch/sync/")) return route.fulfill({ json: stamp({ ...race, session }) });
+      return route.fulfill({ json: {} });
+    });
+  }
+  const localSplit = (page, participantId) => page.evaluate((pid) => new Promise((resolve) => {
+    const open = indexedDB.open("podium_race_command_center");
+    open.onsuccess = () => { const req = open.result.transaction("race_splits_local", "readonly").objectStore("race_splits_local").getAll(); req.onsuccess = () => resolve(req.result.filter((x) => x.race_participant_id === pid).sort((x, y) => y.wall_clock_captured_at_ms - x.wall_clock_captured_at_ms)[0] || null); };
+  }), participantId);
+
+  const one = await newPage();
+  await wire(one.context);
+  await one.page.goto(base + "/split-watch/live/?id=" + TEAM + "&race=" + RACE, { waitUntil: "load" });
+  await one.page.locator("[data-sw-start-button]").waitFor({ state: "visible", timeout: 20000 });
+  await one.page.waitForTimeout(2500); // first clock samples
+  one.page.once("dialog", (dialog) => setTimeout(() => dialog.accept(), 2000)); // 2 s to answer the confirm box
+  const tapLocalMs = Date.now();
+  await one.page.locator("[data-sw-start-button]").click();
+  await one.page.locator("[data-sw-live-screen]").waitFor({ state: "visible", timeout: 30000 });
+  const trueStartMs = tapLocalMs + SERVER_AHEAD_MS;
+  clock.startOffBy = (Date.parse(startRequestBody.race_started_at) - trueStartMs) / 1000;
+  const trueElapsedAt = (localMs) => (localMs + SERVER_AHEAD_MS - trueStartMs) / 1000;
+
+  // Phone two joins the live race.
+  const two = await newPage();
+  await wire(two.context);
+  await two.page.goto(base + "/split-watch/live/?id=" + TEAM + "&race=" + RACE, { waitUntil: "load" });
+  await two.page.locator("[data-sw-live-screen]").waitFor({ state: "visible", timeout: 20000 });
+  await two.page.waitForTimeout(2500);
+
+  // Both tap a runner; compare with true elapsed at each tap.
+  const tapOne = Date.now(); await one.page.locator('[data-tap="test-p-1"]').first().click();
+  const tapTwo = Date.now(); await two.page.locator('[data-tap="test-p-2"]').first().click();
+  await one.page.waitForTimeout(500);
+  const s1 = await localSplit(one.page, "test-p-1");
+  const s2 = await localSplit(two.page, "test-p-2");
+  clock.starterOffBy = s1.elapsed_seconds - trueElapsedAt(tapOne);
+  clock.secondPhoneOffBy = s2.elapsed_seconds - trueElapsedAt(tapTwo);
+  clock.starterTapStoresCorrection = s1.clock_offset_ms;
+  clock.statusLine = await one.page.locator("[data-sw-clock-note]").textContent();
+
+  // The starter reloads, then taps the other runner.
+  await one.page.reload({ waitUntil: "load" });
+  await one.page.locator("[data-sw-live-screen]").waitFor({ state: "visible", timeout: 20000 });
+  await one.page.waitForTimeout(2500);
+  const tapReload = Date.now(); await one.page.locator('[data-tap="test-p-2"]').first().click();
+  await one.page.waitForTimeout(500);
+  const s3 = await localSplit(one.page, "test-p-2");
+  clock.afterReloadOffBy = s3.elapsed_seconds - trueElapsedAt(tapReload);
+  clock.errors = [...one.page.errors, ...two.page.errors].join("; ");
+  await one.context.close();
+  await two.context.close();
+}
+
 await browser.close();
 server.close();
 
@@ -225,4 +325,12 @@ assert.ok(offline.sentIds > offline.uniqueSent, "the failed push was resent (so 
 assert.equal(offline.uniqueSent, 2, "a resend reuses the same tap IDs, so the server keeps exactly one row per tap");
 assert.equal(offline.pendingAfter, 0, "nothing left waiting after the sync");
 assert.equal(offline.bannerAfterReconnect, true, "the banner clears once the server answers");
+console.log("Race clock (server 15 s ahead, 2 s confirm, 8 s start request):", JSON.stringify(clock));
+assert.ok(Math.abs(clock.startOffBy) <= 0.3, "the recorded start matches the tap within 0.3 s (off by " + clock.startOffBy + ")");
+assert.ok(Math.abs(clock.starterOffBy) <= 0.3, "starting phone's tap within 0.3 s of true elapsed (off by " + clock.starterOffBy + ")");
+assert.ok(Math.abs(clock.secondPhoneOffBy) <= 0.3, "second phone's tap within 0.3 s (off by " + clock.secondPhoneOffBy + ")");
+assert.ok(Math.abs(clock.afterReloadOffBy) <= 0.3, "after a reload, within 0.3 s (off by " + clock.afterReloadOffBy + ")");
+assert.ok(Math.abs(clock.starterTapStoresCorrection - 15000) < 300, "each tap stores the correction it used");
+assert.match(clock.statusLine, /^Clock synced/, "the clock status line shows the clock is synced");
+assert.equal(clock.errors, "", "no page errors");
 console.log("Split Watch browser checks passed.");

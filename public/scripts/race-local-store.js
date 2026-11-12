@@ -70,6 +70,7 @@
     splits = null,
     viewer = null,
     clockOffsetMs = null,
+    clockSample = null,
     savedAtMs = Date.now()
   }) {
     return {
@@ -84,6 +85,9 @@
       splits: Array.isArray(splits) ? splits : [],
       viewer: viewer || null,
       clock_offset_ms: Number.isFinite(clockOffsetMs) ? clockOffsetMs : null,
+      // The best clock sample (race-clock-sync.js snapshot()), so a reload
+      // keeps the same correction and its age.
+      clock_sample: clockSample || null,
       saved_at_ms: savedAtMs
     };
   }
@@ -106,7 +110,13 @@
     revision = 1,
     isDns = false,
     isDnf = false,
-    synced = false
+    synced = false,
+    // Race clock accuracy (track build Phase 1, 2026-11-12): the clock
+    // correction this phone used for this tap (server time - phone time)
+    // and its error bar, so a questionable split can be traced later.
+    // null when the phone had no correction yet.
+    clockOffsetMs = null,
+    clockUncertaintyMs = null
   }) {
     return {
       client_split_id: clientSplitId,
@@ -121,7 +131,9 @@
       revision,
       is_dns: isDns,
       is_dnf: isDnf,
-      synced
+      synced,
+      clock_offset_ms: Number.isFinite(clockOffsetMs) ? clockOffsetMs : null,
+      clock_uncertainty_ms: Number.isFinite(clockUncertaintyMs) ? clockUncertaintyMs : null
     };
   }
 
