@@ -4,9 +4,9 @@ The plan is `docs/SPLIT_WATCH_TRACK_HANDOFF.md`. One phase per session; Zachary 
 
 | Phase | Status | Date | Commit |
 |---|---|---|---|
-| 1. Close the hang paths and the offline reload gap | Done and approved; committed locally (not on GitHub as of the Phase 2 session) | 2026-11-12 | f2afd1fa, 9d43cdf9 (clock) |
-| 2. Lap mode (3200, 1600, 800) | Done, committed locally, not pushed; needs install/96 | 2026-11-12 | cc5b2879 |
-| 3. Relays | Not started | | |
+| 1. Close the hang paths and the offline reload gap | Done, approved, pushed | 2026-11-12 | f2afd1fa, 9d43cdf9 (clock) |
+| 2. Lap mode (3200, 1600, 800) | Done, approved, pushed; install/96 run | 2026-11-12 | cc5b2879 |
+| 3. Relays | Done, committed locally (D: working copy), not pushed; needs install/97 | 2026-11-12 | 871fab6f |
 | 4. Meet wide crews and stronger codes | Not started | | |
 | 5. Full offline (service worker, offline start) | Not started | | |
 | 6. Public viewer for track | Not started | | |
@@ -88,3 +88,31 @@ The plan is `docs/SPLIT_WATCH_TRACK_HANDOFF.md`. One phase per session; Zachary 
 
 - Pack capture is select-then-capture today, not "tap now, assign after", so it stays a checkpoint-mode feature; lap mode hides it.
 - Helpers with a single-checkpoint position can only tap that checkpoint; until Phase 4 (meet-wide, location-based positions), give lap mode helpers a "backup" position.
+
+## Phase 3: relays (2026-11-12)
+
+**Where the work is:** the C: drive was full (0 MB free), so this phase was built and committed in a separate working copy on the D: drive, `D:\PodiumWatch\pw_site_phase3` (a clone of the C: repo, with `node_modules` linked from C:). Nothing was pushed. To bring the commit into the C: repo once there's space: `git pull D:/PodiumWatch/pw_site_phase3 main` from the C: repo (a fast-forward).
+
+**Database:** `install/97_SPLIT_WATCH_RELAYS.sql` (additive only). Adds `race_sessions.relay_leg_meters` (the leg distances in order; null for everything that isn't a relay), `race_participants.entry_type` (`individual` default, or `relay`), and a new `race_relay_legs` table (leg order, distance, and a rostered athlete, a typed name, or neither = TBD; never both; server-only access like every race_ table).
+
+**How relays are modeled:** a relay team is ONE entry (a race_participants row, `entry_type` relay, `manual_name` = the team's name) that runs laps. So lap mode, the double tap guard, undo, time-based placement and the two phone rules from Phase 2 all apply unchanged. Legs are a layer on top. Exchanges are checkpoints with `is_exchange`. A leg split is never stored: it's the exchange time minus the previous exchange (or the start), worked out when shown, so changing who runs a leg only changes names.
+
+**What it does**
+
+- Hub: Track events now include 4x800, 4x400, 4x200, 4x100 (finish only) and Custom relay (leg distances typed in order, e.g. 1200, 400, 800, 1600 for a DMR; 2 to 8 legs, steps of 100 m, at most 10,000 m). Checkpoints are built from the legs and the track's lap: a split at the finish line every lap, the ones at a leg's end flagged as exchanges. An exchange halfway round a 400 m track (the 4x200's 200 and 600, an SMR's 200) is optional ("Also time the exchanges at the 200 m mark") and labeled approximate because of the stagger. An exchange that can't be tapped from either place (after a 100 m leg) has no checkpoint; those legs show together.
+- Plan page: for a relay, "Add runners" is replaced by "Relay teams": add teams (named A team, B team... automatically, editable), pick each leg's runner from the roster, type a name, or leave TBD. Editable up to and during the race. The server checks each leg runner is on this team's roster, one runner per leg, unique team names, the right number of legs, and refuses to remove a team that already has times (mark it DNS/DNF instead). The individual-runner save is refused on a relay (it would have deleted the teams).
+- Live page: each relay button shows the team, who's running now ("Leg 2: name"; "Legs 1-2" when the exchange between them isn't timed), laps done, and the last leg split. A tap at an exchange closes that leg and shows its split straight away. Leg names are in the saved copy, so they still show offline, and a leg change made mid race reaches the phones on the next background pull.
+- Review: a team's review adds a Legs table (leg, runner, distance, leg split to the tenth) and the team total; the lap column already gives the 400s inside an 800 leg.
+- Rehearsal: "Practice this race" now copies lap mode fields (tap mode, event, lap length, checkpoint locations and exchanges) and relay teams with their legs. **Found and fixed here:** before this, a rehearsal of a Phase 2 lap mode race (a 1600) came out as an ordinary checkpoint race.
+
+**Checked**
+
+- `scripts/test-split-watch-relays.mjs` (new, in `npm test`): presets for every relay on 400 m and 200 m tracks; the REAL service (create, save teams, lap taps through pushSplits, review) against an in-memory fake database: 4x800 and 4x400 with two fake teams each, leg splits sum to the team total and the right athlete is on every leg, 400s inside 800 legs; changing the leg order mid race moves names and changes no recorded time; a custom 1200/400/800/1600 relay's exchanges and leg splits; lapped relay teams; validation; browser/server parity; cross country and individual races unchanged. (A deliberately broken copy of the test fails, so the checks are real.)
+- `scripts/test-split-watch-browser.mjs`: a relay on the live page in real Chrome (leg runner on the button, leg split shown at the exchange, next leg's runner after); every earlier check still passes.
+- A one-off browser check of the plan page relay editor at phone width (add a team, pick roster / typed / TBD legs, save, reload): no page errors, no sideways scroll.
+- Full `npm test` passes.
+
+**Not done / open**
+
+- The public parent page shows a relay team by its team name only; leg names and leg splits for parents are Phase 6.
+- A relay leg runner doesn't show the race on that athlete's own Split Watch view (athlete and guardian pages find races by entry, and a relay entry is the team). Worth deciding with the profile question in section 7.
