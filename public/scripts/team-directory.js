@@ -290,6 +290,8 @@
         "[data-team-directory-logo]"
       )
       .forEach((image) => {
+        if (image.dataset.fallbackAttached) return;
+        image.dataset.fallbackAttached = "1";
         image.addEventListener(
           "error",
           () => {
@@ -313,15 +315,43 @@
       });
   }
 
+  // Site fixes F (2026-11-13): 24 cards at a time instead of all 608 at
+  // once. Search and filters still run over every team (the server
+  // returns every match); "Load more teams" adds the next 24.
+  const PAGE_SIZE = 24;
+  let allTeams = [];
+  let shownCount = 0;
+  const moreWrap = document.createElement("p");
+  moreWrap.className = "team-directory-more";
+  moreWrap.style.cssText = "margin:24px 0 0;text-align:center;";
+  moreWrap.hidden = true;
+  const moreButton = document.createElement("button");
+  moreButton.type = "button";
+  moreButton.className = "button button-outline";
+  moreButton.setAttribute("data-team-directory-more", "");
+  moreWrap.appendChild(moreButton);
+  results.insertAdjacentElement("afterend", moreWrap);
+
+  function showMoreTeams() {
+    const next = allTeams.slice(shownCount, shownCount + PAGE_SIZE);
+    results.insertAdjacentHTML("beforeend", next.map(renderTeam).join(""));
+    shownCount += next.length;
+    attachImageFallbacks();
+    const remaining = allTeams.length - shownCount;
+    moreWrap.hidden = remaining <= 0;
+    moreButton.textContent = "Load more teams (" + remaining + " more)";
+  }
+  moreButton.addEventListener("click", showMoreTeams);
+
   function renderTeams(teams) {
+    allTeams = teams;
+    shownCount = 0;
     countBox.textContent =
       String(teams.length);
     empty.hidden = teams.length > 0;
     results.hidden = teams.length === 0;
-    results.innerHTML = teams
-      .map(renderTeam)
-      .join("");
-    attachImageFallbacks();
+    results.innerHTML = "";
+    showMoreTeams();
   }
 
   async function loadTeams() {
