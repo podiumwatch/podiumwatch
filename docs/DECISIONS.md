@@ -2286,3 +2286,25 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Fan Poll text follows season phases (closed for the season outside cross country). Mock Meets say the season is complete after the state meet day.
 - Mock Postseason hubs load regional card bodies and State sections on demand (parts/*.json next to the page); /teams/ shows 24 cards at a time.
 - Scripts use fileURLToPath, so the repo builds from a folder with spaces.
+
+## 2026-11-13: Site redesign step 1, shared parts (branch site-redesign)
+
+- Header: logo; Home, News, Results, Rankings, Teams, Mock Meets, More (existing dropdowns); one search field (opens the existing search dialog; / and Ctrl+K unchanged); green Split Watch button (same Coach Sign In / Race Day Code panel and redirect). At 1100px and below: logo, search icon, menu button; the menu opens a drawer with Split Watch at the bottom.
+- Moved out of the header: the Ohio running ticker (dropped; it linked to /meets/, now in the footer); Pace Calculator (More menu and footer); Shop (footer, still /go/merch/nav/); Watch/YouTube and Instagram (footer).
+- Footer: Results, Rankings, Teams & tools, Podium Watch, then a legal line (Editorial Standards, Privacy, Terms) and Support Podium Watch. "All Rankings" (/rankings/), Fan Poll and the three calculators are listed because no other footer or menu link reaches them on desktop. The old Connect group became Instagram and YouTube under Podium Watch.
+- Phone bottom bar: Home, My Podium, Results, Rankings, Teams (Meets moved to the footer). Shown at 820px and below.
+- Components in src/lib/components.mjs: pageBand, tabsRow, filterChips (links, so filters are shareable URLs), dataTable (Show more rows stay in the HTML), statCards, podiumCards, panel, school color with a WCAG AA contrast rule (bandColor).
+
+## 2026-11-13: Site redesign step 7, homepage (branch site-redesign)
+
+Built ahead of step 6 (rankings) at Zachary's request. Layout in src/pages/home.mjs; scripts/build.mjs only gathers the data.
+- Order: team bar (Find your team, Search athletes, one dated call to action), lead story and recaps list on the left with the "Right now" panel on the right (phone and tablet: lead, panel, recaps), More from the newsroom (4 cards), Rankings (OATCCC poll and Podium Watch rankings), Tools (6 tiles), slim shop strip.
+- Lead story: the same 8-story lead set (admin lead first in the browser); arrows, headline tabs (aria-pressed), arrow keys and swipe. No auto-rotation. Only the first photo loads with the page; the others load when shown.
+- Team bar call to action: the existing DATED_CTAS with a short `bar` wording; hides itself at its end time (site.js).
+- Right now: the state champions from src/data/state-champions-2026.json while the season phase is xc-wrapup, each row linking to /state/2026/<division>/. Latest results and Upcoming meets come from the meet calendar and stay hidden when empty.
+- Recaps list: the newest story series (Division I to IV order), else the stories after the lead set.
+- OATCCC poll: Boys/Girls and D1 to D4 buttons, no sponsor. Podium Watch rankings panel: "Presented by Spike Town at Runners Plus" through /go/spike-town-runners-plus/home-rankings/ (new placement), "Sponsored by Raising Cane's" under Top 10, text only.
+- Shop: merchStripHtml, default product, same /go/merch/home/ tracking. The large card under the lead is gone.
+- Removed from the homepage: the second story carousel, the slogan headings, the My Podium follow panel (My Podium is in Tools and the phone bar), the recent fan photos block, the postseason-only "Regionals are in the books" and "Have your say" sections (Podium Play is in the More menu).
+- Follow-up (Zachary, 2026-11-13): the homepage is rendered on the server (api/pages/home.js; vercel.json rewrite for "/", story files included in the function). The admin-set lead is decided before the page is sent; no 1.2-second wait in the browser. Edge cache 60 seconds. The build no longer writes dist/index.html. Footer Results group gains Meet Photos (/photos/).
+- The cover (Zachary, 2026-11-13): a newly published story always takes over the homepage lead. A hand-set admin lead holds only until a story dated after the day it was set (Ohio time) is published (handLeadHolds, public/scripts/front-lead.mjs). /front follows the same rule. Homepage tiles and the lead use the card photo (featuredImage) before the header photo.

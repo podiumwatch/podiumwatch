@@ -45,7 +45,9 @@ test("support card: placed on the awards hub and after a vote (taking turns with
   assert.match(awards, /data-pw-alt="support" hidden/);
   assert.match(awards, /data-pws-after hidden/);
   assert.ok(awards.indexOf("supportScripts()") < awards.indexOf("merchScripts()", awards.indexOf("supportScripts()") - 200), "support-card.js loads before merch-card.js");
-  assert.match(fs.readFileSync("lib/render/athlete_page.mjs", "utf8"), /supportSection\(\{ placement: "athlete"/);
+  // Site redesign step 4: the donation block is gone from athlete pages
+  // (Support stays in the footer on every page).
+  assert.doesNotMatch(fs.readFileSync("lib/render/athlete_page.mjs", "utf8"), /supportSection\(/);
   assert.match(fs.readFileSync("lib/render/banquet_page.mjs", "utf8"), /supportSection\(\{ placement: "banquet"/);
   assert.match(fs.readFileSync("lib/render/wrapped_page.mjs", "utf8"), /supportCardHtml\(\{ placement: "wrapped"/);
   const merch = fs.readFileSync("public/scripts/merch-card.js", "utf8");
@@ -54,7 +56,7 @@ test("support card: placed on the awards hub and after a vote (taking turns with
 });
 
 test("footer: a Support Podium Watch link on every page", () => {
-  assert.match(fs.readFileSync("src/lib/html.mjs", "utf8"), /<a class="footer-support" href="\/support\/">Support Podium Watch<\/a>/);
+  assert.match(fs.readFileSync("src/lib/html.mjs", "utf8"), /<a class="pw-support" href="\/support\/">Support Podium Watch<\/a>/);
 });
 
 test("Stripe: the one-time link is set, no monthly link, and the page button goes through /go/support/", () => {

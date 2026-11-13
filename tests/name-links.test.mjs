@@ -92,8 +92,10 @@ test("header: a Teams menu with Teams and Athletes; Teams in the mobile bar; hom
   const html = fs.readFileSync("src/lib/html.mjs", "utf8");
   assert.match(html, /<a href="\/teams\/" aria-label="Teams" data-dock-path="\/teams\/">/);
   assert.match(fs.readFileSync("src/styles/main.css", "utf8"), /\.mobile-dock \{[^}]*grid-template-columns:repeat\(6,1fr\)/);
-  const build = fs.readFileSync("scripts/build.mjs", "utf8");
-  assert.match(build, /<form class="home-find-team-form" action="\/teams\/" method="get" role="search">/);
+  // Homepage redesign (step 7): "Find your team" is in the team bar.
+  const home = fs.readFileSync("src/pages/home.mjs", "utf8");
+  assert.match(home, /<form class="pw-find" action="\/teams\/" method="get" role="search"/);
+  assert.match(home, /name="search"/);
   assert.match(fs.readFileSync("public/scripts/team-directory.js", "utf8"), /get\("search"\)/);
 });
 

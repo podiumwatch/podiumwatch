@@ -1,5 +1,7 @@
-import { athletePageHtml } from "../../lib/render/athlete_page.mjs";
+import { athletePageHtml, teammatesFor } from "../../lib/render/athlete_page.mjs";
 import { cleanSlug, loadDatabaseProfile } from "../../lib/athlete_profile_service.mjs";
+import { loadTeamPage } from "../../lib/team_page_service.mjs";
+import { teamSlugForSchool } from "../../lib/team_colors.mjs";
 import { featuredRunsFor } from "../../lib/front_page_service.mjs";
 import { site } from "../../src/config/site.mjs";
 
@@ -47,6 +49,21 @@ export default async function handler(request, response) {
   } catch (error) {
     console.error("Athlete front page badge error:", error);
     data.front_page = [];
+  }
+  // Three teammates next on the team's roster by season best (redesign
+  // step 4); never blocks the page.
+  // A profile with a school but no team record uses that school's
+  // published team page (the page that already lists this runner on its
+  // roster), for the school color, the team link and teammates.
+  try {
+    const slug = data.team?.slug || teamSlugForSchool(data.school?.id);
+    const teamPage = slug ? await loadTeamPage(slug) : null;
+    const usable = teamPage && !teamPage.private && !teamPage.merged && teamPage.team;
+    if (!data.team && usable) data.team = { slug: teamPage.team.slug, school_name: teamPage.team.school_name, city: teamPage.team.city, logo_url: teamPage.team.logo_url, primary_color: teamPage.team.primary_color };
+    data.teammates = usable ? teammatesFor(teamPage, data.profile) : [];
+  } catch (error) {
+    console.error("Athlete teammates error:", error);
+    data.teammates = [];
   }
   response.setHeader("Content-Type", "text/html; charset=utf-8");
   const html = athletePageHtml(site, data);

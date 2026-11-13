@@ -11,7 +11,15 @@
         "paths": [
           "/rankings/cross-country/"
         ]
-      }
+      },
+      {
+        "id": "state-results",
+        "label": "State championship results",
+        "paths": [
+          "/state/"
+        ]
+      },
+      { "id": "home-rankings", "label": "Homepage rankings panel", "paths": [] }
     ]
   },
   {
@@ -62,7 +70,7 @@
       },
       {
         "id": "home",
-        "label": "Homepage, below the lead story",
+        "label": "Homepage, shop strip near the bottom",
         "paths": []
       },
       {

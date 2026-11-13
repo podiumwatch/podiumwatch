@@ -116,6 +116,10 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/teams/",
+      "destination": "/api/pages/teams"
+    },
+    {
       "source": "/rankings/leaders/",
       "destination": "/api/pages/leaders"
     },
@@ -144,6 +148,10 @@
       "destination": "/api/pages/team?slug=:slug"
     },
     {
+      "source": "/",
+      "destination": "/api/pages/home"
+    },
+    {
       "source": "/front-page/",
       "destination": "/api/pages/front-page"
     },
@@ -154,6 +162,10 @@
     {
       "source": "/front/",
       "destination": "/api/pages/front-page?go=1"
+    },
+    {
+      "source": "/:stage(state|regionals|districts)/:year([0-9]{4})/:division((?:girls|boys)-d[1-4])/",
+      "destination": "/api/pages/season-hub?stage=:stage&year=:year&division=:division"
     },
     {
       "source": "/:stage(state|regionals|districts)/:year([0-9]{4})/",
@@ -190,6 +202,12 @@
     },
     "api/og/banquet.js": {
       "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
+    },
+    "api/pages/home.js": {
+      "includeFiles": "content/{stories,rankings}/*.{md,csv}"
+    },
+    "api/pages/front-page.js": {
+      "includeFiles": "content/{stories,rankings}/*.{md,csv}"
     }
   },
   "crons": [

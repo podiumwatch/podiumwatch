@@ -2,7 +2,10 @@
   const menuButton = document.querySelector("[data-menu-button]");
   const nav = document.querySelector("[data-site-nav]");
   const overlay = document.querySelector("[data-nav-overlay]");
-  const mobileQuery = window.matchMedia("(max-width: 1320px)");
+  // Site redesign step 1 (2026-11-13): the full menu shows above 1100px;
+  // at 1100px and below the menu button opens the drawer
+  // (src/styles/main.css, "Redesign shared parts").
+  const mobileQuery = window.matchMedia("(max-width: 1100px)");
 
   const setNavigationState = (open, returnFocus = false) => {
     if (!menuButton || !nav) return;
@@ -298,7 +301,8 @@
   // cleanly on resize using the anchor span left in its original spot.
   const splitWatchDropdown = document.querySelector("[data-nav-dropdown-sw]");
   const splitWatchAnchor = document.querySelector("[data-nav-dropdown-sw-anchor]");
-  const meetsGroup = document.querySelector('[data-nav-group-name="meets"]');
+  // Redesign: the drawer has its own slot for it (falls back to Meets).
+  const meetsGroup = document.querySelector("[data-nav-sw-mobile-slot]") || document.querySelector('[data-nav-group-name="meets"]');
   if (splitWatchDropdown && splitWatchAnchor) {
     const placeSplitWatch = () => {
       if (mobileQuery.matches && meetsGroup) {
@@ -426,4 +430,23 @@
     };
     applyDated();
   }
+
+  // Site redesign shared parts (2026-11-13, src/lib/components.mjs).
+  // Tabs: on a phone the row scrolls sideways; the active tab is scrolled
+  // into view on load.
+  document.querySelectorAll("[data-pw-tabs]").forEach((row) => {
+    const active = row.querySelector('[aria-current="page"], [aria-selected="true"]');
+    if (active && row.scrollWidth > row.clientWidth) row.scrollLeft = Math.max(0, active.offsetLeft - (row.clientWidth - active.offsetWidth) / 2);
+  });
+  // "Show more": the hidden rows are already in the HTML; one click shows
+  // them in place and the button goes away.
+  document.querySelectorAll("[data-pw-more]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = document.getElementById(button.getAttribute("aria-controls"));
+      if (!target) return;
+      target.querySelectorAll("[data-pw-more-row]").forEach((row) => { row.hidden = false; });
+      button.setAttribute("aria-expanded", "true");
+      button.hidden = true;
+    });
+  });
 })();

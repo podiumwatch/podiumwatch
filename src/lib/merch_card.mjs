@@ -17,7 +17,7 @@ import settings from "../data/merch-card.json" with { type: "json" };
 //   ballot      each award ballot page, below the finalists and the vote
 //               button (never above the ballot or between finalists)
 //   after-vote  the larger card under "Vote counted"
-//   home        homepage, below the lead story
+//   home        homepage, the slim strip near the bottom (merchStripHtml)
 //   story-end   end of story pages (state recaps included)
 //   results-end end of the state, regional and district results hubs
 //   rankings-end bottom of rankings pages (never above the presenting
@@ -144,6 +144,22 @@ export function merchCardHtml({ placement = "vote-page", from = "", large = fals
       </div>
     </div>
   </div>
+</aside>`;
+}
+
+// Homepage redesign (step 7, 2026-11-13): one slim dark strip near the
+// bottom of the homepage instead of the large card under the lead. The
+// default product and color, the same /go/merch/ tracking link, no script.
+export function merchStripHtml({ placement = "home", from = "/" } = {}) {
+  if (!merchEnabled()) return "";
+  const products = cardProducts();
+  const product = products[defaultProductIndex(products)];
+  const color = product.colors[defaultColorIndex(product)];
+  const href = merchGoHref(placement, product.id, color.name, from);
+  return `<aside class="pw-shop" aria-label="${esc(settings.label)}">
+  <a class="pw-shop-photo" href="${esc(href)}" target="_blank" rel="sponsored noopener" tabindex="-1" aria-hidden="true"><img src="${esc(color.image)}" alt="" width="120" height="120" loading="lazy" decoding="async"></a>
+  <div class="pw-shop-text"><p class="pw-shop-eyebrow">${esc(merchEyebrow(product))}</p><h2>${esc(settings.headline)}</h2><p>${esc(`${product.title} in ${color.name}`)} &middot; ${esc(merchLine(product))}</p></div>
+  <a class="pw-shop-button" href="${esc(href)}" target="_blank" rel="sponsored noopener">${esc(settings.button)}</a>
 </aside>`;
 }
 

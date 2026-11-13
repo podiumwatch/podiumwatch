@@ -91,15 +91,18 @@ test("merch links: Forest Green PODIUM Varsity opens its own variant with the po
   assert.equal(nav.searchParams.get("utm_content"), "nav");
 });
 
-test("placements: ballot card below the vote button, none above the ballot, homepage below the lead", () => {
+test("placements: ballot card below the vote button, none above the ballot, homepage strip at the bottom", () => {
   const page = fs.readFileSync("src/pages/yearlyawards2026.mjs", "utf8");
   const ballot = page.slice(page.indexOf('id="vote"'), page.indexOf("data-yoy-closed"));
   assert.ok(ballot.indexOf("data-yoy-cast") < ballot.indexOf("data-yoy-ballot-shop"), "ballot card comes after the vote button");
   assert.ok(ballot.indexOf("data-yoy-vote-message") < ballot.indexOf("data-pwm-after"), "after-vote card sits under the confirmation");
   const beforeBallot = page.slice(page.indexOf("Submit nomination"), page.indexOf('id="vote"'));
   assert.doesNotMatch(beforeBallot, /merchCardHtml/, "no card above the ballot");
-  const build = fs.readFileSync("scripts/build.mjs", "utf8");
-  assert.match(build, /\$\{frontPageSection\}\$\{merchSection\(\{ placement: "home", from: "\/" \}\)\}/);
+  // Homepage redesign (step 7): one slim strip near the bottom, after the
+  // Tools row, instead of the large card under the lead story.
+  const home = fs.readFileSync("src/pages/home.mjs", "utf8");
+  assert.match(home, /merchStripHtml\(\{ placement: "home", from: "\/" \}\)/);
+  assert.ok(home.indexOf('id="tools-title"') < home.indexOf("${shopHtml}"), "shop strip comes after the Tools row");
   const sponsors = JSON.parse(fs.readFileSync("src/data/sponsors.json", "utf8"));
   const placements = (sponsors.sponsors || sponsors).find((s) => s.id === "merch").placements.map((p) => p.id);
   for (const id of ["vote-page", "ballot", "after-vote", "home", "story-end", "results-end", "rankings-end", "nav"]) assert.ok(placements.includes(id), id);

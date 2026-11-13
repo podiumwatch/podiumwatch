@@ -147,49 +147,56 @@ export const site = {
       { label: "Merch", href: "https://app.amazecommerce.com/shop/podiumwatch" }
     ] }
   ],
+  // Site redesign step 1 (2026-11-13): the footer's four groups, in the
+  // order of the approved design. Every link from the old header and
+  // footer is still reachable from the menu, this footer or the legal
+  // line (footerLegal); see docs/DECISIONS.md for the list.
   footerLinks: {
-    Coverage: [
-      { label: "Rankings", href: "/rankings/" },
+    Results: [
+      { label: "Latest Results", href: "/meets/?view=results" },
       { label: "Meets", href: "/meets/" },
-      { label: "Teams", href: "/teams/" },
-      { label: "Ohio Schools", href: "/ohio-schools/" },
-      { label: "Fan Poll", href: "/fan-poll/" },
-      { label: "Pace Calculator", href: "/pace-calculator/" },
-      { label: "Splits Calculator", href: "/splits-calculator/" },
-      { label: "Meet Scoring Calculator", href: "/scoring-calculator/" },
-      { label: "Claim Your Team", href: "/claim-your-team/" },
-      { label: "Athletes", href: "/athletes/" },
+      { label: "2026 State Results", href: "/state/2026/" },
       { label: "Tournament Hub", href: "/tournament-hub/" },
-      { label: "Ranking Methodology", href: "/rankings/methodology/" },
+      // Fan-submitted meet photos (Zachary, 2026-11-13): the homepage block
+      // that linked here left in the redesign.
+      { label: "Meet Photos", href: "/photos/" }
+    ],
+    Rankings: [
+      { label: "All Rankings", href: "/rankings/" },
       { label: "Cross Country", href: "/rankings/cross-country/" },
       { label: "Track and Field", href: "/rankings/track-and-field/" },
       { label: "Top 10", href: "/rankings/top-10/" },
       { label: "State Leaders", href: "/rankings/leaders/" },
-      { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" }
+      { label: "OATCCC Coaches Poll", href: "/rankings/oatccc/" },
+      { label: "Ranking Methodology", href: "/rankings/methodology/" }
     ],
-    // Media-credibility audit (2026-10-28), P2-2: reordered to the exact
-    // list given -- News, About, Staff, Editorial Standards, Sponsors,
-    // Contact, Privacy, Terms. Athletes/Athlete of the Week/Team of the
-    // Week/Podium Play were real, unchanged links; they just moved out
-    // of this specific column (still reachable via Coverage/nav/More).
+    "Teams & tools": [
+      { label: "Teams", href: "/teams/" },
+      { label: "Athletes", href: "/athletes/" },
+      { label: "Ohio Schools", href: "/ohio-schools/" },
+      { label: "Claim Your Team", href: "/claim-your-team/" },
+      { label: "Fan Poll", href: "/fan-poll/" },
+      { label: "Pace Calculator", href: "/pace-calculator/" },
+      { label: "Splits Calculator", href: "/splits-calculator/" },
+      { label: "Meet Scoring Calculator", href: "/scoring-calculator/" }
+    ],
     "Podium Watch": [
       { label: "News", href: "/stories/" },
       { label: "About", href: "/about/" },
       { label: "Staff", href: "/staff/" },
-      { label: "Editorial Standards", href: "/standards/" },
       { label: "Sponsors", href: "/sponsors/" },
       // Podium Watch Shop (store home, counted at /go/merch/nav/).
       { label: "Shop", href: "/go/merch/nav/", external: true },
       { label: "Contact", href: "/contact/" },
-      { label: "Privacy", href: "/privacy/" },
-      { label: "Terms", href: "/terms/" }
-    ],
-    Connect: [
       { label: "Instagram", href: "https://www.instagram.com/podiumwatch/", external: true },
-      { label: "YouTube", href: "https://www.youtube.com/@podiumwatchohio", external: true },
-      { label: "Contact", href: "/contact/" }
+      { label: "YouTube", href: "https://www.youtube.com/@podiumwatchohio", external: true }
     ]
   },
+  footerLegal: [
+    { label: "Editorial Standards", href: "/standards/" },
+    { label: "Privacy", href: "/privacy/" },
+    { label: "Terms", href: "/terms/" }
+  ],
   brand: {
     black: "#090909",
     ink: "#171717",
