@@ -116,6 +116,10 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/rankings/leaders/",
+      "destination": "/api/pages/leaders"
+    },
+    {
       "source": "/awards/2026/:category((?:athlete|team|coach)-(?:boys|girls)-d[1-4])/",
       "destination": "/api/pages/awards-2026?category=:category"
     },

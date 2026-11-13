@@ -41,7 +41,8 @@
   {
     "id": "merch",
     "name": "Podium Watch Shop",
-    "description": "Podium Watch's own shop card (src/data/merch.json, src/lib/merch_card.mjs): awards pages, the homepage, story and results pages, rankings pages, Wrapped, and the Shop menu link. Not a page sponsor: no paths.",
+    "house": true,
+    "internal_note": "Podium Watch's own shop card (src/data/merch.json, src/lib/merch_card.mjs): awards pages, the homepage, story and results pages, rankings pages, Wrapped, and the Shop menu link. Not a page sponsor: no paths.",
     "url": "https://app.amazecommerce.com/shop/podiumwatch",
     "placements": [
       {
@@ -94,7 +95,8 @@
   {
     "id": "support",
     "name": "Support Podium Watch",
-    "description": "Podium Watch's own Support card and /support/ page buttons (src/data/support.json, src/lib/support_card.mjs). Clicks go on to the Stripe payment link. Not a page sponsor: no paths.",
+    "house": true,
+    "internal_note": "Podium Watch's own Support card and /support/ page buttons (src/data/support.json, src/lib/support_card.mjs). Clicks go on to the Stripe payment link. Not a page sponsor: no paths.",
     "url": "https://www.podiumwatch.org/support/",
     "placements": [
       {

@@ -3080,3 +3080,10 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 ## 2026-11-12: OATCCC private review link
 
 - Built from OATCCC_REVIEW_LINK_HANDOFF.md. Repo is public, so with Zachary's OK the draft went to a new private Supabase bucket (oatccc-review) instead of git. Route, password gate, headers, tests (scripts/test-oatccc-review.mjs, in npm test). Local checks 1-8 passed in real Chrome and curl against the real bucket. Committed on branch oatccc-review, not pushed.
+
+## 2026-11-13: Site fixes round 1
+
+- A1 sponsors partners only; A2 State Leaders 9-11 s to 3-4 s on a throttled phone (5 s year query removed, rows server-rendered); A3 awards close verified with a faked clock, open pages flip, winners banner waits for publication.
+- B wording (approved), Verified filter choice hidden at 0, Interviews/Spotlights tag-driven, spaces-in-path fix.
+- C counts explained (556/603 schools; 19,050 = 10,275 shown + 4,936 merged duplicates + 3,839 never published; verified really 0). D out-of-season text. E names reported only.
+- F: /teams/ 13,033 to 698 elements; /mock-postseason/ 7.2 MB / 117k elements to 85 KB / 792; /real/ 5.1 MB / 86k to 88 KB / 824. Full npm test passes.

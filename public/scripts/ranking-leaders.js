@@ -66,10 +66,16 @@
     if (selectedYear) yearSelect.value = String(selectedYear);
   }
 
-  async function load() {
+  // Site fixes A2: the first view (top 50) comes rendered from the server
+  // (api/pages/leaders.js). "Show places 51 to 100" and every filter
+  // change load the full list from the API.
+  const moreButton = document.querySelector("[data-leaders-more]");
+
+  async function load({ keepRows = false } = {}) {
     if (loading) return;
     loading = true;
-    rowsEl.innerHTML = '<tr><td colspan="5" class="leaders-loading">Loading State Leaders.</td></tr>';
+    if (moreButton) moreButton.hidden = true;
+    if (!keepRows) rowsEl.innerHTML = '<tr><td colspan="5" class="leaders-loading">Loading State Leaders.</td></tr>';
 
     try {
       const data = await api({
@@ -96,7 +102,12 @@
 
   yearSelect.addEventListener("change", load);
   gradeSelect.addEventListener("change", load);
-  divisionSelect.addEventListener("change", load);
+  divisionSelect.addEventListener("change", () => load());
+  if (moreButton) moreButton.addEventListener("click", () => { moreButton.disabled = true; load({ keepRows: true }); });
 
-  load();
+  if (rowsEl.hasAttribute("data-leaders-initial")) {
+    filtersLoaded = true;
+  } else {
+    load();
+  }
 })();

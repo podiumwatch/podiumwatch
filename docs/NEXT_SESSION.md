@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-13, site fixes round 1)
+
+- Branch site-fixes-1 (pushed to GitHub, NOT merged to main, not deployed). Working copy: D:\Podium Watch\pw_site_phase3. Zachary approved section B wording; C/E findings were report-only.
+- Section E names (Josshua, Olivia MAY, Vermillion, Thonville, DeSales spellings, Lakewood (Lakewood), Perry (Perry), Gr Jr, grade 14) wait for Zachary to check against official results before any edit.
+- 3,839 athlete profiles are hidden and never published (results imports of Aug 5 and Sep 29); 950 of them have public performances. Publishing them needs Zachary.
+- Redesign (SITE_REDESIGN_MASTER_HANDOFF) waits: branch site-redesign exists, no commits.
+
 ## Start here (2026-11-12, OATCCC review link)
 
 - Branch oatccc-review (off 7ddda082, in the D: copy D:PodiumWatchpw_site_phase3), committed, not pushed. Before deploying, Zachary sets OATCCC_REVIEW_PASSWORD and OATCCC_REVIEW_COOKIE_SECRET (32+ characters) in Vercel for Production and Preview. The draft is already in the private bucket oatccc-review.

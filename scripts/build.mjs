@@ -108,7 +108,7 @@ import { mockRegionalsAllPages } from "../src/pages/mockregionals.mjs";
 // nav. Do not remove this comment boundary when wiring the real feature
 // in later -- that migration replaces mockRegionalsAllPages's data
 // source, it does not add these routes alongside it.
-import { mockPostseasonAllPages, mockPostseasonStateBasisFiles } from "../src/pages/mockpostseason.mjs";
+import { mockPostseasonAllPages, mockPostseasonPartFiles, mockPostseasonStateBasisFiles } from "../src/pages/mockpostseason.mjs";
 // mockDistrictsAllPages (src/pages/mockdistricts.mjs) is built and
 // committed but deliberately not called below yet -- the user wants Mock
 // Districts kept off the live site until more district data is sent and
@@ -117,7 +117,6 @@ import { mockPostseasonAllPages, mockPostseasonStateBasisFiles } from "../src/pa
 // told to make it live.
 // import { mockDistrictsAllPages } from "../src/pages/mockdistricts.mjs";
 import { trackDivisionsPage } from "../src/pages/trackdivisions.mjs";
-import { rankingLeadersPage } from "../src/pages/rankingleaders.mjs";
 import { athletesPage } from "../src/pages/athletes.mjs";
 import { athleteDetailPage } from "../src/pages/athletedetail.mjs";
 import { adminAthletesPage } from "../src/pages/adminathletes.mjs";
@@ -576,7 +575,7 @@ function homePage(stories, rankings) {
   // expire (data-expires, public/scripts/site.js).
   const buildNow = new Date();
   const phase = seasonPhase(buildNow);
-  const datedCallouts = Object.values(DATED_CTAS).map((cta) => `<a class="home-picks-callout" href="${escapeHtml(cta.href)}" data-starts="${escapeHtml(cta.startsAt || "")}" data-expires="${escapeHtml(cta.expiresAt || "")}"${isLive(cta, buildNow) ? "" : " hidden"}><strong>${escapeHtml(cta.title)}</strong><span>${escapeHtml(cta.detail)} ${icon("arrow")}</span></a>`).join("");
+  const datedCallouts = Object.values(DATED_CTAS).map((cta) => `<a class="home-picks-callout" href="${escapeHtml(cta.href)}" data-starts="${escapeHtml(cta.startsAt || "")}" data-expires="${escapeHtml(cta.expiresAt || "")}"${cta.showWhen ? ` data-show-when="${escapeHtml(cta.showWhen)}"` : ""}${isLive(cta, buildNow) ? "" : " hidden"}><strong>${escapeHtml(cta.title)}</strong><span>${escapeHtml(cta.detail)} ${icon("arrow")}</span></a>`).join("");
   const datedCalloutSection = `<section class="home-dated-ctas"><div class="container">${datedCallouts}</div></section>`;
   // Cross country wrap-up leads with the state meet: the 8 champions from
   // the imported official results (src/data/state-champions-2026.json,
@@ -704,7 +703,7 @@ function homePage(stories, rankings) {
   ${["xc-regular", "track-regular"].includes(phase.key) ? `  <section class="section section-paper" aria-labelledby="voting-title">
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Voting</p><h2 id="voting-title">Have your say.</h2></div></div>
-      ${[["awardsNominations", "Nominate the 2026 Athletes, Teams and Coaches of the Year.", "Nominate Now"], ["awardsVoting", "Vote for the 2026 Athletes, Teams and Coaches of the Year.", "Vote Now"], ["awardsWinners", "See the 2026 Athletes, Teams and Coaches of the Year.", "See the Winners"]].map(([key, question, button]) => `<section class="vote-now-top" data-starts="${escapeHtml(DATED_CTAS[key].startsAt)}" data-expires="${escapeHtml(DATED_CTAS[key].expiresAt)}"${isLive(DATED_CTAS[key], buildNow) ? "" : " hidden"}>
+      ${[["awardsNominations", "Nominate the 2026 Athletes, Teams and Coaches of the Year.", "Nominate Now"], ["awardsVoting", "Vote for the 2026 Athletes, Teams and Coaches of the Year.", "Vote Now"], ["awardsWinners", "See the 2026 Athletes, Teams and Coaches of the Year.", "See the Winners"]].map(([key, question, button]) => `<section class="vote-now-top" data-starts="${escapeHtml(DATED_CTAS[key].startsAt)}" data-expires="${escapeHtml(DATED_CTAS[key].expiresAt)}"${DATED_CTAS[key].showWhen ? ` data-show-when="${escapeHtml(DATED_CTAS[key].showWhen)}"` : ""}${isLive(DATED_CTAS[key], buildNow) ? "" : " hidden"}>
         <span class="vote-now-top-badge">2026 Year Awards</span>
         <div class="vote-now-body">
           <p class="vote-now-category">Ohio High School Cross Country</p>
@@ -988,7 +987,7 @@ function sportIndexPage(sportName, sportPath, divisionCount) {
   const description = sportPath === "cross-country" ? "Choose boys or girls, then select one of Ohio's four cross country divisions." : "Choose boys or girls, then select one of Ohio's five track and field divisions.";
   const divisionLinks = Array.from({ length: divisionCount }, (_, index) => index + 1).map((division) => `<a class="division-card" href="/rankings/${sportPath}/boys/division-${division}/"><strong>Division ${division}</strong><span>Open boys rankings</span></a>`).join("");
   const content = `${pageHero({ eyebrow: "Rankings", title: `${sportName} Rankings`, description })}
-  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName }])}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-1/">Boys rankings</a><a href="/rankings/${sportPath}/girls/division-1/">Girls rankings</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${divisionLinks}</div><div class="info-card" style="margin-top:24px"><h3>Looking for girls rankings?</h3><p>Choose Girls Rankings above, then select the division. Every division page has a clear empty state until a ranking file is published.</p></div></div></section>`;
+  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName }])}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-1/">Boys rankings</a><a href="/rankings/${sportPath}/girls/division-1/">Girls rankings</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${divisionLinks}</div><div class="info-card" style="margin-top:24px"><h3>Looking for girls rankings?</h3><p>Choose Girls Rankings above, then select the division. Rankings for each division appear here as they are published.</p></div></div></section>`;
   return layout({ site, title: `${sportName} Rankings`, description, pathname: `/rankings/${sportPath}/`, content });
 }
 
@@ -1008,7 +1007,7 @@ function divisionPage({ sportName, sportPath, division, divisionCount, gender, r
     ? `<div class="info-card pw-rankings-callout" style="border-left:6px solid ${escapeHtml(preseasonMatch.accent)}"><p class="eyebrow">2026 preseason team power rankings</p><h3>${escapeHtml(preseasonMatch.headline)}</h3><p>${escapeHtml(preseasonMatch.subtitle)}</p><a class="button button-dark" href="${preseasonArticleHref(preseasonMatch)}">Read the full preseason preview</a></div>`
     : "";
   const content = `${pageHero({ eyebrow: `${sportName} rankings`, title: `Division ${division} ${gender}`, description: `Published Podium Watch ${sportName.toLowerCase()} rankings for Division ${division} ${gender.toLowerCase()}.`, compact: true })}
-  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName, href: `/rankings/${sportPath}/` }, { label: `Division ${division} ${gender}` }])}${sponsorSlotHtml(pathname)}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-${division}/"${gender === "Boys" ? ' aria-current="page"' : ""}>Boys</a><a href="/rankings/${sportPath}/girls/division-${division}/"${gender === "Girls" ? ' aria-current="page"' : ""}>Girls</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${Array.from({ length: divisionCount }, (_, index) => index + 1).map((number) => `<a class="division-card" href="/rankings/${sportPath}/${gender.toLowerCase()}/division-${number}/"><strong>Division ${number}</strong><span>${number === division ? "Current division" : `View Division ${number}`}</span></a>`).join("")}</div>${preseasonCallout}<div style="margin-top:34px">${matching.length ? `<div class="rankings-grid">${matching.map((ranking) => rankingCard(ranking)).join("")}</div>` : emptyState({ title: "No rankings published here yet", description: `The Division ${division} ${gender.toLowerCase()} page is ready. Add a matching CSV file to content/rankings and rebuild the site.`, actionLabel: `View ${otherGender.toLowerCase()} rankings`, actionHref: `/rankings/${sportPath}/${otherGender.toLowerCase()}/division-${division}/` })}</div></div></section>`;
+  <section class="section section-paper"><div class="container">${breadcrumb([{ label: "Home", href: "/" }, { label: "Rankings", href: "/rankings/" }, { label: sportName, href: `/rankings/${sportPath}/` }, { label: `Division ${division} ${gender}` }])}${sponsorSlotHtml(pathname)}<div class="gender-tabs"><a href="/rankings/${sportPath}/boys/division-${division}/"${gender === "Boys" ? ' aria-current="page"' : ""}>Boys</a><a href="/rankings/${sportPath}/girls/division-${division}/"${gender === "Girls" ? ' aria-current="page"' : ""}>Girls</a></div><div class="division-grid${divisionCount === 5 ? " track-grid" : ""}">${Array.from({ length: divisionCount }, (_, index) => index + 1).map((number) => `<a class="division-card" href="/rankings/${sportPath}/${gender.toLowerCase()}/division-${number}/"><strong>Division ${number}</strong><span>${number === division ? "Current division" : `View Division ${number}`}</span></a>`).join("")}</div>${preseasonCallout}<div style="margin-top:34px">${matching.length ? `<div class="rankings-grid">${matching.map((ranking) => rankingCard(ranking)).join("")}</div>` : emptyState({ title: "No rankings published here yet", description: `The Division ${division} ${gender.toLowerCase()} page will show rankings here when they are published.`, actionLabel: `View ${otherGender.toLowerCase()} rankings`, actionHref: `/rankings/${sportPath}/${otherGender.toLowerCase()}/division-${division}/` })}</div></div></section>`;
   return { pathname, html: layout({ site, title: `Division ${division} ${gender} ${sportName} Rankings`, description: `Podium Watch Division ${division} ${gender.toLowerCase()} ${sportName.toLowerCase()} rankings.`, pathname, content }) };
 }
 
@@ -1056,13 +1055,26 @@ async function aboutPage() {
   return layout({ site, title: data.title, description: data.description, pathname: "/about/", content, jsonLd: organizationJsonLd(site) });
 }
 
-function athletePage() {
-  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}<section class="section section-paper"><div class="container content-grid"><div><p class="eyebrow">Athlete profiles</p><h2>Start with the statewide directory.</h2><p>Find athletes by name, school, graduation year, division, event, and source status.</p><a class="button button-primary" href="/athletes/">Open athlete directory</a></div><div>${emptyState({ title: "Spotlights are coming soon", description: "Long-form athlete interviews and personal stories will be published here as they are reported. In the meantime, the newsroom is covering every division.", actionLabel: "Read current stories", actionHref: "/stories/" })}</div></div></section>`;
+// Interviews and Athlete Spotlights (site fixes, 2026-11-13): no "coming
+// soon" box. Each page lists the published stories tagged for it
+// ("Interview" / "Athlete Spotlight", case-insensitive) and shows that
+// list by itself as soon as the first one is published.
+const storiesTagged = (stories, wanted) => stories.filter((story) => (story.tags || []).some((tag) => wanted.includes(String(tag).trim().toLowerCase())));
+const SPOTLIGHT_TAGS = ["athlete spotlight", "athlete spotlights", "spotlight"];
+const INTERVIEW_TAGS = ["interview", "interviews", "beyond the podium"];
+
+function athletePage(stories = []) {
+  const spotlights = storiesTagged(stories, SPOTLIGHT_TAGS);
+  const directory = `<div><p class="eyebrow">Athlete profiles</p><h2>Start with the statewide directory.</h2><p>Find athletes by name, school, graduation year, division, event, and source status.</p><a class="button button-primary" href="/athletes/">Open athlete directory</a></div>`;
+  const list = spotlights.length ? `<section class="section section-paper" aria-labelledby="spotlights-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">Athlete spotlights</p><h2 id="spotlights-title">Latest spotlights</h2></div></div><div class="stories-grid">${spotlights.map((story) => storyCard(story)).join("")}</div></div></section>` : "";
+  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}${list}<section class="section section-paper"><div class="container">${directory}</div></section>`;
   return layout({ site, title: "Athlete Spotlights", description: "Podium Watch athlete spotlights and athlete profile directory for Ohio high school cross country and track and field.", pathname: "/athlete-spotlights/", content });
 }
 
-function interviewsPage() {
-  const content = `${pageHero({ eyebrow: "Beyond the Podium", title: "Conversations beyond the finish line.", description: "Interviews about racing, pressure, setbacks, faith, goals, and the person behind the athlete." })}<section class="section section-paper"><div class="container">${emptyState({ title: "Interviews are coming soon", description: "Beyond the Podium conversations with Ohio athletes and coaches will be published here as episodes are recorded. Watch the latest on the Podium Watch YouTube channel.", actionLabel: "Visit YouTube", actionHref: site.youtubeUrl })}</div></section>`;
+function interviewsPage(stories = []) {
+  const interviews = storiesTagged(stories, INTERVIEW_TAGS);
+  const list = interviews.length ? `<div class="section-heading"><div><p class="eyebrow">Beyond the Podium</p><h2>Latest interviews</h2></div></div><div class="stories-grid">${interviews.map((story) => storyCard(story)).join("")}</div>` : "";
+  const content = `${pageHero({ eyebrow: "Beyond the Podium", title: "Conversations beyond the finish line.", description: "Interviews about racing, pressure, setbacks, faith, goals, and the person behind the athlete." })}<section class="section section-paper"><div class="container">${list}<p${list ? ' style="margin-top:28px"' : ""}><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></p></div></section>`;
   return layout({ site, title: "Beyond the Podium Interviews", description: "Podium Watch interviews with Ohio high school runners and members of the running community.", pathname: "/interviews/", content });
 }
 
@@ -1356,12 +1368,14 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // small JSON per basis and division, loaded on demand by the State
   // tab's buttons. Written straight to dist (not through writeFile) so
   // they are not counted or listed as pages.
-  for (const file of mockPostseasonStateBasisFiles()) {
+  // Regional card bodies and State sections for both hub pages, loaded on
+  // demand (site fixes F): same idea as the basis files below.
+  for (const file of [...mockPostseasonPartFiles(), ...mockPostseasonStateBasisFiles()]) {
     const target = path.join(dist, file.path);
     await fs.mkdir(path.dirname(target), { recursive: true });
     await fs.writeFile(target, file.content, "utf8");
   }
-  await writePage("/rankings/leaders/", rankingLeadersPage(site));
+  // /rankings/leaders/ is rendered on the server (api/pages/leaders.js).
   await writePage("/rankings/cross-country/", sportIndexPage("Cross Country", "cross-country", 4));
   await writePage("/rankings/track-and-field/", sportIndexPage("Track and Field", "track-and-field", 5));
   await writePage("/track-divisions/", trackDivisionsPage(site));
@@ -1378,8 +1392,8 @@ await writePage("/podium-play/", podiumPlayPage(site));
     if (ranking.updatedDate) pathLastmod.set(ranking.href, ranking.updatedDate);
   }
 
-  await writePage("/athlete-spotlights/", athletePage());
-  await writePage("/interviews/", interviewsPage());
+  await writePage("/athlete-spotlights/", athletePage(publicStories));
+  await writePage("/interviews/", interviewsPage(publicStories));
   await writePage("/about/", await aboutPage());
   await writePage("/staff/", staffPage(stories));
   // /sponsors/ and /commitments/YYYY/ are server-rendered (api/pages/);
@@ -1439,7 +1453,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // not yet meaningful enough to index at volume (201 pages). This is
   // the task's own documented safe fallback, not a guess.
   const isRealAthletePage = (pathname) => pathname.startsWith("/athletes/") && pathname !== "/athletes/";
-  const SERVER_RENDERED_PATHS = ["/sponsors/", ...yearlyAwardsPool.categories.map((category) => `/awards/2026/${category.slug}/`), ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
+  const SERVER_RENDERED_PATHS = ["/sponsors/", "/rankings/leaders/", ...yearlyAwardsPool.categories.map((category) => `/awards/2026/${category.slug}/`), ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
   const paths = [...generatedPaths, ...SERVER_RENDERED_PATHS]
     .filter((pathname) => !pathname.endsWith("404.html"))
     .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))

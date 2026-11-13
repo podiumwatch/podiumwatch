@@ -426,11 +426,9 @@ export function racePublicPage(site) {
             </table>
           </div>
 
-          <div class="race-public-alerts">
-            <span>Want a text or push alert at each checkpoint?</span>
-            <input type="text" placeholder="Alerts aren't live yet" disabled>
-            <button class="button button-outline" type="button" disabled>Coming soon</button>
-          </div>
+          <!-- Checkpoint alerts row removed until alerts exist (site fixes B,
+               2026-11-13: no "Coming soon" on public pages). -->
+
         </div>
       </div>
     </div>

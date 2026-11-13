@@ -1,0 +1,12 @@
+{
+  "note": "Schools whose city is the same as a school name shared by more than one Ohio school. Shown as \"Name (Region)\" instead of \"Name (City)\" (Zachary, 2026-11-13). Region = ohio_schools.athletic_district (OHSAA athletic district), read 2026-11-13; key = schoolKey(name)|schoolKey(city).",
+  "regions": {
+    "fairfield|fairfield": "Southwest",
+    "jackson|jackson": "Southeast",
+    "lakewood|lakewood": "Northeast",
+    "manchester|manchester": "Southeast",
+    "perry|perry": "Northeast",
+    "springfield|springfield": "Southwest",
+    "wellington|wellington": "Northeast"
+  }
+}

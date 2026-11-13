@@ -13,8 +13,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const FORCE = process.argv.includes("--force");
 const merch = JSON.parse(fs.readFileSync(path.join(root, "src/data/merch.json"), "utf8"));
 

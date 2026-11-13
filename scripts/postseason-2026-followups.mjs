@@ -24,9 +24,10 @@
 //    display name and stay as an alias.
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const WRITE = process.argv.includes("--write");
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const { supabaseAdmin: db } = await import("../lib/supabase-admin.mjs");
 const { normalizeLookup } = await import("../lib/ohio_foundation_service.mjs");
 const { default: readXlsx } = await import("read-excel-file/node");

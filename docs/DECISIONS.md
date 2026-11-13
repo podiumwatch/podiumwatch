@@ -2276,3 +2276,13 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Markdown: two image lines with no blank line between render side by side (.md-pair), stacked on a phone.
 - First use: The Podium Report, ohio-distance-triple-crown-history-2027 (draft). Header 01-lead.jpg; card, homepage, share and structured-data image 01-cover-og.jpg.
 - The cover (Zachary, 2026-11-13): a newly published story always takes over the homepage lead. A lead set by hand in admin holds only until a story dated after the day it was set (Ohio time) is published; then the newest story leads, with any hand-picked stories after it (handLeadHolds in public/scripts/front-lead.mjs; /api/front-page/current now includes starts_at). /front still follows the hand-set lead.
+## 2026-11-13: Site fixes round 1 (branch site-fixes-1)
+
+- Awards close needs no manual step (server refuses votes after 9:00 PM ET Nov 13; pages flip on their own, including pages left open). The homepage "See the winners" banner waits for winners published in all 24 categories, never a clock time (DATED_CTAS.awardsWinners.showWhen).
+- Public text never carries internal notes or file paths; tests/public-text.test.mjs fails on src/, .json, .mjs, "no paths", "ranking file", "athlete foundation", "percent complete", "supplied OHSAA", "Coming soon", "content/rankings". House entries in sponsors.json are house: true with internal_note (never rendered).
+- /rankings/leaders/ is server-rendered (api/pages/leaders.js, top 50 in the HTML); the year list no longer reads every performance row.
+- Ohio Schools: 556 = the OHSAA division document; 603 = the live list (adds 47 schools approved Nov 9 from 2026 postseason results). The header tile says which.
+- Interviews and Athlete Spotlights list stories tagged "Interview" / "Athlete Spotlight"; no coming-soon boxes.
+- Fan Poll text follows season phases (closed for the season outside cross country). Mock Meets say the season is complete after the state meet day.
+- Mock Postseason hubs load regional card bodies and State sections on demand (parts/*.json next to the page); /teams/ shows 24 cards at a time.
+- Scripts use fileURLToPath, so the repo builds from a folder with spaces.

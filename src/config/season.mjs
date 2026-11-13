@@ -54,13 +54,21 @@ export const DATED_CTAS = {
     href: "/awards/2026/",
     title: "2026 Athletes, Teams and Coaches of the Year",
     detail: "See the winners in all 24 categories.",
-    startsAt: "2026-11-14T12:00:00Z",
-    expiresAt: "2026-12-31T05:00:00Z"
+    // No fixed start time (Zachary, 2026-11-13): it turns on by itself
+    // once winners are actually published in all 24 categories, checked
+    // in the browser (public/scripts/site.js, data-show-when). startsAt
+    // is only the earliest it could ever show (voting close).
+    startsAt: "2026-11-14T02:00:00Z",
+    expiresAt: "2026-12-31T05:00:00Z",
+    showWhen: "awards-2026-winners"
   }
 };
 
-// Pure: is a dated item live at this moment?
+// Pure: is a dated item live at this moment? An item with showWhen also
+// needs a condition only the browser can check, so the build always
+// renders it hidden.
 export function isLive(item, now = new Date()) {
+  if (item.showWhen) return false;
   const t = now.getTime();
   if (item.startsAt && t < new Date(item.startsAt).getTime()) return false;
   if (item.expiresAt && t >= new Date(item.expiresAt).getTime()) return false;

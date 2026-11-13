@@ -1555,8 +1555,9 @@
         Number(team.completion_score) || 0
       )
     );
+    // Hidden on the public page (site fixes B); kept for the script.
     completionText.textContent =
-      score + " percent complete";
+      score + "%";
     completionProgress.style.width =
       score + "%";
     updatedText.textContent =

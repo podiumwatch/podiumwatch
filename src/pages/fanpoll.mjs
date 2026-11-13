@@ -1,4 +1,5 @@
 import { breadcrumb, layout, pageHero } from "../lib/html.mjs";
+import { seasonPhase } from "../config/season.mjs";
 
 const DIVISION_LABELS = ["I", "II", "III", "IV", "V"];
 
@@ -19,7 +20,9 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
   const content = `${pageHero({
     eyebrow: "Podium Watch Fan Poll",
     title,
-    description: `Vote your top 16 ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} ${divisionLabel(divisionNumber)} teams every week. Results are fan-voted, not official.`,
+    description: fanPollInSeason()
+      ? `Vote your top 16 ${sportLabel.toLowerCase()} ${genderLabel.toLowerCase()} ${divisionLabel(divisionNumber)} teams every week. Results are fan-voted, not official.`
+      : `The fan poll is closed for the season. Results are fan-voted, not official.`,
     compact: true
   })}
 
@@ -238,6 +241,15 @@ export function fanPollDivisionPage(site, { sport, sportLabel, sportPath, gender
   };
 }
 
+// Out of season (site fixes D, 2026-11-13): the fan poll runs during the
+// cross country season only. Outside it the pages say the poll is closed
+// for the season instead of "every week". No return date is promised.
+// The build's own date picks the phase (nightly rebuilds keep it current).
+const FAN_POLL_PHASES = new Set(["xc-regular", "xc-postseason"]);
+export function fanPollInSeason(now = new Date()) {
+  return FAN_POLL_PHASES.has(seasonPhase(now).key);
+}
+
 export function fanPollIndexPage(site) {
   const pathname = "/fan-poll/";
   const divisions = [1, 2, 3, 4];
@@ -245,7 +257,7 @@ export function fanPollIndexPage(site) {
   const content = `${pageHero({
     eyebrow: "Podium Watch Fan Poll",
     title: "Vote in the Podium Watch Fan Poll.",
-    description: "A weekly, reader-voted top 16 ranking per division."
+    description: fanPollInSeason() ? "A weekly, reader-voted top 16 ranking per division." : "A reader-voted top 16 ranking per division. The fan poll is closed for the season."
   })}
 
   <section class="section section-paper"><div class="container">
@@ -264,7 +276,7 @@ export function fanPollIndexPage(site) {
     html: layout({
       site,
       title: "Fan Poll",
-      description: "Vote in Podium Watch's weekly fan-voted top 16 cross country rankings.",
+      description: fanPollInSeason() ? "Vote in Podium Watch's weekly fan-voted top 16 cross country rankings." : "Podium Watch's fan-voted top 16 cross country rankings. The fan poll is closed for the season.",
       pathname,
       content
     })

@@ -381,14 +381,49 @@
   // Dated calls to action (WO-07, src/config/season.mjs): anything with
   // data-starts/data-expires shows only inside its window, so it hides on
   // time even when the page was built before the deadline.
+  // A page left open across a start or end time updates on its own too
+  // (site fixes A3, 2026-11-13): the check runs again at the next boundary.
+  // data-show-when="awards-2026-winners" (2026-11-13): also waits until
+  // winners are published in every category, from the public awards
+  // status (edge-cached). Rechecked every 2 minutes while it is waiting.
   const dated = document.querySelectorAll("[data-expires], [data-starts]");
   if (dated.length) {
-    const now = Date.now();
-    dated.forEach((node) => {
-      const starts = node.dataset.starts ? Date.parse(node.dataset.starts) : NaN;
-      const expires = node.dataset.expires ? Date.parse(node.dataset.expires) : NaN;
-      const live = (Number.isNaN(starts) || now >= starts) && (Number.isNaN(expires) || now < expires);
-      node.hidden = !live;
-    });
+    const conditions = {};
+    const conditionChecks = {
+      "awards-2026-winners": async () => {
+        const response = await fetch("/api/awards-2026/status/", { headers: { accept: "application/json" } });
+        if (!response.ok) return false;
+        const body = await response.json();
+        const categories = Array.isArray(body.categories) ? body.categories : [];
+        return categories.length > 0 && categories.every((category) => category.status === "published");
+      }
+    };
+    const checkCondition = async (name) => {
+      if (conditions[name] || !conditionChecks[name]) return;
+      try { conditions[name] = await conditionChecks[name](); } catch { conditions[name] = false; }
+      if (conditions[name]) applyDated();
+      else setTimeout(() => checkCondition(name), 120000);
+    };
+    const applyDated = () => {
+      const now = Date.now();
+      let next = Infinity;
+      dated.forEach((node) => {
+        const starts = node.dataset.starts ? Date.parse(node.dataset.starts) : NaN;
+        const expires = node.dataset.expires ? Date.parse(node.dataset.expires) : NaN;
+        const inWindow = (Number.isNaN(starts) || now >= starts) && (Number.isNaN(expires) || now < expires);
+        const condition = node.dataset.showWhen;
+        if (condition && inWindow && conditions[condition] === undefined) {
+          conditions[condition] = false;
+          checkCondition(condition);
+        }
+        const live = inWindow && (!condition || conditions[condition] === true);
+        node.hidden = !live;
+        if (starts > now) next = Math.min(next, starts);
+        if (expires > now) next = Math.min(next, expires);
+      });
+      // Browsers cap timers at about 24.8 days; past that, a reload handles it.
+      if (next !== Infinity && next - now < 2_000_000_000) setTimeout(applyDated, next - now + 250);
+    };
+    applyDated();
   }
 })();

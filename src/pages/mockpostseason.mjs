@@ -162,8 +162,8 @@ function bicarbLinkOpen(unit, position, extraClass, lazy) {
 function bicarbBillboardHtml() {
   // Hub page only, >=1000px, under the sticky tab block.
   return `<div class="mp-bicarb-billboard">
-    ${bicarbLinkOpen("billboard", "hub-header")}<img src="${BICARB_IMG_BASE}/bicarb-billboard-970x250.png" alt="${BICARB_ALT}" width="970" height="250"></a>
     ${BICARB_DISCLOSURE}
+    ${bicarbLinkOpen("billboard", "hub-header")}<img src="${BICARB_IMG_BASE}/bicarb-billboard-970x250.png" alt="${BICARB_ALT}" width="970" height="250"></a>
   </div>`;
 }
 // <picture> swaps the file by viewport width -- a phone never downloads
@@ -171,11 +171,11 @@ function bicarbBillboardHtml() {
 // regional and state page.
 function bicarbLeaderboardHtml(position) {
   return `<div class="mp-bicarb-leaderboard">
+    ${BICARB_DISCLOSURE}
     ${bicarbLinkOpen("leaderboard_or_mobile-banner", position)}<picture>
       <source media="(min-width: 760px)" srcset="${BICARB_IMG_BASE}/bicarb-leaderboard-728x90.png">
       <img src="${BICARB_IMG_BASE}/bicarb-mobile-banner-320x100.png" alt="${BICARB_ALT}" width="320" height="100">
     </picture></a>
-    ${BICARB_DISCLOSURE}
   </div>`;
 }
 // Between races/sections. Never between a team list and its cut line --
@@ -183,16 +183,16 @@ function bicarbLeaderboardHtml(position) {
 // regionals/state, before the individual list), never mid-list.
 function bicarbInfeedHtml(position) {
   return `<div class="mp-bicarb-infeed">
-    ${bicarbLinkOpen("infeed", position)}<img src="${BICARB_IMG_BASE}/bicarb-infeed-640x200.png" alt="${BICARB_ALT}" width="640" height="200" loading="lazy"></a>
     ${BICARB_DISCLOSURE}
+    ${bicarbLinkOpen("infeed", position)}<img src="${BICARB_IMG_BASE}/bicarb-infeed-640x200.png" alt="${BICARB_ALT}" width="640" height="200" loading="lazy"></a>
   </div>`;
 }
 // Bottom of each page. variant: "light" | "dark".
 function bicarbRectangleHtml(position, variant) {
   const file = variant === "dark" ? "bicarb-rectangle-dark-300x250.png" : "bicarb-rectangle-300x250.png";
   return `<div class="mp-bicarb-rectangle">
-    ${bicarbLinkOpen("rectangle", position)}<img src="${BICARB_IMG_BASE}/${file}" alt="${BICARB_ALT}" width="300" height="250" loading="lazy"></a>
     ${BICARB_DISCLOSURE}
+    ${bicarbLinkOpen("rectangle", position)}<img src="${BICARB_IMG_BASE}/${file}" alt="${BICARB_ALT}" width="300" height="250" loading="lazy"></a>
   </div>`;
 }
 // Phone-only pinned bottom bar. Dismiss is sessionStorage-backed (stays
@@ -444,7 +444,7 @@ const SHARED_STYLE = `<style>
 
   /* Bicarb ad units -- each wrapper centers its image at the image's own
      intrinsic size (max-width:100% lets it shrink on narrow screens) and
-     carries the AFFILIATE · AD disclosure directly beneath it. */
+     carries the AFFILIATE · AD disclosure directly above it. */
   .mp-bicarb-billboard, .mp-bicarb-leaderboard, .mp-bicarb-infeed, .mp-bicarb-rectangle { text-align: center; margin: 14px 0; }
   .mp-bicarb-link { display: inline-block; line-height: 0; }
   .mp-bicarb-link img { max-width: 100%; height: auto; }
@@ -471,11 +471,25 @@ const SHARED_STYLE = `<style>
   }
 </style>`;
 
-function compactHero({ eyebrow, title, description, statusLabel, toggleHtml, hintHtml }) {
+// Out of season (site fixes D, 2026-11-13): once the 2026 state meet day
+// is over (midnight ET after Sat, Nov. 7), the intro says the season is
+// complete and links to the official results. The build picks the right
+// line, and site.js (data-starts / data-expires) swaps them on a page
+// built before that time. The projection data itself is unchanged.
+export const STATE_MEET_OVER_AT = "2026-11-08T05:00:00Z";
+function seasonLinesHtml(beforeText, now = new Date()) {
+  const over = now.getTime() >= new Date(STATE_MEET_OVER_AT).getTime();
+  const before = beforeText ? `<p data-expires="${STATE_MEET_OVER_AT}"${over ? " hidden" : ""}>${escapeHtml(beforeText)}</p>` : "";
+  const after = `<p class="mp-season-complete" data-starts="${STATE_MEET_OVER_AT}"${over ? "" : " hidden"}>The 2026 cross country season is complete. These pages show the projections and results from before the state meet. <a href="/state/2026/" style="text-decoration:underline;font-weight:700;color:inherit">See the official 2026 state results</a>.</p>`;
+  return before + after;
+}
+
+function compactHero({ eyebrow, title, description, statusLabel, toggleHtml, hintHtml, seasonNote = null }) {
   return `<div class="mp-compacthero"><div class="container">
     <span class="mp-eyebrow">${escapeHtml(eyebrow)}</span>
     <h1>${escapeHtml(title)}</h1>
     <p>${escapeHtml(description)}</p>
+    ${seasonNote === null ? "" : seasonLinesHtml(seasonNote)}
     <div class="mp-statuspill">${statusLabel}</div>
     ${toggleHtml || ""}
     ${hintHtml || ""}
@@ -818,6 +832,45 @@ const HUB_SCRIPT = `<script>
   var basisInline = {};
   var basisCache = {};
   var basisRequest = 0;
+  // Lazy parts (site fixes F): fetch once, cache, fill on demand.
+  var partCache = {};
+  function fetchPart(url){
+    if (!partCache[url]) partCache[url] = fetch(url).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(j){ return j.html; });
+    return partCache[url];
+  }
+  function fillPart(el){
+    if (!el || !el.dataset.lazyPart || el.dataset.lazyLoading) return Promise.resolve();
+    var url = el.dataset.lazyPart;
+    el.dataset.lazyLoading = '1';
+    return fetchPart(url).then(function(html){
+      if (el.classList.contains('mp-section')) {
+        swapSection(el, html);
+      } else {
+        el.innerHTML = html;
+        el.removeAttribute('data-lazy-part');
+        document.dispatchEvent(new CustomEvent('mp:section-swapped'));
+      }
+      if (typeof window.pwNameLinks === 'function') window.pwNameLinks(document.querySelector('.mp-pagesection'));
+    }).catch(function(){
+      delete partCache[url];
+      delete el.dataset.lazyLoading;
+      var st = el.querySelector('[data-lazy-status]');
+      if (st) st.innerHTML = 'Could not load this section. <button type="button" class="mp-filterbtn" data-lazy-retry>Try again</button>';
+    });
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('[data-lazy-retry]');
+    if (btn) fillPart(btn.closest('[data-lazy-part]'));
+  });
+  function ensureVisible(){
+    if (tab === 'state') return fillPart(document.getElementById('state-' + g + '_D' + d));
+    return Promise.resolve();
+  }
+  function showCurrent(){ return ensureVisible().then(applyBasis); }
+  document.addEventListener('toggle', function(e){
+    var t = e.target;
+    if (t && t.matches && t.matches('details.mp-regionalcard') && t.open) fillPart(t.querySelector('.mp-regionalcard-body[data-lazy-part]'));
+  }, true);
   function swapSection(el, html){
     var holder = document.createElement('div');
     holder.innerHTML = html;
@@ -837,7 +890,7 @@ const HUB_SCRIPT = `<script>
     var status = basisBar.querySelector('[data-basis-status]');
     var key = g + '_D' + d;
     var el = document.getElementById('state-' + key);
-    if (!el) return;
+    if (!el || el.dataset.lazyPart) return;
     if (!(key in basisInline) && el.dataset.basis === defaultBasis) basisInline[key] = el.outerHTML;
     if (el.dataset.basis === basis) { if (status) status.textContent = ''; return; }
     if (basis === defaultBasis) { swapSection(el, basisInline[key]); if (status) status.textContent = ''; return; }
@@ -876,20 +929,29 @@ const HUB_SCRIPT = `<script>
     updateCarriedLinks();
   }
   document.querySelectorAll('[data-goto-state]').forEach(function(b){ b.addEventListener('click', function(){
-    tab = 'state'; applyTab(tab); applyBasis(); updateUrl();
+    tab = 'state'; applyTab(tab); showCurrent(); updateUrl();
     var chooser = document.getElementById('state-times');
     if (chooser) setTimeout(function(){ chooser.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 30);
   }); });
-  document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.addEventListener('click', function(){ tab=b.dataset.tab; applyTab(tab); updateUrl(); }); });
-  document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); applyBasis(); updateUrl(); }); });
-  document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); applyBasis(); updateUrl(); }); });
+  document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.addEventListener('click', function(){ tab=b.dataset.tab; applyTab(tab); showCurrent(); updateUrl(); }); });
+  document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); showCurrent(); updateUrl(); }); });
+  document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); showCurrent(); updateUrl(); }); });
   if (basisBar) basisBar.querySelectorAll('button.mp-basisbtn[data-basis]').forEach(function(b){ b.addEventListener('click', function(){ basis=b.dataset.basis; applyBasis(); updateUrl(); }); });
   // toggle doesn't bubble in all browsers -- listen in the capture phase
   // at the document so opening/closing ANY regional card updates the
   // breadcrumb's site-name segment.
   document.addEventListener('toggle', renderBreadcrumb, true);
-  applyTab(tab); applyFilter(g,d); applyBasis(); updateCarriedLinks();
+  applyTab(tab); applyFilter(g,d); updateCarriedLinks();
 
+  // A cross-link with an anchor: load the target tab's sections for this
+  // gender and division first, then find the row.
+  var anchorLoads = [ensureVisible()];
+  if (anchor && tab === 'regionals') {
+    document.querySelectorAll('details.mp-regionalcard[data-filter-gender="' + g + '"][data-filter-division="' + d + '"] .mp-regionalcard-body[data-lazy-part]').forEach(function(el){ anchorLoads.push(fillPart(el)); });
+  }
+  Promise.all(anchorLoads).then(function(){ applyBasis(); runAnchor(); });
+
+  function runAnchor(){
   if (anchor) {
     // Scoped to the TARGET tab's panel, not a blind global match -- the
     // same team/runner can have a row (and therefore the same anchor) in
@@ -909,6 +971,7 @@ const HUB_SCRIPT = `<script>
         setTimeout(function(){ target.classList.remove('mp-highlight'); }, 2000);
       }, 50);
     }
+  }
   }
 
   var totop = document.querySelector('.mp-totop');
@@ -1025,7 +1088,8 @@ export function mockPostseasonDistrictSitePage(site, siteKey, data, basePath, is
   const pvaHtml = predictionsVsActualHtml(seasonSiteData, realSiteData);
   const content = `${compactHero({
     eyebrow: isReal ? "Real results \u00b7 Mock Postseason" : "Mock Postseason \u00b7 Podium Watch", title: siteData.name, description: `Feeds the ${siteData.regional} regional.`,
-    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, `${otherBasePath}districts/${siteKey.toLowerCase()}/`)
+    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, `${otherBasePath}districts/${siteKey.toLowerCase()}/`),
+    seasonNote: ""
   })}
   ${SHARED_STYLE}
   <div class="mp-stickyblock">
@@ -1150,6 +1214,32 @@ function regionalProjectionVsActualHtml(key, r, data) {
 // Northeast pending) shows the incomplete banner ABOVE this same
 // projected summary, not instead of it -- Pickerington and Boardman
 // still have a real, if partial, field worth seeing.
+// Site fixes F (2026-11-13): the hub pages used to carry every regional
+// card body and every State section at once (about 117,000 elements and
+// 7 MB on /mock-postseason/). Now each regional card keeps its summary in
+// the page and loads its body when opened, and each State section loads
+// when its gender and division are shown. Bodies are small JSON files
+// ({ html }) written next to the page (mockPostseasonPartFiles). The
+// data and the projections are unchanged.
+let hubParts = null;
+function partUrl(basePath, kind, key) {
+  return `${basePath}parts/${kind}/${key}.json`;
+}
+function addPart(url, html) {
+  hubParts.push({ path: url.replace(/^\//, ""), content: JSON.stringify({ html }) });
+}
+const LAZY_STATUS = '<p class="mp-meta" data-lazy-status>Loading&hellip;</p>';
+function lazyRegionalBody(key, basePath, inner) {
+  if (!hubParts) return `<div class="mp-regionalcard-body">${inner}</div>`;
+  const url = partUrl(basePath, "regionals", key);
+  addPart(url, inner);
+  return `<div class="mp-regionalcard-body" data-lazy-part="${url}">${LAZY_STATUS}</div>`;
+}
+const allHubParts = [];
+export function mockPostseasonPartFiles() {
+  return allHubParts.slice();
+}
+
 function regionalSummaryCard(key, r, data, basePath) {
   const accent = genderAccentVar(r.gender);
   const genderLower = r.gender.toLowerCase();
@@ -1211,7 +1301,7 @@ function regionalSummaryCard(key, r, data, basePath) {
       ${lastIn ? `<p class="mp-rc-line">Last in: <strong>${schoolDisplay(lastIn.name)}</strong> (${formatPoints(lastIn.score)} pts)${firstOut ? ` &middot; First out: <strong>${schoolDisplay(firstOut.name)}</strong> (+${gap} pt${gap === "1" ? "" : "s"})` : ""}</p>` : ""}
       ${r.stateQualifiers != null ? `<p class="mp-rc-line">${r.stateQualifiers} teams + ${r.individualQualifiers} individuals to State</p>` : ""}
     </summary>
-    <div class="mp-regionalcard-body">
+    ${lazyRegionalBody(key, basePath, `
       ${officialNotesHtml}
       <p class="mp-h3">State qualifiers</p>
       ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), realAdvancingKeys)}
@@ -1219,7 +1309,7 @@ function regionalSummaryCard(key, r, data, basePath) {
       <details class="mp-showall"><summary>${r.official ? "Top 32 (official finish order, includes individual qualifiers)" : "Top 32 (combined, includes pooled district individuals)"}</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), genderLower, divNum)}</details>
       ${regionalProjectionVsActualHtml(key, r, data)}
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
-    </div>
+    `)}
   </details>`;
 }
 
@@ -1386,7 +1476,14 @@ function stateBasisBarHtml(data, basePath) {
 }
 
 function stateTabHtml(data, basePath) {
-  const sections = Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s, data)).join("");
+  const sections = Object.entries(data.stateResults).map(([key, s]) => {
+    const html = stateSectionHtml(key, s, data);
+    if (!hubParts) return html;
+    const url = partUrl(basePath, "state", key);
+    addPart(url, html);
+    const [genderLower, div] = key.split("_");
+    return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${String(div).replace(/^D/, "")}" data-lazy-part="${url}">${LAZY_STATUS}</div>`;
+  }).join("");
   return `${stateBasisBarHtml(data, basePath)}${bicarbLeaderboardHtml("state-top")}${sections}${bicarbRectangleHtml("state-bottom", "dark")}`;
 }
 
@@ -1416,11 +1513,12 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
     eyebrow: isReal ? "Real results \u00b7 Mock Postseason" : "Mock Postseason \u00b7 Podium Watch", title: "Mock Postseason",
     description: isReal
       ? (data.regionalsOfficial
-        ? "Real OHSAA district (Oct 24) and regional (Oct 31, 2026) results, with State projected from the real qualifiers. The State meet is Saturday, Nov. 7 at Fortress Obetz."
+        ? "Real OHSAA district (Oct 24) and regional (Oct 31, 2026) results, with State projected from the real qualifiers."
         : "Districts, Regionals, and State, recomputed from the real Oct 24, 2026 district results (D2-D4 only; D1 has no districts, shown as season-best).")
       : "Districts, Regionals, and State in one place.",
     statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, otherBasePath),
-    hintHtml: realData.stateBases ? stateHintHtml() : ""
+    hintHtml: realData.stateBases ? stateHintHtml() : "",
+    seasonNote: isReal && data.regionalsOfficial ? "The State meet is Saturday, Nov. 7 at Fortress Obetz." : ""
   })}
   ${SHARED_STYLE}
   <div class="mp-stickyblock">
@@ -1471,8 +1569,13 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
 }
 
 function mockPostseasonPagesFor(site, data, basePath, isReal, otherBasePath) {
+  const collected = hubParts || [];
+  hubParts = collected;
+  const hubHtml = mockPostseasonHubPage(site, data, basePath, isReal, otherBasePath);
+  hubParts = null;
+  allHubParts.push(...collected);
   const pages = [
-    { pathname: basePath, html: mockPostseasonHubPage(site, data, basePath, isReal, otherBasePath) }
+    { pathname: basePath, html: hubHtml }
   ];
   for (const key of Object.keys(data.districtsBySite)) {
     const html = mockPostseasonDistrictSitePage(site, key, data, basePath, isReal, otherBasePath);

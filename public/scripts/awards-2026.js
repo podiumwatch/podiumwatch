@@ -91,8 +91,12 @@
         chip.textContent = STATUS_LABELS[statusOf(category)];
       });
     };
+    let latest = null;
     paint(null);
-    fetchStatus().then((categories) => { if (categories) paint(categories); });
+    fetchStatus().then((categories) => { if (categories) { latest = categories; paint(categories); } });
+    // Repaint every 15 seconds so a hub left open flips to "Voting closed"
+    // on time (site fixes A3, 2026-11-13). No extra requests.
+    setInterval(() => paint(latest), 15000);
     return;
   }
 

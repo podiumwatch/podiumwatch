@@ -1,4 +1,5 @@
 import { breadcrumb, layout, pageHero } from "../lib/html.mjs";
+import { escapeHtml } from "../lib/content.mjs";
 
 // State Leaders -- Podium Watch's own statewide 5K cross country
 // leaderboard, built from this project's own athlete_performances data
@@ -17,7 +18,44 @@ import { breadcrumb, layout, pageHero } from "../lib/html.mjs";
 // live data, not a static embedded JSON blob, so its interaction is a
 // real fetch to /api/rankings/leaders/ instead.
 
-export function rankingLeadersPage(site) {
+// Site fixes A2 (2026-11-13): the first view (boys, all divisions, the
+// newest season, top 50) is rendered on the server (api/pages/leaders.js)
+// so rows are in the HTML; filters and "show more" still use the API.
+// Row markup matches public/scripts/ranking-leaders.js renderRows().
+export const LEADERS_FIRST_VIEW = 50;
+
+function formatLeaderDate(isoDate) {
+  if (!isoDate) return "";
+  const date = new Date(`${isoDate}T12:00:00Z`);
+  if (Number.isNaN(date.getTime())) return isoDate;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+}
+
+export function leaderRowsHtml(entries, gender) {
+  return entries.map((entry) => `
+      <tr data-leaders-rank="${entry.rank}" data-pw-division="${escapeHtml(entry.division || "")}" data-pw-gender="${escapeHtml(gender)}">
+        <td class="leaders-cell-rank">${entry.rank}</td>
+        <td class="leaders-cell-athlete">
+          ${entry.athlete_slug ? `<a href="/athletes/${escapeHtml(entry.athlete_slug)}/">${escapeHtml(entry.athlete_name)}</a>` : entry.school_name ? `<span data-pw-athlete="${escapeHtml(entry.athlete_name)}" data-pw-athlete-school="${escapeHtml(entry.school_name)}">${escapeHtml(entry.athlete_name)}</span>` : escapeHtml(entry.athlete_name)}
+          <div class="leaders-cell-school">${entry.school_name ? `<span data-pw-school="${escapeHtml(entry.school_name)}">${escapeHtml(entry.school_name)}</span>` : ""}${entry.school_name && entry.division ? " &middot; " : ""}${entry.division ? escapeHtml(entry.division) : ""}</div>
+        </td>
+        <td data-label="Grade">${escapeHtml(entry.grade ? `${entry.grade}th` : "--")}</td>
+        <td data-label="Meet">${escapeHtml(entry.meet_name || "")}<div class="leaders-cell-school">${escapeHtml(formatLeaderDate(entry.meet_date))}</div></td>
+        <td class="leaders-cell-time" data-label="Time">${escapeHtml(entry.mark_text)}</td>
+      </tr>`).join("");
+}
+
+export function rankingLeadersPage(site, initial = null) {
+  const first = initial && Array.isArray(initial.entries) && Array.isArray(initial.years) && initial.years.length ? initial : null;
+  const firstRows = first ? first.entries.slice(0, LEADERS_FIRST_VIEW) : [];
+  const moreCount = first ? Math.min(Number(first.total_before_limit) || 0, 100) - firstRows.length : 0;
+  const yearOptions = first ? first.years.map((year) => `<option value="${Number(year)}"${Number(year) === Number(first.season_year) ? " selected" : ""}>${Number(year)}</option>`).join("") : "";
+  const tbody = first
+    ? `<tbody data-leaders-rows data-leaders-initial>${firstRows.length ? leaderRowsHtml(firstRows, "boys") : '<tr><td colspan="5" class="leaders-empty">No results match these filters yet. Try a different year, grade, or division.</td></tr>'}</tbody>`
+    : `<tbody data-leaders-rows><tr><td colspan="5" class="leaders-loading">Loading State Leaders.</td></tr></tbody>`;
+  const moreButton = first && moreCount > 0
+    ? `<p class="leaders-more-wrap"><button type="button" class="button button-outline" data-leaders-more>Show places ${firstRows.length + 1} to ${firstRows.length + moreCount}</button></p>`
+    : "";
   const pathname = "/rankings/leaders/";
   const title = "State Leaders";
 
@@ -91,6 +129,7 @@ export function rankingLeadersPage(site) {
     .leaders-table td.leaders-cell-school { color: var(--muted); font-size: 0.9rem; }
     .leaders-table td.leaders-cell-time { font-variant-numeric: tabular-nums; font-weight: 800; white-space: nowrap; }
     .leaders-table tbody tr:nth-child(even) { background: #fafafa; }
+    .leaders-more-wrap { margin: 16px 0 0; text-align: center; }
     .leaders-empty, .leaders-loading, .leaders-error { padding: 40px 20px; text-align: center; color: var(--muted); }
     .leaders-error { color: var(--danger); }
 
@@ -155,7 +194,6 @@ export function rankingLeadersPage(site) {
 
       <div class="leaders-season-pills" role="group" aria-label="Choose a sport">
         <button type="button">Cross Country</button>
-        <button type="button" data-leaders-season-disabled title="Track and field leaders are coming soon.">Track and Field <span class="leaders-soon">(Coming soon)</span></button>
       </div>
 
       <div class="section-heading">
@@ -168,7 +206,7 @@ export function rankingLeadersPage(site) {
           <button type="button" data-leaders-gender="girls">Girls</button>
         </div>
         <div class="leaders-filter-group">
-          <label>Year<select data-leaders-year></select></label>
+          <label>Year<select data-leaders-year>${yearOptions}</select></label>
           <label>Grade<select data-leaders-grade>
             <option value="all">All Grades</option>
             <option value="9">9th Grade</option>
@@ -191,9 +229,10 @@ export function rankingLeadersPage(site) {
       <div class="leaders-table-wrap">
         <table class="leaders-table">
           <thead><tr><th>Rank</th><th>Athlete</th><th>Grade</th><th>Meet &middot; Date</th><th>Time</th></tr></thead>
-          <tbody data-leaders-rows><tr><td colspan="5" class="leaders-loading">Loading State Leaders.</td></tr></tbody>
+          ${tbody}
         </table>
       </div>
+      ${moreButton}
     </div>
   </section>
 
