@@ -37,17 +37,17 @@ try {
   const voided = { finalistKey: "a", tokenHash: "tok2000000000000", now };
   track(voided);
   assert.deepEqual(await cast(voided), ["voided"]);
-  // Rate limit: the 9th vote from one network in a minute in one category.
-  let rate = null;
-  for (let i = 0; i < 9; i += 1) {
-    const input = { finalistKey: "a", tokenHash: `rate${String(i).padStart(12, "0")}`, ipHash: "ratelimitip00000", now };
-    track(input);
-    rate = await cast(input);
-  }
-  assert.deepEqual(rate, ["rate"]);
-  const last = voteScriptCall({ slug: "coach-boys-d4", finalistKey: "a", tokenHash: "rate000000000008", ipHash: "ratelimitip00000", now }).keys.map(toTest);
-  assert.equal(await redis.get(last[3]), null, "a rate-limited vote leaves no cooldown");
-  assert.equal(Number(await redis.hget(k[9], "a")), 9, "1 vote + 8 from the other network before its limit");
+  // Spacing (2026-11-13): a second vote from the same network in the same
+  // category within 30 seconds is refused and leaves no cooldown.
+  const firstSpaced = { finalistKey: "a", tokenHash: "space00000000000", ipHash: "spacingip0000000", now };
+  const secondSpaced = { finalistKey: "a", tokenHash: "space10000000000", ipHash: "spacingip0000000", now };
+  track(firstSpaced); track(secondSpaced);
+  assert.deepEqual(await cast(firstSpaced), ["ok"]);
+  assert.deepEqual(await cast(secondSpaced), ["spacing"]);
+  const spacedKeys = voteScriptCall({ slug: "coach-boys-d4", ...secondSpaced }).keys.map(toTest);
+  assert.equal(await redis.get(spacedKeys[3]), null, "a spaced-out vote leaves no cooldown");
+  assert.ok(Number(await redis.ttl(spacedKeys[10])) > 0 && Number(await redis.ttl(spacedKeys[10])) <= 30, "the spacing key lasts 30 seconds");
+  assert.equal(Number(await redis.hget(k[9], "a")), 2, "1 vote + 1 from the spaced network");
   // Hourly backstop (2026-11-12): a network already at the hour's limit in a category is refused.
   const capped = { finalistKey: "a", tokenHash: "cap0000000000000", ipHash: "hourcapip0000000", now };
   track(capped);

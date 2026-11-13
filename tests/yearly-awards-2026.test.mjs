@@ -162,6 +162,7 @@ function fakeRedis() {
         return ["cool", current ?? "", await client.ttl(k[3])];
       }
       if (Number((await client.hget(k[8], a[5])) || 0) >= Number(a[11])) { await client.del(k[3]); return ["hourcap"]; }
+      if (await client.get(k[10])) { await client.del(k[3]); return ["spacing"]; }
       const all = await client.incr(k[1]);
       const cat = await client.incr(k[2]);
       if (all > Number(a[8]) || cat > Number(a[9])) { await client.del(k[3]); return ["rate"]; }
@@ -170,6 +171,7 @@ function fakeRedis() {
       await client.hincrby(k[6], a[3], 1);
       await client.hincrby(k[8], a[5], 1);
       await client.hincrby(k[9], a[1], 1);
+      await client.set(k[10], "1", { ex: Number(a[12]) });
       await client.hincrby(k[7], a[4], 1);
       return ["ok"];
     },
@@ -203,6 +205,7 @@ test("Redis votes: one per browser per category every hour; voiding removes vote
   now = at("2026-11-11T15:00:01Z");
   assert.equal(await existingYearlyVote({ slug, tokenHash: t1, now }), null);
   assert.equal((await castYearlyVote({ slug, finalistKey: "b", tokenHash: t1, ipHash: school, now })).accepted, true);
+  now = at("2026-11-11T15:00:35Z");
   await castYearlyVote({ slug, finalistKey: "b", tokenHash: "t2" + "0".repeat(14), ipHash: school, now });
   await castYearlyVote({ slug, finalistKey: "b", tokenHash: "t3" + "0".repeat(14), ipHash: "bbbbbbbb33334444", now });
   let tally = await yearlyVoteTally(slug);
@@ -225,21 +228,27 @@ test("Redis votes: one per browser per category every hour; voiding removes vote
   useRedisClientForTests(null);
 });
 
-test("votes are rate limited per network and logged per hour for the admin", async () => {
-  const { castYearlyVote, useRedisClientForTests, yearlyVoteActivity, RATE_LIMIT_PER_CATEGORY_PER_MINUTE } = await import("../lib/yearly_awards_2026_votes.mjs");
-  useRedisClientForTests(fakeRedis());
+test("votes are spaced per network (one every 30 seconds per category) and logged per hour for the admin", async () => {
+  const { castYearlyVote, useRedisClientForTests, yearlyVoteActivity, NETWORK_SPACING_SECONDS } = await import("../lib/yearly_awards_2026_votes.mjs");
+  assert.equal(NETWORK_SPACING_SECONDS, 30);
+  const fake = fakeRedis();
+  useRedisClientForTests(fake);
   const slug = "athlete-girls-d3";
   const now = new Date("2026-11-11T15:20:00Z");
+  fake.setClock(now.getTime());
   const results = [];
-  for (let i = 0; i < RATE_LIMIT_PER_CATEGORY_PER_MINUTE + 3; i += 1) results.push(await castYearlyVote({ slug, finalistKey: "a", tokenHash: `tok${String(i).padStart(13, "0")}`, ipHash: "bot0000000000000", now }));
-  assert.equal(results.filter((r) => r.accepted).length, RATE_LIMIT_PER_CATEGORY_PER_MINUTE);
-  assert.equal(results.filter((r) => r.rateLimited).length, 3);
-  // A minute later the same network can vote again.
-  assert.equal((await castYearlyVote({ slug, finalistKey: "b", tokenHash: "later00000000000", ipHash: "bot0000000000000", now: new Date("2026-11-11T15:21:05Z") })).accepted, true);
+  for (let i = 0; i < 11; i += 1) results.push(await castYearlyVote({ slug, finalistKey: "a", tokenHash: `tok${String(i).padStart(13, "0")}`, ipHash: "bot0000000000000", now }));
+  assert.equal(results.filter((r) => r.accepted).length, 1, "one counted vote per 30 seconds from one network");
+  assert.equal(results.filter((r) => r.spaced).length, 10);
+  // Another network is not slowed by it, and neither is the same network in another category.
+  assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "other00000000000", ipHash: "net9999999999999", now })).accepted, true);
+  assert.equal((await castYearlyVote({ slug: "athlete-boys-d3", finalistKey: "a", tokenHash: "tok0000000000000", ipHash: "bot0000000000000", now })).accepted, true);
+  // 31 seconds later the same network can vote again.
+  const later = new Date("2026-11-11T15:20:31Z");
+  fake.setClock(later.getTime());
+  assert.equal((await castYearlyVote({ slug, finalistKey: "b", tokenHash: "later00000000000", ipHash: "bot0000000000000", now: later })).accepted, true);
   const activity = await yearlyVoteActivity(slug);
-  assert.deepEqual(activity.hours.map((h) => [h.hour, h.total, h.by_finalist]), [["2026-11-11T15", RATE_LIMIT_PER_CATEGORY_PER_MINUTE + 1, { a: RATE_LIMIT_PER_CATEGORY_PER_MINUTE, b: 1 }]]);
-  assert.equal(activity.bursts.length, 1);
-  assert.equal(activity.bursts[0].share, 100);
+  assert.deepEqual(activity.hours.map((h) => [h.hour, h.total, h.by_finalist]), [["2026-11-11T15", 3, { a: 2, b: 1 }]]);
 });
 
 test("vote script: a retried request counts once; Redis failing counts nothing and says busy", async () => {
@@ -332,49 +341,61 @@ test("share previews: vote, then closed, then winner; finalist links; 1200x630 a
   assert.match(JSON.stringify(awardsFinalistCard(category, vote, vote.finalists[0]).element), /VOTE FOR/);
 });
 
-test("hourly backstop: 150 counted votes per network per category per hour, then refused until the next hour (2026-11-12)", async () => {
+test("hourly backstop: 25 counted votes per network per category per hour, then refused until the next hour (2026-11-13)", async () => {
   const { castYearlyVote, useRedisClientForTests, NETWORK_LIMIT_PER_CATEGORY_PER_HOUR, yearlyVoteTally } = await import("../lib/yearly_awards_2026_votes.mjs");
-  assert.equal(NETWORK_LIMIT_PER_CATEGORY_PER_HOUR, 150);
-  useRedisClientForTests(fakeRedis());
+  assert.equal(NETWORK_LIMIT_PER_CATEGORY_PER_HOUR, 25);
+  const fake = fakeRedis();
+  useRedisClientForTests(fake);
   const slug = "coach-girls-d4";
   const start = Date.parse("2026-11-12T07:00:00Z");
   let accepted = 0;
   let capped = 0;
-  // 8 a minute (the per-minute limit) for 20 minutes = 160 tries from one network.
-  for (let i = 0; i < 160; i += 1) {
-    const r = await castYearlyVote({ slug, finalistKey: "a", tokenHash: `cap${String(i).padStart(13, "0")}`, ipHash: "net0000000000000", now: new Date(start + Math.floor(i / 8) * 60000 + (i % 8) * 1000) });
+  // One try every 31 seconds (just over the spacing) for 40 tries, all inside one clock hour.
+  for (let i = 0; i < 40; i += 1) {
+    const now = new Date(start + i * 31000);
+    fake.setClock(now.getTime());
+    const r = await castYearlyVote({ slug, finalistKey: "a", tokenHash: `cap${String(i).padStart(13, "0")}`, ipHash: "net0000000000000", now });
     if (r.accepted) accepted += 1;
     if (r.hourCapped) capped += 1;
   }
-  assert.equal(accepted, 150);
-  assert.equal(capped, 10);
+  assert.equal(accepted, 25);
+  assert.equal(capped, 15);
   // Another network in the same hour, and the same network in the same hour in another category, are not affected.
-  assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "other00000000000", ipHash: "net1111111111111", now: new Date(start + 30 * 60000) })).accepted, true);
-  assert.equal((await castYearlyVote({ slug: "coach-boys-d4", finalistKey: "a", tokenHash: "cap0000000000000", ipHash: "net0000000000000", now: new Date(start + 30 * 60000) })).accepted, true);
+  const mid = new Date(start + 30 * 60000);
+  fake.setClock(mid.getTime());
+  assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "other00000000000", ipHash: "net1111111111111", now: mid })).accepted, true);
+  assert.equal((await castYearlyVote({ slug: "coach-boys-d4", finalistKey: "a", tokenHash: "cap0000000000000", ipHash: "net0000000000000", now: mid })).accepted, true);
   // Next clock hour: open again.
-  assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "next00000000000a", ipHash: "net0000000000000", now: new Date(start + 61 * 60000) })).accepted, true);
-  assert.equal((await yearlyVoteTally(slug)).counts.a, 152);
+  const next = new Date(start + 61 * 60000);
+  fake.setClock(next.getTime());
+  assert.equal((await castYearlyVote({ slug, finalistKey: "a", tokenHash: "next00000000000a", ipHash: "net0000000000000", now: next })).accepted, true);
+  assert.equal((await yearlyVoteTally(slug)).counts.a, 27);
 });
 
 test("hourly backstop: a refused vote gets its own message", () => {
   const service = fs.readFileSync("lib/yearly_awards_2026_service.mjs", "utf8");
   assert.match(service, /if \(result\.hourCapped\) throw error\("Your network has reached this category's vote limit for this hour\. Try again next hour\.", 429, "NETWORK_HOUR_LIMIT"\);/);
+  assert.match(service, /if \(result\.spaced\) throw error\("Your network just voted in this category\. Try again in 30 seconds\.", 429, "NETWORK_SPACING"\);/);
 });
 
-test("public counter always equals the counted ballots: votes, cooldowns, rate and hourly limits, voids (2026-11-12)", async () => {
+test("public counter always equals the counted ballots: votes, cooldowns, spacing and hourly limits, voids (2026-11-13)", async () => {
   const { castYearlyVote, voidYearlyVotes, useRedisClientForTests, yearlyVoteTally, publicVoteCounts } = await import("../lib/yearly_awards_2026_votes.mjs");
-  useRedisClientForTests(fakeRedis());
+  const fake = fakeRedis();
+  useRedisClientForTests(fake);
   const slug = "coach-boys-d1";
   const start = Date.parse("2026-11-12T12:00:00Z");
+  const cast = (input, ms) => { const now = new Date(start + ms); fake.setClock(now.getTime()); return castYearlyVote({ slug, ...input, now }); };
   const same = async () => { const [t, p] = await Promise.all([yearlyVoteTally(slug), publicVoteCounts(slug)]); assert.deepEqual(p.counts, t.counts); assert.equal(p.total, t.total); return t.total; };
-  // Ordinary votes from several networks and finalists, some refused by the hour's cooldown.
-  for (let i = 0; i < 30; i += 1) await castYearlyVote({ slug, finalistKey: ["a", "b", "c"][i % 3], tokenHash: `tok${String(i % 20).padStart(13, "0")}`, ipHash: `net${String(i % 4).padStart(13, "0")}`, now: new Date(start + i * 7000) });
+  // Ordinary votes from four networks, each network every 32 s; the last 10 are repeat browsers inside the hour.
+  for (let i = 0; i < 30; i += 1) await cast({ finalistKey: ["a", "b", "c"][i % 3], tokenHash: `tok${String(i % 20).padStart(13, "0")}`, ipHash: `net${String(i % 4).padStart(13, "0")}` }, i * 8000);
   assert.equal(await same(), 20, "10 repeat browsers inside the hour were refused");
-  // A burst past the per-minute limit, and a network past the hourly limit.
-  for (let i = 0; i < 12; i += 1) await castYearlyVote({ slug, finalistKey: "b", tokenHash: `rate${String(i).padStart(12, "0")}`, ipHash: "b0b0b0b0b0b0b0b0", now: new Date(start + 600000) });
-  for (let i = 0; i < 160; i += 1) await castYearlyVote({ slug, finalistKey: "c", tokenHash: `hour${String(i).padStart(12, "0")}`, ipHash: "hourcap000000000", now: new Date(start + 900000 + Math.floor(i / 8) * 60000 + (i % 8) * 500) });
-  assert.equal(await same(), 20 + 8 + 150);
+  // A burst from one network: only the first counts (30-second spacing).
+  for (let i = 0; i < 12; i += 1) await cast({ finalistKey: "b", tokenHash: `rate${String(i).padStart(12, "0")}`, ipHash: "b0b0b0b0b0b0b0b0" }, 600000);
+  // A network past the hourly limit, trying every 31 s.
+  for (let i = 0; i < 40; i += 1) await cast({ finalistKey: "c", tokenHash: `hour${String(i).padStart(12, "0")}`, ipHash: "hourcap000000000" }, 900000 + i * 31000);
+  assert.equal(await same(), 20 + 1 + 25);
   // Voiding a network takes the same votes out of both.
-  assert.equal((await voidYearlyVotes({ slug, ipPrefix: "b0b0b0b0", reason: "test" })).voided, 8);
-  assert.equal(await same(), 20 + 150);
+  assert.equal((await voidYearlyVotes({ slug, ipPrefix: "b0b0b0b0", reason: "test" })).voided, 1);
+  assert.equal(await same(), 20 + 25);
 });
+
