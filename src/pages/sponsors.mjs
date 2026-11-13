@@ -51,7 +51,9 @@ function packagesHtml(packages) {
 
 export function sponsorsPageHtml(site, sponsors, data) {
   const packages = data?.packages || [];
-  const partnerList = sponsors.map((sponsor) => `<article class="pt-partner"><h3>${escapeHtml(sponsor.name)}</h3>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}${sponsor.url ? `<a class="text-link" href="${escapeHtml(sponsor.url)}" target="_blank" rel="sponsored noopener noreferrer">Visit ${escapeHtml(sponsor.name)} ${icon("arrow")}</a>` : ""}</article>`).join("");
+  // Only real partners. House entries (Podium Watch's own Shop and Support
+  // cards) are left out, and their internal_note is never rendered.
+  const partnerList = sponsors.filter((sponsor) => !sponsor.house).map((sponsor) => `<article class="pt-partner"><h3>${escapeHtml(sponsor.name)}</h3>${sponsor.description ? `<p>${escapeHtml(sponsor.description)}</p>` : ""}${sponsor.url ? `<a class="text-link" href="${escapeHtml(sponsor.url)}" target="_blank" rel="sponsored noopener noreferrer">Visit ${escapeHtml(sponsor.name)} ${icon("arrow")}</a>` : ""}</article>`).join("");
   const options = packages.map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.name)}</option>`).join("");
   const content = `${pageHero({ eyebrow: "Partner with Podium Watch", title: "Reach Ohio's running families.", description: "Podium Watch covers Ohio high school cross country and track and field for athletes, parents and coaches across the state. Partners reach them on the pages they come back to every week." })}
   ${styles}
