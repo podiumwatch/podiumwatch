@@ -21,6 +21,9 @@ test("a build on Nov. 10 shows no expired call to action", () => {
   assert.equal(isLive(DATED_CTAS.awardsNominations, nov10), false);
   assert.equal(isLive(DATED_CTAS.awardsVoting, nov10), true);
   assert.equal(isLive(DATED_CTAS.awardsWinners, nov10), false);
+  // Waits for published winners, never a clock time (2026-11-13).
+  assert.equal(DATED_CTAS.awardsWinners.showWhen, "awards-2026-winners");
+  assert.equal(isLive(DATED_CTAS.awardsWinners, new Date("2026-11-14T13:00:00Z")), false);
   const live = Object.values(DATED_CTAS).filter((cta) => isLive(cta, nov10));
   assert.equal(live.length, 1);
 });

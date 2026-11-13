@@ -563,7 +563,7 @@ function homePage(stories, rankings) {
   // expire (data-expires, public/scripts/site.js).
   const buildNow = new Date();
   const phase = seasonPhase(buildNow);
-  const datedCallouts = Object.values(DATED_CTAS).map((cta) => `<a class="home-picks-callout" href="${escapeHtml(cta.href)}" data-starts="${escapeHtml(cta.startsAt || "")}" data-expires="${escapeHtml(cta.expiresAt || "")}"${isLive(cta, buildNow) ? "" : " hidden"}><strong>${escapeHtml(cta.title)}</strong><span>${escapeHtml(cta.detail)} ${icon("arrow")}</span></a>`).join("");
+  const datedCallouts = Object.values(DATED_CTAS).map((cta) => `<a class="home-picks-callout" href="${escapeHtml(cta.href)}" data-starts="${escapeHtml(cta.startsAt || "")}" data-expires="${escapeHtml(cta.expiresAt || "")}"${cta.showWhen ? ` data-show-when="${escapeHtml(cta.showWhen)}"` : ""}${isLive(cta, buildNow) ? "" : " hidden"}><strong>${escapeHtml(cta.title)}</strong><span>${escapeHtml(cta.detail)} ${icon("arrow")}</span></a>`).join("");
   const datedCalloutSection = `<section class="home-dated-ctas"><div class="container">${datedCallouts}</div></section>`;
   // Cross country wrap-up leads with the state meet: the 8 champions from
   // the imported official results (src/data/state-champions-2026.json,
@@ -691,7 +691,7 @@ function homePage(stories, rankings) {
   ${["xc-regular", "track-regular"].includes(phase.key) ? `  <section class="section section-paper" aria-labelledby="voting-title">
     <div class="container">
       <div class="section-heading"><div><p class="eyebrow">Voting</p><h2 id="voting-title">Have your say.</h2></div></div>
-      ${[["awardsNominations", "Nominate the 2026 Athletes, Teams and Coaches of the Year.", "Nominate Now"], ["awardsVoting", "Vote for the 2026 Athletes, Teams and Coaches of the Year.", "Vote Now"], ["awardsWinners", "See the 2026 Athletes, Teams and Coaches of the Year.", "See the Winners"]].map(([key, question, button]) => `<section class="vote-now-top" data-starts="${escapeHtml(DATED_CTAS[key].startsAt)}" data-expires="${escapeHtml(DATED_CTAS[key].expiresAt)}"${isLive(DATED_CTAS[key], buildNow) ? "" : " hidden"}>
+      ${[["awardsNominations", "Nominate the 2026 Athletes, Teams and Coaches of the Year.", "Nominate Now"], ["awardsVoting", "Vote for the 2026 Athletes, Teams and Coaches of the Year.", "Vote Now"], ["awardsWinners", "See the 2026 Athletes, Teams and Coaches of the Year.", "See the Winners"]].map(([key, question, button]) => `<section class="vote-now-top" data-starts="${escapeHtml(DATED_CTAS[key].startsAt)}" data-expires="${escapeHtml(DATED_CTAS[key].expiresAt)}"${DATED_CTAS[key].showWhen ? ` data-show-when="${escapeHtml(DATED_CTAS[key].showWhen)}"` : ""}${isLive(DATED_CTAS[key], buildNow) ? "" : " hidden"}>
         <span class="vote-now-top-badge">2026 Year Awards</span>
         <div class="vote-now-body">
           <p class="vote-now-category">Ohio High School Cross Country</p>
