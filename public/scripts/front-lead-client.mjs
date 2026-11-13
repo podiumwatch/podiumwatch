@@ -1,4 +1,4 @@
-import { frontRotatorHtml, ROTATION_MAX, ROTATION_MS } from "./front-lead.mjs";
+import { frontRotatorHtml, handLeadHolds, ROTATION_MAX, ROTATION_MS } from "./front-lead.mjs";
 
 // Homepage (WO-43): the lead rotates every 8 seconds through up to 8
 // stories. The build draws the 8 newest; here an admin-set lead goes first
@@ -117,7 +117,9 @@ if (root && candidatesNode && holder) {
   fetch("/api/front-page/current/", { headers: { Accept: "application/json" } })
     .then((r) => (r.ok ? r.json() : null))
     .then((data) => {
-      if (!data || (!data.lead && !(data.also || []).length)) return reveal(null);
+      // A newer story published after a hand-set lead takes the cover back.
+      const lead = data && data.lead && handLeadHolds(data.lead, candidates[0]) ? data.lead : null;
+      if (!data || (!lead && !(data.also || []).length)) return reveal(null);
       const seen = new Set();
       const order = [];
       // Admin rows don't store the story's crop point; take it from the
@@ -125,10 +127,13 @@ if (root && candidatesNode && holder) {
       const bySlug = new Map(candidates.map((s) => [s.slug, s]));
       const add = (story) => { if (story?.slug && !seen.has(story.slug) && order.length < ROTATION_MAX) { seen.add(story.slug); order.push({ ...story, image_position: story.image_position || bySlug.get(story.slug)?.image_position || null, image_fit: story.image_fit || bySlug.get(story.slug)?.image_fit || null }); } };
       // An admin lead keeps its own photo, kicker and credit.
-      if (data.lead) add({ ...data.lead, slug: data.lead.story_slug });
+      if (lead) add({ ...lead, slug: lead.story_slug });
+      // No hand-set lead (or a newer story took over): the newest story is
+      // the cover, ahead of any hand-picked stories.
+      else if (candidates[0]) add(candidates[0]);
       for (const pick of data.also || []) add({ ...pick, slug: pick.story_slug });
       for (const story of candidates) add(story);
-      const same = order.map((s) => s.slug).join("|") === builtSlugs.join("|") && !data.lead;
+      const same = order.map((s) => s.slug).join("|") === builtSlugs.join("|") && !lead;
       if (shown && !same) {
         // Arrived after the fallback: redraw, still starting on the lead.
         holder.innerHTML = frontRotatorHtml(order);

@@ -2275,3 +2275,4 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - New optional story fields: heroImageFit: contain (header photo shown whole, card crop unchanged); socialImageWidth and socialImageHeight (share card size when not 1200x630).
 - Markdown: two image lines with no blank line between render side by side (.md-pair), stacked on a phone.
 - First use: The Podium Report, ohio-distance-triple-crown-history-2027 (draft). Header 01-lead.jpg; card, homepage, share and structured-data image 01-cover-og.jpg.
+- The cover (Zachary, 2026-11-13): a newly published story always takes over the homepage lead. A lead set by hand in admin holds only until a story dated after the day it was set (Ohio time) is published; then the newest story leads, with any hand-picked stories after it (handLeadHolds in public/scripts/front-lead.mjs; /api/front-page/current now includes starts_at). /front still follows the hand-set lead.

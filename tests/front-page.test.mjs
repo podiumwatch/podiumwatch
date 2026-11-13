@@ -105,3 +105,13 @@ test("every published story photo has a crop for wide frames (scripts/image-focu
   // Hand crop: a tall photo at 25% shows the upper part of the frame.
   assert.deepEqual(coverBox({ width: 1280, height: 1600, position: "center 25%" }, 1080, 600), { width: 1080, height: 1350, left: 0, top: -188 });
 });
+
+test("cover: a story published after a hand-set lead takes over; until then the hand-set lead holds", async () => {
+  const { handLeadHolds } = await import("../public/scripts/front-lead.mjs");
+  const lead = { story_slug: "parrish", starts_at: "2026-11-09T14:00:00Z" };
+  assert.equal(handLeadHolds(lead, { slug: "recap", story_date: "2026-11-09" }), true, "same day: the hand-set lead holds");
+  assert.equal(handLeadHolds(lead, { slug: "triple-crown", story_date: "2026-11-13" }), false, "a newer story takes over");
+  assert.equal(handLeadHolds({ ...lead, starts_at: "2026-11-14T03:00:00Z" }, { slug: "x", story_date: "2026-11-13" }), true, "10 PM ET Nov 13 counts as Nov 13");
+  assert.equal(handLeadHolds(lead, { slug: "parrish", story_date: "2026-11-13" }), true, "the lead's own story");
+  assert.equal(handLeadHolds(null, { slug: "x", story_date: "2026-11-13" }), false);
+});
