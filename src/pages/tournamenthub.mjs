@@ -46,7 +46,7 @@ export function tournamentHubPage(site) {
     </section>
 
     <section aria-labelledby="track-regional-title">
-      <div class="section-heading"><div><p class="eyebrow">2026 track and field</p><h2 id="track-regional-title">Regional sites, dates, and representation</h2><p>Filter the official regional information by division.</p></div><a class="text-link" href="${trackRegionalData.officialSourceUrl}" target="_blank" rel="noopener noreferrer">Confirm with OHSAA</a></div>
+      <div class="section-heading"><div><p class="eyebrow">2026 track and field season (complete)</p><h2 id="track-regional-title">Regional sites, dates, and representation</h2><p>Filter the official regional information by division.</p></div><a class="text-link" href="${trackRegionalData.officialSourceUrl}" target="_blank" rel="noopener noreferrer">Confirm with OHSAA</a></div>
       <div class="gender-tabs tournament-tabs" role="group" aria-label="Filter track regional sites"><button type="button" data-track-division="all" aria-pressed="true">All divisions</button>${[1,2,3,4,5].map((division) => `<button type="button" data-track-division="${division}" aria-pressed="false">Division ${division}</button>`).join("")}</div>
       <div class="regional-grid" data-track-regions>${cards}</div>
     </section>

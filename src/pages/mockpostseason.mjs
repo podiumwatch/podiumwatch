@@ -471,11 +471,25 @@ const SHARED_STYLE = `<style>
   }
 </style>`;
 
-function compactHero({ eyebrow, title, description, statusLabel, toggleHtml, hintHtml }) {
+// Out of season (site fixes D, 2026-11-13): once the 2026 state meet day
+// is over (midnight ET after Sat, Nov. 7), the intro says the season is
+// complete and links to the official results. The build picks the right
+// line, and site.js (data-starts / data-expires) swaps them on a page
+// built before that time. The projection data itself is unchanged.
+export const STATE_MEET_OVER_AT = "2026-11-08T05:00:00Z";
+function seasonLinesHtml(beforeText, now = new Date()) {
+  const over = now.getTime() >= new Date(STATE_MEET_OVER_AT).getTime();
+  const before = beforeText ? `<p data-expires="${STATE_MEET_OVER_AT}"${over ? " hidden" : ""}>${escapeHtml(beforeText)}</p>` : "";
+  const after = `<p class="mp-season-complete" data-starts="${STATE_MEET_OVER_AT}"${over ? "" : " hidden"}>The 2026 cross country season is complete. These pages show the projections and results from before the state meet. <a href="/state/2026/" style="text-decoration:underline;font-weight:700;color:inherit">See the official 2026 state results</a>.</p>`;
+  return before + after;
+}
+
+function compactHero({ eyebrow, title, description, statusLabel, toggleHtml, hintHtml, seasonNote = null }) {
   return `<div class="mp-compacthero"><div class="container">
     <span class="mp-eyebrow">${escapeHtml(eyebrow)}</span>
     <h1>${escapeHtml(title)}</h1>
     <p>${escapeHtml(description)}</p>
+    ${seasonNote === null ? "" : seasonLinesHtml(seasonNote)}
     <div class="mp-statuspill">${statusLabel}</div>
     ${toggleHtml || ""}
     ${hintHtml || ""}
@@ -1025,7 +1039,8 @@ export function mockPostseasonDistrictSitePage(site, siteKey, data, basePath, is
   const pvaHtml = predictionsVsActualHtml(seasonSiteData, realSiteData);
   const content = `${compactHero({
     eyebrow: isReal ? "Real results \u00b7 Mock Postseason" : "Mock Postseason \u00b7 Podium Watch", title: siteData.name, description: `Feeds the ${siteData.regional} regional.`,
-    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, `${otherBasePath}districts/${siteKey.toLowerCase()}/`)
+    statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, `${otherBasePath}districts/${siteKey.toLowerCase()}/`),
+    seasonNote: ""
   })}
   ${SHARED_STYLE}
   <div class="mp-stickyblock">
@@ -1416,11 +1431,12 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
     eyebrow: isReal ? "Real results \u00b7 Mock Postseason" : "Mock Postseason \u00b7 Podium Watch", title: "Mock Postseason",
     description: isReal
       ? (data.regionalsOfficial
-        ? "Real OHSAA district (Oct 24) and regional (Oct 31, 2026) results, with State projected from the real qualifiers. The State meet is Saturday, Nov. 7 at Fortress Obetz."
+        ? "Real OHSAA district (Oct 24) and regional (Oct 31, 2026) results, with State projected from the real qualifiers."
         : "Districts, Regionals, and State, recomputed from the real Oct 24, 2026 district results (D2-D4 only; D1 has no districts, shown as season-best).")
       : "Districts, Regionals, and State in one place.",
     statusLabel: asOfLabelHtml(data, isReal), toggleHtml: universeToggleHtml(isReal, otherBasePath),
-    hintHtml: realData.stateBases ? stateHintHtml() : ""
+    hintHtml: realData.stateBases ? stateHintHtml() : "",
+    seasonNote: isReal && data.regionalsOfficial ? "The State meet is Saturday, Nov. 7 at Fortress Obetz." : ""
   })}
   ${SHARED_STYLE}
   <div class="mp-stickyblock">
