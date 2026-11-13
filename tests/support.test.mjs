@@ -54,7 +54,7 @@ test("support card: placed on the awards hub and after a vote (taking turns with
 });
 
 test("footer: a Support Podium Watch link on every page", () => {
-  assert.match(fs.readFileSync("src/lib/html.mjs", "utf8"), /<a class="footer-support" href="\/support\/">Support Podium Watch<\/a>/);
+  assert.match(fs.readFileSync("src/lib/html.mjs", "utf8"), /<a class="pw-support" href="\/support\/">Support Podium Watch<\/a>/);
 });
 
 test("Stripe: the one-time link is set, no monthly link, and the page button goes through /go/support/", () => {

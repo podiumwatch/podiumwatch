@@ -55,106 +55,73 @@ export function icon(name) {
 // the mobile drawer (near Meets) without touching its desktop position
 // or its internal open/close and coach-redirect logic at all.
 function splitWatchNavDropdown(active) {
-  return `<div class="nav-dropdown nav-utility-sw" data-nav-dropdown data-nav-dropdown-sw>
-    <a class="nav-dropdown-trigger" href="/split-watch/join/"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-dropdown-trigger>Split Watch</a>
-    <div class="nav-dropdown-panel nav-dropdown-panel-sw" data-nav-dropdown-panel>
-      <a class="nav-dropdown-sw-action nav-dropdown-sw-primary" href="/team-login/" data-nav-coach-link>
-        <span class="nav-dropdown-sw-title">Coach Sign In</span>
-        <span class="nav-dropdown-sw-sub">Open your races and live timing</span>
+  // Site redesign step 1 (2026-11-13): the one green "Split Watch" button.
+  // Same data hooks as before, so site.js keeps the click-to-open panel
+  // and the Coach Sign In smart redirect exactly as they were.
+  return `<div class="pw-sw" data-nav-dropdown data-nav-dropdown-sw>
+    <a class="pw-sw-trigger" href="/split-watch/join/"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-dropdown-trigger>Split Watch</a>
+    <div class="pw-sw-panel" data-nav-dropdown-panel>
+      <a class="pw-sw-action pw-sw-primary" href="/team-login/" data-nav-coach-link>
+        <span class="pw-sw-title">Coach Sign In</span>
+        <span class="pw-sw-sub">Open your races and live timing</span>
       </a>
-      <a class="nav-dropdown-sw-action nav-dropdown-sw-secondary" href="/split-watch/join/">
-        <span class="nav-dropdown-sw-title">Enter Race Day Code</span>
-        <span class="nav-dropdown-sw-sub">Join a timing crew</span>
+      <a class="pw-sw-action" href="/split-watch/join/">
+        <span class="pw-sw-title">Enter Race Day Code</span>
+        <span class="pw-sw-sub">Join a timing crew</span>
       </a>
     </div>
   </div>`;
 }
 
-// One shared component for every content-nav entry: "Home" (no `items`)
-// renders as a plain link; everything else renders as a click-toggle
-// dropdown (desktop: floating panel: mobile: in-flow accordion), all
-// coordinated by the single generic data-nav-group-trigger handler in
-// site.js so only one is ever open at a time. See
-// NAVIGATION_REBUILD_SPEC.md and docs/DECISIONS.md, 2026-08-21.
+// One shared component for every menu entry: "Home" and "News" (no
+// `items`) are plain links; the rest open a dropdown (desktop: floating
+// panel; phone: in-flow list), coordinated by the data-nav-group-trigger
+// handler in site.js so only one is open at a time.
 function navGroup(link, currentPath) {
   if (!link.items) {
     const active = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
-    // Merch (2026-09-15): the first flat top-level nav link that ever
-    // points off-site (the Spring storefront) -- every other flat/group
-    // link in this file already runs external hrefs through
-    // externalAttrs() (footer links, dropdown-group items); this branch
-    // was the one place that didn't, since nothing needed it before now.
-    return `<a class="nav-top-link" href="${link.href}"${externalAttrs(link)}${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
+    return `<a class="pw-nav-link" href="${link.href}"${externalAttrs(link)}${active ? ' aria-current="page"' : ""}>${escapeHtml(link.label)}</a>`;
   }
-  const active = link.items.some((item) => currentPath.startsWith(item.href.split("?")[0]));
-  // Only the most specific matching item is marked current (2026-11-01):
-  // "/mock-postseason/" is a prefix of "/mock-postseason/real/", so a
-  // plain startsWith marked the season-best item current on every
-  // real-results page. Query strings are ignored for matching.
   const itemPath = (item) => item.href.split("?")[0];
+  const active = link.items.some((item) => currentPath.startsWith(itemPath(item)));
+  // Only the most specific matching item is marked current.
   const bestMatchLength = Math.max(-1, ...link.items.filter((item) => currentPath.startsWith(itemPath(item))).map((item) => itemPath(item).length));
   const itemLinks = link.items.map((item) => {
     const itemActive = currentPath.startsWith(itemPath(item)) && itemPath(item).length === bestMatchLength;
-    return `<a href="${item.href}"${itemActive ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`;
+    return `<a href="${item.href}"${externalAttrs(item)}${itemActive ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`;
   }).join("");
-  // data-nav-group-name is a plain lowercase slug of the group's own
-  // label ("meets", "rankings", ...) -- a stable hook site.js uses to
-  // find the Meets group specifically, so it can relocate the Split
-  // Watch dropdown to sit right after it on mobile (see
-  // splitWatchNavDropdown()'s own comment above for why).
-  return `<div class="nav-group" data-nav-group data-nav-group-name="${escapeHtml(slugify(link.label))}">
-    <button class="nav-group-trigger" type="button"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-group-trigger>${escapeHtml(link.label)}<span class="nav-caret">${icon("chevron")}</span></button>
-    <div class="nav-group-panel" data-nav-group-panel>${itemLinks}</div>
+  return `<div class="pw-nav-group" data-nav-group data-nav-group-name="${escapeHtml(slugify(link.label))}">
+    <button class="pw-nav-trigger" type="button"${active ? ' aria-current="page"' : ""} aria-haspopup="true" aria-expanded="false" data-nav-group-trigger>${escapeHtml(link.label)}<span class="pw-caret">${icon("chevron")}</span></button>
+    <div class="pw-nav-panel" data-nav-group-panel>${itemLinks}</div>
   </div>`;
 }
 
+// Site redesign step 1 (2026-11-13), the shared header: logo, the seven
+// menu items with their dropdowns, one search field (opens the existing
+// search dialog; "/" and Ctrl+K still work) and the green Split Watch
+// button. Phone: logo, search icon, menu button. The old ticker, the
+// Pace Calculator, Shop, Watch and Instagram shortcuts moved to the menu
+// and footer (docs/DECISIONS.md lists where each link went).
 export function header(site, currentPath = "/") {
   const navGroups = site.navigation.map((link) => navGroup(link, currentPath)).join("");
   const splitWatchActive = currentPath.startsWith("/split-watch/") || currentPath === "/team-login/";
-  // Real, date-aware content, computed fresh in the browser every load
-  // (public/scripts/ohio-today.js) -- never a single hardcoded season
-  // message that goes stale the moment the calendar day moves past it.
-  // This static fallback (shown until JS runs, and if it never does) is
-  // deliberately evergreen -- no specific date, no LIVE claim -- so a
-  // visitor never sees a wrong date or an unearned "live" badge either
-  // way. data-ticker-live starts hidden; only PodiumOhioToday finding a
-  // real live signal is allowed to unhide it.
-  const ticker = `<div class="sports-ticker"><a class="container sports-ticker-inner" href="/meets/" data-ticker>
-    <span class="ticker-live" data-ticker-live hidden>LIVE</span>
-    <strong class="ticker-desktop-only" data-ticker-headline>OHIO RUNNING</strong>
-    <span class="ticker-desktop-only" data-ticker-detail>Meets, results, and rankings across the state</span>
-    <span class="ticker-desktop-only ticker-cta">View calendar ${icon("arrow")}</span>
-    <span class="ticker-mobile-only" data-ticker-mobile>Ohio running &middot; Meets, results, and rankings</span>
-  </a></div>`;
-  return `${ticker}<header class="site-header" data-header>
+  return `<header class="site-header pw-top" data-header>
   <div class="sp-progress" data-reading-progress></div>
-  <div class="container nav-wrap">
-    <a class="brand" href="/" aria-label="Podium Watch home">
-      <img src="${site.logoMark}" width="48" height="48" alt="">
+  <div class="container pw-top-wrap">
+    <a class="pw-brand" href="/" aria-label="Podium Watch home">
+      <img src="${site.logoMark}" width="42" height="42" alt="">
       <span><b>Podium</b><b>Watch</b></span>
     </a>
-    <div class="nav-mobile-actions">
-      <button class="nav-icon-button nav-mobile-search" type="button" aria-haspopup="dialog" aria-label="Search" data-search-open>${icon("search")}</button>
-      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation" data-menu-button>
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <nav id="site-nav" class="site-nav" aria-label="Main navigation" data-site-nav data-open="false">
-      ${navGroups}
-      <div class="nav-utility">
-        <button class="nav-icon-button nav-utility-search" type="button" aria-haspopup="dialog" aria-label="Search" data-search-open>${icon("search")}<span>Search</span></button>
-        <a class="nav-utility-calc" href="/pace-calculator/">${icon("calculator")}<span>Pace Calculator</span></a>
-        <a class="nav-utility-calc nav-utility-shop" href="/go/merch/nav/" target="_blank" rel="sponsored noopener">Shop</a>
-        <span data-nav-dropdown-sw-anchor hidden></span>
-        ${splitWatchNavDropdown(splitWatchActive)}
-        <div class="nav-utility-social-row">
-          <a class="nav-utility-watch" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch</a>
-          <a class="nav-utility-instagram" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">${icon("instagram")}</a>
-        </div>
-      </div>
+    <nav id="site-nav" class="pw-nav" aria-label="Main navigation" data-site-nav data-open="false">
+      <div class="pw-nav-list">${navGroups}</div>
+      <span class="pw-nav-sw-slot" data-nav-sw-mobile-slot></span>
     </nav>
+    <button class="pw-search" type="button" aria-haspopup="dialog" aria-label="Search Podium Watch" data-search-open>${icon("search")}<span>Search teams, athletes, meets</span><kbd aria-hidden="true">/</kbd></button>
+    <span data-nav-dropdown-sw-anchor hidden></span>
+    ${splitWatchNavDropdown(splitWatchActive)}
+    <button class="pw-menubtn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation" data-menu-button><span></span><span></span><span></span></button>
   </div>
-  <div class="nav-overlay" data-nav-overlay></div>
+  <div class="nav-overlay pw-overlay" data-nav-overlay></div>
   <dialog class="search-dialog" aria-labelledby="search-dialog-title" data-search-dialog>
     <div class="search-dialog-inner">
       <div class="search-dialog-heading"><div><p class="eyebrow">Search Podium Watch</p><h2 id="search-dialog-title">Find what you need.</h2></div><button class="search-dialog-close" type="button" aria-label="Close search" data-search-close>Close</button></div>
@@ -168,39 +135,38 @@ export function header(site, currentPath = "/") {
 </header>`;
 }
 
+// Site redesign step 1: four link groups, tagline, legal line and
+// "Support Podium Watch".
 export function footer(site) {
-  const groups = Object.entries(site.footerLinks).map(([heading, links]) => `<div class="footer-column"><strong>${escapeHtml(heading)}</strong>${links.map((link) => `<a href="${link.href}"${externalAttrs(link)}>${escapeHtml(link.label)}</a>`).join("")}</div>`).join("");
-  return `<footer class="site-footer">
-  <div class="container footer-grid">
-    <div class="footer-brand">
-      <img src="${site.logoLight || site.logo}" width="112" height="112" alt="Podium Watch">
+  const groups = Object.entries(site.footerLinks).map(([heading, links]) => `<div class="pw-foot-col"><strong>${escapeHtml(heading)}</strong>${links.map((link) => `<a href="${link.href}"${externalAttrs(link)}>${escapeHtml(link.label)}</a>`).join("")}</div>`).join("");
+  const legal = (site.footerLegal || []).map((link) => `<a href="${link.href}">${escapeHtml(link.label)}</a>`).join('<span aria-hidden="true"> &middot; </span>');
+  return `<footer class="site-footer pw-foot">
+  <div class="container pw-foot-grid">
+    <div class="pw-foot-brand">
+      <a class="pw-brand" href="/" aria-label="Podium Watch home"><img src="${site.logoMark}" width="42" height="42" alt=""><span><b>Podium</b><b>Watch</b></span></a>
       <p>Ohio high school running, all in one place.</p>
     </div>
     ${groups}
   </div>
-  <div class="container footer-bottom">
-    <span>© <span data-year></span> ${escapeHtml(site.copyrightText)}</span>
+  <div class="container pw-legal">
+    <span>&copy; <span data-year></span> ${escapeHtml(site.copyrightText)}</span>
     <span>Independent Ohio high school running coverage.</span>
-    <a class="footer-support" href="/support/">Support Podium Watch</a>
+    <span class="pw-legal-links">${legal}</span>
+    <a class="pw-support" href="/support/">Support Podium Watch</a>
   </div>
 </footer>`;
 }
 
-// Sports-utility-first, matching what a mobile visitor actually reaches
-// for: Home, My Podium, Results, Rankings, Meets. Stories and Voting stay
-// reachable from the main menu instead -- six destinations (Teams added 2026-11-11) keep every
-// tap target comfortably above 44px on a 360px-wide screen. Each link's
-// aria-current gets set by public/scripts/site.js (the dock is shared
-// chrome, rendered once in layout(), with no per-page pathname passed in
-// here). My Podium added 2026-08-28 -- see docs/MY_PODIUM_MASTER_BUILD_PLAN.md.
+// Site redesign step 1: the phone bottom bar, five items. aria-current is
+// set by public/scripts/site.js (data-dock-path). Meets moved to the
+// footer's Results group.
 function mobileDock() {
-  return `<nav class="mobile-dock" aria-label="Mobile quick navigation" data-mobile-dock>
+  return `<nav class="mobile-dock pw-dock" aria-label="Quick navigation" data-mobile-dock>
     <a href="/" aria-label="Home" data-dock-path="/">${icon("home")}<b>Home</b></a>
     <a href="/my-podium/" aria-label="My Podium" data-dock-path="/my-podium/">${icon("podium")}<b>My Podium</b></a>
     <a href="/meets/?view=results" aria-label="Latest results" data-dock-path="/meets/?view=results">${icon("results")}<b>Results</b></a>
     <a href="/rankings/" aria-label="Rankings" data-dock-path="/rankings/">${icon("rankings")}<b>Rankings</b></a>
     <a href="/teams/" aria-label="Teams" data-dock-path="/teams/">${icon("teams")}<b>Teams</b></a>
-    <a href="/meets/" aria-label="Meets" data-dock-path="/meets/">${icon("meets")}<b>Meets</b></a>
   </nav>`;
 }
 

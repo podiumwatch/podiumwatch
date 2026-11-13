@@ -2278,3 +2278,11 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Fan Poll text follows season phases (closed for the season outside cross country). Mock Meets say the season is complete after the state meet day.
 - Mock Postseason hubs load regional card bodies and State sections on demand (parts/*.json next to the page); /teams/ shows 24 cards at a time.
 - Scripts use fileURLToPath, so the repo builds from a folder with spaces.
+
+## 2026-11-13: Site redesign step 1, shared parts (branch site-redesign)
+
+- Header: logo; Home, News, Results, Rankings, Teams, Mock Meets, More (existing dropdowns); one search field (opens the existing search dialog; / and Ctrl+K unchanged); green Split Watch button (same Coach Sign In / Race Day Code panel and redirect). At 1100px and below: logo, search icon, menu button; the menu opens a drawer with Split Watch at the bottom.
+- Moved out of the header: the Ohio running ticker (dropped; it linked to /meets/, now in the footer); Pace Calculator (More menu and footer); Shop (footer, still /go/merch/nav/); Watch/YouTube and Instagram (footer).
+- Footer: Results, Rankings, Teams & tools, Podium Watch, then a legal line (Editorial Standards, Privacy, Terms) and Support Podium Watch. "All Rankings" (/rankings/), Fan Poll and the three calculators are listed because no other footer or menu link reaches them on desktop. The old Connect group became Instagram and YouTube under Podium Watch.
+- Phone bottom bar: Home, My Podium, Results, Rankings, Teams (Meets moved to the footer). Shown at 820px and below.
+- Components in src/lib/components.mjs: pageBand, tabsRow, filterChips (links, so filters are shareable URLs), dataTable (Show more rows stay in the HTML), statCards, podiumCards, panel, school color with a WCAG AA contrast rule (bandColor).

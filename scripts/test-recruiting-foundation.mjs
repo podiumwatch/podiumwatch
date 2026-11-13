@@ -528,7 +528,7 @@ includesAll(
 );
 
 assert.ok(
-  siteScript.includes('window.matchMedia("(max-width: 1320px)")'),
+  siteScript.includes('window.matchMedia("(max-width: 1100px)")'),
   "Navigation behavior and responsive menu CSS must use the same breakpoint."
 );
 includesAll(
