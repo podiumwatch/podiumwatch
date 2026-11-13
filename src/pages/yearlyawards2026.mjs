@@ -181,7 +181,7 @@ export function yearlyAwardsCategoryPage(site, pool, category, { share = null, a
 
       <section class="yoy-card" id="vote" data-yoy-vote hidden>
         <h2 data-yoy-vote-title>Vote</h2>
-        <p class="yoy-rules">You can vote once an hour in each category. Votes that look automated are removed.</p>
+        <p class="yoy-rules">You can vote once an hour in each category. Votes are limited per network per hour. Votes that look automated are removed.</p>
         <p class="yoy-hint" data-yoy-vote-hint></p>
         <ol class="yoy-finalists" data-yoy-finalists></ol>
         <div data-yoy-turnstile></div>
@@ -249,7 +249,7 @@ export function yearlyAwardsHubPage(site, pool) {
   })}
   <section class="section section-paper">
     <div class="container yoy-hub" data-yoy-hub>
-      <p class="yoy-intro">Pick a category to vote. You can vote once an hour in each category. Athlete and Team of the Year finalists are 2026 state qualifiers.</p>
+      <p class="yoy-intro">Pick a category to vote. You can vote once an hour in each category. Votes are limited per network per hour. Athlete and Team of the Year finalists are 2026 state qualifiers.</p>
       ${bicarbVotingAdHtml("awards-hub")}
       ${section("athlete")}
       ${section("team")}
