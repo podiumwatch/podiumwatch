@@ -2267,3 +2267,14 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - The repo is public, so the draft HTML is never committed (gitignored). It lives in the private Supabase Storage bucket oatccc-review and is read on the server with the service role key. The address itself is committed (Zachary's OK); the password is the gate.
 - Shared password from OATCCC_REVIEW_PASSWORD, signed 14-day cookie (HttpOnly, Secure, SameSite=Lax, scoped to the path) signed with OATCCC_REVIEW_COOKIE_SECRET and bound to a hash of the password, so changing it signs everyone out. Fails closed when either is missing or blank. noindex, no-store and no-referrer headers; no analytics on either page; not in robots.txt or the sitemap.
 - Take down: delete the route, lib file, rewrite and header rules, the bucket file, and both variables.
+
+## 2026-11-13: Site fixes round 1 (branch site-fixes-1)
+
+- Awards close needs no manual step (server refuses votes after 9:00 PM ET Nov 13; pages flip on their own, including pages left open). The homepage "See the winners" banner waits for winners published in all 24 categories, never a clock time (DATED_CTAS.awardsWinners.showWhen).
+- Public text never carries internal notes or file paths; tests/public-text.test.mjs fails on src/, .json, .mjs, "no paths", "ranking file", "athlete foundation", "percent complete", "supplied OHSAA", "Coming soon", "content/rankings". House entries in sponsors.json are house: true with internal_note (never rendered).
+- /rankings/leaders/ is server-rendered (api/pages/leaders.js, top 50 in the HTML); the year list no longer reads every performance row.
+- Ohio Schools: 556 = the OHSAA division document; 603 = the live list (adds 47 schools approved Nov 9 from 2026 postseason results). The header tile says which.
+- Interviews and Athlete Spotlights list stories tagged "Interview" / "Athlete Spotlight"; no coming-soon boxes.
+- Fan Poll text follows season phases (closed for the season outside cross country). Mock Meets say the season is complete after the state meet day.
+- Mock Postseason hubs load regional card bodies and State sections on demand (parts/*.json next to the page); /teams/ shows 24 cards at a time.
+- Scripts use fileURLToPath, so the repo builds from a folder with spaces.
