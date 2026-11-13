@@ -15,8 +15,9 @@
 // Writes dataimports/team_logos_match.json for the processing step.
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MAP = path.join(root, "dataimports/logo_map.json");
 const DIR = path.join(root, "dataimports/pw_logos/schools");
 const { supabaseAdmin: db } = await import("../lib/supabase-admin.mjs");

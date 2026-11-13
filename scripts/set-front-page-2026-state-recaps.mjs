@@ -11,9 +11,10 @@ import path from "node:path";
 import { parseFrontMatter } from "../src/lib/content.mjs";
 import { setAlsoStories } from "../lib/front_page_service.mjs";
 import { supabaseAdmin as db } from "../lib/supabase-admin.mjs";
+import { fileURLToPath } from "node:url";
 
 const APPLY = process.argv.includes("--apply");
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 // Ids checked by name and school on 2026-11-10 (exactly one match each).
 const RECAPS = [

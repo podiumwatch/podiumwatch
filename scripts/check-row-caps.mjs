@@ -8,8 +8,9 @@
 //   node scripts/check-row-caps.mjs        (also runs inside npm run check)
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const LIMIT = /\.limit\(\s*(\d+)\s*\)/g;
 
 function walk(dir, out = []) {
@@ -45,7 +46,7 @@ export function checkRowCaps() {
   return failures;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"))) {
+if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))) {
   const failures = checkRowCaps();
   if (failures.length) {
     console.error(`Supabase row cap: ${failures.length} quer${failures.length === 1 ? "y asks" : "ies ask"} for more than 1,000 rows with .limit(). PostgREST returns at most 1,000 per request; use selectAll() from lib/supabase_paging.mjs.`);

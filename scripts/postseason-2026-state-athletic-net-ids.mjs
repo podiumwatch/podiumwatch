@@ -22,8 +22,9 @@
 // Report: dataimports/postseason_2026_to_results/state_athletic_net_ids_report.json
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const folder = path.join(root, "dataimports/real_state_results_2026");
 const write = process.argv.includes("--write");
 

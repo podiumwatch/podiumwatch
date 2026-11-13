@@ -19,8 +19,9 @@
 // row with none is "unresolved".
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relative) => JSON.parse(fs.readFileSync(path.join(root, relative), "utf8"));
 const { supabaseAdmin } = await import("../lib/supabase-admin.mjs");
 const { selectAll } = await import("../lib/supabase_paging.mjs");

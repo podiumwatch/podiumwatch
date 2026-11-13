@@ -19,10 +19,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
+import { fileURLToPath } from "node:url";
 
 const WRITE = process.argv.includes("--write");
 const FORCE = process.argv.includes("--force");
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SRC = path.join(root, "dataimports/pw_logos/schools");
 const OUT = path.join(root, "public/images/teams");
 const POOL = path.join(OUT, "pool");

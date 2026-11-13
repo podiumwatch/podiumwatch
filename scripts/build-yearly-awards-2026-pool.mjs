@@ -18,8 +18,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { loadSeasonDivisions } from "../lib/season_divisions.mjs";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")), "..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const schoolsFile = process.argv[2];
 if (!schoolsFile) throw new Error("Pass the saved /api/ohio-schools/ response as the first argument.");
 
