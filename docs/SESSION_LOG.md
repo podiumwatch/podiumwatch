@@ -3076,3 +3076,7 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 
 - Awards: network 887ebc14fd voided (5,973 automated votes, four Division IV categories); Turnstile on; 150 per network per category per hour backstop pushed (ced7c737); Nov 10 counter gaps reconciled (approved) and a counter check committed (74aaa77b, not pushed). Vote watch every 2 hours and a final audit at 9:08 PM Fri run in this session.
 - Split Watch read-only audit, then track build Phase 1: shared request helper on all nine pages, remaining hang paths closed (code entry, position confirm, plan, review, public, meet center, guardian, token config load, sign-in checks, stalled CDN), live page offline reopen with banner, leave warning. Committed locally, not pushed.
+
+## 2026-11-12: OATCCC private review link
+
+- Built from OATCCC_REVIEW_LINK_HANDOFF.md. Repo is public, so with Zachary's OK the draft went to a new private Supabase bucket (oatccc-review) instead of git. Route, password gate, headers, tests (scripts/test-oatccc-review.mjs, in npm test). Local checks 1-8 passed in real Chrome and curl against the real bucket. Committed on branch oatccc-review, not pushed.

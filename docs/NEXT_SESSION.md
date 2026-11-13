@@ -1,5 +1,10 @@
 # Podium Watch next session
 
+## Start here (2026-11-12, OATCCC review link)
+
+- Branch oatccc-review (off 7ddda082, in the D: copy D:PodiumWatchpw_site_phase3), committed, not pushed. Before deploying, Zachary sets OATCCC_REVIEW_PASSWORD and OATCCC_REVIEW_COOKIE_SECRET (32+ characters) in Vercel for Production and Preview. The draft is already in the private bucket oatccc-review.
+- To swap the draft: upload the new file to oatccc-review/OATCCC-Indoor-DRAFT-preview.html (upsert). Address and password stay.
+
 ## Start here (2026-11-12, Split Watch track Phase 2)
 
 - Phase 2 (lap mode) done and committed locally, not pushed. Zachary runs install/96_SPLIT_WATCH_LAP_MODE.sql, then pushes. Phase 1 commits were also still local at the start of Phase 2 (origin/main was ced7c737).

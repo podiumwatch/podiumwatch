@@ -28,3 +28,6 @@ dataimports/awards_2026/
 .playwright-an-profile/
 dataimports/athletic_net_pull_2026-11/
 dataimports/postseason_track_pull_2026-11/
+
+# OATCCC review draft (2026-11-12): lives in the private Supabase bucket oatccc-review, never in this public repo
+OATCCC-Indoor-DRAFT-preview.html

@@ -100,6 +100,10 @@
   ],
   "rewrites": [
     {
+      "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/",
+      "destination": "/api/review/oatccc-indoor"
+    },
+    {
       "source": "/athletes/:slug([a-z0-9-]+)/",
       "destination": "/api/pages/athlete?slug=:slug"
     },
@@ -272,6 +276,40 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/review/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    },
+    {
+      "source": "/api/review/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
         }
       ]
     }

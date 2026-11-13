@@ -2260,3 +2260,10 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - The server places a new lap tap by time (lib/race_laps.mjs resolveLapTap): same pass within the double tap window (15 s at 400 m, 8 s at 200 m) keeps the first saved; later = next open lap; earlier = fills the missed lap, later passes move up (moves, or time shifts with revisions when an undone row is in the way).
 - DQ is race_participants.disqualified (install/96), leaving the status check constraint untouched. Each tap's clock correction is stored in race_splits once install/96 runs.
 - First page loads count their 15 s from navigation start (Request.loadDeadline), so Try again shows within ~16 s even on a slow load.
+
+## 2026-11-12: OATCCC private review link
+
+- The OATCCC's indoor manager asked for a private, not published, redesign draft for OATCCC administrators. One password-protected address serves it: /review/oatccc-indoor-<token>/ (vercel.json rewrite to api/review/oatccc-indoor.js; logic in lib/oatccc_review.mjs).
+- The repo is public, so the draft HTML is never committed (gitignored). It lives in the private Supabase Storage bucket oatccc-review and is read on the server with the service role key. The address itself is committed (Zachary's OK); the password is the gate.
+- Shared password from OATCCC_REVIEW_PASSWORD, signed 14-day cookie (HttpOnly, Secure, SameSite=Lax, scoped to the path) signed with OATCCC_REVIEW_COOKIE_SECRET and bound to a hash of the password, so changing it signs everyone out. Fails closed when either is missing or blank. noindex, no-store and no-referrer headers; no analytics on either page; not in robots.txt or the sitemap.
+- Take down: delete the route, lib file, rewrite and header rules, the bucket file, and both variables.
