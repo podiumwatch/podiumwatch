@@ -408,6 +408,16 @@
       // Site fixes B: the Verified tile shows only once there is one.
       const verifiedTile = root.querySelector("[data-athlete-stat-verified-tile]");
       if (verifiedTile) verifiedTile.hidden = !(summary.verified > 0);
+      // The "Verified profiles" filter choice likewise appears only once
+      // there is a verified profile (an <option> can't be hidden reliably
+      // on iPhone, so it's added rather than shown).
+      const verificationSelect = root.querySelector('select[name="verification"]');
+      if (verificationSelect && summary.verified > 0 && !verificationSelect.querySelector('option[value="verified"]')) {
+        const option = document.createElement("option");
+        option.value = "verified";
+        option.textContent = "Verified profiles";
+        verificationSelect.insertBefore(option, verificationSelect.options[1] || null);
+      }
 
       resultTitle.textContent = payload.total === 1 ? "1 athlete found" : `${payload.total || 0} athletes found`;
       resultCount.textContent = athletes.length

@@ -85,7 +85,7 @@ export function athletesPage(site) {
           <label>Division<select name="division"><option value="">All divisions</option><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option><option value="5">Division V</option></select></label>
           <label>Event<input type="search" name="event" placeholder="5K, 1600, 3200"></label>
           <label>School<input type="search" name="school" placeholder="School name"></label>
-          <label>Verification<select name="verification"><option value="">All source levels</option><option value="verified">Verified profiles</option><option value="source_linked">Source linked profiles</option></select></label>
+          <label>Verification<select name="verification"><option value="">All source levels</option><option value="source_linked">Source linked profiles</option></select></label>
           <label class="athlete-directory-check"><input type="checkbox" name="recruiting_only">Recruiting information available</label>
         </div>
         <div class="athlete-directory-actions">
