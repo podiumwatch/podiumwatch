@@ -64,12 +64,20 @@ export const schoolKey = (name) => schoolBaseName(name).toLowerCase().replace(/[
 
 // ambiguous: a Set (or array) of schoolKey values shared by more than one
 // Ohio school (src/data/ambiguous-school-names.json).
-export function schoolLabel(name, city, ambiguous) {
+// regions (optional, 2026-11-13): an object or Map of "name|city" schoolKey
+// pairs to an OHSAA region, used when the city is the school's own name
+// ("Lakewood (Lakewood)" reads as "Lakewood (Northeast)").
+export function schoolLabel(name, city, ambiguous, regions = null) {
   const base = schoolBaseName(name);
   if (!base) return base;
   const set = ambiguous instanceof Set ? ambiguous : new Set(ambiguous || []);
   const cityText = String(city ?? "").trim();
   if (!cityText || !set.has(schoolKey(base))) return base;
+  if (regions && schoolKey(cityText) === schoolKey(base)) {
+    const key = `${schoolKey(base)}|${schoolKey(cityText)}`;
+    const region = regions instanceof Map ? regions.get(key) : regions[key];
+    if (region) return `${base} (${region})`;
+  }
   const cityShown = isAllCaps(cityText) || isAllLower(cityText) ? cityText.split(" ").map((w, i) => titleWord(w, i)).join(" ") : cityText;
   return `${base} (${cityShown})`;
 }
