@@ -1,4 +1,5 @@
 import trackRegionalData from "../data/track-regional-sites-2026.json" with { type: "json" };
+import boysXcDivisions from "../../public/data/boys-xc-divisions-2026-27.json" with { type: "json" };
 import { layout, pageHero } from "../lib/html.mjs";
 import { escapeHtml } from "../lib/content.mjs";
 
@@ -31,7 +32,7 @@ export function tournamentHubPage(site) {
     <aside class="source-notice"><strong>Source and accuracy note</strong><p>This page organizes information from official OHSAA documents supplied to Podium Watch. The track regional document was updated April 3, 2026 and says all information is subject to change. Always confirm final details with OHSAA and your school.</p></aside>
 
     <section aria-labelledby="xc-division-finder-title">
-      <div class="section-heading"><div><p class="eyebrow">2026 and 2027 boys cross country</p><h2 id="xc-division-finder-title">Official boys division finder</h2><p>Search 556 Ohio schools from the official OHSAA boys cross country division document.</p></div><a class="text-link" href="https://www.ohsaa.org/sports/cc/tournament-info" target="_blank" rel="noopener noreferrer">Confirm with OHSAA</a></div>
+      <div class="section-heading"><div><p class="eyebrow">2026 and 2027 boys cross country</p><h2 id="xc-division-finder-title">Official boys division finder</h2><p>Search ${boysXcDivisions.length} Ohio schools from the official OHSAA boys cross country division document.</p></div><a class="text-link" href="https://www.ohsaa.org/sports/cc/tournament-info" target="_blank" rel="noopener noreferrer">Confirm with OHSAA</a></div>
       <div class="info-card division-finder" data-xc-division-finder>
         <div class="filter-grid">
           <label class="form-field"><span>School or city</span><input type="search" data-xc-search placeholder="Search a school or city"></label>

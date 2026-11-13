@@ -282,7 +282,7 @@ export function ohioSchoolsPage(site) {
       <div class="ohio-school-stats" data-ohio-school-stats>
         <article class="ohio-school-stat">
           <strong data-ohio-stat-schools>556</strong>
-          <span>Official schools</span>
+          <span>In the OHSAA division document</span>
         </article>
 
         <article class="ohio-school-stat">
