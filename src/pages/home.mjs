@@ -1,6 +1,18 @@
+import { formatDate } from "../lib/content.mjs";
+import { layout, organizationJsonLd, storyFallbackImage, storyType, websiteJsonLd } from "../lib/html.mjs";
+import { merchStripHtml } from "../lib/merch_card.mjs";
+import { DATED_CTAS, isLive, seasonPhase } from "../config/season.mjs";
+import { findPlacement } from "../../lib/site_sponsors.mjs";
+import { frontRotatorHtml, ROTATION_MAX } from "../../public/scripts/front-lead.mjs";
+import oatcccPollData from "../data/oatccc-coaches-poll.json" with { type: "json" };
+import stateChampions2026 from "../data/state-champions-2026.json" with { type: "json" };
+
 // Homepage (site redesign step 7, 2026-11-13; HOMEPAGE_REDESIGN_HANDOFF
 // and SITE_REDESIGN_MASTER_HANDOFF). Layout only: every module reads the
-// same data it always did, passed in by scripts/build.mjs.
+// same data it always did. Rendered on the server for every request
+// (api/pages/home.js, edge-cached for 60 seconds) so the lead story an
+// admin set is decided before the page is sent: nothing on the first
+// screen waits for, or changes after, a browser request.
 //
 // Top to bottom: team bar (find your team, search athletes, one dated call
 // to action), then a two-column block (lead story with click-through and
@@ -108,13 +120,12 @@ function recapsBlock(group) {
   </section>`;
 }
 
-// Up to 8 cards are built; the first four not in the lead set show (the
-// admin can change the lead set in the browser, front-lead-client.mjs).
+// Four story cards: the newest stories not in the lead set or the recaps.
 function newsroom(cards = []) {
   if (!cards.length) return "";
   return `<section class="pw-hsec" aria-labelledby="newsroom-title">
     <div class="pw-hsec-h"><h2 id="newsroom-title">More from the newsroom</h2><a href="/stories/">All stories</a></div>
-    <div class="pw-cards" data-home-cards>${cards.map((card, i) => `<article class="pw-card" data-story-slug="${esc(card.slug)}"${i < 4 ? "" : " hidden"}>
+    <div class="pw-cards" data-home-cards>${cards.map((card) => `<article class="pw-card">
       <a class="pw-card-img" href="/stories/${esc(card.slug)}/" tabindex="-1" aria-hidden="true"><img src="${esc(card.image)}" alt="${esc(card.imageAlt || "")}" width="640" height="360" loading="lazy" decoding="async"${card.imagePosition ? ` style="object-position:${esc(card.imagePosition)}"` : ""}></a>
       <div><p class="pw-card-meta"><b>${esc(card.category || "Story")}</b> &middot; ${esc(card.dateLabel)}${card.minutes ? ` &middot; ${esc(String(card.minutes))} min read` : ""}</p><h3><a href="/stories/${esc(card.slug)}/">${esc(card.title)}</a></h3></div>
     </article>`).join("")}</div>
@@ -162,13 +173,12 @@ const TOOLS = [
   ["/my-podium/", "My Podium", "Follow your team"]
 ];
 
-export function homeContent({ leadHtml = "", candidatesJson = "[]", recaps = null, cards = [], champions = null, poll = null, datedCtas = [], spikeTownHref = "", shopHtml = "" } = {}) {
+export function homeContent({ leadHtml = "", recaps = null, cards = [], champions = null, poll = null, datedCtas = [], spikeTownHref = "", shopHtml = "" } = {}) {
   return `${teamBar(datedCtas)}
 <div class="container pw-home">
   <div class="pw-home-main">
     ${leadHtml ? `<section class="pw-home-lead" data-front-page aria-label="Top stories">
       <div data-front-lead>${leadHtml}</div>
-      <script type="application/json" data-front-candidates>${candidatesJson}</script>
     </section>` : ""}
     ${rail(champions)}
     ${recapsBlock(recaps)}
@@ -186,4 +196,103 @@ export function homeContent({ leadHtml = "", candidatesJson = "[]", recaps = nul
 </div>
 ${leadHtml ? `<script type="module" src="/scripts/front-lead-client.mjs"></script>` : ""}
 <script src="/scripts/homepage.js" defer></script>`;
+}
+
+// ---- Whole page (server) --------------------------------------------------
+
+// A story in the front page lead shape (public/scripts/front-lead.mjs).
+// Generic fallback art is not a photo: those stories get the type-only lead.
+export function frontStoryShape(story) {
+  const image = story.heroImage || story.featuredImage || "";
+  const realPhoto = image && !/story_fallback/.test(image);
+  const summary = String(story.description || "");
+  return {
+    slug: story.slug,
+    href: `/stories/${story.slug}/`,
+    title: story.title,
+    summary: summary.length > 150 ? `${summary.slice(0, 147).trimEnd()}...` : summary,
+    kicker: String(story.kicker || story.category || "").toUpperCase() || null,
+    image_url: realPhoto ? image : null,
+    image_alt: realPhoto ? story.heroAlt || story.featuredImageAlt || "" : "",
+    image_credit: realPhoto ? story.imageCredit || null : null,
+    image_position: realPhoto && /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : null,
+    image_fit: realPhoto && story.featuredImageFit === "contain" ? "contain" : null,
+    byline: !story.author || story.author === "Podium Watch" ? "Podium Watch Staff" : story.author,
+    story_date: story.date
+  };
+}
+
+// The lead set (WO-43): an admin-set lead first, then the stories an admin
+// placed in the set by hand, then the newest stories, up to 8, no repeats.
+// An admin row keeps its own photo, kicker and credit; its crop point comes
+// from the story files. With no admin rows: the 8 newest stories.
+export function leadOrder(newest = [], frontPage = null) {
+  const bySlug = new Map(newest.map((story) => [story.slug, story]));
+  const seen = new Set();
+  const order = [];
+  const add = (story) => {
+    if (!story?.slug || seen.has(story.slug) || order.length >= ROTATION_MAX) return;
+    seen.add(story.slug);
+    const built = bySlug.get(story.slug);
+    order.push({ ...story, image_position: story.image_position || built?.image_position || null, image_fit: story.image_fit || built?.image_fit || null });
+  };
+  if (frontPage?.lead) add({ ...frontPage.lead, slug: frontPage.lead.story_slug });
+  for (const pick of frontPage?.also || []) add({ ...pick, slug: pick.story_slug });
+  for (const story of newest) add(story);
+  return order;
+}
+
+// The whole homepage. stories: newest first (lib/home_stories.mjs).
+// frontPage: { lead, also } from lib/front_page_service.mjs, or null.
+export function homePageHtml({ stories = [], frontPage = null, now = new Date(), site } = {}) {
+  const phase = seasonPhase(now);
+  const byDate = [...stories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`));
+  const lead = leadOrder(byDate.slice(0, ROTATION_MAX + 4).map(frontStoryShape), frontPage);
+  const leadSlugs = lead.map((story) => story.slug);
+  const recaps = recapGroup(byDate, leadSlugs);
+  const recapSlugs = new Set(recaps.items.map((story) => story.slug));
+  const cards = byDate.filter((story) => !leadSlugs.includes(story.slug) && !recapSlugs.has(story.slug)).slice(0, 4).map((story) => ({
+    slug: story.slug,
+    title: story.title,
+    category: storyType(story),
+    dateLabel: formatDate(story.date),
+    minutes: story.readingMinutes,
+    image: story.heroImage || story.featuredImage || storyFallbackImage(story.category),
+    imageAlt: story.heroAlt || story.featuredImageAlt || "",
+    imagePosition: /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : ""
+  }));
+  // OATCCC Coaches Poll: the latest week, top four per classification.
+  const latestPoll = oatcccPollData.weeks[oatcccPollData.weeks.length - 1];
+  const pollData = { boys: {}, girls: {} };
+  for (const gender of ["boys", "girls"]) for (const division of [1, 2, 3, 4]) {
+    pollData[gender][division] = ((latestPoll.divisions[gender] && latestPoll.divisions[gender][division]) || []).slice(0, 4).map((row) => [row.school, `${row.points} points`]);
+  }
+  const poll = { label: latestPoll.pollLabel, date: formatDate(latestPoll.pollDate), data: pollData };
+  // The current championship: the state champions during the cross
+  // country wrap-up. Outside it the panel shows latest results and
+  // upcoming meets only.
+  const champions = phase.key === "xc-wrapup" ? stateChampions2026 : null;
+  const datedCtas = Object.values(DATED_CTAS).map((cta) => ({ ...cta, live: isLive(cta, now) }));
+  const spikeTown = findPlacement("spike-town-runners-plus", "home-rankings");
+  const content = homeContent({
+    leadHtml: frontRotatorHtml(lead),
+    recaps,
+    cards,
+    champions,
+    poll,
+    datedCtas,
+    spikeTownHref: spikeTown?.sponsor.url ? "/go/spike-town-runners-plus/home-rankings/?from=%2F" : "",
+    shopHtml: merchStripHtml({ placement: "home", from: "/" })
+  });
+  const leadStory = byDate.find((story) => story.slug === lead[0]?.slug);
+  return layout({
+    site,
+    title: `${site.name} | Ohio High School Cross Country and Track & Field`,
+    bodyClass: "home-page",
+    description: site.description,
+    pathname: "/",
+    image: leadStory?.featuredImage || lead[0]?.image_url || site.defaultSocialImage,
+    content,
+    jsonLd: [websiteJsonLd(site), organizationJsonLd(site)]
+  });
 }

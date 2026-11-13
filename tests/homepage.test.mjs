@@ -1,9 +1,37 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { apDate, divisionLabel, homeContent, recapGroup } from "../src/pages/home.mjs";
+import { apDate, divisionLabel, homeContent, homePageHtml, leadOrder, recapGroup } from "../src/pages/home.mjs";
 import { frontRotatorHtml } from "../public/scripts/front-lead.mjs";
 import { merchStripHtml } from "../src/lib/merch_card.mjs";
+import { readHomeStories } from "../lib/home_stories.mjs";
+import { site } from "../src/config/site.mjs";
+
+test("server-rendered homepage: the admin lead is first in the HTML, with no browser wait or swap", () => {
+  const stories = readHomeStories();
+  assert.ok(stories.length >= 8, "stories read from content/stories");
+  assert.ok(stories.every((s) => s.draft !== true && s.slug !== "write-for-podium-watch"));
+  const pick = stories[5];
+  const frontPage = { lead: { story_slug: pick.slug, href: `/stories/${pick.slug}/`, title: pick.title, summary: "Admin summary", kicker: "ADMIN KICKER", image_url: null, byline: "Podium Watch Staff", story_date: pick.date }, also: [] };
+  const html = homePageHtml({ stories, frontPage, now: new Date("2026-11-13T17:00:00Z"), site });
+  const firstSlide = html.slice(html.indexOf('class="fl-lead'), html.indexOf("</h1>"));
+  assert.match(firstSlide, new RegExp(`data-front-lead-slug="${pick.slug}"`));
+  assert.match(firstSlide, /ADMIN KICKER/);
+  assert.doesNotMatch(html, /is-pending|data-front-candidates|\/api\/front-page\/current/);
+  assert.equal((html.match(/<h1[\s>]/g) || []).length, 1);
+  assert.match(html, /<link rel="canonical" href="[^"]*\/">/);
+  // No admin rows: the 8 newest stories, newest first.
+  const plain = homePageHtml({ stories, frontPage: null, now: new Date("2026-11-13T17:00:00Z"), site });
+  assert.match(plain.slice(plain.indexOf('class="fl-lead'), plain.indexOf("</h1>")), new RegExp(`data-front-lead-slug="${stories[0].slug}"`));
+});
+
+test("lead order: admin lead, then hand-placed stories, then the newest; no repeats, at most 8", () => {
+  const newest = Array.from({ length: 12 }, (_, i) => ({ slug: `n${i}`, image_position: i === 3 ? "50% 20%" : null }));
+  const order = leadOrder(newest, { lead: { story_slug: "n3" }, also: [{ story_slug: "x" }, { story_slug: "n0" }] });
+  assert.deepEqual(order.map((s) => s.slug), ["n3", "x", "n0", "n1", "n2", "n4", "n5", "n6"]);
+  assert.equal(order[0].image_position, "50% 20%", "crop point from the story files");
+  assert.deepEqual(leadOrder(newest, null).map((s) => s.slug), ["n0", "n1", "n2", "n3", "n4", "n5", "n6", "n7"]);
+});
 
 const story = (slug, extra = {}) => ({ slug, title: `Story ${slug}`, date: "2026-11-10", ...extra });
 const champions = {

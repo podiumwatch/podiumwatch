@@ -1,5 +1,5 @@
-import { merchSection, merchStripHtml } from "../src/lib/merch_card.mjs";
-import { homeContent, recapGroup } from "../src/pages/home.mjs";
+import { merchSection } from "../src/lib/merch_card.mjs";
+import { frontStoryShape } from "../src/pages/home.mjs";
 import { adminTeamsPage } from "../src/pages/adminteams.mjs";
 import { adminTeamManagerPage } from "../src/pages/adminteammanager.mjs";
 import { adminTeamSchedulesPage } from "../src/pages/adminteamschedules.mjs";
@@ -26,7 +26,6 @@ import sponsors from "../src/data/sponsors.json" with { type: "json" };
 import ohioSchoolFoundation from "../public/data/ohio-school-foundation-2026-27.json" with { type: "json" };
 import athleteFoundationSeed from "../public/data/athlete-foundation-seed-2026.json" with { type: "json" };
 import preseasonInteractiveData from "../public/data/podium-watch-2026-preseason-interactive-data.json" with { type: "json" };
-import oatcccPollData from "../src/data/oatccc-coaches-poll.json" with { type: "json" };
 import { displaySchoolName } from "../lib/ohio_foundation_service.mjs";
 import {
   copyDirectory,
@@ -132,13 +131,10 @@ import { adminWrappedPage } from "../src/pages/adminwrapped.mjs";
 import { adminTeamLogosPage } from "../src/pages/adminteamlogos.mjs";
 import { adminSponsorReportPage } from "../src/pages/adminsponsorreport.mjs";
 import { adminPartnerPage } from "../src/pages/adminpartnerpage.mjs";
-import { findPlacement, sponsorSlotHtml } from "../lib/site_sponsors.mjs";
+import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
 import { COMMITMENT_CLASSES } from "../src/lib/commitment_rows.mjs";
 import { allHubPaths } from "../src/config/season_hubs.mjs";
-import { frontRotatorHtml, ROTATION_MAX } from "../public/scripts/front-lead.mjs";
 import { applyImageFocus } from "./image-focus.mjs";
-import stateChampions2026 from "../src/data/state-champions-2026.json" with { type: "json" };
-import { DATED_CTAS, isLive, seasonPhase } from "../src/config/season.mjs";
 import { adminFanPollPage } from "../src/pages/adminfanpoll.mjs";
 import { adminAwardsPage } from "../src/pages/adminawards.mjs";
 import { adminPathToStatePage } from "../src/pages/adminpathtostate.mjs";
@@ -211,8 +207,8 @@ function athleteSeedForRankingRow(ranking, row) {
 // these helpers are what connect the two systems anyway, by classification
 // (gender + division number), for the "2026 preseason team power rankings"
 // callout on the /rankings/cross-country/ division pages, purely by
-// lookup. No longer used for the homepage widget -- see oatcccPowerRows()
-// below for that (2026-09-03).
+// lookup. No longer used for the homepage widget, which shows the OATCCC poll
+// (src/pages/home.mjs).
 const preseasonClassifications = Object.values(preseasonInteractiveData.classifications || {});
 
 function preseasonClassificationFor(genderLower, divisionNumber) {
@@ -223,20 +219,6 @@ function preseasonClassificationFor(genderLower, divisionNumber) {
 
 function preseasonArticleHref(classification) {
   return `/stories/${classification.articleSlug}/`;
-}
-
-// Top N teams from the official OATCCC coaches poll (2026-09-03: the
-// homepage widget switched from Podium Watch's own simulated preseason
-// power rankings to the real, weekly-updated OATCCC data, once that
-// poll existed and was live) for one gender/division, in the
-// [team, label, href] shape the homepage widget already renders. Always
-// reads the LAST entry in oatcccPollData.weeks -- the most recent poll
-// -- so this widget updates automatically every time a new week is
-// pushed onto that array, with no code change here.
-function oatcccPowerRows(genderLower, divisionNumber, count = 4) {
-  const latestWeek = oatcccPollData.weeks[oatcccPollData.weeks.length - 1];
-  const rows = (latestWeek.divisions[genderLower] && latestWeek.divisions[genderLower][divisionNumber]) || [];
-  return rows.slice(0, count).map((row) => [row.school, `${row.points} points`, "/rankings/oatccc/"]);
 }
 
 // vercel.json caches everything under /scripts/ and /styles/ for up to an
@@ -400,100 +382,9 @@ async function loadRankings() {
   return rankings.sort((a, b) => new Date(`${b.updatedDate}T12:00:00`) - new Date(`${a.updatedDate}T12:00:00`));
 }
 
-// A story in the front page lead shape (public/scripts/front-lead.mjs).
-// Generic fallback art is not a photo: those stories get the type-only lead.
-function frontStoryShape(story) {
-  const image = story.heroImage || story.featuredImage || "";
-  const realPhoto = image && !/story_fallback/.test(image);
-  const summary = String(story.description || "");
-  return {
-    slug: story.slug,
-    href: `/stories/${story.slug}/`,
-    title: story.title,
-    summary: summary.length > 150 ? `${summary.slice(0, 147).trimEnd()}...` : summary,
-    kicker: String(story.kicker || story.category || "").toUpperCase() || null,
-    image_url: realPhoto ? image : null,
-    image_alt: realPhoto ? story.heroAlt || story.featuredImageAlt || "" : "",
-    image_credit: realPhoto ? story.imageCredit || null : null,
-    // The story's own crop point (featuredImagePosition), so faces stay in
-    // the wide front page frame.
-    image_position: realPhoto && /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : null,
-    image_fit: realPhoto && story.featuredImageFit === "contain" ? "contain" : null,
-    byline: !story.author || story.author === "Podium Watch" ? "Podium Watch Staff" : story.author,
-    story_date: story.date
-  };
-}
 
-function homePage(stories) {
-  // Site redesign step 7 (2026-11-13): the layout lives in
-  // src/pages/home.mjs. This function only gathers the same data the
-  // homepage always used: the newest stories (lead set and newsroom), the
-  // newest story series (recaps list), the 8 state champions while the
-  // season is in its wrap-up, the latest OATCCC poll and the dated calls to
-  // action. Latest results and upcoming meets load in the browser from the
-  // meet calendar (public/scripts/homepage.js).
-  //
-  // Lead set (WO-43, Zachary 2026-09-16 and 2026-11-10): the 8 newest
-  // stories by date only (pinned stories don't jump ahead); in the browser
-  // an admin-set lead goes first. No auto-rotation (2026-11-13).
-  const buildNow = new Date();
-  const phase = seasonPhase(buildNow);
-  const byDate = [...stories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`));
-  const featuredStory = byDate[0];
-  const rotation = byDate.slice(0, ROTATION_MAX);
-  const leadSlugs = rotation.map((story) => story.slug);
-  const frontCandidates = byDate.slice(0, ROTATION_MAX + 4).map(frontStoryShape);
-  const recaps = recapGroup(byDate, leadSlugs);
-  // More from the newsroom: the stories after the lead set, newest first,
-  // not already in the recaps list. 8 are built so the browser can still
-  // show 4 if an admin moves some of them into the lead set.
-  const recapSlugs = new Set(recaps.items.map((story) => story.slug));
-  const cards = byDate.filter((story) => !leadSlugs.includes(story.slug) && !recapSlugs.has(story.slug)).slice(0, 8).map((story) => ({
-    slug: story.slug,
-    title: story.title,
-    category: storyType(story),
-    dateLabel: formatDate(story.date),
-    minutes: story.readingMinutes,
-    image: story.heroImage || story.featuredImage || storyFallbackImage(story.category),
-    imageAlt: story.heroAlt || story.featuredImageAlt || "",
-    imagePosition: /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : ""
-  }));
-  // OATCCC Coaches Poll (2026-09-03): the real, latest poll week, top four
-  // per classification (oatcccPowerRows above). No sponsor on this panel.
-  const latestPoll = oatcccPollData.weeks[oatcccPollData.weeks.length - 1];
-  const pollData = { boys: {}, girls: {} };
-  for (const gender of ["boys", "girls"]) for (const division of [1, 2, 3, 4]) pollData[gender][division] = oatcccPowerRows(gender, division).map(([team, points]) => [team, points]);
-  const poll = { label: latestPoll.pollLabel, date: formatDate(latestPoll.pollDate), data: pollData };
-  // The current championship: the state champions (src/data/
-  // state-champions-2026.json, from the imported official results) during
-  // the cross country wrap-up. Outside it the panel shows only latest
-  // results and upcoming meets.
-  const champions = phase.key === "xc-wrapup" ? stateChampions2026 : null;
-  const datedCtas = Object.values(DATED_CTAS).map((cta) => ({ ...cta, live: isLive(cta, buildNow) }));
-  const spikeTown = findPlacement("spike-town-runners-plus", "home-rankings");
-  const spikeTownHref = spikeTown?.sponsor.url ? `/go/spike-town-runners-plus/home-rankings/?from=%2F` : "";
-  const content = homeContent({
-    leadHtml: featuredStory ? frontRotatorHtml(rotation.map(frontStoryShape)) : "",
-    candidatesJson: JSON.stringify(frontCandidates).replaceAll("<", "\\u003c"),
-    recaps,
-    cards,
-    champions,
-    poll,
-    datedCtas,
-    spikeTownHref,
-    shopHtml: merchStripHtml({ placement: "home", from: "/" })
-  });
-  return layout({
-    site,
-    title: `${site.name} | Ohio High School Cross Country and Track & Field`,
-    bodyClass: "home-page",
-    description: site.description,
-    pathname: "/",
-    image: featuredStory?.featuredImage || site.defaultSocialImage,
-    content,
-    jsonLd: [websiteJsonLd(site), organizationJsonLd(site)]
-  });
-}
+// The homepage is rendered on the server (api/pages/home.js, src/pages/home.mjs;
+// site redesign step 7) so the admin-set lead is decided before the page is sent.
 
 // Story page redesign (2026-10-28), A3: filter chips for every story
 // type. "All" plus one chip per STORY_TYPES value (labeled to match the
@@ -915,7 +806,6 @@ async function build() {
   const isRankingDuplicate = (story) => rankingDuplicateSlugs.has(story.slug);
   const publicStories = stories.filter((story) => story.slug !== "write-for-podium-watch" && !isRankingDuplicate(story));
 
-  await writePage("/", homePage(publicStories, rankings));
   await writePage("/stories/", storiesIndexPage(publicStories));
   for (const story of stories) {
     if (isRankingDuplicate(story)) continue;
@@ -1167,7 +1057,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // not yet meaningful enough to index at volume (201 pages). This is
   // the task's own documented safe fallback, not a guess.
   const isRealAthletePage = (pathname) => pathname.startsWith("/athletes/") && pathname !== "/athletes/";
-  const SERVER_RENDERED_PATHS = ["/sponsors/", "/rankings/leaders/", "/teams/", ...yearlyAwardsPool.categories.map((category) => `/awards/2026/${category.slug}/`), ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
+  const SERVER_RENDERED_PATHS = ["/", "/sponsors/", "/rankings/leaders/", "/teams/", ...yearlyAwardsPool.categories.map((category) => `/awards/2026/${category.slug}/`), ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
   const paths = [...generatedPaths, ...SERVER_RENDERED_PATHS]
     .filter((pathname) => !pathname.endsWith("404.html"))
     .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))

@@ -148,6 +148,10 @@
       "destination": "/api/pages/team?slug=:slug"
     },
     {
+      "source": "/",
+      "destination": "/api/pages/home"
+    },
+    {
       "source": "/front-page/",
       "destination": "/api/pages/front-page"
     },
@@ -198,6 +202,9 @@
     },
     "api/og/banquet.js": {
       "includeFiles": "node_modules/@fontsource/{big-shoulders-display,outfit}/files/*-latin-*-normal.woff"
+    },
+    "api/pages/home.js": {
+      "includeFiles": "content/{stories,rankings}/*.{md,csv}"
     }
   },
   "crons": [

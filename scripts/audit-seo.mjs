@@ -80,6 +80,7 @@ for (const loc of locs) {
 
   // Pages rendered on the server by api/pages/ (vercel.json rewrites)
   // have no file in dist/; their HTML is checked by their own tests.
+  if (pathname === "/") continue; // homepage: api/pages/home.js, tests/homepage.test.mjs
   if (/^\/(sponsors|rankings\/leaders|teams|commitments\/\d{4}|(state|regionals|districts)\/\d{4}|front-page|awards\/2026\/(athlete|team|coach)-(boys|girls)-d[1-4])\/$/.test(pathname)) continue;
 
   const html = await readHtml(pathname);

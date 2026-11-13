@@ -100,9 +100,8 @@ test("placements: ballot card below the vote button, none above the ballot, home
   assert.doesNotMatch(beforeBallot, /merchCardHtml/, "no card above the ballot");
   // Homepage redesign (step 7): one slim strip near the bottom, after the
   // Tools row, instead of the large card under the lead story.
-  const build = fs.readFileSync("scripts/build.mjs", "utf8");
-  assert.match(build, /merchStripHtml\(\{ placement: "home", from: "\/" \}\)/);
   const home = fs.readFileSync("src/pages/home.mjs", "utf8");
+  assert.match(home, /merchStripHtml\(\{ placement: "home", from: "\/" \}\)/);
   assert.ok(home.indexOf('id="tools-title"') < home.indexOf("${shopHtml}"), "shop strip comes after the Tools row");
   const sponsors = JSON.parse(fs.readFileSync("src/data/sponsors.json", "utf8"));
   const placements = (sponsors.sponsors || sponsors).find((s) => s.id === "merch").placements.map((p) => p.id);

@@ -2274,7 +2274,6 @@ a.pw-champ:hover { background: var(--paper); }
 
 /* Lead story: one at a time, arrows on the photo, headline tabs below. */
 .pw-home-lead { grid-area: lead; min-width: 0; background: #fff; border: 1px solid var(--pw-rule); }
-[data-front-lead].is-pending { opacity: 0; }
 .fl-rotator { position: relative; display: grid; container-type: inline-size; }
 .fl-rotator > .fl-lead { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
 .fl-rotator > .fl-lead.is-active { opacity: 1; visibility: visible; transition: opacity .35s ease, visibility 0s; }

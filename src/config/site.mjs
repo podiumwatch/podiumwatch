@@ -156,7 +156,10 @@ export const site = {
       { label: "Latest Results", href: "/meets/?view=results" },
       { label: "Meets", href: "/meets/" },
       { label: "2026 State Results", href: "/state/2026/" },
-      { label: "Tournament Hub", href: "/tournament-hub/" }
+      { label: "Tournament Hub", href: "/tournament-hub/" },
+      // Fan-submitted meet photos (Zachary, 2026-11-13): the homepage block
+      // that linked here left in the redesign.
+      { label: "Meet Photos", href: "/photos/" }
     ],
     Rankings: [
       { label: "All Rankings", href: "/rankings/" },
