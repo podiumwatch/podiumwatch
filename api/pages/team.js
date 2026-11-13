@@ -28,7 +28,7 @@ export default async function handler(request, response) {
     data = await loadTeamPage(slug);
   } catch (error) {
     console.error("Team page error:", error);
-    if (sendLastGood(response, `team:${slug}`)) return;
+    if (sendLastGood(response, `team:${slug}:${["boys", "girls"].includes(String(request.query?.g || "")) ? String(request.query.g) : ""}`)) return;
     response.setHeader("Cache-Control", "no-store");
     return response.status(503).send("This team page could not be loaded right now. Please try again shortly.");
   }
@@ -40,8 +40,10 @@ export default async function handler(request, response) {
   }
   if (!data || data.private) return notFound(request, response);
   response.setHeader("Content-Type", "text/html; charset=utf-8");
-  const html = teamPageHtml(site, data);
-  rememberGood(`team:${slug}`, "text/html; charset=utf-8", html);
+  // Boys/Girls tabs are real URLs (?g=girls), redesign step 3.
+  const gender = ["boys", "girls"].includes(String(request.query?.g || "")) ? String(request.query.g) : null;
+  const html = teamPageHtml(site, data, { gender });
+  rememberGood(`team:${slug}:${gender || ""}`, "text/html; charset=utf-8", html);
   response.setHeader("Cache-Control", CACHE_PAGE);
   return response.status(200).send(html);
 }

@@ -6,11 +6,7 @@ import assert from "node:assert/strict";
 import { filterTeams, divisionTag, teamsDirectoryPage, cleanTeamFilters, TEAMS_FIRST_LOAD } from "../src/pages/teamsdirectory.mjs";
 import { bandColor, contrastWithWhite } from "../src/lib/components.mjs";
 import { site } from "../src/config/site.mjs";
-import seeded from "../src/data/team-colors.json" with { type: "json" };
-
-process.env.SUPABASE_URL ||= "https://example.invalid";
-process.env.SUPABASE_SECRET_KEY ||= "test-key-not-real";
-const { teamColor, DEFAULT_TEAM_COLOR } = await import("../lib/team_colors.mjs");
+import { teamColor, DEFAULT_TEAM_COLOR, allSchoolColors } from "../lib/team_colors.mjs";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const fakeTeams = Array.from({ length: 60 }, (_, i) => ({
@@ -61,14 +57,14 @@ test("page: filtered views drop the champions row; no match shows a way back", (
 });
 
 test("school color: a team's own color wins, the old default does not count", () => {
-  const anySeeded = Object.keys(seeded.colors)[0];
-  assert.equal(teamColor({ slug: anySeeded, primary_color: "#123456" }), "#123456");
-  assert.equal(teamColor({ slug: anySeeded, primary_color: DEFAULT_TEAM_COLOR }), seeded.colors[anySeeded]);
-  assert.equal(teamColor({ slug: "test-no-such-team", primary_color: DEFAULT_TEAM_COLOR }), null);
+  const logoTeam = { slug: "springboro-springboro-1470", logo_url: "/images/teams/springboro-springboro-1470-256.png" };
+  assert.equal(teamColor({ ...logoTeam, primary_color: "#123456" }), "#123456");
+  assert.match(teamColor({ ...logoTeam, primary_color: DEFAULT_TEAM_COLOR }), /^#[0-9a-f]{6}$/, "falls back to the logo color");
+  assert.equal(teamColor({ slug: "test-no-such-team", logo_url: null, primary_color: DEFAULT_TEAM_COLOR }), null);
 });
 
-test("every seeded school color passes WCAG AA with white text once banded (including yellows)", () => {
-  const colors = Object.values(seeded.colors);
+test("every school color (logo-sampled and overrides) passes WCAG AA with white text once banded", () => {
+  const colors = allSchoolColors();
   assert.ok(colors.length >= 20);
   for (const color of colors) assert.ok(contrastWithWhite(bandColor(color)) >= 4.5, `${color} -> ${bandColor(color)}`);
   assert.ok(colors.some((c) => contrastWithWhite(c) < 4.5), "the set includes light colors that had to be darkened");
