@@ -28,7 +28,7 @@ for (const recap of RECAPS) {
   const { data } = parseFrontMatter(fs.readFileSync(path.join(root, "content/stories", recap.file), "utf8"), recap.file);
   if (data.draft) throw new Error(`${data.slug} is a draft.`);
   // Same story shape the admin page sends (scripts/build.mjs frontStoryShape).
-  const image = data.heroImage || data.featuredImage || null;
+  const image = data.featuredImage || data.heroImage || null;
   items.push({
     story: { slug: data.slug, title: data.title, summary: data.description.length > 150 ? `${data.description.slice(0, 147).trimEnd()}...` : data.description, kicker: String(data.category || "").toUpperCase() || null, image_url: image, image_alt: data.heroAlt || data.featuredImageAlt || "", image_credit: data.imageCredit || null, byline: !data.author || data.author === "Podium Watch" ? "Podium Watch Staff" : data.author, date: data.date },
     linked_profile_ids: Object.values(recap.athletes),

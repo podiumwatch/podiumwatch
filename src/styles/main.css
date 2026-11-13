@@ -1922,3 +1922,11 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 .home-find-team-athletes { font-size: .9rem; font-weight: 700; color: var(--green-dark, #08784a); }
 .pw-name-link { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .pw-name-link:hover { color: var(--green-dark, #08784a); }
+
+/* Two story photos side by side (markdown: two image lines with no blank
+   line between; src/lib/markdown.mjs). Stacked on a phone. 2026-11-13. */
+.md-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 1.6em 0; }
+.md-pair figure { margin: 0; }
+.md-pair img { width: 100%; height: auto; }
+@media (max-width: 700px) { .md-pair { grid-template-columns: minmax(0, 1fr); } }
+.sp-draft-banner { margin: 0; padding: 10px 18px; background: #fff4d6; color: #5a3d00; border-bottom: 1px solid #e6cf8c; font: 400 14px/1.5 var(--sp-f-ui); text-align: center; }

@@ -289,6 +289,15 @@ function pathFromSport(sport) {
   return sport.toLowerCase().includes("track") ? "track-and-field" : "cross-country";
 }
 
+// Draft previews (2026-11-13): a story with draft: true is never built on
+// production. On Vercel preview deployments and local builds it gets its
+// own page so it can be checked before it goes live: marked noindex, with
+// a "Draft" banner, and left out of every list, feed, search and the
+// sitemap. PW_SHOW_DRAFTS=0 or 1 overrides.
+const SHOW_DRAFTS = process.env.PW_SHOW_DRAFTS ? process.env.PW_SHOW_DRAFTS === "1" : process.env.VERCEL_ENV !== "production";
+const draftStories = [];
+const draftPaths = new Set();
+
 async function loadStories() {
   const files = await listFiles(path.join(root, "content", "stories"), ".md");
   const stories = [];
@@ -326,6 +335,7 @@ async function loadStories() {
       seriesOrder: Number.isFinite(Number(data.seriesOrder)) ? Number(data.seriesOrder) : null
     };
     if (!story.draft) stories.push(story);
+    else draftStories.push(story);
   }
   // Every story photo gets a crop point so faces stay in the wide frames
   // (front page, cards, headers); a story's own featuredImagePosition wins.
@@ -404,7 +414,9 @@ async function loadRankings() {
 // A story in the front page lead shape (public/scripts/front-lead.mjs).
 // Generic fallback art is not a photo: those stories get the type-only lead.
 function frontStoryShape(story) {
-  const image = story.heroImage || story.featuredImage || "";
+  // The card photo (featuredImage) first: the front page is a card, not
+  // the story header (2026-11-13).
+  const image = story.featuredImage || story.heroImage || "";
   const realPhoto = image && !/story_fallback/.test(image);
   const summary = String(story.description || "");
   return {
@@ -414,7 +426,7 @@ function frontStoryShape(story) {
     summary: summary.length > 150 ? `${summary.slice(0, 147).trimEnd()}...` : summary,
     kicker: String(story.kicker || story.category || "").toUpperCase() || null,
     image_url: realPhoto ? image : null,
-    image_alt: realPhoto ? story.heroAlt || story.featuredImageAlt || "" : "",
+    image_alt: realPhoto ? story.featuredImageAlt || story.heroAlt || "" : "",
     image_credit: realPhoto ? story.imageCredit || null : null,
     // The story's own crop point (featuredImagePosition), so faces stay in
     // the wide front page frame.
@@ -836,10 +848,10 @@ function transformStoryBody(story) {
   return { html, sourcingNote };
 }
 
-function storyPage(story, stories) {
+function storyPage(story, stories, { draft = false } = {}) {
   const storyIndex = stories.findIndex((item) => item.slug === story.slug);
-  const newer = storyIndex > 0 ? stories[storyIndex - 1] : null;
-  const older = storyIndex < stories.length - 1 ? stories[storyIndex + 1] : null;
+  const newer = !draft && storyIndex > 0 ? stories[storyIndex - 1] : null;
+  const older = !draft && storyIndex >= 0 && storyIndex < stories.length - 1 ? stories[storyIndex + 1] : null;
   const pathname = `/stories/${story.slug}/`;
   const sponsor = story.sponsor ? sponsors.find((item) => item.id === story.sponsor) : null;
   const sponsorBlock = sponsor ? `<p class="sp-note"><strong>${escapeHtml(sponsor.name)}</strong>${sponsor.description ? ` &mdash; ${escapeHtml(sponsor.description)}` : ""}${sponsor.url ? ` <a class="sp-link" href="${sponsor.url}" target="_blank" rel="noopener noreferrer">Visit sponsor</a>` : ""}</p>` : "";
@@ -888,7 +900,7 @@ function storyPage(story, stories) {
     : relatedPool.filter((item) => storyType(item) === type).slice(0, 3);
   const relatedTitle = story.series ? `More from ${seriesLabel}` : "More from Podium Watch";
   const relatedBlock = related.length ? `<section class="sp-related"><div class="sp-wide"><h2>${escapeHtml(relatedTitle)}</h2><div class="sp-cards">
-    ${related.map((item) => `<a class="sp-card" href="/stories/${item.slug}/"><img src="${item.heroImage || item.featuredImage || storyFallbackImage(item.category)}" alt="" width="640" height="360"${storyImageStyle(item)}><div><span class="sp-k">${escapeHtml(storyType(item))}</span><h3>${escapeHtml(item.title)}</h3></div></a>`).join("")}
+    ${related.map((item) => `<a class="sp-card" href="/stories/${item.slug}/"><img src="${item.featuredImage || item.heroImage || storyFallbackImage(item.category)}" alt="" width="640" height="360"${storyImageStyle(item)}><div><span class="sp-k">${escapeHtml(storyType(item))}</span><h3>${escapeHtml(item.title)}</h3></div></a>`).join("")}
   </div></div></section>` : "";
 
   const navigation = newer || older ? `<nav class="story-nav" aria-label="Story navigation">${newer ? `<a href="/stories/${newer.slug}/"><span>Newer story</span><strong>${escapeHtml(newer.title)}</strong></a>` : "<span></span>"}${older ? `<a href="/stories/${older.slug}/"><span>Older story</span><strong>${escapeHtml(older.title)}</strong></a>` : ""}</nav>` : "";
@@ -909,6 +921,7 @@ function storyPage(story, stories) {
     : "";
 
   const content = `<div class="sp-page"${preseasonClassification ? ` style="--pw-accent:${escapeHtml(preseasonClassification.accent)}" data-pw-article="${escapeHtml(story.slug)}"` : ""} data-story-slug="${escapeHtml(story.slug)}">
+  ${draft ? `<p class="sp-draft-banner" role="note"><strong>Draft preview.</strong> Not published: this page is not linked anywhere and search engines are told to skip it.</p>` : ""}
   ${seriesBar}
   <div id="sp-story-top">
   <header class="sp-head"><div class="sp-col">
@@ -950,14 +963,16 @@ function storyPage(story, stories) {
     pathname,
     // socialImage (2026-11-03): a story may name its own 1200x630
     // link-preview card; otherwise the hero is the preview.
+    // socialImageWidth/Height (2026-11-13) for a card that isn't 1200x630.
     image: story.socialImage || heroImage || site.defaultSocialImage,
-    imageWidth: story.socialImage ? 1200 : heroImage ? 1600 : undefined,
-    imageHeight: story.socialImage ? 630 : heroImage ? 900 : undefined,
+    imageWidth: story.socialImage ? Number(story.socialImageWidth) || 1200 : heroImage ? 1600 : undefined,
+    imageHeight: story.socialImage ? Number(story.socialImageHeight) || 630 : heroImage ? 900 : undefined,
     canonicalUrl: story.canonicalUrl,
     type: "article",
     publishedTime: story.date,
     modifiedTime: genuinelyUpdated || story.date,
     content,
+    ...(draft ? { robots: "noindex, nofollow" } : {}),
     jsonLd: [articleJsonLd(site, story), breadcrumbsJsonLd(site, [{ label: "Home", href: "/" }, { label: "Stories", href: "/stories/" }, { label: story.title }])],
     extraHead: '<link rel="preload" href="/fonts/big-shoulders-display-var.woff2" as="font" type="font/woff2" crossorigin>'
   });
@@ -1172,6 +1187,15 @@ async function build() {
     const storyPathname = `/stories/${story.slug}/`;
     await writePage(storyPathname, storyPage(story, publicStories));
     pathLastmod.set(storyPathname, story.updatedDate || story.date);
+  }
+  if (SHOW_DRAFTS) {
+    await applyImageFocus(draftStories, { write: false });
+    for (const story of draftStories) {
+      const draftPathname = `/stories/${story.slug}/`;
+      await writePage(draftPathname, storyPage(story, publicStories, { draft: true }));
+      draftPaths.add(draftPathname);
+    }
+    if (draftStories.length) console.log(`Draft previews: ${draftStories.map((story) => story.slug).join(", ")}`);
   }
   for (const category of [...new Set(publicStories.map((story) => story.category))]) {
     const page = categoryPage(category, publicStories);
@@ -1422,6 +1446,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
     .filter((pathname) => !NOINDEX_FOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))
     .filter((pathname) => !SITEMAP_EXACT_EXCLUDE.includes(pathname))
     .filter((pathname) => !isRealAthletePage(pathname))
+    .filter((pathname) => !draftPaths.has(pathname))
     .sort();
   // Real per-page date when one is tracked (pathLastmod, populated at
   // each story/ranking writePage() call above); otherwise <lastmod> is

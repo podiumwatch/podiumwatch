@@ -188,10 +188,19 @@ export function renderMarkdown(markdown = "") {
       continue;
     }
 
-    const standaloneImage = line.match(/^!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]+)")?\)$/);
+    const imagePattern = /^!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]+)")?\)$/;
+    const figureHtml = ([, alt, src, caption]) => `<figure><img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ""}</figure>`;
+    const standaloneImage = line.match(imagePattern);
     if (standaloneImage) {
-      const [, alt, src, caption] = standaloneImage;
-      output.push(`<figure><img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async">${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ""}</figure>`);
+      // Two image lines with no blank line between them sit side by side
+      // (two columns on desktop, stacked on a phone; 2026-11-13).
+      const nextImage = String(lines[index + 1] ?? "").trim().match(imagePattern);
+      if (nextImage) {
+        output.push(`<div class="md-pair">${figureHtml(standaloneImage)}${figureHtml(nextImage)}</div>`);
+        index += 2;
+        continue;
+      }
+      output.push(figureHtml(standaloneImage));
       index += 1;
       continue;
     }

@@ -2267,3 +2267,11 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - The repo is public, so the draft HTML is never committed (gitignored). It lives in the private Supabase Storage bucket oatccc-review and is read on the server with the service role key. The address itself is committed (Zachary's OK); the password is the gate.
 - Shared password from OATCCC_REVIEW_PASSWORD, signed 14-day cookie (HttpOnly, Secure, SameSite=Lax, scoped to the path) signed with OATCCC_REVIEW_COOKIE_SECRET and bound to a hash of the password, so changing it signs everyone out. Fails closed when either is missing or blank. noindex, no-store and no-referrer headers; no analytics on either page; not in robots.txt or the sitemap.
 - Take down: delete the route, lib file, rewrite and header rules, the bucket file, and both variables.
+
+## 2026-11-13: Draft story previews and card photos (branch article-triple-crown)
+
+- Draft previews: a story with draft: true is never built on production (VERCEL_ENV=production). On Vercel preview deployments and local builds it gets its page at /stories/<slug>/ with noindex, nofollow and a Draft preview banner, and stays out of every list, feed, search index and the sitemap. PW_SHOW_DRAFTS=0 or 1 overrides.
+- Cards, homepage tiles, the front page lead, related-story cards and article structured data use featuredImage first, then heroImage. The story header keeps heroImage. No existing story had different values, so nothing else changed.
+- New optional story fields: heroImageFit: contain (header photo shown whole, card crop unchanged); socialImageWidth and socialImageHeight (share card size when not 1200x630).
+- Markdown: two image lines with no blank line between render side by side (.md-pair), stacked on a phone.
+- First use: The Podium Report, ohio-distance-triple-crown-history-2027 (draft). Header 01-lead.jpg; card, homepage, share and structured-data image 01-cover-og.jpg.

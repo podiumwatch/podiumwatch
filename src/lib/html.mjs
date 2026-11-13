@@ -381,16 +381,22 @@ export function storyType(story) {
 // never be cropped (text and photo credit printed on the image). The
 // story header then keeps the image's own shape; 16:9 cards letterbox
 // it on black instead of cropping. Omit both fields and nothing changes.
+// heroImageFit: "contain" (2026-11-13) keeps a story header photo whole in
+// its own shape (a photo grid with names on it) without changing how the
+// card photo (featuredImage) is cropped.
 export function storyImageStyle(story, { hero = false } = {}) {
   const parts = [];
-  if (story?.featuredImageFit === "contain") parts.push(hero ? "aspect-ratio:auto;object-fit:contain" : "object-fit:contain;background:#090909");
+  if (hero && story?.heroImageFit === "contain") parts.push("aspect-ratio:auto;object-fit:contain");
+  else if (story?.featuredImageFit === "contain") parts.push(hero ? "aspect-ratio:auto;object-fit:contain" : "object-fit:contain;background:#090909");
   else if (story?.featuredImagePosition) parts.push(`object-position:${escapeHtml(story.featuredImagePosition)}`);
   return parts.length ? ` style="${parts.join(";")}"` : "";
 }
 
 export function storyCard(story, { featured = false } = {}) {
   const fallback = storyFallbackImage(story.category);
-  const image = story.heroImage || story.featuredImage || fallback;
+  // Cards show the story's card photo (featuredImage); the header photo
+  // (heroImage) only when there is no card photo (2026-11-13).
+  const image = story.featuredImage || story.heroImage || fallback;
   const type = storyType(story);
   // Optional per-story override for which part of a taller-than-wide
   // source photo stays visible once the site's fixed 16:9 card/hero
@@ -479,7 +485,7 @@ export function articleJsonLd(site, story) {
     // have never been revised.
     ...(story.updated || story.updatedDate ? { dateModified: story.updated || story.updatedDate } : {}),
     mainEntityOfPage: absoluteUrl(site, `/stories/${story.slug}/`),
-    image: absoluteUrl(site, story.heroImage || story.featuredImage || site.defaultSocialImage),
+    image: absoluteUrl(site, story.featuredImage || story.heroImage || site.defaultSocialImage),
     author: { "@type": story.author === site.name ? "Organization" : "Person", name: story.author },
     publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: absoluteUrl(site, site.logo) } },
     articleSection: story.type || story.category,
