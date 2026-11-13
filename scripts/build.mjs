@@ -86,7 +86,6 @@ import { splitWatchReviewPage } from "../src/pages/splitwatchreview.mjs";
 import { splitWatchJoinPage } from "../src/pages/splitwatchjoin.mjs";
 import { splitWatchRacesPage } from "../src/pages/splitwatchraces.mjs";
 import { teamProfilePage } from "../src/pages/teamprofile.mjs";
-import { teamsPage } from "../src/pages/teams.mjs";
 import { searchPage } from "../src/pages/search.mjs";
 import { athleteOfTheWeekPage, teamOfTheWeekPage, weeklyAwardsPausedPage } from "../src/pages/weeklyawards.mjs";
 import { podiumPlayPage } from "../src/pages/podiumplay.mjs";
@@ -1276,7 +1275,7 @@ await writePage("/support/", supportPage(site));
 await writePage("/terms/", termsPage(site));
 await writePage("/team-editor/", teamEditorPage(site));
 await writePage("/team/", teamProfilePage(site));
-await writePage("/teams/", teamsPage(site));
+// /teams/ is rendered on the server (api/pages/teams.js, redesign step 2).
 await writePage("/teams/instagram/", teamInstagramPage(site));
 await writePage("/teams/banquet/", teamBanquetPage(site));
 await writePage("/wrapped/", wrappedSearchPage(site));
@@ -1429,7 +1428,7 @@ await writePage("/podium-play/", podiumPlayPage(site));
   // not yet meaningful enough to index at volume (201 pages). This is
   // the task's own documented safe fallback, not a guess.
   const isRealAthletePage = (pathname) => pathname.startsWith("/athletes/") && pathname !== "/athletes/";
-  const SERVER_RENDERED_PATHS = ["/sponsors/", "/rankings/leaders/", ...yearlyAwardsPool.categories.map((category) => `/awards/2026/${category.slug}/`), ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
+  const SERVER_RENDERED_PATHS = ["/sponsors/", "/rankings/leaders/", "/teams/", ...yearlyAwardsPool.categories.map((category) => `/awards/2026/${category.slug}/`), ...COMMITMENT_CLASSES.map((year) => `/commitments/${year}/`), ...allHubPaths(), "/front-page/"];
   const paths = [...generatedPaths, ...SERVER_RENDERED_PATHS]
     .filter((pathname) => !pathname.endsWith("404.html"))
     .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))

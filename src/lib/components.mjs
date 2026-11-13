@@ -69,7 +69,8 @@ export function tabsRow(tabs = [], { label = "Sections" } = {}) {
 
 // The black (or school-color) band: breadcrumb, large title, one line of
 // context, optional logo tile and honor tags, then tabs.
-export function pageBand({ crumbs = [], title, context = "", tabs = [], tabsLabel, color = null, logo = null, honors = [], credit = "" } = {}) {
+// extra: optional HTML placed under the context line (e.g. a search box).
+export function pageBand({ crumbs = [], title, context = "", tabs = [], tabsLabel, color = null, logo = null, honors = [], credit = "", extra = "" } = {}) {
   const bg = color ? bandColor(color) : null;
   const honorList = honors.filter((h) => hasValue(h.label));
   return `<section class="pw-band${bg ? " pw-band-school" : ""}"${bg ? ` style="--pw-band:${bg}"` : ""}>
@@ -83,6 +84,7 @@ export function pageBand({ crumbs = [], title, context = "", tabs = [], tabsLabe
         ${credit || ""}
       </div>
     </div>
+    ${extra || ""}
     ${honorList.length ? `<ul class="pw-honors">${honorList.map((h) => `<li${h.featured ? ' class="pw-honor-featured"' : ""}>${e(h.label)}${hasValue(h.note) ? `<small>${e(h.note)}</small>` : ""}</li>`).join("")}</ul>` : ""}
     ${tabsRow(tabs, { label: tabsLabel || "Sections" })}
   </div>

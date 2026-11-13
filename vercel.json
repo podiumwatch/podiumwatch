@@ -116,6 +116,10 @@
       "destination": "/api/pages/sponsors"
     },
     {
+      "source": "/teams/",
+      "destination": "/api/pages/teams"
+    },
+    {
       "source": "/rankings/leaders/",
       "destination": "/api/pages/leaders"
     },
