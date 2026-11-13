@@ -265,7 +265,7 @@ export function ohioSchoolsPage(site) {
           <p class="eyebrow">Official source</p>
           <h2>2026 and 2027 boys cross country divisions</h2>
           <p>
-            This directory uses the supplied OHSAA boys cross country division document. It does not represent girls cross country or track school divisions.
+            This directory uses the official OHSAA boys cross country division document. It does not represent girls cross country or track school divisions.
           </p>
         </div>
 
@@ -461,7 +461,7 @@ export function ohioSchoolsPage(site) {
           <p class="eyebrow">Track postseason</p>
           <h2>Regional sites and representation</h2>
           <p>
-            View the corrected 2026 track regional dates, locations, times, and district representation from the supplied OHSAA document.
+            View the corrected 2026 track regional dates, locations, times, and district representation from the official OHSAA document.
           </p>
           <a class="button button-outline" href="/tournament-hub/">
             Open Tournament Hub

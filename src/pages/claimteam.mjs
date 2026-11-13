@@ -175,7 +175,7 @@ export function claimTeamPage(site) {
 
           <article class="claim-team-benefit">
             <h3>Analytics and followers</h3>
-            <p>See privacy safe engagement totals and grow a repeat audience around the program.</p>
+            <p>See privacy-safe engagement totals and grow a repeat audience around the program.</p>
           </article>
         </div>
       </section>

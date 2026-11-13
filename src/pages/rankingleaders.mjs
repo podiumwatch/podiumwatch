@@ -194,7 +194,6 @@ export function rankingLeadersPage(site, initial = null) {
 
       <div class="leaders-season-pills" role="group" aria-label="Choose a sport">
         <button type="button">Cross Country</button>
-        <button type="button" data-leaders-season-disabled title="Track and field leaders are coming soon.">Track and Field <span class="leaders-soon">(Coming soon)</span></button>
       </div>
 
       <div class="section-heading">

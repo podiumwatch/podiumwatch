@@ -162,8 +162,8 @@ function bicarbLinkOpen(unit, position, extraClass, lazy) {
 function bicarbBillboardHtml() {
   // Hub page only, >=1000px, under the sticky tab block.
   return `<div class="mp-bicarb-billboard">
-    ${bicarbLinkOpen("billboard", "hub-header")}<img src="${BICARB_IMG_BASE}/bicarb-billboard-970x250.png" alt="${BICARB_ALT}" width="970" height="250"></a>
     ${BICARB_DISCLOSURE}
+    ${bicarbLinkOpen("billboard", "hub-header")}<img src="${BICARB_IMG_BASE}/bicarb-billboard-970x250.png" alt="${BICARB_ALT}" width="970" height="250"></a>
   </div>`;
 }
 // <picture> swaps the file by viewport width -- a phone never downloads
@@ -171,11 +171,11 @@ function bicarbBillboardHtml() {
 // regional and state page.
 function bicarbLeaderboardHtml(position) {
   return `<div class="mp-bicarb-leaderboard">
+    ${BICARB_DISCLOSURE}
     ${bicarbLinkOpen("leaderboard_or_mobile-banner", position)}<picture>
       <source media="(min-width: 760px)" srcset="${BICARB_IMG_BASE}/bicarb-leaderboard-728x90.png">
       <img src="${BICARB_IMG_BASE}/bicarb-mobile-banner-320x100.png" alt="${BICARB_ALT}" width="320" height="100">
     </picture></a>
-    ${BICARB_DISCLOSURE}
   </div>`;
 }
 // Between races/sections. Never between a team list and its cut line --
@@ -183,16 +183,16 @@ function bicarbLeaderboardHtml(position) {
 // regionals/state, before the individual list), never mid-list.
 function bicarbInfeedHtml(position) {
   return `<div class="mp-bicarb-infeed">
-    ${bicarbLinkOpen("infeed", position)}<img src="${BICARB_IMG_BASE}/bicarb-infeed-640x200.png" alt="${BICARB_ALT}" width="640" height="200" loading="lazy"></a>
     ${BICARB_DISCLOSURE}
+    ${bicarbLinkOpen("infeed", position)}<img src="${BICARB_IMG_BASE}/bicarb-infeed-640x200.png" alt="${BICARB_ALT}" width="640" height="200" loading="lazy"></a>
   </div>`;
 }
 // Bottom of each page. variant: "light" | "dark".
 function bicarbRectangleHtml(position, variant) {
   const file = variant === "dark" ? "bicarb-rectangle-dark-300x250.png" : "bicarb-rectangle-300x250.png";
   return `<div class="mp-bicarb-rectangle">
-    ${bicarbLinkOpen("rectangle", position)}<img src="${BICARB_IMG_BASE}/${file}" alt="${BICARB_ALT}" width="300" height="250" loading="lazy"></a>
     ${BICARB_DISCLOSURE}
+    ${bicarbLinkOpen("rectangle", position)}<img src="${BICARB_IMG_BASE}/${file}" alt="${BICARB_ALT}" width="300" height="250" loading="lazy"></a>
   </div>`;
 }
 // Phone-only pinned bottom bar. Dismiss is sessionStorage-backed (stays
@@ -444,7 +444,7 @@ const SHARED_STYLE = `<style>
 
   /* Bicarb ad units -- each wrapper centers its image at the image's own
      intrinsic size (max-width:100% lets it shrink on narrow screens) and
-     carries the AFFILIATE · AD disclosure directly beneath it. */
+     carries the AFFILIATE · AD disclosure directly above it. */
   .mp-bicarb-billboard, .mp-bicarb-leaderboard, .mp-bicarb-infeed, .mp-bicarb-rectangle { text-align: center; margin: 14px 0; }
   .mp-bicarb-link { display: inline-block; line-height: 0; }
   .mp-bicarb-link img { max-width: 100%; height: auto; }

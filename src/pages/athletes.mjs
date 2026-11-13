@@ -70,7 +70,7 @@ export function athletesPage(site) {
         <article class="athlete-directory-stat"><strong data-athlete-stat-total>0</strong><span>Athlete profiles</span></article>
         <article class="athlete-directory-stat"><strong data-athlete-stat-boys>0</strong><span>Boys profiles</span></article>
         <article class="athlete-directory-stat"><strong data-athlete-stat-girls>0</strong><span>Girls profiles</span></article>
-        <article class="athlete-directory-stat"><strong data-athlete-stat-verified>0</strong><span>Verified profiles</span></article>
+        <article class="athlete-directory-stat" data-athlete-stat-verified-tile hidden><strong data-athlete-stat-verified>0</strong><span>Verified profiles</span></article>
       </div>
 
       <form class="info-card athlete-directory-filters" data-athlete-filter-form>

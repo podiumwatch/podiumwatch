@@ -44,6 +44,34 @@ test("no file path or internal note in any public built page", (t) => {
   assert.deepEqual(hits, []);
 });
 
+// Internal wording shown to the public (section B). "Coming soon" is
+// matched with its capital C, as listed in the handoff.
+export const INTERNAL_WORDING = [/ranking file/i, /athlete foundation/i, /percent complete/i, /supplied OHSAA/i, /Coming soon/, /content\/rankings/i];
+
+test("no internal wording in any public built page", (t) => {
+  const pages = builtPublicPages();
+  if (!pages) return t.skip("dist/ not built");
+  const hits = [];
+  for (const file of pages) {
+    const text = publicText(fs.readFileSync(file, "utf8"));
+    for (const pattern of INTERNAL_WORDING) {
+      const match = text.match(new RegExp(`.{0,50}${pattern.source}.{0,30}`, pattern.flags));
+      if (match) hits.push(`${path.relative("dist", file)}: ${match[0].replace(/\s+/g, " ").trim()}`);
+    }
+  }
+  assert.deepEqual(hits, []);
+});
+
+test("no internal wording sent to the public by browser scripts or the athletes API", () => {
+  const scripts = fs.readdirSync("public/scripts").filter((name) => name.endsWith(".js") && !name.startsWith("admin-")).map((name) => `public/scripts/${name}`);
+  const hits = [];
+  for (const file of [...scripts, "api/athletes/index.js"]) {
+    const code = fs.readFileSync(file, "utf8").replace(/^\s*\/\/.*$/gm, "");
+    for (const pattern of INTERNAL_WORDING) if (pattern.test(code)) hits.push(`${file}: ${pattern.source}`);
+  }
+  assert.deepEqual(hits, []);
+});
+
 test("sponsors page lists only real partners and no internal notes", () => {
   const sponsors = loadSiteSponsors();
   const html = sponsorsPageHtml(site, sponsors, { audience: { available: false }, instagram: null, packages: [] });

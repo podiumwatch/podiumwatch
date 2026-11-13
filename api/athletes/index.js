@@ -531,7 +531,7 @@ export default async function handler(request, response) {
       const summary = await directorySummary();
       return response.status(200).json({
         source_mode: "database",
-        source_note: "Profiles are loaded from the Podium Watch athlete foundation.",
+        source_note: "",
         page: searched.page,
         page_size: pageSize,
         total: searched.total,
@@ -583,7 +583,7 @@ export default async function handler(request, response) {
     return response.status(200).json({
       source_mode: sourceMode,
       source_note: sourceMode === "database"
-        ? "Profiles are loaded from the Podium Watch athlete foundation."
+        ? ""
         : "The athlete database has not been populated yet, so this directory is using the bundled Podium Watch editorial ranking seed.",
       page: safePage,
       page_size: pageSize,

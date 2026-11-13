@@ -764,9 +764,11 @@ export function teamProfilePage(site) {
         </section>
 
         <section class="team-profile-meta">
-          <div>
-            <p class="eyebrow">Profile completion</p>
-            <h2 data-team-profile-completion>0 percent complete</h2>
+          <!-- Profile completion is for signed-in coaches (team manager),
+               not the public page (site fixes B, 2026-11-13). Kept hidden
+               because the page script expects these elements. -->
+          <div hidden>
+            <h2 data-team-profile-completion></h2>
             <div class="team-profile-progress"><span data-team-profile-progress></span></div>
           </div>
           <p data-team-profile-updated></p>

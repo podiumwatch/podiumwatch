@@ -35,6 +35,7 @@
   }
 
   function showMessage(text, tone = "success") {
+    message.hidden = false;
     message.textContent = text;
     message.dataset.tone = tone;
   }
@@ -404,6 +405,9 @@
       setText("[data-athlete-stat-boys]", summary.genders?.boys || 0);
       setText("[data-athlete-stat-girls]", summary.genders?.girls || 0);
       setText("[data-athlete-stat-verified]", summary.verified || 0);
+      // Site fixes B: the Verified tile shows only once there is one.
+      const verifiedTile = root.querySelector("[data-athlete-stat-verified-tile]");
+      if (verifiedTile) verifiedTile.hidden = !(summary.verified > 0);
 
       resultTitle.textContent = payload.total === 1 ? "1 athlete found" : `${payload.total || 0} athletes found`;
       resultCount.textContent = athletes.length
@@ -418,10 +422,14 @@
       previous.disabled = currentPage <= 1;
       next.disabled = currentPage >= totalPages;
       syncUrl(query);
-      showMessage(
-        payload.source_note || "Athlete profiles loaded.",
-        payload.source_mode === "bundled_editorial_seed" ? "warning" : "success"
-      );
+      // Site fixes B (2026-11-13): no internal source note for readers.
+      // Only the bundled-seed fallback still explains itself.
+      if (payload.source_note) {
+        showMessage(payload.source_note, payload.source_mode === "bundled_editorial_seed" ? "warning" : "success");
+      } else {
+        message.textContent = "";
+        message.hidden = true;
+      }
     } catch (error) {
       results.innerHTML = '<div class="athlete-directory-empty"><h3>The directory could not load.</h3><p>' + escapeHtml(error.message) + "</p></div>";
       showMessage(error.message, "error");
