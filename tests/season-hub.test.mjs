@@ -63,3 +63,41 @@ test("the state hub page names the timing credit, links athletes, and never says
   assert.match(html, /Woodridge/);
   assert.match(html, /athletic\.net\/CrossCountry\/meet\/275513\/results/);
 });
+
+// ---- Site redesign step 5 ----------------------------------------------------
+const stateMeet = { id: "s", name: "OHSAA Cross Country State Championships", slug: "2026-ohsaa-state-championships", meet_date: "2026-11-07", venue_name: "Fortress Obetz" };
+const runner = (gender, division, place) => ({ meet_id: "s", place, mark_value: 900 + place, mark_unit: "seconds", mark_text: `15:${String(place).padStart(2, "0")}.0`, name: `Test Runner ${gender} ${division}-${place}`, href: null, school: "Test School", grade: 11, honor_label: place <= 3 ? "All-Ohio first team" : place <= 5 ? "All-Ohio second team" : null, metadata: { postseason_2026: { gender, division } } });
+function stateHub() {
+  const performances = [];
+  for (const g of ["girls", "boys"]) for (const d of [1, 2]) for (let p = 1; p <= 14; p += 1) performances.push(runner(g, d, p));
+  const teamScores = ["girls", "boys"].flatMap((g) => [1, 2].flatMap((d) => Array.from({ length: 10 }, (_, i) => ({ meet_id: "s", gender: g, division: `Division ${d === 1 ? "I" : "II"}`, place_numeric: i + 1, score: 60 + i * 10, school: `Test Team ${g} ${d}-${i + 1}` }))));
+  const races = buildRaces({ meets: [stateMeet], year: 2026, performances, teamScores });
+  return { stageKey: "state", stage: HUB_STAGES.state, year: 2026, meets: [stateMeet], races, fastest: { girls: [], boys: [] }, stories: [], photos: [] };
+}
+
+test("redesign: one division on screen, girls then boys tabs, each with its own address", async () => {
+  const { hubDivisions } = await import("../src/pages/seasonhub.mjs");
+  const hub = stateHub();
+  assert.deepEqual(hubDivisions(hub.races), ["girls-d1", "girls-d2", "boys-d1", "boys-d2"]);
+  const main = seasonHubPage(site, hub);
+  assert.match(main, /<a class="pw-tab pw-girls" href="\/state\/2026\/" aria-current="page">Girls D1<\/a>/, "first division is the main address");
+  assert.match(main, /<a class="pw-tab pw-boys" href="\/state\/2026\/boys-d1\/">Boys D1<\/a>/);
+  assert.match(main, /Test Runner girls 1-1/);
+  assert.doesNotMatch(main, /Test Runner boys 1-1/, "only the chosen division is on the page");
+  const boys = seasonHubPage(site, hub, { division: "boys-d1" });
+  assert.match(boys, /<h2>Boys Division I<\/h2><span>14 finishers · 10 teams<\/span>/);
+  assert.match(boys, /<link rel="canonical" href="https:\/\/[^"]+\/state\/2026\/boys-d1\/">/);
+  assert.match(boys, /<title>Boys Division I \| 2026 Ohio High School Cross Country State Meet Results/);
+});
+
+test("redesign: podium, top 10 and top 8 with the rest in the HTML, All-Ohio ranges from the data", () => {
+  const html = seasonHubPage(site, stateHub(), { division: "boys-d2" });
+  assert.match(html, /<small>Team champion<\/small><b>Test Team boys 2-1<\/b><span>60 points<\/span>/);
+  assert.match(html, /<p class="pw-allohio">All-Ohio first team: places 1 to 3 · second team: places 4 to 5<\/p>/);
+  assert.equal((html.match(/<tr hidden data-pw-more-row>/g) || []).length, 4 + 2, "finishers 11-14 and teams 9-10 hidden until Show all");
+  assert.match(html, /Show all 14 finishers/);
+  assert.match(html, /Show all 10 teams/);
+  assert.match(html, /Presented by/, "sponsor credit from the sponsor settings");
+  assert.doesNotMatch(html, /class="pwm|merch-card.js/, "no merch card on results pages");
+  assert.match(html, /location\.hash\.match/, "old #boys-d1 links land on the division page");
+});

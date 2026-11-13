@@ -188,7 +188,7 @@ for (const file of htmlFiles) {
     // api/go/[sponsor]/[placement].js (WO-25); there is no file to find.
     if (/^\/go\/[a-z0-9-]+\/[a-z0-9-]+\/(\?|$)/.test(href)) continue;
     // Pages rendered by api/pages/ through vercel.json rewrites (no file).
-    if (/^\/(sponsors|rankings\/leaders|teams|commitments\/\d{4}|athletes\/[a-z0-9-]+|(state|regionals|districts)(\/\d{4})?|front-page|front|awards\/2026\/(athlete|team|coach)-(boys|girls)-d[1-4](\/[a-z0-9-]+)?)\/(\?|#|$)/.test(href)) continue;
+    if (/^\/(sponsors|rankings\/leaders|teams|commitments\/\d{4}|athletes\/[a-z0-9-]+|(state|regionals|districts)(\/\d{4}(\/(girls|boys)-d[1-4])?)?|front-page|front|awards\/2026\/(athlete|team|coach)-(boys|girls)-d[1-4](\/[a-z0-9-]+)?)\/(\?|#|$)/.test(href)) continue;
     const target = resolvePublicPath(href);
     if (!target) continue;
     checkedLinks += 1;

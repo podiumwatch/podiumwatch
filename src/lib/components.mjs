@@ -147,11 +147,12 @@ export function statCards(cards = []) {
 }
 
 // ---- Podium cards -----------------------------------------------------------------
-// items: [{ place, name, href, sub, mark }], first place dark and wider.
+// items: [{ place, label, name, href, sub, mark }], first place dark and
+// wider; label replaces the default "No. n" (e.g. "Team champion").
 export function podiumCards(items = [], { gender = null } = {}) {
   const shown = items.filter((item) => hasValue(item.name)).slice(0, 3);
   if (!shown.length) return "";
-  return `<div class="pw-podium${genderClass(gender)}">${shown.map((item, i) => `<div class="pw-pod${i === 0 ? " pw-pod-first" : ""}"><small>No. ${e(item.place ?? i + 1)}</small><b>${item.href ? `<a href="${e(item.href)}">${e(item.name)}</a>` : e(item.name)}</b>${hasValue(item.sub) ? `<span>${e(item.sub)}</span>` : ""}${hasValue(item.mark) ? `<span class="pw-pod-mark">${e(item.mark)}</span>` : ""}</div>`).join("")}</div>`;
+  return `<div class="pw-podium${genderClass(gender)}">${shown.map((item, i) => `<div class="pw-pod${i === 0 ? " pw-pod-first" : ""}"><small>${e(item.label ?? `No. ${item.place ?? i + 1}`)}</small><b>${item.href ? `<a href="${e(item.href)}">${e(item.name)}</a>` : e(item.name)}</b>${hasValue(item.sub) ? `<span>${e(item.sub)}</span>` : ""}${hasValue(item.mark) ? `<span class="pw-pod-mark">${e(item.mark)}</span>` : ""}</div>`).join("")}</div>`;
 }
 
 // ---- Panel ------------------------------------------------------------------------

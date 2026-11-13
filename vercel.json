@@ -160,6 +160,10 @@
       "destination": "/api/pages/front-page?go=1"
     },
     {
+      "source": "/:stage(state|regionals|districts)/:year([0-9]{4})/:division((?:girls|boys)-d[1-4])/",
+      "destination": "/api/pages/season-hub?stage=:stage&year=:year&division=:division"
+    },
+    {
       "source": "/:stage(state|regionals|districts)/:year([0-9]{4})/",
       "destination": "/api/pages/season-hub?stage=:stage&year=:year"
     },
