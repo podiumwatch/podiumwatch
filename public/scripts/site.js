@@ -381,14 +381,24 @@
   // Dated calls to action (WO-07, src/config/season.mjs): anything with
   // data-starts/data-expires shows only inside its window, so it hides on
   // time even when the page was built before the deadline.
+  // A page left open across a start or end time updates on its own too
+  // (site fixes A3, 2026-11-13): the check runs again at the next boundary.
   const dated = document.querySelectorAll("[data-expires], [data-starts]");
   if (dated.length) {
-    const now = Date.now();
-    dated.forEach((node) => {
-      const starts = node.dataset.starts ? Date.parse(node.dataset.starts) : NaN;
-      const expires = node.dataset.expires ? Date.parse(node.dataset.expires) : NaN;
-      const live = (Number.isNaN(starts) || now >= starts) && (Number.isNaN(expires) || now < expires);
-      node.hidden = !live;
-    });
+    const applyDated = () => {
+      const now = Date.now();
+      let next = Infinity;
+      dated.forEach((node) => {
+        const starts = node.dataset.starts ? Date.parse(node.dataset.starts) : NaN;
+        const expires = node.dataset.expires ? Date.parse(node.dataset.expires) : NaN;
+        const live = (Number.isNaN(starts) || now >= starts) && (Number.isNaN(expires) || now < expires);
+        node.hidden = !live;
+        if (starts > now) next = Math.min(next, starts);
+        if (expires > now) next = Math.min(next, expires);
+      });
+      // Browsers cap timers at about 24.8 days; past that, a reload handles it.
+      if (next !== Infinity && next - now < 2_000_000_000) setTimeout(applyDated, next - now + 250);
+    };
+    applyDated();
   }
 })();
