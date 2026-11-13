@@ -11,7 +11,9 @@
 --   * 3 are merged into the existing public profile (same school and
 --     graduation year): see section 2.
 -- Each update only touches a profile that is still hidden, unmerged,
--- unarchived and not suspended, so running this twice changes nothing more.
+-- unarchived and not suspended, and each merge is skipped when it is
+-- already done, so running this twice changes nothing more.
+-- Run once, 2026-11-13 10:50 AM ET (947 published, 3 merged).
 --
 -- Undo:
 --   section 1: update public.athlete_profiles set public_visible = false,
@@ -983,28 +985,28 @@ where id in (
 
 -- 2. Merge the likely duplicates into the existing public profile
 -- Elisa Quernemoen (elisa-quernemoen-2029) into Ellie Quernemoen (/athletes/ellie-quernemoen-2029/), same school, class 2029
-select public.athlete_merge_profiles_v1(
-  '269598c7-bb67-4cc8-9836-575f38d86255'::uuid,
-  'ce9cd11d-6779-4107-8d84-8c79ffa01d18'::uuid,
-  'Podium Watch Admin',
-  'Duplicate from a 2026 results import (nickname or spelling); same school and graduation year. Approved by Zachary 2026-11-13.'
-);
+do $$
+begin
+  if exists (select 1 from public.athlete_profiles where id = '269598c7-bb67-4cc8-9836-575f38d86255' and merged_into_profile_id is null) then
+    perform public.athlete_merge_profiles_v1('269598c7-bb67-4cc8-9836-575f38d86255'::uuid, 'ce9cd11d-6779-4107-8d84-8c79ffa01d18'::uuid, 'Podium Watch Admin', 'Duplicate from a 2026 results import (nickname or spelling); same school and graduation year. Approved by Zachary 2026-11-13.');
+  end if;
+end $$;
 
 -- Sammy Gorbach (sammy-gorbach-2030) into Samantha Gorbach (/athletes/samantha-gorbach-2030/), same school, class 2030
-select public.athlete_merge_profiles_v1(
-  'e3e31cba-6539-4730-9fe0-5cd7252e9a83'::uuid,
-  '31753c04-47be-4234-9ccc-14b84641cf60'::uuid,
-  'Podium Watch Admin',
-  'Duplicate from a 2026 results import (nickname or spelling); same school and graduation year. Approved by Zachary 2026-11-13.'
-);
+do $$
+begin
+  if exists (select 1 from public.athlete_profiles where id = 'e3e31cba-6539-4730-9fe0-5cd7252e9a83' and merged_into_profile_id is null) then
+    perform public.athlete_merge_profiles_v1('e3e31cba-6539-4730-9fe0-5cd7252e9a83'::uuid, '31753c04-47be-4234-9ccc-14b84641cf60'::uuid, 'Podium Watch Admin', 'Duplicate from a 2026 results import (nickname or spelling); same school and graduation year. Approved by Zachary 2026-11-13.');
+  end if;
+end $$;
 
 -- Kellan Dunn (kellan-dunn-2029) into Kellen Dunn (/athletes/kellen-dunn-2029/), same school, class 2029
-select public.athlete_merge_profiles_v1(
-  'dde4fd2e-a2cc-4801-9c3a-637574d94a0f'::uuid,
-  '3f0af1a0-05df-4c2b-9f1b-6bb481244e0b'::uuid,
-  'Podium Watch Admin',
-  'Duplicate from a 2026 results import (nickname or spelling); same school and graduation year. Approved by Zachary 2026-11-13.'
-);
+do $$
+begin
+  if exists (select 1 from public.athlete_profiles where id = 'dde4fd2e-a2cc-4801-9c3a-637574d94a0f' and merged_into_profile_id is null) then
+    perform public.athlete_merge_profiles_v1('dde4fd2e-a2cc-4801-9c3a-637574d94a0f'::uuid, '3f0af1a0-05df-4c2b-9f1b-6bb481244e0b'::uuid, 'Podium Watch Admin', 'Duplicate from a 2026 results import (nickname or spelling); same school and graduation year. Approved by Zachary 2026-11-13.');
+  end if;
+end $$;
 
 commit;
 
