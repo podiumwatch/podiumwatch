@@ -357,6 +357,49 @@ const lap = {};
   await context.close();
 }
 
+// ---- 5. A relay on the live page (track build Phase 3) -------------------------
+// A fake 4x400 already running, two fake teams: each button shows the
+// leg runner; a tap at the first exchange closes leg 1, shows its split,
+// and the button moves on to leg 2's runner.
+const relay = {};
+{
+  const startedAt = new Date(Date.now() - 58_000).toISOString();
+  const legNames = { "test-team-a": ["Test Runner A1", "Test Runner A2", "Test Runner A3", "Test Runner A4"], "test-team-b": ["Test Runner B1", null, "Test Runner B3", "Test Runner B4"] };
+  const relayRace = {
+    team: { id: TEAM, school_name: "Test School" },
+    session: { id: RACE, team_id: TEAM, name: "Test 4x400 (fake)", status: "live", sport: "track", tap_mode: "lap", event_key: "4x400", lap_length_meters: 400, relay_leg_meters: [400, 400, 400, 400], distance_meters: 1600, distance_unit_display: "meters", race_date: "2026-11-12", race_started_at: startedAt, race_start_adjustment_seconds: 0, is_rehearsal: false },
+    checkpoints: [1, 2, 3, 4].map((n) => ({ id: "test-x-" + n, label: n === 4 ? "Finish (1600)" : "Exchange " + n + " (" + n * 400 + ")", distance_meters: n * 400, sort_order: n, is_finish: n === 4, location: "finish_line", is_exchange: n < 4 })),
+    participants: [{ id: "test-team-a", manual_name: "A team", display_name: "A team", entry_type: "relay", status: "started", sort_order: 1, disqualified: false }, { id: "test-team-b", manual_name: "B team", display_name: "B team", entry_type: "relay", status: "started", sort_order: 2, disqualified: false }],
+    relay_legs: Object.entries(legNames).flatMap(([team, names]) => names.map((name, i) => ({ race_participant_id: team, leg_order: i + 1, distance_meters: 400, manual_name: name, team_athlete_id: null, display_name: name || "TBD" }))),
+    goals: [], targets: [], splits: []
+  };
+  const { context, page } = await newPage();
+  await context.route("**/api/**", async (route) => {
+    const url = route.request().url();
+    const body = JSON.parse(route.request().postData() || "{}");
+    const now = Date.now();
+    const stamp = (extra) => ({ ...extra, server_received_ms: now, server_sent_ms: Date.now(), viewer: { type: "team_user", position: null } });
+    if (url.includes("/api/split-watch/clock/")) return route.fulfill({ json: { server_received_ms: now, server_sent_ms: Date.now() } });
+    if (url.includes("/api/split-watch/sync/") && body.action === "push_splits") {
+      return route.fulfill({ json: stamp({ results: (body.splits || []).map((x) => ({ client_split_id: x.client_split_id, split: x, revision_written: true })) }) });
+    }
+    if (url.includes("/api/split-watch/sync/")) return route.fulfill({ json: stamp(relayRace) });
+    return route.fulfill({ json: stamp({ sessions: [] }) });
+  });
+  await page.goto(base + "/split-watch/live/?id=" + TEAM + "&race=" + RACE, { waitUntil: "load" });
+  await page.locator('[data-lap-tap="test-team-a"]').waitFor({ state: "visible", timeout: 20000 });
+  relay.buttons = await page.locator("[data-lap-tap]").count();
+  relay.legBefore = await page.locator('[data-lap-tap="test-team-a"] [data-lap-leg]').innerText();
+  relay.tbdLeg = await page.locator('[data-lap-tap="test-team-b"] [data-lap-leg]').innerText();
+  await page.locator('[data-lap-tap="test-team-a"]').click();
+  await page.waitForTimeout(300);
+  relay.message = await page.locator("[data-sw-message]").textContent();
+  relay.legAfter = await page.locator('[data-lap-tap="test-team-a"] [data-lap-leg]').innerText();
+  relay.lastLeg = await page.locator('[data-lap-tap="test-team-a"] [data-lap-last-leg]').innerText();
+  relay.errors = page.errors.join("; ");
+  await context.close();
+}
+
 await browser.close();
 server.close();
 
@@ -393,4 +436,12 @@ assert.match(lap.afterUndo, /Lap 0 of 4/, "Undo clears the lap");
 assert.equal(lap.pushedLapTaps, 1, "one lap tap sent to the server, flagged for placement by time");
 assert.equal(lap.pushedCheckpoint, "test-lap-1");
 assert.equal(lap.errors, "", "no page errors in lap mode");
+console.log("Relay:", JSON.stringify(relay));
+assert.equal(relay.buttons, 2, "one button per relay team");
+assert.equal(relay.legBefore, "Leg 1: Test Runner A1", "the button shows who is running");
+assert.equal(relay.tbdLeg, "Leg 1: Test Runner B1");
+assert.match(relay.message, /Leg 1 \(Test Runner A1\) \d/, "the leg split shows the moment the exchange is tapped");
+assert.equal(relay.legAfter, "Leg 2: Test Runner A2", "then the next leg's runner");
+assert.match(relay.lastLeg, /^Leg 1 \(Test Runner A1\) (\d+:)?\d+\.\d$/, "last leg split to the tenth");
+assert.equal(relay.errors, "", "no page errors on a relay");
 console.log("Split Watch browser checks passed.");

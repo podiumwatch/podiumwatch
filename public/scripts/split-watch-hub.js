@@ -470,6 +470,29 @@
   const trackMarksWrap = createForm.querySelector("[data-sw-track-marks-wrap]");
   const trackMarks = createForm.querySelector("[data-sw-track-marks]");
   const trackPreview = createForm.querySelector("[data-sw-track-preview]");
+  // Track build Phase 3: relays.
+  const relayLegsWrap = createForm.querySelector("[data-sw-relay-legs-wrap]");
+  const relayLegsInput = createForm.querySelector("[data-sw-relay-legs]");
+  const relayMarksWrap = createForm.querySelector("[data-sw-relay-marks-wrap]");
+  const relayMarks = createForm.querySelector("[data-sw-relay-marks]");
+  function isRelayChoice() {
+    return Boolean(window.PodiumRaceLaps && trackEvent && window.PodiumRaceLaps.isRelayEvent(trackEvent.value));
+  }
+  function relayLegList() {
+    if (!trackEvent || trackEvent.value !== "relay_custom") return null;
+    return String(relayLegsInput && relayLegsInput.value || "").split(/[^0-9]+/).filter(Boolean).map(Number);
+  }
+  // The 200 m exchange option shows only when a leg ends halfway round a
+  // 400 m track (the 4x200, or a custom relay like 200, 200, 400, 800).
+  function relayHas200Exchange() {
+    if (!isRelayChoice() || !trackLap || trackLap.value !== "400") return false;
+    try {
+      const legs = window.PodiumRaceLaps.relayLegs(window.PodiumRaceLaps.relayLegMeters({ eventKey: trackEvent.value, legMeters: relayLegList() }));
+      return trackEvent.value !== "4x100" && legs.slice(0, -1).some((leg) => leg.end_meters % 400 === 200);
+    } catch {
+      return false;
+    }
+  }
   const checkpointSection = createForm.querySelector("[data-sw-checkpoint-section]");
   const distanceFields = [...createForm.querySelectorAll("[data-sw-distance-field]")];
   const distanceInput = createForm.querySelector('input[name="distance_value"]');
@@ -488,19 +511,24 @@
     if (checkpointSection) checkpointSection.hidden = lap;
     checkpointRows.querySelectorAll(".sw-cp-label").forEach((input) => { input.placeholder = track ? "e.g. 400 m" : "Mile 1"; });
     if (trackMarksWrap) trackMarksWrap.hidden = !(lap && trackEvent.value === "800" && trackLap.value === "400");
+    if (relayLegsWrap) relayLegsWrap.hidden = !(lap && trackEvent.value === "relay_custom");
+    if (relayMarksWrap) relayMarksWrap.hidden = !relayHas200Exchange();
     if (trackPreview) {
       trackPreview.textContent = "";
       if (lap && window.PodiumRaceLaps) {
         try {
-          const list = window.PodiumRaceLaps.generateLapCheckpoints({ eventKey: trackEvent.value, lapLengthMeters: Number(trackLap.value), include200Marks: Boolean(trackMarks && trackMarks.checked && !trackMarksWrap.hidden) });
-          trackPreview.textContent = "Splits: " + list.map((c) => c.label).join(", ");
+          const list = isRelayChoice()
+            ? window.PodiumRaceLaps.generateRelayCheckpoints({ eventKey: trackEvent.value, lapLengthMeters: Number(trackLap.value), legMeters: relayLegList(), include200Exchanges: Boolean(relayMarks && relayMarks.checked && !relayMarksWrap.hidden) })
+            : window.PodiumRaceLaps.generateLapCheckpoints({ eventKey: trackEvent.value, lapLengthMeters: Number(trackLap.value), include200Marks: Boolean(trackMarks && trackMarks.checked && !trackMarksWrap.hidden) });
+          trackPreview.textContent = "Splits: " + list.map((c) => c.label).join(", ") + (isRelayChoice() ? ". Leg splits come from the exchanges." : "");
         } catch (error) {
-          trackPreview.textContent = error.message;
+          trackPreview.textContent = trackEvent.value === "relay_custom" && !relayLegsInput.value.trim() ? "Enter each leg's distance, for example 1200, 400, 800, 1600." : error.message;
         }
       }
     }
   }
-  [sportSelect, trackEvent, trackLap, trackMarks].forEach((el) => el && el.addEventListener("change", () => {
+  if (relayLegsInput) relayLegsInput.addEventListener("input", () => refreshTrackSetup());
+  [sportSelect, trackEvent, trackLap, trackMarks, relayMarks].forEach((el) => el && el.addEventListener("change", () => {
     // Switching to track clears cross country's starter "Mile" rows.
     if (el === sportSelect && sportSelect.value === "track") {
       checkpointRows.querySelectorAll(".sw-cp-label").forEach((input) => {
@@ -527,7 +555,9 @@
           event_key: trackEvent.value,
           lap_length_meters: Number(trackLap.value),
           include_200_marks: Boolean(trackMarks && trackMarks.checked && !trackMarksWrap.hidden),
-          distance_meters: Number(trackEvent.value),
+          include_200_exchanges: Boolean(relayMarks && relayMarks.checked && !relayMarksWrap.hidden),
+          relay_leg_meters: relayLegList(),
+          distance_meters: isRelayChoice() ? 400 : Number(trackEvent.value), // the server works a relay's distance out from its legs
           distance_unit_display: "meters",
           checkpoints: []
         });

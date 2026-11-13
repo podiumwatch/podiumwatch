@@ -33,6 +33,12 @@
   const bulkGoalsApplySelectedButton = document.querySelector("[data-sw-bulk-apply-selected]");
   const saveBulkGoalsButton = document.querySelector("[data-sw-save-bulk-goals]");
   const participantList = document.querySelector("[data-sw-participant-list]");
+  // Track build Phase 3: relay teams.
+  const relayPanel = document.querySelector("[data-sw-relay-panel]");
+  const relayTeamsEl = document.querySelector("[data-sw-relay-teams]");
+  const relayAddButton = document.querySelector("[data-sw-relay-add]");
+  const relaySaveButton = document.querySelector("[data-sw-relay-save]");
+  const addRunnersPanel = document.querySelector("[data-sw-add-runners-panel]");
   const participantEmpty = document.querySelector("[data-sw-participant-empty]");
   const deleteRaceButton = document.querySelector("[data-sw-delete-race]");
   const liveLinkButton = document.querySelector("[data-sw-live-link]");
@@ -1137,9 +1143,146 @@
     }
   });
 
+  // ---- relay teams (track build Phase 3) ----------------------------------------
+  // A relay race's entries are relay teams. Each team is one entry; who
+  // runs each leg is a layer on top, editable up to and during the race
+  // (times belong to the team's checkpoints, so only names move).
+  let relayDraft = null; // [{ id, name, legs: [{ choice, manual_name }] }] -- choice: "" (TBD), "manual", or an athlete id
+
+  function isRelayRace() {
+    return Boolean(detail && detail.session && Array.isArray(detail.session.relay_leg_meters) && detail.session.relay_leg_meters.length);
+  }
+  function relayLegMeters() {
+    return detail.session.relay_leg_meters.map(Number);
+  }
+  function relayDraftFromDetail() {
+    const legs = detail.relay_legs || [];
+    return detail.participants.filter((p) => p.entry_type === "relay").map((team) => ({
+      id: team.id,
+      name: team.manual_name || "",
+      legs: relayLegMeters().map((_, index) => {
+        const leg = legs.find((l) => l.race_participant_id === team.id && l.leg_order === index + 1);
+        if (!leg) return { choice: "", manual_name: "" };
+        if (leg.team_athlete_id) return { choice: leg.team_athlete_id, manual_name: "" };
+        if (leg.manual_name) return { choice: "manual", manual_name: leg.manual_name };
+        return { choice: "", manual_name: "" };
+      })
+    }));
+  }
+  // Reads what's on screen back into the draft before any re-render.
+  function readRelayDraftFromScreen() {
+    if (!relayDraft) return;
+    relayTeamsEl.querySelectorAll("[data-relay-team]").forEach((teamEl) => {
+      const team = relayDraft[Number(teamEl.dataset.relayTeam)];
+      if (!team) return;
+      team.name = teamEl.querySelector("[data-relay-name]").value;
+      teamEl.querySelectorAll("[data-relay-leg]").forEach((legEl) => {
+        const leg = team.legs[Number(legEl.dataset.relayLeg)];
+        leg.choice = legEl.querySelector("select").value;
+        leg.manual_name = legEl.querySelector("input").value;
+      });
+    });
+  }
+  function nextRelayTeamName() {
+    const used = new Set(relayDraft.map((t) => t.name.trim().toLowerCase()));
+    for (let i = 0; i < 26; i += 1) {
+      const name = String.fromCharCode(65 + i) + " team";
+      if (!used.has(name.toLowerCase())) return name;
+    }
+    return "";
+  }
+  function rosterName(athlete) {
+    return athlete.display_name || (athlete.first_name + " " + athlete.last_name);
+  }
+  function renderRelayTeams() {
+    const relay = isRelayRace();
+    relayPanel.hidden = !relay;
+    addRunnersPanel.hidden = relay;
+    if (!relay) return;
+    if (!relayDraft) relayDraft = relayDraftFromDetail();
+    const legMeters = relayLegMeters();
+    const athleteOptions = rosterAthletes.map((a) => '<option value="' + escapeHtml(a.id) + '">' + escapeHtml(rosterName(a)) + '</option>').join("");
+    if (relayDraft.length === 0) {
+      relayTeamsEl.innerHTML = '<div class="sw-empty">No relay teams yet. Add one below.</div>';
+      return;
+    }
+    relayTeamsEl.innerHTML = relayDraft.map((team, teamIndex) => (
+      '<div class="sw-relay-team" data-relay-team="' + teamIndex + '">' +
+        '<div class="sw-relay-team-head">' +
+          '<input type="text" data-relay-name maxlength="60" placeholder="Team name (A team)" value="' + escapeHtml(team.name) + '" aria-label="Team name">' +
+          '<button class="button button-outline" type="button" data-relay-remove="' + teamIndex + '">Remove</button>' +
+        '</div>' +
+        team.legs.map((leg, legIndex) => (
+          '<div class="sw-relay-leg" data-relay-leg="' + legIndex + '">' +
+            '<span class="sw-relay-leg-label">Leg ' + (legIndex + 1) + ' (' + legMeters[legIndex] + ' m)</span>' +
+            '<span class="sw-relay-leg-pick">' +
+              '<select aria-label="Leg ' + (legIndex + 1) + ' runner"><option value="">TBD</option><option value="manual">Type a name...</option>' + athleteOptions + '</select>' +
+              '<input type="text" maxlength="150" placeholder="Runner name" value="' + escapeHtml(leg.manual_name) + '"' + (leg.choice === "manual" ? "" : " hidden") + ' aria-label="Leg ' + (legIndex + 1) + ' typed name">' +
+            '</span>' +
+          '</div>'
+        )).join("") +
+      '</div>'
+    )).join("");
+    // Set each select's value (an athlete no longer on the roster shows as TBD).
+    relayTeamsEl.querySelectorAll("[data-relay-team]").forEach((teamEl) => {
+      const team = relayDraft[Number(teamEl.dataset.relayTeam)];
+      teamEl.querySelectorAll("[data-relay-leg]").forEach((legEl) => {
+        const select = legEl.querySelector("select");
+        select.value = team.legs[Number(legEl.dataset.relayLeg)].choice;
+        if (select.value !== team.legs[Number(legEl.dataset.relayLeg)].choice) select.value = "";
+      });
+    });
+  }
+  relayTeamsEl.addEventListener("change", (event) => {
+    const select = event.target.closest("[data-relay-leg] select");
+    if (!select) return;
+    const input = select.closest("[data-relay-leg]").querySelector("input");
+    input.hidden = select.value !== "manual";
+    if (!input.hidden) input.focus();
+  });
+  relayTeamsEl.addEventListener("click", (event) => {
+    const remove = event.target.closest("[data-relay-remove]");
+    if (!remove) return;
+    readRelayDraftFromScreen();
+    relayDraft.splice(Number(remove.dataset.relayRemove), 1);
+    renderRelayTeams();
+  });
+  relayAddButton.addEventListener("click", () => {
+    readRelayDraftFromScreen();
+    relayDraft.push({ id: null, name: nextRelayTeamName(), legs: relayLegMeters().map(() => ({ choice: "", manual_name: "" })) });
+    renderRelayTeams();
+  });
+  relaySaveButton.addEventListener("click", async () => {
+    showMessage("");
+    readRelayDraftFromScreen();
+    const teams = relayDraft.map((team) => ({
+      id: team.id || undefined,
+      name: team.name.trim(),
+      legs: team.legs.map((leg) => (
+        leg.choice === "manual" ? { manual_name: leg.manual_name.trim() || null }
+          : leg.choice ? { team_athlete_id: leg.choice }
+          : {}
+      ))
+    }));
+    relaySaveButton.disabled = true;
+    relaySaveButton.textContent = "Saving...";
+    try {
+      await apiFetch(PLAN_ENDPOINT, { action: "save_relay_teams", teams });
+      relayDraft = null;
+      showMessage("Relay teams saved.");
+      await refresh();
+    } catch (error) {
+      showMessage(error.message || "Relay teams could not be saved.", true);
+    } finally {
+      relaySaveButton.disabled = false;
+      relaySaveButton.textContent = "Save relay teams";
+    }
+  });
+
   async function refreshDetailOnly() {
     detail = await apiFetch(SESSIONS_ENDPOINT, { action: "detail" });
     renderHeader();
+    renderRelayTeams();
     renderRoster();
     renderParticipants();
     renderBulkGoalsTable();
@@ -1225,6 +1368,7 @@
       rosterAthletes = rosterData.athletes;
 
       renderHeader();
+      renderRelayTeams();
       renderRoster();
       renderParticipants();
       renderBulkGoalsTable();

@@ -380,7 +380,8 @@
       participants: saved.participants || [],
       goals: saved.goals || [],
       targets: saved.targets || [],
-      splits: saved.splits || []
+      splits: saved.splits || [],
+      relay_legs: saved.relay_legs || []
     };
     if (saved.viewer?.type) viewerType = saved.viewer.type;
     if (saved.viewer && "position" in saved.viewer) viewerPosition = saved.viewer.position;
@@ -420,7 +421,8 @@
       splits: (detail && detail.splits) || [],
       viewer: { type: viewerType, position: viewerPosition },
       clockOffsetMs: lastKnownClockOffsetMs,
-      clockSample: clockSync.snapshot()
+      clockSample: clockSync.snapshot(),
+      relayLegs: (detail && detail.relay_legs) || []
     };
   }
 
@@ -666,7 +668,9 @@
       .map((s) => s.client_split_id + ":" + s.elapsed_seconds + ":" + s.wall_clock_captured_at_ms)
       .sort().join("|");
     const statusPart = detail.participants.map((p) => p.id + ":" + p.status).sort().join("|");
-    return splitsPart + "##" + statusPart;
+    // A leg runner changed mid race re-renders the relay buttons.
+    const legsPart = (detail.relay_legs || []).map((l) => l.race_participant_id + ":" + l.leg_order + ":" + l.display_name).sort().join("|");
+    return splitsPart + "##" + statusPart + "##" + legsPart;
   }
 
   async function pullRemoteUpdates() {
@@ -689,6 +693,7 @@
       detail.goals = fresh.goals;
       detail.targets = fresh.targets;
       detail.splits = fresh.splits;
+      detail.relay_legs = fresh.relay_legs || [];
       detail.session.race_start_adjustment_seconds = fresh.session.race_start_adjustment_seconds;
       raceClockAdjustmentSeconds = Number(fresh.session.race_start_adjustment_seconds) || 0;
       await loadMergedSplits();
@@ -900,6 +905,44 @@
     return m > 0 ? m + ":" + sText : rest.toFixed(1);
   }
 
+  // ---- relays (track build Phase 3) ---------------------------------------------
+  // A relay team is one entry that runs laps; its legs come from
+  // detail.relay_legs. The button shows who is running now, and a tap at
+  // an exchange closes that leg and shows its split straight away.
+  function isRelayRace() {
+    return Array.isArray(detail.session.relay_leg_meters) && detail.session.relay_leg_meters.length > 0;
+  }
+  function relayLegMeters() {
+    return detail.session.relay_leg_meters.map(Number);
+  }
+  function legName(participantId, legOrder) {
+    const leg = (detail.relay_legs || []).find((l) => l.race_participant_id === participantId && l.leg_order === legOrder);
+    return leg ? leg.display_name : "TBD";
+  }
+  function relaySegments(participantId) {
+    return Laps.relayLegSegments({ checkpoints: detail.checkpoints, splits: entrySplits(participantId), legMeters: relayLegMeters() });
+  }
+  function segmentLabel(participantId, segment) {
+    const legs = [];
+    for (let n = segment.first_leg; n <= segment.last_leg; n += 1) legs.push(legName(participantId, n));
+    return (segment.first_leg === segment.last_leg ? "Leg " + segment.first_leg : "Legs " + segment.first_leg + "-" + segment.last_leg) + " (" + legs.join(", ") + ")";
+  }
+  // Who is running now: the legs between the team's last recorded pass
+  // (anywhere on the track) and the next checkpoint this phone takes.
+  function relayNowLine(participantId, state) {
+    if (state.finished || !state.next) return "";
+    const timedIds = new Set(entrySplits(participantId).filter((s) => s.elapsed_seconds !== null && s.elapsed_seconds !== undefined && !s.is_dns && !s.is_dnf).map((s) => s.race_checkpoint_id));
+    const lastDistance = detail.checkpoints.filter((c) => timedIds.has(c.id)).reduce((max, c) => Math.max(max, Number(c.distance_meters)), 0);
+    const legs = Laps.currentRelayLegs({ legMeters: relayLegMeters(), lastDistanceMeters: lastDistance, nextDistanceMeters: Number(state.next.distance_meters) });
+    if (!legs.length) return "";
+    return (legs.length === 1 ? "Leg " + legs[0] + ": " : "Legs " + legs[0] + "-" + legs[legs.length - 1] + ": ") + legs.map((n) => legName(participantId, n)).join(", ");
+  }
+  function lastLegLine(participantId) {
+    const closed = relaySegments(participantId).filter((segment) => segment.seconds !== null);
+    const last = closed[closed.length - 1];
+    return last ? segmentLabel(participantId, last) + " " + formatTenths(last.seconds) : "";
+  }
+
   function handleLapTap(participant) {
     const elapsedResult = Timer.elapsedOrRecovered();
     if (!elapsedResult) {
@@ -944,7 +987,16 @@
       lapTap: !undone
     });
     const after = lapStateFor(participant.id);
-    announceCapture(participantName(participant) + (target.is_finish ? " finished: " : " " + target.label + ": ") + formatTenths(tapSeconds) + (after.lastLapSeconds != null ? ", last lap " + formatTenths(after.lastLapSeconds) : "") + ".");
+    // A relay exchange (or the finish) closes a leg: show its split now.
+    let legNote = "";
+    if (isRelayRace() && (target.is_exchange || target.is_finish)) {
+      const closed = relaySegments(participant.id).find((segment) => segment.closed_at !== null && Math.abs(segment.closed_at - tapSeconds) < 0.001);
+      if (closed && closed.seconds !== null) {
+        legNote = " " + segmentLabel(participant.id, closed) + " split " + formatTenths(closed.seconds) + ".";
+        showMessage(participantName(participant) + ": " + segmentLabel(participant.id, closed) + " " + formatTenths(closed.seconds));
+      }
+    }
+    announceCapture(participantName(participant) + (target.is_finish ? " finished: " : " " + target.label + ": ") + formatTenths(tapSeconds) + (after.lastLapSeconds != null ? ", last lap " + formatTenths(after.lastLapSeconds) : "") + "." + legNote);
   }
 
   function handleLapUndo(participant) {
@@ -1030,11 +1082,16 @@
       const lastLap = state.lastLapSeconds != null ? "Last " + (state.lastLapMeters && state.lastLapMeters !== Number(detail.session.lap_length_meters) ? state.lastLapMeters + " m " : "lap ") + formatTenths(state.lastLapSeconds) : "No laps yet";
       const total = state.lastElapsed != null ? "Total " + formatTenths(state.lastElapsed) : "";
       const flash = recentlyRecordedIds.has(id) ? " sw-lap-btn-flash" : "";
+      // Relay: who is running now, and the last leg split.
+      const relayNow = isRelayRace() ? relayNowLine(id, state) : "";
+      const relayLast = isRelayRace() ? lastLegLine(id) : "";
       return (
         '<div class="sw-lap-entry' + (out || state.finished ? " sw-lap-entry-out" : "") + '" data-runner-card="' + escapeHtml(id) + '">' +
           '<button class="sw-lap-btn' + flash + '" type="button" data-lap-tap="' + escapeHtml(id) + '"' + (out || state.finished ? " disabled" : "") + '>' +
             '<span class="sw-lap-name">' + escapeHtml(participantName(participant)) + (outLabel ? " (" + outLabel + ")" : "") + '</span>' +
+            (relayNow ? '<span class="sw-lap-leg" data-lap-leg>' + escapeHtml(relayNow) + '</span>' : '') +
             '<span class="sw-lap-progress">' + escapeHtml(progress) + '</span>' +
+            (relayLast ? '<span class="sw-lap-times" data-lap-last-leg>' + escapeHtml(relayLast) + '</span>' : '') +
             '<span class="sw-lap-times">' + escapeHtml(lastLap) + (total ? " &middot; " + escapeHtml(total) : "") + '</span>' +
           '</button>' +
           '<div class="sw-lap-actions">' +

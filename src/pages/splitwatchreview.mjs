@@ -182,6 +182,21 @@ export function splitWatchReviewPage(site) {
                 <tbody data-sw-individual-rows></tbody>
               </table>
             </div>
+
+            <!-- Track build Phase 3: a relay team's legs. -->
+            <div data-sw-relay-review hidden style="margin-top:18px;">
+              <h3 style="margin:0 0 8px;">Legs</h3>
+              <div class="sw-review-table-wrap">
+                <table class="sw-review-table">
+                  <thead>
+                    <tr><th>Leg</th><th>Runner</th><th>Distance</th><th>Leg split</th></tr>
+                  </thead>
+                  <tbody data-sw-relay-review-rows></tbody>
+                </table>
+              </div>
+              <p data-sw-relay-review-total style="margin:10px 0 0;font-weight:800;"></p>
+              <p data-sw-relay-review-note style="margin:6px 0 0;font-size:0.9rem;" hidden></p>
+            </div>
           </section>
         </div>
       </div>

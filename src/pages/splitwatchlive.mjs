@@ -154,6 +154,7 @@ export function splitWatchLivePage(site) {
     .sw-lap-btn-flash { outline: 4px solid #fff; outline-offset: -4px; }
     .sw-lap-name { font-size: 1.25rem; font-weight: 900; line-height: 1.1; }
     .sw-lap-progress { font-size: 1rem; font-weight: 800; }
+    .sw-lap-leg { font-size: 0.95rem; font-weight: 700; }
     .sw-lap-times { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
     .sw-lap-actions { display: flex; flex-wrap: wrap; gap: 6px; }
     .sw-lap-entry-out { opacity: 0.75; }

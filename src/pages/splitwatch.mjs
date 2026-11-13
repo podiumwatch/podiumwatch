@@ -441,6 +441,11 @@ export function splitWatchHubPage(site) {
                     <option value="3200">3200</option>
                     <option value="1600">1600</option>
                     <option value="800">800</option>
+                    <option value="4x800">4x800 relay</option>
+                    <option value="4x400">4x400 relay</option>
+                    <option value="4x200">4x200 relay</option>
+                    <option value="4x100">4x100 relay (finish only)</option>
+                    <option value="relay_custom">Custom relay (DMR, SMR...)</option>
                     <option value="">Custom (set checkpoints yourself)</option>
                   </select>
                 </label>
@@ -455,6 +460,14 @@ export function splitWatchHubPage(site) {
               <label class="sw-track-marks" data-sw-track-marks-wrap hidden>
                 <input type="checkbox" name="include_200_marks" value="true" data-sw-track-marks>
                 Also take splits at the 200 m mark (200 and 600) -- needs a second phone there
+              </label>
+              <label data-sw-relay-legs-wrap hidden>
+                <strong>Leg distances in meters, in order</strong>
+                <input type="text" name="relay_leg_meters" data-sw-relay-legs placeholder="1200, 400, 800, 1600" inputmode="numeric">
+              </label>
+              <label class="sw-track-marks" data-sw-relay-marks-wrap hidden>
+                <input type="checkbox" name="include_200_exchanges" value="true" data-sw-relay-marks>
+                Also time the exchanges at the 200 m mark (approximate because of the stagger) -- needs a second phone there
               </label>
               <p class="sw-track-preview" data-sw-track-preview></p>
               <p style="margin:6px 0 0;font-size:0.9rem;">Lap mode: each tap records that runner's next lap, so lapped runners land on the right lap by themselves.</p>

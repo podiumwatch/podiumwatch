@@ -13,7 +13,8 @@ import {
   saveStrategy,
   saveTargets,
   bulkApplyGoal,
-  saveGoalsBulk
+  saveGoalsBulk,
+  saveRelayTeams
 } from "../../lib/split_watch_service.mjs";
 
 function cleanText(value) {
@@ -87,6 +88,10 @@ export default async function handler(request, response) {
           goalSlot: body.goal_slot,
           goalSeconds: body.goal_seconds
         });
+        break;
+      // Track build Phase 3: relay teams and their legs (coach only).
+      case "save_relay_teams":
+        data = await saveRelayTeams({ teamId, sessionId, teams: body.teams });
         break;
       case "save_goals_bulk":
         data = await saveGoalsBulk({

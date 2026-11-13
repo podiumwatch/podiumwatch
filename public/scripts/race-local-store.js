@@ -71,6 +71,9 @@
     viewer = null,
     clockOffsetMs = null,
     clockSample = null,
+    // Track build Phase 3: a relay's legs (who runs each), so the leg
+    // names still show offline.
+    relayLegs = null,
     savedAtMs = Date.now()
   }) {
     return {
@@ -88,6 +91,7 @@
       // The best clock sample (race-clock-sync.js snapshot()), so a reload
       // keeps the same correction and its age.
       clock_sample: clockSample || null,
+      relay_legs: Array.isArray(relayLegs) ? relayLegs : [],
       saved_at_ms: savedAtMs
     };
   }

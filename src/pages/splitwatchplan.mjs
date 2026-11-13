@@ -447,6 +447,13 @@ export function splitWatchPlanPage(site) {
       font-size: 0.85rem;
       opacity: 0.75;
     }
+    .sw-relay-team { border: 1px solid var(--line, #d6d3cc); border-radius: 12px; padding: 12px; margin-top: 12px; display: grid; gap: 8px; }
+    .sw-relay-team-head { display: flex; gap: 8px; align-items: center; }
+    .sw-relay-team-head input { flex: 1; min-width: 0; }
+    .sw-relay-leg { display: grid; grid-template-columns: minmax(84px, auto) 1fr; gap: 8px; align-items: center; }
+    .sw-relay-leg-label { font-weight: 800; font-size: 0.9rem; }
+    .sw-relay-leg-pick { display: grid; gap: 6px; min-width: 0; }
+    .sw-relay-leg-pick select, .sw-relay-leg-pick input { width: 100%; min-width: 0; }
   </style>
 
   <section class="section section-paper">
@@ -587,7 +594,21 @@ export function splitWatchPlanPage(site) {
         </section>
 
         <div class="sw-grid" style="margin-top:20px;">
-          <section class="sw-panel">
+          <!-- Track build Phase 3: a relay race's entries are relay teams. -->
+          <section class="sw-panel" data-sw-relay-panel hidden>
+            <p class="eyebrow">Relay</p>
+            <h2>Relay teams</h2>
+            <p>
+              Add a team for each relay you're running (A team, B team), then pick who runs each leg from your
+              roster, type a name, or leave it as TBD. You can change the order right up to and during the race:
+              recorded times stay where they are, only the names move.
+            </p>
+            <div class="sw-relay-teams" data-sw-relay-teams></div>
+            <button class="button button-outline" type="button" data-sw-relay-add style="width:100%;margin-top:10px;">Add a relay team</button>
+            <button class="button button-primary" type="button" data-sw-relay-save style="margin-top:16px;width:100%;">Save relay teams</button>
+          </section>
+
+          <section class="sw-panel" data-sw-add-runners-panel>
             <p class="eyebrow">Roster</p>
             <h2>Add runners</h2>
             <p>

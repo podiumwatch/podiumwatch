@@ -298,6 +298,36 @@
     }
   }
 
+  // Track build Phase 3: a relay team's legs -- who ran each, the leg
+  // split (exchange minus the previous exchange), and the team total.
+  // Legs whose exchange wasn't timed show together as one split.
+  function renderRelayReview(data) {
+    const wrap = document.querySelector("[data-sw-relay-review]");
+    if (!wrap) return;
+    if (!data.relay) { wrap.hidden = true; return; }
+    const rows = wrap.querySelector("[data-sw-relay-review-rows]");
+    const total = wrap.querySelector("[data-sw-relay-review-total]");
+    const note = wrap.querySelector("[data-sw-relay-review-note]");
+    let joined = false;
+    rows.innerHTML = data.relay.segments.map((segment) => {
+      const legs = data.relay.legs.filter((leg) => leg.leg_order >= segment.first_leg && leg.leg_order <= segment.last_leg);
+      if (legs.length > 1) joined = true;
+      const legLabel = legs.length > 1 ? segment.first_leg + "-" + segment.last_leg : String(segment.first_leg);
+      return (
+        '<tr data-relay-leg-row>' +
+          '<td data-label="Leg">' + escapeHtml(legLabel) + '</td>' +
+          '<td data-label="Runner">' + escapeHtml(segment.names.join(", ")) + '</td>' +
+          '<td data-label="Distance">' + escapeHtml((segment.end_meters - segment.start_meters) + " m") + '</td>' +
+          '<td data-label="Leg split">' + escapeHtml(segment.seconds != null ? formatTenths(segment.seconds) : "--") + '</td>' +
+        '</tr>'
+      );
+    }).join("");
+    total.textContent = "Team total: " + (data.relay.total_seconds != null ? formatTenths(data.relay.total_seconds) : "--");
+    note.hidden = !joined;
+    note.textContent = joined ? "Legs shown together had no exchange split taken between them." : "";
+    wrap.hidden = false;
+  }
+
   async function openIndividual(participantId) {
     try {
       const data = await apiFetch({ action: "get_individual", participant_id: participantId });
@@ -324,6 +354,8 @@
           '</tr>'
         );
       }).join("");
+
+      renderRelayReview(data);
 
       individualPanel.hidden = false;
       individualPanel.scrollIntoView({ behavior: "smooth", block: "start" });
