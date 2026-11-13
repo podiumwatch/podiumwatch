@@ -35,20 +35,23 @@ export function seasonPhase(now = new Date()) {
 // Dated calls to action. Each one hides itself after expiresAt, both at
 // build time and in the browser (data-expires, public/scripts/site.js),
 // so it disappears on time even between rebuilds.
+// `bar` is the short wording for the homepage team bar (redesign step 7).
 export const DATED_CTAS = {
   awardsNominations: {
     href: "/awards/2026/",
     title: "Nominate the 2026 Athletes, Teams and Coaches of the Year",
     detail: "24 categories, boys and girls, Divisions I to IV. Nominations close Monday at 9:00 PM ET.",
     startsAt: "2026-11-08T00:00:00Z",
-    expiresAt: "2026-11-10T02:00:00Z"
+    expiresAt: "2026-11-10T02:00:00Z",
+    bar: { title: "Nominate: 2026 Year Awards", detail: "Closes Monday, Nov. 9 at 9:00 PM ET", button: "Nominate" }
   },
   awardsVoting: {
     href: "/awards/2026/",
     title: "Vote for the 2026 Athletes, Teams and Coaches of the Year",
     detail: "Pick one finalist in each category. Voting closes Friday, Nov. 13 at 9:00 PM ET.",
     startsAt: "2026-11-10T05:00:00Z",
-    expiresAt: "2026-11-14T02:00:00Z"
+    expiresAt: "2026-11-14T02:00:00Z",
+    bar: { title: "Vote: 2026 Year Awards", detail: "Closes Friday, Nov. 13 at 9:00 PM ET", button: "Vote" }
   },
   awardsWinners: {
     href: "/awards/2026/",
@@ -60,7 +63,8 @@ export const DATED_CTAS = {
     // is only the earliest it could ever show (voting close).
     startsAt: "2026-11-14T02:00:00Z",
     expiresAt: "2026-12-31T05:00:00Z",
-    showWhen: "awards-2026-winners"
+    showWhen: "awards-2026-winners",
+    bar: { title: "2026 Year Award winners", detail: "All 24 categories", button: "See them" }
   }
 };
 

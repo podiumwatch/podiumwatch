@@ -2286,3 +2286,15 @@ Zachary's brief for the real Oct 31 regionals, with his answers to the open ques
 - Footer: Results, Rankings, Teams & tools, Podium Watch, then a legal line (Editorial Standards, Privacy, Terms) and Support Podium Watch. "All Rankings" (/rankings/), Fan Poll and the three calculators are listed because no other footer or menu link reaches them on desktop. The old Connect group became Instagram and YouTube under Podium Watch.
 - Phone bottom bar: Home, My Podium, Results, Rankings, Teams (Meets moved to the footer). Shown at 820px and below.
 - Components in src/lib/components.mjs: pageBand, tabsRow, filterChips (links, so filters are shareable URLs), dataTable (Show more rows stay in the HTML), statCards, podiumCards, panel, school color with a WCAG AA contrast rule (bandColor).
+
+## 2026-11-13: Site redesign step 7, homepage (branch site-redesign)
+
+Built ahead of step 6 (rankings) at Zachary's request. Layout in src/pages/home.mjs; scripts/build.mjs only gathers the data.
+- Order: team bar (Find your team, Search athletes, one dated call to action), lead story and recaps list on the left with the "Right now" panel on the right (phone and tablet: lead, panel, recaps), More from the newsroom (4 cards), Rankings (OATCCC poll and Podium Watch rankings), Tools (6 tiles), slim shop strip.
+- Lead story: the same 8-story lead set (admin lead first in the browser); arrows, headline tabs (aria-pressed), arrow keys and swipe. No auto-rotation. Only the first photo loads with the page; the others load when shown.
+- Team bar call to action: the existing DATED_CTAS with a short `bar` wording; hides itself at its end time (site.js).
+- Right now: the state champions from src/data/state-champions-2026.json while the season phase is xc-wrapup, each row linking to /state/2026/<division>/. Latest results and Upcoming meets come from the meet calendar and stay hidden when empty.
+- Recaps list: the newest story series (Division I to IV order), else the stories after the lead set.
+- OATCCC poll: Boys/Girls and D1 to D4 buttons, no sponsor. Podium Watch rankings panel: "Presented by Spike Town at Runners Plus" through /go/spike-town-runners-plus/home-rankings/ (new placement), "Sponsored by Raising Cane's" under Top 10, text only.
+- Shop: merchStripHtml, default product, same /go/merch/home/ tracking. The large card under the lead is gone.
+- Removed from the homepage: the second story carousel, the slogan headings, the My Podium follow panel (My Podium is in Tools and the phone bar), the recent fan photos block, the postseason-only "Regionals are in the books" and "Have your say" sections (Podium Play is in the More menu).

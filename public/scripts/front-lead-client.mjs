@@ -1,99 +1,83 @@
-import { frontRotatorHtml, ROTATION_MAX, ROTATION_MS } from "./front-lead.mjs";
+import { frontRotatorHtml, ROTATION_MAX } from "./front-lead.mjs";
 
-// Homepage (WO-43): the lead rotates every 8 seconds through up to 8
-// stories. The build draws the 8 newest; here an admin-set lead goes first
-// and stories an admin placed in the rotation by hand come right after it,
-// then the newest fill the rest. Stories in the rotation are hidden from
-// the Latest Stories rail. Failure is silent: the built rotation is real.
+// Homepage (WO-43): the lead set holds up to 8 stories. The build draws the
+// 8 newest; here an admin-set lead goes first and stories an admin placed
+// in the set by hand come right after it, then the newest fill the rest.
+// Stories in the lead set are hidden from "More from the newsroom".
+// Failure is silent: the built set is real.
 //
-// The timer pauses while the pointer or keyboard focus is on the block,
-// while it is off-screen or the tab is hidden, and when the reader presses
-// Pause. With reduced motion it never advances on its own; the strip
-// still switches stories.
+// Homepage redesign (2026-11-13, step 7): no timer. The story changes
+// only on the arrows, the headline tabs, the left and right arrow keys
+// while focus is in the block, or a sideways swipe on the photo.
 
 const root = document.querySelector("[data-front-page]");
 const candidatesNode = document.querySelector("[data-front-candidates]");
 const holder = root?.querySelector("[data-front-lead]");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let stop = () => {};
 
 function start() {
   stop();
   const slides = [...holder.querySelectorAll(".fl-lead")];
   const picks = [...holder.querySelectorAll("[data-front-pick]")];
-  const toggle = holder.querySelector("[data-front-toggle]");
+  const status = holder.querySelector("[data-front-status]");
   if (slides.length < 2) return;
   const controller = new AbortController();
   const opts = { signal: controller.signal };
   let index = 0;
-  let timer = null;
-  let userPaused = false;
-  let hover = false;
-  let visible = true;
 
-  const show = (next) => {
+  const show = (next, { announce = true } = {}) => {
     index = (next + slides.length) % slides.length;
     slides.forEach((slide, i) => {
       const on = i === index;
       slide.classList.toggle("is-active", on);
       slide.toggleAttribute("inert", !on);
       if (on) slide.removeAttribute("aria-hidden"); else slide.setAttribute("aria-hidden", "true");
-      const img = slide.querySelector("img[loading=lazy]");
-      if (img && (on || i === (index + 1) % slides.length)) img.loading = "eager"; // preload the next one
+      // Photos of hidden stories load when shown; once the reader starts
+      // clicking through, the next photo is fetched ahead.
+      const img = slide.querySelector("img[data-src]");
+      if (img && (on || (announce && i === (index + 1) % slides.length))) { img.src = img.dataset.src; img.removeAttribute("data-src"); }
     });
-    picks.forEach((pick, i) => {
-      pick.classList.toggle("is-active", i === index);
-      if (i === index) pick.setAttribute("aria-current", "true"); else pick.removeAttribute("aria-current");
-    });
-    restartBar();
-  };
-  const running = () => !reduceMotion && !userPaused && !hover && visible && !document.hidden;
-  // The thin bar on the active strip item fills over the 8 seconds.
-  const restartBar = () => {
-    holder.style.setProperty("--fl-ms", `${ROTATION_MS}ms`);
-    holder.classList.toggle("is-running", running());
-    const bar = picks[index]?.querySelector(".fl-pick-bar span");
-    if (bar) { bar.style.animation = "none"; void bar.offsetWidth; bar.style.animation = ""; }
-  };
-  const schedule = () => {
-    clearTimeout(timer);
-    holder.classList.toggle("is-running", running());
-    if (running()) timer = setTimeout(() => { show(index + 1); schedule(); }, ROTATION_MS);
+    picks.forEach((pick, i) => pick.setAttribute("aria-pressed", String(i === index)));
+    const active = picks[index];
+    if (active && active.scrollIntoView && holder.querySelector(".fl-picks")?.scrollWidth > holder.querySelector(".fl-picks")?.clientWidth) {
+      active.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
+    }
+    if (announce && status) status.textContent = `Story ${index + 1} of ${slides.length}: ${slides[index].querySelector(".fl-title")?.textContent || ""}`;
   };
 
-  picks.forEach((pick, i) => pick.addEventListener("click", () => { show(i); schedule(); }, opts));
-  // Arrows on the lead: step through the stories; the timer starts over.
-  holder.querySelector("[data-front-next]")?.addEventListener("click", () => { show(index + 1); schedule(); }, opts);
-  holder.querySelector("[data-front-prev]")?.addEventListener("click", () => { show(index - 1); schedule(); }, opts);
-  const onToggle = () => {
-    userPaused = !userPaused;
-    toggle.textContent = userPaused ? "Play" : "Pause";
-    toggle.setAttribute("aria-pressed", String(userPaused));
-    restartBar();
-    schedule();
-  };
-  toggle?.addEventListener("click", onToggle, opts);
-  if (reduceMotion && toggle) toggle.hidden = true;
-  const enter = () => { hover = true; schedule(); };
-  const leave = () => { hover = false; restartBar(); schedule(); };
-  holder.addEventListener("pointerenter", enter, opts);
-  holder.addEventListener("pointerleave", leave, opts);
-  holder.addEventListener("focusin", enter, opts);
-  holder.addEventListener("focusout", (event) => { if (!holder.contains(event.relatedTarget)) leave(); }, opts);
-  document.addEventListener("visibilitychange", () => { restartBar(); schedule(); }, opts);
-  const observer = "IntersectionObserver" in window ? new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; restartBar(); schedule(); }, { threshold: 0.25 }) : null;
-  observer?.observe(holder);
-  restartBar();
-  schedule();
-  stop = () => { clearTimeout(timer); observer?.disconnect(); controller.abort(); };
+  picks.forEach((pick, i) => pick.addEventListener("click", () => show(i), opts));
+  holder.querySelector("[data-front-next]")?.addEventListener("click", () => show(index + 1), opts);
+  holder.querySelector("[data-front-prev]")?.addEventListener("click", () => show(index - 1), opts);
+  holder.addEventListener("keydown", (event) => {
+    if (event.target.closest("input, textarea")) return;
+    if (event.key === "ArrowRight") { show(index + 1); event.preventDefault(); }
+    if (event.key === "ArrowLeft") { show(index - 1); event.preventDefault(); }
+  }, opts);
+  // Swipe on the photo: a mostly sideways move of 40 px or more.
+  const rotator = holder.querySelector("[data-front-rotator]");
+  let touch = null;
+  rotator?.addEventListener("touchstart", (event) => { const t = event.touches[0]; touch = { x: t.clientX, y: t.clientY }; }, { ...opts, passive: true });
+  rotator?.addEventListener("touchend", (event) => {
+    if (!touch) return;
+    const t = event.changedTouches[0];
+    const dx = t.clientX - touch.x;
+    const dy = t.clientY - touch.y;
+    touch = null;
+    if (Math.abs(dx) >= 40 && Math.abs(dx) > Math.abs(dy) * 1.5) show(index + (dx < 0 ? 1 : -1));
+  }, { ...opts, passive: true });
+  show(0, { announce: false });
+  stop = () => controller.abort();
 }
 
 function hideRepeats(slugs) {
   const shown = new Set(slugs);
-  document.querySelectorAll("[data-story-rail] a[href^='/stories/']").forEach((link) => {
-    const slug = link.getAttribute("href").split("/")[2];
-    const card = link.closest(".story-card");
-    if (card) card.hidden = shown.has(slug);
+  // The newsroom row shows its first four cards that are not in the lead set.
+  const cards = [...document.querySelectorAll("[data-home-cards] [data-story-slug]")];
+  let visible = 0;
+  cards.forEach((card) => {
+    const keep = !shown.has(card.getAttribute("data-story-slug")) && visible < 4;
+    card.hidden = !keep;
+    if (keep) visible += 1;
   });
 }
 

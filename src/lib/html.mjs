@@ -110,7 +110,7 @@ export function header(site, currentPath = "/") {
   <div class="container pw-top-wrap">
     <a class="pw-brand" href="/" aria-label="Podium Watch home">
       <img src="${site.logoMark}" width="42" height="42" alt="">
-      <span><b>Podium</b><b>Watch</b></span>
+      <span><b>Podium</b> <b>Watch</b></span>
     </a>
     <nav id="site-nav" class="pw-nav" aria-label="Main navigation" data-site-nav data-open="false">
       <div class="pw-nav-list">${navGroups}</div>
@@ -143,7 +143,7 @@ export function footer(site) {
   return `<footer class="site-footer pw-foot">
   <div class="container pw-foot-grid">
     <div class="pw-foot-brand">
-      <a class="pw-brand" href="/" aria-label="Podium Watch home"><img src="${site.logoMark}" width="42" height="42" alt=""><span><b>Podium</b><b>Watch</b></span></a>
+      <a class="pw-brand" href="/" aria-label="Podium Watch home"><img src="${site.logoMark}" width="42" height="42" alt=""><span><b>Podium</b> <b>Watch</b></span></a>
       <p>Ohio high school running, all in one place.</p>
     </div>
     ${groups}

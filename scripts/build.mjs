@@ -1,4 +1,5 @@
-import { merchSection } from "../src/lib/merch_card.mjs";
+import { merchSection, merchStripHtml } from "../src/lib/merch_card.mjs";
+import { homeContent, recapGroup } from "../src/pages/home.mjs";
 import { adminTeamsPage } from "../src/pages/adminteams.mjs";
 import { adminTeamManagerPage } from "../src/pages/adminteammanager.mjs";
 import { adminTeamSchedulesPage } from "../src/pages/adminteamschedules.mjs";
@@ -131,7 +132,7 @@ import { adminWrappedPage } from "../src/pages/adminwrapped.mjs";
 import { adminTeamLogosPage } from "../src/pages/adminteamlogos.mjs";
 import { adminSponsorReportPage } from "../src/pages/adminsponsorreport.mjs";
 import { adminPartnerPage } from "../src/pages/adminpartnerpage.mjs";
-import { sponsorSlotHtml } from "../lib/site_sponsors.mjs";
+import { findPlacement, sponsorSlotHtml } from "../lib/site_sponsors.mjs";
 import { COMMITMENT_CLASSES } from "../src/lib/commitment_rows.mjs";
 import { allHubPaths } from "../src/config/season_hubs.mjs";
 import { frontRotatorHtml, ROTATION_MAX } from "../public/scripts/front-lead.mjs";
@@ -423,327 +424,65 @@ function frontStoryShape(story) {
   };
 }
 
-function homePage(stories, rankings) {
-  // Real request, 2026-09-16: the homepage lead must always be the most
-  // recent story, full stop -- no exceptions. This used to prefer a
-  // hand-flagged featured:true story first (removed), and `stories[0]`
-  // alone still wasn't enough -- loadStories() sorts pinnedRank stories
-  // to the front ahead of date for the rest of the site (the /stories/
-  // feed, category pages -- unchanged, still real and still useful
-  // there), which meant a pinned story could still silently beat a
-  // genuinely newer one for this one slot. A pure date-only sort on a
-  // local copy (not touching the `stories` array itself, so every other
-  // page keeps its pinnedRank ordering exactly as before) is the only
-  // way to guarantee "always the newest" with truly no exceptions.
-  // State Breakdowns (2026-11-03, Zachary): the four Division I-IV
-  // state breakdown stories get their own section at the very top, in
-  // division order. They are left out of the lead and the Latest
-  // Stories rail below so nothing else on the page moves and no story
-  // shows twice.
-  const stateBreakdowns = stories.filter((story) => story.series === "state-breakdowns").sort((a, b) => a.seriesOrder - b.seriesOrder);
-  // The series is kept out of the general lists only while its own
-  // section shows (postseason). Otherwise (Zachary, 2026-11-09) the
-  // previews are listed like any story: front page and Latest Stories.
-  const breakdownsHaveOwnSection = stateBreakdowns.length > 0 && seasonPhase(new Date()).key === "xc-postseason";
-  const otherStories = breakdownsHaveOwnSection ? stories.filter((story) => story.series !== "state-breakdowns") : stories;
-  const featuredStory = [...otherStories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`))[0];
-  // Exclude the hero story from "Latest Stories" below it -- without this,
-  // whenever the featured story is also among the most recent (the normal
-  // case), it silently appeared twice on the homepage: once as the big
-  // lead, again as the first card in the grid underneath.
-  // Story page redesign (2026-10-28), A2: strictly newest-first. An
-  // earlier pass (media-credibility audit, P2-6) reordered this row to
-  // prefer real-image stories over the generic fallback image, which
-  // put an August/September story ahead of an October one -- a real
-  // violation of "newest first everywhere" the handoff explicitly
-  // called out. `stories` is already sorted newest-first (with the
-  // seriesOrder tie-break, loadStories() in this same file), so a plain
-  // slice is the correct fix; no image-based reordering.
-  // Front page (WO-43): the newest story is the built-in lead; an admin
-  // lead from /api/front-page/current replaces it in the browser. The
-  // next three stories are "Also on the front page", and the Latest
-  // Stories rail starts after them so nothing repeats.
-  // Newest first by date only, like the lead (pinned stories don't jump ahead here).
-  const byDate = [...otherStories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`));
-  // "Also on the front page" (Zachary, 2026-11-09): only stories published
-  // after the event they cover. Previews never qualify; a story with an
-  // eventDate qualifies only on or after it. Previews whose meet is over
-  // stay in the Latest Stories rail with their Preview label. With fewer
-  // than 2 qualifying stories, the 8 state champions fill the slot.
-  // Rotating lead (Zachary, 2026-11-10): replaces "Also on the front page".
-  // The lead moves every 8 seconds through the 8 newest stories. In the
-  // browser, an admin-set lead goes first and stories an admin placed in
-  // the rotation by hand come right after it; the newest fill the rest.
-  // The Latest Stories rail starts after the rotation so nothing repeats.
-  const rotation = byDate.slice(0, ROTATION_MAX);
-  const alsoUsesChampions = false;
-  const frontCandidates = byDate.slice(0, ROTATION_MAX + 4).map(frontStoryShape);
-  const latestStories = otherStories.filter((story) => !rotation.some((item) => item.slug === story.slug)).slice(0, 8);
-  // Homepage rebuild (2026-08-28): this used to render as "Latest
-  // Stories" directly under the lead story, AND a second, separate
-  // "Latest stories" section further down the page ("More than a finish
-  // time") rendered this exact same set of cards again -- a real,
-  // pre-existing bug (confirmed directly: 6 links to the same 3 stories,
-  // not 3, on a single homepage load). There is now exactly one Latest
-  // Stories section, moved lower on the page (after Ohio
-  // Today/Results/Rankings/Power Rankings, matching the mobile-first
-  // priority order), and it is the only one.
-  // Swappable rail instead of a 3-card grid (2026-09-30): native CSS
-  // scroll-snap gives real touch swipe on mobile for free -- no JS
-  // needed for the gesture itself, and it can't get the "carousel
-  // nobody notices" reputation an auto-advancing slider earns, since
-  // nothing ever moves unless the reader moves it. The prev/next
-  // buttons are a desktop-only convenience (public/scripts/story-
-  // rail.js) for the same reason; touch devices already have the
-  // swipe itself. Shows up to 8 stories instead of 3.
-  const storyContent = latestStories.length ? latestStories.map((story) => storyCard(story)).join("") : emptyState({
-    title: "Stories are coming soon",
-    description: "Add a Markdown file to content/stories and redeploy the site.",
-    actionLabel: "Open stories",
-    actionHref: "/stories/"
-  });
-
-  const leadTitle = featuredStory?.title || "The teams and runners set to define Ohio cross country";
-  const leadDescription = featuredStory?.description || "Rankings, results, and the stories shaping the road to state.";
-  const leadHref = featuredStory ? `/stories/${featuredStory.slug}/` : "/rankings/";
-  const leadImage = featuredStory?.featuredImage || storyFallbackImage(featuredStory?.category);
-  // Real, official OATCCC coaches poll data (top 4 teams per
-  // classification, from that poll's own most recent week) -- replaced
-  // Podium Watch's own simulated preseason power rankings here
-  // (2026-09-03, once the real OATCCC poll existed and was live weekly)
-  // per an explicit request: this homepage widget, and its "See full
-  // rankings" link, should point at the real OATCCC poll, not Podium
-  // Watch's own preseason projection. See oatcccPowerRows() above.
-  const powerRankingData = {
-    boys: {
-      1: oatcccPowerRows("boys", 1),
-      2: oatcccPowerRows("boys", 2),
-      3: oatcccPowerRows("boys", 3),
-      4: oatcccPowerRows("boys", 4)
-    },
-    girls: {
-      1: oatcccPowerRows("girls", 1),
-      2: oatcccPowerRows("girls", 2),
-      3: oatcccPowerRows("girls", 3),
-      4: oatcccPowerRows("girls", 4)
-    }
-  };
-  const initialPowerRows = powerRankingData.boys[1].map(([team, label, href], index) => `<a class="power-row" href="${escapeHtml(href)}"><b>${index + 1}</b><span><strong>${escapeHtml(team)}</strong><small>${escapeHtml(label)}</small></span></a>`).join("");
-  // The real current poll's own label (e.g. "Week 1 Poll") -- never
-  // hardcoded, so this stays accurate automatically as new weeks are
-  // added to oatccc-coaches-poll.json with no further code change here.
-  const currentPollLabel = oatcccPollData.weeks[oatcccPollData.weeks.length - 1].pollLabel;
-  // Media-credibility audit (2026-10-28), P0-3: the homepage panel used
-  // to show the bare word "Updated" with no actual date. Use the poll's
-  // own real pollDate field (already in oatccc-coaches-poll.json for
-  // every week) instead of inventing one.
-  const currentPollDate = formatDate(oatcccPollData.weeks[oatcccPollData.weeks.length - 1].pollDate);
-  // Short summary only on the homepage lead card (Phase 5) -- the full
-  // description still appears on the story's own page unchanged, this
-  // just keeps the homepage card from running long before a visitor
-  // ever reaches results/rankings below it.
-  const leadSummary = leadDescription.length > 150 ? `${leadDescription.slice(0, 147).trimEnd()}...` : leadDescription;
-  // Media-credibility audit (2026-10-28), P0-3: full homepage reorder so
-  // the first thing a reviewer (or any reader) sees is the newsroom, not
-  // a rankings widget or a vote CTA. New order top to bottom: hero (the
-  // latest story, with real category/byline/date -- no more hardcoded
-  // "2026 XC Preview" label on whatever happens to be featured), Latest
-  // Stories, Latest Results (+ Upcoming Meets alongside it -- same real
-  // /api/meets/ data, just repositioned), OATCCC Poll, Rankings, Voting,
-  // Follow (My Podium), About. Nothing here was deleted -- every panel,
-  // script, and data source is the same one that existed before, just
-  // moved and (for the OATCCC date and rankings badge) relabeled.
-  const heroCategory = featuredStory?.category || "Cross Country";
-  const heroByline = storyBylineHtml(featuredStory?.author);
-  const heroDate = featuredStory ? formatDate(featuredStory.date) : "";
-  // WO-07: the homepage follows the season (src/config/season.mjs). The
-  // build picks the phase from its own date; a nightly rebuild keeps it
-  // current. Dated callouts also hide themselves in the browser once they
-  // expire (data-expires, public/scripts/site.js).
+function homePage(stories) {
+  // Site redesign step 7 (2026-11-13): the layout lives in
+  // src/pages/home.mjs. This function only gathers the same data the
+  // homepage always used: the newest stories (lead set and newsroom), the
+  // newest story series (recaps list), the 8 state champions while the
+  // season is in its wrap-up, the latest OATCCC poll and the dated calls to
+  // action. Latest results and upcoming meets load in the browser from the
+  // meet calendar (public/scripts/homepage.js).
+  //
+  // Lead set (WO-43, Zachary 2026-09-16 and 2026-11-10): the 8 newest
+  // stories by date only (pinned stories don't jump ahead); in the browser
+  // an admin-set lead goes first. No auto-rotation (2026-11-13).
   const buildNow = new Date();
   const phase = seasonPhase(buildNow);
-  const datedCallouts = Object.values(DATED_CTAS).map((cta) => `<a class="home-picks-callout" href="${escapeHtml(cta.href)}" data-starts="${escapeHtml(cta.startsAt || "")}" data-expires="${escapeHtml(cta.expiresAt || "")}"${cta.showWhen ? ` data-show-when="${escapeHtml(cta.showWhen)}"` : ""}${isLive(cta, buildNow) ? "" : " hidden"}><strong>${escapeHtml(cta.title)}</strong><span>${escapeHtml(cta.detail)} ${icon("arrow")}</span></a>`).join("");
-  const datedCalloutSection = `<section class="home-dated-ctas"><div class="container">${datedCallouts}</div></section>`;
-  // Cross country wrap-up leads with the state meet: the 8 champions from
-  // the imported official results (src/data/state-champions-2026.json,
-  // written by scripts/export-state-champions.mjs) and the State hub.
-  const romanDivision = (n) => ["", "I", "II", "III", "IV"][n] || String(n);
-  const stateChampCards = stateChampions2026.races.map((race) => {
-    const ind = race.individual ? `<strong>${escapeHtml(race.individual.name)}</strong><small>${escapeHtml(race.individual.school)} &middot; ${escapeHtml(race.individual.time)}</small>` : "";
-    const team = race.team ? `<small>Team: ${escapeHtml(race.team.school)}, ${escapeHtml(String(race.team.score))} points</small>` : "";
-    return `<a class="home-state-champ${race.gender === "girls" ? " is-girls" : ""}" href="/state/2026/#${escapeHtml(race.anchor)}"><span>${race.gender === "girls" ? "Girls" : "Boys"} Division ${romanDivision(race.division)}</span>${ind}${team}</a>`;
-  }).join("");
-  // When the champions fill "Also on the front page", this block would
-  // repeat them, so it is left out.
-  const stateMeetSection = phase.key === "xc-wrapup" && !alsoUsesChampions ? `<section class="section section-paper home-state-meet" aria-labelledby="state-meet-title" style="padding-block:28px"><div class="container">
-    <div class="section-heading"><div><!-- Date and venue from the meets record (slug 2026-ohsaa-state-championships). --><p class="eyebrow">Nov. 7, 2026 &middot; Fortress Obetz</p><h2 id="state-meet-title">2026 Ohio Cross Country State Champions</h2></div><a class="text-link" href="/state/2026/">Full results ${icon("arrow")}</a></div>
-    <div class="home-state-champs">${stateChampCards}</div>
-    <div class="home-state-meet-actions" style="display:flex;flex-wrap:wrap;gap:10px"><a class="button button-primary" href="/state/2026/">Full state results</a> <a class="button button-outline" href="/regionals/2026/">Regionals</a> <a class="button button-outline" href="/districts/2026/">Districts</a></div>
-  </div></section>` : "";
-  const stateBreakdownsSection = stateBreakdowns.length && phase.key === "xc-postseason" ? `<section class="home-breakdowns" aria-labelledby="state-breakdowns-title"><div class="container">
-    <div class="home-section-title"><h2 id="state-breakdowns-title">State Breakdowns</h2></div>
-    <div class="home-breakdowns-grid">
-      ${stateBreakdowns.map((story) => `<article class="story-card">
-        <a class="story-card-image" href="/stories/${story.slug}/" aria-label="Read ${escapeHtml(story.title)}"><img src="${story.featuredImage}" alt="${escapeHtml(story.featuredImageAlt || "")}" width="960" height="540"${storyImageStyle(story)}></a>
-        ${story.imageCredit ? `<p class="home-breakdown-credit">Photo: ${escapeHtml(story.imageCredit)}</p>` : ""}
-        <div class="story-card-body">
-          <div class="story-meta"><span class="category">${/^(I|II|III|IV)$/.test(story.divisions) ? `Division ${escapeHtml(story.divisions)}` : "All Divisions"}</span><span>${formatDate(story.date)}</span></div>
-          <h3><a href="/stories/${story.slug}/">${escapeHtml(story.title)}</a></h3>
-          <p>${escapeHtml(story.description)}</p>
-          <a class="read-link" href="/stories/${story.slug}/">Read the breakdown ${icon("arrow")}</a>
-        </div>
-      </article>`).join("")}
-    </div>
-  </div></section>` : "";
-  // Front page rotation first (WO-43), then the season modules (WO-07).
-  const frontPageSection = featuredStory ? `<section class="front-page" data-front-page aria-label="Front page"><div class="container">
-    <div data-front-lead>${frontRotatorHtml(rotation.map(frontStoryShape))}</div>
-    <script type="application/json" data-front-candidates>${JSON.stringify(frontCandidates).replaceAll("<", "\\u003c")}</script>
-  </div></section>
-  <script type="module" src="/scripts/front-lead-client.mjs"></script>` : "";
-  // "Find your team" (2026-11-11): straight to the team directory, searched.
-  const findTeamSection = `<section class="home-find-team" aria-labelledby="find-team-title"><div class="container">
-    <form class="home-find-team-form" action="/teams/" method="get" role="search">
-      <label for="find-team-input"><span class="eyebrow" id="find-team-title">Find your team</span></label>
-      <div class="home-find-team-row"><input id="find-team-input" type="search" name="search" placeholder="School name or city" autocomplete="off" maxlength="100" required><button class="button button-primary" type="submit">Search</button></div>
-      <a class="home-find-team-athletes" href="/athletes/">Looking for an athlete? Search athletes</a>
-    </form>
-  </div></section>`;
-  // Merch card below the lead story (MERCH_CARD_HANDOFF, 2026-11-11).
-  const content = `${frontPageSection}${merchSection({ placement: "home", from: "/" })}${findTeamSection}${datedCalloutSection}${stateMeetSection}${stateBreakdownsSection}
-
-  <section class="section section-paper" aria-labelledby="latest-stories-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Latest stories</p><h2 id="latest-stories-title">More than a finish time.</h2></div><a class="text-link" href="/stories/">From the newsroom ${icon("arrow")}</a></div>
-      ${latestStories.length
-        ? `<div class="story-rail-wrap">
-            <button class="story-rail-arrow story-rail-prev" type="button" aria-label="Previous stories" data-story-rail-prev>${icon("arrow")}</button>
-            <div class="story-rail" data-story-rail>${storyContent}</div>
-            <button class="story-rail-arrow story-rail-next" type="button" aria-label="Next stories" data-story-rail-next>${icon("arrow")}</button>
-          </div>`
-        : storyContent}
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="latest-results-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Latest results</p><h2 id="latest-results-title">What just happened in Ohio.</h2></div><a class="text-link" href="/meets/?view=results">All results ${icon("arrow")}</a></div>
-      <div class="home-results-grid">
-        <section class="home-panel" data-latest-results-panel>
-          <div class="home-panel-title"><h2>Recently completed</h2></div>
-          <div data-latest-results-list><a class="home-meet" href="/meets/?view=results"><b>&hellip;</b><span><strong>Checking results&hellip;</strong><small>&nbsp;</small></span></a></div>
-        </section>
-        <section class="home-panel" data-upcoming-meets-panel>
-          <div class="home-panel-title"><h2>Upcoming meets</h2></div>
-          <div data-upcoming-meets-list><a class="home-meet" href="/meets/?view=upcoming"><b>&hellip;</b><span><strong>Checking the calendar&hellip;</strong><small>&nbsp;</small></span></a></div>
-          <a class="home-panel-link" href="/meets/?view=upcoming">Full meet calendar ${icon("arrow")}</a>
-        </section>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="recent-photos-title" data-recent-photos-section hidden>
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Submitted by fans</p><h2 id="recent-photos-title">Recent meet photos.</h2></div><a class="text-link" href="/photos/">See all photos ${icon("arrow")}</a></div>
-      <div class="photos-grid" data-recent-photos-grid data-photos-limit="8"></div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="oatccc-poll-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">OATCCC Coaches Poll</p><h2 id="oatccc-poll-title">Who the coaches have rising.</h2></div><a class="text-link" href="/rankings/oatccc/">See full rankings ${icon("arrow")}</a></div>
-      <section class="home-panel power-panel"><div class="home-panel-title"><h2>OATCCC Coaches Poll</h2><span data-power-updated>${escapeHtml(currentPollLabel)} &middot; Updated ${escapeHtml(currentPollDate)}</span></div><div class="power-tabs" role="group" aria-label="Choose rankings gender"><button class="active" type="button" data-power-gender="boys">Boys</button><button type="button" data-power-gender="girls">Girls</button></div><label class="power-select-label"><span class="visually-hidden">Choose division</span><select data-power-division><option value="1">Division I</option><option value="2">Division II</option><option value="3">Division III</option><option value="4">Division IV</option></select></label><div class="power-list" data-power-list>${initialPowerRows}</div><script type="application/json" data-power-data>${JSON.stringify(powerRankingData).replaceAll("<", "\\u003c")}</script><script>(()=>{const panel=document.currentScript.closest('.power-panel');if(!panel)return;const data=JSON.parse(panel.querySelector('[data-power-data]').textContent);const list=panel.querySelector('[data-power-list]');const select=panel.querySelector('[data-power-division]');let gender='boys';const draw=()=>{list.innerHTML=data[gender][select.value].map((row,i)=>'<a class="power-row" href="'+row[2]+'"><b>'+(i+1)+'</b><span><strong>'+row[0]+'</strong><small>'+row[1]+'</small></span></a>').join('')};panel.querySelectorAll('[data-power-gender]').forEach(button=>button.addEventListener('click',()=>{gender=button.dataset.powerGender;panel.querySelectorAll('[data-power-gender]').forEach(item=>item.classList.toggle('active',item===button));draw()}));select.addEventListener('change',draw)})();</script></section>
-    </div>
-  </section>
-
-  <!-- Story page redesign (2026-10-28), A6: the preseason "Who is
-       rising in Ohio?" Top 25 cards (dated 2026-07-29, before the
-       season started) are gone from the homepage -- the OATCCC poll
-       widget above already covers rankings here, and those preseason
-       pages are unchanged and still live under /rankings/. Linking the
-       real October district results instead, since /mock-postseason/
-       now has them (12 real district sites, built from official
-       results, separate from the site's own editorial Mock Meets
-       projections). Updated 2026-11-01 for the real Oct 31 regional
-       results (copy approved by Zachary; no "Saturday's" so it does
-       not go stale). -->
-  ${phase.key === "xc-postseason" ? `  <section class="section" aria-labelledby="district-results-title">
-    <div class="container">
-      <div class="section-heading">
-        <div><p class="eyebrow">Postseason</p><h2 id="district-results-title">Regionals are in the books.</h2></div>
-        <a class="text-link" href="/mock-postseason/real/">See every regional ${icon("arrow")}</a>
-      </div>
-      <div class="sport-cards">
-        <article class="sport-card"><p class="eyebrow">Real results</p><h3>All four regional sites, every division.</h3><p>Official team scores, places and State qualifiers from the Oct. 31 regionals and every Oct. 24 district site, straight from Athletic.net results. The State tab projects Nov. 7 from those real regional times.</p><a class="button button-primary" href="/mock-postseason/real/">View real results</a></article>
-        <article class="sport-card"><p class="eyebrow">Editorial projection</p><h3>Podium Watch's own Mock Meets.</h3><p>Season-best projections for the Nov. 7 State meet, clearly labeled as Podium Watch's editorial model, not official results.</p><a class="button button-outline" href="/mock-postseason/">View Mock Meets</a></article>
-      </div>
-    </div>
-  </section>
-` : ""}
-
-  <!-- Story page redesign (2026-10-28), A4: the "Write for Podium
-       Watch" hiring block moved off the homepage to a new "Join the
-       team" section at the bottom of /staff/ (same Apply link and
-       copy). The page itself and /apply/ are unchanged and still work;
-       this only removes the homepage promotion. -->
-
-  ${["xc-regular", "track-regular"].includes(phase.key) ? `  <section class="section section-paper" aria-labelledby="voting-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Voting</p><h2 id="voting-title">Have your say.</h2></div></div>
-      ${[["awardsNominations", "Nominate the 2026 Athletes, Teams and Coaches of the Year.", "Nominate Now"], ["awardsVoting", "Vote for the 2026 Athletes, Teams and Coaches of the Year.", "Vote Now"], ["awardsWinners", "See the 2026 Athletes, Teams and Coaches of the Year.", "See the Winners"]].map(([key, question, button]) => `<section class="vote-now-top" data-starts="${escapeHtml(DATED_CTAS[key].startsAt)}" data-expires="${escapeHtml(DATED_CTAS[key].expiresAt)}"${DATED_CTAS[key].showWhen ? ` data-show-when="${escapeHtml(DATED_CTAS[key].showWhen)}"` : ""}${isLive(DATED_CTAS[key], buildNow) ? "" : " hidden"}>
-        <span class="vote-now-top-badge">2026 Year Awards</span>
-        <div class="vote-now-body">
-          <p class="vote-now-category">Ohio High School Cross Country</p>
-          <p class="vote-now-question">${question}</p>
-          <a class="button button-primary" href="/awards/2026/">${button}</a>
-        </div>
-      </section>`).join("")}
-      <div class="sport-cards" style="margin-top:18px">
-        <article class="sport-card"><p class="eyebrow">Podium Play</p><h3>Play the Podium Watch games.</h3><a class="button button-primary" href="/podium-play/">Play Now</a></article>
-        <article class="sport-card"><p class="eyebrow">Fan Poll</p><h3>Build your own ranking ballot.</h3><a class="button button-primary" href="/fan-poll/">Open the Fan Poll</a></article>
-      </div>
-    </div>
-  </section>
-` : ""}
-
-  ${phase.key !== "xc-wrapup" ? `  <section class="section" aria-labelledby="follow-title">
-    <div class="container">
-      <div class="section-heading"><div><p class="eyebrow">Follow</p><h2 id="follow-title">Make Podium Watch yours.</h2></div><a class="text-link" href="/my-podium/">Open My Podium ${icon("arrow")}</a></div>
-      <section class="home-panel follow-school-panel" data-follow-school-panel hidden>
-        <div class="home-panel-title"><h2>My Podium</h2><a href="/my-podium/" style="font-size:.68rem;font-weight:900;color:var(--green-dark);">Open &rarr;</a></div>
-        <div class="follow-school-panel-body">
-          <div data-follow-school-search-view>
-            <div class="follow-school-promo" data-mp-promo-intro>
-              <p style="margin:0 0 4px;font-weight:800;">Make Podium Watch yours.</p>
-              <p style="margin:0;">Follow your school, athletes, division, and events to see what matters to you first.</p>
-              <button type="button" class="follow-school-dismiss" data-mp-promo-dismiss aria-label="Dismiss this introduction">Not now</button>
-            </div>
-            <input type="search" class="follow-school-search" placeholder="Search for your school" data-follow-school-input>
-            <div class="follow-school-results" data-follow-school-results></div>
-          </div>
-          <div data-follow-school-selected-view hidden></div>
-        </div>
-      </section>
-    </div>
-  </section>` : ""}
-
-  ${false ? `  <section class="social-band"><div class="container social-grid"><div><p class="eyebrow">Follow the coverage</p><h2>@podiumwatch</h2><p>Daily Ohio cross country and track coverage, rankings, interviews, and athlete stories.</p></div><div class="social-actions"><a class="button button-dark" href="${site.instagramUrl}" target="_blank" rel="noopener noreferrer">${icon("instagram")} Follow on Instagram</a><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">${icon("youtube")} Subscribe on YouTube</a></div></div></section>
-` : ""}
-
-  ${false ? `  <section class="section section-paper" aria-labelledby="about-preview-title">
-    <div class="container content-grid">
-      <div><p class="eyebrow">About Podium Watch</p><h2 id="about-preview-title">Built for Ohio runners.</h2><p>Rankings, results, and stories from across the state, with verified facts kept clearly separate from editorial projections and every correction welcome.</p><a class="button button-dark" href="/about/">Learn more</a></div>
-      <div><a class="text-link" href="/staff/">Meet our staff ${icon("arrow")}</a><a class="text-link" href="/rankings/methodology/" style="margin-top:10px">Read the ranking methodology ${icon("arrow")}</a><a class="text-link" href="/sponsors/" style="margin-top:10px">Sponsor Podium Watch ${icon("arrow")}</a></div>
-    </div>
-  </section>
-` : ""}
-
-  <script src="/scripts/my-podium-store.js" defer></script>
-  <script src="/scripts/my-podium-data.js" defer></script>
-  <script src="/scripts/homepage.js" defer></script>
-  <script src="/scripts/recent-photos.js" defer></script>
-  <script src="/scripts/story-rail.js" defer></script>`;
-
+  const byDate = [...stories].sort((a, b) => new Date(`${b.date}T12:00:00`) - new Date(`${a.date}T12:00:00`));
+  const featuredStory = byDate[0];
+  const rotation = byDate.slice(0, ROTATION_MAX);
+  const leadSlugs = rotation.map((story) => story.slug);
+  const frontCandidates = byDate.slice(0, ROTATION_MAX + 4).map(frontStoryShape);
+  const recaps = recapGroup(byDate, leadSlugs);
+  // More from the newsroom: the stories after the lead set, newest first,
+  // not already in the recaps list. 8 are built so the browser can still
+  // show 4 if an admin moves some of them into the lead set.
+  const recapSlugs = new Set(recaps.items.map((story) => story.slug));
+  const cards = byDate.filter((story) => !leadSlugs.includes(story.slug) && !recapSlugs.has(story.slug)).slice(0, 8).map((story) => ({
+    slug: story.slug,
+    title: story.title,
+    category: storyType(story),
+    dateLabel: formatDate(story.date),
+    minutes: story.readingMinutes,
+    image: story.heroImage || story.featuredImage || storyFallbackImage(story.category),
+    imageAlt: story.heroAlt || story.featuredImageAlt || "",
+    imagePosition: /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : ""
+  }));
+  // OATCCC Coaches Poll (2026-09-03): the real, latest poll week, top four
+  // per classification (oatcccPowerRows above). No sponsor on this panel.
+  const latestPoll = oatcccPollData.weeks[oatcccPollData.weeks.length - 1];
+  const pollData = { boys: {}, girls: {} };
+  for (const gender of ["boys", "girls"]) for (const division of [1, 2, 3, 4]) pollData[gender][division] = oatcccPowerRows(gender, division).map(([team, points]) => [team, points]);
+  const poll = { label: latestPoll.pollLabel, date: formatDate(latestPoll.pollDate), data: pollData };
+  // The current championship: the state champions (src/data/
+  // state-champions-2026.json, from the imported official results) during
+  // the cross country wrap-up. Outside it the panel shows only latest
+  // results and upcoming meets.
+  const champions = phase.key === "xc-wrapup" ? stateChampions2026 : null;
+  const datedCtas = Object.values(DATED_CTAS).map((cta) => ({ ...cta, live: isLive(cta, buildNow) }));
+  const spikeTown = findPlacement("spike-town-runners-plus", "home-rankings");
+  const spikeTownHref = spikeTown?.sponsor.url ? `/go/spike-town-runners-plus/home-rankings/?from=%2F` : "";
+  const content = homeContent({
+    leadHtml: featuredStory ? frontRotatorHtml(rotation.map(frontStoryShape)) : "",
+    candidatesJson: JSON.stringify(frontCandidates).replaceAll("<", "\\u003c"),
+    recaps,
+    cards,
+    champions,
+    poll,
+    datedCtas,
+    spikeTownHref,
+    shopHtml: merchStripHtml({ placement: "home", from: "/" })
+  });
   return layout({
     site,
     title: `${site.name} | Ohio High School Cross Country and Track & Field`,

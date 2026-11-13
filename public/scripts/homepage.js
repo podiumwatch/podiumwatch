@@ -1,212 +1,73 @@
-// Homepage-only rendering: the dynamic Upcoming Meets panel, Follow Your
-// School (My Podium), and Vote Now. Every element this script touches is
-// guarded individually -- there is no single "requiredElements" gate for
-// the whole file, since these modules are independent of each other and
-// one failing to load must never take the others down with it.
+// Homepage-only behavior (site redesign step 7, 2026-11-13): Latest
+// results and Upcoming meets in the "Right now" panel, and the OATCCC poll
+// buttons. Each module is guarded on its own so one failing never takes
+// the others down.
+//
+// Latest results and Upcoming meets reuse the same /api/meets/ data and
+// PodiumOhioToday.computeOhioToday() as /meets/ and the ticker, so they
+// can never disagree about what counts as completed or upcoming. Each
+// block stays hidden until it has at least one meet: an empty block does
+// not render, and it comes back by itself once meets are listed.
+//
+// The My Podium "follow your school" panel left the homepage in the
+// redesign; My Podium is in the Tools row and the phone bottom bar.
 (() => {
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
 
-  function formatMeetDate(value) {
-    if (!value) return { month: "TBD", day: "" };
+  function dateChip(value) {
+    if (!value) return "TBD";
     const date = new Date(value + "T12:00:00");
-    if (Number.isNaN(date.getTime())) return { month: "TBD", day: "" };
-    return {
-      month: new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "America/New_York" }).format(date).toUpperCase(),
-      day: String(date.getDate())
-    };
+    if (Number.isNaN(date.getTime())) return "TBD";
+    const month = new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "America/New_York" }).format(date).toUpperCase();
+    return `${month} ${date.getDate()}`;
   }
 
-  function locationText(meet) {
-    return [meet.venue_name, meet.city].filter(Boolean).join(", ");
+  function meetRow(meet, dateValue) {
+    const location = [meet.venue_name, meet.city].filter(Boolean).join(", ");
+    return `<li><a href="/meetdetail/?slug=${encodeURIComponent(meet.slug)}"><span class="pw-meet-d">${escapeHtml(dateChip(dateValue))}</span><span><b>${escapeHtml(meet.name)}</b>${location ? `<small>${escapeHtml(location)}</small>` : ""}</span></a></li>`;
   }
 
-  // ---- Upcoming Meets panel ------------------------------------------
+  function fill(panelSelector, listSelector, meets, dateOf) {
+    const panel = document.querySelector(panelSelector);
+    const list = document.querySelector(listSelector);
+    if (!panel || !list) return;
+    if (!meets.length) { panel.hidden = true; return; }
+    list.innerHTML = meets.map((meet) => meetRow(meet, dateOf(meet))).join("");
+    panel.hidden = false;
+    const rail = panel.closest("[data-rail-empty]");
+    if (rail) rail.removeAttribute("data-rail-empty");
+  }
 
-  const upcomingMeetsList = document.querySelector("[data-upcoming-meets-list]");
-
-  if (upcomingMeetsList && window.PodiumOhioToday) {
+  if (window.PodiumOhioToday && document.querySelector("[data-latest-results-panel], [data-upcoming-meets-panel]")) {
     window.PodiumOhioToday.computeOhioToday().then((today) => {
-      const upcoming = today.upcoming.slice(0, 3);
-      upcomingMeetsList.innerHTML = upcoming.length
-        ? upcoming.map((meet) => {
-          const chip = formatMeetDate(meet.meet_date);
-          const location = locationText(meet);
-          return `<a class="home-meet" href="/meetdetail/?slug=${encodeURIComponent(meet.slug)}"><b>${escapeHtml(chip.month)} ${escapeHtml(chip.day)}</b><span><strong>${escapeHtml(meet.name)}</strong><small>${escapeHtml(location || "Location TBD")}</small></span></a>`;
-        }).join("")
-        : `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">No upcoming meets listed.</p>`;
+      fill("[data-latest-results-panel]", "[data-latest-results-list]", (today.newestCompleted || []).slice(0, 3), (meet) => meet.end_date || meet.meet_date);
+      fill("[data-upcoming-meets-panel]", "[data-upcoming-meets-list]", (today.upcoming || []).slice(0, 3), (meet) => meet.meet_date);
     }).catch(() => {
-      upcomingMeetsList.innerHTML = `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">Unable to load meets right now. <a href="/meets/">Open the Meet Center</a>.</p>`;
+      // The links to /meets/ in the header and footer still work; an
+      // unreachable calendar just leaves these blocks hidden.
     });
   }
 
-  // ---- Latest Results panel -------------------------------------------
-  // Media-credibility audit (2026-10-28): reuses the exact same
-  // /api/meets/ data and PodiumOhioToday.computeOhioToday() computation
-  // as the Upcoming Meets panel above (and the ticker) -- no second
-  // "results" dataset, so this panel and /meets/?view=results can never
-  // disagree about what counts as recently completed.
-
-  const latestResultsList = document.querySelector("[data-latest-results-list]");
-
-  if (latestResultsList && window.PodiumOhioToday) {
-    window.PodiumOhioToday.computeOhioToday().then((today) => {
-      const completed = today.newestCompleted;
-      latestResultsList.innerHTML = completed.length
-        ? completed.map((meet) => {
-          const chip = formatMeetDate(meet.end_date || meet.meet_date);
-          const location = locationText(meet);
-          return `<a class="home-meet" href="/meetdetail/?slug=${encodeURIComponent(meet.slug)}"><b>${escapeHtml(chip.month)} ${escapeHtml(chip.day)}</b><span><strong>${escapeHtml(meet.name)}</strong><small>${escapeHtml(location || "Location TBD")}</small></span></a>`;
-        }).join("")
-        : `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">No results published yet.</p>`;
-    }).catch(() => {
-      latestResultsList.innerHTML = `<p style="padding:14px 0;color:#7a827e;font-size:.8rem;">Unable to load results right now. <a href="/meets/?view=results">Open the Meet Center</a>.</p>`;
-    });
-  }
-
-  // ---- Follow Your School (My Podium) -----------------------------------
-  // No account system -- "following" a school here saves it through the
-  // shared My Podium preference store (public/scripts/my-podium-store.js)
-  // rather than a separate key, so picking a school here and picking one
-  // in My Podium's own onboarding are the same action, not two. Search
-  // reuses the exact same /api/teams/ directory endpoint the full Teams
-  // directory page already calls; this never invents a second team
-  // dataset. See docs/MY_PODIUM_MASTER_BUILD_PLAN.md, Project 9.
-  const mpStore = window.PodiumMyPodiumStore;
-  const followPanel = document.querySelector("[data-follow-school-panel]");
-  const searchView = document.querySelector("[data-follow-school-search-view]");
-  const selectedView = document.querySelector("[data-follow-school-selected-view]");
-  const searchInput = document.querySelector("[data-follow-school-input]");
-  const resultsBox = document.querySelector("[data-follow-school-results]");
-
-  // Returning-visitor preview (Project 9.2): followed school, next
-  // verified meet, newest verified result -- reuses the exact same data
-  // adapter /my-podium/ itself calls (my-podium-data.js), not a second
-  // query path, so the homepage preview and the full dashboard can never
-  // disagree with each other.
-  function renderSelected(team) {
-    if (!selectedView) return;
-    selectedView.innerHTML = `
-      <div class="follow-school-selected">
-        <strong>${escapeHtml(team.schoolName)}</strong>
-        <div data-follow-school-preview style="margin-top:8px;"><small style="color:#7a827e;">Loading your update&hellip;</small></div>
-        <div class="follow-school-selected-meta">
-          <a href="/team/?slug=${encodeURIComponent(team.slug)}">Open team page &rarr;</a>
-        </div>
-        <div class="follow-school-actions">
-          <a class="button button-primary" href="/my-podium/">Open My Podium</a>
-          <button class="button button-outline" type="button" data-follow-school-change>Change school</button>
-        </div>
-      </div>`;
-    selectedView.querySelector("[data-follow-school-change]")?.addEventListener("click", () => {
-      mpStore.clearTeam();
-      showSearchView();
-    });
-    const previewBox = selectedView.querySelector("[data-follow-school-preview]");
-    if (previewBox && window.PodiumMyPodiumData) {
-      window.PodiumMyPodiumData.loadDashboard({ team, athletes: [] }).then((model) => {
-        const lines = [];
-        if (model.nextMeet) lines.push(`Next meet: <strong>${escapeHtml(model.nextMeet.name)}</strong>`);
-        if (model.latestResult) lines.push(`Latest: <strong>${escapeHtml(model.latestResult.name)}</strong>`);
-        previewBox.innerHTML = lines.length
-          ? `<small>${lines.join(" &middot; ")}</small>`
-          : `<small style="color:#7a827e;">No connected meets yet.</small>`;
-      }).catch(() => {
-        previewBox.innerHTML = "";
-      });
-    } else if (previewBox) {
-      previewBox.innerHTML = "";
+  // ---- OATCCC Coaches Poll: Boys/Girls and D1 to D4 buttons -------------
+  const poll = document.querySelector("[data-home-poll]");
+  if (poll) {
+    try {
+      const data = JSON.parse(poll.querySelector("[data-poll-data]").textContent);
+      const list = poll.querySelector("[data-poll-list]");
+      let gender = "boys";
+      let division = "1";
+      const draw = () => {
+        const rows = (data[gender] && data[gender][division]) || [];
+        list.innerHTML = rows.map(([team, points], i) => `<li><span class="pw-poll-n">${i + 1}</span><b>${escapeHtml(team)}</b><span>${escapeHtml(points)}</span></li>`).join("");
+        poll.querySelectorAll("[data-poll-gender]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.pollGender === gender)));
+        poll.querySelectorAll("[data-poll-division]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.pollDivision === division)));
+      };
+      poll.querySelectorAll("[data-poll-gender]").forEach((b) => b.addEventListener("click", () => { gender = b.dataset.pollGender; draw(); }));
+      poll.querySelectorAll("[data-poll-division]").forEach((b) => b.addEventListener("click", () => { division = b.dataset.pollDivision; draw(); }));
+    } catch {
+      // The built list (Boys D1) stays, and "See the full poll" still works.
     }
   }
-
-  function showSelectedView(team) {
-    if (searchView) searchView.hidden = true;
-    if (selectedView) selectedView.hidden = false;
-    renderSelected(team);
-  }
-
-  function showSearchView() {
-    if (searchView) searchView.hidden = false;
-    if (selectedView) selectedView.hidden = true;
-    if (searchInput) searchInput.value = "";
-    if (resultsBox) resultsBox.innerHTML = "";
-  }
-
-  let searchTimer = null;
-  function runSchoolSearch(query) {
-    if (!resultsBox) return;
-    if (query.trim().length < 2) {
-      resultsBox.innerHTML = "";
-      return;
-    }
-    fetch("/api/teams/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ search: query })
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const teams = (Array.isArray(data.teams) ? data.teams : []).slice(0, 8);
-        resultsBox.innerHTML = teams.length
-          ? teams.map((team) => `<button type="button" class="follow-school-result" data-follow-school-pick="${escapeHtml(team.id)}">${escapeHtml(team.school_name)}${team.city ? ` <span style="font-weight:400;color:#7a827e;">&middot; ${escapeHtml(team.city)}</span>` : ""}</button>`).join("")
-          : `<p style="padding:8px 2px;color:#7a827e;font-size:.78rem;">No schools match "${escapeHtml(query)}".</p>`;
-        resultsBox.querySelectorAll("[data-follow-school-pick]").forEach((button) => {
-          button.addEventListener("click", () => {
-            const team = teams.find((item) => item.id === button.dataset.followSchoolPick);
-            if (!team) return;
-            const saved = mpStore.setTeam({ id: team.id, slug: team.slug, schoolName: team.school_name });
-            mpStore.trackEvent("preference_added", { category: "team" });
-            showSelectedView(saved.team);
-          });
-        });
-      })
-      .catch(() => {
-        resultsBox.innerHTML = `<p style="padding:8px 2px;color:#7a827e;font-size:.78rem;">Search is temporarily unavailable.</p>`;
-      });
-  }
-
-  const PROMO_DISMISSED_KEY = "podiumWatch.myPodium.promoDismissed";
-  const promoIntro = document.querySelector("[data-mp-promo-intro]");
-  const promoDismiss = document.querySelector("[data-mp-promo-dismiss]");
-
-  if (followPanel && searchView && selectedView && mpStore) {
-    followPanel.hidden = false;
-    const existing = mpStore.getPreferences().team;
-    if (existing) {
-      showSelectedView(existing);
-      mpStore.trackEvent("my_podium_return_visit", {});
-    } else {
-      showSearchView();
-      // Project 9.1: dismissible once, remembered on this device, never
-      // re-shown -- the search box underneath stays fully usable either
-      // way, only the promotional copy goes away.
-      let dismissed = false;
-      try {
-        dismissed = window.localStorage.getItem(PROMO_DISMISSED_KEY) === "1";
-      } catch {
-        dismissed = false;
-      }
-      if (promoIntro) promoIntro.hidden = dismissed;
-      promoDismiss?.addEventListener("click", () => {
-        if (promoIntro) promoIntro.hidden = true;
-        try {
-          window.localStorage.setItem(PROMO_DISMISSED_KEY, "1");
-        } catch {
-          // Not persisted this time -- it will just show again next visit,
-          // which is the safe direction to fail in.
-        }
-      });
-    }
-    searchInput?.addEventListener("input", () => {
-      window.clearTimeout(searchTimer);
-      const value = searchInput.value;
-      searchTimer = window.setTimeout(() => runSchoolSearch(value), 250);
-    });
-  }
-
-  // ---- Vote Now -------------------------------------------------------
-  // AdSense readiness (2026-09-16): this panel is now static, baked in
-  // at build time (scripts/build.mjs) rather than client-fetched here --
-  // see that file's own comment. Nothing left to hydrate.
 })();
