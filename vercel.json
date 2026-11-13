@@ -205,6 +205,9 @@
     },
     "api/pages/home.js": {
       "includeFiles": "content/{stories,rankings}/*.{md,csv}"
+    },
+    "api/pages/front-page.js": {
+      "includeFiles": "content/{stories,rankings}/*.{md,csv}"
     }
   },
   "crons": [

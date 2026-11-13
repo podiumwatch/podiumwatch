@@ -3,7 +3,7 @@ import { layout, organizationJsonLd, storyFallbackImage, storyType, websiteJsonL
 import { merchStripHtml } from "../lib/merch_card.mjs";
 import { DATED_CTAS, isLive, seasonPhase } from "../config/season.mjs";
 import { findPlacement } from "../../lib/site_sponsors.mjs";
-import { frontRotatorHtml, ROTATION_MAX } from "../../public/scripts/front-lead.mjs";
+import { frontRotatorHtml, handLeadHolds, ROTATION_MAX } from "../../public/scripts/front-lead.mjs";
 import oatcccPollData from "../data/oatccc-coaches-poll.json" with { type: "json" };
 import stateChampions2026 from "../data/state-champions-2026.json" with { type: "json" };
 
@@ -203,7 +203,8 @@ ${leadHtml ? `<script type="module" src="/scripts/front-lead-client.mjs"></scrip
 // A story in the front page lead shape (public/scripts/front-lead.mjs).
 // Generic fallback art is not a photo: those stories get the type-only lead.
 export function frontStoryShape(story) {
-  const image = story.heroImage || story.featuredImage || "";
+  // The card photo (featuredImage) first; the header photo only without one.
+  const image = story.featuredImage || story.heroImage || "";
   const realPhoto = image && !/story_fallback/.test(image);
   const summary = String(story.description || "");
   return {
@@ -213,7 +214,7 @@ export function frontStoryShape(story) {
     summary: summary.length > 150 ? `${summary.slice(0, 147).trimEnd()}...` : summary,
     kicker: String(story.kicker || story.category || "").toUpperCase() || null,
     image_url: realPhoto ? image : null,
-    image_alt: realPhoto ? story.heroAlt || story.featuredImageAlt || "" : "",
+    image_alt: realPhoto ? story.featuredImageAlt || story.heroAlt || "" : "",
     image_credit: realPhoto ? story.imageCredit || null : null,
     image_position: realPhoto && /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : null,
     image_fit: realPhoto && story.featuredImageFit === "contain" ? "contain" : null,
@@ -222,8 +223,10 @@ export function frontStoryShape(story) {
   };
 }
 
-// The lead set (WO-43): an admin-set lead first, then the stories an admin
-// placed in the set by hand, then the newest stories, up to 8, no repeats.
+// The lead set (WO-43): the cover first, then the stories an admin placed
+// in the set by hand, then the newest stories, up to 8, no repeats. The
+// cover is the admin-set lead until a newer story is published after it was
+// set (Zachary, 2026-11-13: a new article takes over); otherwise the newest.
 // An admin row keeps its own photo, kicker and credit; its crop point comes
 // from the story files. With no admin rows: the 8 newest stories.
 export function leadOrder(newest = [], frontPage = null) {
@@ -236,7 +239,8 @@ export function leadOrder(newest = [], frontPage = null) {
     const built = bySlug.get(story.slug);
     order.push({ ...story, image_position: story.image_position || built?.image_position || null, image_fit: story.image_fit || built?.image_fit || null });
   };
-  if (frontPage?.lead) add({ ...frontPage.lead, slug: frontPage.lead.story_slug });
+  if (frontPage?.lead && handLeadHolds(frontPage.lead, newest[0])) add({ ...frontPage.lead, slug: frontPage.lead.story_slug });
+  else if (newest[0]) add(newest[0]);
   for (const pick of frontPage?.also || []) add({ ...pick, slug: pick.story_slug });
   for (const story of newest) add(story);
   return order;
@@ -257,8 +261,8 @@ export function homePageHtml({ stories = [], frontPage = null, now = new Date(),
     category: storyType(story),
     dateLabel: formatDate(story.date),
     minutes: story.readingMinutes,
-    image: story.heroImage || story.featuredImage || storyFallbackImage(story.category),
-    imageAlt: story.heroAlt || story.featuredImageAlt || "",
+    image: story.featuredImage || story.heroImage || storyFallbackImage(story.category),
+    imageAlt: story.featuredImageAlt || story.heroAlt || "",
     imagePosition: /^[a-z0-9%. ]{1,40}$/i.test(String(story.featuredImagePosition || "")) ? story.featuredImagePosition : ""
   }));
   // OATCCC Coaches Poll: the latest week, top four per classification.

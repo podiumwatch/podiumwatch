@@ -14,6 +14,25 @@
 
 export const ROTATION_MAX = 8;
 
+// The cover (Zachary, 2026-11-13): a newly published story always takes
+// over. A lead set by hand in admin holds only until a story dated after
+// the day it was set (Ohio time) is published; then the newest story is
+// the cover again. Pure, so the server and the tests agree.
+const ohioDay = (iso) => {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(d);
+  const get = (type) => parts.find((part) => part.type === type)?.value;
+  return `${get("year")}-${get("month")}-${get("day")}`;
+};
+export function handLeadHolds(lead, newestStory) {
+  if (!lead) return false;
+  const newest = String(newestStory?.story_date || newestStory?.date || "").slice(0, 10);
+  const setOn = lead.starts_at ? ohioDay(lead.starts_at) : "";
+  if (!newest || !setOn) return true;
+  return newest <= setOn || newestStory?.slug === lead.story_slug;
+}
+
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 export function storyDateLabel(iso) {

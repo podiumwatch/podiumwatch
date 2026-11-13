@@ -2,6 +2,8 @@ import { CACHE_PAGE, CACHE_API_60, rememberGood, sendLastGood } from "../../lib/
 import { frontPageArchivePage } from "../../src/pages/frontpagearchive.mjs";
 import { frontPageArchive, getCurrentLead } from "../../lib/front_page_service.mjs";
 import { site } from "../../src/config/site.mjs";
+import { handLeadHolds } from "../../public/scripts/front-lead.mjs";
+import { homeStories } from "../../lib/home_stories.mjs";
 
 // /front-page/ (archive of every lead story) and /front (302 to today's
 // lead story, or to the archive when no lead is set). WO-43.
@@ -9,9 +11,14 @@ import { site } from "../../src/config/site.mjs";
 export default async function handler(request, response) {
   if (request.query?.go) {
     try {
+      // Same cover as the homepage: a newer story published after a hand-set
+      // lead takes over (2026-11-13).
       const lead = await getCurrentLead();
+      let newest = null;
+      try { newest = homeStories()[0] || null; } catch { newest = null; }
+      const slug = lead && handLeadHolds(lead, newest) ? lead.story_slug : newest?.slug || lead?.story_slug || null;
       response.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=120");
-      response.setHeader("Location", lead ? `/stories/${lead.story_slug}/?utm_source=front_link&utm_medium=short_link` : "/front-page/");
+      response.setHeader("Location", slug ? `/stories/${slug}/?utm_source=front_link&utm_medium=short_link` : "/front-page/");
     } catch {
       response.setHeader("Cache-Control", "no-store");
       response.setHeader("Location", "/");

@@ -33,6 +33,14 @@ test("lead order: admin lead, then hand-placed stories, then the newest; no repe
   assert.deepEqual(leadOrder(newest, null).map((s) => s.slug), ["n0", "n1", "n2", "n3", "n4", "n5", "n6", "n7"]);
 });
 
+test("cover: a story published after the hand-set lead was set takes over, ahead of hand-picked stories", () => {
+  const newest = [{ slug: "triple-crown", story_date: "2026-11-13" }, { slug: "recap", story_date: "2026-11-10" }, { slug: "parrish", story_date: "2026-11-08" }];
+  const frontPage = { lead: { story_slug: "parrish", starts_at: "2026-11-09T19:51:50Z" }, also: [{ story_slug: "recap" }] };
+  assert.deepEqual(leadOrder(newest, frontPage).map((s) => s.slug), ["triple-crown", "recap", "parrish"]);
+  // Before anything newer is published, the hand-set lead holds.
+  assert.deepEqual(leadOrder(newest.slice(1).map((s) => ({ ...s, story_date: "2026-11-09" })), frontPage).map((s) => s.slug).slice(0, 2), ["parrish", "recap"]);
+});
+
 const story = (slug, extra = {}) => ({ slug, title: `Story ${slug}`, date: "2026-11-10", ...extra });
 const champions = {
   year: 2026,
