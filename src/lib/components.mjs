@@ -70,7 +70,9 @@ export function tabsRow(tabs = [], { label = "Sections" } = {}) {
 // The black (or school-color) band: breadcrumb, large title, one line of
 // context, optional logo tile and honor tags, then tabs.
 // extra: optional HTML placed under the context line (e.g. a search box).
-export function pageBand({ crumbs = [], title, context = "", tabs = [], tabsLabel, color = null, logo = null, honors = [], credit = "", extra = "" } = {}) {
+// contextHtml: the context line as trusted HTML (e.g. with a school link),
+// used instead of context.
+export function pageBand({ crumbs = [], title, context = "", contextHtml = "", tabs = [], tabsLabel, color = null, logo = null, honors = [], credit = "", extra = "" } = {}) {
   const bg = color ? bandColor(color) : null;
   const honorList = honors.filter((h) => hasValue(h.label));
   return `<section class="pw-band${bg ? " pw-band-school" : ""}"${bg ? ` style="--pw-band:${bg}"` : ""}>
@@ -80,7 +82,7 @@ export function pageBand({ crumbs = [], title, context = "", tabs = [], tabsLabe
       ${logo ? logoTile(logo) : ""}
       <div>
         <h1>${e(title)}</h1>
-        ${hasValue(context) ? `<p class="pw-band-context">${e(context)}</p>` : ""}
+        ${contextHtml ? `<p class="pw-band-context">${contextHtml}</p>` : hasValue(context) ? `<p class="pw-band-context">${e(context)}</p>` : ""}
         ${credit || ""}
       </div>
     </div>

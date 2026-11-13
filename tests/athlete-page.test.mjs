@@ -63,3 +63,48 @@ test("honors come only from official state results and the import's labels", asy
   assert.deepEqual(Object.keys(stages).sort(), ["district", "state"]);
   assert.equal(postseasonByStage([{ ...district, place: null }], 2026).district, undefined);
 });
+
+// ---- Site redesign step 4 -------------------------------------------------
+test("redesign: band with the school link, stat cards, SB tag and gaps from the stored marks", async () => {
+  const html = athletePageHtml(site, base);
+  assert.match(html, /<p class="pw-band-context"><a href="\/teams\/somewhere-somewhere-1\/">Somewhere<\/a> · Class of 2028 · Boys Division III<\/p>/);
+  assert.match(html, /<small>2026 season best · 5K<\/small><b>15:58\.2<\/b>/);
+  assert.match(html, /15:58\.2 <em class="pw-sb">SB<\/em>/, "the season best is marked SB");
+  assert.match(html, /16:10\.0<span class="pw-sub">\+11\.8 off season best<\/span>/, "the gap is worked out from the stored marks");
+  assert.doesNotMatch(html, /16:40\.0<span/, "only the latest season is in the results table");
+  assert.match(html, /<details class="pw-report"><summary>Something wrong\? Submit a correction<\/summary>/, "correction form is collapsed");
+  assert.match(html, /data-athlete-correction-form/);
+  assert.match(html, /data-athlete-share/);
+  assert.doesNotMatch(html, /data-pw-support|support-card/i, "no donation block");
+});
+
+test("redesign: a one-result athlete has no SB tag, no gap and no ranking card", () => {
+  const one = { ...base, performances: [base.performances[1]], rankings: [{ rank: 19, ranking_title: "2026 Division 3 Boys Cross Country Top 25", ranking_type: "Podium Watch editorial ranking", division: "Division 3", gender: "boys", current: true, editorial_only: true }] };
+  const html = athletePageHtml(site, one);
+  assert.doesNotMatch(html, /pw-sb/);
+  assert.doesNotMatch(html, /off season best/);
+  assert.doesNotMatch(html, /<small>Podium Watch ranking<\/small>/);
+  assert.match(html, /An editorial ranking, not an official result\./, "the Rankings panel still lists it, labeled editorial");
+});
+
+test("redesign: a team honor shows only when the athlete ran that state meet", async () => {
+  const { bandHonors } = await import("../lib/render/athlete_page.mjs");
+  const path = { available: true, season_year: 2026, gender: "boys", division_label: "Division I", nodes: [{ key: "state", status: "qualified_team", status_source: "admin", note: "Finished 1st as a team, 107 points" }] };
+  const ran = [{ season_year: 2026, meet_name: "OHSAA Cross Country State Championships", place: 16, result_status: "official_result", honor_label: "All-Ohio first team" }];
+  assert.deepEqual(bandHonors({ profile: {}, path_to_state: { path } }, ran), [
+    { label: "All-Ohio First Team", note: "2026 Cross Country", featured: true },
+    { label: "State Champion team", note: "Division I Boys · 107 pts" }
+  ]);
+  const didNotRun = [{ season_year: 2026, meet_name: "OHSAA Cross Country Regional - Troy", place: 20, result_status: "official_result" }];
+  assert.deepEqual(bandHonors({ profile: {}, path_to_state: { path } }, didNotRun), []);
+});
+
+test("redesign: teammates are the next three on the roster, filled from ahead near the bottom", async () => {
+  const { teammatesFor } = await import("../lib/render/athlete_page.mjs");
+  const roster = Array.from({ length: 6 }, (_, i) => ({ slug: `test-mate-${i}`, name: `Test Mate ${i}`, best: `16:0${i}.0` }));
+  const team = { genders: { boys: { roster } } };
+  assert.deepEqual(teammatesFor(team, { slug: "test-mate-0", gender: "boys" }).map((t) => t.slug), ["test-mate-1", "test-mate-2", "test-mate-3"]);
+  assert.deepEqual(teammatesFor(team, { slug: "test-mate-5", gender: "boys" }).map((t) => t.slug), ["test-mate-2", "test-mate-3", "test-mate-4"]);
+  assert.deepEqual(teammatesFor(team, { slug: "test-not-listed", gender: "boys" }).map((t) => t.slug), ["test-mate-0", "test-mate-1", "test-mate-2"]);
+  assert.deepEqual(teammatesFor(null, { slug: "x", gender: "boys" }), []);
+});

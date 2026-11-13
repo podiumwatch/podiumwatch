@@ -2246,3 +2246,46 @@ a.pw-champ:hover { background: var(--paper); }
 .pw-band .pw-honors { margin-top: 14px; }
 .pw-table th.pw-col-time { font: 800 .7rem var(--pw-body); text-align: right; }
 .pw-note { font-family: var(--pw-body); }
+
+/* ---- Athlete page (redesign step 4, /athletes/{slug}/) --------------------------- */
+.pw-results-table .pw-col-date { width: 72px; }
+.pw-results-table .pw-col-place { width: 80px; font: 800 1.4rem/1.1 var(--pw-display); color: var(--pw-band); white-space: nowrap; }
+.pw-results-table th.pw-col-place { font: 800 .7rem var(--pw-body); color: var(--pw-soft); }
+.pw-results-table .pw-sub a { text-decoration: underline; }
+.pw-sb { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 4px; background: var(--pw-band); color: #fff; font: 800 .68rem var(--pw-body); font-style: normal; vertical-align: 2px; }
+.pw-timeline { margin: 0; padding: 14px 18px 16px 44px; list-style: none; position: relative; }
+.pw-timeline li { position: relative; padding: 0 0 16px; }
+.pw-timeline li:last-child { padding-bottom: 0; }
+.pw-timeline li::before { content: ""; position: absolute; left: -26px; top: 4px; width: 13px; height: 13px; border-radius: 50%; background: #fff; border: 3px solid var(--pw-rule); box-sizing: border-box; }
+.pw-timeline li::after { content: ""; position: absolute; left: -21px; top: 18px; bottom: -2px; width: 3px; background: var(--pw-rule); }
+.pw-timeline li:last-child::after { display: none; }
+.pw-timeline li.is-done::before { background: var(--pw-band); border-color: var(--pw-band); }
+.pw-timeline li.is-done::after { background: var(--pw-band); }
+.pw-timeline small { display: block; color: var(--pw-soft); font: 800 .7rem var(--pw-body); text-transform: uppercase; letter-spacing: .07em; }
+.pw-timeline b { display: block; font: 800 1.3rem/1.15 var(--pw-display); text-transform: uppercase; }
+.pw-timeline span { display: block; color: #33312c; font-size: .9rem; }
+.pw-rank-item { padding: 12px 18px 14px; }
+.pw-rank-item + .pw-rank-item { border-top: 1px solid var(--pw-rule); }
+.pw-rank-item b { display: block; font: 800 2.25rem/1 var(--pw-display); }
+.pw-rank-item p { margin: 6px 0 0; color: var(--pw-soft); font-size: .9rem; }
+.pw-rank-item a { color: var(--black); text-decoration: underline; }
+.pw-mates { margin: 0; padding: 0; list-style: none; }
+.pw-mates li a, .pw-mate-static { display: flex; justify-content: space-between; gap: 12px; padding: 11px 18px; border-top: 1px solid var(--pw-rule); }
+.pw-mates li:first-child a, .pw-mates li:first-child .pw-mate-static { border-top: 0; }
+.pw-mates li a:hover b { text-decoration: underline; }
+.pw-mates span { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pw-mates + .pw-note a { color: var(--green-dark); font-weight: 800; text-decoration: underline; }
+.pw-linkbtn { padding: 10px 0; border: 0; background: none; text-align: left; font: 800 1rem var(--pw-body); cursor: pointer; }
+.pw-linkbtn:hover { text-decoration: underline; }
+.pw-coach > .pw-linkbtn + a { border-top: 1px solid var(--pw-rule); }
+.pw-form { display: grid; gap: 10px; }
+.pw-form label { display: grid; gap: 4px; font-weight: 700; font-size: .9rem; }
+.pw-form input, .pw-form select, .pw-form textarea { padding: 9px; border: 1px solid var(--pw-rule); border-radius: 6px; font: inherit; font-weight: 400; }
+.pw-form textarea { min-height: 110px; }
+.pw-band-context a { color: #fff; font-weight: 800; text-decoration: underline; }
+@media (max-width: 820px) {
+  .pw-results-table .pw-col-date { width: 56px; }
+  .pw-results-table .pw-col-place { width: 50px; font-size: 1.15rem; }
+  .pw-date { font-size: .82rem; }
+}
+.pw-note a { color: var(--green-dark); font-weight: 700; text-decoration: underline; }
