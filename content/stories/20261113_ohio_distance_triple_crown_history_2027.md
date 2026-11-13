@@ -6,7 +6,7 @@ category: "Cross Country"
 author: "Podium Watch"
 slug: "ohio-distance-triple-crown-history-2027"
 featured: false
-draft: true
+draft: false
 updatedDate: "2026-11-13"
 type: "Feature"
 divisions: "All"
