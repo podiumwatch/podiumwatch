@@ -1040,13 +1040,26 @@ async function aboutPage() {
   return layout({ site, title: data.title, description: data.description, pathname: "/about/", content, jsonLd: organizationJsonLd(site) });
 }
 
-function athletePage() {
-  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}<section class="section section-paper"><div class="container content-grid"><div><p class="eyebrow">Athlete profiles</p><h2>Start with the statewide directory.</h2><p>Find athletes by name, school, graduation year, division, event, and source status.</p><a class="button button-primary" href="/athletes/">Open athlete directory</a></div><div>${emptyState({ title: "Spotlights are coming soon", description: "Long-form athlete interviews and personal stories will be published here as they are reported. In the meantime, the newsroom is covering every division.", actionLabel: "Read current stories", actionHref: "/stories/" })}</div></div></section>`;
+// Interviews and Athlete Spotlights (site fixes, 2026-11-13): no "coming
+// soon" box. Each page lists the published stories tagged for it
+// ("Interview" / "Athlete Spotlight", case-insensitive) and shows that
+// list by itself as soon as the first one is published.
+const storiesTagged = (stories, wanted) => stories.filter((story) => (story.tags || []).some((tag) => wanted.includes(String(tag).trim().toLowerCase())));
+const SPOTLIGHT_TAGS = ["athlete spotlight", "athlete spotlights", "spotlight"];
+const INTERVIEW_TAGS = ["interview", "interviews", "beyond the podium"];
+
+function athletePage(stories = []) {
+  const spotlights = storiesTagged(stories, SPOTLIGHT_TAGS);
+  const directory = `<div><p class="eyebrow">Athlete profiles</p><h2>Start with the statewide directory.</h2><p>Find athletes by name, school, graduation year, division, event, and source status.</p><a class="button button-primary" href="/athletes/">Open athlete directory</a></div>`;
+  const list = spotlights.length ? `<section class="section section-paper" aria-labelledby="spotlights-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">Athlete spotlights</p><h2 id="spotlights-title">Latest spotlights</h2></div></div><div class="stories-grid">${spotlights.map((story) => storyCard(story)).join("")}</div></div></section>` : "";
+  const content = `${pageHero({ eyebrow: "Athlete spotlights", title: "The story behind the result.", description: "A home for Ohio athletes to share what drives them, what they have overcome, and what they want people to remember." })}${list}<section class="section section-paper"><div class="container">${directory}</div></section>`;
   return layout({ site, title: "Athlete Spotlights", description: "Podium Watch athlete spotlights and athlete profile directory for Ohio high school cross country and track and field.", pathname: "/athlete-spotlights/", content });
 }
 
-function interviewsPage() {
-  const content = `${pageHero({ eyebrow: "Beyond the Podium", title: "Conversations beyond the finish line.", description: "Interviews about racing, pressure, setbacks, faith, goals, and the person behind the athlete." })}<section class="section section-paper"><div class="container">${emptyState({ title: "Interviews are coming soon", description: "Beyond the Podium conversations with Ohio athletes and coaches will be published here as episodes are recorded. Watch the latest on the Podium Watch YouTube channel.", actionLabel: "Visit YouTube", actionHref: site.youtubeUrl })}</div></section>`;
+function interviewsPage(stories = []) {
+  const interviews = storiesTagged(stories, INTERVIEW_TAGS);
+  const list = interviews.length ? `<div class="section-heading"><div><p class="eyebrow">Beyond the Podium</p><h2>Latest interviews</h2></div></div><div class="stories-grid">${interviews.map((story) => storyCard(story)).join("")}</div>` : "";
+  const content = `${pageHero({ eyebrow: "Beyond the Podium", title: "Conversations beyond the finish line.", description: "Interviews about racing, pressure, setbacks, faith, goals, and the person behind the athlete." })}<section class="section section-paper"><div class="container">${list}<p${list ? ' style="margin-top:28px"' : ""}><a class="button button-outline" href="${site.youtubeUrl}" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></p></div></section>`;
   return layout({ site, title: "Beyond the Podium Interviews", description: "Podium Watch interviews with Ohio high school runners and members of the running community.", pathname: "/interviews/", content });
 }
 
@@ -1353,8 +1366,8 @@ await writePage("/podium-play/", podiumPlayPage(site));
     if (ranking.updatedDate) pathLastmod.set(ranking.href, ranking.updatedDate);
   }
 
-  await writePage("/athlete-spotlights/", athletePage());
-  await writePage("/interviews/", interviewsPage());
+  await writePage("/athlete-spotlights/", athletePage(publicStories));
+  await writePage("/interviews/", interviewsPage(publicStories));
   await writePage("/about/", await aboutPage());
   await writePage("/staff/", staffPage(stories));
   // /sponsors/ and /commitments/YYYY/ are server-rendered (api/pages/);
