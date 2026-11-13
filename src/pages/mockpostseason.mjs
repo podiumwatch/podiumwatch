@@ -832,6 +832,45 @@ const HUB_SCRIPT = `<script>
   var basisInline = {};
   var basisCache = {};
   var basisRequest = 0;
+  // Lazy parts (site fixes F): fetch once, cache, fill on demand.
+  var partCache = {};
+  function fetchPart(url){
+    if (!partCache[url]) partCache[url] = fetch(url).then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(j){ return j.html; });
+    return partCache[url];
+  }
+  function fillPart(el){
+    if (!el || !el.dataset.lazyPart || el.dataset.lazyLoading) return Promise.resolve();
+    var url = el.dataset.lazyPart;
+    el.dataset.lazyLoading = '1';
+    return fetchPart(url).then(function(html){
+      if (el.classList.contains('mp-section')) {
+        swapSection(el, html);
+      } else {
+        el.innerHTML = html;
+        el.removeAttribute('data-lazy-part');
+        document.dispatchEvent(new CustomEvent('mp:section-swapped'));
+      }
+      if (typeof window.pwNameLinks === 'function') window.pwNameLinks(document.querySelector('.mp-pagesection'));
+    }).catch(function(){
+      delete partCache[url];
+      delete el.dataset.lazyLoading;
+      var st = el.querySelector('[data-lazy-status]');
+      if (st) st.innerHTML = 'Could not load this section. <button type="button" class="mp-filterbtn" data-lazy-retry>Try again</button>';
+    });
+  }
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('[data-lazy-retry]');
+    if (btn) fillPart(btn.closest('[data-lazy-part]'));
+  });
+  function ensureVisible(){
+    if (tab === 'state') return fillPart(document.getElementById('state-' + g + '_D' + d));
+    return Promise.resolve();
+  }
+  function showCurrent(){ return ensureVisible().then(applyBasis); }
+  document.addEventListener('toggle', function(e){
+    var t = e.target;
+    if (t && t.matches && t.matches('details.mp-regionalcard') && t.open) fillPart(t.querySelector('.mp-regionalcard-body[data-lazy-part]'));
+  }, true);
   function swapSection(el, html){
     var holder = document.createElement('div');
     holder.innerHTML = html;
@@ -851,7 +890,7 @@ const HUB_SCRIPT = `<script>
     var status = basisBar.querySelector('[data-basis-status]');
     var key = g + '_D' + d;
     var el = document.getElementById('state-' + key);
-    if (!el) return;
+    if (!el || el.dataset.lazyPart) return;
     if (!(key in basisInline) && el.dataset.basis === defaultBasis) basisInline[key] = el.outerHTML;
     if (el.dataset.basis === basis) { if (status) status.textContent = ''; return; }
     if (basis === defaultBasis) { swapSection(el, basisInline[key]); if (status) status.textContent = ''; return; }
@@ -890,20 +929,29 @@ const HUB_SCRIPT = `<script>
     updateCarriedLinks();
   }
   document.querySelectorAll('[data-goto-state]').forEach(function(b){ b.addEventListener('click', function(){
-    tab = 'state'; applyTab(tab); applyBasis(); updateUrl();
+    tab = 'state'; applyTab(tab); showCurrent(); updateUrl();
     var chooser = document.getElementById('state-times');
     if (chooser) setTimeout(function(){ chooser.scrollIntoView({ block: 'start', behavior: 'smooth' }); }, 30);
   }); });
-  document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.addEventListener('click', function(){ tab=b.dataset.tab; applyTab(tab); updateUrl(); }); });
-  document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); applyBasis(); updateUrl(); }); });
-  document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); applyBasis(); updateUrl(); }); });
+  document.querySelectorAll('.mp-tabbtn').forEach(function(b){ b.addEventListener('click', function(){ tab=b.dataset.tab; applyTab(tab); showCurrent(); updateUrl(); }); });
+  document.querySelectorAll('.mp-filterbtn[data-gender]').forEach(function(b){ b.addEventListener('click', function(){ g=b.dataset.gender; applyFilter(g,d); showCurrent(); updateUrl(); }); });
+  document.querySelectorAll('.mp-filterbtn[data-division]').forEach(function(b){ b.addEventListener('click', function(){ d=b.dataset.division; applyFilter(g,d); showCurrent(); updateUrl(); }); });
   if (basisBar) basisBar.querySelectorAll('button.mp-basisbtn[data-basis]').forEach(function(b){ b.addEventListener('click', function(){ basis=b.dataset.basis; applyBasis(); updateUrl(); }); });
   // toggle doesn't bubble in all browsers -- listen in the capture phase
   // at the document so opening/closing ANY regional card updates the
   // breadcrumb's site-name segment.
   document.addEventListener('toggle', renderBreadcrumb, true);
-  applyTab(tab); applyFilter(g,d); applyBasis(); updateCarriedLinks();
+  applyTab(tab); applyFilter(g,d); updateCarriedLinks();
 
+  // A cross-link with an anchor: load the target tab's sections for this
+  // gender and division first, then find the row.
+  var anchorLoads = [ensureVisible()];
+  if (anchor && tab === 'regionals') {
+    document.querySelectorAll('details.mp-regionalcard[data-filter-gender="' + g + '"][data-filter-division="' + d + '"] .mp-regionalcard-body[data-lazy-part]').forEach(function(el){ anchorLoads.push(fillPart(el)); });
+  }
+  Promise.all(anchorLoads).then(function(){ applyBasis(); runAnchor(); });
+
+  function runAnchor(){
   if (anchor) {
     // Scoped to the TARGET tab's panel, not a blind global match -- the
     // same team/runner can have a row (and therefore the same anchor) in
@@ -923,6 +971,7 @@ const HUB_SCRIPT = `<script>
         setTimeout(function(){ target.classList.remove('mp-highlight'); }, 2000);
       }, 50);
     }
+  }
   }
 
   var totop = document.querySelector('.mp-totop');
@@ -1165,6 +1214,32 @@ function regionalProjectionVsActualHtml(key, r, data) {
 // Northeast pending) shows the incomplete banner ABOVE this same
 // projected summary, not instead of it -- Pickerington and Boardman
 // still have a real, if partial, field worth seeing.
+// Site fixes F (2026-11-13): the hub pages used to carry every regional
+// card body and every State section at once (about 117,000 elements and
+// 7 MB on /mock-postseason/). Now each regional card keeps its summary in
+// the page and loads its body when opened, and each State section loads
+// when its gender and division are shown. Bodies are small JSON files
+// ({ html }) written next to the page (mockPostseasonPartFiles). The
+// data and the projections are unchanged.
+let hubParts = null;
+function partUrl(basePath, kind, key) {
+  return `${basePath}parts/${kind}/${key}.json`;
+}
+function addPart(url, html) {
+  hubParts.push({ path: url.replace(/^\//, ""), content: JSON.stringify({ html }) });
+}
+const LAZY_STATUS = '<p class="mp-meta" data-lazy-status>Loading&hellip;</p>';
+function lazyRegionalBody(key, basePath, inner) {
+  if (!hubParts) return `<div class="mp-regionalcard-body">${inner}</div>`;
+  const url = partUrl(basePath, "regionals", key);
+  addPart(url, inner);
+  return `<div class="mp-regionalcard-body" data-lazy-part="${url}">${LAZY_STATUS}</div>`;
+}
+const allHubParts = [];
+export function mockPostseasonPartFiles() {
+  return allHubParts.slice();
+}
+
 function regionalSummaryCard(key, r, data, basePath) {
   const accent = genderAccentVar(r.gender);
   const genderLower = r.gender.toLowerCase();
@@ -1226,7 +1301,7 @@ function regionalSummaryCard(key, r, data, basePath) {
       ${lastIn ? `<p class="mp-rc-line">Last in: <strong>${schoolDisplay(lastIn.name)}</strong> (${formatPoints(lastIn.score)} pts)${firstOut ? ` &middot; First out: <strong>${schoolDisplay(firstOut.name)}</strong> (+${gap} pt${gap === "1" ? "" : "s"})` : ""}</p>` : ""}
       ${r.stateQualifiers != null ? `<p class="mp-rc-line">${r.stateQualifiers} teams + ${r.individualQualifiers} individuals to State</p>` : ""}
     </summary>
-    <div class="mp-regionalcard-body">
+    ${lazyRegionalBody(key, basePath, `
       ${officialNotesHtml}
       <p class="mp-h3">State qualifiers</p>
       ${teamRowsHtml(r.teams, r.stateQualifiers, r.individuals, accent, genderLower, divNum, (team) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: teamAnchorKey(genderLower, divNum, team.name), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), realAdvancingKeys)}
@@ -1234,7 +1309,7 @@ function regionalSummaryCard(key, r, data, basePath) {
       <details class="mp-showall"><summary>${r.official ? "Top 32 (official finish order, includes individual qualifiers)" : "Top 32 (combined, includes pooled district individuals)"}</summary>${runnerRowsHtml(finishOrder, showAllLimit, null, (rr) => ({ url: crossLinkHref({ tab: "state", gender: genderLower, divNum, anchor: runnerAnchorKey(genderLower, divNum, rr.name, rr.school), hash: `state-${genderLower}_D${divNum}` }, basePath), label: "State" }), genderLower, divNum)}</details>
       ${regionalProjectionVsActualHtml(key, r, data)}
       ${enteredNoDataHtml(r.enteredNoProjectionData)}
-    </div>
+    `)}
   </details>`;
 }
 
@@ -1401,7 +1476,14 @@ function stateBasisBarHtml(data, basePath) {
 }
 
 function stateTabHtml(data, basePath) {
-  const sections = Object.entries(data.stateResults).map(([key, s]) => stateSectionHtml(key, s, data)).join("");
+  const sections = Object.entries(data.stateResults).map(([key, s]) => {
+    const html = stateSectionHtml(key, s, data);
+    if (!hubParts) return html;
+    const url = partUrl(basePath, "state", key);
+    addPart(url, html);
+    const [genderLower, div] = key.split("_");
+    return `<div class="mp-section" id="state-${key}" data-filter-gender="${genderLower}" data-filter-division="${String(div).replace(/^D/, "")}" data-lazy-part="${url}">${LAZY_STATUS}</div>`;
+  }).join("");
   return `${stateBasisBarHtml(data, basePath)}${bicarbLeaderboardHtml("state-top")}${sections}${bicarbRectangleHtml("state-bottom", "dark")}`;
 }
 
@@ -1487,8 +1569,13 @@ export function mockPostseasonHubPage(site, data, basePath, isReal, otherBasePat
 }
 
 function mockPostseasonPagesFor(site, data, basePath, isReal, otherBasePath) {
+  const collected = hubParts || [];
+  hubParts = collected;
+  const hubHtml = mockPostseasonHubPage(site, data, basePath, isReal, otherBasePath);
+  hubParts = null;
+  allHubParts.push(...collected);
   const pages = [
-    { pathname: basePath, html: mockPostseasonHubPage(site, data, basePath, isReal, otherBasePath) }
+    { pathname: basePath, html: hubHtml }
   ];
   for (const key of Object.keys(data.districtsBySite)) {
     const html = mockPostseasonDistrictSitePage(site, key, data, basePath, isReal, otherBasePath);
