@@ -28,9 +28,9 @@ heroCaption: "Celina's Elle Miesse (9051), Bay's Maya Gonzalez (8976), Aurora's 
 heroCredit: "Photo: Koby Peace (@koberto_peace)"
 featuredImage: "/images/stories/sophomores-already-here-2026/01-d2-girls-sophomores.jpg"
 featuredImageAlt: "Celina's Elle Miesse (9051), Bay's Maya Gonzalez (8976), Aurora's Audrey Miller (8964), Fremont Ross' Lily Kiser (9179) and Sylvania Southview's Julia Bocik (9608) in the Division II girls race. All five are sophomores. They finished second, third, fourth, sixth and first."
-socialImage: "/images/stories/sophomores-already-here-2026/01-d2-girls-sophomores.jpg"
-socialImageWidth: 1600
-socialImageHeight: 1348
+socialImage: "/images/stories/sophomores-already-here-2026/og-sophomores-1200x630.jpg"
+socialImageWidth: 1200
+socialImageHeight: 630
 imageCredit: "Koby Peace (@koberto_peace), Wyatt Richardson (@richardsonphotography_rp)"
 column: "The Podium Report"
 ---
