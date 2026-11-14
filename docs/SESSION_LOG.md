@@ -3087,3 +3087,11 @@ Build 454 pages; check no problems; full test suite passes. Chrome at 375px: Rus
 - B wording (approved), Verified filter choice hidden at 0, Interviews/Spotlights tag-driven, spaces-in-path fix.
 - C counts explained (556/603 schools; 19,050 = 10,275 shown + 4,936 merged duplicates + 3,839 never published; verified really 0). D out-of-season text. E names reported only.
 - F: /teams/ 13,033 to 698 elements; /mock-postseason/ 7.2 MB / 117k elements to 85 KB / 792; /real/ 5.1 MB / 86k to 88 KB / 824. Full npm test passes.
+
+## 2026-11-13: OATCCC review link, three more pages
+
+- Same password, cookie and headers now cover verify/, partnership/ and partnership/oatccc/ (REVIEW_PAGES in lib/oatccc_review.mjs, one vercel.json rewrite each, ?page= picks the bucket file). Sign-in on any page returns to that page. Addresses without the trailing slash 308 to it (sitewide trailingSlash).
+- Bucket oatccc-review (still private): draft replaced; OATCCC-Verification-DEMO.html, OATCCC-Partnership-CONCEPT.html and OATCCC-Partnership-Section.html added; all four read back byte for byte. All four names in .gitignore.
+- Local Chrome click-through against the real bucket passed (draft -> Partnership concept -> lead story -> Visit the OATCCC section -> logo -> Back to the indoor draft; verify/ both ways). Production checked without a cookie only (no real password on this machine).
+- Merged to main as the single commit a6e30721 (fast-forward from aec16bbb) at Zachary's request for the board showing; auto-deployed.
+- Known, not fixed: OATCCC-Partnership-Section.html line 894 links to "partnership/", which resolves to a missing page from /partnership/oatccc/. Pre-existing on main: prebuild .limit() check in lib/athletic_net_rankings_service.mjs and the Split Watch laps parity test fail.
