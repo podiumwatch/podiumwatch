@@ -129,6 +129,12 @@
       "hash": "3e6a3832dc5315a0",
       "width": 2400,
       "height": 1260
+    },
+    "/images/stories/sophomores-already-here-2026/01-d2-girls-sophomores.jpg": {
+      "hash": "cb25b1a23c95e1e6",
+      "width": 1600,
+      "height": 1348,
+      "position": "50% 0%"
     }
   },
   "final": {
@@ -239,6 +245,11 @@
       "position": "center",
       "width": 2400,
       "height": 1260
+    },
+    "/images/stories/sophomores-already-here-2026/01-d2-girls-sophomores.jpg": {
+      "position": "50% 0%",
+      "width": 1600,
+      "height": 1348
     },
     "/images/stories/oatccc-mideast-meet-of-champions.png": {
       "fit": "contain"
