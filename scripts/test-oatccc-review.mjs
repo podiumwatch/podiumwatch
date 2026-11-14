@@ -6,6 +6,7 @@ import fs from "node:fs";
 import handler, { deps } from "../api/review/oatccc-indoor.js";
 import {
   REVIEW_PATH,
+  REVIEW_PAGES,
   COOKIE_NAME,
   makeCookieValue,
   cookieValueIsValid,
@@ -18,14 +19,28 @@ const FAKE_DRAFT = "<!doctype html><title>Fake draft</title><h1>Fake Eligibility
 const PASSWORD = "test-password-not-real";
 const SECRET = "test-secret-not-real-0123456789abcdef";
 let draftLoads = 0;
-deps.loadDraft = async () => { draftLoads += 1; return FAKE_DRAFT; };
+const FAKE_PAGES = {
+  "OATCCC-Verification-DEMO.html": "<!doctype html><title>Fake verify</title><h1>Fake Verification demo (test fixture)</h1>",
+  "OATCCC-Partnership-CONCEPT.html": "<!doctype html><title>Fake concept</title><h1>Fake Partnership concept (test fixture)</h1>",
+  "OATCCC-Partnership-Section.html": "<!doctype html><title>Fake section</title><h1>Fake OATCCC section (test fixture)</h1>"
+};
+deps.loadDraft = async (object) => {
+  draftLoads += 1;
+  if (object === "OATCCC-Indoor-DRAFT-preview.html") return FAKE_DRAFT;
+  if (FAKE_PAGES[object]) return FAKE_PAGES[object];
+  throw new Error("unexpected object " + object);
+};
 deps.wrongDelayMs = 0;
 deps.env = { OATCCC_REVIEW_PASSWORD: PASSWORD, OATCCC_REVIEW_COOKIE_SECRET: SECRET };
 
 const server = http.createServer((req, res) => {
   res.status = (code) => { res.statusCode = code; return res; };
   res.send = (body) => res.end(body);
-  if (new URL(req.url, "http://x").pathname !== REVIEW_PATH) { res.statusCode = 404; return res.end(); }
+  // Stands in for the vercel.json rewrites: sub-page address -> ?page=name.
+  const pathname = new URL(req.url, "http://x").pathname;
+  const name = Object.keys(REVIEW_PAGES).find((key) => REVIEW_PATH + REVIEW_PAGES[key].subpath === pathname);
+  if (!name) { res.statusCode = 404; return res.end(); }
+  req.query = name === "draft" ? {} : { page: name };
   handler(req, res).catch((error) => { res.statusCode = 500; res.end(String(error)); });
 });
 await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
@@ -91,6 +106,32 @@ text = await response.text();
 assert.equal(text, FAKE_DRAFT);
 checkHeaders(response, "draft");
 
+// Every sub-page: sign-in only without a cookie (posting back to itself),
+// its own file with the cookie, and signing in there returns there.
+const SUBPAGES = { verify: "Verification demo", partnership: "Partnership concept", "partnership-oatccc": "OATCCC section" };
+for (const [name, marker] of Object.entries(SUBPAGES)) {
+  const path = REVIEW_PATH + REVIEW_PAGES[name].subpath;
+  const loadsBefore = draftLoads;
+  let page = await fetch(base + path, { redirect: "manual" });
+  let body = await page.text();
+  assert.equal(page.status, 200, name);
+  assert.match(body, /type="password"/, name);
+  assert.ok(body.includes(`action="${path}"`), name + " sign-in posts back to its own address");
+  for (const text of [...Object.values(SUBPAGES), "Eligibility"]) assert.ok(!body.includes(text), name + " leaks " + text);
+  checkHeaders(page, name + " sign-in");
+  assert.equal(draftLoads, loadsBefore, name + " file not loaded without a cookie");
+  page = await fetch(base + path, { headers: { cookie }, redirect: "manual" });
+  body = await page.text();
+  assert.equal(page.status, 200);
+  assert.ok(body.includes(marker), name + " serves its own file");
+  checkHeaders(page, name);
+  resetWrongAttemptsForTests();
+  page = await fetch(base + path, { method: "POST", headers: { "content-type": "application/x-www-form-urlencoded" }, body: new URLSearchParams({ password: PASSWORD }).toString(), redirect: "manual" });
+  assert.equal(page.status, 303);
+  assert.equal(page.headers.get("location"), path, name + " sign-in returns to the same page");
+}
+assert.equal((await fetch(base + REVIEW_PATH + "nope/", { headers: { cookie } })).status, 404, "unknown sub-address");
+
 // Tampered or expired cookies do not work.
 const config = reviewConfig(deps.env);
 const value = cookie.split("=")[1];
@@ -137,10 +178,15 @@ assert.equal((await post(PASSWORD)).status, 303);
 // The route is wired, hidden and kept out of git.
 const vercel = JSON.parse(fs.readFileSync("vercel.json", "utf8"));
 assert.ok(vercel.rewrites.some((r) => r.source === REVIEW_PATH && r.destination === "/api/review/oatccc-indoor"));
+for (const name of Object.keys(SUBPAGES)) {
+  assert.ok(vercel.rewrites.some((r) => r.source === REVIEW_PATH + REVIEW_PAGES[name].subpath && r.destination === "/api/review/oatccc-indoor?page=" + name), name + " rewrite");
+}
+assert.equal(vercel.trailingSlash, true, "addresses without the trailing slash redirect to it");
 const reviewHeaders = vercel.headers.find((h) => h.source === "/review/(.*)");
 assert.ok(reviewHeaders && reviewHeaders.headers.some((h) => h.key === "Referrer-Policy" && h.value === "no-referrer"));
 assert.ok(vercel.headers.indexOf(reviewHeaders) > vercel.headers.findIndex((h) => h.source === "/(.*)"), "the review headers come after the sitewide ones");
-assert.ok(/^OATCCC-Indoor-DRAFT-preview\.html$/m.test(fs.readFileSync(".gitignore", "utf8")), "draft file is gitignored");
+const ignored = fs.readFileSync(".gitignore", "utf8").split(String.fromCharCode(10)).map((line) => line.trim());
+for (const page of Object.values(REVIEW_PAGES)) assert.ok(ignored.includes(page.object), page.object + " is gitignored");
 // No page, menu, footer, sitemap, robots.txt or feed source mentions it.
 const sourceFiles = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? sourceFiles(dir + "/" + e.name) : [dir + "/" + e.name]);
 for (const file of [...sourceFiles("src"), ...sourceFiles("public"), "scripts/build.mjs"]) {

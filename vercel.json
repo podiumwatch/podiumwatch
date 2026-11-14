@@ -104,6 +104,18 @@
       "destination": "/api/review/oatccc-indoor"
     },
     {
+      "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/verify/",
+      "destination": "/api/review/oatccc-indoor?page=verify"
+    },
+    {
+      "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/partnership/",
+      "destination": "/api/review/oatccc-indoor?page=partnership"
+    },
+    {
+      "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/partnership/oatccc/",
+      "destination": "/api/review/oatccc-indoor?page=partnership-oatccc"
+    },
+    {
       "source": "/athletes/:slug([a-z0-9-]+)/",
       "destination": "/api/pages/athlete?slug=:slug"
     },
