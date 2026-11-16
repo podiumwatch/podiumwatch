@@ -72,6 +72,14 @@ test("no review-draft leftovers and no review link on any page", () => {
   }
 });
 
+test("Parking Map and Onsite Food Options stay unlinked (Tripleseat links open a sign-in page)", () => {
+  const { pages } = oatcccOutputs(site, oatcccFlags({ OATCCC_LIVE: "1", OATCCC_INDOOR_FULL_LIVE: "1" }));
+  const meetDay = pages.find((page) => page.pathname === "/oatccc/indoor/high-school/meet-day/").html;
+  assert.match(meetDay, /<p>Parking Map<\/p>/);
+  assert.match(meetDay, /<p>Onsite Food Options<\/p>/);
+  for (const page of pages) assert.doesNotMatch(page.html, /tripleseat/i, page.pathname);
+});
+
 test("athletic director sign-in stays hidden until verification is switched on", () => {
   const hub = (env) => oatcccOutputs(site, oatcccFlags(env)).pages.find((page) => page.pathname === "/oatccc/").html;
   assert.doesNotMatch(hub({ OATCCC_LIVE: "1" }), /Athletic director sign-in/);

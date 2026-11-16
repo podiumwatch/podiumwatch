@@ -5,6 +5,14 @@
 - Branch oatccc-section, worktree ../podium_watch_oatccc. Commits f4ca1ba3, 8468d2d2, local only (repo is public; Zachary decides when to push).
 - Launch Wed Nov 18 only on Zachary's go: final article text in content/stories/20261118_podium_watch_oatccc_join_forces.md, then OATCCC_LIVE=1 in Vercel Production, redeploy. Keep OATCCC_INDOOR_FULL_LIVE and OATCCC_VERIFICATION_LIVE off.
 - Waiting: Anjanette's answers (AD sign-in, form questions, public list, late fines, admins); Zachary's OK to run install/99 and install/100.
+- Items to get from the OATCCC (shown as plain text until then):
+  - Parking Map and Onsite Food Options: working files or links. Their Tripleseat links open a Tripleseat sign-in page, so both are unlinked on Meet day (Zachary, 2026-11-16).
+  - Ohio MileSplit meet page for each division (Divisions 1 to 4 and Seated); the pages say "Link will be added when it is posted".
+  - The MileSplit performance lists link ("posted HERE" on Declarations).
+  - The updated Division 3 & 4 and Division 1, 2 & Seated meet schedules.
+- "Contact Indoor State Meet Chair" stays pointed at https://www.oatccc.com/Contact-Us/ (Zachary, 2026-11-16).
+- Draft edits on ABCs, Divisions and Eligibility stay as they are; Zachary is getting the OATCCC's OK and will say which to revert if any.
+- Backup bundle: D:Podium Watchackupsoatccc-section-2026-11-16.bundle. Do not push until launch morning.
 
 ## Start here (2026-11-13, site fixes round 1)
 

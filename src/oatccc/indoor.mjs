@@ -504,8 +504,8 @@ function meetDayBody() {
     <section aria-labelledby="m-dl-h">
       <h2 id="m-dl-h">Downloads</h2>
       <div class="block">
-        <p>${ext(LINKS.parkingMap, "Parking Map")}</p>
-        <p>${ext(LINKS.foodOptions, "Onsite Food Options")}</p>
+        <p>Parking Map</p>
+        <p>Onsite Food Options</p>
       </div>
     </section>
     <section aria-labelledby="m-sched-h">

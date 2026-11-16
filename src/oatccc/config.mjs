@@ -62,9 +62,10 @@ export const LINKS = {
   milesplitOhio: "https://oh.milesplit.com/",
   phoneticForm: "https://forms.gle/i8PMJ9iW7Ywhz4Ht9",
   tickets: "https://fan.hudl.com/usa/oh/geneva/organization/158468/spire-academy/tickets",
-  parkingFee: "https://www.passportparking.com/",
-  parkingMap: "https://portal.tripleseat.com/public_profile/comments/344759558/download_file?asset_id=124959712",
-  foodOptions: "https://portal.tripleseat.com/public_profile/comments/344759558/download_file?asset_id=124959711"
+  parkingFee: "https://www.passportparking.com/"
+  // Parking Map and Onsite Food Options are shown as plain text: their
+  // Tripleseat links open a Tripleseat sign-in page (checked 2026-11-16).
+  // Waiting on the OATCCC for working files (docs/NEXT_SESSION.md).
 };
 
 // The six corporate sponsors, as oatccc.com lists and links them. Text
