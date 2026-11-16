@@ -22,6 +22,12 @@ import { termsPage } from "../src/pages/terms.mjs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { site, NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, SITEMAP_EXACT_EXCLUDE } from "../src/config/site.mjs";
+import { oatcccFlags, ARTICLE_LAUNCH_KEY, ARTICLE_PLACEHOLDER_MARKER } from "../src/oatccc/config.mjs";
+import { oatcccOutputs } from "../src/oatccc/build.mjs";
+
+// OATCCC section switches, read once (src/oatccc/config.mjs). All off
+// unless the Vercel environment variables say "1".
+const OATCCC_FLAGS = oatcccFlags();
 import sponsors from "../src/data/sponsors.json" with { type: "json" };
 import ohioSchoolFoundation from "../public/data/ohio-school-foundation-2026-27.json" with { type: "json" };
 import athleteFoundationSeed from "../public/data/athlete-foundation-seed-2026.json" with { type: "json" };
@@ -315,6 +321,20 @@ async function loadStories() {
       // Story page redesign (2026-10-28), B4: series grouping.
       seriesOrder: Number.isFinite(Number(data.seriesOrder)) ? Number(data.seriesOrder) : null
     };
+    // OATCCC announcement (src/oatccc/config.mjs): a story with
+    // `launch: oatccc` is left out completely (no page, no list, no draft
+    // preview) unless OATCCC_LIVE=1. A production build stops if it would
+    // go live with the placeholder body still in it; a local or preview
+    // build shows it as a draft preview instead (noindex, out of lists).
+    if (data.launch === ARTICLE_LAUNCH_KEY) {
+      if (!OATCCC_FLAGS.live) continue;
+      if (body.includes(ARTICLE_PLACEHOLDER_MARKER)) {
+        if (process.env.VERCEL_ENV === "production") {
+          throw new Error(`${story.sourceFile}: OATCCC_LIVE=1 but the announcement article still has its placeholder body. Add the final text first.`);
+        }
+        story.draft = true;
+      }
+    }
     if (!story.draft) stories.push(story);
     else draftStories.push(story);
   }
@@ -922,6 +942,16 @@ await writePage("/my-podium/", myPodiumPage(site, stories));
 await writePage("/my-podium-login/", myPodiumLoginPage(site));
 await writePage("/privacy/", privacyPage(site));
 await writePage("/standards/", standardsPage(site));
+  {
+    // OATCCC section: nothing is written unless OATCCC_LIVE=1.
+    const oatccc = oatcccOutputs(site, OATCCC_FLAGS);
+    for (const [from, to] of oatccc.assets) {
+      await fs.mkdir(path.dirname(path.join(dist, to)), { recursive: true });
+      await fs.copyFile(path.join(root, "src", "oatccc", from), path.join(dist, to));
+    }
+    for (const page of oatccc.pages) await writePage(page.pathname, page.html);
+    if (oatccc.pages.length) console.log(`OATCCC section: ${oatccc.pages.length} pages (full indoor: ${OATCCC_FLAGS.indoorFull ? "on" : "off"}, verification: ${OATCCC_FLAGS.verification ? "on" : "off"}, indexable: ${OATCCC_FLAGS.indexable ? "yes" : "no"}).`);
+  }
 await writePage("/support/", supportPage(site));
 await writePage("/terms/", termsPage(site));
 await writePage("/team-editor/", teamEditorPage(site));
@@ -1085,6 +1115,9 @@ await writePage("/podium-play/", podiumPlayPage(site));
     .filter((pathname) => !NOINDEX_NOFOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))
     .filter((pathname) => !NOINDEX_FOLLOW_PREFIXES.some((prefix) => pathname.startsWith(prefix)))
     .filter((pathname) => !SITEMAP_EXACT_EXCLUDE.includes(pathname))
+    // OATCCC pages are noindex outside the production launch, so they stay
+    // out of the sitemap too (src/oatccc/config.mjs, `indexable`).
+    .filter((pathname) => OATCCC_FLAGS.indexable || !pathname.startsWith("/oatccc/"))
     .filter((pathname) => !isRealAthletePage(pathname))
     .filter((pathname) => !draftPaths.has(pathname))
     .sort();

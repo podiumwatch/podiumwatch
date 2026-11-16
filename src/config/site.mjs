@@ -11,6 +11,8 @@
 // Domain switch (2026-10-28): podiumwatch.org is now the primary domain
 // (podiumwatch.site redirects to it) -- same reasoning applies, same
 // single value to change.
+import { oatcccFlags } from "../oatccc/config.mjs";
+
 export const site = {
   name: "Podium Watch",
   shortName: "Podium Watch",
@@ -73,6 +75,9 @@ export const site = {
       { label: "Teams", href: "/teams/" },
       { label: "Athletes", href: "/athletes/" }
     ] },
+    // OATCCC section (2026-11-16): in the menu only with OATCCC_LIVE=1
+    // (src/oatccc/config.mjs). Off by default.
+    ...(oatcccFlags().live ? [{ label: "OATCCC", href: "/oatccc/" }] : []),
     // Mock Meets (2026-09-21, dropdown added 2026-10-19, repointed to
     // /mock-postseason/ 2026-10-20, repointed again 2026-11-01): the three
     // tab links open the real-results universe at /mock-postseason/real/
