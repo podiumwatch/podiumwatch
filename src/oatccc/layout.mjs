@@ -50,15 +50,17 @@ function sectionFooter() {
 </footer>`;
 }
 
-export function oatcccLayout({ site, flags, pathname, title, description, tab, mast = "", content, scripts = [] }) {
-  const scriptTags = scripts.map((src) => `\n<script src="${escapeHtml(src)}" defer></script>`).join("");
+export function oatcccLayout({ site, flags, pathname, title, description, tab, mast = "", content, scripts = [], headScripts = [], robots }) {
+  // Deferred scripts run in order: libraries (headScripts) first.
+  const scriptTags = [...headScripts, ...scripts].map((src) => `\n<script src="${escapeHtml(src)}" defer></script>`).join("");
   return layout({
     site,
     title,
     description,
     pathname,
-    // noindex everywhere except the real production launch (config.mjs).
-    robots: flags.indexable ? undefined : "noindex, nofollow",
+    // noindex everywhere except the real production launch (config.mjs);
+    // private pages pass their own "noindex, nofollow".
+    robots: robots || (flags.indexable ? undefined : "noindex, nofollow"),
     extraHead: `\n<link rel="stylesheet" href="/styles/oatccc.css">${scriptTags}`,
     content: `<div class="ox">${lockup(site)}${tabBar(tab)}${mast}${content}${sectionFooter()}</div>`
   });

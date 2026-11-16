@@ -244,6 +244,10 @@ export const NOINDEX_NOFOLLOW_PREFIXES = [
   // this line only when he says to index it.
   "/mock-postseason/",
   "/admin/",
+  // OATCCC verification (admin queue and athletic director page): private,
+  // built only with OATCCC_VERIFICATION_LIVE (src/oatccc/config.mjs).
+  "/oatccc/admin/",
+  "/oatccc/verify/",
   "/writer-portal/",
   "/writer-login/",
   "/team-login/",

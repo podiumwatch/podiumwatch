@@ -279,6 +279,51 @@
 .ox .linklist li { padding: 0; }
 .ox .linklist li::before { display: none; }
 
+/* ---------- Team verification (admin queue, AD page) ---------- */
+.ox-ver { padding-top: 28px; padding-bottom: 56px; }
+.ox-ver .page-head { margin-bottom: 18px; }
+.ox .sub { color: var(--ox-muted); font-size: .9375rem; }
+.ox-vwho { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--ox-muted); font-size: .9375rem; }
+.ox-vcard { background: #fff; border: 1px solid var(--ox-line); border-radius: 12px; padding: 22px; margin-bottom: 18px; }
+.ox-vcard h2 { font-size: 1.75rem; }
+.ox-vcard h3 { margin-top: 20px; font-size: 1.3rem; }
+.ox-vform { display: grid; gap: 14px; max-width: 640px; margin-top: 10px; }
+.ox-vform label { display: grid; gap: 6px; font-weight: 600; }
+.ox-vform input[type="text"], .ox-vform input[type="email"], .ox-vform input[type="password"], .ox-vform textarea { width: 100%; font: 400 1.0625rem var(--ox-body); padding: 11px 12px; border: 1.5px solid #8C93B0; border-radius: 5px; color: var(--ox-text); background: #fff; }
+.ox-vform .ox-check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
+.ox-vform .ox-check input { margin-top: 5px; width: 18px; height: 18px; flex: none; }
+.ox-vactions { display: flex; flex-wrap: wrap; gap: 10px; }
+.ox-vmsg { margin: 0; min-height: 1.4em; color: var(--ox-red); font-weight: 600; }
+.ox-note { background: var(--ox-blue-tint); border-left: 5px solid var(--ox-royal); padding: 12px 14px; border-radius: 0 5px 5px 0; }
+.ox-vstats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.ox-vstats div { background: #fff; border: 1px solid var(--ox-line); border-radius: 10px; padding: 12px 14px; }
+.ox-vstats b { display: block; font: 800 2rem/1 var(--ox-display); color: var(--ox-navy); }
+.ox-vstats span { color: var(--ox-muted); font-size: .875rem; }
+.ox-vfilters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.ox-chip { font: 600 .875rem var(--ox-body); border: 1px solid var(--ox-line); background: #fff; color: var(--ox-navy); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+.ox-chip[aria-pressed="true"] { background: var(--ox-navy); border-color: var(--ox-navy); color: #fff; }
+.ox-vgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 18px; align-items: start; }
+.ox-queue { list-style: none; }
+.ox-queue li + li { border-top: 1px solid var(--ox-line); }
+.ox-queue button { display: grid; gap: 4px; width: 100%; text-align: left; background: none; border: 0; padding: 12px 4px; font: inherit; color: inherit; cursor: pointer; }
+.ox-queue button:hover { background: var(--ox-blue-tint); }
+.ox-queue .n { font-weight: 700; }
+.ox-queue small { color: var(--ox-muted); }
+.ox-badge { display: inline-block; font: 700 .75rem/1 var(--ox-body); padding: 5px 8px; border-radius: 4px; background: var(--ox-wash); color: var(--ox-navy); border: 1px solid var(--ox-line); vertical-align: middle; }
+.ox-s-submitted, .ox-s-resubmitted { background: var(--ox-blue-tint); color: var(--ox-royal-deep); border-color: #BFD0F7; }
+.ox-s-returned { background: #FFF4D6; color: #6B4500; border-color: #E6CF8C; }
+.ox-s-approved { background: #E6F5EE; color: #08603C; border-color: #A9DCC3; }
+.ox-late { background: var(--ox-red-tint); color: var(--ox-red); border-color: #E3BDBD; }
+.ox-test { background: #EEE; color: #444; border-color: #CCC; }
+.ox-answers div { padding: 8px 0; border-bottom: 1px solid var(--ox-line); }
+.ox-answers dt { font-weight: 600; font-size: .9375rem; color: var(--ox-muted); }
+.ox-answers dd { margin: 2px 0 0; }
+.ox-comments, .ox-history { list-style: none; }
+.ox-comments li { padding: 10px 12px; background: var(--ox-wash); border-radius: 8px; margin-bottom: 8px; }
+.ox-comments small, .ox-history small { color: var(--ox-muted); }
+.ox-comments p { margin: 4px 0 0; }
+.ox-history li { padding: 6px 0; border-bottom: 1px solid var(--ox-line); font-size: .9375rem; }
+
 /* Wider screens */
 @media (min-width: 700px) {
   .ox .role { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 0 28px; }
@@ -308,6 +353,8 @@
   .ox-grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ox-progs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ox-two { grid-template-columns: minmax(0, 1fr); }
+  .ox-vgrid { grid-template-columns: minmax(0, 1fr); }
+  .ox-vstats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 820px) {
   .ox-next { grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 22px; }
