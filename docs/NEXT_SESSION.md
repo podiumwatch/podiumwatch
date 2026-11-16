@@ -1,5 +1,11 @@
 # Podium Watch next session
 
+## Start here (2026-11-16, OATCCC section)
+
+- Branch oatccc-section, worktree ../podium_watch_oatccc. Commits f4ca1ba3, 8468d2d2, local only (repo is public; Zachary decides when to push).
+- Launch Wed Nov 18 only on Zachary's go: final article text in content/stories/20261118_podium_watch_oatccc_join_forces.md, then OATCCC_LIVE=1 in Vercel Production, redeploy. Keep OATCCC_INDOOR_FULL_LIVE and OATCCC_VERIFICATION_LIVE off.
+- Waiting: Anjanette's answers (AD sign-in, form questions, public list, late fines, admins); Zachary's OK to run install/99 and install/100.
+
 ## Start here (2026-11-13, site fixes round 1)
 
 - Branch site-fixes-1 (pushed to GitHub, NOT merged to main, not deployed). Working copy: D:\Podium Watch\pw_site_phase3. Zachary approved section B wording; C/E findings were report-only.

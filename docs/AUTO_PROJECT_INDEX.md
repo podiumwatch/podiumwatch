@@ -1,7 +1,7 @@
 # Podium Watch automatic project index
 
-Generated: 2026-11-02 09:48:22
-Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_site
+Generated: 2026-11-16 11:20:28
+Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_oatccc
 
 This file is generated from the current project.
 
@@ -9,263 +9,24 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 5290 |
-| Page source files | 96 |
-| API files | 128 |
-| Route references | 107 |
-| Environment variable names | 22 |
-| Supabase table references | 136 |
+| Included source files | 6937 |
+| Page source files | 115 |
+| API files | 176 |
+| Route references | 116 |
+| Environment variable names | 30 |
+| Supabase table references | 155 |
 
 ## Git state
 
 Latest commit:
 
-afb432c2f8bf4369946771531ca59cc72c55f410 | 2026-11-02 07:59:27 -0500 | Mock State: browser-only "What if?" time editor; hide legacy menu item
+8468d2d2a4864c473ea1fd1c5c49ff678e8eeaa1 | 2026-11-16 11:17:52 -0500 | OATCCC verification, Part B groundwork (off, migration not run)
 
 Working tree:
 
- M .claude/settings.json
- M dataimports/real_regional_results_2026/apply-real-regionals.mjs
- M dataimports/real_regional_results_2026/postseason_chain_output_real_regionals.json
- M docs/AUTO_PROJECT_INDEX.md
  M docs/DECISIONS.md
  M docs/NEXT_SESSION.md
  M docs/SESSION_LOG.md
- M lib/athletic_net_rankings_service.mjs
- M src/data/mock-postseason-2026-real-state-bases.json
- M src/data/mock-postseason-2026-real.json
- M src/pages/mockpostseason.mjs
-?? AUDIT_2026-10-29.md
-?? "dataimports/All Divisions Track 2027-2028 - Sheet1.csv"
-?? dataimports/BTF2027D1.pdf
-?? dataimports/BTF2027D2.pdf
-?? dataimports/BTF2027D3.pdf
-?? dataimports/BTF2027D4.pdf
-?? dataimports/BTF2027D5.pdf
-?? dataimports/GTF2027D1.pdf
-?? dataimports/GTF2027D2.pdf
-?? dataimports/GTF2027D3.pdf
-?? dataimports/GTF2027D4.pdf
-?? dataimports/GTF2027D5.pdf
-?? dataimports/Ohio_Senior_Boys_Top_250.xlsx
-?? dataimports/Podium_Watch_Weekend_Results.xlsx
-?? dataimports/backfill-athletic-net-matched-school-id.mjs
-?? dataimports/bicarb-billboard-970x250.png
-?? dataimports/bicarb-halfpage-300x600.png
-?? dataimports/bicarb-infeed-640x200.png
-?? dataimports/bicarb-leaderboard-728x90.png
-?? dataimports/bicarb-mobile-banner-320x100.png
-?? dataimports/bicarb-mobile-sticky-320x50.png
-?? dataimports/bicarb-rectangle-300x250.png
-?? dataimports/bicarb-rectangle-dark-300x250.png
-?? dataimports/boys-d1-2026/
-?? dataimports/boys-d2-2026/
-?? dataimports/boys-d3-2026/
-?? dataimports/boys-d4-2026/
-?? dataimports/boys_week_9_26_clean_import_v2.csv
-?? dataimports/exports/
-?? dataimports/girls-d1-2026/
-?? dataimports/girls-d2-2026/
-?? dataimports/girls-d3-2026/
-?? dataimports/girls-d4-2026/
-?? dataimports/girls_week_9_26_clean_import.csv
-?? dataimports/girls_week_9_26_clean_import_v2.csv
-?? dataimports/merge-athletic-net-duplicate-profiles.mjs
-?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - Boys d4.csv"
-?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - boys d3.csv"
-?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d1.csv"
-?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d2.csv"
-?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d3.csv"
-?? "dataimports/milesplit-2026/Milesplit of Week 10_11 - girls d4.csv"
-?? dataimports/milesplit-2026/apply-boys-d4-milesplit.mjs
-?? dataimports/milesplit-2026/check-divisions-generic.mjs
-?? dataimports/milesplit-2026/check-divisions.mjs
-?? dataimports/milesplit-2026/manual-resolution-boys-d3.json
-?? dataimports/milesplit-2026/manual-resolution-boys-d4.json
-?? dataimports/mock-meet-export/32d15d91-d3a0-4880-9743-b62a2652e89e/
-?? dataimports/mock-meet-export/3b832abe-382b-4559-82de-c3df639d1398/
-?? dataimports/mock-meet-export/7038c2d2-e066-46f9-9500-89023e7f8180/
-?? dataimports/mock-meet-export/914c5a85-1232-4991-8b34-8d24dd8cb307/
-?? "dataimports/mock-meet-export/Athletic Net - d1boys.csv"
-?? "dataimports/mock-meet-export/Athletic Net - d1girls.csv"
-?? "dataimports/mock-meet-export/Athletic Net - d2 boys.csv"
-?? "dataimports/mock-meet-export/Athletic Net - d2girls.csv"
-?? "dataimports/mock-meet-export/Athletic Net - d3 boys.csv"
-?? "dataimports/mock-meet-export/Athletic Net - d3 girls.csv"
-?? dataimports/mock-meet-export/FINAL-official-directory-report.json
-?? dataimports/mock-meet-export/FINAL-official-directory-report.md
-?? "dataimports/mock-meet-export/Milesplit - d1boys.csv"
-?? "dataimports/mock-meet-export/Milesplit - d1girls.csv"
-?? "dataimports/mock-meet-export/Milesplit - d2boys.csv"
-?? "dataimports/mock-meet-export/Milesplit - d2girls.csv"
-?? "dataimports/mock-meet-export/Milesplit - d3boys.csv"
-?? "dataimports/mock-meet-export/Milesplit - d3girls.csv"
-?? dataimports/mock-meet-export/NEDAB/
-?? dataimports/mock-meet-export/PROPOSED-database-changes-revised.json
-?? dataimports/mock-meet-export/PROPOSED-database-changes.json
-?? dataimports/mock-meet-export/add-d4-regional-teams.mjs
-?? dataimports/mock-meet-export/add-regional-teams-d2d3.mjs
-?? dataimports/mock-meet-export/add-week5-remaining-divisions.mjs
-?? dataimports/mock-meet-export/all-staging-rows-final.json
-?? dataimports/mock-meet-export/apply-d4-boys-to-live.mjs
-?? dataimports/mock-meet-export/apply-d4-girls-to-live.mjs
-?? dataimports/mock-meet-export/apply-permanent-school-resolutions.mjs
-?? dataimports/mock-meet-export/approve-and-import.mjs
-?? dataimports/mock-meet-export/article-hero-position-fix.png
-?? dataimports/mock-meet-export/athlete-creation-audit-final.json
-?? dataimports/mock-meet-export/athlete-creation-audit-resume.json
-?? dataimports/mock-meet-export/athlete-creation-audit.json
-?? dataimports/mock-meet-export/athlete-creation-preview.json
-?? dataimports/mock-meet-export/athlete-creation-preview.mjs
-?? dataimports/mock-meet-export/b9574ea7-7bde-4d9b-9045-eba2328172b3/
-?? dataimports/mock-meet-export/boys-csv-preview-impact.json
-?? dataimports/mock-meet-export/boys-lakewood-fairfield-rows.json
-?? dataimports/mock-meet-export/boys-staging-rows-snapshot.json
-?? dataimports/mock-meet-export/build-corrected-markdown.mjs
-?? dataimports/mock-meet-export/build-corrected-report.mjs
-?? dataimports/mock-meet-export/build-d4-boys-draft.mjs
-?? dataimports/mock-meet-export/build-d4-boys-pr-draft.mjs
-?? dataimports/mock-meet-export/build-d4-girls-fastest7.mjs
-?? dataimports/mock-meet-export/build-final-reports.mjs
-?? dataimports/mock-meet-export/build-revised-proposal.mjs
-?? dataimports/mock-meet-export/build-top10-by-grade.mjs
-?? dataimports/mock-meet-export/cf3de5ac-1018-47d6-a408-d9ac8f81343c/
-?? dataimports/mock-meet-export/check-divisions.mjs
-?? dataimports/mock-meet-export/check-t10.mjs
-?? dataimports/mock-meet-export/combined-school-identity-report.json
-?? dataimports/mock-meet-export/combined-school-identity-report.md
-?? dataimports/mock-meet-export/combined-top10.json
-?? dataimports/mock-meet-export/combined-unresolved-schools.json
-?? dataimports/mock-meet-export/corrected-combined-report-final.json
-?? dataimports/mock-meet-export/corrected-combined-report-full.json
-?? dataimports/mock-meet-export/corrected-combined-report.md
-?? dataimports/mock-meet-export/corrected-report-part1.json
-?? dataimports/mock-meet-export/create-athlete-profiles.mjs
-?? dataimports/mock-meet-export/crop-image.ps1
-?? dataimports/mock-meet-export/csv-preview-impact.json
-?? dataimports/mock-meet-export/d4-boys-full.csv
-?? dataimports/mock-meet-export/d4-boys-grades-input.mjs
-?? dataimports/mock-meet-export/d4-match-output.txt
-?? "dataimports/mock-meet-export/d4girlsanet - Sheet1.csv"
-?? "dataimports/mock-meet-export/d4girlsmilesplit - Sheet2.csv"
-?? dataimports/mock-meet-export/draft-d4-boys-fastest7.json
-?? dataimports/mock-meet-export/draft-d4-boys-input.mjs
-?? dataimports/mock-meet-export/draft-d4-boys-match.mjs
-?? dataimports/mock-meet-export/draft-d4-boys-pr.json
-?? dataimports/mock-meet-export/draft-d4-boys.json
-?? dataimports/mock-meet-export/draft-d4-girls-fastest7.json
-?? dataimports/mock-meet-export/draft-mock-regionals-2026.json
-?? dataimports/mock-meet-export/duplicate-pairs-evidence.json
-?? dataimports/mock-meet-export/e2e-photo-submissions.mjs
-?? dataimports/mock-meet-export/existing-mock-team-lookup.json
-?? dataimports/mock-meet-export/faster-list.json
-?? dataimports/mock-meet-export/fastest7-output.txt
-?? dataimports/mock-meet-export/final-before-after-report.json
-?? dataimports/mock-meet-export/final-before-after-report.mjs
-?? dataimports/mock-meet-export/finalize-d4-boys-regional.mjs
-?? dataimports/mock-meet-export/full-test-output.txt
-?? dataimports/mock-meet-export/generate-migration-sql.mjs
-?? dataimports/mock-meet-export/girls-crop-test.jpg
-?? dataimports/mock-meet-export/girls-lakewood-fairfield-rows.json
-?? dataimports/mock-meet-export/homepage-fixed-crop-desktop.png
-?? dataimports/mock-meet-export/homepage-fixed-crop-desktop2.png
-?? dataimports/mock-meet-export/homepage-fixed-crop.png
-?? dataimports/mock-meet-export/homepage-latest-stories.png
-?? dataimports/mock-meet-export/homepage-mobile-lead.png
-?? dataimports/mock-meet-export/homepage-mobile.png
-?? dataimports/mock-meet-export/homepage-position-fix-desktop.png
-?? dataimports/mock-meet-export/homepage-position-fix-mobile.png
-?? dataimports/mock-meet-export/import-results.json
-?? dataimports/mock-meet-export/import-validation-report.json
-?? dataimports/mock-meet-export/lakewood-fairfield-manual-resolution-audit.json
-?? dataimports/mock-meet-export/latest-draft-id.txt
-?? dataimports/mock-meet-export/manually-resolve-lakewood-fairfield.mjs
-?? dataimports/mock-meet-export/match-against-official-directory.mjs
-?? dataimports/mock-meet-export/match-d4-boys-full-csv.mjs
-?? dataimports/mock-meet-export/match-d4-boys-grades.mjs
-?? dataimports/mock-meet-export/merge-d4-boys-fastest7.mjs
-?? dataimports/mock-meet-export/merge-dup-runners.mjs
-?? dataimports/mock-meet-export/milesplit-top10-sheet2.xml
-?? dataimports/mock-meet-export/milesplitd4final.csv
-?? dataimports/mock-meet-export/official-directory-matched-report.json
-?? dataimports/mock-meet-export/ohio-school-aliases-full.json
-?? dataimports/mock-meet-export/ohio-schools-full.json
-?? dataimports/mock-meet-export/ohsaa_enrollment_raw.html
-?? dataimports/mock-meet-export/ohsaa_official_directory.json
-?? dataimports/mock-meet-export/photo-storage-plan.html
-?? dataimports/mock-meet-export/project-final-matches.mjs
-?? dataimports/mock-meet-export/project-matched-athletes.mjs
-?? dataimports/mock-meet-export/projection-summary.json
-?? dataimports/mock-meet-export/rail-desktop.png
-?? dataimports/mock-meet-export/rail-mobile.png
-?? dataimports/mock-meet-export/reconcile-categories.mjs
-?? dataimports/mock-meet-export/reconciliation-report.json
-?? dataimports/mock-meet-export/report.json
-?? dataimports/mock-meet-export/resize-image.ps1
-?? dataimports/mock-meet-export/resume-athlete-profiles.mjs
-?? dataimports/mock-meet-export/staging-rows-snapshot.json
-?? dataimports/mock-meet-export/story-mobile-image.png
-?? dataimports/mock-meet-export/story-mobile-table.png
-?? dataimports/mock-meet-export/story-mobile-table2.png
-?? dataimports/mock-meet-export/story-mobile-top.png
-?? dataimports/mock-meet-export/t10-desktop.png
-?? dataimports/mock-meet-export/t10-mobile.png
-?? dataimports/mock-meet-export/update-d1-mock.mjs
-?? dataimports/mock-meet-export/update-d2-mock.mjs
-?? dataimports/mock-meet-export/update-d3-mock.mjs
-?? dataimports/mock-meet-export/update-d4-mock.mjs
-?? dataimports/mock-meet-export/validate-approved-changes.mjs
-?? dataimports/mock-meet-export/validate-matched-rows.mjs
-?? dataimports/mock-meet-export/validation-result.json
-?? dataimports/mock-meet-export/verify-pages-urls.mjs
-?? dataimports/mock-meet-export/verify-pages.mjs
-?? dataimports/mock-meet-export/verify-rail.mjs
-?? dataimports/mock-meet-export/verify-story.mjs
-?? dataimports/ohio_2026_xc_Claude_Code/mock-postseason-logo-manifest.json
-?? dataimports/ohio_2026_xc_Claude_Code/postseason_chain_output.BEFORE_R4.json
-?? dataimports/ohio_xc_2026_top_1000_all_divisionsweek7.xlsx
-?? dataimports/photographer-network-marketing-plan.html
-?? dataimports/podium-watch-story-page.html
-?? dataimports/podium_watch_2026_ohio_xc_top_10_by_grade.xlsx
-?? dataimports/publish-athletic-net-rankings-batch.mjs
-?? dataimports/publish-athletic-net-rankings-profiles.mjs
-?? dataimports/pw_logos/
-?? dataimports/site_logos_2026-11-01/
-?? dataimports/story-page-and-homepage-handoff.md
-?? dataimports/track-alignments/
-?? dataimports/triple-threat-2026/
-?? dataimports/update-boys-d1-times.mjs
-?? dataimports/update-boys-d2-times.mjs
-?? dataimports/update-boys-d3-times.mjs
-?? dataimports/update-boys-d4-times.mjs
-?? dataimports/update-girls-d1-times.mjs
-?? dataimports/update-girls-d2-times.mjs
-?? dataimports/update-girls-d3-times.mjs
-?? dataimports/update-girls-d4-times.mjs
-?? install/73_MEET_CITY_NAME_CORRECTIONS.sql
-?? lib/xc_backtest_collection.mjs
-?? lib/xc_d4_coverage_audit.mjs
-?? lib/xc_d4_results_grid_workbook.mjs
-?? lib/xc_d4_rolling_backtest.mjs
-?? lib/xc_legends_history_collection.mjs
-?? private/
-?? public/images/stories/header-regional-meet-hub.png
-?? scripts/audit-d4-boys-coverage.mjs
-?? scripts/evaluate-private-d4-rolling-backtest.mjs
-?? scripts/evaluate-private-d4-simulator.mjs
-?? scripts/prepare-d4-boys-backtest-collection.mjs
-?? scripts/process-legends-d4-results-grid-workbook.mjs
-?? scripts/process-legends-history-collection.mjs
-?? scripts/run-private-d4-mock-state-simulator.mjs
-?? scripts/run-private-d4-rolling-backtest.mjs
-?? scripts/run-private-d4-simulator.mjs
-?? scripts/test-xc-d4-coverage-audit.mjs
-?? tests/xc-backtest-collection.test.mjs
-?? tests/xc-backtest-package.test.mjs
-?? tests/xc-d4-coverage-audit.test.mjs
-?? tests/xc-d4-results-grid-workbook.test.mjs
-?? tests/xc-d4-rolling-backtest.test.mjs
-?? tests/xc-legends-history-collection.test.mjs
 
 ## Package commands
 
@@ -276,30 +37,51 @@ Working tree:
 | check | node scripts/check.mjs |
 | dev | node scripts/serve.mjs --watch |
 | preview | node scripts/serve.mjs |
-| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:mock-whatif && npm run test:photo-submissions && npm run test:athletic-net-rankings |
+| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:split-watch-clock && npm run test:split-watch-laps && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:mock-whatif && npm run test:photo-submissions && npm run test:athletic-net-rankings && npm run test:state-picks && npm run test:yearly-awards && npm run test:paging && npm run test:short-links && npm run test:health && npm run test:season && npm run test:site-sponsors && npm run test:commitments && npm run test:partner-page && npm run test:athlete-page && npm run test:season-hub && npm run test:front-page && npm run test:display-names && npm run test:team-page && npm run test:banquet && npm run test:wrapped && npm run test:merch && npm run test:analytics-intake && npm run test:support && npm run test:awards-catalog && npm run test:page-cache && npm run test:fetch-limiter && npm run test:name-links && npm run test:oatccc-review && npm run test:oatccc-section && npm run test:oatccc-verification && npm run test:oatccc-verification-sql && npm run test:public-text && npm run test:leaders-first-view && npm run test:teams-directory && npm run test:homepage |
+| test:analytics-intake | node --test tests/analytics-intake.test.mjs |
 | test:archive-day-link | node scripts/test-archive-and-day-link.mjs |
 | test:article-polls | node scripts/test-article-polls.mjs |
 | test:athlete-goals | node scripts/test-athlete-goals.mjs |
 | test:athlete-leaders | node scripts/test-athlete-leaders.mjs |
+| test:athlete-page | node --test tests/athlete-page.test.mjs |
 | test:athletes | node scripts/test-athlete-foundation.mjs |
 | test:athletic-net-rankings | node scripts/test-athletic-net-rankings.mjs |
 | test:award-media | node scripts/test-award-media.mjs |
 | test:awards | node scripts/test-awards-service.mjs |
+| test:awards-catalog | node --test tests/awards-catalog.test.mjs |
+| test:banquet | node --test tests/banquet-pack.test.mjs |
 | test:command-center | node scripts/test-command-center.mjs |
+| test:commitments | node --test tests/commitments.test.mjs |
+| test:display-names | node --test tests/display-names.test.mjs |
 | test:engagement | node scripts/test-engagement.mjs |
 | test:fan-poll | node scripts/test-fan-poll.mjs |
+| test:fetch-limiter | node --test tests/fetch-limiter.test.mjs |
 | test:finish-timing | node scripts/test-finish-timing-provider.mjs && node scripts/test-finish-timing-service.mjs |
+| test:front-page | node --test tests/front-page.test.mjs |
+| test:health | node --test tests/health-check.test.mjs |
 | test:helper-race-selection | node scripts/test-helper-race-selection.mjs |
+| test:homepage | node --test tests/homepage.test.mjs |
+| test:leaders-first-view | node --test tests/leaders-first-view.test.mjs |
 | test:live-capture-audit-fixes | node scripts/test-live-capture-audit-fixes.mjs |
+| test:merch | node --test tests/merch-card.test.mjs |
 | test:mock-meet-export | node scripts/test-mock-meet-export.mjs |
 | test:mock-whatif | node scripts/test-mock-whatif.mjs |
+| test:name-links | node --test tests/name-links.test.mjs |
+| test:oatccc-review | node scripts/test-oatccc-review.mjs |
+| test:oatccc-section | node --test tests/oatccc-section.test.mjs |
+| test:oatccc-verification | node --test tests/oatccc-verification.test.mjs |
+| test:oatccc-verification-sql | node scripts/test-oatccc-verification-sql.mjs |
 | test:outdoor-capture | node scripts/test-outdoor-capture.mjs |
 | test:pace-calculator | node scripts/test-pace-calculator.mjs |
+| test:page-cache | node --test tests/page-cache.test.mjs |
+| test:paging | node --test tests/supabase-paging.test.mjs |
+| test:partner-page | node --test tests/partner-page.test.mjs |
 | test:path-to-state | node scripts/test-path-to-state.mjs |
 | test:photographer-billing | node scripts/test-photographer-billing.mjs |
 | test:photo-submissions | node scripts/test-photo-submissions.mjs |
 | test:podium-play | node scripts/test-podium-play.mjs |
 | test:podium-play-service | node scripts/test-podium-play-service.mjs |
+| test:public-text | node --test tests/public-text.test.mjs |
 | test:race-day-access | node scripts/test-race-day-access.mjs |
 | test:race-day-code-reveal | node scripts/test-race-day-code-reveal.mjs |
 | test:race-day-health | node scripts/test-race-day-health.mjs |
@@ -309,36 +91,55 @@ Working tree:
 | test:results | node scripts/test-results-ingestion.mjs |
 | test:runsignup | node scripts/test-runsignup-provider.mjs |
 | test:scoring-calculator | node scripts/test-scoring-calculator.mjs |
+| test:season | node --test tests/season.test.mjs |
+| test:season-hub | node --test tests/season-hub.test.mjs |
+| test:short-links | node --test tests/short-links.test.mjs |
+| test:site-sponsors | node --test tests/site-sponsors.test.mjs |
 | test:split-watch | node scripts/test-split-watch.mjs |
+| test:split-watch-browser | node scripts/test-split-watch-browser.mjs |
+| test:split-watch-clock | node scripts/test-split-watch-clock.mjs |
+| test:split-watch-laps | node scripts/test-split-watch-laps.mjs |
 | test:split-watch-load-timeout | node scripts/test-split-watch-load-timeout.mjs |
+| test:state-picks | node --test tests/state-picks.test.mjs |
+| test:support | node --test tests/support.test.mjs |
 | test:team-instagram | node scripts/test-team-instagram.mjs |
 | test:team-media | node scripts/test-team-media.mjs |
+| test:team-page | node --test tests/team-page.test.mjs |
+| test:teams-directory | node --test tests/teams-directory.test.mjs |
 | test:timing-crew | node scripts/test-timing-crew.mjs |
 | test:vote-count-safety | node scripts/test-vote-count-safety.mjs |
+| test:wrapped | node --test tests/wrapped.test.mjs |
+| test:yearly-awards | node --test tests/yearly-awards-2026.test.mjs |
 
 ## Public routes
 
-1. /
 1. /about/
 1. /admin/
 1. /admin/athletes/
 1. /admin/awards/
+1. /admin/awards/2026/
 1. /admin/engagement/
 1. /admin/fan-poll/
+1. /admin/front-page/
 1. /admin/meets/
 1. /admin/operations/
+1. /admin/partner-page/
 1. /admin/path-to-state/
 1. /admin/photographers/
 1. /admin/photo-submissions/
 1. /admin/recruiting/
 1. /admin/results-sources/
+1. /admin/short-links/
+1. /admin/sponsor-report/
 1. /admin/statewide-data/
 1. /admin/team-content/
 1. /admin/team-instagram/
+1. /admin/team-logos/
 1. /admin/team-manager/
 1. /admin/team-rosters/
 1. /admin/teams/
 1. /admin/team-schedules/
+1. /admin/wrapped/
 1. /apply/
 1. /apply/state-meet-correspondent/
 1. /athlete/
@@ -347,6 +148,7 @@ Working tree:
 1. /athlete-of-the-week/
 1. /athletes/
 1. /athlete-spotlights/
+1. /awards/2026/
 1. /claim-your-team/
 1. /contact/
 1. /fan-poll/
@@ -371,7 +173,6 @@ Working tree:
 1. /race/
 1. /rankings/
 1. /rankings/cross-country/
-1. /rankings/leaders/
 1. /rankings/methodology/
 1. /rankings/mock-meets/2026-09-17/
 1. /rankings/oatccc/
@@ -392,13 +193,14 @@ Working tree:
 1. /split-watch/plan/
 1. /split-watch/races/
 1. /split-watch/review/
-1. /sponsors/
 1. /staff/
 1. /standards/
+1. /state-picks/
 1. /stories/
 1. /submit-photos/
 1. /submit-results/
 1. /submit-timing-results/
+1. /support/
 1. /team/
 1. /team-content/
 1. /team-dashboard/
@@ -409,11 +211,13 @@ Working tree:
 1. /team-meet-center/
 1. /team-of-the-week/
 1. /team-roster/
-1. /teams/
+1. /teams/banquet/
+1. /teams/instagram/
 1. /team-schedule/
 1. /terms/
 1. /tournament-hub/
 1. /track-divisions/
+1. /wrapped/
 1. /writer-login/
 1. /writer-portal/
 1. /writer-portal/admin/
@@ -431,28 +235,37 @@ Working tree:
 1. /api/admin/athletes
 1. /api/admin/auth
 1. /api/admin/awards
+1. /api/admin/awards-2026
 1. /api/admin/awards-upload-media
+1. /api/admin/commitment-card
 1. /api/admin/dashboard-summary
 1. /api/admin/engagement
 1. /api/admin/fan-poll
+1. /api/admin/front-page
 1. /api/admin/intern-applications
 1. /api/admin/meets
+1. /api/admin/merch
 1. /api/admin/operations
+1. /api/admin/partner-page
 1. /api/admin/path-to-state
 1. /api/admin/photographers
 1. /api/admin/photo-submissions
 1. /api/admin/presence
 1. /api/admin/recruiting
 1. /api/admin/results-sources
+1. /api/admin/short-links
+1. /api/admin/sponsor-report
 1. /api/admin/state-meet-correspondent
 1. /api/admin/statewide-data
 1. /api/admin/team-content
 1. /api/admin/team-instagram
+1. /api/admin/team-logos
 1. /api/admin/team-rosters
 1. /api/admin/teams
 1. /api/admin/team-schedules
 1. /api/admin/teams-import
 1. /api/admin/timing-submissions
+1. /api/admin/wrapped
 1. /api/admin/writer-portal
 1. /api/aotw/archive
 1. /api/aotw/current
@@ -467,8 +280,14 @@ Working tree:
 1. /api/athletes/detail
 1. /api/athletes/index
 1. /api/athletes/report
+1. /api/awards-2026/nominate
+1. /api/awards-2026/status
+1. /api/awards-2026/vote
+1. /api/commitments/index
+1. /api/cron/awards-2026-votes
 1. /api/cron/close-scheduled-nominations
 1. /api/cron/finish-timing-scan
+1. /api/cron/health
 1. /api/cron/notifications
 1. /api/cron/open-scheduled-nominations
 1. /api/cron/purge-photo-submissions
@@ -481,16 +300,42 @@ Working tree:
 1. /api/followers/manage
 1. /api/followers/subscribe
 1. /api/followers/verify
+1. /api/front-page/current
+1. /api/front-page/featured
+1. /api/front-page/story
+1. /api/go/[sponsor]/[placement]
 1. /api/guardian/invite
 1. /api/guardian/me
 1. /api/guardian/races
 1. /api/intern-applications/submit
+1. /api/links/index
 1. /api/meets/index
 1. /api/meets/photographers
+1. /api/merch/status
 1. /api/my-podium/clear
 1. /api/my-podium/me
 1. /api/my-podium/sync
+1. /api/oatccc/verification
+1. /api/og/awards-2026
+1. /api/og/banquet
+1. /api/og/front-page
+1. /api/og/team
+1. /api/og/wrapped
 1. /api/ohio-schools/index
+1. /api/pages/athlete
+1. /api/pages/awards-2026
+1. /api/pages/banquet
+1. /api/pages/commitments
+1. /api/pages/front-page
+1. /api/pages/home
+1. /api/pages/leaders
+1. /api/pages/season-hub
+1. /api/pages/sponsors
+1. /api/pages/team
+1. /api/pages/teams
+1. /api/pages/wrapped
+1. /api/partner/index
+1. /api/partner/inquiry
 1. /api/photographer/billing-portal
 1. /api/photographer/checkout
 1. /api/photographer/create
@@ -520,6 +365,9 @@ Working tree:
 1. /api/recruiting/index
 1. /api/recruiting/submit-activity
 1. /api/results-submissions/index
+1. /api/review/oatccc-indoor
+1. /api/s/[path]
+1. /api/split-watch/clock
 1. /api/split-watch/crew
 1. /api/split-watch/join
 1. /api/split-watch/plan
@@ -527,6 +375,8 @@ Working tree:
 1. /api/split-watch/sessions
 1. /api/split-watch/sync
 1. /api/state-meet-correspondent/submit
+1. /api/state-picks/entries
+1. /api/state-picks/submit
 1. /api/stories/view-count
 1. /api/stripe/webhook
 1. /api/team/access
@@ -545,6 +395,7 @@ Working tree:
 1. /api/team/schools
 1. /api/team/upload-media
 1. /api/team-instagram/index
+1. /api/teams/banquet
 1. /api/teams/content
 1. /api/teams/detail
 1. /api/teams/index
@@ -556,6 +407,7 @@ Working tree:
 1. /api/totw/current
 1. /api/totw/nominate
 1. /api/totw/vote
+1. /api/wrapped/status
 
 ## Environment variable names
 
@@ -563,11 +415,16 @@ Values are intentionally excluded.
 
 1. CRON_SECRET
 1. GITHUB_TOKEN
+1. INSTAGRAM_BUSINESS_ACCOUNT_ID
+1. INSTAGRAM_GRAPH_ACCESS_TOKEN
 1. KV_REST_API_TOKEN
 1. KV_REST_API_URL
+1. OATCCC_LIVE
+1. OATCCC_VERIFICATION_LIVE
 1. PODIUM_ADMIN_PASSWORD
 1. PODIUM_ADMIN_SESSION_SECRET
 1. PORT
+1. PW_SHOW_DRAFTS
 1. RESEND_API_KEY
 1. RESEND_FROM_EMAIL
 1. RESEND_REPLY_TO
@@ -580,7 +437,10 @@ Values are intentionally excluded.
 1. SUPABASE_SECRET_KEY
 1. SUPABASE_URL
 1. TEAM_INSTAGRAM_DIGEST_EMAIL
+1. TURNSTILE_SECRET_KEY
+1. TURNSTILE_SITE_KEY
 1. VERCEL_ENV
+1. VERCEL_GIT_COMMIT_SHA
 1. VERCEL_PROJECT_PRODUCTION_URL
 1. VOTE_HASH_SECRET
 
@@ -625,12 +485,20 @@ Values are intentionally excluded.
 1. fan_poll_week_results
 1. fan_poll_weeks
 1. finish_timing_team_links
+1. front_page_lead_events
+1. front_page_leads
 1. guardian_accounts
 1. guardian_invites
 1. intern_applications
 1. meets
 1. my_podium_accounts
 1. not an image, just text
+1. oatccc_school_contacts
+1. oatccc_seasons
+1. oatccc_staff
+1. oatccc_submission_comments
+1. oatccc_submission_events
+1. oatccc_submissions
 1. ohio_data_conflicts
 1. ohio_data_sources
 1. ohio_import_batches
@@ -640,6 +508,8 @@ Values are intentionally excluded.
 1. ohio_tournament_qualification_thresholds
 1. ohio_tournament_regional_assignments
 1. ohio_tournament_stage_calendar
+1. partner_inquiries
+1. partner_page_settings
 1. photo_submission_items
 1. photo_submission_upload_slots
 1. photo_submissions
@@ -689,18 +559,23 @@ Values are intentionally excluded.
 1. results_discovery_runs
 1. results_source_providers
 1. result-source-documents
-1. site_presence
+1. short_link_hits
+1. short_links
+1. site_sponsor_clicks
 1. state_meet_correspondent_applications
+1. state_picks_2026
 1. team_admin_audit_log
 1. team_advancement_status
 1. team_analytics_events
 1. team_athletes
+1. team_banquet_settings
 1. team_change_log
 1. team_claim_requests
 1. team_content_items
 1. team_followers
 1. team_follows
 1. team_import_batches
+1. team_instagram_requests
 1. team_meet_connections
 1. team_meet_requests
 1. team_members
@@ -722,28 +597,39 @@ Values are intentionally excluded.
 1. totw_nominations
 1. totw_weeks
 1. writer-portal-images
+1. yearly_award_categories
+1. yearly_award_finalists
+1. yearly_award_nominations
+1. yearly_award_vote_snapshots
 
 ## Page source files
 
 1. src\pages\admin.mjs
 1. src\pages\adminathletes.mjs
 1. src\pages\adminawards.mjs
+1. src\pages\adminawards2026.mjs
 1. src\pages\adminengagement.mjs
 1. src\pages\adminfanpoll.mjs
+1. src\pages\adminfrontpage.mjs
 1. src\pages\adminmeets.mjs
 1. src\pages\adminoperations.mjs
+1. src\pages\adminpartnerpage.mjs
 1. src\pages\adminpathtostate.mjs
 1. src\pages\adminphotographers.mjs
 1. src\pages\adminphotosubmissions.mjs
 1. src\pages\adminrecruiting.mjs
 1. src\pages\adminresultssources.mjs
+1. src\pages\adminshortlinks.mjs
+1. src\pages\adminsponsorreport.mjs
 1. src\pages\adminstatewidedata.mjs
 1. src\pages\adminteamcontent.mjs
 1. src\pages\adminteaminstagram.mjs
+1. src\pages\adminteamlogos.mjs
 1. src\pages\adminteammanager.mjs
 1. src\pages\adminteamrosters.mjs
 1. src\pages\adminteams.mjs
 1. src\pages\adminteamschedules.mjs
+1. src\pages\adminwrapped.mjs
 1. src\pages\apply.mjs
 1. src\pages\applystatemeetcorrespondent.mjs
 1. src\pages\athletedetail.mjs
@@ -751,10 +637,13 @@ Values are intentionally excluded.
 1. src\pages\athletelogin.mjs
 1. src\pages\athletes.mjs
 1. src\pages\claimteam.mjs
+1. src\pages\commitments.mjs
 1. src\pages\fanpoll.mjs
 1. src\pages\follow.mjs
+1. src\pages\frontpagearchive.mjs
 1. src\pages\guardianhome.mjs
 1. src\pages\guardianlogin.mjs
+1. src\pages\home.mjs
 1. src\pages\meetdetail.mjs
 1. src\pages\meets.mjs
 1. src\pages\mockdistricts.mjs
@@ -783,6 +672,7 @@ Values are intentionally excluded.
 1. src\pages\recruitingtop250xc.mjs
 1. src\pages\scoringcalculator.mjs
 1. src\pages\search.mjs
+1. src\pages\seasonhub.mjs
 1. src\pages\splitscalculator.mjs
 1. src\pages\splitwatch.mjs
 1. src\pages\splitwatchjoin.mjs
@@ -790,26 +680,33 @@ Values are intentionally excluded.
 1. src\pages\splitwatchplan.mjs
 1. src\pages\splitwatchraces.mjs
 1. src\pages\splitwatchreview.mjs
+1. src\pages\sponsors.mjs
 1. src\pages\standards.mjs
+1. src\pages\statepicks.mjs
 1. src\pages\submitphotos.mjs
 1. src\pages\submitrecruitingactivity.mjs
 1. src\pages\submitresults.mjs
 1. src\pages\submittimingresults.mjs
+1. src\pages\support.mjs
+1. src\pages\teambanquet.mjs
 1. src\pages\teamcontent.mjs
 1. src\pages\teamdashboard.mjs
 1. src\pages\teameditor.mjs
 1. src\pages\teamhome.mjs
 1. src\pages\teaminsights.mjs
+1. src\pages\teaminstagram.mjs
 1. src\pages\teamlogin.mjs
 1. src\pages\teammeetcenter.mjs
 1. src\pages\teamprofile.mjs
 1. src\pages\teamroster.mjs
 1. src\pages\teams.mjs
 1. src\pages\teamschedule.mjs
+1. src\pages\teamsdirectory.mjs
 1. src\pages\terms.mjs
 1. src\pages\tournamenthub.mjs
 1. src\pages\trackdivisions.mjs
 1. src\pages\weeklyawards.mjs
+1. src\pages\wrapped.mjs
 1. src\pages\writerlogin.mjs
 1. src\pages\writerportal.mjs
 1. src\pages\writerportaladmin.mjs
@@ -821,6 +718,7 @@ Values are intentionally excluded.
 1. src\pages\writerportalreview.mjs
 1. src\pages\writerportalstyleguide.mjs
 1. src\pages\writerportalwrite.mjs
+1. src\pages\yearlyawards2026.mjs
 
 ## Main project folders
 
@@ -831,7 +729,6 @@ Values are intentionally excluded.
 1. docs
 1. install
 1. lib
-1. private
 1. public
 1. reference_data
 1. scripts

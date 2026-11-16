@@ -2,6 +2,18 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 16 OATCCC section and verification groundwork, switched off
+
+### Decision
+
+- The OATCCC section (/oatccc/ hub, High School Indoor State Meet pages, the announcement article, the OATCCC menu item) is built only when the Vercel variable OATCCC_LIVE is exactly "1". Off (the default): no page, stylesheet or logo is written to dist/, so every address is the real 404 and merging changes nothing. Launch = set OATCCC_LIVE=1 for Production and redeploy, only after Zachary says go (Zachary, 2026-11-16; build-time setting chosen over a Redis switch).
+- OATCCC_INDOOR_FULL_LIVE adds Overview, Declarations and fees, Meet day and FAQ, copied word for word from oatccc.com with their conflicts left in. Until then their menu spots link to the oatccc.com indoor page. OATCCC_VERIFICATION_LIVE adds the verification pages, API and "Athletic director sign-in". Both need OATCCC_LIVE.
+- OATCCC pages are noindex and out of the sitemap except on the production launch build. /oatccc/admin/ and /oatccc/verify/ are always noindex.
+- A production build stops if the announcement (launch: oatccc) still has its placeholder body.
+- ABCs, Divisions and Eligibility & Verification are the private review draft's text with review notes removed; OATCCC wording is never corrected by us; problems are listed for Zachary instead.
+- Sponsors are text links, no logos. Logo: oatccc-logo.zip transparent PNGs only.
+- Verification (install/99, not run): the database enforces one submission per school per season, the statuses submitted/returned/resubmitted/approved and who moves them, a comment to return, late flag and closed window, permanent comments and audit log, TEST vs real separation, and row-level security; the API calls Supabase as the signed-in user, never the service role. Email templates exist; nothing sends.
+
 ## 2026 11 11 School name aliases and division rules
 
 ### Decision

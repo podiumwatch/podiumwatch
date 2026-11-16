@@ -2,6 +2,13 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 16 OATCCC section (Part A) and verification groundwork (Part B)
+
+- Branch oatccc-section (worktree ../podium_watch_oatccc), off origin/main 8f374826. Commits f4ca1ba3 (Part A) and 8468d2d2 (Part B). Not pushed: the GitHub repo is public, and pushing would publish the section and the announcement title before Nov 18.
+- Part A: hub, 7 indoor pages (4 behind OATCCC_INDOOR_FULL_LIVE), lockup and tabs, sponsor footer, announcement placeholder. Checked at 390 and 1440 px (no overflow). Outbound links: Parking Map and Onsite Food Options (Tripleseat) redirect to a Tripleseat login; Asics and 1st Place Spiritwear block automated checks.
+- Part B: install/99 and install/100 written, not run; 29 database rule checks pass in PGlite (scripts/test-oatccc-verification-sql.mjs); API, admin queue, AD page, email templates; pages checked with mocked TEST data.
+- npm run check already fails on origin/main (lib/athletic_net_rankings_service.mjs .limit(20000) and .limit(10000)); not touched here.
+
 ## 2026 11 11 Pushed outage hardening; parent-line merch; team and athlete links
 
 - Pushed 587c7eb9..39df9b6d; verified a team page cache HIT on the second load, one test vote counted (Aarush Talekar, Boys D1 Athlete, 108 to 109), /support/ button to Stripe.
