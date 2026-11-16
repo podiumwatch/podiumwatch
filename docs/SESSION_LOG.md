@@ -8,6 +8,7 @@ Add a new section after each meaningful development session.
 - Server: the verification queue is offered only to indoor roles (lib/oatccc_verification.mjs canWorkIndoor); the database already enforced it.
 - Logo files regenerated from Clean Ohio OT CCC logo.png (lossless, resized only).
 - Earlier the same day: Parking Map and Onsite Food Options unlinked (204b30c5); backup bundle oatccc-section-2026-11-16.bundle.
+- Migrations run by Zachary in Supabase (2026-11-16): install/99_OATCCC_VERIFICATION.sql, install/101_OATCCC_ADMIN_ROLES.sql, install/100_OATCCC_VERIFICATION_TEST_SEED.sql (TEST season and three TEST schools only). First site_admin row still to be added.
 
 ## 2026 11 16 OATCCC section (Part A) and verification groundwork (Part B)
 

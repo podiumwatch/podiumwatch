@@ -3,7 +3,7 @@
 ## Start here (2026-11-16, OATCCC round 2: roles only)
 
 - Round 2 was cut down on purpose (Zachary: keep the basics now, build the rest in summer, show the OATCCC something new through the year). Built: install/101_OATCCC_ADMIN_ROLES.sql (written, NOT run) and the logo switch to Clean Ohio OT CCC logo.png. Nothing else from OATCCC_BUILD_ROUND_2.md.
-- Run order when Zachary says so: install/99, then install/101, then install/100 (TEST seed). Then add the first site_admin by hand (instructions at the top of install/101).
+- Zachary ran install/99, install/101 and install/100 (TEST seed) in Supabase on 2026-11-16, all reported success. Still to do by hand: add the first site_admin (the insert at the top of install/101). Nothing uses these tables until OATCCC_VERIFICATION_LIVE is on.
 - **Planned for summer 2027** (OATCCC_BUILD_ROUND_2.md, kept in Zachary's Downloads): the full admin area (Part C: dashboard, membership lookup and CSV import, reminders and email queue, editable key dates and notice, verified-list timing setting, CSV export, activity log page, admins and roles page, admin invites) and the rest of the public section (Part D: About, Coaches' Polls, Awards, Hall of Fame, Scholarships, Academic All-Ohio, Clinics, Forms, Join behind OATCCC_MORE_LIVE). Open questions saved for then: "Coming soon" wording on the Forms page (the public-text test bans it) and the Sunday cutoff for a weekly verified list.
 
 ### OATCCC release schedule (one visible release about every month)
