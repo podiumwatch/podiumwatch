@@ -2,6 +2,15 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 16 OATCCC admin roles; logo source; summer plan
+
+### Decision
+
+- Five admin roles replace the single "admin" role (install/101_OATCCC_ADMIN_ROLES.sql, not run): president, indoor_chair, ms_indoor_chair, clinic_chair, site_admin. Indoor verification access = president, indoor_chair or site_admin (oatccc_is_staff() now checks the role, so every install/99 rule follows). A president or site_admin may add, change and remove admins; only a site_admin may make or remove another site_admin; the last site_admin can never be removed or demoted, even by the database owner. Every admin change is recorded permanently in oatccc_staff_events (Zachary, 2026-11-16).
+- Adding an admin needs an existing sign-in account for that email; invites wait for the summer admin build.
+- OATCCC logo: Clean Ohio OT CCC logo.png is the source for every OATCCC page (resized only, never recolored or redrawn). Replaces the round 1 choice of the oatccc-logo.zip files (Zachary, 2026-11-16).
+- Scope: keep the basics now; the full admin area and the rest of the public OATCCC section are planned for summer 2027, with a release about every month in between (schedule in docs/NEXT_SESSION.md).
+
 ## 2026 11 16 OATCCC section and verification groundwork, switched off
 
 ### Decision

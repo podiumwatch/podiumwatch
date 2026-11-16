@@ -32,8 +32,11 @@ on conflict (id) do nothing;
 -- with email addresses you control, then put their user ids below and
 -- uncomment. One admin and one AD per TEST school is enough.
 --
--- insert into public.oatccc_staff (user_id, display_name) values
---   ('<test admin user id>', 'TEST Admin')
+-- Roles come from install/101_OATCCC_ADMIN_ROLES.sql (run it before this).
+-- A site_admin can only be added this way (no one signed in) or by
+-- another site_admin.
+-- insert into public.oatccc_staff (user_id, display_name, role) values
+--   ('<test admin user id>', 'TEST Indoor Chair', 'indoor_chair')
 -- on conflict (user_id) do nothing;
 --
 -- insert into public.oatccc_school_contacts (school_id, user_id, display_name) values

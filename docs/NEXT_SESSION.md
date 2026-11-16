@@ -1,5 +1,26 @@
 # Podium Watch next session
 
+## Start here (2026-11-16, OATCCC round 2: roles only)
+
+- Round 2 was cut down on purpose (Zachary: keep the basics now, build the rest in summer, show the OATCCC something new through the year). Built: install/101_OATCCC_ADMIN_ROLES.sql (written, NOT run) and the logo switch to Clean Ohio OT CCC logo.png. Nothing else from OATCCC_BUILD_ROUND_2.md.
+- Run order when Zachary says so: install/99, then install/101, then install/100 (TEST seed). Then add the first site_admin by hand (instructions at the top of install/101).
+- **Planned for summer 2027** (OATCCC_BUILD_ROUND_2.md, kept in Zachary's Downloads): the full admin area (Part C: dashboard, membership lookup and CSV import, reminders and email queue, editable key dates and notice, verified-list timing setting, CSV export, activity log page, admins and roles page, admin invites) and the rest of the public section (Part D: About, Coaches' Polls, Awards, Hall of Fame, Scholarships, Academic All-Ohio, Clinics, Forms, Join behind OATCCC_MORE_LIVE). Open questions saved for then: "Coming soon" wording on the Forms page (the public-text test bans it) and the Sunday cutoff for a weekly verified list.
+
+### OATCCC release schedule (one visible release about every month)
+
+| When | Release | Why then |
+|---|---|---|
+| Wed Nov 18 | Hub, ABCs, Divisions, Eligibility & Verification, the announcement | Official announcement |
+| By Dec 1 | Verification ready for the forms going out (roles, AD sign-in and form questions once Anjanette answers) | Forms go to ADs Dec 1 |
+| Early Dec | Verified teams list on the site, updated Sundays | The list starts Dec 6 |
+| Early Jan | Clinics page, "Register" linking to oatccc.com | Clinic is Jan 28-30 |
+| Late Jan | Overview, Declarations, Meet day and FAQ pages (OATCCC_INDOOR_FULL_LIVE) | Before declarations open Feb 24 |
+| Early Mar | Indoor State Meet coverage and results stories | Meet is Mar 5-6 |
+| Spring | Join page and a membership push for outdoor season | Coaches renew in the new year |
+| Late spring | About, Awards and Hall of Fame pages | Ahead of awards season |
+| Summer 2027 | Full admin area and the rest of Part D | Ready for the 2027 cross country season |
+| Aug | Cross country coaches' polls in the OATCCC section | Polls restart with the season |
+
 ## Start here (2026-11-16, OATCCC section)
 
 - Branch oatccc-section, worktree ../podium_watch_oatccc. Commits f4ca1ba3, 8468d2d2, local only (repo is public; Zachary decides when to push).

@@ -4,7 +4,7 @@
 // scripts/test-oatccc-verification-sql.mjs (needs PGlite, see that file).
 import test from "node:test";
 import assert from "node:assert/strict";
-import { cleanAnswers, cleanComment, friendlyDbError, seasonForSchool, FORM_FIELDS, isUuid } from "../lib/oatccc_verification.mjs";
+import { cleanAnswers, cleanComment, friendlyDbError, seasonForSchool, FORM_FIELDS, isUuid, ADMIN_ROLES, canWorkIndoor } from "../lib/oatccc_verification.mjs";
 import { submittedEmail, returnedEmail, approvedEmail } from "../lib/oatccc_email_templates.mjs";
 import { oatcccFlags } from "../src/oatccc/config.mjs";
 import { oatcccOutputs } from "../src/oatccc/build.mjs";
@@ -52,6 +52,12 @@ test("TEST schools only ever get TEST seasons", () => {
   assert.equal(seasonForSchool({ is_test: true }, seasons).id, "t27");
   assert.equal(seasonForSchool({ is_test: false }, seasons).id, "r27");
   assert.equal(seasonForSchool({ is_test: false }, seasons.filter((s) => s.is_test)), null);
+});
+
+test("only president, indoor chair and site admin get the verification queue", () => {
+  assert.deepEqual(ADMIN_ROLES.filter(canWorkIndoor), ["president", "indoor_chair", "site_admin"]);
+  assert.equal(canWorkIndoor(null), false);
+  assert.equal(canWorkIndoor("admin"), false);
 });
 
 test("ids are checked before reaching the database", () => {

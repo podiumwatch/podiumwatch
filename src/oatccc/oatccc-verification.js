@@ -195,7 +195,9 @@
       show($("[data-ox-who]"), true);
       const allowed = mode === "admin" ? me.isAdmin : me.schools.length > 0;
       if (!allowed) {
-        $("[data-ox-denied-text]").textContent = mode === "admin" ? "This account is not an OATCCC admin." : "This account is not linked to a school yet. Contact the Indoor State Meet Chair.";
+        $("[data-ox-denied-text]").textContent = mode === "admin"
+          ? (me.role ? "Your OATCCC role does not include the Indoor State Meet." : "This account is not an OATCCC admin.")
+          : "This account is not linked to a school yet. Contact the Indoor State Meet Chair.";
         show($("[data-ox-denied]"), true);
         return;
       }

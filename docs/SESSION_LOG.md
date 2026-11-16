@@ -2,6 +2,13 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 16 OATCCC round 2 (roles only), logo switch, release schedule
+
+- install/101_OATCCC_ADMIN_ROLES.sql written, not run. scripts/test-oatccc-verification-sql.mjs now applies 99 and 101 (101 twice) and runs 50 checks in PGlite, all passing; it caught a false "added" record when an insert ... on conflict changed a role, fixed by updating first.
+- Server: the verification queue is offered only to indoor roles (lib/oatccc_verification.mjs canWorkIndoor); the database already enforced it.
+- Logo files regenerated from Clean Ohio OT CCC logo.png (lossless, resized only).
+- Earlier the same day: Parking Map and Onsite Food Options unlinked (204b30c5); backup bundle oatccc-section-2026-11-16.bundle.
+
 ## 2026 11 16 OATCCC section (Part A) and verification groundwork (Part B)
 
 - Branch oatccc-section (worktree ../podium_watch_oatccc), off origin/main 8f374826. Commits f4ca1ba3 (Part A) and 8468d2d2 (Part B). Not pushed: the GitHub repo is public, and pushing would publish the section and the announcement title before Nov 18.
