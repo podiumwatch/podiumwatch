@@ -1,5 +1,17 @@
 # Podium Watch next session
 
+## Start here (2026-11-17 overnight): OATCCC full site move, branch oatccc-full-site
+
+Worktree ../podium_watch_oatccc_full, branch oatccc-full-site (from oatccc-section e6b4eef8). NOT pushed. Full report: docs/OATCCC_FULL_SITE_REPORT.md. Overnight summary: docs/OVERNIGHT_REPORT.md.
+
+- All new pages are switched off: OATCCC_MORE_LIVE plus one switch per section (ABOUT, JOIN, SCHOLARSHIPS, FORMS, CLINICS, MEETS, ACADEMIC, POLLS, MS, HOF) and OATCCC_FILES_HOSTED.
+- Files are already in Supabase Storage: public bucket `oatccc-public`, 1,007 files, 265 MB (approved; under 1 GB). OATCCC_FILES_HOSTED=1 makes the pages link there instead of oatccc.com.
+- NOT run (Zachary): install/103_OATCCC_HALL_OF_FAME.sql, then `node --env-file=../podium_watch_site/.env.local scripts/import-oatccc-hall-of-fame.mjs --apply` from the oatccc-full-site worktree (needs _private/oatccc-crawl/, which is only on this machine). Until then OATCCC_HOF_LIVE builds nothing and the Hall of Fame tab keeps pointing to oatccc.com.
+- No redirects are on. The map is _private/oatccc-crawl/redirect-map.csv (git-ignored).
+- Raw crawl, file list, manifest, map, Hall of Fame preview and the phone numbers left off: _private/oatccc-crawl/ (git-ignored). Back it up outside git if it matters (it can be rebuilt with scripts/oatccc-crawl.mjs).
+- Ask the OATCCC: the wording list and "can't move yet" list in the report; the Midwest Meet page (oatccc.com sends it to the home page); a personal Gmail address inside David Kirk's Hall of Fame bio (kept as it appears, per Zachary).
+- oatccc-section changes after e6b4eef8 (the Thursday fixes) need to be brought into oatccc-full-site before it is merged.
+
 ## BLOCKER (2026-11-17 overnight): Thursday launch fixes not done
 
 Zachary asked (overnight run) to finish and commit four Thursday fixes on oatccc-section before the full-site move: **byline, article images, the launch-only build check, OATCCC_TERMS_LIVE**. They are not committed, and no description of them exists anywhere I could find: not on any branch (local or origin), not in either worktree, not in dataimports/ and not in Downloads (searched 2026-11-17). They must have been discussed outside this session.

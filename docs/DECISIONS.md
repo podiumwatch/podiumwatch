@@ -2,6 +2,18 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 17 OATCCC full site move (branch oatccc-full-site)
+
+### Decision
+
+- The OATCCC gave written permission to copy oatccc.com's content, photos and files to podiumwatch.org (Zachary).
+- Page text lives in the page source (src/oatccc/more/content/), like the indoor pages. The raw crawl, file lists, Hall of Fame bios and award data never go in git (public repo); bios and awards come from the database at build time (install/103) (Zachary).
+- Every new page needs OATCCC_LIVE, OATCCC_MORE_LIVE and its section switch; sections release one at a time. Tabs, hub cards and links point to oatccc.com while a section is off (Zachary's section list, plus OATCCC_MEETS_LIVE).
+- Emails on oatccc.com are kept exactly as they appear; phone numbers never appear on public pages (each one left off is listed). Leadership is names and roles only (Zachary).
+- Files go to the public Storage bucket oatccc-public with their oatccc.com path as the key; copied without waiting because the total (265 MB) is under the 1 GB limit Zachary set.
+- Sponsors stay text links: sponsor logos are dropped from copied pages and not copied to the bucket.
+- If the Hall of Fame switch is on but the database has no data, the build treats the section as off, so no link points to a missing page.
+
 ## 2026 11 17 OATCCC: Anjanette's answers, launch Thursday Nov 19
 
 ### Decision

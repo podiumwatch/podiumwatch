@@ -2,6 +2,13 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 (overnight) OATCCC full site move
+
+- Thursday launch fixes (byline, article images, launch-only build check, OATCCC_TERMS_LIVE): no description found anywhere; recorded as a blocker on oatccc-section (e6b4eef8), not guessed.
+- New worktree ../podium_watch_oatccc_full, branch oatccc-full-site. Crawled oatccc.com (526 pages, 0 failed); copied 1,007 files to the oatccc-public bucket; 19 simple pages; Hall of Fame and awards from the database (migration 103 and import, not run); redirect map; link check; screenshots. Details: docs/OATCCC_FULL_SITE_REPORT.md.
+- Bugs caught by screenshots and tests: the site footer overwrites every [data-year] element (Hall of Fame cards); .ox img beat the inductee photo size; script links inside sentences dropped a word.
+- check.mjs now skips the ignored _private/ folder.
+
 ## 2026 11 17 OATCCC: Anjanette's answers (Parts 1-4), launch moved to Nov 19
 
 - Part 1 (0ff39c40): hub, ABCs, Divisions, Eligibility updated with her answers; terms section replaced by the form text; FAQ membership line; Chair email link; article renamed to 20261119. Also fixed a round-1 comment in src/oatccc/indoor.mjs that named the private review draft file (the review-link test caught it).
