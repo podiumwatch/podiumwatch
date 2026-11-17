@@ -13,10 +13,26 @@ Worktree ../podium_watch_oatccc_full, branch oatccc-full-site (from oatccc-secti
 - oatccc-section changes after e6b4eef8 (the Thursday fixes) need to be brought into oatccc-full-site before it is merged.
 
 ## BLOCKER (2026-11-17 overnight): Thursday launch fixes not done
+## Start here (2026-11-17): private AD directory (oatccc-section)
 
-Zachary asked (overnight run) to finish and commit four Thursday fixes on oatccc-section before the full-site move: **byline, article images, the launch-only build check, OATCCC_TERMS_LIVE**. They are not committed, and no description of them exists anywhere I could find: not on any branch (local or origin), not in either worktree, not in dataimports/ and not in Downloads (searched 2026-11-17). They must have been discussed outside this session.
+- install/104_OATCCC_AD_DIRECTORY.sql: run by Zachary on 2026-11-17 ("success"). The table is empty until the imports run. (104, not 103: oatccc-full-site already has a 103.) Private table of ADs and head coaches by OHSAA ID; only OATCCC staff can read it; no public view.
+- **Both imports run 2026-11-17 (on Zachary's go).** School list: 812 schools on the verification list (810 with an OHSAA ID), 1,598 division rows (798 boys, 800 girls). Directory: 811 rows, 810 linked to a verification-list school, 809 of those with an AD email (Kelleys Island has none), Our Lady of the Elms not linked (not on Anjanette's list). Filled OHSAA IDs: 5 of 5. Re-run either the same way to refresh (it only adds or updates):
+  `node --env-file=../podium_watch_site/.env.local scripts/import-oatccc-directory.mjs --file "dataimports/Ohio_XC_Track_Coach_AD_Directory_2026-11-17.xlsx" --apply`
+- The directory spreadsheet is private contact data: git-ignored now; never commit it, never show any of it on a public page. The middle school tab is not imported (Zachary).
+- AD sign-in: an AD whose email is in the directory gets their school preselected and locked (the database enforces it); anyone else picks a school and the submission shows "AD email not in directory" for the Chair. Until 104 runs, the form works as before (no check, no badge).
+- Report for Anjanette/OATCCC: no AD email for Kelleys Island; Conotton Valley and Westerville Northside Christian (on her list) have no OHSAA ID and are not in the directory; Youngstown East, Youngstown Chaney and Cleveland Collinwood (her division sheets) are not in the directory; Our Lady of the Elms has ID 1222 in the directory but is not on her list.
 
-Not guessed: they change the pages that launch Thursday, and a wrong guess there is worse than waiting. **Needed from Zachary:** what each one should do (for example: what byline, which images and from where, what the launch-only check should allow or block, and what OATCCC_TERMS_LIVE switches). Then do them on oatccc-section and bring them into oatccc-full-site.
+## Thursday launch fixes: done (2026-11-17)
+
+Committed on oatccc-section (906a9b72): byline "By Zachary Bell"; article header and share images wired to
+/images/stories/pw-x-oatccc-article-hero-1600x900.png and /images/stories/pw-x-oatccc-article-share-1200x630.png;
+launch-only build checked (and tested); OATCCC_TERMS_LIVE (off) shows only the official-rules sentence on Eligibility.
+
+The two image files are in public/images/stories/ (c0278dbd). A production launch build now stops only for the
+placeholder article body: add the final article text before switching OATCCC_LIVE on.
+
+Also new: /set-password/ for Supabase invite and recovery links (homepage forwards them there). Supabase settings to
+change: docs/SET_PASSWORD_SUPABASE_SETUP.md (not changed by me).
 
 ## Start here (2026-11-17, OATCCC: Anjanette's answers)
 
@@ -24,9 +40,10 @@ Branch oatccc-section, NOT pushed. Commits 0ff39c40 (Part 1, launch pages), 7b58
 
 Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_FORM_TEXT.md, the Divisions xlsx, two PDFs) are the OATCCC's private documents: never commit them.
 
-**Still off and not run:**
-- install/102_OATCCC_SCHOOL_DIVISIONS.sql (school list columns, divisions table, AD school choice, signatures, oatccc_submit_signed, the real 2027 season, MileSplit export view). Run after 99 and 101 (both already run).
-- Then the import, on Zachary's OK: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
+**Run:** install/102_OATCCC_SCHOOL_DIVISIONS.sql was run by Zachary on 2026-11-17 ("success"), after 99 and 101. The school list and divisions tables are empty until the import runs.
+
+**Still off:**
+- (School-list import: run 2026-11-17, see the start of this file.) To refresh it: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
 - OATCCC_DIVISION_LIST_LIVE (Divisions by school): off until Anjanette answers the data issues below.
 - OATCCC_MILESPLIT_CSV_TOKEN: not set anywhere. When MileSplit confirms the format, Zachary sets a 32+ character random value in Vercel (Production); the link is /oatccc/milesplit/<token>/verified-schools.csv and needs OATCCC_VERIFICATION_LIVE.
 - Before Dec 1 (Zachary, by hand): Supabase Auth sends through Resend SMTP, plus the /oatccc/verify/ redirect URL. Step by step in docs/OATCCC_RESEND_SMTP_SETUP.md. Supabase's built-in email is too limited for ~800 ADs (Zachary, 2026-11-17). This changes the sender of every Supabase Auth email on the site. The first site_admin row is still to be added by hand (install/101 header).
@@ -56,7 +73,7 @@ Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_
 | When | Release | Why then |
 |---|---|---|
 | Thu Nov 19 | Hub, ABCs, Divisions, Eligibility & Verification, the announcement | Official announcement |
-| By Dec 1 | Verification ready for the forms going out: run 102 and the import, Supabase redirect URL, then OATCCC_VERIFICATION_LIVE | Forms go to ADs Dec 1 |
+| By Dec 1 | Verification ready for the forms going out: the school import (102 run 2026-11-17), Supabase redirect URL, then OATCCC_VERIFICATION_LIVE | Forms go to ADs Dec 1 |
 | Early Dec | Verified teams list on the Eligibility page, updating as the Chair approves (no Sunday schedule, Anjanette 2026-11-17) | Forms open Dec 1 |
 | Early Jan | Clinics page, "Register" linking to oatccc.com | Clinic is Jan 28-30 |
 | Late Jan | Overview, Declarations, Meet day and FAQ pages (OATCCC_INDOOR_FULL_LIVE) | Before declarations open Feb 24 |

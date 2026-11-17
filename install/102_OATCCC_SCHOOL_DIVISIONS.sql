@@ -1,6 +1,6 @@
 -- OATCCC school list, divisions, AD school choice and signatures (2026-11-17)
 --
--- NOT RUN. Needs install/99 and install/101 first, and Zachary's OK.
+-- RUN by Zachary on 2026-11-17 (after install/99 and install/101).
 -- Safe to run more than once.
 --
 -- From Anjanette's answers (OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, Parts 2-4):

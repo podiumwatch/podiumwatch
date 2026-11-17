@@ -8,6 +8,28 @@ Add a new section after each meaningful development session.
 - New worktree ../podium_watch_oatccc_full, branch oatccc-full-site. Crawled oatccc.com (526 pages, 0 failed); copied 1,007 files to the oatccc-public bucket; 19 simple pages; Hall of Fame and awards from the database (migration 103 and import, not run); redirect map; link check; screenshots. Details: docs/OATCCC_FULL_SITE_REPORT.md.
 - Bugs caught by screenshots and tests: the site footer overwrites every [data-year] element (Hall of Fame cards); .ox img beat the inductee photo size; script links inside sentences dropped a word.
 - check.mjs now skips the ignored _private/ folder.
+## 2026 11 17 School list and AD directory imported
+
+- scripts/import-oatccc-school-divisions.mjs --apply: dry run matched (812 names, 802 boys, 805 girls rows); loaded 812 schools and 1,598 division rows.
+- scripts/import-oatccc-directory.mjs --apply: 811 directory rows; 810 linked to a verification-list school; 809 with an AD email (Kelleys Island has none); 5 OHSAA IDs filled.
+- Checked in Supabase by counts only (no names or emails printed). OATCCC_VERIFICATION_LIVE and OATCCC_DIVISION_LIST_LIVE stay off.
+
+## 2026 11 17 Migration 104 run
+
+- Zachary ran install/104_OATCCC_AD_DIRECTORY.sql in Supabase: success. Next: the school-list import, then the directory import (both --apply, on his OK).
+
+## 2026 11 17 Private AD directory (oatccc-section)
+
+- install/104_OATCCC_AD_DIRECTORY.sql (not run), lib/oatccc_directory.mjs, scripts/import-oatccc-directory.mjs (dry run only), AD sign-in lock and the Chair's "AD email not in directory" badge. SQL tests: 84 checks in PGlite (9 new). tests/oatccc-directory.test.mjs (TEST rows).
+
+## 2026 11 17 Migration 102 run
+
+- Zachary ran install/102_OATCCC_SCHOOL_DIVISIONS.sql in Supabase: success. Next: the school-list import (dry run first), still on his OK.
+
+## 2026 11 17 OATCCC Thursday fixes and set-password page (oatccc-section)
+
+- 906a9b72: byline, article images (files still missing), launch-only build check (phone screenshots of the hub and Eligibility sent), OATCCC_TERMS_LIVE.
+- /set-password/ page + homepage forwarding, checked end to end in a browser with a fake Supabase (expired link, token_hash link, invite, staff and non-staff redirect, no link, homepage forwarding): all passed. tests/set-password.test.mjs.
 
 ## 2026 11 17 OATCCC: Anjanette's answers (Parts 1-4), launch moved to Nov 19
 

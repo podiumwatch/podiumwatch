@@ -13,6 +13,21 @@ Record major technical, editorial, design, and business decisions here.
 - Files go to the public Storage bucket oatccc-public with their oatccc.com path as the key; copied without waiting because the total (265 MB) is under the 1 GB limit Zachary set.
 - Sponsors stay text links: sponsor logos are dropped from copied pages and not copied to the bucket.
 - If the Hall of Fame switch is on but the database has no data, the build treats the section as off, so no link points to a missing page.
+## 2026 11 17 OATCCC private AD and coach directory
+
+### Decision
+
+- The OHSAA directory (ADs and head coaches) is private: never committed, never on a public page, readable in the database only by OATCCC staff (install/104, row-level security, no public view). Only verification fields are stored (no phone numbers, no assistant ADs). High schools only for now (Zachary).
+- An AD whose sign-in email matches a school's AD email in the directory may submit only for that school (preselected and locked); others pick a school and the Chair sees "AD email not in directory" (Zachary).
+- Missing OHSAA IDs on Anjanette's list are filled from the directory only where the directory has exactly one school with the same name and city: Tinora 1532, Cardinal Stritch 312, Kidron Central Christian 341, Put-In-Bay 1278, CLE. Lincoln West 880 (Zachary).
+
+## 2026 11 17 OATCCC Thursday fixes; set-password page
+
+### Decision
+
+- The OATCCC announcement is by Zachary Bell. Its header and share images are Podium Watch artwork in public/images/stories/; a production launch build stops if either is missing (Zachary).
+- OATCCC_TERMS_LIVE (off by default): Eligibility shows only "The terms in the verification form signed by the athletic director are the official rules." until it is switched on; then the full form text (Zachary).
+- /set-password/ handles Supabase invite and recovery links; the homepage forwards them there. After setting a password, OATCCC staff go to /oatccc/admin/ (only when that page is built) and everyone else to the homepage (Zachary). Supabase's Reset password template stays as is so the site's own reset flows keep their pages; only the Invite template should point at /set-password/ (docs/SET_PASSWORD_SUPABASE_SETUP.md).
 
 ## 2026 11 17 OATCCC: Anjanette's answers, launch Thursday Nov 19
 

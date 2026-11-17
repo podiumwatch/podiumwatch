@@ -240,7 +240,7 @@ function divisionsBody(flags = {}) {
   </div>`;
 }
 
-function eligibilityBody() {
+function eligibilityBody(flags = {}) {
   return `<div class="ox-page has-dates">
     <div class="page-head">
       <h1>Eligibility &amp; Verification</h1>
@@ -349,13 +349,13 @@ function eligibilityBody() {
 
     <section id="terms" aria-labelledby="terms-h">
       <h2 id="terms-h">Official agreement terms</h2>
-      <p class="section-intro">The terms in the verification form signed by the athletic director are the official rules. They are the same as the content shown in the verification section. This is that form&rsquo;s text, word for word.</p>
+      ${flags.terms ? `<p class="section-intro">The terms in the verification form signed by the athletic director are the official rules. They are the same as the content shown in the verification section. This is that form&rsquo;s text, word for word.</p>
       <div class="terms-tools">
         <button class="btn ghost small" type="button" data-ox-print>Print this page</button>
       </div>
       <div class="formtext">
         ${formTextHtml({ heading: 3 })}
-      </div>
+      </div>` : `<p class="section-intro">The terms in the verification form signed by the athletic director are the official rules.</p>`}
     </section>
   </div>`;
 }

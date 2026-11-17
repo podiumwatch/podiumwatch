@@ -22,6 +22,9 @@
 //                               table to the Divisions page. Needs
 //                               OATCCC_LIVE too. Off until Anjanette
 //                               confirms the school-list data issues.
+//   OATCCC_TERMS_LIVE=1         Eligibility shows the full verification
+//                               form text under "Official agreement terms".
+//                               Off: only the official-rules sentence.
 //
 // The full site move (branch oatccc-full-site, 2026-11-17). Every page
 // below needs OATCCC_LIVE=1, OATCCC_MORE_LIVE=1 AND its own section switch,
@@ -75,6 +78,9 @@ export function oatcccFlags(env = process.env) {
     more,
     sections,
     filesHosted: live && on("OATCCC_FILES_HOSTED", env),
+    // Eligibility's "Official agreement terms": off shows only the
+    // official-rules sentence; on shows the full verification form text.
+    terms: live && on("OATCCC_TERMS_LIVE", env),
     // Search engines may index the section only on the real production
     // launch. Local and preview builds stay noindex.
     indexable: live && env.VERCEL_ENV === "production"

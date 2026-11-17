@@ -161,6 +161,7 @@ import { yearlyAwardsCategoryPage, yearlyAwardsHubPage } from "../src/pages/year
 import { adminAwards2026Page } from "../src/pages/adminawards2026.mjs";
 import yearlyAwardsPool from "../public/data/yearly-awards-2026-pool.json" with { type: "json" };
 import { writerLoginPage } from "../src/pages/writerlogin.mjs";
+import { setPasswordPage } from "../src/pages/setpassword.mjs";
 import { writerPortalPage } from "../src/pages/writerportal.mjs";
 import { writerPortalProfilePage } from "../src/pages/writerportalprofile.mjs";
 import { writerPortalAdminPage } from "../src/pages/writerportaladmin.mjs";
@@ -333,6 +334,19 @@ async function loadStories() {
           throw new Error(`${story.sourceFile}: OATCCC_LIVE=1 but the announcement article still has its placeholder body. Add the final text first.`);
         }
         story.draft = true;
+      }
+      // Its header and share images must be in public/ (2026-11-17): a
+      // production build stops rather than launch with a broken image.
+      for (const field of ["heroImage", "socialImage"]) {
+        const src = data[field];
+        if (!src || !String(src).startsWith("/")) continue;
+        const exists = await fs.access(path.join(root, "public", src)).then(() => true, () => false);
+        if (!exists) {
+          if (process.env.VERCEL_ENV === "production") {
+            throw new Error(`${story.sourceFile}: OATCCC_LIVE=1 but its ${field} ${src} is not in public/. Add the image first.`);
+          }
+          console.warn(`OATCCC announcement: ${field} ${src} is missing from public/ (a production build would stop).`);
+        }
       }
     }
     if (!story.draft) stories.push(story);
@@ -942,6 +956,9 @@ await writePage("/my-podium/", myPodiumPage(site, stories));
 await writePage("/my-podium-login/", myPodiumLoginPage(site));
 await writePage("/privacy/", privacyPage(site));
 await writePage("/standards/", standardsPage(site));
+// Supabase invite and password-recovery links (src/pages/setpassword.mjs).
+// OATCCC staff go to /oatccc/admin/ only when that page is built.
+await writePage("/set-password/", setPasswordPage(site, { staffUrl: OATCCC_FLAGS.verification ? "/oatccc/admin/" : "/" }));
   {
     // OATCCC section: nothing is written unless OATCCC_LIVE=1.
     const oatccc = await oatcccBuild(site, OATCCC_FLAGS);
