@@ -1,6 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { oatcccFlags } from "../../src/oatccc/config.mjs";
 import { anonClient } from "../../lib/oatccc_verification.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 // Private, unlisted CSV for MileSplit: the current verified schools for the
 // Indoor State Meet, with tournament name, HyTek code and boys/girls
@@ -63,11 +64,12 @@ export default async function handler(request, response) {
   if (!tokenMatches(String(request.query?.token || ""), String(process.env.OATCCC_MILESPLIT_CSV_TOKEN || "").trim())) return notFound(response);
   if (request.method !== "GET" && request.method !== "HEAD") return notFound(response);
   try {
-    const { data, error } = await anonClient()
-      .from("oatccc_milesplit_export")
-      .select("tournament_name, hytek_code, boys_division, girls_division, has_boys_team, has_girls_team, verified_at")
-      .order("tournament_name")
-      .limit(2000);
+    const client = anonClient();
+    // Tournament names are unique (install/102), so that order is stable.
+    const { data, error } = await selectAll(
+      () => client.from("oatccc_milesplit_export").select("tournament_name, hytek_code, boys_division, girls_division, has_boys_team, has_girls_team, verified_at").order("tournament_name"),
+      { orderColumn: null, maxRows: 5000 }
+    );
     if (error) throw error;
     response.setHeader("Content-Type", "text/csv; charset=utf-8");
     response.setHeader("Content-Disposition", 'inline; filename="oatccc-verified-schools.csv"');

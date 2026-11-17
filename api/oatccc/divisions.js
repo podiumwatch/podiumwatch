@@ -1,5 +1,6 @@
 import { oatcccFlags } from "../../src/oatccc/config.mjs";
 import { anonClient } from "../../lib/oatccc_verification.mjs";
+import { selectAll } from "../../lib/supabase_paging.mjs";
 
 // "Divisions by school" for the Divisions page (2027 Indoor State Meet).
 // 404 unless OATCCC_LIVE=1 and OATCCC_DIVISION_LIST_LIVE=1 (off until
@@ -19,12 +20,12 @@ export default async function handler(request, response) {
   }
   if (request.method !== "GET") return response.status(405).json({ error: "GET only." });
   try {
-    const { data, error } = await anonClient()
-      .from("oatccc_division_list")
-      .select("tournament_name, city, boys_division, girls_division")
-      .eq("meet_year", YEAR)
-      .order("tournament_name")
-      .limit(2000);
+    const client = anonClient();
+    // One row per tournament name per year, so that order is unique.
+    const { data, error } = await selectAll(
+      () => client.from("oatccc_division_list").select("tournament_name, city, boys_division, girls_division").eq("meet_year", YEAR).order("tournament_name"),
+      { orderColumn: null, maxRows: 5000 }
+    );
     if (error) throw error;
     response.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=3600");
     return response.status(200).json({
