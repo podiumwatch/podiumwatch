@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 Anjanette's preview comments (part 1) and the final article
+
+- Eligibility and Join link changes from Anjanette's preview comments; final announcement text and byline. Tests: tests/oatccc-section.test.mjs. Launch build checked.
+
 ## 2026 11 17 School list and AD directory imported
 
 - scripts/import-oatccc-school-divisions.mjs --apply: dry run matched (812 names, 802 boys, 805 girls rows); loaded 812 schools and 1,598 division rows.
