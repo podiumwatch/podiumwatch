@@ -2,6 +2,14 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 OATCCC: Anjanette's answers (Parts 1-4), launch moved to Nov 19
+
+- Part 1 (0ff39c40): hub, ABCs, Divisions, Eligibility updated with her answers; terms section replaced by the form text; FAQ membership line; Chair email link; article renamed to 20261119. Also fixed a round-1 comment in src/oatccc/indoor.mjs that named the private review draft file (the review-link test caught it).
+- Part 2 (7b58fc21): install/102 (not run), scripts/import-oatccc-school-divisions.mjs (dry-run only), lib/oatccc_school_list.mjs, Divisions by school (off). SQL tests now 75 checks in PGlite, all passing.
+- Part 3 (dc6d7450): AD form with signature pad; email-link sign-in for ADs; admin sees answers and signatures. Checked end to end on the local preview with TEST data.
+- Part 4 (ec494e9b): private MileSplit CSV link (off, no token set).
+- Nothing pushed, no SQL run, no Vercel change, none of the OATCCC's files committed.
+
 ## 2026 11 16 OATCCC round 2 (roles only), logo switch, release schedule
 
 - install/101_OATCCC_ADMIN_ROLES.sql written, not run. scripts/test-oatccc-verification-sql.mjs now applies 99 and 101 (101 twice) and runs 50 checks in PGlite, all passing; it caught a false "added" record when an insert ... on conflict changed a role, fixed by updating first.

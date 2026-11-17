@@ -2,6 +2,19 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 17 OATCCC: Anjanette's answers, launch Thursday Nov 19
+
+### Decision
+
+- Launch moves from Wednesday Nov 18 to Thursday Nov 19 (Zachary).
+- Membership is by academic year: coaches must be "paid members for the 2026-2027 academic year" (OATCCC bylaws changed). Changed on the hub, ABCs, Eligibility and, on the FAQ, only the "calendar year" line (Zachary).
+- The official agreement terms on Eligibility ARE the verification form text, word for word, from one shared module (src/oatccc/verification_form_text.mjs) also used by the AD form, so the two cannot drift. The waiver is the OATCCC's legal text: never edited; a test checks its fingerprint and, where the OATCCC's file is on disk, every line (Zachary).
+- Contact the Chair = email awhitman@oatccc.com with the subject "Indoor State Meet". The Google Sheet verification list link is gone; the list will live on Eligibility with no Sunday schedule (Anjanette).
+- AD and school: the AD signs in with an emailed link and picks the school; one submission per school; the Chair's approval is the real check. Kept switchable (oatccc_config.ad_school_choice 'pick' / 'linked') while AD-change rules are open (Zachary).
+- AD form fields: school (dropdown of the OATCCC's 812-name verification list only), boys' head coach, girls' head coach, athletic director (first and last name, cell phone, email), agreement text, signature pad + typed name + date. A coach section is required only for a team the school has; at least one team. Every submit and resubmit stores a permanent signature record (image, typed name, time, school, form-text fingerprint) (Zachary).
+- School list and divisions come only from the OATCCC's workbook, keyed on the OHSAA tournament name; data problems are reported to the OATCCC, never fixed by us. "Divisions by school" stays behind OATCCC_DIVISION_LIST_LIVE until she confirms them.
+- MileSplit gets a private, unlisted, always-current CSV link behind OATCCC_VERIFICATION_LIVE and a secret token, instead of her weekly sheet; format to be confirmed with MileSplit first.
+
 ## 2026 11 16 OATCCC admin roles; logo source; summer plan
 
 ### Decision

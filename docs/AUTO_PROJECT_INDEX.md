@@ -1,6 +1,6 @@
 # Podium Watch automatic project index
 
-Generated: 2026-11-16 11:20:28
+Generated: 2026-11-17 07:59:32
 Project: C:\Users\12zac\Downloads\Podium_Watch_Website\podium_watch_oatccc
 
 This file is generated from the current project.
@@ -9,18 +9,18 @@ This file is generated from the current project.
 
 | Item | Count |
 |---|---:|
-| Included source files | 6937 |
+| Included source files | 6953 |
 | Page source files | 115 |
-| API files | 176 |
+| API files | 178 |
 | Route references | 116 |
-| Environment variable names | 30 |
-| Supabase table references | 155 |
+| Environment variable names | 32 |
+| Supabase table references | 162 |
 
 ## Git state
 
 Latest commit:
 
-8468d2d2a4864c473ea1fd1c5c49ff678e8eeaa1 | 2026-11-16 11:17:52 -0500 | OATCCC verification, Part B groundwork (off, migration not run)
+ec494e9b371680eeb35177f9cdcc82c48e5ec5b8 | 2026-11-17 07:57:10 -0500 | OATCCC Part 4: private MileSplit CSV link (behind OATCCC_VERIFICATION_LIVE)
 
 Working tree:
 
@@ -37,7 +37,7 @@ Working tree:
 | check | node scripts/check.mjs |
 | dev | node scripts/serve.mjs --watch |
 | preview | node scripts/serve.mjs |
-| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:split-watch-clock && npm run test:split-watch-laps && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:mock-whatif && npm run test:photo-submissions && npm run test:athletic-net-rankings && npm run test:state-picks && npm run test:yearly-awards && npm run test:paging && npm run test:short-links && npm run test:health && npm run test:season && npm run test:site-sponsors && npm run test:commitments && npm run test:partner-page && npm run test:athlete-page && npm run test:season-hub && npm run test:front-page && npm run test:display-names && npm run test:team-page && npm run test:banquet && npm run test:wrapped && npm run test:merch && npm run test:analytics-intake && npm run test:support && npm run test:awards-catalog && npm run test:page-cache && npm run test:fetch-limiter && npm run test:name-links && npm run test:oatccc-review && npm run test:oatccc-section && npm run test:oatccc-verification && npm run test:oatccc-verification-sql && npm run test:public-text && npm run test:leaders-first-view && npm run test:teams-directory && npm run test:homepage |
+| test | npm run check && npm run audit:seo && npm run test:athletes && npm run test:recruiting && npm run test:results && npm run test:finish-timing && npm run test:runsignup && npm run test:podium-play && npm run test:podium-play-service && npm run test:awards && npm run test:award-media && npm run test:athlete-leaders && npm run test:team-instagram && npm run test:team-media && npm run test:fan-poll && npm run test:pace-calculator && npm run test:scoring-calculator && npm run test:engagement && npm run test:path-to-state && npm run test:split-watch && npm run test:photographer-billing && npm run test:race-day-access && npm run test:athlete-goals && npm run test:article-polls && npm run test:rehearsal && npm run test:command-center && npm run test:archive-day-link && npm run test:timing-crew && npm run test:outdoor-capture && npm run test:helper-race-selection && npm run test:rehearsal-helper-sharing && npm run test:race-day-code-reveal && npm run test:live-capture-audit-fixes && npm run test:race-day-health && npm run test:split-watch-load-timeout && npm run test:split-watch-clock && npm run test:split-watch-laps && npm run test:vote-count-safety && npm run test:mock-meet-export && npm run test:mock-whatif && npm run test:photo-submissions && npm run test:athletic-net-rankings && npm run test:state-picks && npm run test:yearly-awards && npm run test:paging && npm run test:short-links && npm run test:health && npm run test:season && npm run test:site-sponsors && npm run test:commitments && npm run test:partner-page && npm run test:athlete-page && npm run test:season-hub && npm run test:front-page && npm run test:display-names && npm run test:team-page && npm run test:banquet && npm run test:wrapped && npm run test:merch && npm run test:analytics-intake && npm run test:support && npm run test:awards-catalog && npm run test:page-cache && npm run test:fetch-limiter && npm run test:name-links && npm run test:oatccc-review && npm run test:oatccc-section && npm run test:oatccc-verification && npm run test:oatccc-form-text && npm run test:oatccc-school-list && npm run test:oatccc-milesplit && npm run test:oatccc-verification-sql && npm run test:public-text && npm run test:leaders-first-view && npm run test:teams-directory && npm run test:homepage |
 | test:analytics-intake | node --test tests/analytics-intake.test.mjs |
 | test:archive-day-link | node scripts/test-archive-and-day-link.mjs |
 | test:article-polls | node scripts/test-article-polls.mjs |
@@ -67,7 +67,10 @@ Working tree:
 | test:mock-meet-export | node scripts/test-mock-meet-export.mjs |
 | test:mock-whatif | node scripts/test-mock-whatif.mjs |
 | test:name-links | node --test tests/name-links.test.mjs |
+| test:oatccc-form-text | node --test tests/oatccc-form-text.test.mjs |
+| test:oatccc-milesplit | node --test tests/oatccc-milesplit.test.mjs |
 | test:oatccc-review | node scripts/test-oatccc-review.mjs |
+| test:oatccc-school-list | node --test tests/oatccc-school-list.test.mjs |
 | test:oatccc-section | node --test tests/oatccc-section.test.mjs |
 | test:oatccc-verification | node --test tests/oatccc-verification.test.mjs |
 | test:oatccc-verification-sql | node scripts/test-oatccc-verification-sql.mjs |
@@ -315,6 +318,8 @@ Working tree:
 1. /api/my-podium/clear
 1. /api/my-podium/me
 1. /api/my-podium/sync
+1. /api/oatccc/divisions
+1. /api/oatccc/milesplit
 1. /api/oatccc/verification
 1. /api/og/awards-2026
 1. /api/og/banquet
@@ -419,7 +424,9 @@ Values are intentionally excluded.
 1. INSTAGRAM_GRAPH_ACCESS_TOKEN
 1. KV_REST_API_TOKEN
 1. KV_REST_API_URL
+1. OATCCC_DIVISION_LIST_LIVE
 1. OATCCC_LIVE
+1. OATCCC_MILESPLIT_CSV_TOKEN
 1. OATCCC_VERIFICATION_LIVE
 1. PODIUM_ADMIN_PASSWORD
 1. PODIUM_ADMIN_SESSION_SECRET
@@ -492,9 +499,16 @@ Values are intentionally excluded.
 1. intern_applications
 1. meets
 1. my_podium_accounts
+1. not a png at all, just text that is long enough to pass
 1. not an image, just text
+1. oatccc_config
+1. oatccc_division_list
+1. oatccc_milesplit_export
 1. oatccc_school_contacts
+1. oatccc_school_divisions
+1. oatccc_schools
 1. oatccc_seasons
+1. oatccc_signatures
 1. oatccc_staff
 1. oatccc_submission_comments
 1. oatccc_submission_events

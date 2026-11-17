@@ -1,5 +1,34 @@
 # Podium Watch next session
 
+## Start here (2026-11-17, OATCCC: Anjanette's answers)
+
+Branch oatccc-section, NOT pushed. Commits 0ff39c40 (Part 1, launch pages), 7b58fc21 (Part 2, school list), dc6d7450 (Part 3, AD form), ec494e9b (Part 4, MileSplit CSV). Launch moved to **Thursday Nov 19** (article now content/stories/20261119_...).
+
+Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_FORM_TEXT.md, the Divisions xlsx, two PDFs) are the OATCCC's private documents: never commit them.
+
+**Still off and not run:**
+- install/102_OATCCC_SCHOOL_DIVISIONS.sql (school list columns, divisions table, AD school choice, signatures, oatccc_submit_signed, the real 2027 season, MileSplit export view). Run after 99 and 101 (both already run).
+- Then the import, on Zachary's OK: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
+- OATCCC_DIVISION_LIST_LIVE (Divisions by school): off until Anjanette answers the data issues below.
+- OATCCC_MILESPLIT_CSV_TOKEN: not set anywhere. When MileSplit confirms the format, Zachary sets a 32+ character random value in Vercel (Production); the link is /oatccc/milesplit/<token>/verified-schools.csv and needs OATCCC_VERIFICATION_LIVE.
+- Before the AD form goes live: in Supabase Auth, add https://www.podiumwatch.org/oatccc/verify/ to the redirect URLs (ADs sign in with an emailed link that Supabase sends) and check the sign-in email template. The first site_admin row is still to be added by hand (install/101 header).
+
+**AD school choice** (install/102): `oatccc_config.ad_school_choice` = 'pick' (default: an AD signs in, picks the school, the first to submit becomes its contact, nobody else can submit for it) or 'linked' (only ADs an admin linked). One SQL line switches it. What happens when the AD changes mid-season is still waiting on Anjanette.
+
+**Data issues to send Anjanette (reported, not fixed)** from the Divisions workbook:
+- Division rows with no tournament name (an AD can't pick them; not imported): Youngstown East (boys, girls), Youngstown Chaney (boys, girls), Cleveland Collinwood (boys, girls), Akron Our Lady of the Elms (girls), Lincoln West School of Global Studies (boys, girls). The verification list has "CLE. LINCOLN WEST", which has no division at all: same school?
+- 24 division rows with no OHSAA id: the 9 rows above, plus boys Tinora, Conotton Valley, Sciotoville Community, Kidron Central Christian, Cardinal Stritch, Westerville Northside Christian, Ironton St. Joseph Central, Put-In-Bay, Kelleys Island; girls Tinora, Conotton Valley, Kidron Central Christian, Cardinal Stritch, Westerville Northside Christian, Put-In-Bay.
+- Tinora's city is "Defiance," (with a comma) in both sheets.
+- Every division matches her enrollment tables; no duplicate names; the 812 names have no duplicates.
+- 14 names on the list have no boys division and 12 no girls division (single-sex schools, as expected, plus CLE. LINCOLN WEST).
+
+**Other things to confirm with Anjanette:**
+- FAQ still says "All coaches who are 2027 OAT&CCC members are admitted" (Zachary: change only the "calendar year" line on the FAQ).
+- The scratch window still opens Saturday Feb 27 at 12:01 am on Eligibility (from the old official term; she gave only the 12:00 noon end).
+- The Dec 6 "verification list starts" key date was removed with the Sunday schedule (the list will update as the Chair approves).
+- The AD form puts the agreement text before the signature (her form text's order), not after.
+- MileSplit division links: she is sending a document; the placeholder stays.
+
 ## Start here (2026-11-16, OATCCC round 2: roles only)
 
 - Round 2 was cut down on purpose (Zachary: keep the basics now, build the rest in summer, show the OATCCC something new through the year). Built: install/101_OATCCC_ADMIN_ROLES.sql (written, NOT run) and the logo switch to Clean Ohio OT CCC logo.png. Nothing else from OATCCC_BUILD_ROUND_2.md.
@@ -11,8 +40,8 @@
 | When | Release | Why then |
 |---|---|---|
 | Thu Nov 19 | Hub, ABCs, Divisions, Eligibility & Verification, the announcement | Official announcement |
-| By Dec 1 | Verification ready for the forms going out (roles, AD sign-in and form questions once Anjanette answers) | Forms go to ADs Dec 1 |
-| Early Dec | Verified teams list on the site, updated Sundays | The list starts Dec 6 |
+| By Dec 1 | Verification ready for the forms going out: run 102 and the import, Supabase redirect URL, then OATCCC_VERIFICATION_LIVE | Forms go to ADs Dec 1 |
+| Early Dec | Verified teams list on the Eligibility page, updating as the Chair approves (no Sunday schedule, Anjanette 2026-11-17) | Forms open Dec 1 |
 | Early Jan | Clinics page, "Register" linking to oatccc.com | Clinic is Jan 28-30 |
 | Late Jan | Overview, Declarations, Meet day and FAQ pages (OATCCC_INDOOR_FULL_LIVE) | Before declarations open Feb 24 |
 | Early Mar | Indoor State Meet coverage and results stories | Meet is Mar 5-6 |
