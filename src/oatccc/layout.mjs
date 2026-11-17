@@ -28,8 +28,8 @@ function lockup(site) {
 </div></div>`;
 }
 
-function tabBar(current) {
-  const tabs = oatcccTabs().map((tab) => {
+function tabBar(current, flags) {
+  const tabs = oatcccTabs(flags).map((tab) => {
     const isCurrent = tab.key === current ? ' aria-current="page"' : "";
     return `<a${linkAttrs(tab.href)}${isCurrent}>${escapeHtml(tab.label)}</a>`;
   }).join("");
@@ -62,6 +62,6 @@ export function oatcccLayout({ site, flags, pathname, title, description, tab, m
     // private pages pass their own "noindex, nofollow".
     robots: robots || (flags.indexable ? undefined : "noindex, nofollow"),
     extraHead: `\n<link rel="stylesheet" href="/styles/oatccc.css">${scriptTags}`,
-    content: `<div class="ox">${lockup(site)}${tabBar(tab)}${mast}${content}${sectionFooter()}</div>`
+    content: `<div class="ox">${lockup(site)}${tabBar(tab, flags)}${mast}${content}${sectionFooter()}</div>`
   });
 }

@@ -1,5 +1,6 @@
 import { oatcccLayout, linkAttrs, LOGO } from "./layout.mjs";
 import { LINKS, OATCCC_BASE, indoorPath, indoorHref } from "./config.mjs";
+import { sectionHref } from "./more/links.mjs";
 
 // /oatccc/ -- the OATCCC homepage. Layout, wording and dates from the
 // approved hub preview (OATCCC-Hub-PREVIEW.html, 2026-11-16), without its
@@ -8,6 +9,8 @@ import { LINKS, OATCCC_BASE, indoorPath, indoorHref } from "./config.mjs";
 export function oatcccHubPage(site, flags) {
   const eligibility = indoorPath("eligibility");
   const meetInfo = indoorHref("overview", flags);
+  // Full site move: our page when its section is on, else oatccc.com.
+  const go = (section, ours, theirs) => sectionHref(section, ours, theirs, flags);
   const adSignIn = flags.verification
     ? `<a class="btn2" href="${OATCCC_BASE}verify/">Athletic director sign-in</a>`
     : "";
@@ -42,14 +45,14 @@ export function oatcccHubPage(site, flags) {
       <h3>2027 Track &amp; Field Coaches Clinic</h3>
       <p class="d">January 28&ndash;30, 2027 &middot; Hilton Columbus at Easton</p>
       <p>Preregistration closes Monday, January 25 at noon.</p>
-      <a class="go"${linkAttrs(LINKS.clinic)}>Clinic details</a>
+      <a class="go"${linkAttrs(go("clinics", "/oatccc/clinics/track-and-field/", LINKS.clinic))}>Clinic details</a>
     </article>
     <article class="ox-card">
       <span class="k">Middle School</span>
       <h3>Middle School Indoor State Meet</h3>
       <p class="d">2027 date and site coming soon</p>
       <p>Registration runs through MileSplit Ohio.</p>
-      <span class="soon">Details posted when the OATCCC confirms them</span>
+      ${flags.sections?.ms ? `<a class="go" href="/oatccc/indoor/middle-school/">Middle school meet</a>` : `<span class="soon">Details posted when the OATCCC confirms them</span>`}
     </article>
   </div>
 
@@ -74,7 +77,7 @@ export function oatcccHubPage(site, flags) {
         <div class="ox-join">
           <h3>Join or renew for 2026-2027</h3>
           <p>Coaches must be paid members for the 2026-2027 academic year. The membership is only required for coaches to enter athletes in the Indoor State Meet.</p>
-          <a class="btn2"${linkAttrs(LINKS.join)}>Join the OATCCC</a>
+          <a class="btn2"${linkAttrs(go("join", "/oatccc/join/", LINKS.join))}>Join the OATCCC</a>
         </div>
       </section>
       <section class="ox-panel" aria-labelledby="ox-ppl-h" style="margin-top:18px">
@@ -85,17 +88,17 @@ export function oatcccHubPage(site, flags) {
           <li><b>Doug Joy</b><span>Middle School Indoor State Chair</span></li>
           <li><b>Wayne Clark</b><span>Track Clinic Chairman</span></li>
         </ul>
-        <a class="btn2 o"${linkAttrs(LINKS.contact)} style="margin-top:12px">All contacts</a>
+        <a class="btn2 o"${linkAttrs(go("about", "/oatccc/about/leadership/", LINKS.contact))} style="margin-top:12px">All contacts</a>
       </section>
     </div>
   </div>
 
   <div class="ox-progs">
-    <a class="ox-prog"${linkAttrs(LINKS.coachesPoll)}><h3>Coaches&rsquo; Polls</h3><p>Every division, boys and girls, all season.</p></a>
-    <a class="ox-prog"${linkAttrs(LINKS.hallOfFame)}><h3>Hall of Fame</h3><p>Inductees from 1964 to 2026.</p></a>
-    <a class="ox-prog"${linkAttrs(LINKS.academicAllOhio)}><h3>Academic All-Ohio</h3><p>State qualifiers with a 3.5 GPA or better.</p></a>
+    <a class="ox-prog"${linkAttrs(go("polls", "/oatccc/polls/", LINKS.coachesPoll))}><h3>Coaches&rsquo; Polls</h3><p>Every division, boys and girls, all season.</p></a>
+    <a class="ox-prog"${linkAttrs(go("hof", "/oatccc/hall-of-fame/", LINKS.hallOfFame))}><h3>Hall of Fame</h3><p>Inductees from 1964 to 2026.</p></a>
+    <a class="ox-prog"${linkAttrs(go("academic", "/oatccc/academic-all-ohio/", LINKS.academicAllOhio))}><h3>Academic All-Ohio</h3><p>State qualifiers with a 3.5 GPA or better.</p></a>
     <div class="ox-prog"><h3>Scholarships &amp; Grants</h3><p>Marv Crosten, Dale Gabor Seated Athlete and elementary school grants.</p>
-      <p class="links"><a${linkAttrs(LINKS.crostenScholarship)}>Marv Crosten</a><a${linkAttrs(LINKS.gaborScholarship)}>Dale Gabor</a><a${linkAttrs(LINKS.elementaryGrant)}>Elementary grants</a></p></div>
+      <p class="links"><a${linkAttrs(go("scholarships", "/oatccc/scholarships/marv-crosten/", LINKS.crostenScholarship))}>Marv Crosten</a><a${linkAttrs(go("scholarships", "/oatccc/scholarships/dale-gabor/", LINKS.gaborScholarship))}>Dale Gabor</a><a${linkAttrs(go("scholarships", "/oatccc/coaches/grants/", LINKS.elementaryGrant))}>Elementary grants</a></p></div>
   </div>
 </div>`;
 

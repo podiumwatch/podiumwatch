@@ -23,7 +23,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { site, NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, SITEMAP_EXACT_EXCLUDE } from "../src/config/site.mjs";
 import { oatcccFlags, ARTICLE_LAUNCH_KEY, ARTICLE_PLACEHOLDER_MARKER } from "../src/oatccc/config.mjs";
-import { oatcccOutputs } from "../src/oatccc/build.mjs";
+import { oatcccBuild } from "../src/oatccc/build.mjs";
 
 // OATCCC section switches, read once (src/oatccc/config.mjs). All off
 // unless the Vercel environment variables say "1".
@@ -944,13 +944,13 @@ await writePage("/privacy/", privacyPage(site));
 await writePage("/standards/", standardsPage(site));
   {
     // OATCCC section: nothing is written unless OATCCC_LIVE=1.
-    const oatccc = oatcccOutputs(site, OATCCC_FLAGS);
+    const oatccc = await oatcccBuild(site, OATCCC_FLAGS);
     for (const [from, to] of oatccc.assets) {
       await fs.mkdir(path.dirname(path.join(dist, to)), { recursive: true });
       await fs.copyFile(path.join(root, "src", "oatccc", from), path.join(dist, to));
     }
     for (const page of oatccc.pages) await writePage(page.pathname, page.html);
-    if (oatccc.pages.length) console.log(`OATCCC section: ${oatccc.pages.length} pages (full indoor: ${OATCCC_FLAGS.indoorFull ? "on" : "off"}, verification: ${OATCCC_FLAGS.verification ? "on" : "off"}, indexable: ${OATCCC_FLAGS.indexable ? "yes" : "no"}).`);
+    if (oatccc.pages.length) console.log(`OATCCC section: ${oatccc.pages.length} pages (full indoor: ${OATCCC_FLAGS.indoorFull ? "on" : "off"}, verification: ${OATCCC_FLAGS.verification ? "on" : "off"}, more: ${Object.entries(oatccc.flags.sections || {}).filter(([, on]) => on).map(([k]) => k).join("/") || "none"}, hall of fame: ${oatccc.hofCount}, indexable: ${OATCCC_FLAGS.indexable ? "yes" : "no"}).`);
   }
 await writePage("/support/", supportPage(site));
 await writePage("/terms/", termsPage(site));

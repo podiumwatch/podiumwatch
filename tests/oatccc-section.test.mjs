@@ -10,7 +10,9 @@ import { site } from "../src/config/site.mjs";
 
 test("off by default: no setting means nothing is built", () => {
   const flags = oatcccFlags({});
-  assert.deepEqual(flags, { live: false, indoorFull: false, verification: false, divisionList: false, indexable: false });
+  assert.equal(flags.live, false);
+  for (const name of ["indoorFull", "verification", "divisionList", "more", "filesHosted", "indexable"]) assert.equal(flags[name], false, name);
+  assert.ok(Object.values(flags.sections).every((on) => on === false), "every full-site section is off");
   assert.deepEqual(oatcccOutputs(site, flags), { pages: [], assets: [] });
 });
 

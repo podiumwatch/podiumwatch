@@ -23,19 +23,58 @@
 //                               OATCCC_LIVE too. Off until Anjanette
 //                               confirms the school-list data issues.
 //
+// The full site move (branch oatccc-full-site, 2026-11-17). Every page
+// below needs OATCCC_LIVE=1, OATCCC_MORE_LIVE=1 AND its own section switch,
+// so sections can be released one at a time. While a section is off, hub
+// tabs, cards and links point to the page on oatccc.com.
+//   OATCCC_ABOUT_LIVE=1         About, Leadership, History of leadership,
+//                               Tributes, Sponsors, The Runner
+//   OATCCC_JOIN_LIVE=1          Join (payment stays on oatccc.com)
+//   OATCCC_SCHOLARSHIPS_LIVE=1  Marv Crosten, Dale Gabor, Elementary grant
+//   OATCCC_FORMS_LIVE=1         Forms, Resources
+//   OATCCC_CLINICS_LIVE=1       Track & field, Cross country, Vendors
+//   OATCCC_MEETS_LIVE=1         Mideast Meet, Midwest Meet
+//   OATCCC_ACADEMIC_LIVE=1      Academic All-Ohio
+//   OATCCC_POLLS_LIVE=1         Coaches' Polls archive
+//   OATCCC_MS_LIVE=1            Middle School Indoor State Meet
+//   OATCCC_HOF_LIVE=1           Hall of Fame and Awards (read from the
+//                               database at build time; migration 103)
+//   OATCCC_FILES_HOSTED=1       file links go to the oatccc-public Storage
+//                               bucket instead of oatccc.com (only after
+//                               the files are uploaded)
+//
 // Changing a variable needs a redeploy (the pages are static).
 
 function on(name, env) {
   return String(env[name] ?? "").trim() === "1";
 }
 
+// Section switches for the full site move (key -> variable).
+export const MORE_SECTIONS = {
+  about: "OATCCC_ABOUT_LIVE",
+  join: "OATCCC_JOIN_LIVE",
+  scholarships: "OATCCC_SCHOLARSHIPS_LIVE",
+  forms: "OATCCC_FORMS_LIVE",
+  clinics: "OATCCC_CLINICS_LIVE",
+  meets: "OATCCC_MEETS_LIVE",
+  academic: "OATCCC_ACADEMIC_LIVE",
+  polls: "OATCCC_POLLS_LIVE",
+  ms: "OATCCC_MS_LIVE",
+  hof: "OATCCC_HOF_LIVE"
+};
+
 export function oatcccFlags(env = process.env) {
   const live = on("OATCCC_LIVE", env);
+  const more = live && on("OATCCC_MORE_LIVE", env);
+  const sections = Object.fromEntries(Object.entries(MORE_SECTIONS).map(([key, name]) => [key, more && on(name, env)]));
   return {
     live,
     indoorFull: live && on("OATCCC_INDOOR_FULL_LIVE", env),
     verification: live && on("OATCCC_VERIFICATION_LIVE", env),
     divisionList: live && on("OATCCC_DIVISION_LIST_LIVE", env),
+    more,
+    sections,
+    filesHosted: live && on("OATCCC_FILES_HOSTED", env),
     // Search engines may index the section only on the real production
     // launch. Local and preview builds stay noindex.
     indexable: live && env.VERCEL_ENV === "production"
@@ -90,15 +129,18 @@ export const SPONSORS = [
 ];
 
 // OATCCC tab bar. Tabs without a Podium Watch page yet go to oatccc.com.
-export function oatcccTabs() {
+// A tab goes to our page when its section is switched on (full site move),
+// otherwise to oatccc.com.
+export function oatcccTabs(flags = {}) {
+  const on = (section) => Boolean(flags.sections?.[section]);
   return [
     { key: "home", label: "Home", href: OATCCC_BASE },
     { key: "indoor", label: "Indoor State Meet", href: `${INDOOR_BASE}abcs/` },
-    { key: "polls", label: "Coaches’ Polls", href: LINKS.coachesPoll },
-    { key: "hof", label: "Hall of Fame & Awards", href: LINKS.hallOfFame },
-    { key: "clinics", label: "Clinics", href: LINKS.clinic },
-    { key: "membership", label: "Membership", href: LINKS.membership },
-    { key: "about", label: "About", href: LINKS.about }
+    { key: "polls", label: "Coaches’ Polls", href: on("polls") ? "/oatccc/polls/" : LINKS.coachesPoll },
+    { key: "hof", label: "Hall of Fame & Awards", href: on("hof") ? "/oatccc/hall-of-fame/" : LINKS.hallOfFame },
+    { key: "clinics", label: "Clinics", href: on("clinics") ? "/oatccc/clinics/track-and-field/" : LINKS.clinic },
+    { key: "membership", label: "Membership", href: on("join") ? "/oatccc/join/" : LINKS.membership },
+    { key: "about", label: "About", href: on("about") ? "/oatccc/about/" : LINKS.about }
   ];
 }
 
