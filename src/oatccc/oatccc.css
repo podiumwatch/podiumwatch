@@ -289,7 +289,7 @@
 .ox-vcard h3 { margin-top: 20px; font-size: 1.3rem; }
 .ox-vform { display: grid; gap: 14px; max-width: 640px; margin-top: 10px; }
 .ox-vform label { display: grid; gap: 6px; font-weight: 600; }
-.ox-vform input[type="text"], .ox-vform input[type="email"], .ox-vform input[type="password"], .ox-vform textarea { width: 100%; font: 400 1.0625rem var(--ox-body); padding: 11px 12px; border: 1.5px solid #8C93B0; border-radius: 5px; color: var(--ox-text); background: #fff; }
+.ox-vform input[type="text"], .ox-vform input[type="email"], .ox-vform input[type="password"], .ox-vform input[type="tel"], .ox-vform select, .ox-vform textarea { width: 100%; font: 400 1.0625rem var(--ox-body); padding: 11px 12px; border: 1.5px solid #8C93B0; border-radius: 5px; color: var(--ox-text); background: #fff; }
 .ox-vform .ox-check { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; }
 .ox-vform .ox-check input { margin-top: 5px; width: 18px; height: 18px; flex: none; }
 .ox-vactions { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -428,6 +428,29 @@
   .ox .dlist th, .ox .dlist td { display: block; border: 0; padding: 2px 12px; }
   .ox .dlist td::before { content: attr(data-l) ": "; color: var(--ox-muted); }
 }
+
+/* AD verification form (2026-11-17). */
+.ox-adform { max-width: 760px; gap: 22px; }
+.ox-formhead { border-bottom: 3px solid var(--ox-royal); padding-bottom: 10px; }
+.ox-formhead h2 { margin: 0 0 6px; }
+.ox-formhead p { margin: 0; }
+.ox-person h3 { margin: 0 0 8px; font-size: 1.35rem; }
+.ox-person .ox-team { margin-bottom: 10px; }
+.ox-people { border: 0; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; min-width: 0; }
+.ox-people[hidden] { display: none; }
+@media (max-width: 600px) { .ox-people { grid-template-columns: 1fr; } }
+.ox-agreement { max-height: 420px; overflow-y: auto; border: 1px solid var(--ox-line); border-radius: 6px; padding: 4px 16px 8px; background: #fff; font-weight: 400; }
+.ox-agreement:focus { outline: 3px solid var(--ox-royal); outline-offset: 2px; }
+.ox-agreement .ft-lead { font-family: var(--ox-body); font-size: 1rem; font-weight: 700; margin: 16px 0 6px; letter-spacing: 0; }
+.ox-agreement ol { padding-left: 1.4em; }
+.ox-agreement li, .ox-agreement p { line-height: 1.5; }
+.ox-sigpad { display: grid; gap: 8px; justify-items: start; }
+.ox-sigpad canvas { width: 100%; max-width: 600px; aspect-ratio: 600 / 180; height: auto; border: 1.5px dashed #8C93B0; border-radius: 6px; background: #fff; touch-action: none; cursor: crosshair; }
+.ox-sigdate { margin: 4px 0 0; }
+.ox-sigdate b { margin-right: 8px; }
+.ox-sigs { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.ox-sigs li { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.ox-sigs img { background: #fff; border: 1px solid var(--ox-line); border-radius: 4px; max-width: 100%; height: auto; }
 
 @media print {
   .ox { background: #fff; font-size: 11pt; }

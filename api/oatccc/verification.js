@@ -9,8 +9,9 @@ import {
   returnSubmission,
   approveSubmission,
   addComment,
-  FORM_FIELDS,
-  FORM_IS_PLACEHOLDER,
+  listPickableSchools,
+  PEOPLE,
+  PERSON_FIELDS,
   STATUS_LABELS
 } from "../../lib/oatccc_verification.mjs";
 
@@ -23,7 +24,9 @@ import {
 // GET  ?view=queue[&status=]          admin: every submission
 // GET  ?view=submission&id=           one submission, its comments and trail
 // GET  ?view=mine&school=             AD: my school's submission (or none)
-// POST {action:"submit", season_id, school_id, answers}
+// GET  ?view=schools                  the school dropdown (what I may pick)
+// POST {action:"submit", season_id, school_id, answers,
+//       signature: {typed_name, png}}  sign and submit, or resubmit
 // POST {action:"return", submission_id, comment}
 // POST {action:"approve", submission_id, comment?}
 // POST {action:"comment", submission_id, body}
@@ -45,7 +48,11 @@ export default async function handler(request, response) {
       const view = String(request.query?.view || "");
       if (view === "me") {
         const me = await loadMe(client, user);
-        return send(response, 200, { ...me, form: { fields: FORM_FIELDS, placeholder: FORM_IS_PLACEHOLDER }, statusLabels: STATUS_LABELS });
+        return send(response, 200, { ...me, form: { people: PEOPLE, personFields: PERSON_FIELDS }, statusLabels: STATUS_LABELS });
+      }
+      if (view === "schools") {
+        const me = await loadMe(client, user);
+        return send(response, 200, { choice: me.choice, schools: await listPickableSchools(client, me.seasons) });
       }
       if (view === "queue") {
         const me = await loadMe(client, user);
@@ -71,7 +78,7 @@ export default async function handler(request, response) {
       const body = typeof request.body === "string" ? JSON.parse(request.body || "{}") : (request.body || {});
       const action = String(body.action || "");
       if (action === "submit") {
-        const row = await submit(client, { seasonId: body.season_id, schoolId: body.school_id, answers: body.answers });
+        const row = await submit(client, { seasonId: body.season_id, schoolId: body.school_id, answers: body.answers, signature: body.signature });
         return send(response, 200, { submission: row });
       }
       if (action === "return") {
