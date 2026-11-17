@@ -22,10 +22,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { cleanMain, loadPage as loadCrawlPage } from "../lib/oatccc_port.mjs";
 import { MORE_PAGES } from "../src/oatccc/more/registry.mjs";
-import { portPolls, portAcademic } from "./oatccc-port-special.mjs";
+import { portPolls, portAcademic, portLeadership } from "./oatccc-port-special.mjs";
 
 // Pages with their own layout (see oatccc-port-special.mjs).
-const SPECIAL = { polls: portPolls, academic: portAcademic };
+const SPECIAL = { polls: portPolls, academic: portAcademic, leadership: portLeadership };
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CRAWL = path.join(ROOT, "_private", "oatccc-crawl");

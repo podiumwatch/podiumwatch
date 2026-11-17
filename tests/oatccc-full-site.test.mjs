@@ -123,3 +123,13 @@ test("no OATCCC page body uses the data-year attribute", async () => {
     fs.rmSync(file, { force: true });
   }
 });
+
+test("Leadership is names and roles only", () => {
+  const file = new URL("../src/oatccc/more/content/leadership.html", import.meta.url);
+  if (!fs.existsSync(file)) return;
+  const html = fs.readFileSync(file, "utf8").replace(/<!--[\s\S]*?-->/g, "");
+  const items = [...html.matchAll(/<li>([\s\S]*?)<\/li>/g)].map((m) => m[1]);
+  assert.ok(items.length > 10);
+  for (const item of items) assert.match(item, /^<strong>[^<]+<\/strong>(<span>[^<]+<\/span>)?$/, item);
+  assert.doesNotMatch(html, /<img|<em>|mailto:|tel:/);
+});

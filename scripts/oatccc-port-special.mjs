@@ -52,6 +52,27 @@ export function portPolls(page) {
   return { html, years, sheetYears: sheetYears.map((y) => y.year), pdfYears: pdfYears.map((y) => y.year) };
 }
 
+// Leadership (oatccc.com Contact-Us): names and roles only (Zachary's
+// handoff). Each card on oatccc.com also has a school, phone numbers,
+// sometimes a mailing address, a contact-form email (not shown on the
+// page) and a pop-up bio; none of those are copied. The contact form
+// itself can't move.
+export function portLeadership(page) {
+  const $ = cheerio.load(page.mainHtml);
+  const heading = $("h2").filter((_, h) => /Administration/i.test($(h).text())).first();
+  const people = $(".js-filter-item").map((_, el) => {
+    const $el = $(el);
+    const name = words($el.find("h6").first().text());
+    const role = words($el.find("strong").first().text());
+    return name ? { name, role } : null;
+  }).get().filter(Boolean);
+  const html = `<h2>${esc(words(heading.text()) || "OATCCC Administration & District Representatives")}</h2>
+<ul class="ox-people-list">
+${people.map((p) => `<li><strong>${esc(p.name)}</strong>${p.role ? `<span>${esc(p.role)}</span>` : ""}</li>`).join("\n")}
+</ul>`;
+  return { html, count: people.length };
+}
+
 // Academic All-Ohio: two columns (Cross Country, Track & Field), each with
 // its rules and one tile per file ("2024 Girls", "2020", "Yearly Totals").
 export function portAcademic(page) {

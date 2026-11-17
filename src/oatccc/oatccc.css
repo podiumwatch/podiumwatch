@@ -475,6 +475,9 @@
 .ox-linklist { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .ox-nofile, .ox-soon { color: var(--ox-muted); font-style: italic; }
 .ox-source { margin-top: 28px; font-size: .875rem; color: var(--ox-muted); }
+.ox-people-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px 18px; }
+.ox-people-list li { display: grid; gap: 2px; padding: 12px 14px; border: 1px solid var(--ox-line); border-radius: 6px; background: var(--ox-paper); }
+.ox-people-list span { color: var(--ox-muted); font-size: .9375rem; }
 @media (max-width: 600px) {
   .ox-prose th, .ox-prose td { padding: 6px 8px; }
   .ox-linklist { display: block; }
