@@ -1,5 +1,5 @@
 // Runs install/99_OATCCC_VERIFICATION.sql, install/101_OATCCC_ADMIN_ROLES.sql
-// and install/102_OATCCC_SCHOOL_DIVISIONS.sql
+// install/102_OATCCC_SCHOOL_DIVISIONS.sql and install/104_OATCCC_AD_DIRECTORY.sql
 // in an in-memory Postgres (PGlite)
 // with a stand-in for Supabase's auth schema, then checks every rule:
 // one submission per school per season, the four statuses and who may move
@@ -207,6 +207,50 @@ await ok("102: MileSplit export lists verified schools with HyTek code and divis
 await throws("102: TEST schools never get a tournament name", () => as(null, "insert into oatccc_schools (name,is_test,tournament_name) values ('TEST X',true,'TEST X')"), /oatccc_schools_test_not_listed/);
 await throws("102: tournament names are unique", () => as(null, "insert into oatccc_schools (name,tournament_name,on_verification_list) values ('LISTED ONE','LISTED ONE',true)"), /duplicate|unique/);
 await ok("102: the real 2027 season is in place", async () => { const r = await as(null, "select opens_at < due_at and due_at < late_closes_at ok from oatccc_seasons where meet_year=2027 and not is_test"); eq(r, [{ ok: true }], "season"); });
+
+// ---------- Private AD directory (install/104) ----------
+const directory = fs.readFileSync(path.join(root, "install", "104_OATCCC_AD_DIRECTORY.sql"), "utf8");
+await db.exec(directory);
+await db.exec(directory); // re-runnable
+console.log("migration 104 applied (twice)");
+Object.assign(U, { pickC: "00000000-0000-0000-0000-0000000000c3" });
+const L3 = "30000000-0000-0000-0000-000000000003";
+await db.exec(`
+insert into auth.users values ('${U.pickC}','pc@x');
+insert into oatccc_schools (id,name,city,tournament_name,ohsaa_id,hytek_code,on_verification_list) values ('${L3}','LISTED THREE','Sometown','LISTED THREE',103,'LTHR',true);
+insert into oatccc_directory_schools (ohsaa_id, school_name, ad_name, ad_emails, boys_xc_coach, boys_xc_emails, directory_date, oatccc_school_id) values
+ (102, 'LISTED TWO', 'TEST AD Two', '{pb@x,other@x}', 'TEST Coach', '{coach@x}', '2026-11-17', '${L2}'),
+ (103, 'LISTED THREE', 'TEST AD Three', '{someone-else@x}', null, '{}', '2026-11-17', '${L3}');
+`);
+await ok("104: OATCCC staff read the directory; ADs and anon cannot", async () => {
+  eq((await as("admin", "select ohsaa_id from oatccc_directory_schools order by 1")).map((r) => r.ohsaa_id), [102, 103], "staff");
+  eq((await as("pickB", "select ohsaa_id from oatccc_directory_schools")).length, 0, "AD");
+  try { const r = await as("anon", "select * from oatccc_directory_schools"); eq(r.length, 0, "anon"); } catch (e) { if (!/permission denied/.test(e.message)) throw e; }
+});
+await throws("104: signed-in users cannot write the directory", () => as("admin", "update oatccc_directory_schools set ad_name='x'"), /permission denied/);
+await ok("104: my directory schools: matched by email (any case), ids and names only", async () => {
+  await as(null, "update auth.users set email='PB@X' where id=$1", [U.pickB]);
+  const r = await as("pickB", "select * from oatccc_my_directory_schools()");
+  eq(r, [{ school_id: L2, name: "LISTED TWO" }], "pickB");
+  eq((await as("pickC", "select * from oatccc_my_directory_schools()")).length, 0, "pickC");
+});
+await throws("104: the helper that reads emails is not callable by clients", () => as("pickB", "select oatccc_my_email()"), /permission denied/);
+await throws("104: an AD listed in the directory cannot claim another school", () => signed("pickB", R, L3), /athletic director of another school/);
+await ok("104: the listed AD submits for their own school, flagged as in the directory", async () => {
+  const [r] = await signed("pickB", R, L2);
+  const [row] = await as("admin", "select ad_email_in_directory from oatccc_submissions where id=$1", [r.id]);
+  eq(row.ad_email_in_directory, true, "flag");
+});
+await ok("104: an AD not in the directory picks a school and is flagged for the Chair", async () => {
+  const [r] = await signed("pickC", R, L3);
+  const [row] = await as("admin", "select ad_email_in_directory from oatccc_submissions where id=$1", [r.id]);
+  eq(row.ad_email_in_directory, false, "flag");
+});
+await ok("104: TEST schools are never flagged", async () => {
+  const [row] = await as(null, "select ad_email_in_directory from oatccc_submissions s join oatccc_schools sc on sc.id=s.school_id where sc.is_test limit 1");
+  if (row) eq(row.ad_email_in_directory, null, "TEST flag");
+});
+await throws("104: directory emails must be lower case", () => as(null, "insert into oatccc_directory_schools (ohsaa_id, school_name, ad_emails, directory_date) values (999,'X','{Upper@X}','2026-11-17')"), /oatccc_directory_emails_lower/);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

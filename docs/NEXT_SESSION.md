@@ -1,5 +1,14 @@
 # Podium Watch next session
 
+## Start here (2026-11-17): private AD directory (oatccc-section)
+
+- install/104_OATCCC_AD_DIRECTORY.sql: NOT run. (104, not 103: oatccc-full-site already has a 103.) Private table of ADs and head coaches by OHSAA ID; only OATCCC staff can read it; no public view.
+- scripts/import-oatccc-directory.mjs: dry run shown to Zachary 2026-11-17; NOT applied. Order: 104, then the school-list import (scripts/import-oatccc-school-divisions.mjs --apply), then this with --apply (from ../podium_watch_oatccc):
+  `node --env-file=../podium_watch_site/.env.local scripts/import-oatccc-directory.mjs --file "dataimports/Ohio_XC_Track_Coach_AD_Directory_2026-11-17.xlsx" --apply`
+- The directory spreadsheet is private contact data: git-ignored now; never commit it, never show any of it on a public page. The middle school tab is not imported (Zachary).
+- AD sign-in: an AD whose email is in the directory gets their school preselected and locked (the database enforces it); anyone else picks a school and the submission shows "AD email not in directory" for the Chair. Until 104 runs, the form works as before (no check, no badge).
+- Report for Anjanette/OATCCC: no AD email for Kelleys Island; Conotton Valley and Westerville Northside Christian (on her list) have no OHSAA ID and are not in the directory; Youngstown East, Youngstown Chaney and Cleveland Collinwood (her division sheets) are not in the directory; Our Lady of the Elms has ID 1222 in the directory but is not on her list.
+
 ## Thursday launch fixes: done (2026-11-17)
 
 Committed on oatccc-section (906a9b72): byline "By Zachary Bell"; article header and share images wired to

@@ -2,6 +2,14 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 17 OATCCC private AD and coach directory
+
+### Decision
+
+- The OHSAA directory (ADs and head coaches) is private: never committed, never on a public page, readable in the database only by OATCCC staff (install/104, row-level security, no public view). Only verification fields are stored (no phone numbers, no assistant ADs). High schools only for now (Zachary).
+- An AD whose sign-in email matches a school's AD email in the directory may submit only for that school (preselected and locked); others pick a school and the Chair sees "AD email not in directory" (Zachary).
+- Missing OHSAA IDs on Anjanette's list are filled from the directory only where the directory has exactly one school with the same name and city: Tinora 1532, Cardinal Stritch 312, Kidron Central Christian 341, Put-In-Bay 1278, CLE. Lincoln West 880 (Zachary).
+
 ## 2026 11 17 OATCCC Thursday fixes; set-password page
 
 ### Decision

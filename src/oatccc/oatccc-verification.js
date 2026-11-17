@@ -53,6 +53,8 @@
     const label = me?.statusLabels?.[status] || status;
     return `<span class="ox-badge ox-s-${esc(status)}">${esc(label)}</span>${isLate ? ' <span class="ox-badge ox-late">Late</span>' : ""}`;
   }
+  // install/104: false = the AD who submitted is not in the OHSAA directory.
+  const dirBadge = (s) => (s.ad_email_in_directory === false ? ' <span class="ox-badge ox-late">AD email not in directory</span>' : "");
   function schoolName(row) {
     const school = row.oatccc_schools || row;
     return `${esc(school.name)}${school.city ? `, ${esc(school.city)}` : ""}${school.is_test ? ' <span class="ox-badge ox-test">TEST</span>' : ""}`;
@@ -100,7 +102,7 @@
     $("[data-ox-filters]").innerHTML = chips.map(([value, label]) => `<button type="button" class="ox-chip" data-ox-filter="${value}" aria-pressed="${filter === value}">${esc(label)}</button>`).join("");
     const rows = filter ? all.submissions.filter((r) => r.status === filter) : all.submissions;
     $("[data-ox-queue]").innerHTML = rows.length
-      ? `<ul class="ox-queue">${rows.map((r) => `<li><button type="button" data-ox-open="${esc(r.id)}"><span class="n">${schoolName(r)}</span><span class="m">${statusBadge(r.status, r.is_late)} <small>${esc(when(r.last_submitted_at))}</small></span></button></li>`).join("")}</ul>`
+      ? `<ul class="ox-queue">${rows.map((r) => `<li><button type="button" data-ox-open="${esc(r.id)}"><span class="n">${schoolName(r)}</span><span class="m">${statusBadge(r.status, r.is_late)}${dirBadge(r)} <small>${esc(when(r.last_submitted_at))}</small></span></button></li>`).join("")}</ul>`
       : '<p class="sub">No forms here.</p>';
   }
 
@@ -111,7 +113,7 @@
     const canDecide = s.status === "submitted" || s.status === "resubmitted";
     detail.innerHTML = `
       <h2>${schoolName(s)}</h2>
-      <p class="sub">${esc(s.oatccc_seasons?.name || "")} &middot; ${statusBadge(s.status, s.is_late)}</p>
+      <p class="sub">${esc(s.oatccc_seasons?.name || "")} &middot; ${statusBadge(s.status, s.is_late)}${dirBadge(s)}</p>
       <p class="sub">First submitted ${esc(when(s.first_submitted_at))}${s.last_submitted_at !== s.first_submitted_at ? ` &middot; last submitted ${esc(when(s.last_submitted_at))}` : ""}</p>
       <h3>Answers</h3>${answersHtml(s.answers)}
       <h3>Signatures</h3>${signaturesHtml(signatures)}
@@ -266,16 +268,40 @@
     const select = form.querySelector("[data-ox-school-select]");
     if (select) {
       const note = form.querySelector("[data-ox-season-note]");
+      // The OHSAA directory (install/104): if this email is a school's AD
+      // email, only that school can be picked (locked when there is one).
+      // null = no directory check yet (104 not run).
+      const mine = Array.isArray(me.directorySchools) ? me.directorySchools : null;
+      const dirNote = document.createElement("p");
+      dirNote.className = "sub";
+      select.after(dirNote);
+      const describe = () => {
+        const school = pickable?.find((s) => s.id === select.value);
+        note.textContent = school ? seasonNote(me.seasons.find((x) => x.id === school.season_id)) : "";
+      };
       const fill = (list) => {
-        select.innerHTML = `<option value="">Choose your school</option>${list.map((s) => `<option value="${esc(s.id)}">${esc(s.name)}${s.is_test ? " (TEST)" : ""}</option>`).join("")}`;
+        let options = list;
+        if (mine && mine.length) {
+          const ids = new Set(mine.map((s) => s.id));
+          const own = list.filter((s) => ids.has(s.id));
+          if (own.length) options = [...own, ...list.filter((s) => s.is_test)];
+        }
+        select.innerHTML = `<option value="">Choose your school</option>${options.map((s) => `<option value="${esc(s.id)}">${esc(s.name)}${s.is_test ? " (TEST)" : ""}</option>`).join("")}`;
+        if (mine && mine.length === 1 && options.some((s) => s.id === mine[0].id)) {
+          select.value = mine[0].id;
+          select.disabled = true;
+          dirNote.textContent = "Your email is listed as this school's athletic director in the OHSAA directory.";
+        } else if (mine && mine.length > 1) {
+          dirNote.textContent = "Your email is listed as the athletic director of these schools in the OHSAA directory.";
+        } else if (mine) {
+          dirNote.textContent = "Your email is not listed as a school's athletic director in the OHSAA directory. Pick your school; the Indoor State Meet Chair will check it.";
+        }
+        describe();
       };
       (pickable ? Promise.resolve(pickable) : api("?view=schools").then((data) => (pickable = data.schools)))
         .then(fill)
         .catch((error) => { select.innerHTML = `<option value="">${esc(error.message)}</option>`; });
-      select.addEventListener("change", () => {
-        const school = pickable?.find((s) => s.id === select.value);
-        note.textContent = school ? seasonNote(me.seasons.find((x) => x.id === school.season_id)) : "";
-      });
+      select.addEventListener("change", describe);
     }
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
