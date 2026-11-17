@@ -53,7 +53,8 @@ export const INDOOR_BASE = "/oatccc/indoor/high-school/";
 
 export const OATCCC_SITE = "https://www.oatccc.com";
 export const LINKS = {
-  join: "https://www.oatccc.com/About-Us/Join/",
+  // Membership sign-up (Anjanette, 2026-11-17): FinalForms, not oatccc.com.
+  join: "https://oatccc-oh.finalforms-amp.com/",
   indoorPage: "https://www.oatccc.com/Indoor-Track-Field/High-School-State-Meet/",
   // oatccc.com contact page: kept for "All contacts" on the hub and the
   // pages copied word for word from oatccc.com.

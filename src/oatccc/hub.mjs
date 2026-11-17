@@ -75,6 +75,7 @@ export function oatcccHubPage(site, flags) {
           <h3>Join or renew for 2026-2027</h3>
           <p>Coaches must be paid members for the 2026-2027 academic year. The membership is only required for coaches to enter athletes in the Indoor State Meet.</p>
           <a class="btn2"${linkAttrs(LINKS.join)}>Join the OATCCC</a>
+          <p class="ox-join-how">Select Login/Signup and follow the prompts.</p>
         </div>
       </section>
       <section class="ox-panel" aria-labelledby="ox-ppl-h" style="margin-top:18px">

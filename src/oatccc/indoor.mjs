@@ -80,6 +80,7 @@ function keyDates(prefix) {
         <li class="kd"><div class="kd-date"><b>Feb 6</b><span>Saturday</span></div><div><span class="kd-what">Late verification forms open</span><span class="kd-detail">At 12:00 am (midnight), with a $100 fine.</span></div></li>
         <li class="kd deadline"><div class="kd-date"><b>Feb 15</b><span>Monday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Last day for late verification forms</span><span class="kd-detail">By 5:00 pm. No forms are accepted after that.</span></div></li>
         <li class="kd deadline"><div class="kd-date"><b>Feb 21</b><span>Sunday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Last day for performances to count</span><span class="kd-detail">Performances on February 21 count.</span></div></li>
+        <li class="kd"><div class="kd-date"><b>Feb 24</b><span>Wednesday</span></div><div><span class="kd-what">Finalized top 30 performance lists are posted</span></div></li>
         <li class="kd"><div class="kd-date"><b class="range">Feb 24&ndash;26</b><span>Wed to Fri</span></div><div><span class="kd-what">Declare entries</span><span class="kd-detail">Wednesday at 12:00 noon to Friday at 11:59 pm.</span></div></li>
         <li class="kd deadline"><div class="kd-date"><b>Feb 27</b><span>Saturday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Scratch window</span><span class="kd-detail">12:01 am to 12:00 noon. It is open for 12 hours only.</span></div></li>
         <li class="kd"><div class="kd-date"><b>Mar 5</b><span>Friday</span></div><div><span class="kd-what">Divisions 3 and 4 compete</span><span class="kd-detail">Registration fees for this day&rsquo;s entries are due by 12:00 noon.</span></div></li>
@@ -209,7 +210,7 @@ function divisionsBody(flags = {}) {
       <h2 id="d-how-h">How athletes and relays qualify in Divisions 1 to 4</h2>
       <p>The steps apply equally to athletes and relays. The finalized performance lists are the finalized top 30 lists.</p>
       <ol class="steps">
-        <li><b>Make the top 30</b><span>Each division has a finalized top 30 list for each event.</span></li>
+        <li><b>Make the top 30</b><span>Each division has a finalized top 30 list for each event. Finalized top 30 performance lists are posted February 24, 2027.</span></li>
         <li><b>Declare</b><span>An athlete or relay on the list is considered only if an entry is declared. Declarations are open from Wednesday, February 24, at 12:00 noon to Friday, February 26, 2027, at 11:59 pm.</span></li>
         <li><b>The top 16 qualify</b><span>The top 16 declared athletes or relays in each event qualify for the State Meet in their division.</span></li>
       </ol>
@@ -273,7 +274,7 @@ function eligibilityBody(flags = {}) {
           <h3>Coaches</h3>
           <ul class="checks">
             <li>Be recognized and approved by your local Board of Education for 2026-2027.</li>
-            <li>Be a paid OATCCC member for the 2026-2027 academic year. The membership is only required for coaches to enter athletes in the Indoor State Meet. Join at ${ext("https://www.oatccc.com", "oatccc.com")}.</li>
+            <li>Be a paid OATCCC member for the 2026-2027 academic year. The membership is only required for coaches to enter athletes in the Indoor State Meet. ${ext(LINKS.join, "Join the OATCCC")}. Select Login/Signup and follow the prompts.</li>
             <li>Make sure athletes are entered for your school team at meets that use MileSplit for registration.</li>
           </ul>
         </div>
@@ -284,7 +285,7 @@ function eligibilityBody(flags = {}) {
             <li>Meet your local Board of Education and OHSAA eligibility requirements.</li>
             <li>Earn your marks from December 1, 2026, through and including <span class="when">February 21, 2027</span>, at meets that use MileSplit for registration.</li>
             <li>Make sure your school&rsquo;s team is verified. <a href="#verified-list">See the verification list.</a></li>
-            <li>In Divisions 1 to 4, be on the finalized top 30 lists posted on Ohio MileSplit. Being on the lists is only the first step. An entry must also be declared, and the top 16 declared athletes or relays in each event qualify. <a href="${indoorPath("divisions")}">See Divisions.</a></li>
+            <li>In Divisions 1 to 4, be on the finalized top 30 lists posted on Ohio MileSplit. Being on the lists is only the first step. An entry must also be declared, and the top 16 declared athletes or relays in each event qualify. Finalized top 30 performance lists are posted February 24, 2027. <a href="${indoorPath("divisions")}">See Divisions.</a></li>
             <li>The Seated Division has no performance qualification standards. All seated athletes are entered in the meet so long as they have one performance time or mark to submit. <a href="${indoorPath("divisions")}">See Divisions.</a></li>
           </ul>
         </div>
@@ -308,6 +309,7 @@ function eligibilityBody(flags = {}) {
           <ul class="plain">
             <li>Online verification forms are emailed to all OHSAA listed athletic directors starting on December 1st.</li>
             <li>The link is emailed to the AD. If the AD does not receive or cannot find the email, they need to email the Indoor State Meet Chairperson for the link.</li>
+            <li><strong>The verification form link is not available on this website. It is emailed directly to each school&rsquo;s athletic director.</strong></li>
             <li>Only one form per school is needed to cover both girls and boys teams.</li>
           </ul>
         </div>
