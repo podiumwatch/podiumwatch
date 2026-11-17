@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-17): OATCCC site preview for Anjanette
+
+- oatccc-section is merged into this branch (05ff26ad). Not pushed.
+- A static copy of the OATCCC section (every OATCCC setting on except verification; Hall of Fame from the _private crawl preview; real 2027 divisions as a static file; banner "Preview for the OATCCC. Not live yet."; TEST-data screenshot pages for the AD form and the Chair's queue) is uploaded to the private bucket oatccc-review under site-preview/ (532 files). It opens at <review link>/site-preview/ behind the review password ONLY after the handler on branch oatccc-review-pages is deployed (not yet).
+- To refresh it: build with the same settings, then scripts/oatccc-site-preview/assemble.mjs (dist, divisions json, screenshots folder, new output folder), check.mjs (prints counts only; checks links, noindex, banner, and that no AD email or name from the private directory is in the copy), upload.mjs (new objects only: remove the old site-preview/ objects first, on Zachary's OK).
+- Names in four ported pages (Hall of Fame bios, Leadership, an award) and one coach email on the middle school page match the private directory; all five are oatccc.com's own published text, kept word for word like every other ported page.
+
 ## Start here (2026-11-17 overnight): OATCCC full site move, branch oatccc-full-site
 
 Worktree ../podium_watch_oatccc_full, branch oatccc-full-site (from oatccc-section e6b4eef8). NOT pushed. Full report: docs/OATCCC_FULL_SITE_REPORT.md. Overnight summary: docs/OVERNIGHT_REPORT.md.

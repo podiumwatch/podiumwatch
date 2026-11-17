@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 OATCCC site preview copy
+
+- Merged oatccc-section into oatccc-full-site (conflicts were both-sides additions). Built the preview copy, checked it (48,512 relative links, no live-site links, noindex and banner on all 504 pages, no directory AD emails), tested it in Chrome through a local copy of the review endpoint (folder and real bucket: password first in a private window, all 532 files byte for byte), uploaded to oatccc-review/site-preview/. Scripts: scripts/oatccc-site-preview/.
+
 ## 2026 11 17 (overnight) OATCCC full site move
 
 - Thursday launch fixes (byline, article images, launch-only build check, OATCCC_TERMS_LIVE): no description found anywhere; recorded as a blocker on oatccc-section (e6b4eef8), not guessed.
