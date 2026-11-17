@@ -11,7 +11,7 @@ Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_
 - Then the import, on Zachary's OK: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
 - OATCCC_DIVISION_LIST_LIVE (Divisions by school): off until Anjanette answers the data issues below.
 - OATCCC_MILESPLIT_CSV_TOKEN: not set anywhere. When MileSplit confirms the format, Zachary sets a 32+ character random value in Vercel (Production); the link is /oatccc/milesplit/<token>/verified-schools.csv and needs OATCCC_VERIFICATION_LIVE.
-- Before the AD form goes live: in Supabase Auth, add https://www.podiumwatch.org/oatccc/verify/ to the redirect URLs (ADs sign in with an emailed link that Supabase sends) and check the sign-in email template. The first site_admin row is still to be added by hand (install/101 header).
+- Before Dec 1 (Zachary, by hand): Supabase Auth sends through Resend SMTP, plus the /oatccc/verify/ redirect URL. Step by step in docs/OATCCC_RESEND_SMTP_SETUP.md. Supabase's built-in email is too limited for ~800 ADs (Zachary, 2026-11-17). This changes the sender of every Supabase Auth email on the site. The first site_admin row is still to be added by hand (install/101 header).
 
 **AD school choice** (install/102): `oatccc_config.ad_school_choice` = 'pick' (default: an AD signs in, picks the school, the first to submit becomes its contact, nobody else can submit for it) or 'linked' (only ADs an admin linked). One SQL line switches it. What happens when the AD changes mid-season is still waiting on Anjanette.
 
@@ -23,10 +23,8 @@ Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_
 - 14 names on the list have no boys division and 12 no girls division (single-sex schools, as expected, plus CLE. LINCOLN WEST).
 
 **Other things to confirm with Anjanette:**
-- FAQ still says "All coaches who are 2027 OAT&CCC members are admitted" (Zachary: change only the "calendar year" line on the FAQ).
-- The scratch window still opens Saturday Feb 27 at 12:01 am on Eligibility (from the old official term; she gave only the 12:00 noon end).
-- The Dec 6 "verification list starts" key date was removed with the Sunday schedule (the list will update as the Chair approves).
-- The AD form puts the agreement text before the signature (her form text's order), not after.
+- FAQ still says "All coaches who are 2027 OAT&CCC members are admitted to the meet at no charge": leave as is for now and ask her (Zachary, 2026-11-17). The FAQ stays off until January.
+- Approved by Zachary 2026-11-17 (no need to ask): agreement text before the signature; "Contact Us" kept on the hub's All contacts and the copied oatccc.com pages; Dec 6 key date removed; scratch window still opens Feb 27 at 12:01 am.
 - MileSplit division links: she is sending a document; the placeholder stays.
 
 ## Start here (2026-11-16, OATCCC round 2: roles only)
