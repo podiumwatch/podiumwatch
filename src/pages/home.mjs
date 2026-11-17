@@ -297,6 +297,13 @@ export function homePageHtml({ stories = [], frontPage = null, now = new Date(),
     pathname: "/",
     image: leadStory?.featuredImage || lead[0]?.image_url || site.defaultSocialImage,
     content,
-    jsonLd: [websiteJsonLd(site), organizationJsonLd(site)]
+    jsonLd: [websiteJsonLd(site), organizationJsonLd(site)],
+    extraHead: AUTH_LINK_FORWARD
   });
 }
+
+// Supabase invite and password-recovery emails send people to the Site URL
+// (this homepage) when no other address is set. Forward those links, and
+// expired-link errors, to /set-password/ (src/pages/setpassword.mjs) with
+// the link details intact. Nothing else on the homepage is affected.
+const AUTH_LINK_FORWARD = `\n<script>(function(){var h=location.hash||"",q=location.search||"";var link=/[#&](access_token|refresh_token)=/.test(h)&&/[#&]type=(invite|recovery)\\b/.test(h);var err=/[#&?]error_code=(otp_expired|access_denied)\\b/.test(h+q);var hashed=/[?&]token_hash=/.test(q)&&/[?&]type=(invite|recovery)\\b/.test(q);if(link||err||hashed){location.replace("/set-password/"+q+h);}})();</script>`;

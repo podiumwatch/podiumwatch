@@ -2,6 +2,14 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 17 OATCCC Thursday fixes; set-password page
+
+### Decision
+
+- The OATCCC announcement is by Zachary Bell. Its header and share images are Podium Watch artwork in public/images/stories/; a production launch build stops if either is missing (Zachary).
+- OATCCC_TERMS_LIVE (off by default): Eligibility shows only "The terms in the verification form signed by the athletic director are the official rules." until it is switched on; then the full form text (Zachary).
+- /set-password/ handles Supabase invite and recovery links; the homepage forwards them there. After setting a password, OATCCC staff go to /oatccc/admin/ (only when that page is built) and everyone else to the homepage (Zachary). Supabase's Reset password template stays as is so the site's own reset flows keep their pages; only the Invite template should point at /set-password/ (docs/SET_PASSWORD_SUPABASE_SETUP.md).
+
 ## 2026 11 17 OATCCC: Anjanette's answers, launch Thursday Nov 19
 
 ### Decision

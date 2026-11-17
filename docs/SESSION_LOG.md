@@ -2,6 +2,11 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 OATCCC Thursday fixes and set-password page (oatccc-section)
+
+- 906a9b72: byline, article images (files still missing), launch-only build check (phone screenshots of the hub and Eligibility sent), OATCCC_TERMS_LIVE.
+- /set-password/ page + homepage forwarding, checked end to end in a browser with a fake Supabase (expired link, token_hash link, invite, staff and non-staff redirect, no link, homepage forwarding): all passed. tests/set-password.test.mjs.
+
 ## 2026 11 17 OATCCC: Anjanette's answers (Parts 1-4), launch moved to Nov 19
 
 - Part 1 (0ff39c40): hub, ABCs, Divisions, Eligibility updated with her answers; terms section replaced by the form text; FAQ membership line; Chair email link; article renamed to 20261119. Also fixed a round-1 comment in src/oatccc/indoor.mjs that named the private review draft file (the review-link test caught it).

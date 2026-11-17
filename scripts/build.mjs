@@ -161,6 +161,7 @@ import { yearlyAwardsCategoryPage, yearlyAwardsHubPage } from "../src/pages/year
 import { adminAwards2026Page } from "../src/pages/adminawards2026.mjs";
 import yearlyAwardsPool from "../public/data/yearly-awards-2026-pool.json" with { type: "json" };
 import { writerLoginPage } from "../src/pages/writerlogin.mjs";
+import { setPasswordPage } from "../src/pages/setpassword.mjs";
 import { writerPortalPage } from "../src/pages/writerportal.mjs";
 import { writerPortalProfilePage } from "../src/pages/writerportalprofile.mjs";
 import { writerPortalAdminPage } from "../src/pages/writerportaladmin.mjs";
@@ -955,6 +956,9 @@ await writePage("/my-podium/", myPodiumPage(site, stories));
 await writePage("/my-podium-login/", myPodiumLoginPage(site));
 await writePage("/privacy/", privacyPage(site));
 await writePage("/standards/", standardsPage(site));
+// Supabase invite and password-recovery links (src/pages/setpassword.mjs).
+// OATCCC staff go to /oatccc/admin/ only when that page is built.
+await writePage("/set-password/", setPasswordPage(site, { staffUrl: OATCCC_FLAGS.verification ? "/oatccc/admin/" : "/" }));
   {
     // OATCCC section: nothing is written unless OATCCC_LIVE=1.
     const oatccc = oatcccOutputs(site, OATCCC_FLAGS);

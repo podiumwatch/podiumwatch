@@ -248,6 +248,8 @@ export const NOINDEX_NOFOLLOW_PREFIXES = [
   // built only with OATCCC_VERIFICATION_LIVE (src/oatccc/config.mjs).
   "/oatccc/admin/",
   "/oatccc/verify/",
+  // Set your password (Supabase invite and recovery links).
+  "/set-password/",
   "/writer-portal/",
   "/writer-login/",
   "/team-login/",

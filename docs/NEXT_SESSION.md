@@ -1,10 +1,16 @@
 # Podium Watch next session
 
-## BLOCKER (2026-11-17 overnight): Thursday launch fixes not done
+## Thursday launch fixes: done (2026-11-17), one thing missing
 
-Zachary asked (overnight run) to finish and commit four Thursday fixes on oatccc-section before the full-site move: **byline, article images, the launch-only build check, OATCCC_TERMS_LIVE**. They are not committed, and no description of them exists anywhere I could find: not on any branch (local or origin), not in either worktree, not in dataimports/ and not in Downloads (searched 2026-11-17). They must have been discussed outside this session.
+Committed on oatccc-section (906a9b72): byline "By Zachary Bell"; article header and share images wired to
+/images/stories/pw-x-oatccc-article-hero-1600x900.png and /images/stories/pw-x-oatccc-article-share-1200x630.png;
+launch-only build checked (and tested); OATCCC_TERMS_LIVE (off) shows only the official-rules sentence on Eligibility.
 
-Not guessed: they change the pages that launch Thursday, and a wrong guess there is worse than waiting. **Needed from Zachary:** what each one should do (for example: what byline, which images and from where, what the launch-only check should allow or block, and what OATCCC_TERMS_LIVE switches). Then do them on oatccc-section and bring them into oatccc-full-site.
+**Missing: the two image files.** They were not in dataimports/ or anywhere else on this machine. Copy them to
+public/images/stories/ under exactly those names. Until then a production build with OATCCC_LIVE=1 stops on purpose.
+
+Also new: /set-password/ for Supabase invite and recovery links (homepage forwards them there). Supabase settings to
+change: docs/SET_PASSWORD_SUPABASE_SETUP.md (not changed by me).
 
 ## Start here (2026-11-17, OATCCC: Anjanette's answers)
 
