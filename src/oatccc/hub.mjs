@@ -59,8 +59,8 @@ export function oatcccHubPage(site, flags) {
       <p class="sub">2027 Indoor State Meet. All times Eastern.</p>
       <ul class="ox-cal">
         <li><b>Dec 1<small>Tue</small></b><span>Verification forms emailed to athletic directors<em>Performances start counting</em></span></li>
-        <li><b>Dec 6<small>Sun</small></b><span>Verified teams list starts updating<em>Every Sunday after that</em></span></li>
         <li class="dl"><b>Feb 5<small>Fri</small></b><span>Verification due, 11:59 PM</span></li>
+        <li><b>Feb 6<small>Sat</small></b><span>Late verification opens, 12:00 AM<em>$100 fine</em></span></li>
         <li class="dl"><b>Feb 15<small>Mon</small></b><span>Late verification closes, 5:00 PM<em>$100 fine</em></span></li>
         <li><b>Feb 21<small>Sun</small></b><span>Performance window closes</span></li>
         <li><b>Feb 24<small>Wed</small></b><span>Performance lists posted, declarations open at noon</span></li>
@@ -72,8 +72,8 @@ export function oatcccHubPage(site, flags) {
       <section class="ox-panel" aria-labelledby="ox-mem-h">
         <h2 id="ox-mem-h">For coaches</h2>
         <div class="ox-join">
-          <h3>Join or renew for 2027</h3>
-          <p>Membership runs January through December. Coaches must be 2027 OATCCC members for their teams to compete at the Indoor State Meet.</p>
+          <h3>Join or renew for 2026-2027</h3>
+          <p>Coaches must be paid members for the 2026-2027 academic year. The membership is only required for coaches to enter athletes in the Indoor State Meet.</p>
           <a class="btn2"${linkAttrs(LINKS.join)}>Join the OATCCC</a>
         </div>
       </section>

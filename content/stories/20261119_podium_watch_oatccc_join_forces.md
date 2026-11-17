@@ -1,6 +1,6 @@
 ---
 title: "Podium Watch and the OATCCC Join Forces to Power Ohio Running"
-date: "2026-11-18"
+date: "2026-11-19"
 description: "Podium Watch and the Ohio Association of Track & Cross Country Coaches announce a partnership. Final text to come."
 category: "Podium Watch"
 author: "Podium Watch"

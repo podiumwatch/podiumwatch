@@ -10,7 +10,7 @@ import { site } from "../src/config/site.mjs";
 
 test("off by default: no setting means nothing is built", () => {
   const flags = oatcccFlags({});
-  assert.deepEqual(flags, { live: false, indoorFull: false, verification: false, indexable: false });
+  assert.deepEqual(flags, { live: false, indoorFull: false, verification: false, divisionList: false, indexable: false });
   assert.deepEqual(oatcccOutputs(site, flags), { pages: [], assets: [] });
 });
 
@@ -84,4 +84,33 @@ test("athletic director sign-in stays hidden until verification is switched on",
   const hub = (env) => oatcccOutputs(site, oatcccFlags(env)).pages.find((page) => page.pathname === "/oatccc/").html;
   assert.doesNotMatch(hub({ OATCCC_LIVE: "1" }), /Athletic director sign-in/);
   assert.match(hub({ OATCCC_LIVE: "1", OATCCC_VERIFICATION_LIVE: "1" }), /Athletic director sign-in/);
+});
+
+// Anjanette's answers (2026-11-17), Part 1 of the handoff.
+test("launch pages use Anjanette's answers", () => {
+  const pages = oatcccOutputs(site, oatcccFlags({ OATCCC_LIVE: "1", OATCCC_INDOOR_FULL_LIVE: "1" })).pages;
+  const html = (path) => pages.find((p) => p.pathname === path).html;
+  const launch = ["/oatccc/", "/oatccc/indoor/high-school/abcs/", "/oatccc/indoor/high-school/divisions/", "/oatccc/indoor/high-school/eligibility-and-verification/"];
+  for (const path of launch) {
+    const page = html(path);
+    assert.doesNotMatch(page, /calendar year|January through December|2027 members|for each team|3\/1\/27|March 1, 2027|docs\.google\.com|every Sunday|for convenience/i, path);
+  }
+  assert.match(html("/oatccc/"), /paid members for the 2026-2027 academic year/);
+  assert.match(html(launch[1]), /Coaches must be paid OATCCC members for the 2026-2027 academic year in order for their athletes to be eligible to compete in the Indoor State Meet/);
+  const elig = html(launch[3]);
+  assert.match(elig, /The terms in the verification form signed by the athletic director are the official rules\. They are the same as the content shown in the verification section\./);
+  assert.match(elig, /If you do not see your school listed, ask your AD if they submitted the online form emailed to them\./);
+  assert.match(elig, /The coach or person designated by the coach declares, scratches, and pays\./);
+  assert.match(elig, /The entry fees are due by 12 noon the day of the meet that the team or athlete is competing\./);
+  assert.match(elig, /hereby releases, waives and covenants not to sue/);
+  assert.match(elig, /href="mailto:awhitman@oatccc\.com\?subject=Indoor%20State%20Meet"/);
+  assert.doesNotMatch(elig, /oatccc\.com\/Contact-Us/);
+  const div = html(launch[2]);
+  assert.match(div, /Divisions are based on 2026-2027 OHSAA Enrollment Figures\./);
+  for (const range of ["449 and up", "207 - 448", "124 - 206", "1 - 123", "465 and up", "221 - 464", "125 - 220", "1 - 124"]) assert.ok(div.includes(range), range);
+  assert.match(div, /The steps apply equally to athletes and relays\./);
+  assert.match(div, /They must declare in the same window of time as the other divisions February 24-26\. Same fees apply but there are no relays\./);
+  const faq = html("/oatccc/indoor/high-school/faq/");
+  assert.match(faq, /paid members of the OAT&amp;CCC for the 2026-2027 academic year\./);
+  assert.doesNotMatch(faq, /calendar year/);
 });

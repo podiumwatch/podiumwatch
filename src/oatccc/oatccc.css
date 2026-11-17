@@ -395,13 +395,30 @@
   .ox .divs .day b { display: inline; }
   .ox .steps li { padding-left: 54px; }
 }
+/* 2026-11-17: verification form text (Eligibility), enrollment tables
+   (Divisions), verified-list area (Eligibility). */
+.ox .formtext { max-width: 46em; background: var(--ox-paper); border: 1px solid var(--ox-line); border-radius: 6px; padding: 18px 22px 6px; margin-top: 14px; }
+.ox .ft .ft-lead { font-family: var(--ox-body); font-size: 1rem; font-weight: 700; line-height: 1.45; letter-spacing: 0; margin: 22px 0 8px; }
+.ox .ft .ft-title { font-size: 1.6rem; margin: 0 0 6px; }
+.ox .ft p, .ox .ft li { line-height: 1.55; }
+.ox .ft ol.ft-terms { padding-left: 1.6em; margin: 0 0 8px; }
+.ox .ft ol.ft-terms li { margin-bottom: 8px; }
+.ox .ft .ft-waiver { padding: 12px 14px; background: var(--ox-wash); border-left: 4px solid var(--ox-navy); }
+.ox .ft a { overflow-wrap: anywhere; }
+.ox .enroll { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 14px 0 6px; }
+.ox .enroll-t { border-collapse: collapse; min-width: 220px; background: var(--ox-paper); }
+.ox .enroll-t caption { text-align: left; font-weight: 700; font-size: 1.05rem; padding: 0 0 6px; color: var(--ox-navy); }
+.ox .enroll-t th, .ox .enroll-t td { border: 1px solid var(--ox-line); padding: 7px 14px; text-align: left; }
+.ox .enroll-t thead th { background: var(--ox-wash); font-size: .875rem; }
+.ox .vlist { background: var(--ox-blue-tint); border-left: 5px solid var(--ox-royal); padding: 16px 18px 4px; border-radius: 0 5px 5px 0; max-width: 44em; }
+
 @media print {
   .ox { background: #fff; font-size: 11pt; }
   .ox-lockup, .ox-tabs, .ox-secnav, .ox .terms-tools, .ox .onpage, .ox-contact .btn, .ox .nextsteps { display: none !important; }
   .ox-shell { display: block; padding: 0; }
   .ox-page { display: block; }
   .ox .keydates { position: static; margin: 16px 0; }
-  .ox .role, .ox .abc, .ox .verdict, .ox .terms > li, .ox .kd, .ox .mistakes li, .ox .checks li, .ox .seated, .ox .tip, .ox .steps li, .ox tr { break-inside: avoid; }
+  .ox .role, .ox .abc, .ox .verdict, .ox .terms > li, .ox .kd, .ox .mistakes li, .ox .checks li, .ox .seated, .ox .tip, .ox .steps li, .ox tr, .ox .ft li, .ox .ft-waiver { break-inside: avoid; }
   .ox a { color: inherit; }
   .ox-contact { background: #fff; color: var(--ox-text); border: 1px solid var(--ox-line); }
   .ox .ox-contact h2 { color: var(--ox-navy); }

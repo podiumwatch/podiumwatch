@@ -10,7 +10,7 @@
 
 | When | Release | Why then |
 |---|---|---|
-| Wed Nov 18 | Hub, ABCs, Divisions, Eligibility & Verification, the announcement | Official announcement |
+| Thu Nov 19 | Hub, ABCs, Divisions, Eligibility & Verification, the announcement | Official announcement |
 | By Dec 1 | Verification ready for the forms going out (roles, AD sign-in and form questions once Anjanette answers) | Forms go to ADs Dec 1 |
 | Early Dec | Verified teams list on the site, updated Sundays | The list starts Dec 6 |
 | Early Jan | Clinics page, "Register" linking to oatccc.com | Clinic is Jan 28-30 |
@@ -24,7 +24,7 @@
 ## Start here (2026-11-16, OATCCC section)
 
 - Branch oatccc-section, worktree ../podium_watch_oatccc. Commits f4ca1ba3, 8468d2d2, local only (repo is public; Zachary decides when to push).
-- Launch Wed Nov 18 only on Zachary's go: final article text in content/stories/20261118_podium_watch_oatccc_join_forces.md, then OATCCC_LIVE=1 in Vercel Production, redeploy. Keep OATCCC_INDOOR_FULL_LIVE and OATCCC_VERIFICATION_LIVE off.
+- Launch Thu Nov 19 (moved from Wed Nov 18 on 2026-11-17) only on Zachary's go: final article text in content/stories/20261119_podium_watch_oatccc_join_forces.md, then OATCCC_LIVE=1 in Vercel Production, redeploy. Keep OATCCC_INDOOR_FULL_LIVE and OATCCC_VERIFICATION_LIVE off.
 - Waiting: Anjanette's answers (AD sign-in, form questions, public list, late fines, admins); Zachary's OK to run install/99 and install/100.
 - Items to get from the OATCCC (shown as plain text until then):
   - Parking Map and Onsite Food Options: working files or links. Their Tripleseat links open a Tripleseat sign-in page, so both are unlinked on Meet day (Zachary, 2026-11-16).

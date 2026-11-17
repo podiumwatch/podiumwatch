@@ -18,6 +18,10 @@
 //                               athletic director page, the "Athletic
 //                               director sign-in" button and the
 //                               verification API. Needs OATCCC_LIVE too.
+//   OATCCC_DIVISION_LIST_LIVE=1 adds the searchable "Divisions by school"
+//                               table to the Divisions page. Needs
+//                               OATCCC_LIVE too. Off until Anjanette
+//                               confirms the school-list data issues.
 //
 // Changing a variable needs a redeploy (the pages are static).
 
@@ -31,6 +35,7 @@ export function oatcccFlags(env = process.env) {
     live,
     indoorFull: live && on("OATCCC_INDOOR_FULL_LIVE", env),
     verification: live && on("OATCCC_VERIFICATION_LIVE", env),
+    divisionList: live && on("OATCCC_DIVISION_LIST_LIVE", env),
     // Search engines may index the section only on the real production
     // launch. Local and preview builds stay noindex.
     indexable: live && env.VERCEL_ENV === "production"
@@ -44,7 +49,13 @@ export const OATCCC_SITE = "https://www.oatccc.com";
 export const LINKS = {
   join: "https://www.oatccc.com/About-Us/Join/",
   indoorPage: "https://www.oatccc.com/Indoor-Track-Field/High-School-State-Meet/",
+  // oatccc.com contact page: kept for "All contacts" on the hub and the
+  // pages copied word for word from oatccc.com.
   contact: "https://www.oatccc.com/Contact-Us/",
+  // "Contact the Chair" buttons email Anjanette directly with this
+  // subject (her answer, 2026-11-17).
+  chairEmail: "awhitman@oatccc.com",
+  chairMailto: "mailto:awhitman@oatccc.com?subject=Indoor%20State%20Meet",
   membershipJoin: "https://www.oatccc.com/Coaches/Membership/Join/",
   coachesPoll: "https://www.oatccc.com/Cross-Country/Coaches-Poll/",
   hallOfFame: "https://www.oatccc.com/HOF/",
@@ -56,9 +67,8 @@ export const LINKS = {
   gaborScholarship: "https://www.oatccc.com/Scholarships/Dale-Gabor-Scholarship/",
   elementaryGrant: "https://www.oatccc.com/Coaches/Grants/Elementary-School-Grant/",
   middleSchoolMeet: "https://www.oatccc.com/Indoor-Track-Field/Middle-School-State-Meet/",
-  // The draft links the list with "?gid=0#gid=0"; oatccc.com links the
-  // same sheet with "?usp=sharing". Same document.
-  verificationList: "https://docs.google.com/spreadsheets/d/1qBuvVYSnmb6WWczb3BBx_NsJj0JnnoCaxk3O4-6XaDQ/edit?usp=sharing",
+  // The Google Sheet verification list link was removed 2026-11-17: no
+  // longer needed (Anjanette). The list will be on the Eligibility page.
   milesplitOhio: "https://oh.milesplit.com/",
   phoneticForm: "https://forms.gle/i8PMJ9iW7Ywhz4Ht9",
   tickets: "https://fan.hudl.com/usa/oh/geneva/organization/158468/spire-academy/tickets",

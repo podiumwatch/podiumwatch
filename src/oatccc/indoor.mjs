@@ -1,11 +1,12 @@
 import { oatcccLayout, linkAttrs, LOGO } from "./layout.mjs";
 import { INDOOR_PAGES, LINKS, indoorPath, indoorHref } from "./config.mjs";
 import { escapeHtml } from "../lib/content.mjs";
+import { formTextHtml } from "./verification_form_text.mjs";
 
 // High School Indoor State Meet pages, /oatccc/indoor/high-school/...
 //
 // ABCs, Divisions and Eligibility & Verification: ported from the private
-// review draft (OATCCC-Indoor-DRAFT-preview.html). Review notes, note
+// review draft (the private review copy). Review notes, note
 // markers, highlight marks, the DRAFT banner, the Questions page and the
 // concept page are removed; no other wording is changed.
 //
@@ -13,6 +14,12 @@ import { escapeHtml } from "../lib/content.mjs";
 // from https://www.oatccc.com/Indoor-Track-Field/High-School-State-Meet/
 // (fetched 2026-11-16), conflicts and all (Zachary: "Don't fix them").
 // They are built only with OATCCC_INDOOR_FULL_LIVE.
+//
+// 2026-11-17: Anjanette's answers applied to ABCs, Divisions, Eligibility
+// (OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, Part 1). Her sentences are used
+// as she wrote them. The official agreement terms on Eligibility are now
+// the verification form text itself (verification_form_text.mjs). On the
+// FAQ only "for that calendar year" changed (bylaws now academic year).
 
 const ext = (href, text) => `<a${linkAttrs(href)}>${text}</a>`;
 
@@ -53,9 +60,9 @@ function contactBand() {
   return `<div class="ox-contact" id="contact">
     <div>
       <h2>Questions?</h2>
-      <p>Send a message to the Indoor State Meet Chair.</p>
+      <p>Email the Indoor State Meet Chair, Anjanette Whitman, at ${LINKS.chairEmail}.</p>
     </div>
-    <a class="btn"${linkAttrs(LINKS.contact)}>Contact the Indoor State Meet Chair</a>
+    <a class="btn" href="${escapeHtml(LINKS.chairMailto)}">Email the Indoor State Meet Chair</a>
   </div>`;
 }
 
@@ -66,13 +73,13 @@ function keyDates(prefix) {
       <div class="kd-year">2026</div>
       <ol class="kd-list">
         <li class="kd"><div class="kd-date"><b>Dec 1</b><span>Tuesday</span></div><div><span class="kd-what">Verification forms are emailed to athletic directors</span><span class="kd-detail">Performances start counting toward the State Meet.</span></div></li>
-        <li class="kd"><div class="kd-date"><b>Dec 6</b><span>Sunday</span></div><div><span class="kd-what">The verification list starts updating</span><span class="kd-detail">Updated every Sunday.</span></div></li>
       </ol>
       <div class="kd-year">2027</div>
       <ol class="kd-list">
         <li class="kd deadline"><div class="kd-date"><b>Feb 5</b><span>Friday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Verification forms are due</span><span class="kd-detail">By 11:59 pm.</span></div></li>
-        <li class="kd deadline"><div class="kd-date"><b>Feb 15</b><span>Monday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Last day for late verification forms</span><span class="kd-detail">By 5:00 pm, after paying a $100 fine.</span></div></li>
-        <li class="kd deadline"><div class="kd-date"><b>Feb 21</b><span>Sunday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Last day for performances to count</span></div></li>
+        <li class="kd"><div class="kd-date"><b>Feb 6</b><span>Saturday</span></div><div><span class="kd-what">Late verification forms open</span><span class="kd-detail">At 12:00 am (midnight), with a $100 fine.</span></div></li>
+        <li class="kd deadline"><div class="kd-date"><b>Feb 15</b><span>Monday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Last day for late verification forms</span><span class="kd-detail">By 5:00 pm. No forms are accepted after that.</span></div></li>
+        <li class="kd deadline"><div class="kd-date"><b>Feb 21</b><span>Sunday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Last day for performances to count</span><span class="kd-detail">Performances on February 21 count.</span></div></li>
         <li class="kd"><div class="kd-date"><b class="range">Feb 24&ndash;26</b><span>Wed to Fri</span></div><div><span class="kd-what">Declare entries</span><span class="kd-detail">Wednesday at 12:00 noon to Friday at 11:59 pm.</span></div></li>
         <li class="kd deadline"><div class="kd-date"><b>Feb 27</b><span>Saturday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Scratch window</span><span class="kd-detail">12:01 am to 12:00 noon. It is open for 12 hours only.</span></div></li>
         <li class="kd"><div class="kd-date"><b>Mar 5</b><span>Friday</span></div><div><span class="kd-what">Divisions 3 and 4 compete</span><span class="kd-detail">Registration fees for this day&rsquo;s entries are due by 12:00 noon.</span></div></li>
@@ -120,6 +127,7 @@ function abcsBody() {
       <h2><span class="sr">B: </span>Board approved &amp; recognized</h2>
       <dl class="reqs">
         <div><dt>Coaches</dt><dd>Must be approved by your Board of Education</dd></div>
+        <div><dt>OATCCC membership</dt><dd>Coaches must be paid OATCCC members for the 2026-2027 academic year in order for their athletes to be eligible to compete in the Indoor State Meet</dd></div>
         <div><dt>Indoor team</dt><dd>Must be recognized by your Board of Education</dd></div>
         <div><dt>Proof</dt><dd>Online verification agreement must be signed &amp; submitted by AD to compete in OATCCC State Meet</dd></div>
       </dl>
@@ -142,7 +150,21 @@ function abcsBody() {
   </div>`;
 }
 
-function divisionsBody() {
+function enrollmentTable(label, rows) {
+  return `<table class="enroll-t">
+          <caption>${label}</caption>
+          <thead><tr><th scope="col">Division</th><th scope="col">Enrollment</th></tr></thead>
+          <tbody>${rows.map(([division, range]) => `<tr><th scope="row">${division}</th><td>${range}</td></tr>`).join("")}</tbody>
+        </table>`;
+}
+
+// "Divisions by school" (OATCCC_DIVISION_LIST_LIVE). Filled in Part 2.
+function divisionListSection() {
+  return "";
+}
+
+function divisionsBody(flags = {}) {
+  const divisionList = flags.divisionList ? divisionListSection() : "";
   const pending = `<td class="pending" data-l="Ohio MileSplit page">Link will be added when it is posted</td>`;
   return `<div class="ox-page has-dates dates-last">
     <div class="page-head">
@@ -167,11 +189,12 @@ function divisionsBody() {
     </section>
 
     <section aria-labelledby="d-how-h">
-      <h2 id="d-how-h">How athletes qualify in Divisions 1 to 4</h2>
+      <h2 id="d-how-h">How athletes and relays qualify in Divisions 1 to 4</h2>
+      <p>The steps apply equally to athletes and relays. The finalized performance lists are the finalized top 30 lists.</p>
       <ol class="steps">
-        <li><b>Make the top 30</b><span>Each division has a top 30 performance list for each event.</span></li>
-        <li><b>Declare</b><span>An athlete on the list is considered only if an entry is declared. Declarations are open from Wednesday, February 24, at 12:00 noon to Friday, February 26, 2027, at 11:59 pm.</span></li>
-        <li><b>The top 16 qualify</b><span>The top 16 declared athletes in each event qualify for the State Meet in their division.</span></li>
+        <li><b>Make the top 30</b><span>Each division has a finalized top 30 list for each event.</span></li>
+        <li><b>Declare</b><span>An athlete or relay on the list is considered only if an entry is declared. Declarations are open from Wednesday, February 24, at 12:00 noon to Friday, February 26, 2027, at 11:59 pm.</span></li>
+        <li><b>The top 16 qualify</b><span>The top 16 declared athletes or relays in each event qualify for the State Meet in their division.</span></li>
       </ol>
       <p class="fine">This is the rule in the OATCCC&rsquo;s words: &ldquo;The top 16 declared athletes in each event from the top 30 performance lists in each Division qualify for the State Meet in their Division.&rdquo;</p>
     </section>
@@ -184,24 +207,31 @@ function divisionsBody() {
           <li>Direct registration on MileSplit</li>
           <li>Must be a member of a verified team. <a href="${indoorPath("eligibility")}#verification">See how verification works.</a></li>
         </ul>
+        <p>The references to the finalized performance lists do not apply to seated athletes. All seated athletes are entered in the meet so long as they have one performance time or mark to submit. They must declare in the same window of time as the other divisions February 24-26. Same fees apply but there are no relays.</p>
       </div>
     </section>
+
+    <section aria-labelledby="d-set-h">
+      <h2 id="d-set-h">How divisions are set</h2>
+      <p>Divisions are based on 2026-2027 OHSAA Enrollment Figures. Division 1 is determined by the enrollment figure of the top 15% of the schools verified for the 2026 Indoor Track &amp; Field Season. The other 3 divisions equally divide the remaining verified schools from the 2026 Indoor Track &amp; Field Season and use those enrollment figures.</p>
+      <div class="enroll">
+        ${enrollmentTable("Girls", [["D-1", "449 and up"], ["D-2", "207 - 448"], ["D-3", "124 - 206"], ["D-4", "1 - 123"]])}
+        ${enrollmentTable("Boys", [["D-1", "465 and up"], ["D-2", "221 - 464"], ["D-3", "125 - 220"], ["D-4", "1 - 124"]])}
+      </div>
+    </section>
+    ${divisionList}
   </div>`;
 }
 
 function eligibilityBody() {
-  const list = LINKS.verificationList;
   return `<div class="ox-page has-dates">
     <div class="page-head">
       <h1>Eligibility &amp; Verification</h1>
       <p class="lead">Before an athlete can compete at the 2027 Indoor State Meet, the school&rsquo;s athletic director must verify the team. Coaches, athletes and performances must also meet the rules on this page.</p>
-      <div class="listcta">
-        <a class="btn"${linkAttrs(list)}>See the 2027 School Verification List</a>
-        <p>Opens in a new tab. Updated every Sunday starting December 6, 2026.</p>
-      </div>
       <p class="onpage"><b>On this page</b>
         <a href="#todo">What you need to do</a>
         <a href="#verification">How verification works</a>
+        <a href="#verified-list">2027 School Verification List</a>
         <a href="#mistakes">Mistakes to avoid</a>
         <a href="#terms">Official agreement terms</a>
         <a href="#contact">Questions</a>
@@ -219,14 +249,14 @@ function eligibilityBody() {
             <li>Watch for the verification email. It is sent to all OHSAA listed athletic directors starting December 1, 2026.</li>
             <li>Sign and submit one online form for your school, using the link emailed to you. It covers both the girls and boys teams.</li>
             <li>Submit it by <span class="when">Friday, February 5, 2027, at 11:59 pm</span>.</li>
-            <li>A late form is allowed only after paying a $100 fine, and it must be in by <span class="when">Monday, February 15, 2027, at 5:00 pm</span>. No forms are accepted after that.</li>
+            <li>Late forms are accepted from <span class="when">Saturday, February 6, 2027, at 12:00 am (midnight)</span> to <span class="when">Monday, February 15, 2027, at 5:00 pm</span>, with a $100 fine. No forms are accepted after that.</li>
           </ul>
         </div>
         <div class="role">
           <h3>Coaches</h3>
           <ul class="checks">
             <li>Be recognized and approved by your local Board of Education for 2026-2027.</li>
-            <li>Be a paid OATCCC member in good standing for 2027. Join at ${ext("https://www.oatccc.com", "oatccc.com")}.</li>
+            <li>Be a paid OATCCC member for the 2026-2027 academic year. The membership is only required for coaches to enter athletes in the Indoor State Meet. Join at ${ext("https://www.oatccc.com", "oatccc.com")}.</li>
             <li>Make sure athletes are entered for your school team at meets that use MileSplit for registration.</li>
           </ul>
         </div>
@@ -235,18 +265,19 @@ function eligibilityBody() {
           <ul class="checks">
             <li>Compete as a member of your school&rsquo;s indoor team. Marks made &ldquo;unattached&rdquo; or with a club team do not count.</li>
             <li>Meet your local Board of Education and OHSAA eligibility requirements.</li>
-            <li>Earn your marks from December 1, 2026, to <span class="when">February 21, 2027</span>, at meets that use MileSplit for registration.</li>
-            <li>Make sure your school&rsquo;s team is verified. ${ext(list, "Check the verification list.")}</li>
-            <li>In Divisions 1 to 4, be on the finalized performance lists posted on Ohio MileSplit. Being on the lists is only the first step. An entry must also be declared, and the top 16 declared athletes in each event qualify. <a href="${indoorPath("divisions")}">See Divisions.</a></li>
-            <li>The Seated Division has no performance qualification standards. <a href="${indoorPath("divisions")}">See Divisions.</a></li>
+            <li>Earn your marks from December 1, 2026, through and including <span class="when">February 21, 2027</span>, at meets that use MileSplit for registration.</li>
+            <li>Make sure your school&rsquo;s team is verified. <a href="#verified-list">See the verification list.</a></li>
+            <li>In Divisions 1 to 4, be on the finalized top 30 lists posted on Ohio MileSplit. Being on the lists is only the first step. An entry must also be declared, and the top 16 declared athletes or relays in each event qualify. <a href="${indoorPath("divisions")}">See Divisions.</a></li>
+            <li>The Seated Division has no performance qualification standards. All seated athletes are entered in the meet so long as they have one performance time or mark to submit. <a href="${indoorPath("divisions")}">See Divisions.</a></li>
           </ul>
         </div>
         <div class="role">
           <h3>State Meet entries</h3>
           <ul class="checks">
+            <li>The coach or person designated by the coach declares, scratches, and pays. The scratch link and the payment link are posted on the MileSplit meet page for each division. The scratch link is posted during the scratch window. The payment link is posted and active once the final acceptance lists are posted.</li>
             <li>Declare each entry from <span class="when">Wednesday, February 24, at 12:00 noon</span> to <span class="when">Friday, February 26, 2027, at 11:59 pm</span>.</li>
             <li>If you need to scratch (withdraw) an athlete or relay, do it on <span class="when">Saturday, February 27, 2027</span>, between 12:01 am and 12:00 noon.</li>
-            <li>Pay all registration fees by <span class="when">12:00 noon on the day of the meet</span> the team or athlete is entered in.</li>
+            <li>The entry fees are due by 12 noon the day of the meet that the team or athlete is competing.</li>
           </ul>
         </div>
       </div>
@@ -259,14 +290,13 @@ function eligibilityBody() {
           <h3>Verification Forms</h3>
           <ul class="plain">
             <li>Online verification forms are emailed to all OHSAA listed athletic directors starting on December 1st.</li>
-            <li>The online form is not publicly available on the OATCCC website. Athletic directors need to contact the Indoor State Meet Chair for the link.</li>
+            <li>The link is emailed to the AD. If the AD does not receive or cannot find the email, they need to email the Indoor State Meet Chairperson for the link.</li>
             <li>Only one form per school is needed to cover both girls and boys teams.</li>
           </ul>
         </div>
         <div>
           <h3>Verification Lists</h3>
           <ul class="plain">
-            <li>Verification lists are updated every Sunday starting December 6, 2026.</li>
             <li>The list includes all schools with teams verified by their athletic director.</li>
             <li>The list covers both girls and boys teams for the school listed.</li>
           </ul>
@@ -276,6 +306,14 @@ function eligibilityBody() {
         <h3>Of note</h3>
         <p>Athletic directors should check their spam folders if they do not see the verification email in their inbox.</p>
         <p>If the fields in the form cannot be seen, use internet that is not school-based as the filters may block the content. Use home or cellular service instead.</p>
+      </div>
+    </section>
+
+    <section id="verified-list" aria-labelledby="vl-h">
+      <h2 id="vl-h">2027 School Verification List</h2>
+      <div class="vlist">
+        <p>The list of verified schools will appear here.</p>
+        <p>If you do not see your school listed, ask your AD if they submitted the online form emailed to them. If they can't find it, contact the Indoor State Meet Chairperson.</p>
       </div>
     </section>
 
@@ -294,58 +332,12 @@ function eligibilityBody() {
 
     <section id="terms" aria-labelledby="terms-h">
       <h2 id="terms-h">Official agreement terms</h2>
-      <p class="section-intro">This is the agreement athletic directors sign on the verification form. The summaries above are for convenience. These terms are the official rules. To make them easier to scan, the terms are grouped into three parts and given short bold labels, and dates and times are written one way throughout. The two paragraphs after Part 3 close the agreement.</p>
+      <p class="section-intro">The terms in the verification form signed by the athletic director are the official rules. They are the same as the content shown in the verification section. This is that form&rsquo;s text, word for word.</p>
       <div class="terms-tools">
-        <button class="btn ghost small" type="button" data-ox-open-all>Open all three parts</button>
         <button class="btn ghost small" type="button" data-ox-print>Print this page</button>
       </div>
-
-      <details class="part" open>
-        <summary><span><h3>Part 1: Team, coach and athlete requirements</h3><small>7 terms</small></span><span class="chev" aria-hidden="true"></span></summary>
-        <div class="part-body">
-          <p>In order to participate in the 2027 OATCCC Indoor State Track &amp; Field Championship Meet, all of the following regulations shall be complied with by the school, Indoor Track &amp; Field team coaches and any other representative of the school and/or Indoor Track &amp; Field team sponsored by the school:</p>
-          <ol class="terms">
-            <li><span class="label">What counts as a school team</span><p>A school sponsored Indoor Track &amp; Field team is defined as having one or more students competing as an Indoor Track &amp; Field athlete for a school with one or more local Board of Education approved adults designated as the coach of the team;</p></li>
-            <li><span class="label">OHSAA membership</span><p>The participating Indoor Track &amp; Field team&rsquo;s school must be a member of the OHSAA for the 2026-2027 academic year and abides by the regulations to be a member in good standing with the OHSAA;</p></li>
-            <li><span class="label">Board of Education recognition</span><p>The participating Indoor Track &amp; Field team must be approved and recognized by the local Board of Education for the 2026-2027 academic year;</p></li>
-            <li><span class="label">Coach approval</span><p>All coaches representing the participating Indoor Track &amp; Field team must be recognized and approved by the local Board of Education for the 2026-2027 academic year;</p></li>
-            <li><span class="label">OATCCC membership</span><p>All coaches representing the participating Indoor Track &amp; Field team must be paid members in good standing with the OATCCC for the 2027 calendar year. Membership may be acquired by visiting ${ext("https://www.oatccc.com", "oatccc.com")};</p></li>
-            <li><span class="label">Athlete eligibility</span><p>All student-athletes associated with the participating Indoor Track &amp; Field team must meet all local Board of Education and OHSAA eligibility requirements for participation in athletics; and</p></li>
-            <li><span class="label">If a rule is not met</span><p>If the Indoor Track &amp; Field team participating is represented by a coach or student-athlete who does not meet the above regulations, then the OATCCC may exclude the team or any of its competitors or coaches from participating in the 2027 Indoor State Track &amp; Field Meet and apply sanctions to the team's future participation with OATCCC events.</p></li>
-          </ol>
-        </div>
-      </details>
-
-      <details class="part" open>
-        <summary><span><h3>Part 2: Performance marks</h3><small>3 terms</small></span><span class="chev" aria-hidden="true"></span></summary>
-        <div class="part-body">
-          <p>In order for performance marks to be considered for eligibility for the 2027 OATCCC Indoor State Track &amp; Field Championship Meet, they must meet all of the following terms:</p>
-          <ol class="terms">
-            <li><span class="label">When the performance happens</span><p>Performances must occur during the 2027 indoor track &amp; field season from December 1, 2026 until February 21, 2027.</p></li>
-            <li><span class="label">Which meets count</span><p>Performances must occur at an indoor track &amp; field meet that uses MileSplit for its registration process, regardless of the state in which the meet is contested. Note&mdash;Performances from meets that have results listed on MileSplit but did not use MileSplit for the registration process shall not be considered for eligibility in the 2027 OATCCC Indoor State Track &amp; Field Championship Meet.</p></li>
-            <li><span class="label">Who the athlete represents</span><p>Performances shall be by an athlete entered in a meet using MileSplit registration and the athlete must be entered as representing their verified school&rsquo;s Indoor Track &amp; Field team. Performances by athletes designated as &ldquo;unattached&rdquo; or with a club team shall not be eligible to be considered for the 2027 OATCCC Indoor State Track &amp; Field Championship Meet. An athlete&rsquo;s affiliation associated with a performance shall not be changed after the performance has been accomplished to comply with this requirement as stated.</p></li>
-          </ol>
-        </div>
-      </details>
-
-      <details class="part" open>
-        <summary><span><h3>Part 3: Deadlines</h3><small>6 terms</small></span><span class="chev" aria-hidden="true"></span></summary>
-        <div class="part-body">
-          <p>In order to participate in the 2027 OATCCC Indoor State Track &amp; Field Championship Meet, all of the following deadlines shall be complied with by the school, Indoor Track &amp; Field team coaches and any other representative of the school and Indoor Track &amp; Field team sponsored by the school:</p>
-          <ol class="terms">
-            <li><span class="label">Verification form</span><p>The online Verification Agreement Form for an Indoor Track &amp; Field team being sponsored by and complying with all regulations of the OATCCC must be received from December 1, 2026, at 12:00 am to February 5, 2027, at 11:59 pm. Verification shall only be considered valid and be accepted using the online form with the link provided to the athletic director of the school.</p></li>
-            <li><span class="label">Late forms</span><p>Late submissions of Verification Agreement Forms as described above will be subject to a $100.00 fine made payable to the Ohio Association of Track &amp; Cross Country Coaches. A late submission of the verification agreement shall only be received from February 5, 2027, at 12:00 am until February 15, 2027, at 5:00 pm. No Verification Agreement Forms shall be accepted past the February 15, 2027, late submission deadline. Any athlete associated with a team that has not been verified shall not be included on the finalized performance lists and shall not be eligible to compete at the 2027 OATCCC Indoor State Track &amp; Field Championship Meet.</p></li>
-            <li><span class="label">Performance window</span><p>Performances eligible for the 2027 OATCCC Indoor State Track &amp; Field Championship Meet must occur from December 1, 2026 until February 21, 2027. Performances that occur before or after this time frame shall not be eligible for consideration for the 2027 OATCCC Indoor State Track &amp; Field Championship Meet.</p></li>
-            <li><span class="label">Declarations</span><p>The declaration of an athlete&rsquo;s entry to compete in the 2027 OATCCC Indoor State Track &amp; Field Championship Meet shall be made from February 24, 2027, at 12:00 noon until February 26, 2027, at 11:59 pm. Only athletes appearing on the finalized performance lists posted on Ohio MileSplit are eligible to compete in the 2027 OATCCC Indoor State Track &amp; Field Championship Meet. There will be a registration fee assessed for every individual event entry and each relay team entered and accepted for the competition. No refunds will be issued if athletes do not compete.</p></li>
-            <li><span class="label">Scratches</span><p>The deadline to scratch an athlete is March 1, 2027, at 12:00 noon. The online scratch period opens on Saturday, February 27, 2027, at 12:01 am and closes on Saturday, February 27, 2027, at 12:00 noon. The scratch period is only 12 hours long. Scratches are for individual or relay events. No substitutions can be made. Scratching an athlete or relay allows the next declared athlete or relay team in that event to move up into the final acceptance list for that event. This is not the next declared athlete or relay on that same team but the next declared entry from any team in that same event. Once a scratch has been submitted, it cannot be undone.</p></li>
-            <li><span class="label">Registration fees</span><p>All registration fees shall be paid by no later than 12:00 noon the day of the meet for the team or athlete is entered. If the registration fee is not paid by this deadline, then the athlete or team shall not compete in the meet.</p></li>
-          </ol>
-        </div>
-      </details>
-
-      <div class="terms-closing">
-        <p>In order for a school to be eligible to participate in the 2027 OATCCC Indoor State Track &amp; Field Championship Meet, the Athletic Director for a participating school&rsquo;s team must sign and submit a Verification Agreement Form for the team. A link to the Verification Agreement Form is emailed to each Athletic Director on December 1, 2026, with a private link only they can access. The Verification Agreement Form for each team is due by February 5, 2027, with late submissions permitted after paying a fine of $100.00 and the online form submitted by no later than February 15, 2027, at 5:00 pm.</p>
-        <p>The rules and regulations stated above are incorporated into the Verification Agreement Form and apply only to the eligibility of and participation in the 2027 OATCCC Indoor State Track &amp; Field Championship Meet by a school, indoor track &amp; field team and/or indoor track &amp; field athlete. These rules and regulations do not apply to a school, indoor track &amp; field team and/or indoor track &amp; field athlete participating in a meet or other competition designated as an indoor track &amp; field event during the 2027 Indoor Track &amp; Field season.</p>
+      <div class="formtext">
+        ${formTextHtml({ heading: 3 })}
       </div>
     </section>
   </div>`;
@@ -550,7 +542,7 @@ function faqBody() {
         ${qa("Can an indoor track &amp; field team consist of one athlete?", "YES.There are no parameters as to how many athletes must exist on the team for it to be recognized as a team.")}
         ${qa("Must an athlete or team have a coach at the State Meet?", "YES. Athletes and teams must be accompanied by a Board-approved coach and a member of the OAT&amp;CCC. A parent or legal guardian cannot serve as a coach if not approved by the high school&rsquo;s local Board of Education. Only a school&rsquo;s coach who is an OATCCC member can pick-up the coach and athlete credentials.")}
         ${qa("What defines a Board-approved coach?", `A coach which has been approved and recognized by the local Board of Education to represent and facilitate the Board-approved team. This must be verified in compliance with the OAT&amp;CCC online verification agreement form submitted by the school&rsquo;s athletic director by February 5th at 11:59pm. If the AD did not receive the link to this agreement, then contact the Indoor State Meet Chair listed at ${contactUrl}`)}
-        ${qa("Do the Board-approved coaches of the Board-approved team need to be paid members of the OAT&amp;CCC?", "YES. All coaches who are coaching athletes at the OATCCC State Meet must be paid members of the OAT&amp;CCC for that calendar year. No coaches will be allowed into the meet for the purpose of coaching if they are not paid members of the OAT&amp;CCC.")}
+        ${qa("Do the Board-approved coaches of the Board-approved team need to be paid members of the OAT&amp;CCC?", "YES. All coaches who are coaching athletes at the OATCCC State Meet must be paid members of the OAT&amp;CCC for the 2026-2027 academic year. No coaches will be allowed into the meet for the purpose of coaching if they are not paid members of the OAT&amp;CCC.")}
         ${qa("What if a coach arrives at the State Meet and is not a paid member of the OAT&amp;CCC?", `That coach must submit their membership &amp; payment online then show proof of this to receive in order to gain access to the meet. This may be done at: ${ext(LINKS.membershipJoin, "https://www.oatccc.com/Coaches/Membership/Join/")}`)}
         ${qa("How many coaches per team will be admitted to the meet?", "All coaches who are 2027 OAT&amp;CCC members are admitted to the meet at no charge. However, the only coaches allowed on the infield are those coaching field events.")}
       </dl>
@@ -602,7 +594,7 @@ export function oatcccIndoorPages(site, flags) {
     .map((page) => {
       const spec = PAGES[page.key];
       const pathname = indoorPath(page.key);
-      const content = `<div class="ox-shell ox-wrap">${secnav(page.key, flags)}<div class="ox-content">${spec.body()}${contactBand()}</div></div>`;
+      const content = `<div class="ox-shell ox-wrap">${secnav(page.key, flags)}<div class="ox-content">${spec.body(flags)}${contactBand()}</div></div>`;
       return {
         pathname,
         html: oatcccLayout({
