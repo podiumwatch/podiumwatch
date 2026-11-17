@@ -1,6 +1,6 @@
 -- OATCCC private school directory: athletic directors and head coaches (2026-11-17)
 --
--- NOT RUN. Needs install/99, 101 and 102 first, and Zachary's OK.
+-- RUN by Zachary on 2026-11-17 (after install/99, 101 and 102).
 -- Safe to run more than once.
 --
 -- Numbered 104, not 103: branch oatccc-full-site already has a 103

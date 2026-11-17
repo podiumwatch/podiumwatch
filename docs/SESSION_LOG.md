@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 Migration 104 run
+
+- Zachary ran install/104_OATCCC_AD_DIRECTORY.sql in Supabase: success. Next: the school-list import, then the directory import (both --apply, on his OK).
+
 ## 2026 11 17 Private AD directory (oatccc-section)
 
 - install/104_OATCCC_AD_DIRECTORY.sql (not run), lib/oatccc_directory.mjs, scripts/import-oatccc-directory.mjs (dry run only), AD sign-in lock and the Chair's "AD email not in directory" badge. SQL tests: 84 checks in PGlite (9 new). tests/oatccc-directory.test.mjs (TEST rows).
