@@ -1,13 +1,13 @@
 # Podium Watch next session
 
-## Thursday launch fixes: done (2026-11-17), one thing missing
+## Thursday launch fixes: done (2026-11-17)
 
 Committed on oatccc-section (906a9b72): byline "By Zachary Bell"; article header and share images wired to
 /images/stories/pw-x-oatccc-article-hero-1600x900.png and /images/stories/pw-x-oatccc-article-share-1200x630.png;
 launch-only build checked (and tested); OATCCC_TERMS_LIVE (off) shows only the official-rules sentence on Eligibility.
 
-**Missing: the two image files.** They were not in dataimports/ or anywhere else on this machine. Copy them to
-public/images/stories/ under exactly those names. Until then a production build with OATCCC_LIVE=1 stops on purpose.
+The two image files are in public/images/stories/ (c0278dbd). A production launch build now stops only for the
+placeholder article body: add the final article text before switching OATCCC_LIVE on.
 
 Also new: /set-password/ for Supabase invite and recovery links (homepage forwards them there). Supabase settings to
 change: docs/SET_PASSWORD_SUPABASE_SETUP.md (not changed by me).
