@@ -18,9 +18,10 @@ Branch oatccc-section, NOT pushed. Commits 0ff39c40 (Part 1, launch pages), 7b58
 
 Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_FORM_TEXT.md, the Divisions xlsx, two PDFs) are the OATCCC's private documents: never commit them.
 
+**Run:** install/102_OATCCC_SCHOOL_DIVISIONS.sql was run by Zachary on 2026-11-17 ("success"), after 99 and 101. The school list and divisions tables are empty until the import runs.
+
 **Still off and not run:**
-- install/102_OATCCC_SCHOOL_DIVISIONS.sql (school list columns, divisions table, AD school choice, signatures, oatccc_submit_signed, the real 2027 season, MileSplit export view). Run after 99 and 101 (both already run).
-- Then the import, on Zachary's OK: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
+- The import, on Zachary's OK: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
 - OATCCC_DIVISION_LIST_LIVE (Divisions by school): off until Anjanette answers the data issues below.
 - OATCCC_MILESPLIT_CSV_TOKEN: not set anywhere. When MileSplit confirms the format, Zachary sets a 32+ character random value in Vercel (Production); the link is /oatccc/milesplit/<token>/verified-schools.csv and needs OATCCC_VERIFICATION_LIVE.
 - Before Dec 1 (Zachary, by hand): Supabase Auth sends through Resend SMTP, plus the /oatccc/verify/ redirect URL. Step by step in docs/OATCCC_RESEND_SMTP_SETUP.md. Supabase's built-in email is too limited for ~800 ADs (Zachary, 2026-11-17). This changes the sender of every Supabase Auth email on the site. The first site_admin row is still to be added by hand (install/101 header).
@@ -50,7 +51,7 @@ Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_
 | When | Release | Why then |
 |---|---|---|
 | Thu Nov 19 | Hub, ABCs, Divisions, Eligibility & Verification, the announcement | Official announcement |
-| By Dec 1 | Verification ready for the forms going out: run 102 and the import, Supabase redirect URL, then OATCCC_VERIFICATION_LIVE | Forms go to ADs Dec 1 |
+| By Dec 1 | Verification ready for the forms going out: the school import (102 run 2026-11-17), Supabase redirect URL, then OATCCC_VERIFICATION_LIVE | Forms go to ADs Dec 1 |
 | Early Dec | Verified teams list on the Eligibility page, updating as the Chair approves (no Sunday schedule, Anjanette 2026-11-17) | Forms open Dec 1 |
 | Early Jan | Clinics page, "Register" linking to oatccc.com | Clinic is Jan 28-30 |
 | Late Jan | Overview, Declarations, Meet day and FAQ pages (OATCCC_INDOOR_FULL_LIVE) | Before declarations open Feb 24 |

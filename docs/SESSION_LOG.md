@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 Migration 102 run
+
+- Zachary ran install/102_OATCCC_SCHOOL_DIVISIONS.sql in Supabase: success. Next: the school-list import (dry run first), still on his OK.
+
 ## 2026 11 17 OATCCC Thursday fixes and set-password page (oatccc-section)
 
 - 906a9b72: byline, article images (files still missing), launch-only build check (phone screenshots of the hub and Eligibility sent), OATCCC_TERMS_LIVE.
