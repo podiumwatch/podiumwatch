@@ -100,6 +100,10 @@
   ],
   "rewrites": [
     {
+      "source": "/oatccc/milesplit/:token/verified-schools.csv",
+      "destination": "/api/oatccc/milesplit?token=:token"
+    },
+    {
       "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/",
       "destination": "/api/review/oatccc-indoor"
     },
