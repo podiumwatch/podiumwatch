@@ -98,6 +98,7 @@
 .ox-join { background: var(--ox-wash); border-radius: 10px; padding: 18px; margin-top: 6px; }
 .ox-join h3 { margin: 0 0 4px; font-size: 1.35rem; }
 .ox-join p { margin: 0 0 12px; font-size: .9375rem; }
+.ox-join p.ox-join-how { margin: 8px 0 0; font-size: .875rem; }
 .ox-people { list-style: none; }
 .ox-people li { padding: 10px 0; border-top: 1px solid var(--ox-line); }
 .ox-people b { display: block; }

@@ -140,3 +140,20 @@ test("launch-only build (only OATCCC_LIVE=1): no AD sign-in, no division table, 
   const elig = pages.find((p) => p.pathname.endsWith("eligibility-and-verification/")).html;
   assert.match(elig, new RegExp(`href="${LINKS.indoorPage.replace(/[.?]/g, "\$&")}"[^>]*>Overview`));
 });
+
+test("Anjanette's preview comments, part 1 (2026-11-17): join link, form note, Feb 24 lists", () => {
+  assert.equal(LINKS.join, "https://oatccc-oh.finalforms-amp.com/");
+  const pages = oatcccOutputs(site, oatcccFlags({ OATCCC_LIVE: "1" })).pages;
+  const page = (p) => pages.find((x) => x.pathname === p).html;
+  const all = pages.map((p) => p.html).join("\n");
+  assert.ok(!all.includes("oatccc.com/About-Us/Join"), "no old join link");
+  const hub = page("/oatccc/");
+  assert.match(hub, /href="https:\/\/oatccc-oh\.finalforms-amp\.com\/"[^>]*>Join the OATCCC<\/a>\s*<p class="ox-join-how">Select Login\/Signup and follow the prompts\.<\/p>/);
+  const elig = page("/oatccc/indoor/high-school/eligibility-and-verification/");
+  assert.ok(elig.includes("The verification form link is not available on this website. It is emailed directly to each school&rsquo;s athletic director."));
+  assert.match(elig, /finalforms-amp\.com\/"[^>]*>Join the OATCCC<\/a>\. Select Login\/Signup and follow the prompts\./);
+  assert.ok(elig.includes("Finalized top 30 performance lists are posted February 24, 2027."), "qualifying step on Eligibility");
+  assert.ok(elig.includes('<b>Feb 24</b><span>Wednesday</span></div><div><span class="kd-what">Finalized top 30 performance lists are posted</span>'), "key date");
+  const div = page("/oatccc/indoor/high-school/divisions/");
+  assert.ok(div.includes("Each division has a finalized top 30 list for each event. Finalized top 30 performance lists are posted February 24, 2027."), "qualifying step on Divisions");
+});
