@@ -334,6 +334,19 @@ async function loadStories() {
         }
         story.draft = true;
       }
+      // Its header and share images must be in public/ (2026-11-17): a
+      // production build stops rather than launch with a broken image.
+      for (const field of ["heroImage", "socialImage"]) {
+        const src = data[field];
+        if (!src || !String(src).startsWith("/")) continue;
+        const exists = await fs.access(path.join(root, "public", src)).then(() => true, () => false);
+        if (!exists) {
+          if (process.env.VERCEL_ENV === "production") {
+            throw new Error(`${story.sourceFile}: OATCCC_LIVE=1 but its ${field} ${src} is not in public/. Add the image first.`);
+          }
+          console.warn(`OATCCC announcement: ${field} ${src} is missing from public/ (a production build would stop).`);
+        }
+      }
     }
     if (!story.draft) stories.push(story);
     else draftStories.push(story);

@@ -22,6 +22,9 @@
 //                               table to the Divisions page. Needs
 //                               OATCCC_LIVE too. Off until Anjanette
 //                               confirms the school-list data issues.
+//   OATCCC_TERMS_LIVE=1         Eligibility shows the full verification
+//                               form text under "Official agreement terms".
+//                               Off: only the official-rules sentence.
 //
 // Changing a variable needs a redeploy (the pages are static).
 
@@ -36,6 +39,9 @@ export function oatcccFlags(env = process.env) {
     indoorFull: live && on("OATCCC_INDOOR_FULL_LIVE", env),
     verification: live && on("OATCCC_VERIFICATION_LIVE", env),
     divisionList: live && on("OATCCC_DIVISION_LIST_LIVE", env),
+    // Eligibility's "Official agreement terms": off shows only the
+    // official-rules sentence; on shows the full verification form text.
+    terms: live && on("OATCCC_TERMS_LIVE", env),
     // Search engines may index the section only on the real production
     // launch. Local and preview builds stay noindex.
     indexable: live && env.VERCEL_ENV === "production"

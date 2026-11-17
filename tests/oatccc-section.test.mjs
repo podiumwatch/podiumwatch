@@ -10,7 +10,7 @@ import { site } from "../src/config/site.mjs";
 
 test("off by default: no setting means nothing is built", () => {
   const flags = oatcccFlags({});
-  assert.deepEqual(flags, { live: false, indoorFull: false, verification: false, divisionList: false, indexable: false });
+  assert.deepEqual(flags, { live: false, indoorFull: false, verification: false, divisionList: false, terms: false, indexable: false });
   assert.deepEqual(oatcccOutputs(site, flags), { pages: [], assets: [] });
 });
 
@@ -98,11 +98,12 @@ test("launch pages use Anjanette's answers", () => {
   assert.match(html("/oatccc/"), /paid members for the 2026-2027 academic year/);
   assert.match(html(launch[1]), /Coaches must be paid OATCCC members for the 2026-2027 academic year in order for their athletes to be eligible to compete in the Indoor State Meet/);
   const elig = html(launch[3]);
-  assert.match(elig, /The terms in the verification form signed by the athletic director are the official rules\. They are the same as the content shown in the verification section\./);
+  assert.match(elig, /The terms in the verification form signed by the athletic director are the official rules./);
   assert.match(elig, /If you do not see your school listed, ask your AD if they submitted the online form emailed to them\./);
   assert.match(elig, /The coach or person designated by the coach declares, scratches, and pays\./);
   assert.match(elig, /The entry fees are due by 12 noon the day of the meet that the team or athlete is competing\./);
-  assert.match(elig, /hereby releases, waives and covenants not to sue/);
+  // OATCCC_TERMS_LIVE off (the launch): the sentence only, none of the form text.
+  assert.doesNotMatch(elig, /hereby releases, waives and covenants not to sue|They are the same as the content shown/);
   assert.match(elig, /href="mailto:awhitman@oatccc\.com\?subject=Indoor%20State%20Meet"/);
   assert.doesNotMatch(elig, /oatccc\.com\/Contact-Us/);
   const div = html(launch[2]);
@@ -113,4 +114,27 @@ test("launch pages use Anjanette's answers", () => {
   const faq = html("/oatccc/indoor/high-school/faq/");
   assert.match(faq, /paid members of the OAT&amp;CCC for the 2026-2027 academic year\./);
   assert.doesNotMatch(faq, /calendar year/);
+});
+
+test("OATCCC_TERMS_LIVE shows the full verification form text on Eligibility", () => {
+  const elig = (env) => oatcccOutputs(site, oatcccFlags(env)).pages.find((p) => p.pathname === "/oatccc/indoor/high-school/eligibility-and-verification/").html;
+  const off = elig({ OATCCC_LIVE: "1" });
+  const terms = off.split('id="terms"')[1].split("</section>")[0];
+  assert.match(terms, /The terms in the verification form signed by the athletic director are the official rules\.<\/p>/);
+  assert.doesNotMatch(terms, /form signed by the athletic director are the official rules\. They are|In consideration|data-ox-print/);
+  assert.equal(oatcccFlags({ OATCCC_TERMS_LIVE: "1" }).terms, false, "needs OATCCC_LIVE");
+  const on = elig({ OATCCC_LIVE: "1", OATCCC_TERMS_LIVE: "1" });
+  assert.match(on, /They are the same as the content shown in the verification section\./);
+  assert.match(on, /hereby releases, waives and covenants not to sue/);
+});
+
+test("launch-only build (only OATCCC_LIVE=1): no AD sign-in, no division table, full pages on oatccc.com", () => {
+  const pages = oatcccOutputs(site, oatcccFlags({ OATCCC_LIVE: "1" })).pages;
+  const all = pages.map((p) => p.html).join("\n");
+  assert.doesNotMatch(all, /Athletic director sign-in/);
+  assert.doesNotMatch(all, /data-ox-divisions|Divisions by school/);
+  assert.ok(!pages.some((p) => /\/oatccc\/(admin|verify)\//.test(p.pathname)));
+  for (const key of ["overview", "declarations", "meetday", "faq"]) assert.equal(indoorHref(key, oatcccFlags({ OATCCC_LIVE: "1" })), LINKS.indoorPage, key);
+  const elig = pages.find((p) => p.pathname.endsWith("eligibility-and-verification/")).html;
+  assert.match(elig, new RegExp(`href="${LINKS.indoorPage.replace(/[.?]/g, "\$&")}"[^>]*>Overview`));
 });
