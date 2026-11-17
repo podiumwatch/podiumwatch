@@ -1,5 +1,14 @@
 # Podium Watch next session
 
+## Start here (2026-11-17, evening): Anjanette's preview comments, part 2 (oatccc-full-site)
+
+- oatccc-section merged in (1ff969b2), then part 2 (f4d9eb57, 778e9360): Declarations, Meet day, FAQ, Join, clinic vendors, XC clinic buttons, T&F clinic notes by year, leadership grouped and past leaders by role. Tests: tests/oatccc-full-site.test.mjs.
+- Waiting on Anjanette: the date the final entries are posted (shown as a yellow [DATE TO CONFIRM]; she wrote Monday, March 2, 2026, and March 2, 2027 is a Tuesday). Parking (Passport Parking, $6): she is confirming it with SPIRE.
+- Waiting on Zachary: how people contact each current leader and district rep (no phone numbers).
+- Later, not built: HOF Banquet invitation link; Podium Watch poll pages in place of the Google Sheets.
+- Edited page files say "Edited at the OATCCC's request" in their header; scripts/oatccc-port-pages.mjs skips them unless run with --overwrite-edited.
+- The /site-preview/ copy was rebuilt and re-uploaded (old 532 objects under site-preview/ deleted first, on Zachary's OK; new 532 uploaded, byte for byte).
+
 ## Start here (2026-11-17): OATCCC site preview for Anjanette
 
 - oatccc-section is merged into this branch (05ff26ad). Not pushed.
