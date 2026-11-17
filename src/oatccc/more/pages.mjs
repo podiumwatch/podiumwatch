@@ -39,7 +39,14 @@ const TOUCHES = {
   // Sponsors as text links, no logos (Zachary, 2026-11-16 and 11-17).
   sponsors: (html) => html.replace(/<img [^>]*>\s*/g, ""),
   // oatccc.com shows the same placeholder photo for every officer.
-  leadership: (html) => html.replace(/<img src="[^"]*Ohio-Association-of-Track-Cross-Country-Coaches-Team\.jpg"[^>]*>\s*/g, "")
+  leadership: (html) => html.replace(/<img src="[^"]*Ohio-Association-of-Track-Cross-Country-Coaches-Team\.jpg"[^>]*>\s*/g, ""),
+  // Current officers and district reps first, then past leaders by role
+  // (Anjanette, 2026-11-17). The current list comes from the Leadership
+  // page so the two never disagree.
+  "history-of-leadership": (html) => {
+    const current = (loadContent("leadership") || "").match(/<div class="ox-lead-groups">[\s\S]*?\n<\/div>/);
+    return current ? `<h2>Current officers and district representatives</h2>\n${current[0]}\n${html}` : html;
+  }
 };
 
 function sectionNav(page, flags) {

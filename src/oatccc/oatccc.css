@@ -524,3 +524,29 @@
   .ox-meetstrip { background: #fff; color: var(--ox-text); border-top: 2px solid var(--ox-navy); border-bottom: 2px solid var(--ox-navy); }
   .ox-fact span { color: var(--ox-text); }
 }
+
+/* Anjanette's preview comments (2026-11-17). */
+/* A date the OATCCC still has to confirm: shown on purpose, in yellow. */
+.ox mark.ox-tbc { background: #FFE45C; color: #1D2150; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+.ox .ox-callout { background: var(--ox-blue-tint); border-left: 4px solid var(--ox-royal); padding: 12px 14px; border-radius: 0 6px 6px 0; font-weight: 600; }
+/* Large buttons inside ported pages (same look as the hub's Join button). */
+.ox .ox-prose .ox-bigbtns { display: flex; flex-wrap: wrap; gap: 12px; margin: 14px 0 6px; }
+.ox .ox-prose a.btn2 { white-space: normal; text-decoration: none; }
+.ox .ox-prose a.btn2.ox-big { font-size: 1.0625rem; padding: 14px 24px; min-width: 220px; }
+.ox .ox-prose a.btn2 + a.btn2 { margin-left: 0; }
+.ox .ox-prose .ox-bigbtn-how { margin: 8px 0 0; font-size: .9375rem; color: var(--ox-muted); }
+/* Clinic notes: one row per year, newest first. */
+.ox .ox-notes { list-style: none; padding: 0; margin: 12px 0 20px; border-top: 1px solid var(--ox-line); }
+.ox .ox-notes > li { display: grid; grid-template-columns: 72px 1fr; gap: 6px 16px; padding: 12px 0; border-bottom: 1px solid var(--ox-line); }
+.ox .ox-notes .ox-notes-year { font-family: var(--ox-display); font-size: 1.5rem; font-weight: 800; line-height: 1.1; color: var(--ox-navy); }
+.ox .ox-notes .ox-notes-how { color: var(--ox-muted); font-size: .875rem; margin-left: 6px; }
+.ox .ox-notes details summary { cursor: pointer; font-weight: 700; color: var(--ox-royal); }
+.ox .ox-notes details ul { margin: 8px 0 0; padding-left: 18px; }
+.ox .ox-notes details li { margin: 4px 0; }
+/* Leadership: current people grouped, past leaders in tables by role. */
+.ox .ox-prose .ox-lead-group { margin: 18px 0 8px; }
+.ox .ox-prose table.ox-past { display: table; }
+.ox .ox-prose table.ox-past caption { text-align: left; font-weight: 700; padding: 0 0 6px; }
+@media (max-width: 520px) {
+  .ox .ox-notes > li { grid-template-columns: 1fr; }
+}

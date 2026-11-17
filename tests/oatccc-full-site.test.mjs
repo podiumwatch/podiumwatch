@@ -133,3 +133,45 @@ test("Leadership is names and roles only", () => {
   for (const item of items) assert.match(item, /^<strong>[^<]+<\/strong>(<span>[^<]+<\/span>)?$/, item);
   assert.doesNotMatch(html, /<img|<em>|mailto:|tel:/);
 });
+
+test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
+  const pages = oatcccOutputs(site, oatcccFlags({ ...ALL, OATCCC_INDOOR_FULL_LIVE: "1" })).pages;
+  const page = (p) => { const hit = pages.find((x) => x.pathname === p); assert.ok(hit, p); return hit.html; };
+  const FF = "https://oatccc-oh.finalforms-amp.com/";
+  // Declarations: the MileSplit note near the top; the date stays a visible placeholder.
+  const dec = page("/oatccc/indoor/high-school/declarations-and-fees/");
+  assert.ok(dec.indexOf("Declarations are made completely through the MileSplit registration option") < dec.indexOf("Declarations must be completed on MileSplit Ohio"));
+  assert.ok(dec.includes('All final entries accepted into the State Meet will be posted on <mark class="ox-tbc">[DATE TO CONFIRM]</mark>, under the ENTRY tab of each MileSplit meet page for each division, and are considered entered in the meet.'));
+  assert.ok(!dec.includes("All declarations made which appear on the final acceptance lists"));
+  assert.ok(!/Monday, March 2, 2026, are considered entered/.test(dec));
+  // Meet day.
+  const day = page("/oatccc/indoor/high-school/meet-day/");
+  assert.ok(day.includes("2027 NFHS and OHSAA competition rules will be in effect and applicable USATF competition rules for non-OHSAA events."));
+  assert.ok(day.includes("One alternate relay pass is issued per relay team. All other alternate relay athletes must pay for entry as a spectator."));
+  assert.ok(!day.includes("Whatever works best for you") && !day.includes("Include the image below"));
+  // FAQ and Join.
+  assert.ok(page("/oatccc/indoor/high-school/faq/").includes(`href="${FF}"`));
+  assert.ok(!pages.some((p) => /oatccc\.com\/(About-Us\/Join|Coaches\/Membership\/Join)/i.test(p.html)), "no old join links");
+  const join = page("/oatccc/join/");
+  assert.ok(!join.includes(">Our Members<"));
+  assert.ok(join.includes("<p>Membership is from July 1st to June 30th each year.</p>"));
+  assert.ok(!join.includes("CALENDAR YEAR") && !join.includes("downloading the membership form"));
+  assert.match(join, new RegExp(`<a href="${FF}" target="_blank" rel="noopener noreferrer" class="btn2 ox-big">Join the OATCCC</a></div>\\s*<p class="ox-bigbtn-how">Select Login/Signup and follow the prompts\\.</p>`));
+  // Clinics.
+  const vend = page("/oatccc/clinics/vendors/");
+  assert.ok(vend.includes(`href="${FF}" target="_blank" rel="noopener noreferrer" class="btn2 ox-big">Vendor Submission</a>`));
+  assert.ok(vend.includes(">Vendor Letter</a>") && !/oatccc\.com\/Clinics\/Track-And-Field\/Vendors/i.test(vend));
+  const xc = page("/oatccc/clinics/cross-country/");
+  assert.match(xc, /class="btn2 ox-big">Clinic Registration<\/a>/);
+  assert.match(xc, /class="btn2 ox-big">Clinic Speakers<\/a>/);
+  const tf = page("/oatccc/clinics/track-and-field/");
+  const years = [...tf.matchAll(/<span class="ox-notes-year">(\d{4})<\/span>/g)].map((m) => m[1]);
+  assert.deepEqual(years, ["2026", "2025", "2024", "2023", "2022", "2020", "2019", "2018", "2016"]);
+  assert.equal((tf.match(/Archive\/20\d\d\/[^"]*\.pdf"/g) || []).length, 116, "every clinic PDF kept");
+  // Leadership: current people first, then past leaders by role.
+  const hist = page("/oatccc/about/history-of-leadership/");
+  const order = ["Current officers and district representatives", ">Officers<", ">District representatives<", "Past leaders", ">Presidents<", ">Secretaries<", ">Treasurers<", ">Editors<"].map((t) => hist.indexOf(t));
+  assert.ok(order.every((n, i) => n > 0 && (i === 0 || n > order[i - 1])), JSON.stringify(order));
+  assert.ok(!hist.includes("MCDERMOTT"), "stray rows dropped");
+  assert.ok(!/\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}-\d{3}-\d{4}\b/.test(hist + page("/oatccc/about/leadership/")), "no phone numbers");
+});

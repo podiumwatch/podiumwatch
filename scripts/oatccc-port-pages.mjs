@@ -32,12 +32,21 @@ const CRAWL = path.join(ROOT, "_private", "oatccc-crawl");
 const OUT = path.join(ROOT, "src", "oatccc", "more", "content");
 const ORIGIN = "https://www.oatccc.com";
 
-const want = process.argv.slice(2);
+// Pages the OATCCC has asked us to change (their header says "Edited at
+// the OATCCC's request") are left alone unless --overwrite-edited is given:
+// copying them again would undo those changes.
+const overwriteEdited = process.argv.includes("--overwrite-edited");
+const want = process.argv.slice(2).filter((arg) => !arg.startsWith("--"));
 const phones = [];
 const missing = [];
 fs.mkdirSync(OUT, { recursive: true });
 for (const spec of MORE_PAGES) {
   if (want.length && !want.includes(spec.key)) continue;
+  const existing = path.join(OUT, `${spec.key}.html`);
+  if (!overwriteEdited && fs.existsSync(existing) && fs.readFileSync(existing, "utf8").slice(0, 600).includes("Edited at the OATCCC's request")) {
+    console.log(`${spec.key}: edited at the OATCCC's request, left alone (use --overwrite-edited to copy it again)`);
+    continue;
+  }
   const parts = [];
   for (const old of spec.old) {
     const page = loadCrawlPage(old, CRAWL);

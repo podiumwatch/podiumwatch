@@ -444,6 +444,7 @@ function declarationsBody() {
     </div>
     <section aria-label="Declarations">
       <div class="block">
+        <p class="ox-callout">Declarations are made completely through the MileSplit registration option on the MileSplit meet page for each division. Declaring does not guarantee entry. It only allows an athlete or relay team to be declared in the meet if they are on the top 30 list.</p>
         <p>Declarations must be completed on MileSplit Ohio</p>
         <p>Here is important information to know about the 2026 Indoor State Meet Declaration Process:</p>
         <ul>
@@ -471,7 +472,7 @@ function declarationsBody() {
         <p>Print your declaration lists to confirm your submissions. Computer and internet connection issues are not an excuse for omitting a declaration. Print and save your confirmation!</p>
         <p>To view and print your declarations, click on MAKE PAYMENT, then PRINT INVOICE. Do NOT pay the invoice until Monday, March 2, 2026, when the final acceptance lists are posted.</p>
         <p>The cost per individual entry is $15.00. The cost per relay team entry is $25.00.</p>
-        <p>All declarations made which appear on the final acceptance lists to be posted on Monday, March 2, 2026, are considered entered in the meet. The final entry fee invoice will reflect only those athletes and relays on the final acceptance lists. Payment must be made for all those on the final acceptance lists even if the athlete or relay chooses not to compete. Again, do not pay the invoice until Sunday after the final acceptance lists are posted.</p>
+        <p>All final entries accepted into the State Meet will be posted on <mark class="ox-tbc">[DATE TO CONFIRM]</mark>, under the ENTRY tab of each MileSplit meet page for each division, and are considered entered in the meet. The final entry fee invoice will reflect only those athletes and relays on the final acceptance lists. Payment must be made for all those on the final acceptance lists even if the athlete or relay chooses not to compete. Again, do not pay the invoice until Sunday after the final acceptance lists are posted.</p>
         <p>Click on &ldquo;Registration Closed - View Your Entries&rdquo; to submit payment.</p>
         <p>All entries fees are paid online and due by Thursday, March 5, 2026 at 12noon.</p>
       </div>
@@ -488,9 +489,9 @@ function meetDayBody() {
       <div class="block">
         <ul>
           <li>The meet is located at SPIRE Institute: 5201 SPIRE Circle, Geneva, OH (Track &amp; Field building is at the far East end of the property)</li>
-          <li>2027 NFHS and OHSAA competition rules will be in effect.</li>
+          <li>2027 NFHS and OHSAA competition rules will be in effect and applicable USATF competition rules for non-OHSAA events.</li>
           <li>All competitors must compete in school-issued uniform with all uniform rules in effect.</li>
-          <li>Alternate relay athletes must pay for entry as a spectator.</li>
+          <li>One alternate relay pass is issued per relay team. All other alternate relay athletes must pay for entry as a spectator.</li>
           <li>Live streaming of the event will be available on ${milesplit}</li>
           <li>Results will be available on the Division Meet pages on ${milesplit}</li>
           <li>Athletic training staff and a physician will be provided by The Cleveland Clinic.</li>
@@ -508,7 +509,7 @@ function meetDayBody() {
         <p>${ext(LINKS.phoneticForm, "Phonetic Spelling Form")}</p>
         <p>OATCCC Spectator Tickets: All spectator tickets will be sold online in advance and on-site. NO CASH ACCEPTED.</p>
         <p>${ext(LINKS.tickets, "OATCCC Spectator Tickets")}</p>
-        <p>Parking is $6.00 per vehicle payable online. Download the app or register online to pay in advance and avoid internet connection delays. There is no parking fee for official school vehicles. Include the image below as well or use the image as the clickable button. Whatever works best for you.</p>
+        <p>Parking is $6.00 per vehicle payable online. Download the app or register online to pay in advance and avoid internet connection delays. There is no parking fee for official school vehicles.</p>
         <p>${ext(LINKS.parkingFee, "Spectator Parking Fee")}</p>
       </div>
     </section>
@@ -562,7 +563,7 @@ function faqBody() {
         ${qa("Must an athlete or team have a coach at the State Meet?", "YES. Athletes and teams must be accompanied by a Board-approved coach and a member of the OAT&amp;CCC. A parent or legal guardian cannot serve as a coach if not approved by the high school&rsquo;s local Board of Education. Only a school&rsquo;s coach who is an OATCCC member can pick-up the coach and athlete credentials.")}
         ${qa("What defines a Board-approved coach?", `A coach which has been approved and recognized by the local Board of Education to represent and facilitate the Board-approved team. This must be verified in compliance with the OAT&amp;CCC online verification agreement form submitted by the school&rsquo;s athletic director by February 5th at 11:59pm. If the AD did not receive the link to this agreement, then contact the Indoor State Meet Chair listed at ${contactUrl}`)}
         ${qa("Do the Board-approved coaches of the Board-approved team need to be paid members of the OAT&amp;CCC?", "YES. All coaches who are coaching athletes at the OATCCC State Meet must be paid members of the OAT&amp;CCC for the 2026-2027 academic year. No coaches will be allowed into the meet for the purpose of coaching if they are not paid members of the OAT&amp;CCC.")}
-        ${qa("What if a coach arrives at the State Meet and is not a paid member of the OAT&amp;CCC?", `That coach must submit their membership &amp; payment online then show proof of this to receive in order to gain access to the meet. This may be done at: ${ext(LINKS.membershipJoin, "https://www.oatccc.com/Coaches/Membership/Join/")}`)}
+        ${qa("What if a coach arrives at the State Meet and is not a paid member of the OAT&amp;CCC?", `That coach must submit their membership &amp; payment online then show proof of this to receive in order to gain access to the meet. This may be done at: ${ext(LINKS.join, "https://oatccc-oh.finalforms-amp.com/")}`)}
         ${qa("How many coaches per team will be admitted to the meet?", "All coaches who are 2027 OAT&amp;CCC members are admitted to the meet at no charge. However, the only coaches allowed on the infield are those coaching field events.")}
       </dl>
     </section>
