@@ -3,7 +3,7 @@
 ## Start here (2026-11-17): private AD directory (oatccc-section)
 
 - install/104_OATCCC_AD_DIRECTORY.sql: run by Zachary on 2026-11-17 ("success"). The table is empty until the imports run. (104, not 103: oatccc-full-site already has a 103.) Private table of ADs and head coaches by OHSAA ID; only OATCCC staff can read it; no public view.
-- scripts/import-oatccc-directory.mjs: dry run shown to Zachary 2026-11-17; NOT applied. Order: 104 (done), then the school-list import (scripts/import-oatccc-school-divisions.mjs --apply), then this with --apply (from ../podium_watch_oatccc):
+- **Both imports run 2026-11-17 (on Zachary's go).** School list: 812 schools on the verification list (810 with an OHSAA ID), 1,598 division rows (798 boys, 800 girls). Directory: 811 rows, 810 linked to a verification-list school, 809 of those with an AD email (Kelleys Island has none), Our Lady of the Elms not linked (not on Anjanette's list). Filled OHSAA IDs: 5 of 5. Re-run either the same way to refresh (it only adds or updates):
   `node --env-file=../podium_watch_site/.env.local scripts/import-oatccc-directory.mjs --file "dataimports/Ohio_XC_Track_Coach_AD_Directory_2026-11-17.xlsx" --apply`
 - The directory spreadsheet is private contact data: git-ignored now; never commit it, never show any of it on a public page. The middle school tab is not imported (Zachary).
 - AD sign-in: an AD whose email is in the directory gets their school preselected and locked (the database enforces it); anyone else picks a school and the submission shows "AD email not in directory" for the Chair. Until 104 runs, the form works as before (no check, no badge).
@@ -29,8 +29,8 @@ Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_
 
 **Run:** install/102_OATCCC_SCHOOL_DIVISIONS.sql was run by Zachary on 2026-11-17 ("success"), after 99 and 101. The school list and divisions tables are empty until the import runs.
 
-**Still off and not run:**
-- The import, on Zachary's OK: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
+**Still off:**
+- (School-list import: run 2026-11-17, see the start of this file.) To refresh it: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
 - OATCCC_DIVISION_LIST_LIVE (Divisions by school): off until Anjanette answers the data issues below.
 - OATCCC_MILESPLIT_CSV_TOKEN: not set anywhere. When MileSplit confirms the format, Zachary sets a 32+ character random value in Vercel (Production); the link is /oatccc/milesplit/<token>/verified-schools.csv and needs OATCCC_VERIFICATION_LIVE.
 - Before Dec 1 (Zachary, by hand): Supabase Auth sends through Resend SMTP, plus the /oatccc/verify/ redirect URL. Step by step in docs/OATCCC_RESEND_SMTP_SETUP.md. Supabase's built-in email is too limited for ~800 ADs (Zachary, 2026-11-17). This changes the sender of every Supabase Auth email on the site. The first site_admin row is still to be added by hand (install/101 header).

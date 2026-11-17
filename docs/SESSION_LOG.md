@@ -2,6 +2,12 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 School list and AD directory imported
+
+- scripts/import-oatccc-school-divisions.mjs --apply: dry run matched (812 names, 802 boys, 805 girls rows); loaded 812 schools and 1,598 division rows.
+- scripts/import-oatccc-directory.mjs --apply: 811 directory rows; 810 linked to a verification-list school; 809 with an AD email (Kelleys Island has none); 5 OHSAA IDs filled.
+- Checked in Supabase by counts only (no names or emails printed). OATCCC_VERIFICATION_LIVE and OATCCC_DIVISION_LIST_LIVE stay off.
+
 ## 2026 11 17 Migration 104 run
 
 - Zachary ran install/104_OATCCC_AD_DIRECTORY.sql in Supabase: success. Next: the school-list import, then the directory import (both --apply, on his OK).
