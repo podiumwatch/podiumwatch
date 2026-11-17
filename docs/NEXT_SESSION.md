@@ -144,6 +144,12 @@ Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_
 - Draft edits on ABCs, Divisions and Eligibility stay as they are; Zachary is getting the OATCCC's OK and will say which to revert if any.
 - Backup bundle: D:Podium Watchackupsoatccc-section-2026-11-16.bundle. Do not push until launch morning.
 
+## Start here (2026-11-17): review link /site-preview/ folder (branch oatccc-review-pages)
+
+- Commit 1a29a4fc adds a catch-all under the review address: <review link>/site-preview/... serves files from the private bucket oatccc-review, folder site-preview/, behind the same password and cookie. Tests: scripts/test-oatccc-review-site.mjs. NOT pushed, NOT deployed: waiting for Zachary's OK.
+- Production runs a GitHub deploy of main (8f374826, 2026-11-14). The review link code is on main (a6e30721); only the session-log commit 996e3dd8 and 1a29a4fc are not. Deploy = merge this branch into main and push main (from this worktree: detach at origin/main, merge --no-ff, push HEAD:main). Do not deploy this branch by itself: it does not have main's two Sophomores-story commits.
+- The bucket only accepts text/html uploads, so the site-preview files are stored as text/html; the handler sends the real type from the file extension.
+
 ## Start here (2026-11-13, site fixes round 1)
 
 - Branch site-fixes-1 (pushed to GitHub, NOT merged to main, not deployed). Working copy: D:\Podium Watch\pw_site_phase3. Zachary approved section B wording; C/E findings were report-only.

@@ -74,6 +74,10 @@ Add a new section after each meaningful development session.
 - Part B: install/99 and install/100 written, not run; 29 database rule checks pass in PGlite (scripts/test-oatccc-verification-sql.mjs); API, admin queue, AD page, email templates; pages checked with mocked TEST data.
 - npm run check already fails on origin/main (lib/athletic_net_rankings_service.mjs .limit(20000) and .limit(10000)); not touched here.
 
+## 2026 11 17 Review link: /site-preview/ folder
+
+- api/review/oatccc-indoor.js + lib/oatccc_review.mjs: site preview folder (path to object with index.html for folders, fixed file-type list with content types, raw-byte downloads, "..", hidden files and encoded slashes refused before any lookup, same noindex/no-store/no-referrer headers, 401 for files without the cookie). vercel.json: two rewrites. Tests pass (existing review tests unchanged). Merged result vs production 8f374826: only these files; a full production-mode build of both is identical apart from build timestamps.
+
 ## 2026 11 11 Pushed outage hardening; parent-line merch; team and athlete links
 
 - Pushed 587c7eb9..39df9b6d; verified a team page cache HIT on the second load, one test vote counted (Aarush Talekar, Boys D1 Athlete, 108 to 109), /support/ button to Stripe.

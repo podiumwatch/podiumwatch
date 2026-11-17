@@ -63,6 +63,10 @@ Record major technical, editorial, design, and business decisions here.
 - Sponsors are text links, no logos. Logo: oatccc-logo.zip transparent PNGs only.
 - Verification (install/99, not run): the database enforces one submission per school per season, the statuses submitted/returned/resubmitted/approved and who moves them, a comment to return, late flag and closed window, permanent comments and audit log, TEST vs real separation, and row-level security; the API calls Supabase as the signed-in user, never the service role. Email templates exist; nothing sends.
 
+## 2026 11 17 OATCCC review link: multi-page site preview folder
+
+- The OATCCC preview of the whole section is a static copy in the private bucket (oatccc-review/site-preview/), served through the existing review endpoint under <review link>/site-preview/ with the same password. Nothing of it is in git (the repo is public). Links in the copy are relative and stay inside it; links to the rest of Podium Watch go to a "not in this preview" page; analytics and live-site API calls are removed or blocked (Zachary, 2026-11-17).
+
 ## 2026 11 11 School name aliases and division rules
 
 ### Decision
