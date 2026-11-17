@@ -174,7 +174,9 @@ deps.env = { OATCCC_REVIEW_PASSWORD: PASSWORD, OATCCC_REVIEW_COOKIE_SECRET: SECR
 // vercel.json: both rewrites, ahead of everything else under /review.
 const vercel = JSON.parse(fs.readFileSync("vercel.json", "utf8"));
 const root = vercel.rewrites.findIndex((r) => r.source === SITE_PATH && r.destination === "/api/review/oatccc-indoor?page=site&path=");
-const rest = vercel.rewrites.findIndex((r) => r.source === SITE_PATH + ":path*" && r.destination === "/api/review/oatccc-indoor?page=site&path=:path*");
+// ":path(.*)", not ":path*": Vercel matches sources strictly, and ":path*"
+// does not match a folder address ending in "/" (live 404s, 2026-11-17).
+const rest = vercel.rewrites.findIndex((r) => r.source === SITE_PATH + ":path(.*)" && r.destination === "/api/review/oatccc-indoor?page=site&path=:path");
 assert.ok(root >= 0 && rest >= 0, "site preview rewrites");
 assert.ok(vercel.headers.some((h) => h.source === "/review/(.*)"), "review headers block still covers it");
 
