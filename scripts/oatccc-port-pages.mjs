@@ -42,6 +42,9 @@ for (const spec of MORE_PAGES) {
   for (const old of spec.old) {
     const page = loadCrawlPage(old, CRAWL);
     if (!page) { missing.push({ key: spec.key, old }); continue; }
+    // Some oatccc.com addresses just send people to the home page (the
+    // Midwest Meet page today): nothing to copy.
+    if (page.finalUrl && old !== "/" && new URL(page.finalUrl).pathname === "/") { missing.push({ key: spec.key, old, reason: "oatccc.com sends this address to its home page" }); continue; }
     const body = SPECIAL[spec.key] ? SPECIAL[spec.key](page).html.trim() : cleanMain(page, phones);
     // Two oatccc.com addresses can show the same page (/Sponsors/ and
     // /About-Us/Sponsors/): copy it once; both still redirect here.

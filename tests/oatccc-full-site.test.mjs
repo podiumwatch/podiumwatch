@@ -104,3 +104,22 @@ test("Hall of Fame switch with no data: section treated as off", async () => {
   assert.ok(!out.pages.some((p) => p.pathname.startsWith("/oatccc/hall-of-fame/")));
   assert.ok(!out.pages.some((p) => p.html.includes('href="/oatccc/hall-of-fame/"')), "no link to a page that was not built");
 });
+
+// The site footer script fills every [data-year] element with the current
+// year (the copyright line). OATCCC pages must never use data-year.
+test("no OATCCC page body uses the data-year attribute", async () => {
+  const preview = { inductees: [{ slug: "test-alpha-1990", name: "TEST Alpha", sort_name: "alpha test", induction_year: 1990, ed_barker_recipient: false, school: null, sport: null, bio: "Bio.", photo_path: null, old_url: "https://www.oatccc.com/HOF/View-Bio/TEST-Alpha-1990/" }], awards: [], recipients: [] };
+  const file = new URL("./tmp-hof-preview.json", import.meta.url);
+  fs.writeFileSync(file, JSON.stringify(preview));
+  try {
+    const env = { ...ALL, OATCCC_HOF_PREVIEW_FILE: file.pathname.replace(/^\/([A-Za-z]:)/, "$1") };
+    const out = await oatcccBuild(site, oatcccFlags(env), env);
+    assert.ok(out.pages.some((p) => p.pathname === "/oatccc/hall-of-fame/test-alpha-1990/"));
+    for (const page of out.pages) {
+      const body = page.html.split('<div class="ox">')[1]?.split('<footer class="site-footer')[0] || "";
+      assert.doesNotMatch(body, /\sdata-year=/, page.pathname);
+    }
+  } finally {
+    fs.rmSync(file, { force: true });
+  }
+});

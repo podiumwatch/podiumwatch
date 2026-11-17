@@ -11,7 +11,7 @@
     const year = document.querySelector("[data-ox-hof-year]");
     const barker = document.querySelector("[data-ox-hof-barker]");
     const count = document.querySelector("[data-ox-hof-count]");
-    const cards = [...list.children].map((el) => ({ el, name: norm(el.dataset.name), year: el.dataset.year, barker: el.dataset.barker === "1" }));
+    const cards = [...list.children].map((el) => ({ el, name: norm(el.dataset.name), year: el.dataset.hofYear, barker: el.dataset.barker === "1" }));
     const apply = () => {
       const text = norm(q.value);
       let shown = 0;

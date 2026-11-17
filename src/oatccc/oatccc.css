@@ -467,6 +467,8 @@
 .ox-prose table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; background: var(--ox-paper); display: block; overflow-x: auto; }
 .ox-prose th, .ox-prose td { border: 1px solid var(--ox-line); padding: 8px 10px; text-align: left; vertical-align: top; }
 .ox-prose thead th { background: var(--ox-wash); }
+.ox-prose table { overflow-wrap: normal; }
+.ox-prose td a { white-space: nowrap; display: inline-block; }
 .ox-prose td a + a { margin-left: 12px; }
 .ox-prose iframe { max-width: 100%; border: 0; }
 .ox-yeartable th[scope="row"] { white-space: nowrap; font-weight: 700; }
@@ -497,7 +499,7 @@
 .ox-inductee-photo { width: 100%; height: auto; border-radius: 8px; background: var(--ox-wash); }
 .ox-inductee-year { font-weight: 700; color: var(--ox-royal); margin: 0 0 6px; }
 .ox-inductee h2 { margin-top: 10px; }
-@media (max-width: 640px) { .ox-inductee { grid-template-columns: 1fr; } .ox-inductee-photo { max-width: 220px; } }
+@media (max-width: 640px) { .ox .ox-inductee { grid-template-columns: 1fr; } .ox .ox-inductee-photo { max-width: 220px; } }
 .ox-awardlist { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; max-width: 640px; }
 .ox-awardlist a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid var(--ox-line); border-radius: 6px; background: var(--ox-paper); color: var(--ox-navy); text-decoration: none; }
 .ox-awardlist span { color: var(--ox-muted); font-size: .9375rem; }

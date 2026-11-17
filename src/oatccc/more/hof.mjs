@@ -77,7 +77,7 @@ function listPage(site, flags, data) {
   const years = [...new Set(people.map((p) => p.induction_year))].sort((a, b) => b - a);
   const cards = people.map((p) => {
     const img = photoUrl(p.photo_path, flags);
-    return `<li class="ox-hofcard" data-name="${escapeHtml(`${p.name} ${p.school || ""}`.toLowerCase())}" data-year="${p.induction_year}" data-barker="${p.ed_barker_recipient ? 1 : 0}">
+    return `<li class="ox-hofcard" data-name="${escapeHtml(`${p.name} ${p.school || ""}`.toLowerCase())}" data-hof-year="${p.induction_year}" data-barker="${p.ed_barker_recipient ? 1 : 0}">
   <a href="${HOF_PATHS.hof}${p.slug}/">${img ? `<img src="${escapeHtml(img)}" alt="" loading="lazy" width="160" height="200">` : '<span class="ox-hofnoimg" aria-hidden="true"></span>'}<b>${escapeHtml(p.name)}</b></a>
   <span>${p.induction_year}${p.ed_barker_recipient ? ' <em class="ox-badge">Ed Barker Recipient</em>' : ""}</span>
 </li>`;

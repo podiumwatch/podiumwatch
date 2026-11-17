@@ -31,9 +31,10 @@ export const MORE_PAGES = [
   { key: "clinic-tf", section: "clinics", path: "/oatccc/clinics/track-and-field/", old: ["/Clinics/Track-And-Field/"], tab: "clinics", title: "Track & Field Coaches Clinic", description: "The OATCCC Track & Field Coaches Clinic." },
   { key: "clinic-xc", section: "clinics", path: "/oatccc/clinics/cross-country/", old: ["/Clinics/Cross-Country/"], tab: "clinics", title: "Cross Country Coaches Clinic", description: "The OATCCC Cross Country Coaches Clinic." },
   { key: "clinic-vendors", section: "clinics", path: "/oatccc/clinics/vendors/", old: ["/Clinics/Track-And-Field/Vendors/"], tab: "clinics", title: "Clinic Vendors", description: "Vendors at the OATCCC Track & Field Coaches Clinic." },
-  // Meets
+  // Meets. No Midwest Meet page: oatccc.com sends /Outdoor-Track-Field/Midwest-Meet/
+  // to its home page, so there is nothing to copy (2026-11-17 crawl). Its
+  // two files are in the bucket.
   { key: "mideast", section: "meets", path: "/oatccc/cross-country/mideast-meet/", old: ["/Cross-Country/Mideast-Meet/"], tab: "home", title: "Mideast Meet of Champions", description: "The Mideast Meet of Champions (cross country)." },
-  { key: "midwest", section: "meets", path: "/oatccc/track/midwest-meet/", old: ["/Outdoor-Track-Field/Midwest-Meet/"], tab: "home", title: "Midwest Meet of Champions", description: "The Midwest Meet of Champions (track and field)." },
   // Academic All-Ohio and polls
   { key: "academic", section: "academic", path: "/oatccc/academic-all-ohio/", old: ["/Academic-All-Ohio/"], tab: "home", title: "Academic All-Ohio", description: "OATCCC Academic All-Ohio, with the archive by year." },
   { key: "polls", section: "polls", path: "/oatccc/polls/", old: ["/Cross-Country/Coaches-Poll/"], tab: "polls", title: "OATCCC Coaches' Polls", description: "OATCCC cross country coaches' polls, with the archive by year." },

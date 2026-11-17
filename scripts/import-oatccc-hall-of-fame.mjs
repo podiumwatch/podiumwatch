@@ -74,7 +74,8 @@ for (const batch of chunks(inductees, 200)) {
   const { error } = await supabaseAdmin.from("oatccc_hof_inductees").upsert(batch.map((r) => ({ ...r, updated_at: new Date().toISOString() })), { onConflict: "old_url" });
   if (error) throw new Error(`Inductees: ${error.message}`);
 }
-const { data: ids, error: idError } = await supabaseAdmin.from("oatccc_hof_inductees").select("id, slug").range(0, 4999);
+const { selectAll } = await import("../lib/supabase_paging.mjs");
+const { data: ids, error: idError } = await selectAll(() => supabaseAdmin.from("oatccc_hof_inductees").select("id, slug"), { maxRows: 20000 });
 if (idError) throw new Error(`Inductee ids: ${idError.message}`);
 const idBySlug = new Map(ids.map((r) => [r.slug, r.id]));
 const { error: awardError } = await supabaseAdmin.from("oatccc_awards").upsert(awards.map((a) => ({ ...a, updated_at: new Date().toISOString() })), { onConflict: "key" });
