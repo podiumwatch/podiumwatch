@@ -1,5 +1,11 @@
 # Podium Watch next session
 
+## BLOCKER (2026-11-17 overnight): Thursday launch fixes not done
+
+Zachary asked (overnight run) to finish and commit four Thursday fixes on oatccc-section before the full-site move: **byline, article images, the launch-only build check, OATCCC_TERMS_LIVE**. They are not committed, and no description of them exists anywhere I could find: not on any branch (local or origin), not in either worktree, not in dataimports/ and not in Downloads (searched 2026-11-17). They must have been discussed outside this session.
+
+Not guessed: they change the pages that launch Thursday, and a wrong guess there is worse than waiting. **Needed from Zachary:** what each one should do (for example: what byline, which images and from where, what the launch-only check should allow or block, and what OATCCC_TERMS_LIVE switches). Then do them on oatccc-section and bring them into oatccc-full-site.
+
 ## Start here (2026-11-17, OATCCC: Anjanette's answers)
 
 Branch oatccc-section, NOT pushed. Commits 0ff39c40 (Part 1, launch pages), 7b58fc21 (Part 2, school list), dc6d7450 (Part 3, AD form), ec494e9b (Part 4, MileSplit CSV). Launch moved to **Thursday Nov 19** (article now content/stories/20261119_...).
