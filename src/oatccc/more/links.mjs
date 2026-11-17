@@ -29,7 +29,7 @@ export function inducteeSlug(oldPath) {
 // Old path -> { path, section } for every page that moves.
 export function pageTable() {
   const table = new Map();
-  for (const page of MORE_PAGES) for (const old of page.old) table.set(norm(old), { path: page.path, section: page.section });
+  for (const page of MORE_PAGES) for (const old of [...page.old, ...(page.aliases || [])]) table.set(norm(old), { path: page.path, section: page.section });
   table.set(norm("/HOF/"), { path: HOF_PATHS.hof, section: "hof" });
   table.set(norm("/HOF/View-Bio/"), { path: HOF_PATHS.hof, section: "hof" });
   for (const award of AWARD_PAGES) table.set(norm(award.old), { path: `${HOF_PATHS.awards}${award.slug}/`, section: "hof" });
@@ -54,6 +54,15 @@ export function storageKey(oldPath) {
 }
 
 let TABLE = null;
+// Hall of Fame bio address -> our inductee slug, from the database (set by
+// src/oatccc/build.mjs once the Hall of Fame data is loaded). Without it,
+// bio links stay on oatccc.com: newer oatccc.com bio addresses have no
+// year, so the slug can't be worked out from the address alone.
+let INDUCTEES = new Map();
+export function setInducteeSlugs(rows) {
+  INDUCTEES = new Map((rows || []).map((r) => { try { return [norm(new URL(r.old_url).pathname), r.slug]; } catch { return [null, null]; } }).filter(([k]) => k));
+}
+
 export function resolveHref(href, flags, env = process.env) {
   let u;
   try { u = new URL(href, OATCCC_ORIGIN); } catch { return href; }
@@ -65,7 +74,7 @@ export function resolveHref(href, flags, env = process.env) {
   TABLE = TABLE || pageTable();
   const hit = TABLE.get(norm(u.pathname));
   if (hit && sectionOn(hit.section, flags)) return hit.path + (u.hash || "");
-  const slug = inducteeSlug(u.pathname);
+  const slug = INDUCTEES.get(norm(u.pathname));
   if (slug && flags.sections?.hof) return `${HOF_PATHS.hof}${slug}/`;
   return href;
 }

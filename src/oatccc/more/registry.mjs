@@ -4,7 +4,9 @@
 // copied word for word by scripts/oatccc-port-pages.mjs from the crawl
 // (phone numbers left off; listed in docs/OATCCC_FULL_SITE_REPORT.md).
 //
-// `old` paths are oatccc.com paths. A link anywhere in the section to one of
+// `old` paths are oatccc.com pages whose words are copied here; `aliases`
+// are other oatccc.com addresses for the same page (they redirect and
+// link here, but are not copied again). Both are oatccc.com paths. A link anywhere in the section to one of
 // them goes to our page when the section is switched on, and to oatccc.com
 // when it is off (resolveLinks in ./links.mjs).
 
@@ -14,14 +16,14 @@ export const MORE_PAGES = [
   { key: "leadership", section: "about", path: "/oatccc/about/leadership/", old: ["/Contact-Us/"], tab: "about", title: "OATCCC Leadership", description: "Current OATCCC officers and district representatives." },
   { key: "history-of-leadership", section: "about", path: "/oatccc/about/history-of-leadership/", old: ["/About-Us/Our-Leadership/"], tab: "about", title: "OATCCC History of Leadership", description: "Past OATCCC presidents, secretaries, treasurers and editors." },
   { key: "tributes", section: "about", path: "/oatccc/about/tributes/", old: ["/Tributes/"], tab: "about", title: "OATCCC Tributes", description: "Tributes from the Ohio Association of Track & Cross Country Coaches." },
-  { key: "sponsors", section: "about", path: "/oatccc/sponsors/", old: ["/About-Us/Sponsors/", "/Sponsors/", "/About-Us/Sponsors/Lend-Your-Support/"], tab: "about", title: "OATCCC Sponsors", description: "The sponsors who support the Ohio Association of Track & Cross Country Coaches." },
+  { key: "sponsors", section: "about", path: "/oatccc/sponsors/", old: ["/About-Us/Sponsors/", "/About-Us/Sponsors/Lend-Your-Support/"], aliases: ["/Sponsors/"], tab: "about", title: "OATCCC Sponsors", description: "The sponsors who support the Ohio Association of Track & Cross Country Coaches." },
   { key: "the-runner", section: "about", path: "/oatccc/the-runner/", old: ["/The-Runner/"], tab: "about", title: "The Runner", description: "The Runner, the OATCCC's publication." },
   // Join
-  { key: "join", section: "join", path: "/oatccc/join/", old: ["/About-Us/Join/", "/Coaches/Membership/"], tab: "membership", title: "Join the OATCCC", description: "OATCCC membership: how to join and renew." },
+  { key: "join", section: "join", path: "/oatccc/join/", old: ["/About-Us/Join/", "/Coaches/Membership/"], aliases: ["/Coaches/Membership/Join/"], tab: "membership", title: "Join the OATCCC", description: "OATCCC membership: how to join and renew." },
   // Scholarships and grants
   { key: "marv-crosten", section: "scholarships", path: "/oatccc/scholarships/marv-crosten/", old: ["/Scholarships/Marvin-Crosten-Scholarship/"], tab: "about", title: "Marv Crosten Scholarship", description: "The OATCCC Marv Crosten Scholarship." },
   { key: "dale-gabor", section: "scholarships", path: "/oatccc/scholarships/dale-gabor/", old: ["/Scholarships/Dale-Gabor-Scholarship/"], tab: "about", title: "Dale Gabor Seated Athlete Scholarship", description: "The OATCCC Dale Gabor Scholarship." },
-  { key: "grants", section: "scholarships", path: "/oatccc/coaches/grants/", old: ["/Coaches/Grants/Elementary-School-Grant/"], tab: "about", title: "OATCCC Elementary School Grant", description: "The OATCCC elementary school grant." },
+  { key: "grants", section: "scholarships", path: "/oatccc/coaches/grants/", old: ["/Coaches/Grants/Elementary-School-Grant/"], aliases: ["/Coaches/Grants/"], tab: "about", title: "OATCCC Elementary School Grant", description: "The OATCCC elementary school grant." },
   // Forms and resources
   { key: "forms", section: "forms", path: "/oatccc/forms/", old: ["/Forms/"], tab: "about", title: "OATCCC Forms", description: "OATCCC forms for coaches." },
   { key: "resources", section: "forms", path: "/oatccc/resources/", old: ["/Resources/"], tab: "about", title: "OATCCC Resources", description: "Resources for track and cross country coaches." },

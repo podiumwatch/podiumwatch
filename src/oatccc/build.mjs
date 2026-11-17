@@ -4,6 +4,7 @@ import { oatcccVerificationPages } from "./verification_pages.mjs";
 import { OATCCC_BASE } from "./config.mjs";
 import { oatcccMorePages } from "./more/pages.mjs";
 import { loadHofData, oatcccHofPages } from "./more/hof.mjs";
+import { setInducteeSlugs } from "./more/links.mjs";
 
 // What scripts/build.mjs writes for the OATCCC section. With OATCCC_LIVE
 // off this returns nothing at all: no pages, no stylesheet, no logos, so
@@ -36,6 +37,7 @@ export function oatcccOutputs(site, flags) {
 // no link points to a page that was not built.
 export async function oatcccBuild(site, flags, env = process.env) {
   const hofData = await loadHofData(flags, env);
+  setInducteeSlugs(hofData ? hofData.inductees : []);
   const effective = flags.sections?.hof && !hofData ? { ...flags, sections: { ...flags.sections, hof: false } } : flags;
   const out = oatcccOutputs(site, effective);
   if (hofData) {
