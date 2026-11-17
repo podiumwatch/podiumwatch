@@ -70,7 +70,7 @@
     "test:wrapped": "node --test tests/wrapped.test.mjs",
     "test:merch": "node --test tests/merch-card.test.mjs",
     "test:analytics-intake": "node --test tests/analytics-intake.test.mjs",
-    "test:oatccc-review": "node scripts/test-oatccc-review.mjs",
+    "test:oatccc-review": "node scripts/test-oatccc-review.mjs && node scripts/test-oatccc-review-site.mjs",
     "test:support": "node --test tests/support.test.mjs",
     "test:awards-catalog": "node --test tests/awards-catalog.test.mjs",
     "test:page-cache": "node --test tests/page-cache.test.mjs",

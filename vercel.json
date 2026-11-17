@@ -100,6 +100,14 @@
   ],
   "rewrites": [
     {
+      "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/site-preview/",
+      "destination": "/api/review/oatccc-indoor?page=site&path="
+    },
+    {
+      "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/site-preview/:path*",
+      "destination": "/api/review/oatccc-indoor?page=site&path=:path*"
+    },
+    {
       "source": "/review/oatccc-indoor-nqn1HonMrnWA8gu1i54AUGqRa0XZFfFg/",
       "destination": "/api/review/oatccc-indoor"
     },

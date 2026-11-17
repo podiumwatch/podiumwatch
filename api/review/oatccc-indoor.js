@@ -1,6 +1,8 @@
 import {
   REVIEW_BUCKET,
   REVIEW_HEADERS,
+  SITE_PATH,
+  sitePreviewFile,
   WRONG_PASSWORD_MESSAGE,
   cookieValueIsValid,
   makeCookieValue,
@@ -34,9 +36,32 @@ async function loadDraftFromStorage(object) {
   return html;
 }
 
+// Site preview files: raw bytes (images and fonts must not go through
+// text decoding). Small files are cached briefly; a missing object is a 404.
+const SITE_CACHE_MS = 60 * 1000;
+const SITE_CACHE_MAX_BYTES = 512 * 1024;
+const siteCache = new Map();
+
+async function loadSiteFileFromStorage(object) {
+  const cached = siteCache.get(object);
+  if (cached && Date.now() - cached.atMs < SITE_CACHE_MS) return cached.bytes;
+  const { supabaseAdmin } = await import("../../lib/supabase-admin.mjs");
+  const { data, error } = await supabaseAdmin.storage.from(REVIEW_BUCKET).download(object);
+  if (error || !data) {
+    const status = Number(error?.statusCode || error?.status || error?.originalError?.status || 0);
+    if (status === 400 || status === 404 || /not.?found/i.test(String(error?.message || ""))) return null;
+    throw new Error(`Site file download failed (${object}): ${error?.message || "no data"}`);
+  }
+  const bytes = Buffer.from(await data.arrayBuffer());
+  if (siteCache.size > 300) siteCache.clear();
+  if (bytes.length <= SITE_CACHE_MAX_BYTES) siteCache.set(object, { bytes, atMs: Date.now() });
+  return bytes;
+}
+
 // Swappable for tests.
 export const deps = {
   loadDraft: loadDraftFromStorage,
+  loadSiteFile: loadSiteFileFromStorage,
   wrongDelayMs: 1000,
   env: process.env
 };
@@ -72,8 +97,77 @@ function pageName(request) {
   try { return new URL(request.url || "/", "http://x").searchParams.get("page") || ""; } catch { return ""; }
 }
 
+function sitePathPart(request) {
+  let value = request.query?.path;
+  if (value === undefined) {
+    try { value = new URL(request.url || "/", "http://x").searchParams.get("path"); } catch { value = null; }
+  }
+  if (Array.isArray(value)) value = value.join("/");
+  if (value == null) value = "";
+  // The rewrite drops a trailing slash from :path*; the original address
+  // keeps it (folder pages end in "/").
+  let original = "";
+  try { original = new URL(request.url || "/", "http://x").pathname; } catch {}
+  if (original.startsWith(SITE_PATH)) return decodeURIComponent(original.slice(SITE_PATH.length));
+  return String(value);
+}
+
+function sendBytes(response, status, type, bytes) {
+  for (const [key, value] of Object.entries(REVIEW_HEADERS)) response.setHeader(key, value);
+  response.setHeader("Content-Type", type);
+  response.setHeader("X-Content-Type-Options", "nosniff");
+  return response.status(status).send(bytes);
+}
+
+function sendText(response, status, text) {
+  return sendBytes(response, status, "text/plain; charset=utf-8", text);
+}
+
+// /site-preview/...: a static multi-page copy, same password and headers.
+async function siteHandler(request, response, config) {
+  let rest;
+  try { rest = sitePathPart(request); } catch { rest = null; }
+  const file = rest == null ? null : sitePreviewFile(rest);
+  if (!file) return sendText(response, 404, "Not found");
+  const isPage = file.type.startsWith("text/html");
+  const here = SITE_PATH + rest;
+
+  if (request.method === "POST") {
+    if (!isPage) { response.setHeader("Allow", "GET, HEAD"); return sendText(response, 405, "Method not allowed"); }
+    const ip = clientIp(request);
+    const attempt = passwordFromBody(await readBody(request));
+    if (config && !tooManyWrongAttempts(ip) && passwordMatches(config, attempt)) {
+      for (const [key, value] of Object.entries(REVIEW_HEADERS)) response.setHeader(key, value);
+      response.setHeader("Set-Cookie", setCookieHeader(makeCookieValue(config)));
+      response.setHeader("Location", here);
+      return response.status(303).send("");
+    }
+    recordWrongAttempt(ip);
+    if (deps.wrongDelayMs) await wait(deps.wrongDelayMs);
+    return sendHtml(response, 401, signInPageHtml({ error: WRONG_PASSWORD_MESSAGE, action: here }));
+  }
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    response.setHeader("Allow", isPage ? "GET, HEAD, POST" : "GET, HEAD");
+    return sendText(response, 405, "Method not allowed");
+  }
+  if (!config || !cookieValueIsValid(config, readCookie(request.headers?.cookie))) {
+    if (isPage) return sendHtml(response, 200, signInPageHtml({ action: here }));
+    return sendText(response, 401, "Sign in first");
+  }
+  let bytes;
+  try {
+    bytes = await deps.loadSiteFile(file.object);
+  } catch (error) {
+    console.error("OATCCC review: site file could not be loaded.", error?.message || error);
+    return sendText(response, 503, "This file could not be loaded right now. Try again in a minute.");
+  }
+  if (bytes == null) return sendText(response, 404, "Not found");
+  return sendBytes(response, 200, file.type, bytes);
+}
+
 export default async function handler(request, response) {
   const config = reviewConfig(deps.env);
+  if (pageName(request) === "site") return siteHandler(request, response, config);
   const page = reviewPage(pageName(request));
 
   if (request.method === "POST") {
