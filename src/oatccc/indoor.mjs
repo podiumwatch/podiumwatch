@@ -158,9 +158,26 @@ function enrollmentTable(label, rows) {
         </table>`;
 }
 
-// "Divisions by school" (OATCCC_DIVISION_LIST_LIVE). Filled in Part 2.
+// "Divisions by school" (OATCCC_DIVISION_LIST_LIVE, off until Anjanette
+// confirms the school-list data issues). The rows come from
+// /api/oatccc/divisions (the OATCCC's workbook, loaded into the database);
+// none of that data is in this repository. oatccc-divisions.js fills it.
 function divisionListSection() {
-  return "";
+  return `<section id="by-school" aria-labelledby="d-school-h" data-ox-divisions>
+      <h2 id="d-school-h">Divisions by school</h2>
+      <p>Find your school&rsquo;s 2027 boys and girls divisions. Schools are listed by their OHSAA tournament name.</p>
+      <div class="dlist-tools">
+        <label for="dlist-q">Search for a school or city</label>
+        <input id="dlist-q" type="search" autocomplete="off" spellcheck="false" placeholder="For example: Mason" data-ox-divisions-q>
+      </div>
+      <p class="dlist-status" role="status" aria-live="polite" data-ox-divisions-status>Loading the list&hellip;</p>
+      <div class="dlist-wrap">
+        <table class="dlist" hidden data-ox-divisions-table>
+          <thead><tr><th scope="col">School</th><th scope="col">City</th><th scope="col">Boys</th><th scope="col">Girls</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>`;
 }
 
 function divisionsBody(flags = {}) {
@@ -606,7 +623,7 @@ export function oatcccIndoorPages(site, flags) {
           tab: "indoor",
           mast: masthead(),
           content,
-          scripts: ["/scripts/oatccc.js"]
+          scripts: page.key === "divisions" && flags.divisionList ? ["/scripts/oatccc.js", "/scripts/oatccc-divisions.js"] : ["/scripts/oatccc.js"]
         })
       };
     });

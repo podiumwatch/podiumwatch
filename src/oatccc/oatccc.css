@@ -412,6 +412,23 @@
 .ox .enroll-t thead th { background: var(--ox-wash); font-size: .875rem; }
 .ox .vlist { background: var(--ox-blue-tint); border-left: 5px solid var(--ox-royal); padding: 16px 18px 4px; border-radius: 0 5px 5px 0; max-width: 44em; }
 
+/* "Divisions by school" (OATCCC_DIVISION_LIST_LIVE). */
+.ox .dlist-tools { margin: 12px 0 6px; max-width: 30em; }
+.ox .dlist-tools label { display: block; font-weight: 600; margin-bottom: 6px; }
+.ox .dlist-tools input { width: 100%; box-sizing: border-box; font: inherit; padding: 10px 12px; border: 1px solid var(--ox-line); border-radius: 5px; background: var(--ox-paper); color: var(--ox-text); }
+.ox .dlist-tools input:focus { outline: 3px solid var(--ox-royal); outline-offset: 1px; }
+.ox .dlist-status { color: var(--ox-muted); font-size: .9375rem; }
+.ox .dlist { width: 100%; border-collapse: collapse; background: var(--ox-paper); border: 1px solid var(--ox-line); }
+.ox .dlist th, .ox .dlist td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--ox-line); }
+.ox .dlist thead th { background: var(--ox-navy); color: #fff; font-size: .875rem; }
+.ox .dlist td.none { color: var(--ox-muted); }
+@media (max-width: 560px) {
+  .ox .dlist thead { display: none; }
+  .ox .dlist tr { display: block; padding: 8px 0; border-bottom: 1px solid var(--ox-line); }
+  .ox .dlist th, .ox .dlist td { display: block; border: 0; padding: 2px 12px; }
+  .ox .dlist td::before { content: attr(data-l) ": "; color: var(--ox-muted); }
+}
+
 @media print {
   .ox { background: #fff; font-size: 11pt; }
   .ox-lockup, .ox-tabs, .ox-secnav, .ox .terms-tools, .ox .onpage, .ox-contact .btn, .ox .nextsteps { display: none !important; }

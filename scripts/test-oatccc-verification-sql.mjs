@@ -1,4 +1,5 @@
-// Runs install/99_OATCCC_VERIFICATION.sql and install/101_OATCCC_ADMIN_ROLES.sql
+// Runs install/99_OATCCC_VERIFICATION.sql, install/101_OATCCC_ADMIN_ROLES.sql
+// and install/102_OATCCC_SCHOOL_DIVISIONS.sql
 // in an in-memory Postgres (PGlite)
 // with a stand-in for Supabase's auth schema, then checks every rule:
 // one submission per school per season, the four statuses and who may move
@@ -128,6 +129,84 @@ await ok("roles: every admin change is recorded with who did it", async () => {
 await ok("roles: indoor chair cannot read the record of admin changes", async () => { const r = await as("admin", "select id from oatccc_staff_events"); eq(r.length, 0, "rows"); });
 await throws("roles: the record of admin changes is permanent", () => as(null, "delete from oatccc_staff_events"), /cannot be edited or deleted/);
 await ok("roles: admins see the admin list; ADs see none of it", async () => { const a = await as("ms", "select user_id from oatccc_staff"); if (a.length < 3) throw new Error("ms sees " + a.length); const d = await as("ad1", "select user_id from oatccc_staff"); eq(d.length, 0, "AD rows"); });
+
+// ---------- School list, AD school choice, signatures (install/102) ----------
+// Applied after the install/99 and 101 checks above, which use the
+// unsigned oatccc_submit that 102 retires for clients.
+const schoolList = fs.readFileSync(path.join(root, "install", "102_OATCCC_SCHOOL_DIVISIONS.sql"), "utf8");
+await db.exec(schoolList);
+await db.exec(schoolList); // re-runnable
+console.log("migration 102 applied (twice)");
+Object.assign(U, { pickA: "00000000-0000-0000-0000-0000000000c1", pickB: "00000000-0000-0000-0000-0000000000c2" });
+const L1 = "30000000-0000-0000-0000-000000000001", L2 = "30000000-0000-0000-0000-000000000002";
+await db.exec(`
+insert into auth.users values ('${U.pickA}','pa@x'),('${U.pickB}','pb@x');
+insert into oatccc_schools (id,name,city,tournament_name,ohsaa_id,hytek_code,on_verification_list) values
+ ('${L1}','LISTED ONE','Sometown','LISTED ONE',101,'LONE',true),('${L2}','LISTED TWO','Sometown','LISTED TWO',102,'LTWO',true);
+`);
+const PNG = "data:image/png;base64,iVBORw0KGgo=";
+const SHA = "a".repeat(64);
+const ANS = { has_boys: true, has_girls: false, ad: { first: "TEST", last: "AD" } };
+const signed = (who, season, school, answers = ANS, name = "TEST AD", png = PNG) =>
+  as(who, "select * from oatccc_submit_signed($1,$2,$3,$4,$5,$6)", [season, school, answers, name, png, SHA]);
+await throws("102: the unsigned submit is retired for signed-in users", () => as("adR", "select * from oatccc_submit($1,$2,$3)", [R, SR, {}]), /permission denied/);
+await ok("102: a signed-in AD sees the listed schools to pick; anon sees none", async () => {
+  const r = await as("pickA", "select tournament_name from oatccc_schools where on_verification_list order by 1"); eq(r.map((x) => x.tournament_name), ["LISTED ONE", "LISTED TWO"], "dropdown");
+  try { const a = await as("anon", "select id from oatccc_schools"); eq(a.length, 0, "anon"); } catch (e) { if (!/permission denied/.test(e.message)) throw e; }
+});
+await ok("102: non-testers do not see TEST schools; a TEST AD does", async () => {
+  const b = await as("pickB", "select id from oatccc_schools where is_test"); eq(b.length, 0, "pickB");
+  const a = await as("ad1", "select id from oatccc_schools where is_test"); if (a.length < 2) throw new Error("ad1 sees " + a.length);
+});
+let pickId;
+await ok("102: an AD picks a school, submits and signs", async () => {
+  const [r] = await signed("pickA", R, L1); pickId = r.id; eq(r.status, "submitted", "status");
+  const c = await as(null, "select linked_by from oatccc_school_contacts where school_id=$1", [L1]); eq(c, [{ linked_by: "picked" }], "contact");
+  const sg = await as("pickA", "select typed_name, signature_png, form_text_sha256, school_id, signer_id from oatccc_signatures where submission_id=$1", [pickId]);
+  eq(sg, [{ typed_name: "TEST AD", signature_png: PNG, form_text_sha256: SHA, school_id: L1, signer_id: U.pickA }], "signature");
+});
+await throws("102: a second person cannot submit for the same school", () => signed("pickB", R, L1), /already been started/);
+await ok("102: and cannot see its submission or signature", async () => { eq((await as("pickB", "select id from oatccc_submissions")).length, 0, "subs"); eq((await as("pickB", "select id from oatccc_signatures")).length, 0, "sigs"); });
+await throws("102: a school not on the list cannot be picked", () => signed("pickB", R, SR), /only this school/);
+await throws("102: a non-tester cannot pick a TEST school", () => signed("pickB", T, SB), /pick your school/);
+await throws("102: no signature, no submission", () => signed("pickB", R, L2, ANS, "TEST AD", ""), /signature box/);
+await throws("102: no typed name, no submission", () => signed("pickB", R, L2, ANS, " "), /type your name/);
+await ok("102: nothing was claimed by the refused tries", async () => { const c = await as(null, "select count(*)::int n from oatccc_school_contacts where school_id=$1", [L2]); eq(c[0].n, 0, "contacts"); });
+await throws("102: signed-in users cannot write signatures directly", () => as("pickA", "insert into oatccc_signatures (submission_id,season_id,school_id,typed_name,signature_png,form_text_sha256) values ($1,$2,$3,'x y',$4,$5)", [pickId, R, L1, PNG, SHA]), /permission denied/);
+await throws("102: signatures are permanent, even for the database owner", () => as(null, "update oatccc_signatures set typed_name='Someone Else'"), /permanent/);
+await throws("102: a real signature cannot be deleted", () => as(null, "delete from oatccc_signatures where submission_id=$1", [pickId]), /permanent/);
+await ok("102: 'linked' mode turns picking off with one line", async () => {
+  await as(null, "update oatccc_config set value='linked' where key='ad_school_choice'");
+  eq((await as("pickB", "select id from oatccc_schools where on_verification_list")).length, 0, "dropdown empty");
+  let refused = false; try { await signed("pickB", R, L2); } catch (e) { refused = /only this school/.test(e.message); }
+  if (!refused) throw new Error("pickB could still submit");
+  await as(null, "update oatccc_config set value='pick' where key='ad_school_choice'");
+});
+await throws("102: only 'pick' or 'linked'", () => as(null, "update oatccc_config set value='open' where key='ad_school_choice'"), /oatccc_config_values/);
+await ok("102: return and resubmit records a second signature", async () => {
+  await as("admin", "select * from oatccc_return_submission($1,$2)", [pickId, "Please add the girls coach."]);
+  const [r] = await signed("pickA", R, L1, { ...ANS, has_girls: true }, "TEST AD Again"); eq(r.status, "resubmitted", "status");
+  const sg = await as("admin", "select typed_name from oatccc_signatures where submission_id=$1", [pickId]); eq(sg.length, 2, "signatures");
+});
+await ok("102: opening an existing submission adds no signature", async () => {
+  await signed("pickA", R, L1); const sg = await as("admin", "select id from oatccc_signatures where submission_id=$1", [pickId]); eq(sg.length, 2, "still two");
+});
+await ok("102: public division list shows real rows; the table stays closed", async () => {
+  await as(null, "insert into oatccc_school_divisions (meet_year,gender,tournament_name,ohsaa_id,city,enrollment,division,hytek_code) values (2094,'boys','LISTED ONE',101,'Sometown',300,'D-2','LONE'),(2094,'girls','LISTED ONE',101,'Sometown,',150,'D-3','LONE')");
+  const v = await as("anon", "select tournament_name, boys_division, girls_division from oatccc_division_list where meet_year=2094"); eq(v, [{ tournament_name: "LISTED ONE", boys_division: "D-2", girls_division: "D-3" }], "view");
+  try { const t = await as("anon", "select * from oatccc_school_divisions"); eq(t.length, 0, "anon table"); } catch (e) { if (!/permission denied/.test(e.message)) throw e; }
+  eq((await as("pickA", "select * from oatccc_school_divisions")).length, 0, "AD table");
+});
+await throws("102: division values are only D-1 to D-4", () => as(null, "insert into oatccc_school_divisions (meet_year,gender,tournament_name,division) values (2094,'boys','LISTED TWO','D-5')"), /check/);
+await throws("102: one row per year, gender and tournament name", () => as(null, "insert into oatccc_school_divisions (meet_year,gender,tournament_name,division) values (2094,'boys','LISTED ONE','D-1')"), /duplicate|unique/);
+await ok("102: MileSplit export lists verified schools with HyTek code and divisions", async () => {
+  await as("admin", "select * from oatccc_approve_submission($1)", [pickId]);
+  const v = await as("anon", "select tournament_name, hytek_code, boys_division, girls_division, has_boys_team, has_girls_team from oatccc_milesplit_export where tournament_name is not null");
+  eq(v, [{ tournament_name: "LISTED ONE", hytek_code: "LONE", boys_division: "D-2", girls_division: "D-3", has_boys_team: true, has_girls_team: true }], "export");
+});
+await throws("102: TEST schools never get a tournament name", () => as(null, "insert into oatccc_schools (name,is_test,tournament_name) values ('TEST X',true,'TEST X')"), /oatccc_schools_test_not_listed/);
+await throws("102: tournament names are unique", () => as(null, "insert into oatccc_schools (name,tournament_name,on_verification_list) values ('LISTED ONE','LISTED ONE',true)"), /duplicate|unique/);
+await ok("102: the real 2027 season is in place", async () => { const r = await as(null, "select opens_at < due_at and due_at < late_closes_at ok from oatccc_seasons where meet_year=2027 and not is_test"); eq(r, [{ ok: true }], "season"); });
 
 console.log(`\n${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

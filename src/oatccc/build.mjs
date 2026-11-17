@@ -20,7 +20,8 @@ export function oatcccOutputs(site, flags) {
     ["images/oatccc-logo-96.png", "images/oatccc/oatccc-logo-96.png"],
     ["images/oatccc-logo-192.png", "images/oatccc/oatccc-logo-192.png"],
     ["images/oatccc-logo-384.png", "images/oatccc/oatccc-logo-384.png"],
-    ...(flags.verification ? [["oatccc-verification.js", "scripts/oatccc-verification.js"]] : [])
+    ...(flags.verification ? [["oatccc-verification.js", "scripts/oatccc-verification.js"]] : []),
+    ...(flags.divisionList ? [["oatccc-divisions.js", "scripts/oatccc-divisions.js"]] : [])
   ];
   return { pages, assets };
 }
