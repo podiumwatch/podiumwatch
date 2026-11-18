@@ -547,6 +547,23 @@
 .ox .ox-prose .ox-lead-group { margin: 18px 0 8px; }
 .ox .ox-prose table.ox-past { display: table; }
 .ox .ox-prose table.ox-past caption { text-align: left; font-weight: 700; padding: 0 0 6px; }
+/* Past leaders: one tap-to-open section per role; the year never breaks. */
+.ox .ox-prose details.ox-past-sec { border: 1px solid var(--ox-line); border-radius: 10px; background: var(--ox-paper); margin: 10px 0; }
+.ox .ox-prose details.ox-past-sec > summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; font-weight: 700; color: var(--ox-navy); }
+.ox .ox-prose details.ox-past-sec > summary::-webkit-details-marker { display: none; }
+.ox .ox-prose details.ox-past-sec > summary::after { content: "+"; font-size: 1.25rem; line-height: 1; color: var(--ox-royal); }
+.ox .ox-prose details.ox-past-sec[open] > summary::after { content: "\2212"; }
+.ox .ox-prose details.ox-past-sec > table.ox-past { margin: 0 0 4px; }
+.ox .ox-prose table.ox-past td[data-l="Year"] { white-space: nowrap; }
+@media (max-width: 600px) {
+  .ox .ox-prose table.ox-past, .ox .ox-prose table.ox-past tbody, .ox .ox-prose table.ox-past tr, .ox .ox-prose table.ox-past td { display: block; width: auto; }
+  .ox .ox-prose table.ox-past thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ox .ox-prose table.ox-past { border: 0; background: transparent; }
+  .ox .ox-prose table.ox-past tr { padding: 10px 16px; border-top: 1px solid var(--ox-line); }
+  .ox .ox-prose table.ox-past td { border: 0; padding: 1px 0; }
+  .ox .ox-prose table.ox-past td[data-l="Year"] { font-weight: 700; color: var(--ox-navy); }
+  .ox .ox-prose table.ox-past td[data-l="School"]::before, .ox .ox-prose table.ox-past td[data-l="Publication"]::before { content: attr(data-l) ": "; color: var(--ox-muted); }
+}
 /* Junior High meet schedule: events in order, times only where the PDF gives them. */
 .ox .ox-prose ul.ox-sched { list-style: none; padding: 0; margin: 8px 0 20px; border-top: 1px solid var(--ox-line); }
 .ox .ox-prose ul.ox-sched > li { margin: 0; padding: 8px 0; border-bottom: 1px solid var(--ox-line); }

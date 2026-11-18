@@ -51,10 +51,26 @@ const TOUCHES = {
   // (Anjanette, 2026-11-17). The current list comes from the Leadership
   // page so the two never disagree.
   "history-of-leadership": (html) => {
+    const past = collapsePastTables(html);
     const current = (loadContent("leadership") || "").match(/<div class="ox-lead-groups">[\s\S]*?\n<\/div>/);
-    return current ? `<h2>Current officers and district representatives</h2>\n${LEADER_CONTACT}\n${current[0]}\n${html}` : html;
+    return current ? `<h2>Current officers and district representatives</h2>\n${LEADER_CONTACT}\n${current[0]}\n${past}` : past;
   }
 };
+
+// Past-leader tables, layout only (Zachary, 2026-11-17): each role becomes a
+// section the reader taps open, and every cell gets its column name so phones
+// can show each row as a stacked block. Rows, names, years and spellings are
+// left exactly as oatccc.com has them, in the same order.
+function collapsePastTables(html) {
+  return html.replace(/<h3>([^<]+)<\/h3>\s*(<table class="ox-past">[\s\S]*?<\/table>)/g, (all, role, table) => {
+    const heads = [...table.matchAll(/<th scope="col">([^<]*)<\/th>/g)].map((m) => m[1]);
+    const labelled = table.replace(/<tr>((?:<td>[\s\S]*?<\/td>)+)<\/tr>/g, (row, cells) => {
+      let i = 0;
+      return `<tr>${cells.replace(/<td>/g, () => `<td data-l="${heads[i++] || ""}">`)}</tr>`;
+    });
+    return `<details class="ox-past-sec">\n<summary>${role}</summary>\n${labelled}\n</details>`;
+  });
+}
 
 function sectionNav(page, flags) {
   const siblings = MORE_PAGES.filter((p) => p.section === page.section);

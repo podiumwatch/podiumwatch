@@ -263,3 +263,17 @@ test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)",
   assert.ok(hub(ALL).includes("March 13, 2027 &middot; Muskingum University"));
   assert.ok(hub(noMs).includes("2027 date and site coming soon") && !hub(noMs).includes("Muskingum"));
 });
+
+test("History of Leadership layout (2026-11-17): past tables collapsed, rows unchanged and in oatccc.com order", () => {
+  const html = oatcccOutputs(site, oatcccFlags(ALL)).pages.find((p) => p.pathname === "/oatccc/about/history-of-leadership/").html;
+  const src = fs.readFileSync(new URL("../src/oatccc/more/content/history-of-leadership.html", import.meta.url), "utf8");
+  const rows = (s) => [...s.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].map((m) => [...m[1].matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/g)].map((c) => c[1]).join(" | "));
+  const past = html.split("<h2>Past leaders</h2>")[1];
+  assert.deepEqual(rows(past), rows(src), "same rows, same text, same order");
+  assert.deepEqual([...past.matchAll(/<details class="ox-past-sec">\s*<summary>([^<]+)<\/summary>/g)].map((m) => m[1]), ["Presidents", "Secretaries", "Treasurers", "Editors"]);
+  assert.ok(!/<details class="ox-past-sec" open/.test(past), "collapsed by default");
+  assert.ok(!/<td>/.test(past) && /<td data-l="Year">2023-24<\/td>/.test(past), "every cell labelled");
+  assert.equal((html.split("<h2>Past leaders</h2>")[0].match(/<li><strong>/g) || []).length, 33, "33 current-leader cards unchanged");
+  const css = fs.readFileSync(new URL("../src/oatccc/oatccc.css", import.meta.url), "utf8");
+  assert.match(css, /table\.ox-past td\[data-l="Year"\] \{ white-space: nowrap; \}/);
+});
