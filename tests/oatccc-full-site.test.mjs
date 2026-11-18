@@ -176,7 +176,9 @@ test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
   assert.ok(vend.includes(`href="${FF}" target="_blank" rel="noopener noreferrer" class="btn2 ox-big">Vendor Submission</a>`));
   assert.ok(vend.includes(">Vendor Letter</a>") && !/oatccc\.com\/Clinics\/Track-And-Field\/Vendors/i.test(vend));
   const xc = page("/oatccc/clinics/cross-country/");
-  assert.match(xc, /class="btn2 ox-big">Clinic Registration<\/a>/);
+  // Registration goes to FinalForms with the Join how-to line (Anjanette, 2026-11-17).
+  assert.match(xc, new RegExp(`<a href="${FF}"[^>]*class="btn2 ox-big">Clinic Registration</a></div>\\s*<p class="ox-bigbtn-how">Select Login/Signup and follow the prompts\\.</p>`));
+  assert.ok(!/Clinics\/Cross-Country\/Register/i.test(xc), "old registration link gone");
   assert.match(xc, /class="btn2 ox-big">Clinic Speakers<\/a>/);
   const tf = page("/oatccc/clinics/track-and-field/");
   const years = [...tf.matchAll(/<span class="ox-notes-year">(\d{4})<\/span>/g)].map((m) => m[1]);
