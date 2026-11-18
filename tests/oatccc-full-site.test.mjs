@@ -209,13 +209,27 @@ test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)",
     "OATCCC Junior High State Indoor Championships",
     "Entry Fee is $10 per event/$25 per relay",
     "All athletes must have a coach with an OATCCC current membership.  Memberships will be sold the day of the meet.",
-    "Any 7th/8th grader can be registered by their school.  Marks are not required this year, but seeding will be done by current season marks.",
+    "Any 7th/8th grader can be registered by their school.  An athlete only needs one performance mark to qualify to the meet. Seeding will be done by current season marks.",
     "Relay entries must be from the same Middle School",
     "Must be registered by their schools coach.",
     "8:00 am-11:00 am    Athlete Check in",
     "We will be on a rolling time schedule."
   ]) assert.ok(html.includes(words), words);
-  assert.ok(!/2026|registration for this event has ended/.test(html.split('class="ox-prose"')[1].split('class="ox-source"')[0]), "2026 text gone");
+  const prose = html.split('class="ox-prose"')[1].split('class="ox-source"')[0];
+  assert.ok(!/March \d+, 2026|registration for this event has ended|Marks are not required/.test(prose), "2026 meet text gone");
+  // Verification Form: old oatccc.com wording, word for word (Anjanette, 2026-11-17).
+  const ver = prose.split("<h3>Verification Form</h3>")[1].split("<h3>Schedule of Events</h3>")[0];
+  for (const words of [
+    "Verification Form (Online Only):",
+    "The verification form is completed by the team's coach.",
+    "In consideration for participating with the OAT&amp;CCC Indoor Middle School State Championship Meet all of the following regulations must be complied with:",
+    "The participating Indoor Track &amp; Field team’s school must be a member of the OHSAA for the 2025-2026 academic year and abides by the regulations to be member in good-standing with the OHSAA;",
+    "All coaches representing the participating Indoor Track &amp; Field team must be 2026 members of the OAT&amp;CCC;",
+    "All student-athletes associated with the participating Indoor Track &amp; Field team must meet all local Board of Education and OHSAA eligibility requirements for participation in athletics; and",
+    "If the Indoor Track &amp; Field team participating is represented by a coach or student-athlete who does not meet the above regulations, then the OATCCC may exclude the team or any of its competitors or coaches from the Indoor State Meet and apply sanctions to the team's future participation with OATCCC events."
+  ]) assert.ok(ver.includes(words), words);
+  assert.ok(ver.includes('<strong>Verification form link:</strong> <mark class="ox-tbc">[TO CONFIRM]</mark>'));
+  assert.ok(ver.includes('Verification Form Submission Deadline: <mark class="ox-tbc">[TO CONFIRM]</mark>'));
   const lists = [...html.matchAll(/<h4>(Field Events|Running Events)<\/h4>\s*<ul class="ox-sched">([\s\S]*?)<\/ul>/g)];
   assert.deepEqual(lists.map((m) => m[1]), ["Field Events", "Running Events"]);
   const items = (m) => [...m[2].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((x) => x[1].replace(/<span class="ox-sched-time">[^<]*<\/span>\s*/, ""));
@@ -224,7 +238,7 @@ test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)",
   assert.equal(run.length, 23);
   assert.deepEqual([run[0], run[2], run[16], run[22]], ["Girls 3200 Relay", "Girls 60 Hurdles", "Girls 800m Run", "Team Awards"]);
   assert.deepEqual([...html.matchAll(/<span class="ox-sched-time">([^<]*)<\/span>/g)].map((m) => m[1]), ["9:00 am", "Followed by:", "10:00 am"]);
-  assert.equal((html.match(/<mark class="ox-tbc">\[TO CONFIRM\]<\/mark>/g) || []).length, 2);
+  assert.equal((html.match(/<mark class="ox-tbc">\[TO CONFIRM\]<\/mark>/g) || []).length, 4);
   assert.ok(html.includes("<strong>Registration deadline:</strong> <mark") && html.includes("<strong>MileSplit meet page:</strong> <mark"));
   assert.match(html, /<a href="https:\/\/oatccc-oh\.finalforms-amp\.com\/"[^>]*class="btn2 ox-big">Join the OATCCC<\/a><\/div>\s*<p class="ox-bigbtn-how">Select Login\/Signup and follow the prompts\.<\/p>/);
   assert.ok(!/tel:|\b\d{3}-\d{3}-\d{4}\b/.test(html), "no phone numbers");
