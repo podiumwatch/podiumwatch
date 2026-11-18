@@ -5,7 +5,7 @@
 - src/oatccc/more/content/middle-school.html now holds the OATCCC PDF "2027 Indoor Junior High State Meet Information" word for word (March 13, 2027, Muskingum University); the 2026 oatccc.com text is gone. Behind OATCCC_MS_LIVE (off by default). Test: tests/oatccc-full-site.test.mjs.
 - Waiting on the OATCCC: the registration deadline, the MileSplit meet link, the verification form link and the 2027 verification deadline (all shown as yellow [TO CONFIRM]).
 - Anjanette confirmed (2026-11-17): the one-performance-mark qualifying sentence and a Verification Form section using the old oatccc.com Middle School wording, word for word (it still says "2025-2026 academic year" and "2026 members"; not edited).
-- Approval notes (2026-11-17): footer reads "Information from the OATCCC's 2027 Junior High State Meet sheet."; Doug Joy contact line kept from oatccc.com; hub Middle School card shows "March 13, 2027 · Muskingum University" when OATCCC_MS_LIVE is on (oatccc-section unchanged).
+- Approval notes (2026-11-17): footer reads "Information from the OATCCC's 2027 Junior High State Meet sheet and the OATCCC's Middle School verification terms."; Doug Joy contact line kept from oatccc.com; hub Middle School card shows "March 13, 2027 · Muskingum University" when OATCCC_MS_LIVE is on (oatccc-section unchanged).
 - The /site-preview/ copy was rebuilt and re-uploaded with this page (old site-preview/ objects deleted first, on Zachary's OK).
 
 ## Start here (2026-11-17, late): Zachary's follow-up fixes (oatccc-full-site)

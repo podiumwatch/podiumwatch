@@ -244,7 +244,7 @@ test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)",
   assert.ok(!/tel:|\b\d{3}-\d{3}-\d{4}\b/.test(html), "no phone numbers");
   // Zachary's approval notes (2026-11-17): contact, footer, hub card.
   assert.ok(html.includes('<p><strong>Contact:</strong> Doug Joy, <a href="mailto:djoy@eastmschools.org"'), "contact line");
-  assert.ok(html.includes('<p class="ox-source">Information from the OATCCC&rsquo;s 2027 Junior High State Meet sheet.</p>'), "footer");
+  assert.ok(html.includes('<p class="ox-source">Information from the OATCCC&rsquo;s 2027 Junior High State Meet sheet and the OATCCC&rsquo;s Middle School verification terms.</p>'), "footer");
   const other = oatcccOutputs(site, oatcccFlags(ALL)).pages.find((p) => p.pathname === "/oatccc/about/").html;
   assert.ok(other.includes("This page is shared from oatccc.com with the OATCCC&rsquo;s permission."), "other pages keep their footer");
   const hub = (flags) => oatcccOutputs(site, oatcccFlags(flags)).pages.find((p) => p.pathname === "/oatccc/").html;

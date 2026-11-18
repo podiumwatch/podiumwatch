@@ -65,7 +65,7 @@ function sectionNav(page, flags) {
 
 // Pages whose words come from somewhere other than oatccc.com (Zachary, 2026-11-17).
 const SOURCE_LINES = {
-  "middle-school": "Information from the OATCCC&rsquo;s 2027 Junior High State Meet sheet."
+  "middle-school": "Information from the OATCCC&rsquo;s 2027 Junior High State Meet sheet and the OATCCC&rsquo;s Middle School verification terms."
 };
 
 export function morePageHtml(site, flags, page) {
