@@ -144,6 +144,14 @@ test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
   const FF = "https://oatccc-oh.finalforms-amp.com/";
   // Declarations: the MileSplit note near the top; the date stays a visible placeholder.
   const dec = page("/oatccc/indoor/high-school/declarations-and-fees/");
+  // Acceptance lists on Monday, March 1 (Anjanette); invoice and fee dates flagged (Zachary, 2026-11-17).
+  assert.ok(dec.includes("<li>Final acceptance lists will be posted on MileSplit on Monday, March 1st</li>") && !dec.includes("March 2nd"));
+  assert.ok(dec.includes('Do NOT pay the invoice until Monday, March 2, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark>, when the final acceptance lists are posted.'));
+  assert.ok(dec.includes('All entries fees are paid online and due by Thursday, March 5, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark> at 12noon.'));
+  for (const p of ["abcs", "divisions", "eligibility-and-verification"]) {
+    const kd = page(`/oatccc/indoor/high-school/${p}/`);
+    assert.match(kd, /<b>Feb 27<\/b>[\s\S]*?<b>Mar 1<\/b><span>Monday<\/span><\/div><div><span class="kd-what">Final acceptance lists posted<\/span>[\s\S]*?<b>Mar 5<\/b>/, p);
+  }
   assert.ok(dec.indexOf("Declarations are made completely through the MileSplit registration option") < dec.indexOf("Declarations must be completed on MileSplit Ohio"));
   // Date confirmed by Anjanette (2026-11-17); her exact paragraph.
   assert.ok(dec.includes("<p>All final entries accepted into the State Meet will be posted on Monday, March 1, 2027, under the ENTRY tab of each MileSplit meet page for each division and are considered entered in the meet. The final entry fee invoice will reflect only those athletes and relays on the final acceptance lists. Payment must be made for all those on the final acceptance lists even if the athlete or relay chooses not to compete. Again, do not pay the invoice until Sunday after the final acceptance lists are posted.</p>"));

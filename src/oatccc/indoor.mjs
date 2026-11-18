@@ -83,6 +83,7 @@ function keyDates(prefix) {
         <li class="kd"><div class="kd-date"><b>Feb 24</b><span>Wednesday</span></div><div><span class="kd-what">Finalized top 30 performance lists are posted</span></div></li>
         <li class="kd"><div class="kd-date"><b class="range">Feb 24&ndash;26</b><span>Wed to Fri</span></div><div><span class="kd-what">Declare entries</span><span class="kd-detail">Wednesday at 12:00 noon to Friday at 11:59 pm.</span></div></li>
         <li class="kd deadline"><div class="kd-date"><b>Feb 27</b><span>Saturday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Scratch window</span><span class="kd-detail">12:01 am to 12:00 noon. It is open for 12 hours only.</span></div></li>
+        <li class="kd"><div class="kd-date"><b>Mar 1</b><span>Monday</span></div><div><span class="kd-what">Final acceptance lists posted</span></div></li>
         <li class="kd"><div class="kd-date"><b>Mar 5</b><span>Friday</span></div><div><span class="kd-what">Divisions 3 and 4 compete</span><span class="kd-detail">Registration fees for this day&rsquo;s entries are due by 12:00 noon.</span></div></li>
         <li class="kd"><div class="kd-date"><b>Mar 6</b><span>Saturday</span></div><div><span class="kd-what">Divisions 1, 2 and Seated compete</span><span class="kd-detail">Registration fees for this day&rsquo;s entries are due by 12:00 noon.</span></div></li>
       </ol>
@@ -466,15 +467,15 @@ function declarationsBody() {
           <li>Starting heights will be posted on the MileSplit meet pages</li>
           <li>Print/save your confirmation sheet to make sure all declarations are entered</li>
           <li>No late declarations accepted</li>
-          <li>Final acceptance lists will be posted on MileSplit on Monday, March 2nd</li>
+          <li>Final acceptance lists will be posted on MileSplit on Monday, March 1st</li>
         </ul>
         <p>All declarations are made on the OHMileSplit meet registration page similar to entering athletes in a regular season meet. Do NOT import entries - skip this step. Only athletes and relay teams in the top 30 will be accepted. A pop-up window will appear rejecting any athletes or relays not in the top 30 once you try to submit them.</p>
         <p>Print your declaration lists to confirm your submissions. Computer and internet connection issues are not an excuse for omitting a declaration. Print and save your confirmation!</p>
-        <p>To view and print your declarations, click on MAKE PAYMENT, then PRINT INVOICE. Do NOT pay the invoice until Monday, March 2, 2026, when the final acceptance lists are posted.</p>
+        <p>To view and print your declarations, click on MAKE PAYMENT, then PRINT INVOICE. Do NOT pay the invoice until Monday, March 2, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark>, when the final acceptance lists are posted.</p>
         <p>The cost per individual entry is $15.00. The cost per relay team entry is $25.00.</p>
         <p>All final entries accepted into the State Meet will be posted on Monday, March 1, 2027, under the ENTRY tab of each MileSplit meet page for each division and are considered entered in the meet. The final entry fee invoice will reflect only those athletes and relays on the final acceptance lists. Payment must be made for all those on the final acceptance lists even if the athlete or relay chooses not to compete. Again, do not pay the invoice until Sunday after the final acceptance lists are posted.</p>
         <p>Click on &ldquo;Registration Closed - View Your Entries&rdquo; to submit payment.</p>
-        <p>All entries fees are paid online and due by Thursday, March 5, 2026 at 12noon.</p>
+        <p>All entries fees are paid online and due by Thursday, March 5, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark> at 12noon.</p>
       </div>
     </section>
   </div>`;
