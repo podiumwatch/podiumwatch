@@ -155,3 +155,11 @@ test("Anjanette's preview comments, part 1 (2026-11-17): join link, form note, F
   const div = page("/oatccc/indoor/high-school/divisions/");
   assert.ok(div.includes("Each division has a finalized top 30 list for each event. Finalized top 30 performance lists are posted February 24, 2027."), "qualifying step on Divisions");
 });
+
+test("Zachary's follow-up (2026-11-17): Membership tab goes to FinalForms", () => {
+  const pages = oatcccOutputs(site, oatcccFlags({ OATCCC_LIVE: "1" })).pages;
+  for (const p of pages) {
+    assert.match(p.html, /href="https:\/\/oatccc-oh\.finalforms-amp\.com\/"[^>]*>Membership</, p.pathname);
+    assert.ok(!p.html.includes('href="https://www.oatccc.com/Coaches/Membership/"'), p.pathname);
+  }
+});

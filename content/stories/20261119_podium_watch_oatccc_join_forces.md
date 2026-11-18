@@ -43,7 +43,7 @@ The two already overlapped. Podium Watch has carried the OATCCC coaches polls al
 - **The official OATCCC coaches polls.** Every division, boys and girls, all season.
 - **Coverage of OATCCC events.** From the polls to the championship meets.
 - **An OATCCC section on Podium Watch.** The association's information sits under its own name, logo and colors at [podiumwatch.org/oatccc](/oatccc/).
-- **Team verification online.** Starting December 1, athletic directors verify their teams for the Indoor State Meet on the site.
+- **Team verification online.** Starting December 1, athletic directors verify their teams for the Indoor State Meet online, using a link emailed directly to them.
 
 > "Ohio has some of the best coaches in the country, and they have been doing this work for a long time. I started Podium Watch to give these kids the recognition they earn. Working with the OATCCC lets us do that with the people who know this sport best."
 >

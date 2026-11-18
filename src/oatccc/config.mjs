@@ -104,7 +104,7 @@ export function oatcccTabs() {
     { key: "polls", label: "Coaches’ Polls", href: LINKS.coachesPoll },
     { key: "hof", label: "Hall of Fame & Awards", href: LINKS.hallOfFame },
     { key: "clinics", label: "Clinics", href: LINKS.clinic },
-    { key: "membership", label: "Membership", href: LINKS.membership },
+    { key: "membership", label: "Membership", href: LINKS.join },
     { key: "about", label: "About", href: LINKS.about }
   ];
 }
