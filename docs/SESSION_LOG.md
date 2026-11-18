@@ -20,6 +20,10 @@ Add a new section after each meaningful development session.
 - New worktree ../podium_watch_oatccc_full, branch oatccc-full-site. Crawled oatccc.com (526 pages, 0 failed); copied 1,007 files to the oatccc-public bucket; 19 simple pages; Hall of Fame and awards from the database (migration 103 and import, not run); redirect map; link check; screenshots. Details: docs/OATCCC_FULL_SITE_REPORT.md.
 - Bugs caught by screenshots and tests: the site footer overwrites every [data-year] element (Hall of Fame cards); .ox img beat the inductee photo size; script links inside sentences dropped a word.
 - check.mjs now skips the ignored _private/ folder.
+## 2026 11 17 OATCCC follow-up: article verification line, Membership tab
+
+- Article line about AD verification matches the Eligibility page; Membership tab goes to FinalForms. Launch build (OATCCC_LIVE=1, VERCEL_ENV=production) re-checked, no stops.
+
 ## 2026 11 17 Anjanette's preview comments (part 1) and the final article
 
 - Eligibility and Join link changes from Anjanette's preview comments; final announcement text and byline. Tests: tests/oatccc-section.test.mjs. Launch build checked.
