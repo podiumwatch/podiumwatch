@@ -33,7 +33,7 @@ Podium Watch started in the spring of 2026 with one goal: give Ohio's runners th
 
 The two already overlapped. Podium Watch has carried the OATCCC coaches polls all season, from the preseason poll through the final one. The partnership makes that connection official and builds on it.
 
-> "Ohio's coaches have built something special in this sport, and they deserve a home that shows it. Podium Watch already covers our athletes every week, so bringing the OATCCC's championships and information under the same roof just made sense. Coaches and families will find what they need faster, and our association can keep its focus where it belongs: on the athletes and the coaches who serve them."
+> "This partnership is about coming together to create something even better for Ohio cross country and track and field. The OATCCC has a long history of supporting coaches and advancing our sport, while Podium Watch has done an outstanding job showcasing the athletes, teams, and accomplishments that make our sports special. At the heart of this partnership is a shared commitment to promoting our sports, telling the stories of those who make them great, and giving our coaches and athletes the recognition they deserve! Highlighting their accomplishments, sharing their stories, and growing the visibility of cross country and track and field are essential to the continued health and success of our sports here in the great state of Ohio. Together with Podium Watch we are excited about what this partnership means for the future of our sports in Ohio!"
 >
 > Matt Schock, President, Ohio Association of Track & Cross Country Coaches
 
