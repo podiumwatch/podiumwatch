@@ -34,7 +34,8 @@ test("tabs point to oatccc.com until the section is on", () => {
   assert.match(off.find((t) => t.key === "about").href, /^https:\/\/www\.oatccc\.com\//);
   const on = oatcccTabs(oatcccFlags(ALL));
   assert.equal(on.find((t) => t.key === "about").href, "/oatccc/about/");
-  assert.equal(on.find((t) => t.key === "membership").href, "/oatccc/join/");
+  // Membership goes to FinalForms either way (Zachary, 2026-11-17).
+  assert.equal(on.find((t) => t.key === "membership").href, "https://oatccc-oh.finalforms-amp.com/");
 });
 
 test("links: moved pages only when on; files only when hosted", () => {
@@ -58,7 +59,10 @@ test("copied page text: no phone numbers, no sponsor logos, no oatccc.com script
   for (const page of MORE_PAGES) {
     const file = new URL(`../src/oatccc/more/content/${page.key}.html`, import.meta.url);
     if (!fs.existsSync(file)) continue;
-    const html = fs.readFileSync(file, "utf8");
+    // The only numbers allowed: the two clinic hotels' business lines
+    // (Zachary, 2026-11-17).
+    const allowed = page.key === "clinic-tf" ? /<a href="tel:(6144145000|6147629162)">[^<]*<\/a>/g : /$^/g;
+    const html = fs.readFileSync(file, "utf8").replace(allowed, "");
     assert.doesNotMatch(html.replace(/<[^>]+>/g, " "), PHONE, `${page.key}: phone number`);
     assert.doesNotMatch(html, /href="tel:|<script|javascript:|onclick=|style="/i, page.key);
   }
@@ -174,4 +178,24 @@ test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
   assert.ok(order.every((n, i) => n > 0 && (i === 0 || n > order[i - 1])), JSON.stringify(order));
   assert.ok(!hist.includes("MCDERMOTT"), "stray rows dropped");
   assert.ok(!/\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}-\d{3}-\d{4}\b/.test(hist + page("/oatccc/about/leadership/")), "no phone numbers");
+});
+
+test("Zachary's follow-up (2026-11-17): Chair contact line, FinalForms vendor row, hotel phones", () => {
+  const FF = "https://oatccc-oh.finalforms-amp.com/";
+  const pages = oatcccOutputs(site, oatcccFlags({ ...ALL, OATCCC_FILES_HOSTED: "1" })).pages;
+  const page = (p) => pages.find((x) => x.pathname === p).html;
+  const line = '<p class="ox-lead-contact">To reach a district rep or officer, email the Indoor State Meet Chair at <a href="mailto:awhitman@oatccc.com">awhitman@oatccc.com</a>.</p>';
+  for (const p of ["/oatccc/about/leadership/", "/oatccc/about/history-of-leadership/"]) {
+    const html = page(p);
+    assert.equal(html.split(line).length, 2, p);
+    assert.ok(html.indexOf(line) < html.indexOf('<div class="ox-lead-groups">'), p);
+  }
+  const forms = page("/oatccc/forms/");
+  assert.match(forms, new RegExp(`VENDOR Contract Form[\\s\\S]*?<a href="${FF}"[^>]*>Vendor Submission</a>`));
+  assert.ok(!forms.includes("Vendor-Contract.pdf"), "old contract PDF gone");
+  assert.ok(page("/oatccc/clinics/vendors/").includes(">Vendor Letter</a>"));
+  const tf = page("/oatccc/clinics/track-and-field/");
+  assert.ok(tf.includes('<h6><a href="tel:6144145000">Hotel Phone: (614) 414-5000</a></h6>'));
+  assert.ok(tf.includes('Overflow Hotel - Aloft at Easton <br> Hotel Phone: <a href="tel:6147629162">614-762-9162</a></h6>'));
+  for (const p of pages) assert.match(p.html, new RegExp(`href="${FF}"[^>]*>Membership<`), p.pathname);
 });
