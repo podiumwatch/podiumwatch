@@ -5,6 +5,7 @@ import { escapeHtml } from "../../lib/content.mjs";
 import { HOF_PATHS, AWARD_PAGES } from "./registry.mjs";
 import { resolveHref, resolveLinks, OATCCC_ORIGIN } from "./links.mjs";
 import { selectAll } from "../../../lib/supabase_paging.mjs";
+import { EMAIL_FALLBACK, EMAIL_SCRIPT, protectEmails } from "../email-protect.mjs";
 
 // Hall of Fame and Awards (OATCCC_HOF_LIVE). The data lives in the
 // database (install/103_OATCCC_HALL_OF_FAME.sql, loaded by
@@ -102,6 +103,8 @@ function inducteePage(site, flags, person, data) {
   const honors = awards.length
     ? `<h2>Awards</h2><ul>${awards.map((r) => `<li><a href="${HOF_PATHS.awards}${awardSlug(r.award_key)}/">${escapeHtml(awardTitle(r.award_key))}</a>${r.year_label ? `, ${escapeHtml(r.year_label)}` : ""}${r.details ? ` (${escapeHtml(r.details)})` : ""}</li>`).join("")}</ul>`
     : "";
+  // Any address in a bio is encoded, not plain (Dave Kirk's; Zachary, 2026-11-18).
+  const bio = protectEmails(bioHtml(person.bio));
   const body = `<article class="ox-inductee">
   ${img ? `<img class="ox-inductee-photo" src="${escapeHtml(img)}" alt="${escapeHtml(person.name)}" width="240" height="300">` : ""}
   <div>
@@ -109,12 +112,12 @@ function inducteePage(site, flags, person, data) {
     ${person.ed_barker_recipient ? `<p><strong>Ed Barker Recipient</strong></p>` : ""}
     ${person.school ? `<p>${escapeHtml(person.school)}</p>` : ""}
     <h2>About ${escapeHtml(person.name)}</h2>
-    <div class="ox-prose">${bioHtml(person.bio) || "<p></p>"}</div>
+    <div class="ox-prose">${bio.html || "<p></p>"}</div>
     ${honors}
     <p><a class="btn2" href="${HOF_PATHS.hof}">All Hall of Fame inductees</a></p>
   </div>
 </article>`;
-  return shell(site, flags, { pathname: `${HOF_PATHS.hof}${person.slug}/`, title: `${person.name} (${person.induction_year})`, description: `${person.name}, OATCCC Hall of Fame ${person.induction_year}${person.ed_barker_recipient ? ", Ed Barker Recipient" : ""}.`, nav: hofNav(""), body });
+  return shell(site, flags, { pathname: `${HOF_PATHS.hof}${person.slug}/`, title: `${person.name} (${person.induction_year})`, description: `${person.name}, OATCCC Hall of Fame ${person.induction_year}${person.ed_barker_recipient ? ", Ed Barker Recipient" : ""}.`, nav: hofNav(""), body: bio.count ? `${body}\n${EMAIL_FALLBACK}` : body, scripts: bio.count ? [EMAIL_SCRIPT] : [] });
 }
 
 function awardsIndex(site, flags, data) {

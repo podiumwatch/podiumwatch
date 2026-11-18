@@ -257,7 +257,7 @@ test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)",
   assert.match(html, /<a href="https:\/\/oatccc-oh\.finalforms-amp\.com\/"[^>]*class="btn2 ox-big">Join the OATCCC<\/a><\/div>\s*<p class="ox-bigbtn-how">Select Login\/Signup and follow the prompts\.<\/p>/);
   assert.ok(!/tel:|\b\d{3}-\d{3}-\d{4}\b/.test(html), "no phone numbers");
   // Zachary's approval notes (2026-11-17): contact, footer, hub card.
-  assert.ok(html.includes('<p><strong>Contact:</strong> Doug Joy, <a href="mailto:djoy@eastmschools.org"'), "contact line");
+  assert.match(html, /<p><strong>Contact:<\/strong> Doug Joy, <a class="ox-email-link" href="#ox-lead-fallback" data-ox-e="[^"]+">Email<\/a><\/p>/, "contact line (address encoded since 2026-11-18)");
   assert.ok(html.includes('<p class="ox-source">Information from the OATCCC&rsquo;s 2027 Junior High State Meet sheet and the OATCCC&rsquo;s Middle School verification terms.</p>'), "footer");
   const other = oatcccOutputs(site, oatcccFlags(ALL)).pages.find((p) => p.pathname === "/oatccc/about/").html;
   assert.ok(other.includes("This page is shared from oatccc.com with the OATCCC&rsquo;s permission."), "other pages keep their footer");
@@ -348,4 +348,43 @@ test("T&F Clinic: Hotel Group Rate button above the hotel phones (Anjanette, 202
   const btn = '<div class="ox-bigbtns"><a href="https://www.hilton.com/en/attend-my-event/cmhchhf-93v-a52b6c8c-d1da-4b30-ab49-c7d116163e7d/" target="_blank" rel="noopener noreferrer" class="btn2 ox-big">Hotel Group Rate (rooms are limited - reserve today!)</a></div>';
   assert.equal(tf.split(btn).length, 2);
   assert.ok(tf.indexOf(btn) < tf.indexOf("Hotel Phone: (614) 414-5000") && tf.indexOf(btn) > tf.indexOf("3900 Chagrin Dr"));
+});
+
+test("Personal addresses encoded on the Hall of Fame bios and the Middle School page (2026-11-18)", async () => {
+  const { protectEmails, EMAIL_FALLBACK } = await import("../src/oatccc/email-protect.mjs");
+  const { oatcccHofPages } = await import("../src/oatccc/more/hof.mjs");
+  const decode = (c) => [...Buffer.from(c, "base64").toString("utf8")].reverse().join("");
+  const plain = /[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}/g;
+
+  // The helper: mailto links and written-out addresses become encoded links;
+  // the Chair's address (the public contact and fallback) is left alone.
+  const r = protectEmails('<p>Contact: Test Coach, <a href="mailto:coach@school.example">coach@school.example</a></p><p>Reach him at other.person@mail.example.</p><p><a href="mailto:awhitman@oatccc.com">awhitman@oatccc.com</a></p>');
+  assert.equal(r.count, 2);
+  assert.deepEqual([...r.html.matchAll(/data-ox-e="([^"]+)"/g)].map((m) => decode(m[1])), ["coach@school.example", "other.person@mail.example"]);
+  assert.match(r.html, /Reach him at <a class="ox-email-link" href="#ox-lead-fallback" data-ox-e="[^"]+">Email<\/a>\.<\/p>/);
+  assert.ok(r.html.includes('<a href="mailto:awhitman@oatccc.com">awhitman@oatccc.com</a>'));
+  assert.deepEqual([...r.html.matchAll(plain)].map((m) => m[0]), ["awhitman@oatccc.com", "awhitman@oatccc.com"]);
+
+  // Middle School page: Doug Joy's address only encoded, with fallback and script.
+  const ms = oatcccOutputs(site, oatcccFlags({ ...ALL, OATCCC_INDOOR_FULL_LIVE: "1" })).pages.find((p) => p.pathname === "/oatccc/indoor/middle-school/").html;
+  const src = fs.readFileSync(new URL("../src/oatccc/more/content/middle-school.html", import.meta.url), "utf8");
+  const doug = src.match(/mailto:([^"]+)"/)[1];
+  assert.ok(!ms.toLowerCase().includes(doug.toLowerCase()), "Doug Joy's address not plain");
+  assert.match(ms, /<p><strong>Contact:<\/strong> Doug Joy, <a class="ox-email-link" href="#ox-lead-fallback" data-ox-e="([^"]+)">Email<\/a><\/p>/);
+  assert.equal(decode(ms.match(/Doug Joy, <a [^>]*data-ox-e="([^"]+)"/)[1]), doug);
+  assert.ok(ms.includes(EMAIL_FALLBACK) && ms.includes('<script src="/scripts/oatccc-email.js" defer></script>'));
+
+  // Hall of Fame bio (TEST data): address in the text is encoded, page gets fallback and script.
+  const data = {
+    inductees: [{ id: "t", slug: "test-coach-2024", name: "Test Coach", sort_name: "Coach, Test", induction_year: 2024, ed_barker_recipient: false, school: "Test High School", sport: "", bio: "Coached for years.\n\nTest can be reached at test.coach@mail.example", photo_path: null, old_url: null },
+      { id: "u", slug: "no-email-2024", name: "No Email", sort_name: "Email, No", induction_year: 2024, ed_barker_recipient: false, school: "", sport: "", bio: "No address here.", photo_path: null, old_url: null }],
+    awards: [], recipients: []
+  };
+  const hof = oatcccHofPages(site, oatcccFlags(ALL), data);
+  const one = hof.find((p) => p.pathname.endsWith("/test-coach-2024/")).html;
+  assert.ok(!one.includes("test.coach@mail.example"));
+  assert.match(one, /Test can be reached at <a class="ox-email-link" href="#ox-lead-fallback" data-ox-e="([^"]+)">Email<\/a><\/p>/);
+  assert.ok(one.includes(EMAIL_FALLBACK) && one.includes('<script src="/scripts/oatccc-email.js" defer></script>'));
+  const none = hof.find((p) => p.pathname.endsWith("/no-email-2024/")).html;
+  assert.ok(!none.includes("ox-lead-fallback") && !none.includes("oatccc-email.js"), "pages without addresses unchanged");
 });

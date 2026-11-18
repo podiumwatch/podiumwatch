@@ -12,6 +12,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { encodeEmail } from "../src/oatccc/email-protect.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "src", "oatccc", "more", "leaders.json");
@@ -37,7 +38,7 @@ export function parseCsv(text) {
   return rows;
 }
 
-export const encodeEmail = (address) => Buffer.from([...address].reverse().join(""), "utf8").toString("base64");
+export { encodeEmail };
 
 export function leadersFromCsv(text) {
   const [head, ...body] = parseCsv(text);

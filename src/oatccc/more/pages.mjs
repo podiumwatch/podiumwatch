@@ -5,7 +5,7 @@ import { oatcccLayout } from "../layout.mjs";
 import { escapeHtml } from "../../lib/content.mjs";
 import { MORE_PAGES } from "./registry.mjs";
 import { resolveLinks } from "./links.mjs";
-import { LINKS } from "../config.mjs";
+import { EMAIL_FALLBACK, EMAIL_SCRIPT, protectEmails } from "../email-protect.mjs";
 
 // The OATCCC full site move: the simple pages (src/oatccc/more/registry.mjs).
 // Each is built only when OATCCC_LIVE, OATCCC_MORE_LIVE and its section's
@@ -40,7 +40,6 @@ export function loadContent(key) {
 // (scripts/oatccc-email.js). Without JavaScript the button jumps to the
 // Indoor State Meet Chair contact line, which only shows in that case.
 const LEADERS_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), "leaders.json");
-const LEADER_FALLBACK = `<noscript><p class="ox-lead-contact" id="ox-lead-fallback">To reach a district rep or officer, email the Indoor State Meet Chair at <a href="mailto:${LINKS.chairEmail}">${LINKS.chairEmail}</a>.</p></noscript>`;
 const OFFICER_ORDER = ["President", "Vice President", "Secretary", "Treasurer", "Past President"];
 const LIAISON_ORDER = ["OHSAA Liaison", "College Liaison"];
 
@@ -71,7 +70,7 @@ export function currentLeadersHtml() {
   const list = (people) => `<ul class="ox-lead-list">\n${people.map(leaderCard).join("\n")}\n</ul>`;
   const districtHtml = [...districts.keys()].sort((a, b) => a - b).map((n) =>
     `<div class="ox-district"><h4>District ${n}</h4>\n<ul class="ox-lead-list ox-lead-pair">\n${districts.get(n).filter(Boolean).map(leaderCard).join("\n")}\n</ul></div>`).join("\n");
-  return `${LEADER_FALLBACK}
+  return `${EMAIL_FALLBACK}
 <div class="ox-lead-groups">
 <h3 class="ox-lead-group">Officers</h3>
 ${list(officers)}
@@ -94,6 +93,8 @@ const TOUCHES = {
   forms: (html) => html.replace(/<td>(\s*)<\/td>(\s*<\/tr>)/g, '<td><span class="ox-soon">Link coming soon</span></td>$2'),
   // Sponsors as text links, no logos (Zachary, 2026-11-16 and 11-17).
   sponsors: (html) => html.replace(/<img [^>]*>\s*/g, ""),
+  // Doug Joy's address is encoded, not plain (Zachary, 2026-11-18).
+  "middle-school": (html) => protectEmails(html).html,
   // oatccc.com shows the same placeholder photo for every officer.
   leadership: (html) => html
     .replace(/<img src="[^"]*Ohio-Association-of-Track-Cross-Country-Coaches-Team\.jpg"[^>]*>\s*/g, "")
@@ -139,14 +140,16 @@ export function morePageHtml(site, flags, page) {
   const raw = loadContent(page.key);
   if (raw === null) return null;
   const touched = TOUCHES[page.key] ? TOUCHES[page.key](raw) : raw;
-  const body = resolveLinks(touched, flags);
+  const linked = resolveLinks(touched, flags);
+  const encoded = /data-ox-e="/.test(linked);
+  const body = encoded && !linked.includes('id="ox-lead-fallback"') ? `${linked}\n${EMAIL_FALLBACK}` : linked;
   const content = `<div class="ox-wrap ox-more">
   <div class="page-head"><p class="ox-kicker">${escapeHtml(SECTION_LABELS[page.section] || "OATCCC")}</p><h1>${escapeHtml(page.title)}</h1></div>
   ${sectionNav(page, flags)}
   <div class="ox-prose">${body}</div>
   <p class="ox-source">${SOURCE_LINES[page.key] || "This page is shared from oatccc.com with the OATCCC&rsquo;s permission."}</p>
 </div>`;
-  const scripts = /data-ox-e="/.test(body) ? ["/scripts/oatccc-email.js"] : [];
+  const scripts = encoded ? [EMAIL_SCRIPT] : [];
   return oatcccLayout({ site, flags, pathname: page.path, title: page.title, description: page.description, tab: page.tab, content, scripts });
 }
 
