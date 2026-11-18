@@ -18,7 +18,7 @@
 ## Start here (2026-11-17, evening): Anjanette's preview comments, part 2 (oatccc-full-site)
 
 - oatccc-section merged in (1ff969b2), then part 2 (f4d9eb57, 778e9360): Declarations, Meet day, FAQ, Join, clinic vendors, XC clinic buttons, T&F clinic notes by year, leadership grouped and past leaders by role. Tests: tests/oatccc-full-site.test.mjs.
-- Waiting on Anjanette: the date the final entries are posted (shown as a yellow [DATE TO CONFIRM]; she wrote Monday, March 2, 2026, and March 2, 2027 is a Tuesday). Parking (Passport Parking, $6): she is confirming it with SPIRE.
+- Final entries date confirmed by Anjanette (2026-11-17): Monday, March 1, 2027; her exact paragraph is on Declarations & Fees, placeholder removed. Still on that page, unchanged (ask first): "Final acceptance lists will be posted on MileSplit on Monday, March 2nd", "Do NOT pay the invoice until Monday, March 2, 2026", "due by Thursday, March 5, 2026 at 12noon". Preview not rebuilt yet. Parking (Passport Parking, $6): she is confirming it with SPIRE.
 - Waiting on Zachary: how people contact each current leader and district rep (no phone numbers).
 - Later, not built: HOF Banquet invitation link; Podium Watch poll pages in place of the Google Sheets.
 - Edited page files say "Edited at the OATCCC's request" in their header; scripts/oatccc-port-pages.mjs skips them unless run with --overwrite-edited.
