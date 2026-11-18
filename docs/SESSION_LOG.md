@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 OATCCC follow-up fixes and preview refresh
+
+- Chair contact line on the leadership pages, vendor contract row to FinalForms, clinic hotel phones back, Membership tab to FinalForms. Tests: tests/oatccc-full-site.test.mjs. Preview copy rebuilt and re-uploaded.
+
 ## 2026 11 17 OATCCC site preview copy
 
 - Merged oatccc-section into oatccc-full-site (conflicts were both-sides additions). Built the preview copy, checked it (48,512 relative links, no live-site links, noindex and banner on all 504 pages, no directory AD emails), tested it in Chrome through a local copy of the review endpoint (folder and real bucket: password first in a private window, all 532 files byte for byte), uploaded to oatccc-review/site-preview/. Scripts: scripts/oatccc-site-preview/.

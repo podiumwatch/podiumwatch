@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-17, late): Zachary's follow-up fixes (oatccc-full-site)
+
+- oatccc-section merged in again (97463fd8), then 1678c522: Leadership and History of Leadership say "To reach a district rep or officer, email the Indoor State Meet Chair at awhitman@oatccc.com." (a contact form comes later); the Forms page vendor contract row goes to FinalForms ("Vendor Submission"); the T&F clinic page shows both hotel business numbers again (Hilton and Aloft, from oatccc.com). The Membership tab goes to FinalForms, not the local Join page.
+- Forms page still says "Please complete your registration by January 12, 2026." (oatccc.com's wording).
+- The /site-preview/ copy was rebuilt and re-uploaded again (old 532 deleted on Zachary's OK, new 532 uploaded, byte for byte).
+- npm run check fails on lib/athletic_net_rankings_service.mjs (.limit over 1,000 rows); that file came from main, not this work.
+
 ## Start here (2026-11-17, evening): Anjanette's preview comments, part 2 (oatccc-full-site)
 
 - oatccc-section merged in (1ff969b2), then part 2 (f4d9eb57, 778e9360): Declarations, Meet day, FAQ, Join, clinic vendors, XC clinic buttons, T&F clinic notes by year, leadership grouped and past leaders by role. Tests: tests/oatccc-full-site.test.mjs.
@@ -34,7 +41,7 @@ Worktree ../podium_watch_oatccc_full, branch oatccc-full-site (from oatccc-secti
 - Anjanette's preview comments, part 1 (f9e95475): Eligibility note that the verification form link is only emailed to ADs; "Finalized top 30 performance lists are posted February 24, 2027." in the key dates and the qualifying steps; every Join the OATCCC link goes to https://oatccc-oh.finalforms-amp.com/ with "Select Login/Signup and follow the prompts."
 - Final article (794f851f): text from Zachary's OATCCC_ARTICLE_FINAL.md, body word for word; author "Podium Watch" (shows "By Podium Watch Staff", no staff card link).
 - A production launch build (OATCCC_LIVE=1, VERCEL_ENV=production, nothing else) finishes with no stops.
-- The tab bar's "Membership" tab still goes to oatccc.com's membership page (it is a section tab, not a join link).
+- The tab bar's "Membership" tab goes to FinalForms too (Zachary, 2026-11-17, 0cb55499). The article's verification line now says ADs verify "online, using a link emailed directly to them" (0cb55499); launch build re-checked.
 - Nothing pushed. Launch = Zachary's go, then OATCCC_LIVE=1 in Vercel Production and a redeploy.
 
 ## Start here (2026-11-17): private AD directory (oatccc-section)
