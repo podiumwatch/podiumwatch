@@ -33,9 +33,60 @@ export function loadContent(key) {
   return fs.readFileSync(file, "utf8").replace(/<!--[\s\S]*?-->\n?/g, "").trim();
 }
 
-// Until there is a contact form, every question for an officer or district
-// rep goes to the Indoor State Meet Chair (Zachary, 2026-11-17).
-const LEADER_CONTACT = `<p class="ox-lead-contact">To reach a district rep or officer, email the Indoor State Meet Chair at <a href="mailto:${LINKS.chairEmail}">${LINKS.chairEmail}</a>.</p>`;
+// Current leaders come from Matt Schock's 2026 list (src/oatccc/more/leaders.json,
+// made by scripts/oatccc-leaders-import.mjs; Zachary, 2026-11-18). Each person
+// has one Email button that writes to all of their addresses at once. The
+// addresses are stored encoded and only turned into a mailto link when tapped
+// (scripts/oatccc-email.js). Without JavaScript the button jumps to the
+// Indoor State Meet Chair contact line, which only shows in that case.
+const LEADERS_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), "leaders.json");
+const LEADER_FALLBACK = `<noscript><p class="ox-lead-contact" id="ox-lead-fallback">To reach a district rep or officer, email the Indoor State Meet Chair at <a href="mailto:${LINKS.chairEmail}">${LINKS.chairEmail}</a>.</p></noscript>`;
+const OFFICER_ORDER = ["President", "Vice President", "Secretary", "Treasurer", "Past President"];
+const LIAISON_ORDER = ["OHSAA Liaison", "College Liaison"];
+
+function leaderCard(person) {
+  const open = !person.name;
+  const photo = person.photo ? `<img class="ox-leader-photo" src="${escapeHtml(person.photo)}" alt="" width="72" height="72" loading="lazy">` : "";
+  const email = person.e && person.e.length
+    ? `<a class="btn2 ox-leader-email" href="#ox-lead-fallback" data-ox-e="${person.e.map(escapeHtml).join(" ")}" aria-label="Email ${escapeHtml(person.name)}">Email</a>`
+    : "";
+  return `<li class="ox-leader${open ? " ox-leader-open" : ""}">${photo}<div class="ox-leader-text"><span class="ox-leader-role">${escapeHtml(person.role)}</span><strong>${open ? "Open" : escapeHtml(person.name)}</strong>${person.affiliation ? `<span class="ox-leader-aff">${escapeHtml(person.affiliation)}</span>` : ""}</div>${email}</li>`;
+}
+
+export function currentLeadersHtml() {
+  if (!fs.existsSync(LEADERS_FILE)) return null;
+  const { leaders } = JSON.parse(fs.readFileSync(LEADERS_FILE, "utf8"));
+  const officers = OFFICER_ORDER.flatMap((role) => leaders.filter((p) => p.role === role));
+  const liaisons = LIAISON_ORDER.flatMap((role) => leaders.filter((p) => p.role === role));
+  const districts = new Map();
+  for (const p of leaders) {
+    const m = p.role.match(/^(Alternate )?District (\d+)$/);
+    if (!m) continue;
+    const seat = districts.get(+m[2]) || [];
+    seat[m[1] ? 1 : 0] = p;
+    districts.set(+m[2], seat);
+  }
+  const placed = new Set([...officers, ...liaisons, ...[...districts.values()].flat()]);
+  const chairs = leaders.filter((p) => !placed.has(p));
+  const list = (people) => `<ul class="ox-lead-list">\n${people.map(leaderCard).join("\n")}\n</ul>`;
+  const districtHtml = [...districts.keys()].sort((a, b) => a - b).map((n) =>
+    `<div class="ox-district"><h4>District ${n}</h4>\n<ul class="ox-lead-list ox-lead-pair">\n${districts.get(n).filter(Boolean).map(leaderCard).join("\n")}\n</ul></div>`).join("\n");
+  return `${LEADER_FALLBACK}
+<div class="ox-lead-groups">
+<h3 class="ox-lead-group">Officers</h3>
+${list(officers)}
+<h3 class="ox-lead-group">District representatives</h3>
+<div class="ox-districts">
+${districtHtml}
+</div>
+<h3 class="ox-lead-group">Chairs and committees</h3>
+${list(chairs)}
+<h3 class="ox-lead-group">Liaisons</h3>
+${list(liaisons)}
+</div>`;
+}
+
+const LEAD_GROUPS = /<div class="ox-lead-groups">[\s\S]*?\n<\/div>/;
 
 // Page-specific touches. Words are never changed.
 const TOUCHES = {
@@ -46,14 +97,14 @@ const TOUCHES = {
   // oatccc.com shows the same placeholder photo for every officer.
   leadership: (html) => html
     .replace(/<img src="[^"]*Ohio-Association-of-Track-Cross-Country-Coaches-Team\.jpg"[^>]*>\s*/g, "")
-    .replace('<div class="ox-lead-groups">', `${LEADER_CONTACT}\n<div class="ox-lead-groups">`),
+    .replace(LEAD_GROUPS, (old) => currentLeadersHtml() || old),
   // Current officers and district reps first, then past leaders by role
   // (Anjanette, 2026-11-17). The current list comes from the Leadership
   // page so the two never disagree.
   "history-of-leadership": (html) => {
     const past = collapsePastTables(html);
-    const current = (loadContent("leadership") || "").match(/<div class="ox-lead-groups">[\s\S]*?\n<\/div>/);
-    return current ? `<h2>Current officers and district representatives</h2>\n${LEADER_CONTACT}\n${current[0]}\n${past}` : past;
+    const current = currentLeadersHtml();
+    return current ? `<h2>Current officers and district representatives</h2>\n${current}\n${past}` : past;
   }
 };
 
@@ -95,7 +146,8 @@ export function morePageHtml(site, flags, page) {
   <div class="ox-prose">${body}</div>
   <p class="ox-source">${SOURCE_LINES[page.key] || "This page is shared from oatccc.com with the OATCCC&rsquo;s permission."}</p>
 </div>`;
-  return oatcccLayout({ site, flags, pathname: page.path, title: page.title, description: page.description, tab: page.tab, content });
+  const scripts = /data-ox-e="/.test(body) ? ["/scripts/oatccc-email.js"] : [];
+  return oatcccLayout({ site, flags, pathname: page.path, title: page.title, description: page.description, tab: page.tab, content, scripts });
 }
 
 // Returns [{ pathname, html }] for every switched-on section.

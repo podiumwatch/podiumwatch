@@ -22,6 +22,7 @@ export function oatcccOutputs(site, flags) {
   const assets = [
     ["oatccc.css", "styles/oatccc.css"],
     ["oatccc.js", "scripts/oatccc.js"],
+    ["oatccc-email.js", "scripts/oatccc-email.js"],
     ["images/oatccc-logo-96.png", "images/oatccc/oatccc-logo-96.png"],
     ["images/oatccc-logo-192.png", "images/oatccc/oatccc-logo-192.png"],
     ["images/oatccc-logo-384.png", "images/oatccc/oatccc-logo-384.png"],
