@@ -12,6 +12,10 @@ Add a new section after each meaningful development session.
 - New worktree ../podium_watch_oatccc_full, branch oatccc-full-site. Crawled oatccc.com (526 pages, 0 failed); copied 1,007 files to the oatccc-public bucket; 19 simple pages; Hall of Fame and awards from the database (migration 103 and import, not run); redirect map; link check; screenshots. Details: docs/OATCCC_FULL_SITE_REPORT.md.
 - Bugs caught by screenshots and tests: the site footer overwrites every [data-year] element (Hall of Fame cards); .ox img beat the inductee photo size; script links inside sentences dropped a word.
 - check.mjs now skips the ignored _private/ folder.
+## 2026 11 17 Anjanette's preview comments (part 1) and the final article
+
+- Eligibility and Join link changes from Anjanette's preview comments; final announcement text and byline. Tests: tests/oatccc-section.test.mjs. Launch build checked.
+
 ## 2026 11 17 School list and AD directory imported
 
 - scripts/import-oatccc-school-divisions.mjs --apply: dry run matched (812 names, 802 boys, 805 girls rows); loaded 812 schools and 1,598 division rows.

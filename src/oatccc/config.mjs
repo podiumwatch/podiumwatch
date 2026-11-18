@@ -146,7 +146,7 @@ export function oatcccTabs(flags = {}) {
     { key: "polls", label: "Coaches’ Polls", href: on("polls") ? "/oatccc/polls/" : LINKS.coachesPoll },
     { key: "hof", label: "Hall of Fame & Awards", href: on("hof") ? "/oatccc/hall-of-fame/" : LINKS.hallOfFame },
     { key: "clinics", label: "Clinics", href: on("clinics") ? "/oatccc/clinics/track-and-field/" : LINKS.clinic },
-    { key: "membership", label: "Membership", href: on("join") ? "/oatccc/join/" : LINKS.membership },
+    { key: "membership", label: "Membership", href: LINKS.join },
     { key: "about", label: "About", href: on("about") ? "/oatccc/about/" : LINKS.about }
   ];
 }

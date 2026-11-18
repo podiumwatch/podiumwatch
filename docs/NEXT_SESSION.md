@@ -29,6 +29,14 @@ Worktree ../podium_watch_oatccc_full, branch oatccc-full-site (from oatccc-secti
 - oatccc-section changes after e6b4eef8 (the Thursday fixes) need to be brought into oatccc-full-site before it is merged.
 
 ## BLOCKER (2026-11-17 overnight): Thursday launch fixes not done
+## Start here (2026-11-17, evening): Thursday launch is ready to switch on (oatccc-section)
+
+- Anjanette's preview comments, part 1 (f9e95475): Eligibility note that the verification form link is only emailed to ADs; "Finalized top 30 performance lists are posted February 24, 2027." in the key dates and the qualifying steps; every Join the OATCCC link goes to https://oatccc-oh.finalforms-amp.com/ with "Select Login/Signup and follow the prompts."
+- Final article (794f851f): text from Zachary's OATCCC_ARTICLE_FINAL.md, body word for word; author "Podium Watch" (shows "By Podium Watch Staff", no staff card link).
+- A production launch build (OATCCC_LIVE=1, VERCEL_ENV=production, nothing else) finishes with no stops.
+- The tab bar's "Membership" tab still goes to oatccc.com's membership page (it is a section tab, not a join link).
+- Nothing pushed. Launch = Zachary's go, then OATCCC_LIVE=1 in Vercel Production and a redeploy.
+
 ## Start here (2026-11-17): private AD directory (oatccc-section)
 
 - install/104_OATCCC_AD_DIRECTORY.sql: run by Zachary on 2026-11-17 ("success"). The table is empty until the imports run. (104, not 103: oatccc-full-site already has a 103.) Private table of ADs and head coaches by OHSAA ID; only OATCCC staff can read it; no public view.
