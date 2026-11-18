@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 OATCCC follow-up: article verification line, Membership tab
+
+- Article line about AD verification matches the Eligibility page; Membership tab goes to FinalForms. Launch build (OATCCC_LIVE=1, VERCEL_ENV=production) re-checked, no stops.
+
 ## 2026 11 17 Anjanette's preview comments (part 1) and the final article
 
 - Eligibility and Join link changes from Anjanette's preview comments; final announcement text and byline. Tests: tests/oatccc-section.test.mjs. Launch build checked.

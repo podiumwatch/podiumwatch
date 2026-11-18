@@ -5,7 +5,7 @@
 - Anjanette's preview comments, part 1 (f9e95475): Eligibility note that the verification form link is only emailed to ADs; "Finalized top 30 performance lists are posted February 24, 2027." in the key dates and the qualifying steps; every Join the OATCCC link goes to https://oatccc-oh.finalforms-amp.com/ with "Select Login/Signup and follow the prompts."
 - Final article (794f851f): text from Zachary's OATCCC_ARTICLE_FINAL.md, body word for word; author "Podium Watch" (shows "By Podium Watch Staff", no staff card link).
 - A production launch build (OATCCC_LIVE=1, VERCEL_ENV=production, nothing else) finishes with no stops.
-- The tab bar's "Membership" tab still goes to oatccc.com's membership page (it is a section tab, not a join link).
+- The tab bar's "Membership" tab goes to FinalForms too (Zachary, 2026-11-17, 0cb55499). The article's verification line now says ADs verify "online, using a link emailed directly to them" (0cb55499); launch build re-checked.
 - Nothing pushed. Launch = Zachary's go, then OATCCC_LIVE=1 in Vercel Production and a redeploy.
 
 ## Start here (2026-11-17): private AD directory (oatccc-section)
