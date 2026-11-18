@@ -199,3 +199,33 @@ test("Zachary's follow-up (2026-11-17): Chair contact line, FinalForms vendor ro
   assert.ok(tf.includes('Overflow Hotel - Aloft at Easton <br> Hotel Phone: <a href="tel:6147629162">614-762-9162</a></h6>'));
   for (const p of pages) assert.match(p.html, new RegExp(`href="${FF}"[^>]*>Membership<`), p.pathname);
 });
+
+test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)", () => {
+  const PATH = "/oatccc/indoor/middle-school/";
+  const { OATCCC_MS_LIVE, ...noMs } = ALL;
+  assert.ok(!oatcccOutputs(site, oatcccFlags(noMs)).pages.some((p) => p.pathname === PATH), "off without OATCCC_MS_LIVE");
+  const html = oatcccOutputs(site, oatcccFlags(ALL)).pages.find((p) => p.pathname === PATH).html;
+  for (const words of [
+    "OATCCC Junior High State Indoor Championships",
+    "Entry Fee is $10 per event/$25 per relay",
+    "All athletes must have a coach with an OATCCC current membership.  Memberships will be sold the day of the meet.",
+    "Any 7th/8th grader can be registered by their school.  Marks are not required this year, but seeding will be done by current season marks.",
+    "Relay entries must be from the same Middle School",
+    "Must be registered by their schools coach.",
+    "8:00 am-11:00 am    Athlete Check in",
+    "We will be on a rolling time schedule."
+  ]) assert.ok(html.includes(words), words);
+  assert.ok(!/2026|registration for this event has ended|Doug Joy/.test(html.split('class="ox-prose"')[1].split('class="ox-source"')[0]), "2026 text gone");
+  const lists = [...html.matchAll(/<h4>(Field Events|Running Events)<\/h4>\s*<ul class="ox-sched">([\s\S]*?)<\/ul>/g)];
+  assert.deepEqual(lists.map((m) => m[1]), ["Field Events", "Running Events"]);
+  const items = (m) => [...m[2].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((x) => x[1].replace(/<span class="ox-sched-time">[^<]*<\/span>\s*/, ""));
+  assert.deepEqual(items(lists[0]), ["Girls Shot", "Boys Long Jump", "Girls Pole Vault", "Boys High Jump", "Boys Shot", "Girls High Jump", "Girls Long Jump", "Boys Pole Vault"]);
+  const run = items(lists[1]);
+  assert.equal(run.length, 23);
+  assert.deepEqual([run[0], run[2], run[16], run[22]], ["Girls 3200 Relay", "Girls 60 Hurdles", "Girls 800m Run", "Team Awards"]);
+  assert.deepEqual([...html.matchAll(/<span class="ox-sched-time">([^<]*)<\/span>/g)].map((m) => m[1]), ["9:00 am", "Followed by:", "10:00 am"]);
+  assert.equal((html.match(/<mark class="ox-tbc">\[TO CONFIRM\]<\/mark>/g) || []).length, 2);
+  assert.ok(html.includes("<strong>Registration deadline:</strong> <mark") && html.includes("<strong>MileSplit meet page:</strong> <mark"));
+  assert.match(html, /<a href="https:\/\/oatccc-oh\.finalforms-amp\.com\/"[^>]*class="btn2 ox-big">Join the OATCCC<\/a><\/div>\s*<p class="ox-bigbtn-how">Select Login\/Signup and follow the prompts\.<\/p>/);
+  assert.ok(!/tel:|\b\d{3}-\d{3}-\d{4}\b/.test(html), "no phone numbers");
+});

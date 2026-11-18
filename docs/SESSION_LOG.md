@@ -2,6 +2,10 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 OATCCC Junior High meet page
+
+- 2027 Junior High State Indoor Championships from the OATCCC PDF on the Middle School page: schedule as Field Events and Running Events lists, [TO CONFIRM] placeholders for the registration deadline and MileSplit link, FinalForms Join button under the membership line.
+
 ## 2026 11 17 OATCCC follow-up fixes and preview refresh
 
 - Chair contact line on the leadership pages, vendor contract row to FinalForms, clinic hotel phones back, Membership tab to FinalForms. Tests: tests/oatccc-full-site.test.mjs. Preview copy rebuilt and re-uploaded.

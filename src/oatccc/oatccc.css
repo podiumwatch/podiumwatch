@@ -547,6 +547,15 @@
 .ox .ox-prose .ox-lead-group { margin: 18px 0 8px; }
 .ox .ox-prose table.ox-past { display: table; }
 .ox .ox-prose table.ox-past caption { text-align: left; font-weight: 700; padding: 0 0 6px; }
+/* Junior High meet schedule: events in order, times only where the PDF gives them. */
+.ox .ox-prose ul.ox-sched { list-style: none; padding: 0; margin: 8px 0 20px; border-top: 1px solid var(--ox-line); }
+.ox .ox-prose ul.ox-sched > li { margin: 0; padding: 8px 0; border-bottom: 1px solid var(--ox-line); }
+.ox .ox-prose .ox-sched-time { display: inline-block; min-width: 92px; font-weight: 700; color: var(--ox-navy); }
+.ox .ox-prose ul.ox-sched > li:not(:has(.ox-sched-time)) { padding-left: 92px; }
+@media (max-width: 520px) {
+  .ox .ox-prose .ox-sched-time { min-width: 0; margin-right: 8px; }
+  .ox .ox-prose ul.ox-sched > li:not(:has(.ox-sched-time)) { padding-left: 0; }
+}
 @media (max-width: 520px) {
   .ox .ox-notes > li { grid-template-columns: 1fr; }
 }

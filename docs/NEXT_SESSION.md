@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-17, night): 2027 Junior High meet on the Middle School page (oatccc-full-site)
+
+- src/oatccc/more/content/middle-school.html now holds the OATCCC PDF "2027 Indoor Junior High State Meet Information" word for word (March 13, 2027, Muskingum University); the 2026 oatccc.com text is gone. Behind OATCCC_MS_LIVE (off by default). Test: tests/oatccc-full-site.test.mjs.
+- Waiting on the OATCCC: the registration deadline and the MileSplit meet link (both shown as yellow [TO CONFIRM]).
+- The hub Middle School card (src/oatccc/hub.mjs, shared with oatccc-section) still says "2027 date and site coming soon".
+- The /site-preview/ copy has NOT been rebuilt for this yet (waiting on Zachary).
+
 ## Start here (2026-11-17, late): Zachary's follow-up fixes (oatccc-full-site)
 
 - oatccc-section merged in again (97463fd8), then 1678c522: Leadership and History of Leadership say "To reach a district rep or officer, email the Indoor State Meet Chair at awhitman@oatccc.com." (a contact form comes later); the Forms page vendor contract row goes to FinalForms ("Vendor Submission"); the T&F clinic page shows both hotel business numbers again (Hilton and Aloft, from oatccc.com). The Membership tab goes to FinalForms, not the local Join page.
