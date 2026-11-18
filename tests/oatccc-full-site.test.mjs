@@ -215,7 +215,7 @@ test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)",
     "8:00 am-11:00 am    Athlete Check in",
     "We will be on a rolling time schedule."
   ]) assert.ok(html.includes(words), words);
-  assert.ok(!/2026|registration for this event has ended|Doug Joy/.test(html.split('class="ox-prose"')[1].split('class="ox-source"')[0]), "2026 text gone");
+  assert.ok(!/2026|registration for this event has ended/.test(html.split('class="ox-prose"')[1].split('class="ox-source"')[0]), "2026 text gone");
   const lists = [...html.matchAll(/<h4>(Field Events|Running Events)<\/h4>\s*<ul class="ox-sched">([\s\S]*?)<\/ul>/g)];
   assert.deepEqual(lists.map((m) => m[1]), ["Field Events", "Running Events"]);
   const items = (m) => [...m[2].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)].map((x) => x[1].replace(/<span class="ox-sched-time">[^<]*<\/span>\s*/, ""));
@@ -228,4 +228,12 @@ test("2027 Junior High meet on the Middle School page (OATCCC PDF, 2026-11-17)",
   assert.ok(html.includes("<strong>Registration deadline:</strong> <mark") && html.includes("<strong>MileSplit meet page:</strong> <mark"));
   assert.match(html, /<a href="https:\/\/oatccc-oh\.finalforms-amp\.com\/"[^>]*class="btn2 ox-big">Join the OATCCC<\/a><\/div>\s*<p class="ox-bigbtn-how">Select Login\/Signup and follow the prompts\.<\/p>/);
   assert.ok(!/tel:|\b\d{3}-\d{3}-\d{4}\b/.test(html), "no phone numbers");
+  // Zachary's approval notes (2026-11-17): contact, footer, hub card.
+  assert.ok(html.includes('<p><strong>Contact:</strong> Doug Joy, <a href="mailto:djoy@eastmschools.org"'), "contact line");
+  assert.ok(html.includes('<p class="ox-source">Information from the OATCCC&rsquo;s 2027 Junior High State Meet sheet.</p>'), "footer");
+  const other = oatcccOutputs(site, oatcccFlags(ALL)).pages.find((p) => p.pathname === "/oatccc/about/").html;
+  assert.ok(other.includes("This page is shared from oatccc.com with the OATCCC&rsquo;s permission."), "other pages keep their footer");
+  const hub = (flags) => oatcccOutputs(site, oatcccFlags(flags)).pages.find((p) => p.pathname === "/oatccc/").html;
+  assert.ok(hub(ALL).includes("March 13, 2027 &middot; Muskingum University"));
+  assert.ok(hub(noMs).includes("2027 date and site coming soon") && !hub(noMs).includes("Muskingum"));
 });

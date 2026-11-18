@@ -63,6 +63,11 @@ function sectionNav(page, flags) {
   return `<nav class="ox-morenav" aria-label="${escapeHtml(SECTION_LABELS[page.section] || "OATCCC")}"><ul>${items}</ul></nav>`;
 }
 
+// Pages whose words come from somewhere other than oatccc.com (Zachary, 2026-11-17).
+const SOURCE_LINES = {
+  "middle-school": "Information from the OATCCC&rsquo;s 2027 Junior High State Meet sheet."
+};
+
 export function morePageHtml(site, flags, page) {
   const raw = loadContent(page.key);
   if (raw === null) return null;
@@ -72,7 +77,7 @@ export function morePageHtml(site, flags, page) {
   <div class="page-head"><p class="ox-kicker">${escapeHtml(SECTION_LABELS[page.section] || "OATCCC")}</p><h1>${escapeHtml(page.title)}</h1></div>
   ${sectionNav(page, flags)}
   <div class="ox-prose">${body}</div>
-  <p class="ox-source">This page is shared from oatccc.com with the OATCCC&rsquo;s permission.</p>
+  <p class="ox-source">${SOURCE_LINES[page.key] || "This page is shared from oatccc.com with the OATCCC&rsquo;s permission."}</p>
 </div>`;
   return oatcccLayout({ site, flags, pathname: page.path, title: page.title, description: page.description, tab: page.tab, content });
 }

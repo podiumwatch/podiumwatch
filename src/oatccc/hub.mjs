@@ -50,7 +50,7 @@ export function oatcccHubPage(site, flags) {
     <article class="ox-card">
       <span class="k">Middle School</span>
       <h3>Middle School Indoor State Meet</h3>
-      <p class="d">2027 date and site coming soon</p>
+      <p class="d">${flags.sections?.ms ? "March 13, 2027 &middot; Muskingum University" : "2027 date and site coming soon"}</p>
       <p>Registration runs through MileSplit Ohio.</p>
       ${flags.sections?.ms ? `<a class="go" href="/oatccc/indoor/middle-school/">Middle school meet</a>` : `<span class="soon">Details posted when the OATCCC confirms them</span>`}
     </article>
