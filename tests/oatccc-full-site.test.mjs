@@ -485,10 +485,18 @@ test("Anjanette's final answers (2026-11-19): parking, fee dates, vendor date an
   for (const p of ["abcs", "divisions", "eligibility-and-verification"]) {
     const kd = page(`/oatccc/indoor/high-school/${p}/`);
     assert.ok(kd.includes('<li class="kd deadline"><div class="kd-date"><b>Mar 4</b><span>Thursday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Entry fees due by 12noon</span></div></li>'), p);
-    assert.ok(!kd.includes("Registration fees for this day"), p);
+    // Both are true (Anjanette, 2026-11-19): posted deadline Mar 4 at 12noon, hard cutoff 12noon on the day of the meet.
+    for (const [day, what] of [["Mar 5</b><span>Friday", "Divisions 3 and 4 compete"], ["Mar 6</b><span>Saturday", "Divisions 1, 2 and Seated compete"]]) {
+      assert.ok(kd.includes(`<b>${day}</span></div><div><span class="kd-what">${what}</span><span class="kd-detail">Registration fees for this day&rsquo;s entries are due by 12:00 noon.</span></div></li>`), p + " " + what);
+    }
     assert.ok(kd.indexOf("<b>Mar 1</b>") < kd.indexOf("<b>Mar 4</b>") && kd.indexOf("<b>Mar 4</b>") < kd.indexOf("<b>Mar 5</b>"), p);
   }
   assert.ok(!all.includes("Date to be announced"));
+  // Left unchanged on purpose (Zachary, 2026-11-19).
+  const elig = page("/oatccc/indoor/high-school/eligibility-and-verification/");
+  assert.ok(elig.includes("The entry fees are due by 12 noon the day of the meet that the team or athlete is competing.") && elig.includes("If the registration fee is not paid by 12:00 noon on the day of the meet, the athlete or team does not compete."));
+  assert.ok(page("/oatccc/indoor/high-school/declarations-and-fees/").includes("Again, do not pay the invoice until Sunday after the final acceptance lists are posted."));
+  assert.ok(page("/oatccc/clinics/vendors/").includes("we now have 2 overflow hotels in the immediate area"));
   // 3. Forms vendor row and the Vendor Letter link.
   assert.ok(page("/oatccc/forms/").includes("Please complete your registration by January 12, 2027."));
   assert.ok(!all.includes("January 12, 2026"));

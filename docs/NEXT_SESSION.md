@@ -10,8 +10,8 @@
 
 ## Done for the 2026-11-19 launch (branch anjanette-final, from main 95d4425c)
 - Meet Day parking: "Parking is payable online." (no cost anywhere); rest of the paragraph and the Passport Parking link kept.
-- Declarations: "Payments can be made starting Monday, March 1, 2027." and "All entry fees are paid online and due by Thursday, March 4, 2027 at 12noon." Key dates: new "Mar 4, Thursday: Entry fees due by 12noon"; removed "Registration fees for this day's entries are due by 12:00 noon." from Mar 5 and Mar 6.
-- Still to confirm with Anjanette (not changed): Eligibility says "The entry fees are due by 12 noon the day of the meet that the team or athlete is competing." (official agreement terms) and "Paying late: If the registration fee is not paid by 12:00 noon on the day of the meet, the athlete or team does not compete." Both disagree with the Mar 4 deadline. The vendor letter says "2 overflow hotels"; the T&F Clinic page lists one (Aloft at Easton).
+- Declarations: "Payments can be made starting Monday, March 1, 2027." and "All entry fees are paid online and due by Thursday, March 4, 2027 at 12noon." Key dates: new "Mar 4, Thursday: Entry fees due by 12noon"; Mar 5 and Mar 6 keep "Registration fees for this day's entries are due by 12:00 noon." (Anjanette confirmed both: posted deadline Mar 4 at 12noon, hard cutoff 12noon on the day of the meet).
+- Left unchanged on purpose (Zachary, 2026-11-19): Eligibility says "The entry fees are due by 12 noon the day of the meet that the team or athlete is competing." (official agreement terms) and "Paying late: If the registration fee is not paid by 12:00 noon on the day of the meet, the athlete or team does not compete." Both disagree with the Mar 4 deadline. The vendor letter says "2 overflow hotels"; the T&F Clinic page lists one (Aloft at Easton).
 - Forms vendor row: January 12, 2027. Vendor Letter link: the Drive file with ?usp=drive_link.
 - Clinics > Vendors rebuilt: Anjanette's intro, Vendor Submission (FinalForms) button, sections in the vendor letter's wording, Mike Laubacher (Clinic Director) with encoded Email/Call, "Download the Vendor Letter".
 

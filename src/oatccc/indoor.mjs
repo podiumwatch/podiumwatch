@@ -85,8 +85,8 @@ function keyDates(prefix) {
         <li class="kd deadline"><div class="kd-date"><b>Feb 27</b><span>Saturday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Scratch window</span><span class="kd-detail">12:01 am to 12:00 noon. It is open for 12 hours only.</span></div></li>
         <li class="kd"><div class="kd-date"><b>Mar 1</b><span>Monday</span></div><div><span class="kd-what">Final acceptance lists posted</span></div></li>
         <li class="kd deadline"><div class="kd-date"><b>Mar 4</b><span>Thursday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Entry fees due by 12noon</span></div></li>
-        <li class="kd"><div class="kd-date"><b>Mar 5</b><span>Friday</span></div><div><span class="kd-what">Divisions 3 and 4 compete</span></div></li>
-        <li class="kd"><div class="kd-date"><b>Mar 6</b><span>Saturday</span></div><div><span class="kd-what">Divisions 1, 2 and Seated compete</span></div></li>
+        <li class="kd"><div class="kd-date"><b>Mar 5</b><span>Friday</span></div><div><span class="kd-what">Divisions 3 and 4 compete</span><span class="kd-detail">Registration fees for this day&rsquo;s entries are due by 12:00 noon.</span></div></li>
+        <li class="kd"><div class="kd-date"><b>Mar 6</b><span>Saturday</span></div><div><span class="kd-what">Divisions 1, 2 and Seated compete</span><span class="kd-detail">Registration fees for this day&rsquo;s entries are due by 12:00 noon.</span></div></li>
       </ol>
     </aside>`;
 }
