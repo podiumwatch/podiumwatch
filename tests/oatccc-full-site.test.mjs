@@ -374,8 +374,9 @@ test("Current leaders from Matt Schock's list (2026-11-18, phones 2026-11-19): o
       const card = cards.find((c) => c.includes(`<span class="ox-leader-role">${l.role.replace(/&/g, "&amp;").replace(/\//g, "/<wbr>")}</span><strong>${l.name || "TBD"}</strong>`) && c.includes(`data-ox-e="${l.e.join(" ")}"`) === (l.e.length > 0));
       assert.ok(card, `${l.role}: card`);
       assert.equal((card.match(/class="btn2 ox-leader-email"/g) || []).length, l.e.length ? 1 : 0, l.role);
-      assert.equal((card.match(/class="btn2 ox-leader-call"/g) || []).length, l.t.length ? 1 : 0, l.role);
-      if (l.t.length) assert.ok(card.includes(`data-ox-t="${l.t[0]}" aria-label="Call ${l.name}">Call</a>`), l.role);
+      assert.equal((card.match(/class="btn2 ox-leader-phone"/g) || []).length, l.t.length ? 1 : 0, l.role);
+      if (l.t.length) assert.ok(card.includes(`data-ox-t="${l.t[0]}" aria-expanded="false" aria-label="Phone number for ${l.name}">Phone Number</a>`), l.role);
+      assert.ok(!/>Call</.test(card), `${l.role}: "Call" renamed to "Phone Number"`);
       if (l.t.length || l.e.length) assert.ok(/href="#ox-lead-fallback"/.test(card), `${l.role}: no-JavaScript fallback`);
     }
     // Jeff Howard's Advisory Committee row: personal email only, as Matt wrote it.
@@ -398,8 +399,8 @@ test("Current leaders from Matt Schock's list (2026-11-18, phones 2026-11-19): o
   // Treasurer: Jennifer Dahler stays; history unchanged.
   assert.ok(data.leaders.some((l) => l.role === "Treasurer" && l.name === "Jennifer Dahler"));
   const js = fs.readFileSync(new URL("../src/oatccc/oatccc-email.js", import.meta.url), "utf8");
-  assert.match(js, /"mailto:" \+ to\.join\(","\)/);
-  assert.match(js, /"tel:\+1" \+ digits/);
+  assert.match(js, /href: "mailto:" \+ a/);
+  assert.match(js, /href: "tel:\+1" \+ digits/);
   const css = fs.readFileSync(new URL("../src/oatccc/oatccc.css", import.meta.url), "utf8");
   assert.match(css, /\.ox-leader-role \{[^}]*overflow-wrap: normal; word-break: normal;/);
 });
@@ -522,8 +523,71 @@ test("Anjanette's final answers (2026-11-19): parking, fee dates, vendor date an
   assert.ok(v.includes('<a href="/oatccc/clinics/track-and-field/#hotel">Track and Field Clinic page</a>'));
   assert.ok(page("/oatccc/clinics/track-and-field/").includes('<h6 id="hotel">'), "hotel anchor");
   // Contact: Mike Laubacher, Clinic Director, encoded Email and Call; no plain phone or address.
-  assert.match(v, /<span class="ox-leader-role">Clinic Director<\/span><strong>Mike Laubacher<\/strong><\/div><div class="ox-leader-actions"><a class="btn2 ox-leader-email" href="#ox-lead-fallback" data-ox-e="[^"]+" aria-label="Email Mike Laubacher">Email<\/a><a class="btn2 ox-leader-call" href="#ox-lead-fallback" data-ox-t="[^"]+" aria-label="Call Mike Laubacher">Call<\/a><\/div>/);
+  assert.match(v, /<span class="ox-leader-role">Clinic Director<\/span><strong>Mike Laubacher<\/strong><\/div><div class="ox-leader-actions"><a class="btn2 ox-leader-email" href="#ox-lead-fallback" data-ox-e="[^"]+" aria-expanded="false" aria-label="Email Mike Laubacher">Email<\/a><a class="btn2 ox-leader-phone" href="#ox-lead-fallback" data-ox-t="[^"]+" aria-expanded="false" aria-label="Phone number for Mike Laubacher">Phone Number<\/a><\/div>/);
   assert.ok(v.includes('id="ox-lead-fallback"') && v.includes('<script src="/scripts/oatccc-email.js" defer></script>'));
   assert.ok(!/\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-. ]\d{3}[-. ]\d{4}\b|tel:/.test(v), "no plain phone on Vendors");
   assert.ok(!/laubacher@/i.test(v), "no plain address on Vendors");
+});
+
+test("Contact buttons (2026-11-19): Email and Phone Number reveal on click, nothing plain in the HTML", async () => {
+  const vm = await import("node:vm");
+  const data = JSON.parse(fs.readFileSync(new URL("../src/oatccc/more/leaders.json", import.meta.url), "utf8"));
+  const js = fs.readFileSync(new URL("../src/oatccc/oatccc-email.js", import.meta.url), "utf8");
+  const decode = (c) => [...Buffer.from(c, "base64").toString("utf8")].reverse().join("");
+  // Run the browser script with just enough of a page to reach its helpers.
+  let handler = null;
+  const win = {};
+  vm.runInNewContext(js, { window: win, document: { addEventListener: (type, fn) => { if (type === "click") handler = fn; } }, navigator: {}, TextDecoder, Uint8Array, atob: (s) => Buffer.from(s, "base64").toString("latin1"), setTimeout });
+  assert.equal(typeof handler, "function");
+  const { formatPhone } = win.OxContact;
+  // Plain copies: objects made inside the sandbox have its own prototypes.
+  const linesFor = (b) => JSON.parse(JSON.stringify(win.OxContact.linesFor(b)));
+  assert.equal(formatPhone("4195551234"), "(419) 555-1234");
+  assert.equal(formatPhone("419-555-1234"), "(419) 555-1234");
+  assert.equal(formatPhone("12345"), "");
+  const button = (attr, value) => ({ hasAttribute: (n) => n === attr, getAttribute: (n) => (n === attr ? value : null) });
+  for (const l of data.leaders) {
+    if (l.e.length) {
+      const lines = linesFor(button("data-ox-e", l.e.join(" ")));
+      assert.deepEqual(lines.map((x) => x.text), l.e.map(decode), `${l.role}: every address shown`);
+      for (const x of lines) assert.equal(x.href, "mailto:" + x.text);
+    }
+    if (l.t.length) {
+      const [line] = linesFor(button("data-ox-t", l.t[0]));
+      const digits = decode(l.t[0]).replace(/\D/g, "");
+      assert.match(line.text, /^\(\d{3}\) \d{3}-\d{4}$/, l.role);
+      assert.equal(line.text.replace(/\D/g, ""), digits, l.role);
+      assert.equal(line.href, "tel:+1" + digits, l.role);
+    }
+  }
+  // Reveal under the name with a Copy button; a second click hides it; nothing navigates.
+  assert.match(js, /btn\.className = "ox-copy"; btn\.textContent = "Copy";/);
+  assert.match(js, /name\.after\(shown\)/);
+  assert.match(js, /existing\.remove\(\);\s*button\.setAttribute\("aria-expanded", "false"\)/);
+  assert.ok(!/location\.href\s*=/.test(js), "no automatic mailto/tel navigation");
+  // Still nothing plain in the HTML of any page with contact buttons.
+  const pages = oatcccOutputs(site, oatcccFlags({ ...ALL, OATCCC_INDOOR_FULL_LIVE: "1", OATCCC_FILES_HOSTED: "1" })).pages;
+  const numbers = data.leaders.flatMap((l) => l.t.map(decode));
+  const addresses = data.leaders.flatMap((l) => l.e.map(decode));
+  for (const p of pages.filter((x) => /data-ox-[et]="/.test(x.html))) {
+    const html = p.html.replace(/<noscript>[\s\S]*?<\/noscript>/g, "");
+    for (const n of numbers) assert.ok(!html.includes(n) && !html.includes(formatPhone(n)), `${p.pathname}: plain number`);
+    for (const a of addresses) assert.ok(!html.toLowerCase().includes(a.toLowerCase()), `${p.pathname}: plain address`);
+    assert.ok(!/>Call</.test(html), `${p.pathname}: no "Call" button`);
+  }
+});
+
+test("Header lockup (2026-11-19): Podium Watch x OATCCC only with OATCCC_LIVE=1", async () => {
+  const { header } = await import("../src/lib/html.mjs");
+  const on = header({ ...site, oatcccHeaderLockup: true }, "/");
+  const off = header({ ...site, oatcccHeaderLockup: false }, "/");
+  assert.ok(on.includes('<a class="pw-lockup" href="/oatccc/" aria-label="OATCCC on Podium Watch"><span class="pw-lockup-x" aria-hidden="true">&times;</span><img src="/images/oatccc/oatccc-logo-96.png" width="42" height="42" alt=""></a>'));
+  assert.ok(on.indexOf('class="pw-brand" href="/"') < on.indexOf('class="pw-lockup"') && on.indexOf('class="pw-lockup"') < on.indexOf('id="site-nav"'), "right after the Podium Watch logo, before the menu");
+  assert.ok(!off.includes("pw-lockup"), "nothing before launch");
+  const { oatcccFlags: flags } = await import("../src/oatccc/config.mjs");
+  assert.equal(site.oatcccHeaderLockup, flags().live);
+  // The logo file comes from the clean OATCCC logo and is copied only with OATCCC_LIVE=1.
+  const { assets } = oatcccOutputs(site, oatcccFlags({ OATCCC_LIVE: "1" }));
+  assert.ok(assets.some(([, to]) => to === "images/oatccc/oatccc-logo-96.png"));
+  assert.deepEqual(oatcccOutputs(site, oatcccFlags({})).assets, []);
 });

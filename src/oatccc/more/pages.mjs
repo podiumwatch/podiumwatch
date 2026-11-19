@@ -51,11 +51,12 @@ function leaderCard(person) {
   const open = !person.name;
   const photo = person.photo ? `<img class="ox-leader-photo" src="${escapeHtml(person.photo)}" alt="" width="72" height="72" loading="lazy">` : "";
   const email = person.e && person.e.length
-    ? `<a class="btn2 ox-leader-email" href="#ox-lead-fallback" data-ox-e="${person.e.map(escapeHtml).join(" ")}" aria-label="Email ${escapeHtml(person.name)}">Email</a>`
+    ? `<a class="btn2 ox-leader-email" href="#ox-lead-fallback" data-ox-e="${person.e.map(escapeHtml).join(" ")}" aria-expanded="false" aria-label="Email ${escapeHtml(person.name)}">Email</a>`
     : "";
   // Phone numbers, Matt approved (2026-11-19); encoded like the addresses.
+  // Clicking shows the number on the card (scripts/oatccc-email.js).
   const call = person.t && person.t.length
-    ? `<a class="btn2 ox-leader-call" href="#ox-lead-fallback" data-ox-t="${escapeHtml(person.t[0])}" aria-label="Call ${escapeHtml(person.name)}">Call</a>`
+    ? `<a class="btn2 ox-leader-phone" href="#ox-lead-fallback" data-ox-t="${escapeHtml(person.t[0])}" aria-expanded="false" aria-label="Phone number for ${escapeHtml(person.name)}">Phone Number</a>`
     : "";
   const actions = email || call ? `<div class="ox-leader-actions">${email}${call}</div>` : "";
   // An empty seat shows "TBD" (Matt, 2026-11-19).

@@ -582,22 +582,30 @@
 /* Current leaders from Matt Schock's list (2026-11-18): one block per person,
    rep and alternate side by side per district, stacked on phones. */
 .ox .ox-prose .ox-lead-list { list-style: none; padding: 0; margin: 0 0 8px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px 14px; }
-.ox .ox-prose .ox-leader { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin: 0; border: 1px solid var(--ox-line); border-radius: 8px; background: var(--ox-paper); min-width: 0; }
+.ox .ox-prose .ox-leader { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 12px; padding: 12px 14px; margin: 0; border: 1px solid var(--ox-line); border-radius: 8px; background: var(--ox-paper); min-width: 0; }
 .ox .ox-prose .ox-leader-photo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex: none; }
 .ox .ox-prose .ox-leader-text { display: grid; gap: 2px; flex: 1; min-width: 0; overflow-wrap: break-word; }
 .ox .ox-prose .ox-leader-role { font-size: .8125rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: var(--ox-royal); overflow-wrap: normal; word-break: normal; hyphens: none; }
 .ox .ox-prose .ox-leader-aff { color: var(--ox-muted); font-size: .9375rem; }
 .ox .ox-prose .ox-leader-open strong { color: var(--ox-muted); font-style: italic; }
-.ox .ox-prose .ox-leader-actions { display: flex; gap: 8px; flex: none; }
-.ox .ox-prose .ox-leader-email, .ox .ox-prose .ox-leader-call { flex: none; padding: 8px 16px; margin: 0; text-align: center; }
+/* Buttons in a row under the text (2026-11-19: "Phone Number" stays on one line). */
+.ox .ox-prose .ox-leader-actions { display: flex; gap: 8px; flex: 1 1 100%; }
+.ox .ox-prose .ox-leader-email, .ox .ox-prose .ox-leader-phone { flex: none; padding: 8px 16px; margin: 0; text-align: center; white-space: nowrap; }
+.ox .ox-prose .ox-leader-email[aria-expanded="true"], .ox .ox-prose .ox-leader-phone[aria-expanded="true"] { background: var(--ox-navy); border-color: var(--ox-navy); }
+/* Details shown on click (scripts/oatccc-email.js). */
+.ox .ox-prose .ox-reveal { display: grid; gap: 6px; margin: 6px 0 2px; }
+.ox .ox-prose .ox-reveal-line { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; min-width: 0; }
+.ox .ox-prose .ox-reveal-line a { font-weight: 600; overflow-wrap: anywhere; }
+.ox .ox-prose .ox-copy { flex: none; min-height: 32px; padding: 4px 12px; border: 1px solid var(--ox-line); border-radius: 6px; background: #fff; color: var(--ox-navy); font: 600 .8125rem/1.2 inherit; font-family: inherit; cursor: pointer; }
+.ox .ox-prose .ox-copy:hover { border-color: var(--ox-royal); color: var(--ox-royal); }
+.ox .ox-prose .ox-reveal-inline { display: inline-flex; vertical-align: middle; margin: 0 0 0 8px; }
 .ox .ox-prose .ox-districts { display: grid; gap: 14px; }
 .ox .ox-prose .ox-district h4 { margin: 0 0 6px; font-size: 1rem; color: var(--ox-navy); }
 .ox .ox-prose .ox-lead-pair { grid-template-columns: 1fr 1fr; }
 @media (max-width: 600px) {
   .ox .ox-prose .ox-lead-list, .ox .ox-prose .ox-lead-pair { grid-template-columns: 1fr; }
 }
-@media (max-width: 380px) {
-  .ox .ox-prose .ox-leader { flex-wrap: wrap; }
-  .ox .ox-prose .ox-leader-actions { width: 100%; }
-  .ox .ox-prose .ox-leader-email, .ox .ox-prose .ox-leader-call { flex: 1; }
+@media (max-width: 600px) {
+  .ox .ox-prose .ox-leader-email, .ox .ox-prose .ox-leader-phone { flex: 1 1 0; padding: 8px 10px; font-size: .9375rem; }
+  .ox .ox-prose .ox-reveal-inline { display: flex; margin: 6px 0 0; }
 }

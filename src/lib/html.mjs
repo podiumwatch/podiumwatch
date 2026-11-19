@@ -123,7 +123,8 @@ export function header(site, currentPath = "/") {
     <a class="pw-brand" href="/" aria-label="Podium Watch home">
       <img src="${site.logoMark}" width="42" height="42" alt="">
       <span><b>Podium</b> <b>Watch</b></span>
-    </a>
+    </a>${site.oatcccHeaderLockup ? `
+    <a class="pw-lockup" href="/oatccc/" aria-label="OATCCC on Podium Watch"><span class="pw-lockup-x" aria-hidden="true">&times;</span><img src="/images/oatccc/oatccc-logo-96.png" width="42" height="42" alt=""></a>` : ""}
     <nav id="site-nav" class="pw-nav" aria-label="Main navigation" data-site-nav data-open="false">
       <div class="pw-nav-list">${navGroups}</div>
       <span class="pw-nav-sw-slot" data-nav-sw-mobile-slot></span>

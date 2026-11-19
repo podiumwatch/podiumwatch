@@ -22,6 +22,9 @@ export const site = {
   contactEmail: "media@podiumwatch.org",
   instagramUrl: "https://www.instagram.com/podiumwatch/",
   facebookUrl: "https://www.facebook.com/podiumwatch/",
+  // Podium Watch x OATCCC lockup in the header, only with OATCCC_LIVE=1
+  // (Zachary, 2026-11-19). The logo file is copied to dist/ only then too.
+  oatcccHeaderLockup: oatcccFlags().live,
   youtubeUrl: "https://www.youtube.com/@podiumwatchohio",
   logo: "/images/branding/podium_watch_logo_dark.png",
   logoLight: "/images/branding/podium_watch_logo_light.png",
