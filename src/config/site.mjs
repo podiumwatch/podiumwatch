@@ -21,6 +21,7 @@ export const site = {
   defaultAuthor: "Podium Watch",
   contactEmail: "media@podiumwatch.org",
   instagramUrl: "https://www.instagram.com/podiumwatch/",
+  facebookUrl: "https://www.facebook.com/podiumwatch/",
   youtubeUrl: "https://www.youtube.com/@podiumwatchohio",
   logo: "/images/branding/podium_watch_logo_dark.png",
   logoLight: "/images/branding/podium_watch_logo_light.png",

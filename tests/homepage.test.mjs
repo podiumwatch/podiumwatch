@@ -149,3 +149,19 @@ test("the OATCCC launch article stays off the homepage until OATCCC_LIVE=1 (2026
   assert.deepEqual(held({ OATCCC_LIVE: "0" }), []);
   assert.deepEqual(held({ OATCCC_LIVE: "1" }), ["podium-watch-and-the-oatccc-join-forces"], "on: listed");
 });
+
+test("header: Instagram and Facebook on every page, new tab, labelled, 44px targets (2026-11-19)", async () => {
+  const { header } = await import("../src/lib/html.mjs");
+  const html = header(site, "/");
+  assert.equal(site.facebookUrl, "https://www.facebook.com/podiumwatch/");
+  assert.ok(html.includes('<a class="pw-social-link" href="https://www.instagram.com/podiumwatch/" target="_blank" rel="noopener noreferrer" aria-label="Podium Watch on Instagram"><svg'));
+  assert.ok(html.includes('<a class="pw-social-link" href="https://www.facebook.com/podiumwatch/" target="_blank" rel="noopener noreferrer" aria-label="Podium Watch on Facebook"><svg'));
+  // In the top bar itself, not inside the menu that folds away on phones.
+  assert.ok(html.indexOf('class="pw-social"') > html.indexOf("</nav>") && html.indexOf('class="pw-social"') < html.indexOf("pw-menubtn"));
+  const css = fs.readFileSync(new URL("../src/styles/main.css", import.meta.url), "utf8");
+  assert.match(css, /\.pw-social-link \{[^}]*width: 44px; height: 44px;/);
+  assert.ok(!/\.pw-social[^{]*\{[^}]*display: none/.test(css), "never hidden");
+  // Menu words never break mid-word ("Hom e", "Resul ts" at 1101-1360px with the OATCCC item).
+  assert.match(css, /\.pw-nav-link, \.pw-nav-trigger \{ white-space: nowrap; \}/);
+  assert.match(css, /@media \(min-width: 1101px\) and \(max-width: 1440px\) \{[\s\S]*?\.pw-search \{ min-width: 0; width: 44px;/);
+});

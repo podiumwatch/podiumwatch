@@ -14,6 +14,7 @@ function externalAttrs(link) {
 export function icon(name) {
   const icons = {
     instagram: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm11.5 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>',
+    facebook: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.3c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.2H8v3.6h2.6v9.7H14v-9.7h2.7l.4-3.6H14Z"/></svg>',
     youtube: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8ZM9.8 15.2V8.8l5.6 3.2-5.6 3.2Z"/></svg>',
     arrow: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M13.5 5 20 11.5 13.5 18l-1.4-1.4 4.1-4.1H4v-2h12.2l-4.1-4.1L13.5 5Z"/></svg>',
     search: '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m20.7 19.3-4.1-4.1a7.5 7.5 0 1 0-1.4 1.4l4.1 4.1 1.4-1.4ZM5 10.5a5.5 5.5 0 1 1 11 0 5.5 5.5 0 0 1-11 0Z"/></svg>',
@@ -102,6 +103,17 @@ function navGroup(link, currentPath) {
 // button. Phone: logo, search icon, menu button. The old ticker, the
 // Pace Calculator, Shop, Watch and Instagram shortcuts moved to the menu
 // and footer (docs/DECISIONS.md lists where each link went).
+// Instagram and Facebook in the top bar on every page, phones included
+// (Zachary, 2026-11-19). Each opens in a new tab.
+export function socialLinks(site) {
+  const links = [
+    { href: site.instagramUrl, label: "Podium Watch on Instagram", icon: "instagram" },
+    { href: site.facebookUrl, label: "Podium Watch on Facebook", icon: "facebook" }
+  ].filter((link) => link.href);
+  if (!links.length) return "";
+  return `<div class="pw-social">${links.map((link) => `<a class="pw-social-link" href="${link.href}" target="_blank" rel="noopener noreferrer" aria-label="${link.label}">${icon(link.icon)}</a>`).join("")}</div>`;
+}
+
 export function header(site, currentPath = "/") {
   const navGroups = site.navigation.map((link) => navGroup(link, currentPath)).join("");
   const splitWatchActive = currentPath.startsWith("/split-watch/") || currentPath === "/team-login/";
@@ -117,6 +129,7 @@ export function header(site, currentPath = "/") {
       <span class="pw-nav-sw-slot" data-nav-sw-mobile-slot></span>
     </nav>
     <button class="pw-search" type="button" aria-haspopup="dialog" aria-label="Search Podium Watch" data-search-open>${icon("search")}<span>Search teams, athletes, meets</span><kbd aria-hidden="true">/</kbd></button>
+    ${socialLinks(site)}
     <span data-nav-dropdown-sw-anchor hidden></span>
     ${splitWatchNavDropdown(splitWatchActive)}
     <button class="pw-menubtn" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation" data-menu-button><span></span><span></span><span></span></button>

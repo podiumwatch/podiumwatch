@@ -1890,6 +1890,10 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 .pw-sw-primary { background: var(--green); border-color: var(--green); color: var(--pw-green-ink); }
 .pw-sw-title { font-weight: 800; }
 .pw-sw-sub { font-size: .82rem; opacity: .8; }
+.pw-social { display: flex; align-items: center; flex: none; }
+.pw-social-link { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: #e9e7e0; border-radius: 8px; }
+.pw-social-link svg { width: 20px; height: 20px; fill: currentColor; }
+.pw-social-link:hover, .pw-social-link:focus-visible { color: #fff; background: #1c1c1c; }
 .pw-menubtn { display: none; width: 44px; height: 44px; padding: 10px; background: none; border: 0; cursor: pointer; }
 .pw-menubtn span { display: block; height: 2px; margin: 5px 0; background: #fff; }
 .pw-overlay { display: none; }
@@ -1898,6 +1902,18 @@ table.pw-raceboard-table td.pw-cell-team { font-weight: 800; }
 @media (max-width: 1240px) {
   .pw-search { min-width: 0; }
   .pw-search kbd { display: none; }
+}
+/* Menu words never break mid-word (2026-11-19: with the OATCCC item and the
+   Instagram/Facebook icons the full menu needs ~690px). Between the phone
+   layout and 1440px the search box shows only its icon, like on phones,
+   and the menu spacing tightens. */
+.pw-nav-link, .pw-nav-trigger { white-space: nowrap; }
+@media (min-width: 1101px) and (max-width: 1440px) {
+  .pw-top-wrap { gap: 14px; }
+  .pw-nav-link, .pw-nav-trigger { padding: 8px 6px; }
+  .pw-search { min-width: 0; width: 44px; height: 44px; justify-content: center; padding: 0; }
+  .pw-search span, .pw-search kbd { display: none; }
+  .pw-search svg { width: 18px; height: 18px; }
 }
 @media (max-width: 1100px) {
   .pw-top-wrap { height: 56px; gap: 10px; }
