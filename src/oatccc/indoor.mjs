@@ -471,11 +471,11 @@ function declarationsBody() {
         </ul>
         <p>All declarations are made on the OHMileSplit meet registration page similar to entering athletes in a regular season meet. Do NOT import entries - skip this step. Only athletes and relay teams in the top 30 will be accepted. A pop-up window will appear rejecting any athletes or relays not in the top 30 once you try to submit them.</p>
         <p>Print your declaration lists to confirm your submissions. Computer and internet connection issues are not an excuse for omitting a declaration. Print and save your confirmation!</p>
-        <p>To view and print your declarations, click on MAKE PAYMENT, then PRINT INVOICE. Do NOT pay the invoice until Monday, March 2, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark>, when the final acceptance lists are posted.</p>
+        <p>To view and print your declarations, click on MAKE PAYMENT, then PRINT INVOICE. Do NOT pay the invoice until the final acceptance lists are posted. Date to be announced.</p>
         <p>The cost per individual entry is $15.00. The cost per relay team entry is $25.00.</p>
         <p>All final entries accepted into the State Meet will be posted on Monday, March 1, 2027, under the ENTRY tab of each MileSplit meet page for each division and are considered entered in the meet. The final entry fee invoice will reflect only those athletes and relays on the final acceptance lists. Payment must be made for all those on the final acceptance lists even if the athlete or relay chooses not to compete. Again, do not pay the invoice until Sunday after the final acceptance lists are posted.</p>
         <p>Click on &ldquo;Registration Closed - View Your Entries&rdquo; to submit payment.</p>
-        <p>All entries fees are paid online and due by Thursday, March 5, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark> at 12noon.</p>
+        <p>All entries fees are paid online and due at 12noon. Date to be announced.</p>
       </div>
     </section>
   </div>`;

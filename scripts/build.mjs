@@ -23,7 +23,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { site, NOINDEX_NOFOLLOW_PREFIXES, NOINDEX_FOLLOW_PREFIXES, SITEMAP_EXACT_EXCLUDE } from "../src/config/site.mjs";
 import { oatcccFlags, ARTICLE_LAUNCH_KEY, ARTICLE_PLACEHOLDER_MARKER } from "../src/oatccc/config.mjs";
-import { oatcccBuild } from "../src/oatccc/build.mjs";
+import { oatcccBuild, pagesWithUnconfirmed } from "../src/oatccc/build.mjs";
 
 // OATCCC section switches, read once (src/oatccc/config.mjs). All off
 // unless the Vercel environment variables say "1".
@@ -962,6 +962,11 @@ await writePage("/set-password/", setPasswordPage(site, { staffUrl: OATCCC_FLAGS
   {
     // OATCCC section: nothing is written unless OATCCC_LIVE=1.
     const oatccc = await oatcccBuild(site, OATCCC_FLAGS);
+    // No yellow [TO CONFIRM] on a live page (Zachary, 2026-11-19).
+    const unconfirmed = pagesWithUnconfirmed(oatccc.pages);
+    if (unconfirmed.length && process.env.VERCEL_ENV === "production") {
+      throw new Error(`OATCCC: [TO CONFIRM] is still on ${unconfirmed.length} page(s): ${unconfirmed.join(", ")}. Replace it before a production build.`);
+    }
     for (const [from, to] of oatccc.assets) {
       await fs.mkdir(path.dirname(path.join(dist, to)), { recursive: true });
       await fs.copyFile(path.join(root, "src", "oatccc", from), path.join(dist, to));

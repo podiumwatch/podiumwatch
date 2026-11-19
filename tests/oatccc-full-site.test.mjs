@@ -146,8 +146,10 @@ test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
   const dec = page("/oatccc/indoor/high-school/declarations-and-fees/");
   // Acceptance lists on Monday, March 1 (Anjanette); invoice and fee dates flagged (Zachary, 2026-11-17).
   assert.ok(dec.includes("<li>Final acceptance lists will be posted on MileSplit on Monday, March 1st</li>") && !dec.includes("March 2nd"));
-  assert.ok(dec.includes('Do NOT pay the invoice until Monday, March 2, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark>, when the final acceptance lists are posted.'));
-  assert.ok(dec.includes('All entries fees are paid online and due by Thursday, March 5, 2026 <mark class="ox-tbc">[TO CONFIRM]</mark> at 12noon.'));
+  // Invoice and fee dates not confirmed yet: "Date to be announced." (Zachary, 2026-11-19).
+  assert.ok(dec.includes("Do NOT pay the invoice until the final acceptance lists are posted. Date to be announced."));
+  assert.ok(dec.includes("All entries fees are paid online and due at 12noon. Date to be announced."));
+  assert.ok(!/TO CONFIRM|March 2, 2026|March 5, 2026/.test(dec));
   for (const p of ["abcs", "divisions", "eligibility-and-verification"]) {
     const kd = page(`/oatccc/indoor/high-school/${p}/`);
     assert.match(kd, /<b>Feb 27<\/b>[\s\S]*?<b>Mar 1<\/b><span>Monday<\/span><\/div><div><span class="kd-what">Final acceptance lists posted<\/span>[\s\S]*?<b>Mar 5<\/b>/, p);
@@ -387,4 +389,16 @@ test("Personal addresses encoded on the Hall of Fame bios and the Middle School 
   assert.ok(one.includes(EMAIL_FALLBACK) && one.includes('<script src="/scripts/oatccc-email.js" defer></script>'));
   const none = hof.find((p) => p.pathname.endsWith("/no-email-2024/")).html;
   assert.ok(!none.includes("ox-lead-fallback") && !none.includes("oatccc-email.js"), "pages without addresses unchanged");
+});
+
+test("Launch build (2026-11-19): no [TO CONFIRM] on any live page; Middle School off and not linked", async () => {
+  const { pagesWithUnconfirmed } = await import("../src/oatccc/build.mjs");
+  const launch = { OATCCC_LIVE: "1", OATCCC_INDOOR_FULL_LIVE: "1", OATCCC_DIVISION_LIST_LIVE: "1", OATCCC_TERMS_LIVE: "1", OATCCC_MORE_LIVE: "1", OATCCC_FILES_HOSTED: "1",
+    ...Object.fromEntries(Object.entries(MORE_SECTIONS).filter(([key]) => key !== "ms").map(([, name]) => [name, "1"])) };
+  const { pages } = oatcccOutputs(site, oatcccFlags(launch));
+  assert.deepEqual(pagesWithUnconfirmed(pages), []);
+  assert.ok(!pages.some((p) => p.pathname.includes("middle-school")), "no Middle School page");
+  for (const p of pages) assert.ok(!p.html.includes('href="/oatccc/indoor/middle-school/"'), `${p.pathname} links to Middle School`);
+  // The stop itself: a page with the marker is reported.
+  assert.deepEqual(pagesWithUnconfirmed([{ pathname: "/x/", html: '<p>Date <mark class="ox-tbc">[TO CONFIRM]</mark></p>' }, { pathname: "/y/", html: "<p>ok</p>" }]), ["/x/"]);
 });

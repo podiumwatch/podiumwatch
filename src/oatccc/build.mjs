@@ -32,6 +32,13 @@ export function oatcccOutputs(site, flags) {
   return { pages, assets };
 }
 
+// A yellow [TO CONFIRM] marker must never reach a live page (Zachary,
+// 2026-11-19). Returns the addresses of built pages that still show one;
+// scripts/build.mjs stops a production build if any are found.
+export function pagesWithUnconfirmed(pages) {
+  return pages.filter((page) => /TO CONFIRM/.test(String(page.html).replace(/<!--[\s\S]*?-->/g, ""))).map((page) => page.pathname);
+}
+
 // The full build, with the Hall of Fame (read from the database at build
 // time, src/oatccc/more/hof.mjs). If the Hall of Fame switch is on but
 // there is no data yet, the section is treated as off for this build, so

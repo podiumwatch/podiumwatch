@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-19): full OATCCC site launch prepared (oatccc-full-site), waiting for Zachary's go
+- Declarations & fees: the invoice and fee dates (Mar 2, 2026 / Mar 5, 2026, both [TO CONFIRM]) now read "Date to be announced." Tell Anjanette.
+- A production build (VERCEL_ENV=production) now stops if any built OATCCC page still shows "TO CONFIRM" (pagesWithUnconfirmed in src/oatccc/build.mjs). Middle School stays off (its page still has 4 [TO CONFIRM]).
+- Launch build checked with every switch on except OATCCC_VERIFICATION_LIVE, OATCCC_MS_LIVE and the MileSplit token: 26 OATCCC pages, no stops. Hall of Fame builds nothing until install/103 is run and the import is applied.
+- Vercel runs only `npm run build`; `npm run check` still fails on lib/athletic_net_rankings_service.mjs (.limit(20000)/.limit(10000)), same as on main. Not a deploy blocker.
+- Merging into main conflicts only in package.json and vercel.json; both sides only add lines (keep both).
+
 ## Start here (2026-11-17, night): 2027 Junior High meet on the Middle School page (oatccc-full-site)
 
 - src/oatccc/more/content/middle-school.html now holds the OATCCC PDF "2027 Indoor Junior High State Meet Information" word for word (March 13, 2027, Muskingum University); the 2026 oatccc.com text is gone. Behind OATCCC_MS_LIVE (off by default). Test: tests/oatccc-full-site.test.mjs.
