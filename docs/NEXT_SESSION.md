@@ -1,5 +1,12 @@
 # Podium Watch next session
 
+## Start here (2026-11-19): launch branch oatccc-launch ready, waiting for Zachary's go
+- Worktree ../podium_watch_launch, branch oatccc-launch = origin/main (753a82b3) + oatccc-full-site (merge ce7c39fb; package.json and vercel.json kept both sides) + the 2 held docs commits from oatccc-review-pages + the article hero crop point. Not pushed.
+- Backup before the merge: D:Podium Watchackupsoatccc-launch-2026-11-19 (all-branches bundle, uncommitted patches, _private/ and dataimports/ copies).
+- Tests: every npm test step passes except check (athletic_net_rankings_service.mjs row caps, same as main) and test:split-watch-laps (files identical to main; fails there too).
+- Divisions by school stays off (OATCCC_DIVISION_LIST_LIVE unset). Middle School stays off. Admin invites for Matt and Anjanette: week of Nov 23.
+- Hall of Fame dry run (2026-11-19): 466 inductees (61 Ed Barker, all with photos), 5 awards, 370 recipients, 1 skipped "NONE SELECTED" placeholder, 58 recipients linked by exact name. Zachary runs install/103 and the --apply import at launch.
+
 ## Start here (2026-11-19): full OATCCC site launch prepared (oatccc-full-site), waiting for Zachary's go
 - Declarations & fees: the invoice and fee dates (Mar 2, 2026 / Mar 5, 2026, both [TO CONFIRM]) now read "Date to be announced." Tell Anjanette.
 - A production build (VERCEL_ENV=production) now stops if any built OATCCC page still shows "TO CONFIRM" (pagesWithUnconfirmed in src/oatccc/build.mjs). Middle School stays off (its page still has 4 [TO CONFIRM]).
