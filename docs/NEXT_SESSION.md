@@ -1,6 +1,9 @@
 # Podium Watch next session
 
 ## Start here (2026-11-19): launch branch oatccc-launch ready, waiting for Zachary's go
+- Matt's changes (53f27bf4, also on oatccc-full-site): top-level "District Representatives" tab (only when OATCCC_ABOUT_LIVE is on) to /oatccc/about/leadership/, now titled "District Representatives & Leadership" with Districts 1-16 first; encoded Call buttons (Phone column in the private list, 53 rows; none for Anjanette Whitman or BJ Duckworth); Carson Cheek "Legacy/Heritage"; Alternate District 5 "TBD"; 2026-27 Matt Schock at the top of Presidents. Treasurer history and Editors unchanged (Editors waiting on Anjanette).
+- Re-import after the private list changes: node scripts/oatccc-leaders-import.mjs <path to _private/oatccc-leaders-2026-emails-only.csv>
+- Production now has the migration 103 tables (empty): the build says "no inductees in the database yet". The --apply import is still to run.
 - Worktree ../podium_watch_launch, branch oatccc-launch = origin/main (753a82b3) + oatccc-full-site (merge ce7c39fb; package.json and vercel.json kept both sides) + the 2 held docs commits from oatccc-review-pages + the article hero crop point. Not pushed.
 - Backup before the merge: D:Podium Watchackupsoatccc-launch-2026-11-19 (all-branches bundle, uncommitted patches, _private/ and dataimports/ copies).
 - Tests: every npm test step passes except check (athletic_net_rankings_service.mjs row caps, same as main) and test:split-watch-laps (files identical to main; fails there too).
