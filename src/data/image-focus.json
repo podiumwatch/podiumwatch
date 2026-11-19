@@ -135,6 +135,12 @@
       "width": 1600,
       "height": 1348,
       "position": "50% 0%"
+    },
+    "/images/stories/pw-x-oatccc-article-hero-1600x900.png": {
+      "hash": "12174b8db07de331",
+      "width": 1600,
+      "height": 900,
+      "position": "50% 50%"
     }
   },
   "final": {
@@ -250,6 +256,11 @@
       "position": "50% 0%",
       "width": 1600,
       "height": 1348
+    },
+    "/images/stories/pw-x-oatccc-article-hero-1600x900.png": {
+      "position": "50% 50%",
+      "width": 1600,
+      "height": 900
     },
     "/images/stories/oatccc-mideast-meet-of-champions.png": {
       "fit": "contain"
