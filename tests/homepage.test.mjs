@@ -142,3 +142,10 @@ test("shop strip: one slim strip with the tracked /go/merch/home/ link", () => {
   assert.match(html, /href="\/go\/merch\/home\/\?p=/);
   assert.match(html, /loading="lazy"/);
 });
+
+test("the OATCCC launch article stays off the homepage until OATCCC_LIVE=1 (2026-11-19)", () => {
+  const held = (env) => readHomeStories(env).filter((story) => story.launch === "oatccc").map((story) => story.slug);
+  assert.deepEqual(held({}), [], "off: not listed");
+  assert.deepEqual(held({ OATCCC_LIVE: "0" }), []);
+  assert.deepEqual(held({ OATCCC_LIVE: "1" }), ["podium-watch-and-the-oatccc-join-forces"], "on: listed");
+});
