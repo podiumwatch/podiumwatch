@@ -4,11 +4,14 @@
 //   node scripts/oatccc-leaders-import.mjs _private/oatccc-leaders-2026-emails-only.csv
 //
 // Only these columns are read: Position, First Name, Last Name,
-// School/Affiliation, OATCCC Email, Personal/Work Email. Any other column
-// (phone numbers, mailing addresses) is ignored and never written anywhere.
-// Wording is kept exactly as Matt wrote it. Email addresses are stored
-// encoded (reversed, then base64) so no plain address is in the repository
-// or the page HTML; scripts/oatccc-email.js decodes them on tap.
+// School/Affiliation, OATCCC Email, Personal/Work Email, and (when present)
+// Phone. Any other column (mailing addresses, "Phone Number" from older
+// sheets) is ignored and never written anywhere. Wording is kept exactly as
+// Matt wrote it. Email addresses and phone numbers are stored encoded
+// (reversed, then base64) so no plain address or number is in the
+// repository or the page HTML; scripts/oatccc-email.js decodes them on tap.
+// Phone numbers: Matt approved them on 2026-11-19 (Zachary), except
+// Anjanette Whitman's, who has none on any row.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,6 +20,8 @@ import { encodeEmail } from "../src/oatccc/email-protect.mjs";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "src", "oatccc", "more", "leaders.json");
 const COLUMNS = ["Position", "First Name", "Last Name", "School/Affiliation", "OATCCC Email", "Personal/Work Email"];
+const PHONE_COLUMN = "Phone";
+const PHONE = /^\d{3}-\d{3}-\d{4}$/;
 
 export function parseCsv(text) {
   const rows = [];
@@ -43,6 +48,7 @@ export { encodeEmail };
 export function leadersFromCsv(text) {
   const [head, ...body] = parseCsv(text);
   const at = COLUMNS.map((name) => head.findIndex((h) => h.trim() === name));
+  const phoneAt = head.findIndex((h) => h.trim() === PHONE_COLUMN);
   const missing = COLUMNS.filter((_, i) => at[i] < 0);
   if (missing.length) throw new Error(`Missing column(s): ${missing.join(", ")}`);
   const leaders = [];
@@ -52,11 +58,14 @@ export function leadersFromCsv(text) {
     const emails = [oatccc, personal].map((e) => e.trim()).filter(Boolean)
       .filter((e, i, all) => all.findIndex((x) => x.toLowerCase() === e.toLowerCase()) === i);
     for (const e of emails) if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) throw new Error(`Not an email address in row "${role}"`);
+    const phone = phoneAt < 0 ? "" : String(cells[phoneAt] ?? "").trim();
+    if (phone && !PHONE.test(phone)) throw new Error(`Phone not written as 000-000-0000 in row "${role}"`);
     leaders.push({
       role: role.trim(),
       name: `${first.trim()} ${last.trim()}`.trim(),
       affiliation: affiliation.trim(),
       e: emails.map(encodeEmail),
+      t: phone ? [encodeEmail(phone)] : [],
       photo: null
     });
   }
@@ -70,7 +79,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const data = {
     source: "Matt Schock, 2026 OATCCC Contact Information (OATCCC President)",
     imported: new Date().toISOString().slice(0, 10),
-    note: "Emails are reversed then base64 encoded. photo: a path under /images/oatccc/leaders/ when Matt sends headshots.",
+    note: "e (emails) and t (phone) are reversed then base64 encoded. photo: a path under /images/oatccc/leaders/ when Matt sends headshots.",
     leaders
   };
   fs.writeFileSync(OUT, JSON.stringify(data, null, 2) + "\n");

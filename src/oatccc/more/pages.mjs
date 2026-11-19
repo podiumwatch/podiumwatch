@@ -43,16 +43,29 @@ const LEADERS_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), "le
 const OFFICER_ORDER = ["President", "Vice President", "Secretary", "Treasurer", "Past President"];
 const LIAISON_ORDER = ["OHSAA Liaison", "College Liaison"];
 
+// Role names break only between words or after a slash, never mid-word
+// (Zachary, 2026-11-19: no lone "y" on its own line on phones).
+const roleHtml = (role) => escapeHtml(role).replace(/\//g, "/<wbr>");
+
 function leaderCard(person) {
   const open = !person.name;
   const photo = person.photo ? `<img class="ox-leader-photo" src="${escapeHtml(person.photo)}" alt="" width="72" height="72" loading="lazy">` : "";
   const email = person.e && person.e.length
     ? `<a class="btn2 ox-leader-email" href="#ox-lead-fallback" data-ox-e="${person.e.map(escapeHtml).join(" ")}" aria-label="Email ${escapeHtml(person.name)}">Email</a>`
     : "";
-  return `<li class="ox-leader${open ? " ox-leader-open" : ""}">${photo}<div class="ox-leader-text"><span class="ox-leader-role">${escapeHtml(person.role)}</span><strong>${open ? "Open" : escapeHtml(person.name)}</strong>${person.affiliation ? `<span class="ox-leader-aff">${escapeHtml(person.affiliation)}</span>` : ""}</div>${email}</li>`;
+  // Phone numbers, Matt approved (2026-11-19); encoded like the addresses.
+  const call = person.t && person.t.length
+    ? `<a class="btn2 ox-leader-call" href="#ox-lead-fallback" data-ox-t="${escapeHtml(person.t[0])}" aria-label="Call ${escapeHtml(person.name)}">Call</a>`
+    : "";
+  const actions = email || call ? `<div class="ox-leader-actions">${email}${call}</div>` : "";
+  // An empty seat shows "TBD" (Matt, 2026-11-19).
+  return `<li class="ox-leader${open ? " ox-leader-open" : ""}">${photo}<div class="ox-leader-text"><span class="ox-leader-role">${roleHtml(person.role)}</span><strong>${open ? "TBD" : escapeHtml(person.name)}</strong>${person.affiliation ? `<span class="ox-leader-aff">${escapeHtml(person.affiliation)}</span>` : ""}</div>${actions}</li>`;
 }
 
-export function currentLeadersHtml() {
+// districtsFirst: the District Representatives & Leadership page (Matt,
+// 2026-11-19) shows the districts first; History of leadership keeps
+// officers first.
+export function currentLeadersHtml({ districtsFirst = false } = {}) {
   if (!fs.existsSync(LEADERS_FILE)) return null;
   const { leaders } = JSON.parse(fs.readFileSync(LEADERS_FILE, "utf8"));
   const officers = OFFICER_ORDER.flatMap((role) => leaders.filter((p) => p.role === role));
@@ -70,14 +83,11 @@ export function currentLeadersHtml() {
   const list = (people) => `<ul class="ox-lead-list">\n${people.map(leaderCard).join("\n")}\n</ul>`;
   const districtHtml = [...districts.keys()].sort((a, b) => a - b).map((n) =>
     `<div class="ox-district"><h4>District ${n}</h4>\n<ul class="ox-lead-list ox-lead-pair">\n${districts.get(n).filter(Boolean).map(leaderCard).join("\n")}\n</ul></div>`).join("\n");
+  const officerGroup = `<h3 class="ox-lead-group">Officers</h3>\n${list(officers)}`;
+  const districtGroup = `<h3 class="ox-lead-group">District Representatives</h3>\n<div class="ox-districts">\n${districtHtml}\n</div>`;
   return `${EMAIL_FALLBACK}
 <div class="ox-lead-groups">
-<h3 class="ox-lead-group">Officers</h3>
-${list(officers)}
-<h3 class="ox-lead-group">District representatives</h3>
-<div class="ox-districts">
-${districtHtml}
-</div>
+${districtsFirst ? `${districtGroup}\n${officerGroup}` : `${officerGroup}\n${districtGroup}`}
 <h3 class="ox-lead-group">Chairs and committees</h3>
 ${list(chairs)}
 <h3 class="ox-lead-group">Liaisons</h3>
@@ -98,14 +108,14 @@ const TOUCHES = {
   // oatccc.com shows the same placeholder photo for every officer.
   leadership: (html) => html
     .replace(/<img src="[^"]*Ohio-Association-of-Track-Cross-Country-Coaches-Team\.jpg"[^>]*>\s*/g, "")
-    .replace(LEAD_GROUPS, (old) => currentLeadersHtml() || old),
+    .replace(LEAD_GROUPS, (old) => currentLeadersHtml({ districtsFirst: true }) || old),
   // Current officers and district reps first, then past leaders by role
   // (Anjanette, 2026-11-17). The current list comes from the Leadership
   // page so the two never disagree.
   "history-of-leadership": (html) => {
     const past = collapsePastTables(html);
     const current = currentLeadersHtml();
-    return current ? `<h2>Current officers and district representatives</h2>\n${current}\n${past}` : past;
+    return current ? `<h2>Current officers and District Representatives</h2>\n${current}\n${past}` : past;
   }
 };
 

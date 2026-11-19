@@ -188,7 +188,7 @@ test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
   assert.equal((tf.match(/Archive\/20\d\d\/[^"]*\.pdf"/g) || []).length, 116, "every clinic PDF kept");
   // Leadership: current people first, then past leaders by role.
   const hist = page("/oatccc/about/history-of-leadership/");
-  const order = ["Current officers and district representatives", ">Officers<", ">District representatives<", "Past leaders", ">Presidents<", ">Secretaries<", ">Treasurers<", ">Editors<"].map((t) => hist.indexOf(t));
+  const order = ["Current officers and District Representatives", "<h3 class=\"ox-lead-group\">Officers</h3>", "<h3 class=\"ox-lead-group\">District Representatives</h3>", "Past leaders", ">Presidents<", ">Secretaries<", ">Treasurers<", ">Editors<"].map((t) => hist.indexOf(t));
   assert.ok(order.every((n, i) => n > 0 && (i === 0 || n > order[i - 1])), JSON.stringify(order));
   assert.ok(!hist.includes("MCDERMOTT"), "stray rows dropped");
   assert.ok(!/\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}-\d{3}-\d{4}\b/.test(hist + page("/oatccc/about/leadership/")), "no phone numbers");
@@ -282,67 +282,125 @@ test("History of Leadership layout (2026-11-17): past tables collapsed, rows unc
   assert.match(css, /table\.ox-past td\[data-l="Year"\] \{ white-space: nowrap; \}/);
 });
 
-test("Current leaders from Matt Schock's list (2026-11-18): order, one Email button, encoded addresses", async () => {
+test("Current leaders from Matt Schock's list (2026-11-18, phones 2026-11-19): order, Email and Call buttons, encoded only", async () => {
   const { leadersFromCsv, encodeEmail } = await import("../scripts/oatccc-leaders-import.mjs");
   const data = JSON.parse(fs.readFileSync(new URL("../src/oatccc/more/leaders.json", import.meta.url), "utf8"));
   const raw = fs.readFileSync(new URL("../src/oatccc/more/leaders.json", import.meta.url), "utf8");
   const pages = oatcccOutputs(site, oatcccFlags(ALL)).pages;
   const page = (p) => pages.find((x) => x.pathname === p).html;
   const decode = (c) => [...Buffer.from(c, "base64").toString("utf8")].reverse().join("");
+  const PLAIN_PHONE = /\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-. ]\d{3}[-. ]\d{4}\b|\b\d{10}\b/;
 
-  // The data file: only the allowed fields, no plain address, no phone or street.
+  // The data file: only the allowed fields; addresses and phone numbers
+  // only in encoded form; no street addresses.
   assert.equal(data.leaders.length, 57);
-  for (const p of data.leaders) assert.deepEqual(Object.keys(p).sort(), ["affiliation", "e", "name", "photo", "role"]);
+  for (const p of data.leaders) assert.deepEqual(Object.keys(p).sort(), ["affiliation", "e", "name", "photo", "role", "t"]);
   assert.ok(!raw.includes("@"), "no plain email address in the committed data file");
-  assert.ok(!/\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-. ]\d{3}[-. ]\d{4}\b/.test(raw), "no phone numbers");
+  assert.ok(!PLAIN_PHONE.test(raw), "no plain phone numbers in the committed data file");
   for (const p of data.leaders) for (const c of p.e) assert.match(decode(c), /^[^@\s]+@[^@\s]+\.[^@\s]+$/);
+  for (const p of data.leaders) {
+    assert.ok(p.t.length <= 1, p.role);
+    for (const c of p.t) assert.match(decode(c), /^\d{3}-\d{3}-\d{4}$/, p.role);
+  }
   const addresses = data.leaders.flatMap((p) => p.e.map(decode));
+  const numbers = data.leaders.flatMap((p) => p.t.map(decode));
+  // Matt approved phones for everyone except Anjanette Whitman (none on any
+  // of her rows); BJ Duckworth sent none; the empty seat has none.
+  for (const p of data.leaders.filter((l) => l.name === "Anjanette Whitman")) assert.deepEqual(p.t, [], p.role);
+  assert.deepEqual(data.leaders.filter((l) => !l.t.length).map((l) => l.name || "(seat)").sort(), ["(seat)", "Anjanette Whitman", "Anjanette Whitman", "BJ Duckworth"]);
+  assert.equal(data.leaders.filter((l) => l.t.length).length, 53);
+  // A person with two roles has the same number on both.
+  const byName = new Map();
+  for (const p of data.leaders) if (p.t.length) {
+    if (byName.has(p.name)) assert.equal(decode(byName.get(p.name)), decode(p.t[0]), p.name);
+    byName.set(p.name, p.t[0]);
+  }
+  // When the private list is on this machine, the encoded numbers are exactly its Phone column.
+  const csv = new URL("../_private/oatccc-leaders-2026-emails-only.csv", import.meta.url);
+  if (fs.existsSync(csv)) {
+    const fromCsv = leadersFromCsv(fs.readFileSync(csv, "utf8"));
+    assert.deepEqual(fromCsv.map((l) => l.t), data.leaders.map((l) => l.t));
+  }
 
-  // The importer ignores phone and address columns entirely.
+  // The importer reads only the "Phone" column; "Phone Number" and
+  // "Mailing Address" columns are ignored entirely.
   const sample = leadersFromCsv("Position,First Name,Last Name,School/Affiliation,Phone Number,Mailing Address,OATCCC Email,Personal/Work Email\nPresident,Test,Person,Test High School,555-123-4567,1 Main St,t@oatccc.example,t@home.example\n");
-  assert.deepEqual(sample, [{ role: "President", name: "Test Person", affiliation: "Test High School", e: [encodeEmail("t@oatccc.example"), encodeEmail("t@home.example")], photo: null }]);
+  assert.deepEqual(sample, [{ role: "President", name: "Test Person", affiliation: "Test High School", e: [encodeEmail("t@oatccc.example"), encodeEmail("t@home.example")], t: [], photo: null }]);
+  const withPhone = leadersFromCsv("Position,First Name,Last Name,School/Affiliation,OATCCC Email,Personal/Work Email,Phone,Mailing Address\nPresident,Test,Person,Test High School,t@oatccc.example,,555-000-0000,1 Main St\n");
+  assert.deepEqual(withPhone[0].t, [encodeEmail("555-000-0000")]);
+  assert.ok(!JSON.stringify(withPhone).includes("Main St"));
+  assert.throws(() => leadersFromCsv("Position,First Name,Last Name,School/Affiliation,OATCCC Email,Personal/Work Email,Phone\nPresident,Test,Person,,t@oatccc.example,,(555) 000-0000\n"));
 
-  for (const p of ["/oatccc/about/leadership/", "/oatccc/about/history-of-leadership/"]) {
+  const HEADS = {
+    "/oatccc/about/leadership/": ["District Representatives", "Officers", "Chairs and committees", "Liaisons"],
+    "/oatccc/about/history-of-leadership/": ["Officers", "District Representatives", "Chairs and committees", "Liaisons"]
+  };
+  for (const [p, heads] of Object.entries(HEADS)) {
     const html = page(p);
     const groups = html.split('<div class="ox-lead-groups">')[1].split(/<h2>Past leaders<\/h2>|<p class="ox-source">/)[0];
-    // No plain address from Matt's list anywhere in the page, except the
-    // Chair's (already published across the OATCCC pages) inside <noscript>.
+    // No plain address or number from Matt's list anywhere in the page,
+    // except the Chair's address (already public) inside <noscript>.
     const outsideNoscript = html.replace(/<noscript>[\s\S]*?<\/noscript>/g, "");
     for (const a of addresses) assert.ok(!outsideNoscript.toLowerCase().includes(a.toLowerCase()), `${p}: plain address`);
-    assert.ok(!/mailto:/.test(outsideNoscript), `${p}: no mailto outside the fallback`);
+    for (const n of numbers) assert.ok(!html.includes(n) && !html.includes(n.replace(/-/g, "")), `${p}: plain phone number`);
+    assert.ok(!PLAIN_PHONE.test(html), `${p}: no plain phone numbers`);
+    assert.ok(!/mailto:/.test(outsideNoscript) && !/tel:/.test(html), `${p}: links are built only on tap`);
     assert.ok(html.includes('<script src="/scripts/oatccc-email.js" defer></script>'), p);
-    // Order: Officers, District reps 1-16, Chairs and committees, Liaisons.
-    const heads = [...groups.matchAll(/<h3 class="ox-lead-group">([^<]+)<\/h3>/g)].map((m) => m[1]);
-    assert.deepEqual(heads, ["Officers", "District representatives", "Chairs and committees", "Liaisons"], p);
-    const roles = (section) => [...section.matchAll(/<span class="ox-leader-role">([^<]+)<\/span>/g)].map((m) => m[1]);
-    const [, officers, districts, chairs, liaisons] = groups.split(/<h3 class="ox-lead-group">[^<]+<\/h3>/);
-    assert.deepEqual(roles(officers), ["President", "Vice President", "Secretary", "Treasurer", "Past President"]);
+    assert.deepEqual([...groups.matchAll(/<h3 class="ox-lead-group">([^<]+)<\/h3>/g)].map((m) => m[1]), heads, p);
+    const section = (name) => groups.split(`<h3 class="ox-lead-group">${name}</h3>`)[1].split('<h3 class="ox-lead-group">')[0];
+    const roles = (part) => [...part.matchAll(/<span class="ox-leader-role">([\s\S]*?)<\/span>/g)].map((m) => m[1].replace(/<wbr>/g, ""));
+    assert.deepEqual(roles(section("Officers")), ["President", "Vice President", "Secretary", "Treasurer", "Past President"]);
+    const districts = section("District Representatives");
     assert.deepEqual(roles(districts), Array.from({ length: 16 }, (_, i) => [`District ${i + 1}`, `Alternate District ${i + 1}`]).flat());
     assert.deepEqual([...districts.matchAll(/<h4>(District \d+)<\/h4>/g)].map((m) => m[1]), Array.from({ length: 16 }, (_, i) => `District ${i + 1}`));
-    assert.deepEqual(roles(liaisons), ["OHSAA Liaison", "College Liaison"]);
-    assert.equal(roles(chairs).length, 57 - 5 - 32 - 2);
-    assert.equal(roles(chairs)[0], "Track Clinic Chair");
+    assert.deepEqual(roles(section("Liaisons")), ["OHSAA Liaison", "College Liaison"]);
+    const chairs = roles(section("Chairs and committees"));
+    assert.equal(chairs.length, 57 - 5 - 32 - 2);
+    assert.equal(chairs[0], "Track Clinic Chair");
+    // Carson Cheek's role, renamed by Matt; it may break only after the slash.
+    assert.ok(chairs.includes("Legacy/Heritage") && !chairs.includes("Historian/Longevity"));
+    assert.ok(groups.includes('<span class="ox-leader-role">Legacy/<wbr>Heritage</span><strong>Carson Cheek</strong>'));
     // Matt's wording, as written.
     assert.ok(groups.includes("<strong>Kris Boey</strong>") && groups.includes("<strong>Nicole Whitley</strong>") && groups.includes(">OHSAA Sport Administrator<"));
     assert.ok(groups.includes(">Northmont   OHSAA Registered official<"));
-    // Alternate District 5 is open, with no button.
-    assert.match(groups, /<li class="ox-leader ox-leader-open"><div class="ox-leader-text"><span class="ox-leader-role">Alternate District 5<\/span><strong>Open<\/strong><\/div><\/li>/);
-    // One Email button per person row, each with every address in that row.
+    // Alternate District 5: "TBD", no buttons.
+    assert.match(groups, /<li class="ox-leader ox-leader-open"><div class="ox-leader-text"><span class="ox-leader-role">Alternate District 5<\/span><strong>TBD<\/strong><\/div><\/li>/);
+    assert.ok(!/<strong>Open<\/strong>/.test(groups));
+    // One Email button per row with every address; one Call button per row with a number.
     const cards = [...groups.matchAll(/<li class="ox-leader[^"]*">([\s\S]*?)<\/li>/g)].map((m) => m[1]);
     assert.equal(cards.length, 57);
-    cards.forEach((card, i) => {
-      const want = data.leaders.find((l) => card.includes(`<span class="ox-leader-role">${l.role.replace(/&/g, "&amp;")}</span><strong>${l.name || "Open"}</strong>`) && card.includes(`data-ox-e="${l.e.join(" ")}"`) === (l.e.length > 0));
-      assert.ok(want, `card ${i} matches a row`);
-      assert.equal((card.match(/class="btn2 ox-leader-email"/g) || []).length, want.e.length ? 1 : 0);
-    });
+    for (const l of data.leaders) {
+      const card = cards.find((c) => c.includes(`<span class="ox-leader-role">${l.role.replace(/&/g, "&amp;").replace(/\//g, "/<wbr>")}</span><strong>${l.name || "TBD"}</strong>`) && c.includes(`data-ox-e="${l.e.join(" ")}"`) === (l.e.length > 0));
+      assert.ok(card, `${l.role}: card`);
+      assert.equal((card.match(/class="btn2 ox-leader-email"/g) || []).length, l.e.length ? 1 : 0, l.role);
+      assert.equal((card.match(/class="btn2 ox-leader-call"/g) || []).length, l.t.length ? 1 : 0, l.role);
+      if (l.t.length) assert.ok(card.includes(`data-ox-t="${l.t[0]}" aria-label="Call ${l.name}">Call</a>`), l.role);
+      if (l.t.length || l.e.length) assert.ok(/href="#ox-lead-fallback"/.test(card), `${l.role}: no-JavaScript fallback`);
+    }
     // Jeff Howard's Advisory Committee row: personal email only, as Matt wrote it.
     const jeff = data.leaders.filter((l) => l.name === "Jeff Howard");
     assert.deepEqual(jeff.map((l) => [l.role, l.e.length]), [["Alternate District 4", 2], ["Advisory Committee", 1]]);
     assert.ok(!/<img/.test(groups), "no empty photo boxes");
-    assert.ok(!/\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}-\d{3}-\d{4}\b|tel:/.test(groups), "no phone numbers");
   }
+  // Page title and the top-level tab (Matt, 2026-11-19); the old address still works.
+  const lead = page("/oatccc/about/leadership/");
+  assert.ok(lead.includes("<h1>District Representatives &amp; Leadership</h1>"));
+  assert.match(lead, /<a href="\/oatccc\/about\/leadership\/" aria-current="page">District Representatives<\/a>/);
+  assert.ok(!/District representatives/.test(lead + page("/oatccc/about/history-of-leadership/")), "capital R everywhere");
+  const tabs = oatcccTabs(oatcccFlags(ALL));
+  assert.deepEqual(tabs.find((t) => t.key === "districts"), { key: "districts", label: "District Representatives", href: "/oatccc/about/leadership/" });
+  assert.ok(!oatcccTabs(oatcccFlags({ OATCCC_LIVE: "1" })).some((t) => t.key === "districts"), "no tab while the page is not built");
+  // Presidents history: 2026-27 Matt Schock at the top, same format.
+  const hist = page("/oatccc/about/history-of-leadership/");
+  const presidents = hist.split("<summary>Presidents</summary>")[1].split("</details>")[0];
+  assert.match(presidents, /<tbody>\s*<tr><td data-l="Year">2026-27<\/td><td data-l="Name">Matt Schock<\/td><td data-l="School">Seneca East High School<\/td><\/tr>\s*<tr><td data-l="Year">2023-24<\/td><td data-l="Name">Anjanette Whitman<\/td>/);
+  // Treasurer: Jennifer Dahler stays; history unchanged.
+  assert.ok(data.leaders.some((l) => l.role === "Treasurer" && l.name === "Jennifer Dahler"));
   const js = fs.readFileSync(new URL("../src/oatccc/oatccc-email.js", import.meta.url), "utf8");
   assert.match(js, /"mailto:" \+ to\.join\(","\)/);
+  assert.match(js, /"tel:\+1" \+ digits/);
+  const css = fs.readFileSync(new URL("../src/oatccc/oatccc.css", import.meta.url), "utf8");
+  assert.match(css, /\.ox-leader-role \{[^}]*overflow-wrap: normal; word-break: normal;/);
 });
 
 test("T&F Clinic: Hotel Group Rate button above the hotel phones (Anjanette, 2026-11-18)", () => {
@@ -399,6 +457,13 @@ test("Launch build (2026-11-19): no [TO CONFIRM] on any live page; Middle School
   assert.deepEqual(pagesWithUnconfirmed(pages), []);
   assert.ok(!pages.some((p) => p.pathname.includes("middle-school")), "no Middle School page");
   for (const p of pages) assert.ok(!p.html.includes('href="/oatccc/indoor/middle-school/"'), `${p.pathname} links to Middle School`);
+  // Phone numbers: plain only for the two clinic hotel numbers; the leaders'
+  // numbers are encoded (Matt approved, 2026-11-19) and built only on tap.
+  const PHONE = /\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-. ]\d{3}[-. ]\d{4}\b/g;
+  for (const p of pages) {
+    const found = (p.html.replace(/<!--[\s\S]*?-->/g, "").match(PHONE) || []).sort();
+    assert.deepEqual(found, p.pathname === "/oatccc/clinics/track-and-field/" ? ["(614) 414-5000", "614-762-9162"] : [], p.pathname);
+  }
   // The stop itself: a page with the marker is reported.
   assert.deepEqual(pagesWithUnconfirmed([{ pathname: "/x/", html: '<p>Date <mark class="ox-tbc">[TO CONFIRM]</mark></p>' }, { pathname: "/y/", html: "<p>ok</p>" }]), ["/x/"]);
 });

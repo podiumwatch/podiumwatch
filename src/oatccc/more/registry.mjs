@@ -13,7 +13,7 @@
 export const MORE_PAGES = [
   // About
   { key: "about", section: "about", path: "/oatccc/about/", old: ["/About-Us/"], tab: "about", title: "About the OATCCC", description: "The Ohio Association of Track & Cross Country Coaches: history, Ed Barker and milestones." },
-  { key: "leadership", section: "about", path: "/oatccc/about/leadership/", old: ["/Contact-Us/"], tab: "about", title: "OATCCC Leadership", description: "Current OATCCC officers and district representatives." },
+  { key: "leadership", section: "about", path: "/oatccc/about/leadership/", old: ["/Contact-Us/"], tab: "districts", title: "District Representatives & Leadership", description: "OATCCC District Representatives for Districts 1 to 16, officers, chairs and liaisons." },
   { key: "history-of-leadership", section: "about", path: "/oatccc/about/history-of-leadership/", old: ["/About-Us/Our-Leadership/"], tab: "about", title: "OATCCC History of Leadership", description: "Past OATCCC presidents, secretaries, treasurers and editors." },
   { key: "tributes", section: "about", path: "/oatccc/about/tributes/", old: ["/Tributes/"], tab: "about", title: "OATCCC Tributes", description: "Tributes from the Ohio Association of Track & Cross Country Coaches." },
   { key: "sponsors", section: "about", path: "/oatccc/sponsors/", old: ["/About-Us/Sponsors/", "/About-Us/Sponsors/Lend-Your-Support/"], aliases: ["/Sponsors/"], tab: "about", title: "OATCCC Sponsors", description: "The sponsors who support the Ohio Association of Track & Cross Country Coaches." },

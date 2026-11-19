@@ -1,7 +1,7 @@
 {
   "source": "Matt Schock, 2026 OATCCC Contact Information (OATCCC President)",
-  "imported": "2026-11-18",
-  "note": "Emails are reversed then base64 encoded. photo: a path under /images/oatccc/leaders/ when Matt sends headshots.",
+  "imported": "2026-11-19",
+  "note": "e (emails) and t (phone) are reversed then base64 encoded. photo: a path under /images/oatccc/leaders/ when Matt sends headshots.",
   "leaders": [
     {
       "role": "District 1",
@@ -10,6 +10,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BzcGlsbGlocGo=",
         "Z3JvLnNsb29oY3NuYW1kcmFvYkBzcGlsbGlocC5uaG9q"
+      ],
+      "t": [
+        "OTM5Mi03MDItMDMz"
       ],
       "photo": null
     },
@@ -21,6 +24,9 @@
         "bW9jLmNjY3Rhb0BrYXBtdXJrZA==",
         "Z3JvLmVnbmFyaHR1b3NAa2FwbXVya2Q="
       ],
+      "t": [
+        "NTEyMy0xMDUtMDMz"
+      ],
       "photo": null
     },
     {
@@ -30,6 +36,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BuaWt0dXJmcg==",
         "bW9jLmxpYW1nQHNsb29oY3NlZ25hcm8ubmlrdHVyZg=="
+      ],
+      "t": [
+        "Njc5MS01NjYtMDQ0"
       ],
       "photo": null
     },
@@ -41,6 +50,9 @@
         "bW9jLmNjY3Rhb0Bub3NyZWRuYW0=",
         "bW9jLm9vaGF5QDY5aWRuYWZlaGM="
       ],
+      "t": [
+        "NjA1MC00NjgtMDQ0"
+      ],
       "photo": null
     },
     {
@@ -50,6 +62,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BzYWlscw==",
         "Z3JvLnNsb29oY3NzZG5hbGVyaWZAc2FpbHM="
+      ],
+      "t": [
+        "MjY5OC01MTMtMDQ0"
       ],
       "photo": null
     },
@@ -61,6 +76,9 @@
         "bW9jLmNjY3Rhb0B0c3JvaHJhYmI=",
         "Z3JvLnNsb29oY3NkbGVpZmZlaHNAdHNyb2hyYWJi"
       ],
+      "t": [
+        "NTQ4MC0zMjctMDQ0"
+      ],
       "photo": null
     },
     {
@@ -70,6 +88,9 @@
       "e": [
         "bW9jLmNjY3Rhb0ByZWhjYWJ1YWxt",
         "bW9jLmxpYW1nQDA0eWJ1YWxt"
+      ],
+      "t": [
+        "OTE2NC02MzktMDMz"
       ],
       "photo": null
     },
@@ -81,6 +102,9 @@
         "bW9jLmNjY3Rhb0BkcmF3b2hq",
         "c3UuaG8uMjFrLmVnZGlyZG9vd0BkcmF3b2hq"
       ],
+      "t": [
+        "MTQwMS04MDYtMDMz"
+      ],
       "photo": null
     },
     {
@@ -91,6 +115,9 @@
         "bW9jLmNjY3Rhb0BrYWhzb3Jt",
         "bW9jLmxpYW1nQDU4OTFzb3JybQ=="
       ],
+      "t": [
+        "NTkxMC02MDItMDMz"
+      ],
       "photo": null
     },
     {
@@ -98,6 +125,7 @@
       "name": "",
       "affiliation": "",
       "e": [],
+      "t": [],
       "photo": null
     },
     {
@@ -107,6 +135,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BsbGVycmFmbQ==",
         "bW9jLm9vaGF5QG5hbXJlbm51cm9paG8="
+      ],
+      "t": [
+        "MzY5Mi04MTYtOTE0"
       ],
       "photo": null
     },
@@ -118,6 +149,9 @@
         "bW9jLmNjY3Rhb0ByZWZlaWhjc24=",
         "bW9jLnNyZWdpdC1lc0ByZWZlaWhjc24="
       ],
+      "t": [
+        "MjE3MC00MjItNzY1"
+      ],
       "photo": null
     },
     {
@@ -128,6 +162,9 @@
         "bW9jLmNjY3Rhb0ByZWxsaW1z",
         "Z3JvLnNsb29oY3NhZGlsYWtAcmVsbGltLnR0b2Nz"
       ],
+      "t": [
+        "Mjk1OC02OTctOTE0"
+      ],
       "photo": null
     },
     {
@@ -136,6 +173,9 @@
       "affiliation": "Minster",
       "e": [
         "Z3JvLnNsb29oY3NyZXRzbmltQG90b2dhbS5laXNzZWo="
+      ],
+      "t": [
+        "MDAyMS0zNTktOTE0"
       ],
       "photo": null
     },
@@ -147,6 +187,9 @@
         "bW9jLmNjY3Rhb0BsbGloZA==",
         "bW9jLmxpYW1nQDk3OTEubm9yYWhzLm5hZ3Vk"
       ],
+      "t": [
+        "Mzg2MC05MDUtMDQ3"
+      ],
       "photo": null
     },
     {
@@ -157,6 +200,9 @@
         "bW9jLmNjY3Rhb0B5b2pk",
         "Z3JvLnNsb29oY3NtdHNhZUB5b2pk"
       ],
+      "t": [
+        "Mzk5NC02ODUtMDQ3"
+      ],
       "photo": null
     },
     {
@@ -165,6 +211,9 @@
       "affiliation": "Ansonia High School",
       "e": [
         "bW9jLmxpYW1nQHJldWFid2Vucm5lbGxh"
+      ],
+      "t": [
+        "OTMyMS00NjUtNzM5"
       ],
       "photo": null
     },
@@ -176,6 +225,9 @@
         "bW9jLmNjY3Rhb0B6dG5pbGo=",
         "bW9jLmxpYW1nQDUwNTF6dG5pbGo="
       ],
+      "t": [
+        "NDEyMC0wNTctNzM5"
+      ],
       "photo": null
     },
     {
@@ -185,6 +237,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BrY2Vicg==",
         "bW9jLmxpYW1nQGtjZWJ0cg=="
+      ],
+      "t": [
+        "NzQzMS00NTMtNDE2"
       ],
       "photo": null
     },
@@ -196,6 +251,9 @@
         "bW9jLmNjY3Rhb0BuYWhpbGxhY3I=",
         "Z3JvLnNwamdAcm5haGlsbGFj"
       ],
+      "t": [
+        "OTA3MC0zNDgtNDE2"
+      ],
       "photo": null
     },
     {
@@ -205,6 +263,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BzaXZyYWpq",
         "bW9jLmxvYUBzbnVyc2l2cmFq"
+      ],
+      "t": [
+        "MDI1NS0zNzktMDQ3"
       ],
       "photo": null
     },
@@ -216,6 +277,9 @@
         "bW9jLmNjY3Rhb0BzZXlhaGo=",
         "Z3JvLnNsb29oY3NnbUBzZXlhaGo="
       ],
+      "t": [
+        "MDIwNy0xMzItNzY1"
+      ],
       "photo": null
     },
     {
@@ -225,6 +289,9 @@
       "e": [
         "bW9jLmNjY3Rhb0B5ZWx0aWh3bg==",
         "c3UuZHNsbUB5ZWx0aWh3LmVsb2Npbg=="
+      ],
+      "t": [
+        "MTU1Ny01MDUtMzE1"
       ],
       "photo": null
     },
@@ -236,6 +303,9 @@
         "bW9jLmNjY3Rhb0BsbGV0bmFtbA==",
         "bW9jLmxpYW1nQDA0bGxldG5hbXlhc2RuaWw="
       ],
+      "t": [
+        "NDcyNC04MTQtMDQ3"
+      ],
       "photo": null
     },
     {
@@ -245,6 +315,9 @@
       "e": [
         "bW9jLmNjY3Rhb0B5ZW5uaWtjbXI=",
         "bW9jLmxpYW1nQDE4eWVubmlrY215ZG5hcg=="
+      ],
+      "t": [
+        "NzAyMy0zMzUtNzM5"
       ],
       "photo": null
     },
@@ -256,6 +329,9 @@
         "bW9jLmNjY3Rhb0B5dGFlYm0=",
         "bW9jLm5zbUB5dGFlYmFt"
       ],
+      "t": [
+        "MDY2MC00NTYtNzM5"
+      ],
       "photo": null
     },
     {
@@ -265,6 +341,9 @@
       "e": [
         "bW9jLmNjY3Rhb0B5ZWxvb2Rq",
         "Z3JvLnNsb29oY3N5dGljYXJpZWRhbUB5ZWxvb2Rq"
+      ],
+      "t": [
+        "NzgwOC04MTgtMDQ3"
       ],
       "photo": null
     },
@@ -276,6 +355,9 @@
         "bW9jLmNjY3Rhb0BlaGNzZW0=",
         "bW9jLmxpYW1nQGVoY3NlLnR0YW0="
       ],
+      "t": [
+        "MjQ5Ny0xMjMtOTEz"
+      ],
       "photo": null
     },
     {
@@ -285,6 +367,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BvYmFzYg==",
         "Z3JvLnNsb29oY3Nkb293dHNhZUBvYmFTQg=="
+      ],
+      "t": [
+        "MzU2Ny0wNTItOTE0"
       ],
       "photo": null
     },
@@ -296,6 +381,9 @@
         "bW9jLmNjY3Rhb0Bub3NuaWt0YXQ=",
         "bW9jLmxpYW1nQDkwNXRub3NuaWt0YQ=="
       ],
+      "t": [
+        "NzQxNS04MzQtOTE0"
+      ],
       "photo": null
     },
     {
@@ -305,6 +393,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BlbGdvZmo=",
         "dGVuLmxhY29sbnJldHNhZUBlbGdvZmo="
+      ],
+      "t": [
+        "Mzg0MC0wOTUtMDQ3"
       ],
       "photo": null
     },
@@ -316,6 +407,9 @@
         "bW9jLmNjY3Rhb0B5emNub2dh",
         "bW9jLmxpYW1nQGF0Yy5rY2FydHNuZWh0YQ=="
       ],
+      "t": [
+        "NDQ1NS0wOTUtMDQ3"
+      ],
       "photo": null
     },
     {
@@ -325,6 +419,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BrY29oY3Nt",
         "bW9jLnNyZWdpdC1lc0BrY29oY3Nt"
+      ],
+      "t": [
+        "NDc5OC04MTYtOTE0"
       ],
       "photo": null
     },
@@ -336,6 +433,9 @@
         "bW9jLmNjY3Rhb0B5b2x0",
         "Z3JvLmxhY29sZ3J1YmFuc29AeW9sLm1vdA=="
       ],
+      "t": [
+        "NDg3NC00ODItMDMz"
+      ],
       "photo": null
     },
     {
@@ -345,6 +445,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BlbG9jag==",
         "bW9jLmxpYW1nQDMxMGVsb2Ntag=="
+      ],
+      "t": [
+        "NjM2NC0zMjItMDQ0"
       ],
       "photo": null
     },
@@ -356,6 +459,9 @@
         "bW9jLmNjY3Rhb0ByZWxoYWRq",
         "bW9jLmxpYW1nQHJlbGhhZC5yZWZpbm5lag=="
       ],
+      "t": [
+        "MjYwMy04NzQtMDQ0"
+      ],
       "photo": null
     },
     {
@@ -366,6 +472,7 @@
         "bW9jLmNjY3Rhb0BuYW10aWh3YQ==",
         "Z3JvLmxvb2hjc3Rub211YWViQG5hbXRpaHdh"
       ],
+      "t": [],
       "photo": null
     },
     {
@@ -375,6 +482,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BrcmFsY3c=",
         "bW9jLnJyLnN1Ym11bG9jQDIwMGtyYWxjdw=="
+      ],
+      "t": [
+        "NDkyNS03MDYtMDQ3"
       ],
       "photo": null
     },
@@ -386,6 +496,9 @@
         "bW9jLmNjY3Rhb0ByZWhjYWJ1YWxt",
         "bW9jLmxpYW1nQDA0eWJ1YWxt"
       ],
+      "t": [
+        "OTE2NC02MzktMDMz"
+      ],
       "photo": null
     },
     {
@@ -395,6 +508,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BocGVzb2pk",
         "bW9jLmxpYW1nQDQ0Y2NzcmVnaXQ="
+      ],
+      "t": [
+        "MzYyMC0wODItNDAz"
       ],
       "photo": null
     },
@@ -406,6 +522,9 @@
         "bW9jLmNjY3Rhb0BrY29oY3Nt",
         "bW9jLnNyZWdpdC1lc0BrY29oY3Nt"
       ],
+      "t": [
+        "NDc5OC04MTYtOTE0"
+      ],
       "photo": null
     },
     {
@@ -415,6 +534,9 @@
       "e": [
         "bW9jLmNjY3Rhb0B5ZW5uaWtjbXI=",
         "bW9jLmxpYW1nQDE4eWVubmlrY215ZG5hcg=="
+      ],
+      "t": [
+        "NzAyMy0zMzUtNzM5"
       ],
       "photo": null
     },
@@ -426,6 +548,7 @@
         "bW9jLmNjY3Rhb0BuYW10aWh3YQ==",
         "Z3JvLmxvb2hjc3Rub211YWViQG5hbXRpaHdh"
       ],
+      "t": [],
       "photo": null
     },
     {
@@ -435,6 +558,9 @@
       "e": [
         "bW9jLmNjY3Rhb0Bla3NyYWhjbg==",
         "bW9jLmxvYUAzMDNybzh2YQ=="
+      ],
+      "t": [
+        "MDQzNy05MDYtNzM5"
       ],
       "photo": null
     },
@@ -446,6 +572,9 @@
         "bW9jLmNjY3Rhb0Bla3NyYWhjbg==",
         "bW9jLmxvYUAzMDNybzh2YQ=="
       ],
+      "t": [
+        "MDQzNy05MDYtNzM5"
+      ],
       "photo": null
     },
     {
@@ -455,6 +584,9 @@
       "e": [
         "bW9jLmNjY3Rhb0BsZWdvdmE=",
         "bW9jLm9vaGF5QGxndm5uYQ=="
+      ],
+      "t": [
+        "MDIxMS05MzUtNzM5"
       ],
       "photo": null
     },
@@ -466,6 +598,9 @@
         "bW9jLmNjY3Rhb0BrYXBtdXJrZA==",
         "Z3JvLmVnbmFyaHR1b3NAa2FwbXVya2Q="
       ],
+      "t": [
+        "NTEyMy0xMDUtMDMz"
+      ],
       "photo": null
     },
     {
@@ -475,6 +610,9 @@
       "e": [
         "bW9jLmNjY3Rhb0Bub3NtYWlsbGl3cw==",
         "Z3JvLm5vaW51eXRyZWJpbEB5cnRudW9jc3NvcmNzbQ=="
+      ],
+      "t": [
+        "MTQ1MC03NzctMDQ3"
       ],
       "photo": null
     },
@@ -486,15 +624,21 @@
         "bW9jLmNjY3Rhb0BsaGVpa3Y=",
         "bW9jLmxvYUBsaGVpa25yZXY="
       ],
+      "t": [
+        "NTU3NC02NjItOTE0"
+      ],
       "photo": null
     },
     {
-      "role": "Historian/Longevity",
+      "role": "Legacy/Heritage",
       "name": "Carson Cheek",
       "affiliation": "Retired",
       "e": [
         "bW9jLmNjY3Rhb0BrZWVoY2M=",
         "dGVuLnRoZ2lyYkBuZmF0bw=="
+      ],
+      "t": [
+        "Nzk3NS01MDMtOTE0"
       ],
       "photo": null
     },
@@ -506,6 +650,9 @@
         "bW9jLmNjY3Rhb0BoY3Rhd211aWRvcA==",
         "Z3JvLmhjdGF3bXVpZG9wQGFpZGVt"
       ],
+      "t": [
+        "ODU0OC0wNzUtNzM5"
+      ],
       "photo": null
     },
     {
@@ -514,6 +661,9 @@
       "affiliation": "Retired",
       "e": [
         "bW9jLmxpYW1nQDQ2bmFtdHJoZW95cnJldA=="
+      ],
+      "t": [
+        "MTk1NC01MTItMDQ3"
       ],
       "photo": null
     },
@@ -524,6 +674,9 @@
       "e": [
         "Z3JvLnNsb29oY3NyZXRzbmltQG90b2dhbS5laXNzZWo="
       ],
+      "t": [
+        "MDAyMS0zNTktOTE0"
+      ],
       "photo": null
     },
     {
@@ -532,6 +685,9 @@
       "affiliation": "Woodridge",
       "e": [
         "c3UuaG8uMjFrLmVnZGlyZG9vd0BkcmF3b2hq"
+      ],
+      "t": [
+        "MTQwMS04MDYtMDMz"
       ],
       "photo": null
     },
@@ -542,6 +698,9 @@
       "e": [
         "bW9jLmxpYW1nQG0wMDhrcmlr"
       ],
+      "t": [
+        "OTQ4NC01NDItMDMz"
+      ],
       "photo": null
     },
     {
@@ -551,6 +710,7 @@
       "e": [
         "Z3JvLmFhc2hvQGh0cm93a2N1ZGpi"
       ],
+      "t": [],
       "photo": null
     },
     {
@@ -559,6 +719,9 @@
       "affiliation": "Ohio Wesleyan University",
       "e": [
         "dWRlLnV3b0B5ZW9id2s="
+      ],
+      "t": [
+        "NTA0Ny02NjItNDE2"
       ],
       "photo": null
     }

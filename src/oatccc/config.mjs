@@ -147,6 +147,10 @@ export function oatcccTabs(flags = {}) {
     { key: "hof", label: "Hall of Fame & Awards", href: on("hof") ? "/oatccc/hall-of-fame/" : LINKS.hallOfFame },
     { key: "clinics", label: "Clinics", href: on("clinics") ? "/oatccc/clinics/track-and-field/" : LINKS.clinic },
     { key: "membership", label: "Membership", href: LINKS.join },
+    // Top-level tab (Matt, 2026-11-19): the District Representatives &
+    // Leadership page, which keeps its address /oatccc/about/leadership/.
+    // Shown only when that page is built (About section on).
+    ...(on("about") ? [{ key: "districts", label: "District Representatives", href: "/oatccc/about/leadership/" }] : []),
     { key: "about", label: "About", href: on("about") ? "/oatccc/about/" : LINKS.about }
   ];
 }

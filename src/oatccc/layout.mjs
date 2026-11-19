@@ -33,7 +33,11 @@ function tabBar(current, flags) {
     const isCurrent = tab.key === current ? ' aria-current="page"' : "";
     return `<a${linkAttrs(tab.href)}${isCurrent}>${escapeHtml(tab.label)}</a>`;
   }).join("");
-  return `<nav class="ox-tabs" aria-label="OATCCC"><div class="ox-wrap">${tabs}</div></nav>`;
+  // On phones the tab bar scrolls sideways; bring the current page's tab
+  // into view (Zachary, 2026-11-19: "District Representatives" sat
+  // off-screen to the right on its own page).
+  const reveal = `<script>(()=>{const b=document.currentScript.previousElementSibling.firstElementChild,c=b&&b.querySelector("[aria-current]");if(c&&b.scrollWidth>b.clientWidth){const r=c.getBoundingClientRect(),q=b.getBoundingClientRect();b.scrollLeft+=r.left-q.left-(q.width-r.width)/2;}})();</script>`;
+  return `<nav class="ox-tabs" aria-label="OATCCC"><div class="ox-wrap">${tabs}</div></nav>${reveal}`;
 }
 
 function sectionFooter() {
