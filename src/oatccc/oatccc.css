@@ -565,6 +565,8 @@
   .ox .ox-prose table.ox-past td[data-l="School"]::before, .ox .ox-prose table.ox-past td[data-l="Publication"]::before { content: attr(data-l) ": "; color: var(--ox-muted); }
 }
 /* Junior High meet schedule: events in order, times only where the PDF gives them. */
+/* Plain lists in copied pages: bullets inside the page margin on phones (2026-11-19). */
+.ox .ox-prose ul:not([class]), .ox .ox-prose ol:not([class]) { padding-left: 1.4em; }
 .ox .ox-prose ul.ox-sched { list-style: none; padding: 0; margin: 8px 0 20px; border-top: 1px solid var(--ox-line); }
 .ox .ox-prose ul.ox-sched > li { margin: 0; padding: 8px 0; border-bottom: 1px solid var(--ox-line); }
 .ox .ox-prose .ox-sched-time { display: inline-block; min-width: 92px; font-weight: 700; color: var(--ox-navy); }
