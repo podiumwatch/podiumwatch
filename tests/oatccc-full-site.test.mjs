@@ -146,9 +146,10 @@ test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
   const dec = page("/oatccc/indoor/high-school/declarations-and-fees/");
   // Acceptance lists on Monday, March 1 (Anjanette); invoice and fee dates flagged (Zachary, 2026-11-17).
   assert.ok(dec.includes("<li>Final acceptance lists will be posted on MileSplit on Monday, March 1st</li>") && !dec.includes("March 2nd"));
-  // Invoice and fee dates not confirmed yet: "Date to be announced." (Zachary, 2026-11-19).
-  assert.ok(dec.includes("Do NOT pay the invoice until the final acceptance lists are posted. Date to be announced."));
-  assert.ok(dec.includes("All entries fees are paid online and due at 12noon. Date to be announced."));
+  // Invoice and fee lines: Anjanette's final wording (2026-11-19).
+  assert.ok(dec.includes("PRINT INVOICE. Payments can be made starting Monday, March 1, 2027.</p>"));
+  assert.ok(dec.includes("<p>All entry fees are paid online and due by Thursday, March 4, 2027 at 12noon.</p>"));
+  assert.ok(!dec.includes("Date to be announced"));
   assert.ok(!/TO CONFIRM|March 2, 2026|March 5, 2026/.test(dec));
   for (const p of ["abcs", "divisions", "eligibility-and-verification"]) {
     const kd = page(`/oatccc/indoor/high-school/${p}/`);
@@ -176,7 +177,7 @@ test("Anjanette's preview comments, part 2 (2026-11-17)", () => {
   // Clinics.
   const vend = page("/oatccc/clinics/vendors/");
   assert.ok(vend.includes(`href="${FF}" target="_blank" rel="noopener noreferrer" class="btn2 ox-big">Vendor Submission</a>`));
-  assert.ok(vend.includes(">Vendor Letter</a>") && !/oatccc\.com\/Clinics\/Track-And-Field\/Vendors/i.test(vend));
+  assert.ok(vend.includes(">Download the Vendor Letter</a>") && !/oatccc\.com\/Clinics\/Track-And-Field\/Vendors/i.test(vend));
   const xc = page("/oatccc/clinics/cross-country/");
   // Registration goes to FinalForms with the Join how-to line (Anjanette, 2026-11-17).
   assert.match(xc, new RegExp(`<a href="${FF}"[^>]*class="btn2 ox-big">Clinic Registration</a></div>\\s*<p class="ox-bigbtn-how">Select Login/Signup and follow the prompts\\.</p>`));
@@ -209,7 +210,7 @@ test("Zachary's follow-up (2026-11-17): Chair contact line, FinalForms vendor ro
   const forms = page("/oatccc/forms/");
   assert.match(forms, new RegExp(`VENDOR Contract Form[\\s\\S]*?<a href="${FF}"[^>]*>Vendor Submission</a>`));
   assert.ok(!forms.includes("Vendor-Contract.pdf"), "old contract PDF gone");
-  assert.ok(page("/oatccc/clinics/vendors/").includes(">Vendor Letter</a>"));
+  assert.ok(page("/oatccc/clinics/vendors/").includes(">Download the Vendor Letter</a>"));
   const tf = page("/oatccc/clinics/track-and-field/");
   assert.ok(tf.includes('<h6><a href="tel:6144145000">Hotel Phone: (614) 414-5000</a></h6>'));
   assert.ok(tf.includes('Overflow Hotel - Aloft at Easton <br> Hotel Phone: <a href="tel:6147629162">614-762-9162</a></h6>'));
@@ -466,4 +467,55 @@ test("Launch build (2026-11-19): no [TO CONFIRM] on any live page; Middle School
   }
   // The stop itself: a page with the marker is reported.
   assert.deepEqual(pagesWithUnconfirmed([{ pathname: "/x/", html: '<p>Date <mark class="ox-tbc">[TO CONFIRM]</mark></p>' }, { pathname: "/y/", html: "<p>ok</p>" }]), ["/x/"]);
+});
+
+
+test("Anjanette's final answers (2026-11-19): parking, fee dates, vendor date and letter, Vendors page", () => {
+  const FF = "https://oatccc-oh.finalforms-amp.com/";
+  const LETTER = "https://drive.google.com/file/d/1B-gkXZiI4m_fZi7E_ALhsVD48c5AN7B3/view?usp=drive_link";
+  const pages = oatcccOutputs(site, oatcccFlags({ ...ALL, OATCCC_INDOOR_FULL_LIVE: "1", OATCCC_FILES_HOSTED: "1" })).pages;
+  const page = (p) => pages.find((x) => x.pathname === p).html;
+  const all = pages.map((p) => p.html).join("\n");
+  // 1. Parking: no cost anywhere; the rest of the paragraph and the link stay.
+  const meet = page("/oatccc/indoor/high-school/meet-day/");
+  assert.ok(meet.includes("<p>Parking is payable online. Download the app or register online to pay in advance and avoid internet connection delays. There is no parking fee for official school vehicles.</p>"));
+  assert.match(meet, /<a href="https:\/\/www\.passportparking\.com\/"[^>]*>Spectator Parking Fee<\/a>/);
+  assert.ok(!/\$\s?6(\.00)?\b/.test(all), "no $6 on any OATCCC page");
+  // 2. Key dates: one fee deadline on Mar 4; the old per-day fee lines are gone.
+  for (const p of ["abcs", "divisions", "eligibility-and-verification"]) {
+    const kd = page(`/oatccc/indoor/high-school/${p}/`);
+    assert.ok(kd.includes('<li class="kd deadline"><div class="kd-date"><b>Mar 4</b><span>Thursday</span></div><div><span class="tag dl">Deadline</span><span class="kd-what">Entry fees due by 12noon</span></div></li>'), p);
+    assert.ok(!kd.includes("Registration fees for this day"), p);
+    assert.ok(kd.indexOf("<b>Mar 1</b>") < kd.indexOf("<b>Mar 4</b>") && kd.indexOf("<b>Mar 4</b>") < kd.indexOf("<b>Mar 5</b>"), p);
+  }
+  assert.ok(!all.includes("Date to be announced"));
+  // 3. Forms vendor row and the Vendor Letter link.
+  assert.ok(page("/oatccc/forms/").includes("Please complete your registration by January 12, 2027."));
+  assert.ok(!all.includes("January 12, 2026"));
+  assert.ok(!all.includes("1B-gkXZiI4m_fZi7E_ALhsVD48c5AN7B3/view?usp=sharing"));
+  // 4. Vendors page, in order.
+  const v = page("/oatccc/clinics/vendors/");
+  const order = [
+    "<strong>January 28-30, 2027</strong><br>Hilton Columbus (Easton)",
+    "<p>Vendors are invited to purchase a table at the Annual Track &amp; Field Coaches Clinic.</p>",
+    "<p>Tables are $400 when reserved by January 11, 2027</p>",
+    'class="btn2 ox-big">Vendor Submission</a></div>',
+    '<p class="ox-bigbtn-how">Select Login/Signup and follow the prompts.</p>',
+    "<h3>Dates and location</h3>", "<h3>What&rsquo;s included</h3>", "<h3>Late payment</h3>", "<h3>Packet stuffing</h3>",
+    "<h3>Display times</h3>", "<h3>Hotel</h3>", "<h3>Contact</h3>", ">Download the Vendor Letter</a>"
+  ].map((t) => v.indexOf(t));
+  assert.ok(order.every((n, i) => n > 0 && (i === 0 || n > order[i - 1])), JSON.stringify(order));
+  assert.match(v, new RegExp(`<a href="${FF}"[^>]*class="btn2 ox-big">Vendor Submission</a>`));
+  assert.ok(v.includes(`<a href="${LETTER}"`));
+  assert.ok(v.includes("any payment received after January 12th will be for $500.00 per table") && v.includes("by January 11, 2027"), "both dates kept");
+  assert.ok(v.includes("catalog or flyer stuffed into our 1400 packets") && v.includes("2 overflow hotels"), "fl kept in flyer and overflow");
+  assert.ok(v.includes("care of &ldquo;Mike Laubacher OATCCC Clinic&rdquo;. They need to be there by Wednesday, Jan. 27, 2027."));
+  assert.ok(v.includes("The room cost is $155.00 + tax per night with up to 4 occupants."));
+  assert.ok(v.includes('<a href="/oatccc/clinics/track-and-field/#hotel">Track and Field Clinic page</a>'));
+  assert.ok(page("/oatccc/clinics/track-and-field/").includes('<h6 id="hotel">'), "hotel anchor");
+  // Contact: Mike Laubacher, Clinic Director, encoded Email and Call; no plain phone or address.
+  assert.match(v, /<span class="ox-leader-role">Clinic Director<\/span><strong>Mike Laubacher<\/strong><\/div><div class="ox-leader-actions"><a class="btn2 ox-leader-email" href="#ox-lead-fallback" data-ox-e="[^"]+" aria-label="Email Mike Laubacher">Email<\/a><a class="btn2 ox-leader-call" href="#ox-lead-fallback" data-ox-t="[^"]+" aria-label="Call Mike Laubacher">Call<\/a><\/div>/);
+  assert.ok(v.includes('id="ox-lead-fallback"') && v.includes('<script src="/scripts/oatccc-email.js" defer></script>'));
+  assert.ok(!/\(\d{3}\)\s*\d{3}-\d{4}|\b\d{3}[-. ]\d{3}[-. ]\d{4}\b|tel:/.test(v), "no plain phone on Vendors");
+  assert.ok(!/laubacher@/i.test(v), "no plain address on Vendors");
 });

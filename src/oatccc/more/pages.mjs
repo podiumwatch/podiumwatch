@@ -97,6 +97,19 @@ ${list(liaisons)}
 
 const LEAD_GROUPS = /<div class="ox-lead-groups">[\s\S]*?\n<\/div>/;
 
+// A contact card for one person from the leadership list, with the same
+// encoded Email and Call buttons, under the role a page gives them
+// (<div data-ox-contact="Name" data-ox-role="Role"></div>). If the person
+// is not in the list, the placeholder is left out.
+function contactCards(html) {
+  if (!fs.existsSync(LEADERS_FILE)) return html.replace(/<div data-ox-contact="[^"]*" data-ox-role="[^"]*"><\/div>/g, "");
+  const { leaders } = JSON.parse(fs.readFileSync(LEADERS_FILE, "utf8"));
+  return html.replace(/<div data-ox-contact="([^"]*)" data-ox-role="([^"]*)"><\/div>/g, (all, name, role) => {
+    const person = leaders.find((p) => p.name === name && p.e.length);
+    return person ? `<ul class="ox-lead-list ox-contact-card">\n${leaderCard({ role, name, affiliation: "", e: person.e, t: person.t, photo: null })}\n</ul>` : "";
+  });
+}
+
 // Page-specific touches. Words are never changed.
 const TOUCHES = {
   // Rows with no file or link yet (Zachary's handoff).
@@ -105,6 +118,8 @@ const TOUCHES = {
   sponsors: (html) => html.replace(/<img [^>]*>\s*/g, ""),
   // Doug Joy's address is encoded, not plain (Zachary, 2026-11-18).
   "middle-school": (html) => protectEmails(html).html,
+  // Vendors (Anjanette, 2026-11-19): Mike Laubacher, Clinic Director.
+  "clinic-vendors": contactCards,
   // oatccc.com shows the same placeholder photo for every officer.
   leadership: (html) => html
     .replace(/<img src="[^"]*Ohio-Association-of-Track-Cross-Country-Coaches-Team\.jpg"[^>]*>\s*/g, "")
