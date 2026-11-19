@@ -1,0 +1,566 @@
+{
+  "source": "Matt Schock, 2026 OATCCC Contact Information (OATCCC President)",
+  "imported": "2026-11-18",
+  "note": "Emails are reversed then base64 encoded. photo: a path under /images/oatccc/leaders/ when Matt sends headshots.",
+  "leaders": [
+    {
+      "role": "District 1",
+      "name": "John Phillips",
+      "affiliation": "Boardman High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BzcGlsbGlocGo=",
+        "Z3JvLnNsb29oY3NuYW1kcmFvYkBzcGlsbGlocC5uaG9q"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 1",
+      "name": "Diane Krumpak",
+      "affiliation": "South Range High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BrYXBtdXJrZA==",
+        "Z3JvLmVnbmFyaHR1b3NAa2FwbXVya2Q="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 2",
+      "name": "Rachel Frutkin",
+      "affiliation": "Orange High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BuaWt0dXJmcg==",
+        "bW9jLmxpYW1nQHNsb29oY3NlZ25hcm8ubmlrdHVyZg=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 2",
+      "name": "Matthew Anderson",
+      "affiliation": "Orange High School",
+      "e": [
+        "bW9jLmNjY3Rhb0Bub3NyZWRuYW0=",
+        "bW9jLm9vaGF5QDY5aWRuYWZlaGM="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 3",
+      "name": "Steve Lias",
+      "affiliation": "Firelands High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BzYWlscw==",
+        "Z3JvLnNsb29oY3NzZG5hbGVyaWZAc2FpbHM="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 3",
+      "name": "Brad Barhorst",
+      "affiliation": "Brookside High School",
+      "e": [
+        "bW9jLmNjY3Rhb0B0c3JvaHJhYmI=",
+        "Z3JvLnNsb29oY3NkbGVpZmZlaHNAdHNyb2hyYWJi"
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 4",
+      "name": "Mike Laubacher",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmNjY3Rhb0ByZWhjYWJ1YWxt",
+        "bW9jLmxpYW1nQDA0eWJ1YWxt"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 4",
+      "name": "Jeff Howard",
+      "affiliation": "Woodridge",
+      "e": [
+        "bW9jLmNjY3Rhb0BkcmF3b2hq",
+        "c3UuaG8uMjFrLmVnZGlyZG9vd0BkcmF3b2hq"
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 5",
+      "name": "Matt Roshak",
+      "affiliation": "Malvern High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BrYWhzb3Jt",
+        "bW9jLmxpYW1nQDU4OTFzb3JybQ=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 5",
+      "name": "",
+      "affiliation": "",
+      "e": [],
+      "photo": null
+    },
+    {
+      "role": "District 6",
+      "name": "Mike Farrell",
+      "affiliation": "Seneca East",
+      "e": [
+        "bW9jLmNjY3Rhb0BsbGVycmFmbQ==",
+        "bW9jLm9vaGF5QG5hbXJlbm51cm9paG8="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 6",
+      "name": "Niki Schiefer",
+      "affiliation": "Seneca East",
+      "e": [
+        "bW9jLmNjY3Rhb0ByZWZlaWhjc24=",
+        "bW9jLnNyZWdpdC1lc0ByZWZlaWhjc24="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 7",
+      "name": "Scott Miller",
+      "affiliation": "Kalida Schools",
+      "e": [
+        "bW9jLmNjY3Rhb0ByZWxsaW1z",
+        "Z3JvLnNsb29oY3NhZGlsYWtAcmVsbGltLnR0b2Nz"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 7",
+      "name": "Jessie Magoto",
+      "affiliation": "Minster",
+      "e": [
+        "Z3JvLnNsb29oY3NyZXRzbmltQG90b2dhbS5laXNzZWo="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 8",
+      "name": "Dugan Hill",
+      "affiliation": "OHSAA Registered Official",
+      "e": [
+        "bW9jLmNjY3Rhb0BsbGloZA==",
+        "bW9jLmxpYW1nQDk3OTEubm9yYWhzLm5hZ3Vk"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 8",
+      "name": "Doug Joy",
+      "affiliation": "John Glenn High School",
+      "e": [
+        "bW9jLmNjY3Rhb0B5b2pk",
+        "Z3JvLnNsb29oY3NtdHNhZUB5b2pk"
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 9",
+      "name": "Allen Newbauer",
+      "affiliation": "Ansonia High School",
+      "e": [
+        "bW9jLmxpYW1nQHJldWFid2Vucm5lbGxh"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 9",
+      "name": "Jack Lintz",
+      "affiliation": "Northmont   OHSAA Registered official",
+      "e": [
+        "bW9jLmNjY3Rhb0B6dG5pbGo=",
+        "bW9jLmxpYW1nQDUwNTF6dG5pbGo="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 10",
+      "name": "Ryan Beck",
+      "affiliation": "Gahanna Lincoln High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BrY2Vicg==",
+        "bW9jLmxpYW1nQGtjZWJ0cg=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 10",
+      "name": "Ryan Callihan",
+      "affiliation": "Gahanna Lincoln High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BuYWhpbGxhY3I=",
+        "Z3JvLnNwamdAcm5haGlsbGFj"
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 11",
+      "name": "John Jarvis",
+      "affiliation": "Watkins Memorial High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BzaXZyYWpq",
+        "bW9jLmxvYUBzbnVyc2l2cmFq"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 11",
+      "name": "Jake Hayes",
+      "affiliation": "Mt. Gilead High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BzZXlhaGo=",
+        "Z3JvLnNsb29oY3NnbUBzZXlhaGo="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 12",
+      "name": "Nicole Whitley",
+      "affiliation": "Manchester",
+      "e": [
+        "bW9jLmNjY3Rhb0B5ZWx0aWh3bg==",
+        "c3UuZHNsbUB5ZWx0aWh3LmVsb2Npbg=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 12",
+      "name": "Lindsay Mantell",
+      "affiliation": "South Webster",
+      "e": [
+        "bW9jLmNjY3Rhb0BsbGV0bmFtbA==",
+        "bW9jLmxpYW1nQDA0bGxldG5hbXlhc2RuaWw="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 13",
+      "name": "Randy McKinney",
+      "affiliation": "Eaton High School",
+      "e": [
+        "bW9jLmNjY3Rhb0B5ZW5uaWtjbXI=",
+        "bW9jLmxpYW1nQDE4eWVubmlrY215ZG5hcg=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 13",
+      "name": "Michael Beaty",
+      "affiliation": "Meadowdale High School",
+      "e": [
+        "bW9jLmNjY3Rhb0B5dGFlYm0=",
+        "bW9jLm5zbUB5dGFlYmFt"
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 14",
+      "name": "Josh Dooley",
+      "affiliation": "Madeira",
+      "e": [
+        "bW9jLmNjY3Rhb0B5ZWxvb2Rq",
+        "Z3JvLnNsb29oY3N5dGljYXJpZWRhbUB5ZWxvb2Rq"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 14",
+      "name": "Matt Esche",
+      "affiliation": "Miami Valley",
+      "e": [
+        "bW9jLmNjY3Rhb0BlaGNzZW0=",
+        "bW9jLmxpYW1nQGVoY3NlLnR0YW0="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 15",
+      "name": "Brian Sabo",
+      "affiliation": "Eastwood",
+      "e": [
+        "bW9jLmNjY3Rhb0BvYmFzYg==",
+        "Z3JvLnNsb29oY3Nkb293dHNhZUBvYmFTQg=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 15",
+      "name": "Tim Atkinson",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmNjY3Rhb0Bub3NuaWt0YXQ=",
+        "bW9jLmxpYW1nQDkwNXRub3NuaWt0YQ=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "District 16",
+      "name": "Josh Fogle",
+      "affiliation": "Reedsville Eastern High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BlbGdvZmo=",
+        "dGVuLmxhY29sbnJldHNhZUBlbGdvZmo="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Alternate District 16",
+      "name": "Adam Gonczy",
+      "affiliation": "Athens High School",
+      "e": [
+        "bW9jLmNjY3Rhb0B5emNub2dh",
+        "bW9jLmxpYW1nQGF0Yy5rY2FydHNuZWh0YQ=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "President",
+      "name": "Matt Schock",
+      "affiliation": "Seneca East High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BrY29oY3Nt",
+        "bW9jLnNyZWdpdC1lc0BrY29oY3Nt"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Vice President",
+      "name": "Tom Loy",
+      "affiliation": "East Canton High School",
+      "e": [
+        "bW9jLmNjY3Rhb0B5b2x0",
+        "Z3JvLmxhY29sZ3J1YmFuc29AeW9sLm1vdA=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Secretary",
+      "name": "Julie Cole",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmNjY3Rhb0BlbG9jag==",
+        "bW9jLmxpYW1nQDMxMGVsb2Ntag=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Treasurer",
+      "name": "Jennifer Dahler",
+      "affiliation": "Fairview High School",
+      "e": [
+        "bW9jLmNjY3Rhb0ByZWxoYWRq",
+        "bW9jLmxpYW1nQHJlbGhhZC5yZWZpbm5lag=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Past President",
+      "name": "Anjanette Whitman",
+      "affiliation": "Beaumont School",
+      "e": [
+        "bW9jLmNjY3Rhb0BuYW10aWh3YQ==",
+        "Z3JvLmxvb2hjc3Rub211YWViQG5hbXRpaHdh"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Track Clinic Chair",
+      "name": "Wayne Clark",
+      "affiliation": "MF Athletic",
+      "e": [
+        "bW9jLmNjY3Rhb0BrcmFsY3c=",
+        "bW9jLnJyLnN1Ym11bG9jQDIwMGtyYWxjdw=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Track Clinic Asst. Chair",
+      "name": "Mike Laubacher",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmNjY3Rhb0ByZWhjYWJ1YWxt",
+        "bW9jLmxpYW1nQDA0eWJ1YWxt"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Track Clinic Registrar",
+      "name": "Donna Joseph",
+      "affiliation": "Shadyside",
+      "e": [
+        "bW9jLmNjY3Rhb0BocGVzb2pk",
+        "bW9jLmxpYW1nQDQ0Y2NzcmVnaXQ="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Cross Country Clinic Chair",
+      "name": "Matt Schock",
+      "affiliation": "Seneca East High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BrY29oY3Nt",
+        "bW9jLnNyZWdpdC1lc0BrY29oY3Nt"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Cross Country Clinic Asst. Chair",
+      "name": "Randy McKinney",
+      "affiliation": "Eaton High School",
+      "e": [
+        "bW9jLmNjY3Rhb0B5ZW5uaWtjbXI=",
+        "bW9jLmxpYW1nQDE4eWVubmlrY215ZG5hcg=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Indoor State Meet Chair",
+      "name": "Anjanette Whitman",
+      "affiliation": "Beaumont School",
+      "e": [
+        "bW9jLmNjY3Rhb0BuYW10aWh3YQ==",
+        "Z3JvLmxvb2hjc3Rub211YWViQG5hbXRpaHdh"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Hall of Fame Chair",
+      "name": "Neal Charske",
+      "affiliation": "Kettering Fairmont (retired)",
+      "e": [
+        "bW9jLmNjY3Rhb0Bla3NyYWhjbg==",
+        "bW9jLmxvYUAzMDNybzh2YQ=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Mideast XC Meet Chair",
+      "name": "Neal Charske",
+      "affiliation": "Kettering Fairmont (retired)",
+      "e": [
+        "bW9jLmNjY3Rhb0Bla3NyYWhjbg==",
+        "bW9jLmxvYUAzMDNybzh2YQ=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Scholarship Chair",
+      "name": "Ann Vogel",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmNjY3Rhb0BsZWdvdmE=",
+        "bW9jLm9vaGF5QGxndm5uYQ=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Awards Chair",
+      "name": "Diane Krumpak",
+      "affiliation": "South Range High School",
+      "e": [
+        "bW9jLmNjY3Rhb0BrYXBtdXJrZA==",
+        "Z3JvLmVnbmFyaHR1b3NAa2FwbXVya2Q="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Academic All-Ohio Chair",
+      "name": "Scott Williamson",
+      "affiliation": "Liberty Union Schools",
+      "e": [
+        "bW9jLmNjY3Rhb0Bub3NtYWlsbGl3cw==",
+        "Z3JvLm5vaW51eXRyZWJpbEB5cnRudW9jc3NvcmNzbQ=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Constitution Chair",
+      "name": "Vern Kiehl",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmNjY3Rhb0BsaGVpa3Y=",
+        "bW9jLmxvYUBsaGVpa25yZXY="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Historian/Longevity",
+      "name": "Carson Cheek",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmNjY3Rhb0BrZWVoY2M=",
+        "dGVuLnRoZ2lyYkBuZmF0bw=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Website/Social Media Chair",
+      "name": "Zachary Bell",
+      "affiliation": "Russia",
+      "e": [
+        "bW9jLmNjY3Rhb0BoY3Rhd211aWRvcA==",
+        "Z3JvLmhjdGF3bXVpZG9wQGFpZGVt"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Additional Contact",
+      "name": "Terry Oehrtman",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmxpYW1nQDQ2bmFtdHJoZW95cnJldA=="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Advisory Committee",
+      "name": "Jessie Magoto",
+      "affiliation": "Minster",
+      "e": [
+        "Z3JvLnNsb29oY3NyZXRzbmltQG90b2dhbS5laXNzZWo="
+      ],
+      "photo": null
+    },
+    {
+      "role": "Advisory Committee",
+      "name": "Jeff Howard",
+      "affiliation": "Woodridge",
+      "e": [
+        "c3UuaG8uMjFrLmVnZGlyZG9vd0BkcmF3b2hq"
+      ],
+      "photo": null
+    },
+    {
+      "role": "Seated Events",
+      "name": "Dave Kirk",
+      "affiliation": "Retired",
+      "e": [
+        "bW9jLmxpYW1nQG0wMDhrcmlr"
+      ],
+      "photo": null
+    },
+    {
+      "role": "OHSAA Liaison",
+      "name": "BJ Duckworth",
+      "affiliation": "OHSAA Sport Administrator",
+      "e": [
+        "Z3JvLmFhc2hvQGh0cm93a2N1ZGpi"
+      ],
+      "photo": null
+    },
+    {
+      "role": "College Liaison",
+      "name": "Kris Boey",
+      "affiliation": "Ohio Wesleyan University",
+      "e": [
+        "dWRlLnV3b0B5ZW9id2s="
+      ],
+      "photo": null
+    }
+  ]
+}

@@ -10,7 +10,9 @@ const ignoredDirectories = new Set([
   ".cache",
   "node_modules",
   "dist",
-  "coverage"
+  "coverage",
+  // Ignored working folder (OATCCC crawl): third-party text, never shipped.
+  "_private"
 ]);
 
 function shouldIgnoreDirectory(name) {

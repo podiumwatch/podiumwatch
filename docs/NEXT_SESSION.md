@@ -1,5 +1,149 @@
 # Podium Watch next session
 
+## Start here (2026-11-19): full OATCCC site launch prepared (oatccc-full-site), waiting for Zachary's go
+- Declarations & fees: the invoice and fee dates (Mar 2, 2026 / Mar 5, 2026, both [TO CONFIRM]) now read "Date to be announced." Tell Anjanette.
+- A production build (VERCEL_ENV=production) now stops if any built OATCCC page still shows "TO CONFIRM" (pagesWithUnconfirmed in src/oatccc/build.mjs). Middle School stays off (its page still has 4 [TO CONFIRM]).
+- Launch build checked with every switch on except OATCCC_VERIFICATION_LIVE, OATCCC_MS_LIVE and the MileSplit token: 26 OATCCC pages, no stops. Hall of Fame builds nothing until install/103 is run and the import is applied.
+- Vercel runs only `npm run build`; `npm run check` still fails on lib/athletic_net_rankings_service.mjs (.limit(20000)/.limit(10000)), same as on main. Not a deploy blocker.
+- Merging into main conflicts only in package.json and vercel.json; both sides only add lines (keep both).
+
+## Start here (2026-11-17, night): 2027 Junior High meet on the Middle School page (oatccc-full-site)
+
+- src/oatccc/more/content/middle-school.html now holds the OATCCC PDF "2027 Indoor Junior High State Meet Information" word for word (March 13, 2027, Muskingum University); the 2026 oatccc.com text is gone. Behind OATCCC_MS_LIVE (off by default). Test: tests/oatccc-full-site.test.mjs.
+- Waiting on the OATCCC: the registration deadline, the MileSplit meet link, the verification form link and the 2027 verification deadline (all shown as yellow [TO CONFIRM]).
+- Anjanette confirmed (2026-11-17): the one-performance-mark qualifying sentence and a Verification Form section using the old oatccc.com Middle School wording, word for word (it still says "2025-2026 academic year" and "2026 members"; not edited).
+- Approval notes (2026-11-17): footer reads "Information from the OATCCC's 2027 Junior High State Meet sheet and the OATCCC's Middle School verification terms."; Doug Joy contact line kept from oatccc.com; hub Middle School card shows "March 13, 2027 · Muskingum University" when OATCCC_MS_LIVE is on (oatccc-section unchanged).
+- The /site-preview/ copy was rebuilt and re-uploaded with this page (old site-preview/ objects deleted first, on Zachary's OK).
+
+## Start here (2026-11-17, late): Zachary's follow-up fixes (oatccc-full-site)
+
+- oatccc-section merged in again (97463fd8), then 1678c522: Leadership and History of Leadership say "To reach a district rep or officer, email the Indoor State Meet Chair at awhitman@oatccc.com." (a contact form comes later); the Forms page vendor contract row goes to FinalForms ("Vendor Submission"); the T&F clinic page shows both hotel business numbers again (Hilton and Aloft, from oatccc.com). The Membership tab goes to FinalForms, not the local Join page.
+- Forms page still says "Please complete your registration by January 12, 2026." (oatccc.com's wording).
+- The /site-preview/ copy was rebuilt and re-uploaded again (old 532 deleted on Zachary's OK, new 532 uploaded, byte for byte).
+- npm run check fails on lib/athletic_net_rankings_service.mjs (.limit over 1,000 rows); that file came from main, not this work.
+
+## Start here (2026-11-17, evening): Anjanette's preview comments, part 2 (oatccc-full-site)
+
+- oatccc-section merged in (1ff969b2), then part 2 (f4d9eb57, 778e9360): Declarations, Meet day, FAQ, Join, clinic vendors, XC clinic buttons, T&F clinic notes by year, leadership grouped and past leaders by role. Tests: tests/oatccc-full-site.test.mjs.
+- Final entries date confirmed by Anjanette (2026-11-17): Monday, March 1, 2027; her exact paragraph is on Declarations & Fees, placeholder removed. Steps list now says "Monday, March 1st"; key dates (ABCs, Divisions, Eligibility) have "Mar 1, Monday: Final acceptance lists posted". The invoice date (Monday, March 2, 2026) and the fee date (Thursday, March 5, 2026) are unchanged but marked with yellow [TO CONFIRM]. Matt Schock's final quote merged in from oatccc-section (d1a6102f). Preview not rebuilt yet. Parking (Passport Parking, $6): she is confirming it with SPIRE.
+- Current leaders (2026-11-18) come from Matt Schock's list: src/oatccc/more/leaders.json, made by `node scripts/oatccc-leaders-import.mjs _private/oatccc-leaders-2026-emails-only.csv` (the CSV is private, never committed; only Position, names, School/Affiliation and the two email columns are read). Emails are stored reversed+base64 and decoded on tap by scripts/oatccc-email.js (one mailto to all of a person's addresses); without JavaScript the button jumps to the Chair line in <noscript>. Alternate District 5 shows "Open". Headshots: set `photo` per person. T&F Clinic has the Hilton group-rate button above the hotel phones. Since 2026-11-18 the encoding lives in src/oatccc/email-protect.mjs (protectEmails) and is also used on Hall of Fame bios (Dave Kirk) and the Middle School page (Doug Joy); the Chair's address is the only one left plain. Randy McKinney is "Eaton High School" on both rows (Matt confirmed).
+- Waiting on Zachary: how people contact each current leader and district rep (no phone numbers).
+- Later, not built: HOF Banquet invitation link; Podium Watch poll pages in place of the Google Sheets.
+- Edited page files say "Edited at the OATCCC's request" in their header; scripts/oatccc-port-pages.mjs skips them unless run with --overwrite-edited.
+- The /site-preview/ copy was rebuilt and re-uploaded (old 532 objects under site-preview/ deleted first, on Zachary's OK; new 532 uploaded, byte for byte).
+
+## Start here (2026-11-17): OATCCC site preview for Anjanette
+
+- oatccc-section is merged into this branch (05ff26ad). Not pushed.
+- A static copy of the OATCCC section (every OATCCC setting on except verification; Hall of Fame from the _private crawl preview; real 2027 divisions as a static file; banner "Preview for the OATCCC. Not live yet."; TEST-data screenshot pages for the AD form and the Chair's queue) is uploaded to the private bucket oatccc-review under site-preview/ (532 files). It opens at <review link>/site-preview/ behind the review password ONLY after the handler on branch oatccc-review-pages is deployed (not yet).
+- To refresh it: build with the same settings, then scripts/oatccc-site-preview/assemble.mjs (dist, divisions json, screenshots folder, new output folder), check.mjs (prints counts only; checks links, noindex, banner, and that no AD email or name from the private directory is in the copy), upload.mjs (new objects only: remove the old site-preview/ objects first, on Zachary's OK).
+- Names in four ported pages (Hall of Fame bios, Leadership, an award) and one coach email on the middle school page match the private directory; all five are oatccc.com's own published text, kept word for word like every other ported page.
+
+## Start here (2026-11-17 overnight): OATCCC full site move, branch oatccc-full-site
+
+Worktree ../podium_watch_oatccc_full, branch oatccc-full-site (from oatccc-section e6b4eef8). NOT pushed. Full report: docs/OATCCC_FULL_SITE_REPORT.md. Overnight summary: docs/OVERNIGHT_REPORT.md.
+
+- All new pages are switched off: OATCCC_MORE_LIVE plus one switch per section (ABOUT, JOIN, SCHOLARSHIPS, FORMS, CLINICS, MEETS, ACADEMIC, POLLS, MS, HOF) and OATCCC_FILES_HOSTED.
+- Files are already in Supabase Storage: public bucket `oatccc-public`, 1,007 files, 265 MB (approved; under 1 GB). OATCCC_FILES_HOSTED=1 makes the pages link there instead of oatccc.com.
+- NOT run (Zachary): install/103_OATCCC_HALL_OF_FAME.sql, then `node --env-file=../podium_watch_site/.env.local scripts/import-oatccc-hall-of-fame.mjs --apply` from the oatccc-full-site worktree (needs _private/oatccc-crawl/, which is only on this machine). Until then OATCCC_HOF_LIVE builds nothing and the Hall of Fame tab keeps pointing to oatccc.com.
+- No redirects are on. The map is _private/oatccc-crawl/redirect-map.csv (git-ignored).
+- Raw crawl, file list, manifest, map, Hall of Fame preview and the phone numbers left off: _private/oatccc-crawl/ (git-ignored). Back it up outside git if it matters (it can be rebuilt with scripts/oatccc-crawl.mjs).
+- Ask the OATCCC: the wording list and "can't move yet" list in the report; the Midwest Meet page (oatccc.com sends it to the home page); a personal Gmail address inside David Kirk's Hall of Fame bio (kept as it appears, per Zachary).
+- oatccc-section changes after e6b4eef8 (the Thursday fixes) need to be brought into oatccc-full-site before it is merged.
+
+## BLOCKER (2026-11-17 overnight): Thursday launch fixes not done
+## Start here (2026-11-17, evening): Thursday launch is ready to switch on (oatccc-section)
+
+- Anjanette's preview comments, part 1 (f9e95475): Eligibility note that the verification form link is only emailed to ADs; "Finalized top 30 performance lists are posted February 24, 2027." in the key dates and the qualifying steps; every Join the OATCCC link goes to https://oatccc-oh.finalforms-amp.com/ with "Select Login/Signup and follow the prompts."
+- Final article (794f851f): text from Zachary's OATCCC_ARTICLE_FINAL.md, body word for word; author "Podium Watch" (shows "By Podium Watch Staff", no staff card link).
+- A production launch build (OATCCC_LIVE=1, VERCEL_ENV=production, nothing else) finishes with no stops.
+- The tab bar's "Membership" tab goes to FinalForms too (Zachary, 2026-11-17, 0cb55499). The article's verification line now says ADs verify "online, using a link emailed directly to them" (0cb55499); launch build re-checked.
+- Nothing pushed. Launch = Zachary's go, then OATCCC_LIVE=1 in Vercel Production and a redeploy.
+
+## Start here (2026-11-17): private AD directory (oatccc-section)
+
+- install/104_OATCCC_AD_DIRECTORY.sql: run by Zachary on 2026-11-17 ("success"). The table is empty until the imports run. (104, not 103: oatccc-full-site already has a 103.) Private table of ADs and head coaches by OHSAA ID; only OATCCC staff can read it; no public view.
+- **Both imports run 2026-11-17 (on Zachary's go).** School list: 812 schools on the verification list (810 with an OHSAA ID), 1,598 division rows (798 boys, 800 girls). Directory: 811 rows, 810 linked to a verification-list school, 809 of those with an AD email (Kelleys Island has none), Our Lady of the Elms not linked (not on Anjanette's list). Filled OHSAA IDs: 5 of 5. Re-run either the same way to refresh (it only adds or updates):
+  `node --env-file=../podium_watch_site/.env.local scripts/import-oatccc-directory.mjs --file "dataimports/Ohio_XC_Track_Coach_AD_Directory_2026-11-17.xlsx" --apply`
+- The directory spreadsheet is private contact data: git-ignored now; never commit it, never show any of it on a public page. The middle school tab is not imported (Zachary).
+- AD sign-in: an AD whose email is in the directory gets their school preselected and locked (the database enforces it); anyone else picks a school and the submission shows "AD email not in directory" for the Chair. Until 104 runs, the form works as before (no check, no badge).
+- Report for Anjanette/OATCCC: no AD email for Kelleys Island; Conotton Valley and Westerville Northside Christian (on her list) have no OHSAA ID and are not in the directory; Youngstown East, Youngstown Chaney and Cleveland Collinwood (her division sheets) are not in the directory; Our Lady of the Elms has ID 1222 in the directory but is not on her list.
+
+## Thursday launch fixes: done (2026-11-17)
+
+Committed on oatccc-section (906a9b72): byline "By Zachary Bell"; article header and share images wired to
+/images/stories/pw-x-oatccc-article-hero-1600x900.png and /images/stories/pw-x-oatccc-article-share-1200x630.png;
+launch-only build checked (and tested); OATCCC_TERMS_LIVE (off) shows only the official-rules sentence on Eligibility.
+
+The two image files are in public/images/stories/ (c0278dbd). A production launch build now stops only for the
+placeholder article body: add the final article text before switching OATCCC_LIVE on.
+
+Also new: /set-password/ for Supabase invite and recovery links (homepage forwards them there). Supabase settings to
+change: docs/SET_PASSWORD_SUPABASE_SETUP.md (not changed by me).
+
+## Start here (2026-11-17, OATCCC: Anjanette's answers)
+
+Branch oatccc-section, NOT pushed. Commits 0ff39c40 (Part 1, launch pages), 7b58fc21 (Part 2, school list), dc6d7450 (Part 3, AD form), ec494e9b (Part 4, MileSplit CSV). Launch moved to **Thursday Nov 19** (article now content/stories/20261119_...).
+
+Her files (dataimports/OATCCC_ANJANETTE_ANSWERS_HANDOFF.md, OATCCC_VERIFICATION_FORM_TEXT.md, the Divisions xlsx, two PDFs) are the OATCCC's private documents: never commit them.
+
+**Run:** install/102_OATCCC_SCHOOL_DIVISIONS.sql was run by Zachary on 2026-11-17 ("success"), after 99 and 101. The school list and divisions tables are empty until the import runs.
+
+**Still off:**
+- (School-list import: run 2026-11-17, see the start of this file.) To refresh it: `node --env-file=.env.local scripts/import-oatccc-school-divisions.mjs --file "<xlsx>"` (dry run first), then the same with `--apply`.
+- OATCCC_DIVISION_LIST_LIVE (Divisions by school): off until Anjanette answers the data issues below.
+- OATCCC_MILESPLIT_CSV_TOKEN: not set anywhere. When MileSplit confirms the format, Zachary sets a 32+ character random value in Vercel (Production); the link is /oatccc/milesplit/<token>/verified-schools.csv and needs OATCCC_VERIFICATION_LIVE.
+- Before Dec 1 (Zachary, by hand): Supabase Auth sends through Resend SMTP, plus the /oatccc/verify/ redirect URL. Step by step in docs/OATCCC_RESEND_SMTP_SETUP.md. Supabase's built-in email is too limited for ~800 ADs (Zachary, 2026-11-17). This changes the sender of every Supabase Auth email on the site. The first site_admin row is still to be added by hand (install/101 header).
+
+**AD school choice** (install/102): `oatccc_config.ad_school_choice` = 'pick' (default: an AD signs in, picks the school, the first to submit becomes its contact, nobody else can submit for it) or 'linked' (only ADs an admin linked). One SQL line switches it. What happens when the AD changes mid-season is still waiting on Anjanette.
+
+**Data issues to send Anjanette (reported, not fixed)** from the Divisions workbook:
+- Division rows with no tournament name (an AD can't pick them; not imported): Youngstown East (boys, girls), Youngstown Chaney (boys, girls), Cleveland Collinwood (boys, girls), Akron Our Lady of the Elms (girls), Lincoln West School of Global Studies (boys, girls). The verification list has "CLE. LINCOLN WEST", which has no division at all: same school?
+- 24 division rows with no OHSAA id: the 9 rows above, plus boys Tinora, Conotton Valley, Sciotoville Community, Kidron Central Christian, Cardinal Stritch, Westerville Northside Christian, Ironton St. Joseph Central, Put-In-Bay, Kelleys Island; girls Tinora, Conotton Valley, Kidron Central Christian, Cardinal Stritch, Westerville Northside Christian, Put-In-Bay.
+- Tinora's city is "Defiance," (with a comma) in both sheets.
+- Every division matches her enrollment tables; no duplicate names; the 812 names have no duplicates.
+- 14 names on the list have no boys division and 12 no girls division (single-sex schools, as expected, plus CLE. LINCOLN WEST).
+
+**Other things to confirm with Anjanette:**
+- FAQ still says "All coaches who are 2027 OAT&CCC members are admitted to the meet at no charge": leave as is for now and ask her (Zachary, 2026-11-17). The FAQ stays off until January.
+- Approved by Zachary 2026-11-17 (no need to ask): agreement text before the signature; "Contact Us" kept on the hub's All contacts and the copied oatccc.com pages; Dec 6 key date removed; scratch window still opens Feb 27 at 12:01 am.
+- MileSplit division links: she is sending a document; the placeholder stays.
+
+## Start here (2026-11-16, OATCCC round 2: roles only)
+
+- Round 2 was cut down on purpose (Zachary: keep the basics now, build the rest in summer, show the OATCCC something new through the year). Built: install/101_OATCCC_ADMIN_ROLES.sql (written, NOT run) and the logo switch to Clean Ohio OT CCC logo.png. Nothing else from OATCCC_BUILD_ROUND_2.md.
+- Zachary ran install/99, install/101 and install/100 (TEST seed) in Supabase on 2026-11-16, all reported success. Still to do by hand: add the first site_admin (the insert at the top of install/101). Nothing uses these tables until OATCCC_VERIFICATION_LIVE is on.
+- **Planned for summer 2027** (OATCCC_BUILD_ROUND_2.md, kept in Zachary's Downloads): the full admin area (Part C: dashboard, membership lookup and CSV import, reminders and email queue, editable key dates and notice, verified-list timing setting, CSV export, activity log page, admins and roles page, admin invites) and the rest of the public section (Part D: About, Coaches' Polls, Awards, Hall of Fame, Scholarships, Academic All-Ohio, Clinics, Forms, Join behind OATCCC_MORE_LIVE). Open questions saved for then: "Coming soon" wording on the Forms page (the public-text test bans it) and the Sunday cutoff for a weekly verified list.
+
+### OATCCC release schedule (one visible release about every month)
+
+| When | Release | Why then |
+|---|---|---|
+| Thu Nov 19 | Hub, ABCs, Divisions, Eligibility & Verification, the announcement | Official announcement |
+| By Dec 1 | Verification ready for the forms going out: the school import (102 run 2026-11-17), Supabase redirect URL, then OATCCC_VERIFICATION_LIVE | Forms go to ADs Dec 1 |
+| Early Dec | Verified teams list on the Eligibility page, updating as the Chair approves (no Sunday schedule, Anjanette 2026-11-17) | Forms open Dec 1 |
+| Early Jan | Clinics page, "Register" linking to oatccc.com | Clinic is Jan 28-30 |
+| Late Jan | Overview, Declarations, Meet day and FAQ pages (OATCCC_INDOOR_FULL_LIVE) | Before declarations open Feb 24 |
+| Early Mar | Indoor State Meet coverage and results stories | Meet is Mar 5-6 |
+| Spring | Join page and a membership push for outdoor season | Coaches renew in the new year |
+| Late spring | About, Awards and Hall of Fame pages | Ahead of awards season |
+| Summer 2027 | Full admin area and the rest of Part D | Ready for the 2027 cross country season |
+| Aug | Cross country coaches' polls in the OATCCC section | Polls restart with the season |
+
+## Start here (2026-11-16, OATCCC section)
+
+- Branch oatccc-section, worktree ../podium_watch_oatccc. Commits f4ca1ba3, 8468d2d2, local only (repo is public; Zachary decides when to push).
+- Launch Thu Nov 19 (moved from Wed Nov 18 on 2026-11-17) only on Zachary's go: final article text in content/stories/20261119_podium_watch_oatccc_join_forces.md, then OATCCC_LIVE=1 in Vercel Production, redeploy. Keep OATCCC_INDOOR_FULL_LIVE and OATCCC_VERIFICATION_LIVE off.
+- Waiting: Anjanette's answers (AD sign-in, form questions, public list, late fines, admins); Zachary's OK to run install/99 and install/100.
+- Items to get from the OATCCC (shown as plain text until then):
+  - Parking Map and Onsite Food Options: working files or links. Their Tripleseat links open a Tripleseat sign-in page, so both are unlinked on Meet day (Zachary, 2026-11-16).
+  - Ohio MileSplit meet page for each division (Divisions 1 to 4 and Seated); the pages say "Link will be added when it is posted".
+  - The MileSplit performance lists link ("posted HERE" on Declarations).
+  - The updated Division 3 & 4 and Division 1, 2 & Seated meet schedules.
+- "Contact Indoor State Meet Chair" stays pointed at https://www.oatccc.com/Contact-Us/ (Zachary, 2026-11-16).
+- Draft edits on ABCs, Divisions and Eligibility stay as they are; Zachary is getting the OATCCC's OK and will say which to revert if any.
+- Backup bundle: D:Podium Watchackupsoatccc-section-2026-11-16.bundle. Do not push until launch morning.
+
 ## Start here (2026-11-13, site fixes round 1)
 
 - Branch site-fixes-1 (pushed to GitHub, NOT merged to main, not deployed). Working copy: D:\Podium Watch\pw_site_phase3. Zachary approved section B wording; C/E findings were report-only.

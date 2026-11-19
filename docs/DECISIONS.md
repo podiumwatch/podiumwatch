@@ -2,6 +2,67 @@
 
 Record major technical, editorial, design, and business decisions here.
 
+## 2026 11 17 OATCCC full site move (branch oatccc-full-site)
+
+### Decision
+
+- The OATCCC gave written permission to copy oatccc.com's content, photos and files to podiumwatch.org (Zachary).
+- Page text lives in the page source (src/oatccc/more/content/), like the indoor pages. The raw crawl, file lists, Hall of Fame bios and award data never go in git (public repo); bios and awards come from the database at build time (install/103) (Zachary).
+- Every new page needs OATCCC_LIVE, OATCCC_MORE_LIVE and its section switch; sections release one at a time. Tabs, hub cards and links point to oatccc.com while a section is off (Zachary's section list, plus OATCCC_MEETS_LIVE).
+- Emails on oatccc.com are kept exactly as they appear; phone numbers never appear on public pages (each one left off is listed). Leadership is names and roles only (Zachary).
+- Files go to the public Storage bucket oatccc-public with their oatccc.com path as the key; copied without waiting because the total (265 MB) is under the 1 GB limit Zachary set.
+- Sponsors stay text links: sponsor logos are dropped from copied pages and not copied to the bucket.
+- If the Hall of Fame switch is on but the database has no data, the build treats the section as off, so no link points to a missing page.
+## 2026 11 17 OATCCC private AD and coach directory
+
+### Decision
+
+- The OHSAA directory (ADs and head coaches) is private: never committed, never on a public page, readable in the database only by OATCCC staff (install/104, row-level security, no public view). Only verification fields are stored (no phone numbers, no assistant ADs). High schools only for now (Zachary).
+- An AD whose sign-in email matches a school's AD email in the directory may submit only for that school (preselected and locked); others pick a school and the Chair sees "AD email not in directory" (Zachary).
+- Missing OHSAA IDs on Anjanette's list are filled from the directory only where the directory has exactly one school with the same name and city: Tinora 1532, Cardinal Stritch 312, Kidron Central Christian 341, Put-In-Bay 1278, CLE. Lincoln West 880 (Zachary).
+
+## 2026 11 17 OATCCC Thursday fixes; set-password page
+
+### Decision
+
+- The OATCCC announcement is by Zachary Bell. Its header and share images are Podium Watch artwork in public/images/stories/; a production launch build stops if either is missing (Zachary).
+- OATCCC_TERMS_LIVE (off by default): Eligibility shows only "The terms in the verification form signed by the athletic director are the official rules." until it is switched on; then the full form text (Zachary).
+- /set-password/ handles Supabase invite and recovery links; the homepage forwards them there. After setting a password, OATCCC staff go to /oatccc/admin/ (only when that page is built) and everyone else to the homepage (Zachary). Supabase's Reset password template stays as is so the site's own reset flows keep their pages; only the Invite template should point at /set-password/ (docs/SET_PASSWORD_SUPABASE_SETUP.md).
+
+## 2026 11 17 OATCCC: Anjanette's answers, launch Thursday Nov 19
+
+### Decision
+
+- Launch moves from Wednesday Nov 18 to Thursday Nov 19 (Zachary).
+- Membership is by academic year: coaches must be "paid members for the 2026-2027 academic year" (OATCCC bylaws changed). Changed on the hub, ABCs, Eligibility and, on the FAQ, only the "calendar year" line (Zachary).
+- The official agreement terms on Eligibility ARE the verification form text, word for word, from one shared module (src/oatccc/verification_form_text.mjs) also used by the AD form, so the two cannot drift. The waiver is the OATCCC's legal text: never edited; a test checks its fingerprint and, where the OATCCC's file is on disk, every line (Zachary).
+- Contact the Chair = email awhitman@oatccc.com with the subject "Indoor State Meet". The Google Sheet verification list link is gone; the list will live on Eligibility with no Sunday schedule (Anjanette).
+- AD and school: the AD signs in with an emailed link and picks the school; one submission per school; the Chair's approval is the real check. Kept switchable (oatccc_config.ad_school_choice 'pick' / 'linked') while AD-change rules are open (Zachary).
+- AD form fields: school (dropdown of the OATCCC's 812-name verification list only), boys' head coach, girls' head coach, athletic director (first and last name, cell phone, email), agreement text, signature pad + typed name + date. A coach section is required only for a team the school has; at least one team. Every submit and resubmit stores a permanent signature record (image, typed name, time, school, form-text fingerprint) (Zachary).
+- School list and divisions come only from the OATCCC's workbook, keyed on the OHSAA tournament name; data problems are reported to the OATCCC, never fixed by us. "Divisions by school" stays behind OATCCC_DIVISION_LIST_LIVE until she confirms them.
+- MileSplit gets a private, unlisted, always-current CSV link behind OATCCC_VERIFICATION_LIVE and a secret token, instead of her weekly sheet; format to be confirmed with MileSplit first.
+
+## 2026 11 16 OATCCC admin roles; logo source; summer plan
+
+### Decision
+
+- Five admin roles replace the single "admin" role (install/101_OATCCC_ADMIN_ROLES.sql, not run): president, indoor_chair, ms_indoor_chair, clinic_chair, site_admin. Indoor verification access = president, indoor_chair or site_admin (oatccc_is_staff() now checks the role, so every install/99 rule follows). A president or site_admin may add, change and remove admins; only a site_admin may make or remove another site_admin; the last site_admin can never be removed or demoted, even by the database owner. Every admin change is recorded permanently in oatccc_staff_events (Zachary, 2026-11-16).
+- Adding an admin needs an existing sign-in account for that email; invites wait for the summer admin build.
+- OATCCC logo: Clean Ohio OT CCC logo.png is the source for every OATCCC page (resized only, never recolored or redrawn). Replaces the round 1 choice of the oatccc-logo.zip files (Zachary, 2026-11-16).
+- Scope: keep the basics now; the full admin area and the rest of the public OATCCC section are planned for summer 2027, with a release about every month in between (schedule in docs/NEXT_SESSION.md).
+
+## 2026 11 16 OATCCC section and verification groundwork, switched off
+
+### Decision
+
+- The OATCCC section (/oatccc/ hub, High School Indoor State Meet pages, the announcement article, the OATCCC menu item) is built only when the Vercel variable OATCCC_LIVE is exactly "1". Off (the default): no page, stylesheet or logo is written to dist/, so every address is the real 404 and merging changes nothing. Launch = set OATCCC_LIVE=1 for Production and redeploy, only after Zachary says go (Zachary, 2026-11-16; build-time setting chosen over a Redis switch).
+- OATCCC_INDOOR_FULL_LIVE adds Overview, Declarations and fees, Meet day and FAQ, copied word for word from oatccc.com with their conflicts left in. Until then their menu spots link to the oatccc.com indoor page. OATCCC_VERIFICATION_LIVE adds the verification pages, API and "Athletic director sign-in". Both need OATCCC_LIVE.
+- OATCCC pages are noindex and out of the sitemap except on the production launch build. /oatccc/admin/ and /oatccc/verify/ are always noindex.
+- A production build stops if the announcement (launch: oatccc) still has its placeholder body.
+- ABCs, Divisions and Eligibility & Verification are the private review draft's text with review notes removed; OATCCC wording is never corrected by us; problems are listed for Zachary instead.
+- Sponsors are text links, no logos. Logo: oatccc-logo.zip transparent PNGs only.
+- Verification (install/99, not run): the database enforces one submission per school per season, the statuses submitted/returned/resubmitted/approved and who moves them, a comment to return, late flag and closed window, permanent comments and audit log, TEST vs real separation, and row-level security; the API calls Supabase as the signed-in user, never the service role. Email templates exist; nothing sends.
+
 ## 2026 11 11 School name aliases and division rules
 
 ### Decision

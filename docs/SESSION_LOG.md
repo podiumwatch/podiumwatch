@@ -2,6 +2,78 @@
 
 Add a new section after each meaningful development session.
 
+## 2026 11 17 OATCCC Junior High meet page
+
+- 2027 Junior High State Indoor Championships from the OATCCC PDF on the Middle School page: schedule as Field Events and Running Events lists, [TO CONFIRM] placeholders for the registration deadline and MileSplit link, FinalForms Join button under the membership line.
+
+## 2026 11 17 OATCCC follow-up fixes and preview refresh
+
+- Chair contact line on the leadership pages, vendor contract row to FinalForms, clinic hotel phones back, Membership tab to FinalForms. Tests: tests/oatccc-full-site.test.mjs. Preview copy rebuilt and re-uploaded.
+
+## 2026 11 17 OATCCC site preview copy
+
+- Merged oatccc-section into oatccc-full-site (conflicts were both-sides additions). Built the preview copy, checked it (48,512 relative links, no live-site links, noindex and banner on all 504 pages, no directory AD emails), tested it in Chrome through a local copy of the review endpoint (folder and real bucket: password first in a private window, all 532 files byte for byte), uploaded to oatccc-review/site-preview/. Scripts: scripts/oatccc-site-preview/.
+
+## 2026 11 17 (overnight) OATCCC full site move
+
+- Thursday launch fixes (byline, article images, launch-only build check, OATCCC_TERMS_LIVE): no description found anywhere; recorded as a blocker on oatccc-section (e6b4eef8), not guessed.
+- New worktree ../podium_watch_oatccc_full, branch oatccc-full-site. Crawled oatccc.com (526 pages, 0 failed); copied 1,007 files to the oatccc-public bucket; 19 simple pages; Hall of Fame and awards from the database (migration 103 and import, not run); redirect map; link check; screenshots. Details: docs/OATCCC_FULL_SITE_REPORT.md.
+- Bugs caught by screenshots and tests: the site footer overwrites every [data-year] element (Hall of Fame cards); .ox img beat the inductee photo size; script links inside sentences dropped a word.
+- check.mjs now skips the ignored _private/ folder.
+## 2026 11 17 OATCCC follow-up: article verification line, Membership tab
+
+- Article line about AD verification matches the Eligibility page; Membership tab goes to FinalForms. Launch build (OATCCC_LIVE=1, VERCEL_ENV=production) re-checked, no stops.
+
+## 2026 11 17 Anjanette's preview comments (part 1) and the final article
+
+- Eligibility and Join link changes from Anjanette's preview comments; final announcement text and byline. Tests: tests/oatccc-section.test.mjs. Launch build checked.
+
+## 2026 11 17 School list and AD directory imported
+
+- scripts/import-oatccc-school-divisions.mjs --apply: dry run matched (812 names, 802 boys, 805 girls rows); loaded 812 schools and 1,598 division rows.
+- scripts/import-oatccc-directory.mjs --apply: 811 directory rows; 810 linked to a verification-list school; 809 with an AD email (Kelleys Island has none); 5 OHSAA IDs filled.
+- Checked in Supabase by counts only (no names or emails printed). OATCCC_VERIFICATION_LIVE and OATCCC_DIVISION_LIST_LIVE stay off.
+
+## 2026 11 17 Migration 104 run
+
+- Zachary ran install/104_OATCCC_AD_DIRECTORY.sql in Supabase: success. Next: the school-list import, then the directory import (both --apply, on his OK).
+
+## 2026 11 17 Private AD directory (oatccc-section)
+
+- install/104_OATCCC_AD_DIRECTORY.sql (not run), lib/oatccc_directory.mjs, scripts/import-oatccc-directory.mjs (dry run only), AD sign-in lock and the Chair's "AD email not in directory" badge. SQL tests: 84 checks in PGlite (9 new). tests/oatccc-directory.test.mjs (TEST rows).
+
+## 2026 11 17 Migration 102 run
+
+- Zachary ran install/102_OATCCC_SCHOOL_DIVISIONS.sql in Supabase: success. Next: the school-list import (dry run first), still on his OK.
+
+## 2026 11 17 OATCCC Thursday fixes and set-password page (oatccc-section)
+
+- 906a9b72: byline, article images (files still missing), launch-only build check (phone screenshots of the hub and Eligibility sent), OATCCC_TERMS_LIVE.
+- /set-password/ page + homepage forwarding, checked end to end in a browser with a fake Supabase (expired link, token_hash link, invite, staff and non-staff redirect, no link, homepage forwarding): all passed. tests/set-password.test.mjs.
+
+## 2026 11 17 OATCCC: Anjanette's answers (Parts 1-4), launch moved to Nov 19
+
+- Part 1 (0ff39c40): hub, ABCs, Divisions, Eligibility updated with her answers; terms section replaced by the form text; FAQ membership line; Chair email link; article renamed to 20261119. Also fixed a round-1 comment in src/oatccc/indoor.mjs that named the private review draft file (the review-link test caught it).
+- Part 2 (7b58fc21): install/102 (not run), scripts/import-oatccc-school-divisions.mjs (dry-run only), lib/oatccc_school_list.mjs, Divisions by school (off). SQL tests now 75 checks in PGlite, all passing.
+- Part 3 (dc6d7450): AD form with signature pad; email-link sign-in for ADs; admin sees answers and signatures. Checked end to end on the local preview with TEST data.
+- Part 4 (ec494e9b): private MileSplit CSV link (off, no token set).
+- Nothing pushed, no SQL run, no Vercel change, none of the OATCCC's files committed.
+
+## 2026 11 16 OATCCC round 2 (roles only), logo switch, release schedule
+
+- install/101_OATCCC_ADMIN_ROLES.sql written, not run. scripts/test-oatccc-verification-sql.mjs now applies 99 and 101 (101 twice) and runs 50 checks in PGlite, all passing; it caught a false "added" record when an insert ... on conflict changed a role, fixed by updating first.
+- Server: the verification queue is offered only to indoor roles (lib/oatccc_verification.mjs canWorkIndoor); the database already enforced it.
+- Logo files regenerated from Clean Ohio OT CCC logo.png (lossless, resized only).
+- Earlier the same day: Parking Map and Onsite Food Options unlinked (204b30c5); backup bundle oatccc-section-2026-11-16.bundle.
+- Migrations run by Zachary in Supabase (2026-11-16): install/99_OATCCC_VERIFICATION.sql, install/101_OATCCC_ADMIN_ROLES.sql, install/100_OATCCC_VERIFICATION_TEST_SEED.sql (TEST season and three TEST schools only). First site_admin row still to be added.
+
+## 2026 11 16 OATCCC section (Part A) and verification groundwork (Part B)
+
+- Branch oatccc-section (worktree ../podium_watch_oatccc), off origin/main 8f374826. Commits f4ca1ba3 (Part A) and 8468d2d2 (Part B). Not pushed: the GitHub repo is public, and pushing would publish the section and the announcement title before Nov 18.
+- Part A: hub, 7 indoor pages (4 behind OATCCC_INDOOR_FULL_LIVE), lockup and tabs, sponsor footer, announcement placeholder. Checked at 390 and 1440 px (no overflow). Outbound links: Parking Map and Onsite Food Options (Tripleseat) redirect to a Tripleseat login; Asics and 1st Place Spiritwear block automated checks.
+- Part B: install/99 and install/100 written, not run; 29 database rule checks pass in PGlite (scripts/test-oatccc-verification-sql.mjs); API, admin queue, AD page, email templates; pages checked with mocked TEST data.
+- npm run check already fails on origin/main (lib/athletic_net_rankings_service.mjs .limit(20000) and .limit(10000)); not touched here.
+
 ## 2026 11 11 Pushed outage hardening; parent-line merch; team and athlete links
 
 - Pushed 587c7eb9..39df9b6d; verified a team page cache HIT on the second load, one test vote counted (Aarush Talekar, Boys D1 Athlete, 108 to 109), /support/ button to Stripe.
