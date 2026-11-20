@@ -591,3 +591,10 @@ test("Header lockup (2026-11-19): Podium Watch x OATCCC only with OATCCC_LIVE=1"
   assert.ok(assets.some(([, to]) => to === "images/oatccc/oatccc-logo-96.png"));
   assert.deepEqual(oatcccOutputs(site, oatcccFlags({})).assets, []);
 });
+
+test("T&F Clinic: Register Online goes to the FinalForms track clinic event (2026-11-20)", () => {
+  const pages = oatcccOutputs(site, oatcccFlags({ ...ALL, OATCCC_FILES_HOSTED: "1" })).pages;
+  const tf = pages.find((p) => p.pathname === "/oatccc/clinics/track-and-field/").html;
+  assert.match(tf, /<a href="https:\/\/oatccc-oh\.finalforms-amp\.com\/events\/3"[^>]*>Register Online<\/a>/);
+  assert.ok(!pages.some((p) => /Track-And-Field\/Register/i.test(p.html)), "old oatccc.com register link gone");
+});
